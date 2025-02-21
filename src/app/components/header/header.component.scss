@@ -1,0 +1,52 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: fixed;
+    top: 0;
+    left: 64px;
+    right: 0;
+    z-index: 10;
+
+    .title {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        .notifications {
+            position: relative;
+
+            .badge {
+                position: absolute;
+                top: 0;
+                right: 0;
+                background: red;
+                color: white;
+                font-size: 12px;
+                padding: 2px 6px;
+                border-radius: 50%;
+            }
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            img {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+            }
+        }
+    }
+}
