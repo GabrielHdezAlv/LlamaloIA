@@ -1,0 +1,80 @@
+<div class="w-full h-full p-4">
+    <div class="grid grid-cols-3 grid-rows-[40px,auto,auto,auto] gap-4 h-full">
+        <!-- Fila 1: Card en la última columna con ancho del 70% -->
+        <div class="col-start-3 row-start-1 bg-white shadow-md p-2 rounded-full ml-20 flex items-center justify-around">
+            <img src="assets/agent_carlos.png" class="h-9 w-9" alt="Agent Carlos" />
+            <div class="w-36 flex items-center justify-between">
+                <p>Carlos</p>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="h-5 w-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Fila 2: 3 Cards ocupando 1 columna cada uno -->
+        <div class="flex flex-col col-start-1 row-start-2 bg-white shadow-md p-6 pb-0 rounded-3xl">
+            <h3 class="text-lg font-bold text-gray-500">Coste Promedio por Llamada</h3>
+            <p class="text-3xl font-bold mt-5">6,35€</p>
+        </div>
+        <div class="flex flex-col col-start-2 row-start-2 bg-white shadow-md p-6 pb-0 rounded-3xl">
+            <h3 class="text-lg font-bold text-gray-500">Número de Llamadas realizadas</h3>
+            <p class="text-3xl font-bold mt-5">23</p>
+        </div>
+        <div class="flex flex-col col-start-3 row-start-2 bg-white shadow-md p-6 pb-0 rounded-3xl">
+            <h3 class="text-lg font-bold text-gray-500">Minutos Totales de Llamadas</h3>
+            <p class="text-3xl font-bold mt-5">5m8s</p>
+        </div>
+
+        <!-- Fila 3 y 4: Card grande ocupando 2 filas y 2 columnas -->
+        <div
+            class="col-span-2 row-span-2 col-start-1 row-start-3 bg-white shadow-md p-4 pb-0 rounded-3xl flex flex-col">
+            <h3 class="text-lg font-bold text-gray-500 mb-6">Volumen de llamadas</h3>
+
+            <!-- Contenedor del gráfico -->
+            <div class="flex items-end justify-between h-48 w-full gap-2">
+                <!-- Cada barra representa un día -->
+                <div class="flex flex-col items-center">
+                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-20"></div>
+                    <span class="text-xs mt-2">Lun</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-32"></div>
+                    <span class="text-xs mt-2">Mar</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-16"></div>
+                    <span class="text-xs mt-2">Mié</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-36"></div>
+                    <span class="text-xs mt-2">Jue</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-44"></div>
+                    <span class="text-xs mt-2">Vie</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-24"></div>
+                    <span class="text-xs mt-2">Sáb</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-12"></div>
+                    <span class="text-xs mt-2">Dom</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fila 3: Card en la última columna -->
+        <div class="flex flex-col justify-center pl-5 col-start-3 row-start-3 bg-white shadow-md p-2 rounded-3xl">
+            <h3 class="text-lg font-bold text-gray-500">Suscripción Actual</h3>
+            <p class="text-lg font-bold">Plan Basico</p>
+        </div>
+
+        <!-- Fila 4: Card en la última columna -->
+        <div class="flex flex-col justify-center pl-5 col-start-3 row-start-4 bg-white shadow-md p-2 rounded-3xl">
+            <h3 class="text-lg font-bold text-gray-500">Tiempo Ahorrado</h3>
+            <p class="text-lg font-bold">20h</p>
+        </div>
+    </div>
+</div>

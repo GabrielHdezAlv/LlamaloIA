@@ -1,0 +1,83 @@
+:host {
+    height: 100vh;
+    width: 20%;
+}
+
+.sidebar {
+    height: 100vh;
+    border: 1px solid green;
+    width: 64px;
+    background-color: #ffffff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    .logo img {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 2rem;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        button {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+
+            &:hover {
+                background-color: #e2e8f0;
+            }
+        }
+    }
+
+    .feedback {
+        margin-top: auto;
+        background: linear-gradient(to right, #2563eb, #1d4ed8);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 12px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .profile {
+        margin-top: 1rem;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+    }
+}
+
+.text-2xs {
+    font-size: 8px;
+}
+
+.selected {
+    color: rgb(30 58 138 / var(--tw-text-opacity, 1)) !important;
+    background-color: none !important;
+}
+
+aside {
+    transition: transform 0.3s ease-in-out;
+}
+
+.translate-x-0 {
+    transform: translateX(0);
+}
+
+.-translate-x-full {
+    transform: translateX(-100%);
+}

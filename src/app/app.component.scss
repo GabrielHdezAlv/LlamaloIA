@@ -1,0 +1,13 @@
+.dashboard {
+    display: flex;
+    height: 100vh;
+    background: #f3f4f6;
+
+    .main-content {
+        display: flex;
+        height: 100%;
+        border: 1px solid red;
+        width: 80%;
+        flex-direction: column;
+    }
+}

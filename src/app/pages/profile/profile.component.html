@@ -1,0 +1,56 @@
+<div class="w-full h-full p-4 gap-4">
+    <div class="h-2/5 mb-5 w-full bg-white shadow-md rounded-3xl pl-10 pr-10 pt-6">
+        <h1 class="text-3xl font-semibold">Información Personal</h1>
+        <div class="h-32 mt-3 flex">
+            <img src="assets/profile_img.jpg" class="h-20 rounded-full" alt="Flowbite Logo" />
+            <form [formGroup]="miFormulario" class="w-full pl-4 pr-4">
+                <div class="h-24 flex">
+                    <!-- <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="nombre" class="border-2 border-gray-300 rounded-full p-3"
+                            placeholder="Ingrese su nombre">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Apellidos</mat-label>
+                        <input matInput formControlName="apellidos" class="border-2 border-gray-300 rounded-full p-3"
+                            placeholder="Ingrese sus apellidos">
+                    </mat-form-field> -->
+                </div>
+
+                <button mat-raised-button type="submit"
+                    class="btn-save-changes rounded-full text-xs text-white pt-1.5 pb-1.5 w-40 h-10 mb-3">
+                    Guardar Cambios
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="h-2/6 mb-5 w-full bg-white shadow-md rounded-3xl pl-10 pr-10 pt-6">
+        <h1 class="text-3xl font-semibold">Suscripción Actual</h1>
+        <p class="mt-4 mb-2">--- Minutos con el plan básico</p>
+        <div class="w-full h-24 flex">
+            <button mat-raised-button class="h-9 border-1 bg-blue-950 text-white rounded-full text-sm p-2">
+                Mejorar/Cambiar Plan
+            </button>
+            <button mat-raised-button class="h-9 ml-2 border-1 bg-blue-950 text-white rounded-full text-sm p-2">
+                Editar Método de Pago
+            </button>
+            <button mat-raised-button class="h-9 ml-2 border-1 bg-blue-950 text-white rounded-full text-sm p-2">
+                Historial de Facturas
+            </button>
+            <button mat-raised-button class="h-9 ml-2 border-1 bg-blue-950 text-white rounded-full text-sm p-2">
+                Cancelar Suscripción
+            </button>
+        </div>
+    </div>
+
+    <div class="h-1/6 w-full bg-white shadow-md rounded-3xl flex items-center justify-around">
+        <p>¿Ha olvidado su contraseña?</p>
+        <button mat-raised-button type="submit"
+            class="h-12 ml-2 border-1 bg-blue-950 text-white rounded-full text-sm p-2">
+            Restablecer contraseña
+        </button>
+    </div>
+</div>

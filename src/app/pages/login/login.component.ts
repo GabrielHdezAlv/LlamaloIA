@@ -7,7 +7,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { LoginUser, UserService } from '../../services/user.service';
+import { LoginUser, UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-login',
