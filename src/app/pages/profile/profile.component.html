@@ -1,36 +1,40 @@
-<div class="w-full h-full p-4 gap-4">
-    <div class="h-2/5 mb-5 w-full bg-white shadow-md rounded-3xl pl-10 pr-10 pt-6">
+<div class="w-full h-full p-4 gap-4 mt-16">
+    <div class="h-2/5 mb-5 w-full bg-white shadow-xl rounded-3xl pl-10 pr-10 pt-6">
         <h1 class="text-3xl font-semibold">Información Personal</h1>
-        <div class="h-32 mt-3 flex">
-            <img src="assets/profile_img.jpg" class="h-20 rounded-full" alt="Flowbite Logo" />
-            <form [formGroup]="miFormulario" class="w-full pl-4 pr-4">
+        <div class="h-32 mt-4 flex">
+            <img src="assets/profile_img.jpg" class="h-24 w-24 rounded-full" alt="Flowbite Logo" />
+            <form [formGroup]="miFormulario" class="w-full pl-4 pr-4 ml-6">
                 <div class="h-24 flex">
-                    <!-- <mat-form-field appearance="outline" class="w-full">
-                        <mat-label>Nombre</mat-label>
-                        <input matInput formControlName="nombre" class="border-2 border-gray-300 rounded-full p-3"
-                            placeholder="Ingrese su nombre">
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="w-full">
-                        <mat-label>Apellidos</mat-label>
-                        <input matInput formControlName="apellidos" class="border-2 border-gray-300 rounded-full p-3"
-                            placeholder="Ingrese sus apellidos">
-                    </mat-form-field> -->
+                    <div class="mr-5 w-2/5">
+                        <label for="first_name" class="block mb-2 text-lg font-medium text-gray-900">
+                            Nombre
+                        </label>
+                        <input type="text" id="first_name"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-full focus:ring-blue-500 focus:border-blue-500 block h-14 w-full p-2.5"
+                            placeholder="John" required />
+                    </div>
+                    <div class="w-2/5">
+                        <label for="last_name" class="block mb-2 text-lg font-medium text-gray-900 ">
+                            Apellidos
+                        </label>
+                        <input type="text" id="last_name"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-full focus:ring-blue-500 focus:border-blue-500 block h-14 w-full p-2.5"
+                            placeholder="Doe" required />
+                    </div>
                 </div>
 
                 <button mat-raised-button type="submit"
-                    class="btn-save-changes rounded-full text-xs text-white pt-1.5 pb-1.5 w-40 h-10 mb-3">
+                    class="btn-save-changes rounded-full text-sm text-white pt-2 pb-2 w-44 h-10 mb-3 mt-5">
                     Guardar Cambios
                 </button>
             </form>
-
         </div>
     </div>
 
-    <div class="h-2/6 mb-5 w-full bg-white shadow-md rounded-3xl pl-10 pr-10 pt-6">
+    <div class="h-2/6 mb-5 w-full bg-white shadow-xl rounded-3xl pl-10 pr-10 pt-6">
         <h1 class="text-3xl font-semibold">Suscripción Actual</h1>
-        <p class="mt-4 mb-2">--- Minutos con el plan básico</p>
-        <div class="w-full h-24 flex">
+        <p class="mt-8 mb-2">--- Minutos con el plan <span class="font-bold">Básico</span></p>
+        <div class="w-full h-24 flex mt-6">
             <button mat-raised-button class="h-9 border-1 bg-blue-950 text-white rounded-full text-sm p-2">
                 Mejorar/Cambiar Plan
             </button>
@@ -46,7 +50,7 @@
         </div>
     </div>
 
-    <div class="h-1/6 w-full bg-white shadow-md rounded-3xl flex items-center justify-around">
+    <div class="h-1/6 w-full bg-white shadow-xl rounded-3xl flex items-center justify-around">
         <p>¿Ha olvidado su contraseña?</p>
         <button mat-raised-button type="submit"
             class="h-12 ml-2 border-1 bg-blue-950 text-white rounded-full text-sm p-2">

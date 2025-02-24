@@ -5,6 +5,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { AgentsComponent } from './pages/agents/agents.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -15,7 +16,7 @@ export const routes: Routes = [
             { path: 'home', component: HomeComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'myAgents', component: HomeComponent },
-            { path: 'agents', component: HomeComponent },
+            { path: 'agents', component: AgentsComponent },
         ]
     },
     { path: '**', redirectTo: 'login' } // Redirige cualquier ruta no existente a login
