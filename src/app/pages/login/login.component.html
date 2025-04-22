@@ -9,14 +9,14 @@
 
         <div class="form-container">
             <form (submit)="login($event)">
-                <mat-form-field appearance="outline">
+                <mat-form-field>
                     <mat-label>Email</mat-label>
-                    <input matInput type="email" [(ngModel)]="email" name="email">
+                    <input matInput type="email" [(ngModel)]="email" name="email" required>
                 </mat-form-field>
-
-                <mat-form-field appearance="outline">
+                
+                <mat-form-field>
                     <mat-label>Contraseña</mat-label>
-                    <input matInput type="password" [(ngModel)]="password" name="password">
+                    <input matInput type="password" [(ngModel)]="password" name="password" required>
                 </mat-form-field>
 
                 <a class="forgot-password">¿Has olvidado tu contraseña?</a>
