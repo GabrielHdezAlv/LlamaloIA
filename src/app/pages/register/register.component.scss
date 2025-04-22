@@ -1,244 +1,242 @@
 .container {
+  display: flex;
+  height: 100vh;
+  flex-direction: row; // Diseño lado a lado en PC
+  max-width: none !important;
+
+  .left {
+    width: 50%;
+    background: linear-gradient(to right, #152f5a, #0d1e40);
+    color: white;
     display: flex;
-    height: 100vh;
-    flex-direction: row; // Diseño lado a lado en PC
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+
+    p {
+      margin-top: 0;
+      text-align: center;
+      font-size: 1rem;
+      padding-right: 50px;
+      max-width: 80%;
+
+      a {
+        color: #ffffff;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s;
+
+        &:hover {
+          color: #f8d210;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .right {
+    width: 50%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+
+    h2 {
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .form-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+      align-items: center;
+
+      .name-fields {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+
+        mat-form-field {
+          width: 50%;
+        }
+      }
+
+      mat-form-field {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+
+      .btn-login,
+      .btn-google {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+      }
+
+      .btn-google {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: black;
+        color: white;
+        margin-top: 10px;
+
+        svg {
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+
+  /* 📌 RESPONSIVE DESIGN */
+  @media (max-width: 1023px) {
+    flex-direction: column;
 
     .left {
-        width: 50%;
-        background: linear-gradient(to right, #152f5a, #0d1e40);
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        padding: 2rem;
-
-        h1 {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.3rem;
-        }
-
-        p {
-            margin-top: 0;
-            text-align: center;
-            font-size: 1rem;
-            padding-right: 50px;
-            max-width: 80%;
-
-            a {
-                color: #ffffff;
-                font-weight: bold;
-                text-decoration: none;
-                transition: color 0.3s;
-
-                &:hover {
-                    color: #f8d210;
-                    cursor: pointer;
-                }
-            }
-        }
+      width: 100%;
+      height: 35%;
+      padding: 1.5rem;
     }
 
     .right {
-        width: 50%;
-        background: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+      width: auto;
+      height: 65%;
+      padding: 1.5rem;
+
+      form {
+        width: 80%;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .left {
+      height: 35%;
+      width: auto;
+
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+
+    .right {
+      height: 65%;
+
+      form {
+        width: 90%;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .left {
+      height: 25%;
+      padding: 1rem;
+
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+        padding-right: 0px;
+      }
+    }
+
+    .right {
+      height: 75%;
+      padding: 1rem;
+      padding-top: 3rem;
+      justify-content: normal;
+
+      .form-container {
+        width: 100%;
+      }
+
+      form {
+        width: 100%;
         align-items: center;
-        padding: 2rem;
 
-        h2 {
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
+        .name-fields {
+          flex-direction: column;
+          width: 100%;
 
-        .form-container {
+          mat-form-field {
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+          }
         }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            width: 60%;
-            align-items: center;
-
-            .name-fields {
-                display: flex;
-                gap: 10px;
-                width: 100%;
-
-                mat-form-field {
-                    width: 50%;
-                }
-            }
-
-            mat-form-field {
-                width: 100%;
-                margin-bottom: 1rem;
-            }
-
-            .btn-login,
-            .btn-google {
-                width: 100%;
-                padding: 10px;
-                border-radius: 5px;
-                font-size: 1rem;
-                font-weight: bold;
-                border: none;
-                cursor: pointer;
-                text-align: center;
-            }
-
-            .btn-google {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: black;
-                color: white;
-                margin-top: 10px;
-
-                svg {
-                    margin-right: 8px;
-                }
-            }
+        mat-form-field {
+          width: 100%;
         }
+
+        .btn-login,
+        .btn-google {
+          width: 100%;
+        }
+      }
     }
-
-    /* 📌 RESPONSIVE DESIGN */
-    @media (max-width: 1024px) {
-        flex-direction: column;
-
-        .left {
-            width: 100%;
-            height: 30%;
-            padding: 1.5rem;
-        }
-
-        .right {
-            width: auto;
-            height: 50%;
-            padding: 1.5rem;
-
-            form {
-                width: 80%;
-            }
-        }
-    }
-
-    @media (max-width: 768px) {
-        .left {
-            height: 35%;
-            width: auto;
-
-            h1 {
-                font-size: 1.6rem;
-            }
-        }
-
-        .right {
-            height: 65%;
-
-            form {
-                width: 90%;
-            }
-        }
-    }
-
-    @media (max-width: 480px) {
-        flex-direction: column;
-        height: auto;
-
-        .left {
-            height: auto;
-            width: auto;
-            padding: 1rem;
-
-            h1 {
-                font-size: 1.4rem;
-            }
-
-            p {
-                font-size: 0.9rem;
-                padding-right: 0;
-            }
-        }
-
-        .right {
-            height: auto;
-            width: auto;
-            padding: 1rem;
-
-            .form-container {
-                width: 100%;
-            }
-
-            form {
-                width: 100%;
-                align-items: center;
-
-                .name-fields {
-                    flex-direction: column; // Nombres en columna en móviles
-                    width: 100%;
-
-                    mat-form-field {
-                        width: 100%; // Inputs de nombre y apellido ocupan todo el ancho
-                    }
-                }
-
-                mat-form-field {
-                    width: 100%;
-                }
-
-                .btn-login,
-                .btn-google {
-                    width: 100%;
-                }
-            }
-        }
-    }
+  }
 }
 
 /* 🔹 ESTILOS PARA BOTÓN GOOGLE */
 .btn-google {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    background: black;
-    color: white;
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  background: black;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
 
-    span {
-        margin-left: 10px;
-        font-weight: normal;
-        font-size: 14px;
-    }
+  span {
+    margin-left: 10px;
+    font-weight: normal;
+    font-size: 14px;
+  }
 }
 
 /* 🔹 ESTILOS PARA NOTIFICACIONES SNACKBAR */
 .snackbar-success {
-    background-color: #4caf50;
-    /* Verde */
-    color: white;
-    font-weight: bold;
+  background-color: #4caf50;
+  /* Verde */
+  color: white;
+  font-weight: bold;
 }
 
 .snackbar-error {
-    background-color: #f44336;
-    /* Rojo */
-    color: white;
-    font-weight: bold;
+  background-color: #f44336;
+  /* Rojo */
+  color: white;
+  font-weight: bold;
 }
