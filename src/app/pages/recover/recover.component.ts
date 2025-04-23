@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,6 +20,7 @@ import { LoginUser, UserService } from '../../core/services/user.service';
     MatIconModule,
     FormsModule,
     MatSnackBarModule,
+    RouterLink,
   ],
   templateUrl: './recover.component.html',
   styleUrls: ['./recover.component.scss'],
@@ -64,15 +65,6 @@ export class RecoverComponent {
         );
       },
     });
-  }
-
-  goToRegister() {
-    this.router.navigate(['/register']);
-  }
-
-  loginWithGoogle() {
-    console.log('🔹 Iniciar sesión con Google');
-    // Aquí puedes conectar con Firebase Auth o backend .NET
   }
 
   // 🔹 Función para mostrar notificaciones
