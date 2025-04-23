@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="left">
+    <div class="left-text">
+      <h1>¿Ha olvidado su contraseña?</h1>
+      <p>No te preocupes, ¡la tendrás en segundos!</p>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="icon-container mb-10">
+      <img src="../../../assets/logo.png" class="h-24" alt="Flowbite Logo" />
+    </div>
+    <h2>Recuperar Contraseña</h2>
+
+    <div class="form-container">
+      <form (submit)="login($event)">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            required
+          />
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="btn-login">
+          Enviar Email
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
