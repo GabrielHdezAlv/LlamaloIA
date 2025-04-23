@@ -12,9 +12,17 @@ import { LoginUser, UserService } from '../../core/services/user.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatIconModule, FormsModule, MatSnackBarModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    FormsModule,
+    MatSnackBarModule,
+  ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   email: string = '';
@@ -24,13 +32,13 @@ export class LoginComponent {
     private router: Router,
     private userService: UserService,
     private snackBar: MatSnackBar
-  ) { }
+  ) {}
 
   login(event: Event) {
     event.preventDefault(); // Evita recarga de la página
 
     if (!this.email || !this.password) {
-      this.showNotification("Por favor, ingrese email y contraseña", "error");
+      this.showNotification('Por favor, ingrese email y contraseña', 'error');
       return;
     }
 
@@ -38,20 +46,23 @@ export class LoginComponent {
 
     this.userService.LoginUser(user).subscribe({
       next: (response) => {
-        console.log("✅ Inicio de sesión exitoso:", response);
+        console.log('✅ Inicio de sesión exitoso:', response);
 
         // Guardar el token en localStorage para persistencia
         localStorage.setItem('authToken', response.Token);
 
-        this.showNotification("Inicio de sesión exitoso", "success");
+        this.showNotification('Inicio de sesión exitoso', 'success');
 
         // Redirigir al Dashboard
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        console.error("❌ Error en inicio de sesión:", err);
-        this.showNotification("Error en inicio de sesión: " + err.message, "error");
-      }
+        console.error('❌ Error en inicio de sesión:', err);
+        this.showNotification(
+          'Error en inicio de sesión: ' + err.message,
+          'error'
+        );
+      },
     });
   }
 
@@ -59,18 +70,22 @@ export class LoginComponent {
     this.router.navigate(['/register']);
   }
 
+  goToRecover() {
+    this.router.navigate(['/recover']);
+  }
+
   loginWithGoogle() {
-    console.log("🔹 Iniciar sesión con Google");
+    console.log('🔹 Iniciar sesión con Google');
     // Aquí puedes conectar con Firebase Auth o backend .NET
   }
 
   // 🔹 Función para mostrar notificaciones
-  private showNotification(message: string, type: "success" | "error") {
-    this.snackBar.open(message, "Cerrar", {
+  private showNotification(message: string, type: 'success' | 'error') {
+    this.snackBar.open(message, 'Cerrar', {
       duration: 3000, // 3 segundos
-      panelClass: type === "success" ? "snackbar-success" : "snackbar-error",
-      horizontalPosition: "center",
-      verticalPosition: "top",
+      panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
     });
   }
 }

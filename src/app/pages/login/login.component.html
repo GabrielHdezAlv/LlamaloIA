@@ -8,6 +8,9 @@
   </div>
 
   <div class="right">
+    <div class="icon-container mb-10">
+      <img src="../../../assets/logo.png" class="h-24" alt="Flowbite Logo" />
+    </div>
     <h2>INICIAR SESIÓN</h2>
 
     <div class="form-container">
@@ -34,7 +37,15 @@
           />
         </mat-form-field>
 
-        <a class="forgot-password">¿Has olvidado tu contraseña?</a>
+        <!-- <a (click)="goToRecover()" class="forgot-password">
+          ¿Has olvidado tu contraseña?
+        </a> -->
+        <button (click)="goToRecover()" class="forgot-password">
+          ¿Has olvidado tu contraseña?
+        </button>
+        <!-- <button mat-raised-button color="primary" class="btn-login">
+          ¿Has olvidado tu ?
+        </button> -->
 
         <button mat-raised-button color="primary" class="btn-login">
           Iniciar sesión
