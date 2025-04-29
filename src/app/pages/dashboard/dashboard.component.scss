@@ -1,12 +1,32 @@
 .dashboard {
+  display: flex;
+  height: 100vh;
+  background: #f3f4f6;
+
+  .sidebar {
+    width: 23%;
+    height: 100vh;
+  }
+
+  .main-content {
     display: flex;
     height: 100vh;
-    background: #f3f4f6;
+    width: 80%;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 1023px) {
+  .dashboard {
+    flex-direction: column;
+    .sidebar {
+      width: 100% !important;
+      height: 8%;
+    }
 
     .main-content {
-        display: flex;
-        height: 100%;
-        width: 80%;
-        flex-direction: column;
+      width: 100% !important;
+      height: 92%;
     }
+  }
 }

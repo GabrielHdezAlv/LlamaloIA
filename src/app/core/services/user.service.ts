@@ -4,17 +4,17 @@ import { Observable } from 'rxjs';
 
 const headers = new HttpHeaders({
   'Content-Type': 'application/json',
-  'Accept': '*/*'
+  Accept: '*/*',
 });
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   private apiUrlLogin = 'https://localhost:7027/api/auth/login';
   private apiUrlRegister = 'https://localhost:7027/api/auth/register';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   LoginUser(user: LoginUser): Observable<any> {
     return this.http.post<any>(this.apiUrlLogin, user, { headers });
@@ -48,4 +48,3 @@ export class NewUser {
     this.password = password;
   }
 }
-
