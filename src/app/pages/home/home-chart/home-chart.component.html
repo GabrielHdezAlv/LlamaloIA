@@ -1,0 +1,23 @@
+<div class="home-chart-container">
+  <h3>{{ chartLabel }}</h3>
+  <div class="info-container">
+    <p class="totalChartInfo">{{ totalChartInfo() }}</p>
+
+    <div class="chart-info">
+      <div class="chart-wrapper">
+        <apx-chart
+          [series]="chartOptions.series!"
+          [chart]="chartOptions.chart!"
+          [xaxis]="chartOptions.xaxis!"
+          [yaxis]="chartOptions.yaxis!"
+          [dataLabels]="chartOptions.dataLabels!"
+          [stroke]="chartOptions.stroke!"
+          [grid]="chartOptions.grid!"
+          [colors]="chartOptions.colors!"
+        ></apx-chart>
+      </div>
+      <p [style.color]="getChartColor()">+22%</p>
+      <!-- {{ chartData.length }}-->
+    </div>
+  </div>
+</div>

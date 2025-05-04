@@ -1,80 +1,143 @@
-<div class="w-full h-full p-4">
-    <div class="grid grid-cols-3 grid-rows-[40px,auto,auto,auto] gap-4 h-full">
-        <!-- Fila 1: Card en la última columna con ancho del 70% -->
-        <div class="col-start-3 row-start-1 bg-white shadow-lg p-2 rounded-full ml-20 flex items-center justify-around">
-            <img src="assets/agent_carlos.png" class="h-9 w-9" alt="Agent Carlos" />
-            <div class="w-36 flex items-center justify-between">
-                <p>Carlos</p>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="h-5 w-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
-            </div>
-        </div>
+<div class="home-container">
+  <div class="charts-containert">
+    <app-home-chart
+      [chartLabel]="'Total de Llamadas Realizadas'"
+      [chartData]="chartsInfo.totalCalls"
+      [chartIndex]="0"
+    ></app-home-chart>
 
-        <!-- Fila 2: 3 Cards ocupando 1 columna cada uno -->
-        <div class="flex flex-col col-start-1 row-start-2 bg-white shadow-lg p-6 pb-0 rounded-3xl">
-            <h3 class="text-lg font-bold text-gray-500">Coste Promedio por Llamada</h3>
-            <p class="text-3xl font-bold mt-5">6,35€</p>
-        </div>
-        <div class="flex flex-col col-start-2 row-start-2 bg-white shadow-lg p-6 pb-0 rounded-3xl">
-            <h3 class="text-lg font-bold text-gray-500">Número de Llamadas realizadas</h3>
-            <p class="text-3xl font-bold mt-5">23</p>
-        </div>
-        <div class="flex flex-col col-start-3 row-start-2 bg-white shadow-lg p-6 pb-0 rounded-3xl">
-            <h3 class="text-lg font-bold text-gray-500">Minutos Totales de Llamadas</h3>
-            <p class="text-3xl font-bold mt-5">5m8s</p>
-        </div>
+    <app-home-chart
+      [chartLabel]="'Duración Media de Llamadas'"
+      [chartData]="chartsInfo.callsDuration"
+      [chartIndex]="1"
+    ></app-home-chart>
 
-        <!-- Fila 3 y 4: Card grande ocupando 2 filas y 2 columnas -->
-        <div
-            class="col-span-2 row-span-2 col-start-1 row-start-3 bg-white shadow-lg p-4 pb-0 rounded-3xl flex flex-col">
-            <h3 class="text-lg font-bold text-gray-500 mb-6">Volumen de llamadas</h3>
+    <app-home-chart
+      [chartLabel]="'Tiempo ahorrado'"
+      [chartData]="chartsInfo.timeSaved"
+      [chartIndex]="2"
+    ></app-home-chart>
+  </div>
 
-            <!-- Contenedor del gráfico -->
-            <div class="flex items-end justify-between h-48 w-full gap-2">
-                <!-- Cada barra representa un día -->
-                <div class="flex flex-col items-center">
-                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-20"></div>
-                    <span class="text-xs mt-2">Lun</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-32"></div>
-                    <span class="text-xs mt-2">Mar</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-16"></div>
-                    <span class="text-xs mt-2">Mié</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-36"></div>
-                    <span class="text-xs mt-2">Jue</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-44"></div>
-                    <span class="text-xs mt-2">Vie</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-24"></div>
-                    <span class="text-xs mt-2">Sáb</span>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-8 bg-purple-600 shadow-xl rounded-t-lg h-12"></div>
-                    <span class="text-xs mt-2">Dom</span>
-                </div>
-            </div>
+  <div class="agent_and_total">
+    <div class="principal-chart-container">
+      <div class="volume-of-calls">
+        <div class="svg">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20px"
+            viewBox="0 -960 960 960"
+            width="10px"
+            fill="#75FB4C"
+          >
+            <path
+              d="M480.28-96Q401-96 331-126t-122.5-82.5Q156-261 126-330.96t-30-149.5Q96-560 126-629.5q30-69.5 82.5-122T330.96-834q69.96-30 149.5-30t149.04 30q69.5 30 122 82.5T834-629.28q30 69.73 30 149Q864-401 834-331t-82.5 122.5Q699-156 629.28-126q-69.73 30-149 30Zm-.28-72q130 0 221-91t91-221q0-130-91-221t-221-91q-130 0-221 91t-91 221q0 130 91 221t221 91Zm0 0q-130 0-221-91t-91-221q0-130 91-221t221-91q130 0 221 91t91 221q0 130-91 221t-221 91Z"
+            />
+          </svg>
         </div>
-
-        <!-- Fila 3: Card en la última columna -->
-        <div class="flex flex-col justify-center pl-5 col-start-3 row-start-3 bg-white shadow-lg p-2 rounded-3xl">
-            <h3 class="text-lg font-bold text-gray-500">Suscripción Actual</h3>
-            <p class="text-lg font-bold">Plan Basico</p>
-        </div>
-
-        <!-- Fila 4: Card en la última columna -->
-        <div class="flex flex-col justify-center pl-5 col-start-3 row-start-4 bg-white shadow-lg p-2 rounded-3xl">
-            <h3 class="text-lg font-bold text-gray-500">Tiempo Ahorrado</h3>
-            <p class="text-lg font-bold">20h</p>
-        </div>
+        <p>Volumen de Llamadas Realizadas</p>
+      </div>
+      <div class="chart-wrapper" *ngIf="isChartReady">
+        <apx-chart
+          [series]="chartOptions.series!"
+          [chart]="chartOptions.chart!"
+          [xaxis]="chartOptions.xaxis!"
+          [yaxis]="chartOptions.yaxis!"
+          [dataLabels]="chartOptions.dataLabels!"
+          [stroke]="chartOptions.stroke!"
+          [grid]="chartOptions.grid!"
+          [colors]="chartOptions.colors!"
+        ></apx-chart>
+      </div>
     </div>
+
+    <div class="agent">
+      <div class="agent-description">
+        <img src="assets/agent_carlos.png" alt="" />
+        <p class="agent-name">Carlos</p>
+        <p class="agent-ia">Tu agente telefónico IA</p>
+      </div>
+
+      <div class="agent-info">
+        <div class="agent-info-line">
+          <div class="logo">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20px"
+              viewBox="0 -960 960 960"
+              width="20px"
+              fill="#000000"
+            >
+              <path
+                d="m476-80 182-480h84L924-80h-84l-43-122H603L560-80h-84ZM160-200l-56-56 202-202q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H40v-80h280v-80h80v80h280v80H564q-21 72-63 148t-83 116l96 98-30 82-122-125-202 201Zm468-72h144l-72-204-72 204Z"
+              />
+            </svg>
+          </div>
+          <div>
+            <p class="text-title">Idioma</p>
+            <p class="text-info">Español</p>
+          </div>
+        </div>
+        <div class="agent-info-line">
+          <div class="logo">
+            @if (true) {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20px"
+              viewBox="0 -960 960 960"
+              width="20px"
+              fill="#75FB4C"
+            >
+              <path
+                d="M480-280q83 0 141.5-58.5T680-480q0-83-58.5-141.5T480-680q-83 0-141.5 58.5T280-480q0 83 58.5 141.5T480-280Zm0 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
+              />
+            </svg>
+            } @else {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="20px"
+              viewBox="0 -960 960 960"
+              width="20px"
+              fill="#EA3323"
+            >
+              <path
+                d="M480-280q83 0 141.5-58.5T680-480q0-83-58.5-141.5T480-680q-83 0-141.5 58.5T280-480q0 83 58.5 141.5T480-280Zm0 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
+              />
+            </svg>
+            }
+          </div>
+          <div>
+            @if (true) {
+            <p class="text-title">Conectado (Twilio)</p>
+            } @else {
+            <p class="text-title">Desconectado (Twilio)</p>
+            }
+
+            <p class="text-info">+34 600 00 00 00</p>
+          </div>
+        </div>
+        <div class="agent-info-line">
+          <div class="logo">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="20px"
+              fill="#000000"
+            >
+              <path
+                d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"
+              />
+            </svg>
+          </div>
+          <div>
+            <p class="text-title">Tipo de Llamada</p>
+            <p class="text-info">Outbound</p>
+          </div>
+        </div>
+      </div>
+
+      <button mat-flat-button class="custom-flat-button">Personalizar</button>
+    </div>
+  </div>
 </div>

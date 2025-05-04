@@ -1,4 +1,128 @@
 :host {
+  width: 100%;
+  height: 100%;
+}
+
+.home-container {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  margin-top: 20px;
+
+  .charts-containert {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
-    height: 100%;
+    margin-bottom: 20px;
+  }
+
+  .agent_and_total {
+    display: flex;
+    justify-content: space-between;
+    height: 80%;
+
+    .principal-chart-container {
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      width: 66%;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px -5px;
+      padding: 20px;
+
+      .volume-of-calls {
+        display: flex;
+
+        .svg {
+          margin-right: 10px;
+        }
+
+        p {
+          font-size: 0.8rem;
+        }
+      }
+
+      .chart-wrapper {
+        display: block;
+        height: 95%;
+        width: 100%;
+
+        ::ng-deep g.line-series path.line {
+          stroke-width: 2.8px;
+        }
+      }
+    }
+
+    .agent {
+      background-color: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px -5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      width: 32%;
+      padding: 45px;
+
+      .agent-description {
+        height: 40%;
+        width: 100%;
+        border-bottom-width: 2px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 30px;
+
+        img {
+          height: 120px;
+        }
+
+        .agent-ia {
+          font-weight: 300;
+          color: gray;
+        }
+      }
+
+      .agent-info {
+        display: flex;
+        flex-direction: column;
+
+        .agent-info-line {
+          width: 100%;
+          height: 33%;
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+
+          .logo {
+            margin-right: 10px;
+            height: 100%;
+            align-items: start;
+          }
+
+          .text-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+          }
+
+          .text-info {
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: gray;
+          }
+        }
+      }
+
+      .custom-flat-button {
+        background-color: #e0e0e0;
+        color: #000000;
+        font-weight: 500;
+
+        &:hover {
+          background-color: #d5d5d5;
+        }
+      }
+    }
+  }
 }
