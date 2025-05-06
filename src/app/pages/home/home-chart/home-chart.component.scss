@@ -33,7 +33,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 50%;
       .chart-wrapper {
         display: flex;
         align-items: center;
@@ -45,7 +44,7 @@
           stroke-width: 2.8px;
         }
         ::ng-deep apx-chart {
-          width: 100% !important; // Asegura que el gráfico se ajuste al contenedor
+          width: 100% !important;
         }
       }
 

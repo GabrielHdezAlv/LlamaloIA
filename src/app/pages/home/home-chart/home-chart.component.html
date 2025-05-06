@@ -1,9 +1,11 @@
 <div class="home-chart-container">
-  <h3>{{ chartLabel }}</h3>
+  <h3 class="lg:text-sm">{{ chartLabel }}</h3>
   <div class="info-container">
-    <p class="totalChartInfo">{{ totalChartInfo() }}</p>
+    <p class="totalChartInfo xl:w-1/2">
+      {{ totalChartInfo() }}
+    </p>
 
-    <div class="chart-info">
+    <div class="chart-info xl:w-1/2">
       <div class="chart-wrapper">
         <apx-chart
           [series]="chartOptions.series!"

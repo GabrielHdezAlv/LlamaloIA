@@ -9,11 +9,6 @@ import {
   ApexStroke,
   ApexGrid,
   ApexYAxis,
-  ApexTitleSubtitle,
-  ApexTooltip,
-  ApexFill,
-  ApexMarkers,
-  ChartComponent,
   NgApexchartsModule,
 } from 'ng-apexcharts';
 
@@ -113,24 +108,25 @@ export class HomeChartComponent implements OnChanges {
 
   totalChartInfo(): string {
     if (this.chartIndex === 0) {
-      return '256';
-      //return `${this.chartData.length}`; // Primer gráfico: muestra solo el .length
+      const totalTime = this.chartData.reduce(
+        (sum, item) => sum + item.time,
+        0
+      );
+      return `${totalTime}`;
     }
 
     const totalTime = this.chartData.reduce((sum, data) => sum + data.time, 0);
     const avgTime = totalTime / this.chartData.length;
 
     if (this.chartIndex === 1) {
-      // Segundo gráfico: promedio en minutos y segundos
       const minutes = Math.floor(avgTime / 60);
       const seconds = Math.floor(avgTime % 60);
       return `${minutes}m ${seconds}s`;
     } else if (this.chartIndex === 2) {
-      // Tercer gráfico: promedio en horas
       const hours = Math.floor(avgTime / 3600);
       return `${hours}h`;
     }
 
-    return '0'; // Por defecto
+    return '0';
   }
 }
