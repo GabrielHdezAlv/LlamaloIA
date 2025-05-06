@@ -13,11 +13,22 @@ const headers = new HttpHeaders({
 export class UserService {
   private apiUrlLogin = 'https://localhost:7027/api/auth/login';
   private apiUrlRegister = 'https://localhost:7027/api/auth/register';
+  private apiUrlProfile = 'https://localhost:7027/api/user/profile';
 
   constructor(private http: HttpClient) {}
 
   LoginUser(user: LoginUser): Observable<any> {
     return this.http.post<any>(this.apiUrlLogin, user, { headers });
+  }
+
+  getUserProfile(): Observable<any> {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get(`${this.apiUrlProfile}`, { headers });
   }
 
   RegisterUser(newUser: NewUser): Observable<any> {
