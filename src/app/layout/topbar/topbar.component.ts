@@ -5,13 +5,13 @@ import { Router } from '@angular/router';
   selector: 'app-topbar',
   imports: [],
   templateUrl: './topbar.component.html',
-  styleUrl: './topbar.component.scss'
+  styleUrl: './topbar.component.scss',
 })
 export class TopbarComponent {
   pageTitle: string = 'Inicio';
   welcomeText: string = 'Hey Maria, Bienvenido/a';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.router.events.subscribe(() => {
