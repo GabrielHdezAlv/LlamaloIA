@@ -50,8 +50,16 @@ export class LoginComponent {
         console.log('✅ Inicio de sesión exitoso:', response);
 
         // Guardar el token en localStorage para persistencia
-        localStorage.setItem('authToken', response.Token);
-
+        localStorage.setItem('token', response.token);
+        this.userService.getUserProfile().subscribe({
+          next: (data) => {
+            // this.userData = data;
+            console.log('Perfil del usuario:', data);
+          },
+          error: (err) => {
+            console.error('Error al obtener perfil', err);
+          },
+        });
         this.showNotification('Inicio de sesión exitoso', 'success');
 
         // Redirigir al Dashboard
