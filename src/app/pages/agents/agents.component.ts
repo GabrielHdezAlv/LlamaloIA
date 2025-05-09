@@ -5,6 +5,9 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { TwilioIntegrationModalComponent } from '../../shared/modals/twilio-integration-modal/twilio-integration-modal.component';
+import { TwilioSuccessModalComponent } from '../../shared/modals/twilio-success-modal/twilio-success-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-agents',
@@ -22,6 +25,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './agents.component.scss',
 })
 export class AgentsComponent {
+  constructor(private dialog: MatDialog) {}
+
+  showIntegrationModal = false;
+  showSuccessModal = false;
+
   textareaFocused = false;
 
   languages = [
@@ -50,5 +58,26 @@ export class AgentsComponent {
   selectVoice(voice: any) {
     this.selectedVoice = voice;
     this.showVoiceDropdown = false;
+  }
+
+  openIntegrationDialog() {
+    this.dialog.open(TwilioIntegrationModalComponent, {
+      width: '400px',
+      disableClose: true,
+      panelClass: 'custom-dialog-container',
+    });
+  }
+
+  openSuccessDialog() {
+    this.dialog.open(TwilioSuccessModalComponent, {
+      width: '300px',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+    });
+  }
+
+  closeModals() {
+    this.showIntegrationModal = false;
+    this.showSuccessModal = false;
   }
 }

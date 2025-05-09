@@ -1,0 +1,45 @@
+.custom-dialog-container .mat-mdc-dialog-surface {
+  overflow-y: visible !important;
+  max-height: none !important;
+}
+.header {
+  font-weight: bold;
+  padding: 1rem;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-width: 2px;
+
+  .title {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .close-button {
+    color: white;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  gap: 1.2rem;
+
+  .full-width {
+    width: 100%;
+  }
+
+  .import-button {
+    width: 100%;
+    border-radius: 2rem;
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(to right, #1e3a8a, #1e40af);
+    color: white;
+    font-weight: 500;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    margin-top: 1rem;
+  }
+}

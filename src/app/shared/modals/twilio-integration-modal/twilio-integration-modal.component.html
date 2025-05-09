@@ -1,0 +1,36 @@
+<div class="header">
+  <span class="title">Integración Twilio</span>
+  <button
+    mat-icon-button
+    class="close-button border-t"
+    (click)="dialogRef.close()"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form class="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Número de teléfono</mat-label>
+    <input matInput placeholder="+34 630 00 00 00" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Cuenta Twilio SID</mat-label>
+    <input matInput />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Twilio Auth Token</mat-label>
+    <input matInput />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nombre de Etiqueta (Opcional)</mat-label>
+    <input matInput />
+  </mat-form-field>
+
+  <button mat-raised-button class="import-button" color="primary" type="submit">
+    Importar
+  </button>
+</form>
