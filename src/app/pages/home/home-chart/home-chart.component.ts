@@ -1,6 +1,4 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
-import { curveBasis } from 'd3-shape';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -25,7 +23,7 @@ export type ChartOptions = {
 
 @Component({
   selector: 'app-home-chart',
-  imports: [NgxChartsModule, NgApexchartsModule],
+  imports: [NgApexchartsModule],
   templateUrl: './home-chart.component.html',
   styleUrl: './home-chart.component.scss',
 })
@@ -35,7 +33,6 @@ export class HomeChartComponent implements OnChanges {
   @Input() chartIndex!: number;
 
   chartOptions: Partial<ChartOptions> = {};
-  curve = curveBasis;
 
   ngOnChanges(): void {
     const seriesData = this.chartData.map((d) => ({
@@ -95,15 +92,6 @@ export class HomeChartComponent implements OnChanges {
       default:
         return '#6B7280'; // gris por defecto
     }
-  }
-
-  colorScheme(): Color {
-    return {
-      name: 'custom',
-      selectable: true,
-      group: ScaleType.Ordinal,
-      domain: [this.getChartColor()],
-    };
   }
 
   totalChartInfo(): string {
