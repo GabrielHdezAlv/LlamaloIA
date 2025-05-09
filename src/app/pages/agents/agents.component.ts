@@ -62,7 +62,7 @@ export class AgentsComponent {
 
   openIntegrationDialog() {
     this.dialog.open(TwilioIntegrationModalComponent, {
-      width: '400px',
+      width: '380px',
       disableClose: true,
       panelClass: 'custom-dialog-container',
     });
