@@ -1,36 +1,56 @@
-<div class="header">
-  <span class="title">Integración Twilio</span>
+<div class="header flex flex-col p-4 bg-white rounded-t-lg items-end">
   <button
-    mat-icon-button
-    class="close-button border-t"
+    class="close-button h-6 w-6 absolute"
     (click)="dialogRef.close()"
+    aria-label="Cerrar"
   >
-    <mat-icon>close</mat-icon>
+    <mat-icon class="close-icon">close</mat-icon>
   </button>
+  <span class="title w-full mt-2 text-lg font-semibold text-center">Integración Twilio</span>
 </div>
 
-<form class="form">
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Número de teléfono</mat-label>
-    <input matInput placeholder="+34 630 00 00 00" />
-  </mat-form-field>
+<form class="form p-4 bg-white rounded-b-lg shadow-lg border-t">
+  <div class="relative">
+    <label for="phone-number" class="block text-sm font-medium text-gray-700">Número de teléfono * </label>
+    <div class="flex">
+      <mat-select
+        id="country-code"
+        name="country-code"
+        [(value)]="selectedCountry.dial_code"
+        class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-s-xl focus:ring-2 focus:outline-none focus:ring-blue-500"
+      >
+        <mat-option *ngFor="let country of countries" [value]="country.code">
+          {{ country.flag }} {{ country.code }}
+        </mat-option>
+      </mat-select>
+  
+      <input id="phone-number" type="tel" placeholder="630 00 00 00"
+        class="w-2/3 block px-3 py-2 border border-gray-300 rounded-e-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+    </div>
+  </div>
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Cuenta Twilio SID</mat-label>
-    <input matInput />
-  </mat-form-field>
+  <div class="relative mt-6">
+    <label for="twilio-sid" class="block text-sm font-medium text-gray-700">Cuenta Twilio SID</label>
+    <input
+      id="twilio-sid"
+      type="text"
+      class="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    />
+  </div>
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Twilio Auth Token</mat-label>
-    <input matInput />
-  </mat-form-field>
+  <div class="relative mt-6">
+    <label for="twilio-token" class="block text-sm font-medium text-gray-700">Twilio Auth Token</label>
+    <input
+      id="twilio-token"
+      type="text"
+      class="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    />
+  </div>
 
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Nombre de Etiqueta (Opcional)</mat-label>
-    <input matInput />
-  </mat-form-field>
-
-  <button mat-raised-button class="import-button" color="primary" type="submit">
+  <button
+    type="submit"
+    class="w-full py-2 mt-8 bg-blue-900 text-white text-sm font-normal rounded-full hover:bg-blue-800 focus:ring-2 focus:ring-blue-500"
+  >
     Importar
   </button>
 </form>

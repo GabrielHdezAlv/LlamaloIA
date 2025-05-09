@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HomeChartComponent } from './home-chart/home-chart.component';
-import { curveBasis } from 'd3-shape';
-import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
 import { MatButtonModule } from '@angular/material/button';
 import {
   ApexAxisChartSeries,
@@ -14,6 +12,7 @@ import {
   ApexGrid,
   NgApexchartsModule,
 } from 'ng-apexcharts';
+import { CommonModule } from '@angular/common';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -31,10 +30,10 @@ export type ChartOptions = {
   selector: 'app-home',
   imports: [
     HomeChartComponent,
-    NgxChartsModule,
     MatButtonModule,
     NgApexchartsModule,
     ChartComponent,
+    CommonModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -103,7 +102,6 @@ export class HomeComponent implements OnInit {
   };
 
   ngxChartData: any[] = [];
-  curve = curveBasis;
 
   ngOnInit(): void {
     const chartData = this.chartsInfo.weeklyVolume;
@@ -132,15 +130,6 @@ export class HomeComponent implements OnInit {
           colors: '#888888',
         },
       },
-    };
-  }
-
-  colorScheme(): Color {
-    return {
-      name: 'custom',
-      selectable: true,
-      group: ScaleType.Ordinal,
-      domain: ['#0055AA'],
     };
   }
 
