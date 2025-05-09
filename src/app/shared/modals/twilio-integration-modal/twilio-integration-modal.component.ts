@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-twilio-integration-modal',
@@ -18,15 +19,14 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     MatOptionModule,
     MatSelectModule,
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   templateUrl: './twilio-integration-modal.component.html',
   styleUrl: './twilio-integration-modal.component.scss',
 })
 export class TwilioIntegrationModalComponent {
-  constructor(
-    public dialogRef: MatDialogRef<TwilioIntegrationModalComponent>
-  ) {}
+  form: FormGroup;
 
   selectedCountry = {
     flag: '🇪🇸',
@@ -41,5 +41,30 @@ export class TwilioIntegrationModalComponent {
     { flag: '🇩🇪', code: '+49' },
     { flag: '🇲🇽', code: '+52' },
   ];
-  
+
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<TwilioIntegrationModalComponent>
+  ) {
+    this.form = this.fb.group({
+      countryCode: [this.selectedCountry.dial_code, Validators.required],
+      phoneNumber: [
+        '',
+        [Validators.required, Validators.pattern(/^[1-9][0-9]{5,14}$/)]
+      ],
+      twilioSid: ['', Validators.required],
+      twilioToken: ['', Validators.required]
+    });
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      const formData = this.form.value;
+      console.log('Datos del formulario:', formData);
+      this.dialogRef.close(formData);
+    } else {
+      this.form.markAllAsTouched();
+    }
+  }
+
 }
