@@ -9,14 +9,15 @@
   <span class="title w-full mt-2 text-lg font-semibold text-center">Integración Twilio</span>
 </div>
 
-<form class="form p-4 py-8 bg-white rounded-b-lg shadow-lg border-t">
+<form [formGroup]="form"
+(ngSubmit)="onSubmit()" class="form p-4 py-8 bg-white rounded-b-lg shadow-lg border-t">
   <div class="relative">
     <label for="phone-number" class="block text-sm font-medium text-gray-700">Número de teléfono * </label>
     <div class="flex">
       <mat-select
         id="country-code"
         name="country-code"
-        [(value)]="selectedCountry.dial_code"
+        formControlName="countryCode"
         class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-s-xl"
       >
         <mat-option *ngFor="let country of countries" [value]="country.code">
@@ -24,8 +25,15 @@
         </mat-option>
       </mat-select>
   
-      <input id="phone-number" type="tel" placeholder="630 00 00 00"
+      <input 
+        id="phone-number" 
+        type="tel" 
+        placeholder="630 00 00 00"
+        formControlName="phoneNumber"
         class="w-2/3 block px-3 py-2 border border-gray-300 rounded-e-xl focus:outline-none"/>
+    </div>
+    <div *ngIf="form.get('phoneNumber')?.invalid && form.get('phoneNumber')?.touched" class="text-red-500 text-sm">
+      Número inválido (mínimo 6, máximo 15 dígitos)
     </div>
   </div>
 
@@ -34,8 +42,12 @@
     <input
       id="twilio-sid"
       type="text"
+      formControlName="twilioSid"
       class="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
     />
+    <div *ngIf="form.get('twilioSid')?.invalid && form.get('twilioSid')?.touched" class="text-red-500 text-sm">
+      Este campo es requerido.
+    </div>
   </div>
 
   <div class="relative mt-6">
@@ -43,8 +55,12 @@
     <input
       id="twilio-token"
       type="text"
+      formControlName="twilioToken"
       class="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
     />
+    <div *ngIf="form.get('twilioToken')?.invalid && form.get('twilioToken')?.touched" class="text-red-500 text-sm">
+      Este campo es requerido.
+    </div>
   </div>
 
   <button
