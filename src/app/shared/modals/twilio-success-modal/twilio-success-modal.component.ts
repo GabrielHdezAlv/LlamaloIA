@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { Component, inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-twilio-success-modal',
@@ -8,9 +8,6 @@ import { MatDialogModule } from '@angular/material/dialog';
   styleUrl: './twilio-success-modal.component.scss',
 })
 export class TwilioSuccessModalComponent {
-  @Output() close = new EventEmitter<void>();
-
-  closeModal() {
-    this.close.emit();
-  }
+  data = inject(MAT_DIALOG_DATA);
+  dialogRef = inject(MatDialogRef<TwilioSuccessModalComponent>);
 }
