@@ -7,7 +7,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { LoginUser, UserService } from '../../core/services/user.service';
+import { UserService } from '../../core/services/user.service';
+import { LoginUser } from '../../shared/models/login-user.model';
 
 @Component({
   selector: 'app-recover',
@@ -49,12 +50,9 @@ export class RecoverComponent {
       next: (response) => {
         console.log('✅ Inicio de sesión exitoso:', response);
 
-        // Guardar el token en localStorage para persistencia
         localStorage.setItem('authToken', response.Token);
 
         this.showNotification('Inicio de sesión exitoso', 'success');
-
-        // Redirigir al Dashboard
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
