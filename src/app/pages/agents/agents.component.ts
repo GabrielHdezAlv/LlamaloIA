@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { TwilioIntegrationModalComponent } from '../../shared/modals/twilio-integration-modal/twilio-integration-modal.component';
 import { TwilioSuccessModalComponent } from '../../shared/modals/twilio-success-modal/twilio-success-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { TwilioConfig } from '../../shared/models/twilio-config.model';
 
 @Component({
   selector: 'app-agents',
@@ -25,7 +26,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './agents.component.scss',
 })
 export class AgentsComponent {
-  constructor(private dialog: MatDialog) {}
+  dialog = inject(MatDialog);
 
   showIntegrationModal = false;
   showSuccessModal = false;
@@ -61,18 +62,28 @@ export class AgentsComponent {
   }
 
   openIntegrationDialog() {
-    this.dialog.open(TwilioIntegrationModalComponent, {
+    const dialogRef = this.dialog.open(TwilioIntegrationModalComponent, {
       width: '380px',
       disableClose: true,
       panelClass: 'custom-dialog-container',
+      data: {
+        formEnabled: false
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe((result: TwilioConfig) => {
+      if (result) {
+        this.openSuccessDialog(result);
+      }
     });
   }
 
-  openSuccessDialog() {
+  openSuccessDialog(twilioData: TwilioConfig) {
     this.dialog.open(TwilioSuccessModalComponent, {
-      width: '300px',
+      width: '400px',
       disableClose: false,
       panelClass: 'custom-dialog-container',
+      data: twilioData
     });
   }
 
