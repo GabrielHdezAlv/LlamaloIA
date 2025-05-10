@@ -1,16 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { provideRouter } from '@angular/router';
-import { routes } from './app/app.routes';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { appConfig } from './app/core/app.config'; // 👈 Asegúrate de importar esto
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideHttpClient(withFetch()),
-    provideRouter(routes),
-    provideAnimations(),
-    provideAnimationsAsync() // Necesario para Angular Material
-  ]
-}).catch(err => console.error(err));
+bootstrapApplication(AppComponent, appConfig) // 👈 Usa appConfig directamente
+  .catch((err) => console.error(err));
