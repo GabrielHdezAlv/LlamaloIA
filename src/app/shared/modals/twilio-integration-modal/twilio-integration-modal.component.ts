@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { Component, inject, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,13 +25,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   templateUrl: './twilio-integration-modal.component.html',
   styleUrl: './twilio-integration-modal.component.scss',
 })
-export class TwilioIntegrationModalComponent {
-  form: FormGroup;
+export class TwilioIntegrationModalComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  dialogRef = inject(MatDialogRef<TwilioIntegrationModalComponent>);
+  data = inject(MAT_DIALOG_DATA);
 
-  selectedCountry = {
-    flag: '🇪🇸',
-    dial_code: '+34'
-  };
+  form!: FormGroup;
+  formEnabled: boolean = false;
   
   countries = [
     { flag: '🇪🇸', code: '+34' },
@@ -42,12 +42,20 @@ export class TwilioIntegrationModalComponent {
     { flag: '🇲🇽', code: '+52' },
   ];
 
-  constructor(
-    private fb: FormBuilder,
-    public dialogRef: MatDialogRef<TwilioIntegrationModalComponent>
-  ) {
+  selectedCountry = this.countries[0];
+
+  ngOnInit() {
+    this.formEnabled = this.data?.formEnabled ?? false;
+    this.initForm();
+
+    if (!this.formEnabled) {
+      this.form.disable();
+    }
+  }
+
+  private initForm(): void {
     this.form = this.fb.group({
-      countryCode: [this.selectedCountry.dial_code, Validators.required],
+      countryCode: [this.selectedCountry.code, Validators.required],
       phoneNumber: [
         '',
         [Validators.required, Validators.pattern(/^[1-9][0-9]{5,14}$/)]
@@ -57,14 +65,18 @@ export class TwilioIntegrationModalComponent {
     });
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      const formData = this.form.value;
-      console.log('Datos del formulario:', formData);
-      this.dialogRef.close(formData);
-    } else {
-      this.form.markAllAsTouched();
+  onSubmit(): void {
+    if (!this.formEnabled) {
+      this.formEnabled = true;
+      this.form.enable();
+      return;
     }
+  
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+  
+    this.dialogRef.close(this.form.value);
   }
-
 }
