@@ -1,37 +1,50 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { NewUser } from '../../shared/models/new-user.model';
+import { User } from '../../shared/models/new-user.model';
 import { LoginUser } from '../../shared/models/login-user.model';
-
-const headers = new HttpHeaders({
-  'Content-Type': 'application/json',
-  Accept: '*/*',
-});
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private apiUrl = 'https://localhost:7027/api';
+  private http = inject(HttpClient);
+  private isBrowser: boolean;
 
-  constructor(private http: HttpClient) {}
+  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  private getAuthHeaders(): HttpHeaders {
+    let token = '';
+    if (this.isBrowser) {
+      token = localStorage.getItem('token') || '';
+    }
+
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: '*/*',
+      Authorization: `Bearer ${token}`,
+    });
+  }
 
   LoginUser(user: LoginUser): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/login`, user, { headers });
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, user, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   getUserProfile(): Observable<any> {
-    const token = localStorage.getItem('token');
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
+    return this.http.get(`${this.apiUrl}/user/profile`, {
+      headers: this.getAuthHeaders(),
     });
-
-    return this.http.get(`${this.apiUrl}/user/profile`, { headers });
   }
 
-  RegisterUser(newUser: NewUser): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/register`, newUser, { headers });
+  RegisterUser(newUser: User): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, newUser, {
+      headers: this.getAuthHeaders(),
+    });
   }
 }
