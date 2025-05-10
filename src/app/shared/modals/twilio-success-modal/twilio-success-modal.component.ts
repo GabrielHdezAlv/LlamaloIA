@@ -1,13 +1,24 @@
 import { Component, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-twilio-success-modal',
-  imports: [MatDialogModule],
+  standalone: true,
+  imports: [CommonModule, MatDialogModule, MatButtonModule],
   templateUrl: './twilio-success-modal.component.html',
-  styleUrl: './twilio-success-modal.component.scss',
+  styleUrls: ['./twilio-success-modal.component.scss'],
 })
 export class TwilioSuccessModalComponent {
+  dialogRef = inject(MatDialogRef);
   data = inject(MAT_DIALOG_DATA);
-  dialogRef = inject(MatDialogRef<TwilioSuccessModalComponent>);
+
+  onClose(): void {
+    this.dialogRef.close();
+  }
 }

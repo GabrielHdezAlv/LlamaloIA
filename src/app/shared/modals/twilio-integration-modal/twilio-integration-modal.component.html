@@ -6,59 +6,89 @@
   >
     <mat-icon class="close-icon">close</mat-icon>
   </button>
-  <span class="title w-full mt-2 text-lg font-semibold text-center">Integración Twilio</span>
+  <span class="title w-full mt-2 text-lg font-semibold text-center"
+    >Integración Twilio</span
+  >
 </div>
 
-<form [formGroup]="form"
-(ngSubmit)="onSubmit()" class="form p-4 py-8 bg-white rounded-b-lg shadow-lg border-t">
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="form p-4 py-8 bg-white rounded-b-lg shadow-lg border-t"
+>
   <div class="relative">
-    <label for="phone-number" class="block text-sm font-medium text-gray-700">Número de teléfono * </label>
+    <label for="phone-number" class="block text-sm font-medium text-gray-700"
+      >Número de teléfono *
+    </label>
     <div class="flex">
       <mat-select
         id="country-code"
         name="country-code"
         formControlName="countryCode"
-        class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-s-xl"
+        class="shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-xs font-normal text-gray-700 bg-gray-100 border border-gray-300 rounded-s-xl"
       >
         <mat-option *ngFor="let country of countries" [value]="country.code">
-          {{ country.flag }} {{ country.code }}
+          <img
+            [src]="country.flag"
+            alt="Flag"
+            class="w-6 h-4 rounded-sm object-cover"
+          />
+          {{ country.code }}
         </mat-option>
       </mat-select>
-  
-      <input 
-        id="phone-number" 
-        type="tel" 
+
+      <input
+        id="phone-number"
+        type="tel"
         placeholder="630 00 00 00"
         formControlName="phoneNumber"
-        class="w-2/3 block px-3 py-2 border border-gray-300 rounded-e-xl focus:outline-none disabled:bg-gray-100 disabled:text-gray-500"/>
+        class="w-2/3 block px-3 py-2 border border-gray-300 rounded-e-xl focus:outline-none disabled:bg-gray-100 disabled:text-gray-500"
+      />
     </div>
-    <div *ngIf="form.get('phoneNumber')?.invalid && form.get('phoneNumber')?.touched" class="text-red-500 text-sm">
+    <div
+      *ngIf="
+        form.get('phoneNumber')?.invalid && form.get('phoneNumber')?.touched
+      "
+      class="text-red-500 text-sm"
+    >
       Número inválido (mínimo 6, máximo 15 dígitos)
     </div>
   </div>
 
   <div class="relative mt-6">
-    <label for="twilio-sid" class="block text-sm font-medium text-gray-700">Cuenta Twilio SID</label>
+    <label for="twilio-sid" class="block text-sm font-medium text-gray-700"
+      >Cuenta Twilio SID</label
+    >
     <input
       id="twilio-sid"
       type="text"
       formControlName="twilioSid"
       class="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
     />
-    <div *ngIf="form.get('twilioSid')?.invalid && form.get('twilioSid')?.touched" class="text-red-500 text-sm">
+    <div
+      *ngIf="form.get('twilioSid')?.invalid && form.get('twilioSid')?.touched"
+      class="text-red-500 text-sm"
+    >
       Este campo es requerido.
     </div>
   </div>
 
   <div class="relative mt-6">
-    <label for="twilio-token" class="block text-sm font-medium text-gray-700">Twilio Auth Token</label>
+    <label for="twilio-token" class="block text-sm font-medium text-gray-700"
+      >Twilio Auth Token</label
+    >
     <input
       id="twilio-token"
       type="text"
       formControlName="twilioToken"
       class="mt-2 block w-full px-3 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
     />
-    <div *ngIf="form.get('twilioToken')?.invalid && form.get('twilioToken')?.touched" class="text-red-500 text-sm">
+    <div
+      *ngIf="
+        form.get('twilioToken')?.invalid && form.get('twilioToken')?.touched
+      "
+      class="text-red-500 text-sm"
+    >
       Este campo es requerido.
     </div>
   </div>
@@ -67,6 +97,6 @@
     type="submit"
     class="w-full py-2 mt-8 bg-blue-900 text-white text-sm font-normal rounded-full hover:bg-blue-800 focus:ring-2 focus:ring-blue-500"
   >
-    {{ formEnabled ? 'Importar' : 'Editar' }}
+    {{ formEnabled ? "Importar" : "Editar" }}
   </button>
 </form>
