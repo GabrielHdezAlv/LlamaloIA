@@ -300,13 +300,13 @@
 
       <div class="w-1/2 xl:w-2/3 md:w-full">
         <button
-          (click)="openIntegrationDialog()"
+          (click)="openIntegrationDialog(true)"
           class="bg-blue-900 rounded-3xl p-3 text-white mr-4 text-sm"
         >
           Importar número de Twilio
         </button>
         <button
-          (click)="openSuccessDialog()"
+          (click)="openIntegrationDialog(false)"
           class="bg-blue-900 rounded-3xl p-3 text-white text-sm"
         >
           Ver número importado

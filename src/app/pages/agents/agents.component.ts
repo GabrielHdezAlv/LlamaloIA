@@ -9,6 +9,7 @@ import { TwilioIntegrationModalComponent } from '../../shared/modals/twilio-inte
 import { TwilioSuccessModalComponent } from '../../shared/modals/twilio-success-modal/twilio-success-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TwilioConfig } from '../../shared/models/twilio-config.model';
+import { TwilioService } from '../../core/services/twilio.service';
 
 @Component({
   selector: 'app-agents',
@@ -27,6 +28,7 @@ import { TwilioConfig } from '../../shared/models/twilio-config.model';
 })
 export class AgentsComponent {
   dialog = inject(MatDialog);
+  private twilioService = inject(TwilioService);
 
   showIntegrationModal = false;
   showSuccessModal = false;
@@ -61,20 +63,28 @@ export class AgentsComponent {
     this.showVoiceDropdown = false;
   }
 
-  openIntegrationDialog() {
+  openIntegrationDialog(editMode: boolean) {
     const dialogRef = this.dialog.open(TwilioIntegrationModalComponent, {
       width: '380px',
       disableClose: true,
       panelClass: 'custom-dialog-container',
       data: {
-        formEnabled: false
+        formEnabled: editMode
       }
     });
   
     dialogRef.afterClosed().subscribe((result: TwilioConfig) => {
-      if (result) {
-        this.openSuccessDialog(result);
-      }
+      // TODO: Loader empieza
+      this.twilioService.setConfig(result).subscribe({
+        next: () => {
+          // TODO: Loader termina
+          this.openSuccessDialog(result);
+        },
+        error: (err) => {
+          console.error('Error al guardar la configuración:', err);
+        }
+      });
+      
     });
   }
 
