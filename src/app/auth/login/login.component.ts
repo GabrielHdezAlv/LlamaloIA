@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +7,11 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { LoginUser, UserService } from '../../core/services/user.service';
+import { UserService } from '../../core/services/user.service';
+import { LoginUser } from '../../shared/models/login-user.model';
+import { UserStorage } from '../../storages/user/user-storage';
+import { TwilioStorage } from '../../storages/twilio/twilio-storage';
+import { log } from 'console';
 
 @Component({
   selector: 'app-login',
@@ -29,14 +33,14 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
 
-  constructor(
-    private router: Router,
-    private userService: UserService,
-    private snackBar: MatSnackBar
-  ) {}
+  private router = inject(Router);
+  private userService = inject(UserService);
+  private snackBar = inject(MatSnackBar);
+  private userStorage = inject(UserStorage);
+  private twilioStorage = inject(TwilioStorage);
 
   login(event: Event) {
-    event.preventDefault(); // Evita recarga de la página
+    event.preventDefault();
 
     if (!this.email || !this.password) {
       this.showNotification('Por favor, ingrese email y contraseña', 'error');
@@ -49,21 +53,26 @@ export class LoginComponent {
       next: (response) => {
         console.log('✅ Inicio de sesión exitoso:', response);
 
-        // Guardar el token en localStorage para persistencia
         localStorage.setItem('token', response.token);
         this.userService.getUserProfile().subscribe({
           next: (data) => {
-            // this.userData = data;
-            console.log('Perfil del usuario:', data);
+            this.userStorage.setUser(data);
+            if (data.twilio) {
+              this.twilioStorage.setConfig(data.twilio);
+            }
+            console.log('data: ', data);
+
+            this.showNotification('Inicio de sesión exitoso', 'success');
+            this.router.navigate(['/dashboard']);
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);
+            this.showNotification(
+              'Error al obtener perfil de usuario',
+              'error'
+            );
           },
         });
-        this.showNotification('Inicio de sesión exitoso', 'success');
-
-        // Redirigir al Dashboard
-        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         console.error('❌ Error en inicio de sesión:', err);
@@ -77,13 +86,11 @@ export class LoginComponent {
 
   loginWithGoogle() {
     console.log('🔹 Iniciar sesión con Google');
-    // Aquí puedes conectar con Firebase Auth o backend .NET
   }
 
-  // 🔹 Función para mostrar notificaciones
   private showNotification(message: string, type: 'success' | 'error') {
     this.snackBar.open(message, 'Cerrar', {
-      duration: 3000, // 3 segundos
+      duration: 3000,
       panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
       horizontalPosition: 'center',
       verticalPosition: 'top',

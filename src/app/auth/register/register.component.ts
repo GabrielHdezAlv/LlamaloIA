@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { UserService } from '../../core/services/user.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
+import { UserStorage } from '../../storages/user/user-storage';
+import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 
 @Component({
   selector: 'app-register',
@@ -28,11 +30,11 @@ export class RegisterComponent {
   email: string = '';
   password: string = '';
 
-  constructor(
-    private router: Router,
-    private userService: UserService,
-    private snackBar: MatSnackBar
-  ) {}
+  private router = inject(Router);
+  private userService = inject(UserService);
+  private snackBar = inject(MatSnackBar);
+  private userStorage = inject(UserStorage);
+  private twilioStorage = inject(TwilioStorage);
 
   register(event: Event) {
     event.preventDefault();
@@ -43,7 +45,7 @@ export class RegisterComponent {
       this.email,
       this.password
     );
-    // var newUser = new NewUser(this.firstName, this.lastName, this.email, this.password);
+
     var user = {
       name: this.firstName,
       lastname: this.lastName,
@@ -55,21 +57,28 @@ export class RegisterComponent {
       next: (response) => {
         console.log('✅ Registro exitoso:', response);
 
-        // Guardar el token en localStorage para persistencia
         localStorage.setItem('token', response.token);
 
         this.userService.getUserProfile().subscribe({
           next: (data) => {
-            // this.userData = data;
             console.log('Perfil del usuario:', data);
+            this.userStorage.setUser(data);
+
+            if (data.twilio) {
+              this.twilioStorage.setConfig(data.twilio);
+            }
+
+            this.showNotification('Registro exitoso', 'success');
+            this.router.navigate(['/dashboard']);
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);
+            this.showNotification(
+              'Error al obtener perfil de usuario',
+              'error'
+            );
           },
         });
-
-        this.showNotification('Registro exitoso', 'success');
-        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
         console.error('❌ Error en registro:', err);
@@ -86,10 +95,9 @@ export class RegisterComponent {
     this.router.navigate(['/login']);
   }
 
-  // 🔹 Función para mostrar notificaciones
   private showNotification(message: string, type: 'success' | 'error') {
     this.snackBar.open(message, 'Cerrar', {
-      duration: 3000, // 3 segundos
+      duration: 3000,
       panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
       horizontalPosition: 'center',
       verticalPosition: 'top',
