@@ -10,14 +10,15 @@ import { TwilioSuccessModalComponent } from '../../shared/modals/twilio-success-
 import { MatDialog } from '@angular/material/dialog';
 import { TwilioConfig } from '../../shared/models/twilio-config.model';
 import { TwilioService } from '../../core/services/twilio.service';
+import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 
 @Component({
   selector: 'app-agents',
+  standalone: true,
   imports: [
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
@@ -29,6 +30,7 @@ import { TwilioService } from '../../core/services/twilio.service';
 export class AgentsComponent {
   dialog = inject(MatDialog);
   private twilioService = inject(TwilioService);
+  public twilioStorage = inject(TwilioStorage);
 
   showIntegrationModal = false;
   showSuccessModal = false;
@@ -64,27 +66,29 @@ export class AgentsComponent {
   }
 
   openIntegrationDialog(editMode: boolean) {
+    const existingConfig = this.twilioStorage.config();
+
     const dialogRef = this.dialog.open(TwilioIntegrationModalComponent, {
       width: '380px',
       disableClose: true,
       panelClass: 'custom-dialog-container',
       data: {
-        formEnabled: editMode
-      }
+        formEnabled: editMode,
+        config: existingConfig,
+      },
     });
-  
+
     dialogRef.afterClosed().subscribe((result: TwilioConfig) => {
-      // TODO: Loader empieza
-      this.twilioService.setConfig(result).subscribe({
-        next: () => {
-          // TODO: Loader termina
-          this.openSuccessDialog(result);
-        },
-        error: (err) => {
-          console.error('Error al guardar la configuración:', err);
-        }
-      });
-      
+      if (editMode) {
+        this.openSuccessDialog(result);
+
+        this.twilioService.setConfig(result).subscribe({
+          next: () => {},
+          error: (err) => {
+            console.error('Error al guardar la configuración:', err);
+          },
+        });
+      }
     });
   }
 
@@ -93,7 +97,7 @@ export class AgentsComponent {
       width: '400px',
       disableClose: false,
       panelClass: 'custom-dialog-container',
-      data: twilioData
+      data: twilioData,
     });
   }
 
