@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { HomeChartComponent } from './home-chart/home-chart.component';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -13,6 +13,9 @@ import {
   NgApexchartsModule,
 } from 'ng-apexcharts';
 import { CommonModule } from '@angular/common';
+import { UserStorage } from '../../storages/user/user-storage';
+import { TwilioStorage } from '../../storages/twilio/twilio-storage';
+import { computed } from '@angular/core';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -26,6 +29,55 @@ export type ChartOptions = {
   colors: string[];
 };
 
+interface PhoneFormat {
+  pattern: RegExp;
+  format: (number: string) => string;
+}
+
+const PHONE_FORMATS: { [key: string]: PhoneFormat } = {
+  '+34': {
+    pattern: /^(\d{3})(\d{3})(\d{3})$/,
+    format: (number: string) => {
+      console.log('Formateando número ES:', number);
+      if (number.length === 9) {
+        const formatted = number.replace(/^(\d{3})(\d{3})(\d{3})$/, '$1 $2 $3');
+        console.log('Número formateado:', formatted);
+        return formatted;
+      }
+      return number;
+    },
+  },
+  '+1': {
+    pattern: /^(\d{3})(\d{3})(\d{4})$/,
+    format: (number: string) =>
+      number.replace(/^(\d{3})(\d{3})(\d{4})$/, '($1) $2-$3'),
+  },
+  '+44': {
+    pattern: /^(\d{2})(\d{4})(\d{4})$/,
+    format: (number: string) => {
+      console.log('Formateando número UK:', number);
+      const formatted = number.replace(/^(\d{2})(\d{4})(\d{4})$/, '$1 $2 $3');
+      console.log('Número formateado:', formatted);
+      return formatted;
+    },
+  },
+  '+33': {
+    pattern: /^(\d{1})(\d{2})(\d{2})(\d{2})(\d{2})$/,
+    format: (number: string) =>
+      number.replace(/^(\d{1})(\d{2})(\d{2})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5'),
+  },
+  '+49': {
+    pattern: /^(\d{2,4})(\d{3,4})(\d{4})$/,
+    format: (number: string) =>
+      number.replace(/^(\d{2,4})(\d{3,4})(\d{4})$/, '$1 $2 $3'),
+  },
+  '+52': {
+    pattern: /^(\d{2})(\d{4})(\d{4})$/,
+    format: (number: string) =>
+      number.replace(/^(\d{2})(\d{4})(\d{4})$/, '$1 $2 $3'),
+  },
+};
+
 @Component({
   selector: 'app-home',
   imports: [
@@ -33,13 +85,47 @@ export type ChartOptions = {
     MatButtonModule,
     NgApexchartsModule,
     ChartComponent,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   @ViewChild('chart') chart!: ChartComponent;
+
+  userStorage = inject(UserStorage);
+  private twilioStorage = inject(TwilioStorage);
+
+  private formatPhoneNumber(countryCode: string, number: string): string {
+    const format = PHONE_FORMATS[countryCode];
+    if (!format) return number;
+
+    // Eliminar cualquier espacio o caracter no numérico
+    const cleanNumber = number.replace(/\D/g, '');
+
+    if (format.pattern.test(cleanNumber)) {
+      return format.format(cleanNumber);
+    }
+
+    return number;
+  }
+
+  public phoneNumber = computed(() => {
+    const config = this.twilioStorage.config();
+    if (!config) return '+34 600 00 00 00';
+
+    const formattedNumber = this.formatPhoneNumber(
+      config.countryCode,
+      config.phoneNumber.toString()
+    );
+
+    return `${config.countryCode} ${formattedNumber}`;
+  });
+
+  public isConnected = computed(() => {
+    return !!this.twilioStorage.config();
+  });
+
   public chartOptions: Partial<ChartOptions> = {
     series: [],
     chart: {
