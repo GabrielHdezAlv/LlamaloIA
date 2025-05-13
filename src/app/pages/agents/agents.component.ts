@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TwilioConfig } from '../../shared/models/twilio-config.model';
 import { TwilioService } from '../../core/services/twilio.service';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
+import { LoaderComponent } from '../../shared/components/loader/loader.component';
 
 @Component({
   selector: 'app-agents',
@@ -79,16 +80,24 @@ export class AgentsComponent {
     });
 
     dialogRef.afterClosed().subscribe((result: TwilioConfig) => {
-      if (editMode) {
-        this.openSuccessDialog(result);
+      if (!result) return;
 
-        this.twilioService.setConfig(result).subscribe({
-          next: () => {},
-          error: (err) => {
-            console.error('Error al guardar la configuración:', err);
-          },
-        });
-      }
+      const loaderRef = this.dialog.open(LoaderComponent, {
+        width: '100px',
+        disableClose: true,
+        panelClass: 'loader-dialog',
+      });
+
+      this.twilioService.setConfig(result).subscribe({
+        next: () => {
+          loaderRef.close();
+          this.openSuccessDialog(result);
+        },
+        error: (err) => {
+          loaderRef.close();
+          console.error('Error al guardar la configuración:', err);
+        },
+      });
     });
   }
 
