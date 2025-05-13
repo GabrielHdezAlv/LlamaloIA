@@ -12,6 +12,9 @@ import { TwilioConfig } from '../../shared/models/twilio-config.model';
 import { TwilioService } from '../../core/services/twilio.service';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
+import { AgentsService } from '../../core/services/agents.service';
+import { Agent } from '../../shared/models/agent.model';
+import { UserStorage } from '../../storages/user/user-storage';
 
 @Component({
   selector: 'app-agents',
@@ -32,6 +35,8 @@ export class AgentsComponent {
   dialog = inject(MatDialog);
   private twilioService = inject(TwilioService);
   public twilioStorage = inject(TwilioStorage);
+  private agentsService = inject(AgentsService);
+  private userStorage = inject(UserStorage);
 
   showIntegrationModal = false;
   showSuccessModal = false;
@@ -47,22 +52,26 @@ export class AgentsComponent {
   selectedLanguage = this.languages[0];
   showDropdown = false;
 
-  voices = [
-    { name: 'Carlos', value: 'carlos', img: 'assets/agent_carlos.png' },
-    { name: 'Carlos 2', value: 'carlos2', img: 'assets/agent_carlos.png' },
-    { name: 'Carlos 3', value: 'carlos3', img: 'assets/agent_carlos.png' },
-  ];
+  agents: Agent[] = [];
 
-  selectedVoice = this.voices[0];
+  selectedAgent: Agent | null = null;
   showVoiceDropdown = false;
+
+  ngOnInit() {
+    this.agentsService.getAgents().subscribe((agents) => {
+      this.agents = agents;
+    });
+
+    this.selectedAgent = this.userStorage.user()?.agent ?? this.agents[0];
+  }
 
   selectLanguage(lang: any) {
     this.selectedLanguage = lang;
     this.showDropdown = false;
   }
 
-  selectVoice(voice: any) {
-    this.selectedVoice = voice;
+  selectAgent(agent: Agent) {
+    this.selectedAgent = agent;
     this.showVoiceDropdown = false;
   }
 
