@@ -3,4 +3,5 @@ export interface TwilioConfig {
   phoneNumber: number;
   twilioSid: string;
   twilioToken: string;
+  firstInteraction?: string;
 }
