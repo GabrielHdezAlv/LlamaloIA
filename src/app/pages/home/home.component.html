@@ -53,8 +53,8 @@
 
     <div class="agent">
       <div class="agent-description">
-        <img src="assets/agent_carlos.png" alt="" />
-        <p class="agent-name">Carlos</p>
+        <img [src]="userStorage.user()?.agent?.photoUrl" alt="" />
+        <p class="agent-name">{{ userStorage.user()?.agent?.name }}</p>
         <p class="agent-ia">Tu agente telefónico IA</p>
       </div>
 
@@ -107,13 +107,13 @@
             }
           </div>
           <div>
-            @if (true) {
+            @if (isConnected()) {
             <p class="text-title">Conectado (Twilio)</p>
             } @else {
             <p class="text-title">Desconectado (Twilio)</p>
             }
 
-            <p class="text-info">+34 600 00 00 00</p>
+            <p class="text-info">{{ phoneNumber() }}</p>
           </div>
         </div>
         <div class="agent-info-line">
