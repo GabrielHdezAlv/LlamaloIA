@@ -9,7 +9,7 @@ import { LoginUser } from '../../shared/models/login-user.model';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'https://localhost:7027/api';
+  private apiUrl = 'https://localhost:7027';
   private http = inject(HttpClient);
   private isBrowser: boolean;
 
