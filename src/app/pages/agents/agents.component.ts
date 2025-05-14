@@ -49,7 +49,6 @@ export class AgentsComponent {
     { code: 'fr', name: 'Français', flag: 'https://flagcdn.com/w40/fr.png' },
   ];
 
-  selectedLanguage = this.languages[0];
   showDropdown = false;
 
   agents: Agent[] = [];
@@ -66,7 +65,9 @@ export class AgentsComponent {
   }
 
   selectLanguage(lang: any) {
-    this.selectedLanguage = lang;
+    if (this.selectedAgent) {
+      this.selectedAgent.language = lang;
+    }
     this.showDropdown = false;
   }
 
@@ -122,5 +123,22 @@ export class AgentsComponent {
   closeModals() {
     this.showIntegrationModal = false;
     this.showSuccessModal = false;
+  }
+
+  publishAgent() {
+    if (!this.selectedAgent) {
+      return;
+    }
+
+    this.agentsService.setAgentConfig(this.selectedAgent).subscribe({
+      next: (response) => {
+        console.log('Agente publicado exitosamente:', response);
+        // Aquí puedes agregar una notificación de éxito si lo deseas
+      },
+      error: (error) => {
+        console.error('Error al publicar el agente:', error);
+        // Aquí puedes agregar una notificación de error si lo deseas
+      },
+    });
   }
 }
