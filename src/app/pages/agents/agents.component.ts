@@ -15,6 +15,7 @@ import { LoaderComponent } from '../../shared/components/loader/loader.component
 import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
 import { UserStorage } from '../../storages/user/user-storage';
+import { UserService } from '../../core/services/user.service';
 
 @Component({
   selector: 'app-agents',
@@ -34,8 +35,10 @@ import { UserStorage } from '../../storages/user/user-storage';
 export class AgentsComponent {
   dialog = inject(MatDialog);
   private twilioService = inject(TwilioService);
-  public twilioStorage = inject(TwilioStorage);
   private agentsService = inject(AgentsService);
+  private userService = inject(UserService);
+
+  public twilioStorage = inject(TwilioStorage);
   private userStorage = inject(UserStorage);
 
   showIntegrationModal = false;
@@ -54,20 +57,24 @@ export class AgentsComponent {
   agents: Agent[] = [];
 
   selectedAgent: Agent | null = null;
+  selectedLanguage: any = null;
   showVoiceDropdown = false;
 
   ngOnInit() {
+    this.userService.getLanguages().subscribe((languages) => {
+      this.languages = languages;
+    });
+
     this.agentsService.getAgents().subscribe((agents) => {
       this.agents = agents;
     });
 
     this.selectedAgent = this.userStorage.user()?.agent ?? this.agents[0];
+    this.selectedLanguage = this.selectedAgent?.language ?? this.languages[0];
   }
 
   selectLanguage(lang: any) {
-    if (this.selectedAgent) {
-      this.selectedAgent.language = lang;
-    }
+    this.selectedLanguage = lang;
     this.showDropdown = false;
   }
 
@@ -116,7 +123,11 @@ export class AgentsComponent {
       width: '400px',
       disableClose: false,
       panelClass: 'custom-dialog-container',
-      data: twilioData,
+      data: {
+        message: twilioData.countryCode + ' ' + twilioData.phoneNumber,
+        title: 'Integración Twilio',
+        twilioData: twilioData,
+      },
     });
   }
 
@@ -126,18 +137,36 @@ export class AgentsComponent {
   }
 
   publishAgent() {
+    console.log('publishAgent: ', this.selectedAgent);
+
     if (!this.selectedAgent) {
       return;
     }
 
+    const loaderRef = this.dialog.open(LoaderComponent, {
+      width: '100px',
+      disableClose: true,
+      panelClass: 'loader-dialog',
+    });
+
+    this.selectedAgent.language = this.selectedLanguage;
+
     this.agentsService.setAgentConfig(this.selectedAgent).subscribe({
       next: (response) => {
-        console.log('Agente publicado exitosamente:', response);
-        // Aquí puedes agregar una notificación de éxito si lo deseas
+        loaderRef.close();
+        this.dialog.open(TwilioSuccessModalComponent, {
+          width: '400px',
+          disableClose: false,
+          panelClass: 'custom-dialog-container',
+          data: {
+            message: '¡Agente configurado exitosamente!',
+            title: 'Configuración Completada',
+          },
+        });
       },
       error: (error) => {
+        loaderRef.close();
         console.error('Error al publicar el agente:', error);
-        // Aquí puedes agregar una notificación de error si lo deseas
       },
     });
   }
