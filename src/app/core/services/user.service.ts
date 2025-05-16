@@ -47,4 +47,9 @@ export class UserService {
       headers: this.getAuthHeaders(),
     });
   }
+
+  // IDIOMAS
+  getLanguages(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/allLanguages`);
+  }
 }
