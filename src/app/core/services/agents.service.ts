@@ -38,7 +38,7 @@ export class AgentsService {
   }
 
   setAgentConfig(agent: Agent): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/agentConfig`, agent, {
+    return this.http.post<any>(`${this.apiUrl}/setAgentConfig`, agent, {
       headers: this.getAuthHeaders(),
     });
   }
