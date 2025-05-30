@@ -1,7 +1,7 @@
 {
-    "/api": {
-        "target": "https://localhost:7027",
-        "secure": false,
-        "changeOrigin": true
-    }
+  "/api": {
+    "target": "https://llamaloiabackend.onrender.com",
+    "secure": false,
+    "changeOrigin": true
+  }
 }
