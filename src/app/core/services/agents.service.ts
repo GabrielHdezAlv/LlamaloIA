@@ -9,7 +9,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AgentsService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7027/agents';
+  private apiUrl = 'https://llamaloiabackend.onrender.com/agents';
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {

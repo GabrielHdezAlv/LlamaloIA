@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class TwilioService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:7027/twilio';
+  private apiUrl = 'https://llamaloiabackend.onrender.com/twilio';
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
