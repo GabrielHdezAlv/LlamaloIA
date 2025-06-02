@@ -38,8 +38,8 @@ export class AgentsComponent {
   private agentsService = inject(AgentsService);
   private userService = inject(UserService);
 
-  public twilioStorage = inject(TwilioStorage);
-  private userStorage = inject(UserStorage);
+  public twilioStorage: any = inject(TwilioStorage);
+  private userStorage: any = inject(UserStorage);
 
   showIntegrationModal = false;
   showSuccessModal = false;

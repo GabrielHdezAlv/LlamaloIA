@@ -12,6 +12,7 @@ import { LoginUser } from '../../shared/models/login-user.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { log } from 'console';
+import { User } from '../../shared/models/new-user.model';
 
 @Component({
   selector: 'app-login',
@@ -55,7 +56,7 @@ export class LoginComponent {
 
         localStorage.setItem('token', response.token);
         this.userService.getUserProfile().subscribe({
-          next: (data) => {
+          next: (data: any) => {
             this.userStorage.setUser(data);
             if (data.twilio) {
               this.twilioStorage.setConfig(data.twilio);

@@ -25,7 +25,7 @@ export const TwilioStorage = signalStore(
   { providedIn: 'root' },
   withState<TwilioState>(() => initialState),
 
-  withMethods((store, storageRepo = inject(STORAGE_REPOSITORY)) => ({
+  withMethods((store: any, storageRepo = inject(STORAGE_REPOSITORY)) => ({
     setConfig(config: TwilioConfig) {
       storageRepo.setItem(Store.TwilioStorage, 'config', config);
       patchState(store, { config });
@@ -37,12 +37,12 @@ export const TwilioStorage = signalStore(
     },
   })),
 
-  withComputed(({ config }) => ({
+  withComputed(({ config }: any) => ({
     hasConfig: computed(() => !!config()),
   })),
 
   withHooks({
-    onInit(store, storageRepo = inject(STORAGE_REPOSITORY)) {
+    onInit(store: any, storageRepo = inject(STORAGE_REPOSITORY)) {
       const configSignal = computed(async () => {
         const storedConfig = await storageRepo.getItem<TwilioConfig>(
           Store.TwilioStorage,
