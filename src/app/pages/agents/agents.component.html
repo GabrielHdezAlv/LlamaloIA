@@ -1,356 +1,299 @@
-<div class="scrollable-content h-auto w-full pl-20 pr-20">
-  <div class="flex justify-between pt-8">
-    <nav class="flex gap-4 bg-white rounded-full w-auto p-1.5 justify-around">
-      <button
-        class="flex items-center rounded-full bg-blue-900 text-white text-xs p-2 pt-1 pb-1"
-      >
-        <svg
-          class="text-white h-6 w-6 mr-1"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
-          />
-        </svg>
-        Configuración del Agente
-      </button>
-      <button
-        disabled
-        class="flex items-center rounded-full text-gray-400 text-xs p-2 pt-1 pb-1 cursor-not-allowed"
-      >
-        <svg
-          class="text-gray-400 h-6 w-6 mr-1"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
-          />
-        </svg>
-        Base de Conocimiento
-      </button>
-      <button
-        disabled
-        class="flex items-center rounded-full text-gray-400 text-xs p-2 pt-1 pb-1 cursor-not-allowed"
-      >
-        <svg
-          class="text-gray-400 h-6 w-6 mr-1"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"
-          />
-        </svg>
-        Acciones
-      </button>
-      <button
-        disabled
-        class="flex items-center rounded-full text-gray-400 text-xs p-2 pt-1 pb-1 cursor-not-allowed"
-      >
-        <svg
-          class="text-gray-400 h-6 w-6 mr-1"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Zm.75-12h9v9h-9v-9Z"
-          />
-        </svg>
-
-        Testear
-      </button>
-    </nav>
-    <button
-      class="p-2 bg-blue-900 text-white rounded-full flex items-center text-sm"
-      (click)="publishAgent()"
+<div>
+  <div class="mt-6" aria-hidden="true">
+    <div class="overflow-hidden rounded-full bg-gray-200">
+      <div
+        class="h-2 rounded-full bg-indigo-600 transition-all duration-300"
+        [style.width]="getProgressWidth()"
+      ></div>
+    </div>
+    <div
+      class="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid"
     >
-      <svg
-        class="text-white h-6 w-6 mr-1"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
+      <div
+        class="cursor-pointer"
+        [ngClass]="{
+          'text-indigo-600': currentStep >= 1,
+          'text-gray-600': currentStep < 1
+        }"
+        (click)="irAlPaso(1)"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"
-        />
-      </svg>
-      Publicar
-    </button>
+        Voz e Idioma
+      </div>
+      <div
+        class="text-center cursor-pointer"
+        [ngClass]="{
+          'text-indigo-600': currentStep >= 2,
+          'text-gray-600': currentStep < 2
+        }"
+        (click)="irAlPaso(2)"
+      >
+        Instrucciones del Agente
+      </div>
+      <div
+        class="text-center cursor-pointer"
+        [ngClass]="{
+          'text-indigo-600': currentStep >= 3,
+          'text-gray-600': currentStep < 3
+        }"
+        (click)="irAlPaso(3)"
+      >
+        Conexión con Twilio
+      </div>
+      <div
+        class="text-right cursor-pointer"
+        [ngClass]="{
+          'text-indigo-600': currentStep >= 4,
+          'text-gray-600': currentStep < 4
+        }"
+        (click)="irAlPaso(4)"
+      >
+        Completado
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-8">
+  <!-- Paso 1: Voz e Idioma -->
+  <div *ngIf="currentStep === 1" class="bg-white rounded-2xl shadow p-8">
+    <h3 class="text-lg font-semibold mb-4">Paso 1. Voz e Idioma</h3>
+    <p class="text-sm text-gray-600 mb-6">
+      Configura el idioma y la voz que utilizará tu agente para interactuar con
+      los clientes.
+    </p>
+
+    <!-- Idioma -->
+    <div class="flex mb-4 mt-4 w-full">
+      <p class="w-1/2 mb-2 text-sm text-gray-600">
+        <span class="font-bold">Idioma:</span> Configura el idioma en el que tu
+        agente interactuará, asegurando una comunicación efectiva y adaptada a
+        las necesidades de tus clientes
+      </p>
+
+      <div class="w-1/2 flex items-center justify-center relative">
+        <div class="w-1/2">
+          <button
+            (click)="showDropdown = !showDropdown"
+            class="w-full flex items-center justify-between px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm focus:outline-none"
+          >
+            <div class="flex items-center gap-2 text-base">
+              <img
+                [src]="selectedLanguage?.flag"
+                alt="Flag"
+                class="w-8 h-6 rounded-sm object-cover"
+              />
+              {{ selectedLanguage?.name || "Seleccionar idioma" }}
+            </div>
+            <svg
+              class="w-4 h-4 ml-2"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <ul
+            *ngIf="showDropdown"
+            class="absolute z-10 w-1/2 mt-2 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto"
+          >
+            <li
+              *ngFor="let lang of languages"
+              (click)="selectLanguage(lang)"
+              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            >
+              <img
+                [src]="lang.flag"
+                alt="Flag"
+                class="w-8 h-6 rounded-sm object-cover"
+              />
+              {{ lang.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voz -->
+    <div class="flex mb-4 mt-4 w-full">
+      <p class="w-1/2 mb-2 text-sm text-gray-600">
+        <span class="font-bold">Voz:</span> Selecciona el tono y estilo de voz
+        que mejor representen la personalidad de tu marca y brinden una
+        experiencia única a tus clientes
+      </p>
+
+      <div class="w-1/2 flex items-center justify-center relative">
+        <div class="w-1/2">
+          <button
+            (click)="showVoiceDropdown = !showVoiceDropdown"
+            class="w-full flex items-center justify-between px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm focus:outline-none"
+          >
+            <div class="flex items-center gap-2">
+              <img
+                [src]="selectedAgent?.photoUrl"
+                alt="{{ selectedAgent?.name }}"
+                class="w-8 h-8 rounded-full object-cover"
+              />
+              {{ selectedAgent?.name || "Seleccionar voz" }}
+            </div>
+            <svg
+              class="w-4 h-4 ml-2"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <ul
+            *ngIf="showVoiceDropdown"
+            class="absolute z-10 w-1/2 mt-2 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto"
+          >
+            <li
+              *ngFor="let agent of agents"
+              (click)="selectAgent(agent)"
+              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+            >
+              <img
+                [src]="agent.photoUrl"
+                alt="{{ agent.name }}"
+                class="w-8 h-8 rounded-full object-cover"
+              />
+              {{ agent.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="bg-white rounded-2xl shadow mt-6">
-    <h2 class="text-3xl font-semibold p-8">
-      Configuración del Agente
-      <span class="text-gray-400 text-sm">(inbound)</span>
-    </h2>
-    <!-- Paso 1 -->
-    <div class="flex flex-col mb-8 border-t p-5">
-      <div class="w-full flex items-center gap-2 mb-3">
-        <h3 class="text-lg font-semibold">Paso 1. Voz y Idioma</h3>
-      </div>
+  <!-- Paso 2: Instrucciones del Agente -->
+  <div *ngIf="currentStep === 2" class="bg-white rounded-2xl shadow p-8">
+    <h3 class="text-lg font-semibold mb-4">Paso 2. Instrucciones del Agente</h3>
+    <p class="text-sm text-gray-600 mb-6">
+      Define las instrucciones y comportamientos específicos que debe seguir tu
+      agente.
+    </p>
 
-      <!-- Idioma -->
-      <div class="flex mb-4 mt-4 w-full">
-        <p class="w-1/2 mb-2 text-sm text-gray-600">
-          <span class="font-bold">Idioma:</span> Configura el idioma en el que
-          tu agente interactuará, asegurando una comunicación efectiva y
-          adaptada a las necesidades de tus clientes
-        </p>
-
-        <div class="w-1/2 flex items-center justify-center relative">
-          <div class="w-1/2">
-            <button
-              (click)="showDropdown = !showDropdown"
-              class="w-full flex items-center justify-between px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm focus:outline-none"
-            >
-              <div class="flex items-center gap-2 text-base">
-                <img
-                  [src]="selectedLanguage?.flag"
-                  alt="Flag"
-                  class="w-8 h-6 rounded-sm object-cover"
-                />
-                {{ selectedLanguage?.name || "Seleccionar idioma" }}
-              </div>
-              <svg
-                class="w-4 h-4 ml-2"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-              >
-                <path d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            <!-- Dropdown -->
-            <ul
-              *ngIf="showDropdown"
-              class="absolute z-10 w-1/2 mt-2 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto"
-            >
-              <li
-                *ngFor="let lang of languages"
-                (click)="selectLanguage(lang)"
-                class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              >
-                <img
-                  [src]="lang.flag"
-                  alt="Flag"
-                  class="w-8 h-6 rounded-sm object-cover"
-                />
-                {{ lang.name }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Voz -->
-      <div class="flex mb-4 mt-4 w-full">
-        <p class="w-1/2 mb-2 text-sm text-gray-600">
-          <span class="font-bold">Voz:</span> Selecciona el tono y estilo de voz
-          que mejor representen la personalidad de tu marca y brinden una
-          experiencia única a tus clientes
-        </p>
-
-        <div class="w-1/2 flex items-center justify-center relative">
-          <div class="w-1/2">
-            <button
-              (click)="showVoiceDropdown = !showVoiceDropdown"
-              class="w-full flex items-center justify-between px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm focus:outline-none"
-            >
-              <div class="flex items-center gap-2">
-                <img
-                  [src]="selectedAgent?.photoUrl"
-                  alt="{{ selectedAgent?.name }}"
-                  class="w-8 h-8 rounded-full object-cover"
-                />
-                {{ selectedAgent?.name || "Seleccionar voz" }}
-              </div>
-              <svg
-                class="w-4 h-4 ml-2"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-              >
-                <path d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            <!-- Dropdown -->
-            <ul
-              *ngIf="showVoiceDropdown"
-              class="absolute z-10 w-1/2 mt-2 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto"
-            >
-              <li
-                *ngFor="let agent of agents"
-                (click)="selectAgent(agent)"
-                class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              >
-                <img
-                  [src]="agent.photoUrl"
-                  alt="{{ agent.name }}"
-                  class="w-8 h-8 rounded-full object-cover"
-                />
-                {{ agent.name }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+    <div class="mt-4">
+      <label class="text-md">
+        Definir un mensaje de saludo personalizado
+      </label>
+      <p class="w-full pr-20 mt-2">
+        <mat-form-field class="w-full">
+          <textarea
+            class="w-full text-sm resize-none placeholder:text-sm placeholder:whitespace-normal"
+            matInput
+            placeholder="Hola, Soy [Nombre del Agente]. Te llamo de [Nombre del Negocio]. Vengo a recordarle que se olvidó su carrito, ¿es cierto?"
+          ></textarea>
+        </mat-form-field>
+      </p>
     </div>
 
-    <!-- Paso 2 -->
-    <div class="flex flex-col mb-8 border-t p-5">
-      <div class="w-full flex items-center gap-2 mb-3">
-        <h3 class="text-lg font-semibold">Paso 2. Instrucciones del Agente</h3>
-      </div>
-
-      <p class="w-full mb-2 text-sm text-gray-600 pr-10">
-        Define claramente las indicaciones para el agente, especificando qué
-        acciones realizará y cómo debe responder en diferentes situaciones para
-        garantizar una interacción eficiente y personalizada
+    <div class="mt-4">
+      <label class="text-md"> Plantilla de instrucciones para el agente </label>
+      <p class="w-full pr-20 mt-2">
+        <mat-form-field class="w-full">
+          <textarea
+            class="w-full text-sm resize-none placeholder:text-sm placeholder:whitespace-normal"
+            matInput
+            placeholder="Escribe aquí..."
+          ></textarea>
+        </mat-form-field>
       </p>
-
-      <div class="mt-4">
-        <label class="text-md">
-          Definir un mensaje de saludo personalizado
-        </label>
-        <p class="w-full pr-20 mt-2">
-          <mat-form-field class="w-full">
-            <textarea
-              class="w-full text-sm resize-none placeholder:text-sm placeholder:whitespace-normal"
-              matInput
-              placeholder="Hola, Soy [Nombre del Agente]. Te llamo de [Nombre del Negocio]. Vengo a recordarle que se olvidó su carrito, ¿es cierto?"
-            ></textarea>
-          </mat-form-field>
-        </p>
-      </div>
-
-      <div class="mt-4">
-        <label class="text-md">
-          Plantilla de instrucciones para el agente
-        </label>
-        <p class="w-full pr-20 mt-2">
-          <mat-form-field class="w-full">
-            <textarea
-              class="w-full text-sm resize-none placeholder:text-sm placeholder:whitespace-normal"
-              matInput
-              placeholder="Escribe aquí..."
-            ></textarea>
-          </mat-form-field>
-        </p>
-      </div>
     </div>
+  </div>
 
-    <!-- Paso 3 -->
-    <div class="flex flex-col mb-8 border-t p-5">
-      <div class="w-full flex items-center gap-2 mb-3">
-        <h3 class="text-lg font-semibold">Paso 3. Conexión con Twilio</h3>
-      </div>
+  <!-- Paso 3: Conexión con Twilio -->
+  <div *ngIf="currentStep === 3" class="bg-white rounded-2xl shadow p-8">
+    <h3 class="text-lg font-semibold mb-4">Paso 3. Conexión con Twilio</h3>
+    <p class="text-sm text-gray-600 mb-6">
+      Configura la integración con Twilio para habilitar las llamadas
+      telefónicas.
+    </p>
 
-      <p class="w-full mb-2 text-sm text-gray-600 pr-10">
-        Haz clic en el botón "Importar" para abrir un pop-up donde podrás
-        ingresar la información necesaria:
-      </p>
+    <ul class="flex flex-col gap-1.5 pl-6 mt-5 mb-6 text-sm">
+      <li>
+        - Seleccionar prefijo de país: Elige el código de país correspondiente.
+      </li>
+      <li>
+        - Introducir número de Twilio: Ingresa el número asociado a tu cuenta
+        Twilio.
+      </li>
+      <li>
+        - Twilio Account SID y Auth Token: Completa los campos con tu SID de
+        cuenta y token de autenticación.
+      </li>
+      <li>
+        - Asignar nombre o etiqueta: Da un nombre o etiqueta identificativa al
+        número de Twilio para facilitar su gestión
+      </li>
+    </ul>
 
-      <ul class="flex flex-col gap-1.5 pl-6 mt-5 mb-6 text-sm">
-        <li>
-          - Seleccionar prefijo de país: Elige el código de país
-          correspondiente.
-        </li>
-        <li>
-          - Introducir número de Twilio: Ingresa el número asociado a tu cuenta
-          Twilio.
-        </li>
-        <li>
-          - Twilio Account SID y Auth Token: Completa los campos con tu SID de
-          cuenta y token de autenticación.
-        </li>
-        <li>
-          - Asignar nombre o etiqueta: Da un nombre o etiqueta identificativa al
-          número de Twilio para facilitar su gestión
-        </li>
-      </ul>
-
-      <div class="w-1/2 xl:w-2/3 md:w-full">
-        <button
-          [ngClass]="{
-            'bg-blue-900': !twilioStorage.config(),
-            'bg-green-600': twilioStorage.config()
-          }"
-          (click)="openIntegrationDialog(!twilioStorage.config())"
-          class="rounded-3xl p-3 text-white text-sm hover:opacity-90 transition-opacity flex items-center gap-2"
+    <div class="w-1/2 xl:w-2/3 md:w-full">
+      <button
+        [ngClass]="{
+          'bg-blue-900': !twilioStorage.config(),
+          'bg-green-600': twilioStorage.config()
+        }"
+        (click)="openIntegrationDialog(!twilioStorage.config())"
+        class="rounded-3xl p-3 text-white text-sm hover:opacity-90 transition-opacity flex items-center gap-2"
+      >
+        <svg
+          *ngIf="!twilioStorage.config()"
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
         >
-          <svg
-            *ngIf="!twilioStorage.config()"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
-          <svg
-            *ngIf="twilioStorage.config()"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-            />
-          </svg>
-          {{
-            twilioStorage.config()
-              ? "Ver número importado"
-              : "Importar número de Twilio"
-          }}
-        </button>
-      </div>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          />
+        </svg>
+        <svg
+          *ngIf="twilioStorage.config()"
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+          />
+        </svg>
+        {{
+          twilioStorage.config()
+            ? "Ver número importado"
+            : "Importar número de Twilio"
+        }}
+      </button>
     </div>
+  </div>
+
+  <!-- Paso 4: Completado -->
+  <div *ngIf="currentStep === 4" class="bg-white rounded-2xl shadow p-8">
+    <h3 class="text-lg font-semibold mb-4">¡Configuración Completada!</h3>
+    <p class="text-sm text-gray-600 mb-6">
+      Tu agente está listo para ser utilizado. Revisa la configuración antes de
+      publicar.
+    </p>
   </div>
 </div>

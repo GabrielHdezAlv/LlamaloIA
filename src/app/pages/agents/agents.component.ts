@@ -16,6 +16,7 @@ import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
+import { log } from 'console';
 
 @Component({
   selector: 'app-agents',
@@ -60,6 +61,8 @@ export class AgentsComponent {
   selectedLanguage: any = null;
   showVoiceDropdown = false;
 
+  currentStep = 1; // Seteado el valor por defecto en la primera pantalla
+
   ngOnInit() {
     this.userService.getLanguages().subscribe((languages) => {
       this.languages = languages;
@@ -67,10 +70,18 @@ export class AgentsComponent {
 
     this.agentsService.getAgents().subscribe((agents) => {
       this.agents = agents;
-    });
 
-    this.selectedAgent = this.userStorage.user()?.agent ?? this.agents[0];
-    this.selectedLanguage = this.selectedAgent?.language ?? this.languages[0];
+      // Recuperar el agente seleccionado del localStorage
+      const savedAgentId = localStorage.getItem('selectedAgentId');
+      if (savedAgentId && agents.length > 0) {
+        this.selectedAgent =
+          agents.find((agent) => agent.labsId === savedAgentId) || agents[0];
+      } else {
+        this.selectedAgent = this.userStorage.user()?.agent ?? agents[0];
+      }
+
+      this.selectedLanguage = this.selectedAgent?.language ?? this.languages[0];
+    });
   }
 
   selectLanguage(lang: any) {
@@ -81,6 +92,11 @@ export class AgentsComponent {
   selectAgent(agent: Agent) {
     this.selectedAgent = agent;
     this.showVoiceDropdown = false;
+
+    // Guardar el agente seleccionado en localStorage
+    if (agent && agent.labsId) {
+      localStorage.setItem('selectedAgentId', agent.labsId);
+    }
   }
 
   openIntegrationDialog(editMode: boolean) {
@@ -169,5 +185,17 @@ export class AgentsComponent {
         console.error('Error al publicar el agente:', error);
       },
     });
+  }
+
+  irAlPaso(paso: number) {
+    console.log(`Navegando al paso ${paso}...`);
+    this.currentStep = paso;
+    // Aquí puedes agregar lógica adicional según el paso
+  }
+
+  getProgressWidth(): string {
+    const totalSteps = 4; // Total de pasos (1, 2, 3, 4)
+    const progress = (this.currentStep / totalSteps) * 100;
+    return `${progress}%`;
   }
 }
