@@ -66,7 +66,11 @@ export class AgentsComponent {
   public firstInteractionMessage: string = '';
 
   ngOnInit() {
-    const token = localStorage.getItem('token');
+    let token: string | null = null;
+
+    if (typeof window !== 'undefined' && window.localStorage) {
+      token = localStorage.getItem('token');
+    }
     if (!token) {
       window.location.href = '/login'; // O usa '/' si tu página de inicio es esa
       return;
@@ -80,7 +84,12 @@ export class AgentsComponent {
       this.agents = agents;
 
       // Recuperar el agente seleccionado del localStorage
-      const savedAgentId = localStorage.getItem('selectedAgentId');
+      let savedAgentId: string | null = null;
+
+      if (typeof window !== 'undefined' && window.localStorage) {
+        savedAgentId = localStorage.getItem('selectedAgentId');
+      }
+
       if (savedAgentId && agents.length > 0) {
         this.selectedAgent =
           agents.find((agent) => agent.labsId === savedAgentId) || agents[0];
@@ -106,7 +115,12 @@ export class AgentsComponent {
     this.showVoiceDropdown = false;
 
     // Guardar el agente seleccionado en localStorage
-    if (agent && agent.labsId) {
+    if (
+      agent &&
+      agent.labsId &&
+      typeof window !== 'undefined' &&
+      window.localStorage
+    ) {
       localStorage.setItem('selectedAgentId', agent.labsId);
     }
   }

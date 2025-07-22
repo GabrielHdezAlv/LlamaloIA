@@ -13,7 +13,12 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean {
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('token');
+      let token: string | null = null;
+
+      if (typeof window !== 'undefined' && window.localStorage) {
+        token = localStorage.getItem('token');
+      }
+
       if (!token) {
         this.router.navigate(['/login']);
         return false;
