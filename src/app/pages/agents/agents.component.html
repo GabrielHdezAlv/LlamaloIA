@@ -188,6 +188,7 @@
           <textarea
             class="w-full text-sm resize-none placeholder:text-sm placeholder:whitespace-normal"
             matInput
+            [(ngModel)]="firstInteractionMessage"
             placeholder="Hola, Soy [Nombre del Agente]. Te llamo de [Nombre del Negocio]. Vengo a recordarle que se olvidó su carrito, ¿es cierto?"
           ></textarea>
         </mat-form-field>
@@ -296,4 +297,28 @@
       publicar.
     </p>
   </div>
+</div>
+
+<!-- Botón Publicar agente siempre visible -->
+<div class="w-full flex justify-center mt-8">
+  <button
+    (click)="publishAgent()"
+    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-2xl shadow transition-colors text-lg flex items-center gap-2"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M5 13l4 4L19 7"
+      />
+    </svg>
+    Guardar cambios
+  </button>
 </div>
