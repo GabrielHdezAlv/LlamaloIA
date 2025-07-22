@@ -19,7 +19,11 @@ export class TwilioService {
   // Método para obtener los encabezados de autenticación
   private getAuthHeaders(): HttpHeaders {
     let token = '';
-    if (this.isBrowser) {
+    if (
+      this.isBrowser &&
+      typeof window !== 'undefined' &&
+      window.localStorage
+    ) {
       token = localStorage.getItem('token') || '';
     }
 

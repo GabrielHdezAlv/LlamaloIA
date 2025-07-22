@@ -54,7 +54,9 @@ export class LoginComponent {
       next: (response) => {
         console.log('✅ Inicio de sesión exitoso:', response);
 
-        localStorage.setItem('token', response.token);
+        if (typeof window !== 'undefined' && window.localStorage) {
+          localStorage.setItem('token', response.token);
+        }
         this.userService.getUserProfile().subscribe({
           next: (data: any) => {
             this.userStorage.setUser(data);

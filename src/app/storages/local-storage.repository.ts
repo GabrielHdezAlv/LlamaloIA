@@ -14,7 +14,12 @@ export class LocalStorageRepository implements StorageRepository {
     if (!this.isBrowser) {
       return null;
     }
-    const data = localStorage.getItem(`${store}.${key}`);
+    let data: string | null = null;
+
+    if (typeof window !== 'undefined' && window.localStorage) {
+      data = localStorage.getItem(`${store}.${key}`);
+    }
+
     return data ? (JSON.parse(data) as T) : null;
   }
 
@@ -22,22 +27,28 @@ export class LocalStorageRepository implements StorageRepository {
     if (!this.isBrowser) {
       return;
     }
-    localStorage.setItem(`${store}.${key}`, JSON.stringify(value));
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem(`${store}.${key}`, JSON.stringify(value));
+    }
   }
 
   async clearKey(store: string, key: string): Promise<void> {
     if (!this.isBrowser) {
       return;
     }
-    localStorage.removeItem(`${store}.${key}`);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem(`${store}.${key}`);
+    }
   }
 
   async clearStore(store: string): Promise<void> {
     if (!this.isBrowser) {
       return;
     }
-    Object.keys(localStorage)
-      .filter((k) => k.startsWith(`${store}.`))
-      .forEach((k) => localStorage.removeItem(k));
+    if (typeof window !== 'undefined' && window.localStorage) {
+      Object.keys(localStorage)
+        .filter((k) => k.startsWith(`${store}.`))
+        .forEach((k) => localStorage.removeItem(k));
+    }
   }
 }
