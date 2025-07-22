@@ -50,7 +50,7 @@ export class RecoverComponent {
       next: (response) => {
         console.log('✅ Inicio de sesión exitoso:', response);
 
-        localStorage.setItem('authToken', response.Token);
+        localStorage.setItem('token', response.Token);
 
         this.showNotification('Inicio de sesión exitoso', 'success');
         this.router.navigate(['/dashboard']);
