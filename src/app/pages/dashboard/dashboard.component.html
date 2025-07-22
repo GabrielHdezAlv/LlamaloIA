@@ -1,8 +1,11 @@
-<div class="dashboard">
-  <div class="sidebar">
-    <app-sidebar></app-sidebar>
+<div
+  class="dashboard flex flex-col xl:flex-row xl:max-h-screen overflow-y-hidden"
+>
+  <div class="w-full xl:w-80 overflow-auto p-4 xl:p-0 h-screen">
+    <app-nav></app-nav>
   </div>
-  <div class="main-content xl:px-10 border-2">
+
+  <div class="flex-1 px-2 py-4 overflox-x-auto">
     <app-topbar></app-topbar>
     <router-outlet></router-outlet>
   </div>
