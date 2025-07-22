@@ -16,7 +16,7 @@ import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
-import { log } from 'console';
+import { ElevenLabsService } from '../../core/services/eleven-labs.service';
 
 @Component({
   selector: 'app-agents',
@@ -38,6 +38,7 @@ export class AgentsComponent {
   private twilioService = inject(TwilioService);
   private agentsService = inject(AgentsService);
   private userService = inject(UserService);
+  private elevenLabsService = inject(ElevenLabsService);
 
   public twilioStorage: any = inject(TwilioStorage);
   private userStorage: any = inject(UserStorage);
@@ -62,8 +63,15 @@ export class AgentsComponent {
   showVoiceDropdown = false;
 
   currentStep = 1; // Seteado el valor por defecto en la primera pantalla
+  public firstInteractionMessage: string = '';
 
   ngOnInit() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login'; // O usa '/' si tu página de inicio es esa
+      return;
+    }
+
     this.userService.getLanguages().subscribe((languages) => {
       this.languages = languages;
     });
@@ -82,6 +90,10 @@ export class AgentsComponent {
 
       this.selectedLanguage = this.selectedAgent?.language ?? this.languages[0];
     });
+
+    // Inicializar el mensaje de saludo personalizado
+    const config = this.twilioStorage.config();
+    this.firstInteractionMessage = config?.firstInteraction || '';
   }
 
   selectLanguage(lang: any) {
@@ -167,29 +179,64 @@ export class AgentsComponent {
 
     this.selectedAgent.language = this.selectedLanguage;
 
-    this.agentsService.setAgentConfig(this.selectedAgent).subscribe({
-      next: (response) => {
-        loaderRef.close();
-        this.dialog.open(TwilioSuccessModalComponent, {
-          width: '400px',
-          disableClose: false,
-          panelClass: 'custom-dialog-container',
-          data: {
-            message: '¡Agente configurado exitosamente!',
-            title: 'Configuración Completada',
-          },
-        });
-      },
-      error: (error) => {
-        loaderRef.close();
-        console.error('Error al publicar el agente:', error);
-      },
-    });
+    // Validar que el mensaje no esté vacío
+    if (
+      !this.firstInteractionMessage ||
+      this.firstInteractionMessage.trim() === ''
+    ) {
+      loaderRef.close();
+      console.error('El mensaje de saludo personalizado no puede estar vacío.');
+      return;
+    }
+
+    // Primero guardar el mensaje de firstInteraction
+    this.elevenLabsService
+      .setFirstInteraction(this.firstInteractionMessage)
+      .subscribe({
+        next: () => {
+          // Actualizar el store local con el nuevo firstInteraction
+          const config = this.twilioStorage.config();
+          if (config) {
+            config.firstInteraction = this.firstInteractionMessage;
+            this.twilioStorage.setConfig(config);
+          }
+          // Luego guardar la configuración del agente
+          this.agentsService.setAgentConfig(this.selectedAgent!).subscribe({
+            next: (response) => {
+              loaderRef.close();
+              this.dialog.open(TwilioSuccessModalComponent, {
+                width: '400px',
+                disableClose: false,
+                panelClass: 'custom-dialog-container',
+                data: {
+                  message: '¡Agente configurado exitosamente!',
+                  title: 'Configuración Completada',
+                },
+              });
+            },
+            error: (error) => {
+              loaderRef.close();
+              console.error('Error al publicar el agente:', error);
+            },
+          });
+        },
+        error: (error) => {
+          loaderRef.close();
+          console.error(
+            'Error al guardar el mensaje de firstInteraction:',
+            error
+          );
+        },
+      });
   }
 
   irAlPaso(paso: number) {
-    console.log(`Navegando al paso ${paso}...`);
     this.currentStep = paso;
+    // Si el paso es el de saludo personalizado
+    if (paso === 2) {
+      const config = this.twilioStorage.config();
+      this.firstInteractionMessage = config?.firstInteraction || '';
+    }
     // Aquí puedes agregar lógica adicional según el paso
   }
 
