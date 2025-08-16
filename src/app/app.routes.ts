@@ -6,9 +6,10 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { AgentsComponent } from './pages/agents/agents.component';
 import { RecoverComponent } from './auth/recover/recover.component';
+import { NewLoginComponent } from './auth/new-login/new-login.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: NewLoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'recover', component: RecoverComponent },
   {
