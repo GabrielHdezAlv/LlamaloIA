@@ -7,11 +7,13 @@ import { HomeComponent } from './pages/home/home.component';
 import { AgentsComponent } from './pages/agents/agents.component';
 import { RecoverComponent } from './auth/recover/recover.component';
 import { NewLoginComponent } from './auth/new-login/new-login.component';
+import { NewRecoverComponent } from './auth/new-recover/new-recover.component';
+import { NewRegisterComponent } from './auth/new-register/new-register.component';
 
 export const routes: Routes = [
   { path: 'login', component: NewLoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'recover', component: RecoverComponent },
+  { path: 'register', component: NewRegisterComponent },
+  { path: 'recover', component: NewRecoverComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,
