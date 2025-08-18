@@ -1,0 +1,30 @@
+/* --- Títulos con letter-spacing --- */
+.welcome-title,
+.login-title,
+.register-link,
+.google-button,
+.login-button,
+.forgot-password-link,
+.remember-label,
+.divider-text,
+.register-text,
+.input-label {
+  letter-spacing: -0.04em;
+}
+
+.login-subtitle,
+.register-text,
+.divider-text {
+  letter-spacing: -0.02em;
+}
+
+/* --- Checkbox personalizado (opcional: puedes reforzar el color) --- */
+.custom-checkbox {
+  accent-color: black;
+}
+
+/* --- Google button --- */
+.google-button img {
+  height: 2.5rem;
+  width: 2.5rem;
+}
