@@ -1,0 +1,104 @@
+<div class="flex flex-col md:flex-row h-screen bg-gray-50">
+    <!-- Left Side - Welcome -->
+    <div 
+      class="w-full md:w-1/2 relative flex items-center justify-center order-1 md:order-1 bg-cover bg-center rounded-br-[80px] overflow-hidden"
+      style="background-image: url('../../../assets/fondo_sesion.png');"
+      >
+      <div class="relative text-center z-10 p-6 md:p-12">
+        <h1 class="font-poppins font-bold text-gray-800 text-3xl md:text-5xl leading-tight md:leading-10 welcome-title">
+          Anas guapo
+        </h1>
+  
+        <p class="font-poppins text-gray-600 text-base md:text-lg leading-7 mt-4 text-center">
+          ¿No tiene una cuenta? 
+          <a href="#" class="font-bold text-gray-800 hover:underline">
+            Regístrese ahora
+          </a>
+        </p>
+      </div>
+    </div>
+  
+    <!-- Right Side - Login Form -->
+    <div class="w-full md:w-1/2 flex flex-col items-center justify-center px-6 py-8 md:py-10 order-2 md:order-2">
+      <!-- Logo en la esquina superior derecha -->
+      <div class="absolute top-14 right-14 z-10">
+        <img src="../../../assets/logo.png" alt="Logo" class="h-6 w-auto" />
+      </div>
+  
+      <div class="w-full max-w-md space-y-8 md:space-y-10">
+        <div class="text-left">
+          <h2 class="font-poppins font-semibold text-gray-900 text-3xl md:text-4xl leading-tight login-title">
+            Recuperar Contraseña
+          </h2>
+          <p class="font-poppins font-normal text-gray-600 text-base md:text-lg mt-2 login-subtitle">
+            Introduzca el email
+          </p>
+        </div>
+  
+        <form class="space-y-6 md:space-y-8">
+          <!-- Email Input -->
+          <div class="relative mt-2">
+            <label for="email" class="absolute left-4 top-1 text-xs text-gray-500 input-label">
+              Correo electrónico
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="info@example.com"
+              class="block w-full px-4 pt-6 pb-2 md:py-4 border border-indigo-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200 text-sm md:text-base"
+            />
+          </div>
+          <!-- Remember me & Forgot password -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                id="remember"
+                class="h-5 w-5 text-black focus:ring-black border-black rounded bg-white custom-checkbox"
+              />
+              <label for="remember" class="ml-3 block text-sm font-normal text-black font-poppins remember-label">
+                Mantener sesión activa
+              </label>
+            </div>
+            <a href="#" class="text-xs md:text-sm text-black hover:underline font-medium forgot-password-link">
+              ¿Has olvidado tu contraseña?
+            </a>
+          </div>
+  
+          <!-- Login Button -->
+          <button
+            type="submit"
+            class="w-full bg-black text-white py-3 md:py-4 px-6 rounded-lg font-semibold text-base hover:bg-gray-800 transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 login-button"
+          >
+            Acceder
+          </button>
+  
+          <!-- Register link -->
+          <div class="text-center text-sm md:text-base text-gray-600 register-text">
+            ¿Todavía no tienes una cuenta?
+            <a href="#" class="font-semibold text-black hover:underline register-link">
+              Regístrate
+            </a>
+          </div>
+  
+          <!-- Divider -->
+          <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t-2 border-indigo-800"></div>
+            </div>
+            <div class="relative flex justify-center text-xs md:text-base">
+              <span class="px-2 bg-gray-50 text-black font-normal divider-text">O continuar con</span>
+            </div>
+          </div>
+  
+          <!-- Google Login Button -->
+          <button
+            type="button"
+            class="w-full flex items-center justify-center gap-3 bg-black text-white py-3 md:py-4 px-6 rounded-lg font-semibold text-base hover:bg-gray-800 transition duration-200 google-button"
+          >
+            <img src="../../../assets/google.png" alt="Google logo" class="h-10 w-10 object-contain" />
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
