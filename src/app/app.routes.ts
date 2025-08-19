@@ -1,19 +1,62 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { AgentsComponent } from './pages/agents/agents.component';
-import { RecoverComponent } from './auth/recover/recover.component';
-import { NewLoginComponent } from './auth/new-login/new-login.component';
-import { NewRecoverComponent } from './auth/new-recover/new-recover.component';
-import { NewRegisterComponent } from './auth/new-register/new-register.component';
+import { AuthFormComponent } from './auth/auth-form/auth-form.component';
 
 export const routes: Routes = [
-  { path: 'login', component: NewLoginComponent },
-  { path: 'register', component: NewRegisterComponent },
-  { path: 'recover', component: NewRecoverComponent },
+  {
+    path: 'login',
+    component: AuthFormComponent,
+    data: {
+      type: 'login',
+      title: '¡Bienvenido de vuelta!',
+      subtitle: '¿No tiene una cuenta?',
+      linkText: 'Regístrese ahora',
+      linkRoute: '/register',
+      formTitle: 'Iniciar sesión',
+      formSubtitle: 'Introduzca sus datos de acceso',
+      buttonText: 'Acceder',
+      bottomText: '¿Todavía no tienes una cuenta?',
+      bottomLinkText: 'Regístrate',
+      bottomLinkRoute: '/register',
+    },
+  },
+  {
+    path: 'register',
+    component: AuthFormComponent,
+    data: {
+      type: 'register',
+      title: 'Bienvenido a Llamalo',
+      subtitle: '¿Tiene una cuenta? ',
+      linkText: 'Inicie sesión',
+      linkRoute: '/login',
+      formTitle: 'Regístrate',
+      formSubtitle: '!Crea tu cuenta en segundos!',
+      buttonText: 'Regístrate con email',
+      bottomText: '¿Ya tiene una cuenta?',
+      bottomLinkText: 'Iniciar sesión',
+      bottomLinkRoute: '/login',
+    },
+  },
+  {
+    path: 'recover',
+    component: AuthFormComponent,
+    data: {
+      type: 'recover',
+      title: 'Recuperar contraseña',
+      subtitle: '¿No tiene una cuenta?',
+      linkText: 'Regístrese ahora',
+      linkRoute: '/register',
+      formTitle: 'Recuperar contraseña',
+      formSubtitle: 'Introduzca el email',
+      buttonText: 'Acceder',
+      bottomText: '¿Todavía no tienes una cuenta?',
+      bottomLinkText: 'Regístrate',
+      bottomLinkRoute: '/register',
+    },
+  },
   {
     path: 'dashboard',
     component: DashboardComponent,
@@ -25,5 +68,5 @@ export const routes: Routes = [
       { path: 'agents', component: AgentsComponent },
     ],
   },
-  { path: '**', redirectTo: 'login' }, // Redirige cualquier ruta no existente a login
+  { path: '**', redirectTo: 'login' },
 ];
