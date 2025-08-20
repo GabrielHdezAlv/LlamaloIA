@@ -1,7 +1,8 @@
 // src/app/components/sidebar/sidebar.component.ts
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UserStorage } from '../../storages/user/user-storage';
 
 @Component({
   selector: 'app-navv',
@@ -13,6 +14,18 @@ import { RouterModule } from '@angular/router';
 export class SidebarComponent {
   isOpen: boolean = false;
   windowWidth: number = 0;
+
+  // Inyectar UserStorage
+  private userStorage = inject(UserStorage);
+
+  // Propiedad computada para obtener el nombre completo del usuario
+  userName = computed(() => {
+    const user = this.userStorage.user();
+    if (user) {
+      return `${user.name} ${user.lastname}`;
+    }
+    return 'Usuario';
+  });
 
   // Idiomas (por si lo necesitas después)
   languages = [
