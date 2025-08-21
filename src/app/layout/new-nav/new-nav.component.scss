@@ -1,0 +1,52 @@
+:host {
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.brand-font {
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+// Texto del nombre de usuario y plan
+#user-name,
+#user-name-desktop {
+  font-size: 14px;
+}
+
+#user-plan,
+#user-plan-desktop {
+  letter-spacing: -0.34px;
+  font-size: 12px;
+}
+
+// Progreso de minutos
+#progress-label,
+#progress-label-desktop,
+#progress-value,
+#progress-value-desktop {
+  font-size: 14px;
+}
+
+// Botón de logout (SVG)
+#logout-btn,
+#logout-btn-desktop {
+  svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+// Promo
+#promo-title,
+#promo-title-desktop {
+  font-size: 16px;
+}
+
+#promo-desc,
+#promo-desc-desktop {
+  font-size: 14px;
+}
+
+#promo-btn,
+#promo-btn-desktop {
+  font-size: 14px;
+}
