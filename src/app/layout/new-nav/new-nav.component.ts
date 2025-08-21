@@ -1,7 +1,7 @@
 // src/app/components/sidebar/sidebar.component.ts
 import { Component, HostListener, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
 
 @Component({
@@ -15,8 +15,9 @@ export class SidebarComponent {
   isOpen: boolean = false;
   windowWidth: number = 0;
 
-  // Inyectar UserStorage
+  // Inyectar UserStorage y Router
   private userStorage = inject(UserStorage);
+  private router = inject(Router);
 
   // Propiedad computada para obtener el nombre completo del usuario
   userName = computed(() => {
@@ -68,5 +69,18 @@ export class SidebarComponent {
       // En pantallas grandes, el sidebar está siempre abierto
       this.isOpen = this.windowWidth >= 1280;
     }
+  }
+
+  // Método para verificar si una ruta está activa
+  isRouteActive(route: string): boolean {
+    const currentUrl = this.router.url;
+    
+    // Para la ruta de inicio, también activar cuando esté en /dashboard sin nada más
+    if (route === '/dashboard/home') {
+      return currentUrl === '/dashboard/home' || currentUrl === '/dashboard';
+    }
+    
+    // Para otras rutas, verificar coincidencia exacta
+    return currentUrl === route;
   }
 }
