@@ -5,3 +5,111 @@
 .brand-font {
   font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
+
+@media (min-width: 1920px) {
+  .llamadas-barra {
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+  }
+}
+
+@media (min-width: 2560px) {
+  .llamadas-barra {
+    width: 70px !important;
+    min-width: 70px !important;
+    max-width: 70px !important;
+  }
+
+  /* Bordes 3x1 para las barras en 2560px */
+  .llamadas-barra-rounded {
+    border-radius: 20px 20px 20px 20px !important; /* 3x1: 24px arriba, 8px abajo */
+  }
+
+  /* Hacer los nombres de los días más grandes en pantallas muy grandes */
+  .llamadas-por-dia-grafico span.text-sm {
+    font-size: 1.2rem !important; /* Aumenta el tamaño de la fuente */
+    line-height: 2rem !important;
+  }
+
+  /* Aumentar la altura de los recuadros en pantallas muy grandes */
+  .agentes-activos-recuadro {
+    min-height: 500px !important;
+    height: 500px !important;
+    padding: 3.5rem !important;
+  }
+
+  .agentes-activos-titulo,
+  .resumen-titulo,
+  .llamadas-por-dia-titulo {
+    font-size: 1.8rem !important;
+    margin-bottom: 1.2rem !important; /* Reducir el margen inferior del título */
+  }
+
+  .resumen-datos {
+    font-size: 1.3rem !important;
+  }
+
+  .agentes-activos-tabla {
+    font-size: 1.5rem !important;
+    margin-top: 7rem !important;
+  }
+
+  .agentes-activos-th {
+    font-size: 1.2rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  .agentes-activos-td {
+    font-size: 1.2rem !important;
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  .agentes-activos-minutos {
+    font-size: 1.5rem !important;
+  }
+
+  .agentes-activos-porcentaje {
+    font-size: 1.1rem !important;
+    padding: 0.5rem 1rem !important;
+    margin-left: 1.5rem !important;
+  }
+
+  .agentes-activos-icono {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    margin-right: 0.5rem !important;
+  }
+
+  .agentes-activos-estado-icono {
+    width: 2rem !important;
+    height: 2rem !important;
+  }
+
+  .agentes-activos-estado-texto {
+    font-size: 1.2rem !important;
+    margin-left: 1rem !important;
+  }
+
+  .llamadas-por-dia-altura {
+    min-height: 350px !important;
+    height: 350px !important;
+  }
+
+  /* Hacer los botones de días del resumen un poco más grandes en 2560px */
+  .resumen-dias-botones > button {
+    font-size: 1.15rem !important;
+    padding: 0.5rem 1.2rem !important;
+  }
+
+  /* Hacer el texto "vs last year" del resumen un poco más grande en 2560px */
+  .resumen-dias-texto {
+    font-size: 1.1rem !important;
+  }
+
+  /* Bajamos el gráfico en 2560px */
+  .llamadas-por-dia-grafico-wrapper {
+    margin-top: 140px !important;
+  }
+}
