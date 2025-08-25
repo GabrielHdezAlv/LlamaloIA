@@ -4,6 +4,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { AgentsComponent } from './pages/agents/agents.component';
 import { AuthFormComponent } from './auth/auth-form/auth-form.component';
+import { NewAgentsComponent } from './pages/new-agents/new-agents.component';
 
 export const routes: Routes = [
   {
@@ -65,7 +66,7 @@ export const routes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
       { path: 'myAgents', component: HomeComponent },
-      { path: 'agents', component: AgentsComponent },
+      { path: 'agents', component: NewAgentsComponent },
       { path: 'numbers', component: HomeComponent },
       { path: 'history', component: HomeComponent },
       { path: 'metrics', component: HomeComponent },
