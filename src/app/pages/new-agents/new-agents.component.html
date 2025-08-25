@@ -1,0 +1,127 @@
+<div class="bg-white rounded-2xl shadow-sm pb-96 p-6 mt-16 ml-28 mr-[5.5rem]">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-semibold text-gray-800">Tus agentes</h2>
+      <button
+        class="bg-blue-900 hover:bg-indigo-800 text-white px-14 py-4 rounded-full text-sm font-medium transition duration-200"
+      >
+        Crear Agente
+      </button>
+    </div>
+
+    <div class="grid grid-cols-12 gap-4 text-sm text-gray-500 border-b pb-2 mb-4">
+      <div class="col-span-5">Agente</div>
+      <div class="md:col-start-6">Estado</div>
+      <div class="md:col-start-7 whitespace-nowrap">Total Minutos Gastados</div>
+      <div class="md:col-start-10">Número</div>
+      <div class="md:col-start-12">Tipo</div>
+    </div>
+
+    <div class="space-y-3">
+        <div class="p-4 rounded-lg flex items-center gap-4 md:grid md:grid-cols-12 md:gap-4 group hover:bg-gray-100 transition-colors duration-200">
+            <div class="col-span-5 flex items-center gap-3">
+                <input type="checkbox" class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                <img src="../../../assets/carlos.png" alt="Carlos" class="w-16 h-16 object-cover" />
+                <div>
+                    <p class="font-medium text-gray-900">Carlos</p>
+                    <p class="text-xs text-gray-500">+34 XXX XX XX XX</p>
+                    <div class="mt-1 flex gap-2 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <button class="flex items-center gap-1 hover:text-indigo-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zm-3.22 3.22l-1.6 1.6-4.634 4.634a1 1 0 00.316 1.688l3.195 1.14a1 1 0 001.07-.282l4.894-4.894-1.6-1.6zM11 5.5a.5.5 0 00-.5-.5h-1a.5.5 0 000 1h1a.5.5 0 00.5-.5z" />
+                            </svg>
+                            Editar
+                        </button>
+                        <button class="flex items-center gap-1 hover:text-red-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            Eliminar
+                        </button>
+                        <button class="flex items-center gap-1 hover:text-gray-600 whitespace-nowrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM5.5 9.5a1 1 0 000 1h9a1 1 0 000-2h-9z" />
+                            </svg>
+                            Dejar de publicar
+                        </button>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="md:col-start-6 flex items-center">
+                <span class="inline-block px-2 py-1 text-sm font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg">Active</span>
+            </div>
+    
+            <div class="md:col-start-7 flex items-center gap-2">
+                <span class="text-base font-medium whitespace-nowrap ml-6">408 m</span>
+                <span class="text-sm text-red-500 flex items-center bg-red-100 border-red-200 border rounded-lg px-2 py-1 font-semibold ">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M14.707 6.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L10 9.586l3.293-3.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    22.5%
+                </span>
+            </div>
+    
+            <div class="md:col-start-10 flex items-center">
+                <span class="text-base text-gray-800">(Etiqueta)</span>
+            </div>
+    
+            <div class="md:col-start-12 flex items-center">
+                <span class="text-base text-gray-800 ">Inbound</span>
+            </div>
+        </div>
+
+        <div class="p-4 rounded-lg flex items-center gap-4 md:grid md:grid-cols-12 md:gap-4 group hover:bg-gray-100 transition-colors duration-200">
+            <div class="col-span-5 flex items-center gap-3">
+                <input type="checkbox" class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                <img src="../../../assets/carla.png" alt="Carla" class="w-16 h-16 object-cover" />
+                <div>
+                    <p class="font-medium text-gray-900">Carla</p>
+                    <p class="text-xs text-gray-500">+34 XXX XX XX XX</p>
+                    <div class="mt-1 flex gap-2 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <button class="flex items-center gap-1 hover:text-indigo-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zm-3.22 3.22l-1.6 1.6-4.634 4.634a1 1 0 00.316 1.688l3.195 1.14a1 1 0 001.07-.282l4.894-4.894-1.6-1.6zM11 5.5a.5.5 0 00-.5-.5h-1a.5.5 0 000 1h1a.5.5 0 00.5-.5z" />
+                            </svg>
+                            Editar
+                        </button>
+                        <button class="flex items-center gap-1 hover:text-red-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            Eliminar
+                        </button>
+                        <button class="flex items-center gap-1 hover:text-gray-600 whitespace-nowrap">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM5.5 9.5a1 1 0 000 1h9a1 1 0 000-2h-9z" />
+                            </svg>
+                            Dejar de publicar
+                        </button>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="md:col-start-6 flex items-center">
+                <span class="inline-block px-2 py-1 text-sm font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg">Active</span>
+            </div>
+    
+            <div class="md:col-start-7 flex items-center gap-2">
+                <span class="text-base font-medium whitespace-nowrap ml-6">201 m</span>
+                <span class="text-sm text-green-500 flex items-center bg-green-100 border-green-200 border rounded-lg px-2 py-1 font-semibold ">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 13.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 8.414l-3.293 3.293a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    15.4%
+                </span>
+            </div>
+    
+            <div class="md:col-start-10 flex items-center">
+                <span class="text-base text-gray-800">(Etiqueta)</span>
+            </div>
+    
+            <div class="md:col-start-12 flex items-center">
+                <span class="text-base text-gray-800 ">Outbound</span>
+            </div>
+        </div>
+    </div>
+</div>
+
