@@ -2,18 +2,20 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-new-create-agents',
-  imports: [],
+  standalone: true,
+  imports: [], // No necesitas importar nada para @if
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss'
 })
 export class NewCreateAgentsComponent {
+  step: 'callType' | 'language' = 'callType';
+
   onSelect(type: 'inbound' | 'outbound') {
     console.log(`Seleccionado: ${type}`);
-    // Aquí puedes navegar o emitir un evento
+    this.step = 'language';
   }
 
   goBack() {
-    console.log('Volviendo atrás...');
-    window.history.back();
+    this.step = 'callType';
   }
 }
