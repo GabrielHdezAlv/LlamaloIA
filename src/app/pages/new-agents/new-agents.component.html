@@ -3,14 +3,15 @@
       <h2 class="text-2xl font-semibold text-gray-800">Tus agentes</h2>
       <button
         class="bg-blue-900 hover:bg-indigo-800 text-white px-14 py-4 rounded-full text-sm font-medium transition duration-200"
+        routerLink="/dashboard/agents/create"
       >
         Crear Agente
       </button>
     </div>
 
-    <div class="grid grid-cols-12 gap-4 text-sm text-gray-400 border-b pb-2 mb-4">
+    <div class="grid grid-cols-12 gap-4 text-sm text-gray-400 pb-2 mb-4">
         <!-- Cabecera "Agente" con checkbox -->
-        <div class="col-span-5 flex items-center gap-3">
+        <div class="col-span-5 flex items-center gap-3 ">
             <label class="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" class="peer sr-only" />
                 <span class="w-6 h-6 flex items-center justify-center border-2 border-gray-300 bg-white rounded-md transition-colors duration-200  peer-checked:bg-gray-300">
@@ -19,14 +20,14 @@
                   </svg>
                 </span>
               </label>
-          <span class="font-medium text-gray-700">Agente</span>
+          <span class="font-medium text-gray-400">Agente</span>
         </div>
       
         <!-- Resto de cabeceras -->
-        <div class="md:col-start-6 font-medium text-gray-700">Estado</div>
-        <div class="md:col-start-7 font-medium text-gray-700 whitespace-nowrap">Total Minutos Gastados</div>
-        <div class="md:col-start-10 font-medium text-gray-700">Número</div>
-        <div class="md:col-start-12 font-medium text-gray-700 -ml-3">Tipo</div>
+        <div class="md:col-start-6 font-medium text-gray-400">Estado</div>
+        <div class="md:col-start-7 font-medium text-gray-400 whitespace-nowrap">Total Minutos Gastados</div>
+        <div class="md:col-start-10 font-medium text-gray-400">Número</div>
+        <div class="md:col-start-12 font-medium text-gray-400 -ml-3">Tipo</div>
       </div>
 
     <div class="space-y-3">
@@ -134,12 +135,11 @@
             </div>
     
             <div class="md:col-start-7 flex items-center gap-2">
-                <span class="text-base font-medium whitespace-nowrap ml-6">201 m</span>
-                <span class="text-sm text-green-500 flex items-center bg-green-100 border-green-200 border rounded-lg px-2 py-1 font-semibold ">
+                <span class="text-base font-medium whitespace-nowrap ml-7">201 m</span>
+                <span class="text-sm text-green-600 flex items-center bg-green-100 border-green-200 border rounded-lg px-2 py-1 font-semibold ">
                     <svg class="mr-1.5" width="7" height="10" viewBox="0 0 7 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3.50015 9.33325C3.40385 9.33308 3.30852 9.31394 3.21962 9.27692C3.13071 9.23991 3.04997 9.18574 2.982 9.11752C2.91402 9.0493 2.86015 8.96836 2.82346 8.87932C2.78677 8.79028 2.76798 8.69489 2.76815 8.59859L2.76815 2.38059C2.72282 2.41459 2.67948 2.45259 2.63815 2.49392L1.41615 3.72059C1.13015 4.00725 0.666818 4.00725 0.381485 3.72059C0.0961514 3.43392 0.0954847 2.96859 0.381485 2.68192L1.60348 1.45525C2.65148 0.403252 4.35015 0.403252 5.39748 1.45525L6.61948 2.68192C6.90548 2.96859 6.90548 3.43392 6.61948 3.72059C6.33348 4.00725 5.87015 4.00725 5.58482 3.72059L4.36282 2.49392C4.32148 2.45259 4.27815 2.41459 4.23282 2.38059L4.23215 8.59859C4.23233 8.69489 4.21353 8.79028 4.17684 8.87932C4.14015 8.96836 4.08628 9.0493 4.01831 9.11752C3.95033 9.18574 3.86959 9.23991 3.78068 9.27692C3.69178 9.31394 3.59645 9.33308 3.50015 9.33325Z" fill="#00A656"/>
                     </svg>
-                        
                     15.4%
                 </span>
             </div>

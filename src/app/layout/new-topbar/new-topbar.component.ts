@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'new-topbar',
@@ -7,27 +8,36 @@ import { Router } from '@angular/router';
   templateUrl: './new-topbar.component.html',
   styleUrls: ['./new-topbar.component.scss'],
 })
-export class NewTopbarComponent {
+export class NewTopbarComponent implements OnInit {
   pageTitle: string = 'Inicio';
   welcomeText: string = 'Hey Maria, Bienvenido/a';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    this.router.events.subscribe(() => {
-      this.updateHeader();
-    });
+    // Filtrar solo eventos de finalización de navegación
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.updateHeader();
+      });
+
+    // Ejecutar al inicio para asegurar que se actualice con la ruta actual
     this.updateHeader();
   }
 
   updateHeader() {
-    const currentRoute = this.router.url;
+    const url = this.router.url;
 
-    if (currentRoute.includes('/dashboard/profile')) {
-      this.pageTitle = 'Perfil & Facturación';
+    // Orden importante: rutas más específicas primero
+    if (url === '/dashboard/agents/create') {
+      this.pageTitle = 'Crear Agente';
       this.welcomeText = '';
-    } else if (currentRoute.includes('/dashboard/agents')) {
+    } else if (url.startsWith('/dashboard/agents')) {
       this.pageTitle = 'Agentes';
+      this.welcomeText = '';
+    } else if (url === '/dashboard/profile') {
+      this.pageTitle = 'Perfil & Facturación';
       this.welcomeText = '';
     } else {
       this.pageTitle = 'Inicio';
