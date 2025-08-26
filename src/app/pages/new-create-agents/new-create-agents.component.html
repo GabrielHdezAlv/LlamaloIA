@@ -1,0 +1,52 @@
+<div class="min-h-screen flex flex-col py-12 ml-28 mr-[5.5rem] mt-7">
+  <!-- Barra de progreso -->
+  <div class="w-full mb-8">
+    <div class="h-4 w-full bg-gray-300 rounded-full overflow-hidden">
+      <!-- Progreso (ajustable) -->
+      <div class="h-full w-20 bg-blue-700"></div>
+    </div>
+  </div>
+  
+    <!-- Tarjeta principal -->
+  <div class="bg-white rounded-2xl shadow-sm p-28">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-8">Tipo de Llamadas</h2>
+
+    <div class="flex justify-center gap-8 flex-wrap">
+      <!-- Inbound -->
+      <button
+        class="flex flex-col items-center p-8 w-80 h-80 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <svg class="mt-14" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32.0306 20.4041C33.5444 20.4041 34.939 21.2249 35.6735 22.5483L40.7704 31.7293C41.4377 32.9314 41.469 34.3852 40.8542 35.6149L35.9442 45.4352C35.9442 45.4352 37.3671 52.7506 43.3221 58.7056C49.2771 64.6608 56.5681 66.0591 56.5681 66.0591L66.3867 61.1497C67.6173 60.5345 69.0723 60.5664 70.2748 61.2349L79.4817 66.3537C80.8038 67.0887 81.6238 68.4827 81.6238 69.9954V80.5652C81.6238 85.9477 76.624 89.8354 71.5238 88.1145C61.049 84.5799 44.7892 77.8504 34.4833 67.5445C24.1773 57.2385 17.4477 40.9789 13.9133 30.5039C12.1924 25.4039 16.0801 20.4041 21.4627 20.4041H32.0306Z" stroke="black" stroke-width="5" stroke-linejoin="round"/>
+        <path d="M60.4165 41.6665L87.4998 15.6249" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M87.4998 41.6665H60.4165V14.5833" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        
+        <span class="text-xl font-medium text-gray-700">Inbound</span>
+      </button>
+
+      <!-- Outbound -->
+      <button
+        class="flex flex-col items-center p-8 w-80 h-80 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+      <svg class="mt-14" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M58.3335 41.6667L85.4168 15.625" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M58.3335 14.5834H85.4168V41.6667" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M29.9471 20.405C31.4609 20.405 32.8555 21.226 33.5901 22.5493L38.6869 31.7302C39.3542 32.9323 39.3855 34.3862 38.7707 35.616L33.8607 45.4362C33.8607 45.4362 35.2836 52.7516 41.2386 58.7066C47.1936 64.6616 54.4846 66.06 54.4846 66.06L64.3032 61.1508C65.5338 60.5354 66.9888 60.5673 68.1913 61.2358L77.3982 66.3546C78.7203 67.0898 79.5403 68.4835 79.5403 69.9962V80.566C79.5403 85.9487 74.5405 89.8364 69.4403 88.1154C58.9655 84.581 42.7057 77.8514 32.3998 67.5454C22.0938 57.2395 15.3642 40.9798 11.8298 30.505C10.1089 25.4048 13.9966 20.405 19.3792 20.405H29.9471Z" stroke="black" stroke-width="5" stroke-linejoin="round"/>
+        </svg>
+        
+        <span class="text-sm font-medium text-gray-700">Outbound</span>
+      </button>
+    </div>
+
+    <!-- Botón de retroceso -->
+    <button
+      class="mt-8 text-gray-500 hover:text-gray-700 text-lg"
+    >
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+      </svg>
+      
+    </button>
+  </div>
+</div>
