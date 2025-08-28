@@ -8,6 +8,8 @@
         [class.w-[20vh]]="step === 'language'"
         [class.w-[30vh]]="step === 'voices'"
         [class.w-[40vh]]="step === 'instructions'"
+        [class.w-[50vh]]="step === 'actions'"
+        [class.w-[60vh]]="step === 'knowledgeBase'"
       ></div>
     </div>
   </div>
@@ -241,5 +243,149 @@
       </div>
     </div>
   }
+
+  @if (step === 'actions') {
+    <!-- Pantalla 5: Añadir Acciones -->
+    <div class="bg-white rounded-2xl shadow-sm p-8">
+      <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Añadir Acciones</h2>
+  
+      <p class="text-center text-base text-black mb-12 max-w-4xl mx-auto">
+        Define claramente las indicaciones para el agente, especificando qué acciones realizará y cómo debe responder en diferentes situaciones para garantizar una interacción eficiente y personalizada.
+      </p>
+  
+      <div class="flex justify-center gap-8 flex-wrap">
+        <!-- Shopify -->
+        <button
+          (click)="selectAction('shopify')"
+          class="w-[220px] h-[320px] bg-gradient-to-br from-green-100 to-green-300 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+        >
+          <img src="assets/shopify.png" alt="Shopify" class="w-16 h-26 mt-14" />
+          <span class="font-semibold text-gray-800 mt-20 tracking-[-2px] text-xl">Shopify</span>
+        </button>
+  
+        <!-- WooCommerce -->
+        <button
+          (click)="selectAction('woocommerce')"
+          class="w-[220px] h-[320px] bg-gradient-to-br from-purple-200 to-violet-400 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+        >
+        <img src="assets/woo.png" alt="Shopify" class="w-32 h-40 mt-[2vh] object-contain" />
+          <span class="font-semibold text-gray-800 mt-[4vh] tracking-[-2px] text-xl">WooCommerce</span>
+        </button>
+  
+        <!-- Make -->
+        <button
+          (click)="selectAction('make')"
+          class="w-[220px] h-[320px] bg-gradient-to-br from-pink-200 to-purple-400 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+        >
+        <img src="assets/make.png" alt="Shopify" class="w-24 h-26 mt-[7vh]" />
+          <span class="font-semibold text-gray-800 mt-20 tracking-[-2px] text-xl">Make</span>
+        </button>
+      </div>
+  
+      <!-- Botones -->
+      <div class="flex justify-between mt-16">
+        <button
+          (click)="goBack()"
+          class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
+        >
+          <svg width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+          </svg>
+        </button>
+  
+        <button
+          class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors"
+          (click)="step = 'knowledgeBase'"
+        >
+          Continuar
+        </button>
+  
+        <button
+          (click)="step = 'knowledgeBase'"
+          class="text-black hover:text-gray-700 text-lg flex items-center"
+        >
+          Saltar
+          <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+            </svg>
+            
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (step === 'knowledgeBase') {
+  <!-- Pantalla 6: Base de Conocimientos -->
+  <div class="bg-white rounded-2xl shadow-sm p-8">
+    <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Base de Conocimientos</h2>
+
+    <p class="text-center text-base text-black mb-12 max-w-4xl mx-auto">
+      Define claramente las indicaciones para el agente, especificando qué acciones realizará y cómo debe responder en diferentes situaciones para garantizar una interacción eficiente y personalizada.
+    </p>
+
+    <div class="flex justify-center gap-8 flex-wrap">
+      <!-- PDF -->
+      <button
+        (click)="selectKnowledgeSource('pdf')"
+        class="w-[240px] h-[320px] bg-gray-100 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+      >
+      <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M62.5 94.7917H37.5C14.875 94.7917 5.20837 85.125 5.20837 62.5V37.5C5.20837 14.875 14.875 5.20837 37.5 5.20837H58.3334C60.0417 5.20837 61.4584 6.62504 61.4584 8.33337C61.4584 10.0417 60.0417 11.4584 58.3334 11.4584H37.5C18.2917 11.4584 11.4584 18.2917 11.4584 37.5V62.5C11.4584 81.7084 18.2917 88.5417 37.5 88.5417H62.5C81.7084 88.5417 88.5417 81.7084 88.5417 62.5V41.6667C88.5417 39.9584 89.9584 38.5417 91.6667 38.5417C93.375 38.5417 94.7917 39.9584 94.7917 41.6667V62.5C94.7917 85.125 85.125 94.7917 62.5 94.7917Z" fill="#353535"/>
+        <path d="M91.6667 44.7917H75C60.75 44.7917 55.2084 39.25 55.2084 25V8.33333C55.2084 7.08333 55.9584 5.91666 57.125 5.45833C58.2917 4.95833 59.625 5.24999 60.5417 6.12499L93.875 39.4583C94.75 40.3333 95.0417 41.7083 94.5417 42.875C94.0417 44.0417 92.9167 44.7917 91.6667 44.7917ZM61.4584 15.875V25C61.4584 35.75 64.25 38.5417 75 38.5417H84.125L61.4584 15.875Z" fill="#353535"/>
+        <path d="M54.1666 57.2916H29.1666C27.4583 57.2916 26.0416 55.875 26.0416 54.1666C26.0416 52.4583 27.4583 51.0416 29.1666 51.0416H54.1666C55.875 51.0416 57.2916 52.4583 57.2916 54.1666C57.2916 55.875 55.875 57.2916 54.1666 57.2916Z" fill="#353535"/>
+        <path d="M45.8333 73.9584H29.1666C27.4583 73.9584 26.0416 72.5417 26.0416 70.8334C26.0416 69.125 27.4583 67.7084 29.1666 67.7084H45.8333C47.5416 67.7084 48.9583 69.125 48.9583 70.8334C48.9583 72.5417 47.5416 73.9584 45.8333 73.9584Z" fill="#353535"/>
+        </svg>
+        
+        <span class="font-semibold text-gray-800 mt-4">PDF</span>
+      </button>
+
+      <!-- Web -->
+      <button
+        (click)="selectKnowledgeSource('web')"
+        class="w-[240px] h-[320px] bg-gray-100 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+      >
+      <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" fill="url(#pattern0_24_532)" />
+        <defs>
+          <pattern id="pattern0_24_532" patternUnits="objectBoundingBox" width="1" height="1">
+            <image href="assets/web.png" width="100" height="100" preserveAspectRatio="none" />
+          </pattern>
+        </defs>
+      </svg>
+        
+        <span class="font-semibold text-gray-800 mt-4">Web</span>
+      </button>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-between mt-16">
+      <button
+        (click)="goBack()"
+        class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
+      >
+        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+        </svg>
+      </button>
+
+      <button
+        class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors"
+        (click)="continueWithoutSource()"
+      >
+        Continuar
+      </button>
+
+      <button
+        (click)="onSkip()"
+        class="text-black hover:text-gray-700 text-lg flex items-center "
+      >
+        Saltar
+        <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+}
 
 </div>
