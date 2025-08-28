@@ -1,20 +1,22 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // 👈 Importa FormsModule
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-new-create-agents',
   standalone: true,
-  imports: [FormsModule], // Asegúrate de incluir `FormsModule` si usas `ngModel`
+  imports: [FormsModule],
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss'
 })
 export class NewCreateAgentsComponent {
-  step: 'callType' | 'language' | 'voices' | 'instructions' = 'callType';
+  step: 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' = 'callType';
 
-  // Variables del formulario
   greeting = 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
   template = '';
   instructions = '';
+
+  audioActual: HTMLAudioElement | null = null;
+  isPlaying: boolean = false;
 
   onSelect(type: 'inbound' | 'outbound') {
     this.step = 'language';
@@ -29,7 +31,11 @@ export class NewCreateAgentsComponent {
   }
 
   goBack() {
-    if (this.step === 'instructions') {
+    if (this.step === 'knowledgeBase') {
+      this.step = 'actions';
+    } else if (this.step === 'actions') {
+      this.step = 'instructions';
+    } else if (this.step === 'instructions') {
       this.step = 'voices';
     } else if (this.step === 'voices') {
       this.step = 'language';
@@ -38,30 +44,43 @@ export class NewCreateAgentsComponent {
     }
   }
 
-  audioActual: HTMLAudioElement | null = null;
+  onSkip() {
+    this.step = 'knowledgeBase'; // O puedes saltar directamente a la última etapa
+  }
 
   playVoice(voiceName: string) {
+    if (this.isPlaying) return;
+
     console.log('Reproduciendo voz:', voiceName);
 
-    // Si hay un audio reproduciéndose, lo pausamos y lo reiniciamos
     if (this.audioActual) {
       this.audioActual.pause();
       this.audioActual.currentTime = 0;
-      this.audioActual = null;
     }
 
     const audio = new Audio(`assets/${voiceName}.mp3`);
     this.audioActual = audio;
+    this.isPlaying = true;
 
-    setTimeout(() => {
-      audio.play();
-      // Cuando termine, limpiamos la referencia
-      audio.onended = () => {
-        if (this.audioActual === audio) {
-          this.audioActual = null;
-        }
-      };
-    }, 1000); // Espera 1 segundo antes de reproducir
+    audio.play().catch(err => {
+      console.error('Error al reproducir audio:', err);
+      this.isPlaying = false;
+    });
+
+    audio.onended = () => {
+      this.isPlaying = false;
+      if (this.audioActual === audio) {
+        this.audioActual = null;
+      }
+    };
+
+    audio.onerror = () => {
+      console.error('Error al cargar el audio');
+      this.isPlaying = false;
+      if (this.audioActual === audio) {
+        this.audioActual = null;
+      }
+    };
   }
 
   onSubmit() {
@@ -71,11 +90,21 @@ export class NewCreateAgentsComponent {
       instructions: this.instructions
     });
 
-    // Aquí puedes:
-    // - Enviar los datos a un servicio
-    // - Crear el agente
-    // - Navegar a la siguiente pantalla
-    // Por ahora, solo avanzamos (ejemplo)
-    // this.step = 'summary'; // si tuvieras una pantalla final
+    this.step = 'actions'; // Avanza a "Añadir Acciones"
+  }
+
+  selectAction(platform: string) {
+    console.log('Plataforma seleccionada:', platform);
+  }
+
+  // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
+  selectKnowledgeSource(source: 'pdf' | 'web') {
+    console.log('Fuente seleccionada:', source);
+    // Aquí puedes guardar la selección o abrir un modal de carga
+  }
+
+  // Opcional: Método para continuar sin elegir fuente
+  continueWithoutSource() {
+    this.step = 'summary'; // Pasa a la pantalla final
   }
 }
