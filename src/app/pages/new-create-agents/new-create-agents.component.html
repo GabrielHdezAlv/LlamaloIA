@@ -370,13 +370,13 @@
 
       <button
         class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors"
-        (click)="continueWithoutSource()"
+        (click)="step = 'summary'"
       >
         Continuar
       </button>
 
       <button
-        (click)="onSkip()"
+        (click)="step = 'summary'"
         class="text-black hover:text-gray-700 text-lg flex items-center "
       >
         Saltar
@@ -387,5 +387,32 @@
     </div>
   </div>
 }
-
+@if (step === 'summary') {
+  <div class="bg-white rounded-2xl shadow-sm p-16">
+    <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Prueba Agente</h2>
+    <p class="text-center text-base text-black mb-8 max-w-4xl mx-auto">
+      Ingresa tu número de teléfono y recibirás una llamada para hacer la prueba en tiempo real.
+    </p>
+    <div class="flex justify-center gap-4 items-center mb-8">
+      <img src="assets/españa.svg" alt="España" width="20" height="12" />
+      <input type="tel" [(ngModel)]="phoneNumber" placeholder="600 00 00 00" class="w-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-black focus:border-transparent text-xs text-gray-500"/>
+    </div>
+    <div class="flex justify-between mt-16">
+      <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 text-lg flex items-center">
+        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+        </svg>
+      </button>
+      <button class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors" (click)="onSubmitTestCall()">
+        Continuar
+      </button>
+      <button (click)="onSkip()" class="text-black hover:text-gray-700 text-lg flex items-center">
+        Saltar
+        <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+}
 </div>
