@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './new-create-agents.component.scss'
 })
 export class NewCreateAgentsComponent {
-  step: 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' = 'callType';
+  step: 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' = 'callType';
 
   // Add this line to declare phoneNumber
   phoneNumber = '';
@@ -34,7 +34,9 @@ export class NewCreateAgentsComponent {
   }
 
   goBack() {
-    if (this.step === 'summary') {
+    if (this.step === 'connectPhone') {
+      this.step = 'summary';
+    } else if (this.step === 'summary') {
       this.step = 'knowledgeBase';
     } else if (this.step === 'knowledgeBase') {
       this.step = 'actions';
@@ -50,7 +52,22 @@ export class NewCreateAgentsComponent {
   }
 
   onSkip() {
-    this.step = 'knowledgeBase'; // O puedes saltar directamente a la última etapa
+    if (this.step === 'callType') {
+      this.step = 'language';
+    } else if (this.step === 'language') {
+      this.step = 'voices';
+    } else if (this.step === 'voices') {
+      this.step = 'instructions';
+    } else if (this.step === 'instructions') {
+      this.step = 'actions';
+    } else if (this.step === 'actions') {
+      this.step = 'knowledgeBase';
+    } else if (this.step === 'knowledgeBase') {
+      this.step = 'summary';
+    } else if (this.step === 'summary') {
+      this.step = 'connectPhone';
+    }
+    // Si ya está en 'connectPhone', no hace nada o puedes reiniciar el flujo si lo deseas
   }
 
   playVoice(voiceName: string) {
@@ -123,4 +140,24 @@ export class NewCreateAgentsComponent {
     // Simplemente pasa a la siguiente pantalla (opcional)
     // this.step = 'finalizado';
   }
+
+  // Métodoodos para conectar número de teléfono
+onConnectPhone() {
+  // Aquí puedes validar los datos antes de continuar
+  console.log('Datos del número de teléfono:', {
+    phone: this.phoneNumber,
+  //  sid: this.sid,
+  //  token: this.token,
+   // label: this.label,
+   // importedNumber: this.importedNumber
+  });
+  // Puedes pasar a otra pantalla final o guardar los datos
+ // this.step = 'finalizado'; // O cualquier nombre quieras darle
+}
+
+onSkipConnectPhone() {
+ // this.step = 'finalizado'; // O puedes saltar directamente a la últimaima etapa
+}
+
+  
 }
