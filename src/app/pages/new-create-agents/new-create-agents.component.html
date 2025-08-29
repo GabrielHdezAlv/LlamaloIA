@@ -10,6 +10,8 @@
         [class.w-[40vh]]="step === 'instructions'"
         [class.w-[50vh]]="step === 'actions'"
         [class.w-[60vh]]="step === 'knowledgeBase'"
+        [class.w-[70vh]]="step === 'summary'"
+        [class.w-[80vh]]="step === 'connectPhone'"
       ></div>
     </div>
   </div>
@@ -412,6 +414,122 @@
           <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
         </svg>
       </button>
+    </div>
+  </div>
+}
+
+@if (step === 'connectPhone') {
+  <div class="bg-white rounded-2xl shadow-sm">
+    
+    <div class="bg-white rounded-2xl shadow-sm p-12 ml-8 mr-8">
+      <!-- Título principal -->
+      <h2 class="text-4xl font-bold text-center text-blue-950  tracking-[-1px]">
+        Conectar Número de Teléfono
+      </h2>
+      <p class="text-center font-bold text-lg text-blue-950 mb-8 -mt-2">
+        A través de Twilio
+      </p>
+
+      <!-- Instrucciones -->
+      <div class="space-y-3 mb-8 text-sm text-gray-700 leading-relaxed">
+        <p><strong>Seleccionar prefijo de país:</strong> Elige el código de país correspondiente.</p>
+        <p><strong>Introducir número de Twilio:</strong> Ingresa el número asociado a tu cuenta Twilio.</p>
+        <p><strong>Twilio Account SID y Auth Token:</strong> Completa los campos con tu SID de cuenta y token de autenticación.</p>
+        <p><strong>Asignar nombre o etiqueta:</strong>Da un nombre o etiqueta identificativa al número de Twilio para facilitarsugestión.</p>
+      </div>
+
+      <!-- Formulario -->
+  
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Número de teléfono -->
+        
+        <div class="flex flex-col">
+          <label for="phone" class="block text-sm font-semibold text-gray-800 mb-2">Número de teléfono*</label>
+          <div class="flex items-center">
+            <select class="w-12 h-10 bg-white border-r-0 border-gray-300 rounded-l-lg px-2 focus:ring-blue-500 focus:border-blue-500">
+              <option value="es"><img src="assets/españa.svg" alt="España" width="16" height="10" /></option>
+              <option value="us">🇺🇸</option>
+              <option value="fr">🇫🇷</option>
+            </select>
+            <input
+              type="tel"
+              id="phone"
+              placeholder="Ej: 630 00 00 00"
+              class="flex-1 px-4 py-3 border border-gray-300 rounded-r-lg focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-500"
+            />
+          </div>
+        </div>
+
+        <!-- Cuenta Twilio SID -->  
+        <div class="flex flex-col">
+          <label for="sid" class="block text-sm font-semibold text-gray-800 mb-2">Cuenta Twilio SID*</label>
+          <input
+            type="text"
+            id="sid"
+            placeholder="SID"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-500"
+          />
+        </div>
+
+        <!-- Twilio Auth Token -->  
+        <div class="flex flex-col">
+          <label for="token" class="block text-sm font-semibold text-gray-800 mb-2">Twilio Auth Token*</label>
+          <input
+            type="password"
+            id="token"
+            placeholder="Token"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-500"
+          />
+        </div>
+
+        <!-- Etiqueta -->  
+        <div class="flex flex-col">
+          <label for="label" class="block text-sm font-semibold text-gray-800 mb-2">Etiqueta</label>
+          <input
+            type="text"
+            id="label"
+            placeholder="Nombre o etiqueta"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-500"
+          />
+        </div>
+      </div>
+
+      <!-- Selección de número importado -->  
+      <div class="mt-8 text-center">
+        <label for="imported-number" class="block text-sm font-semibold text-gray-800 mb-2">Elegir Número de teléfono importado*</label>
+        <select
+          id="imported-number"
+          class="w-96 mx-auto px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-500"
+        >
+      
+          <option value="">Elegir número</option>
+          <option value="1">+34 630 00 00 00</option>
+          <option value="2">+1 555 123 4567</option>
+        </select>
+      </div>
+
+      <!-- Botones de navegación -->  
+      <div class="flex justify-between mt-12 space-x-8">
+        <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 text-lg flex items-center">
+          <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+          </svg>
+        </button>
+
+        <button
+          class="mx-auto block px-10 py-4 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 transition-colors shadow-md"
+          (click)="onConnectPhone()"
+        >
+          Continuar
+        </button>
+
+        <button (click)="onSkipConnectPhone()" class="text-blackhover:text-gray-700 text-lg flex items-center">
+          Saltar
+          <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z"fill="black"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 }
