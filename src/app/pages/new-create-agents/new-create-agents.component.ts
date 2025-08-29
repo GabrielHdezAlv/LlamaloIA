@@ -11,6 +11,9 @@ import { FormsModule } from '@angular/forms';
 export class NewCreateAgentsComponent {
   step: 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' = 'callType';
 
+  // Add this line to declare phoneNumber
+  phoneNumber = '';
+
   greeting = 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
   template = '';
   instructions = '';
@@ -31,7 +34,9 @@ export class NewCreateAgentsComponent {
   }
 
   goBack() {
-    if (this.step === 'knowledgeBase') {
+    if (this.step === 'summary') {
+      this.step = 'knowledgeBase';
+    } else if (this.step === 'knowledgeBase') {
       this.step = 'actions';
     } else if (this.step === 'actions') {
       this.step = 'instructions';
@@ -106,5 +111,16 @@ export class NewCreateAgentsComponent {
   // Opcional: Método para continuar sin elegir fuente
   continueWithoutSource() {
     this.step = 'summary'; // Pasa a la pantalla final
+  }
+
+  onSubmitTestCall() {
+    if (!this.phoneNumber) {
+      alert('Por favor, ingrese un número de teléfono');
+      return;
+    }
+    console.log('Número ingresado para prueba:', this.phoneNumber);
+    // No se envía al backend
+    // Simplemente pasa a la siguiente pantalla (opcional)
+    // this.step = 'finalizado';
   }
 }
