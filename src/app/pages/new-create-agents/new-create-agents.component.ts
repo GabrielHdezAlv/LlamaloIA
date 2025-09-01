@@ -159,5 +159,7 @@ onSkipConnectPhone() {
  // this.step = 'finalizado'; // O puedes saltar directamente a la últimaima etapa
 }
 
+ // Declare showCountryMenu property
+ showCountryMenu = false;
   
 }
