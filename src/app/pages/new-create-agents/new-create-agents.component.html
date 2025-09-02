@@ -12,6 +12,9 @@
         [class.w-[60vh]]="step === 'knowledgeBase'"
         [class.w-[70vh]]="step === 'summary'"
         [class.w-[80vh]]="step === 'connectPhone'"
+        [class.w-[90vh]]="step === 'advancedSettings'"
+        [class.w-[100vh]]="step === 'final'"
+        [class.w-full]="step === 'success'"
       ></div>
     </div>
   </div>
@@ -400,18 +403,18 @@
       <input type="tel" [(ngModel)]="phoneNumber" placeholder="600 00 00 00" class="w-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-black focus:border-transparent text-xs text-gray-500"/>
     </div>
     <div class="flex justify-between mt-16">
-      <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 text-lg flex items-center">
-        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+      <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
+        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
         </svg>
       </button>
-      <button class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors" (click)="onSubmitTestCall()">
+      <button class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0" (click)="onSubmitTestCall()">
         Continuar
       </button>
-      <button (click)="onSkip()" class="text-black hover:text-gray-700 text-lg flex items-center">
+      <button (click)="onSkip()" class="text-black hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
         Saltar
-        <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+        <svg class="ml-3 transition-transform duration-200 hover:translate-x-1" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="currentColor"/>
         </svg>
       </button>
     </div>
@@ -421,10 +424,10 @@
 @if (step === 'connectPhone') {
   <div class="bg-white rounded-2xl shadow-sm p-12 ">
     <!-- Título principal -->
-    <h2 class="text-4xl font-bold text-center text-blue-950 tracking-[-1px]">
+    <h2 class="text-5xl font-semibold text-center text-blue-950 tracking-[-3px]">
       Conectar Número de Teléfono
     </h2>
-    <p class="text-center font-bold text-lg text-blue-950 mb-8 -mt-2">
+    <p class="text-center font-semibold text-lg text-blue-950 mb-8 -mt-2 tracking-[-1px]">
       A través de Twilio
     </p>
 
@@ -557,27 +560,212 @@
 
     <!-- Botones de navegación -->
     <div class="flex justify-between mt-12 space-x-8">
-      <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 text-lg flex items-center">
-        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+      <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
+        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
         </svg>
       </button>
 
       <button
-        class="mx-auto block px-10 py-4 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 transition-colors shadow-md  "
+        class="mx-auto block px-10 py-4 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
         (click)="onConnectPhone()"
       >
         Continuar
       </button>
 
-      <button (click)="onSkipConnectPhone()" class="text-black hover:text-gray-700 text-lg flex items-center">
+      <button (click)="onSkipConnectPhone()" class="text-black hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
         Saltar
-        <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+        <svg class="ml-3 transition-transform duration-200 hover:translate-x-1" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="currentColor"/>
         </svg>
       </button>
     </div>
   </div>
 }
+
+@if (step === 'advancedSettings') {
+  <div class="bg-white rounded-2xl shadow-sm p-12">
+    <!-- Título -->
+    <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Configuración Avanzada</h2>
+
+    <!-- Subtítulo -->
+    <p class="text-center text-base text-gray-700 mb-8 max-w-4xl mx-auto">
+      Personaliza parámetros avanzados de las llamadas para adaptarlos a tus necesidades, como tiempos de espera, duración máxima o avisos de grabación.
+    </p>
+
+    <!-- Tiempo de inactividad -->
+<div class="flex items-center justify-between mb-6 px-6">
+  <label class="text-sm font-medium text-gray-800">Tiempo de espera por inactividad antes de finalizar la llamada.</label>
+  <div class="flex items-center w-64">
+    <!-- Valor formateado: 0,18 -->
+    <span
+      class="w-12 h-12 flex items-center justify-center text-sm font-semibold text-gray-600  border border-gray-300 mr-3 rounded-full transition-all duration-200 hover:bg-gray-200 hover:-translate-y-0.5 hover:shadow-md"
+      style="min-width: 3rem; min-height: 3rem;"
+    >
+      {{ formatDecimal(inactivityTimeout) }}
+    </span>
+    <!-- Slider con barra progresiva externa -->
+    <div class="w-full ml-2 h-2 bg-gray-200 rounded-lg relative cursor-pointer">
+      <!-- Barra progresiva (controlada por Angular) -->
+      <div
+        class="absolute top-0 left-0 h-full bg-gray-500 rounded-lg transition-all duration-75 ease-linear"
+        [style.width.%]="inactivityTimeout"
+      ></div>
+      <!-- Input oculto para capturar el valor -->
+      <input
+        type="range"
+        min="0"
+        max="100"
+        [(ngModel)]="inactivityTimeout"
+        (input)="inactivityTimeout = +$any($event.target).value"
+        class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+      />
+      <!-- Bola controlada por Angular (sin delay) -->
+      <div
+        class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-gray-500 rounded-full shadow-sm pointer-events-none transition-all duration-75 ease-linear"
+        [style.left.%]="inactivityTimeout"
+      ></div>
+    </div>
+  </div>
+</div>
+
+<!-- Duración máxima -->
+<div class="flex items-center justify-between mb-6 px-6">
+  <label class="text-sm font-medium text-gray-800">Duración máxima de las llamadas</label>
+  <div class="flex items-center w-64">
+    <!-- Valor formateado: 1,34 -->
+    <span
+      class="w-12 h-12 flex items-center justify-center text-sm font-semibold text-gray-600  border border-gray-300 mr-3 rounded-full transition-all duration-200 hover:bg-gray-200 hover:-translate-y-0.5 hover:shadow-md"
+      style="min-width: 3rem; min-height: 3rem;"
+    >
+      {{ formatDecimal(maxCallDuration) }}
+    </span>
+    <!-- Slider con barra progresiva externa -->
+    <div class="w-full ml-2 h-2 bg-gray-200 rounded-lg relative cursor-pointer">
+      <!-- Barra progresiva -->
+      <div
+        class="absolute top-0 left-0 h-full bg-gray-500 rounded-lg transition-all duration-75 ease-linear"
+        [style.width.%]="maxCallDuration"
+      ></div>
+      <!-- Input oculto -->
+      <input
+        type="range"
+        min="0"
+        max="100"
+        [(ngModel)]="maxCallDuration"
+        (input)="maxCallDuration = +$any($event.target).value"
+        class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+      />
+      <!-- Bola -->
+      <div
+        class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-gray-500 rounded-full shadow-sm pointer-events-none transition-all duration-75 ease-linear"
+        [style.left.%]="maxCallDuration"
+      ></div>
+    </div>
+  </div>
+</div>
+
+    <!-- Mensaje de grabación -->
+    <div class="flex items-center mb-6 px-6">
+      <div class="flex items-center">
+        <label class="text-sm font-medium text-gray-800">Mensaje de aviso de grabación</label>
+        <button
+          (click)="toggleRecordingNotice()"
+          class="ml-2 text-gray-500 hover:text-gray-700 focus:text-blue-600 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-full p-1"
+          [title]="isRecordingNoticeEnabled ? 'Desactivar aviso' : 'Activar aviso'"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:scale-110">
+            <circle cx="8" cy="8" r="7" stroke="currentColor" fill="none"/>
+            <path d="M8 4V12M8 12L10 10M8 12L6 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="relative inline-block w-10 h-6 ml-4 ">
+          <input
+            type="checkbox"
+            [checked]="isRecordingNoticeEnabled"
+            class="sr-only peer"
+            (change)="toggleRecordingNotice()"
+            id="switch-grabacion"
+          />
+          <label
+            for="switch-grabacion"
+            class="absolute inset-0 rounded-full bg-gray-300 transition-all duration-300 ease-in-out peer-checked:bg-gray-900 peer-focus:ring-2 peer-focus:ring-gray-900 peer-focus:ring-opacity-50 cursor-pointer"
+            [class.bg-blue-600]="isRecordingNoticeEnabled"
+          ></label>
+          <div
+            class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-all duration-300 ease-in-out transform shadow-md peer-checked:translate-x-4 peer-focus:ring-2 peer-focus:ring-white pointer-events-none"
+            [class.translate-x-4]="isRecordingNoticeEnabled"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Texto de aviso de grabación -->
+    @if (isRecordingNoticeEnabled) {
+      <div class="mb-8 p-4 rounded-full border border-gray-400 text-sm text-gray-400 ml-6 mr-6">
+        <div class="flex items-start">
+          <div>
+            <p>Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.</p>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Botones -->
+    <div class="flex justify-between mt-12">
+      <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
+        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <button
+        class="mx-auto block px-16 py-4 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+        (click)="onSubmitAdvancedSettings()"
+      >
+        Continuar
+      </button>
+
+      
+    </div>
+  </div>
+}
+
+@if (step === 'final') {
+  <div class="bg-white rounded-2xl shadow-sm p-16 text-center">
+    <h2 class="text-5xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Creando Agente</h2>
+    <div class="flex justify-center my-12">
+      <svg class="animate-spin" width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M28.9106 90.0612C26.2817 90.9064 23.4654 89.4605 22.6202 86.8316L21.3518 82.8864L20.3836 78.6329L19.7898 74.3111L19.5749 69.9541L19.7406 65.5948L20.2856 61.2667L21.2057 57.0025L22.494 52.8347L24.1406 48.795L26.0333 45.1085C27.2946 42.6519 30.3085 41.6829 32.765 42.9441C35.2216 44.2054 36.1906 47.2193 34.9294 49.6758L33.236 52.974L31.919 56.205L30.8886 59.5385L30.1527 62.9491L29.7168 66.411L29.5842 69.8976L29.7561 73.3825L30.231 76.8391L31.0054 80.2412L32.1402 83.7707C32.9855 86.3996 31.5395 89.216 28.9106 90.0612Z" fill="#20558E"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M34.2323 98.3133C36.0863 96.2668 39.2483 96.1109 41.2947 97.965L44.0422 100.454L46.8223 102.563L49.7755 104.421L52.8795 106.014L56.1105 107.331L59.444 108.362L62.8547 109.098L66.3165 109.534L69.8031 109.666L73.288 109.494L76.7446 109.019L80.1467 108.245L83.4684 107.177L86.6844 105.824L89.7701 104.195L92.7022 102.304L95.4583 100.164L98.0174 97.7923L100.36 95.2066L102.468 92.4266L104.327 89.4733L105.92 86.3694L107.237 83.1383L108.268 79.8048L109.004 76.3942L109.439 72.9324L109.572 69.4458L109.4 65.9609L108.925 62.5042L108.151 59.1022L107.083 55.7804L105.729 52.5645L104.101 49.4787L102.21 46.5466L100.07 43.7905L97.6982 41.2314L95.1125 38.8888L92.3325 36.7804L89.3792 34.9223L86.2752 33.3287L83.0442 32.0117L79.7107 30.9813L76.3001 30.2453L72.8383 29.8094L69.3517 29.6769L65.8667 29.8487L62.4101 30.3237L59.0081 31.0981L55.6863 32.1661L52.4704 33.5194L49.3846 35.148L46.2691 37.1576C43.9485 38.6544 40.8539 37.9867 39.3571 35.6661C37.8603 33.3456 38.528 30.251 40.8486 28.7542L44.331 26.5079L48.189 24.4718L52.2098 22.7796L56.3628 21.4444L60.6164 20.4762L64.9381 19.8824L69.2952 19.6675L73.6544 19.8332L77.9826 20.3782L82.2468 21.2983L86.4146 22.5866L90.4542 24.2332L94.335 26.2257L98.0273 28.5488L101.503 31.1848L104.736 34.1138L107.701 37.3134L110.376 40.7592L112.741 44.4251L114.777 48.2831L116.469 52.3039L117.804 56.4569L118.773 60.7105L119.366 65.0322L119.581 69.3893L119.416 73.7485L118.871 78.0767L117.951 82.3409L116.662 86.5087L115.016 90.5483L113.023 94.4291L110.7 98.1214L108.064 101.597L105.135 104.83L101.935 107.795L98.4896 110.47L94.8237 112.835L90.9657 114.871L86.9449 116.563L82.7919 117.899L78.5384 118.867L74.2166 119.461L69.8596 119.675L65.5004 119.51L61.1722 118.965L56.908 118.045L52.7402 116.756L48.7005 115.11L44.8198 113.117L41.1274 110.794L37.6516 108.158L34.5805 105.376C32.5341 103.522 32.3782 100.36 34.2323 98.3133Z" fill="#A3C0E0"/>
+        </svg>
+        
+    </div>
+    <p class="text-base text-gray-700 max-w-2xl mx-auto">
+      No cierre esta ventana o perderá el progreso y tendrá que configurar el agente desde cero. Por favor, manténgala abierta hasta que finalice el proceso.
+    </p>
+  </div>
+}
+
+@if (step === 'success') {
+  <div class="bg-white rounded-2xl shadow-sm p-16 text-center">
+    <h2 class="text-5xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Agente Creado con Éxito</h2>
+    <div class="flex justify-center my-12">
+      <div class="w-24 h-24 bg-blue-200 rounded-full flex items-center justify-center">
+        <svg width="44" height="33" viewBox="0 0 48 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.64844 16.4522L17.2201 30.0201L44.352 2.8844" stroke="#1E3A8A" stroke-width="5.42714" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          
+      </div>
+    </div>
+    <button
+      class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors"
+      (click)="onFinish()"
+    >
+      Finalizar
+    </button>
+  </div>
+}
+
 </div>
 
