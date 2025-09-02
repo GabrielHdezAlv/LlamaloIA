@@ -6,6 +6,8 @@ import { AgentsComponent } from './pages/agents/agents.component';
 import { AuthFormComponent } from './auth/auth-form/auth-form.component';
 import { NewAgentsComponent } from './pages/new-agents/new-agents.component';
 import { NewCreateAgentsComponent } from './pages/new-create-agents/new-create-agents.component';
+import { NumbersComponent } from './pages/numbers/numbers.component';
+
 
 export const routes: Routes = [
   {
@@ -69,7 +71,7 @@ export const routes: Routes = [
       { path: 'myAgents', component: HomeComponent },
       { path: 'agents', component: NewAgentsComponent },
       { path: 'agents/create', component: NewCreateAgentsComponent }, // 👈 nueva ruta
-      { path: 'numbers', component: HomeComponent },
+      { path: 'numbers', component: NumbersComponent },
       { path: 'history', component: HomeComponent },
       { path: 'metrics', component: HomeComponent },
     ],
