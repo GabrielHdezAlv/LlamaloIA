@@ -39,6 +39,9 @@ export class NewTopbarComponent implements OnInit {
     } else if (url.startsWith('/dashboard/numbers')) {
       this.pageTitle = 'Tus Numeros';
       this.welcomeText = '';
+    } else if (url.startsWith('/dashboard/history')) {
+      this.pageTitle = 'Historial & Transcripciones';
+      this.welcomeText = '';
     } else if (url === '/dashboard/profile') {
       this.pageTitle = 'Perfil & Facturación';
       this.welcomeText = '';
