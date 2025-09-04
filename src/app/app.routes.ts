@@ -8,6 +8,7 @@ import { NewAgentsComponent } from './pages/new-agents/new-agents.component';
 import { NewCreateAgentsComponent } from './pages/new-create-agents/new-create-agents.component';
 import { NumbersComponent } from './pages/numbers/numbers.component';
 import { HistorialComponent } from './pages/historial/historial.component';
+import { MetricsComponent } from './pages/metrics/metrics.component';
 
 export const routes: Routes = [
   {
@@ -73,7 +74,7 @@ export const routes: Routes = [
       { path: 'agents/create', component: NewCreateAgentsComponent }, // 👈 nueva ruta
       { path: 'numbers', component: NumbersComponent },
       { path: 'history', component: HistorialComponent },
-      { path: 'metrics', component: HomeComponent },
+      { path: 'metrics', component: MetricsComponent },
     ],
   },
   { path: '**', redirectTo: 'login' },
