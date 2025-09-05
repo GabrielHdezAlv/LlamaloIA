@@ -75,6 +75,11 @@ export class SidebarComponent {
   // Método para verificar si una ruta está activa
   isRouteActive(route: string): boolean {
     const currentUrl = this.router.url;
+
+    // Caso especial: /dashboard/agents o /dashboard/agents/create → resaltar "Agentes"
+    if (route === '/dashboard/agents') {
+      return currentUrl === '/dashboard/agents' || currentUrl === '/dashboard/agents/create';
+    }
     
     // Para la ruta de inicio, también activar cuando esté en /dashboard sin nada más
     if (route === '/dashboard/home') {
