@@ -208,48 +208,63 @@
         <!-- Row 3 -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Agentes Creados -->
-          <div class="bg-white rounded-3xl p-5 col-span-1 lg:col-span-2 mr-6 -mt-20">
-            <h3 class="font-semibold text-gray-800 mb-4">Agentes Creados</h3>
+          <div class="bg-white rounded-3xl p-8 col-span-1 lg:col-span-2 mr-6 -mt-20 shadow-none">
+            <h3 class="font-semibold text-gray-800 mb-7 text-lg">Agentes Creados</h3>
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
                 <thead>
-                  <tr class="text-left text-gray-500 border-b">
-                    <th class="pb-2">Semana</th>
-                    <th class="pb-2">Productos</th>
-                    <th class="pb-2">Vistas</th>
-                    <th class="pb-2">Me gusta</th>
+                  <tr class="text-left text-gray-400 border-b border-gray-200">
+                    <th class="pb-4 font-medium">Nombre</th>
+                    <th class="pb-4 font-medium">Tipo</th>
+                    <th class="pb-4 font-medium">Total Min</th>
+                    <th class="pb-4 font-medium">Estado</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="border-b hover:bg-gray-50">
-                    <td class="py-3">Carta</td>
-                    <td class="py-3">Inbound</td>
-                    <td class="py-3">530</td>
-                    <td class="py-3">
-                      <span class="inline-flex items-center text-green-600 text-xs font-medium">
-                        ↑ 25.4%
+                  <!-- Row 1 -->
+                  <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <td class="py-4 text-gray-700 font-medium">Carla</td>
+                    <td class="py-4 text-gray-700">Inbound</td>
+                    <td class="py-4 text-gray-700">
+                      530
+                      <span class="inline-flex items-center bg-blue-50 text-blue-900 text-xs font-semibold px-2 py-1 rounded-md ml-2 border border-blue-200">
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 16 16">
+                          <path d="M8 12V4M8 4l-3 3M8 4l3 3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        25.4%
                       </span>
                     </td>
-                    <td class="py-3">
+                    <td class="py-4">
                       <div class="flex items-center">
-                        <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-                        <span class="text-sm">Activo</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="8" cy="8" r="8" fill="#1E3A8A" fill-opacity="0.5"/>
+                          <circle cx="8" cy="8" r="4" fill="#1E3A8A"/>
+                        </svg>
+                        <span class="text-gray-700 ml-2">Activo</span>
                       </div>
                     </td>
                   </tr>
-                  <tr class="border-b hover:bg-gray-50">
-                    <td class="py-3">Carta</td>
-                    <td class="py-3">Outbound</td>
-                    <td class="py-3">250</td>
-                    <td class="py-3">
-                      <span class="inline-flex items-center text-red-600 text-xs font-medium">
-                        ↓ 8.9%
+
+                  <!-- Row 2 -->
+                  <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <td class="py-4 text-gray-700 font-medium">Carla</td>
+                    <td class="py-4 text-gray-700">Outbound</td>
+                    <td class="py-4 text-gray-700">
+                      250
+                      <span class="inline-flex items-center bg-blue-50 text-blue-900 text-xs font-semibold px-2 py-1 rounded-md ml-2 border border-blue-200">
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 16 16">
+                          <path d="M8 4v8M8 12l-3-3M8 12l3-3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        8.9%
                       </span>
                     </td>
-                    <td class="py-3">
+                    <td class="py-4">
                       <div class="flex items-center">
-                        <div class="w-3 h-3 bg-gray-300 rounded-full mr-2"></div>
-                        <span class="text-sm">Borrador</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="8" cy="8" r="8" fill="#EDEDED"/>
+                          <circle cx="8" cy="8" r="4" fill="#C5CAC4"/>
+                        </svg>
+                        <span class="text-gray-700 ml-2">Borrador</span>
                       </div>
                     </td>
                   </tr>
