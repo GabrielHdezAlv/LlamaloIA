@@ -1,10 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { UserStorage } from '../../storages/user/user-storage';
+import { NgIf } from '@angular/common'; // ✅ Importado
 
 @Component({
   selector: 'new-topbar',
   standalone: true,
+  imports: [
+    NgIf, // ✅ Importado explícitamente
+  ],
   templateUrl: './new-topbar.component.html',
   styleUrls: ['./new-topbar.component.scss'],
 })
@@ -12,24 +17,35 @@ export class NewTopbarComponent implements OnInit {
   pageTitle: string = 'Inicio';
   welcomeText: string = 'Hey Maria, Bienvenido/a';
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  private router = inject(Router);
+  public userStorage = inject(UserStorage);
+
+  showDropdown = false;
+
+  languages = [
+    { code: 'es', name: 'Español' },
+    { code: 'en', name: 'English' },
+  ];
+  selectedLanguage = this.languages[0];
+
+  userName = () => {
+    const user = this.userStorage.user();
+    return user ? `${user.name} ${user.lastname}` : 'Usuario';
+  };
 
   ngOnInit() {
-    // Filtrar solo eventos de finalización de navegación
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         this.updateHeader();
       });
 
-    // Ejecutar al inicio para asegurar que se actualice con la ruta actual
     this.updateHeader();
   }
 
   updateHeader() {
     const url = this.router.url;
 
-    // Orden importante: rutas más específicas primero
     if (url === '/dashboard/agents/create') {
       this.pageTitle = 'Crear Agente';
       this.welcomeText = '';
@@ -52,5 +68,23 @@ export class NewTopbarComponent implements OnInit {
       this.pageTitle = 'Inicio';
       this.welcomeText = 'Hey Maria, Bienvenido/a';
     }
+  }
+
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  selectLanguage(lang: any) {
+    this.selectedLanguage = lang;
+  }
+
+  navigateTo(route: string) {
+    this.router.navigate([route]);
+    this.showDropdown = false;
+  }
+
+  logout() {
+    this.userStorage.clearUser();
+    this.router.navigate(['/login']);
   }
 }

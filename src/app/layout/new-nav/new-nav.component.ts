@@ -16,7 +16,8 @@ export class SidebarComponent {
   windowWidth: number = 0;
 
   // Inyectar UserStorage y Router
-  private userStorage = inject(UserStorage);
+  // DESPUÉS (público para que el template pueda acceder)
+  public userStorage = inject(UserStorage);
   private router = inject(Router);
 
   // Propiedad computada para obtener el nombre completo del usuario
@@ -82,5 +83,26 @@ export class SidebarComponent {
     
     // Para otras rutas, verificar coincidencia exacta
     return currentUrl === route;
+  }
+
+  // En el componente
+showDropdown = false;
+
+  // Método para abrir/cerrar dropdown
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  // Navegar a ruta
+  navigateTo(route: string) {
+    this.router.navigate([route]);
+    this.showDropdown = false;
+  }
+
+  // Cerrar sesión
+  logout() {
+    // Aquí puedes hacer lo que necesites para cerrar sesión
+    this.userStorage.clearUser();
+    this.router.navigate(['/login']);
   }
 }
