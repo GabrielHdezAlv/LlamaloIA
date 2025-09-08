@@ -64,6 +64,9 @@ export class NewTopbarComponent implements OnInit {
     } else if (url === '/dashboard/profile') {
       this.pageTitle = 'Perfil & Facturación';
       this.welcomeText = '';
+    } else if (url === '/dashboard/account') {
+      this.pageTitle = 'Ajustes';
+      this.welcomeText = '';
     } else {
       this.pageTitle = 'Inicio';
       this.welcomeText = 'Hey Maria, Bienvenido/a';
