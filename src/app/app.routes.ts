@@ -9,6 +9,7 @@ import { NewCreateAgentsComponent } from './pages/new-create-agents/new-create-a
 import { NumbersComponent } from './pages/numbers/numbers.component';
 import { HistorialComponent } from './pages/historial/historial.component';
 import { MetricsComponent } from './pages/metrics/metrics.component';
+import { AccountComponent } from './pages/account/account.component';
 
 export const routes: Routes = [
   {
@@ -75,6 +76,9 @@ export const routes: Routes = [
       { path: 'numbers', component: NumbersComponent },
       { path: 'history', component: HistorialComponent },
       { path: 'metrics', component: MetricsComponent },
+
+      // 🔽 Nuevas rutas del dropdown
+      { path: 'account', component: AccountComponent },
     ],
   },
   { path: '**', redirectTo: 'login' },
