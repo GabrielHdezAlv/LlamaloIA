@@ -51,7 +51,7 @@ export class HistorialComponent {
       phone: '+34 600 44 55 66',
       time: '4m 18s',
       avatar: 'assets/predeterminada.webp',
-      status: 'pendiente',
+      status: 'resuelto',
       lastInteraction: '14 Sep 2025 - 10:23',
       audioSrc: 'https://example.com/audio2.mp3',
       messages: [
@@ -72,7 +72,7 @@ export class HistorialComponent {
       phone: '+34 600 77 88 99',
       time: '1m 14s',
       avatar: 'assets/predeterminada.webp',
-      status: 'resuelto',
+      status: 'pendiente',
       lastInteraction: '13 Sep 2025 - 16:45',
       audioSrc: 'https://example.com/audio3.mp3',
       messages: [
