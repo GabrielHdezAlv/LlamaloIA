@@ -11,6 +11,7 @@ import { HistorialComponent } from './pages/historial/historial.component';
 import { MetricsComponent } from './pages/metrics/metrics.component';
 import { AccountComponent } from './pages/account/account.component';
 
+
 export const routes: Routes = [
   {
     path: 'login',
