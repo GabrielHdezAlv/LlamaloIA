@@ -5,7 +5,7 @@ import { UserStorage } from '../../storages/user/user-storage';
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'new-topbar',
+  selector: 'topbar',
   standalone: true,
   imports: [NgIf],
   templateUrl: './topbar.component.html',
