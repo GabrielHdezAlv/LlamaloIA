@@ -231,7 +231,7 @@
         </button>
 
         <button
-          class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors"
+          class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
           (click)="onSubmit()"
         >
           Continuar
@@ -290,7 +290,7 @@
         </button>
   
         <button
-          class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors"
+          class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
           (click)="step = 'knowledgeBase'"
         >
           Continuar
@@ -356,16 +356,16 @@
     <!-- Botones SIEMPRE FIJOS ABAJO -->
     <div class="flex justify-between w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
       <button
-        (click)="goBack()"
-        class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
-      >
-        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
-        </svg>
-      </button>
+          (click)="goBack()"
+          class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
+        >
+          <svg width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+          </svg>
+        </button>
 
       <button
-        class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors"
+        class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
         (click)="step = 'summary'"
       >
         Continuar
@@ -394,20 +394,27 @@
       <input type="tel" [(ngModel)]="phoneNumber" placeholder="600 00 00 00" class="w-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-black focus:border-transparent text-xs text-gray-500"/>
     </div>
     <div class="flex justify-between w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
-      <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
-        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
-          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
-        </svg>
-      </button>
-      <button class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0" (click)="onSubmitTestCall()">
+      <button
+          (click)="goBack()"
+          class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
+        >
+          <svg width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+          </svg>
+        </button>
+      <button class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md" (click)="onSubmitTestCall()">
         Continuar
       </button>
-      <button (click)="onSkip()" class="text-black hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
-        Saltar
-        <svg class="ml-3 transition-transform duration-200 hover:translate-x-1" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="currentColor"/>
-        </svg>
-      </button>
+      <button
+          (click)="step = 'connectPhone'"
+          class="text-black hover:text-gray-700 text-lg flex items-center"
+        >
+          Saltar
+          <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+            </svg>
+            
+        </button>
     </div>
   </div>
 }
@@ -549,25 +556,32 @@
 
     <!-- Botones de navegación SIEMPRE FIJOS ABAJO -->
     <div class="flex justify-between w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8 space-x-8">
-      <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
-        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
-          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
-        </svg>
-      </button>
+      <button
+          (click)="goBack()"
+          class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
+        >
+          <svg width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+          </svg>
+        </button>
 
       <button
-        class="mx-auto block px-10 py-4 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+        class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
         (click)="onConnectPhone()"
       >
         Continuar
       </button>
 
-      <button (click)="onSkipConnectPhone()" class="text-black hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
-        Saltar
-        <svg class="ml-3 transition-transform duration-200 hover:translate-x-1" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="currentColor"/>
-        </svg>
-      </button>
+      <button
+          (click)="step = 'advancedSettings'"
+          class="text-black hover:text-gray-700 text-lg flex items-center"
+        >
+          Saltar
+          <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+            </svg>
+            
+        </button>
     </div>
   </div>
 }
@@ -709,7 +723,7 @@
       </button>
 
       <button
-        class="mx-auto block px-16 py-4 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+        class="mr-[35vh] block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
         (click)="onSubmitAdvancedSettings()"
       >
         Continuar
