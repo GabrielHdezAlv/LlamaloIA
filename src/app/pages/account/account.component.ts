@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // ✅ Importar FormsModule
+import { UserStorage } from '../../storages/user/user-storage';
 
 @Component({
   selector: 'app-account',
@@ -18,6 +19,20 @@ export class AccountComponent {
   currentPassword = '';
   newPassword = '';
   confirmPassword = '';
+
+  // Usuario actual
+  private userStore = inject(UserStorage);
+  user = this.userStore.user;
+
+  // Derivados para mostrar en plantilla
+  fullName = computed(() => {
+    const u = this.user();
+    const name = u?.name ?? '';
+    const last = u?.lastname ?? '';
+    return `${name} ${last}`.trim();
+  });
+
+  email = computed(() => this.user()?.email ?? '');
 
   // Método para cambiar de pestaña
   setActiveTab(tab: 'profile' | 'security' | 'billing') {
