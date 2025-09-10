@@ -1,0 +1,39 @@
+<div class="p-6 max-w-md">
+  <div class="flex items-center mb-4">
+    <div class="flex items-center justify-center rounded-full bg-red-100 mr-3" style="width: 40px; height: 40px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-red-500">
+        <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+    <h2 class="text-xl font-semibold text-gray-800">Eliminar Cuenta</h2>
+  </div>
+  
+  <div class="mb-6">
+    <p class="text-sm text-gray-700 mb-3">
+      {{ data.message || '¿Estás seguro de que quieres eliminar tu cuenta?' }}
+    </p>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+      <p class="text-xs text-red-700 font-medium mb-1">⚠️ Esta acción es irreversible</p>
+      <ul class="text-xs text-red-600 space-y-1">
+        <li>• Se eliminarán todos tus datos</li>
+        <li>• Se perderán todos tus agentes</li>
+        <li>• No podrás recuperar tu cuenta</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="flex justify-end space-x-3">
+    <button 
+      (click)="cancel()"
+      class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500"
+    >
+      Cancelar
+    </button>
+    <button 
+      (click)="confirm()"
+      class="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+    >
+      Eliminar Cuenta
+    </button>
+  </div>
+</div>
