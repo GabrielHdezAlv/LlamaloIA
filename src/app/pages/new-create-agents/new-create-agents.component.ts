@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Location } from '@angular/common'; // 👈 Importa Location
+import { ModalService } from '../../shared/modals/modal.service';
 
 @Component({
   selector: 'app-new-create-agents',
@@ -15,7 +16,7 @@ export class NewCreateAgentsComponent {
   // Add this line to declare phoneNumber
   phoneNumber = '';
 
-  constructor(private location: Location) {} // ✅ Añade esto
+  constructor(private location: Location, private modalService: ModalService) {} // ✅ Añade esto
 
   greeting = 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
   template = '';
@@ -95,6 +96,11 @@ export class NewCreateAgentsComponent {
     audio.play().catch(err => {
       console.error('Error al reproducir audio:', err);
       this.isPlaying = false;
+      this.modalService.openError({
+        title: 'Error de audio',
+        message: 'No se pudo reproducir el audio seleccionado.',
+        details: String(err)
+      });
     });
 
     audio.onended = () => {
@@ -110,6 +116,10 @@ export class NewCreateAgentsComponent {
       if (this.audioActual === audio) {
         this.audioActual = null;
       }
+      this.modalService.openError({
+        title: 'Error de audio',
+        message: 'Hubo un problema al cargar el audio.',
+      });
     };
   }
 
@@ -140,7 +150,10 @@ export class NewCreateAgentsComponent {
 
   onSubmitTestCall() {
     if (!this.phoneNumber) {
-      alert('Por favor, ingrese un número de teléfono');
+      this.modalService.openError({
+        title: 'Número requerido',
+        message: 'Por favor, ingrese un número de teléfono',
+      });
       return;
     }
     console.log('Número ingresado para prueba:', this.phoneNumber);
@@ -150,7 +163,7 @@ export class NewCreateAgentsComponent {
   }
 
   // Métodos para conectar número de teléfono
-onConnectPhone() {
+ onConnectPhone() {
   // Aquí puedes validar los datos antes de continuar
   console.log('Datos del número de teléfono:', {
     phone: this.phoneNumber,
@@ -161,29 +174,29 @@ onConnectPhone() {
   });
   // Navega a configuración avanzada
   this.step = 'advancedSettings';
-}
+ }
 
-onSkipConnectPhone() {
+ onSkipConnectPhone() {
   // Salta a configuración avanzada
   this.step = 'advancedSettings';
-}
+ }
 
  // Declare showCountryMenu property
  showCountryMenu = false;
 
  // Nuevas propiedades
-inactivityTimeout = 0;           // Tiempo de inactividad en segundos
-maxCallDuration = 0;            // Duración máxima en segundos
-isRecordingNoticeEnabled = false;
-recordingNoticeText = 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+ inactivityTimeout = 0;           // Tiempo de inactividad en segundos
+ maxCallDuration = 0;            // Duración máxima en segundos
+ isRecordingNoticeEnabled = false;
+ recordingNoticeText = 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
 
-// Método para cambiar el estado del aviso de grabación
-toggleRecordingNotice() {
+ // Método para cambiar el estado del aviso de grabación
+ toggleRecordingNotice() {
   this.isRecordingNoticeEnabled = !this.isRecordingNoticeEnabled;
-}
+ }
 
-// Método para formatear el tiempo en formato legible
-formatTime(seconds: number): string {
+ // Método para formatear el tiempo en formato legible
+ formatTime(seconds: number): string {
   if (seconds < 60) {
     return `${seconds}`;
   } else if (seconds < 3600) {
@@ -195,46 +208,52 @@ formatTime(seconds: number): string {
     const remainingMinutes = Math.floor((seconds % 3600) / 60);
     return remainingMinutes > 0 ? `${hours} ${remainingMinutes}` : `${hours}`;
   }
-}
+ }
 
-// Método para obtener el tiempo de inactividad formateado
-getFormattedInactivityTimeout(): string {
+ // Método para obtener el tiempo de inactividad formateado
+ getFormattedInactivityTimeout(): string {
   return this.formatTime(this.inactivityTimeout);
-}
+ }
 
-// Método para obtener la duración máxima formateada
-getFormattedMaxCallDuration(): string {
+ // Método para obtener la duración máxima formateada
+ getFormattedMaxCallDuration(): string {
   return this.formatTime(this.maxCallDuration);
-}
+ }
 
-// Método para actualizar el tiempo de inactividad
-updateInactivityTimeout(value: number) {
+ // Método para actualizar el tiempo de inactividad
+ updateInactivityTimeout(value: number) {
   this.inactivityTimeout = value;
   console.log('Tiempo de inactividad actualizado:', this.getFormattedInactivityTimeout());
-}
+ }
 
-// Método para actualizar la duración máxima
-updateMaxCallDuration(value: number) {
+ // Método para actualizar la duración máxima
+ updateMaxCallDuration(value: number) {
   this.maxCallDuration = value;
   console.log('Duración máxima actualizada:', this.getFormattedMaxCallDuration());
-}
+ }
 
-// Método para validar la configuración avanzada
-validateAdvancedSettings(): boolean {
+ // Método para validar la configuración avanzada
+ validateAdvancedSettings(): boolean {
   if (this.inactivityTimeout < 0 || this.inactivityTimeout > 300) {
-    alert('El tiempo de inactividad debe estar entre 0 y 300 segundos');
+    this.modalService.openError({
+      title: 'Valor inválido',
+      message: 'El tiempo de inactividad debe estar entre 0 y 300 segundos',
+    });
     return false;
   }
   
   if (this.maxCallDuration < 60 || this.maxCallDuration > 3600) {
-    alert('La duración máxima debe estar entre 60 y 3600 segundos');
+    this.modalService.openError({
+      title: 'Valor inválido',
+      message: 'La duración máxima debe estar entre 60 y 3600 segundos',
+    });
     return false;
   }
   
   return true;
-}
+ }
 
-onSubmitAdvancedSettings() {
+ onSubmitAdvancedSettings() {
   if (this.validateAdvancedSettings()) {
     console.log('Configuración avanzada guardada:', {
       inactivityTimeout: this.inactivityTimeout,
@@ -251,10 +270,10 @@ onSubmitAdvancedSettings() {
       this.step = 'success'; // Cambia a pantalla de éxito
     }, 5000);
   }
-}
+ }
 
-// Método para saltar la configuración avanzada
-onSkipAdvancedSettings() {
+ // Método para saltar la configuración avanzada
+ onSkipAdvancedSettings() {
   console.log('Configuración avanzada saltada');
   this.step = 'final';
 
@@ -262,42 +281,42 @@ onSkipAdvancedSettings() {
   setTimeout(() => {
     this.step = 'success';
   }, 5000);
-}
+ }
 
-// Método para finalizar el proceso
-onFinish() {
+ // Método para finalizar el proceso
+ onFinish() {
   // Vuelve a la página anterior (por ejemplo, /dashboard/agents)
   this.location.back();
-}
+ }
 
-// Método para resetear la configuración a valores por defecto
-resetAdvancedSettings() {
+ // Método para resetear la configuración a valores por defecto
+ resetAdvancedSettings() {
   this.inactivityTimeout = 30;
   this.maxCallDuration = 300;
   this.isRecordingNoticeEnabled = false;
   console.log('Configuración avanzada reseteada a valores por defecto');
-}
+ }
 
-// Método para obtener un resumen de la configuración
-getAdvancedSettingsSummary(): string {
+ // Método para obtener un resumen de la configuración
+ getAdvancedSettingsSummary(): string {
   return `Tiempo de inactividad: ${this.getFormattedInactivityTimeout()}, Duración máxima: ${this.getFormattedMaxCallDuration()}, Aviso de grabación: ${this.isRecordingNoticeEnabled ? 'Activado' : 'Desactivado'}`;
-}
+ }
 
-// Formatea número a decimal con coma (ej: 18 → '0,18')
-formatDecimal(value: number): string {
+ // Formatea número a decimal con coma (ej: 18 → '0,18')
+ formatDecimal(value: number): string {
   // Limitamos a 200 para no exceder 2,00
   const clamped = Math.min(value, 200);
   const realValue = clamped / 100; // 18 → 0.18, 134 → 1.34
   return realValue.toFixed(2).replace('.', ',');
-}
+ }
 
-// Métodos para detectar cambios en los sliders
-onInactivityChange() {
+ // Métodos para detectar cambios en los sliders
+ onInactivityChange() {
   // Puedes agregar lógica si necesitas más adelante
   console.log('Inactivity: ', this.inactivityTimeout);
-}
+ }
 
-onMaxCallDurationChange() {
+ onMaxCallDurationChange() {
   console.log('Max duration: ', this.maxCallDuration);
-}
+ }
 }

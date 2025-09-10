@@ -17,6 +17,7 @@ import { Agent } from '../../shared/models/agent.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
 import { ElevenLabsService } from '../../core/services/eleven-labs.service';
+import { ModalService } from '../../shared/modals/modal.service';
 
 @Component({
   selector: 'app-agents',
@@ -39,6 +40,7 @@ export class AgentsComponent {
   private agentsService = inject(AgentsService);
   private userService = inject(UserService);
   private elevenLabsService = inject(ElevenLabsService);
+  private modalService = inject(ModalService);
 
   public twilioStorage: any = inject(TwilioStorage);
   private userStorage: any = inject(UserStorage);
@@ -155,6 +157,11 @@ export class AgentsComponent {
         error: (err) => {
           loaderRef.close();
           console.error('Error al guardar la configuración:', err);
+          this.modalService.openError({
+            title: 'Error de configuración',
+            message: 'No se pudo guardar la configuración de Twilio.',
+            details: String(err)
+          });
         },
       });
     });
@@ -200,6 +207,10 @@ export class AgentsComponent {
     ) {
       loaderRef.close();
       console.error('El mensaje de saludo personalizado no puede estar vacío.');
+      this.modalService.openError({
+        title: 'Validación',
+        message: 'El mensaje de saludo personalizado no puede estar vacío.',
+      });
       return;
     }
 
@@ -231,6 +242,11 @@ export class AgentsComponent {
             error: (error) => {
               loaderRef.close();
               console.error('Error al publicar el agente:', error);
+              this.modalService.openError({
+                title: 'Error',
+                message: 'No se pudo publicar el agente.',
+                details: String(error)
+              });
             },
           });
         },
@@ -240,6 +256,11 @@ export class AgentsComponent {
             'Error al guardar el mensaje de firstInteraction:',
             error
           );
+          this.modalService.openError({
+            title: 'Error',
+            message: 'No se pudo guardar el mensaje inicial.',
+            details: String(error)
+          });
         },
       });
   }
