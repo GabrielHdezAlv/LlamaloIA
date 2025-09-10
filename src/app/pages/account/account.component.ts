@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // ✅ Importar FormsModule
+import { ModalService } from '../../shared/modals/modal.service';
 
 @Component({
   selector: 'app-account',
@@ -19,19 +20,20 @@ export class AccountComponent {
   newPassword = '';
   confirmPassword = '';
 
+  private modalService = inject(ModalService);
+
   // Método para cambiar de pestaña
   setActiveTab(tab: 'profile' | 'security' | 'billing') {
     this.activeTab = tab;
   }
 
-  
-
-  
-
   // Método para actualizar contraseña
   updatePassword() {
     if (this.newPassword !== this.confirmPassword) {
-      alert('Las contraseñas no coinciden');
+      this.modalService.openError({
+        title: 'Contraseña inválida',
+        message: 'Las contraseñas no coinciden',
+      });
       return;
     }
     // Aquí puedes enviar al backend
@@ -40,7 +42,7 @@ export class AccountComponent {
 
   // Método para eliminar cuenta
   deleteAccount() {
-    if (confirm('¿Estás seguro de que deseas eliminar tu cuenta?')) {
+    if (window.confirm('¿Estás seguro de que deseas eliminar tu cuenta?')) {
       // Lógica de eliminación
       console.log('Cuenta eliminada');
     }

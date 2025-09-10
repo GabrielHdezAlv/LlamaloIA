@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { log } from 'console';
+import { ModalService } from '../../shared/modals/modal.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -46,6 +47,7 @@ export class AuthFormComponent implements OnInit {
   private userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
   private router = inject(Router);
+  private modalService = inject(ModalService);
 
   constructor(private route: ActivatedRoute) {}
 
@@ -87,7 +89,10 @@ export class AuthFormComponent implements OnInit {
     event.preventDefault();
 
     if (!this.email || !this.password) {
-      this.showNotification('Por favor, ingrese email y contraseña', 'error');
+      this.modalService.openError({
+        title: 'Campos requeridos',
+        message: 'Por favor, ingrese email y contraseña',
+      });
       return;
     }
 
@@ -108,46 +113,37 @@ export class AuthFormComponent implements OnInit {
             }
             console.log('data: ', data);
 
-            this.showNotification('Inicio de sesión exitoso', 'success');
+            this.showSuccess('Inicio de sesión exitoso');
             this.router.navigate(['/dashboard']);
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);
-            this.showNotification(
-              'Error al obtener perfil de usuario',
-              'error'
-            );
+            this.modalService.openError({
+              title: 'Perfil de usuario',
+              message: 'Error al obtener perfil de usuario',
+              details: String(err?.message || err),
+            });
           },
         });
       },
       error: (err) => {
         console.error('❌ Error en inicio de sesión:', err);
-        this.showNotification(
-          'Error en inicio de sesión: ' + err.message,
-          'error'
-        );
+        this.modalService.openError({
+          title: 'Inicio de sesión',
+          message: 'Error en inicio de sesión',
+          details: String(err?.error?.message || err?.message || err),
+        });
       },
     });
   }
 
-  private showNotification(message: string, type: 'success' | 'error') {
-    if (this.type === 'login') {
-      this.snackBar.open(message, 'Cerrar', {
-        duration: 3000,
-        panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      });
-    }
-
-    if (this.type === 'register') {
-      this.snackBar.open(message, 'Cerrar', {
-        duration: 3000,
-        panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      });
-    }
+  private showSuccess(message: string) {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 3000,
+      panelClass: 'snackbar-success',
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 
   register(event: Event) {
@@ -175,28 +171,38 @@ export class AuthFormComponent implements OnInit {
               this.twilioStorage.setConfig(data.twilio);
             }
 
-            this.showNotification('Registro exitoso', 'success');
+            this.showSuccess('Registro exitoso');
             this.router.navigate(['/dashboard']);
           },
           error: (err) => {
-            this.showNotification(
-              'Error al obtener perfil de usuario',
-              'error'
-            );
+            this.modalService.openError({
+              title: 'Perfil de usuario',
+              message: 'Error al obtener perfil de usuario',
+              details: String(err?.message || err),
+            });
           },
         });
       },
       error: (err) => {
-        this.showNotification(
-          'Error en registro: ' + (err.error?.message || 'Verifica los datos'),
-          'error'
-        );
+        this.modalService.openError({
+          title: 'Registro',
+          message: err?.error?.message || 'Error en registro. Verifica los datos',
+          details: String(err?.message || err),
+        });
       },
     });
   }
 
   recover(event: Event) {
-    console.log('Recuperar contraseña para:', this.email);
-    alert(`Recuperación: ${this.email}`);
+    event.preventDefault();
+    if (!this.email) {
+      this.modalService.openError({
+        title: 'Correo requerido',
+        message: 'Ingresa tu correo para recuperar la contraseña',
+      });
+      return;
+    }
+    // Aquí se podría llamar a un endpoint real de recuperación
+    this.showSuccess('Si el correo existe, recibirás instrucciones de recuperación.');
   }
 }
