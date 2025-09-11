@@ -46,3 +46,4 @@ export class PurchaseModalComponent {
     this.dialogRef.close(false);
   }
 }
+

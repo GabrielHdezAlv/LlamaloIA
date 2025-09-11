@@ -27,3 +27,4 @@ export class DeleteAccountModalComponent {
     this.dialogRef.close(false);
   }
 }
+
