@@ -110,6 +110,26 @@
 
   /* Bajamos el gráfico en 2560px */
   .llamadas-por-dia-grafico-wrapper {
-    margin-top: 140px !important;
+    margin-top: 150px !important;
   }
+
+  /* Aumentamos la altura visual de las barras sin cambiar sus valores */
+  .llamadas-barra {
+    transform-origin: bottom;
+    transform: scaleY(1.35);
+  }
+}
+
+/* Animación de latido para el punto azul de agentes activos */
+.latido {
+  transform-origin: center;
+  animation: latir 2s ease-in-out infinite;
+}
+
+@keyframes latir {
+  0%   { transform: scale(1); opacity: 1; }
+  25%  { transform: scale(1.2); opacity: 0.95; }
+  50%  { transform: scale(1); opacity: 1; }
+  75%  { transform: scale(1.15); opacity: 0.98; }
+  100% { transform: scale(1); opacity: 1; }
 }

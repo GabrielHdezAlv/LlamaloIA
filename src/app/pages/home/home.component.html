@@ -3,11 +3,11 @@
   <div class="flex justify-between items-center mb-6">
     <h2 class="brand-font text-xl font-semibold text-gray-800 resumen-titulo">Resumen</h2>
     <div class="flex space-x-3 resumen-dias-botones">
-      <button class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800">1D</button>
-      <button class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800">7D</button>
-      <button class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800">1M</button>
-      <button class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800">6M</button>
-      <button class="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded-full">1A</button>
+      <button (click)="setRange('1D')" [class]="selectedRange==='1D' ? 'px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded-full' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">1D</button>
+      <button (click)="setRange('7D')" [class]="selectedRange==='7D' ? 'px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded-full' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">7D</button>
+      <button (click)="setRange('1M')" [class]="selectedRange==='1M' ? 'px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded-full' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">1M</button>
+      <button (click)="setRange('6M')" [class]="selectedRange==='6M' ? 'px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded-full' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">6M</button>
+      <button (click)="setRange('1A')" [class]="selectedRange==='1A' ? 'px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded-full' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">1A</button>
     </div>
   </div>
 
@@ -23,7 +23,7 @@
       <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">Total de llamadas exitosas</h3>
 
       <div class="flex items-center gap-3">
-        <p class="text-5xl font-normal text-black">6460</p>
+        <p class="text-5xl font-normal text-black">{{ summary.totalCalls }}</p>
         <div class="flex items-center h-full ml-3">
           <svg width="100" height="110" viewBox="0 0 100 99" fill="none" xmlns="http://www.w3.org/2000/svg" class="align-middle">
             <path d="M96.3237 72.3164C91.1767 68.7988 86.0296 65.2812 80.8826 57.4857C75.7355 49.6903 70.5884 25.5428 65.4414 25.5428C60.2943 25.5428 55.1473 46.0775 50.0002 46.0775C44.8531 46.0775 39.7061 22.1203 34.559 22.1203C29.412 22.1203 24.2649 72.3164 19.1178 72.3164C13.9708 72.3164 8.82373 64.3307 3.67667 56.3449" stroke="#1E3A8A" stroke-width="3"/>
@@ -36,7 +36,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 text-blue-900" fill="none" viewBox="0 0 16 16">
             <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 12V4M8 4l-3 3m3-3l3 3"/>
           </svg>
-          36.8%
+          {{ summary.callsDeltaPct }}%
         </span>
         <span class="text-sm text-gray-400 ml-2 resumen-dias-texto">vs last year</span>
       </div>
@@ -54,7 +54,7 @@
       <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">Tiempo Ahorrado</h3>
 
       <div class="flex items-center gap-3">
-        <p class="text-5xl font-normal text-black">512</p>
+        <p class="text-5xl font-normal text-black">{{ summary.timeSavedHours }}</p>
         <div class="flex items-center h-full ml-3">
           <svg width="100" height="110" viewBox="0 0 122 73" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M120.257 62.5C113.618 50.577 106.978 38.654 100.338 28.575C93.6985 18.496 87.0588 2.02502 80.4191 2.02502C73.7794 2.02502 67.1397 17.512 60.5 27.1C53.8603 36.688 47.2206 57.583 40.5809 59.55C33.9412 61.517 27.3015 60.533 20.6618 62.5C14.022 64.467 7.38234 67.908 0.74264 71.35" stroke="#1E3A8A" stroke-width="3"/>
@@ -67,7 +67,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 text-blue-900" fill="none" viewBox="0 0 16 16">
             <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 12V4M8 4l-3 3m3-3l3 3"/>
           </svg>
-          24.2%
+          {{ summary.timeSavedDeltaPct }}%
         </span>
         <span class="text-sm text-gray-400 ml-2 resumen-dias-texto">vs last year</span>
       </div>
@@ -84,7 +84,7 @@
       <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">Minutos usados</h3>
 
       <div class="flex items-center gap-3">
-        <p class="text-5xl font-normal text-black">780</p>
+        <p class="text-5xl font-normal text-black">{{ summary.minutesUsed }}</p>
         <div class="flex items-center h-full ml-3">
           <svg width="100" height="110" viewBox="0 0 116 43" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M114.515 41.767C108.235 22.1 101.956 2.43298 95.6764 2.43298C89.397 2.43298 83.1176 26.033 76.8382 26.033C70.5588 26.033 64.2794 18.167 57.9999 18.167C51.7205 18.167 45.4411 39.8 39.1617 39.8C32.8823 39.8 26.6029 33.9 20.3235 28C14.0441 22.1 7.76465 13.25 1.48524 4.39999" stroke="#1E3A8A" stroke-width="3"/>
@@ -97,7 +97,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 text-blue-900" fill="none" viewBox="0 0 16 16">
             <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 12V4M8 4l-3 3m3-3l3 3"/>
           </svg>
-          41.5%
+          {{ summary.minutesDeltaPct }}%
         </span>
         <span class="text-sm text-gray-400 ml-2 resumen-dias-texto">vs last year</span>
       </div>
@@ -122,47 +122,28 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-            <td class="py-4 font-medium text-gray-900 agentes-activos-td">Carla</td>
-            <td class="py-4 text-black font-light agentes-activos-td">Inbound</td>
+          <tr 
+            class="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+            *ngFor="let agent of activeAgents"
+          >
+            <td class="py-4 font-medium text-gray-900 agentes-activos-td">{{ agent.name }}</td>
+            <td class="py-4 text-black font-light agentes-activos-td">{{ agent.type }}</td>
             <td class="py-4 agentes-activos-td">
-              <span class="font-semibold agentes-activos-minutos">530</span>
+              <span class="font-semibold agentes-activos-minutos">{{ agent.minutes }}</span>
               <span class="inline-flex items-center px-1 py-1 rounded-lg bg-gray-100 text-sm font-semibold text-blue-900 border border-blue-100 ml-2 agentes-activos-porcentaje">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 text-blue-900 agentes-activos-icono" fill="none" viewBox="0 0 16 16">
                   <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 12V4M8 4l-3 3m3-3l3 3"/>
                 </svg>
-                25.4%
+                {{ agent.percent }}%
               </span>
             </td>
             <td class="py-4 agentes-activos-td">
               <div class="flex items-center">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="agentes-activos-estado-icono">
-                  <circle cx="8" cy="8" r="8" fill="#1E3A8A" fill-opacity="0.5"/>
-                  <circle cx="8" cy="8" r="4" fill="#1E3A8A"/>
+                  <circle cx="8" cy="8" r="8" [attr.fill]="agent.outerColor"/>
+                  <circle cx="8" cy="8" r="4" [attr.fill]="agent.innerColor" [class.latido]="agent.active"/>
                 </svg>          
-                <span class="text-gray-700 ml-2 agentes-activos-estado-texto">Activo</span>
-              </div>
-            </td>
-          </tr>
-          <tr class=" border-gray-100 hover:bg-gray-50 transition-colors">
-            <td class="py-4 font-medium text-gray-900 agentes-activos-td">Carlos</td>
-            <td class="py-4 text-black font-light agentes-activos-td">Outbound</td>
-            <td class="py-4 agentes-activos-td">
-              <span class="font-semibold agentes-activos-minutos">250</span>
-              <span class="inline-flex items-center px-1 py-1 rounded-lg bg-gray-100 text-sm font-semibold text-blue-900 border border-blue-100 ml-2 agentes-activos-porcentaje">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 text-blue-900 agentes-activos-icono" fill="none" viewBox="0 0 16 16">
-                  <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 12V4M8 4l-3 3m3-3l3 3"/>
-                </svg>
-                8.9%
-              </span>
-            </td>
-            <td class="py-4 agentes-activos-td">
-              <div class="flex items-center">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="agentes-activos-estado-icono">
-                  <circle cx="8" cy="8" r="8" fill="#EDEDED"/>
-                  <circle cx="8" cy="8" r="4" fill="#C5CAC4"/>
-                </svg>
-                <span class="text-gray-500 ml-2 agentes-activos-estado-texto">Borrador</span>
+                <span class="ml-2 agentes-activos-estado-texto" [class.text-gray-700]="agent.status==='Activo'" [class.text-gray-500]="agent.status!=='Activo'">{{ agent.status }}</span>
               </div>
             </td>
           </tr>
@@ -183,44 +164,20 @@
     <!-- Barras y días alineados -->
     <div class="flex flex-col justify-end h-60 llamadas-por-dia-altura">
       <div class="grid grid-cols-7 gap-2 items-end h-64 w-full mt-2"> <!-- Se agregó mt-2 para reducir el margen superior -->
-        <!-- Lun -->
-        <div class="flex flex-col items-center">
-          <div class="w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded h-36"></div>
-        </div>
-        <!-- Mar -->
-        <div class="flex flex-col items-center">
-          <div class="w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded h-48"></div>
-        </div>
-        <!-- Mie -->
-        <div class="flex flex-col items-center">
-          <div class="w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded h-28"></div>
-        </div>
-        <!-- Jue -->
-        <div class="flex flex-col items-center">
-          <div class="w-8 bg-blue-900 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded h-56"></div>
-        </div>
-        <!-- Vie -->
-        <div class="flex flex-col items-center">
-          <div class="w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded h-40"></div>
-        </div>
-        <!-- Sab -->
-        <div class="flex flex-col items-center">
-          <div class="w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded h-28"></div>
-        </div>
-        <!-- Dom -->
-        <div class="flex flex-col items-center">
-          <div class="w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded h-36"></div>
+        <div class="flex flex-col items-center" *ngFor="let h of callsByDayHeights; let i = index">
+          <div 
+            [style.height.px]="h"
+            [class]="isToday(i) ? 'w-8 bg-blue-900 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded' : 'w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded'"
+          ></div>
         </div>
       </div>
       <!-- Días alineados debajo de las barras -->
       <div class="grid grid-cols-7 gap-2 items-center mt-2 w-full">
-        <span class="text-sm text-gray-500 text-center">Lun</span>
-        <span class="text-sm text-gray-500 text-center">Mar</span>
-        <span class="text-sm text-gray-500 text-center">Mie</span>
-        <span class="text-sm text-gray-500 text-center">Jue</span>
-        <span class="text-sm text-gray-500 text-center">Vie</span>
-        <span class="text-sm text-gray-500 text-center">Sab</span>
-        <span class="text-sm text-gray-500 text-center">Dom</span>
+        <span 
+          class="text-sm text-center"
+          [class]="isToday(i) ? 'text-blue-900 font-semibold' : 'text-gray-500'"
+          *ngFor="let d of days; let i = index"
+        >{{ d }}</span>
       </div>
     </div>
   </div>
