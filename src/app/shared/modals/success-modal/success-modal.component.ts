@@ -30,3 +30,4 @@ export class SuccessModalComponent {
     this.dialogRef.close('action');
   }
 }
+
