@@ -24,7 +24,7 @@ export class ModalService {
   openDeleteAccount(data: DeleteAccountModalData) {
     return this.dialog.open(DeleteAccountModalComponent, {
       width: '420px',
-      disableClose: true,
+      disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
     });
@@ -33,7 +33,7 @@ export class ModalService {
   openPurchase(data: PurchaseModalData) {
     return this.dialog.open(PurchaseModalComponent, {
       width: '500px',
-      disableClose: true,
+      disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
     });
@@ -51,7 +51,7 @@ export class ModalService {
   openWarning(data: WarningModalData) {
     return this.dialog.open(WarningModalComponent, {
       width: '420px',
-      disableClose: true,
+      disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
     });

@@ -1,19 +1,27 @@
 <div class="p-6 max-w-md">
-  <div class="flex items-center mb-4">
-    <div class="flex items-center justify-center rounded-full bg-red-100 mr-3" style="width: 40px; height: 40px;">
+  <div class="text-center mb-4">
+    <div class="flex items-center justify-center rounded-full bg-red-100 mx-auto mb-3" style="width: 40px; height: 40px;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-red-500">
         <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
-    <h2 class="text-xl font-semibold text-gray-800">Eliminar Cuenta</h2>
+    <h2 class="text-base font-semibold text-gray-800">Estas a punto de eliminar tu cuenta con todos tus datos</h2>
   </div>
   
   <div class="mb-6">
-    <p class="text-sm text-gray-700 mb-3">
-      {{ data.message || '¿Estás seguro de que quieres eliminar tu cuenta?' }}
-    </p>
+    <div class="text-sm text-gray-700 mb-3 space-y-2">
+      <p>¿No lograste encontrar la función que necesitabas?</p>
+      <p>¿O quizá ya alcanzaste el límite de uso de tu plan?</p>
+      <p>Seguramente podamos darte una solución para que sigas disfrutando del programa.</p>
+      <p>Ponte en contacto con nuestro equipo y te ayudaremos a cubrir tus necesidades.</p>
+    </div>
     <div class="bg-red-50 border border-red-200 rounded-lg p-3">
-      <p class="text-xs text-red-700 font-medium mb-1">⚠️ Esta acción es irreversible</p>
+      <p class="text-xs text-red-700 font-medium mb-1 flex items-center">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 mr-1">
+          <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Esta acción es irreversible
+      </p>
       <ul class="text-xs text-red-600 space-y-1">
         <li>• Se eliminarán todos tus datos</li>
         <li>• Se perderán todos tus agentes</li>
@@ -22,18 +30,18 @@
     </div>
   </div>
 
-  <div class="flex justify-end space-x-3">
+  <div class="flex flex-col space-y-3">
     <button 
-      (click)="cancel()"
-      class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500"
+      (click)="contactSupport()"
+      class="w-full px-4 py-3 text-sm font-semibold text-white bg-blue-900 border border-transparent rounded-lg hover:bg-blue-950 focus:outline-none focus:ring-2 focus:ring-blue-500"
     >
-      Cancelar
+      Contactar con soporte
     </button>
     <button 
       (click)="confirm()"
-      class="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+      class="w-full px-4 py-3 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500"
     >
-      Eliminar Cuenta
+      Elimina mi cuenta y todos mis datos
     </button>
   </div>
 </div>
