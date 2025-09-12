@@ -21,7 +21,7 @@
 
   @if (step === 'callType') {
    <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
-      <h2 class="text-5xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Tipo de Llamadas</h2>
+      <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Tipo de Llamadas</h2>
 
       <div class="flex justify-center gap-20 flex-wrap">
         <!-- Inbound -->
@@ -46,7 +46,7 @@
   @if (step === 'language') {
     <!-- Pantalla 2: Idioma -->
     <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
-      <h2 class="text-5xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Idioma</h2>
+      <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Idioma</h2>
 
       <div class="grid grid-cols-2 gap-12 max-w-2xl mx-auto">
         <button
@@ -93,7 +93,7 @@
     @if (step === 'voices') {
       <!-- Pantalla 3: Voces -->
       <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
-        <h2 class="text-5xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Voces</h2>
+        <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Voces</h2>
     
         <div class="flex justify-center gap-6 flex-wrap">
           <!-- Carla -->
@@ -173,7 +173,7 @@
     @if (step === 'instructions') {
       <!-- Pantalla 4: Instrucciones -->
       <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide flex flex-col relative" style="scrollbar-width: none; -ms-overflow-style: none;">
-      <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Instrucciones</h2>
+      <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Instrucciones</h2>
 
       <p class="text-center text-base text-black mb-8 max-w-2xl mx-auto tracking-[-1px]">
         Define claramente las indicaciones para el agente, especificando qué acciones realizará y cómo debe responder en diferentes situaciones para garantizar una interacción eficiente y personalizada.
@@ -243,43 +243,37 @@
   @if (step === 'actions') {
     <!-- Pantalla 5: Añadir Acciones -->
     <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-      <h2 class="text-5xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Añadir Acciones</h2>
+      <h2 class="text-4xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Añadir Acciones</h2>
   
-      <p class="text-center text-base text-black mb-8 tracking-[-1px] mx-auto">
+      <p class="text-center text-sm text-black mb-8 tracking-[-0.5px] mx-auto">
         Define claramente las indicaciones para el agente, especificando qué acciones realizará y cómo debe responder en diferentes situaciones para garantizar una interacción eficiente y personalizada.
       </p>
   
       <div class="flex justify-center gap-8 flex-wrap">
         <!-- Shopify -->
-        <button
-          (click)="selectAction('shopify')"
-          class="w-[200px] h-[300px] bg-gradient-to-br from-green-100 to-green-300 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
-        >
-          <img src="assets/shopify.png" alt="Shopify" class="w-16 h-26 mt-14" />
-          <span class="font-semibold text-gray-800 mt-20 tracking-[-2px] text-xl">Shopify</span>
+          <button
+            (click)="selectAction('shopify')"
+            class="w-[285px] h-[285px] rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+            style="background-color: rgba(45, 182, 0, 0.5);"
+          >
+          <img src="assets/shopify.png" alt="Shopify" class="w-14 h-26 mt-16" />
+          <span class="font-semibold text-gray-800 mt-14 tracking-[-1.5px] text-base">Shopify</span>
         </button>
   
-        <!-- WooCommerce -->
-        <button
-          (click)="selectAction('woocommerce')"
-          class="w-[200px] h-[300px] bg-gradient-to-br from-purple-200 to-violet-400 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
-        >
-        <img src="assets/woo.png" alt="Shopify" class="w-32 h-40 mt-[2vh] object-contain" />
-          <span class="font-semibold text-gray-800 mt-[4vh] tracking-[-2px] text-xl">WooCommerce</span>
-        </button>
   
         <!-- Make -->
         <button
           (click)="selectAction('make')"
-          class="w-[200px] h-[300px] bg-gradient-to-br from-pink-200 to-purple-400 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+          class="w-[285px] h-[285px] rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+          style="background-color: rgba(198, 40, 212, 0.5);"
         >
-        <img src="assets/make.png" alt="Shopify" class="w-24 h-26 mt-[7vh]" />
-          <span class="font-semibold text-gray-800 mt-20 tracking-[-2px] text-xl">Make</span>
+         <img src="assets/make.png" alt="Shopify" class="w-16 h-26 mt-20" />
+           <span class="font-semibold text-gray-800 mt-16 tracking-[-1.5px] text-base">Make</span>
         </button>
       </div>
   
       <!-- Botones siempre abajo -->
-      <div class="flex justify-between w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
+      <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
         <button
           (click)="goBack()"
           class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
@@ -290,7 +284,7 @@
         </button>
   
         <button
-          class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+          class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
           (click)="step = 'knowledgeBase'"
         >
           Continuar
@@ -303,8 +297,7 @@
           Saltar
           <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
-            </svg>
-            
+          </svg>
         </button>
       </div>
     </div>
@@ -313,7 +306,7 @@
   @if (step === 'knowledgeBase') {
   <!-- Pantalla 6: Base de Conocimientos -->
   <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-5xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Base de Conocimientos</h2>
+    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Base de Conocimientos</h2>
 
     <p class="text-center text-base text-black mb-12 mx-auto tracking-[-1px]">
       Define claramente las indicaciones para el agente, especificando qué acciones realizará y cómo debe responder en diferentes situaciones para garantizar una interacción eficiente y personalizada.
@@ -354,7 +347,7 @@
     </div>
 
     <!-- Botones SIEMPRE FIJOS ABAJO -->
-    <div class="flex justify-between w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
+    <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
       <button
           (click)="goBack()"
           class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
@@ -365,7 +358,7 @@
         </button>
 
       <button
-        class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+        class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
         (click)="step = 'summary'"
       >
         Continuar
@@ -385,7 +378,7 @@
 }
 @if (step === 'summary') {
   <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Prueba Agente</h2>
+    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Prueba Agente</h2>
     <p class="text-center text-base text-black mb-8 max-w-4xl mx-auto">
       Ingresa tu número de teléfono y recibirás una llamada para hacer la prueba en tiempo real.
     </p>
@@ -393,7 +386,7 @@
       <img src="assets/españa.svg" alt="España" width="20" height="12" />
       <input type="tel" [(ngModel)]="phoneNumber" placeholder="600 00 00 00" class="w-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-black focus:border-transparent text-xs text-gray-500"/>
     </div>
-    <div class="flex justify-between w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
+    <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
       <button
           (click)="goBack()"
           class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
@@ -402,7 +395,7 @@
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
           </svg>
         </button>
-      <button class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md" (click)="onSubmitTestCall()">
+      <button class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md" (click)="onSubmitTestCall()">
         Continuar
       </button>
       <button
@@ -412,8 +405,7 @@
           Saltar
           <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
-            </svg>
-            
+          </svg>
         </button>
     </div>
   </div>
@@ -422,7 +414,7 @@
 @if (step === 'connectPhone') {
   <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <!-- Título principal -->
-    <h2 class="text-5xl font-semibold text-center text-blue-950 tracking-[-3px]">
+    <h2 class="text-4xl font-semibold text-center text-blue-950 tracking-[-3px]">
       Conectar Número de Teléfono
     </h2>
     <p class="text-center font-semibold text-lg text-blue-950 mb-4 -mt-2 tracking-[-1px]">
@@ -555,7 +547,7 @@
     </div>
 
     <!-- Botones de navegación SIEMPRE FIJOS ABAJO -->
-    <div class="flex justify-between w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8 space-x-8">
+    <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
       <button
           (click)="goBack()"
           class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
@@ -566,7 +558,7 @@
         </button>
 
       <button
-        class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+        class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
         (click)="onConnectPhone()"
       >
         Continuar
@@ -579,8 +571,7 @@
           Saltar
           <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
-            </svg>
-            
+          </svg>
         </button>
     </div>
   </div>
@@ -589,7 +580,7 @@
 @if (step === 'advancedSettings') {
   <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <!-- Título -->
-    <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Configuración Avanzada</h2>
+    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Configuración Avanzada</h2>
 
     <!-- Subtítulo -->
     <p class="text-center text-base text-gray-700 mb-8 max-w-4xl mx-auto">
@@ -715,7 +706,7 @@
     }
 
     <!-- Botones SIEMPRE FIJOS ABAJO -->
-    <div class="flex justify-between w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
+    <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
       <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
         <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
           <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
@@ -723,18 +714,20 @@
       </button>
 
       <button
-        class="mr-[35vh] block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+        class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
         (click)="onSubmitAdvancedSettings()"
       >
         Continuar
       </button>
+
+      <div></div>
     </div>
   </div>
 }
 
 @if (step === 'final') {
   <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-5xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Creando Agente</h2>
+    <h2 class="text-4xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Creando Agente</h2>
     <div class="flex justify-center my-12">
       <svg class="animate-spin" width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M28.9106 90.0612C26.2817 90.9064 23.4654 89.4605 22.6202 86.8316L21.3518 82.8864L20.3836 78.6329L19.7898 74.3111L19.5749 69.9541L19.7406 65.5948L20.2856 61.2667L21.2057 57.0025L22.494 52.8347L24.1406 48.795L26.0333 45.1085C27.2946 42.6519 30.3085 41.6829 32.765 42.9441C35.2216 44.2054 36.1906 47.2193 34.9294 49.6758L33.236 52.974L31.919 56.205L30.8886 59.5385L30.1527 62.9491L29.7168 66.411L29.5842 69.8976L29.7561 73.3825L30.231 76.8391L31.0054 80.2412L32.1402 83.7707C32.9855 86.3996 31.5395 89.216 28.9106 90.0612Z" fill="#20558E"/>
@@ -749,7 +742,7 @@
 
 @if (step === 'success') {
   <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-5xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Agente Creado con Éxito</h2>
+    <h2 class="text-4xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Agente Creado con Éxito</h2>
     <div class="flex justify-center my-12">
       <div class="w-24 h-24 bg-blue-200 rounded-full flex items-center justify-center">
         <svg width="44" height="33" viewBox="0 0 48 33" fill="none" xmlns="http://www.w3.org/2000/svg">
