@@ -28,7 +28,7 @@
           <!-- Gráfico de llamadas exitosas (más largo) -->
           <div class="bg-white rounded-3xl  p-5  lg:col-span-2">
             <div class="flex justify-between items-center mb-4">
-              <h3 class="font-semibold text-gray-800">Total de llamadas exitosas</h3>
+              <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">Total de llamadas exitosas</h3>
               <span class="text-xs text-green-600 font-medium">↑ 44.2%</span>
             </div>
             <div class="relative h-64">
@@ -114,11 +114,11 @@
           <!-- Total Minutos -->
           <div class="bg-white rounded-3xl p-5 border border-gray-100 flex flex-col justify-between h-full min-h-[220px]">
             <div>
-              <p class="text-[15px] font-semibold text-gray-600 mb-2 mt-1 ">Total Minutos</p>
+              <p class="text-[15px] font-semibold text-gray-600 mb-2 mt-1 tracking-[-0.3px] ">Total Minutos</p>
               <p class="text-[33px] font-semibold text-gray-800 mb-8 leading-tight">{{ totalMinutesUsed }}/{{ minutesLimit }}</p>
-              <p class="text-[15px] font-semibold text-gray-600 mb-2">Minutos Extra</p>
+              <p class="text-[15px] font-semibold text-gray-600 mb-2 tracking-[-0.3px]">Minutos Extra</p>
               <p class="text-[33px] font-semibold text-gray-800 mb-8 leading-tight">{{ extraMinutes }}</p>
-              <p class="text-[15px] font-semibold text-gray-600 mb-2">Tiempo ahorrado</p>
+              <p class="text-[15px] font-semibold text-gray-600 mb-2 tracking-[-0.3px]">Tiempo ahorrado</p>
               <p class="text-[33px] font-semibold text-gray-800 leading-tight">{{ timeSavedHours }} h</p>
             </div>
           </div>
@@ -126,54 +126,116 @@
         <!-- Row 2 -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <!-- Latencia -->
-          <div class="bg-white rounded-3xl p-5 mb-20">
+          <div class="bg-white rounded-3xl p-6 mb-20">
             <div class="flex justify-between items-center mb-4">
-              <h3 class="font-semibold text-gray-800">Latencia</h3>
+              <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">Latencia</h3>
               <span [class]="latencyBadgeClasses">{{ latencyLabel }}</span>
             </div>
-            <div class="flex items-center justify-center mb-4 mt-14" style="position: relative;">
-              <svg width="200" height="101" viewBox="0 0 200 101" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: relative; z-index: 1;">
-                <path d="M198 100.5C199.105 100.5 200.002 99.6044 199.98 98.5C199.731 86.0491 197.158 73.748 192.388 62.2317C187.362 50.0991 179.997 39.0752 170.711 29.7893C161.425 20.5035 150.401 13.1375 138.268 8.11205C126.136 3.08658 113.132 0.499999 100 0.5C86.8678 0.500001 73.8642 3.08658 61.7317 8.11205C49.5991 13.1375 38.5752 20.5035 29.2893 29.7893C20.0035 39.0752 12.6375 50.0991 7.61204 62.2317C2.84183 73.748 0.269048 86.0491 0.0199996 98.5001C-0.00208995 99.6044 0.895431 100.5 2 100.5H18C19.1046 100.5 19.9974 99.6044 20.025 98.5002C20.2706 88.676 22.3245 78.9751 26.0896 69.8853C30.11 60.1793 36.0028 51.3601 43.4315 43.9315C50.8601 36.5028 59.6793 30.61 69.3853 26.5896C79.0914 22.5693 89.4942 20.5 100 20.5C110.506 20.5 120.909 22.5693 130.615 26.5896C140.321 30.61 149.14 36.5028 156.569 43.9315C163.997 51.3601 169.89 60.1793 173.91 69.8853C177.675 78.9751 179.729 88.676 179.975 98.5002C180.003 99.6044 180.895 100.5 182 100.5H198Z" fill="#2F2E33" fill-opacity="0.04"/>
-                <g clip-path="url(#paint0_angular_221_617_clip_path)" data-figma-skip-parse="true"><g transform="matrix(-0.1 0 0 -0.1 100 100.5)"><foreignObject x="-1010" y="-1010" width="2020" height="2020"><div xmlns="http://www.w3.org/1999/xhtml" style="background:conic-gradient(from 90deg,rgba(176, 234, 206, 1) 0deg,rgba(22, 133, 97, 1) 161.678deg,rgba(176, 234, 206, 1) 360deg);height:100%;width:100%;opacity:1"></div></foreignObject></g></g><path d="M2 100.5C0.895432 100.5 -0.00209045 99.6042 0.019989 98.4999C0.482773 75.3491 8.9684 53.0518 24.061 35.4364C39.5879 17.3143 61.0836 5.34219 84.6654 1.68274C108.247 -1.97671 132.36 2.91773 152.649 15.482C172.371 27.6949 187.215 46.3719 194.672 68.2936C195.028 69.3393 194.444 70.465 193.391 70.7997L178.144 75.6488C177.091 75.9835 175.969 75.4004 175.608 74.3565C169.601 56.9826 157.783 42.1855 142.119 32.4856C125.888 22.4342 106.598 18.5186 87.7324 21.4462C68.8669 24.3738 51.6703 33.9514 39.2488 48.4491C27.2616 62.44 20.4843 80.1226 20.025 98.5C19.9974 99.6042 19.1046 100.5 18 100.5H2Z" data-figma-gradient-fill="{&#34;type&#34;:&#34;GRADIENT_ANGULAR&#34;,&#34;stops&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.086274512112140656,&#34;g&#34;:0.52156865596771240,&#34;b&#34;:0.38039216399192810,&#34;a&#34;:1.0},&#34;position&#34;:0.44910538196563721},{&#34;color&#34;:{&#34;r&#34;:0.69019609689712524,&#34;g&#34;:0.91764706373214722,&#34;b&#34;:0.80784314870834351,&#34;a&#34;:1.0},&#34;position&#34;:1.0}],&#34;stopsVar&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.086274512112140656,&#34;g&#34;:0.52156865596771240,&#34;b&#34;:0.38039216399192810,&#34;a&#34;:1.0},&#34;position&#34;:0.44910538196563721},{&#34;color&#34;:{&#34;r&#34;:0.69019609689712524,&#34;g&#34;:0.91764706373214722,&#34;b&#34;:0.80784314870834351,&#34;a&#34;:1.0},&#34;position&#34;:1.0}],&#34;transform&#34;:{&#34;m00&#34;:-200.00001525878906,&#34;m01&#34;:-1.7763569749255220e-13,&#34;m02&#34;:200.00001525878906,&#34;m10&#34;:-8.8817855522539679e-14,&#34;m11&#34;:-200.00001525878906,&#34;m12&#34;:200.50},&#34;opacity&#34;:1.0,&#34;blendMode&#34;:&#34;NORMAL&#34;,&#34;visible&#34;:true}"/>
-                <!-- Progreso dinámico de latencia -->
-                <defs>
-                <clipPath id="paint0_angular_221_617_clip_path"><path d="M2 100.5C0.895432 100.5 -0.00209045 99.6042 0.019989 98.4999C0.482773 75.3491 8.9684 53.0518 24.061 35.4364C39.5879 17.3143 61.0836 5.34219 84.6654 1.68274C108.247 -1.97671 132.36 2.91773 152.649 15.482C172.371 27.6949 187.215 46.3719 194.672 68.2936C195.028 69.3393 194.444 70.465 193.391 70.7997L178.144 75.6488C177.091 75.9835 175.969 75.4004 175.608 74.3565C169.601 56.9826 157.783 42.1855 142.119 32.4856C125.888 22.4342 106.598 18.5186 87.7324 21.4462C68.8669 24.3738 51.6703 33.9514 39.2488 48.4491C27.2616 62.44 20.4843 80.1226 20.025 98.5C19.9974 99.6042 19.1046 100.5 18 100.5H2Z"/></clipPath></defs>
-                <!-- Texto centrado dentro del gráfico -->
-                <text x="100" y="80" text-anchor="middle" font-size="28" fill="#000000" font-weight="bold">{{ latencyMs }}</text>
-                <text x="100" y="100" text-anchor="middle" font-size="12" fill="#6b7280">MS</text>
-              </svg>
+            
+            <!-- Medidor semicircular dinámico -->
+            <div class="flex flex-col items-center justify-center mb-6 mt-8">
+              <!-- Medidor semicircular -->
+              <div class="relative w-56 h-32 mb-4">
+                <svg width="224" height="128" viewBox="0 0 224 128" class="absolute inset-0">
+                  <!-- Fondo del semicírculo -->
+                  <path 
+                    d="M 20 108 A 92 92 0 0 1 204 108" 
+                    stroke="#f3f4f6" 
+                    stroke-width="20" 
+                    fill="none"/>
+                  
+                  <!-- Arco de progreso dinámico -->
+                  <path 
+                    d="M 20 108 A 92 92 0 0 1 204 108" 
+                    stroke="url(#latencyGradient)" 
+                    stroke-width="20" 
+                    fill="none"
+                    [style.stroke-dasharray]="'289.027'"
+                    [style.stroke-dashoffset]="289.027 - (289.027 * latencyPercent)"
+                    class="latency-arc transition-all duration-1000 ease-out" />
+                  
+                  <!-- Definición del gradiente -->
+                  <defs>
+                    <linearGradient id="latencyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" [attr.stop-color]="latencyGradientStart"/>
+                      <stop offset="100%" [attr.stop-color]="latencyGradientEnd"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                
+                <!-- Valor centrado dentro del semicírculo -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center pt-12">
+                  <div class="text-3xl font-bold text-gray-800 mb-1">{{ latencyMs }}</div>
+                  <div class="text-sm text-gray-500 font-medium">MS</div>
+                </div>
+              </div>
             </div>
-            <p class="text-xs text-gray-500 text-center mt-8">
+            
+            <!-- Texto descriptivo -->
+            <p class="text-xs text-gray-500 text-center leading-relaxed px-4 tracking-[-0.5px]">
               Tiempo que tarda el sistema en responder durante una llamada. Un valor más bajo indica mayor rapidez.
             </p>
+            
+            
           </div>
   
           <!-- Duración media -->
-          <div class="bg-white rounded-3xl p-5 mr-6 -ml-3 mb-20">
-            <div class="flex justify-between items-center mb-8">
-              <h3 class="font-semibold text-gray-800">Duración media de las llamadas</h3>
-              <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">BUENO</span>
+          <div class="bg-white rounded-3xl p-6 mr-6 -ml-3 mb-20">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">Duración media de las llamadas</h3>
+              <span [class]="durationBadgeClasses">{{ durationLabel }}</span>
             </div>
-            <div class="flex items-center justify-center mb-8">
-              <svg width="200" height="101" viewBox="0 0 200 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M198 100.5C199.105 100.5 200.002 99.6044 199.98 98.5C199.731 86.0491 197.158 73.748 192.388 62.2317C187.362 50.0991 179.997 39.0752 170.711 29.7893C161.425 20.5035 150.401 13.1375 138.268 8.11205C126.136 3.08658 113.132 0.499999 100 0.5C86.8678 0.500001 73.8642 3.08658 61.7317 8.11205C49.5991 13.1375 38.5752 20.5035 29.2893 29.7893C20.0035 39.0752 12.6375 50.0991 7.61204 62.2317C2.84183 73.748 0.269048 86.0491 0.0199996 98.5001C-0.00208995 99.6044 0.895431 100.5 2 100.5H18C19.1046 100.5 19.9974 99.6044 20.025 98.5002C20.2706 88.676 22.3245 78.9751 26.0896 69.8853C30.11 60.1793 36.0028 51.3601 43.4315 43.9315C50.8601 36.5028 59.6793 30.61 69.3853 26.5896C79.0914 22.5693 89.4942 20.5 100 20.5C110.506 20.5 120.909 22.5693 130.615 26.5896C140.321 30.61 149.14 36.5028 156.569 43.9315C163.997 51.3601 169.89 60.1793 173.91 69.8853C177.675 78.9751 179.729 88.676 179.975 98.5002C180.003 99.6044 180.895 100.5 182 100.5H198Z" fill="#2F2E33" fill-opacity="0.04"/>
-                <g clip-path="url(#paint0_angular_293_1013_clip_path)" data-figma-skip-parse="true"><g transform="matrix(-0.1 0 0 -0.1 100 100.5)"><foreignObject x="-1010" y="-1010" width="2020" height="2020"><div xmlns="http://www.w3.org/1999/xhtml" style="background:conic-gradient(from 90deg,rgba(234, 224, 176, 1) 0deg,rgba(165, 165, 24, 1) 161.678deg,rgba(234, 224, 176, 1) 360deg);height:100%;width:100%;opacity:1"></div></foreignObject></g></g><path d="M2 100.5C0.895432 100.5 -0.00209045 99.6042 0.019989 98.4999C0.482773 75.3491 8.9684 53.0518 24.061 35.4364C39.5879 17.3143 61.0836 5.34219 84.6654 1.68274C108.247 -1.97671 132.36 2.91773 152.649 15.482C172.371 27.6949 187.215 46.3719 194.672 68.2936C195.028 69.3393 194.444 70.465 193.391 70.7997L178.144 75.6488C177.091 75.9835 175.969 75.4004 175.608 74.3565C169.601 56.9826 157.783 42.1855 142.119 32.4856C125.888 22.4342 106.598 18.5186 87.7324 21.4462C68.8669 24.3738 51.6703 33.9514 39.2488 48.4491C27.2616 62.44 20.4843 80.1226 20.025 98.5C19.9974 99.6042 19.1046 100.5 18 100.5H2Z" data-figma-gradient-fill="{&#34;type&#34;:&#34;GRADIENT_ANGULAR&#34;,&#34;stops&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.6481933593750,&#34;g&#34;:0.6481933593750,&#34;b&#34;:0.097920432686805725,&#34;a&#34;:1.0},&#34;position&#34;:0.44910538196563721},{&#34;color&#34;:{&#34;r&#34;:0.91764706373214722,&#34;g&#34;:0.87973856925964355,&#34;b&#34;:0.69019609689712524,&#34;a&#34;:1.0},&#34;position&#34;:1.0}],&#34;stopsVar&#34;:[{&#34;color&#34;:{&#34;r&#34;:0.6481933593750,&#34;g&#34;:0.6481933593750,&#34;b&#34;:0.097920432686805725,&#34;a&#34;:1.0},&#34;position&#34;:0.44910538196563721},{&#34;color&#34;:{&#34;r&#34;:0.91764706373214722,&#34;g&#34;:0.87973856925964355,&#34;b&#34;:0.69019609689712524,&#34;a&#34;:1.0},&#34;position&#34;:1.0}],&#34;transform&#34;:{&#34;m00&#34;:-200.00001525878906,&#34;m01&#34;:-1.7763569749255220e-13,&#34;m02&#34;:200.00001525878906,&#34;m10&#34;:-8.8817855522539679e-14,&#34;m11&#34;:-200.00001525878906,&#34;m12&#34;:200.50},&#34;opacity&#34;:1.0,&#34;blendMode&#34;:&#34;NORMAL&#34;,&#34;visible&#34;:true}"/>
-                <defs>
-                <clipPath id="paint0_angular_293_1013_clip_path"><path d="M2 100.5C0.895432 100.5 -0.00209045 99.6042 0.019989 98.4999C0.482773 75.3491 8.9684 53.0518 24.061 35.4364C39.5879 17.3143 61.0836 5.34219 84.6654 1.68274C108.247 -1.97671 132.36 2.91773 152.649 15.482C172.371 27.6949 187.215 46.3719 194.672 68.2936C195.028 69.3393 194.444 70.465 193.391 70.7997L178.144 75.6488C177.091 75.9835 175.969 75.4004 175.608 74.3565C169.601 56.9826 157.783 42.1855 142.119 32.4856C125.888 22.4342 106.598 18.5186 87.7324 21.4462C68.8669 24.3738 51.6703 33.9514 39.2488 48.4491C27.2616 62.44 20.4843 80.1226 20.025 98.5C19.9974 99.6042 19.1046 100.5 18 100.5H2Z"/></clipPath></defs>
-                <!-- Texto centrado dentro del gráfico -->
-                <text x="100" y="80" text-anchor="middle" font-size="28" fill="#000000" font-weight="bold">{{ averageCallDurationLabel }}</text>
-                <text x="100" y="100" text-anchor="middle" font-size="12" fill="#6b7280">MS</text>
+            
+            <!-- Medidor semicircular dinámico -->
+            <div class="flex flex-col items-center justify-center mb-6 mt-8">
+              <!-- Medidor semicircular -->
+              <div class="relative w-56 h-32 mb-4">
+                <svg width="224" height="128" viewBox="0 0 224 128" class="absolute inset-0">
+                  <!-- Fondo del semicírculo -->
+                  <path 
+                    d="M 20 108 A 92 92 0 0 1 204 108" 
+                    stroke="#f3f4f6" 
+                    stroke-width="20" 
+                    fill="none"/>
+                  
+                  <!-- Arco de progreso dinámico -->
+                  <path 
+                    d="M 20 108 A 92 92 0 0 1 204 108" 
+                    stroke="url(#durationGradient)" 
+                    stroke-width="20" 
+                    fill="none"
+                    [style.stroke-dasharray]="'289.027'"
+                    [style.stroke-dashoffset]="289.027 - (289.027 * durationPercent)"
+                    class="duration-arc transition-all duration-1000 ease-out" />
+                  
+                  <!-- Definición del gradiente -->
+                  <defs>
+                    <linearGradient id="durationGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#22c55e"/>
+                      <stop offset="30%" stop-color="#f59e0b"/>
+                      <stop offset="80%" stop-color="#f59e0b"/>
+                      <stop offset="100%" stop-color="#dc2626"/>
+                    </linearGradient>
+                  </defs>
                 </svg>
                 
+                <!-- Valor centrado dentro del semicírculo -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center pt-12">
+                  <div class="text-3xl font-bold text-gray-800 mb-1">{{ averageCallDurationLabel }}</div>
+                  <div class="text-sm text-gray-500 font-medium">MS</div>
+                </div>
+              </div>
             </div>
-            <p class="text-xs text-gray-500 text-center">
+            
+            <!-- Texto descriptivo -->
+            <p class="text-xs text-gray-500 text-center leading-relaxed px-4 tracking-[-0.5px]">
               Promedio de tiempo que duran las llamadas gestionadas por el agente.
             </p>
           </div>
   
           <!-- Tipo de llamadas -->
           <div class="bg-white rounded-3xl p-5 -ml-7">
-            <h3 class="font-semibold text-gray-800 mb-4">Tipo de llamadas</h3>
+            <h3 class="font-semibold text-gray-800 mb-4 tracking-[-0.3px]">Tipo de llamadas</h3>
             <div class="flex justify-center mb-6">
               <svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M239.246 120C239.246 95.4674 231.68 71.5319 217.578 51.4571C203.477 31.3822 183.527 16.1452 160.449 7.82355L150.337 35.8677C167.645 42.1089 182.608 53.5367 193.184 68.5928C203.76 83.6489 209.435 101.601 209.435 120H239.246Z" fill="#7B7B7B" fill-opacity="0.3"/>
@@ -205,7 +267,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Agentes Creados -->
           <div class="bg-white rounded-3xl p-8 col-span-1 lg:col-span-2 mr-6 -mt-20 shadow-none">
-            <h3 class="font-semibold text-gray-800 mb-7 text-lg">Agentes Creados</h3>
+            <h3 class="font-semibold text-gray-800 mb-7 text-lg tracking-[-0.3px]">Agentes Creados</h3>
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
                 <thead>
@@ -246,7 +308,7 @@
   
           <!-- Países -->
           <div class="bg-white rounded-3xl p-5 col-span-1 -ml-5">
-            <h3 class="font-semibold text-gray-800 mb-4">Países</h3>
+            <h3 class="font-semibold text-gray-800 mb-4 tracking-[-0.3px]">Países</h3>
             <div>
               <div class="mb-8" *ngFor="let c of countries">
                 <div class="flex items-center justify-between">
