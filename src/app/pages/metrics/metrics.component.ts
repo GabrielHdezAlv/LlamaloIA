@@ -117,8 +117,8 @@ export class MetricsComponent {
   }
 
   // Duración media (texto mostrado)
-  averageCallDurationSeconds = 94; // 3 minutos y 14 segundos en segundos
-  maxCallDurationSeconds = 200; // 3.3 minutos máximo (para que 3m se vea más alto)
+  averageCallDurationSeconds = 184; // 4 minutos y 10 segundos en segundos
+  maxCallDurationSeconds = 300; // 5 minutos máximo
 
   get averageCallDurationLabel(): string {
     const minutes = Math.floor(this.averageCallDurationSeconds / 60);
@@ -131,21 +131,20 @@ export class MetricsComponent {
     return `${minutes}m ${seconds}s`;
   }
 
-  get durationLabel(): 'BUENO' | 'NORMAL' | 'MALO' {
+  get durationLabel(): 'NORMAL' | 'LARGA' {
     const totalMinutes = this.averageCallDurationSeconds / 60;
-    if (totalMinutes <= 1.5) return 'BUENO';
-    if (totalMinutes <= 3) return 'NORMAL';
-    return 'MALO';
+    if (totalMinutes <= 4) return 'NORMAL';
+    return 'LARGA';
   }
 
   get durationBadgeClasses(): string {
     switch (this.durationLabel) {
-      case 'BUENO':
-        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
       case 'NORMAL':
+        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
+      case 'LARGA':
         return 'text-xs bg-orange-200 text-black px-2 py-1.5 rounded-lg font-medium';
       default:
-        return 'text-xs bg-red-200 text-black px-2 py-1.5 rounded-lg font-medium';
+        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
     }
   }
 
@@ -155,13 +154,25 @@ export class MetricsComponent {
   }
 
   get durationGradientStart(): string {
-    // Gradiente verde-naranja-rojo para duración de llamadas
-    return '#22c55e'; // Verde
+    switch (this.durationLabel) {
+      case 'NORMAL':
+        return '#22c55e'; // Verde
+      case 'LARGA':
+        return '#f59e0b'; // Naranja
+      default:
+        return '#22c55e'; // Verde
+    }
   }
 
   get durationGradientEnd(): string {
-    // Gradiente verde-naranja-rojo para duración de llamadas
-    return '#dc2626'; // Rojo
+    switch (this.durationLabel) {
+      case 'NORMAL':
+        return '#16a34a'; // Verde más oscuro
+      case 'LARGA':
+        return '#d97706'; // Naranja más oscuro
+      default:
+        return '#16a34a'; // Verde más oscuro
+    }
   }
 
   // Agentes creados (tabla resumen)
