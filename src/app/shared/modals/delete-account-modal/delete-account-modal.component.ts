@@ -26,5 +26,11 @@ export class DeleteAccountModalComponent {
   cancel(): void {
     this.dialogRef.close(false);
   }
+
+  contactSupport(): void {
+    // Aquí puedes agregar la lógica para contactar con soporte
+    // Por ejemplo, abrir un enlace, enviar un email, etc.
+    this.dialogRef.close('support');
+  }
 }
 
