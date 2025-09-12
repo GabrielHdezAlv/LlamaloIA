@@ -181,12 +181,48 @@ export class MetricsComponent {
     { name: 'Carla', type: 'Outbound', totalMin: 250, percent: 8.9, status: 'Borrador' as const },
   ];
 
-  // Países (porcentaje y barra)
+  // Países (porcentaje y barra) - ordenados de mayor a menor
   countries = [
     { name: 'Estados Unidos', img: 'assets/eeuu.png', percent: 65.5 },
     { name: 'Francia', img: 'assets/france.png', percent: 57.5 },
     { name: 'España', img: 'assets/spain.png', percent: 45.2 },
     { name: 'Reino Unido', img: 'assets/united-kingdom.png', percent: 33.2 },
     { name: 'Brasil', img: 'assets/brasil.png', percent: 25.8 },
-  ];
+  ].sort((a, b) => b.percent - a.percent);
+
+  // Tipo de llamadas - porcentajes dinámicos
+  inboundPercentage = 57.2;
+  outboundPercentage = 42.8;
+
+  // Métodos para el gráfico circular de tipo de llamadas
+  get circumference(): number {
+    return 2 * Math.PI * 90; // radio 90
+  }
+
+  get inboundStrokeDasharray(): string {
+    return `${this.circumference}`;
+  }
+
+  get inboundStrokeDashoffset(): number {
+    return this.circumference - (this.circumference * this.inboundPercentage / 100);
+  }
+
+  get outboundStrokeDasharray(): string {
+    return `${this.circumference}`;
+  }
+
+  get outboundStrokeDashoffset(): number {
+    return this.circumference - (this.circumference * this.outboundPercentage / 100);
+  }
+
+  // Método para simular cambios en los porcentajes de tipo de llamadas
+  simulateCallTypeChange(newInboundPercent: number): void {
+    this.inboundPercentage = newInboundPercent;
+    this.outboundPercentage = 100 - newInboundPercent;
+  }
+
+  // Método para crear animación escalonada en las barras de países
+  getCountryBarDelay(index: number): number {
+    return index * 200; // 200ms de delay entre cada barra
+  }
 }

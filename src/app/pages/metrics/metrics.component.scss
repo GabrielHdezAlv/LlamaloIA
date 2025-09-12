@@ -10,6 +10,41 @@
   transform-origin: center;
 }
 
+// Animación suave para los arcos del gráfico de tipo de llamadas
+.call-type-arc {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+/* Animación de latido para el punto azul de agentes activos */
+.latido {
+  transform-origin: center;
+  animation: latir 2s ease-in-out infinite;
+}
+
+@keyframes latir {
+  0%   { transform: scale(1); opacity: 1; }
+  25%  { transform: scale(1.2); opacity: 0.95; }
+  50%  { transform: scale(1); opacity: 1; }
+  75%  { transform: scale(1.15); opacity: 0.98; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+// Animación para las barras de países
+.country-bar {
+  animation: fillBar 1s ease-out forwards;
+  transform-origin: left;
+}
+
+@keyframes fillBar {
+  0% {
+    width: 0% !important;
+  }
+  100% {
+    width: var(--target-width) !important;
+  }
+}
+
 // Efecto de pulso para indicadores de estado
 @keyframes pulse {
   0%, 100% {
