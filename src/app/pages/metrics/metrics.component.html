@@ -234,28 +234,64 @@
           <!-- Tipo de llamadas -->
           <div class="bg-white rounded-3xl p-5 -ml-7">
             <h3 class="font-semibold text-gray-800 mb-4 tracking-[-0.3px]">Tipo de llamadas</h3>
-            <div class="flex justify-center mb-6">
-              <svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M239.246 120C239.246 95.4674 231.68 71.5319 217.578 51.4571C203.477 31.3822 183.527 16.1452 160.449 7.82355L150.337 35.8677C167.645 42.1089 182.608 53.5367 193.184 68.5928C203.76 83.6489 209.435 101.601 209.435 120H239.246Z" fill="#7B7B7B" fill-opacity="0.3"/>
-                <path d="M160.333 7.29701C132.427 -2.2723 102.014 -1.31875 74.7555 9.98015C47.4965 21.2791 25.2483 42.1536 12.1521 68.7184L39.3868 82.2971C49.209 62.3735 65.8951 46.7176 86.3393 38.2434C106.784 29.7693 129.593 29.0541 150.523 36.2311L160.333 7.29701Z" fill="#7B7B7B" fill-opacity="0.3"/>
-                <path d="M12.255 68.905C4.62946 84.9851 0.699822 102.568 0.754219 120.364C0.808617 138.161 4.84567 155.72 12.5693 171.753C20.293 187.786 31.5074 201.887 45.3901 213.022C59.2728 224.157 75.4718 232.043 92.7991 236.103C110.126 240.162 128.143 240.292 145.527 236.482C162.911 232.672 179.222 225.02 193.263 214.086C207.305 203.152 218.721 189.214 226.675 173.294C234.628 157.374 238.918 139.875 239.228 122.081L209.421 121.561C209.188 134.906 205.971 148.03 200.006 159.97C194.041 171.911 185.479 182.364 174.947 190.565C164.416 198.765 152.183 204.504 139.145 207.362C126.107 210.219 112.595 210.122 99.5993 207.077C86.6039 204.032 74.4546 198.118 64.0426 189.766C53.6305 181.415 45.2197 170.839 39.427 158.814C33.6343 146.79 30.6065 133.621 30.5657 120.273C30.5249 106.926 33.4721 93.7388 39.1912 81.6788L12.255 68.905Z" fill="#7B7B7B" fill-opacity="0.1"/>
+            
+            <!-- Gráfico circular completo -->
+            <div class="flex flex-col items-center justify-center mb-6 mt-8">
+              <div class="relative w-56 h-56 mb-4">
+                <svg width="224" height="224" viewBox="0 0 224 224" class="absolute inset-0">
+                  <!-- Círculo de fondo -->
+                  <circle 
+                    cx="112" 
+                    cy="112" 
+                    r="90" 
+                    stroke="#f3f4f6" 
+                    stroke-width="20" 
+                    fill="none"/>
+                  
+                  <!-- Arco de Outbound (gris claro) - se dibuja primero -->
+                  <circle 
+                    cx="112" 
+                    cy="112" 
+                    r="90" 
+                    stroke="#D1D5DB" 
+                    stroke-width="20" 
+                    fill="none"
+                    [style.stroke-dasharray]="outboundStrokeDasharray"
+                    [style.stroke-dashoffset]="outboundStrokeDashoffset"
+                    class="call-type-arc transition-all duration-1000 ease-out"
+                    transform="rotate(-90 112 112)"/>
+                  
+                  <!-- Arco de Inbound (gris medio) - se dibuja después, comenzando donde termina Outbound -->
+                  <circle 
+                    cx="112" 
+                    cy="112" 
+                    r="90" 
+                    stroke="#9CA3AF" 
+                    stroke-width="20" 
+                    fill="none"
+                    [style.stroke-dasharray]="inboundStrokeDasharray"
+                    [style.stroke-dashoffset]="inboundStrokeDashoffset"
+                    class="call-type-arc transition-all duration-1000 ease-out"
+                    [style.transform]="'rotate(' + (-90 + (outboundPercentage / 100) * 360) + 'deg)'"
+                    [style.transform-origin]="'112px 112px'"/>
                 </svg>
-                
+              </div>
             </div>
+            
             <div class="flex justify-center space-x-6 text-xs">
               <div class="flex flex-col items-center">
                 <div class="flex items-center">
                   <div class="w-5 h-5 bg-gray-300 rounded-md mr-2"></div>
                   <span>Outbound</span>
                 </div>
-                <span class="font-semibold mt-1 ml-6 text-base">42.8%</span>
+                <span class="font-semibold mt-1 ml-6 text-base">{{ outboundPercentage | number:'1.1-1' }}%</span>
               </div>
               <div class="flex flex-col items-center">
                 <div class="flex items-center">
-                  <div class="w-5 h-5 bg-gray-200 rounded-md mr-2"></div>
+                  <div class="w-5 h-5 bg-gray-400 rounded-md mr-2"></div>
                   <span>Inbound</span>
                 </div>
-                <span class="font-semibold mt-1 ml-6 text-base">57.2%</span>
+                <span class="font-semibold mt-1 ml-6 text-base">{{ inboundPercentage | number:'1.1-1' }}%</span>
               </div>
             </div>
           </div>
@@ -293,7 +329,7 @@
                       <div class="flex items-center">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <circle cx="8" cy="8" r="8" [attr.fill]="row.status === 'Activo' ? '#1E3A8A80' : '#EDEDED'"/>
-                          <circle cx="8" cy="8" r="4" [attr.fill]="row.status === 'Activo' ? '#1E3A8A' : '#C5CAC4'"/>
+                          <circle cx="8" cy="8" r="4" [attr.fill]="row.status === 'Activo' ? '#1E3A8A' : '#C5CAC4'" [class.latido]="row.status === 'Activo'"/>
                         </svg>
                         <span class="text-gray-700 ml-2">{{ row.status }}</span>
                       </div>
@@ -308,7 +344,7 @@
           <div class="bg-white rounded-3xl p-5 col-span-1 -ml-5">
             <h3 class="font-semibold text-gray-800 mb-4 tracking-[-0.3px]">Países</h3>
             <div>
-              <div class="mb-8" *ngFor="let c of countries">
+              <div class="mb-8" *ngFor="let c of countries; let i = index">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center font-semibold">
                     <img [src]="c.img" [alt]="c.name" class="w-9 h-9 mr-2 " />
@@ -316,8 +352,14 @@
                   </div>
                   <span class="font-semibold -mt-4">{{ c.percent }}%</span>
                 </div>
-                <div class="w-100% h-2 bg-gray-100 -mt-3 ml-11">
-                  <div class="h-2 bg-[#E5E5E5]" [style.width.%]="c.percent"></div>
+                <div class="w-76 h-2 bg-gray-100 -mt-3 ml-11 overflow-hidden">
+                  <div 
+                    class="h-2 bg-gray-500 country-bar"
+                    [style.width.%]="0"
+                    [style.--target-width]="c.percent + '%'"
+                    [style.animation-delay]="getCountryBarDelay(i) + 'ms'"
+                    [style.animation-fill-mode]="'forwards'">
+                  </div>
                 </div>
               </div>
             </div>
