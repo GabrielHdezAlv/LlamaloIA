@@ -132,7 +132,7 @@ export class AgentsComponent {
 
     const dialogRef = this.dialog.open(TwilioIntegrationModalComponent, {
       width: '380px',
-      disableClose: true,
+      disableClose: false,
       panelClass: 'custom-dialog-container',
       data: {
         formEnabled: editMode,
@@ -145,7 +145,7 @@ export class AgentsComponent {
 
       const loaderRef = this.dialog.open(LoaderComponent, {
         width: '100px',
-        disableClose: true,
+        disableClose: false,
         panelClass: 'loader-dialog',
       });
 
@@ -194,7 +194,7 @@ export class AgentsComponent {
 
     const loaderRef = this.dialog.open(LoaderComponent, {
       width: '100px',
-      disableClose: true,
+      disableClose: false,
       panelClass: 'loader-dialog',
     });
 

@@ -49,7 +49,7 @@ export class AccountComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result === true) {
         console.log('Usuario confirmó la eliminación de cuenta');
         // Aquí iría la lógica para eliminar la cuenta
         // Por ejemplo: llamar a un servicio que elimine la cuenta del backend
@@ -57,6 +57,15 @@ export class AccountComponent {
           title: 'Cuenta eliminada',
           message: 'Tu cuenta ha sido eliminada exitosamente.',
           details: 'Todos tus datos han sido eliminados permanentemente.'
+        });
+      } else if (result === 'support') {
+        console.log('Usuario quiere contactar con soporte');
+        // Aquí puedes agregar la lógica para contactar con soporte
+        // Por ejemplo: abrir un enlace, mostrar información de contacto, etc.
+        this.modalService.openSuccess({
+          title: 'Contacto con soporte',
+          message: 'Te hemos redirigido a nuestro equipo de soporte.',
+          details: 'Nuestro equipo se pondrá en contacto contigo pronto.'
         });
       } else {
         console.log('Usuario canceló la eliminación');
