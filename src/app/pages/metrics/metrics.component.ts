@@ -24,7 +24,7 @@ export class MetricsComponent {
   timeSavedHours = 49;
 
   // Latencia
-  latencyMs = 1493;
+  latencyMs = 1999;
   latencyMaxMs = 3000;
 
   get latencyPercent(): number {
@@ -41,11 +41,11 @@ export class MetricsComponent {
   get latencyBadgeClasses(): string {
     switch (this.latencyLabel) {
       case 'RÁPIDO':
-        return 'text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full';
+        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
       case 'NORMAL':
-        return 'text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full';
+        return 'text-xs bg-orange-200 text-black px-2 py-1.5 rounded-lg font-medium';
       default:
-        return 'text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full';
+        return 'text-xs bg-red-200 text-black px-2 py-1.5 rounded-lg font-medium';
     }
   }
 
@@ -60,8 +60,109 @@ export class MetricsComponent {
     }
   }
 
+  get latencyGradient(): string {
+    const percent = this.latencyPercent;
+    switch (this.latencyLabel) {
+      case 'RÁPIDO':
+        return `linear-gradient(90deg, #16a34a 0%, #22c55e 100%)`;
+      case 'NORMAL':
+        return `linear-gradient(90deg, #ca8a04 0%, #eab308 100%)`;
+      default:
+        return `linear-gradient(90deg, #dc2626 0%, #ef4444 100%)`;
+    }
+  }
+
+  get latencyGradientStart(): string {
+    switch (this.latencyLabel) {
+      case 'RÁPIDO':
+        return '#4ade80'; // Verde más oscuro
+      case 'NORMAL':
+        return '#fb923c'; // Naranja más claro
+      default:
+        return '#f87171'; // Rojo más claro
+    }
+  }
+
+  get latencyGradientEnd(): string {
+    switch (this.latencyLabel) {
+      case 'RÁPIDO':
+        return '#14532d'; // Verde bosque muy oscuro
+      case 'NORMAL':
+        return '#c2410c'; // Naranja más oscuro
+      default:
+        return '#991b1b'; // Rojo más oscuro
+    }
+  }
+
+  // Método para simular cambios de latencia
+  simulateLatency(newLatency: number): void {
+    this.latencyMs = newLatency;
+  }
+
+  // Método para simular cambios de duración de llamadas
+  simulateDuration(newDurationSeconds: number): void {
+    this.averageCallDurationSeconds = newDurationSeconds;
+  }
+
+  // Simulación de latencia en tiempo real
+  startLatencySimulation(): void {
+    setInterval(() => {
+      // Simular variaciones realistas de latencia
+      const baseLatency = 1200;
+      const variation = Math.random() * 800 - 400; // ±400ms de variación
+      const newLatency = Math.max(200, Math.min(3000, baseLatency + variation));
+      
+      this.latencyMs = Math.round(newLatency);
+    }, 2000); // Actualizar cada 2 segundos
+  }
+
   // Duración media (texto mostrado)
-  averageCallDurationLabel = '3m y 4s';
+  averageCallDurationSeconds = 94; // 3 minutos y 14 segundos en segundos
+  maxCallDurationSeconds = 200; // 3.3 minutos máximo (para que 3m se vea más alto)
+
+  get averageCallDurationLabel(): string {
+    const minutes = Math.floor(this.averageCallDurationSeconds / 60);
+    const seconds = this.averageCallDurationSeconds % 60;
+    
+    if (minutes === 0) {
+      return `${seconds}s`;
+    }
+    
+    return `${minutes}m y ${seconds}s`;
+  }
+
+  get durationLabel(): 'BUENO' | 'NORMAL' | 'MALO' {
+    const totalMinutes = this.averageCallDurationSeconds / 60;
+    if (totalMinutes <= 1.5) return 'BUENO';
+    if (totalMinutes <= 3) return 'NORMAL';
+    return 'MALO';
+  }
+
+  get durationBadgeClasses(): string {
+    switch (this.durationLabel) {
+      case 'BUENO':
+        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
+      case 'NORMAL':
+        return 'text-xs bg-orange-200 text-black px-2 py-1.5 rounded-lg font-medium';
+      default:
+        return 'text-xs bg-red-200 text-black px-2 py-1.5 rounded-lg font-medium';
+    }
+  }
+
+  get durationPercent(): number {
+    const ratio = this.averageCallDurationSeconds / this.maxCallDurationSeconds;
+    return Math.max(0, Math.min(1, ratio));
+  }
+
+  get durationGradientStart(): string {
+    // Gradiente verde-naranja-rojo para duración de llamadas
+    return '#22c55e'; // Verde
+  }
+
+  get durationGradientEnd(): string {
+    // Gradiente verde-naranja-rojo para duración de llamadas
+    return '#dc2626'; // Rojo
+  }
 
   // Agentes creados (tabla resumen)
   createdAgents = [

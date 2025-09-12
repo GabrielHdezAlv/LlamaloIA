@@ -1,0 +1,39 @@
+// Animación suave para el arco de latencia
+.latency-arc {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+// Animación suave para el arco de duración
+.duration-arc {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+// Efecto de pulso para indicadores de estado
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.status-indicator {
+  animation: pulse 2s infinite;
+}
+
+// Animación de brillo para el medidor
+@keyframes glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6));
+  }
+}
+
+.latency-arc:hover {
+  animation: glow 2s infinite;
+}
