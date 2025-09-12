@@ -128,7 +128,7 @@ export class MetricsComponent {
       return `${seconds}s`;
     }
     
-    return `${minutes}m y ${seconds}s`;
+    return `${minutes}m ${seconds}s`;
   }
 
   get durationLabel(): 'BUENO' | 'NORMAL' | 'MALO' {
