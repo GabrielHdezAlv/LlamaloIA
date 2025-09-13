@@ -12,12 +12,23 @@ body {
   font-family: "Poppins";
 }
 
-html,
-body {
-  height: 100%;
+/* Ocultar barras de scroll */
+html, body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
-body {
-  margin: 0;
-  font-family: "Poppins";
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+  display: none; /* WebKit */
+}
+
+/* Para todos los elementos con scroll */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* WebKit */
 }
