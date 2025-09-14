@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms'; // ✅ Importar FormsModule
   styleUrls: ['./account.component.scss'],
 })
 export class AccountComponent {
-  activeTab: 'profile' | 'security' | 'billing' = 'profile'; 
+  activeTab: 'profile' | 'security' | 'billing' | 'gifts' = 'profile'; 
 
   // Campos de contraseña
   currentPassword = '';
@@ -20,7 +20,7 @@ export class AccountComponent {
   confirmPassword = '';
 
   // Método para cambiar de pestaña
-  setActiveTab(tab: 'profile' | 'security' | 'billing') {
+  setActiveTab(tab: 'profile' | 'security' | 'billing' | 'gifts') {
     this.activeTab = tab;
   }
 
@@ -44,5 +44,12 @@ export class AccountComponent {
       // Lógica de eliminación
       console.log('Cuenta eliminada');
     }
+  }
+
+  // Método para canjear recompensa
+  redeemReward(rewardType: string) {
+    console.log(`Canjeando recompensa: ${rewardType}`);
+    // Aquí puedes implementar la lógica para canjear la recompensa
+    alert(`¡Recompensa ${rewardType} canjeada! Te contactaremos pronto.`);
   }
 }
