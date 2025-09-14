@@ -68,7 +68,12 @@
               </div>
             </button>
 
-            <button class="w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group opacity-50 cursor-not-allowed">
+            <button
+              (click)="setActiveTab('gifts')"
+              [class]="activeTab === 'gifts' 
+                ? 'w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group' 
+                : 'w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group'"
+            >
               <span class="flex items-center justify-center w-11 h-11 rounded-full bg-gray-100">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect width="22" height="2" transform="translate(1 11)" fill="#727272"/>
@@ -293,6 +298,47 @@
                   <path d="M11.5 11.5H13.5V13.5H11.5V11.5Z" fill="#374151"/>
                 </svg>
                 <span class="ml-2 text-sm text-gray-600">Protegido por Stripe</span>
+              </div>
+            </div>
+          </div>
+        }
+
+        @if (activeTab === 'gifts') {
+          <!-- === SECCIÓN REGALOS === -->
+          <div class="flex flex-col h-full">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Regalos</h2>
+        
+            <div class="space-y-6">
+              <!-- Descripción -->
+              <p class="text-xs text-gray-600 font-medium tracking-[-1px]">
+                Los minutos extra que ganes y no uses el mes siguiente no caducarán. ¡Canjea tus recompensas ahora para no olvidarte!
+              </p>
+        
+              <!-- Tarjeta de Recompensa Trustpilot -->
+              <div class="bg-gray-100 rounded-2xl p-6 max-w-2xl mx-auto">
+                <div class="space-y-4">
+                  <!-- Título de la recompensa -->
+                  <h3 class="text-2xl font-semibold tracking-[-0.5px]">
+                    <span class="text-gray-900">Trustpilot</span>
+                    <span class="text-blue-600"> +10 min</span>
+                  </h3>
+                  
+                  <!-- Descripción -->
+                  <p class="text-sm font-semibold text-gray-900 leading-relaxed tracking-[-0.5px]">
+                    Gana 10 minutos adicionales dejando una reseña sobre Llámalo en Trustpilot.<br>
+                    Una vez publicada, envíanos una captura en el chat de tu reseña junto con el email de tu cuenta y añadiremos los minutos extra automáticamente.
+                  </p>
+                  
+                  <!-- Botón Canjear -->
+                  <div class="flex justify-end">
+                    <button
+                      (click)="redeemReward('Trustpilot')"
+                      class="px-6 py-2 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm"
+                    >
+                      Canjear
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
