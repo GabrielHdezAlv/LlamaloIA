@@ -8,7 +8,6 @@ import {
   withHooks,
 } from '@ngrx/signals';
 import { STORAGE_REPOSITORY } from '../storage-repository.token';
-import type { StorageRepository } from '../storage-repository.interface';
 import { Store } from '../store.enum';
 import type { User } from '../../shared/models/new-user.model';
 
