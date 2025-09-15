@@ -45,10 +45,21 @@ export class HomeComponent {
     return index === this.currentWeekdayIndex;
   }
 
-  // Datos dinámicos para "Llamadas por día" (alturas en px para coincidir con las clases Tailwind actuales)
+  // Datos dinámicos para "Llamadas por día" (basado en porcentajes con altura máxima)
   days: string[] = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
-  // h-36=144, h-48=192, h-28=112, h-56=224, h-40=160, h-28=112, h-36=144
-  callsByDayHeights: number[] = [144, 192, 112, 224, 160, 112, 144];
+  
+  // Altura máxima de las barras en píxeles
+  maxBarHeight: number = 200;
+  
+  // Porcentajes de llamadas por día (0-100%)
+  callsByDayPercentages: number[] = [40, 80, 30, 60, 45, 30, 40];
+  
+  // Calcular alturas basadas en porcentajes
+  get callsByDayHeights(): number[] {
+    return this.callsByDayPercentages.map(percentage => 
+      Math.round((percentage / 100) * this.maxBarHeight)
+    );
+  }
 
   // Datos dinámicos para "Agentes activos"
   activeAgents: Array<{
