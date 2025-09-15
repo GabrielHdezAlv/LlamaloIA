@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserStorage } from '../../storages/user/user-storage';
 
 @Component({
   selector: 'app-topbar',
@@ -10,6 +11,8 @@ import { Router } from '@angular/router';
 export class TopbarComponent {
   pageTitle: string = 'Inicio';
   welcomeText: string = 'Hey Maria, Bienvenido/a';
+
+  userStorage = inject(UserStorage);
 
   constructor(private router: Router) {}
 

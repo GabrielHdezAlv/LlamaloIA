@@ -1,6 +1,7 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { UserStorage } from '../../storages/user/user-storage';
 
 @Component({
   selector: 'app-nav',
@@ -12,6 +13,8 @@ import { RouterModule } from '@angular/router';
 export class NavComponent {
   isOpen: boolean = false;
   windowWidth: number = 0;
+
+  userStorage = inject(UserStorage);
 
   // Idiomas
   languages = [

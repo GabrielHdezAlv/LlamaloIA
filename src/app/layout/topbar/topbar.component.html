@@ -33,9 +33,9 @@
       </svg>
     </button>
     <img
-      src="assets/profile_img.jpg"
+      [src]="userStorage.user()?.profileImage || 'assets/default-profile.jpg'"
       class="h-10 rounded-full"
-      alt="Flowbite Logo"
+      alt="Foto de perfil"
     />
   </div>
 </div>
