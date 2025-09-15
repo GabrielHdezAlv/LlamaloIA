@@ -34,6 +34,18 @@ export class UserService {
     });
   }
 
+  private getFileUploadHeaders(): HttpHeaders {
+    let token = '';
+    if (this.isBrowser && typeof window !== 'undefined' && window.localStorage) {
+      token = localStorage.getItem('token') || '';
+    }
+
+    return new HttpHeaders({
+      Accept: '*/*',
+      Authorization: `Bearer ${token}`,
+    });
+  }
+
   LoginUser(user: LoginUser): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, user, {
       headers: this.getAuthHeaders(),
@@ -49,6 +61,21 @@ export class UserService {
   RegisterUser(newUser: User): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/register`, newUser, {
       headers: this.getAuthHeaders(),
+    });
+  }
+
+  updateUserProfile(userData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/auth/profile`, userData, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  uploadProfileImage(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    return this.http.post<any>(`${this.apiUrl}/auth/profile/image`, formData, {
+      headers: this.getFileUploadHeaders(),
     });
   }
 
