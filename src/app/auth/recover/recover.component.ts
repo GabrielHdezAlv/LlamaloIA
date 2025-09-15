@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
-import { LoginUser } from '../../shared/models/login-user.model';
 
 @Component({
   selector: 'app-recover',
@@ -28,7 +27,7 @@ import { LoginUser } from '../../shared/models/login-user.model';
 })
 export class RecoverComponent {
   email: string = '';
-  password: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -36,33 +35,43 @@ export class RecoverComponent {
     private snackBar: MatSnackBar
   ) {}
 
-  login(event: Event) {
+  recoverPassword(event: Event) {
     event.preventDefault(); // Evita recarga de la página
 
-    if (!this.email || !this.password) {
-      this.showNotification('Por favor, ingrese email y contraseña', 'error');
+    if (!this.email) {
+      this.showNotification('Por favor, ingrese su email', 'error');
       return;
     }
 
-    const user = new LoginUser(this.email, this.password);
+    // Validar formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email)) {
+      this.showNotification('Por favor, ingrese un email válido', 'error');
+      return;
+    }
 
-    this.userService.LoginUser(user).subscribe({
+    this.isLoading = true;
+
+    this.userService.RecoverPassword(this.email).subscribe({
       next: (response) => {
-        console.log('✅ Inicio de sesión exitoso:', response);
-
-        if (typeof window !== 'undefined' && window.localStorage) {
-          localStorage.setItem('token', response.Token);
-        }
-
-        this.showNotification('Inicio de sesión exitoso', 'success');
-        this.router.navigate(['/dashboard']);
+        console.log('✅ Email de recuperación enviado:', response);
+        this.showNotification(
+          'Se ha enviado un email con las instrucciones para restablecer su contraseña',
+          'success'
+        );
+        this.isLoading = false;
+        // Opcional: redirigir al login después de un tiempo
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 3000);
       },
       error: (err) => {
-        console.error('❌ Error en inicio de sesión:', err);
+        console.error('❌ Error al enviar email de recuperación:', err);
         this.showNotification(
-          'Error en inicio de sesión: ' + err.message,
+          'Error al enviar el email. Verifique que el email sea correcto e inténtelo de nuevo.',
           'error'
         );
+        this.isLoading = false;
       },
     });
   }
@@ -70,7 +79,7 @@ export class RecoverComponent {
   // 🔹 Función para mostrar notificaciones
   private showNotification(message: string, type: 'success' | 'error') {
     this.snackBar.open(message, 'Cerrar', {
-      duration: 3000, // 3 segundos
+      duration: 5000, // 5 segundos para dar tiempo a leer
       panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
       horizontalPosition: 'center',
       verticalPosition: 'top',

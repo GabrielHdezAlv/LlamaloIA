@@ -52,6 +52,16 @@ export class UserService {
     });
   }
 
+  RecoverPassword(email: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/auth/recover`,
+      { email },
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  }
+
   // IDIOMAS
   getLanguages(): Observable<any> {
     return this.http.get(`${this.apiUrl}/user/allLanguages`);
