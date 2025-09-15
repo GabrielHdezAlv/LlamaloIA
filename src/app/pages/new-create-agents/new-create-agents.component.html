@@ -1,4 +1,4 @@
-<div class="min-h-screen flex flex-col py-12 ml-28 mr-[5.5rem] mt-7">
+<div class="min-h-screen flex flex-col py-12 ml-28 mr-[5.5rem] mt-8">
   <!-- Barra de progreso -->
   <div class="w-full mb-8">
     <div class="h-4 w-full bg-gray-300 rounded-full overflow-hidden">
@@ -20,7 +20,7 @@
   </div>
 
   @if (step === 'callType') {
-    <div class="bg-white rounded-2xl shadow-sm p-20">
+    <div class="bg-white rounded-[2rem] shadow-sm p-20">
       <h2 class="text-5xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Tipo de Llamadas</h2>
 
       <div class="flex justify-center gap-20 flex-wrap">
@@ -45,34 +45,34 @@
   <!-- Pagina: 2 -->
   @if (step === 'language') {
     <!-- Pantalla 2: Idioma -->
-    <div class="bg-white rounded-2xl shadow-sm p-20">
+    <div class="bg-white rounded-[2rem] shadow-sm p-20">
       <h2 class="text-5xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Idioma</h2>
 
       <div class="grid grid-cols-2 gap-12 max-w-2xl mx-auto">
         <button
           (click)="onLanguageSelected()"
-          class="p-10 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
+          class="p-10 bg-gray-200 rounded-[2rem] hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
         >
           <img src="assets/españa.svg" alt="España" class="w-12 h-10 ml-5" />
           <span class="ml-2">Español</span>
         </button>
         <button
           (click)="onLanguageSelected()"
-          class="p-10 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
+          class="p-10 bg-gray-200 rounded-[2rem] hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
         >
           <img src="assets/uk.svg" alt="Reino Unido" class="w-12 h-10 ml-5" />
           <span class="ml-2">Inglés</span>
         </button>
         <button
           (click)="onLanguageSelected()"
-          class="p-10 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
+          class="p-10 bg-gray-200 rounded-[2rem] hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
         >
           <img src="assets/francia.svg" alt="Francia" class="w-12 h-10 ml-5" />
           <span class="ml-2">Francés</span>
         </button>
         <button
           (click)="onLanguageSelected()"
-          class="p-10 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
+          class="p-10 bg-gray-200 rounded-[2rem] hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
         >
           <img src="assets/italia.svg" alt="Italia" class="w-12 h-10 ml-5" />
           <span class="ml-2">Italiano</span>
@@ -91,13 +91,13 @@
   }
     @if (step === 'voices') {
       <!-- Pantalla 3: Voces -->
-      <div class="bg-white rounded-2xl shadow-sm p-16">
+      <div class="bg-white rounded-[2rem] shadow-sm p-16">
         <h2 class="text-5xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Voces</h2>
     
         <div class="flex justify-center gap-6 flex-wrap">
           <!-- Carla -->
           <div 
-            class="w-[240px] h-[368px] bg-gray-100 rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
+            class="w-[240px] h-[368px] bg-gray-100 rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
             (click)="onVoiceSelected()"
           >
             <img src="assets/carla_voz.png" alt="Carla" class="w-full h-full object-cover" />
@@ -117,7 +117,7 @@
     
           <!-- Anas -->
           <div 
-            class="w-[240px] h-[368px] bg-gray-100 rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
+            class="w-[240px] h-[368px] bg-gray-100 rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
             (click)="onVoiceSelected()"
           >
             <img src="assets/anas_voz.png" alt="Anas" class="w-full h-full object-cover" />
@@ -137,7 +137,7 @@
     
           <!-- Carlos -->
           <div 
-            class="w-[240px] h-[368px] bg-gray-100 rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
+            class="w-[240px] h-[368px] bg-gray-100 rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
             (click)="onVoiceSelected()"
           >
             <img src="assets/carlos_voz.png" alt="Carlos" class="w-full h-full object-cover" />
@@ -170,7 +170,7 @@
 
     @if (step === 'instructions') {
       <!-- Pantalla 4: Instrucciones -->
-      <div class="bg-white rounded-2xl shadow-sm p-20 overflow-y-auto max-h-[calc(100vh-23.4rem)] scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+      <div class="bg-white rounded-[2rem] shadow-sm p-20 overflow-y-auto max-h-[calc(100vh-23.4rem)] scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
       <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Instrucciones</h2>
 
       <p class="text-center text-base text-black mb-8 max-w-2xl mx-auto">
@@ -240,7 +240,7 @@
 
   @if (step === 'actions') {
     <!-- Pantalla 5: Añadir Acciones -->
-    <div class="bg-white rounded-2xl shadow-sm p-8">
+    <div class="bg-white rounded-[2rem] shadow-sm p-8">
       <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Añadir Acciones</h2>
   
       <p class="text-center text-base text-black mb-12 max-w-4xl mx-auto">
@@ -251,7 +251,7 @@
         <!-- Shopify -->
         <button
           (click)="selectAction('shopify')"
-          class="w-[220px] h-[320px] bg-gradient-to-br from-green-100 to-green-300 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+          class="w-[220px] h-[320px] bg-gradient-to-br from-green-100 to-green-300 rounded-[2rem] flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
         >
           <img src="assets/shopify.png" alt="Shopify" class="w-16 h-26 mt-14" />
           <span class="font-semibold text-gray-800 mt-20 tracking-[-2px] text-xl">Shopify</span>
@@ -260,7 +260,7 @@
         <!-- WooCommerce -->
         <button
           (click)="selectAction('woocommerce')"
-          class="w-[220px] h-[320px] bg-gradient-to-br from-purple-200 to-violet-400 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+          class="w-[220px] h-[320px] bg-gradient-to-br from-purple-200 to-violet-400 rounded-[2rem] flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
         >
         <img src="assets/woo.png" alt="Shopify" class="w-32 h-40 mt-[2vh] object-contain" />
           <span class="font-semibold text-gray-800 mt-[4vh] tracking-[-2px] text-xl">WooCommerce</span>
@@ -269,7 +269,7 @@
         <!-- Make -->
         <button
           (click)="selectAction('make')"
-          class="w-[220px] h-[320px] bg-gradient-to-br from-pink-200 to-purple-400 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+          class="w-[220px] h-[320px] bg-gradient-to-br from-pink-200 to-purple-400 rounded-[2rem] flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
         >
         <img src="assets/make.png" alt="Shopify" class="w-24 h-26 mt-[7vh]" />
           <span class="font-semibold text-gray-800 mt-20 tracking-[-2px] text-xl">Make</span>
@@ -310,7 +310,7 @@
 
   @if (step === 'knowledgeBase') {
   <!-- Pantalla 6: Base de Conocimientos -->
-  <div class="bg-white rounded-2xl shadow-sm p-8">
+  <div class="bg-white rounded-[2rem] shadow-sm p-8">
     <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Base de Conocimientos</h2>
 
     <p class="text-center text-base text-black mb-12 max-w-4xl mx-auto">
@@ -321,7 +321,7 @@
       <!-- PDF -->
       <button
         (click)="selectKnowledgeSource('pdf')"
-        class="w-[240px] h-[320px] bg-gray-100 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+        class="w-[240px] h-[320px] bg-gray-100 rounded-[2rem] flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
       >
       <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M62.5 94.7917H37.5C14.875 94.7917 5.20837 85.125 5.20837 62.5V37.5C5.20837 14.875 14.875 5.20837 37.5 5.20837H58.3334C60.0417 5.20837 61.4584 6.62504 61.4584 8.33337C61.4584 10.0417 60.0417 11.4584 58.3334 11.4584H37.5C18.2917 11.4584 11.4584 18.2917 11.4584 37.5V62.5C11.4584 81.7084 18.2917 88.5417 37.5 88.5417H62.5C81.7084 88.5417 88.5417 81.7084 88.5417 62.5V41.6667C88.5417 39.9584 89.9584 38.5417 91.6667 38.5417C93.375 38.5417 94.7917 39.9584 94.7917 41.6667V62.5C94.7917 85.125 85.125 94.7917 62.5 94.7917Z" fill="#353535"/>
@@ -336,7 +336,7 @@
       <!-- Web -->
       <button
         (click)="selectKnowledgeSource('web')"
-        class="w-[240px] h-[320px] bg-gray-100 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+        class="w-[240px] h-[320px] bg-gray-100 rounded-[2rem] flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
       >
       <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <rect width="100" height="100" fill="url(#pattern0_24_532)" />
@@ -382,7 +382,7 @@
   </div>
 }
 @if (step === 'summary') {
-  <div class="bg-white rounded-2xl shadow-sm p-16">
+  <div class="bg-white rounded-[2rem] shadow-sm p-16">
     <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Prueba Agente</h2>
     <p class="text-center text-base text-black mb-8 max-w-4xl mx-auto">
       Ingresa tu número de teléfono y recibirás una llamada para hacer la prueba en tiempo real.
@@ -411,7 +411,7 @@
 }
 
 @if (step === 'connectPhone') {
-  <div class="bg-white rounded-2xl shadow-sm p-12 ">
+  <div class="bg-white rounded-[2rem] shadow-sm p-12 ">
     <!-- Título principal -->
     <h2 class="text-5xl font-semibold text-center text-blue-950 tracking-[-3px]">
       Conectar Número de Teléfono
@@ -573,7 +573,7 @@
 }
 
 @if (step === 'advancedSettings') {
-  <div class="bg-white rounded-2xl shadow-sm p-12">
+  <div class="bg-white rounded-[2rem] shadow-sm p-12">
     <!-- Título -->
     <h2 class="text-5xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Configuración Avanzada</h2>
 
@@ -721,7 +721,7 @@
 }
 
 @if (step === 'final') {
-  <div class="bg-white rounded-2xl shadow-sm p-16 text-center">
+  <div class="bg-white rounded-[2rem] shadow-sm p-16 text-center">
     <h2 class="text-5xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Creando Agente</h2>
     <div class="flex justify-center my-12">
       <svg class="animate-spin" width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -737,7 +737,7 @@
 }
 
 @if (step === 'success') {
-  <div class="bg-white rounded-2xl shadow-sm p-16 text-center">
+  <div class="bg-white rounded-[2rem] shadow-sm p-16 text-center">
     <h2 class="text-5xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Agente Creado con Éxito</h2>
     <div class="flex justify-center my-12">
       <div class="w-24 h-24 bg-blue-200 rounded-full flex items-center justify-center">
