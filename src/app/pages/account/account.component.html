@@ -4,7 +4,16 @@
       <div class="w-[32vh] bg-gray-100 rounded-l-xl rounded-tr-none rounded-br-none p-6  shadow-sm h-[70vh]">
         <!-- Header -->
         <div class="flex items-center gap-3 mb-6 mt-3">
-          <img src="assets/anas_chat.png" alt="Avatar" class="w-10 h-10 rounded-full" />
+          @if (tempProfileImage || userProfileImage()) {
+            <img [src]="tempProfileImage || userProfileImage()" alt="Avatar" class="w-10 h-10 rounded-full" />
+          } @else {
+            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+              <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path opacity="0.5" d="M8.96143 3C8.96143 3.39397 8.88383 3.78407 8.73306 4.14805C8.5823 4.51203 8.36132 4.84274 8.08275 5.12132C7.80417 5.3999 7.47345 5.62087 7.10948 5.77164C6.7455 5.9224 6.35539 6 5.96143 6C5.56746 6 5.17735 5.9224 4.81338 5.77164C4.4494 5.62087 4.11868 5.3999 3.84011 5.12132C3.56153 4.84274 3.34055 4.51203 3.18979 4.14805C3.03902 3.78407 2.96143 3.39397 2.96143 3C2.96143 2.20435 3.2775 1.44129 3.84011 0.87868C4.40271 0.316071 5.16578 0 5.96143 0C6.75708 0 7.52014 0.316071 8.08275 0.87868C8.64536 1.44129 8.96143 2.20435 8.96143 3Z" fill="black"/>
+                <path opacity="0.5" d="M0.576605 14.4282C0.380541 14.306 0.223062 14.1309 0.122372 13.9229C0.0216819 13.715 -0.0181069 13.4828 0.00760484 13.2532C0.191961 11.8043 0.898355 10.4723 1.99442 9.50686C3.09048 8.54141 4.50098 8.00879 5.96161 8.00879C7.42223 8.00879 8.83273 8.54141 9.92879 9.50686C11.0249 10.4723 11.7312 11.8043 11.9156 13.2532C11.9736 13.7202 11.7436 14.1732 11.3456 14.4272C9.73885 15.4569 7.86996 16.0029 5.96161 16.0002C4.05301 16.0034 2.18375 15.4577 0.576605 14.4282Z" fill="black"/>
+              </svg>
+            </div>
+          }
           <div>
             <h3 class="font-semibold text-gray-900 tracking-[-0.8px]">{{ fullName() }}</h3>
             <p class="text-xs text-gray-500 tracking-[-0.5px]">{{ email() }}</p>
@@ -106,7 +115,16 @@
 
           <!-- Avatar & Text -->
           <div class="flex items-start gap-4 mb-8">
-            <img src="assets/anas_chat.png" alt="Avatar" class="w-20 h-20 rounded-full" />
+            @if (tempProfileImage || userProfileImage()) {
+              <img [src]="tempProfileImage || userProfileImage()" alt="Avatar" class="w-20 h-20 rounded-full cursor-pointer hover:opacity-80 transition-opacity duration-200" (click)="onAvatarClick()" />
+            } @else {
+              <div class="w-20 h-20 rounded-full bg-gray-100 cursor-pointer hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center" (click)="onAvatarClick()">
+                <svg width="24" height="32" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path opacity="0.5" d="M8.96143 3C8.96143 3.39397 8.88383 3.78407 8.73306 4.14805C8.5823 4.51203 8.36132 4.84274 8.08275 5.12132C7.80417 5.3999 7.47345 5.62087 7.10948 5.77164C6.7455 5.9224 6.35539 6 5.96143 6C5.56746 6 5.17735 5.9224 4.81338 5.77164C4.4494 5.62087 4.11868 5.3999 3.84011 5.12132C3.56153 4.84274 3.34055 4.51203 3.18979 4.14805C3.03902 3.78407 2.96143 3.39397 2.96143 3C2.96143 2.20435 3.2775 1.44129 3.84011 0.87868C4.40271 0.316071 5.16578 0 5.96143 0C6.75708 0 7.52014 0.316071 8.08275 0.87868C8.64536 1.44129 8.96143 2.20435 8.96143 3Z" fill="black"/>
+                  <path opacity="0.5" d="M0.576605 14.4282C0.380541 14.306 0.223062 14.1309 0.122372 13.9229C0.0216819 13.715 -0.0181069 13.4828 0.00760484 13.2532C0.191961 11.8043 0.898355 10.4723 1.99442 9.50686C3.09048 8.54141 4.50098 8.00879 5.96161 8.00879C7.42223 8.00879 8.83273 8.54141 9.92879 9.50686C11.0249 10.4723 11.7312 11.8043 11.9156 13.2532C11.9736 13.7202 11.7436 14.1732 11.3456 14.4272C9.73885 15.4569 7.86996 16.0029 5.96161 16.0002C4.05301 16.0034 2.18375 15.4577 0.576605 14.4282Z" fill="black"/>
+                </svg>
+              </div>
+            }
             <div class="flex flex-col mt-6">
               <span class="text-xs text-gray-500 tracking-[-0.5px]">Actualiza tu avatar haciendo clic en la imagen de al lado. 288 x 288 píxeles.</span>
               <span class="text-xs text-gray-500 tracking-[-0.5px]">Tamaño recomendado en formato PNG o JPG únicamente.</span>
@@ -115,30 +133,61 @@
 
           <!-- Formulario -->
           <div class="space-y-6">
-            <!-- Nombre Completo -->
-            <div>
-              <label class="block text-sm font-semibold text-black mb-2 tracking-[-0.4px]">Nombre Completo</label>
-              <div class="relative">
-                <input type="text" [value]="fullName()" class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm" />
-                <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
+            <!-- Nombre y Apellido -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-semibold text-black mb-2 tracking-[-0.4px]">Nombre</label>
+                <div class="relative">
+                  <input 
+                    type="text" 
+                    [(ngModel)]="tempName"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                  <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-black mb-2 tracking-[-0.4px]">Apellido</label>
+                <div class="relative">
+                  <input 
+                    type="text" 
+                    [(ngModel)]="tempLastname"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                  <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </div>
               </div>
             </div>
 
             <!-- Email -->
             <div>
               <label class="block text-sm font-semibold text-black mb-2">Email</label>
-              <input type="email" [value]="email()" class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm" />
+              <input 
+                type="email" 
+                [value]="email()" 
+                readonly
+                class="w-full px-4 py-3 border border-gray-300 rounded-full bg-gray-100 text-gray-600 cursor-not-allowed text-sm" />
             </div>
 
             <!-- País -->
             <div class="relative">
               <label class="block text-sm font-semibold text-black mb-2">País</label>
-              <select class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none pr-12">
-                <option>España</option>
-                <option>Francia</option>
-                <option>Italia</option>
+              <select 
+                [(ngModel)]="tempCountry"
+                class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none pr-12">
+                <option value="">Selecciona un país</option>
+                <option value="España">España</option>
+                <option value="Francia">Francia</option>
+                <option value="Italia">Italia</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Alemania">Alemania</option>
+                <option value="Reino Unido">Reino Unido</option>
+                <option value="Estados Unidos">Estados Unidos</option>
+                <option value="México">México</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Colombia">Colombia</option>
               </select>
               <span class="pointer-events-none absolute inset-y-0 right-4 top-9 flex items-center">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -152,7 +201,11 @@
               <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre del Negocio</label>
                 <div class="relative">
-                  <input type="text" placeholder="TuTienda" class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                  <input 
+                    type="text" 
+                    placeholder="TuTienda" 
+                    [(ngModel)]="tempEnterprise"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm" />
                   <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                   </svg>
@@ -161,12 +214,26 @@
               <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Web del Negocio</label>
                 <div class="relative">
-                  <input type="url" placeholder="https://tutienda.com" class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm" />
+                  <input 
+                    type="url" 
+                    placeholder="https://tutienda.com" 
+                    [(ngModel)]="tempEnterpriseWeb"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm" />
                   <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                   </svg>
                 </div>
               </div>
+            </div>
+
+            <!-- Botón de Guardar -->
+            <div class="flex justify-end mt-8">
+              <button
+                (click)="saveUserInfo()"
+                class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors duration-200"
+              >
+                Guardar Cambios
+              </button>
             </div>
           </div>
         }
