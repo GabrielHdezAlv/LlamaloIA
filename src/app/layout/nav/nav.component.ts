@@ -103,7 +103,12 @@ export class NavComponent {
 
   // Navegar a ruta
   navigateTo(route: string) {
-    this.router.navigate([route]);
+    if (route === '/dashboard/community') {
+      // Redirigir al canal de Telegram de Llámalo AI
+      window.open('https://t.me/+wDgRI51qiW1mZjdk', '_blank');
+    } else {
+      this.router.navigate([route]);
+    }
     this.showDropdown = false;
   }
 
