@@ -1,7 +1,7 @@
-<div class="bg-white rounded-2xl shadow-sm pb-24 h-[70vh] mt-16 ml-28 mr-[5.5rem]">
-    <div class="max-w-6xl flex">
+<div class="bg-white rounded-2xl shadow-sm pb-24 h-[70vh] mt-4 sm:mt-8 lg:mt-16 mx-4 sm:mx-8 lg:ml-28 lg:mr-[5.5rem] 2xl:mx-auto 2xl:max-w-[1400px] 2xl:ml-auto 2xl:mr-auto">
+    <div class="max-w-6xl 2xl:max-w-none flex flex-col lg:flex-row">
       <!-- Sidebar -->
-      <div class="w-[32vh] bg-gray-100 rounded-l-xl rounded-tr-none rounded-br-none p-6  shadow-sm h-[70vh]">
+      <div class="w-full lg:w-[32vh] 2xl:w-[400px] bg-gray-100 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none lg:rounded-br-none rounded-b-none p-4 sm:p-6 2xl:p-8 shadow-sm h-auto lg:h-[70vh]">
         <!-- Header -->
         <div class="flex items-center gap-3 mb-6 mt-3">
           <img src="assets/anas_chat.png" alt="Avatar" class="w-10 h-10 rounded-full" />
@@ -12,13 +12,13 @@
         </div>
   
         <!-- Menu -->
-          <nav class="space-y-2 -ml-3">
+          <nav class="space-y-2 -ml-3 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible">
             <!-- Perfil -->
             <button
               (click)="setActiveTab('profile')"
               [class]="activeTab === 'profile' 
-                ? 'w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group' 
-                : 'w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group'"
+                ? 'w-full lg:w-60 flex items-center gap-3 px-3 sm:px-4 py-3 sm:py-5 rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap' 
+                : 'w-full lg:w-60 flex items-center gap-3 px-3 sm:px-4 py-3 sm:py-5 rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'"
             >
               <span class="flex items-center justify-center w-11 h-11 rounded-full bg-gray-100 group-hover:bg-gray-200 transition-colors duration-200">
                 <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +99,7 @@
       </div>
   
       <!-- Main Content -->
-      <div class="flex-1 bg-white rounded-l-3xl rounded-tl-3xl rounded-r-2xl shadow-sm p-8 -ml-6">
+      <div class="flex-1 bg-white rounded-b-xl lg:rounded-l-3xl lg:rounded-tl-3xl lg:rounded-r-2xl lg:rounded-b-2xl shadow-sm p-4 sm:p-6 lg:p-8 2xl:p-12 lg:-ml-6">
         @if (activeTab === 'profile') {
           <!-- === SECCIÓN PERFIL === -->
           <h2 class="text-2xl font-bold text-gray-900 mb-6">Información del perfil</h2>
@@ -148,7 +148,7 @@
             </div>
 
             <!-- Nombre del Negocio y Web del Negocio -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre del Negocio</label>
                 <div class="relative">
@@ -193,7 +193,7 @@
               </div>
         
               <!-- Nueva y Confirmar Contraseña -->
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div class="relative">
                   <label class="absolute left-8 top-2 text-xs text-black pointer-events-none tracking-[-1px] bg-white p-1">Nueva Contraseña</label>
                   <input
@@ -259,7 +259,7 @@
               </div>
         
               <!-- Botones de Acción -->
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 <button
                   class="px-2 text-sm py-4 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors whitespace-nowrap"
                 >
