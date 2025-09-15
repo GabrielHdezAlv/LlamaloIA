@@ -11,114 +11,128 @@
     width: 50px !important;
     min-width: 50px !important;
     max-width: 50px !important;
+    transform-origin: bottom;
+    transform: scaleY(1.0);
+  }
+
+  .llamadas-barra-rounded {
+    border-radius: 12px 12px 12px 12px !important;
   }
 }
 
 @media (min-width: 2560px) {
-  .llamadas-barra {
-    width: 70px !important;
-    min-width: 70px !important;
-    max-width: 70px !important;
-  }
-
-  /* Bordes 3x1 para las barras en 2560px */
-  .llamadas-barra-rounded {
-    border-radius: 20px 20px 20px 20px !important; /* 3x1: 24px arriba, 8px abajo */
-  }
-
-  /* Hacer los nombres de los días más grandes en pantallas muy grandes */
-  .llamadas-por-dia-grafico span.text-sm {
-    font-size: 1.2rem !important; /* Aumenta el tamaño de la fuente */
-    line-height: 2rem !important;
-  }
-
-  /* Aumentar la altura de los recuadros en pantallas muy grandes */
+  /* Limitar el ancho del contenido y centrarlo un poco más ancho */
   .agentes-activos-recuadro {
-    min-height: 500px !important;
-    height: 500px !important;
-    padding: 3.5rem !important;
+    max-width: 1600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  .flex.flex-wrap.gap-6.mt-6.mr-24.ml-28 {
+    max-width: 1600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Hacer todo más grande en 2560px */
+  .llamadas-barra {
+    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+  }
+
+  .llamadas-barra-rounded {
+    border-radius: 12px 12px 12px 12px !important;
+  }
+
+  .llamadas-por-dia-grafico span.text-sm {
+    font-size: 1.1rem !important;
+    line-height: 1.8rem !important;
+  }
+
+  .agentes-activos-recuadro {
+    min-height: 480px !important;
+    height: 480px !important;
+    padding: 3rem !important;
   }
 
   .agentes-activos-titulo,
   .resumen-titulo,
   .llamadas-por-dia-titulo {
-    font-size: 1.8rem !important;
-    margin-bottom: 1.2rem !important; /* Reducir el margen inferior del título */
+    font-size: 1.7rem !important;
+    margin-bottom: 1.1rem !important;
   }
 
   .resumen-datos {
-    font-size: 1.3rem !important;
+    font-size: 1.25rem !important;
   }
 
   .agentes-activos-tabla {
-    font-size: 1.5rem !important;
-    margin-top: 7rem !important;
+    font-size: 1.4rem !important;
+    margin-top: 6rem !important;
   }
 
   .agentes-activos-th {
-    font-size: 1.2rem !important;
-    padding-bottom: 1.5rem !important;
+    font-size: 1.15rem !important;
+    padding-bottom: 1.4rem !important;
   }
 
   .agentes-activos-td {
-    font-size: 1.2rem !important;
-    padding-top: 1.5rem !important;
-    padding-bottom: 1.5rem !important;
+    font-size: 1.15rem !important;
+    padding-top: 1.4rem !important;
+    padding-bottom: 1.4rem !important;
   }
 
   .agentes-activos-minutos {
-    font-size: 1.5rem !important;
+    font-size: 1.4rem !important;
   }
 
   .agentes-activos-porcentaje {
-    font-size: 1.1rem !important;
-    padding: 0.5rem 1rem !important;
-    margin-left: 1.5rem !important;
+    font-size: 1.05rem !important;
+    padding: 0.45rem 0.9rem !important;
+    margin-left: 1.3rem !important;
   }
 
   .agentes-activos-icono {
-    width: 1.5rem !important;
-    height: 1.5rem !important;
-    margin-right: 0.5rem !important;
+    width: 1.4rem !important;
+    height: 1.4rem !important;
+    margin-right: 0.45rem !important;
   }
 
   .agentes-activos-estado-icono {
-    width: 2rem !important;
-    height: 2rem !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
   }
 
   .agentes-activos-estado-texto {
-    font-size: 1.2rem !important;
-    margin-left: 1rem !important;
+    font-size: 1.15rem !important;
+    margin-left: 0.9rem !important;
   }
 
   .llamadas-por-dia-altura {
-    min-height: 350px !important;
-    height: 350px !important;
+    min-height: 340px !important;
+    height: 340px !important;
   }
 
-  /* Hacer los botones de días del resumen un poco más grandes en 2560px */
   .resumen-dias-botones > button {
-    font-size: 1.15rem !important;
-    padding: 0.5rem 1.2rem !important;
-  }
-
-  /* Hacer el texto "vs last year" del resumen un poco más grande en 2560px */
-  .resumen-dias-texto {
     font-size: 1.1rem !important;
+    padding: 0.45rem 1.1rem !important;
   }
 
-  /* Bajamos el gráfico en 2560px */
+  .resumen-dias-texto {
+    font-size: 1.05rem !important;
+  }
+
   .llamadas-por-dia-grafico-wrapper {
-    margin-top: 150px !important;
+    margin-top: 140px !important;
   }
 
-  /* Aumentamos la altura visual de las barras sin cambiar sus valores */
   .llamadas-barra {
     transform-origin: bottom;
-    transform: scaleY(1.35);
+    transform: scaleY(1.5);
   }
 }
+
 
 /* Animación de latido para el punto azul de agentes activos */
 .latido {
