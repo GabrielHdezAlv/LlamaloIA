@@ -8,13 +8,13 @@ import { Agent } from '../../shared/models/agent.model';
   selector: 'app-new-agents',
   imports: [RouterModule, CommonModule],
   templateUrl: './new-agents.component.html',
-  styleUrl: './new-agents.component.scss'
+  styleUrl: './new-agents.component.scss',
 })
 export class NewAgentsComponent implements OnInit {
   private agentsService = inject(AgentsService);
 
   agents: Agent[] = [];
-  
+
   // TEMPORAL: Cambiar a true para probar estado vacío, false para mostrar agentes ficticios
   private showEmptyState = true;
 
@@ -26,10 +26,10 @@ export class NewAgentsComponent implements OnInit {
       // Para mostrar agentes ficticios (como estaban antes)
       this.agents = [
         { labsId: '1', name: 'Carlos', photoUrl: 'assets/carlos.png' } as Agent,
-        { labsId: '2', name: 'Carla', photoUrl: 'assets/carla.png' } as Agent
+        { labsId: '2', name: 'Carla', photoUrl: 'assets/carla.png' } as Agent,
       ];
     }
-    
+
     // Código original comentado para cuando quieras usar el backend real:
     // this.agentsService.getAgents().subscribe({
     //   next: (agents) => (this.agents = agents || []),
