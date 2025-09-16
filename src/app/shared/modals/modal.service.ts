@@ -1,9 +1,59 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorModalComponent, ErrorModalData } from './error-modal/error-modal.component';
+import { DeleteAccountModalComponent, DeleteAccountModalData } from './delete-account-modal/delete-account-modal.component';
+import { PurchaseModalComponent, PurchaseModalData } from './purchase-modal/purchase-modal.component';
+import { SuccessModalComponent, SuccessModalData } from './success-modal/success-modal.component';
+import { WarningModalComponent, WarningModalData } from './warning-modal/warning-modal.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModalService {
+  private dialog = inject(MatDialog);
 
-  constructor() { }
+  openError(data: ErrorModalData) {
+    return this.dialog.open(ErrorModalComponent, {
+      width: '420px',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
+
+  openDeleteAccount(data: DeleteAccountModalData) {
+    return this.dialog.open(DeleteAccountModalComponent, {
+      width: '420px',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
+
+  openPurchase(data: PurchaseModalData) {
+    return this.dialog.open(PurchaseModalComponent, {
+      width: '500px',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
+
+  openSuccess(data: SuccessModalData) {
+    return this.dialog.open(SuccessModalComponent, {
+      width: '420px',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
+
+  openWarning(data: WarningModalData) {
+    return this.dialog.open(WarningModalComponent, {
+      width: '420px',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
 }
