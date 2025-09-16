@@ -7,10 +7,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [
-    FormsModule,
-    MatSnackBarModule
-  ],
+  imports: [FormsModule, MatSnackBarModule],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
 })
@@ -18,7 +15,7 @@ export class AccountComponent implements OnInit {
   private userService = inject(UserService);
   private snackBar = inject(MatSnackBar);
 
-  activeTab: 'profile' | 'security' | 'billing' = 'profile'; 
+  activeTab: 'profile' | 'security' | 'billing' | 'gifts' = 'profile';
 
   // Campos de contraseña
   currentPassword = '';
@@ -48,7 +45,7 @@ export class AccountComponent implements OnInit {
   email = computed(() => this.user()?.email ?? '');
 
   // Método para cambiar de pestaña
-  setActiveTab(tab: 'profile' | 'security' | 'billing') {
+  setActiveTab(tab: 'profile' | 'security' | 'billing' | 'gifts') {
     this.activeTab = tab;
   }
 
@@ -95,7 +92,10 @@ export class AccountComponent implements OnInit {
   uploadProfileImage(file: File) {
     // Validar tipo de archivo
     if (!file.type.startsWith('image/')) {
-      this.showNotification('Por favor, selecciona un archivo de imagen válido', 'error');
+      this.showNotification(
+        'Por favor, selecciona un archivo de imagen válido',
+        'error'
+      );
       return;
     }
 
@@ -108,8 +108,8 @@ export class AccountComponent implements OnInit {
     // Mostrar notificación de carga
     this.showNotification('Subiendo imagen...', 'success');
 
-    console.log("this.user()?.userId: ", this.user()?.userId);
-    
+    console.log('this.user()?.userId: ', this.user()?.userId);
+
     // Llamar al endpoint para subir la imagen
     this.userService.uploadProfileImage(file).subscribe({
       next: (response: any) => {
@@ -118,8 +118,11 @@ export class AccountComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error al subir imagen:', error);
-        this.showNotification('Error al subir la imagen. Inténtalo de nuevo.', 'error');
-      }
+        this.showNotification(
+          'Error al subir la imagen. Inténtalo de nuevo.',
+          'error'
+        );
+      },
     });
   }
 
@@ -129,6 +132,13 @@ export class AccountComponent implements OnInit {
       // Lógica de eliminación
       console.log('Cuenta eliminada');
     }
+  }
+
+  // Método para canjear recompensa
+  redeemReward(rewardType: string) {
+    console.log(`Canjeando recompensa: ${rewardType}`);
+    // Aquí puedes implementar la lógica para canjear la recompensa
+    alert(`¡Recompensa ${rewardType} canjeada! Te contactaremos pronto.`);
   }
 
   private showNotification(message: string, type: 'success' | 'error') {
@@ -146,7 +156,7 @@ export class AccountComponent implements OnInit {
       console.error('No hay usuario logueado');
       return;
     }
-  
+
     const updatedUserData = {
       name: this.tempName,
       lastname: this.tempLastname,
@@ -154,17 +164,20 @@ export class AccountComponent implements OnInit {
       country: this.tempCountry,
       profileImage: this.tempProfileImage,
       enterprise: this.tempEnterprise,
-      enterpriseWeb: this.tempEnterpriseWeb
+      enterpriseWeb: this.tempEnterpriseWeb,
     };
-  
+
     this.userService.updateUserProfile(updatedUserData).subscribe({
       next: (response: any) => {
         this.userStore.setUser(response);
         this.showNotification('Perfil actualizado correctamente', 'success');
       },
       error: (error: any) => {
-        this.showNotification('Error al actualizar el perfil. Por favor, inténtalo de nuevo.', 'error');
-      }
+        this.showNotification(
+          'Error al actualizar el perfil. Por favor, inténtalo de nuevo.',
+          'error'
+        );
+      },
     });
   }
 }
