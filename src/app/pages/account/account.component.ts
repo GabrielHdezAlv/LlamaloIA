@@ -76,6 +76,10 @@ export class AccountComponent implements OnInit {
         title: 'Contraseña inválida',
         message: 'Las contraseñas no coinciden',
       });
+      this.modalService.openError({
+        title: 'Contraseña inválida',
+        message: 'Las contraseñas no coinciden',
+      });
       return;
     }
     // Aquí puedes enviar al backend

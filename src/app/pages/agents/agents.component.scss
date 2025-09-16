@@ -34,3 +34,72 @@
   display: flex;
   align-items: center;
 }
+
+@media (min-width: 2560px) {
+  /* Limitar el ancho del contenido y centrarlo solo en 2560px */
+  :host {
+    max-width: 1600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
+  }
+  
+  :host > div {
+    max-width: 1600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Hacer todo más grande en 2560px */
+  .scrollable-content {
+    padding: 3rem !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 1.7rem !important;
+    margin-bottom: 1.1rem !important;
+  }
+
+  .mat-mdc-button {
+    font-size: 1.1rem !important;
+    padding: 0.45rem 1.1rem !important;
+  }
+
+  .mat-mdc-table {
+    font-size: 1.2rem !important;
+  }
+
+  .mat-mdc-header-cell {
+    font-size: 1.15rem !important;
+    padding: 1.4rem !important;
+  }
+
+  .mat-mdc-cell {
+    font-size: 1.15rem !important;
+    padding: 1.4rem !important;
+  }
+
+  .mat-mdc-form-field {
+    font-size: 1.1rem !important;
+  }
+
+  .mat-mdc-select {
+    font-size: 1.1rem !important;
+  }
+
+  .mat-mdc-option {
+    font-size: 1.1rem !important;
+  }
+
+  .mat-mdc-card {
+    padding: 3rem !important;
+  }
+
+  .mat-mdc-card-title {
+    font-size: 1.7rem !important;
+  }
+
+  .mat-mdc-card-content {
+    font-size: 1.1rem !important;
+  }
+}
