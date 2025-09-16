@@ -125,6 +125,7 @@ export class NewCreateAgentsComponent {
 
   selectAction(platform: string) {
     console.log('Plataforma seleccionada:', platform);
+    this.step = 'knowledgeBase'; // Avanza a "Base de Conocimientos"
   }
 
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
