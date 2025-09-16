@@ -1,5 +1,6 @@
 import { Component, inject, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -16,8 +17,10 @@ import { ModalService } from '../../shared/modals/modal.service';
 export class AccountComponent implements OnInit {
   private userService = inject(UserService);
   private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
 
   activeTab: 'profile' | 'security' | 'billing' | 'gifts' = 'profile';
+  showBillingModal = false;
 
   // Campos de contraseña
   currentPassword = '';
@@ -67,6 +70,11 @@ export class AccountComponent implements OnInit {
       this.tempEnterpriseWeb = user.enterpriseWeb || '';
       this.tempProfileImage = user.profileImage || '';
     }
+    
+    // Inicializar el slider del modal de facturación
+    setTimeout(() => {
+      this.updateSliderBackground();
+    }, 100);
   }
 
   // Método para actualizar contraseña
@@ -214,5 +222,51 @@ export class AccountComponent implements OnInit {
         );
       },
     });
+  }
+
+  // Propiedades para el modal de facturación
+  selectedMinutes: number = 700;
+  selectedPlan: any = {
+    targetAudience: 'For individuals',
+    name: 'Advanced',
+    description: 'Show social proof notifications to increase leads and sales.',
+    price: 99,
+    features: [
+      'All analytics features',
+      'Up to 250,000 tracked visits',
+      'Normal support',
+      'Up to 3 team members'
+    ]
+  };
+
+  // Métodos para el modal de facturación
+  openBillingModal() {
+    this.showBillingModal = true;
+  }
+
+  closeBillingModal(event?: Event) {
+    if (event && event.target !== event.currentTarget) {
+      return;
+    }
+    this.showBillingModal = false;
+  }
+
+  onMinutesChange(event: any) {
+    this.selectedMinutes = parseInt(event.target.value);
+    this.updateSliderBackground();
+  }
+
+  updateSliderBackground() {
+    const percentage = ((this.selectedMinutes - 100) / (2000 - 100)) * 100;
+    const slider = document.querySelector('.slider') as HTMLInputElement;
+    if (slider) {
+      slider.style.setProperty('--progress', `${percentage}%`);
+    }
+  }
+
+  getStarted() {
+    console.log('Plan seleccionado:', this.selectedPlan);
+    console.log('Minutos seleccionados:', this.selectedMinutes);
+    // Aquí implementarías la lógica para procesar el pago
   }
 }

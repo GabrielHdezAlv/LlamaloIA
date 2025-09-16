@@ -1,0 +1,124 @@
+/* Estilos para el slider personalizado */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #e5e7eb;
+  outline: none;
+  border-radius: 8px;
+  height: 12px;
+  position: relative;
+}
+
+.slider::-webkit-slider-track {
+  background: #e5e7eb;
+  border-radius: 8px;
+  height: 12px;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: white;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 2px solid #1e3a8a;
+  position: relative;
+  z-index: 2;
+}
+
+.slider::-moz-range-track {
+  background: #e5e7eb;
+  border-radius: 8px;
+  height: 12px;
+  border: none;
+}
+
+.slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: white;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #1e3a8a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Fondo azul dinámico */
+.slider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--progress, 30%);
+  height: 12px;
+  background: #1e3a8a;
+  border-radius: 8px;
+  z-index: 1;
+  transition: width 0.2s ease;
+  /* Ajustar para que termine exactamente donde está el thumb */
+  box-sizing: content-box;
+}
+
+/* Animaciones suaves */
+.transition-colors {
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Efectos hover mejorados */
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos específicos para la tarjeta */
+.bg-white {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Animaciones del modal */
+.fixed.inset-0 {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.bg-white.rounded-2xl {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grid-cols-1.lg\\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .max-w-5xl {
+    max-width: 100%;
+    margin: 1rem;
+  }
+  
+  .gap-12 {
+    gap: 2rem;
+  }
+}
