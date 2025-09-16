@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
 
 @Component({
   selector: 'app-new-agents',
-  imports: [RouterModule, CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './new-agents.component.html',
   styleUrl: './new-agents.component.scss',
 })
