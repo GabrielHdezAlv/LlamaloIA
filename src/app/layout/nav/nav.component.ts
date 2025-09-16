@@ -3,6 +3,7 @@ import { Component, HostListener, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
+import { NavigationService } from '../../core/services/navigation.service';
 
 @Component({
   selector: 'app-nav',
@@ -15,10 +16,11 @@ export class NavComponent {
   isOpen: boolean = false;
   windowWidth: number = 0;
 
-  // Inyectar UserStorage y Router
+  // Inyectar UserStorage, Router y NavigationService
   // DESPUÉS (público para que el template pueda acceder)
   public userStorage = inject(UserStorage);
   private router = inject(Router);
+  private navigationService = inject(NavigationService);
 
   // Propiedad computada para obtener el nombre completo del usuario
   userName = computed(() => {
@@ -101,13 +103,15 @@ export class NavComponent {
     this.showDropdown = !this.showDropdown;
   }
 
-  // Navegar a ruta
+  // Navegar a ruta usando el servicio de navegación
   navigateTo(route: string) {
     if (route === '/dashboard/community') {
       // Redirigir al canal de Telegram de Llámalo AI
       window.open('https://t.me/+wDgRI51qiW1mZjdk', '_blank');
     } else {
-      this.router.navigate([route]);
+      // Usar el servicio de navegación para mantener la URL limpia
+      const routeName = route.replace('/dashboard/', '');
+      this.navigationService.navigateToRoute(routeName);
     }
     this.showDropdown = false;
   }
