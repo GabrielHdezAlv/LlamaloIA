@@ -1,17 +1,19 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
+import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 
 @Component({
   selector: 'app-new-agents',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, RippleButtonComponent],
   templateUrl: './new-agents.component.html',
   styleUrl: './new-agents.component.scss',
 })
 export class NewAgentsComponent implements OnInit {
   private agentsService = inject(AgentsService);
+  router = inject(Router);
 
   agents: Agent[] = [];
 
