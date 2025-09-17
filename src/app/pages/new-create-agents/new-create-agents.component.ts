@@ -160,7 +160,8 @@ export class NewCreateAgentsComponent {
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
   selectKnowledgeSource(source: 'pdf' | 'web') {
     console.log('Fuente seleccionada:', source);
-    // Aquí puedes guardar la selección o abrir un modal de carga
+    // Avanza automáticamente a la siguiente pantalla
+    this.step = 'summary';
   }
 
   // Opcional: Método para continuar sin elegir fuente

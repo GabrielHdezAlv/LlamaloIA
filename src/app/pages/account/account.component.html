@@ -2,12 +2,12 @@
   class="bg-white rounded-2xl shadow-sm pb-24 h-[70vh] mt-4 sm:mt-8 lg:mt-16 mx-4 sm:mx-8 lg:ml-28 lg:mr-[5.5rem] 2xl:mx-auto 2xl:max-w-[1400px] 2xl:ml-auto 2xl:mr-auto"
 >
   <div class="max-w-6xl 2xl:max-w-none flex flex-col lg:flex-row">
-    <!-- Sidebar -->
-    <div
-      class="w-full lg:w-[32vh] 2xl:w-[400px] bg-gray-100 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none lg:rounded-br-none rounded-b-none p-4 sm:p-62xl:p-8 shadow-sm h-auto lg:h-[70vh]"
-    >
+      <!-- Sidebar -->
+      <div
+        class="w-full lg:w-[32vh] 2xl:w-[400px] bg-gray-100 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none lg:rounded-br-none rounded-b-none p-4 sm:p-62xl:p-8 shadow-sm h-auto lg:h-[75vh]"
+      >
       <!-- Header -->
-      <div class="flex items-center gap-3 mb-6 mt-3">
+      <div class="flex items-center gap-3 mb-6 mt-3 ml-4">
         @if (tempProfileImage || userProfileImage()) {
         <img
           [src]="tempProfileImage || userProfileImage()"
@@ -48,7 +48,7 @@
 
       <!-- Menu -->
       <nav
-        class="space-y-2 -ml-3 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible"
+        class="space-y-2 ml-1 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible"
       >
         <!-- Perfil -->
         <button
@@ -425,12 +425,13 @@
 
         <!-- Botón de Guardar -->
         <div class="flex justify-end mt-8">
-          <button
-            (click)="saveUserInfo()"
-            class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors duration-200"
+          <app-ripple-button
+            (buttonClick)="saveUserInfo()"
+            buttonClass="px-10 py-2 bg-[#0a1740] text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2"
+            rippleColor="rgba(255, 255, 255, 0.4)"
           >
             Guardar Cambios
-          </button>
+          </app-ripple-button>
         </div>
       </div>
       } @if (activeTab === 'security') {
@@ -492,13 +493,14 @@
           </div>
 
           <!-- Botón Actualizar -->
-          <button
-            (click)="updatePassword()"
-            class="px-4 py-3 bg-black text-white font-normal rounded-full hover:bg-gray-900 transition-colors shadow-none mt-2"
-            style="box-shadow: none"
+          <app-ripple-button
+            (buttonClick)="updatePassword()"
+            buttonClass="px-6 py-2 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2 mt-6"
+            rippleColor="rgba(255, 255, 255, 0.4)"
+            [rippleScale]="8"
           >
             Actualizar contraseña
-          </button>
+          </app-ripple-button>
         </div>
 
         <!-- Eliminar Cuenta - SIEMPRE ABAJO -->
@@ -513,12 +515,14 @@
                 dejarás de tener acceso a Llámalo AI.
               </p>
             </div>
-            <button
-              (click)="deleteAccount()"
-              class="mt-4 px-6 py-3 bg-red-600 text-white text-sm font-normal rounded-full hover:bg-red-700 transition-colors whitespace-nowrap"
+            <app-ripple-button
+              (buttonClick)="deleteAccount()"
+              buttonClass="mt-4 px-6 py-2 bg-red-600 text-white font-medium font-sans rounded-xl hover:bg-red-700 focus:bg-red-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2 whitespace-nowrap"
+              rippleColor="rgba(255, 255, 255, 0.4)"
+              [rippleScale]="8"
             >
               Eliminar Cuenta
-            </button>
+            </app-ripple-button>
           </div>
         </div>
       </div>
@@ -542,29 +546,37 @@
 
           <!-- Botones de Acción -->
           <div class="flex flex-col sm:flex-row gap-4">
-            <button
-              class="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
+            <app-ripple-button
+              buttonClass="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
+              rippleColor="rgba(255, 255, 255, 0.4)"
+              [rippleScale]="8"
             >
               Cancelar Suscripcion
-            </button>
-            <button
-              class="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
+            </app-ripple-button>
+            <app-ripple-button
+              buttonClass="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
+              rippleColor="rgba(255, 255, 255, 0.4)"
+              [rippleScale]="8"
             >
               Editar Metodo de pago
-            </button>
-            <button
-              class="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
+            </app-ripple-button>
+            <app-ripple-button
+              buttonClass="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
+              rippleColor="rgba(255, 255, 255, 0.4)"
+              [rippleScale]="8"
             >
               Historial de Facturas
-            </button>
+            </app-ripple-button>
           </div>
 
           <!-- Mejorar/Cambiar Plan -->
-          <button
-            class="w-full px-6 py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-full hover:from-blue-800 hover:to-blue-700 transition-all duration-200 tracking-[-0.5px]"
+          <app-ripple-button
+            buttonClass="w-full px-6 py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-full hover:from-blue-800 hover:to-blue-700 transition-all duration-200 tracking-[-0.5px] mt-4"
+            rippleColor="rgba(255, 255, 255, 0.4)"
+            [rippleScale]="8"
           >
             Mejorar/Cambiar Plan
-          </button>
+          </app-ripple-button>
 
           <!-- Protegido por Stripe -->
           <div class="flex items-center mt-6">
@@ -608,12 +620,14 @@
 
               <!-- Botón Canjear -->
               <div class="flex justify-end">
-                <button
-                  (click)="redeemReward('Trustpilot')"
-                  class="px-6 py-2 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm"
+                <app-ripple-button
+                  (buttonClick)="redeemReward('Trustpilot')"
+                  buttonClass="px-6 py-2 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2 text-sm"
+                  rippleColor="rgba(255, 255, 255, 0.4)"
+                  [rippleScale]="8"
                 >
                   Canjear
-                </button>
+                </app-ripple-button>
               </div>
             </div>
           </div>
