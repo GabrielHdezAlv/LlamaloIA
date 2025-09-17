@@ -2,6 +2,7 @@ import { Component, OnInit, inject, Inject, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
+import { RouteVisibilityService } from './core/services/route-visibility.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
   title = 'llamaloIO';
   
   private router = inject(Router);
+  private routeVisibilityService = inject(RouteVisibilityService);
   
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
@@ -21,14 +23,16 @@ export class AppComponent implements OnInit {
       // Interceptar TODA la navegación para mantener la URL limpia
       this.interceptAllNavigation();
       
-      // Escuchar cambios de ruta y limpiar inmediatamente
+      // Escuchar cambios de ruta y limpiar inmediatamente solo en modo prod
       this.router.events
         .pipe(filter(event => event instanceof NavigationEnd))
         .subscribe((event: NavigationEnd) => {
-          // Limpiar la URL inmediatamente después de cualquier navegación
-          setTimeout(() => {
-            this.cleanUrl();
-          }, 0);
+          // Solo limpiar la URL si estamos en modo prod (rutas ocultas)
+          if (!this.routeVisibilityService.getCurrentState()) {
+            setTimeout(() => {
+              this.cleanUrl();
+            }, 0);
+          }
         });
     }
   }
@@ -37,18 +41,31 @@ export class AppComponent implements OnInit {
     // Interceptar pushState
     const originalPushState = history.pushState;
     history.pushState = (state, title, url) => {
-      originalPushState.call(history, state, title, window.location.origin);
+      // Solo limpiar la URL si estamos en modo prod (rutas ocultas)
+      if (!this.routeVisibilityService.getCurrentState()) {
+        originalPushState.call(history, state, title, window.location.origin);
+      } else {
+        originalPushState.call(history, state, title, url);
+      }
     };
 
     // Interceptar replaceState
     const originalReplaceState = history.replaceState;
     history.replaceState = (state, title, url) => {
-      originalReplaceState.call(history, state, title, window.location.origin);
+      // Solo limpiar la URL si estamos en modo prod (rutas ocultas)
+      if (!this.routeVisibilityService.getCurrentState()) {
+        originalReplaceState.call(history, state, title, window.location.origin);
+      } else {
+        originalReplaceState.call(history, state, title, url);
+      }
     };
 
     // Interceptar popstate (botones atrás/adelante)
     window.addEventListener('popstate', () => {
-      this.cleanUrl();
+      // Solo limpiar la URL si estamos en modo prod (rutas ocultas)
+      if (!this.routeVisibilityService.getCurrentState()) {
+        this.cleanUrl();
+      }
     });
   }
 
