@@ -609,7 +609,7 @@
 
   <!-- Modal de Facturación -->
   @if (showBillingModal) {
-  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-8 z-50" (click)="closeBillingModal($event)">
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-8 z-50 billing-modal-overlay" (click)="closeBillingModal($event)">
     <!-- Modal content -->
     <div class="bg-white rounded-[2rem] shadow-2xl p-12 max-w-4xl w-full mx-auto max-h-[90vh] overflow-y-auto relative" (click)="$event.stopPropagation()">
       <!-- Botón de cerrar -->

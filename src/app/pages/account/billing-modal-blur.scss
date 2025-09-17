@@ -1,0 +1,19 @@
+/* Estilos específicos para el modal de facturación con efecto blur */
+.billing-modal-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Aplicar blur al fondo cuando el modal está abierto */
+.billing-modal-open {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Estilos para el overlay del modal de facturación */
+.billing-modal-overlay {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
