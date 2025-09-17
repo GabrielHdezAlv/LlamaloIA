@@ -1,12 +1,14 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { RouteVisibilityService } from './route-visibility.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavigationService {
   private currentRoute = 'home';
+  private routeVisibilityService = inject(RouteVisibilityService);
 
   constructor(
     private router: Router,
@@ -14,19 +16,27 @@ export class NavigationService {
   ) {}
 
   /**
-   * Navega a una ruta sin cambiar la URL visible
+   * Navega a una ruta controlando la visibilidad de la URL según el modo
    */
   navigateToRoute(route: string): void {
     if (isPlatformBrowser(this.platformId)) {
       this.currentRoute = route;
       
-      // Navegar internamente usando el router
-      this.router.navigate([`/dashboard/${route}`], { skipLocationChange: true });
+      // Verificar si las rutas deben mostrarse (modo work) o ocultarse (modo prod)
+      const showRoutes = this.routeVisibilityService.getCurrentState();
       
-      // Limpiar la URL inmediatamente
-      setTimeout(() => {
-        window.history.replaceState({}, '', window.location.origin);
-      }, 0);
+      if (showRoutes) {
+        // Modo work: mostrar las rutas en la URL
+        this.router.navigate([`/dashboard/${route}`]);
+      } else {
+        // Modo prod: ocultar las rutas de la URL
+        this.router.navigate([`/dashboard/${route}`], { skipLocationChange: true });
+        
+        // Limpiar la URL inmediatamente
+        setTimeout(() => {
+          window.history.replaceState({}, '', window.location.origin);
+        }, 0);
+      }
     }
   }
 
