@@ -626,96 +626,97 @@
 
   <!-- Modal de Facturación -->
   @if (showBillingModal) {
-  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-8 z-50 billing-modal-overlay" (click)="closeBillingModal($event)">
+  <div class="fixed inset-0 bg-purple-100 bg-opacity-80 flex items-center justify-center p-8 z-50 billing-modal-overlay" (click)="closeBillingModal($event)">
     <!-- Modal content -->
-    <div class="bg-white rounded-[2rem] shadow-2xl p-12 max-w-4xl w-full mx-auto max-h-[90vh] overflow-y-auto relative" (click)="$event.stopPropagation()">
-      <!-- Botón de cerrar -->
-      <button
-        (click)="closeBillingModal()"
-        class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors duration-200"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
+    <div class="bg-white rounded-[3rem] shadow-2xl p-14 max-w-[65rem] w-full mx-auto max-h-[90vh] overflow-y-auto relative" (click)="$event.stopPropagation()">
       
       <!-- Selector de minutos -->
-      <div class="mb-8">
-        <div class="flex items-center gap-4 mb-4">
-          <h2 class="text-lg font-medium text-gray-800">
+      <div class="mb-8 max-w-3xl mx-auto">
+        <div class="flex flex-wrap items-center gap-2 mb-4 tracking-[-0.4px]">
+          <h2 class="text-lg font-bold text-gray-800">
             ¿Cuántos minutos necesitarías al mes? Unos
           </h2>
-          <div class="bg-blue-900 text-white px-6 py-3 rounded-xl font-bold text-xl">
+          <div class="bg-blue-900 text-white px-3 py-1 rounded-[2rem] font-normal text-base whitespace-nowrap">
             {{ selectedMinutes }}
           </div>
-          <span class="text-gray-700 font-medium">Minutos</span>
+          <span class="text-gray-700 font-bold">Minutos</span>
         </div>
         
-        <!-- Slider -->
+        <!-- Slider Personalizado -->
         <div class="relative">
-          <input
-            type="range"
-            min="100"
-            max="2000"
-            step="50"
-            [value]="selectedMinutes"
-            (input)="onMinutesChange($event)"
-            class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-          />
+          <div 
+            class="relative h-3 bg-gray-200 rounded-lg cursor-pointer"
+            (click)="onSliderTrackClick($event)"
+          >
+            <!-- Barra de progreso -->
+            <div 
+              class="absolute top-0 left-0 h-3 bg-blue-900 rounded-lg transition-all duration-300 ease-out"
+              [style.width.%]="((selectedMinutes - 100) / (2000 - 100)) * 100"
+            ></div>
+            
+            <!-- Thumb personalizado -->
+            <div 
+              class="absolute top-1/2 transform -translate-y-1/2 w-6 h-6 bg-white border-2 border-blue-900 rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-out hover:shadow-xl hover:scale-110"
+              [style.left]="getSliderThumbPosition()"
+              (mousedown)="startDragging($event)"
+              (touchstart)="startDragging($event)"
+            ></div>
+          </div>
         </div>
       </div>
 
       <!-- Contenido principal -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-3xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-3xl mx-auto bg-white rounded-2xl overflow-hidden shadow-lg tracking-[-0.4px]">
         <!-- Sección izquierda - Recuadro del plan (blanco) -->
-        <div class="bg-white rounded-2xl lg:rounded-l-2xl lg:rounded-r-none p-6 border border-gray-200 lg:border-r-0">
+        <div class="bg-white p-8 lg:p-10 font-dm-sans">
           <div class="space-y-4">
             <div>
-              <span class="text-sm text-gray-500">{{ selectedPlan?.targetAudience }}</span>
-              <h3 class="text-2xl font-bold text-blue-900 mt-1">{{ selectedPlan?.name }}</h3>
-              <p class="text-gray-600 mt-2 text-sm">{{ selectedPlan?.description }}</p>
+              <span class="text-xl text-gray-500 font-normal font-dm-sans">{{ selectedPlan?.targetAudience }}</span>
+              <h3 class="text-3xl font-bold text-blue-950 font-dm-sans">{{ selectedPlan?.name }}</h3>
+              <p class="text-gray-500 mt-8 text-xl leading-relaxed font-dm-sans">{{ selectedPlan?.description }}</p>
             </div>
             
-            <div class="flex items-baseline gap-2">
-              <span class="text-4xl font-bold text-blue-900">${{ selectedPlan?.price }}</span>
-              <span class="text-gray-500 text-sm">/monthly</span>
+            <div class="flex items-baseline gap-3">
+              <span class="text-6xl font-extrabold text-blue-950 font-dm-sans">${{ selectedPlan?.price }}</span>
+              <span class="text-gray-500 text-xl font-dm-sans">/monthly</span>
             </div>
             
             <button
               (click)="getStarted()"
-              class="w-full bg-blue-900 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+              class="w-full bg-blue-900 text-white font-medium py-6 px-8 rounded-full transition-colors duration-200 text-lg font-dm-sans"
             >
               Get started
             </button>
           </div>
         </div>
 
-        <!-- Sección derecha - Características incluidas (gris claro) -->
-        <div class="bg-gray-100 rounded-2xl lg:rounded-r-2xl lg:rounded-l-none p-6 border border-gray-200 lg:border-l-0">
-          <h4 class="text-xl font-bold text-gray-800 mb-4">What's included</h4>
+        <!-- Sección derecha - Características incluidas (gris muy claro) -->
+        <div class="bg-gray-50 p-8 lg:p-10 font-dm-sans">
+          <h4 class="text-2xl font-bold text-blue-950 mb-6 mt-8 font-dm-sans">What's included</h4>
           
-          <div class="space-y-3">
-            <div *ngFor="let feature of selectedPlan?.features" class="flex items-center gap-3">
-              <div class="flex-shrink-0 w-5 h-5 bg-blue-900 rounded-full flex items-center justify-center">
-                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                </svg>
+          <div class="space-y-4">
+            <div *ngFor="let feature of selectedPlan?.features" class="flex items-center gap-4">
+              <div class="flex-shrink-0 w-6 h-6 bg-blue-700 rounded-full flex items-center justify-center">
+                <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_1126_212)">
+                  <path d="M13.8711 26.1522C21.051 26.1522 26.8711 20.3321 26.8711 13.1522C26.8711 5.97232 21.051 0.152222 13.8711 0.152222C6.69119 0.152222 0.871094 5.97232 0.871094 13.1522C0.871094 20.3321 6.69119 26.1522 13.8711 26.1522Z" fill="#1E3A8A"/>
+                  <path d="M7.98828 13.9927L11.3501 17.3545L19.7546 8.94995" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                  <clipPath id="clip0_1126_212">
+                  <rect width="26" height="26" fill="white" transform="translate(0.871094 0.152222)"/>
+                  </clipPath>
+                  </defs>
+                  </svg>
+                
               </div>
-              <span class="text-gray-700 text-sm">{{ feature }}</span>
+              <span class="text-gray-700 text-lg font-dm-sans">{{ feature }}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Botón de regreso -->
-      <div class="mt-8 flex justify-start">
-        <button
-          (click)="closeBillingModal()"
-          class="text-gray-500 hover:text-gray-700 font-medium transition-colors duration-200 flex items-center gap-1"
-        >
-          <span>←</span> Volver
-        </button>
-      </div>
+      
     </div>
   </div>
   }
