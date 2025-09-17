@@ -41,6 +41,9 @@ export class AuthFormComponent implements OnInit {
   password: string = '';
   confirmPassword: string = '';
   fullName: string = '';
+  
+  // Estado para mostrar/ocultar contraseña
+  showPassword: boolean = false;
 
   private userService = inject(UserService);
   private snackBar = inject(MatSnackBar);
@@ -204,5 +207,9 @@ export class AuthFormComponent implements OnInit {
     }
     // Aquí se podría llamar a un endpoint real de recuperación
     this.showSuccess('Si el correo existe, recibirás instrucciones de recuperación.');
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 }
