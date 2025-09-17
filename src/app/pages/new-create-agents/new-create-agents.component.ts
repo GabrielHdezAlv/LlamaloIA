@@ -24,6 +24,7 @@ export class NewCreateAgentsComponent {
 
   audioActual: HTMLAudioElement | null = null;
   isPlaying: boolean = false;
+  currentPlayingVoice: string | null = null;
 
   onSelect(type: 'inbound' | 'outbound') {
     this.step = 'language';
@@ -80,7 +81,11 @@ export class NewCreateAgentsComponent {
   }
 
   playVoice(voiceName: string) {
-    if (this.isPlaying) return;
+    if (this.isPlaying && this.currentPlayingVoice === voiceName) {
+      // Si ya está reproduciendo esta voz, pausar
+      this.pauseVoice();
+      return;
+    }
 
     console.log('Reproduciendo voz:', voiceName);
 
@@ -92,10 +97,12 @@ export class NewCreateAgentsComponent {
     const audio = new Audio(`assets/${voiceName}.mp3`);
     this.audioActual = audio;
     this.isPlaying = true;
+    this.currentPlayingVoice = voiceName;
 
     audio.play().catch(err => {
       console.error('Error al reproducir audio:', err);
       this.isPlaying = false;
+      this.currentPlayingVoice = null;
       this.modalService.openError({
         title: 'Error de audio',
         message: 'No se pudo reproducir el audio seleccionado.',
@@ -105,6 +112,7 @@ export class NewCreateAgentsComponent {
 
     audio.onended = () => {
       this.isPlaying = false;
+      this.currentPlayingVoice = null;
       if (this.audioActual === audio) {
         this.audioActual = null;
       }
@@ -113,6 +121,7 @@ export class NewCreateAgentsComponent {
     audio.onerror = () => {
       console.error('Error al cargar el audio');
       this.isPlaying = false;
+      this.currentPlayingVoice = null;
       if (this.audioActual === audio) {
         this.audioActual = null;
       }
@@ -121,6 +130,16 @@ export class NewCreateAgentsComponent {
         message: 'Hubo un problema al cargar el audio.',
       });
     };
+  }
+
+  pauseVoice() {
+    if (this.audioActual) {
+      this.audioActual.pause();
+      this.audioActual.currentTime = 0;
+    }
+    this.isPlaying = false;
+    this.currentPlayingVoice = null;
+    this.audioActual = null;
   }
 
   onSubmit() {
