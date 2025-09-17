@@ -12,7 +12,7 @@ import { ModalService } from '../../shared/modals/modal.service';
   standalone: true,
   imports: [FormsModule, MatSnackBarModule, CommonModule],
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss'],
+  styleUrls: ['./account.component.scss', './billing-modal-blur.scss'],
 })
 export class AccountComponent implements OnInit {
   private userService = inject(UserService);
