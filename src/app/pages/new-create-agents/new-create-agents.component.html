@@ -270,8 +270,7 @@
           </svg>
         </button>
 
-        <button
-          class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+        <button class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
           (click)="onSubmit()"
         >
           Continuar
@@ -322,14 +321,7 @@
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
           </svg>
         </button>
-  
-            <button
-            class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
-              (click)="step = 'knowledgeBase'"
-            >
-            Continuar
             
-          </button>
   
         <button
           (click)="step = 'knowledgeBase'"
@@ -399,13 +391,6 @@
         </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
-        (click)="step = 'summary'"
-      >
-        Continuar
-      </button>
-
-      <button
         (click)="step = 'summary'"
         class="text-black hover:text-gray-700 text-lg flex items-center "
       >
@@ -419,7 +404,7 @@
 }
 @if (step === 'summary') {
   <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Prueba Agente</h2>
+    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px] mt-28">Prueba Agente</h2>
     <p class="text-center text-base text-black mb-8 max-w-4xl mx-auto">
       Ingresa tu número de teléfono y recibirás una llamada para hacer la prueba en tiempo real.
     </p>
@@ -436,7 +421,7 @@
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
           </svg>
         </button>
-      <button class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md" (click)="onSubmitTestCall()">
+        <button class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2" (click)="onSubmitTestCall()">
         Continuar
       </button>
       <button
@@ -598,12 +583,12 @@
           </svg>
         </button>
 
-      <button
-        class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
-        (click)="onConnectPhone()"
-      >
-        Continuar
-      </button>
+        <button
+          class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+          (click)="onConnectPhone()"
+        >
+          Continuar
+        </button>
 
       <button
           (click)="step = 'advancedSettings'"
@@ -755,7 +740,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+        class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
         (click)="onSubmitAdvancedSettings()"
       >
         Continuar
@@ -792,7 +777,7 @@
       </div>
     </div>
     <button
-      class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors"
+      class="mx-auto px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
       (click)="onFinish()"
     >
       Finalizar
