@@ -140,13 +140,11 @@
         @if (type === 'login') {
         <div class="flex items-center justify-between">
           <div class="flex items-center">
-            <input
-              type="checkbox"
-              id="remember"
-              class="h-5 w-5 text-black focus:ring-black border-black rounded bg-white custom-checkbox"
-            />
+            <app-animated-checkbox
+              [checked]="rememberMe"
+              (checkedChange)="rememberMe = $event"
+            ></app-animated-checkbox>
             <label
-              for="remember"
               class="ml-3 block text-sm font-normal text-black font-poppins remember-label"
             >
               Mantener sesión activa
