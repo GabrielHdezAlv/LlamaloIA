@@ -20,7 +20,7 @@
   </div>
 
   @if (step === 'callType') {
-   <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+   <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Tipo de Llamadas</h2>
 
       <div class="flex justify-center gap-20 flex-wrap">
@@ -45,42 +45,73 @@
   <!-- Pagina: 2 -->
   @if (step === 'language') {
     <!-- Pantalla 2: Idioma -->
-    <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
+    <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Idioma</h2>
 
       <!-- Slider vertical de idiomas -->
       <div class="relative max-w-4xl mx-auto">
         <!-- Contenedor con scroll vertical y blur inferior -->
         <div class="relative">
-          <div class="flex flex-col gap-6 overflow-y-auto scrollbar-hide language-slider-vertical tracking-[-0.8px]" style="scrollbar-width: none; -ms-overflow-style: none; max-height: 380px;">
+          <div class="flex flex-col gap-6 overflow-y-auto scrollbar-hide language-slider-vertical tracking-[-0.8px]" style="scrollbar-width: none; -ms-overflow-style: none; max-height: 440px;">
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-10 px-32 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-28"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/españa_emoji.png" alt="España" class="w-10 h-10 ml-3" />
-              <span class="ml-2 font-normal">Español</span>
+              <img src="assets/españa_emoji.png" alt="España" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Español</span>
             </button>
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-10 px-32 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-28"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/uk_emoji.png" alt="Reino Unido" class="w-10 h-10 ml-3" />
-              <span class="ml-2 font-normal">Inglés</span>
+              <img src="assets/uk_emoji.png" alt="Reino Unido" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Inglés</span>
             </button>
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-10 px-32 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-28"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/francia_emoji.png" alt="Francia" class="w-10 h-10 ml-3" />
-              <span class="ml-2 font-normal">Francés</span>
+              <img src="assets/francia_emoji.png" alt="Francia" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Francés</span>
             </button>
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-10 px-32 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-28"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/italia_emoji.png" alt="Italia" class="w-10 h-10 ml-3" />
-              <span class="ml-2 font-normal">Italiano</span>
+              <img src="assets/italia_emoji.png" alt="Italia" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Italiano</span>
             </button>
+            <button
+              (click)="onLanguageSelected()"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
+            >
+              <img src="assets/alemania_emoji.png" alt="Alemania" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Alemania</span>
+            </button>
+            <button
+              (click)="onLanguageSelected()"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
+            >
+              <img src="assets/portugal_emoji.png" alt="Portugal" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Portugal</span>
+            </button>
+            <button
+              (click)="onLanguageSelected()"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
+            >
+              <img src="assets/estadosunidos_emoji.png" alt="Estados Unidos" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Estados Unidos</span>
+            </button>
+            
+            <!-- Espacio adicional de 400px después de Estados Unidos -->
+            <div class="h-96"></div>
             
           </div>
           
@@ -102,7 +133,7 @@
   }
     @if (step === 'voices') {
       <!-- Pantalla 3: Voces -->
-      <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
+      <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
         <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Voces</h2>
     
         <div class="flex justify-center gap-6 flex-wrap">
@@ -212,7 +243,7 @@
 
     @if (step === 'instructions') {
       <!-- Pantalla 4: Instrucciones -->
-      <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide flex flex-col relative" style="scrollbar-width: none; -ms-overflow-style: none;">
+      <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide flex flex-col relative" style="scrollbar-width: none; -ms-overflow-style: none;">
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Instrucciones</h2>
 
       <p class="text-center text-base text-black mb-8 max-w-2xl mx-auto tracking-[-1px]">
@@ -281,7 +312,7 @@
 
   @if (step === 'actions') {
     <!-- Pantalla 5: Añadir Acciones -->
-    <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+    <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Añadir Acciones</h2>
   
       <p class="text-center text-sm text-black mb-8 tracking-[-0.5px] mx-auto">
@@ -338,7 +369,7 @@
 
   @if (step === 'knowledgeBase') {
   <!-- Pantalla 6: Base de Conocimientos -->
-  <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-[2rem] shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <h2 class="text-4xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Base de Conocimientos</h2>
 
     <p class="text-center text-base text-black mb-12 mx-auto tracking-[-1px]">
@@ -403,7 +434,7 @@
   </div>
 }
 @if (step === 'summary') {
-  <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px] mt-28">Prueba Agente</h2>
     <p class="text-center text-base text-black mb-8 max-w-4xl mx-auto">
       Ingresa tu número de teléfono y recibirás una llamada para hacer la prueba en tiempo real.
@@ -438,7 +469,7 @@
 }
 
 @if (step === 'connectPhone') {
-  <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <!-- Título principal -->
     <h2 class="text-4xl font-semibold text-center text-blue-950 tracking-[-3px]">
       Conectar Número de Teléfono
@@ -604,7 +635,7 @@
 }
 
 @if (step === 'advancedSettings') {
-  <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-[2rem] shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <!-- Título -->
     <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Configuración Avanzada</h2>
 
@@ -752,7 +783,7 @@
 }
 
 @if (step === 'final') {
-  <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-[2rem] shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <h2 class="text-4xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Creando Agente</h2>
     <div class="flex justify-center my-12">
       <svg class="animate-spin" width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
