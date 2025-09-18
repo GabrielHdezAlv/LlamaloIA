@@ -1,8 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, Inject, PLATFORM_ID } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
-import { NgIf } from '@angular/common';
+import { NgIf, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'topbar',
@@ -17,8 +17,13 @@ export class TopbarComponent implements OnInit {
 
   private router = inject(Router);
   public userStorage = inject(UserStorage);
+  private isBrowser: boolean;
 
   showDropdown = false;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   languages = [
     { code: 'es', name: 'Español' },
@@ -90,7 +95,9 @@ export class TopbarComponent implements OnInit {
   }
 
   logout() {
+    // Limpiar datos de usuario
     this.userStorage.clearUser();
+    
     this.router.navigate(['/login']);
   }
 }
