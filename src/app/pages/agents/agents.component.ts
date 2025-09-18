@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TwilioIntegrationModalComponent } from '../../shared/modals/twilio-integration-modal/twilio-integration-modal.component';
 import { TwilioSuccessModalComponent } from '../../shared/modals/twilio-success-modal/twilio-success-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,7 +34,12 @@ import { ModalService } from '../../shared/modals/modal.service';
   templateUrl: './agents.component.html',
   styleUrl: './agents.component.scss',
 })
-export class AgentsComponent {
+export class AgentsComponent implements OnInit {
+  // Variable para controlar la animación de fade in
+  showContent: boolean = false;
+
+  private isBrowser: boolean;
+
   dialog = inject(MatDialog);
   private twilioService = inject(TwilioService);
   private agentsService = inject(AgentsService);
@@ -44,6 +49,10 @@ export class AgentsComponent {
 
   public twilioStorage: any = inject(TwilioStorage);
   private userStorage: any = inject(UserStorage);
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   showIntegrationModal = false;
   showSuccessModal = false;
@@ -105,6 +114,9 @@ export class AgentsComponent {
     // Inicializar el mensaje de saludo personalizado
     const config = this.twilioStorage.config();
     this.firstInteractionMessage = config?.firstInteraction || '';
+
+    // Ejecutar animación siempre
+    this.startFadeInAnimation();
   }
 
   selectLanguage(lang: any) {
@@ -279,5 +291,27 @@ export class AgentsComponent {
     const totalSteps = 4; // Total de pasos (1, 2, 3, 4)
     const progress = (this.currentStep / totalSteps) * 100;
     return `${progress}%`;
+  }
+
+  private startFadeInAnimation(): void {
+    console.log('AgentsComponent startFadeInAnimation - isBrowser:', this.isBrowser);
+    
+    // Verificar si estamos en el navegador de manera más robusta
+    const isInBrowser = typeof window !== 'undefined' && window.localStorage;
+    console.log('Verificación robusta del navegador:', isInBrowser);
+    
+    if (!isInBrowser) {
+      console.log('No es navegador, mostrando contenido inmediatamente');
+      this.showContent = true;
+      return;
+    }
+
+    console.log('Ejecutando animación con delay...');
+    
+    // Contenido aparece después de 100ms
+    setTimeout(() => {
+      console.log('Mostrando contenido de agentes');
+      this.showContent = true;
+    }, 100);
   }
 }

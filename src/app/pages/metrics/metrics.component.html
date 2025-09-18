@@ -26,7 +26,7 @@
         <!-- Row 1 -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <!-- Gráfico de llamadas exitosas (más largo) -->
-          <div class="bg-white rounded-[2rem]  p-5  lg:col-span-2">
+          <div class="bg-white rounded-[2rem]  p-5  lg:col-span-2 fade-in-section" [class.fade-in-visible]="showGraficoLlamadas">
             <div class="flex justify-between items-center mb-4">
               <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">Total de llamadas exitosas</h3>
               <span class="text-xs text-green-600 font-medium">↑ 44.2%</span>
@@ -112,7 +112,7 @@
           </div>
   
           <!-- Total Minutos -->
-          <div class="bg-white rounded-[2rem] p-5 border border-gray-100 flex flex-col justify-between h-full min-h-[220px]">
+          <div class="bg-white rounded-[2rem] p-5 border border-gray-100 flex flex-col justify-between h-full min-h-[220px] fade-in-section" [class.fade-in-visible]="showTotalMinutos">
             <div>
               <p class="text-[15px] font-semibold text-gray-600 mb-2 mt-1 tracking-[-0.3px] ">Total Minutos</p>
               <p class="text-[33px] font-semibold text-gray-800 mb-8 leading-tight">{{ totalMinutesUsed }}/{{ minutesLimit }}</p>
@@ -126,7 +126,7 @@
         <!-- Row 2 -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <!-- Latencia -->
-          <div class="bg-white rounded-[2rem] p-6 mb-20">
+          <div class="bg-white rounded-[2rem] p-6 mb-20 fade-in-section" [class.fade-in-visible]="showLatencia">
             <div class="flex justify-between items-center mb-4">
               <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">Latencia</h3>
               <span [class]="latencyBadgeClasses">{{ latencyLabel }}</span>
@@ -180,7 +180,7 @@
           </div>
   
           <!-- Duración media -->
-          <div class="bg-white rounded-[2rem] p-6 mr-6 -ml-3 mb-20">
+          <div class="bg-white rounded-[2rem] p-6 mr-6 -ml-3 mb-20 fade-in-section" [class.fade-in-visible]="showDuracionMedia">
             <div class="flex justify-between items-center mb-4">
               <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">Duración media de las llamadas</h3>
               <span [class]="durationBadgeClasses">{{ durationLabel }}</span>
@@ -232,7 +232,7 @@
           </div>
   
           <!-- Tipo de llamadas -->
-          <div class="bg-white rounded-[2rem] p-5 -ml-7">
+          <div class="bg-white rounded-[2rem] p-5 -ml-7 fade-in-section" [class.fade-in-visible]="showTipoLlamadas">
             <h3 class="font-semibold text-gray-800 mb-4 tracking-[-0.3px]">Tipo de llamadas</h3>
             
             <!-- Gráfico circular completo -->
@@ -300,7 +300,7 @@
         <!-- Row 3 -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Agentes Creados -->
-          <div class="bg-white rounded-[2rem] p-8 col-span-1 lg:col-span-2 mr-6 -mt-20 shadow-none">
+          <div class="bg-white rounded-[2rem] p-8 col-span-1 lg:col-span-2 mr-6 -mt-20 shadow-none fade-in-section" [class.fade-in-visible]="showAgentesCreados">
             <h3 class="font-semibold text-gray-800 mb-7 text-lg tracking-[-0.3px]">Agentes Creados</h3>
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
@@ -341,7 +341,7 @@
           </div>
   
           <!-- Países -->
-          <div class="bg-white rounded-[2rem] p-5 col-span-1 -ml-5">
+          <div class="bg-white rounded-[2rem] p-5 col-span-1 -ml-5 fade-in-section" [class.fade-in-visible]="showPaises">
             <h3 class="font-semibold text-gray-800 mb-4 tracking-[-0.3px]">Países</h3>
             <div>
               <div class="mb-8" *ngFor="let c of countries; let i = index">
