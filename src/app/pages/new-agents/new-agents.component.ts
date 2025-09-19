@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
+import { I18nService } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-new-agents',
@@ -12,13 +13,21 @@ import { Agent } from '../../shared/models/agent.model';
 })
 export class NewAgentsComponent implements OnInit {
   private agentsService = inject(AgentsService);
+  private i18nService = inject(I18nService);
 
   agents: Agent[] = [];
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   // TEMPORAL: Cambiar a true para probar estado vacío, false para mostrar agentes ficticios
   private showEmptyState = true;
 
   ngOnInit(): void {
+    this.i18nService.initializeLanguage();
+    
     if (this.showEmptyState) {
       // Para probar estado vacío
       this.agents = [];

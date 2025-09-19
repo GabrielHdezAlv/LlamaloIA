@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { I18nService } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-metrics',
@@ -10,11 +11,18 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './metrics.component.scss'
 })
 export class MetricsComponent {
+  private i18nService = inject(I18nService);
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
+
   // Filtros
-  periods = ['Últimos 7 días', 'Últimos 30 días', 'Este mes', 'Año pasado'];
+  periods = [this.t.last7Days, this.t.last30Days, this.t.thisMonth, this.t.lastYear];
   selectedPeriod = this.periods[0];
 
-  agents = ['Todos', 'Agente 1', 'Agente 2'];
+  agents = [this.t.all, this.t.agent1, this.t.agent2];
   selectedAgent = this.agents[0];
 
   // Totales
@@ -32,17 +40,17 @@ export class MetricsComponent {
     return Math.max(0, Math.min(1, ratio));
   }
 
-  get latencyLabel(): 'RÁPIDO' | 'NORMAL' | 'LENTO' {
-    if (this.latencyMs <= 1000) return 'RÁPIDO';
-    if (this.latencyMs <= 2000) return 'NORMAL';
-    return 'LENTO';
+  get latencyLabel(): string {
+    if (this.latencyMs <= 1000) return this.t.fast;
+    if (this.latencyMs <= 2000) return this.t.normal;
+    return this.t.slow;
   }
 
   get latencyBadgeClasses(): string {
     switch (this.latencyLabel) {
-      case 'RÁPIDO':
+      case this.t.fast:
         return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
-      case 'NORMAL':
+      case this.t.normal:
         return 'text-xs bg-orange-200 text-black px-2 py-1.5 rounded-lg font-medium';
       default:
         return 'text-xs bg-red-200 text-black px-2 py-1.5 rounded-lg font-medium';
@@ -51,9 +59,9 @@ export class MetricsComponent {
 
   get latencyColor(): string {
     switch (this.latencyLabel) {
-      case 'RÁPIDO':
+      case this.t.fast:
         return '#16a34a';
-      case 'NORMAL':
+      case this.t.normal:
         return '#ca8a04';
       default:
         return '#dc2626';
@@ -63,9 +71,9 @@ export class MetricsComponent {
   get latencyGradient(): string {
     const percent = this.latencyPercent;
     switch (this.latencyLabel) {
-      case 'RÁPIDO':
+      case this.t.fast:
         return `linear-gradient(90deg, #16a34a 0%, #22c55e 100%)`;
-      case 'NORMAL':
+      case this.t.normal:
         return `linear-gradient(90deg, #ca8a04 0%, #eab308 100%)`;
       default:
         return `linear-gradient(90deg, #dc2626 0%, #ef4444 100%)`;
@@ -74,9 +82,9 @@ export class MetricsComponent {
 
   get latencyGradientStart(): string {
     switch (this.latencyLabel) {
-      case 'RÁPIDO':
+      case this.t.fast:
         return '#4ade80'; // Verde más oscuro
-      case 'NORMAL':
+      case this.t.normal:
         return '#fb923c'; // Naranja más claro
       default:
         return '#f87171'; // Rojo más claro
@@ -85,9 +93,9 @@ export class MetricsComponent {
 
   get latencyGradientEnd(): string {
     switch (this.latencyLabel) {
-      case 'RÁPIDO':
+      case this.t.fast:
         return '#14532d'; // Verde bosque muy oscuro
-      case 'NORMAL':
+      case this.t.normal:
         return '#c2410c'; // Naranja más oscuro
       default:
         return '#991b1b'; // Rojo más oscuro
@@ -131,17 +139,17 @@ export class MetricsComponent {
     return `${minutes}m ${seconds}s`;
   }
 
-  get durationLabel(): 'NORMAL' | 'LARGA' {
+  get durationLabel(): string {
     const totalMinutes = this.averageCallDurationSeconds / 60;
-    if (totalMinutes <= 4) return 'NORMAL';
-    return 'LARGA';
+    if (totalMinutes <= 4) return this.t.normal;
+    return this.t.long;
   }
 
   get durationBadgeClasses(): string {
     switch (this.durationLabel) {
-      case 'NORMAL':
+      case this.t.normal:
         return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
-      case 'LARGA':
+      case this.t.long:
         return 'text-xs bg-orange-200 text-black px-2 py-1.5 rounded-lg font-medium';
       default:
         return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
@@ -155,9 +163,9 @@ export class MetricsComponent {
 
   get durationGradientStart(): string {
     switch (this.durationLabel) {
-      case 'NORMAL':
+      case this.t.normal:
         return '#22c55e'; // Verde
-      case 'LARGA':
+      case this.t.long:
         return '#f59e0b'; // Naranja
       default:
         return '#22c55e'; // Verde
@@ -166,9 +174,9 @@ export class MetricsComponent {
 
   get durationGradientEnd(): string {
     switch (this.durationLabel) {
-      case 'NORMAL':
+      case this.t.normal:
         return '#16a34a'; // Verde más oscuro
-      case 'LARGA':
+      case this.t.long:
         return '#d97706'; // Naranja más oscuro
       default:
         return '#16a34a'; // Verde más oscuro
@@ -176,19 +184,23 @@ export class MetricsComponent {
   }
 
   // Agentes creados (tabla resumen)
-  createdAgents = [
-    { name: 'Carla', type: 'Inbound', totalMin: 530, percent: 25.4, status: 'Activo' as const },
-    { name: 'Carla', type: 'Outbound', totalMin: 250, percent: 8.9, status: 'Borrador' as const },
-  ];
+  get createdAgents() {
+    return [
+      { name: 'Carla', type: this.t.inbound, totalMin: 530, percent: 25.4, status: this.t.activeStatus },
+      { name: 'Carla', type: this.t.outbound, totalMin: 250, percent: 8.9, status: this.t.draftStatus },
+    ];
+  }
 
   // Países (porcentaje y barra) - ordenados de mayor a menor
-  countries = [
-    { name: 'Estados Unidos', img: 'assets/eeuu.png', percent: 65.5 },
-    { name: 'Francia', img: 'assets/france.png', percent: 57.5 },
-    { name: 'España', img: 'assets/spain.png', percent: 45.2 },
-    { name: 'Reino Unido', img: 'assets/united-kingdom.png', percent: 33.2 },
-    { name: 'Brasil', img: 'assets/brasil.png', percent: 25.8 },
-  ].sort((a, b) => b.percent - a.percent);
+  get countries() {
+    return [
+      { name: this.t.unitedStates, img: 'assets/eeuu.png', percent: 65.5 },
+      { name: this.t.france, img: 'assets/france.png', percent: 57.5 },
+      { name: this.t.spain, img: 'assets/spain.png', percent: 45.2 },
+      { name: this.t.unitedKingdom, img: 'assets/united-kingdom.png', percent: 33.2 },
+      { name: this.t.brazil, img: 'assets/brasil.png', percent: 25.8 },
+    ].sort((a, b) => b.percent - a.percent);
+  }
 
   // Tipo de llamadas - porcentajes dinámicos
   inboundPercentage = 57.2;
@@ -224,5 +236,9 @@ export class MetricsComponent {
   // Método para crear animación escalonada en las barras de países
   getCountryBarDelay(index: number): number {
     return index * 200; // 200ms de delay entre cada barra
+  }
+
+  constructor() {
+    this.i18nService.initializeLanguage();
   }
 }

@@ -3,6 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
 import { NgIf } from '@angular/common';
+import { I18nService, Language } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'topbar',
@@ -17,14 +18,18 @@ export class TopbarComponent implements OnInit {
 
   private router = inject(Router);
   public userStorage = inject(UserStorage);
+  private i18nService = inject(I18nService);
 
   showDropdown = false;
 
-  languages = [
-    { code: 'es', name: 'Español' },
-    { code: 'en', name: 'English' },
-  ];
-  selectedLanguage = this.languages[0];
+  // Idiomas usando el servicio de i18n
+  languages = this.i18nService.getAvailableLanguages();
+  selectedLanguage = this.i18nService.getCurrentLanguage();
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   userName = () => {
     const user = this.userStorage.user();
@@ -32,6 +37,9 @@ export class TopbarComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.i18nService.initializeLanguage();
+    this.selectedLanguage = this.i18nService.getCurrentLanguage();
+    
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -75,8 +83,9 @@ export class TopbarComponent implements OnInit {
     this.showDropdown = !this.showDropdown;
   }
 
-  selectLanguage(lang: any) {
-    this.selectedLanguage = lang;
+  selectLanguage(lang: Language) {
+    this.i18nService.setLanguage(lang);
+    this.selectedLanguage = this.i18nService.getCurrentLanguage();
   }
 
   navigateTo(route: string) {
