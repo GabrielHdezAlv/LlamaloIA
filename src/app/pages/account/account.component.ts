@@ -5,6 +5,7 @@ import { UserService } from '../../core/services/user.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
+import { I18nService } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-account',
@@ -16,6 +17,7 @@ import { ModalService } from '../../shared/modals/modal.service';
 export class AccountComponent implements OnInit {
   private userService = inject(UserService);
   private snackBar = inject(MatSnackBar);
+  private i18nService = inject(I18nService);
 
   activeTab: 'profile' | 'security' | 'billing' | 'gifts' = 'profile';
 
@@ -34,6 +36,9 @@ export class AccountComponent implements OnInit {
   tempEnterpriseWeb = '';
   tempProfileImage = '';
 
+  // Facturación
+  currentPlanMinutes: number | null = null;
+
   // Usuario actual
   private userStore = inject(UserStorage);
   user = this.userStore.user;
@@ -48,6 +53,11 @@ export class AccountComponent implements OnInit {
 
   email = computed(() => this.user()?.email ?? '');
 
+  // Traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
+
   // Método para cambiar de pestaña
   setActiveTab(tab: 'profile' | 'security' | 'billing' | 'gifts') {
     this.activeTab = tab;
@@ -58,6 +68,8 @@ export class AccountComponent implements OnInit {
   enterpriseWeb = computed(() => this.user()?.enterpriseWeb ?? '');
 
   ngOnInit() {
+    this.i18nService.initializeLanguage();
+    
     const user = this.user();
     if (user) {
       this.tempName = user.name || '';
@@ -73,17 +85,14 @@ export class AccountComponent implements OnInit {
   updatePassword() {
     if (this.newPassword !== this.confirmPassword) {
       this.modalService.openError({
-        title: 'Contraseña inválida',
-        message: 'Las contraseñas no coinciden',
-      });
-      this.modalService.openError({
-        title: 'Contraseña inválida',
-        message: 'Las contraseñas no coinciden',
+        title: this.t.invalidPassword,
+        message: this.t.passwordsDoNotMatch,
       });
       return;
     }
     // Aquí puedes enviar al backend
     console.log('Contraseña actualizada');
+    this.showNotification(this.t.passwordUpdated, 'success');
   }
 
   onAvatarClick() {
@@ -205,13 +214,10 @@ export class AccountComponent implements OnInit {
     this.userService.updateUserProfile(updatedUserData).subscribe({
       next: (response: any) => {
         this.userStore.setUser(response);
-        this.showNotification('Perfil actualizado correctamente', 'success');
+        this.showNotification(this.t.profileUpdated, 'success');
       },
       error: (error: any) => {
-        this.showNotification(
-          'Error al actualizar el perfil. Por favor, inténtalo de nuevo.',
-          'error'
-        );
+        this.showNotification(this.t.errorUpdatingProfile, 'error');
       },
     });
   }

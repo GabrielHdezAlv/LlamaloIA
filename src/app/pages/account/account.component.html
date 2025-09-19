@@ -82,8 +82,8 @@
             </svg>
           </span>
           <div class="flex flex-col">
-            <span class="font-semibold">Perfil</span>
-            <span class="text-xs text-gray-500">Informacion del perfil</span>
+            <span class="font-semibold">{{ t.profile }}</span>
+            <span class="text-xs text-gray-500">{{ t.profileInfo }}</span>
           </div>
         </button>
 
@@ -113,8 +113,8 @@
             </svg>
           </span>
           <div class="flex flex-col">
-            <span class="font-semibold">Seguridad</span>
-            <span class="text-xs text-gray-500">Cambiar Contraseña</span>
+            <span class="font-semibold">{{ t.security }}</span>
+            <span class="text-xs text-gray-500">{{ t.updatePassword }}</span>
           </div>
         </button>
 
@@ -144,8 +144,8 @@
             </svg>
           </span>
           <div class="flex flex-col">
-            <span class="font-semibold">Facturación</span>
-            <span class="text-xs text-gray-500">Actualizar Método de Pago</span>
+            <span class="font-semibold">{{ t.billing }}</span>
+            <span class="text-xs text-gray-500">{{ t.editPaymentMethod }}</span>
           </div>
         </button>
 
@@ -213,8 +213,8 @@
             </svg>
           </span>
           <div class="flex flex-col">
-            <span class="font-semibold">Regalos</span>
-            <span class="text-xs text-gray-500">Gana Minutos Gratis!</span>
+            <span class="font-semibold">{{ t.gifts }}</span>
+            <span class="text-xs text-gray-500">{{ t.giftsSubtitle }}</span>
           </div>
         </button>
       </nav>
@@ -227,7 +227,7 @@
       @if (activeTab === 'profile') {
       <!-- === SECCIÓN PERFIL === -->
       <h2 class="text-2xl font-bold text-gray-900 mb-6">
-        Información del perfil
+        {{ t.profileInfo }}
       </h2>
 
       <!-- Avatar & Text -->
@@ -265,13 +265,8 @@
         </div>
         }
         <div class="flex flex-col mt-6">
-          <span class="text-xs text-gray-500 tracking-[-0.5px]"
-            >Actualiza tu avatar haciendo clic en la imagen de al lado. 288 x
-            288 píxeles.</span
-          >
-          <span class="text-xs text-gray-500 tracking-[-0.5px]"
-            >Tamaño recomendado en formato PNG o JPG únicamente.</span
-          >
+          <span class="text-xs text-gray-500 tracking-[-0.5px]">{{ t.profileInfoHint1 }}</span>
+          <span class="text-xs text-gray-500 tracking-[-0.5px]">{{ t.profileInfoHint2 }}</span>
         </div>
       </div>
 
@@ -281,7 +276,7 @@
         <div>
           <label
             class="block text-sm font-semibold text-black mb-2 tracking-[-0.4px]"
-            >Nombre Completo</label
+            >{{ t.fullName }}</label
           >
           <div class="relative">
             <input
@@ -306,7 +301,7 @@
         <!-- Email -->
         <div>
           <label class="block text-sm font-semibold text-black mb-2"
-            >Email</label
+            >{{ t.email }}</label
           >
           <div class="relative">
             <input
@@ -327,19 +322,19 @@
               />
             </svg>
           </div>
-          <p class="text-xs text-gray-500 mt-1">El email no se puede modificar</p>
+          <p class="text-xs text-gray-500 mt-1">{{ t.emailNotEditable }}</p>
         </div>
 
         <!-- País -->
         <div class="relative">
           <label class="block text-sm font-semibold text-black mb-2"
-            >País</label
+            >{{ t.country }}</label
           >
           <select
             [(ngModel)]="tempCountry"
             class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none pr-12"
           >
-            <option value="">Selecciona un país</option>
+            <option value="">{{ t.selectCountry }}</option>
             <option value="España">España</option>
             <option value="Francia">Francia</option>
             <option value="Italia">Italia</option>
@@ -373,7 +368,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2"
-              >Nombre del Negocio</label
+              >{{ t.businessName }}</label
             >
             <div class="relative">
               <input
@@ -398,7 +393,7 @@
           </div>
           <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2"
-              >Web del Negocio</label
+              >{{ t.businessWebsite }}</label
             >
             <div class="relative">
               <input
@@ -429,7 +424,7 @@
             (click)="saveUserInfo()"
             class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 transition-colors duration-200"
           >
-            Guardar Cambios
+            {{ t.saveChanges }}
           </button>
         </div>
       </div>
@@ -437,7 +432,7 @@
       <!-- === SECCIÓN SEGURIDAD === -->
       <div class="flex flex-col h-full">
         <!-- Encabezado -->
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">Seguridad</h2>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ t.security }}</h2>
 
         <!-- Cambiar Contraseña -->
         <div class="space-y-8 flex-1">
@@ -445,12 +440,12 @@
           <div class="relative">
             <label
               class="absolute left-8 top-2 text-xs text-black pointer-events-none tracking-[-1px] bg-white p-1"
-              >Contraseña Actual</label
+              >{{ t.currentPassword }}</label
             >
             <a
               class="absolute right-8 top-2 text-xs text-black hover:underline cursor-pointer tracking-[-1px] bg-white p-1"
               style="z-index: 2"
-              >Olvidaste la contraseña?</a
+              >{{ t.forgotPassword }}</a
             >
             <input
               type="password"
@@ -466,7 +461,7 @@
             <div class="relative">
               <label
                 class="absolute left-8 top-2 text-xs text-black pointer-events-none tracking-[-1px] bg-white p-1"
-                >Nueva Contraseña</label
+                >{{ t.newPassword }}</label
               >
               <input
                 type="password"
@@ -479,7 +474,7 @@
             <div class="relative">
               <label
                 class="absolute left-8 top-2 text-xs text-black pointer-events-none tracking-[-1px] bg-white p-1"
-                >Confirmar nueva contraseña</label
+                >{{ t.confirmNewPassword }}</label
               >
               <input
                 type="password"
@@ -497,7 +492,7 @@
             class="px-4 py-3 bg-black text-white font-normal rounded-full hover:bg-gray-900 transition-colors shadow-none mt-2"
             style="box-shadow: none"
           >
-            Actualizar contraseña
+            {{ t.updatePassword }}
           </button>
         </div>
 
@@ -506,18 +501,17 @@
           <div class="flex items-start justify-between">
             <div>
               <h3 class="text-sm font-semibold text-gray-900 mb-2">
-                Eliminar Cuenta
+                {{ t.deleteAccount }}
               </h3>
               <p class="text-xs text-gray-600 tracking-[-0.5px]">
-                Al borrar tu cuenta, perderás la información sobre tu negocio y
-                dejarás de tener acceso a Llámalo AI.
+                {{ t.deleteAccountDescription }}
               </p>
             </div>
             <button
               (click)="deleteAccount()"
               class="mt-4 px-6 py-3 bg-red-600 text-white text-sm font-normal rounded-full hover:bg-red-700 transition-colors whitespace-nowrap"
             >
-              Eliminar Cuenta
+              {{ t.deleteAccountBtn }}
             </button>
           </div>
         </div>
@@ -525,7 +519,7 @@
       } @if (activeTab === 'billing') {
       <!-- === SECCIÓN FACTURACIÓN === -->
       <div class="flex flex-col h-full">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Facturación</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ t.billing }}</h2>
 
         <div class="space-y-6">
           <!-- Suscripción Actual -->
@@ -533,10 +527,10 @@
             <h3
               class="text-sm font-semibold text-gray-800 mb-2 tracking-[-0.5px]"
             >
-              Suscripción Actual
+              {{ t.currentSubscription }}
             </h3>
             <p class="text-sm text-gray-800 tracking-[-0.5px]">
-              --- Minutos con el plan <strong>Básico</strong>
+              {{ currentPlanMinutes ?? '---' }} {{ t.minutesWord }} {{ t.withPlan }} <strong>{{ t.basicPlan }}</strong>
             </p>
           </div>
 
@@ -545,17 +539,17 @@
             <button
               class="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
             >
-              Cancelar Suscripcion
+              {{ t.cancelSubscription }}
             </button>
             <button
               class="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
             >
-              Editar Metodo de pago
+              {{ t.editPaymentMethod }}
             </button>
             <button
               class="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
             >
-              Historial de Facturas
+              {{ t.invoicesHistory }}
             </button>
           </div>
 
@@ -563,14 +557,14 @@
           <button
             class="w-full px-6 py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-full hover:from-blue-800 hover:to-blue-700 transition-all duration-200 tracking-[-0.5px]"
           >
-            Mejorar/Cambiar Plan
+            {{ t.upgradePlan }}
           </button>
 
           <!-- Protegido por Stripe -->
           <div class="flex items-center mt-6">
             <img src="assets/stripe.png" alt="Stripe" class="h-6 w-auto" />
             <span class="ml-2 mt-1 text-base text-gray-800 tracking-[-0.5px]"
-              >Protegido por Stripe</span
+              >{{ t.protectedByStripe }}</span
             >
           </div>
         </div>
@@ -578,12 +572,11 @@
       } @if (activeTab === 'gifts') {
       <!-- === SECCIÓN REGALOS === -->
       <div class="flex flex-col h-full">
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">Regalos</h2>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">{{ t.gifts }}</h2>
         <div class="space-y-6">
           <!-- Descripción -->
           <p class="text-xs text-gray-600 font-medium tracking-[-1px]">
-            Los minutos extra que ganes y no uses el mes siguiente no caducarán.
-            ¡Canjea tus recompensas ahora para no olvidarte!
+            {{ t.giftsDescription }}
           </p>
 
           <!-- Tarjeta de Recompensa Trustpilot -->
@@ -591,19 +584,15 @@
             <div class="space-y-4">
               <!-- Título de la recompensa -->
               <h3 class="text-2xl font-semibold tracking-[-0.5px]">
-                <span class="text-gray-900">Trustpilot</span>
-                <span class="text-blue-600"> +10 min</span>
+                <span class="text-gray-900">{{ t.trustpilot }}</span>
+                <span class="text-blue-600"> {{ t.trustpilotBonus }}</span>
               </h3>
 
               <!-- Descripción -->
               <p
                 class="text-sm font-semibold text-gray-900 leading-relaxed tracking-[-0.5px]"
               >
-                Gana 10 minutos adicionales dejando una reseña sobre Llámalo en
-                Trustpilot.<br />
-                Una vez publicada, envíanos una captura en el chat de tu reseña
-                junto con el email de tu cuenta y añadiremos los minutos extra
-                automáticamente.
+                {{ t.trustpilotDescription }}
               </p>
 
               <!-- Botón Canjear -->
@@ -612,7 +601,7 @@
                   (click)="redeemReward('Trustpilot')"
                   class="px-6 py-2 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm"
                 >
-                  Canjear
+                  {{ t.redeem }}
                 </button>
               </div>
             </div>

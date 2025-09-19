@@ -5,7 +5,7 @@
         <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
-    <h2 class="text-xl font-semibold text-yellow-700">{{ data.title || 'Advertencia' }}</h2>
+    <h2 class="text-xl font-semibold text-yellow-700">{{ data.title || t.warningTitleDefault }}</h2>
   </div>
   
   <p class="text-sm text-gray-800 mb-4 ml-14">{{ data.message }}</p>
@@ -20,13 +20,13 @@
       (click)="cancel()"
       class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500"
     >
-      {{ data.cancelText || 'Cancelar' }}
+      {{ data.cancelText || t.cancel }}
     </button>
     <button 
       (click)="confirm()"
       class="px-4 py-2 text-sm font-medium text-white bg-yellow-600 border border-transparent rounded-lg hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
     >
-      {{ data.confirmText || 'Continuar' }}
+      {{ data.confirmText || t.continue }}
     </button>
   </div>
 </div>

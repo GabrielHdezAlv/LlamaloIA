@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Location } from '@angular/common'; // 👈 Importa Location
 import { ModalService } from '../../shared/modals/modal.service';
+import { I18nService } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-new-create-agents',
@@ -16,7 +17,12 @@ export class NewCreateAgentsComponent {
   // Add this line to declare phoneNumber
   phoneNumber = '';
 
-  constructor(private location: Location, private modalService: ModalService) {} // ✅ Añade esto
+  constructor(private location: Location, private modalService: ModalService, private i18nService: I18nService) {} // ✅ Añade esto
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   greeting = 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
   template = '';
@@ -98,7 +104,7 @@ export class NewCreateAgentsComponent {
       this.isPlaying = false;
       this.modalService.openError({
         title: 'Error de audio',
-        message: 'No se pudo reproducir el audio seleccionado.',
+        message: 'No se pudo reproducir el audio',
         details: String(err)
       });
     });
@@ -118,7 +124,7 @@ export class NewCreateAgentsComponent {
       }
       this.modalService.openError({
         title: 'Error de audio',
-        message: 'Hubo un problema al cargar el audio.',
+        message: 'Problema al cargar el audio',
       });
     };
   }
@@ -152,8 +158,8 @@ export class NewCreateAgentsComponent {
   onSubmitTestCall() {
     if (!this.phoneNumber) {
       this.modalService.openError({
-        title: 'Número requerido',
-        message: 'Por favor, ingrese un número de teléfono',
+        title: 'Número de teléfono requerido',
+        message: 'Por favor, ingresa un número de teléfono',
       });
       return;
     }
