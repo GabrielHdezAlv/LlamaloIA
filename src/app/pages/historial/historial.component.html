@@ -7,7 +7,7 @@
       <div class="relative">
         <input
           type="text"
-          placeholder="Buscar el número"
+          [placeholder]="t.searchNumber"
           class="w-full pl-10 pr-4 py-2 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 tracking-[-1px]"
         />
         <svg class="h-6 w-6 text-gray-400 absolute left-3 top-2.5" width="26" height="26" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,7 +27,7 @@
               <img [src]="contact.avatar" alt="Avatar" class="w-8 h-8 object-cover rounded-full" />
               <span class="font-semibold text-gray-800">{{ contact.phone }}</span>
               @if (contact.status === 'resuelto') {
-                <span class="text-[10px] px-1 py-0.5 bg-green-100 text-green-800 border-green-900 rounded-full">Resuelto</span>
+                <span class="text-[10px] px-1 py-0.5 bg-green-100 text-green-800 border-green-900 rounded-full">{{ formatStatus(contact.status) }}</span>
               }
             </div>
           </div>
@@ -80,7 +80,7 @@
               <div class="flex justify-end">
                 <div class="flex items-start space-x-3">
                   <div class="flex flex-col items-end">
-                    <p class="font-semibold text-black text-right">(Nombre del Agente)</p>
+                    <p class="font-semibold text-black text-right">{{ t.agentName }}</p>
                     <p class="text-black mt-1 text-sm text-right max-w-md whitespace-pre-line">
                       {{ msg.text }}
                     </p>
@@ -110,7 +110,7 @@
         </div>
       } @else {
         <div class="flex-1 flex items-center justify-center text-gray-500">
-          Selecciona un contacto para ver la conversación.
+          {{ t.selectContactToView }}
         </div>
       }
     </div>

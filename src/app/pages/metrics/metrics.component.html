@@ -28,7 +28,7 @@
           <!-- Gráfico de llamadas exitosas (más largo) -->
           <div class="bg-white rounded-[2rem]  p-5  lg:col-span-2">
             <div class="flex justify-between items-center mb-4">
-              <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">Total de llamadas exitosas</h3>
+              <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">{{ t.totalSuccessfulCalls }}</h3>
               <span class="text-xs text-green-600 font-medium">↑ 44.2%</span>
             </div>
             <div class="relative h-64">
@@ -114,11 +114,11 @@
           <!-- Total Minutos -->
           <div class="bg-white rounded-[2rem] p-5 border border-gray-100 flex flex-col justify-between h-full min-h-[220px]">
             <div>
-              <p class="text-[15px] font-semibold text-gray-600 mb-2 mt-1 tracking-[-0.3px] ">Total Minutos</p>
+              <p class="text-[15px] font-semibold text-gray-600 mb-2 mt-1 tracking-[-0.3px] ">{{ t.totalMinutes }}</p>
               <p class="text-[33px] font-semibold text-gray-800 mb-8 leading-tight">{{ totalMinutesUsed }}/{{ minutesLimit }}</p>
-              <p class="text-[15px] font-semibold text-gray-600 mb-2 tracking-[-0.3px]">Minutos Extra</p>
+              <p class="text-[15px] font-semibold text-gray-600 mb-2 tracking-[-0.3px]">{{ t.extraMinutes }}</p>
               <p class="text-[33px] font-semibold text-gray-800 mb-8 leading-tight">{{ extraMinutes }}</p>
-              <p class="text-[15px] font-semibold text-gray-600 mb-2 tracking-[-0.3px]">Tiempo ahorrado</p>
+              <p class="text-[15px] font-semibold text-gray-600 mb-2 tracking-[-0.3px]">{{ t.timeSaved }}</p>
               <p class="text-[33px] font-semibold text-gray-800 leading-tight">{{ timeSavedHours }} h</p>
             </div>
           </div>
@@ -128,7 +128,7 @@
           <!-- Latencia -->
           <div class="bg-white rounded-[2rem] p-6 mb-20">
             <div class="flex justify-between items-center mb-4">
-              <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">Latencia</h3>
+              <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">{{ t.latency }}</h3>
               <span [class]="latencyBadgeClasses">{{ latencyLabel }}</span>
             </div>
             
@@ -173,7 +173,7 @@
             
             <!-- Texto descriptivo -->
             <p class="text-xs text-gray-500 text-center leading-relaxed px-4 tracking-[-0.5px]">
-              Tiempo que tarda el sistema en responder durante una llamada. Un valor más bajo indica mayor rapidez.
+              {{ t.latencyDescription }}
             </p>
             
             
@@ -182,7 +182,7 @@
           <!-- Duración media -->
           <div class="bg-white rounded-[2rem] p-6 mr-6 -ml-3 mb-20">
             <div class="flex justify-between items-center mb-4">
-              <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">Duración media de las llamadas</h3>
+              <h3 class="font-semibold text-gray-800 tracking-[-0.3px]">{{ t.averageCallDuration }}</h3>
               <span [class]="durationBadgeClasses">{{ durationLabel }}</span>
             </div>
             
@@ -227,13 +227,13 @@
             
             <!-- Texto descriptivo -->
             <p class="text-xs text-gray-500 text-center leading-relaxed px-4 tracking-[-0.5px]">
-              Promedio de tiempo que duran las llamadas gestionadas por el agente.
+              {{ t.durationDescription }}
             </p>
           </div>
   
           <!-- Tipo de llamadas -->
           <div class="bg-white rounded-[2rem] p-5 -ml-7">
-            <h3 class="font-semibold text-gray-800 mb-4 tracking-[-0.3px]">Tipo de llamadas</h3>
+            <h3 class="font-semibold text-gray-800 mb-4 tracking-[-0.3px]">{{ t.callTypes }}</h3>
             
             <!-- Gráfico circular completo -->
             <div class="flex flex-col items-center justify-center mb-6 mt-8">
@@ -301,15 +301,15 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Agentes Creados -->
           <div class="bg-white rounded-[2rem] p-8 col-span-1 lg:col-span-2 mr-6 -mt-20 shadow-none">
-            <h3 class="font-semibold text-gray-800 mb-7 text-lg tracking-[-0.3px]">Agentes Creados</h3>
+            <h3 class="font-semibold text-gray-800 mb-7 text-lg tracking-[-0.3px]">{{ t.createdAgents }}</h3>
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
                 <thead>
                   <tr class="text-left text-gray-400 border-b border-gray-200">
-                    <th class="pb-4 font-medium">Nombre</th>
-                    <th class="pb-4 font-medium">Tipo</th>
-                    <th class="pb-4 font-medium">Total Min</th>
-                    <th class="pb-4 font-medium">Estado</th>
+                    <th class="pb-4 font-medium">{{ t.name }}</th>
+                    <th class="pb-4 font-medium">{{ t.type }}</th>
+                    <th class="pb-4 font-medium">{{ t.totalMinutesSpent }}</th>
+                    <th class="pb-4 font-medium">{{ t.status }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -328,8 +328,8 @@
                     <td class="py-4">
                       <div class="flex items-center">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <circle cx="8" cy="8" r="8" [attr.fill]="row.status === 'Activo' ? '#1E3A8A80' : '#EDEDED'"/>
-                          <circle cx="8" cy="8" r="4" [attr.fill]="row.status === 'Activo' ? '#1E3A8A' : '#C5CAC4'" [class.latido]="row.status === 'Activo'"/>
+                          <circle cx="8" cy="8" r="8" [attr.fill]="row.status === t.activeStatus ? '#1E3A8A80' : '#EDEDED'"/>
+                          <circle cx="8" cy="8" r="4" [attr.fill]="row.status === t.activeStatus ? '#1E3A8A' : '#C5CAC4'" [class.latido]="row.status === t.activeStatus"/>
                         </svg>
                         <span class="text-gray-700 ml-2">{{ row.status }}</span>
                       </div>
@@ -342,7 +342,7 @@
   
           <!-- Países -->
           <div class="bg-white rounded-[2rem] p-5 col-span-1 -ml-5">
-            <h3 class="font-semibold text-gray-800 mb-4 tracking-[-0.3px]">Países</h3>
+            <h3 class="font-semibold text-gray-800 mb-4 tracking-[-0.3px]">{{ t.countries }}</h3>
             <div>
               <div class="mb-8" *ngFor="let c of countries; let i = index">
                 <div class="flex items-center justify-between">
