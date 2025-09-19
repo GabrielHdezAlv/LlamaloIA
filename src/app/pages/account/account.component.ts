@@ -1,9 +1,10 @@
-import { Component, inject, computed, OnInit } from '@angular/core';
+import { Component, inject, computed, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
 
 @Component({
@@ -11,13 +12,16 @@ import { ModalService } from '../../shared/modals/modal.service';
   standalone: true,
   imports: [FormsModule, MatSnackBarModule, CommonModule],
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss'],
+  styleUrls: ['./account.component.scss', './billing-modal-blur.scss'],
 })
 export class AccountComponent implements OnInit {
   private userService = inject(UserService);
   private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
 
   activeTab: 'profile' | 'security' | 'billing' | 'gifts' = 'profile';
+  showBillingModal = false;
 
   // Campos de contraseña
   currentPassword = '';
@@ -67,6 +71,11 @@ export class AccountComponent implements OnInit {
       this.tempEnterpriseWeb = user.enterpriseWeb || '';
       this.tempProfileImage = user.profileImage || '';
     }
+    
+    // Inicializar el slider del modal de facturación
+    setTimeout(() => {
+      this.updateSliderBackground();
+    }, 100);
   }
 
   // Método para actualizar contraseña
@@ -214,5 +223,125 @@ export class AccountComponent implements OnInit {
         );
       },
     });
+  }
+
+  // Propiedades para el modal de facturación
+  selectedMinutes: number = 700;
+  selectedPlan: any = {
+    targetAudience: 'For individuals',
+    name: 'Advanced',
+    description: 'Show social proof notifications to increase leads and sales.',
+    price: 99,
+    features: [
+      'All analytics features',
+      'Up to 250,000 tracked visits',
+      'Normal support',
+      'Up to 3 team members'
+    ]
+  };
+
+  // Métodos para el modal de facturación
+  openBillingModal() {
+    this.showBillingModal = true;
+  }
+
+  closeBillingModal(event?: Event) {
+    if (event && event.target !== event.currentTarget) {
+      return;
+    }
+    this.showBillingModal = false;
+  }
+
+  onMinutesChange(event: any) {
+    this.selectedMinutes = parseInt(event.target.value);
+    this.updateSliderBackground();
+  }
+
+  updateSliderBackground() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    
+    const percentage = ((this.selectedMinutes - 100) / (2000 - 100)) * 100;
+    const slider = document.querySelector('.slider') as HTMLInputElement;
+    if (slider) {
+      slider.style.setProperty('--progress', `${percentage}%`);
+    }
+  }
+
+  private isDragging = false;
+
+  getSliderThumbPosition(): string {
+    const percentage = Math.min(100, Math.max(0, ((this.selectedMinutes - 100) / (2000 - 100)) * 100));
+    
+    if (this.selectedMinutes === 2000) {
+      return 'calc(100% - 12px)'; // Llega al final sin espacio
+    } else if (this.selectedMinutes === 100) {
+      return '0px'; // Comienza desde el inicio
+    } else {
+      return `calc(${percentage}% - 12px)`; // Centrado en posiciones intermedias
+    }
+  }
+
+  onSliderTrackClick(event: MouseEvent) {
+    const sliderTrack = event.currentTarget as HTMLElement;
+    const rect = sliderTrack.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    
+    // Convertir porcentaje a valor entre 100 y 2000
+    const value = Math.round(100 + (percentage / 100) * (2000 - 100));
+    const stepValue = Math.round(value / 50) * 50; // Redondear al step más cercano
+    
+    this.selectedMinutes = Math.max(100, Math.min(2000, stepValue));
+  }
+
+  startDragging(event: MouseEvent | TouchEvent) {
+    this.isDragging = true;
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const sliderContainer = (event.target as HTMLElement).closest('.relative') as HTMLElement;
+    
+    const handleMouseMove = (e: Event) => {
+      if (!this.isDragging || !sliderContainer) return;
+      
+      e.preventDefault();
+      
+      const mouseEvent = e as MouseEvent;
+      const touchEvent = e as TouchEvent;
+      const clientX = touchEvent.touches ? touchEvent.touches[0].clientX : mouseEvent.clientX;
+      
+      const rect = sliderContainer.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+      
+      // Convertir porcentaje a valor entre 100 y 2000
+      const value = Math.round(100 + (percentage / 100) * (2000 - 100));
+      const stepValue = Math.round(value / 50) * 50; // Redondear al step más cercano
+      
+      this.selectedMinutes = Math.max(100, Math.min(2000, stepValue));
+    };
+
+    const handleMouseUp = (e: Event) => {
+      this.isDragging = false;
+      e.preventDefault();
+      
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchmove', handleMouseMove);
+      document.removeEventListener('touchend', handleMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('touchmove', handleMouseMove);
+    document.addEventListener('touchend', handleMouseUp);
+  }
+
+  getStarted() {
+    console.log('Plan seleccionado:', this.selectedPlan);
+    console.log('Minutos seleccionados:', this.selectedMinutes);
+    // Aquí implementarías la lógica para procesar el pago
   }
 }
