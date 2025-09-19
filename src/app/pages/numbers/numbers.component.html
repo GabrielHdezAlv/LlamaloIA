@@ -1,12 +1,13 @@
-<div class="bg-white rounded-[2rem] shadow-sm pb-72 p-6 mt-8 ml-28 mr-[5.5rem]">
+<div class="bg-white rounded-[2rem] shadow-sm pb-72 p-6 mt-8 ml-28 mr-[5.5rem] fade-in-section" [class.fade-in-visible]="showContent">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-semibold text-gray-800 ml-4">Números</h2>
-      <button
-        class="bg-blue-900 hover:bg-indigo-800 text-white px-14 py-4 rounded-full text-sm font-medium transition duration-200"
-        routerLink="/dashboard/agents/create"
+      <app-ripple-button
+        (buttonClick)="router.navigateByUrl('/dashboard/agents/create')"
+        buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white px-20 py-2 rounded-xl text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2"
+        rippleColor="rgba(255, 255, 255, 0.4)"
       >
         Importar Numero
-      </button>
+      </app-ripple-button>
     </div>
 
     <div class="grid grid-cols-12 gap-4 text-sm text-gray-400 pb-2 mb-4">

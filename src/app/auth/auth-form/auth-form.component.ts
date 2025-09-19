@@ -15,11 +15,12 @@ import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { log } from 'console';
 import { ModalService } from '../../shared/modals/modal.service';
+import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
 
 @Component({
   selector: 'app-auth-form',
   standalone: true,
-  imports: [FormsModule, RouterModule, CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, RouterModule, CommonModule, ReactiveFormsModule, AnimatedCheckboxComponent],
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.scss'],
 })
@@ -44,6 +45,9 @@ export class AuthFormComponent implements OnInit {
   
   // Estado para mostrar/ocultar contraseña
   showPassword: boolean = false;
+  
+  // Estado para recordar sesión
+  rememberMe: boolean = false;
 
   private userService = inject(UserService);
   private snackBar = inject(MatSnackBar);

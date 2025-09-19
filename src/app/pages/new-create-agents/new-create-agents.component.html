@@ -20,7 +20,7 @@
   </div>
 
   @if (step === 'callType') {
-   <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+   <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Tipo de Llamadas</h2>
 
       <div class="flex justify-center gap-20 flex-wrap">
@@ -45,38 +45,79 @@
   <!-- Pagina: 2 -->
   @if (step === 'language') {
     <!-- Pantalla 2: Idioma -->
-    <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
+    <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Idioma</h2>
 
-      <div class="grid grid-cols-2 gap-12 max-w-2xl mx-auto">
-        <button
-          (click)="onLanguageSelected()"
-          class="p-10 px-20 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
-        >
-          <img src="assets/españa.svg" alt="España" class="w-12 h-10 ml-3" />
-          <span class="ml-2">Español</span>
-        </button>
-        <button
-          (click)="onLanguageSelected()"
-          class="p-10 px-20 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
-        >
-          <img src="assets/uk.svg" alt="Reino Unido" class="w-12 h-10 ml-3" />
-          <span class="ml-2">Inglés</span>
-        </button>
-        <button
-          (click)="onLanguageSelected()"
-          class="p-10 px-20 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
-        >
-          <img src="assets/francia.svg" alt="Francia" class="w-12 h-10 ml-3" />
-          <span class="ml-2">Francés</span>
-        </button>
-        <button
-          (click)="onLanguageSelected()"
-          class="p-10 px-20 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-colors duration-200 text-left flex items-center justify-start font-semibold text-medium h-28"
-        >
-          <img src="assets/italia.svg" alt="Italia" class="w-12 h-10 ml-3" />
-          <span class="ml-2">Italiano</span>
-        </button>
+      <!-- Slider vertical de idiomas -->
+      <div class="relative max-w-4xl mx-auto">
+        <!-- Contenedor con scroll vertical y blur inferior -->
+        <div class="relative">
+          <div class="flex flex-col gap-6 overflow-y-auto scrollbar-hide language-slider-vertical tracking-[-0.8px]" style="scrollbar-width: none; -ms-overflow-style: none; max-height: 440px;">
+            <button
+              (click)="onLanguageSelected()"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
+            >
+              <img src="assets/españa_emoji.png" alt="España" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Español</span>
+            </button>
+            <button
+              (click)="onLanguageSelected()"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
+            >
+              <img src="assets/uk_emoji.png" alt="Reino Unido" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Inglés</span>
+            </button>
+            <button
+              (click)="onLanguageSelected()"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
+            >
+              <img src="assets/francia_emoji.png" alt="Francia" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Francés</span>
+            </button>
+            <button
+              (click)="onLanguageSelected()"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
+            >
+              <img src="assets/italia_emoji.png" alt="Italia" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Italiano</span>
+            </button>
+            <button
+              (click)="onLanguageSelected()"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
+            >
+              <img src="assets/alemania_emoji.png" alt="Alemania" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Alemania</span>
+            </button>
+            <button
+              (click)="onLanguageSelected()"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
+            >
+              <img src="assets/portugal_emoji.png" alt="Portugal" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Portugal</span>
+            </button>
+            <button
+              (click)="onLanguageSelected()"
+              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              style="box-shadow: none !important; border: none !important;"
+            >
+              <img src="assets/estadosunidos_emoji.png" alt="Estados Unidos" class="w-12 h-12 ml-4" />
+              <span class="ml-3 font-normal text-lg">Estados Unidos</span>
+            </button>
+            
+            <!-- Espacio adicional de 400px después de Estados Unidos -->
+            <div class="h-96"></div>
+            
+          </div>
+          
+          <!-- Efecto de blur en la parte inferior -->
+          <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none"></div>
+        </div>
       </div>
 
       <button
@@ -92,7 +133,7 @@
   }
     @if (step === 'voices') {
       <!-- Pantalla 3: Voces -->
-      <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
+      <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
         <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Voces</h2>
     
         <div class="flex justify-center gap-6 flex-wrap">
@@ -108,10 +149,20 @@
                 (click)="$event.stopPropagation(); playVoice('carla')"
                 class="mt-2 w-32 bg-white text-gray-700 rounded-full px-4 py-1.5 text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
               >
-                <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="ml-1">Escuchar</span>
+                @if (currentPlayingVoice === 'carla') {
+                  <!-- Icono de pausa (dos rayas) -->
+                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                    <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                  </svg>
+                  <span class="ml-1">Pausar</span>
+                } @else {
+                  <!-- Icono de play (triángulo) -->
+                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="ml-1">Escuchar</span>
+                }
               </button>
             </div>
           </div>
@@ -128,10 +179,20 @@
                 (click)="$event.stopPropagation(); playVoice('anas')"
                 class="mt-2 w-32 bg-white text-gray-700 rounded-full px-4 py-1.5 text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
               >
-                <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="ml-1">Escuchar</span>
+                @if (currentPlayingVoice === 'anas') {
+                  <!-- Icono de pausa (dos rayas) -->
+                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                    <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                  </svg>
+                  <span class="ml-1">Pausar</span>
+                } @else {
+                  <!-- Icono de play (triángulo) -->
+                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="ml-1">Escuchar</span>
+                }
               </button>
             </div>
           </div>
@@ -148,10 +209,20 @@
                 (click)="$event.stopPropagation(); playVoice('carlos')"
                 class="mt-2 w-32 bg-white text-gray-700 rounded-full px-4 py-1.5 text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
               >
-                <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="ml-1">Escuchar</span>
+                @if (currentPlayingVoice === 'carlos') {
+                  <!-- Icono de pausa (dos rayas) -->
+                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                    <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                  </svg>
+                  <span class="ml-1">Pausar</span>
+                } @else {
+                  <!-- Icono de play (triángulo) -->
+                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="ml-1">Escuchar</span>
+                }
               </button>
             </div>
           </div>
@@ -172,7 +243,7 @@
 
     @if (step === 'instructions') {
       <!-- Pantalla 4: Instrucciones -->
-      <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide flex flex-col relative" style="scrollbar-width: none; -ms-overflow-style: none;">
+      <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide flex flex-col relative" style="scrollbar-width: none; -ms-overflow-style: none;">
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Instrucciones</h2>
 
       <p class="text-center text-base text-black mb-8 max-w-2xl mx-auto tracking-[-1px]">
@@ -186,7 +257,7 @@
           type="text"
           [(ngModel)]="greeting"
           placeholder="Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?"
-          class="w-full px-4 py-3 border border-gray-300 rounded-lg  focus:ring-black focus:border-transparent text-xs text-gray-500"
+          class="w-full px-4 py-3 border border-gray-300  rounded-xl  focus:ring-black focus:border-transparent text-xs text-gray-500"
         />
       </div>
 
@@ -196,7 +267,7 @@
         <div class="relative">
           <select
             [(ngModel)]="template"
-            class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-black focus:border-transparent text-xs text-gray-500 appearance-none"
+            class="w-full px-3 py-3 border border-gray-300 rounded-xl focus:ring-black focus:border-transparent text-xs text-gray-500 appearance-none"
           >
             <option value="">Elige plantilla</option>
             <option value="atencion-cliente">Atención al cliente</option>
@@ -204,7 +275,7 @@
             <option value="soporte-tecnico">Soporte técnico</option>
           </select>
           <!-- Flecha personalizada más grande -->
-          <svg class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2" width="35" height="32" viewBox="0 0 27 32" fill="none">
+          <svg class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2" width="35" height="32" viewBox="0 0 27 32" fill="none" style="opacity: 0.5;">
             <path d="M8 12L16 20L24 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
@@ -215,7 +286,7 @@
         <textarea
           [(ngModel)]="instructions"
           placeholder="Escribe aquí..."
-          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-black focus:border-transparent h-[55vh] resize-none"
+          class="w-full px-4 py-3 border border-gray-300 rounded-[1rem] focus:ring-black focus:border-transparent h-[55vh] resize-none"
         ></textarea>
       </div>
 
@@ -230,8 +301,7 @@
           </svg>
         </button>
 
-        <button
-          class="mx-auto block px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+        <button class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
           (click)="onSubmit()"
         >
           Continuar
@@ -242,7 +312,7 @@
 
   @if (step === 'actions') {
     <!-- Pantalla 5: Añadir Acciones -->
-    <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+    <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Añadir Acciones</h2>
   
       <p class="text-center text-sm text-black mb-8 tracking-[-0.5px] mx-auto">
@@ -282,13 +352,7 @@
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
           </svg>
         </button>
-  
-        <button
-          class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
-          (click)="step = 'knowledgeBase'"
-        >
-          Continuar
-        </button>
+            
   
         <button
           (click)="step = 'knowledgeBase'"
@@ -305,7 +369,7 @@
 
   @if (step === 'knowledgeBase') {
   <!-- Pantalla 6: Base de Conocimientos -->
-  <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-[2rem] shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <h2 class="text-4xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Base de Conocimientos</h2>
 
     <p class="text-center text-base text-black mb-12 mx-auto tracking-[-1px]">
@@ -358,13 +422,6 @@
         </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
-        (click)="step = 'summary'"
-      >
-        Continuar
-      </button>
-
-      <button
         (click)="step = 'summary'"
         class="text-black hover:text-gray-700 text-lg flex items-center "
       >
@@ -377,8 +434,8 @@
   </div>
 }
 @if (step === 'summary') {
-  <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Prueba Agente</h2>
+  <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px] mt-28">Prueba Agente</h2>
     <p class="text-center text-base text-black mb-8 max-w-4xl mx-auto">
       Ingresa tu número de teléfono y recibirás una llamada para hacer la prueba en tiempo real.
     </p>
@@ -395,7 +452,7 @@
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
           </svg>
         </button>
-      <button class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md" (click)="onSubmitTestCall()">
+        <button class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2" (click)="onSubmitTestCall()">
         Continuar
       </button>
       <button
@@ -412,7 +469,7 @@
 }
 
 @if (step === 'connectPhone') {
-  <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <!-- Título principal -->
     <h2 class="text-4xl font-semibold text-center text-blue-950 tracking-[-3px]">
       Conectar Número de Teléfono
@@ -557,12 +614,12 @@
           </svg>
         </button>
 
-      <button
-        class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
-        (click)="onConnectPhone()"
-      >
-        Continuar
-      </button>
+        <button
+          class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+          (click)="onConnectPhone()"
+        >
+          Continuar
+        </button>
 
       <button
           (click)="step = 'advancedSettings'"
@@ -578,7 +635,7 @@
 }
 
 @if (step === 'advancedSettings') {
-  <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-[2rem] shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <!-- Título -->
     <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Configuración Avanzada</h2>
 
@@ -714,7 +771,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 px-16 py-3 bg-blue-950 text-white font-medium rounded-full hover:bg-blue-800 focus:bg-blue-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md"
+        class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
         (click)="onSubmitAdvancedSettings()"
       >
         Continuar
@@ -726,7 +783,7 @@
 }
 
 @if (step === 'final') {
-  <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-[2rem] shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
     <h2 class="text-4xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Creando Agente</h2>
     <div class="flex justify-center my-12">
       <svg class="animate-spin" width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -751,7 +808,7 @@
       </div>
     </div>
     <button
-      class="mx-auto block px-8 py-3 bg-blue-950 text-white font-semibold rounded-full hover:bg-blue-800 transition-colors"
+      class="mx-auto px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
       (click)="onFinish()"
     >
       Finalizar
