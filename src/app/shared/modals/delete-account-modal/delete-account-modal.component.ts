@@ -13,7 +13,7 @@ export interface DeleteAccountModalData {
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule],
   templateUrl: './delete-account-modal.component.html',
-  styleUrls: ['./delete-account-modal.component.scss'],
+  styleUrls: ['./delete-account-modal.component.scss', './delete-account-modal-blur.scss'],
 })
 export class DeleteAccountModalComponent {
   dialogRef = inject(MatDialogRef<DeleteAccountModalComponent>);
