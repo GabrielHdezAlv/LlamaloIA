@@ -21,7 +21,7 @@
 
   @if (step === 'callType') {
    <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
-      <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Tipo de Llamadas</h2>
+      <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">{{ t.callType }}</h2>
 
       <div class="flex justify-center gap-20 flex-wrap">
         <!-- Inbound -->
@@ -34,7 +34,7 @@
             <path d="M60.4165 41.6665L87.4998 15.6249" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M87.4998 41.6665H60.4165V14.5833" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <span class="text-base font-semibold text-gray-700 mt-7">Inbound</span>
+          <span class="text-base font-semibold text-gray-700 mt-7">{{ t.inbound }}</span>
         </button>
 
         
@@ -176,12 +176,12 @@
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Instrucciones</h2>
 
       <p class="text-center text-base text-black mb-8 max-w-2xl mx-auto tracking-[-1px]">
-        Define claramente las indicaciones para el agente, especificando qué acciones realizará y cómo debe responder en diferentes situaciones para garantizar una interacción eficiente y personalizada.
+        Define las instrucciones que seguirá tu agente de IA
       </p>
 
       <!-- Mensaje de saludo -->
       <div class="mb-6">
-        <label class="block text-sm font-medium text-black mb-2">Definir un mensaje de saludo personalizado</label>
+        <label class="block text-sm font-medium text-black mb-2">Define un saludo personalizado</label>
         <input
           type="text"
           [(ngModel)]="greeting"
@@ -192,13 +192,13 @@
 
       <!-- Selección de plantilla -->
       <div class="mb-4 w-80 relative">
-        <label class="block text-sm font-medium text-black mb-1">Instrucciones para el agente</label>
+        <label class="block text-sm font-medium text-black mb-1">Instrucciones del agente</label>
         <div class="relative">
           <select
             [(ngModel)]="template"
             class="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-black focus:border-transparent text-xs text-gray-500 appearance-none"
           >
-            <option value="">Elige plantilla</option>
+            <option value="">Elige una plantilla</option>
             <option value="atencion-cliente">Atención al cliente</option>
             <option value="ventas">Ventas</option>
             <option value="soporte-tecnico">Soporte técnico</option>
@@ -214,7 +214,7 @@
       <div class="mb-12">
         <textarea
           [(ngModel)]="instructions"
-          placeholder="Escribe aquí..."
+          placeholder="Escribe aquí las instrucciones específicas para tu agente..."
           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-black focus:border-transparent h-[55vh] resize-none"
         ></textarea>
       </div>
@@ -246,7 +246,7 @@
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Añadir Acciones</h2>
   
       <p class="text-center text-sm text-black mb-8 tracking-[-0.5px] mx-auto">
-        Define claramente las indicaciones para el agente, especificando qué acciones realizará y cómo debe responder en diferentes situaciones para garantizar una interacción eficiente y personalizada.
+        Define las acciones que puede realizar tu agente
       </p>
   
       <div class="flex justify-center gap-8 flex-wrap">
@@ -294,7 +294,7 @@
           (click)="step = 'knowledgeBase'"
           class="text-black hover:text-gray-700 text-lg flex items-center"
         >
-          Saltar
+          Omitir
           <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
           </svg>
@@ -309,7 +309,7 @@
     <h2 class="text-4xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Base de Conocimientos</h2>
 
     <p class="text-center text-base text-black mb-12 mx-auto tracking-[-1px]">
-      Define claramente las indicaciones para el agente, especificando qué acciones realizará y cómo debe responder en diferentes situaciones para garantizar una interacción eficiente y personalizada.
+      Define la base de conocimientos para tu agente
     </p>
 
     <div class="flex justify-center gap-8 flex-wrap">
@@ -368,7 +368,7 @@
         (click)="step = 'summary'"
         class="text-black hover:text-gray-700 text-lg flex items-center "
       >
-        Saltar
+        Omitir
         <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
         </svg>
@@ -378,9 +378,9 @@
 }
 @if (step === 'summary') {
   <div class="bg-white rounded-2xl shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Prueba Agente</h2>
+    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Probar Agente</h2>
     <p class="text-center text-base text-black mb-8 max-w-4xl mx-auto">
-      Ingresa tu número de teléfono y recibirás una llamada para hacer la prueba en tiempo real.
+      Ingresa un número de teléfono para probar tu agente
     </p>
     <div class="flex justify-center gap-4 items-center mb-8">
       <img src="assets/españa.svg" alt="España" width="20" height="12" />
@@ -402,7 +402,7 @@
           (click)="step = 'connectPhone'"
           class="text-black hover:text-gray-700 text-lg flex items-center"
         >
-          Saltar
+          Omitir
           <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
           </svg>
@@ -418,15 +418,15 @@
       Conectar Número de Teléfono
     </h2>
     <p class="text-center font-semibold text-lg text-blue-950 mb-4 -mt-2 tracking-[-1px]">
-      A través de Twilio
+      a través de Twilio
     </p>
 
     <!-- Instrucciones -->
     <div class="space-y-2 mb-8 text-sm text-gray-700 leading-relaxed tracking-[-1px] ml-16">
-      <p><span class="font-semibold">Seleccionar prefijo de país:</span> Elige el código de país correspondiente.</p>
-      <p><span class="font-semibold">Introducir número de Twilio:</span> Ingresa el número asociado a tu cuenta Twilio.</p>
-      <p><span class="font-semibold">Twilio Account SID y Auth Token:</span> Completa los campos con tu SID de cuenta y token de autenticación.</p>
-      <p><span class="font-semibold">Asignar nombre o etiqueta:</span> Da un nombre o etiqueta identificativa al número de Twilio para facilitar su gestión.</p>
+      <p><span class="font-semibold">1. Selecciona el prefijo del país</span></p>
+      <p><span class="font-semibold">2. Ingresa tu número de Twilio</span></p>
+      <p><span class="font-semibold">3. Ingresa tu Account SID de Twilio</span></p>
+      <p><span class="font-semibold">4. Asigna un nombre o etiqueta</span></p>
     </div>
 
     <!-- Formulario más pequeño -->
@@ -497,7 +497,7 @@
 
       <!-- Cuenta Twilio SID -->
       <div class="flex flex-col">
-        <label for="sid" class="block text-xs font-medium text-black mb-1">Cuenta Twilio SID*</label>
+        <label for="sid" class="block text-xs font-medium text-black mb-1">Account SID de Twilio*</label>
         <input
           type="text"
           id="sid"
@@ -507,7 +507,7 @@
 
       <!-- Twilio Auth Token -->
       <div class="flex flex-col">
-        <label for="token" class="block text-xs font-medium text-black mb-1">Twilio Auth Token*</label>
+        <label for="token" class="block text-xs font-medium text-black mb-1">Auth Token de Twilio</label>
         <input
           type="password"
           id="token"
@@ -528,13 +528,13 @@
 
     <!-- Selección de número importado -->
     <div class="mt-6 text-center">
-      <label for="imported-number" class="block text-xs font-medium text-black mb-1">Elegir número importado*</label>
+      <label for="imported-number" class="block text-xs font-medium text-black mb-1">Elige un número importado</label>
       <div class="relative w-72 mx-auto">
         <select
           id="imported-number"
           class="w-full px-3 py-3 border border-gray-300 rounded-xl focus:ring-blue-400 focus:border-blue-400 text-xs text-gray-400 appearance-none"
         >
-          <option value="">Elegir número</option>
+          <option value="">Elige un número</option>
           <option value="1">+34 630 00 00 00</option>
           <option value="2">+1 555 123 4567</option>
         </select>
@@ -568,7 +568,7 @@
           (click)="step = 'advancedSettings'"
           class="text-black hover:text-gray-700 text-lg flex items-center"
         >
-          Saltar
+          Omitir
           <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
           </svg>
@@ -584,12 +584,12 @@
 
     <!-- Subtítulo -->
     <p class="text-center text-base text-gray-700 mb-8 max-w-4xl mx-auto">
-      Personaliza parámetros avanzados de las llamadas para adaptarlos a tus necesidades, como tiempos de espera, duración máxima o avisos de grabación.
+      Personaliza los parámetros avanzados de tu agente
     </p>
 
     <!-- Tiempo de inactividad -->
     <div class="flex items-center justify-between mb-6 px-6">
-      <label class="text-sm font-medium text-gray-800">Tiempo de espera por inactividad antes de finalizar la llamada.</label>
+      <label class="text-sm font-medium text-gray-800">Tiempo de espera de inactividad</label>
       <div class="flex items-center w-64">
         <!-- Valor formateado: 0,18 -->
         <span
@@ -625,7 +625,7 @@
 
     <!-- Duración máxima -->
     <div class="flex items-center justify-between mb-6 px-6">
-      <label class="text-sm font-medium text-gray-800">Duración máxima de las llamadas</label>
+      <label class="text-sm font-medium text-gray-800">Duración máxima de llamada</label>
       <div class="flex items-center w-64">
         <!-- Valor formateado: 1,34 -->
         <span
@@ -735,14 +735,14 @@
       </svg>
     </div>
     <p class="text-base text-gray-700 max-w-2xl mx-auto">
-      No cierre esta ventana o perderá el progreso y tendrá que configurar el agente desde cero. Por favor, manténgala abierta hasta que finalice el proceso.
+      No cierres esta ventana mientras se crea tu agente
     </p>
   </div>
 }
 
 @if (step === 'success') {
   <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-4xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Agente Creado con Éxito</h2>
+    <h2 class="text-4xl font-semibold text-blue-950 mb-8 tracking-[-3px]">¡Agente Creado Exitosamente!</h2>
     <div class="flex justify-center my-12">
       <div class="w-24 h-24 bg-blue-200 rounded-full flex items-center justify-center">
         <svg width="44" height="33" viewBox="0 0 48 33" fill="none" xmlns="http://www.w3.org/2000/svg">
