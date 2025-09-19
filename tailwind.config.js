@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["InterVariable", ...defaultTheme.fontFamily.sans],
+        "dm-sans": ["DM Sans", ...defaultTheme.fontFamily.sans],
       },
     },
   },

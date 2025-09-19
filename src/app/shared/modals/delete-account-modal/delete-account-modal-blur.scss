@@ -1,0 +1,17 @@
+/* Estilos específicos para el modal de eliminar cuenta con efecto blur */
+::ng-deep .cdk-overlay-backdrop {
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+::ng-deep .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+::ng-deep .cdk-overlay-container {
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
