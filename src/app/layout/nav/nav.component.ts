@@ -1,6 +1,6 @@
 // src/app/components/sidebar/sidebar.component.ts
-import { Component, HostListener, computed, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, HostListener, computed, inject, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
 import { NavigationService } from '../../core/services/navigation.service';
@@ -21,6 +21,11 @@ export class NavComponent {
   public userStorage = inject(UserStorage);
   private router = inject(Router);
   private navigationService = inject(NavigationService);
+  private isBrowser: boolean;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   // Propiedad computada para obtener el nombre completo del usuario
   userName = computed(() => {
@@ -118,8 +123,9 @@ export class NavComponent {
 
   // Cerrar sesión
   logout() {
-    // Aquí puedes hacer lo que necesites para cerrar sesión
+    // Limpiar datos de usuario
     this.userStorage.clearUser();
+    
     this.router.navigate(['/login']);
   }
 }

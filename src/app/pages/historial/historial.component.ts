@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface Contact {
   id: number;
@@ -23,7 +24,20 @@ export interface Message {
   templateUrl: './historial.component.html',
   styleUrls: ['./historial.component.scss']
 })
-export class HistorialComponent {
+export class HistorialComponent implements OnInit, AfterViewInit {
+  // Variable para controlar la animación de fade in
+  showContent: boolean = false;
+
+  private isBrowser: boolean;
+  private cdr: ChangeDetectorRef;
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    cdr: ChangeDetectorRef
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    this.cdr = cdr;
+  }
   contacts: Contact[] = [
     {
       id: 1,
@@ -110,5 +124,38 @@ export class HistorialComponent {
 
   formatStatus(status: 'resuelto' | 'pendiente') {
     return status === 'resuelto' ? 'Resuelto' : 'Pendiente';
+  }
+
+  ngOnInit(): void {
+    // No hacer nada aquí, esperar a AfterViewInit
+  }
+
+  ngAfterViewInit(): void {
+    // Ejecutar animación después de que la vista esté completamente inicializada
+    this.startFadeInAnimation();
+  }
+
+  private startFadeInAnimation(): void {
+    console.log('HistorialComponent startFadeInAnimation - isBrowser:', this.isBrowser);
+    
+    // Verificar si estamos en el navegador de manera más robusta
+    const isInBrowser = typeof window !== 'undefined' && window.localStorage;
+    console.log('Verificación robusta del navegador:', isInBrowser);
+    
+    if (!isInBrowser) {
+      console.log('No es navegador, mostrando contenido inmediatamente');
+      this.showContent = true;
+      this.cdr.detectChanges();
+      return;
+    }
+
+    console.log('Ejecutando animación con delay...');
+    
+    // Contenido aparece después de 100ms
+    setTimeout(() => {
+      console.log('Mostrando contenido de historial');
+      this.showContent = true;
+      this.cdr.detectChanges();
+    }, 100);
   }
 }

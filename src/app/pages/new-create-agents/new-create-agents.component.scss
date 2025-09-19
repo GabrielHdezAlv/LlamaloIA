@@ -1,3 +1,28 @@
+/* Estilos para el slider vertical de idiomas */
+.language-slider-vertical {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
+.language-slider-vertical::-webkit-scrollbar {
+  display: none;
+}
+
+.language-slider-vertical {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.language-button {
+  scroll-snap-align: start;
+}
+
+/* Efectos hover para el slider */
+.language-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
 @media (min-width: 2560px) {
   /* Limitar el ancho del contenido y centrarlo solo en 2560px */
   :host {

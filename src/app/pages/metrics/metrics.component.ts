@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,7 +9,21 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './metrics.component.html',
   styleUrl: './metrics.component.scss'
 })
-export class MetricsComponent {
+export class MetricsComponent implements OnInit {
+  // Variables para controlar las animaciones de fade in
+  showGraficoLlamadas: boolean = false;
+  showTotalMinutos: boolean = false;
+  showLatencia: boolean = false;
+  showDuracionMedia: boolean = false;
+  showTipoLlamadas: boolean = false;
+  showAgentesCreados: boolean = false;
+  showPaises: boolean = false;
+
+  private isBrowser: boolean;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
   // Filtros
   periods = ['Últimos 7 días', 'Últimos 30 días', 'Este mes', 'Año pasado'];
   selectedPeriod = this.periods[0];
@@ -224,5 +238,64 @@ export class MetricsComponent {
   // Método para crear animación escalonada en las barras de países
   getCountryBarDelay(index: number): number {
     return index * 200; // 200ms de delay entre cada barra
+  }
+
+  ngOnInit(): void {
+    // Ejecutar animaciones siempre
+    this.startFadeInAnimations();
+  }
+
+  private startFadeInAnimations(): void {
+    // Solo ejecutar en el navegador
+    if (!this.isBrowser) {
+      this.showAllSectionsImmediately();
+      return;
+    }
+
+    // Gráfico de llamadas aparece primero (100ms)
+    setTimeout(() => {
+      this.showGraficoLlamadas = true;
+    }, 100);
+
+    // Total Minutos aparece después (300ms)
+    setTimeout(() => {
+      this.showTotalMinutos = true;
+    }, 300);
+
+    // Latencia aparece después (500ms)
+    setTimeout(() => {
+      this.showLatencia = true;
+    }, 500);
+
+    // Duración media aparece después (700ms)
+    setTimeout(() => {
+      this.showDuracionMedia = true;
+    }, 700);
+
+    // Tipo de llamadas aparece después (900ms)
+    setTimeout(() => {
+      this.showTipoLlamadas = true;
+    }, 900);
+
+    // Agentes Creados aparece después (1100ms)
+    setTimeout(() => {
+      this.showAgentesCreados = true;
+    }, 1100);
+
+    // Países aparece después (1300ms)
+    setTimeout(() => {
+      this.showPaises = true;
+    }, 1300);
+  }
+
+  private showAllSectionsImmediately(): void {
+    // Mostrar todas las secciones inmediatamente sin animación
+    this.showGraficoLlamadas = true;
+    this.showTotalMinutos = true;
+    this.showLatencia = true;
+    this.showDuracionMedia = true;
+    this.showTipoLlamadas = true;
+    this.showAgentesCreados = true;
+    this.showPaises = true;
   }
 }
