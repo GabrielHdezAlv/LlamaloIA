@@ -6,11 +6,12 @@ import { UserService } from '../../core/services/user.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
+import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [FormsModule, MatSnackBarModule, CommonModule],
+  imports: [FormsModule, MatSnackBarModule, CommonModule, RippleButtonComponent],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss', './billing-modal-blur.scss'],
 })
