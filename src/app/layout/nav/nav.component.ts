@@ -35,8 +35,12 @@ export class NavComponent implements OnInit {
 
   // Idiomas usando el servicio de i18n
   languages = this.i18nService.getAvailableLanguages();
-  selectedLanguage = this.i18nService.getCurrentLanguage();
   showLanguageMenu = false;
+
+  // Obtener el idioma seleccionado usando el método del servicio
+  get selectedLanguage() {
+    return this.i18nService.selectedLanguage();
+  }
 
   // Obtener traducciones
   get t() {
@@ -46,7 +50,6 @@ export class NavComponent implements OnInit {
   ngOnInit() {
     this.onResize();
     this.i18nService.initializeLanguage();
-    this.selectedLanguage = this.i18nService.getCurrentLanguage();
   }
 
   openMenu() {
@@ -67,7 +70,6 @@ export class NavComponent implements OnInit {
 
   selectLanguage(lang: Language) {
     this.i18nService.setLanguage(lang);
-    this.selectedLanguage = this.i18nService.getCurrentLanguage();
     this.showLanguageMenu = false;
   }
 

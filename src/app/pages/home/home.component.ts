@@ -58,16 +58,16 @@ export class HomeComponent {
     return index === this.currentWeekdayIndex;
   }
 
-  // Días de la semana usando traducciones
+  // Días de la semana usando traducciones (abreviaciones)
   get days(): string[] {
     return [
-      this.t.monday,
-      this.t.tuesday,
-      this.t.wednesday,
-      this.t.thursday,
-      this.t.friday,
-      this.t.saturday,
-      this.t.sunday
+      this.t.mon,
+      this.t.tue,
+      this.t.wed,
+      this.t.thu,
+      this.t.fri,
+      this.t.sat,
+      this.t.sun
     ];
   }
   

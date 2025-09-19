@@ -91,14 +91,14 @@
     <div class="flex gap-2 px-4 py-2">
       <button
         (click)="selectLanguage(languages[0])"
-        [class]="selectedLanguage().code === 'es' ? 'bg-gray-200 text-black font-medium w-1/2' : 'text-gray-600 hover:text-gray-800 w-1/2'"
+        [class]="selectedLanguage.code === 'es' ? 'bg-gray-200 text-black font-medium w-1/2' : 'text-gray-600 hover:text-gray-800 w-1/2'"
         class="px-4 py-2 rounded-lg text-base transition-colors"
       >
         ES
       </button>
       <button
         (click)="selectLanguage(languages[1])"
-        [class]="selectedLanguage().code === 'en' ? 'bg-gray-200 text-black font-medium w-1/2' : 'text-gray-600 hover:text-gray-800 w-1/2'"
+        [class]="selectedLanguage.code === 'en' ? 'bg-gray-200 text-black font-medium w-1/2' : 'text-gray-600 hover:text-gray-800 w-1/2'"
         class="px-4 py-2 rounded-lg text-base transition-colors"
       >
         ENG
