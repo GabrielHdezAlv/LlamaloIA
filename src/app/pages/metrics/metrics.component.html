@@ -355,10 +355,8 @@
                 <div class="w-76 h-2 bg-gray-100 -mt-3 ml-11 overflow-hidden">
                   <div 
                     class="h-2 bg-gray-500 country-bar"
-                    [style.width.%]="0"
-                    [style.--target-width]="c.percent + '%'"
-                    [style.animation-delay]="getCountryBarDelay(i) + 'ms'"
-                    [style.animation-fill-mode]="'forwards'">
+                    [style.width.%]="showPaises ? c.percent : 0"
+                    [style.transition]="'width 1s ease-out ' + getCountryBarDelay(i) + 'ms'">
                   </div>
                 </div>
               </div>
