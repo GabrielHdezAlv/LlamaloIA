@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { I18nService } from '../../core/services/i18n.service';
 
 export interface Contact {
   id: number;
@@ -24,6 +25,12 @@ export interface Message {
   styleUrls: ['./historial.component.scss']
 })
 export class HistorialComponent {
+  private i18nService = inject(I18nService);
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
   contacts: Contact[] = [
     {
       id: 1,
@@ -109,6 +116,10 @@ export class HistorialComponent {
   }
 
   formatStatus(status: 'resuelto' | 'pendiente') {
-    return status === 'resuelto' ? 'Resuelto' : 'Pendiente';
+    return status === 'resuelto' ? this.t.resolved : this.t.pending;
+  }
+
+  constructor() {
+    this.i18nService.initializeLanguage();
   }
 }

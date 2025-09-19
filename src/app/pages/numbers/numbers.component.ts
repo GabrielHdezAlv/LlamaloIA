@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { I18nService } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-numbers',
@@ -7,5 +8,14 @@ import { Component } from '@angular/core';
   styleUrl: './numbers.component.scss'
 })
 export class NumbersComponent {
+  private i18nService = inject(I18nService);
 
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
+
+  constructor() {
+    this.i18nService.initializeLanguage();
+  }
 }
