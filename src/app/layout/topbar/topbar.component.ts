@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
 
@@ -10,9 +10,18 @@ import { UserStorage } from '../../storages/user/user-storage';
 })
 export class TopbarComponent {
   pageTitle: string = 'Inicio';
-  welcomeText: string = 'Hey Maria, Bienvenido/a';
+  welcomeText: string = '';
 
   userStorage = inject(UserStorage);
+
+  // Computed para obtener el nombre completo del usuario
+  fullName = computed(() => {
+    const user = this.userStorage.user();
+    if (!user) return '';
+    const name = user.name || '';
+    const lastname = user.lastname || '';
+    return `${name} ${lastname}`.trim();
+  });
 
   constructor(private router: Router) {}
 
@@ -27,6 +36,7 @@ export class TopbarComponent {
 
   updateHeader() {
     const currentRoute = this.router.url;
+    const userName = this.fullName();
 
     if (currentRoute.includes('/dashboard/profile')) {
       this.pageTitle = 'Perfil & Facturación';
@@ -36,7 +46,7 @@ export class TopbarComponent {
       this.welcomeText = '';
     } else {
       this.pageTitle = 'Inicio';
-      this.welcomeText = 'Hey Maria, Bienvenido/a';
+      this.welcomeText = userName ? `Hey ${userName}, Bienvenido/a` : 'Bienvenido/a';
     }
   }
 }
