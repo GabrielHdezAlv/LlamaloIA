@@ -5,6 +5,7 @@ import { DeleteAccountModalComponent, DeleteAccountModalData } from './delete-ac
 import { PurchaseModalComponent, PurchaseModalData } from './purchase-modal/purchase-modal.component';
 import { SuccessModalComponent, SuccessModalData } from './success-modal/success-modal.component';
 import { WarningModalComponent, WarningModalData } from './warning-modal/warning-modal.component';
+import { ImportNumberModalComponent, ImportNumberModalData } from './import-number-modal/import-number-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,15 @@ export class ModalService {
   openWarning(data: WarningModalData) {
     return this.dialog.open(WarningModalComponent, {
       width: '420px',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
+
+  openImportNumber(data: ImportNumberModalData = {}) {
+    return this.dialog.open(ImportNumberModalComponent, {
+      width: '500px',
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
