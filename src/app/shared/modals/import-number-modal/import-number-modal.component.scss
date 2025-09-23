@@ -1,0 +1,64 @@
+// Estilos del modal de importar número - Idéntico al modal de facturación
+
+.import-modal-overlay {
+  backdrop-filter: blur(8px);
+  background-color: rgba(107, 114, 128, 0.3); // bg-gray-500 bg-opacity-30
+}
+
+// Estilos para el contenedor del modal
+::ng-deep .custom-dialog-container {
+  .mat-mdc-dialog-container {
+    padding: 0;
+    border-radius: 3rem;
+    overflow: hidden;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+// Animación para el spinner (si se necesita)
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .import-modal-overlay {
+    padding: 1rem;
+  }
+  
+  .bg-white {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .import-modal-overlay {
+    padding: 0.5rem;
+  }
+  
+  .bg-white {
+    padding: 1.5rem;
+    border-radius: 2rem !important;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+  
+  .text-3xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  
+  .text-lg {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}

@@ -2,6 +2,7 @@ import { Component, inject, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDe
 import { Router } from '@angular/router';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 import { isPlatformBrowser } from '@angular/common';
+import { ModalService } from '../../shared/modals/modal.service';
 
 @Component({
   selector: 'app-numbers',
@@ -11,6 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class NumbersComponent implements OnInit, AfterViewInit {
   router = inject(Router);
+  private modalService = inject(ModalService);
   private cdr: ChangeDetectorRef;
   
   // Variable para controlar la animación de fade in
@@ -57,5 +59,20 @@ export class NumbersComponent implements OnInit, AfterViewInit {
       this.showContent = true;
       this.cdr.detectChanges();
     }, 100);
+  }
+
+  openImportNumberModal(): void {
+    const dialogRef = this.modalService.openImportNumber({
+      title: 'Importar Número de Teléfono',
+      message: 'Importa un número de teléfono desde tu proveedor de servicios de telecomunicaciones.'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Número importado:', result);
+        // Aquí puedes agregar la lógica para procesar el número importado
+        // Por ejemplo, actualizar la lista de números, mostrar un mensaje de éxito, etc.
+      }
+    });
   }
 }
