@@ -10,6 +10,7 @@ import { NumbersComponent } from './pages/numbers/numbers.component';
 import { HistorialComponent } from './pages/historial/historial.component';
 import { MetricsComponent } from './pages/metrics/metrics.component';
 import { AccountComponent } from './pages/account/account.component';
+import { CompanySetupComponent } from './pages/company-setup/company-setup.component';
 
 
 export const routes: Routes = [
@@ -81,6 +82,11 @@ export const routes: Routes = [
       // 🔽 Nuevas rutas del dropdown
       { path: 'account', component: AccountComponent },
     ],
+  },
+  {
+    path: 'company-setup',
+    component: CompanySetupComponent,
+    canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: 'login' },
 ];
