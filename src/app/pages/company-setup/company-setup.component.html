@@ -7,22 +7,26 @@
     <div class="flex flex-row items-center justify-center mb-6 mt-20">
       <img src="assets/logo.png" alt="Llamalo" class="h-10 w-auto mr-3">
       <div class="flex flex-col">
-        <div class="text-xl font-bold text-blue-900">Llamalo</div>
-        <div class="text-xs text-gray-500 font-normal text-right -mt-1">beta</div>
+        <div class="text-2xl font-bold text-blue-950 tracking-[-1px]">Llamalo</div>
+        <div class="text-xs font-bold text-blue-950 tracking-[-0.8px] text-right -mt-2">beta</div>
       </div>
     </div>
 
     <!-- Indicador de progreso -->
-    <div class="mb-8">
+    <div *ngIf="currentStep <= 3" class="mb-8">
       <div class="inline-block bg-transparent p-0">
-        <span class="text-base text-gray-600 font-normal">{{ currentStep }}/3</span>
+        <span class="text-base text-gray-600 font-normal tracking-[-0.8px]">{{ currentStep }}/3</span>
       </div>
     </div>
 
-    <!-- Botón Atrás (pasos 2 y 3) -->
-    <div *ngIf="currentStep === 2 || currentStep === 3" class="absolute top-8 left-8">
-      <button type="button" class="text-blue-900 text-sm hover:underline" (click)="goBack()">
-        < Atrás
+    <!-- Botón Atrás (pasos 2, 3 y 4) -->
+    <div *ngIf="currentStep === 2 || currentStep === 3 || currentStep === 4" class="absolute top-8 left-8">
+      <button 
+        type="button" 
+        class="text-black text-base font-medium hover:text-gray-700 transition-colors duration-200 flex items-center gap-1 tracking-[-0.8px]"
+        (click)="goBack()"
+      >
+        <span class="text-lg"><</span> Atrás
       </button>
     </div>
 
@@ -30,33 +34,33 @@
     <div class="w-[70%] max-w-[600px] mb-10">
       <!-- Paso 1: Configuración de empresa -->
       <div *ngIf="currentStep === 1">
-        <h1 class="text-xl font-bold text-gray-900 mb-3 leading-tight whitespace-nowrap">¡Configura tu empresa para empezar a usar Llamalo AI!</h1>
-        <p class="text-base text-gray-600 mb-10 leading-snug">Esto nos ayuda a personalizar tu experiencia.</p>
+        <h1 class="text-xl font-bold text-gray-900 mb-3 leading-tight whitespace-nowrap tracking-[-0.8px]">¡Configura tu empresa para empezar a usar Llamalo AI!</h1>
+        <p class="text-lg text-gray-400 mb-10 leading-snug tracking-[-0.8px]">Esto nos ayuda a personalizar tu experiencia.</p>
       </div>
 
       <!-- Paso 2: Uso principal -->
       <div *ngIf="currentStep === 2">
-        <h1 class="text-xl font-bold text-gray-900 mb-3 leading-tight">¿Cuál será el uso principal de Llamalo en tu negocio?</h1>
-        <p class="text-base text-gray-600 mb-10 leading-snug">Selecciona dónde quieres usar Llamalo primero</p>
+        <h1 class="text-xl font-bold text-gray-900 mb-3 leading-tight tracking-[-0.8px]">¿Cuál será el uso principal de Llamalo en tu negocio?</h1>
+        <p class="text-lg text-gray-400 mb-10 leading-snug tracking-[-0.8px]">Selecciona dónde quieres usar Llamalo primero</p>
       </div>
 
       <!-- Paso 3: Personalizar perfil -->
       <div *ngIf="currentStep === 3">
-        <h1 class="text-xl font-bold text-gray-900 mb-3 leading-tight">Personaliza tu perfil</h1>
-        <p class="text-base text-gray-600 mb-10 leading-snug">Sube el logo de tu negocio.</p>
+        <h1 class="text-xl font-bold text-gray-900 mb-3 leading-tight tracking-[-0.8px]">Personaliza tu perfil</h1>
+        <p class="text-lg text-gray-400 mb-10 leading-snug tracking-[-0.8px]">Sube el logo de tu negocio.</p>
       </div>
 
       <!-- Paso 1: Formulario de configuración -->
       <form *ngIf="currentStep === 1" class="w-[60%] max-w-[500px] flex flex-col gap-5 mx-auto" (ngSubmit)="continueSetup()">
         <!-- Nombre de la tienda/negocio -->
         <div class="flex flex-col text-left">
-          <label for="businessName" class="text-sm font-semibold text-gray-800 mb-2">
+          <label for="businessName" class="text-sm font-semibold text-gray-800 mb-2 tracking-[-0.8px]">
             Nombre de la tienda/negocio<span class="text-red-500 ml-0.5">*</span>
           </label>
           <input
             type="text"
             id="businessName"
-            class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base text-gray-900 bg-white transition-all duration-200 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] placeholder:text-gray-400 box-border"
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base text-gray-900 bg-white transition-all duration-200 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] placeholder:text-gray-400 box-border tracking-[-0.8px]"
             [(ngModel)]="businessName"
             name="businessName"
             placeholder="Ingresa el nombre de tu empresa"
@@ -66,13 +70,13 @@
 
         <!-- Tipo de empresa -->
         <div class="flex flex-col text-left">
-          <label for="companyType" class="text-sm font-semibold text-gray-800 mb-2">
+          <label for="companyType" class="text-sm font-semibold text-gray-800 mb-2 tracking-[-0.8px]">
             Tipo de empresa<span class="text-red-500 ml-0.5">*</span>
           </label>
           <div class="relative">
             <select
               id="companyType"
-              class="w-full px-4 py-3 pr-8 border-2 border-gray-200 rounded-lg text-base text-gray-900 bg-white appearance-none cursor-pointer transition-all duration-200 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] box-border"
+              class="w-full px-4 py-3 pr-8 border-2 border-gray-200 rounded-lg text-base text-gray-900 bg-white appearance-none cursor-pointer transition-all duration-200 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] box-border tracking-[-0.8px]"
               [(ngModel)]="selectedCompanyType"
               name="companyType"
               required
@@ -82,19 +86,23 @@
                 {{ type.name }}
               </option>
             </select>
-            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 pointer-events-none text-xs">▼</div>
+            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="#26203B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
           </div>
         </div>
 
         <!-- Número de empleados -->
         <div class="flex flex-col text-left">
-          <label for="employeeRange" class="text-sm font-semibold text-gray-800 mb-2">
+          <label for="employeeRange" class="text-sm font-semibold text-gray-800 mb-2 tracking-[-0.8px]">
             Número de empleados<span class="text-red-500 ml-0.5">*</span>
           </label>
           <div class="relative">
             <select
               id="employeeRange"
-              class="w-full px-4 py-3 pr-8 border-2 border-gray-200 rounded-lg text-base text-gray-900 bg-white appearance-none cursor-pointer transition-all duration-200 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] box-border"
+              class="w-full px-4 py-3 pr-8 border-2 border-gray-200 rounded-lg text-base text-gray-900 bg-white appearance-none cursor-pointer transition-all duration-200 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] box-border tracking-[-0.8px]"
               [(ngModel)]="selectedEmployeeRange"
               name="employeeRange"
               required
@@ -104,19 +112,24 @@
                 {{ range.range }}
               </option>
             </select>
-            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 pointer-events-none text-xs">▼</div>
+            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="#26203B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
           </div>
         </div>
 
         <!-- Botón continuar -->
         <button
           type="submit"
-          class="w-full px-6 py-3 bg-blue-900 text-white border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 mt-6 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+          class="w-full px-6 py-3 bg-blue-900 text-white border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 mt-6 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none tracking-[-0.8px]"
           [disabled]="!isFormComplete"
         >
           Continuar
         </button>
       </form>
+
 
       <!-- Paso 2: Opciones de uso principal -->
       <div *ngIf="currentStep === 2" class="w-full max-w-[600px] mx-auto">
@@ -124,9 +137,8 @@
         <div class="grid grid-cols-2 gap-4 mb-8">
           <!-- Atención al cliente -->
           <div 
-            class="bg-white border-2 border-gray-200 rounded-xl p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
-            [class.border-blue-500]="selectedMainUsage === 'customer-service'"
-            [class.bg-blue-50]="selectedMainUsage === 'customer-service'"
+            class="bg-white border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
+            [class]="selectedMainUsage === 'customer-service' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'"
             (click)="selectMainUsage('customer-service')"
           >
             <div class="text-center">
@@ -137,15 +149,14 @@
                   <path d="M6 16V15.75V14.5V12V8C6 4.68629 8.6863 2 12 2C15.3137 2 18 4.68629 18 8V16C18 19.3137 15.3137 22 12 22" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <div class="text-sm font-semibold text-gray-800">Atención al cliente</div>
+              <div class="text-sm font-semibold text-gray-800 tracking-[-0.8px]">Atención al cliente</div>
             </div>
           </div>
 
           <!-- Agendar citas -->
           <div 
-            class="bg-white border-2 border-gray-200 rounded-xl p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
-            [class.border-blue-500]="selectedMainUsage === 'appointments'"
-            [class.bg-blue-50]="selectedMainUsage === 'appointments'"
+            class="bg-white border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
+            [class]="selectedMainUsage === 'appointments' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'"
             (click)="selectMainUsage('appointments')"
           >
             <div class="text-center">
@@ -163,15 +174,14 @@
                   <path d="M7 22H17" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <div class="text-sm font-semibold text-gray-800">Agendar citas</div>
+              <div class="text-sm font-semibold text-gray-800 tracking-[-0.8px]">Agendar citas</div>
             </div>
           </div>
 
           <!-- Recuperación de carritos -->
           <div 
-            class="bg-white border-2 border-gray-200 rounded-xl p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
-            [class.border-blue-500]="selectedMainUsage === 'cart-recovery'"
-            [class.bg-blue-50]="selectedMainUsage === 'cart-recovery'"
+            class="bg-white border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
+            [class]="selectedMainUsage === 'cart-recovery' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'"
             (click)="selectMainUsage('cart-recovery')"
           >
             <div class="text-center">
@@ -182,15 +192,14 @@
                   <path d="M19.5 21C20.3284 21 21 20.3284 21 19.5C21 18.6716 20.3284 18 19.5 18C18.6716 18 18 18.6716 18 19.5C18 20.3284 18.6716 21 19.5 21Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <div class="text-sm font-semibold text-gray-800">Recuperación de carritos</div>
+              <div class="text-sm font-semibold text-gray-800 tracking-[-0.8px]">Recuperación de carritos</div>
             </div>
           </div>
 
           <!-- Ventas telefónicas -->
           <div 
-            class="bg-white border-2 border-gray-200 rounded-xl p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
-            [class.border-blue-500]="selectedMainUsage === 'phone-sales'"
-            [class.bg-blue-50]="selectedMainUsage === 'phone-sales'"
+            class="bg-white border-2 rounded-xl p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
+            [class]="selectedMainUsage === 'phone-sales' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'"
             (click)="selectMainUsage('phone-sales')"
           >
             <div class="text-center">
@@ -201,7 +210,7 @@
                   <path d="M7.18735 4.89722C7.55065 4.89722 7.88535 5.09425 8.06165 5.41185L9.2849 7.61525C9.44505 7.90375 9.45255 8.2527 9.305 8.54785L8.1266 10.9047C8.1266 10.9047 8.4681 12.6604 9.8973 14.0896C11.3265 15.5188 13.0764 15.8544 13.0764 15.8544L15.4328 14.6762C15.7282 14.5285 16.0774 14.5362 16.366 14.6966L18.5756 15.9251C18.8929 16.1016 19.0897 16.4361 19.0897 16.7991V19.3359C19.0897 20.6277 17.8898 21.5608 16.6657 21.1477C14.1518 20.2995 10.2494 18.6844 7.776 16.2109C5.30255 13.7375 3.68745 9.83515 2.83918 7.3212C2.42617 6.09715 3.35922 4.89722 4.65104 4.89722H7.18735Z" stroke="#333333" stroke-width="2" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <div class="text-sm font-semibold text-gray-800">Ventas telefónicas</div>
+              <div class="text-sm font-semibold text-gray-800 tracking-[-0.8px]">Ventas telefónicas</div>
             </div>
           </div>
         </div>
@@ -209,12 +218,13 @@
         <!-- Botón continuar -->
         <button
           type="button"
-          class="w-full px-6 py-3 bg-blue-900 text-white border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+          class="w-full px-6 py-3 bg-blue-900 text-white border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none tracking-[-0.8px]"
           [disabled]="!selectedMainUsage"
           (click)="continueSetup()"
         >
           Continuar
         </button>
+
       </div>
 
       <!-- Paso 3: Subida de logo -->
@@ -241,7 +251,7 @@
           <!-- Botón de subir logo -->
           <button
             type="button"
-            class="bg-white border-2 border-gray-200 rounded-lg px-4 py-2 flex items-center gap-2 text-sm font-semibold text-gray-700 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200"
+            class="bg-white border-2 border-gray-200 rounded-lg px-4 py-2 flex items-center gap-2 text-sm font-semibold text-gray-700 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 tracking-[-0.8px]"
             (click)="triggerFileUpload()"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -263,27 +273,60 @@
         </div>
 
         <!-- Texto opcional -->
-        <p class="text-sm text-gray-500 text-center mb-8">
+        <p class="text-sm text-gray-400 text-center mb-8 tracking-[-0.8px]">
           Este paso es opcional. Puedes añadir el logo más adelante desde la configuración.
         </p>
 
         <!-- Botón continuar -->
         <button
           type="button"
-          class="w-full px-6 py-3 bg-blue-900 text-white border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)]"
+          class="w-full px-6 py-3 bg-blue-900 text-white border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)] tracking-[-0.8px]"
           (click)="continueSetup()"
         >
           Continuar
         </button>
+
+      </div>
+
+      <!-- Paso 4: Página de éxito -->
+      <div *ngIf="currentStep === 4" class="w-full max-w-[600px] mx-auto flex flex-col items-center mt-20">
+        <!-- Icono de éxito -->
+        <div class="w-44 h-44 bg-blue-100 rounded-full flex items-center justify-center mb-8">
+          <svg width="48" height="33" viewBox="0 0 48 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.64819 16.4524L17.2198 30.0202L44.3517 2.88452" stroke="#1E3A8A" stroke-width="5.42714" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            
+        </div>
+
+        <!-- Mensaje de éxito -->
+        <h1 class="text-2xl font-bold text-gray-900 mb-3 text-center tracking-[-0.8px]">
+          ¡Tu cuenta se ha creado con éxito!
+        </h1>
+        <p class="text-xl text-gray-400 mb-10 text-center tracking-[-0.8px]">
+          Bienvenido a Llamalo AI
+        </p>
+
+        <!-- Botón empezar ahora -->
+        <button
+          type="button"
+          class="w-full px-6 py-3 bg-blue-900 text-white border-none rounded-lg text-base font-semibold cursor-pointer transition-all duration-200 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)] tracking-[-0.8px]"
+          (click)="completeSetup()"
+        >
+          Empezar ahora
+        </button>
       </div>
     </div>
 
-    <!-- Enlace saltar -->
-    <div class="absolute -bottom-16 left-0">
-      <button type="button" class="bg-none border-none text-white text-sm cursor-pointer underline transition-opacity duration-200 hover:opacity-80" (click)="skipSetup()">
-        Saltar >
-      </button>
-    </div>
+      <!-- Botón saltar en esquina inferior izquierda (solo pasos 1, 2 y 3) -->
+      <div *ngIf="currentStep <= 3" class="absolute bottom-8 left-8">
+        <button 
+          type="button" 
+          class="text-black text-base font-medium hover:text-gray-700 transition-colors duration-200 flex items-center gap-1 tracking-[-0.8px]"
+          (click)="skipSetup()"
+        >
+          Saltar <span class="text-lg">></span>
+        </button>
+      </div>
   </div>
 
   <!-- Botón de control para activar/desactivar (solo para testing) -->

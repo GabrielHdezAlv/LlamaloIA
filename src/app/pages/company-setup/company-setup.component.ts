@@ -115,6 +115,9 @@ export class CompanySetupComponent implements OnInit {
       // Avanzar al paso 3
       this.currentStep = 3;
     } else if (this.currentStep === 3) {
+      // Avanzar al paso 4 (página de éxito)
+      this.currentStep = 4;
+    } else if (this.currentStep === 4) {
       // Completar el setup
       this.completeSetup();
     }
@@ -122,6 +125,9 @@ export class CompanySetupComponent implements OnInit {
 
   // Método para seleccionar una opción de uso principal
   selectMainUsage(usageId: string) {
+    console.log('selectMainUsage called with:', usageId);
+    console.log('Current selectedMainUsage:', this.selectedMainUsage);
+    
     // Si ya está seleccionada, la deselecciona
     if (this.selectedMainUsage === usageId) {
       this.selectedMainUsage = '';
@@ -129,11 +135,25 @@ export class CompanySetupComponent implements OnInit {
       // Si no está seleccionada, la selecciona
       this.selectedMainUsage = usageId;
     }
+    
+    console.log('New selectedMainUsage:', this.selectedMainUsage);
   }
 
   // Método para saltar la configuración
   skipSetup() {
-    this.completeSetup();
+    if (this.currentStep === 1) {
+      // Si estamos en el paso 1, ir al paso 2
+      this.currentStep = 2;
+    } else if (this.currentStep === 2) {
+      // Si estamos en el paso 2, ir al paso 3
+      this.currentStep = 3;
+    } else if (this.currentStep === 3) {
+      // Si estamos en el paso 3, ir al paso 4
+      this.currentStep = 4;
+    } else if (this.currentStep === 4) {
+      // Si estamos en el paso 4, completar el setup
+      this.completeSetup();
+    }
   }
 
   // Método para ir hacia atrás
@@ -237,8 +257,8 @@ export class CompanySetupComponent implements OnInit {
     }
   }
 
-  // Método privado para completar el setup
-  private completeSetup() {
+  // Método para completar el setup
+  completeSetup() {
     // Aquí marcarías en el backend que el usuario completó el setup
     this.isSetupActive = false;
     this.router.navigate(['/dashboard/home']);
