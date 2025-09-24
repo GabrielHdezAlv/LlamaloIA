@@ -36,6 +36,12 @@ export class NavComponent {
     return 'Usuario';
   });
 
+  // Método para obtener la imagen del perfil del usuario
+  getUserProfileImage = () => {
+    const user = this.userStorage.user();
+    return user?.profileImage || 'assets/predeterminada.webp';
+  };
+
   // Idiomas (por si lo necesitas después)
   languages = [
     { code: 'es', name: 'Español', flag: 'https://flagcdn.com/w40/es.png' },
