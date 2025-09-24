@@ -36,6 +36,11 @@ export class TopbarComponent implements OnInit {
     return user ? `${user.name} ${user.lastname}` : 'Usuario';
   };
 
+  getUserProfileImage = () => {
+    const user = this.userStorage.user();
+    return user?.profileImage || 'assets/predeterminada.webp';
+  };
+
   ngOnInit() {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))

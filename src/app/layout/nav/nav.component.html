@@ -115,7 +115,7 @@
 
       <!-- Perfil -->
       <div id="user-profile" class="flex items-center gap-3 pt-6 pb-4">
-        <img src="assets/predeterminada.webp" class="h-14 w-14 rounded-full border-2 border-blue-900" alt="Perfil" />
+        <img [src]="getUserProfileImage()" class="h-14 w-14 rounded-full border-2 border-blue-900" alt="Perfil" />
 
         <div id="user-info" class="flex items-center">
           <div class="flex flex-col">
@@ -264,7 +264,7 @@
             <!-- Avatar y texto -->
             <div class="flex items-center gap-2">
               <img
-                src="assets/predeterminada.webp"
+                [src]="getUserProfileImage()"
                 class="h-12 w-12 rounded-full border-2 border-blue-900"
                 alt="Perfil"
               />
