@@ -28,6 +28,7 @@
     "class-variance-authority": "^0.7.1",
     "express": "^4.18.2",
     "ng-apexcharts": "^1.15.0",
+    "recharts": "^3.2.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
