@@ -1,5 +1,5 @@
 // src/app/components/sidebar/sidebar.component.ts
-import { Component, HostListener, computed, inject, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, computed, inject, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
@@ -12,9 +12,12 @@ import { NavigationService } from '../../core/services/navigation.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
 })
-export class NavComponent {
+export class NavComponent implements OnDestroy {
   isOpen: boolean = false;
+  isCollapsed: boolean = true;
   windowWidth: number = 0;
+  isHovering: boolean = false;
+  private hoverTimer: any;
 
   // Inyectar UserStorage, Router y NavigationService
   // DESPUÉS (público para que el template pueda acceder)
@@ -38,12 +41,10 @@ export class NavComponent {
 
   // Idiomas (por si lo necesitas después)
   languages = [
-    { code: 'es', name: 'Español', flag: 'https://flagcdn.com/w40/es.png' },
-    { code: 'en', name: 'English', flag: 'https://flagcdn.com/w40/gb.png' },
-    { code: 'fr', name: 'Français', flag: 'https://flagcdn.com/w40/fr.png' },
+    { code: 'es', name: 'Español' },
+    { code: 'en', name: 'English' },
   ];
   selectedLanguage = this.languages[0];
-  showLanguageMenu = false;
 
   ngOnInit() {
     this.onResize();
@@ -61,13 +62,48 @@ export class NavComponent {
     this.isOpen = !this.isOpen;
   }
 
-  toggleLanguageMenu() {
-    this.showLanguageMenu = !this.showLanguageMenu;
+  toggleCollapse() {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  // Expandir al pasar el ratón por encima
+  expandOnHover() {
+    if (this.isCollapsed) {
+      this.isCollapsed = false;
+    }
+    // Activar hover para la animación de la imagen
+    this.isHovering = true;
+    this.startHoverTimer();
+  }
+
+  // Colapsar al salir del ratón
+  collapseOnLeave() {
+    if (!this.isCollapsed) {
+      this.isCollapsed = true;
+    }
+    // Desactivar hover inmediatamente
+    this.isHovering = false;
+    this.clearHoverTimer();
+  }
+
+  // Iniciar timer para que la imagen vuelva a aparecer
+  private startHoverTimer() {
+    this.clearHoverTimer();
+    this.hoverTimer = setTimeout(() => {
+      this.isHovering = false;
+    }, 1000); // 1 segundo
+  }
+
+  // Limpiar timer
+  private clearHoverTimer() {
+    if (this.hoverTimer) {
+      clearTimeout(this.hoverTimer);
+      this.hoverTimer = null;
+    }
   }
 
   selectLanguage(lang: any) {
     this.selectedLanguage = lang;
-    this.showLanguageMenu = false;
   }
 
   @HostListener('window:resize')
@@ -127,5 +163,10 @@ export class NavComponent {
     this.userStorage.clearUser();
     
     this.router.navigate(['/login']);
+  }
+
+  // Limpiar timer al destruir el componente
+  ngOnDestroy() {
+    this.clearHoverTimer();
   }
 }
