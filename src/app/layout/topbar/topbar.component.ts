@@ -24,25 +24,26 @@ export class TopbarComponent implements OnInit {
   showInviteModal = false;
 
   // Variables para el modal de invitación
-  emailInput: string = 'Sal';
-  selectedEmails: string[] = ['Savannah Nguyen', 'Ronald Richards', 'Devon Lane', 'Esther Howard', 'Wade Warren'];
+  emailInput: string = '';
+  selectedEmails: string[] = [];
   selectedRole: string = 'Can Edit';
   showSuggestions: boolean = false;
   hoveredSuggestionIndex: number = -1;
+  openDropdownMember: string | null = null;
 
   // Lista de miembros actuales del equipo
   teamMembers: any[] = [
-    { name: 'Ronald Richards', email: 'ronald@example.com', role: 'Owner' },
-    { name: 'Cameron Williamson', email: 'cameron@example.com', role: 'Can Edit' },
-    { name: 'Arlene McCoy', email: 'arlene@example.com', role: 'Can Edit' },
-    { name: 'Jerome Bell', email: 'jerome@example.com', role: 'Can Edit' },
-    { name: 'Dianne Russell', email: 'dianne@example.com', role: 'Can Edit' }
+    { name: 'Ronald Richards', email: 'ronald@example.com', role: 'Owner', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Cameron Williamson', email: 'cameron@example.com', role: 'Can Edit', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Arlene McCoy', email: 'arlene@example.com', role: 'Can Edit', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Jerome Bell', email: 'jerome@example.com', role: 'Can Edit', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Dianne Russell', email: 'dianne@example.com', role: 'Can Edit', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face' }
   ];
 
   // Sugerencias de contactos
   contactSuggestions: any[] = [
-    { name: 'Sebastian Graham', email: 'sebastian.graham@example.com' },
-    { name: 'Sara Cruz', email: 'sara.cruz@example.com' }
+    { name: 'Sebastian Graham', email: 'sebastian.graham@example.com', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Sara Cruz', email: 'sara.cruz@example.com', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face' }
   ];
 
   // Roles disponibles
@@ -149,35 +150,47 @@ export class TopbarComponent implements OnInit {
   }
 
   addEmail() {
-    const email = this.emailInput.trim();
-    if (email && !this.selectedEmails.includes(email)) {
-      this.selectedEmails.push(email);
+    const name = this.emailInput.trim();
+    if (name && !this.selectedEmails.includes(name)) {
+      this.selectedEmails.push(name);
       this.emailInput = '';
       this.showSuggestions = false;
     }
   }
 
-  removeEmail(email: string) {
-    this.selectedEmails = this.selectedEmails.filter(e => e !== email);
+  removeEmail(name: string) {
+    this.selectedEmails = this.selectedEmails.filter(e => e !== name);
   }
 
   selectSuggestion(suggestion: any) {
-    const email = suggestion.email;
-    if (!this.selectedEmails.includes(email)) {
-      this.selectedEmails.push(email);
+    const name = suggestion.name;
+    if (!this.selectedEmails.includes(name)) {
+      this.selectedEmails.push(name);
       this.emailInput = '';
       this.showSuggestions = false;
     }
+  }
+
+  toggleMemberRole(member: any) {
+    // Abrir/cerrar el dropdown para este miembro específico
+    console.log('Toggling dropdown for:', member.name, 'Current open:', this.openDropdownMember);
+    this.openDropdownMember = this.openDropdownMember === member.name ? null : member.name;
+    console.log('New open dropdown:', this.openDropdownMember);
   }
 
   updateMemberRole(member: any, newRole: string) {
     member.role = newRole;
+    this.openDropdownMember = null; // Cerrar el dropdown después de seleccionar
+  }
+
+  closeMemberDropdown() {
+    this.openDropdownMember = null;
   }
 
   sendInvite() {
     // Aquí implementarías la lógica para enviar invitaciones
     console.log('Enviando invitaciones:', {
-      emails: this.selectedEmails,
+      names: this.selectedEmails,
       role: this.selectedRole
     });
     
@@ -185,6 +198,7 @@ export class TopbarComponent implements OnInit {
     this.selectedEmails = [];
     this.emailInput = '';
     this.selectedRole = 'Can Edit';
+    this.showSuggestions = false;
   }
 
   onBackdropClick(event: Event) {
