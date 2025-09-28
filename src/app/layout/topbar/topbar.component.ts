@@ -2,12 +2,13 @@ import { Component, OnInit, inject, Inject, PLATFORM_ID } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
-import { NgIf, isPlatformBrowser } from '@angular/common';
+import { NgIf, NgFor, isPlatformBrowser } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'topbar',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, NgFor, FormsModule],
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
 })
@@ -20,6 +21,32 @@ export class TopbarComponent implements OnInit {
   private isBrowser: boolean;
 
   showDropdown = false;
+  showInviteModal = false;
+
+  // Variables para el modal de invitación
+  emailInput: string = 'Sal';
+  selectedEmails: string[] = ['Savannah Nguyen', 'Ronald Richards', 'Devon Lane', 'Esther Howard', 'Wade Warren'];
+  selectedRole: string = 'Can Edit';
+  showSuggestions: boolean = false;
+  hoveredSuggestionIndex: number = -1;
+
+  // Lista de miembros actuales del equipo
+  teamMembers: any[] = [
+    { name: 'Ronald Richards', email: 'ronald@example.com', role: 'Owner' },
+    { name: 'Cameron Williamson', email: 'cameron@example.com', role: 'Can Edit' },
+    { name: 'Arlene McCoy', email: 'arlene@example.com', role: 'Can Edit' },
+    { name: 'Jerome Bell', email: 'jerome@example.com', role: 'Can Edit' },
+    { name: 'Dianne Russell', email: 'dianne@example.com', role: 'Can Edit' }
+  ];
+
+  // Sugerencias de contactos
+  contactSuggestions: any[] = [
+    { name: 'Sebastian Graham', email: 'sebastian.graham@example.com' },
+    { name: 'Sara Cruz', email: 'sara.cruz@example.com' }
+  ];
+
+  // Roles disponibles
+  roles = ['Can Edit', 'Can View', 'Can Comment'];
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -99,5 +126,70 @@ export class TopbarComponent implements OnInit {
     this.userStorage.clearUser();
     
     this.router.navigate(['/login']);
+  }
+
+  openInviteModal() {
+    this.showInviteModal = true;
+  }
+
+  closeInviteModal() {
+    this.showInviteModal = false;
+  }
+
+  // Métodos del modal de invitación
+  onEmailInputChange() {
+    this.showSuggestions = this.emailInput.length > 0;
+  }
+
+  onEmailKeyPress(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ',') {
+      event.preventDefault();
+      this.addEmail();
+    }
+  }
+
+  addEmail() {
+    const email = this.emailInput.trim();
+    if (email && !this.selectedEmails.includes(email)) {
+      this.selectedEmails.push(email);
+      this.emailInput = '';
+      this.showSuggestions = false;
+    }
+  }
+
+  removeEmail(email: string) {
+    this.selectedEmails = this.selectedEmails.filter(e => e !== email);
+  }
+
+  selectSuggestion(suggestion: any) {
+    const email = suggestion.email;
+    if (!this.selectedEmails.includes(email)) {
+      this.selectedEmails.push(email);
+      this.emailInput = '';
+      this.showSuggestions = false;
+    }
+  }
+
+  updateMemberRole(member: any, newRole: string) {
+    member.role = newRole;
+  }
+
+  sendInvite() {
+    // Aquí implementarías la lógica para enviar invitaciones
+    console.log('Enviando invitaciones:', {
+      emails: this.selectedEmails,
+      role: this.selectedRole
+    });
+    
+    // Limpiar el formulario después de enviar
+    this.selectedEmails = [];
+    this.emailInput = '';
+    this.selectedRole = 'Can Edit';
+  }
+
+  onBackdropClick(event: Event) {
+    if (event.target === event.currentTarget) {
+      this.closeInviteModal();
+    }
   }
 }
