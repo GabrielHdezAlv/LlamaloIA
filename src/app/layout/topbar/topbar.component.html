@@ -146,7 +146,7 @@
 </div>
 
 <!-- Modal de invitar amigos integrado -->
-<div *ngIf="showInviteModal" class="fixed inset-0 bg-gray-500 bg-opacity-30 z-[9999] flex items-center justify-center" (click)="closeMemberDropdown(); onBackdropClick($event)">
+<div *ngIf="showInviteModal" class="fixed inset-0 bg-gray-500 bg-opacity-30 backdrop-blur-md z-[9999] flex items-center justify-center" (click)="closeMemberDropdown(); onBackdropClick($event)">
   <!-- Modal Container -->
   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto modal-container font-sans p-8 tracking-tight" (click)="$event.stopPropagation()">
     <!-- Modal Header -->
@@ -266,7 +266,7 @@
       <div>
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Team Members</h3>
         
-        <div class="space-y-3">
+        <div class="space-y-3 team-members-container max-h-64 overflow-y-auto relative">
           <div *ngFor="let member of teamMembers" class="flex items-center justify-between py-3 team-member">
             <!-- Member info -->
             <div class="flex items-center gap-3">
@@ -305,7 +305,7 @@
                 <!-- Dropdown de roles -->
                 <div 
                   *ngIf="openDropdownMember === member.name"
-                  class="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 min-w-[120px]"
+                  class="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[120px]"
                 >
                   <div class="py-1">
                     <button 
