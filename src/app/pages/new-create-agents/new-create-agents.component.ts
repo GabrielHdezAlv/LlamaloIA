@@ -11,7 +11,7 @@ import { ModalService } from '../../shared/modals/modal.service';
   styleUrl: './new-create-agents.component.scss'
 })
 export class NewCreateAgentsComponent {
-  step: 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' | 'advancedSettings' | 'final' | 'success' = 'callType';
+  step: 'agentName' | 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' | 'advancedSettings' | 'final' | 'success' = 'agentName';
 
   // Add this line to declare phoneNumber
   phoneNumber = '';
@@ -21,6 +21,7 @@ export class NewCreateAgentsComponent {
   greeting = 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
   template = '';
   instructions = '';
+  agentName: string = '';
 
   audioActual: HTMLAudioElement | null = null;
   isPlaying: boolean = false;
@@ -55,12 +56,19 @@ export class NewCreateAgentsComponent {
       this.step = 'language';
     } else if (this.step === 'language') {
       this.step = 'callType';
+    } else if (this.step === 'callType') {
+      this.step = 'agentName';
+    } else if (this.step === 'agentName') {
+      // Primer paso: volver a la pantalla anterior
+      this.location.back();
     }
     // Si ya está en 'final' o 'success', no hace nada
   }
 
   onSkip() {
-    if (this.step === 'callType') {
+    if (this.step === 'agentName') {
+      this.step = 'callType';
+    } else if (this.step === 'callType') {
       this.step = 'language';
     } else if (this.step === 'language') {
       this.step = 'voices';
@@ -78,6 +86,19 @@ export class NewCreateAgentsComponent {
       this.step = 'advancedSettings';
     }
     // Si ya está en 'advancedSettings', no hace nada o puedes reiniciar el flujo si lo deseas
+  }
+
+  // Continuar desde el paso de nombre del agente
+  onSubmitAgentName() {
+    const name = this.agentName?.trim();
+    if (!name) {
+      this.modalService.openError({
+        title: 'Nombre requerido',
+        message: 'Por favor, ingresa un nombre para el agente.',
+      });
+      return;
+    }
+    this.step = 'callType';
   }
 
   playVoice(voiceName: string) {

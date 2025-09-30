@@ -22,6 +22,8 @@ export class HomeComponent implements OnInit {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
+  
+
   private rangeToSummary: Record<string, {
     totalCalls: number;
     callsDeltaPct: number;
