@@ -24,6 +24,7 @@ export class MetricsComponent implements OnInit {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
+
   // Filtros
   periods = ['Últimos 7 días', 'Últimos 30 días', 'Este mes', 'Año pasado'];
   selectedPeriod = this.periods[0];
