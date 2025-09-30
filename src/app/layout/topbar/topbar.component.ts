@@ -32,18 +32,20 @@ export class TopbarComponent implements OnInit {
   openDropdownMember: string | null = null;
 
   // Lista de miembros actuales del equipo
-  teamMembers: any[] = [
-    { name: 'Ronald Richards', email: 'ronald@example.com', role: 'Owner', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Cameron Williamson', email: 'cameron@example.com', role: 'Can Edit', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Arlene McCoy', email: 'arlene@example.com', role: 'Can Edit', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Jerome Bell', email: 'jerome@example.com', role: 'Can Edit', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Dianne Russell', email: 'dianne@example.com', role: 'Can Edit', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face' }
-  ];
+  teamMembers: any[] = [];
 
   // Sugerencias de contactos
   contactSuggestions: any[] = [
     { name: 'Sebastian Graham', email: 'sebastian.graham@example.com', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Sara Cruz', email: 'sara.cruz@example.com', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face' }
+    { name: 'Sara Cruz', email: 'sara.cruz@example.com', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Michael Johnson', email: 'michael.johnson@example.com', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Emma Wilson', email: 'emma.wilson@example.com', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=40&h=40&fit=crop&crop=face' },
+    { name: 'David Brown', email: 'david.brown@example.com', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Lisa Anderson', email: 'lisa.anderson@example.com', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face' },
+    { name: 'James Taylor', email: 'james.taylor@example.com', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Maria Garcia', email: 'maria.garcia@example.com', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Robert Martinez', email: 'robert.martinez@example.com', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face' },
+    { name: 'Jennifer Davis', email: 'jennifer.davis@example.com', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=40&h=40&fit=crop&crop=face' }
   ];
 
   // Roles disponibles
@@ -72,6 +74,21 @@ export class TopbarComponent implements OnInit {
       });
 
     this.updateHeader();
+    this.initializeTeamMembers();
+  }
+
+  initializeTeamMembers() {
+    const user = this.userStorage.user();
+    if (user) {
+      this.teamMembers = [
+        { 
+          name: `${user.name} ${user.lastname}`, 
+          email: user.email, 
+          role: 'Owner', 
+          avatar: user.profileImage || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' 
+        }
+      ];
+    }
   }
 
   updateHeader() {
@@ -194,11 +211,30 @@ export class TopbarComponent implements OnInit {
       role: this.selectedRole
     });
     
+    // Añadir los nuevos miembros a la lista
+    this.selectedEmails.forEach(email => {
+      const newMember = {
+        name: email,
+        email: email,
+        role: this.selectedRole,
+        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' // Avatar por defecto
+      };
+      this.teamMembers.push(newMember);
+    });
+    
     // Limpiar el formulario después de enviar
     this.selectedEmails = [];
     this.emailInput = '';
     this.selectedRole = 'Can Edit';
     this.showSuggestions = false;
+    
+    // Hacer scroll hacia abajo para mostrar los nuevos miembros
+    setTimeout(() => {
+      const teamMembersContainer = document.querySelector('.team-members-container');
+      if (teamMembersContainer) {
+        teamMembersContainer.scrollTop = teamMembersContainer.scrollHeight;
+      }
+    }, 100);
   }
 
   onBackdropClick(event: Event) {
