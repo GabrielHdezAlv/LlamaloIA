@@ -4,4 +4,5 @@ export interface TwilioConfig {
   twilioSid: string;
   twilioToken: string;
   firstInteraction?: string;
+  agentInteraction?: string;
 }
