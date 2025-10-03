@@ -11,8 +11,7 @@ import { UserService } from '../../core/services/user.service';
 import { LoginUser } from '../../shared/models/login-user.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
-import { log } from 'console';
-import { User } from '../../shared/models/new-user.model';
+import { BetaService } from '../../core/services/beta.service';
 
 @Component({
   selector: 'app-login',
@@ -39,6 +38,7 @@ export class LoginComponent {
   private snackBar = inject(MatSnackBar);
   private userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
+  private betaService = inject(BetaService);
 
   login(event: Event) {
     event.preventDefault();
@@ -66,7 +66,24 @@ export class LoginComponent {
             console.log('data: ', data);
 
             this.showNotification('Inicio de sesión exitoso', 'success');
-            this.router.navigate(['/dashboard']);
+            
+            // Cargar minutos inbound antes de verificar elegibilidad
+            this.betaService.loadMinutesInbound();
+            
+            // Pequeño delay para asegurar que los minutos se carguen
+            setTimeout(() => {
+              this.betaService.debugUserInfo();
+              
+              // Verificar si se debe mostrar la página de beta
+              const shouldShowBeta = this.betaService.shouldShowBetaPage;
+              console.log('  📍 ¿Mostrar beta?', shouldShowBeta);
+              
+              if (shouldShowBeta) {
+                this.router.navigate(['/beta-thanks']);
+              } else {
+                this.router.navigate(['/dashboard']);
+              }
+            }, 500);
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);

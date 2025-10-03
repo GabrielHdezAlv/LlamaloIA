@@ -47,4 +47,11 @@ export class TwilioService {
       headers: this.getAuthHeaders(),
     });
   }
+
+  // TWILIO - Obtener minutos inbound
+  getMinutesInbound(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/minutes-inbound`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 }

@@ -8,6 +8,7 @@ export class User {
   profileImage?: string;
   token?: string;
   agent?: Agent;
+  createdAt?: any;
 
   constructor(
     name: string,
@@ -15,7 +16,8 @@ export class User {
     email: string,
     password: string,
     token?: string,
-    agent?: Agent
+    agent?: Agent,
+    createdAt?: any
   ) {
     this.name = name;
     this.lastname = lastname;
@@ -23,5 +25,6 @@ export class User {
     this.password = password;
     this.token = token;
     this.agent = agent;
+    this.createdAt = createdAt;
   }
 }

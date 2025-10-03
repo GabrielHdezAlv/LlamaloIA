@@ -1,6 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { BetaService } from '../services/beta.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,8 @@ import { isPlatformBrowser } from '@angular/common';
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: object // ✅ Inyectamos PLATFORM_ID
+    @Inject(PLATFORM_ID) private platformId: object, // ✅ Inyectamos PLATFORM_ID
+    private betaService: BetaService
   ) {}
 
   canActivate(): boolean {
@@ -23,6 +25,18 @@ export class AuthGuard implements CanActivate {
         this.router.navigate(['/login']);
         return false;
       }
+
+      // Cargar minutos inbound y verificar si debe mostrar la página de beta al recargar
+      console.log('🔄 AuthGuard - Cargando minutos inbound y verificando elegibilidad');
+      this.betaService.loadMinutesInbound();
+      
+      // Pequeño delay para asegurar que los minutos se carguen
+      setTimeout(() => {
+        if (this.betaService.shouldShowBetaPage) {
+          console.log('➡️ Redirigiendo a beta-thanks desde AuthGuard');
+          this.router.navigate(['/beta-thanks']);
+        }
+      }, 500);
     }
     return true;
   }

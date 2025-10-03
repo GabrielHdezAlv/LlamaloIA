@@ -6,11 +6,13 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { AgentsComponent } from './pages/agents/agents.component';
 import { RecoverComponent } from './auth/recover/recover.component';
+import { BetaThanksComponent } from './pages/beta-thanks/beta-thanks.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'recover', component: RecoverComponent },
+  { path: 'beta-thanks', component: BetaThanksComponent }, // Sin AuthGuard para permitir acceso
   {
     path: 'dashboard',
     component: DashboardComponent,

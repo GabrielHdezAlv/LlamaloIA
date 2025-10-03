@@ -66,4 +66,11 @@ export class UserService {
   getLanguages(): Observable<any> {
     return this.http.get(`${this.apiUrl}/user/allLanguages`);
   }
+
+  // TWILIO - Obtener minutos inbound
+  getMinutesInbound(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/twilio/minutes-inbound`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 }
