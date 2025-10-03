@@ -60,7 +60,6 @@ export class NavComponent {
 
   // Método para abrir formulario de feedback
   openFeedback(): void {
-    console.log('Abriendo formulario de feedback desde nav');
     // Redirigir al formulario de Google Forms para feedback
     window.open('https://forms.gle/MGvvv22rvRMdNeXh9', '_blank');
   }

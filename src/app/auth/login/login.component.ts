@@ -52,8 +52,6 @@ export class LoginComponent {
 
     this.userService.LoginUser(user).subscribe({
       next: (response) => {
-        console.log('✅ Inicio de sesión exitoso:', response);
-
         if (typeof window !== 'undefined' && window.localStorage) {
           localStorage.setItem('token', response.token);
         }
@@ -63,8 +61,6 @@ export class LoginComponent {
             if (data.twilio) {
               this.twilioStorage.setConfig(data.twilio);
             }
-            console.log('data: ', data);
-
             this.showNotification('Inicio de sesión exitoso', 'success');
             
             // Cargar minutos inbound antes de verificar elegibilidad
@@ -72,12 +68,9 @@ export class LoginComponent {
             
             // Pequeño delay para asegurar que los minutos se carguen
             setTimeout(() => {
-              this.betaService.debugUserInfo();
-              
               // Verificar si se debe mostrar la página de beta
               const shouldShowBeta = this.betaService.shouldShowBetaPage;
-              console.log('  📍 ¿Mostrar beta?', shouldShowBeta);
-              
+
               if (shouldShowBeta) {
                 this.router.navigate(['/beta-thanks']);
               } else {

@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Inject, PLATFORM_ID } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TwilioIntegrationModalComponent } from '../../shared/modals/twilio-integration-modal/twilio-integration-modal.component';
 import { TwilioSuccessModalComponent } from '../../shared/modals/twilio-success-modal/twilio-success-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -42,6 +42,11 @@ export class AgentsComponent {
 
   public twilioStorage: any = inject(TwilioStorage);
   private userStorage: any = inject(UserStorage);
+  private isBrowser: boolean;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   showIntegrationModal = false;
   showSuccessModal = false;
@@ -64,8 +69,13 @@ export class AgentsComponent {
 
   currentStep = 1; // Seteado el valor por defecto en la primera pantalla
   public firstInteractionMessage: string = '';
+  public agentInstructionMessage: string = '';
 
   ngOnInit() {
+    if (!this.isBrowser) {
+      return;
+    }
+
     let token: string | null = null;
 
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -100,9 +110,10 @@ export class AgentsComponent {
       this.selectedLanguage = this.selectedAgent?.language ?? this.languages[0];
     });
 
-    // Inicializar el mensaje de saludo personalizado
+    // Inicializar los mensajes personalizados
     const config = this.twilioStorage.config();
     this.firstInteractionMessage = config?.firstInteraction || '';
+    this.agentInstructionMessage = config?.agentInstruction || 'test';
   }
 
   selectLanguage(lang: any) {
@@ -179,8 +190,6 @@ export class AgentsComponent {
   }
 
   publishAgent() {
-    console.log('publishAgent: ', this.selectedAgent);
-
     if (!this.selectedAgent) {
       return;
     }

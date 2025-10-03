@@ -60,8 +60,6 @@ export class TwilioIntegrationModalComponent implements OnInit {
   selectedCountry = this.countries[0];
 
   ngOnInit() {
-    console.log('data: ', this.data);
-
     this.formEnabled = this.data?.formEnabled ?? false;
     this.initForm();
 

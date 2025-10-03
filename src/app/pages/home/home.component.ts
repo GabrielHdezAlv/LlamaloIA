@@ -38,10 +38,8 @@ const PHONE_FORMATS: { [key: string]: PhoneFormat } = {
   '+34': {
     pattern: /^(\d{3})(\d{3})(\d{3})$/,
     format: (number: string) => {
-      console.log('Formateando número ES:', number);
       if (number.length === 9) {
         const formatted = number.replace(/^(\d{3})(\d{3})(\d{3})$/, '$1 $2 $3');
-        console.log('Número formateado:', formatted);
         return formatted;
       }
       return number;
@@ -55,9 +53,7 @@ const PHONE_FORMATS: { [key: string]: PhoneFormat } = {
   '+44': {
     pattern: /^(\d{2})(\d{4})(\d{4})$/,
     format: (number: string) => {
-      console.log('Formateando número UK:', number);
       const formatted = number.replace(/^(\d{2})(\d{4})(\d{4})$/, '$1 $2 $3');
-      console.log('Número formateado:', formatted);
       return formatted;
     },
   },

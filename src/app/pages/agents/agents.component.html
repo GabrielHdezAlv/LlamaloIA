@@ -197,14 +197,15 @@
 
     <div class="mt-4">
       <label class="text-md"> Instrucciones para el agente </label>
-      <p class="w-full pr-20 mt-2">
+      <p class="w-full mt-2">
         <mat-form-field class="w-full">
           <textarea
-            class="w-full text-sm resize-none placeholder:text-sm placeholder:whitespace-normal"
+            class="w-full text-sm resize-none placeholder:text-sm placeholder:whitespace-normal min-h-[200px] h-[250px]"
             matInput
-            [value]="twilioStorage.config()?.agentInteraction || 'Eres un asistente virtual especializado en atención al cliente. Tu objetivo es ayudar a los usuarios de manera profesional, amable y eficiente. Siempre mantén un tono cordial y busca resolver las consultas de forma clara y concisa.'"
+            [value]="agentInstructionMessage"
             readonly
             disabled
+            rows="10"
           ></textarea>
         </mat-form-field>
       </p>

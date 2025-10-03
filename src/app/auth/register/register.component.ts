@@ -38,13 +38,6 @@ export class RegisterComponent {
 
   register(event: Event) {
     event.preventDefault();
-    console.log(
-      'Registrando usuario:',
-      this.firstName,
-      this.lastName,
-      this.email,
-      this.password
-    );
 
     var user = {
       name: this.firstName,
@@ -55,15 +48,12 @@ export class RegisterComponent {
 
     this.userService.RegisterUser(user).subscribe({
       next: (response) => {
-        console.log('✅ Registro exitoso:', response);
-
         if (typeof window !== 'undefined' && window.localStorage) {
           localStorage.setItem('token', response.token);
         }
 
         this.userService.getUserProfile().subscribe({
           next: (data) => {
-            console.log('Perfil del usuario:', data);
             this.userStorage.setUser(data);
 
             if (data.twilio) {
@@ -83,8 +73,6 @@ export class RegisterComponent {
         });
       },
       error: (err) => {
-        console.error('❌ Error en registro:', err);
-        console.log('📌 Error detallado:', err.error);
         this.showNotification(
           'Error en registro: ' + (err.error?.message || 'Verifica los datos'),
           'error'

@@ -27,13 +27,11 @@ export class AuthGuard implements CanActivate {
       }
 
       // Cargar minutos inbound y verificar si debe mostrar la página de beta al recargar
-      console.log('🔄 AuthGuard - Cargando minutos inbound y verificando elegibilidad');
       this.betaService.loadMinutesInbound();
       
       // Pequeño delay para asegurar que los minutos se carguen
       setTimeout(() => {
         if (this.betaService.shouldShowBetaPage) {
-          console.log('➡️ Redirigiendo a beta-thanks desde AuthGuard');
           this.router.navigate(['/beta-thanks']);
         }
       }, 500);
