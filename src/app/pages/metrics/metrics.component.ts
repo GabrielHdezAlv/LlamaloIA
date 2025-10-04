@@ -1,12 +1,13 @@
 import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgApexchartsModule, ApexAxisChartSeries, ApexChart, ApexStroke, ApexDataLabels, ApexGrid, ApexXAxis, ApexFill } from 'ng-apexcharts';
 import { I18nService } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-metrics',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgApexchartsModule],
   templateUrl: './metrics.component.html',
   styleUrl: './metrics.component.scss'
 })
@@ -34,6 +35,174 @@ export class MetricsComponent implements OnInit {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
+  // Serie mini área para "Total de llamadas exitosas"
+  callsAreaSeries: ApexAxisChartSeries = [
+    { name: 'Llamadas', data: this.getCurrentData() },
+  ];
+
+  // Generar fechas de los últimos 7 días
+  getLast7Days(): string[] {
+    const dates: string[] = [];
+    const today = new Date();
+    
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      
+      const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      const dayName = dayNames[date.getDay()];
+      const dayNumber = date.getDate();
+      
+      dates.push(`${dayName} ${dayNumber}`);
+    }
+    
+    return dates;
+  }
+
+  // Generar fechas de los últimos 30 días
+  getLast30Days(): string[] {
+    const dates: string[] = [];
+    const today = new Date();
+    
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+      
+      const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      const dayName = dayNames[date.getDay()];
+      const dayNumber = date.getDate();
+      
+      // Mostrar todos los días
+      dates.push(`${dayName} ${dayNumber}`);
+    }
+    
+    return dates;
+  }
+
+  // Generar datos aleatorios para los últimos 30 días
+  getLast30DaysData(): number[] {
+    const data: number[] = [];
+    const baseValue = 500;
+    
+    for (let i = 0; i < 30; i++) {
+      // Simular tendencia más realista con picos y valles
+      const trend = Math.sin(i * 0.15) * 150; // Onda suave
+      const weeklyPattern = Math.sin(i * 0.9) * 100; // Patrón semanal
+      const random = (Math.random() - 0.5) * 200; // Variación aleatoria
+      const value = Math.max(200, Math.min(1000, baseValue + trend + weeklyPattern + random));
+      data.push(Math.round(value));
+    }
+    
+    return data;
+  }
+
+  callsAreaChart: ApexChart = {
+    type: 'area',
+    height: 260,
+    width: '100%',
+    toolbar: { show: false },
+    offsetX: 0,
+    offsetY: 0,
+  };
+
+  callsAreaStroke: ApexStroke = { 
+    curve: 'smooth', 
+    width: 3,
+    colors: ['#1E3A8A']
+  };
+  callsAreaDataLabels: ApexDataLabels = { enabled: false };
+  callsAreaGrid: ApexGrid = { 
+    strokeDashArray: 3, 
+    borderColor: '#E5E7EB',
+    xaxis: { lines: { show: false } },
+    yaxis: { lines: { show: true } }
+  };
+  callsAreaXAxis: ApexXAxis = { 
+    categories: this.getCurrentCategories(),
+    axisBorder: { show: false },
+    axisTicks: { show: false },
+    labels: { 
+      style: { colors: '#6B7280', fontSize: '12px' },
+      offsetY: 5,
+      rotate: 0,
+      maxHeight: 60,
+      trim: false,
+    },
+    offsetX: 0,
+    offsetY: 0,
+  };
+
+  // Obtener categorías según el período seleccionado
+  getCurrentCategories(): string[] {
+    if (this.selectedPeriod === 'Últimos 30 días') {
+      return this.getLast30Days();
+    }
+    return this.getLast7Days();
+  }
+
+  // Obtener datos según el período seleccionado
+  getCurrentData(): number[] {
+    if (this.selectedPeriod === 'Últimos 30 días') {
+      return this.getLast30DaysData();
+    }
+    return [500, 780, 620, 920, 600, 880, 720];
+  }
+  callsAreaYAxis: any = {
+    min: 200,
+    max: 1000,
+    tickAmount: 4,
+    labels: {
+      style: { colors: '#6B7280', fontSize: '12px' },
+      formatter: (value: number) => value.toString(),
+    },
+  };
+  callsAreaFill: ApexFill = {
+    type: 'gradient',
+    gradient: { 
+      shadeIntensity: 1, 
+      opacityFrom: 0.4, 
+      opacityTo: 0.1, 
+      stops: [0, 100],
+      colorStops: [
+        { offset: 0, color: '#1E3A8A', opacity: 0.4 },
+        { offset: 100, color: '#1E3A8A', opacity: 0.1 }
+      ]
+    },
+  };
+  callsAreaColors: string[] = ['#1E3A8A'];
+
+  // Configuración del tooltip personalizado
+  callsAreaTooltip: any = {
+    enabled: true,
+    custom: function({ series, seriesIndex, dataPointIndex, w }: any) {
+      const value = series[seriesIndex][dataPointIndex];
+      return `
+        <div style="
+          background: #1F2937;
+          color: white;
+          padding: 8px 12px;
+          border-radius: 6px;
+          font-weight: 600;
+          font-size: 14px;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          position: relative;
+        ">
+          ${value}
+          <div style="
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid #1F2937;
+          "></div>
+        </div>
+      `;
+    }
+  };
   // Filtros
   periods = [this.t.last7Days, this.t.last30Days, this.t.thisMonth, this.t.lastYear];
   selectedPeriod = this.periods[0];
@@ -248,6 +417,24 @@ export class MetricsComponent implements OnInit {
     this.outboundPercentage = 100 - newInboundPercent;
   }
 
+  // Método para cambiar el período y actualizar el gráfico
+  onPeriodChange(): void {
+    this.callsAreaSeries = [
+      { name: 'Llamadas', data: this.getCurrentData() }
+    ];
+    this.callsAreaXAxis = {
+      ...this.callsAreaXAxis,
+      categories: this.getCurrentCategories(),
+      labels: { 
+        style: { colors: '#6B7280', fontSize: this.selectedPeriod === 'Últimos 30 días' ? '10px' : '12px' },
+        offsetY: 5,
+        rotate: this.selectedPeriod === 'Últimos 30 días' ? -45 : 0,
+        maxHeight: 60,
+        trim: false,
+      }
+    };
+  }
+
   // Método para crear animación escalonada en las barras de países
   getCountryBarDelay(index: number): number {
     return index * 200; // 200ms de delay entre cada barra
@@ -256,6 +443,22 @@ export class MetricsComponent implements OnInit {
   ngOnInit(): void {
     // Ejecutar animaciones siempre
     this.startFadeInAnimations();
+    this.preventScrollOnChart();
+  }
+
+  // Prevenir scroll de página cuando se hace zoom en el gráfico
+  preventScrollOnChart() {
+    if (!this.isBrowser) return;
+    
+    setTimeout(() => {
+      const chartContainer = document.querySelector('.chart-container');
+      if (chartContainer) {
+        chartContainer.addEventListener('wheel', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }, { passive: false });
+      }
+    }, 100);
   }
 
   private startFadeInAnimations(): void {
