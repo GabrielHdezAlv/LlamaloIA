@@ -18,7 +18,7 @@
 
     <!-- Logo -->
     <div class="flex items-center gap-2 h-16 px-6 mt-6">
-      <img src="../../../assets/logo.png" alt="Llamalo Logo" class="h-10 pr-4" />
+      <img src="../../../assets/logo.png" alt="Llamalo Logo" class="h-12 pr-4" />
       <div class="flex flex-col leading-tight">
         <span class="brand-font text-4xl mt-2 font-bold text-blue-950 tracking-[-3px]">Llamalo</span>
         <span class="brand-font text-[10px] mr-0.5 text-end text-black font-bold -mt-1.5 block tracking-[-0.5px]">beta</span>
@@ -163,70 +163,75 @@
 <!-- Sidebar en escritorio -->
 <div
   *ngIf="windowWidth >= 1280"
-  class="hidden xl:ml-3 xl:flex xl:w-[21rem] xl:max-w-[88rem] xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200"
+  [class]="'hidden xl:ml-3 xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200 transition-all duration-500 ease-in-out ' + (isCollapsed ? 'xl:w-24 sidebar-collapsed' : 'xl:w-[21rem] xl:max-w-[88rem]')"
+  (mouseenter)="expandOnHover()"
+  (mouseleave)="collapseOnLeave()"
 >
   <div class="flex flex-col h-full">
-    <!-- Logo -->
-    <div class="flex items-center gap-2 h-16 px-6 mt-6">
-      <img src="../../../assets/logo.png" alt="Llamalo Logo" class="h-12 pr-4" />
-      <div class="flex flex-col leading-tight">
-        <span class="brand-font text-5xl mt-2 font-bold text-blue-950 tracking-[-3px]">Llamalo</span>
-        <span class="brand-font text-[10px] mr-0.5 text-end text-black font-bold -mt-1.5 block tracking-[-0.5px]">beta</span>
+    <!-- Logo principal -->
+    <div class="flex items-center justify-center h-16 px-6 mt-6">
+      <div class="flex items-center gap-2">
+            <img src="../../../assets/logo.png" alt="Llamalo Logo" [class]="isCollapsed ? 'h-8' : 'h-12 pr-4'" class="transition-all duration-500 ease-in-out" />
+        <div *ngIf="!isCollapsed" class="flex flex-col leading-tight transition-all duration-500 ease-in-out opacity-0 animate-fade-in">
+          <span class="brand-font text-5xl mt-2 font-bold text-blue-950 tracking-[-3px]">Llamalo</span>
+          <span class="brand-font text-[10px] mr-0.5 text-end text-black font-bold -mt-1.5 block tracking-[-0.5px]">beta</span>
+        </div>
       </div>
     </div>
 
+
     <!-- Navegación -->
     <nav class="flex-1 px-4 py-28 space-y-2 font-semibold text-xl">
-      <a
-        [routerLink]="['/dashboard/home']"
-        [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition mt-2 ' + (isRouteActive('/dashboard/home') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
-      >
+          <a
+            [routerLink]="['/dashboard/home']"
+            [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition mt-2 ' + (isRouteActive('/dashboard/home') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
+          >
         <svg width="24" height="25" viewBox="0 0 20 17" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
           <path d="M8.0001 16V11H12.0001V16C12.0001 16.55 12.4501 17 13.0001 17H16.0001C16.5501 17 17.0001 16.55 17.0001 16V8.99997H18.7001C19.1601 8.99997 19.3801 8.42997 19.0301 8.12997L10.6701 0.599971C10.2901 0.259971 9.7101 0.259971 9.3301 0.599971L0.970098 8.12997C0.630098 8.42997 0.840098 8.99997 1.3001 8.99997H3.0001V16C3.0001 16.55 3.4501 17 4.0001 17H7.0001C7.5501 17 8.0001 16.55 8.0001 16Z" />
         </svg>
-        <span class="nav-text mt-1 block">{{ t.home }}</span>
+        <span *ngIf="!isCollapsed" class="nav-text mt-1 block transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.home }}</span>
       </a>
 
-      <a
-        [routerLink]="['/dashboard/agents']"
-        [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition ' + (isRouteActive('/dashboard/agents') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
-      >
+          <a
+            [routerLink]="['/dashboard/agents']"
+            [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition ' + (isRouteActive('/dashboard/agents') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
+          >
         <svg width="24" height="25" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
           <path d="M18.7425 7.86458C18.6616 7.86458 18.5928 7.84722 18.5361 7.8125C18.4795 7.77778 18.435 7.71701 18.4026 7.63021L17.6986 5.85938L15.9263 5.02604C15.8454 4.99132 15.7887 4.94358 15.7564 4.88281C15.724 4.82205 15.7078 4.74826 15.7078 4.66146C15.7078 4.57465 15.724 4.50087 15.7564 4.4401C15.7887 4.37934 15.8454 4.3316 15.9263 4.29688L17.6986 3.48958L18.4026 1.79688C18.435 1.71007 18.4795 1.64931 18.5361 1.61458C18.5928 1.57986 18.6616 1.5625 18.7425 1.5625C18.8234 1.5625 18.8922 1.57986 18.9489 1.61458C19.0055 1.64931 19.05 1.71007 19.0824 1.79688L19.7864 3.48958L21.5587 4.29688C21.6396 4.3316 21.6963 4.37934 21.7286 4.4401C21.761 4.50087 21.7772 4.57465 21.7772 4.66146C21.7772 4.74826 21.761 4.82205 21.7286 4.88281C21.6963 4.94358 21.6396 4.99132 21.5587 5.02604L19.7864 5.85938L19.0824 7.63021C19.05 7.71701 19.0055 7.77778 18.9489 7.8125C18.8922 7.84722 18.8234 7.86458 18.7425 7.86458ZM18.7425 23.3854C18.6778 23.3854 18.613 23.3681 18.5483 23.3333C18.4835 23.2986 18.435 23.2378 18.4026 23.151L17.6986 21.4583L15.9506 20.651C15.8697 20.6163 15.813 20.5686 15.7806 20.5078C15.7483 20.447 15.7321 20.3733 15.7321 20.2865C15.7321 20.1997 15.7483 20.1259 15.7806 20.0651C15.813 20.0043 15.8697 19.9566 15.9506 19.9219L17.6986 19.1146L18.4026 17.3177C18.435 17.2309 18.4795 17.1701 18.5361 17.1354C18.5928 17.1007 18.6616 17.0833 18.7425 17.0833C18.8234 17.0833 18.8922 17.1007 18.9489 17.1354C19.0055 17.1701 19.05 17.2309 19.0824 17.3177L19.7864 19.1146L21.5344 19.9219C21.6153 19.9566 21.672 20.0043 21.7044 20.0651C21.7367 20.1259 21.7529 20.1997 21.7529 20.2865C21.7529 20.3733 21.7367 20.447 21.7044 20.5078C21.672 20.5686 21.6153 20.6163 21.5344 20.651L19.7864 21.4583L19.0824 23.151C19.05 23.2378 19.0015 23.2986 18.9367 23.3333C18.872 23.3681 18.8072 23.3854 18.7425 23.3854ZM8.08466 18.8802C7.95518 18.8802 7.82975 18.8411 7.70836 18.763C7.58697 18.6849 7.49391 18.5764 7.42917 18.4375L5.85113 14.8177L2.45227 13.1771C2.32279 13.1076 2.22163 13.0078 2.1488 12.8776C2.07597 12.7474 2.03955 12.6128 2.03955 12.474C2.03955 12.3351 2.07597 12.2005 2.1488 12.0703C2.22163 11.9401 2.32279 11.8403 2.45227 11.7708L5.85113 10.1302L7.42917 6.53646C7.49391 6.38021 7.58697 6.26302 7.70836 6.1849C7.82975 6.10677 7.95518 6.06771 8.08466 6.06771C8.21414 6.06771 8.33957 6.10677 8.46096 6.1849C8.58235 6.26302 8.67541 6.37153 8.74015 6.51042L10.3425 10.1302L13.7171 11.7708C13.8627 11.8403 13.972 11.9401 14.0448 12.0703C14.1176 12.2005 14.154 12.3351 14.154 12.474C14.154 12.6128 14.1176 12.7474 14.0448 12.8776C13.972 13.0078 13.8627 13.1076 13.7171 13.1771L10.3425 14.8177L8.74015 18.4375C8.67541 18.5938 8.58235 18.7066 8.46096 18.776C8.33957 18.8455 8.21414 18.8802 8.08466 18.8802Z" />
         </svg>
-        <span class="nav-text">{{ t.agents }}</span>
+        <span *ngIf="!isCollapsed" class="nav-text transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.agents }}</span>
       </a>
 
-      <a
-        [routerLink]="['/dashboard/numbers']"
-        [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition ' + (isRouteActive('/dashboard/numbers') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
-      >
+          <a
+            [routerLink]="['/dashboard/numbers']"
+            [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition ' + (isRouteActive('/dashboard/numbers') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
+          >
         <svg width="24" height="25" viewBox="0 0 22 23" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
           <path d="M7.04674 4.69293C7.37976 4.69293 7.68657 4.88174 7.84818 5.1861L8.96949 7.29774C9.1163 7.57422 9.12317 7.90859 8.98792 8.19144L7.90772 10.4501C7.90772 10.4501 8.22076 12.1326 9.53086 13.5023C10.841 14.872 12.445 15.1936 12.445 15.1936L14.6051 14.0644C14.8758 13.9229 15.1959 13.9303 15.4605 14.084L17.486 15.2613C17.7768 15.4304 17.9572 15.751 17.9572 16.0989V18.53C17.9572 19.768 16.8573 20.6621 15.7352 20.2663C13.4308 19.4534 9.85362 17.9056 7.58633 15.5352C5.31901 13.1649 3.8385 9.42515 3.06092 7.0159C2.68232 5.8429 3.53762 4.69293 4.7218 4.69293H7.04674Z" />
         </svg>
-        <span class="nav-text mt-1 block">{{ t.numbers }}</span>
+        <span *ngIf="!isCollapsed" class="nav-text mt-1 block transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.numbers }}</span>
       </a>
 
-      <a
-        [routerLink]="['/dashboard/history']"
-        [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition ' + (isRouteActive('/dashboard/history') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
-      >
+          <a
+            [routerLink]="['/dashboard/history']"
+            [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition ' + (isRouteActive('/dashboard/history') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
+          >
         <svg width="24" height="18" viewBox="0 0 17 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
           <path d="M8.99625 12.7224C8.6357 12.9516 8.12492 12.9516 7.76437 12.7224L1.60495 8.80905C1.2444 8.57982 0.743637 8.57982 0.383085 8.80905C-0.127695 9.13653 -0.127695 9.76692 0.383085 10.0944L7.15343 14.4007C7.87454 14.8591 8.88608 14.8591 9.6172 14.4007L16.3875 10.0944C16.8983 9.76692 16.8983 9.13653 16.3875 8.80905L16.3775 8.80087C16.017 8.57164 15.5162 8.57164 15.1557 8.80087L8.99625 12.7224ZM9.62721 10.2499L16.3976 5.94366C16.9083 4.97761 16.9083 4.97761 16.3976 4.65013L9.62721 0.343848C8.90611 -0.114616 7.89457 -0.114616 7.16345 0.343848L0.393101 4.65832C-0.11768 4.98579 -0.11768 5.62437 0.393101 5.95184L7.16345 10.2581C7.88455 10.7166 8.90611 10.7166 9.62721 10.2499Z" />
         </svg>
-        <span class="nav-text">{{ t.history }}</span>
-        <span class="ml-auto text-xs text-blue-900 border border-gray-300 px-3 py-1 rounded-lg font-bold">{{ t.new }}</span>
+        <span *ngIf="!isCollapsed" class="nav-text transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.history }}</span>
+        <span *ngIf="!isCollapsed" class="ml-auto text-xs text-blue-900 border border-gray-300 px-3 py-1 rounded-lg font-bold transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.new }}</span>
       </a>
 
-      <a
-        [routerLink]="['/dashboard/metrics']"
-        [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition ' + (isRouteActive('/dashboard/metrics') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
-      >
+          <a
+            [routerLink]="['/dashboard/metrics']"
+            [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition ' + (isRouteActive('/dashboard/metrics') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
+          >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
           <path d="M15.5 2C15.1022 2 14.7206 2.15804 14.4393 2.43934C14.158 2.72064 14 3.10218 14 3.5V16.5C14 16.8978 14.158 17.2794 14.4393 17.5607C14.7206 17.842 15.1022 18 15.5 18H16.5C16.8978 18 17.2794 17.842 17.5607 17.5607C17.842 17.2794 18 16.8978 18 16.5V3.5C18 3.10218 17.842 2.72064 17.5607 2.43934C17.2794 2.15804 16.8978 2 16.5 2H15.5ZM9.5 6C9.10218 6 8.72064 6.15804 8.43934 6.43934C8.15804 6.72064 8 7.10218 8 7.5V16.5C8 16.8978 8.15804 17.2794 8.43934 17.5607C8.72064 17.842 9.10218 18 9.5 18H10.5C10.8978 18 11.2794 17.842 11.5607 17.5607C11.842 17.2794 12 16.8978 12 16.5V7.5C12 7.10218 11.842 6.72064 11.5607 6.43934C11.2794 6.15804 10.8978 6 10.5 6H9.5ZM3.5 10C3.10218 10 2.72064 10.158 2.43934 10.4393C2.15804 10.7206 2 11.1022 2 11.5V16.5C2 16.8978 2.15804 17.2794 2.43934 17.5607C2.72064 17.842 3.10218 18 3.5 18H4.5C4.89782 18 5.27936 17.842 5.56066 17.5607C5.84196 17.2794 6 16.8978 6 16.5V11.5C6 11.1022 5.84196 10.7206 5.56066 10.4393C5.27936 10.158 4.89782 10 4.5 10H3.5Z" />
         </svg>
-        <span class="nav-text">{{ t.metrics }}</span>
-        <span class="ml-auto text-xs text-blue-900 border border-gray-300 px-3 py-1 rounded-lg font-bold">{{ t.new }}</span>
+        <span *ngIf="!isCollapsed" class="nav-text transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.metrics }}</span>
+        <span *ngIf="!isCollapsed" class="ml-auto text-xs text-blue-900 border border-gray-300 px-3 py-1 rounded-lg font-bold transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.new }}</span>
       </a>
     </nav>
 
@@ -234,7 +239,7 @@
     <div class="px-6 pb-8 space-y-6">
 
       <!-- Promo -->
-      <div class="pb-6 space-y-6">
+      <div *ngIf="!isCollapsed" class="pb-6 space-y-6 transition-all duration-500 ease-in-out opacity-0 animate-slide-in-right" style="animation-delay: 0.8s;">
         <div class="rounded-lg p-1 shadow-sm">
           <p id="promo-title-desktop" class="text-base font-semibold text-gray-900 leading-relaxed mb-2 whitespace-nowrap">
             {{ t.promoTitle }}
@@ -248,129 +253,121 @@
         </div>
 
         <!-- Progreso -->
-        <div>
+        <div class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-right" style="animation-delay: 0.8s;">
           <div class="flex justify-between text-sm text-gray-600 mb-1">
             <span id="progress-label-desktop">{{ t.remainingMinutes }}</span>
             <span id="progress-value-desktop">54/200</span>
           </div>
           <div class="w-full bg-gray-200 rounded-full h-2">
-            <div class="bg-blue-900 h-3 rounded-full" style="width: 27%"></div>
+            <div class="bg-blue-900 h-3 rounded-full transition-all duration-1000 ease-out" style="width: 27%"></div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Perfil con dropdown -->
+      <div class="relative flex items-center gap-3 pt-4 pb-6">
+        <!-- Avatar y texto -->
+        <div class="flex items-center gap-2 transition-all duration-500 ease-out" [class]="isCollapsed ? 'justify-center' : ''">
+            <img
+              [src]="getUserProfileImage()"
+              class="h-10 w-10 rounded-full border-2 border-blue-900 transition-all duration-200 ease-in-out"
+              alt="Perfil"
+              [style]="isHovering ? 'opacity: 0; transform: scale(0.8);' : 'opacity: 1; transform: scale(1);'"
+            />
+          <div *ngIf="!isCollapsed" class="flex flex-col transition-all duration-500 ease-in-out opacity-0 animate-slide-in-right" style="animation-delay: 0.3s;">
+            <p class="font-bold text-black">{{ userName() }}</p>
+            <p class="text-xs text-gray-500">{{ t.planPro }}</p>
           </div>
         </div>
 
-        <!-- Perfil con dropdown -->
-          <div class="relative flex items-center gap-3 pt-4 pb-6">
-            <!-- Avatar y texto -->
-            <div class="flex items-center gap-2">
-              <img
-                [src]="getUserProfileImage()"
-                class="h-12 w-12 rounded-full border-2 border-blue-900"
-                alt="Perfil"
-              />
-              <div class="flex flex-col">
-                <p class="font-bold text-black">{{ userName() }}</p>
-                <p class="text-xs text-gray-500">{{ t.planPro }}</p>
-              </div>
-            </div>
+        <!-- Icono dropdown -->
+        <div *ngIf="!isCollapsed" class="ml-auto transition-all duration-500 ease-in-out opacity-0 animate-slide-in-right" style="animation-delay: 0.4s;">
+          <button (click)="toggleDropdown()" class="text-gray-400 hover:text-gray-700 focus:outline-none">
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
 
-            <!-- Botón de menú (tres puntos) -->
-            <button
-              (click)="toggleDropdown()"
-              class="ml-auto text-gray-500 hover:text-gray-700 focus:outline-none"
-            >
-            <svg width="18" height="18" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M8.44423 4.11111V1.88889C8.44423 1.39822 8.046 1 7.55534 1H1.77756C1.28689 1 0.888672 1.39822 0.888672 1.88889V12.1111C0.888672 12.6018 1.28689 13 1.77756 13H7.55534C8.046 13 8.44423 12.6018 8.44423 12.1111V9.88889" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M10.8887 4.55554L13.3331 6.99999L10.8887 9.44443" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M13.3333 7H8" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M1.07267 1.35379L4.02467 3.18401C4.286 3.34579 4.44511 3.63201 4.44511 3.93957V10.0613C4.44511 10.3689 4.286 10.6542 4.02467 10.8169L1.07178 12.648" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              
-            </button>
-
-            <!-- Dropdown Menu -->
-            <div
-            *ngIf="showDropdown"
-            class="absolute -top-52 left-full ml-2  w-56 bg-white rounded-3xl shadow-xl z-[9999] border border-gray-200"
-            style="min-width: 14rem;"
-            >
-            <!-- {{ t.settings }} -->
-            <button
-              (click)="navigateTo('/dashboard/account')"
-              class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-xl"
-            >
+        <!-- Dropdown Menu -->
+        <div
+          *ngIf="showDropdown && !isCollapsed"
+          class="absolute top-full left-full ml-2 -mt-72 w-64 bg-white rounded-3xl shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-0 animate-slide-in-right"
+          style="animation-delay: 0.1s;"
+        >
+          <!-- {{ t.settings }} -->
+          <button
+            (click)="navigateTo('/dashboard/account')"
+            class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-xl"
+          >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 16.75H15C17.623 16.75 19.75 14.623 19.75 12C19.75 9.377 17.623 7.25 15 7.25H9" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M9 16.75C11.6234 16.75 13.75 14.6234 13.75 12C13.75 9.37665 11.6234 7.25 9 7.25C6.37665 7.25 4.25 9.37665 4.25 12C4.25 14.6234 6.37665 16.75 9 16.75Z" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              
-              <span class="ml-3 font-medium">{{ t.settings }}</span>
-            </button>
+            </svg>
+            <span class="ml-3 font-medium">{{ t.settings }}</span>
+          </button>
 
-            <!-- {{ t.privateCommunity }} -->
-            <button
-              (click)="navigateTo('/dashboard/community')"
-              class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors"
-            >
+          <!-- {{ t.privateCommunity }} -->
+          <button
+            (click)="navigateTo('/dashboard/community')"
+            class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors"
+          >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.9661 4.23732C9.99273 2.63199 8.23362 1.55554 6.21939 1.55554C3.15273 1.55554 0.666504 4.04176 0.666504 7.10932C0.666504 8.1191 0.940282 9.06399 1.41228 9.87999C1.74117 10.4978 1.37228 11.9573 0.666504 12.6622C1.62384 12.7138 2.88606 12.2818 3.44873 11.9164C3.82295 12.1324 4.41761 12.4195 5.1945 12.5662C5.29406 12.5849 5.40073 12.5813 5.50206 12.5947" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M11.3334 6.44086C13.5423 6.44086 15.3334 8.23197 15.3334 10.4409C15.3334 11.1689 15.1361 11.8489 14.7965 12.4373C14.5592 12.8817 14.8259 13.9333 15.3334 14.4417C14.6436 14.4791 13.7352 14.1671 13.329 13.9049C13.0596 14.0604 12.6312 14.2666 12.0712 14.3733C11.8321 14.4186 11.585 14.4426 11.3325 14.4426C9.12274 14.4426 7.33252 12.6515 7.33252 10.4426C7.33252 8.23286 9.12363 6.44264 11.3325 6.44264L11.3334 6.44086Z" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              
-              <span class="ml-3 font-medium">{{ t.privateCommunity }}</span>
-            </button>
+            </svg>
+            <span class="ml-3 font-medium">{{ t.privateCommunity }}</span>
+          </button>
 
-            <!-- Separador -->
-            <div class="h-px bg-gray-200 my-2"></div>
+          <!-- Separador -->
+          <div class="h-px bg-gray-200 my-2"></div>
 
-            <!-- Idiomas -->
-            <div class="flex gap-2 px-4 py-2">
-              <button
-                (click)="selectLanguage(languages[0])"
-                [class]="selectedLanguage.code === 'es' ? 'bg-gray-200 text-black font-medium w-1/2' : 'text-gray-600 hover:text-gray-800 w-1/2'"
-                class="px-4 py-2 rounded-lg text-base transition-colors w-1/2 "
-              >
-                ES
-              </button>
-              <button
-                (click)="selectLanguage(languages[1])"
-                [class]="selectedLanguage.code === 'en' ? 'bg-gray-200 text-black font-medium w-1/2' : 'text-gray-600 hover:text-gray-800 w-1/2'"
-                class="px-4 py-2 rounded-lg text-base transition-colors w-1/2"
-              >
-                ENG
-              </button>
-            </div>
-
-            <!-- {{ t.helpCenter }} -->
+          <!-- Idiomas -->
+          <div class="flex gap-2 px-4 py-2">
             <button
-              (click)="navigateTo('/dashboard/help')"
-              class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors"
+              (click)="selectLanguage(languages[0])"
+              [class]="selectedLanguage.code === 'es' ? 'bg-gray-200 text-black font-medium w-1/2' : 'text-gray-600 hover:text-gray-800 w-1/2'"
+              class="px-4 py-2 rounded-lg text-base transition-colors"
             >
+              ES
+            </button>
+            <button
+              (click)="selectLanguage(languages[1])"
+              [class]="selectedLanguage.code === 'en' ? 'bg-gray-200 text-black font-medium w-1/2' : 'text-gray-600 hover:text-gray-800 w-1/2'"
+              class="px-4 py-2 rounded-lg text-base transition-colors"
+            >
+              ENG
+            </button>
+          </div>
+
+          <!-- {{ t.helpCenter }} -->
+          <button
+            (click)="navigateTo('/dashboard/help')"
+            class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors"
+          >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.00011 14.4444C11.5593 14.4444 14.4446 11.5592 14.4446 7.99999C14.4446 4.44082 11.5593 1.55554 8.00011 1.55554C4.44094 1.55554 1.55566 4.44082 1.55566 7.99999C1.55566 11.5592 4.44094 14.4444 8.00011 14.4444Z" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8 11.3946V7.33331" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8.00022 6.00001C7.50955 6.00001 7.11133 5.6009 7.11133 5.11112C7.11133 4.62134 7.50955 4.22223 8.00022 4.22223C8.49088 4.22223 8.88911 4.62134 8.88911 5.11112C8.88911 5.6009 8.49088 6.00001 8.00022 6.00001Z" fill="#2E2E2E"/>
-              </svg>
-              
-              <span class="ml-3 font-medium">{{ t.helpCenter }}</span>
-            </button>
+            </svg>
+            <span class="ml-3 font-medium">{{ t.helpCenter }}</span>
+          </button>
 
-            <!-- Cerrar sesión -->
-            <button
-              (click)="logout()"
-              class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-red-50 transition-colors rounded-b-xl"
-            >
+          <!-- Cerrar sesión -->
+          <button
+            (click)="logout()"
+            class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-red-50 transition-colors rounded-b-xl"
+          >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.44423 4.11111V1.88889C8.44423 1.39822 8.046 1 7.55534 1H1.77756C1.28689 1 0.888672 1.39822 0.888672 1.88889V12.1111C0.888672 12.6018 1.28689 13 1.77756 13H7.55534C8.046 13 8.44423 12.6018 8.44423 12.1111V9.88889" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M10.8887 4.55554L13.3331 6.99999L10.8887 9.44443" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M13.3333 7H8" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M1.07267 1.35376L4.02467 3.18398C4.286 3.34576 4.44511 3.63198 4.44511 3.93954V10.0613C4.44511 10.3689 4.286 10.6542 4.02467 10.8169L1.07178 12.648" stroke="#2E2E2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              
-              <span class="ml-3 font-medium">{{ t.logout }}</span>
-            </button>
-            </div>
-          </div>
+            </svg>
+            <span class="ml-3 font-medium">{{ t.logout }}</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>

@@ -1,5 +1,5 @@
 // src/app/components/sidebar/sidebar.component.ts
-import { Component, HostListener, computed, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, computed, inject, OnInit, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
@@ -13,9 +13,12 @@ import { I18nService, Language } from '../../core/services/i18n.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
 })
-export class NavComponent implements OnInit {
+export class NavComponent implements OnDestroy, OnInit {
   isOpen: boolean = false;
+  isCollapsed: boolean = true;
   windowWidth: number = 0;
+  isHovering: boolean = false;
+  private hoverTimer: any;
 
   // Inyectar UserStorage, Router y NavigationService
   // DESPUÉS (público para que el template pueda acceder)
@@ -75,8 +78,44 @@ export class NavComponent implements OnInit {
     this.isOpen = !this.isOpen;
   }
 
-  toggleLanguageMenu() {
-    this.showLanguageMenu = !this.showLanguageMenu;
+  toggleCollapse() {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  // Expandir al pasar el ratón por encima
+  expandOnHover() {
+    if (this.isCollapsed) {
+      this.isCollapsed = false;
+    }
+    // Activar hover para la animación de la imagen
+    this.isHovering = true;
+    this.startHoverTimer();
+  }
+
+  // Colapsar al salir del ratón
+  collapseOnLeave() {
+    if (!this.isCollapsed) {
+      this.isCollapsed = true;
+    }
+    // Desactivar hover inmediatamente
+    this.isHovering = false;
+    this.clearHoverTimer();
+  }
+
+  // Iniciar timer para que la imagen vuelva a aparecer
+  private startHoverTimer() {
+    this.clearHoverTimer();
+    this.hoverTimer = setTimeout(() => {
+      this.isHovering = false;
+    }, 1000); // 1 segundo
+  }
+
+  // Limpiar timer
+  private clearHoverTimer() {
+    if (this.hoverTimer) {
+      clearTimeout(this.hoverTimer);
+      this.hoverTimer = null;
+    }
   }
 
   selectLanguage(lang: Language) {
@@ -141,5 +180,10 @@ export class NavComponent implements OnInit {
     this.userStorage.clearUser();
     
     this.router.navigate(['/login']);
+  }
+
+  // Limpiar timer al destruir el componente
+  ngOnDestroy() {
+    this.clearHoverTimer();
   }
 }
