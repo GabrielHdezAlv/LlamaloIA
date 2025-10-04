@@ -38,6 +38,12 @@ export class NavComponent implements OnInit {
     return 'Usuario';
   });
 
+   // Método para obtener la imagen del perfil del usuario
+   getUserProfileImage = () => {
+    const user = this.userStorage.user();
+    return user?.profileImage || 'assets/predeterminada.webp';
+  };
+
   // Idiomas usando el servicio de i18n
   languages = this.i18nService.getAvailableLanguages();
   showLanguageMenu = false;
