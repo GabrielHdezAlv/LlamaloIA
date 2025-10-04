@@ -1,9 +1,10 @@
 // src/app/components/sidebar/sidebar.component.ts
-import { Component, HostListener, computed, inject, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, computed, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
 import { NavigationService } from '../../core/services/navigation.service';
+import { I18nService, Language } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +13,7 @@ import { NavigationService } from '../../core/services/navigation.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
 })
-export class NavComponent {
+export class NavComponent implements OnInit {
   isOpen: boolean = false;
   windowWidth: number = 0;
 
@@ -21,6 +22,7 @@ export class NavComponent {
   public userStorage = inject(UserStorage);
   private router = inject(Router);
   private navigationService = inject(NavigationService);
+  private i18nService = inject(I18nService);
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
@@ -36,17 +38,23 @@ export class NavComponent {
     return 'Usuario';
   });
 
-  // Idiomas (por si lo necesitas después)
-  languages = [
-    { code: 'es', name: 'Español', flag: 'https://flagcdn.com/w40/es.png' },
-    { code: 'en', name: 'English', flag: 'https://flagcdn.com/w40/gb.png' },
-    { code: 'fr', name: 'Français', flag: 'https://flagcdn.com/w40/fr.png' },
-  ];
-  selectedLanguage = this.languages[0];
+  // Idiomas usando el servicio de i18n
+  languages = this.i18nService.getAvailableLanguages();
   showLanguageMenu = false;
+
+  // Obtener el idioma seleccionado usando el método del servicio
+  get selectedLanguage() {
+    return this.i18nService.selectedLanguage();
+  }
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   ngOnInit() {
     this.onResize();
+    this.i18nService.initializeLanguage();
   }
 
   openMenu() {
@@ -65,8 +73,8 @@ export class NavComponent {
     this.showLanguageMenu = !this.showLanguageMenu;
   }
 
-  selectLanguage(lang: any) {
-    this.selectedLanguage = lang;
+  selectLanguage(lang: Language) {
+    this.i18nService.setLanguage(lang);
     this.showLanguageMenu = false;
   }
 

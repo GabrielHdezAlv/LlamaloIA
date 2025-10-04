@@ -3,6 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
+import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 
 @Component({
@@ -13,10 +14,16 @@ import { RippleButtonComponent } from '../../shared/components/ripple-button/rip
 })
 export class NewAgentsComponent implements OnInit, AfterViewInit {
   private agentsService = inject(AgentsService);
+  private i18nService = inject(I18nService);
   router = inject(Router);
   private cdr: ChangeDetectorRef;
 
   agents: Agent[] = [];
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   // Variable para controlar la animación de fade in
   showContent: boolean = false;
@@ -35,6 +42,8 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   private showEmptyState = true;
 
   ngOnInit(): void {
+    this.i18nService.initializeLanguage();
+    
     if (this.showEmptyState) {
       // Para probar estado vacío
       this.agents = [];
