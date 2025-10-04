@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { I18nService } from '../../core/services/i18n.service';
 import { Router } from '@angular/router';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 import { isPlatformBrowser } from '@angular/common';
@@ -11,21 +12,28 @@ import { ModalService } from '../../shared/modals/modal.service';
   styleUrl: './numbers.component.scss'
 })
 export class NumbersComponent implements OnInit, AfterViewInit {
+  private i18nService = inject(I18nService);
   router = inject(Router);
   private modalService = inject(ModalService);
   private cdr: ChangeDetectorRef;
-  
+
   // Variable para controlar la animación de fade in
   showContent: boolean = false;
 
   private isBrowser: boolean;
 
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     cdr: ChangeDetectorRef
   ) {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-    this.cdr = cdr;
+      this.i18nService.initializeLanguage();
+      this.isBrowser = isPlatformBrowser(this.platformId);
+      this.cdr = cdr;
   }
 
   ngOnInit(): void {
@@ -75,4 +83,5 @@ export class NumbersComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
 }

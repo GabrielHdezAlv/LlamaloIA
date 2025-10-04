@@ -1,13 +1,13 @@
 <div class="bg-white rounded-[2rem] shadow-sm pb-72 p-6 mt-16 ml-28 mr-[5.5rem] fade-in-section" [class.fade-in-visible]="showContent">
   <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-semibold text-gray-800 ml-4">Tus agentes</h2>
+    <h2 class="text-2xl font-semibold text-gray-800 ml-4">{{ t.yourAgents }}</h2>
     @if (agents.length > 0) {
     <app-ripple-button
       (buttonClick)="router.navigateByUrl('/dashboard/agents/create')"
       buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white px-20 py-2 rounded-xl text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2"
       rippleColor="rgba(255, 255, 255, 0.4)"
     >
-      Crear Agente
+      {{ t.createAgent }}
     </app-ripple-button>
     }
   </div>
@@ -40,16 +40,16 @@
           </svg>
         </span>
       </label>
-      <span class="font-medium text-gray-400">Agente</span>
+      <span class="font-medium text-gray-400">{{ t.agent }}</span>
     </div>
 
     <!-- Resto de cabeceras -->
-    <div class="md:col-start-6 font-medium text-gray-400">Estado</div>
+    <div class="md:col-start-6 font-medium text-gray-400">{{ t.status }}</div>
     <div class="md:col-start-7 font-medium text-gray-400 whitespace-nowrap">
-      Total Minutos Gastados
+      {{ t.totalMinutesSpent }}
     </div>
-    <div class="md:col-start-10 font-medium text-gray-400">Número</div>
-    <div class="md:col-start-12 font-medium text-gray-400 -ml-3">Tipo</div>
+    <div class="md:col-start-10 font-medium text-gray-400">{{ t.number }}</div>
+    <div class="md:col-start-12 font-medium text-gray-400 -ml-3">{{ t.type }}</div>
   </div>
 
   <div *ngIf="agents.length > 0" class="space-y-3">
@@ -106,7 +106,7 @@
                   fill="#727272"
                 />
               </svg>
-              Editar
+              {{ t.edit }}
             </button>
             <button
               class="flex items-center gap-1 hover:text-red-400 font-semibold"
@@ -123,7 +123,7 @@
                   fill="#727272"
                 />
               </svg>
-              Eliminar
+              {{ t.delete }}
             </button>
             <button
               class="flex items-center gap-1 hover:text-gray-400 whitespace-nowrap font-semibold"
@@ -141,7 +141,7 @@
                 />
               </svg>
 
-              Dejar de publicar
+              {{ t.stopPublishing }}
             </button>
           </div>
         </div>
@@ -150,7 +150,7 @@
       <div class="md:col-start-6 flex items-center">
         <span
           class="inline-block px-2 py-1 text-sm font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg -ml-2.5"
-          >Active</span
+          >{{ t.active }}</span
         >
       </div>
 
@@ -177,11 +177,11 @@
       </div>
 
       <div class="md:col-start-10 flex items-center">
-        <span class="text-base text-gray-800">(Etiqueta)</span>
+        <span class="text-base text-gray-800">({{ t.label }})</span>
       </div>
 
       <div class="md:col-start-12 flex items-center -ml-4">
-        <span class="text-base text-gray-800">Inbound</span>
+        <span class="text-base text-gray-800">{{ t.inbound }}</span>
       </div>
     </div>
   </div>
@@ -192,15 +192,15 @@
     class="flex flex-col items-center justify-center text-center text-gray-600"
   >
     <p class="text-xl text-gray-400 mt-44">
-      Aún no tienes ningún agente telefonico.
+      {{ t.noAgentsYet }}
     </p>
-    <p class="text-xl text-gray-400 mb-6">¡Créalo ahora!</p>
+    <p class="text-xl text-gray-400 mb-6">{{ t.createItNow }}</p>
     <app-ripple-button
       (buttonClick)="router.navigateByUrl('/dashboard/agents/create')"
       buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white px-20 py-2 rounded-xl text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2"
       rippleColor="rgba(255, 255, 255, 0.4)"
     >
-      Crear agente
+      {{ t.createAgentButton }}
     </app-ripple-button>
   </div>
 </div>

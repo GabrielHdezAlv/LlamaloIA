@@ -1,7 +1,7 @@
 <!-- Tarjeta de Resumen -->
 <div class="bg-white rounded-[2rem] shadow-sm p-6 mr-24 mt-8 ml-28 border border-gray-100 agentes-activos-recuadro fade-in-section" [class.fade-in-visible]="showResumen">
   <div class="flex justify-between items-center mb-6">
-    <h2 class="brand-font text-xl font-semibold text-gray-800 resumen-titulo">Resumen</h2>
+    <h2 class="brand-font text-xl font-semibold text-gray-800 resumen-titulo">{{ t.summary }}</h2>
     <div class="flex space-x-3 resumen-dias-botones">
       <button (click)="setRange('1D')" [class]="selectedRange==='1D' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">1D</button>
       <button (click)="setRange('7D')" [class]="selectedRange==='7D' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">7D</button>
@@ -20,7 +20,7 @@
         </svg>
       </div>
 
-      <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">Total de llamadas exitosas</h3>
+      <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">{{ t.totalSuccessfulCalls }}</h3>
 
       <div class="flex items-center gap-3">
         <p class="text-5xl font-semibold text-black">{{ summary.totalCalls }}</p>
@@ -38,7 +38,7 @@
           </svg>
           {{ summary.callsDeltaPct }}%
         </span>
-        <span class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4">vs last year</span>
+        <span class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4">{{ t.vsLastYear }}</span>
       </div>
     </div>
 
@@ -51,7 +51,7 @@
         </svg>
       </div>
 
-      <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">Tiempo Ahorrado</h3>
+      <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">{{ t.timeSaved }}</h3>
 
       <div class="flex items-center gap-3">
         <p class="text-5xl font-semibold text-black">{{ summary.timeSavedHours }}</p>
@@ -69,7 +69,7 @@
           </svg>
           {{ summary.timeSavedDeltaPct }}%
         </span>
-        <span class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4">vs last year</span>
+        <span class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4">{{ t.vsLastYear }}</span>
       </div>
     </div>
 
@@ -81,7 +81,7 @@
         </svg>
       </div>
 
-      <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">Minutos usados</h3>
+      <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">{{ t.minutesUsed }}</h3>
 
       <div class="flex items-center gap-3">
         <p class="text-5xl font-semibold text-black">{{ summary.minutesUsed }}</p>
@@ -99,7 +99,7 @@
           </svg>
           {{ summary.minutesDeltaPct }}%
         </span>
-        <span class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4">vs last year</span>
+        <span class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4">{{ t.vsLastYear }}</span>
       </div>
     </div>
   </div>
@@ -109,16 +109,16 @@
 <div class="flex flex-wrap gap-6 mt-6 mr-24 ml-28">
   <!-- Agentes Activos (2/3 del ancho) -->
   <div class="bg-white rounded-[2rem] shadow-sm p-6 flex-1 min-w-[300px] border border-gray-100 agentes-activos-recuadro fade-in-section" style="flex: 1.8;" [class.fade-in-visible]="showAgentesActivos">
-    <h2 class="brand-font text-xl font-semibold text-gray-800 mb-6 agentes-activos-titulo">Agentes Activos</h2>
+    <h2 class="brand-font text-xl font-semibold text-gray-800 mb-6 agentes-activos-titulo">{{ t.activeAgents }}</h2>
     
     <div class="overflow-x-auto">
       <table class="w-full text-left mt-14 agentes-activos-tabla">
         <thead>
           <tr class="border-b border-gray-200">
-            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">Nombre del Agente</th>
-            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">Tipo</th>
-            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">Total Minutos Gastados</th>
-            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">Estado</th>
+            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">{{ t.agentName }}</th>
+            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">{{ t.type }}</th>
+            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">{{ t.totalMinutesSpent }}</th>
+            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">{{ t.status }}</th>
           </tr>
         </thead>
         <tbody>
@@ -143,7 +143,7 @@
                   <circle cx="8" cy="8" r="8" [attr.fill]="agent.outerColor"/>
                   <circle cx="8" cy="8" r="4" [attr.fill]="agent.innerColor" [class.latido]="agent.active"/>
                 </svg>          
-                <span class="ml-2 agentes-activos-estado-texto" [class.text-gray-700]="agent.status==='Activo'" [class.text-gray-500]="agent.status!=='Activo'">{{ agent.status }}</span>
+                <span class="ml-2 agentes-activos-estado-texto" [class.text-gray-700]="agent.status===t.active" [class.text-gray-500]="agent.status!==t.active">{{ agent.status }}</span>
               </div>
             </td>
           </tr>
@@ -158,7 +158,7 @@
   style="flex: 1;"
   [class.fade-in-visible]="showLlamadasPorDia"
 >
-  <h2 class="brand-font text-xl font-semibold text-gray-800 mb-6 llamadas-por-dia-titulo">Llamadas por día</h2>
+  <h2 class="brand-font text-xl font-semibold text-gray-800 mb-6 llamadas-por-dia-titulo">{{ t.callsPerDay }}</h2>
   
   <!-- Contenedor fijo para las barras y los días -->
   <div class="flex flex-col justify-end h-60 first-letter:llamadas-por-dia-altura llamadas-por-dia-grafico-wrapper">

@@ -4,6 +4,7 @@ import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
 import { NgIf, NgFor, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { I18nService, Language } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'topbar',
@@ -19,6 +20,7 @@ export class TopbarComponent implements OnInit {
   private router = inject(Router);
   public userStorage = inject(UserStorage);
   private isBrowser: boolean;
+  private i18nService = inject(I18nService);
 
   showDropdown = false;
   showInviteModal = false;
@@ -55,11 +57,18 @@ export class TopbarComponent implements OnInit {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-  languages = [
-    { code: 'es', name: 'Español' },
-    { code: 'en', name: 'English' },
-  ];
-  selectedLanguage = this.languages[0];
+  // Idiomas usando el servicio de i18n
+  languages = this.i18nService.getAvailableLanguages();
+
+  // Obtener el idioma seleccionado usando el método del servicio
+  get selectedLanguage() {
+    return this.i18nService.selectedLanguage();
+  }
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   userName = () => {
     const user = this.userStorage.user();
@@ -67,6 +76,8 @@ export class TopbarComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.i18nService.initializeLanguage();
+    
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -93,31 +104,33 @@ export class TopbarComponent implements OnInit {
 
   updateHeader() {
     const url = this.router.url;
+    const t = this.i18nService.getTranslations();
 
     if (url === '/dashboard/agents/create') {
-      this.pageTitle = 'Crear Agente';
+      this.pageTitle = t.createAgent;
       this.welcomeText = '';
     } else if (url.startsWith('/dashboard/agents')) {
-      this.pageTitle = 'Agentes';
+      this.pageTitle = t.agents;
       this.welcomeText = '';
     } else if (url.startsWith('/dashboard/numbers')) {
-      this.pageTitle = 'Tus Numeros';
+      this.pageTitle = t.numbers;
       this.welcomeText = '';
     } else if (url.startsWith('/dashboard/history')) {
-      this.pageTitle = 'Historial & Transcripciones';
+      this.pageTitle = t.history;
       this.welcomeText = '';
     } else if (url.startsWith('/dashboard/metrics')) {
-      this.pageTitle = 'Métricas';
+      this.pageTitle = t.metrics;
       this.welcomeText = '';
     } else if (url === '/dashboard/profile') {
-      this.pageTitle = 'Perfil & Facturación';
+      // No hay clave específica de perfil; usar ajustes como equivalente
+      this.pageTitle = t.settings;
       this.welcomeText = '';
     } else if (url === '/dashboard/account') {
-      this.pageTitle = 'Ajustes';
+      this.pageTitle = t.settings;
       this.welcomeText = '';
     } else {
-      this.pageTitle = 'Inicio';
-      this.welcomeText = 'Hey Maria, Bienvenido/a';
+      this.pageTitle = t.home;
+      this.welcomeText = '';
     }
   }
 
@@ -125,8 +138,10 @@ export class TopbarComponent implements OnInit {
     this.showDropdown = !this.showDropdown;
   }
 
-  selectLanguage(lang: any) {
-    this.selectedLanguage = lang;
+  selectLanguage(lang: Language) {
+    this.i18nService.setLanguage(lang);
+    //TODO: Tal vez hay que quitarlo
+    this.updateHeader();
   }
 
   navigateTo(route: string) {

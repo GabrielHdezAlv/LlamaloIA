@@ -20,6 +20,7 @@ import {
 import { TwilioConfig } from '../../../shared/models/twilio-config.model';
 import { TwilioStorage } from '../../../storages/twilio/twilio-storage';
 import { TwilioService } from '../../../core/services/twilio.service';
+import { I18nService } from '../../../core/services/i18n.service';
 
 @Component({
   selector: 'app-twilio-integration-modal',
@@ -44,6 +45,7 @@ export class TwilioIntegrationModalComponent implements OnInit {
   data = inject(MAT_DIALOG_DATA);
   private twilioStorage = inject(TwilioStorage);
   private twilioService = inject(TwilioService);
+  private i18nService = inject(I18nService);
 
   form!: FormGroup;
   formEnabled: boolean = false;
@@ -58,6 +60,10 @@ export class TwilioIntegrationModalComponent implements OnInit {
   ];
 
   selectedCountry = this.countries[0];
+
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   ngOnInit() {
     console.log('data: ', this.data);

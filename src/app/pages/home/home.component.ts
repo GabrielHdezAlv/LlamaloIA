@@ -1,5 +1,6 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { I18nService } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,19 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  private i18nService = inject(I18nService);
+  
   selectedRange: '1D' | '7D' | '1M' | '6M' | '1A' = '1A';
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
+
+  // Obtener idioma actual
+  get currentLanguage() {
+    return this.i18nService.getCurrentLanguage();
+  }
 
   // Variables para controlar las animaciones de fade in
   showResumen: boolean = false;
@@ -58,8 +71,18 @@ export class HomeComponent implements OnInit {
     return index === this.currentWeekdayIndex;
   }
 
-  // Datos dinámicos para "Llamadas por día" (basado en porcentajes con altura máxima)
-  days: string[] = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
+  // Días de la semana usando traducciones (abreviaciones)
+  get days(): string[] {
+    return [
+      this.t.mon,
+      this.t.tue,
+      this.t.wed,
+      this.t.thu,
+      this.t.fri,
+      this.t.sat,
+      this.t.sun
+    ];
+  }
   
   // Altura máxima de las barras en píxeles
   maxBarHeight: number = 200;
@@ -74,38 +97,40 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  // Datos dinámicos para "Agentes activos"
-  activeAgents: Array<{
+  // Datos dinámicos para "Agentes activos" usando traducciones
+  get activeAgents(): Array<{
     name: string;
-    type: 'Inbound' | 'Outbound';
+    type: string;
     minutes: number;
     percent: number;
-    status: 'Activo' | 'Borrador';
-    active: boolean; // para animación de latido
-    outerColor: string; // color del círculo exterior
-    innerColor: string; // color del círculo interior
-  }> = [
-    {
-      name: 'Carla',
-      type: 'Inbound',
-      minutes: 530,
-      percent: 25.4,
-      status: 'Activo',
-      active: true,
-      outerColor: '#1E3A8A80', // azul con 50% de opacidad
-      innerColor: '#1E3A8A',
-    },
-    {
-      name: 'Carlos',
-      type: 'Outbound',
-      minutes: 250,
-      percent: 8.9,
-      status: 'Borrador',
-      active: false,
-      outerColor: '#EDEDED',
-      innerColor: '#C5CAC4',
-    },
-  ];
+    status: string;
+    active: boolean;
+    outerColor: string;
+    innerColor: string;
+  }> {
+    return [
+      {
+        name: 'Carla',
+        type: this.t.inbound,
+        minutes: 530,
+        percent: 25.4,
+        status: this.t.active,
+        active: true,
+        outerColor: '#1E3A8A80',
+        innerColor: '#1E3A8A',
+      },
+      {
+        name: 'Carlos',
+        type: this.t.outbound,
+        minutes: 250,
+        percent: 8.9,
+        status: this.t.draft,
+        active: false,
+        outerColor: '#EDEDED',
+        innerColor: '#C5CAC4',
+      },
+    ];
+  }
 
   ngOnInit(): void {
     // Ejecutar animaciones siempre
