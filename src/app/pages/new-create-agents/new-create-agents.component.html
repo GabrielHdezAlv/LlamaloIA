@@ -4,23 +4,64 @@
     <div class="h-4 w-full bg-gray-300 rounded-full overflow-hidden">
       <div 
         class="h-full bg-blue-950 transition-all duration-300"
-        [class.w-[10vh]]="step === 'callType'"
-        [class.w-[20vh]]="step === 'language'"
-        [class.w-[30vh]]="step === 'voices'"
-        [class.w-[40vh]]="step === 'instructions'"
-        [class.w-[50vh]]="step === 'actions'"
-        [class.w-[60vh]]="step === 'knowledgeBase'"
-        [class.w-[70vh]]="step === 'summary'"
-        [class.w-[80vh]]="step === 'connectPhone'"
-        [class.w-[90vh]]="step === 'advancedSettings'"
-        [class.w-[100vh]]="step === 'final'"
+        [class.w-[10vh]]="step === 'agentName'"
+        [class.w-[20vh]]="step === 'callType'"
+        [class.w-[30vh]]="step === 'language'"
+        [class.w-[40vh]]="step === 'voices'"
+        [class.w-[50vh]]="step === 'instructions'"
+        [class.w-[60vh]]="step === 'actions'"
+        [class.w-[70vh]]="step === 'knowledgeBase'"
+        [class.w-[80vh]]="step === 'summary'"
+        [class.w-[90vh]]="step === 'connectPhone'"
+        [class.w-[100vh]]="step === 'advancedSettings' || step === 'final'"
         [class.w-full]="step === 'success'"
       ></div>
     </div>
   </div>
 
+  @if (step === 'agentName') {
+    <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide flex flex-col justify-center relative" style="scrollbar-width: none; -ms-overflow-style: none;">
+      <div class="-mt-20">
+        <h2 class="text-4xl font-semibold text-center text-blue-950 mb-10 tracking-[-3px]">Nombre del Agente</h2>
+        <p class="text-center text-base text-black mb-8 max-w-2xl mx-auto tracking-[-1px]">
+          Este nombre se usará para identificar al agente dentro de la plataforma. No afecta su comportamiento.
+        </p>
+        <div class="max-w-xl w-full mx-auto">
+          <label class="block text-sm font-medium text-black mb-2">Nombre del agente</label>
+          <input
+            type="text"
+            [(ngModel)]="agentName"
+            placeholder="Ej. Carla Ventas"
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-black focus:border-transparent text-sm text-gray-700"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
+        <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 text-lg flex items-center">
+          <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+          </svg>
+        </button>
+
+        <button
+          class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+          (click)="onSubmitAgentName()"
+        >
+          Continuar
+        </button>
+
+        <button (click)="onSkip()" class="text-black hover:text-gray-700 text-lg flex items-center">
+          Saltar
+          <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  }
   @if (step === 'callType') {
-   <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+   <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide relative" style="scrollbar-width: none; -ms-overflow-style: none;">
       <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Tipo de Llamadas</h2>
 
       <div class="flex justify-center gap-20 flex-wrap">
@@ -39,6 +80,17 @@
 
         
       </div>
+
+      <!-- Botón de retroceso -->
+      <button
+        (click)="goBack()"
+        class="text-gray-500 hover:text-gray-700 text-lg flex items-center absolute left-0 bottom-0 mb-8 ml-8"
+        style="z-index:10;"
+      >
+        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+        </svg>
+      </button>
     </div>
     
   }
