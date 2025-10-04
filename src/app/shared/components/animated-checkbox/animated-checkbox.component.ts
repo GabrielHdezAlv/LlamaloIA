@@ -20,15 +20,15 @@ import { CommonModule } from '@angular/common';
       align-items: center;
       cursor: pointer;
       user-select: none;
-      height: 20px;
+      height: 18px;
       vertical-align: middle;
     }
 
     .checkbox {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       border: 2px solid #d1d5db;
-      border-radius: 4px;
+      border-radius: 3px;
       background: white;
       display: flex;
       align-items: center;
@@ -53,7 +53,7 @@ import { CommonModule } from '@angular/common';
 
     .checkmark {
       color: white;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: bold;
       transform: scale(0);
       animation: checkmark-appear 0.2s ease forwards;

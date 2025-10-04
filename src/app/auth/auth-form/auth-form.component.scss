@@ -25,6 +25,144 @@
 
 /* --- Google button --- */
 .google-button img {
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 2rem;
+  width: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .google-button img {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+}
+
+/* --- Gradient Background --- */
+.gradient-bg {
+  background: linear-gradient(90deg, 
+    rgba(147, 197, 253, 0.3) 0%, 
+    rgba(196, 181, 253, 0.2) 50%, 
+    rgba(251, 207, 232, 0.3) 100%);
+  backdrop-filter: blur(10px);
+}
+
+/* --- Tablet optimizations (768px - 1023px) --- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .login-title {
+    font-size: 2rem;
+    line-height: 2.25rem;
+  }
+  
+  .login-subtitle {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  
+  .input-label {
+    font-size: 0.875rem;
+  }
+  
+  .remember-label {
+    font-size: 0.875rem;
+  }
+  
+  .forgot-password-link {
+    font-size: 0.875rem;
+  }
+  
+  .register-text {
+    font-size: 1rem;
+  }
+  
+  .divider-text {
+    font-size: 0.875rem;
+  }
+  
+  /* Mejor espaciado para tablets */
+  .form-container {
+    max-width: 28rem;
+    margin: 0 auto;
+  }
+  
+  /* Ajustar padding del contenedor principal */
+  .form-container .space-y-3 {
+    gap: 1.5rem;
+  }
+  
+  /* Botones más grandes para tablets */
+  .login-button,
+  .google-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  /* Inputs más grandes para tablets */
+  .form-container input {
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+  }
+  
+  /* Logo más grande para tablets */
+  .form-container img {
+    height: 3rem;
+  }
+  
+  /* Mejorar el espaciado del contenedor principal para tablets */
+  .form-container {
+    padding: 2rem 0;
+  }
+  
+  /* Ajustar el padding del formulario para tablets */
+  .form-container form {
+    padding: 0 0.5rem;
+  }
+  
+  /* Mejorar la altura mínima del contenedor para tablets */
+  .form-container {
+    min-height: 60vh;
+  }
+  
+  /* Posicionar el formulario más abajo en tablets */
+  .form-container {
+    margin-top: 5rem;
+  }
+}
+
+/* --- Mobile optimizations (max-width: 767px) --- */
+@media (max-width: 767px) {
+  .login-title {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+  }
+  
+  .login-subtitle {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  .input-label {
+    font-size: 0.75rem;
+  }
+  
+  .remember-label {
+    font-size: 0.75rem;
+  }
+  
+  .forgot-password-link {
+    font-size: 0.75rem;
+  }
+  
+  .register-text {
+    font-size: 0.875rem;
+  }
+  
+  .divider-text {
+    font-size: 0.75rem;
+  }
+  
+  /* Ensure form content is above gradient */
+  .form-container {
+    position: relative;
+    z-index: 10;
+    margin-top: 4rem;
+  }
 }
