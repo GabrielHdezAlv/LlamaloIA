@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { I18nService } from '../../../core/services/i18n.service';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,6 +19,11 @@ export interface DeleteAccountModalData {
 export class DeleteAccountModalComponent {
   dialogRef = inject(MatDialogRef<DeleteAccountModalComponent>);
   data = inject<DeleteAccountModalData>(MAT_DIALOG_DATA);
+  private i18nService = inject(I18nService);
+
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   confirm(): void {
     this.dialogRef.close(true);

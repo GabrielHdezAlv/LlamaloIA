@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { I18nService } from '../../core/services/i18n.service';
 import { isPlatformBrowser } from '@angular/common';
 
 export interface Contact {
@@ -30,14 +31,22 @@ export class HistorialComponent implements OnInit, AfterViewInit {
 
   private isBrowser: boolean;
   private cdr: ChangeDetectorRef;
+  private i18nService = inject(I18nService);
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     cdr: ChangeDetectorRef
   ) {
+    this.i18nService.initializeLanguage();
     this.isBrowser = isPlatformBrowser(this.platformId);
     this.cdr = cdr;
   }
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
+
   contacts: Contact[] = [
     {
       id: 1,
@@ -123,7 +132,7 @@ export class HistorialComponent implements OnInit, AfterViewInit {
   }
 
   formatStatus(status: 'resuelto' | 'pendiente') {
-    return status === 'resuelto' ? 'Resuelto' : 'Pendiente';
+    return status === 'resuelto' ? this.t.resolved : this.t.pending;
   }
 
   ngOnInit(): void {

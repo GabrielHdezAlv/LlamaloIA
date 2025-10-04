@@ -2,12 +2,12 @@
   <button
     class="close-button h-6 w-6 absolute"
     (click)="dialogRef.close()"
-    aria-label="Cerrar"
+    [attr.aria-label]="t.close"
   >
     <mat-icon class="close-icon">close</mat-icon>
   </button>
   <span class="title w-full mt-2 text-lg font-semibold text-center"
-    >Integración Twilio</span
+    >{{ t.twilioIntegrationTitle }}</span
   >
 </div>
 
@@ -18,7 +18,7 @@
 >
   <div class="relative">
     <label for="phone-number" class="block text-sm font-medium text-gray-700"
-      >Número de teléfono *
+      >{{ t.phoneNumberLabel }}
     </label>
     <div class="flex">
       <mat-select
@@ -51,13 +51,13 @@
       "
       class="text-red-500 text-sm"
     >
-      Número inválido (mínimo 6, máximo 15 dígitos)
+      {{ t.invalidPhone }}
     </div>
   </div>
 
   <div class="relative mt-6">
     <label for="twilio-sid" class="block text-sm font-medium text-gray-700"
-      >Cuenta Twilio SID</label
+      >{{ t.twilioSidLabel }}</label
     >
     <input
       id="twilio-sid"
@@ -69,13 +69,13 @@
       *ngIf="form.get('twilioSid')?.invalid && form.get('twilioSid')?.touched"
       class="text-red-500 text-sm"
     >
-      Este campo es requerido.
+      {{ t.requiredField }}
     </div>
   </div>
 
   <div class="relative mt-6">
     <label for="twilio-token" class="block text-sm font-medium text-gray-700"
-      >Twilio Auth Token</label
+      >{{ t.twilioTokenLabel }}</label
     >
     <input
       id="twilio-token"
@@ -89,7 +89,7 @@
       "
       class="text-red-500 text-sm"
     >
-      Este campo es requerido.
+      {{ t.requiredField }}
     </div>
   </div>
 
@@ -97,6 +97,6 @@
     type="submit"
     class="w-full py-2 mt-8 bg-blue-900 text-white text-sm font-normal rounded-full hover:bg-blue-800 focus:ring-2 focus:ring-blue-500"
   >
-    {{ formEnabled ? "Importar" : "Editar" }}
+    {{ formEnabled ? t.import : t.edit }}
   </button>
 </form>
