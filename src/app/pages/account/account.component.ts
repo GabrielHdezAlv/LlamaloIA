@@ -1,6 +1,6 @@
 import { Component, inject, computed, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -21,6 +21,7 @@ export class AccountComponent implements OnInit {
   private snackBar = inject(MatSnackBar);
   private i18nService = inject(I18nService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private platformId = inject(PLATFORM_ID);
 
   activeTab: 'profile' | 'security' | 'billing' | 'gifts' = 'profile';
@@ -65,7 +66,9 @@ export class AccountComponent implements OnInit {
 
   // Método para cambiar de pestaña
   setActiveTab(tab: 'profile' | 'security' | 'billing' | 'gifts') {
+    console.log('Setting active tab to:', tab); // Debug log
     this.activeTab = tab;
+    console.log('Active tab is now:', this.activeTab); // Debug log
   }
 
   userProfileImage = computed(() => this.user()?.profileImage ?? '');
@@ -89,6 +92,23 @@ export class AccountComponent implements OnInit {
     setTimeout(() => {
       this.updateSliderBackground();
     }, 100);
+
+    // Verificar si hay parámetros de consulta para activar una pestaña específica
+    this.route.queryParams.subscribe(params => {
+      console.log('Query params:', params); // Debug log
+      if (params['tab'] === 'gifts') {
+        console.log('Activating gifts tab'); // Debug log
+        this.setActiveTab('gifts');
+        // Limpiar el parámetro de consulta después de un pequeño delay
+         setTimeout(() => {
+           this.router.navigate([], {
+             relativeTo: this.route,
+             queryParams: {},
+             replaceUrl: true
+           });
+         }, 10);
+      }
+    });
   }
 
   // Método para actualizar contraseña
