@@ -1,10 +1,125 @@
 <div
   class="dashboard flex flex-col xl:flex-row xl:max-h-screen overflow-y-hidden"
 >
+  <!-- Sidebar Desktop (solo visible en xl) -->
   <div 
-    [class]="'w-full xl:overflow-auto p-4 xl:p-0 h-screen transition-all duration-500 ease-in-out ' + (isNavCollapsed ? 'xl:w-24' : 'xl:w-80')"
+    [class]="'hidden xl:block w-full xl:overflow-auto p-4 xl:p-0 h-screen transition-all duration-500 ease-in-out ' + (isNavCollapsed ? 'xl:w-24' : 'xl:w-80')"
   >
     <app-nav #navComponent></app-nav>
+  </div>
+
+  <!-- Sidebar Mobile/Tablet -->
+  <div 
+    *ngIf="showMobileSidebar"
+    class="xl:hidden fixed inset-0 z-50 flex"
+  >
+    <!-- Overlay -->
+    <div 
+      class="fixed inset-0 bg-black bg-opacity-50"
+      (click)="closeMobileSidebar()"
+    ></div>
+    
+    <!-- Sidebar -->
+    <div class="relative w-80 bg-white shadow-xl flex flex-col h-full">
+      <!-- Header -->
+      <div class="flex items-center justify-between p-6 border-b border-gray-200">
+        <div class="flex items-center gap-3">
+          <img src="assets/logo.png" alt="Llamalo Logo" class="h-10" />
+          <div class="flex flex-col">
+            <span class="text-2xl font-bold text-blue-950">Llamalo</span>
+            <span class="text-xs text-gray-500">beta</span>
+          </div>
+        </div>
+        <button 
+          (click)="closeMobileSidebar()"
+          class="p-2 text-gray-400 hover:text-gray-600"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex-1 p-6 space-y-2">
+        <a 
+          routerLink="/dashboard/home"
+          (click)="closeMobileSidebar()"
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-blue-900 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 17">
+            <path d="M8.0001 16V11H12.0001V16C12.0001 16.55 12.4501 17 13.0001 17H16.0001C16.5501 17 17.0001 16.55 17.0001 16V8.99997H18.7001C19.1601 8.99997 19.3801 8.42997 19.0301 8.12997L10.6701 0.599971C10.2901 0.259971 9.7101 0.259971 9.3301 0.599971L0.970098 8.12997C0.630098 8.42997 0.840098 8.99997 1.3001 8.99997H3.0001V16C3.0001 16.55 3.4501 17 4.0001 17H7.0001C7.5501 17 8.0001 16.55 8.0001 16Z" />
+          </svg>
+          <span>Inicio</span>
+        </a>
+
+        <a 
+          routerLink="/dashboard/agents"
+          (click)="closeMobileSidebar()"
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-blue-900 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 25">
+            <path d="M18.7425 7.86458C18.6616 7.86458 18.5928 7.84722 18.5361 7.8125C18.4795 7.77778 18.435 7.71701 18.4026 7.63021L17.6986 5.85938L15.9263 5.02604C15.8454 4.99132 15.7887 4.94358 15.7564 4.88281C15.724 4.82205 15.7078 4.74826 15.7078 4.66146C15.7078 4.57465 15.724 4.50087 15.7564 4.4401C15.7887 4.37934 15.8454 4.3316 15.9263 4.29688L17.6986 3.48958L18.4026 1.79688C18.435 1.71007 18.4795 1.64931 18.5361 1.61458C18.5928 1.57986 18.6616 1.5625 18.7425 1.5625C18.8234 1.5625 18.8922 1.57986 18.9489 1.61458C19.0055 1.64931 19.05 1.71007 19.0824 1.79688L19.7864 3.48958L21.5587 4.29688C21.6396 4.3316 21.6963 4.37934 21.7286 4.4401C21.761 4.50087 21.7772 4.57465 21.7772 4.66146C21.7772 4.74826 21.761 4.82205 21.7286 4.88281C21.6963 4.94358 21.6396 4.99132 21.5587 5.02604L19.7864 5.85938L19.0824 7.63021C19.05 7.71701 19.0055 7.77778 18.9489 7.8125C18.8922 7.84722 18.8234 7.86458 18.7425 7.86458ZM18.7425 23.3854C18.6778 23.3854 18.613 23.3681 18.5483 23.3333C18.4835 23.2986 18.435 23.2378 18.4026 23.151L17.6986 21.4583L15.9506 20.651C15.8697 20.6163 15.813 20.5686 15.7806 20.5078C15.7483 20.447 15.7321 20.3733 15.7321 20.2865C15.7321 20.1997 15.7483 20.1259 15.7806 20.0651C15.813 20.0043 15.8697 19.9566 15.9506 19.9219L17.6986 19.1146L18.4026 17.3177C18.435 17.2309 18.4795 17.1701 18.5361 17.1354C18.5928 17.1007 18.6616 17.0833 18.7425 17.0833C18.8234 17.0833 18.8922 17.1007 18.9489 17.1354C19.0055 17.1701 19.05 17.2309 19.0824 17.3177L19.7864 19.1146L21.5344 19.9219C21.6153 19.9566 21.672 20.0043 21.7044 20.0651C21.7367 20.1259 21.7529 20.1997 21.7529 20.2865C21.7529 20.3733 21.7367 20.447 21.7044 20.5078C21.672 20.5686 21.6153 20.6163 21.5344 20.651L19.7864 21.4583L19.0824 23.151C19.05 23.2378 19.0015 23.2986 18.9367 23.3333C18.872 23.3681 18.8072 23.3854 18.7425 23.3854ZM8.08466 18.8802C7.95518 18.8802 7.82975 18.8411 7.70836 18.763C7.58697 18.6849 7.49391 18.5764 7.42917 18.4375L5.85113 14.8177L2.45227 13.1771C2.32279 13.1076 2.22163 13.0078 2.1488 12.8776C2.07597 12.7474 2.03955 12.6128 2.03955 12.474C2.03955 12.3351 2.07597 12.2005 2.1488 12.0703C2.22163 11.9401 2.32279 11.8403 2.45227 11.7708L5.85113 10.1302L7.42917 6.53646C7.49391 6.38021 7.58697 6.26302 7.70836 6.1849C7.82975 6.10677 7.95518 6.06771 8.08466 6.06771C8.21414 6.06771 8.33957 6.10677 8.46096 6.1849C8.58235 6.26302 8.67541 6.37153 8.74015 6.51042L10.3425 10.1302L13.7171 11.7708C13.8627 11.8403 13.972 11.9401 14.0448 12.0703C14.1176 12.2005 14.154 12.3351 14.154 12.474C14.154 12.6128 14.1176 12.7474 14.0448 12.8776C13.972 13.0078 13.8627 13.1076 13.7171 13.1771L10.3425 14.8177L8.74015 18.4375C8.67541 18.5938 8.58235 18.7066 8.46096 18.776C8.33957 18.8455 8.21414 18.8802 8.08466 18.8802Z" />
+          </svg>
+          <span>Agentes</span>
+        </a>
+
+        <a 
+          routerLink="/dashboard/numbers"
+          (click)="closeMobileSidebar()"
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-blue-900 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 22 23">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.04674 4.69293C7.37976 4.69293 7.68657 4.88174 7.84818 5.1861L8.96949 7.29774C9.1163 7.57422 9.12317 7.90859 8.98792 8.19144L7.90772 10.4501C7.90772 10.4501 8.22076 12.1326 9.53086 13.5023C10.841 14.872 12.445 15.1936 12.445 15.1936L14.6051 14.0644C14.8758 13.9229 15.1959 13.9303 15.4605 14.084L17.486 15.2613C17.7768 15.4304 17.9572 15.751 17.9572 16.0989V18.53C17.9572 19.768 16.8573 20.6621 15.7352 20.2663C13.4308 19.4534 9.85362 17.9056 7.58633 15.5352C5.31901 13.1649 3.8385 9.42515 3.06092 7.0159C2.68232 5.8429 3.53762 4.69293 4.7218 4.69293H7.04674Z" />
+          </svg>
+          <span>Números</span>
+        </a>
+
+        <a 
+          routerLink="/dashboard/history"
+          (click)="closeMobileSidebar()"
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-blue-900 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 17 15">
+            <path d="M8.99625 12.7224C8.6357 12.9516 8.12492 12.9516 7.76437 12.7224L1.60495 8.80905C1.2444 8.57982 0.743637 8.57982 0.383085 8.80905C-0.127695 9.13653 -0.127695 9.76692 0.383085 10.0944L7.15343 14.4007C7.87454 14.8591 8.88608 14.8591 9.6172 14.4007L16.3875 10.0944C16.8983 9.76692 16.8983 9.13653 16.3875 8.80905L16.3775 8.80087C16.017 8.57164 15.5162 8.57164 15.1557 8.80087L8.99625 12.7224ZM9.62721 10.2499L16.3976 5.94366C16.9083 4.97761 16.9083 4.97761 16.3976 4.65013L9.62721 0.343848C8.90611 -0.114616 7.89457 -0.114616 7.16345 0.343848L0.393101 4.65832C-0.11768 4.98579 -0.11768 5.62437 0.393101 5.95184L7.16345 10.2581C7.88455 10.7166 8.90611 10.7166 9.62721 10.2499Z" />
+          </svg>
+          <span>Historial</span>
+        </a>
+
+        <a 
+          routerLink="/dashboard/metrics"
+          (click)="closeMobileSidebar()"
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-blue-900 transition-colors"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M15.5 2C15.1022 2 14.7206 2.15804 14.4393 2.43934C14.158 2.72064 14 3.10218 14 3.5V16.5C14 16.8978 14.158 17.2794 14.4393 17.5607C14.7206 17.842 15.1022 18 15.5 18H16.5C16.8978 18 17.2794 17.842 17.5607 17.5607C17.842 17.2794 18 16.8978 18 16.5V3.5C18 3.10218 17.842 2.72064 17.5607 2.43934C17.2794 2.15804 16.8978 2 16.5 2H15.5ZM9.5 6C9.10218 6 8.72064 6.15804 8.43934 6.43934C8.15804 6.72064 8 7.10218 8 7.5V16.5C8 16.8978 8.15804 17.2794 8.43934 17.5607C8.72064 17.842 9.10218 18 9.5 18H10.5C10.8978 18 11.2794 17.842 11.5607 17.5607C11.842 17.2794 12 16.8978 12 16.5V7.5C12 7.10218 11.842 6.72064 11.5607 6.43934C11.2794 6.15804 10.8978 6 10.5 6H9.5ZM3.5 10C3.10218 10 2.72064 10.158 2.43934 10.4393C2.15804 10.7206 2 11.1022 2 11.5V16.5C2 16.8978 2.15804 17.2794 2.43934 17.5607C2.72064 17.842 3.10218 18 3.5 18H4.5C4.89782 18 5.27936 17.842 5.56066 17.5607C5.84196 17.2794 6 16.8978 6 16.5V11.5C6 11.1022 5.84196 10.7206 5.56066 10.4393C5.27936 10.158 4.89782 10 4.5 10H3.5Z" />
+          </svg>
+          <span>Métricas</span>
+        </a>
+      </nav>
+
+      <!-- Footer -->
+      <div class="p-6 border-t border-gray-200">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center">
+            <span class="text-white font-semibold text-sm">GH</span>
+          </div>
+          <div>
+            <p class="font-semibold text-gray-900">Gabriel Hernández</p>
+            <p class="text-xs text-gray-500">Plan PRO</p>
+          </div>
+        </div>
+        <button 
+          (click)="closeMobileSidebar()"
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+          <span>Cerrar sesión</span>
+        </button>
+      </div>
+    </div>
   </div>
 
   <div 

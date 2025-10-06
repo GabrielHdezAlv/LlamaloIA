@@ -1,12 +1,21 @@
 <div
   class="topbar-container w-full flex items-center justify-between pl-4 pr-4"
 >
-  <div>
-    <h1 class="text-4xl font-bold ml-24 tracking-[-2.5px]">
+  <div class="flex items-center gap-4">
+    <!-- Botón hamburguesa para móvil -->
+    <button 
+      (click)="openMobileSidebar()" 
+      class="xl:hidden p-2 text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors"
+    >
+      <span class="sr-only">Abrir menú</span>
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    
+    <h1 class="text-4xl font-bold xl:ml-20 tracking-[-2.5px]">
       {{ pageTitle }}
     </h1>
-
-    
   </div>
 
   <!-- Avatar con Dropdown -->

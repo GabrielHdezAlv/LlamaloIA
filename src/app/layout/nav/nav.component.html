@@ -1,6 +1,7 @@
+
 <!-- Botón para abrir menú en móvil -->
-<div *ngIf="!isOpen && windowWidth < 1280" class="fixed top-4 left-4 z-50">
-  <button (click)="openMenu()" class="p-2 rounded bg-blue-700 text-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+<div *ngIf="windowWidth < 1280" class="fixed top-4 left-4 z-50">
+  <button (click)="openMobileSidebar()" class="p-2 rounded bg-blue-700 text-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
     <span class="sr-only">Abrir menú</span>
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
