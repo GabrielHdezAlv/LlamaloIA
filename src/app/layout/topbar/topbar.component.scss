@@ -1,4 +1,53 @@
 .topbar-container {
     padding-top: 20px;
+    
+    // Responsive adjustments
+    @media (max-width: 640px) {
+      padding-top: 16px;
+    }
+    
+    @media (max-width: 480px) {
+      padding-top: 12px;
+    }
+  }
+
+  // Modal responsive improvements
+  .modal-container {
+    @media (max-width: 640px) {
+      margin: 8px;
+      max-height: calc(100vh - 16px);
+    }
+    
+    @media (max-width: 480px) {
+      margin: 4px;
+      max-height: calc(100vh - 8px);
+    }
+  }
+
+  // Team members container responsive
+  .team-members-container {
+    @media (max-width: 640px) {
+      max-height: 200px;
+    }
+    
+    @media (max-width: 480px) {
+      max-height: 150px;
+    }
+  }
+
+  // Email chips responsive
+  .email-chip {
+    @media (max-width: 640px) {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+    }
+  }
+
+  // Suggestions dropdown responsive
+  .suggestions-dropdown {
+    @media (max-width: 640px) {
+      max-height: 200px;
+      overflow-y: auto;
+    }
   }
   
