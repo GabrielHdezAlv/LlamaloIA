@@ -82,14 +82,14 @@ export class MetricsComponent implements OnInit {
   // Generar datos aleatorios para los últimos 30 días
   getLast30DaysData(): number[] {
     const data: number[] = [];
-    const baseValue = 500;
+    const baseValue = 200;
     
     for (let i = 0; i < 30; i++) {
       // Simular tendencia más realista con picos y valles
-      const trend = Math.sin(i * 0.15) * 150; // Onda suave
-      const weeklyPattern = Math.sin(i * 0.9) * 100; // Patrón semanal
-      const random = (Math.random() - 0.5) * 200; // Variación aleatoria
-      const value = Math.max(200, Math.min(1000, baseValue + trend + weeklyPattern + random));
+      const trend = Math.sin(i * 0.15) * 60; // Onda suave
+      const weeklyPattern = Math.sin(i * 0.9) * 40; // Patrón semanal
+      const random = (Math.random() - 0.5) * 80; // Variación aleatoria
+      const value = Math.max(50, Math.min(400, baseValue + trend + weeklyPattern + random));
       data.push(Math.round(value));
     }
     
@@ -98,11 +98,11 @@ export class MetricsComponent implements OnInit {
 
   callsAreaChart: ApexChart = {
     type: 'area',
-    height: 260,
+    height: 320,
     width: '100%',
     toolbar: { show: false },
     offsetX: 0,
-    offsetY: 0,
+    offsetY: -10,
   };
 
   callsAreaStroke: ApexStroke = { 
@@ -115,21 +115,30 @@ export class MetricsComponent implements OnInit {
     strokeDashArray: 3, 
     borderColor: '#E5E7EB',
     xaxis: { lines: { show: false } },
-    yaxis: { lines: { show: true } }
+    yaxis: { lines: { show: true } },
+    padding: {
+      bottom: 20
+    }
   };
   callsAreaXAxis: ApexXAxis = { 
     categories: this.getCurrentCategories(),
-    axisBorder: { show: false },
-    axisTicks: { show: false },
+    axisBorder: { show: true },
+    axisTicks: { show: true },
     labels: { 
-      style: { colors: '#6B7280', fontSize: '12px' },
+      show: true,
+      style: { 
+        colors: '#6B7280', 
+        fontSize: '11px',
+        fontWeight: 500
+      },
       offsetY: 5,
       rotate: 0,
-      maxHeight: 60,
       trim: false,
+      hideOverlappingLabels: false,
     },
-    offsetX: 0,
-    offsetY: 0,
+    crosshairs: {
+      show: false
+    }
   };
 
   // Obtener categorías según el período seleccionado
@@ -145,11 +154,11 @@ export class MetricsComponent implements OnInit {
     if (this.selectedPeriod === 'Últimos 30 días') {
       return this.getLast30DaysData();
     }
-    return [500, 780, 620, 920, 600, 880, 720];
+    return [120, 280, 180, 350, 160, 320, 250];
   }
   callsAreaYAxis: any = {
-    min: 200,
-    max: 1000,
+    min: 0,
+    max: 400,
     tickAmount: 4,
     labels: {
       style: { colors: '#6B7280', fontSize: '12px' },
@@ -422,15 +431,35 @@ export class MetricsComponent implements OnInit {
     this.callsAreaSeries = [
       { name: 'Llamadas', data: this.getCurrentData() }
     ];
+    
+    const isLast30Days = this.selectedPeriod === 'Últimos 30 días';
+    const isMobile = this.isBrowser && window.innerWidth < 640;
+    
+    // Actualizar altura del gráfico
+    this.callsAreaChart = {
+      ...this.callsAreaChart,
+      height: isMobile ? 280 : 320
+    };
+    
     this.callsAreaXAxis = {
       ...this.callsAreaXAxis,
       categories: this.getCurrentCategories(),
+      axisBorder: { show: true },
+      axisTicks: { show: true },
       labels: { 
-        style: { colors: '#6B7280', fontSize: this.selectedPeriod === 'Últimos 30 días' ? '10px' : '12px' },
+        show: true,
+        style: { 
+          colors: '#6B7280', 
+          fontSize: isMobile ? '8px' : (isLast30Days ? '9px' : '11px'),
+          fontWeight: 500
+        },
         offsetY: 5,
-        rotate: this.selectedPeriod === 'Últimos 30 días' ? -45 : 0,
-        maxHeight: 60,
+        rotate: isMobile ? -30 : (isLast30Days ? -45 : 0),
         trim: false,
+        hideOverlappingLabels: !isLast30Days,
+      },
+      crosshairs: {
+        show: false
       }
     };
   }
@@ -441,9 +470,37 @@ export class MetricsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Ajustar gráfico para móviles
+    if (this.isBrowser) {
+      this.updateChartForScreenSize();
+      window.addEventListener('resize', () => this.updateChartForScreenSize());
+    }
+    
     // Ejecutar animaciones siempre
     this.startFadeInAnimations();
     this.preventScrollOnChart();
+  }
+  
+  private updateChartForScreenSize(): void {
+    const isMobile = window.innerWidth < 640;
+    
+    this.callsAreaChart = {
+      ...this.callsAreaChart,
+      height: isMobile ? 280 : 320
+    };
+    
+    this.callsAreaXAxis = {
+      ...this.callsAreaXAxis,
+      labels: {
+        ...this.callsAreaXAxis.labels,
+        style: {
+          colors: '#6B7280',
+          fontSize: isMobile ? '9px' : '11px',
+          fontWeight: 500
+        },
+        rotate: isMobile ? -30 : 0,
+      }
+    };
   }
 
   // Prevenir scroll de página cuando se hace zoom en el gráfico
