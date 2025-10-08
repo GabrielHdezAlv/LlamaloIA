@@ -1,10 +1,10 @@
-<div class="bg-white rounded-[2rem] shadow-sm pb-72 p-6 mt-16 ml-28 mr-[5.5rem] fade-in-section" [class.fade-in-visible]="showContent">
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-semibold text-gray-800 ml-4">{{ t.yourAgents }}</h2>
+<div class="bg-white rounded-[2rem] shadow-sm pb-72 p-6 mt-16 ml-28 mr-[5.5rem] max-lg:p-4 max-lg:mt-8 max-lg:ml-4 max-lg:mr-4 max-lg:pb-16 max-lg:flex max-lg:flex-col max-lg:justify-center max-lg:min-h-[calc(100vh-8rem)] fade-in-section" [class.fade-in-visible]="showContent">
+  <div class="flex justify-between items-center mb-6 max-lg:flex-col max-lg:items-start max-lg:gap-4">
+    <h2 class="text-2xl font-semibold text-gray-800 ml-4 max-lg:text-xl max-lg:ml-0">{{ t.yourAgents }}</h2>
     @if (agents.length > 0) {
     <app-ripple-button
       (buttonClick)="router.navigateByUrl('/dashboard/agents/create')"
-      buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white px-20 py-2 rounded-xl text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2"
+      buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white px-20 py-2 rounded-xl text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2 max-lg:px-8 max-lg:py-2 max-lg:text-xs max-lg:w-full max-lg:justify-center"
       rippleColor="rgba(255, 255, 255, 0.4)"
     >
       {{ t.createAgent }}
@@ -14,17 +14,17 @@
 
   <div
     *ngIf="agents.length > 0"
-    class="grid grid-cols-12 gap-4 text-sm text-gray-400 pb-2 mb-4"
+    class="grid grid-cols-12 gap-4 text-sm text-gray-400 pb-2 mb-4 max-lg:grid-cols-6 max-lg:gap-2 max-lg:text-xs max-sm:grid-cols-2 max-sm:gap-1"
   >
     <!-- Cabecera "Agente" con checkbox -->
-    <div class="col-span-5 flex items-center gap-3">
+    <div class="col-span-5 max-lg:col-span-3 max-sm:col-span-1 flex items-center gap-3 max-sm:gap-2">
       <label class="relative inline-flex items-center cursor-pointer">
         <input type="checkbox" class="peer sr-only" />
         <span
-          class="w-6 h-6 flex items-center justify-center border-2 border-gray-300 bg-white rounded-md transition-colors duration-200 peer-checked:bg-gray-300"
+          class="w-6 h-6 flex items-center justify-center border-2 border-gray-300 bg-white rounded-md transition-colors duration-200 peer-checked:bg-gray-300 max-sm:w-4 max-sm:h-4"
         >
           <svg
-            class="block"
+            class="block max-sm:w-3 max-sm:h-3"
             width="22"
             height="22"
             viewBox="0 0 22 22"
@@ -40,31 +40,31 @@
           </svg>
         </span>
       </label>
-      <span class="font-medium text-gray-400">{{ t.agent }}</span>
+      <span class="font-medium text-gray-400 max-sm:text-xs">{{ t.agent }}</span>
     </div>
 
     <!-- Resto de cabeceras -->
-    <div class="md:col-start-6 font-medium text-gray-400">{{ t.status }}</div>
-    <div class="md:col-start-7 font-medium text-gray-400 whitespace-nowrap">
+    <div class="md:col-start-6 max-lg:col-start-4 max-sm:col-start-2 font-medium text-gray-400 max-sm:text-xs">{{ t.status }}</div>
+    <div class="md:col-start-7 max-lg:col-start-5 max-sm:hidden font-medium text-gray-400 whitespace-nowrap">
       {{ t.totalMinutesSpent }}
     </div>
-    <div class="md:col-start-10 font-medium text-gray-400">{{ t.number }}</div>
-    <div class="md:col-start-12 font-medium text-gray-400 -ml-3">{{ t.type }}</div>
+    <div class="md:col-start-10 max-lg:hidden font-medium text-gray-400">{{ t.number }}</div>
+    <div class="md:col-start-12 max-lg:hidden font-medium text-gray-400 -ml-3">{{ t.type }}</div>
   </div>
 
-  <div *ngIf="agents.length > 0" class="space-y-3">
+  <div *ngIf="agents.length > 0" class="space-y-3 max-lg:space-y-2">
     <div
       *ngFor="let agent of agents"
-      class="p-4 rounded-lg flex items-center gap-4 md:grid md:grid-cols-12 md:gap-4 group hover:bg-gray-200 transition-colors duration-200 hover:cursor-pointer"
+      class="p-4 rounded-lg flex items-center gap-4 md:grid md:grid-cols-12 md:gap-4 group hover:bg-gray-200 transition-colors duration-200 hover:cursor-pointer max-lg:p-3 max-lg:grid-cols-6 max-lg:gap-2 max-sm:p-2 max-sm:grid-cols-2 max-sm:gap-1"
     >
-      <div class="col-span-5 flex items-center gap-3">
+      <div class="col-span-5 max-lg:col-span-3 max-sm:col-span-1 flex items-center gap-3 max-sm:gap-2">
         <label class="relative inline-flex items-center cursor-pointer">
           <input type="checkbox" class="peer sr-only" />
           <span
-            class="w-6 h-6 flex items-center justify-center border-2 border-gray-300 bg-white rounded-md transition-colors duration-200 peer-checked:bg-gray-300"
+            class="w-6 h-6 flex items-center justify-center border-2 border-gray-300 bg-white rounded-md transition-colors duration-200 peer-checked:bg-gray-300 max-sm:w-4 max-sm:h-4"
           >
             <svg
-              class="block"
+              class="block max-sm:w-3 max-sm:h-3"
               width="22"
               height="22"
               viewBox="0 0 22 22"
@@ -83,13 +83,13 @@
         <img
           [src]="agent.photoUrl"
           [alt]="agent.name"
-          class="w-16 h-16 object-cover"
+          class="w-16 h-16 object-cover max-lg:w-12 max-lg:h-12 max-sm:w-8 max-sm:h-8"
         />
-        <div>
-          <p class="font-semibold text-gray-900">{{ agent.name }}</p>
-          <p class="text-xs font-normal text-gray-400">+34 XXX XX XX XX</p>
+        <div class="max-sm:min-w-0 max-sm:flex-1">
+          <p class="font-semibold text-gray-900 max-sm:text-xs max-sm:truncate">{{ agent.name }}</p>
+          <p class="text-xs font-normal text-gray-400 max-sm:hidden">+34 XXX XX XX XX</p>
           <div
-            class="mt-1 flex gap-2 text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            class="mt-1 flex gap-2 text-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200 max-lg:opacity-100 max-lg:gap-1 max-lg:text-xs max-sm:gap-0.5 max-sm:text-xs max-sm:flex-wrap"
           >
             <button
               class="flex items-center gap-1 hover:text-indigo-600 font-semibold"
@@ -147,20 +147,20 @@
         </div>
       </div>
 
-      <div class="md:col-start-6 flex items-center">
+      <div class="md:col-start-6 max-lg:col-start-4 max-sm:col-start-2 flex items-center">
         <span
-          class="inline-block px-2 py-1 text-sm font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg -ml-2.5"
+          class="inline-block px-2 py-1 text-sm font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg -ml-2.5 max-sm:px-1 max-sm:py-0.5 max-sm:text-xs"
           >{{ t.active }}</span
         >
       </div>
 
-      <div class="md:col-start-7 flex items-center gap-2">
-        <span class="text-base font-medium whitespace-nowrap ml-6">408 m</span>
+      <div class="md:col-start-7 max-lg:col-start-5 max-sm:hidden flex items-center gap-2">
+        <span class="text-base font-medium whitespace-nowrap ml-6 max-lg:text-sm max-lg:ml-2">408 m</span>
         <span
-          class="text-sm text-red-500 flex items-center bg-red-100 border-red-200 border rounded-lg px-2 py-1 font-semibold"
+          class="text-sm text-red-500 flex items-center bg-red-100 border-red-200 border rounded-lg px-2 py-1 font-semibold max-lg:text-xs max-lg:px-1 max-lg:py-0.5"
         >
           <svg
-            class="mr-1.5"
+            class="mr-1.5 max-lg:mr-1 max-lg:w-2 max-lg:h-3"
             width="7"
             height="10"
             viewBox="0 0 7 10"
@@ -176,11 +176,11 @@
         </span>
       </div>
 
-      <div class="md:col-start-10 flex items-center">
-        <span class="text-base text-gray-800">({{ t.label }})</span>
+      <div class="md:col-start-10 max-lg:hidden flex items-center">
+        <span class="text-base text-gray-800">{{ t.label }}</span>
       </div>
 
-      <div class="md:col-start-12 flex items-center -ml-4">
+      <div class="md:col-start-12 max-lg:hidden flex items-center -ml-4">
         <span class="text-base text-gray-800">{{ t.inbound }}</span>
       </div>
     </div>
@@ -189,15 +189,15 @@
   <!-- Estado vacío -->
   <div
     *ngIf="agents.length === 0"
-    class="flex flex-col items-center justify-center text-center text-gray-600"
+    class="flex flex-col items-center justify-center text-center text-gray-600 max-lg:py-8 max-sm:py-4 max-lg:flex-1"
   >
-    <p class="text-xl text-gray-400 mt-44">
+    <p class="text-xl text-gray-400 mt-44 max-lg:mt-0 max-lg:text-lg max-sm:mt-0 max-sm:text-base">
       {{ t.noAgentsYet }}
     </p>
-    <p class="text-xl text-gray-400 mb-6">{{ t.createItNow }}</p>
+    <p class="text-xl text-gray-400 mb-6 max-lg:text-lg max-lg:mb-4 max-sm:text-base max-sm:mb-3">{{ t.createItNow }}</p>
     <app-ripple-button
       (buttonClick)="router.navigateByUrl('/dashboard/agents/create')"
-      buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white px-20 py-2 rounded-xl text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2"
+      buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white px-20 py-2 rounded-xl text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2 max-lg:px-12 max-lg:py-2 max-lg:text-sm max-sm:px-8 max-sm:py-1.5 max-sm:text-xs"
       rippleColor="rgba(255, 255, 255, 0.4)"
     >
       {{ t.createAgentButton }}

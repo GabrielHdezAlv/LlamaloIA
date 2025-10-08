@@ -10,6 +10,7 @@ import { CompanySetupComponent } from '../company-setup/company-setup.component'
   standalone: true,
   imports: [RouterOutlet, RouterModule, CommonModule, TopbarComponent, NavComponent, CompanySetupComponent],
   templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements AfterViewInit {
   @ViewChild(CompanySetupComponent) companySetupComponent!: CompanySetupComponent;
