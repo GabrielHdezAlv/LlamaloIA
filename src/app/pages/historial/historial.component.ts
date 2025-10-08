@@ -113,10 +113,11 @@ export class HistorialComponent implements OnInit, AfterViewInit {
     }
   ];
 
-  selectedContact: Contact | null = this.contacts[0]; // Por defecto el primero
+  selectedContact: Contact | null = null; // null por defecto para móviles
   currentAudioTime = '0:00';
   audioDuration = '1:23';
   isPlaying = false;
+  showChat = false; // Para controlar vista móvil
 
   selectContact(contact: Contact) {
     this.selectedContact = contact;
@@ -124,6 +125,11 @@ export class HistorialComponent implements OnInit, AfterViewInit {
     this.currentAudioTime = '0:00';
     this.audioDuration = contact.id === 1 ? '1:23' : contact.id === 2 ? '2:10' : '0:45';
     this.isPlaying = false;
+    this.showChat = true; // Mostrar chat en móviles
+  }
+
+  backToContactList() {
+    this.showChat = false; // Volver a la lista en móviles
   }
 
   togglePlay() {
