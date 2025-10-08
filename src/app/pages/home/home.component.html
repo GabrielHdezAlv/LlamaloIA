@@ -109,10 +109,10 @@
 <div class="flex flex-wrap gap-6 mt-6 mr-24 ml-28 max-lg:flex-col max-lg:gap-4 max-lg:mt-4 max-lg:mr-4 max-lg:ml-4">
   <!-- Agentes Activos (2/3 del ancho) -->
   <div class="bg-white rounded-[2rem] shadow-sm p-6 flex-1 min-w-[300px] border border-gray-100 agentes-activos-recuadro fade-in-section max-lg:p-4 max-lg:min-w-0" style="flex: 1.8;" [class.fade-in-visible]="showAgentesActivos">
-    <h2 class="brand-font text-xl font-semibold text-gray-800 mb-6 agentes-activos-titulo max-lg:text-sm max-lg:mb-2">{{ t.activeAgents }}</h2>
+    <h2 class="brand-font text-xl font-semibold text-gray-800 mb-6 agentes-activos-titulo max-lg:text-lg max-lg:mb-4">{{ t.activeAgents }}</h2>
     
     <div class="overflow-x-auto">
-      <table class="w-full text-left mt-14 agentes-activos-tabla max-lg:mt-4 max-lg:min-w-[280px]">
+      <table class="w-full text-left mt-14 agentes-activos-tabla max-lg:mt-4 max-lg:text-sm">
         <thead>
           <tr class="border-b border-gray-200">
             <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th max-lg:text-xs max-lg:pb-2">{{ t.agentName }}</th>
