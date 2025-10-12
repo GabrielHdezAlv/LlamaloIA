@@ -1,127 +1,161 @@
 :host {
-  width: 100%;
-  height: 100%;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
-.home-container {
-  width: 100%;
-  height: 100%;
-  padding-top: 10px;
+.brand-font {
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
 
-  .charts-containert {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 20px;
+@media (min-width: 1920px) {
+  .llamadas-barra {
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+    transform-origin: bottom;
+    transform: scaleY(1.0);
   }
 
-  .agent_and_total {
-    display: flex;
-    justify-content: space-between;
-    height: 80%;
-
-    .principal-chart-container {
-      display: flex;
-      flex-direction: column;
-      background-color: white;
-      width: 66%;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px -5px;
-      padding: 20px;
-
-      .volume-of-calls {
-        display: flex;
-
-        .svg {
-          margin-right: 10px;
-        }
-
-        p {
-          font-size: 0.8rem;
-        }
-      }
-
-      .chart-wrapper {
-        display: block;
-        height: 95%;
-        width: 100%;
-
-        ::ng-deep g.line-series path.line {
-          stroke-width: 2.8px;
-        }
-      }
-    }
-
-    .agent {
-      background-color: white;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px -5px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-      width: 32%;
-      padding: 45px;
-
-      .agent-description {
-        height: 40%;
-        width: 100%;
-        border-bottom-width: 2px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding-bottom: 30px;
-
-        img {
-          height: 120px;
-        }
-
-        .agent-ia {
-          font-weight: 300;
-          color: gray;
-        }
-      }
-
-      .agent-info {
-        display: flex;
-        flex-direction: column;
-
-        .agent-info-line {
-          width: 100%;
-          height: 33%;
-          display: flex;
-          align-items: center;
-          margin-bottom: 10px;
-
-          .logo {
-            margin-right: 10px;
-            height: 100%;
-            align-items: start;
-          }
-
-          .text-title {
-            font-weight: 700;
-            font-size: 0.9rem;
-          }
-
-          .text-info {
-            font-weight: 300;
-            font-size: 0.9rem;
-            color: gray;
-          }
-        }
-      }
-
-      .custom-flat-button {
-        background-color: #e0e0e0;
-        color: #000000;
-        font-weight: 500;
-
-        &:hover {
-          background-color: #d5d5d5;
-        }
-      }
-    }
+  .llamadas-barra-rounded {
+    border-radius: 12px 12px 12px 12px !important;
   }
 }
+
+@media (min-width: 2560px) {
+  /* Limitar el ancho del contenido y centrarlo un poco más ancho */
+  .agentes-activos-recuadro {
+    max-width: 1600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  
+  .flex.flex-wrap.gap-6.mt-6.mr-24.ml-28 {
+    max-width: 1600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Hacer todo más grande en 2560px */
+  .llamadas-barra {
+    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+  }
+
+  .llamadas-barra-rounded {
+    border-radius: 12px 12px 12px 12px !important;
+  }
+
+  .llamadas-por-dia-grafico span.text-sm {
+    font-size: 1.1rem !important;
+    line-height: 1.8rem !important;
+  }
+
+  .agentes-activos-recuadro {
+    min-height: 480px !important;
+    height: 480px !important;
+    padding: 3rem !important;
+  }
+
+  .agentes-activos-titulo,
+  .resumen-titulo,
+  .llamadas-por-dia-titulo {
+    font-size: 1.7rem !important;
+    margin-bottom: 1.1rem !important;
+  }
+
+  .resumen-datos {
+    font-size: 1.25rem !important;
+  }
+
+  .agentes-activos-tabla {
+    font-size: 1.4rem !important;
+    margin-top: 6rem !important;
+  }
+
+  .agentes-activos-th {
+    font-size: 1.15rem !important;
+    padding-bottom: 1.4rem !important;
+  }
+
+  .agentes-activos-td {
+    font-size: 1.15rem !important;
+    padding-top: 1.4rem !important;
+    padding-bottom: 1.4rem !important;
+  }
+
+  .agentes-activos-minutos {
+    font-size: 1.4rem !important;
+  }
+
+  .agentes-activos-porcentaje {
+    font-size: 1.05rem !important;
+    padding: 0.45rem 0.9rem !important;
+    margin-left: 1.3rem !important;
+  }
+
+  .agentes-activos-icono {
+    width: 1.4rem !important;
+    height: 1.4rem !important;
+    margin-right: 0.45rem !important;
+  }
+
+  .agentes-activos-estado-icono {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+  }
+
+  .agentes-activos-estado-texto {
+    font-size: 1.15rem !important;
+    margin-left: 0.9rem !important;
+  }
+
+  .llamadas-por-dia-altura {
+    min-height: 340px !important;
+    height: 340px !important;
+  }
+
+  .resumen-dias-botones > button {
+    font-size: 1.1rem !important;
+    padding: 0.45rem 1.1rem !important;
+  }
+
+  .resumen-dias-texto {
+    font-size: 1.05rem !important;
+  }
+
+  .llamadas-por-dia-grafico-wrapper {
+    margin-top: 140px !important;
+  }
+
+  .llamadas-barra {
+    transform-origin: bottom;
+    transform: scaleY(1.5);
+  }
+}
+
+
+/* Animación de latido para el punto azul de agentes activos */
+.latido {
+  transform-origin: center;
+  animation: latir 2s ease-in-out infinite;
+}
+
+@keyframes latir {
+  0%   { transform: scale(1); opacity: 1; }
+  25%  { transform: scale(1.2); opacity: 0.95; }
+  50%  { transform: scale(1); opacity: 1; }
+  75%  { transform: scale(1.15); opacity: 0.98; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Animaciones de fade in */
+  .fade-in-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+  }
+  
+  .fade-in-section.fade-in-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }

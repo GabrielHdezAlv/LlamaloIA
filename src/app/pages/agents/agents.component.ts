@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TwilioIntegrationModalComponent } from '../../shared/modals/twilio-integration-modal/twilio-integration-modal.component';
 import { TwilioSuccessModalComponent } from '../../shared/modals/twilio-success-modal/twilio-success-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,6 +17,7 @@ import { Agent } from '../../shared/models/agent.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
 import { ElevenLabsService } from '../../core/services/eleven-labs.service';
+import { ModalService } from '../../shared/modals/modal.service';
 
 @Component({
   selector: 'app-agents',
@@ -33,15 +34,25 @@ import { ElevenLabsService } from '../../core/services/eleven-labs.service';
   templateUrl: './agents.component.html',
   styleUrl: './agents.component.scss',
 })
-export class AgentsComponent {
+export class AgentsComponent implements OnInit {
+  // Variable para controlar la animación de fade in
+  showContent: boolean = false;
+
+  private isBrowser: boolean;
+
   dialog = inject(MatDialog);
   private twilioService = inject(TwilioService);
   private agentsService = inject(AgentsService);
   private userService = inject(UserService);
   private elevenLabsService = inject(ElevenLabsService);
+  private modalService = inject(ModalService);
 
   public twilioStorage: any = inject(TwilioStorage);
   private userStorage: any = inject(UserStorage);
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   showIntegrationModal = false;
   showSuccessModal = false;
@@ -103,6 +114,9 @@ export class AgentsComponent {
     // Inicializar el mensaje de saludo personalizado
     const config = this.twilioStorage.config();
     this.firstInteractionMessage = config?.firstInteraction || '';
+
+    // Ejecutar animación siempre
+    this.startFadeInAnimation();
   }
 
   selectLanguage(lang: any) {
@@ -130,7 +144,7 @@ export class AgentsComponent {
 
     const dialogRef = this.dialog.open(TwilioIntegrationModalComponent, {
       width: '380px',
-      disableClose: true,
+      disableClose: false,
       panelClass: 'custom-dialog-container',
       data: {
         formEnabled: editMode,
@@ -143,7 +157,7 @@ export class AgentsComponent {
 
       const loaderRef = this.dialog.open(LoaderComponent, {
         width: '100px',
-        disableClose: true,
+        disableClose: false,
         panelClass: 'loader-dialog',
       });
 
@@ -155,6 +169,11 @@ export class AgentsComponent {
         error: (err) => {
           loaderRef.close();
           console.error('Error al guardar la configuración:', err);
+          this.modalService.openError({
+            title: 'Error de configuración',
+            message: 'No se pudo guardar la configuración de Twilio.',
+            details: String(err)
+          });
         },
       });
     });
@@ -187,7 +206,7 @@ export class AgentsComponent {
 
     const loaderRef = this.dialog.open(LoaderComponent, {
       width: '100px',
-      disableClose: true,
+      disableClose: false,
       panelClass: 'loader-dialog',
     });
 
@@ -200,6 +219,10 @@ export class AgentsComponent {
     ) {
       loaderRef.close();
       console.error('El mensaje de saludo personalizado no puede estar vacío.');
+      this.modalService.openError({
+        title: 'Validación',
+        message: 'El mensaje de saludo personalizado no puede estar vacío.',
+      });
       return;
     }
 
@@ -231,6 +254,11 @@ export class AgentsComponent {
             error: (error) => {
               loaderRef.close();
               console.error('Error al publicar el agente:', error);
+              this.modalService.openError({
+                title: 'Error',
+                message: 'No se pudo publicar el agente.',
+                details: String(error)
+              });
             },
           });
         },
@@ -240,6 +268,11 @@ export class AgentsComponent {
             'Error al guardar el mensaje de firstInteraction:',
             error
           );
+          this.modalService.openError({
+            title: 'Error',
+            message: 'No se pudo guardar el mensaje inicial.',
+            details: String(error)
+          });
         },
       });
   }
@@ -258,5 +291,27 @@ export class AgentsComponent {
     const totalSteps = 4; // Total de pasos (1, 2, 3, 4)
     const progress = (this.currentStep / totalSteps) * 100;
     return `${progress}%`;
+  }
+
+  private startFadeInAnimation(): void {
+    console.log('AgentsComponent startFadeInAnimation - isBrowser:', this.isBrowser);
+    
+    // Verificar si estamos en el navegador de manera más robusta
+    const isInBrowser = typeof window !== 'undefined' && window.localStorage;
+    console.log('Verificación robusta del navegador:', isInBrowser);
+    
+    if (!isInBrowser) {
+      console.log('No es navegador, mostrando contenido inmediatamente');
+      this.showContent = true;
+      return;
+    }
+
+    console.log('Ejecutando animación con delay...');
+    
+    // Contenido aparece después de 100ms
+    setTimeout(() => {
+      console.log('Mostrando contenido de agentes');
+      this.showContent = true;
+    }, 100);
   }
 }

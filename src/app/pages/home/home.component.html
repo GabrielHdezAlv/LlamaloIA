@@ -1,163 +1,189 @@
-<div
-  class="home-container w-full max-h-screen max-w-7xl mx-auto px-2 sm:px-4 py-4 flex flex-col gap-6 overflow-y-auto"
->
-  <!-- Gráficas superiores -->
-  <div
-    class="charts-containert grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
-  >
-    <app-home-chart
-      [chartLabel]="'Total de Llamadas Realizadas'"
-      [chartData]="chartsInfo.totalCalls"
-      [chartIndex]="0"
-    ></app-home-chart>
-    <app-home-chart
-      [chartLabel]="'Duración Media de Llamadas'"
-      [chartData]="chartsInfo.callsDuration"
-      [chartIndex]="1"
-    ></app-home-chart>
-    <app-home-chart
-      [chartLabel]="'Tiempo ahorrado'"
-      [chartData]="chartsInfo.timeSaved"
-      [chartIndex]="2"
-    ></app-home-chart>
+<!-- Tarjeta de Resumen -->
+<div class="bg-white rounded-[2rem] shadow-sm p-6 mr-24 mt-8 ml-28 border border-gray-100 agentes-activos-recuadro fade-in-section" [class.fade-in-visible]="showResumen">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="brand-font text-xl font-semibold text-gray-800 resumen-titulo">{{ t.summary }}</h2>
+    <div class="flex space-x-3 resumen-dias-botones">
+      <button (click)="setRange('1D')" [class]="selectedRange==='1D' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">1D</button>
+      <button (click)="setRange('7D')" [class]="selectedRange==='7D' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">7D</button>
+      <button (click)="setRange('1M')" [class]="selectedRange==='1M' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">1M</button>
+      <button (click)="setRange('6M')" [class]="selectedRange==='6M' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">6M</button>
+      <button (click)="setRange('1A')" [class]="selectedRange==='1A' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'">1A</button>
+    </div>
   </div>
 
-  <!-- Info agente y volumen de llamadas -->
-  <div
-    class="agent_and_total flex flex-col xl:flex-row gap-6 w-full flex-1 xl:max-h-screen"
-  >
-    <!-- Gráfica volumen de llamadas -->
-    <div
-      class="principal-chart-container flex-1 bg-white rounded-xl shadow p-4 flex flex-col items-center mb-4 xl:mb-0 max-h-[300px] xl:max-h-[65vh] overflow-y-auto"
-    >
-      <div class="volume-of-calls flex items-center gap-2 mb-2">
-        <div class="svg">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="20px"
-            viewBox="0 -960 960 960"
-            width="10px"
-            fill="#75FB4C"
-          >
-            <path
-              d="M480.28-96Q401-96 331-126t-122.5-82.5Q156-261 126-330.96t-30-149.5Q96-560 126-629.5q30-69.5 82.5-122T330.96-834q69.96-30 149.5-30t149.04 30q69.5 30 122 82.5T834-629.28q30 69.73 30 149Q864-401 834-331t-82.5 122.5Q699-156 629.28-126q-69.73 30-149 30Zm-.28-72q130 0 221-91t91-221q0-130-91-221t-221-91q-130 0-221 91t-91 221q0 130 91 221t221 91Zm0 0q-130 0-221-91t-91-221q0-130 91-221t221-91q130 0 221 91t91 221q0 130-91 221t-221 91Z"
-            />
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+    <!-- Total de llamadas exitosas -->
+    <div class="flex flex-col p-4 border-r border-gray-200">
+      <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+        <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="rotate: -90deg;">
+          <path d="M16.935 3.58897L17.773 6.82097C17.919 7.25497 18 7.71997 18 8.20397V11.717C18 12.2751 17.8901 12.8277 17.6765 13.3434C17.4629 13.859 17.1499 14.3275 16.7552 14.7222C16.3606 15.1168 15.892 15.4299 15.3764 15.6435C14.8608 15.857 14.3081 15.967 13.75 15.967H4.25C3.12283 15.967 2.04183 15.5192 1.2448 14.7222C0.447767 13.9251 0 12.8441 0 11.717V8.20397C0 7.94797 0.023 7.69797 0.066 7.45497H0.00999999V6.13697C0.00999673 5.31811 0.278026 4.52175 0.773149 3.86953C1.26827 3.21731 1.96327 2.74508 2.752 2.52497L11.06 0.204973C11.6679 0.035282 12.3036 -0.0115448 12.9298 0.067229C13.5561 0.146003 14.1604 0.348797 14.7073 0.663763C15.2543 0.978728 15.733 1.39955 16.1155 1.90163C16.498 2.40372 16.7766 2.977 16.935 3.58797V3.58897ZM13.75 5.45497H4.25C3.52065 5.45497 2.82118 5.7447 2.30546 6.26043C1.78973 6.77615 1.5 7.47563 1.5 8.20497V11.718C1.5 12.4473 1.78973 13.1468 2.30546 13.6625C2.82118 14.1782 3.52065 14.468 4.25 14.468H13.75C14.4793 14.468 15.1788 14.1782 15.6945 13.6625C16.2103 13.1468 16.5 12.4473 16.5 11.718V8.20497C16.5 7.47563 16.2103 6.77615 15.6945 6.26043C15.1788 5.7447 14.4793 5.45497 13.75 5.45497ZM11.463 1.65097L3.155 3.97097C2.829 4.06197 2.537 4.22197 2.292 4.43297C2.89648 4.11783 3.56831 3.95382 4.25 3.95497H13.75C14.409 3.95497 15.033 4.10497 15.59 4.37297L15.483 3.96597C15.3747 3.54788 15.1841 3.15557 14.9223 2.81199C14.6606 2.4684 14.3331 2.18042 13.9588 1.96488C13.5845 1.74935 13.171 1.61057 12.7425 1.55668C12.314 1.50278 11.879 1.53483 11.463 1.65097Z" fill="#101010"/>
+        </svg>
+      </div>
+
+      <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">{{ t.totalSuccessfulCalls }}</h3>
+
+      <div class="flex items-center gap-3">
+        <p class="text-5xl font-semibold text-black">{{ summary.totalCalls }}</p>
+        <div class="flex items-center h-full ml-3">
+          <svg width="100" height="110" viewBox="0 0 100 99" fill="none" xmlns="http://www.w3.org/2000/svg" class="align-middle">
+            <path d="M96.3237 72.3164C91.1767 68.7988 86.0296 65.2812 80.8826 57.4857C75.7355 49.6903 70.5884 25.5428 65.4414 25.5428C60.2943 25.5428 55.1473 46.0775 50.0002 46.0775C44.8531 46.0775 39.7061 22.1203 34.559 22.1203C29.412 22.1203 24.2649 72.3164 19.1178 72.3164C13.9708 72.3164 8.82373 64.3307 3.67667 56.3449" stroke="#1E3A8A" stroke-width="3"/>
           </svg>
         </div>
-        <p class="font-semibold text-base">Volumen de Llamadas Realizadas</p>
       </div>
-      <div class="chart-wrapper w-full max-w-xl" *ngIf="isChartReady">
-        <apx-chart
-          [series]="chartOptions.series!"
-          [chart]="chartOptions.chart!"
-          [xaxis]="chartOptions.xaxis!"
-          [yaxis]="chartOptions.yaxis!"
-          [dataLabels]="chartOptions.dataLabels!"
-          [stroke]="chartOptions.stroke!"
-          [grid]="chartOptions.grid!"
-          [colors]="chartOptions.colors!"
-        ></apx-chart>
+
+      <div class="mt-2 flex items-center">
+        <span class="inline-flex items-center px-1 py-1 rounded-lg -mt-4 bg-gray-100 text-sm font-semibold text-blue-900 border border-blue-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 text-blue-900" fill="none" viewBox="0 0 16 16">
+            <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 12V4M8 4l-3 3m3-3l3 3"/>
+          </svg>
+          {{ summary.callsDeltaPct }}%
+        </span>
+        <span class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4">{{ t.vsLastYear }}</span>
       </div>
     </div>
 
-    <!-- Info del agente -->
-    <div
-      class="agent flex-1 bg-white rounded-xl shadow p-4 flex flex-col items-center max-h-[600px] xl:max-h-[65vh] overflow-y-auto"
-    >
-      <div class="agent-description flex flex-col items-center mb-4">
-        <img
-          [src]="userStorage.user()?.agent?.photoUrl"
-          alt=""
-          class="w-20 h-20 rounded-full object-cover mb-2"
-        />
-        <p class="agent-name font-bold text-lg">
-          {{ userStorage.user()?.agent?.name }}
-        </p>
-        <p class="agent-ia text-gray-500 text-sm">Tu agente telefónico IA</p>
+    <!-- Tiempo Ahorrado -->
+    <div class="flex flex-col p-4 border-r border-gray-200">
+      <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="64" height="64" rx="32" fill="#F1F1F1"/>
+          <path d="M37 33.507C37.4925 33.507 37.9801 33.604 38.4351 33.7925C38.89 33.9809 39.3034 34.2571 39.6517 34.6053C39.9999 34.9536 40.2761 35.367 40.4645 35.8219C40.653 36.2769 40.75 36.7645 40.75 37.257C40.75 37.7495 40.653 38.2371 40.4645 38.6921C40.2761 39.147 39.9999 39.5604 39.6517 39.9087C39.3034 40.2569 38.89 40.5331 38.4351 40.7215C37.9801 40.91 37.4925 41.007 37 41.007H27C26.0054 41.007 25.0516 40.6119 24.3483 39.9087C23.6451 39.2054 23.25 38.2516 23.25 37.257C23.25 36.2624 23.6451 35.3086 24.3483 34.6053C25.0516 33.9021 26.0054 33.507 27 33.507H37ZM37 35.007H27C26.7045 35.007 26.4119 35.0652 26.139 35.1783C25.866 35.2913 25.6179 35.4571 25.409 35.666C25.2001 35.8749 25.0343 36.123 24.9213 36.396C24.8082 36.6689 24.75 36.9615 24.75 37.257C24.75 37.5525 24.8082 37.8451 24.9213 38.118C25.0343 38.391 25.2001 38.6391 25.409 38.848C25.6179 39.0569 25.866 39.2227 26.139 39.3357C26.4119 39.4488 26.7045 39.507 27 39.507H37C37.5967 39.507 38.169 39.2699 38.591 38.848C39.0129 38.426 39.25 37.8537 39.25 37.257C39.25 36.6603 39.0129 36.088 38.591 35.666C38.169 35.2441 37.5967 35.007 37 35.007ZM32 23C33.1272 23 34.2082 23.4478 35.0052 24.2448C35.8022 25.0418 36.25 26.1228 36.25 27.25C36.25 28.3772 35.8022 29.4582 35.0052 30.2552C34.2082 31.0522 33.1272 31.5 32 31.5C30.8728 31.5 29.7918 31.0522 28.9948 30.2552C28.1978 29.4582 27.75 28.3772 27.75 27.25C27.75 26.1228 28.1978 25.0418 28.9948 24.2448C29.7918 23.4478 30.8728 23 32 23ZM32 24.5C31.2707 24.5 30.5712 24.7897 30.0555 25.3055C29.5397 25.8212 29.25 26.5207 29.25 27.25C29.25 27.9793 29.5397 28.6788 30.0555 29.1945C30.5712 29.7103 31.2707 30 32 30C32.7293 30 33.4288 29.7103 33.9445 29.1945C34.4603 28.6788 34.75 27.9793 34.75 27.25C34.75 26.5207 34.4603 25.8212 33.9445 25.3055C33.4288 24.7897 32.7293 24.5 32 24.5Z" fill="#101010"/>
+        </svg>
       </div>
 
-      <div class="agent-info w-full flex flex-col gap-2">
-        <div class="agent-info-line flex items-center gap-3">
-          <div class="logo">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="20px"
-              viewBox="0 -960 960 960"
-              width="20px"
-              fill="#000000"
-            >
-              <path
-                d="m476-80 182-480h84L924-80h-84l-43-122H603L560-80h-84ZM160-200l-56-56 202-202q-35-35-63.5-80T190-640h84q20 39 40 68t48 58q33-33 68.5-92.5T484-720H40v-80h280v-80h80v80h280v80H564q-21 72-63 148t-83 116l96 98-30 82-122-125-202 201Zm468-72h144l-72-204-72 204Z"
-              />
-            </svg>
-          </div>
-          <div>
-            <p class="text-title font-semibold">Idioma</p>
-            <p class="text-info text-gray-600">Español</p>
-          </div>
-        </div>
-        <div class="agent-info-line flex items-center gap-3">
-          <div class="logo">
-            <ng-container *ngIf="isConnected(); else disconnected">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="20px"
-                viewBox="0 -960 960 960"
-                width="20px"
-                fill="#75FB4C"
-              >
-                <path
-                  d="M480-280q83 0 141.5-58.5T680-480q0-83-58.5-141.5T480-680q-83 0-141.5 58.5T280-480q0 83 58.5 141.5T480-280Zm0 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
-                />
-              </svg>
-            </ng-container>
-            <ng-template #disconnected>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="20px"
-                viewBox="0 -960 960 960"
-                width="20px"
-                fill="#EA3323"
-              >
-                <path
-                  d="M480-280q83 0 141.5-58.5T680-480q0-83-58.5-141.5T480-680q-83 0-141.5 58.5T280-480q0 83 58.5 141.5T480-280Zm0 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"
-                />
-              </svg>
-            </ng-template>
-          </div>
-          <div>
-            <p class="text-title font-semibold">
-              {{
-                isConnected() ? "Conectado (Twilio)" : "Desconectado (Twilio)"
-              }}
-            </p>
-            <p class="text-info text-gray-600">{{ phoneNumber() }}</p>
-          </div>
-        </div>
-        <div class="agent-info-line flex items-center gap-3">
-          <div class="logo">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="20px"
-              fill="#000000"
-            >
-              <path
-                d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z"
-              />
-            </svg>
-          </div>
-          <div>
-            <p class="text-title font-semibold">Tipo de Llamada</p>
-            <p class="text-info text-gray-600">Outbound</p>
-          </div>
+      <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">{{ t.timeSaved }}</h3>
+
+      <div class="flex items-center gap-3">
+        <p class="text-5xl font-semibold text-black">{{ summary.timeSavedHours }}</p>
+        <div class="flex items-center h-full ml-3">
+          <svg width="100" height="110" viewBox="0 0 122 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M120.257 62.5C113.618 50.577 106.978 38.654 100.338 28.575C93.6985 18.496 87.0588 2.02502 80.4191 2.02502C73.7794 2.02502 67.1397 17.512 60.5 27.1C53.8603 36.688 47.2206 57.583 40.5809 59.55C33.9412 61.517 27.3015 60.533 20.6618 62.5C14.022 64.467 7.38234 67.908 0.74264 71.35" stroke="#1E3A8A" stroke-width="3"/>
+          </svg>
         </div>
       </div>
 
-      <button mat-flat-button class="custom-flat-button mt-6 w-full max-w-xs">
-        Personalizar
-      </button>
+      <div class="mt-2 flex items-center">
+        <span class="inline-flex items-center px-1 py-1 rounded-lg -mt-4 bg-gray-100 text-sm font-semibold text-blue-900 border border-blue-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 text-blue-900" fill="none" viewBox="0 0 16 16">
+            <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 12V4M8 4l-3 3m3-3l3 3"/>
+          </svg>
+          {{ summary.timeSavedDeltaPct }}%
+        </span>
+        <span class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4">{{ t.vsLastYear }}</span>
+      </div>
+    </div>
+
+    <!-- Minutos Usados -->
+    <div class="flex flex-col p-4">
+      <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+        <svg width="13" height="13" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.87616 0.717896L7.53332 0.717896C8.26264 0.717912 8.96209 1.00764 9.4778 1.52335C9.99351 2.03906 10.2832 2.73851 10.2833 3.46783L10.2825 7.12428C10.2825 7.22281 10.2631 7.32036 10.2254 7.41139C10.1877 7.50241 10.1325 7.58512 10.0628 7.65478C9.99314 7.72445 9.91044 7.77971 9.81941 7.81741C9.72839 7.85512 9.63083 7.87452 9.53231 7.87452C9.43379 7.87452 9.33623 7.85512 9.2452 7.81741C9.15418 7.77971 9.07148 7.72445 9.00181 7.65478C8.93214 7.58512 8.87688 7.50241 8.83918 7.41139C8.80147 7.32036 8.78207 7.22281 8.78207 7.12428L8.78207 3.46713C8.78192 3.40845 8.77766 3.34985 8.76934 3.29176L1.57806 10.483C1.43741 10.6237 1.24665 10.7027 1.04773 10.7027C0.848822 10.7027 0.658056 10.6237 0.517404 10.483C0.376752 10.3424 0.297734 10.1516 0.297734 9.95271C0.297734 9.7538 0.376751 9.56303 0.517404 9.42238L7.7101 2.22969C7.65154 2.2213 7.59247 2.21705 7.53332 2.21696L3.87616 2.21696C3.68195 2.21011 3.49798 2.12814 3.36302 1.98832C3.22805 1.8485 3.15262 1.66176 3.15262 1.46743C3.15262 1.2731 3.22805 1.08635 3.36302 0.946537C3.49798 0.806721 3.68195 0.724751 3.87616 0.717896Z" fill="#101010"/>
+        </svg>
+      </div>
+
+      <h3 class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos">{{ t.minutesUsed }}</h3>
+
+      <div class="flex items-center gap-3">
+        <p class="text-5xl font-semibold text-black">{{ summary.minutesUsed }}</p>
+        <div class="flex items-center h-full ml-3">
+          <svg width="100" height="110" viewBox="0 0 116 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M114.515 41.767C108.235 22.1 101.956 2.43298 95.6764 2.43298C89.397 2.43298 83.1176 26.033 76.8382 26.033C70.5588 26.033 64.2794 18.167 57.9999 18.167C51.7205 18.167 45.4411 39.8 39.1617 39.8C32.8823 39.8 26.6029 33.9 20.3235 28C14.0441 22.1 7.76465 13.25 1.48524 4.39999" stroke="#1E3A8A" stroke-width="3"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="mt-2 flex items-center">
+        <span class="inline-flex items-center px-1 py-1 -mt-4 rounded-lg bg-gray-100 text-sm font-semibold text-blue-900 border border-blue-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 text-blue-900" fill="none" viewBox="0 0 16 16">
+            <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 12V4M8 4l-3 3m3-3l3 3"/>
+          </svg>
+          {{ summary.minutesDeltaPct }}%
+        </span>
+        <span class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4">{{ t.vsLastYear }}</span>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Fila de Agentes Activos y Llamadas por día (alineados horizontalmente, con proporciones 2:1) -->
+<div class="flex flex-wrap gap-6 mt-6 mr-24 ml-28">
+  <!-- Agentes Activos (2/3 del ancho) -->
+  <div class="bg-white rounded-[2rem] shadow-sm p-6 flex-1 min-w-[300px] border border-gray-100 agentes-activos-recuadro fade-in-section" style="flex: 1.8;" [class.fade-in-visible]="showAgentesActivos">
+    <h2 class="brand-font text-xl font-semibold text-gray-800 mb-6 agentes-activos-titulo">{{ t.activeAgents }}</h2>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-left mt-14 agentes-activos-tabla">
+        <thead>
+          <tr class="border-b border-gray-200">
+            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">{{ t.agentName }}</th>
+            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">{{ t.type }}</th>
+            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">{{ t.totalMinutesSpent }}</th>
+            <th class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th">{{ t.status }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr 
+            class="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+            *ngFor="let agent of activeAgents"
+          >
+            <td class="py-4 text-sm font-medium text-gray-900 agentes-activos-td">{{ agent.name }}</td>
+            <td class="py-4 text-sm text-black font-light agentes-activos-td">{{ agent.type }}</td>
+            <td class="py-4 text-sm agentes-activos-td">
+              <span class="font-normal agentes-activos-minutos ml-3">{{ agent.minutes }}</span>
+              <span class="inline-flex items-center px-1 py-1 rounded-lg bg-gray-100 text-sm font-semibold text-blue-900 border border-blue-100 ml-2 agentes-activos-porcentaje">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1 text-blue-900 agentes-activos-icono" fill="none" viewBox="0 0 16 16">
+                  <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M8 12V4M8 4l-3 3m3-3l3 3"/>
+                </svg>
+                {{ agent.percent }}%
+              </span>
+            </td>
+            <td class="py-4 agentes-activos-td">
+              <div class="flex items-center">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="agentes-activos-estado-icono">
+                  <circle cx="8" cy="8" r="8" [attr.fill]="agent.outerColor"/>
+                  <circle cx="8" cy="8" r="4" [attr.fill]="agent.innerColor" [class.latido]="agent.active"/>
+                </svg>          
+                <span class="ml-2 agentes-activos-estado-texto" [class.text-gray-700]="agent.status===t.active" [class.text-gray-500]="agent.status!==t.active">{{ agent.status }}</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+ <!-- Llamadas por día (1/3 del ancho) -->
+<div 
+  class="bg-white rounded-[2rem] shadow-sm p-6 flex-1 min-w-[200px] border border-gray-100 llamadas-por-dia-grafico agentes-activos-recuadro fade-in-section"
+  style="flex: 1;"
+  [class.fade-in-visible]="showLlamadasPorDia"
+>
+  <h2 class="brand-font text-xl font-semibold text-gray-800 mb-6 llamadas-por-dia-titulo">{{ t.callsPerDay }}</h2>
+  
+  <!-- Contenedor fijo para las barras y los días -->
+  <div class="flex flex-col justify-end h-60 first-letter:llamadas-por-dia-altura llamadas-por-dia-grafico-wrapper">
+    <!-- Barras y días alineados -->
+    <div class="flex flex-col justify-end h-60 llamadas-por-dia-altura">
+      <div class="grid grid-cols-7 gap-2 items-end h-64 w-full mt-2"> <!-- Se agregó mt-2 para reducir el margen superior -->
+        <div class="flex flex-col items-center" *ngFor="let h of callsByDayHeights; let i = index">
+          <div 
+            [style.height.px]="h"
+            [class]="isToday(i) ? 'w-8 bg-blue-900 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded' : 'w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded'"
+          ></div>
+        </div>
+      </div>
+      <!-- Días alineados debajo de las barras -->
+      <div class="grid grid-cols-7 gap-2 items-center mt-2 w-full">
+        <span 
+          class="text-sm text-center"
+          [class]="isToday(i) ? 'text-blue-900 font-semibold' : 'text-gray-500'"
+          *ngFor="let d of days; let i = index"
+        >{{ d }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Espaciado inferior para evitar que el contenido se corte -->
+<div class="h-16"></div>
+

@@ -1,0 +1,737 @@
+<div
+  class="bg-white rounded-2xl shadow-sm pb-24 h-[70vh] mt-4 sm:mt-8 lg:mt-16 mx-4 sm:mx-8 lg:ml-28 lg:mr-[5.5rem] 2xl:mx-auto 2xl:max-w-[1400px] 2xl:ml-auto 2xl:mr-auto"
+>
+  <div class="max-w-6xl 2xl:max-w-none flex flex-col lg:flex-row">
+      <!-- Sidebar -->
+      <div
+        class="w-full lg:w-[32vh] 2xl:w-[400px] bg-gray-100 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none lg:rounded-br-none rounded-b-none p-4 sm:p-62xl:p-8 shadow-sm h-auto lg:h-[75vh]"
+      >
+      <!-- Header -->
+      <div class="flex items-center gap-3 mb-6 mt-3 ml-4">
+        @if (tempProfileImage || userProfileImage()) {
+        <img
+          [src]="tempProfileImage || userProfileImage()"
+          alt="Avatar"
+          class="w-10 h-10 rounded-full"
+        />
+        } @else {
+        <div
+          class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center"
+        >
+          <svg
+            width="12"
+            height="16"
+            viewBox="0 0 12 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              opacity="0.5"
+              d="M8.96143 3C8.96143 3.39397 8.88383 3.78407 8.73306 4.14805C8.5823 4.51203 8.36132 4.84274 8.08275 5.12132C7.80417 5.3999 7.47345 5.62087 7.10948 5.77164C6.7455 5.9224 6.35539 6 5.96143 6C5.56746 6 5.17735 5.9224 4.81338 5.77164C4.4494 5.62087 4.11868 5.3999 3.84011 5.12132C3.56153 4.84274 3.34055 4.51203 3.18979 4.14805C3.03902 3.78407 2.96143 3.39397 2.96143 3C2.96143 2.20435 3.2775 1.44129 3.84011 0.87868C4.40271 0.316071 5.16578 0 5.96143 0C6.75708 0 7.52014 0.316071 8.08275 0.87868C8.64536 1.44129 8.96143 2.20435 8.96143 3Z"
+              fill="black"
+            />
+            <path
+              opacity="0.5"
+              d="M0.576605 14.4282C0.380541 14.306 0.223062 14.1309 0.122372 13.9229C0.0216819 13.715 -0.0181069 13.4828 0.00760484 13.2532C0.191961 11.8043 0.898355 10.4723 1.99442 9.50686C3.09048 8.54141 4.50098 8.00879 5.96161 8.00879C7.42223 8.00879 8.83273 8.54141 9.92879 9.50686C11.0249 10.4723 11.7312 11.8043 11.9156 13.2532C11.9736 13.7202 11.7436 14.1732 11.3456 14.4272C9.73885 15.4569 7.86996 16.0029 5.96161 16.0002C4.05301 16.0034 2.18375 15.4577 0.576605 14.4282Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+        }
+        <div>
+          <h3 class="font-semibold text-gray-900 tracking-[-0.8px]">
+            {{ fullName() }}
+          </h3>
+          <p class="text-xs text-gray-500 tracking-[-0.5px]">{{ email() }}</p>
+        </div>
+      </div>
+
+      <!-- Menu -->
+      <nav
+        class="space-y-2 ml-1 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible"
+      >
+        <!-- Perfil -->
+        <button
+          (click)="setActiveTab('profile')"
+          [class]="
+            activeTab === 'profile'
+              ? 'w-full lg:w-60 flex items-center gap-3 px-3 sm:px-4 py-3 sm:py-5 rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
+              : 'w-full lg:w-60 flex items-center gap-3 px-3 sm:px-4 py-3 sm:py-5 rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
+          "
+        >
+          <span
+            class="flex items-center justify-center w-11 h-11 rounded-full bg-gray-100 group-hover:bg-gray-200 transition-colors duration-200"
+          >
+            <svg
+              width="12"
+              height="16"
+              viewBox="0 0 12 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                opacity="0.5"
+                d="M8.96143 3C8.96143 3.39397 8.88383 3.78407 8.73306 4.14805C8.5823 4.51203 8.36132 4.84274 8.08275 5.12132C7.80417 5.3999 7.47345 5.62087 7.10948 5.77164C6.7455 5.9224 6.35539 6 5.96143 6C5.56746 6 5.17735 5.9224 4.81338 5.77164C4.4494 5.62087 4.11868 5.3999 3.84011 5.12132C3.56153 4.84274 3.34055 4.51203 3.18979 4.14805C3.03902 3.78407 2.96143 3.39397 2.96143 3C2.96143 2.20435 3.2775 1.44129 3.84011 0.87868C4.40271 0.316071 5.16578 0 5.96143 0C6.75708 0 7.52014 0.316071 8.08275 0.87868C8.64536 1.44129 8.96143 2.20435 8.96143 3Z"
+                fill="black"
+              />
+              <path
+                opacity="0.5"
+                d="M0.576605 14.4282C0.380541 14.306 0.223062 14.1309 0.122372 13.9229C0.0216819 13.715 -0.0181069 13.4828 0.00760484 13.2532C0.191961 11.8043 0.898355 10.4723 1.99442 9.50686C3.09048 8.54141 4.50098 8.00879 5.96161 8.00879C7.42223 8.00879 8.83273 8.54141 9.92879 9.50686C11.0249 10.4723 11.7312 11.8043 11.9156 13.2532C11.9736 13.7202 11.7436 14.1732 11.3456 14.4272C9.73885 15.4569 7.86996 16.0029 5.96161 16.0002C4.05301 16.0034 2.18375 15.4577 0.576605 14.4282Z"
+                fill="black"
+              />
+            </svg>
+          </span>
+          <div class="flex flex-col">
+            <span class="font-semibold">{{ t.profile }}</span>
+            <span class="text-xs text-gray-500">{{ t.profileInfo }}</span>
+          </div>
+        </button>
+
+        <!-- Seguridad -->
+        <button
+          (click)="setActiveTab('security')"
+          [class]="
+            activeTab === 'security'
+              ? 'w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group'
+              : 'w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group'
+          "
+        >
+          <span
+            class="flex items-center justify-center w-11 h-11 rounded-full bg-gray-100 group-hover:bg-gray-200 transition-colors duration-200"
+          >
+            <svg
+              width="18"
+              height="20"
+              viewBox="0 0 18 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 0.75C10.9946 0.75 11.9484 1.14509 12.6517 1.84835C13.3549 2.55161 13.75 3.50544 13.75 4.5V5.75H14C14.9946 5.75 15.9484 6.14509 16.6517 6.84835C17.3549 7.55161 17.75 8.50544 17.75 9.5V14.5C17.75 15.1238 17.6271 15.7415 17.3884 16.3177C17.1497 16.894 16.7998 17.4177 16.3588 17.8588C15.9177 18.2998 15.394 18.6497 14.8177 18.8884C14.2415 19.1271 13.6238 19.25 13 19.25H5C3.74022 19.25 2.53204 18.7496 1.64124 17.8588C0.750445 16.968 0.25 15.7598 0.25 14.5V9.5C0.25 8.50544 0.645088 7.55161 1.34835 6.84835C2.05161 6.14509 3.00544 5.75 4 5.75H4.25V4.5C4.25 3.50544 4.64509 2.55161 5.34835 1.84835C6.05161 1.14509 7.00544 0.75 8 0.75H10ZM14 7.25H4C3.40326 7.25 2.83097 7.48705 2.40901 7.90901C1.98705 8.33097 1.75 8.90326 1.75 9.5V14.5C1.75 15.362 2.09241 16.1886 2.7019 16.7981C3.3114 17.4076 4.13805 17.75 5 17.75H13C13.862 17.75 14.6886 17.4076 15.2981 16.7981C15.9076 16.1886 16.25 15.362 16.25 14.5V9.5C16.25 8.90326 16.0129 8.33097 15.591 7.90901C15.169 7.48705 14.5967 7.25 14 7.25ZM9 11.25C9.19891 11.25 9.38968 11.329 9.53033 11.4697C9.67098 11.6103 9.75 11.8011 9.75 12V14C9.75 14.1989 9.67098 14.3897 9.53033 14.5303C9.38968 14.671 9.19891 14.75 9 14.75C8.80109 14.75 8.61032 14.671 8.46967 14.5303C8.32902 14.3897 8.25 14.1989 8.25 14V12C8.25 11.8011 8.32902 11.6103 8.46967 11.4697C8.61032 11.329 8.80109 11.25 9 11.25ZM10 2.25H8C7.40326 2.25 6.83097 2.48705 6.40901 2.90901C5.98705 3.33097 5.75 3.90326 5.75 4.5V5.75H12.25V4.5C12.25 3.90326 12.0129 3.33097 11.591 2.90901C11.169 2.48705 10.5967 2.25 10 2.25Z"
+                fill="#727272"
+              />
+            </svg>
+          </span>
+          <div class="flex flex-col">
+            <span class="font-semibold">{{ t.security }}</span>
+            <span class="text-xs text-gray-500">{{ t.updatePassword }}</span>
+          </div>
+        </button>
+
+        <!-- Facturación y Regalos (sin funcionalidad por ahora) -->
+        <button
+          (click)="setActiveTab('billing')"
+          [class]="
+            activeTab === 'billing'
+              ? 'w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group'
+              : 'w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group'
+          "
+        >
+          <span
+            class="flex items-center justify-center w-11 h-11 rounded-full bg-gray-100 group-hover:bg-gray-200 transition-colors duration-200"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19.935 7.58916L20.773 10.8212C20.919 11.2552 21 11.7202 21 12.2042V15.7172C21 16.2753 20.8901 16.8279 20.6765 17.3436C20.4629 17.8592 20.1499 18.3277 19.7552 18.7224C19.3606 19.117 18.892 19.4301 18.3764 19.6436C17.8608 19.8572 17.3081 19.9672 16.75 19.9672H7.25C6.12283 19.9672 5.04183 19.5194 4.2448 18.7224C3.44777 17.9253 3 16.8443 3 15.7172V12.2042C3 11.9482 3.023 11.6982 3.066 11.4552H3.01V10.1372C3.01 9.31829 3.27803 8.52193 3.77315 7.86971C4.26827 7.21749 4.96327 6.74527 5.752 6.52516L14.06 4.20516C14.6679 4.03547 15.3036 3.98864 15.9298 4.06741C16.5561 4.14619 17.1604 4.34898 17.7073 4.66395C18.2543 4.97891 18.733 5.39973 19.1155 5.90181C19.498 6.4039 19.7766 6.97718 19.935 7.58816V7.58916ZM16.75 9.45516H7.25C6.52065 9.45516 5.82118 9.74489 5.30546 10.2606C4.78973 10.7763 4.5 11.4758 4.5 12.2052V15.7182C4.5 16.4475 4.78973 17.147 5.30546 17.6627C5.82118 18.1784 6.52065 18.4682 7.25 18.4682H16.75C17.4793 18.4682 18.1788 18.1784 18.6945 17.6627C19.2103 17.147 19.5 16.4475 19.5 15.7182V12.2052C19.5 11.4758 19.2103 10.7763 18.6945 10.2606C18.1788 9.74489 17.4793 9.45516 16.75 9.45516ZM14.463 5.65116L6.155 7.97116C5.829 8.06216 5.537 8.22216 5.292 8.43316C5.89648 8.11801 6.56831 7.954 7.25 7.95516H16.75C17.409 7.95516 18.033 8.10516 18.59 8.37316L18.483 7.96616C18.3747 7.54806 18.1841 7.15576 17.9223 6.81217C17.6606 6.46858 17.3331 6.1806 16.9588 5.96507C16.5845 5.74953 16.171 5.61076 15.7425 5.55686C15.314 5.50296 14.879 5.53502 14.463 5.65116Z"
+                fill="#727272"
+              />
+            </svg>
+          </span>
+          <div class="flex flex-col">
+            <span class="font-semibold">{{ t.billing }}</span>
+            <span class="text-xs text-gray-500">{{ t.editPaymentMethod }}</span>
+          </div>
+        </button>
+
+        <button
+          (click)="setActiveTab('gifts')"
+          [class]="
+            activeTab === 'gifts'
+              ? 'w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group'
+              : 'w-60 flex items-center gap-3 px-4 py-5 rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group'
+          "
+        >
+          <span
+            class="flex items-center justify-center w-11 h-11 rounded-full bg-gray-100"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                width="22"
+                height="2"
+                transform="translate(1 11)"
+                fill="#727272"
+              />
+              <rect
+                width="19"
+                height="2"
+                transform="matrix(0 -1 1 0 11 23)"
+                fill="#727272"
+              />
+              <g clip-path="url(#clip0_417_1309)">
+                <mask
+                  id="path-1-outside-1_417_1309"
+                  maskUnits="userSpaceOnUse"
+                  x="0"
+                  y="0"
+                  width="24"
+                  height="24"
+                  fill="black"
+                >
+                  <rect fill="white" width="24" height="24" />
+                  <path d="M20 12V22H4V12" />
+                  <path d="M22 7H2V12H22V7Z" />
+                  <path
+                    d="M12 7H7.5C6.83696 7 6.20107 6.73661 5.73223 6.26777C5.26339 5.79893 5 5.16304 5 4.5C5 3.83696 5.26339 3.20107 5.73223 2.73223C6.20107 2.26339 6.83696 2 7.5 2C11 2 12 7 12 7Z"
+                  />
+                  <path
+                    d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C13 2 12 7 12 7Z"
+                  />
+                </mask>
+                <path
+                  d="M11.1 22C11.1 22.4971 11.5029 22.9 12 22.9C12.4971 22.9 12.9 22.4971 12.9 22H12H11.1ZM12.9 7C12.9 6.50294 12.4971 6.1 12 6.1C11.5029 6.1 11.1 6.50294 11.1 7H12H12.9ZM12 22H12.9V7H12H11.1V22H12ZM21.8 12C21.8 11.0059 20.9941 10.2 20 10.2C19.0059 10.2 18.2 11.0059 18.2 12H20H21.8ZM20 22V23.8C20.9941 23.8 21.8 22.9941 21.8 22H20ZM4 22H2.2C2.2 22.9941 3.00589 23.8 4 23.8V22ZM5.8 12C5.8 11.0059 4.99411 10.2 4 10.2C3.00589 10.2 2.2 11.0059 2.2 12H4H5.8ZM2 7V5.2C1.00589 5.2 0.2 6.00589 0.2 7H2ZM22 7H23.8C23.8 6.00589 22.9941 5.2 22 5.2V7ZM22 12V13.8C22.9941 13.8 23.8 12.9941 23.8 12H22ZM2 12H0.2C0.2 12.9941 1.00589 13.8 2 13.8L2 12ZM7.5 7V5.2V7ZM5 4.5H3.2H5ZM7.5 2V0.2V2ZM16.5 7V5.2V7ZM16.5 2V3.8V2ZM20 12H18.2V22H20H21.8V12H20ZM20 22V20.2H4V22V23.8H20V22ZM4 22H5.8V12H4H2.2V22H4ZM2 7V8.8H22V7V5.2H2V7ZM22 7H20.2V12H22H23.8V7H22ZM22 12V10.2H2V12V13.8H22V12ZM2 12H3.8V7H2H0.2V12H2ZM12 7V5.2H7.5V7V8.8H12V7ZM7.5 7V5.2C7.31435 5.2 7.1363 5.12625 7.00503 4.99497L5.73223 6.26777L4.45944 7.54056C5.26585 8.34697 6.35957 8.8 7.5 8.8V7ZM5.73223 6.26777L7.00503 4.99497C6.87375 4.8637 6.8 4.68565 6.8 4.5H5H3.2C3.2 5.64043 3.65303 6.73415 4.45944 7.54056L5.73223 6.26777ZM5 4.5H6.8C6.8 4.31435 6.87375 4.1363 7.00503 4.00503L5.73223 2.73223L4.45944 1.45944C3.65303 2.26585 3.2 3.35957 3.2 4.5H5ZM5.73223 2.73223L7.00503 4.00503C7.1363 3.87375 7.31435 3.8 7.5 3.8V2V0.2C6.35957 0.2 5.26585 0.653034 4.45944 1.45944L5.73223 2.73223ZM7.5 2V3.8C8.24902 3.8 8.90317 4.30902 9.48531 5.36745C9.75554 5.85878 9.94786 6.36683 10.073 6.76216C10.1346 6.95658 10.1775 7.11585 10.2039 7.22172C10.2171 7.27447 10.2261 7.3134 10.2312 7.33618C10.2337 7.34756 10.2353 7.35485 10.2359 7.35776C10.2362 7.35922 10.2363 7.35958 10.2361 7.3588C10.236 7.35841 10.2359 7.35774 10.2357 7.35677C10.2356 7.35629 10.2355 7.35574 10.2354 7.35511C10.2353 7.3548 10.2352 7.35427 10.2352 7.35411C10.2351 7.35357 10.235 7.35301 12 7C13.765 6.64699 13.7649 6.64639 13.7648 6.64577C13.7648 6.64554 13.7646 6.6449 13.7645 6.64443C13.7643 6.6435 13.7641 6.64249 13.7639 6.64141C13.7635 6.63923 13.763 6.63675 13.7624 6.63395C13.7613 6.62837 13.7598 6.62155 13.7581 6.61355C13.7548 6.59754 13.7503 6.57676 13.7446 6.55151C13.7334 6.50105 13.7174 6.43256 13.6965 6.34859C13.6546 6.18103 13.5919 5.94967 13.5051 5.67534C13.3334 5.13317 13.057 4.39122 12.6397 3.63255C11.8468 2.19098 10.251 0.2 7.5 0.2V2ZM12 7V8.8H16.5V7V5.2H12V7ZM16.5 7V8.8C17.6404 8.8 18.7342 8.34697 19.5406 7.54056L18.2678 6.26777L16.995 4.99497C16.8637 5.12625 16.6857 5.2 16.5 5.2V7ZM18.2678 6.26777L19.5406 7.54056C20.347 6.73415 20.8 5.64043 20.8 4.5H19H17.2C17.2 4.68565 17.1263 4.8637 16.995 4.99497L18.2678 6.26777ZM19 4.5H20.8C20.8 3.35957 20.347 2.26585 19.5406 1.45944L18.2678 2.73223L16.995 4.00503C17.1263 4.1363 17.2 4.31435 17.2 4.5H19ZM18.2678 2.73223L19.5406 1.45944C18.7342 0.653034 17.6404 0.2 16.5 0.2V2V3.8C16.6857 3.8 16.8637 3.87375 16.995 4.00503L18.2678 2.73223ZM16.5 2V0.2C13.749 0.2 12.1532 2.19098 11.3603 3.63255C10.943 4.39122 10.6666 5.13317 10.4949 5.67534C10.4081 5.94967 10.3454 6.18103 10.3035 6.34859C10.2826 6.43256 10.2666 6.50105 10.2554 6.55151C10.2497 6.57676 10.2452 6.59754 10.2419 6.61355C10.2402 6.62155 10.2387 6.62837 10.2376 6.63395C10.237 6.63675 10.2365 6.63923 10.2361 6.64141C10.2359 6.64249 10.2357 6.6435 10.2355 6.64443C10.2354 6.6449 10.2352 6.64554 10.2352 6.64577C10.2351 6.64639 10.235 6.64699 12 7C13.765 7.35301 13.7649 7.35357 13.7648 7.35411C13.7648 7.35427 13.7647 7.3548 13.7646 7.35511C13.7645 7.35574 13.7644 7.35629 13.7643 7.35677C13.7641 7.35774 13.764 7.35841 13.7639 7.3588C13.7637 7.35958 13.7638 7.35922 13.7641 7.35776C13.7647 7.35485 13.7663 7.34756 13.7688 7.33618C13.7739 7.3134 13.7829 7.27447 13.7961 7.22172C13.8225 7.11585 13.8654 6.95658 13.927 6.76216C14.0521 6.36683 14.2445 5.85878 14.5147 5.36745C15.0968 4.30902 15.751 3.8 16.5 3.8V2Z"
+                  fill="#727272"
+                  mask="url(#path-1-outside-1_417_1309)"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_417_1309">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </span>
+          <div class="flex flex-col">
+            <span class="font-semibold">{{ t.gifts }}</span>
+            <span class="text-xs text-gray-500">{{ t.giftsSubtitle }}</span>
+          </div>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div
+      class="flex-1 bg-white rounded-b-xl lg:rounded-l-3xl lg:rounded-tl-3xl lg:rounded-r-2xl lg:rounded-b-2xl shadow-sm p-4 sm:p-6 lg:p-8 2xl:p-12 lg:-ml-6"
+    >
+      @if (activeTab === 'profile') {
+      <!-- === SECCIÓN PERFIL === -->
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">
+        {{ t.profileInfo }}
+      </h2>
+
+      <!-- Avatar & Text -->
+      <div class="flex items-start gap-4 mb-8">
+        @if (tempProfileImage || userProfileImage()) {
+        <img
+          [src]="tempProfileImage || userProfileImage()"
+          alt="Avatar"
+          class="w-20 h-20 rounded-full cursor-pointer hover:opacity-80 transition-opacity duration-200"
+          (click)="onAvatarClick()"
+        />
+        } @else {
+        <div
+          class="w-20 h-20 rounded-full bg-gray-100 cursor-pointer hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center"
+          (click)="onAvatarClick()"
+        >
+          <svg
+            width="24"
+            height="32"
+            viewBox="0 0 12 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              opacity="0.5"
+              d="M8.96143 3C8.96143 3.39397 8.88383 3.78407 8.73306 4.14805C8.5823 4.51203 8.36132 4.84274 8.08275 5.12132C7.80417 5.3999 7.47345 5.62087 7.10948 5.77164C6.7455 5.9224 6.35539 6 5.96143 6C5.56746 6 5.17735 5.9224 4.81338 5.77164C4.4494 5.62087 4.11868 5.3999 3.84011 5.12132C3.56153 4.84274 3.34055 4.51203 3.18979 4.14805C3.03902 3.78407 2.96143 3.39397 2.96143 3C2.96143 2.20435 3.2775 1.44129 3.84011 0.87868C4.40271 0.316071 5.16578 0 5.96143 0C6.75708 0 7.52014 0.316071 8.08275 0.87868C8.64536 1.44129 8.96143 2.20435 8.96143 3Z"
+              fill="black"
+            />
+            <path
+              opacity="0.5"
+              d="M0.576605 14.4282C0.380541 14.306 0.223062 14.1309 0.122372 13.9229C0.0216819 13.715 -0.0181069 13.4828 0.00760484 13.2532C0.191961 11.8043 0.898355 10.4723 1.99442 9.50686C3.09048 8.54141 4.50098 8.00879 5.96161 8.00879C7.42223 8.00879 8.83273 8.54141 9.92879 9.50686C11.0249 10.4723 11.7312 11.8043 11.9156 13.2532C11.9736 13.7202 11.7436 14.1732 11.3456 14.4272C9.73885 15.4569 7.86996 16.0029 5.96161 16.0002C4.05301 16.0034 2.18375 15.4577 0.576605 14.4282Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+        }
+        <div class="flex flex-col mt-6">
+          <span class="text-xs text-gray-500 tracking-[-0.5px]">{{ t.profileInfoHint1 }}</span>
+          <span class="text-xs text-gray-500 tracking-[-0.5px]">{{ t.profileInfoHint2 }}</span>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <div class="space-y-6">
+        <!-- Nombre Completo -->
+        <div>
+          <label
+            class="block text-sm font-semibold text-black mb-2 tracking-[-0.4px]"
+            >{{ t.fullName }}</label
+          >
+          <div class="relative">
+            <input
+              type="text"
+              value="{{ fullName() }}"
+              class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm"
+            />
+            <svg
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-semibold text-black mb-2"
+            >{{ t.email }}</label
+          >
+          <div class="relative">
+            <input
+              type="email"
+              [value]="email()"
+              readonly
+              class="w-full px-4 py-3 border border-gray-300 rounded-full bg-gray-50 text-gray-600 cursor-not-allowed text-sm"
+            />
+            <svg
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">{{ t.emailNotEditable }}</p>
+        </div>
+
+        <!-- País -->
+        <div class="relative">
+          <label class="block text-sm font-semibold text-black mb-2"
+            >{{ t.country }}</label
+          >
+          <select
+            [(ngModel)]="tempCountry"
+            class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm appearance-none pr-12"
+          >
+            <option value="">{{ t.selectCountry }}</option>
+            <option value="España">España</option>
+            <option value="Francia">Francia</option>
+            <option value="Italia">Italia</option>
+            <option value="Portugal">Portugal</option>
+            <option value="Alemania">Alemania</option>
+            <option value="Reino Unido">Reino Unido</option>
+            <option value="Estados Unidos">Estados Unidos</option>
+            <option value="México">México</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Colombia">Colombia</option>
+          </select>
+          <span
+            class="pointer-events-none absolute inset-y-0 right-4 top-9 flex items-center"
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.21984 0.21984C0.28949 0.150145 0.372191 0.0948576 0.463216 0.0571365C0.554242 0.0194154 0.651808 0 0.75034 0C0.848871 0 0.946438 0.0194154 1.03746 0.0571365C1.12849 0.0948576 1.21119 0.150145 1.28084 0.21984L3.86684 2.80584C3.98292 2.92195 4.12073 3.01405 4.27241 3.07689C4.42409 3.13973 4.58666 3.17207 4.75084 3.17207C4.91502 3.17207 5.07759 3.13973 5.22927 3.07689C5.38095 3.01405 5.51876 2.92195 5.63484 2.80584L8.21984 0.21984C8.28951 0.150174 8.37221 0.0949112 8.46323 0.0572081C8.55426 0.019505 8.65182 9.91821e-05 8.75034 9.91821e-05C8.84886 9.91821e-05 8.94642 0.019505 9.03745 0.0572081C9.12847 0.0949112 9.21117 0.150174 9.28084 0.21984C9.35051 0.289506 9.40577 0.372212 9.44347 0.463236C9.48118 0.554259 9.50058 0.651817 9.50058 0.75034C9.50058 0.848862 9.48118 0.946421 9.44347 1.03744C9.40577 1.12847 9.35051 1.21117 9.28084 1.28084L6.69484 3.86684C6.17912 4.38254 5.47966 4.67225 4.75034 4.67225C4.02102 4.67225 3.32156 4.38254 2.80584 3.86684L0.21984 1.27984C0.150145 1.21019 0.0948571 1.12749 0.0571361 1.03646C0.019415 0.945438 0 0.847872 0 0.74934C0 0.650808 0.019415 0.553242 0.0571361 0.462216C0.0948571 0.371191 0.150145 0.28849 0.21984 0.21884V0.21984Z"
+                fill="#727272"
+              />
+            </svg>
+          </span>
+        </div>
+
+        <!-- Nombre del Negocio y Web del Negocio -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >{{ t.businessName }}</label
+            >
+            <div class="relative">
+              <input
+                type="text"
+                [value]="enterprise()"
+                [(ngModel)]="tempEnterprise"
+                placeholder="TuTienda"
+                class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm"
+              />
+              <svg
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2"
+              >{{ t.businessWebsite }}</label
+            >
+            <div class="relative">
+              <input
+                type="url"
+                [value]="enterpriseWeb()"
+                [(ngModel)]="tempEnterpriseWeb"
+                placeholder="https://tutienda.com"
+                class="w-full px-4 py-3 border border-gray-300 rounded-full focus:ring-blue-500 focus:border-blue-500 text-sm"
+              />
+              <svg
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-green-500"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón de Guardar -->
+        <div class="flex justify-end mt-8">
+          <app-ripple-button
+            (buttonClick)="saveUserInfo()"
+            buttonClass="px-10 py-2 bg-[#0a1740] text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2"
+            rippleColor="rgba(255, 255, 255, 0.4)"
+          >
+            {{ t.saveChanges }}
+          </app-ripple-button>
+        </div>
+      </div>
+      } @if (activeTab === 'security') {
+      <!-- === SECCIÓN SEGURIDAD === -->
+      <div class="flex flex-col h-full">
+        <!-- Encabezado -->
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ t.security }}</h2>
+
+        <!-- Cambiar Contraseña -->
+        <div class="space-y-8 flex-1">
+          <!-- Contraseña Actual con "Olvidaste la contraseña?" -->
+          <div class="relative">
+            <label
+              class="absolute left-8 top-2 text-xs text-black pointer-events-none tracking-[-1px] bg-white p-1"
+              >{{ t.currentPassword }}</label
+            >
+            <a
+              class="absolute right-8 top-2 text-xs text-black hover:underline cursor-pointer tracking-[-1px] bg-white p-1"
+              style="z-index: 2"
+              >{{ t.forgotPassword }}</a
+            >
+            <input
+              type="password"
+              [(ngModel)]="currentPassword"
+              placeholder="1234567"
+              class="w-full mt-5 px-8 py-3 border border-gray-200 rounded-full focus:ring-0 focus:border-black text-sm bg-white text-black placeholder-gray-400 outline-none"
+              style="box-shadow: none"
+            />
+          </div>
+
+          <!-- Nueva y Confirmar Contraseña -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div class="relative">
+              <label
+                class="absolute left-8 top-2 text-xs text-black pointer-events-none tracking-[-1px] bg-white p-1"
+                >{{ t.newPassword }}</label
+              >
+              <input
+                type="password"
+                [(ngModel)]="newPassword"
+                placeholder="1234567"
+                class="w-full mt-5 px-8 py-3 border border-gray-200 rounded-full focus:ring-0 focus:border-black text-sm bg-white text-black placeholder-gray-400 outline-none"
+                style="box-shadow: none"
+              />
+            </div>
+            <div class="relative">
+              <label
+                class="absolute left-8 top-2 text-xs text-black pointer-events-none tracking-[-1px] bg-white p-1"
+                >{{ t.confirmNewPassword }}</label
+              >
+              <input
+                type="password"
+                [(ngModel)]="confirmPassword"
+                placeholder="1234567"
+                class="w-full mt-5 px-8 py-3 border border-gray-200 rounded-full focus:ring-0 focus:border-black text-sm bg-white text-black placeholder-gray-400 outline-none"
+                style="box-shadow: none"
+              />
+            </div>
+          </div>
+
+          <!-- Botón Actualizar -->
+          <app-ripple-button
+            (buttonClick)="updatePassword()"
+            buttonClass="px-6 py-2 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2 mt-6"
+            rippleColor="rgba(255, 255, 255, 0.4)"
+            [rippleScale]="8"
+          >
+            {{ t.updatePassword }}
+          </app-ripple-button>
+        </div>
+
+        <!-- Eliminar Cuenta - SIEMPRE ABAJO -->
+        <div class="pt-6 mt-8">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="text-sm font-semibold text-gray-900 mb-2">
+                {{ t.deleteAccount }}
+              </h3>
+              <p class="text-xs text-gray-600 tracking-[-0.5px]">
+                {{ t.deleteAccountDescription }}
+              </p>
+            </div>
+            <app-ripple-button
+              (buttonClick)="deleteAccount()"
+              buttonClass="mt-4 px-6 py-2 bg-red-600 text-white font-medium font-sans rounded-xl hover:bg-red-700 focus:bg-red-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2 whitespace-nowrap"
+              rippleColor="rgba(255, 255, 255, 0.4)"
+              [rippleScale]="8"
+            >
+              {{ t.deleteAccountBtn }}
+            </app-ripple-button>
+          </div>
+        </div>
+      </div>
+      } @if (activeTab === 'billing') {
+      <!-- === SECCIÓN FACTURACIÓN === -->
+      <div class="flex flex-col h-full">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ t.billing }}</h2>
+
+        <div class="space-y-6">
+          <!-- Suscripción Actual -->
+          <div>
+            <h3
+              class="text-sm font-semibold text-gray-800 mb-2 tracking-[-0.5px]"
+            >
+              {{ t.currentSubscription }}
+            </h3>
+            <p class="text-sm text-gray-800 tracking-[-0.5px]">
+              {{ currentPlanMinutes ?? '---' }} {{ t.minutesWord }} {{ t.withPlan }} <strong>{{ t.basicPlan }}</strong>
+            </p>
+          </div>
+
+          <!-- Botones de Acción -->
+          <div class="flex flex-col sm:flex-row gap-4">
+            <app-ripple-button
+              buttonClass="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
+              rippleColor="rgba(255, 255, 255, 0.4)"
+              [rippleScale]="8"
+            >
+            {{ t.cancelSubscription }}
+            </app-ripple-button>
+            <app-ripple-button
+              buttonClass="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
+              rippleColor="rgba(255, 255, 255, 0.4)"
+              [rippleScale]="8"
+            >
+              {{ t.editPaymentMethod }}
+            </app-ripple-button>
+            <app-ripple-button
+              buttonClass="px-4 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-sm whitespace-nowrap tracking-[-0.5px]"
+              rippleColor="rgba(255, 255, 255, 0.4)"
+              [rippleScale]="8"
+            >
+              {{ t.invoicesHistory }}
+            </app-ripple-button>
+          </div>
+
+          <!-- Mejorar/Cambiar Plan -->
+          <app-ripple-button
+            (buttonClick)="openBillingModal()"
+            buttonClass="w-full px-6 py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-full hover:from-blue-800 hover:to-blue-700 transition-all duration-200 tracking-[-0.5px] mt-4"
+            rippleColor="rgba(255, 255, 255, 0.4)"
+            [rippleScale]="8"
+          >
+            {{ t.upgradePlan }}
+          </app-ripple-button>
+
+          <!-- Protegido por Stripe -->
+          <div class="flex items-center mt-6">
+            <img src="assets/stripe.png" alt="Stripe" class="h-6 w-auto" />
+            <span class="ml-2 mt-1 text-base text-gray-800 tracking-[-0.5px]"
+              >{{ t.protectedByStripe }}</span
+            >
+          </div>
+        </div>
+      </div>
+      } @if (activeTab === 'gifts') {
+      <!-- === SECCIÓN REGALOS === -->
+      <div class="flex flex-col h-full">
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">{{ t.gifts }}</h2>
+        <div class="space-y-6">
+          <!-- Descripción -->
+          <p class="text-xs text-gray-600 font-medium tracking-[-1px]">
+            {{ t.giftsDescription }}
+          </p>
+
+          <!-- Tarjeta de Recompensa Trustpilot -->
+          <div class="bg-gray-100 rounded-2xl p-6 mx-auto">
+            <div class="space-y-4">
+              <!-- Título de la recompensa -->
+              <h3 class="text-2xl font-semibold tracking-[-0.5px]">
+                <span class="text-gray-900">{{ t.trustpilot }}</span>
+                <span class="text-blue-600"> {{ t.trustpilotBonus }}</span>
+              </h3>
+
+              <!-- Descripción -->
+              <p
+                class="text-sm font-semibold text-gray-900 leading-relaxed tracking-[-0.5px]"
+              >
+                {{ t.trustpilotDescription }}
+              </p>
+
+              <!-- Botón Canjear -->
+              <div class="flex justify-end">
+                <app-ripple-button
+                  (buttonClick)="redeemReward('Trustpilot')"
+                  buttonClass="px-6 py-2 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2 text-sm"
+                  rippleColor="rgba(255, 255, 255, 0.4)"
+                  [rippleScale]="8"
+                >
+                  {{ t.redeem }}
+                </app-ripple-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Modal de Facturación -->
+  @if (showBillingModal) {
+  <div class="fixed inset-0 bg-purple-100 bg-opacity-80 flex items-center justify-center p-8 z-50 billing-modal-overlay" (click)="closeBillingModal($event)">
+    <!-- Modal content -->
+    <div class="bg-white rounded-[3rem] shadow-2xl p-14 max-w-[65rem] w-full mx-auto max-h-[90vh] overflow-y-auto relative" (click)="$event.stopPropagation()">
+      
+      <!-- Botón de cerrar -->
+      <button
+        (click)="closeBillingModal()"
+        class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center transition-colors duration-200 z-10"
+        aria-label="Cerrar modal"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="#1E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      
+      <!-- Selector de minutos -->
+      <div class="mb-8 max-w-3xl mx-auto">
+        <div class="flex flex-wrap items-center gap-2 mb-4 tracking-[-0.4px]">
+          <h2 class="text-lg font-bold text-gray-800">
+            ¿Cuántos minutos necesitarías al mes? Unos
+          </h2>
+          <div class="bg-blue-900 text-white px-3 py-1 rounded-[2rem] font-normal text-base whitespace-nowrap">
+            {{ selectedMinutes }}
+          </div>
+          <span class="text-gray-700 font-bold">Minutos</span>
+        </div>
+        
+        <!-- Slider Personalizado -->
+        <div class="relative">
+          <div 
+            class="relative h-3 bg-gray-200 rounded-lg cursor-pointer"
+            (click)="onSliderTrackClick($event)"
+          >
+            <!-- Barra de progreso -->
+            <div 
+              class="absolute top-0 left-0 h-3 bg-blue-900 rounded-lg transition-all duration-300 ease-out"
+              [style.width.%]="((selectedMinutes - 100) / (2000 - 100)) * 100"
+            ></div>
+            
+            <!-- Thumb personalizado -->
+            <div 
+              class="absolute top-1/2 transform -translate-y-1/2 w-6 h-6 bg-white border-2 border-blue-900 rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-out hover:shadow-xl hover:scale-110"
+              [style.left]="getSliderThumbPosition()"
+              (mousedown)="startDragging($event)"
+              (touchstart)="startDragging($event)"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenido principal -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-3xl mx-auto bg-white rounded-2xl overflow-hidden shadow-lg tracking-[-0.4px]">
+        <!-- Sección izquierda - Recuadro del plan (blanco) -->
+        <div class="bg-white p-8 lg:p-10 font-dm-sans">
+          <div class="space-y-4">
+            <div>
+              <span class="text-xl text-gray-500 font-normal font-dm-sans">{{ selectedPlan?.targetAudience }}</span>
+              <h3 class="text-3xl font-bold text-blue-950 font-dm-sans">{{ selectedPlan?.name }}</h3>
+              <p class="text-gray-500 mt-8 text-xl leading-relaxed font-dm-sans">{{ selectedPlan?.description }}</p>
+            </div>
+            
+            <div class="flex items-baseline gap-3">
+              <span class="text-6xl font-extrabold text-blue-950 font-dm-sans">${{ selectedPlan?.price }}</span>
+              <span class="text-gray-500 text-xl font-dm-sans">/monthly</span>
+            </div>
+            
+            <button
+              (click)="getStarted()"
+              class="w-full bg-blue-900 text-white font-medium py-6 px-8 rounded-full transition-colors duration-200 text-lg font-dm-sans"
+            >
+              Get started
+            </button>
+          </div>
+        </div>
+
+        <!-- Sección derecha - Características incluidas (gris muy claro) -->
+        <div class="bg-gray-50 p-8 lg:p-10 font-dm-sans">
+          <h4 class="text-2xl font-bold text-blue-950 mb-6 mt-8 font-dm-sans">What's included</h4>
+          
+          <div class="space-y-4">
+            <div *ngFor="let feature of selectedPlan?.features" class="flex items-center gap-4">
+              <div class="flex-shrink-0 w-6 h-6 bg-blue-700 rounded-full flex items-center justify-center">
+                <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_1126_212)">
+                  <path d="M13.8711 26.1522C21.051 26.1522 26.8711 20.3321 26.8711 13.1522C26.8711 5.97232 21.051 0.152222 13.8711 0.152222C6.69119 0.152222 0.871094 5.97232 0.871094 13.1522C0.871094 20.3321 6.69119 26.1522 13.8711 26.1522Z" fill="#1E3A8A"/>
+                  <path d="M7.98828 13.9927L11.3501 17.3545L19.7546 8.94995" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <defs>
+                  <clipPath id="clip0_1126_212">
+                  <rect width="26" height="26" fill="white" transform="translate(0.871094 0.152222)"/>
+                  </clipPath>
+                  </defs>
+                  </svg>
+                
+              </div>
+              <span class="text-gray-700 text-lg font-dm-sans">{{ feature }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+  }
+</div>

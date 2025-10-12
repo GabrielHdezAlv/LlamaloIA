@@ -1,5 +1,5 @@
-<div>
-  <div class="mt-6" aria-hidden="true">
+<div class="fade-in-section" [class.fade-in-visible]="showContent">
+  <div class="mt-8" aria-hidden="true">
     <div class="overflow-hidden rounded-full bg-gray-200">
       <div
         class="h-2 rounded-full bg-indigo-600 transition-all duration-300"
@@ -55,7 +55,7 @@
 
 <div class="mt-8">
   <!-- Paso 1: Voz e Idioma -->
-  <div *ngIf="currentStep === 1" class="bg-white rounded-2xl shadow p-8">
+  <div *ngIf="currentStep === 1" class="bg-white rounded-[2rem] shadow p-8">
     <h3 class="text-lg font-semibold mb-4">Paso 1. Voz e Idioma</h3>
     <p class="text-sm text-gray-600 mb-6">
       Configura el idioma y la voz que utilizará tu agente para interactuar con
@@ -172,7 +172,7 @@
   </div>
 
   <!-- Paso 2: Instrucciones del Agente -->
-  <div *ngIf="currentStep === 2" class="bg-white rounded-2xl shadow p-8">
+  <div *ngIf="currentStep === 2" class="bg-white rounded-[2rem] shadow p-8">
     <h3 class="text-lg font-semibold mb-4">Paso 2. Instrucciones del Agente</h3>
     <p class="text-sm text-gray-600 mb-6">
       Define las instrucciones y comportamientos específicos que debe seguir tu
@@ -210,7 +210,7 @@
   </div>
 
   <!-- Paso 3: Conexión con Twilio -->
-  <div *ngIf="currentStep === 3" class="bg-white rounded-2xl shadow p-8">
+  <div *ngIf="currentStep === 3" class="bg-white rounded-[2rem] shadow p-8">
     <h3 class="text-lg font-semibold mb-4">Paso 3. Conexión con Twilio</h3>
     <p class="text-sm text-gray-600 mb-6">
       Configura la integración con Twilio para habilitar las llamadas
@@ -242,7 +242,7 @@
           'bg-green-600': twilioStorage.config()
         }"
         (click)="openIntegrationDialog(!twilioStorage.config())"
-        class="rounded-3xl p-3 text-white text-sm hover:opacity-90 transition-opacity flex items-center gap-2"
+        class="rounded-[2rem] p-3 text-white text-sm hover:opacity-90 transition-opacity flex items-center gap-2"
       >
         <svg
           *ngIf="!twilioStorage.config()"
@@ -290,7 +290,7 @@
   </div>
 
   <!-- Paso 4: Completado -->
-  <div *ngIf="currentStep === 4" class="bg-white rounded-2xl shadow p-8">
+  <div *ngIf="currentStep === 4" class="bg-white rounded-[2rem] shadow p-8">
     <h3 class="text-lg font-semibold mb-4">¡Configuración Completada!</h3>
     <p class="text-sm text-gray-600 mb-6">
       Tu agente está listo para ser utilizado. Revisa la configuración antes de
@@ -303,7 +303,7 @@
 <div class="w-full flex justify-center mt-8">
   <button
     (click)="publishAgent()"
-    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-2xl shadow transition-colors text-lg flex items-center gap-2"
+    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-[2rem] shadow transition-colors text-lg flex items-center gap-2"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -322,3 +322,6 @@
     Guardar cambios
   </button>
 </div>
+
+<!-- Espaciado inferior para evitar que el contenido se corte -->
+<div class="h-16"></div>
