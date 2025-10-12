@@ -1,10 +1,5 @@
 .dashboard {
-  background-color: #ffffff !important;
   min-height: 100vh;
-  
-  .flex-1 {
-    background-color: #ffffff !important;
-  }
 }
 
 /* Animaciones del sidebar móvil */
@@ -36,23 +31,4 @@
   animation: fadeIn 0.3s ease-out forwards;
 }
 
-/* Asegurar que el fondo gris se mantenga en responsive */
-@media (max-width: 1024px) {
-  .dashboard {
-    background-color: #ffffff !important;
-    
-    .flex-1 {
-      background-color: #ffffff !important;
-    }
-  }
-}
-
-@media (max-width: 640px) {
-  .dashboard {
-    background-color: #ffffff !important;
-    
-    .flex-1 {
-      background-color: #ffffff !important;
-    }
-  }
-}
+/* Media queries para responsive si es necesario */

@@ -1,9 +1,9 @@
 <div
-  class="dashboard flex flex-col xl:flex-row xl:max-h-screen overflow-y-hidden bg-gray-100"
+  class="dashboard flex flex-col xl:flex-row xl:max-h-screen overflow-y-hidden"
 >
   <!-- Sidebar Desktop (solo visible en xl) -->
   <div 
-    [class]="'hidden xl:block w-full xl:overflow-auto p-4 xl:p-0 h-screen transition-all duration-500 ease-in-out ' + (isNavCollapsed ? 'xl:w-24' : 'xl:w-80')"
+    [class]="'hidden xl:block w-full xl:overflow-auto p-4 xl:p-0 h-screen bg-white transition-all duration-500 ease-in-out ' + (isNavCollapsed ? 'xl:w-24' : 'xl:w-80')"
   >
     <app-nav #navComponent></app-nav>
   </div>
