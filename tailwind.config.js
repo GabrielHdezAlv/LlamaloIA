@@ -5,7 +5,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["InterVariable", ...defaultTheme.fontFamily.sans],
+        sans: ["Poppins", ...defaultTheme.fontFamily.sans],
+      },
+      letterSpacing: {
+        'tighter': '-0.8px',
+        'tightest': '-2px',
       },
     },
   },

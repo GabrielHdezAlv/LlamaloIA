@@ -16,17 +16,19 @@ export class NavComponent {
 
   userStorage = inject(UserStorage);
 
-  // Idiomas
-  languages = [
-    { code: 'es', name: 'Español', flag: 'https://flagcdn.com/w40/es.png' },
-    { code: 'en', name: 'English', flag: 'https://flagcdn.com/w40/gb.png' },
-    { code: 'fr', name: 'Français', flag: 'https://flagcdn.com/w40/fr.png' },
-  ];
-  selectedLanguage = this.languages[0];
-  showLanguageMenu = false;
+  // Variable para manejar el idioma actual
+  currentLanguage: string = 'es';
 
   ngOnInit() {
     this.onResize();
+    
+    // Recuperar idioma del localStorage si existe
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedLanguage = localStorage.getItem('interfaceLanguage');
+      if (savedLanguage && (savedLanguage === 'es' || savedLanguage === 'en')) {
+        this.currentLanguage = savedLanguage;
+      }
+    }
   }
 
   openMenu() {
@@ -41,13 +43,20 @@ export class NavComponent {
     this.isOpen = !this.isOpen;
   }
 
-  toggleLanguageMenu() {
-    this.showLanguageMenu = !this.showLanguageMenu;
-  }
-
-  selectLanguage(lang: any) {
-    this.selectedLanguage = lang;
-    this.showLanguageMenu = false;
+  toggleLanguage() {
+    this.currentLanguage = this.currentLanguage === 'es' ? 'en' : 'es';
+    
+    // Guardar en localStorage
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('interfaceLanguage', this.currentLanguage);
+    }
+    
+    // Disparar evento personalizado para notificar a otros componentes
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('languageChanged', { 
+        detail: { language: this.currentLanguage } 
+      }));
+    }
   }
 
   @HostListener('window:resize')

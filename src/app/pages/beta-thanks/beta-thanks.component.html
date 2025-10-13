@@ -7,7 +7,7 @@
       </div>
       <div class="logo-text">
         <div class="brand-name">Llamalo</div>
-        <div class="beta-label">private beta</div>
+        <div class="beta-label">{{ currentLanguage === 'es' ? 'private beta' : 'private beta' }}</div>
       </div>
     </div>
   </div>
@@ -16,36 +16,36 @@
   <div class="main-content">
     <div class="text-content">
       <p class="main-text">
-        Gracias por haber probado Llamalo AI en esta beta privada.
-        Sabemos que aún no es perfecto, puede que hayas visto errores o
-        limitaciones, pero tu feedback es clave para que sigamos mejorando.
+        {{ currentLanguage === 'es' ? 'Gracias por haber probado Llamalo AI en esta beta privada. Sabemos que aún no es perfecto, puede que hayas visto errores o limitaciones, pero tu feedback es clave para que sigamos mejorando.' : 'Thank you for trying Llamalo AI in this private beta. We know it\'s not perfect yet, you may have seen errors or limitations, but your feedback is key for us to keep improving.' }}
       </p>
       
       <p class="main-text">
-        Si compartes tu opinión (sé crítico), tendrás beneficios exclusivos
-        cuando lancemos la beta pública, que será muy pronto.
+        {{ currentLanguage === 'es' ? 'Si compartes tu opinión (sé crítico), tendrás beneficios exclusivos cuando lancemos la beta pública, que será muy pronto.' : 'If you share your opinion (be critical), you\'ll have exclusive benefits when we launch the public beta, which will be very soon.' }}
       </p>
       
       <p class="main-text">
-        Y si tienes un negocio y quieres adelantarte para usar nuestros servicios,
-        agenda una llamada con nuestro equipo para evaluar tu caso.
+        {{ currentLanguage === 'es' ? 'Y si tienes un negocio y quieres adelantarte para usar nuestros servicios, agenda una llamada con nuestro equipo para evaluar tu caso.' : 'And if you have a business and want to get ahead to use our services, schedule a call with our team to evaluate your case.' }}
       </p>
     </div>
 
     <!-- Botones de acción -->
     <div class="action-buttons">
-      <button class="btn btn-primary" (click)="scheduleCall()">Agendar llamada</button>
-      <button class="btn btn-success" (click)="provideFeedback()">Feedback para mejorar</button>
-      <button class="btn btn-primary" (click)="joinCommunity()">Únete a la comunidad</button>
+      <button class="btn btn-primary" (click)="scheduleCall()">{{ currentLanguage === 'es' ? 'Agendar llamada' : 'Schedule call' }}</button>
+      <button class="btn btn-success" (click)="provideFeedback()">{{ currentLanguage === 'es' ? 'Feedback para mejorar' : 'Feedback to improve' }}</button>
+      <button class="btn btn-primary" (click)="joinCommunity()">{{ currentLanguage === 'es' ? 'Únete a la comunidad' : 'Join the community' }}</button>
     </div>
 
     <!-- Footer -->
     <div class="footer">
       <p class="footer-text">
-        Gracias por ser parte de esta beta privada<br>
-        ¡Solo unos pocos llegaron hasta aquí!
+        @if (currentLanguage === 'es') {
+          <span>Gracias por ser parte de esta beta privada<br>¡Solo unos pocos llegaron hasta aquí!</span>
+        }
+        @if (currentLanguage === 'en') {
+          <span>Thank you for being part of this private beta<br>Only a few made it this far!</span>
+        }
       </p>
-      <p class="team-signature">- El equipo de Llamalo AI</p>
+      <p class="team-signature">{{ currentLanguage === 'es' ? '- El equipo de Llamalo AI' : '- The Llamalo AI team' }}</p>
     </div>
   </div>
 </div>

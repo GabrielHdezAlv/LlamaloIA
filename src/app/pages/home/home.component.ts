@@ -91,6 +91,9 @@ export class HomeComponent implements OnInit {
 
   userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
+  
+  // Variable para manejar el idioma actual
+  currentLanguage: string = 'es';
 
   private formatPhoneNumber(countryCode: string, number: string): string {
     const format = PHONE_FORMATS[countryCode];
@@ -186,6 +189,21 @@ export class HomeComponent implements OnInit {
   ngxChartData: any[] = [];
 
   ngOnInit(): void {
+    // Recuperar idioma del localStorage si existe
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedLanguage = localStorage.getItem('interfaceLanguage');
+      if (savedLanguage && (savedLanguage === 'es' || savedLanguage === 'en')) {
+        this.currentLanguage = savedLanguage;
+      }
+    }
+
+    // Listener para detectar cambios de idioma
+    if (typeof window !== 'undefined') {
+      window.addEventListener('languageChanged', (e: any) => {
+        this.currentLanguage = e.detail.language;
+      });
+    }
+
     const chartData = this.chartsInfo.weeklyVolume;
 
     this.chartOptions.series = [
@@ -214,6 +232,7 @@ export class HomeComponent implements OnInit {
       },
     };
   }
+
 
   get isChartReady(): boolean {
     return !!(

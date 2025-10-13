@@ -6,17 +6,17 @@
     class="charts-containert grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
   >
     <app-home-chart
-      [chartLabel]="'Total de Llamadas Realizadas'"
+      [chartLabel]="currentLanguage === 'es' ? 'Total de Llamadas Realizadas' : 'Total Calls Made'"
       [chartData]="chartsInfo.totalCalls"
       [chartIndex]="0"
     ></app-home-chart>
     <app-home-chart
-      [chartLabel]="'Duración Media de Llamadas'"
+      [chartLabel]="currentLanguage === 'es' ? 'Duración Media de Llamadas' : 'Average Call Duration'"
       [chartData]="chartsInfo.callsDuration"
       [chartIndex]="1"
     ></app-home-chart>
     <app-home-chart
-      [chartLabel]="'Tiempo ahorrado'"
+      [chartLabel]="currentLanguage === 'es' ? 'Tiempo ahorrado' : 'Time Saved'"
       [chartData]="chartsInfo.timeSaved"
       [chartIndex]="2"
     ></app-home-chart>
@@ -44,7 +44,7 @@
             />
           </svg>
         </div>
-        <p class="font-semibold text-base">Volumen de Llamadas Realizadas</p>
+        <p class="font-semibold text-base">{{ currentLanguage === 'es' ? 'Volumen de Llamadas Realizadas' : 'Volume of Calls Made' }}</p>
       </div>
       <div class="chart-wrapper w-full max-w-xl" *ngIf="isChartReady">
         <apx-chart
@@ -73,7 +73,7 @@
         <p class="agent-name font-bold text-lg">
           {{ userStorage.user()?.agent?.name }}
         </p>
-        <p class="agent-ia text-gray-500 text-sm">Tu agente telefónico IA</p>
+        <p class="agent-ia text-gray-500 text-sm">{{ currentLanguage === 'es' ? 'Tu agente telefónico IA' : 'Your AI phone agent' }}</p>
       </div>
 
       <div class="agent-info w-full flex flex-col gap-2">
@@ -92,8 +92,8 @@
             </svg>
           </div>
           <div>
-            <p class="text-title font-semibold">Idioma</p>
-            <p class="text-info text-gray-600">Español</p>
+            <p class="text-title font-semibold">{{ currentLanguage === 'es' ? 'Idioma' : 'Language' }}</p>
+            <p class="text-info text-gray-600">{{ currentLanguage === 'es' ? 'Español' : 'English' }}</p>
           </div>
         </div>
         <div class="agent-info-line flex items-center gap-3">
@@ -128,7 +128,9 @@
           <div>
             <p class="text-title font-semibold">
               {{
-                isConnected() ? "Conectado (Twilio)" : "Desconectado (Twilio)"
+                isConnected() 
+                  ? (currentLanguage === 'es' ? "Conectado (Twilio)" : "Connected (Twilio)")
+                  : (currentLanguage === 'es' ? "Desconectado (Twilio)" : "Disconnected (Twilio)")
               }}
             </p>
             <p class="text-info text-gray-600">{{ phoneNumber() }}</p>
@@ -149,14 +151,14 @@
             </svg>
           </div>
           <div>
-            <p class="text-title font-semibold">Tipo de Llamada</p>
+            <p class="text-title font-semibold">{{ currentLanguage === 'es' ? 'Tipo de Llamada' : 'Call Type' }}</p>
             <p class="text-info text-gray-600">Outbound</p>
           </div>
         </div>
       </div>
 
       <button mat-flat-button class="custom-flat-button mt-6 w-full max-w-xs">
-        Personalizar
+        {{ currentLanguage === 'es' ? 'Personalizar' : 'Customize' }}
       </button>
     </div>
   </div>

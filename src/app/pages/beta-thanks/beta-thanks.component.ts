@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BetaService } from '../../core/services/beta.service';
 import { UserStorage } from '../../storages/user/user-storage';
@@ -10,15 +10,34 @@ import { TwilioStorage } from '../../storages/twilio/twilio-storage';
   templateUrl: './beta-thanks.component.html',
   styleUrl: './beta-thanks.component.scss',
 })
-export class BetaThanksComponent {
+export class BetaThanksComponent implements OnInit {
   private router = inject(Router);
   private betaService = inject(BetaService);
   private userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
 
+  // Variable para manejar el idioma actual
+  currentLanguage: string = 'es';
+
   constructor() {    
     if (!this.betaService.shouldShowBetaPage) {
       this.router.navigate(['/dashboard']);
+    }
+  }
+
+  ngOnInit() {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedLanguage = localStorage.getItem('interfaceLanguage');
+      if (savedLanguage && (savedLanguage === 'es' || savedLanguage === 'en')) {
+        this.currentLanguage = savedLanguage;
+      }
+    }
+
+    // Listener para detectar cambios de idioma
+    if (typeof window !== 'undefined') {
+      window.addEventListener('languageChanged', (e: any) => {
+        this.currentLanguage = e.detail.language;
+      });
     }
   }
 

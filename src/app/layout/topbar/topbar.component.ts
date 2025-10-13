@@ -13,6 +13,9 @@ export class TopbarComponent {
   welcomeText: string = '';
 
   userStorage = inject(UserStorage);
+  
+  // Variable para manejar el idioma actual
+  currentLanguage: string = 'es';
 
   // Computed para obtener el nombre completo del usuario
   fullName = computed(() => {
@@ -30,6 +33,14 @@ export class TopbarComponent {
       this.updateHeader();
     });
 
+    // Listener para detectar cambios de idioma
+    if (typeof window !== 'undefined') {
+      window.addEventListener('languageChanged', (e: any) => {
+        this.currentLanguage = e.detail.language;
+        this.updateHeader();
+      });
+    }
+
     // Llamar a updateHeader al inicio para manejar la carga inicial
     this.updateHeader();
   }
@@ -38,15 +49,25 @@ export class TopbarComponent {
     const currentRoute = this.router.url;
     const userName = this.fullName();
 
+    // Recuperar idioma actual del localStorage
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedLanguage = localStorage.getItem('interfaceLanguage');
+      if (savedLanguage && (savedLanguage === 'es' || savedLanguage === 'en')) {
+        this.currentLanguage = savedLanguage;
+      }
+    }
+
     if (currentRoute.includes('/dashboard/profile')) {
-      this.pageTitle = 'Perfil & Facturación';
+      this.pageTitle = this.currentLanguage === 'es' ? 'Perfil & Facturación' : 'Profile & Billing';
       this.welcomeText = '';
     } else if (currentRoute.includes('/dashboard/agents')) {
-      this.pageTitle = 'Agentes';
+      this.pageTitle = this.currentLanguage === 'es' ? 'Agentes' : 'Agents';
       this.welcomeText = '';
     } else {
-      this.pageTitle = 'Inicio';
-      this.welcomeText = userName ? `Hey ${userName}, Bienvenido/a` : 'Bienvenido/a';
+      this.pageTitle = this.currentLanguage === 'es' ? 'Inicio' : 'Home';
+      this.welcomeText = userName 
+        ? (this.currentLanguage === 'es' ? `Hey ${userName}, Bienvenido/a` : `Hey ${userName}, Welcome`)
+        : (this.currentLanguage === 'es' ? 'Bienvenido/a' : 'Welcome');
     }
   }
 }
