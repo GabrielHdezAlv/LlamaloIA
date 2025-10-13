@@ -197,6 +197,15 @@ export class NavComponent implements OnDestroy, OnInit {
       }, 10);
   }
 
+  // Abrir sidebar móvil
+  openMobileSidebar() {
+    // Disparar evento personalizado para abrir el sidebar móvil (solo en navegador)
+    if (this.isBrowser) {
+      const event = new CustomEvent('openMobileSidebar');
+      window.dispatchEvent(event);
+    }
+  }
+
   // Cerrar sesión
   logout() {
     // Limpiar datos de usuario
