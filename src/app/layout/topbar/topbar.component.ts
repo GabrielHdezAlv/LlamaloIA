@@ -262,4 +262,13 @@ export class TopbarComponent implements OnInit {
       this.closeInviteModal();
     }
   }
+
+  // Abrir sidebar móvil
+  openMobileSidebar() {
+    // Disparar evento personalizado para abrir el sidebar móvil
+    if (this.isBrowser) {
+      const event = new CustomEvent('openMobileSidebar');
+      window.dispatchEvent(event);
+    }
+  }
 }
