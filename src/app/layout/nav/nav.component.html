@@ -97,7 +97,7 @@
           Completa retos sencillos y aumenta tus minutos disponibles al 
           <span class="text-blue-900 font-medium">instante.</span>
         </p>
-        <button id="promo-btn" class="w-full bg-gray-100 hover:bg-gray-200 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        <button id="promo-btn" (click)="navigateToAccountGifts()" class="w-full bg-gray-100 hover:bg-gray-200 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
           Conseguir ahora
         </button>
       </div>
@@ -247,7 +247,7 @@
           <p id="promo-desc-desktop" class="text-sm text-gray-600 leading-relaxed mb-4">
             {{ t.promoDescription }}
           </p>
-          <button id="promo-btn-desktop" class="w-full bg-gray-100 hover:bg-gray-200 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          <button id="promo-btn-desktop" (click)="navigateToAccountGifts()" class="w-full bg-gray-100 hover:bg-gray-200 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
             {{ t.promoButton }}
           </button>
         </div>
