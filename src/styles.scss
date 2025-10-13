@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Estilos para modales de error */
+.error-modal-panel {
+  .mat-dialog-container {
+    padding: 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+  }
+}
+
 html,
 body {
   height: 100%;

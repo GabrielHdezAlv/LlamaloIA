@@ -12,6 +12,7 @@ import { LoginUser } from '../../shared/models/login-user.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { BetaService } from '../../core/services/beta.service';
+import { ErrorModalService } from '../../core/services/error-modal.service';
 
 @Component({
   selector: 'app-login',
@@ -39,6 +40,7 @@ export class LoginComponent {
   private userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
   private betaService = inject(BetaService);
+  private errorModalService = inject(ErrorModalService);
 
   login(event: Event) {
     event.preventDefault();
@@ -80,19 +82,17 @@ export class LoginComponent {
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);
-            this.showNotification(
-              'Error al obtener perfil de usuario',
-              'error'
+            this.errorModalService.showGenericError(
+              'Error de Perfil',
+              'Error al obtener el perfil de usuario después del login',
+              err
             );
           },
         });
       },
       error: (err) => {
         console.error('❌ Error en inicio de sesión:', err);
-        this.showNotification(
-          'Error en inicio de sesión: ' + err.message,
-          'error'
-        );
+        this.errorModalService.showLoginError(err);
       },
     });
   }

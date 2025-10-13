@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
+import { ErrorModalService } from '../../core/services/error-modal.service';
 
 @Component({
   selector: 'app-recover',
@@ -32,7 +33,8 @@ export class RecoverComponent {
   constructor(
     private router: Router,
     private userService: UserService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private errorModalService: ErrorModalService
   ) {}
 
   recoverPassword(event: Event) {
@@ -67,10 +69,7 @@ export class RecoverComponent {
       },
       error: (err) => {
         console.error('❌ Error al enviar email de recuperación:', err);
-        this.showNotification(
-          'Error al enviar el email. Verifique que el email sea correcto e inténtelo de nuevo.',
-          'error'
-        );
+        this.errorModalService.showRecoverError(err);
         this.isLoading = false;
       },
     });

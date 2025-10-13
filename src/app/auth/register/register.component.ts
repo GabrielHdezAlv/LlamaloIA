@@ -9,6 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
+import { ErrorModalService } from '../../core/services/error-modal.service';
 
 @Component({
   selector: 'app-register',
@@ -35,6 +36,7 @@ export class RegisterComponent {
   private snackBar = inject(MatSnackBar);
   private userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
+  private errorModalService = inject(ErrorModalService);
 
   register(event: Event) {
     event.preventDefault();
@@ -65,18 +67,16 @@ export class RegisterComponent {
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);
-            this.showNotification(
-              'Error al obtener perfil de usuario',
-              'error'
+            this.errorModalService.showGenericError(
+              'Error de Perfil',
+              'Error al obtener el perfil de usuario después del registro',
+              err
             );
           },
         });
       },
       error: (err) => {
-        this.showNotification(
-          'Error en registro: ' + (err.error?.message || 'Verifica los datos'),
-          'error'
-        );
+        this.errorModalService.showRegisterError(err);
       },
     });
   }
