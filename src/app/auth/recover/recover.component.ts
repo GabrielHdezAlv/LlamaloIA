@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,9 +26,12 @@ import { ErrorModalService } from '../../core/services/error-modal.service';
   templateUrl: './recover.component.html',
   styleUrls: ['./recover.component.scss'],
 })
-export class RecoverComponent {
+export class RecoverComponent implements OnInit {
   email: string = '';
   isLoading: boolean = false;
+  
+  // Variable para manejar el idioma actual
+  currentLanguage: string = 'es';
 
   constructor(
     private router: Router,
@@ -36,6 +39,16 @@ export class RecoverComponent {
     private snackBar: MatSnackBar,
     private errorModalService: ErrorModalService
   ) {}
+
+  ngOnInit() {
+    // Recuperar idioma del localStorage si existe
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedLanguage = localStorage.getItem('interfaceLanguage');
+      if (savedLanguage && (savedLanguage === 'es' || savedLanguage === 'en')) {
+        this.currentLanguage = savedLanguage;
+      }
+    }
+  }
 
   recoverPassword(event: Event) {
     event.preventDefault(); // Evita recarga de la página
@@ -83,5 +96,21 @@ export class RecoverComponent {
       horizontalPosition: 'center',
       verticalPosition: 'top',
     });
+  }
+
+  toggleLanguage() {
+    this.currentLanguage = this.currentLanguage === 'es' ? 'en' : 'es';
+    
+    // Guardar en localStorage
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('interfaceLanguage', this.currentLanguage);
+    }
+    
+    // Disparar evento personalizado para notificar a otros componentes
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('languageChanged', { 
+        detail: { language: this.currentLanguage } 
+      }));
+    }
   }
 }

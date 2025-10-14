@@ -1,8 +1,20 @@
 <div class="container">
   <div class="left">
     <div class="left-text">
-      <h1>¿Ha olvidado su contraseña?</h1>
-      <p>No te preocupes, ¡la tendrás en segundos!</p>
+      <h1>{{ currentLanguage === 'es' ? '¿Ha olvidado su contraseña?' : 'Forgot your password?' }}</h1>
+      <p>{{ currentLanguage === 'es' ? 'No te preocupes, ¡la tendrás en segundos!' : "Don't worry, you'll have it in seconds!" }}</p>
+      
+      <!-- Botón de cambio de idioma -->
+      <div class="mt-6">
+        <button
+          (click)="toggleLanguage()"
+          class="flex items-center gap-2 text-sm font-medium bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg px-3 py-2 hover:bg-opacity-30 transition-colors shadow-sm"
+        >
+          <span [class]="currentLanguage === 'es' ? 'text-white font-bold' : 'text-white text-opacity-70'">Español</span>
+          <span class="text-white text-opacity-50">|</span>
+          <span [class]="currentLanguage === 'en' ? 'text-white font-bold' : 'text-white text-opacity-70'">English</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -10,7 +22,7 @@
     <div class="icon-container mb-10">
       <img src="../../../assets/logo.png" class="h-24" alt="Flowbite Logo" />
     </div>
-    <h2>Recuperar Contraseña</h2>
+    <h2>{{ currentLanguage === 'es' ? 'Recuperar Contraseña' : 'Recover Password' }}</h2>
 
     <div class="form-container">
       <form (submit)="recoverPassword($event)">
@@ -28,7 +40,7 @@
         </div>
 
         <a routerLink="/login" class="forgot-password" [class.disabled]="isLoading">
-          Volver al Inicio de Sesión
+          {{ currentLanguage === 'es' ? 'Volver al Inicio de Sesión' : 'Back to Sign In' }}
         </a>
 
         <button 
@@ -36,7 +48,7 @@
           [disabled]="isLoading"
           class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed"
         >
-          <span *ngIf="!isLoading">Enviar Email</span>
+          <span *ngIf="!isLoading">{{ currentLanguage === 'es' ? 'Enviar Email' : 'Send Email' }}</span>
           <span *ngIf="isLoading" class="flex items-center justify-center">
             <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

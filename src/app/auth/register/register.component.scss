@@ -240,3 +240,17 @@
   color: white;
   font-weight: bold;
 }
+
+/* 🔹 ESTILOS PARA MODAL DE ÉXITO */
+::ng-deep .success-alert-dialog {
+  .mat-mdc-dialog-container {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}

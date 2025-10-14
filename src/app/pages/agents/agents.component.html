@@ -1,4 +1,16 @@
 <div>
+  <!-- Botón de cambio de idioma -->
+  <div class="flex justify-end mb-4">
+    <button
+      (click)="toggleLanguage()"
+      class="flex items-center gap-2 text-sm font-medium bg-white border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 transition-colors"
+    >
+      <span [class]="currentLanguage === 'es' ? 'text-blue-600 font-bold' : 'text-gray-500'">Español</span>
+      <span class="text-gray-400">|</span>
+      <span [class]="currentLanguage === 'en' ? 'text-blue-600 font-bold' : 'text-gray-500'">English</span>
+    </button>
+  </div>
+
   <div class="mt-6" aria-hidden="true">
     <div class="overflow-hidden rounded-full bg-gray-200">
       <div

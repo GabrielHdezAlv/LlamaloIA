@@ -522,4 +522,20 @@ You: Perfect, I can see that your order is in transit and you should receive it 
       this.router.navigate(['/dashboard']);
     });
   }
+
+  toggleLanguage() {
+    this.currentLanguage = this.currentLanguage === 'es' ? 'en' : 'es';
+    
+    // Guardar en localStorage
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('interfaceLanguage', this.currentLanguage);
+    }
+    
+    // Disparar evento personalizado para notificar a otros componentes
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('languageChanged', { 
+        detail: { language: this.currentLanguage } 
+      }));
+    }
+  }
 }

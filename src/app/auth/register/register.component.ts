@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,10 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UserService } from '../../core/services/user.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { ErrorModalService } from '../../core/services/error-modal.service';
+import { SuccessAlertComponent } from '../../shared/modals/success-alert/success-alert.component';
 
 @Component({
   selector: 'app-register',
@@ -21,15 +23,19 @@ import { ErrorModalService } from '../../core/services/error-modal.service';
     MatInputModule,
     FormsModule,
     MatSnackBarModule,
+    MatDialogModule,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   firstName: string = '';
   lastName: string = '';
   email: string = '';
   password: string = '';
+  
+  // Variable para manejar el idioma actual
+  currentLanguage: string = 'es';
 
   private router = inject(Router);
   private userService = inject(UserService);
@@ -37,6 +43,17 @@ export class RegisterComponent {
   private userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
   private errorModalService = inject(ErrorModalService);
+  private dialog = inject(MatDialog);
+
+  ngOnInit() {
+    // Recuperar idioma del localStorage si existe
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedLanguage = localStorage.getItem('interfaceLanguage');
+      if (savedLanguage && (savedLanguage === 'es' || savedLanguage === 'en')) {
+        this.currentLanguage = savedLanguage;
+      }
+    }
+  }
 
   register(event: Event) {
     event.preventDefault();
@@ -62,8 +79,15 @@ export class RegisterComponent {
               this.twilioStorage.setConfig(data.twilio);
             }
 
-            this.showNotification('Registro exitoso', 'success');
-            this.router.navigate(['/dashboard']);
+            const successMessage = this.currentLanguage === 'es' 
+              ? '¡Registro exitoso!' 
+              : 'Registration successful!';
+            const successSubtitle = this.currentLanguage === 'es' 
+              ? `¡Bienvenido a Llamalo, ${data.name || 'Usuario'}!` 
+              : `Welcome to Llamalo, ${data.name || 'User'}!`;
+            const buttonText = this.currentLanguage === 'es' ? 'Continuar' : 'Continue';
+            
+            this.showSuccessAlert(successMessage, successSubtitle, buttonText);
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);
@@ -92,5 +116,39 @@ export class RegisterComponent {
       horizontalPosition: 'center',
       verticalPosition: 'top',
     });
+  }
+
+  private showSuccessAlert(message: string, subtitle: string, buttonText: string) {
+    const dialogRef = this.dialog.open(SuccessAlertComponent, {
+      width: '400px',
+      disableClose: true,
+      panelClass: 'success-alert-dialog',
+      data: { 
+        message: message, 
+        subtitle: subtitle, 
+        buttonText: buttonText 
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      // Navegar al dashboard después de cerrar el modal
+      this.router.navigate(['/dashboard']);
+    });
+  }
+
+  toggleLanguage() {
+    this.currentLanguage = this.currentLanguage === 'es' ? 'en' : 'es';
+    
+    // Guardar en localStorage
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('interfaceLanguage', this.currentLanguage);
+    }
+    
+    // Disparar evento personalizado para notificar a otros componentes
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('languageChanged', { 
+        detail: { language: this.currentLanguage } 
+      }));
+    }
   }
 }

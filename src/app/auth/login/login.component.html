@@ -1,17 +1,29 @@
 <div class="container">
   <div class="left">
-    <h1>¡Bienvenido de vuelta!</h1>
+    <h1>{{ currentLanguage === 'es' ? '¡Bienvenido de vuelta!' : 'Welcome back!' }}</h1>
     <p>
-      ¿No tiene una cuenta?
-      <a routerLink="/register" class="register-link">Regístrese ahora</a>
+      {{ currentLanguage === 'es' ? '¿No tiene una cuenta?' : "Don't have an account?" }}
+      <a routerLink="/register" class="register-link">{{ currentLanguage === 'es' ? 'Regístrese ahora' : 'Sign up now' }}</a>
     </p>
+    
+    <!-- Botón de cambio de idioma -->
+    <div class="mt-6">
+      <button
+        (click)="toggleLanguage()"
+        class="flex items-center gap-2 text-sm font-medium bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg px-3 py-2 hover:bg-opacity-30 transition-colors shadow-sm"
+      >
+        <span [class]="currentLanguage === 'es' ? 'text-white font-bold' : 'text-white text-opacity-70'">Español</span>
+        <span class="text-white text-opacity-50">|</span>
+        <span [class]="currentLanguage === 'en' ? 'text-white font-bold' : 'text-white text-opacity-70'">English</span>
+      </button>
+    </div>
   </div>
 
   <div class="right">
     <div class="icon-container mb-10">
       <img src="../../../assets/logo.png" class="h-24" alt="Flowbite Logo" />
     </div>
-    <h2>Iniciar Sesión</h2>
+    <h2>{{ currentLanguage === 'es' ? 'Iniciar Sesión' : 'Sign In' }}</h2>
 
     <div class="form-container">
       <form (submit)="login($event)">
@@ -28,23 +40,23 @@
          </div>
 
          <div class="w-full mb-6">
-           <label class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+           <label class="block text-sm font-medium text-gray-700 mb-2">{{ currentLanguage === 'es' ? 'Contraseña' : 'Password' }}</label>
            <input
              type="password"
              [(ngModel)]="password"
              name="password"
              required
-             placeholder="Contraseña"
+             [placeholder]="currentLanguage === 'es' ? 'Contraseña' : 'Password'"
              class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
            />
          </div>
 
         <a routerLink="/recover" class="forgot-password">
-          ¿Has olvidado tu contraseña?
+          {{ currentLanguage === 'es' ? '¿Has olvidado tu contraseña?' : 'Forgot your password?' }}
         </a>
 
         <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-          Iniciar sesión
+          {{ currentLanguage === 'es' ? 'Iniciar sesión' : 'Sign In' }}
         </button>
 
         <!-- <button mat-raised-button class="btn-google">

@@ -1,45 +1,57 @@
 <div class="container">
   <div class="left">
-    <h1>Bienvenido a Llamalo</h1>
+    <h1>{{ currentLanguage === 'es' ? 'Bienvenido a Llamalo' : 'Welcome to Llamalo' }}</h1>
     <p>
-      ¿Tiene una cuenta?
-      <a (click)="goToLogin()" class="login-link">Inicie sesión</a>
+      {{ currentLanguage === 'es' ? '¿Tiene una cuenta?' : 'Already have an account?' }}
+      <a (click)="goToLogin()" class="login-link">{{ currentLanguage === 'es' ? 'Inicie sesión' : 'Sign in' }}</a>
     </p>
+    
+    <!-- Botón de cambio de idioma -->
+    <div class="mt-6">
+      <button
+        (click)="toggleLanguage()"
+        class="flex items-center gap-2 text-sm font-medium bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg px-3 py-2 hover:bg-opacity-30 transition-colors shadow-sm"
+      >
+        <span [class]="currentLanguage === 'es' ? 'text-white font-bold' : 'text-white text-opacity-70'">Español</span>
+        <span class="text-white text-opacity-50">|</span>
+        <span [class]="currentLanguage === 'en' ? 'text-white font-bold' : 'text-white text-opacity-70'">English</span>
+      </button>
+    </div>
   </div>
   <div class="right">
     <div class="icon-container mb-10">
       <img src="../../../assets/logo.png" class="h-24" alt="Flowbite Logo" />
     </div>
-    <h2>Regístrate</h2>
+    <h2>{{ currentLanguage === 'es' ? 'Regístrate' : 'Sign Up' }}</h2>
     <form (submit)="register($event)">
       <div class="name-fields flex gap-4 mb-6">
         <div class="flex-1">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Nombre</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">{{ currentLanguage === 'es' ? 'Nombre' : 'First Name' }}</label>
           <input
             type="text"
             [(ngModel)]="firstName"
             name="firstName"
             required
-            placeholder="Tu nombre"
+            [placeholder]="currentLanguage === 'es' ? 'Tu nombre' : 'Your first name'"
             class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
         <div class="flex-1">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Apellido</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">{{ currentLanguage === 'es' ? 'Apellido' : 'Last Name' }}</label>
           <input
             type="text"
             [(ngModel)]="lastName"
             name="lastName"
             required
-            placeholder="Tu apellido"
+            [placeholder]="currentLanguage === 'es' ? 'Tu apellido' : 'Your last name'"
             class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
       </div>
 
       <div class="w-full mb-6">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Correo electrónico</label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">{{ currentLanguage === 'es' ? 'Correo electrónico' : 'Email' }}</label>
         <input
           type="email"
           [(ngModel)]="email"
@@ -51,19 +63,19 @@
       </div>
 
       <div class="w-full mb-6">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+        <label class="block text-sm font-medium text-gray-700 mb-2">{{ currentLanguage === 'es' ? 'Contraseña' : 'Password' }}</label>
         <input
           type="password"
           [(ngModel)]="password"
           name="password"
           required
-          placeholder="Contraseña"
+          [placeholder]="currentLanguage === 'es' ? 'Contraseña' : 'Password'"
           class="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
       </div>
 
       <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-        Crear cuenta
+        {{ currentLanguage === 'es' ? 'Crear cuenta' : 'Create Account' }}
       </button>
       <!-- <button mat-raised-button class="btn-google">
         <svg
