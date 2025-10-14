@@ -28,6 +28,11 @@ export class MetricsComponent implements OnInit {
   showAgentesCreados: boolean = false;
   showPaises: boolean = false;
 
+  // Propiedades para el gráfico móvil compacto
+  mobileChartData: any[] = [];
+  totalCalls: number = 0;
+  averageCalls: number = 0;
+
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
@@ -432,6 +437,9 @@ export class MetricsComponent implements OnInit {
       { name: 'Llamadas', data: this.getCurrentData() }
     ];
     
+    // Actualizar datos del gráfico móvil
+    this.updateMobileChartData();
+    
     const isLast30Days = this.selectedPeriod === 'Últimos 30 días';
     const isMobile = this.isBrowser && window.innerWidth < 640;
     
@@ -469,7 +477,40 @@ export class MetricsComponent implements OnInit {
     return index * 200; // 200ms de delay entre cada barra
   }
 
+  // Método para determinar el color del estado según el número de llamadas
+  getStatusColor(value: number): string {
+    if (value < 100) {
+      return 'bg-red-500'; // Bajo - Rojo
+    } else if (value < 200) {
+      return 'bg-orange-500'; // Medio - Naranja
+    } else {
+      return 'bg-green-500'; // Alto - Verde
+    }
+  }
+
+
+  // Método para actualizar los datos del gráfico móvil
+  updateMobileChartData(): void {
+    const data = this.getCurrentData();
+    const categories = this.getCurrentCategories();
+    const maxValue = Math.max(...data);
+    
+    // Calcular totales y promedios
+    this.totalCalls = data.reduce((sum, value) => sum + value, 0);
+    this.averageCalls = Math.round(this.totalCalls / data.length);
+    
+    // Mostrar todos los días con scroll horizontal
+    this.mobileChartData = data.map((value, index) => ({
+      label: categories[index],
+      value: value,
+      percentage: Math.round((value / maxValue) * 100)
+    }));
+  }
+
   ngOnInit(): void {
+    // Inicializar datos del gráfico móvil
+    this.updateMobileChartData();
+    
     // Ajustar gráfico para móviles
     if (this.isBrowser) {
       this.updateChartForScreenSize();
