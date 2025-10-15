@@ -181,7 +181,27 @@ export class NewCreateAgentsComponent {
 
   selectAction(platform: string) {
     console.log('Plataforma seleccionada:', platform);
-    this.step = 'knowledgeBase'; // Avanza a "Base de Conocimientos"
+    
+    if (platform === 'shopify') {
+      // Abrir modal de Shopify
+      const dialogRef = this.modalService.openShopify({
+        title: 'Integración con Shopify',
+        message: 'Configura tu conexión con Shopify',
+        formEnabled: false
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log('Configuración de Shopify guardada:', result);
+          // Aquí puedes guardar la configuración o hacer algo con ella
+        }
+        // Avanzar al siguiente paso después de cerrar el modal
+        this.step = 'knowledgeBase';
+      });
+    } else {
+      // Para otras plataformas, continuar normalmente
+      this.step = 'knowledgeBase';
+    }
   }
 
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos

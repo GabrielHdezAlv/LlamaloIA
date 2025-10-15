@@ -24,7 +24,6 @@ html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none; /* WebKit */
 }
-
 /* Para todos los elementos con scroll */
 * {
   scrollbar-width: none; /* Firefox */
@@ -34,4 +33,5 @@ body::-webkit-scrollbar {
 *::-webkit-scrollbar {
   display: none; /* WebKit */
 }
+
 
