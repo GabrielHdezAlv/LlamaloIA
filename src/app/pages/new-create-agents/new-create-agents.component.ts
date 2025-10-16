@@ -191,13 +191,13 @@ export class NewCreateAgentsComponent {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result) {
+        console.log('Shopify modal closed with result:', result);
+        if (result && result.type === 'shopify') {
           console.log('Configuración de Shopify guardada:', result);
-          // Aquí puedes guardar la configuración o hacer algo con ella
-          // Solo avanzar si el usuario completó la configuración
+          // Solo avanzar si el usuario completó la configuración explícitamente
           this.step = 'knowledgeBase';
         }
-        // Si no hay resultado (usuario canceló), permanecer en la misma página
+        // Si no hay resultado o no es de tipo shopify, permanecer en la misma página
       });
     } else if (platform === 'make') {
       // Abrir modal de Make
@@ -208,13 +208,9 @@ export class NewCreateAgentsComponent {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          console.log('Configuración de Make guardada:', result);
-          // Aquí puedes guardar la configuración o hacer algo con ella
-          // Solo avanzar si el usuario completó la configuración
-          this.step = 'knowledgeBase';
-        }
-        // Si no hay resultado (usuario canceló), permanecer en la misma página
+        console.log('Make modal closed with result:', result);
+        // El modal de Make ya no retorna resultado, solo se cierra
+        // No avanzar automáticamente
       });
     } else {
       // Para otras plataformas, continuar normalmente

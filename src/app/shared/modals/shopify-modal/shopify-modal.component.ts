@@ -23,6 +23,14 @@ interface SelectedActions {
   getProductInfo: boolean;
 }
 
+interface CreatedAction {
+  id: string;
+  name: string;
+  description: string;
+  serverUrl: string;
+  enabled: boolean;
+}
+
 @Component({
   selector: 'app-shopify-modal',
   standalone: true,
@@ -44,6 +52,8 @@ export class ShopifyModalComponent implements OnInit {
     getOrderStatus: false,
     getProductInfo: false,
   };
+
+  createdActions: CreatedAction[] = [];
 
   get t() {
     return this.i18nService.getTranslations();
@@ -79,13 +89,20 @@ export class ShopifyModalComponent implements OnInit {
     });
 
     makeDialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Configuración de Make guardada:', result);
-        // Si el usuario completó Make, cerrar Shopify y retornar el resultado
-        this.dialogRef.close(result);
-      }
-      // Si el usuario canceló Make, permanecer en Shopify
+      console.log('Make modal closed with result:', result);
+      // El modal de Make ya no retorna resultado, solo se cierra
+      // No hacer nada, solo permanecer en Shopify
     });
+  }
+
+  onContinue(): void {
+    const result = {
+      selectedActions: this.selectedActions,
+      createdActions: this.createdActions,
+      type: 'shopify'
+    };
+    console.log('Shopify modal closing with result:', result);
+    this.dialogRef.close(result);
   }
 
 }
