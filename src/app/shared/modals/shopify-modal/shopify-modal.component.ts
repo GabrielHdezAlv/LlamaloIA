@@ -5,9 +5,11 @@ import {
   MatDialogModule,
   MatDialogRef,
   MAT_DIALOG_DATA,
+  MatDialog,
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { I18nService } from '../../../core/services/i18n.service';
+import { MakeModalComponent } from '../make-modal/make-modal.component';
 
 export interface ShopifyModalData {
   title?: string;
@@ -36,6 +38,7 @@ export class ShopifyModalComponent implements OnInit {
   dialogRef = inject(MatDialogRef<ShopifyModalComponent, any>);
   data: ShopifyModalData = inject(MAT_DIALOG_DATA);
   private i18nService = inject(I18nService);
+  private dialog = inject(MatDialog);
 
   selectedActions: SelectedActions = {
     getOrderStatus: false,
@@ -59,6 +62,30 @@ export class ShopifyModalComponent implements OnInit {
     const target = event.target as HTMLInputElement;
     this.selectedActions[actionType] = target.checked;
     console.log(`${actionType} toggled:`, this.selectedActions[actionType]);
+  }
+
+  onCustomActionClick(): void {
+    // Abrir el modal de Make sin cerrar el de Shopify
+    const makeDialogRef = this.dialog.open(MakeModalComponent, {
+      width: '1200px',
+      maxWidth: '95vw',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data: {
+        title: 'Añadir Acciones especificas',
+        message: 'Define la acción que la IA podrá ejecutar',
+        formEnabled: false
+      }
+    });
+
+    makeDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Configuración de Make guardada:', result);
+        // Si el usuario completó Make, cerrar Shopify y retornar el resultado
+        this.dialogRef.close(result);
+      }
+      // Si el usuario canceló Make, permanecer en Shopify
+    });
   }
 
 }

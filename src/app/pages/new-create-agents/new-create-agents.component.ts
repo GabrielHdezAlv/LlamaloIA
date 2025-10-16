@@ -194,9 +194,27 @@ export class NewCreateAgentsComponent {
         if (result) {
           console.log('Configuración de Shopify guardada:', result);
           // Aquí puedes guardar la configuración o hacer algo con ella
+          // Solo avanzar si el usuario completó la configuración
+          this.step = 'knowledgeBase';
         }
-        // Avanzar al siguiente paso después de cerrar el modal
-        this.step = 'knowledgeBase';
+        // Si no hay resultado (usuario canceló), permanecer en la misma página
+      });
+    } else if (platform === 'make') {
+      // Abrir modal de Make
+      const dialogRef = this.modalService.openMake({
+        title: 'Integración con Make',
+        message: 'Configura tu conexión con Make',
+        formEnabled: false
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log('Configuración de Make guardada:', result);
+          // Aquí puedes guardar la configuración o hacer algo con ella
+          // Solo avanzar si el usuario completó la configuración
+          this.step = 'knowledgeBase';
+        }
+        // Si no hay resultado (usuario canceló), permanecer en la misma página
       });
     } else {
       // Para otras plataformas, continuar normalmente

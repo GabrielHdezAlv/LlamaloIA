@@ -7,6 +7,7 @@ import { SuccessModalComponent, SuccessModalData } from './success-modal/success
 import { WarningModalComponent, WarningModalData } from './warning-modal/warning-modal.component';
 import { ImportNumberModalComponent, ImportNumberModalData } from './import-number-modal/import-number-modal.component';
 import { ShopifyModalComponent, ShopifyModalData } from './shopify-modal/shopify-modal.component';
+import { MakeModalComponent, MakeModalData } from './make-modal/make-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,16 @@ export class ModalService {
 
   openShopify(data: ShopifyModalData = {}) {
     return this.dialog.open(ShopifyModalComponent, {
+      width: '1200px',
+      maxWidth: '95vw',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
+
+  openMake(data: MakeModalData = {}) {
+    return this.dialog.open(MakeModalComponent, {
       width: '1200px',
       maxWidth: '95vw',
       disableClose: false,
