@@ -193,94 +193,128 @@
         <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
         <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-3 sm:mb-6 md:mb-8 lg:mb-12 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Voces</h2>
     
-        <div class="flex justify-center gap-3 sm:gap-5 md:gap-6 flex-wrap px-2 sm:px-4 md:px-0 mb-3 sm:mb-4">
-          <!-- Carla -->
-          <div 
-            class="w-[160px] h-[270px] sm:w-[200px] sm:h-[340px] md:w-[230px] md:h-[368px] bg-gray-100 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
-            (click)="onVoiceSelected()"
-          >
-            <img src="assets/carla_voz.png" alt="Carla" class="w-full h-full object-cover" />
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2.5 sm:p-4">
-              <h3 class="text-white font-bold text-base sm:text-lg md:text-xl text-center">Carla</h3>
-              <button
-                (click)="$event.stopPropagation(); playVoice('carla')"
-                class="mt-1.5 sm:mt-2 w-24 sm:w-28 md:w-32 bg-white text-gray-700 rounded-full px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs md:text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
-              >
-                @if (currentPlayingVoice === 'carla') {
-                  <!-- Icono de pausa (dos rayas) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                    <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                  </svg>
-                  <span class="ml-1">Pausar</span>
-                } @else {
-                  <!-- Icono de play (triángulo) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span class="ml-1">Escuchar</span>
-                }
-              </button>
+        <!-- Contenedor de voces responsive -->
+        <div class="w-full">
+          <!-- Vista móvil: Todas las voces en columna -->
+          <div class="block sm:hidden">
+            <div class="flex flex-col gap-4 px-4">
+              @for (voice of voices; track voice.id) {
+                <div 
+                  class="w-full h-96 rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  (click)="onVoiceSelected()"
+                >
+                  <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+                  <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                    <h3 class="text-white font-bold text-xl text-center">{{ voice.name }}</h3>
+                    <button
+                      (click)="$event.stopPropagation(); playVoice(voice.id)"
+                      class="mt-2 w-36 bg-white text-gray-700 rounded-full px-4 py-2 text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
+                    >
+                      @if (currentPlayingVoice === voice.id) {
+                        <!-- Icono de pausa (dos rayas) -->
+                        <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                          <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                        </svg>
+                        <span class="ml-1">Pausar</span>
+                      } @else {
+                        <!-- Icono de play (triángulo) -->
+                        <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="ml-1">Escuchar</span>
+                      }
+                    </button>
+                  </div>
+                </div>
+              }
             </div>
           </div>
-    
-          <!-- Anas -->
-          <div 
-            class="w-[160px] h-[270px] sm:w-[200px] sm:h-[340px] md:w-[230px] md:h-[368px] bg-gray-100 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
-            (click)="onVoiceSelected()"
-          >
-            <img src="assets/anas_voz.png" alt="Anas" class="w-full h-full object-cover" />
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2.5 sm:p-4">
-              <h3 class="text-white font-bold text-base sm:text-lg md:text-xl text-center">Anas</h3>
-              <button
-                (click)="$event.stopPropagation(); playVoice('anas')"
-                class="mt-1.5 sm:mt-2 w-24 sm:w-28 md:w-32 bg-white text-gray-700 rounded-full px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs md:text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
+
+          <!-- Vista desktop: Carrusel -->
+          <div class="hidden sm:block">
+            <div class="carousel-container relative flex items-center justify-center gap-2 sm:gap-3 md:gap-4 px-8 sm:px-12 md:px-16 mb-3 sm:mb-4">
+              <!-- Botón anterior -->
+              <button 
+                (click)="previousVoice()"
+                class="absolute left-0 z-10 rounded-full p-2 shadow-md transition-all"
+                [class.bg-white]="!isPreviousDisabled()"
+                [class.bg-gray-200]="isPreviousDisabled()"
+                [class.cursor-pointer]="!isPreviousDisabled()"
+                [class.cursor-not-allowed]="isPreviousDisabled()"
+                [class.hover:shadow-lg]="!isPreviousDisabled()"
+                [class.hidden]="shouldHideCarousel()"
+                [disabled]="isPreviousDisabled()"
               >
-                @if (currentPlayingVoice === 'anas') {
-                  <!-- Icono de pausa (dos rayas) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                    <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                  </svg>
-                  <span class="ml-1">Pausar</span>
-                } @else {
-                  <!-- Icono de play (triángulo) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span class="ml-1">Escuchar</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12.5 15L7.5 10L12.5 5" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <!-- Contenedor de voces -->
+              <div class="flex justify-center gap-3 sm:gap-5 md:gap-6">
+                @for (voice of getVisibleVoices(); track voice.id) {
+                  <div 
+                    class="voice-card w-[160px] h-[270px] sm:w-[200px] sm:h-[340px] md:w-[230px] md:h-[368px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
+                    (click)="onVoiceSelected()"
+                  >
+                    <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover" />
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2.5 sm:p-4">
+                      <h3 class="text-white font-bold text-base sm:text-lg md:text-xl text-center">{{ voice.name }}</h3>
+                      <button
+                        (click)="$event.stopPropagation(); playVoice(voice.id)"
+                        class="mt-1.5 sm:mt-2 w-24 sm:w-28 md:w-32 bg-white text-gray-700 rounded-full px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs md:text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
+                      >
+                        @if (currentPlayingVoice === voice.id) {
+                          <!-- Icono de pausa (dos rayas) -->
+                          <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                            <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                          </svg>
+                          <span class="ml-1">Pausar</span>
+                        } @else {
+                          <!-- Icono de play (triángulo) -->
+                          <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                          <span class="ml-1">Escuchar</span>
+                        }
+                      </button>
+                    </div>
+                  </div>
                 }
+              </div>
+
+              <!-- Botón siguiente -->
+              <button 
+                (click)="nextVoice()"
+                class="absolute right-0 z-10 rounded-full p-2 shadow-md transition-all"
+                [class.bg-white]="!isNextDisabled()"
+                [class.bg-gray-200]="isNextDisabled()"
+                [class.cursor-pointer]="!isNextDisabled()"
+                [class.cursor-not-allowed]="isNextDisabled()"
+                [class.hover:shadow-lg]="!isNextDisabled()"
+                [class.hidden]="shouldHideCarousel()"
+                [disabled]="isNextDisabled()"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.5 5L12.5 10L7.5 15" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </button>
             </div>
-          </div>
-    
-          <!-- Carlos -->
-          <div 
-            class="w-[160px] h-[270px] sm:w-[200px] sm:h-[340px] md:w-[230px] md:h-[368px] bg-gray-100 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
-            (click)="onVoiceSelected()"
-          >
-            <img src="assets/carlos_voz.png" alt="Carlos" class="w-full h-full object-cover" />
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2.5 sm:p-4">
-              <h3 class="text-white font-bold text-base sm:text-lg md:text-xl text-center">Carlos</h3>
-              <button
-                (click)="$event.stopPropagation(); playVoice('carlos')"
-                class="mt-1.5 sm:mt-2 w-24 sm:w-28 md:w-32 bg-white text-gray-700 rounded-full px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs md:text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
-              >
-                @if (currentPlayingVoice === 'carlos') {
-                  <!-- Icono de pausa (dos rayas) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                    <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                  </svg>
-                  <span class="ml-1">Pausar</span>
-                } @else {
-                  <!-- Icono de play (triángulo) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span class="ml-1">Escuchar</span>
+
+            <!-- Indicadores del carrusel -->
+            <div class="flex justify-center gap-2 mb-4" [class.hidden]="shouldHideCarousel()">
+              @for (voice of voices; track voice.id; let i = $index) {
+                @if (i <= getMaxIndicatorIndex()) {
+                  <button 
+                    (click)="currentVoiceIndex = i"
+                    class="w-2 h-2 rounded-full transition-colors"
+                    [class.bg-blue-500]="i === currentVoiceIndex"
+                    [class.bg-gray-300]="i !== currentVoiceIndex"
+                  ></button>
                 }
-              </button>
+              }
             </div>
           </div>
         </div>
@@ -505,7 +539,7 @@
     <div class="absolute top-0 left-0 right-0 z-10 pt-8 sm:pt-12 md:pt-16">
       <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-2 sm:mb-4 md:mb-6 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Prueba Agente</h2>
       <p class="text-center text-xs sm:text-sm md:text-base text-black mb-3 sm:mb-6 md:mb-8 max-w-4xl mx-auto px-2 sm:px-4">
-        Ingresa tu número de teléfono y recibirás una llamada para hacer la prueba en tiempo real.
+        Habla con nuestro agente de prueba para ver cómo funciona.
       </p>
     </div>
     
@@ -515,75 +549,48 @@
       <div class="relative bg-blue-500 rounded-full flex items-center justify-center shadow-2xl overflow-hidden liquid-sphere"
            [style.width]="getMainSphereSize() + 'px'"
            [style.height]="getMainSphereSize() + 'px'"
-           [style.transform]="'scale(' + (1 + audioLevel * 0.03) + ')'"
-           [style.box-shadow]="'0 0 ' + (30 + audioLevel * 15) + 'px rgba(59, 130, 246, 0.6)'"
+           [style.transform]="'scale(' + (1 + audioLevel * 0.15) + ')'"
+           [style.box-shadow]="'0 0 ' + (30 + audioLevel * 40) + 'px rgba(59, 130, 246, 0.8)'"
            [style.transition]="'transform 0.1s ease-out, box-shadow 0.1s ease-out'">
         
-        <!-- Contenedor de líquido fluido -->
-        <div class="absolute inset-0 rounded-full overflow-hidden">
+        <!-- Video de mar con efectos de audio -->
+        <div class="relative w-full h-full rounded-full overflow-hidden">
+          <!-- Video del mar (si está disponible) -->
+          <video 
+            *ngIf="videoSrc"
+            [src]="videoSrc"
+            [muted]="true"
+            [loop]="true"
+            [autoplay]="true"
+            [playsInline]="true"
+            class="absolute inset-0 w-full h-full object-cover"
+            [style.filter]="getVideoFilter()"
+            [style.transform]="getVideoTransform()"
+            [style.opacity]="getVideoOpacity()"
+          ></video>
           
-          <!-- Ola fluida 1 - Movimiento horizontal -->
-          <div class="absolute liquid-wave-1 bg-gradient-to-r from-transparent via-white/80 to-transparent"
-               style="width: 140px; height: 20px; top: 30%; left: -20px; border-radius: 50px; filter: blur(1px);">
-          </div>
-          
-          <!-- Ola fluida 2 - Movimiento vertical -->
-          <div class="absolute liquid-wave-2 bg-gradient-to-b from-transparent via-white/70 to-transparent"
-               style="width: 15px; height: 120px; left: 25%; top: -20px; border-radius: 50px; filter: blur(1px);">
-          </div>
-          
-          <!-- Ola fluida 3 - Movimiento diagonal -->
-          <div class="absolute liquid-wave-3 bg-gradient-to-br from-transparent via-white/90 to-transparent"
-               style="width: 80px; height: 25px; top: 60%; left: 20%; border-radius: 50px; filter: blur(1.5px); transform: rotate(45deg);">
-          </div>
-          
-          <!-- Ola fluida 4 - Movimiento circular -->
-          <div class="absolute liquid-wave-4 bg-gradient-radial from-transparent via-white/60 to-transparent"
-               style="width: 100px; height: 100px; top: 20%; left: 30%; border-radius: 50%; filter: blur(2px);">
-          </div>
-          
-          <!-- Ola fluida 5 - Movimiento ondulante -->
-          <div class="absolute liquid-wave-5 bg-gradient-to-r from-transparent via-white/75 to-transparent"
-               style="width: 120px; height: 15px; top: 70%; left: 10%; border-radius: 50px; filter: blur(1px);">
-          </div>
-          
-          <!-- Ola fluida 6 - Movimiento vertical invertido -->
-          <div class="absolute liquid-wave-6 bg-gradient-to-t from-transparent via-white/65 to-transparent"
-               style="width: 20px; height: 100px; left: 70%; top: 10%; border-radius: 50px; filter: blur(1.5px);">
-          </div>
-          
-          <!-- Ola fluida 7 - Movimiento horizontal invertido -->
-          <div class="absolute liquid-wave-7 bg-gradient-to-l from-transparent via-white/70 to-transparent"
-               style="width: 90px; height: 18px; top: 45%; right: -10px; border-radius: 50px; filter: blur(1px);">
+          <!-- Fallback: Animación CSS que simula el mar -->
+          <div 
+            *ngIf="!videoSrc"
+            class="absolute inset-0 w-full h-full sea-animation"
+            [style.background]="getSeaGradient()"
+            [style.filter]="getVideoFilter()"
+            [style.transform]="getVideoTransform()"
+            [style.opacity]="getVideoOpacity()"
+          >
+            <!-- Ondas del mar -->
+            <div class="wave wave-1"></div>
+            <div class="wave wave-2"></div>
+            <div class="wave wave-3"></div>
+            <div class="wave wave-4"></div>
           </div>
           
-          <!-- Ola fluida 8 - Movimiento diagonal invertido -->
-          <div class="absolute liquid-wave-8 bg-gradient-to-tl from-transparent via-white/80 to-transparent"
-               style="width: 70px; height: 22px; top: 15%; right: 15%; border-radius: 50px; filter: blur(1.5px); transform: rotate(-30deg);">
-          </div>
-          
-          <!-- Burbujas que suben -->
-          <div class="absolute liquid-bubble-1 bg-white/60 rounded-full"
-               style="width: 8px; height: 8px; left: 20%; top: 80%; filter: blur(0.5px);">
-          </div>
-          <div class="absolute liquid-bubble-2 bg-white/70 rounded-full"
-               style="width: 12px; height: 12px; left: 60%; top: 75%; filter: blur(0.5px);">
-          </div>
-          <div class="absolute liquid-bubble-3 bg-white/50 rounded-full"
-               style="width: 6px; height: 6px; left: 80%; top: 70%; filter: blur(0.5px);">
-          </div>
-          <div class="absolute liquid-bubble-4 bg-white/55 rounded-full"
-               style="width: 10px; height: 10px; left: 40%; top: 85%; filter: blur(0.5px);">
-          </div>
-          
-          <!-- Gotas que caen -->
-          <div class="absolute liquid-drop-1 bg-white/80"
-               style="width: 4px; height: 12px; left: 30%; top: 10%; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; filter: blur(0.5px);">
-          </div>
-          <div class="absolute liquid-drop-2 bg-white/70"
-               style="width: 6px; height: 16px; left: 70%; top: 5%; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; filter: blur(0.5px);">
-          </div>
-          
+          <!-- Overlay de audio para efectos visuales -->
+          <div 
+            class="absolute inset-0 rounded-full pointer-events-none"
+            [style.background]="getAudioOverlay()"
+            [style.box-shadow]="getAudioGlow()"
+          ></div>
         </div>
         
       </div>
@@ -606,12 +613,15 @@
             <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
           </svg>
         } @else {
-          <!-- Icono de micrófono inactivo -->
-          <svg class="text-blue-600" 
+          <!-- Icono de micrófono silenciado -->
+          <svg class="text-gray-500" 
                style="width: 36px; height: 36px;" 
                viewBox="0 0 24 24" fill="currentColor">
+            <!-- Micrófono -->
             <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
             <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+            <!-- Línea diagonal de tachado -->
+            <path d="M3 3l18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
           </svg>
         }
       </button>
