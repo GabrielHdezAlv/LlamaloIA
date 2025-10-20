@@ -1,6 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common'; // 👈 Importa Location
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
@@ -8,7 +7,7 @@ import { I18nService } from '../../core/services/i18n.service';
 @Component({
   selector: 'app-new-create-agents',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule],
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss'
 })
@@ -41,21 +40,6 @@ export class NewCreateAgentsComponent implements OnDestroy {
   analyser: AnalyserNode | null = null;
   microphone: MediaStreamAudioSourceNode | null = null;
   animationFrame: number | null = null;
-  
-  // Variables para el video del mar
-  videoSrc: string = 'assets/bucle2.mp4'; // Ruta del video del mar (opcional)
-  
-  // Variables para el carrusel de voces
-  currentVoiceIndex: number = 0;
-  voices = [
-    { id: 'carla', name: 'Carla', image: 'assets/carla_prueba.png' },
-    { id: 'carlos', name: 'Carlos', image: 'assets/carlos_prueba.png' },
-    { id: 'david', name: 'David', image: 'assets/david_prueba.png' },
-    { id: 'jesus', name: 'Jesús', image: 'assets/jesus_prueba.png' },
-    { id: 'claudia', name: 'Claudia', image: 'assets/claudia_prueba.png' },
-    { id: 'maria', name: 'María', image: 'assets/maria_prueba.png' }
-  ];
-  
 
   onSelect(type: 'inbound' | 'outbound') {
     this.step = 'language';
@@ -67,72 +51,6 @@ export class NewCreateAgentsComponent implements OnDestroy {
 
   onVoiceSelected() {
     this.step = 'instructions';
-  }
-
-  // Métodos para el carrusel de voces
-  nextVoice() {
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    const visibleCount = isTablet ? 2 : 3;
-    const maxIndex = this.voices.length - visibleCount;
-    
-    if (this.currentVoiceIndex < maxIndex) {
-      // En tablets avanzar de 2 en 2, en desktop de 1 en 1
-      const step = isTablet ? 2 : 1;
-      this.currentVoiceIndex = Math.min(this.currentVoiceIndex + step, maxIndex);
-    }
-  }
-
-  previousVoice() {
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    
-    if (this.currentVoiceIndex > 0) {
-      // En tablets retroceder de 2 en 2, en desktop de 1 en 1
-      const step = isTablet ? 2 : 1;
-      this.currentVoiceIndex = Math.max(this.currentVoiceIndex - step, 0);
-    }
-  }
-
-  getCurrentVoice() {
-    return this.voices[this.currentVoiceIndex];
-  }
-
-  // Métodos para verificar el estado de los botones
-  isPreviousDisabled(): boolean {
-    return this.currentVoiceIndex === 0;
-  }
-
-  isNextDisabled(): boolean {
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    const visibleCount = isTablet ? 2 : 3;
-    return this.currentVoiceIndex >= this.voices.length - visibleCount;
-  }
-
-  shouldHideCarousel(): boolean {
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    const visibleCount = isTablet ? 2 : 3;
-    return this.voices.length <= visibleCount;
-  }
-
-  getMaxIndicatorIndex(): number {
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    const visibleCount = isTablet ? 2 : 3;
-    return this.voices.length - visibleCount;
-  }
-
-  getVisibleVoices() {
-    // Detectar si es tablet (768px - 1024px)
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    const visibleCount = isTablet ? 2 : 3; // 2 en tablet, 3 en desktop
-    const startIndex = this.currentVoiceIndex;
-    const endIndex = startIndex + visibleCount;
-    
-    if (endIndex <= this.voices.length) {
-      return this.voices.slice(startIndex, endIndex);
-    } else {
-      // Si se pasa del final, mostrar las primeras voces
-      const remaining = endIndex - this.voices.length;
-      return [...this.voices.slice(startIndex), ...this.voices.slice(0, remaining)];
-    }
   }
 
   goBack() {
@@ -562,9 +480,9 @@ getCloudPosition(cloudNumber: number): { x: number, y: number } {
 }
 
 getMainSphereSize(): number {
-  const baseSize = 200; // Aumentado de 120 a 200
-  const maxSize = 280; // Aumentado de 180 a 280
-  return Math.min(baseSize + (this.audioLevel * 30), maxSize);
+  const baseSize = 120;
+  const maxSize = 180;
+  return Math.min(baseSize + (this.audioLevel * 20), maxSize);
 }
 
 getMicButtonSize(): number {
@@ -642,50 +560,6 @@ getInternalCloudPosition(cloudNumber: number): { x: number, y: number } {
  }
 
  onMaxCallDurationChange() {
-   console.log('Max duration: ', this.maxCallDuration);
+  console.log('Max duration: ', this.maxCallDuration);
  }
-
- // Métodos para efectos del video del mar
- getVideoFilter(): string {
-   const brightness = 1 + (this.audioLevel * 0.6);
-   const contrast = 1 + (this.audioLevel * 0.4);
-   const saturation = 1 + (this.audioLevel * 0.8);
-   
-   return `brightness(${brightness}) contrast(${contrast}) saturate(${saturation}) blur(${this.audioLevel * 1.2}px)`;
- }
-
- getVideoTransform(): string {
-   const scale = 1 + (this.audioLevel * 0.2);
-   const rotation = this.audioLevel * 15; // Rotación más pronunciada
-   
-   return `scale(${scale}) rotate(${rotation}deg)`;
- }
-
- getVideoOpacity(): number {
-   return 0.7 + (this.audioLevel * 0.3);
- }
-
- getAudioOverlay(): string {
-   if (this.audioLevel < 0.1) return 'transparent';
-   
-   const intensity = this.audioLevel * 0.6;
-   return `radial-gradient(circle, rgba(59, 130, 246, ${intensity}) 0%, transparent 70%)`;
- }
-
- getAudioGlow(): string {
-   if (this.audioLevel < 0.1) return 'none';
-   
-   const intensity = this.audioLevel * 50;
-   return `0 0 ${intensity}px rgba(59, 130, 246, 0.8), inset 0 0 ${intensity}px rgba(59, 130, 246, 0.5)`;
- }
-
- getSeaGradient(): string {
-   const intensity = 1 + (this.audioLevel * 0.6);
-   return `radial-gradient(circle at center, 
-     rgba(59, 130, 246, ${0.9 * intensity}) 0%, 
-     rgba(147, 197, 253, ${0.7 * intensity}) 30%, 
-     rgba(255, 255, 255, ${0.5 * intensity}) 60%, 
-     rgba(30, 64, 175, ${0.8 * intensity}) 100%)`;
- }
-
 }
