@@ -9,7 +9,7 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  title = 'llamaloIO';
+  title = 'llamaloAI';
 
   constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
@@ -21,27 +21,31 @@ export class AppComponent implements OnInit {
 
   private loadIntercom(): void {
     const w = window as any;
-    
+
     // Configurar Intercom
     w.intercomSettings = {
-      api_base: "https://api-iam.intercom.io",
-      app_id: "tpi8snld",
-      hide_default_launcher: false
+      api_base: 'https://api-iam.intercom.io',
+      app_id: 'tpi8snld',
+      hide_default_launcher: false,
     };
 
     // Función de inicialización de Intercom
     const initIntercom = () => {
       const ic = w.Intercom;
-      if (typeof ic === "function") {
+      if (typeof ic === 'function') {
         ic('reattach_activator');
         ic('update', w.intercomSettings);
       } else {
         const d = document;
-        const i: any = function() { i.c(arguments); };
+        const i: any = function () {
+          i.c(arguments);
+        };
         i.q = [];
-        i.c = function(args: any) { i.q.push(args); };
+        i.c = function (args: any) {
+          i.q.push(args);
+        };
         w.Intercom = i;
-        
+
         const loadScript = () => {
           const s = d.createElement('script');
           s.type = 'text/javascript';
@@ -52,7 +56,7 @@ export class AppComponent implements OnInit {
             x.parentNode.insertBefore(s, x);
           }
         };
-        
+
         if (document.readyState === 'complete') {
           loadScript();
         } else if (w.attachEvent) {
