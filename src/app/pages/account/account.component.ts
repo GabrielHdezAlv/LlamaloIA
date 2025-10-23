@@ -120,9 +120,22 @@ export class AccountComponent implements OnInit {
       });
       return;
     }
+    
     // Aquí puedes enviar al backend
     console.log('Contraseña actualizada');
-    this.showNotification(this.t.passwordUpdated, 'success');
+    
+    // Mostrar modal de éxito en lugar de notificación básica
+    this.modalService.openPasswordSuccess({
+      title: 'Contraseña actualizada',
+      message: 'Tu contraseña ha sido actualizada correctamente. Te recomendamos cerrar sesión y volver a iniciar sesión con tu nueva contraseña.',
+      showContinueButton: true,
+      continueButtonText: 'Entendido'
+    });
+    
+    // Limpiar los campos después del éxito
+    this.currentPassword = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
   }
 
   onAvatarClick() {

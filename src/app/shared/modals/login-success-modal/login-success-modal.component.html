@@ -1,0 +1,26 @@
+<!-- Popup flotante en la parte superior -->
+<div class="login-success-popup">
+  <div class="popup-content">
+    <!-- Icono y mensaje principal -->
+    <div class="popup-header">
+      <div class="popup-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5">
+          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div class="popup-text">
+        <h3 class="popup-title">{{ title }}</h3>
+        <p class="popup-message">{{ message }}</p>
+      </div>
+      <button 
+        class="popup-close"
+        (click)="close()"
+        aria-label="Cerrar notificación"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
+          <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

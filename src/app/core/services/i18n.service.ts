@@ -398,7 +398,7 @@ export class I18nService {
       searchNumber: 'Buscar el número',
       resolved: 'Resuelto',
       pending: 'Pendiente',
-      selectContactToView: 'Selecciona un contacto para ver la conversación.',
+      selectContactToView: 'Selecciona una conversación de tu historial.',
 
       // Common
       new: 'Nuevo',

@@ -120,8 +120,19 @@ export class AuthFormComponent implements OnInit {
             }
             console.log('data: ', data);
 
-            this.showSuccess('Inicio de sesión exitoso');
-            this.router.navigate(['/dashboard']);
+            // Mostrar modal de éxito en lugar de notificación básica
+            this.modalService.openLoginSuccess({
+              title: '¡Bienvenido de vuelta!',
+              message: `Hola ${data.name || ''}, has iniciado sesión correctamente.`,
+              userName: data.name,
+              showContinueButton: true,
+              continueButtonText: 'Ir al Dashboard'
+            });
+            
+            // Redirigir después de un breve delay para que el usuario vea el modal
+            setTimeout(() => {
+              this.router.navigate(['/dashboard']);
+            }, 2000);
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);
@@ -178,8 +189,19 @@ export class AuthFormComponent implements OnInit {
               this.twilioStorage.setConfig(data.twilio);
             }
 
-            this.showSuccess('Registro exitoso');
-            this.router.navigate(['/dashboard']);
+            // Mostrar modal de éxito para registro
+            this.modalService.openLoginSuccess({
+              title: '¡Bienvenido!',
+              message: `Hola ${data.name || ''}, tu cuenta ha sido creada exitosamente.`,
+              userName: data.name,
+              showContinueButton: true,
+              continueButtonText: 'Comenzar'
+            });
+            
+            // Redirigir después de un breve delay
+            setTimeout(() => {
+              this.router.navigate(['/dashboard']);
+            }, 2000);
           },
           error: (err) => {
             this.modalService.openError({

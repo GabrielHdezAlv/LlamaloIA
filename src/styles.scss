@@ -35,3 +35,21 @@ body::-webkit-scrollbar {
   display: none; /* WebKit */
 }
 
+/* Estilos para el popup de inicio de sesión */
+.login-success-popup-container {
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: auto !important;
+    height: auto !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
