@@ -20,7 +20,13 @@ import { AnimatedCheckboxComponent } from '../../shared/components/animated-chec
 @Component({
   selector: 'app-auth-form',
   standalone: true,
-  imports: [FormsModule, RouterModule, CommonModule, ReactiveFormsModule, AnimatedCheckboxComponent],
+  imports: [
+    FormsModule,
+    RouterModule,
+    CommonModule,
+    ReactiveFormsModule,
+    AnimatedCheckboxComponent,
+  ],
   templateUrl: './auth-form.component.html',
   styleUrls: ['./auth-form.component.scss'],
 })
@@ -42,10 +48,10 @@ export class AuthFormComponent implements OnInit {
   password: string = '';
   confirmPassword: string = '';
   fullName: string = '';
-  
+
   // Estado para mostrar/ocultar contraseña
   showPassword: boolean = false;
-  
+
   // Estado para recordar sesión
   rememberMe: boolean = false;
 
@@ -123,12 +129,14 @@ export class AuthFormComponent implements OnInit {
             // Mostrar modal de éxito en lugar de notificación básica
             this.modalService.openLoginSuccess({
               title: '¡Bienvenido de vuelta!',
-              message: `Hola ${data.name || ''}, has iniciado sesión correctamente.`,
+              message: `Hola ${
+                data.name || ''
+              }, has iniciado sesión correctamente.`,
               userName: data.name,
               showContinueButton: true,
-              continueButtonText: 'Ir al Dashboard'
+              continueButtonText: 'Ir al Dashboard',
             });
-            
+
             // Redirigir después de un breve delay para que el usuario vea el modal
             setTimeout(() => {
               this.router.navigate(['/dashboard']);
@@ -192,12 +200,14 @@ export class AuthFormComponent implements OnInit {
             // Mostrar modal de éxito para registro
             this.modalService.openLoginSuccess({
               title: '¡Bienvenido!',
-              message: `Hola ${data.name || ''}, tu cuenta ha sido creada exitosamente.`,
+              message: `Hola ${
+                data.name || ''
+              }, tu cuenta ha sido creada exitosamente.`,
               userName: data.name,
               showContinueButton: true,
-              continueButtonText: 'Comenzar'
+              continueButtonText: 'Comenzar',
             });
-            
+
             // Redirigir después de un breve delay
             setTimeout(() => {
               this.router.navigate(['/dashboard']);
@@ -215,7 +225,8 @@ export class AuthFormComponent implements OnInit {
       error: (err) => {
         this.modalService.openError({
           title: 'Registro',
-          message: err?.error?.message || 'Error en registro. Verifica los datos',
+          message:
+            err?.error?.message || 'Error en registro. Verifica los datos',
           details: String(err?.message || err),
         });
       },
@@ -232,7 +243,9 @@ export class AuthFormComponent implements OnInit {
       return;
     }
     // Aquí se podría llamar a un endpoint real de recuperación
-    this.showSuccess('Si el correo existe, recibirás instrucciones de recuperación.');
+    this.showSuccess(
+      'Si el correo existe, recibirás instrucciones de recuperación.'
+    );
   }
 
   togglePasswordVisibility() {

@@ -1,7 +1,16 @@
 import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgApexchartsModule, ApexAxisChartSeries, ApexChart, ApexStroke, ApexDataLabels, ApexGrid, ApexXAxis, ApexFill } from 'ng-apexcharts';
+import {
+  NgApexchartsModule,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexStroke,
+  ApexDataLabels,
+  ApexGrid,
+  ApexXAxis,
+  ApexFill,
+} from 'ng-apexcharts';
 import { I18nService } from '../../core/services/i18n.service';
 
 @Component({
@@ -9,7 +18,7 @@ import { I18nService } from '../../core/services/i18n.service';
   standalone: true,
   imports: [CommonModule, FormsModule, NgApexchartsModule],
   templateUrl: './metrics.component.html',
-  styleUrl: './metrics.component.scss'
+  styleUrl: './metrics.component.scss',
 })
 export class MetricsComponent implements OnInit {
   private i18nService = inject(I18nService);
@@ -49,18 +58,18 @@ export class MetricsComponent implements OnInit {
   getLast7Days(): string[] {
     const dates: string[] = [];
     const today = new Date();
-    
+
     for (let i = 6; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
-      
+
       const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
       const dayName = dayNames[date.getDay()];
       const dayNumber = date.getDate();
-      
+
       dates.push(`${dayName} ${dayNumber}`);
     }
-    
+
     return dates;
   }
 
@@ -68,19 +77,19 @@ export class MetricsComponent implements OnInit {
   getLast30Days(): string[] {
     const dates: string[] = [];
     const today = new Date();
-    
+
     for (let i = 29; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
-      
+
       const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
       const dayName = dayNames[date.getDay()];
       const dayNumber = date.getDate();
-      
+
       // Mostrar todos los días
       dates.push(`${dayName} ${dayNumber}`);
     }
-    
+
     return dates;
   }
 
@@ -88,16 +97,19 @@ export class MetricsComponent implements OnInit {
   getLast30DaysData(): number[] {
     const data: number[] = [];
     const baseValue = 200;
-    
+
     for (let i = 0; i < 30; i++) {
       // Simular tendencia más realista con picos y valles
       const trend = Math.sin(i * 0.15) * 60; // Onda suave
       const weeklyPattern = Math.sin(i * 0.9) * 40; // Patrón semanal
       const random = (Math.random() - 0.5) * 80; // Variación aleatoria
-      const value = Math.max(50, Math.min(400, baseValue + trend + weeklyPattern + random));
+      const value = Math.max(
+        50,
+        Math.min(400, baseValue + trend + weeklyPattern + random)
+      );
       data.push(Math.round(value));
     }
-    
+
     return data;
   }
 
@@ -110,31 +122,31 @@ export class MetricsComponent implements OnInit {
     offsetY: -10,
   };
 
-  callsAreaStroke: ApexStroke = { 
-    curve: 'smooth', 
+  callsAreaStroke: ApexStroke = {
+    curve: 'smooth',
     width: 3,
-    colors: ['#1E3A8A']
+    colors: ['#1E3A8A'],
   };
   callsAreaDataLabels: ApexDataLabels = { enabled: false };
-  callsAreaGrid: ApexGrid = { 
-    strokeDashArray: 3, 
+  callsAreaGrid: ApexGrid = {
+    strokeDashArray: 3,
     borderColor: '#E5E7EB',
     xaxis: { lines: { show: false } },
     yaxis: { lines: { show: true } },
     padding: {
-      bottom: 20
-    }
+      bottom: 20,
+    },
   };
-  callsAreaXAxis: ApexXAxis = { 
+  callsAreaXAxis: ApexXAxis = {
     categories: this.getCurrentCategories(),
     axisBorder: { show: true },
     axisTicks: { show: true },
-    labels: { 
+    labels: {
       show: true,
-      style: { 
-        colors: '#6B7280', 
+      style: {
+        colors: '#6B7280',
         fontSize: '11px',
-        fontWeight: 500
+        fontWeight: 500,
       },
       offsetY: 5,
       rotate: 0,
@@ -142,8 +154,8 @@ export class MetricsComponent implements OnInit {
       hideOverlappingLabels: false,
     },
     crosshairs: {
-      show: false
-    }
+      show: false,
+    },
   };
 
   // Obtener categorías según el período seleccionado
@@ -172,15 +184,15 @@ export class MetricsComponent implements OnInit {
   };
   callsAreaFill: ApexFill = {
     type: 'gradient',
-    gradient: { 
-      shadeIntensity: 1, 
-      opacityFrom: 0.4, 
-      opacityTo: 0.1, 
+    gradient: {
+      shadeIntensity: 1,
+      opacityFrom: 0.4,
+      opacityTo: 0.1,
       stops: [0, 100],
       colorStops: [
         { offset: 0, color: '#1E3A8A', opacity: 0.4 },
-        { offset: 100, color: '#1E3A8A', opacity: 0.1 }
-      ]
+        { offset: 100, color: '#1E3A8A', opacity: 0.1 },
+      ],
     },
   };
   callsAreaColors: string[] = ['#1E3A8A'];
@@ -188,7 +200,7 @@ export class MetricsComponent implements OnInit {
   // Configuración del tooltip personalizado
   callsAreaTooltip: any = {
     enabled: true,
-    custom: function({ series, seriesIndex, dataPointIndex, w }: any) {
+    custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
       const value = series[seriesIndex][dataPointIndex];
       return `
         <div style="
@@ -215,10 +227,15 @@ export class MetricsComponent implements OnInit {
           "></div>
         </div>
       `;
-    }
+    },
   };
   // Filtros
-  periods = [this.t.last7Days, this.t.last30Days, this.t.thisMonth, this.t.lastYear];
+  periods = [
+    this.t.last7Days,
+    this.t.last30Days,
+    this.t.thisMonth,
+    this.t.lastYear,
+  ];
   selectedPeriod = this.periods[0];
 
   agents = [this.t.all, this.t.agent1, this.t.agent2];
@@ -317,7 +334,7 @@ export class MetricsComponent implements OnInit {
       const baseLatency = 1200;
       const variation = Math.random() * 800 - 400; // ±400ms de variación
       const newLatency = Math.max(200, Math.min(3000, baseLatency + variation));
-      
+
       this.latencyMs = Math.round(newLatency);
     }, 2000); // Actualizar cada 2 segundos
   }
@@ -329,11 +346,11 @@ export class MetricsComponent implements OnInit {
   get averageCallDurationLabel(): string {
     const minutes = Math.floor(this.averageCallDurationSeconds / 60);
     const seconds = this.averageCallDurationSeconds % 60;
-    
+
     if (minutes === 0) {
       return `${seconds}s`;
     }
-    
+
     return `${minutes}m ${seconds}s`;
   }
 
@@ -384,8 +401,20 @@ export class MetricsComponent implements OnInit {
   // Agentes creados (tabla resumen)
   get createdAgents() {
     return [
-      { name: 'Carla', type: this.t.inbound, totalMin: 530, percent: 25.4, status: this.t.activeStatus },
-      { name: 'Carla', type: this.t.outbound, totalMin: 250, percent: 8.9, status: this.t.draftStatus },
+      {
+        name: 'Carla',
+        type: this.t.inbound,
+        totalMin: 530,
+        percent: 25.4,
+        status: this.t.activeStatus,
+      },
+      {
+        name: 'Carla',
+        type: this.t.outbound,
+        totalMin: 250,
+        percent: 8.9,
+        status: this.t.draftStatus,
+      },
     ];
   }
 
@@ -395,7 +424,11 @@ export class MetricsComponent implements OnInit {
       { name: this.t.unitedStates, img: 'assets/eeuu.png', percent: 65.5 },
       { name: this.t.france, img: 'assets/france.png', percent: 57.5 },
       { name: this.t.spain, img: 'assets/spain.png', percent: 45.2 },
-      { name: this.t.unitedKingdom, img: 'assets/united-kingdom.png', percent: 33.2 },
+      {
+        name: this.t.unitedKingdom,
+        img: 'assets/united-kingdom.png',
+        percent: 33.2,
+      },
       { name: this.t.brazil, img: 'assets/brasil.png', percent: 25.8 },
     ].sort((a, b) => b.percent - a.percent);
   }
@@ -414,7 +447,9 @@ export class MetricsComponent implements OnInit {
   }
 
   get inboundStrokeDashoffset(): number {
-    return this.circumference - (this.circumference * this.inboundPercentage / 100);
+    return (
+      this.circumference - (this.circumference * this.inboundPercentage) / 100
+    );
   }
 
   get outboundStrokeDasharray(): string {
@@ -422,7 +457,9 @@ export class MetricsComponent implements OnInit {
   }
 
   get outboundStrokeDashoffset(): number {
-    return this.circumference - (this.circumference * this.outboundPercentage / 100);
+    return (
+      this.circumference - (this.circumference * this.outboundPercentage) / 100
+    );
   }
 
   // Método para simular cambios en los porcentajes de tipo de llamadas
@@ -433,42 +470,40 @@ export class MetricsComponent implements OnInit {
 
   // Método para cambiar el período y actualizar el gráfico
   onPeriodChange(): void {
-    this.callsAreaSeries = [
-      { name: 'Llamadas', data: this.getCurrentData() }
-    ];
-    
+    this.callsAreaSeries = [{ name: 'Llamadas', data: this.getCurrentData() }];
+
     // Actualizar datos del gráfico móvil
     this.updateMobileChartData();
-    
+
     const isLast30Days = this.selectedPeriod === 'Últimos 30 días';
     const isMobile = this.isBrowser && window.innerWidth < 640;
-    
+
     // Actualizar altura del gráfico
     this.callsAreaChart = {
       ...this.callsAreaChart,
-      height: isMobile ? 280 : 320
+      height: isMobile ? 280 : 320,
     };
-    
+
     this.callsAreaXAxis = {
       ...this.callsAreaXAxis,
       categories: this.getCurrentCategories(),
       axisBorder: { show: true },
       axisTicks: { show: true },
-      labels: { 
+      labels: {
         show: true,
-        style: { 
-          colors: '#6B7280', 
-          fontSize: isMobile ? '8px' : (isLast30Days ? '9px' : '11px'),
-          fontWeight: 500
+        style: {
+          colors: '#6B7280',
+          fontSize: isMobile ? '8px' : isLast30Days ? '9px' : '11px',
+          fontWeight: 500,
         },
         offsetY: 5,
-        rotate: isMobile ? -30 : (isLast30Days ? -45 : 0),
+        rotate: isMobile ? -30 : isLast30Days ? -45 : 0,
         trim: false,
         hideOverlappingLabels: !isLast30Days,
       },
       crosshairs: {
-        show: false
-      }
+        show: false,
+      },
     };
   }
 
@@ -488,48 +523,47 @@ export class MetricsComponent implements OnInit {
     }
   }
 
-
   // Método para actualizar los datos del gráfico móvil
   updateMobileChartData(): void {
     const data = this.getCurrentData();
     const categories = this.getCurrentCategories();
     const maxValue = Math.max(...data);
-    
+
     // Calcular totales y promedios
     this.totalCalls = data.reduce((sum, value) => sum + value, 0);
     this.averageCalls = Math.round(this.totalCalls / data.length);
-    
+
     // Mostrar todos los días con scroll horizontal
     this.mobileChartData = data.map((value, index) => ({
       label: categories[index],
       value: value,
-      percentage: Math.round((value / maxValue) * 100)
+      percentage: Math.round((value / maxValue) * 100),
     }));
   }
 
   ngOnInit(): void {
     // Inicializar datos del gráfico móvil
     this.updateMobileChartData();
-    
+
     // Ajustar gráfico para móviles
     if (this.isBrowser) {
       this.updateChartForScreenSize();
       window.addEventListener('resize', () => this.updateChartForScreenSize());
     }
-    
+
     // Ejecutar animaciones siempre
     this.startFadeInAnimations();
     this.preventScrollOnChart();
   }
-  
+
   private updateChartForScreenSize(): void {
     const isMobile = window.innerWidth < 640;
-    
+
     this.callsAreaChart = {
       ...this.callsAreaChart,
-      height: isMobile ? 280 : 320
+      height: isMobile ? 280 : 320,
     };
-    
+
     this.callsAreaXAxis = {
       ...this.callsAreaXAxis,
       labels: {
@@ -537,24 +571,28 @@ export class MetricsComponent implements OnInit {
         style: {
           colors: '#6B7280',
           fontSize: isMobile ? '9px' : '11px',
-          fontWeight: 500
+          fontWeight: 500,
         },
         rotate: isMobile ? -30 : 0,
-      }
+      },
     };
   }
 
   // Prevenir scroll de página cuando se hace zoom en el gráfico
   preventScrollOnChart() {
     if (!this.isBrowser) return;
-    
+
     setTimeout(() => {
       const chartContainer = document.querySelector('.chart-container');
       if (chartContainer) {
-        chartContainer.addEventListener('wheel', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }, { passive: false });
+        chartContainer.addEventListener(
+          'wheel',
+          (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          },
+          { passive: false }
+        );
       }
     }, 100);
   }
