@@ -271,7 +271,41 @@ export class NewCreateAgentsComponent implements OnDestroy {
 
   selectAction(platform: string) {
     console.log('Plataforma seleccionada:', platform);
-    this.step = 'knowledgeBase'; // Avanza a "Base de Conocimientos"
+    
+    if (platform === 'shopify') {
+      // Abrir modal de Shopify
+      const dialogRef = this.modalService.openShopify({
+        title: 'Integración con Shopify',
+        message: 'Configura tu conexión con Shopify',
+        formEnabled: false
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Shopify modal closed with result:', result);
+        if (result && result.type === 'shopify') {
+          console.log('Configuración de Shopify guardada:', result);
+          // Solo avanzar si el usuario completó la configuración explícitamente
+          this.step = 'knowledgeBase';
+        }
+        // Si no hay resultado o no es de tipo shopify, permanecer en la misma página
+      });
+    } else if (platform === 'make') {
+      // Abrir modal de Make
+      const dialogRef = this.modalService.openMake({
+        title: 'Integración con Make',
+        message: 'Configura tu conexión con Make',
+        formEnabled: false
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Make modal closed with result:', result);
+        // El modal de Make ya no retorna resultado, solo se cierra
+        // No avanzar automáticamente
+      });
+    } else {
+      // Para otras plataformas, continuar normalmente
+      this.step = 'knowledgeBase';
+    }
   }
 
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
