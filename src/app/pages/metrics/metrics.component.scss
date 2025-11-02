@@ -35,6 +35,58 @@
   transform-origin: left;
 }
 
+// Animación para las barras del gráfico móvil
+.mobile-bar {
+  transform-origin: left;
+  animation: slideInFromLeft 1s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+// Estilos para el scroll horizontal
+.horizontal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 #F1F5F9;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  background: #F1F5F9;
+  border-radius: 3px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+// Ocultar barra de scroll
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
 // Efecto de pulso para indicadores de estado
 @keyframes pulse {
   0%, 100% {

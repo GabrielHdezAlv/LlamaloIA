@@ -1,12 +1,12 @@
 <!-- Modal de Importar Número -->
-<div class="fixed inset-0 bg-gray-500 bg-opacity-30 flex items-center justify-center p-8 z-50 import-modal-overlay" (click)="close()">
+<div class="fixed inset-0 bg-gray-500 bg-opacity-30 flex items-center justify-center p-2 sm:p-4 md:p-8 z-50 import-modal-overlay" (click)="close()">
   <!-- Modal content -->
-  <div class="bg-white rounded-[3rem] shadow-2xl p-14 max-w-[65rem] w-full mx-auto max-h-[90vh] overflow-y-auto relative" (click)="$event.stopPropagation()">
+  <div class="bg-white rounded-2xl sm:rounded-[3rem] shadow-2xl p-4 sm:p-8 md:p-14 max-w-[65rem] w-full mx-auto max-h-[95vh] sm:max-h-[90vh] overflow-y-auto relative" (click)="$event.stopPropagation()">
     
     <!-- Botón de cerrar -->
     <button
       (click)="close()"
-      class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center transition-colors duration-200 z-10"
+      class="absolute top-3 right-3 sm:top-6 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-colors duration-200 z-10"
       aria-label="Cerrar modal"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -15,26 +15,26 @@
     </button>
     
     <!-- Título del modal -->
-    <div class="mb-8 max-w-4xl mx-auto">
-      <h2 class="text-5xl font-bold text-blue-950 font-dm-sans text-center tracking-[-0.4px] flex flex-col items-center">
+    <div class="mb-4 sm:mb-6 md:mb-8 max-w-4xl mx-auto">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-blue-950 font-dm-sans text-center tracking-[-0.4px] flex flex-col items-center">
         <span>Conectar Numero de telefono</span>
-        <span class="text-3xl font-bold -mt-2 ">A través de Twilio</span>
+        <span class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold -mt-1 sm:-mt-2">A través de Twilio</span>
       </h2>
     </div>
 
     <!-- Instrucciones -->
-    <div class="mb-8 max-w-4xl mx-auto">
-      <div class="space-y-3">
-        <p class="text-lg text-black font-dm-sans tracking-[-0.5px]">
+    <div class="mb-4 sm:mb-6 md:mb-8 max-w-4xl mx-auto">
+      <div class="space-y-2 sm:space-y-3">
+        <p class="text-sm sm:text-base md:text-lg text-black font-dm-sans tracking-[-0.5px]">
           <strong>Seleccionar prefijo de país:</strong> Elige el código de país correspondiente.
         </p>
-        <p class="text-lg text-black font-dm-sans tracking-[-0.5px]">
+        <p class="text-sm sm:text-base md:text-lg text-black font-dm-sans tracking-[-0.5px]">
           <strong>Introducir número de Twilio:</strong> Ingresa el número asociado a tu cuenta Twilio.
         </p>
-        <p class="text-lg text-black font-dm-sans tracking-[-0.5px]">
+        <p class="text-sm sm:text-base md:text-lg text-black font-dm-sans tracking-[-0.5px]">
           <strong>Twilio Account SID y Auth Token:</strong> Completa los campos con tu SID de cuenta y token de autenticación.
         </p>
-        <p class="text-lg text-black font-dm-sans tracking-[-0.5px]">
+        <p class="text-sm sm:text-base md:text-lg text-black font-dm-sans tracking-[-0.5px]">
           <strong>Asignar nombre o etiqueta:</strong> Da un nombre o etiqueta identificativa al número de Twilio para facilitar su gestión.
         </p>
       </div>
@@ -42,19 +42,19 @@
 
     <!-- Formulario -->
     <form [formGroup]="importForm" (ngSubmit)="onSubmit()" class="max-w-4xl mx-auto">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <!-- Número de teléfono -->
         <div class="form-group">
-          <label class="block text-lg font-medium text-gray-800 mb-3 font-dm-sans">Numero de telefono*</label>
-          <div class="phone-input-container bg-white border-2 border-gray-200 rounded-2xl p-4 flex items-center">
-            <div class="country-selector flex items-center gap-3 mr-4">
-              <img src="assets/spain.png" alt="España" class="w-6 h-4 object-cover rounded">
-              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <label class="block text-sm sm:text-base md:text-lg font-medium text-gray-800 mb-2 sm:mb-3 font-dm-sans">Numero de telefono*</label>
+          <div class="phone-input-container bg-white border-2 border-gray-200 rounded-2xl p-3 sm:p-4 flex items-center">
+            <div class="country-selector flex items-center gap-2 sm:gap-3 mr-3 sm:mr-4">
+              <img src="assets/spain.png" alt="España" class="w-5 h-3 sm:w-6 sm:h-4 object-cover rounded">
+              <svg width="10" height="6" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" class="sm:w-3 sm:h-2">
                 <path d="M1 1.5L6 6.5L11 1.5" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
             <input 
-              class="flex-1 border-none outline-none text-lg font-dm-sans placeholder-gray-400"
+              class="flex-1 border-none outline-none text-sm sm:text-base md:text-lg font-dm-sans placeholder-gray-400"
               formControlName="phoneNumber" 
               placeholder="Ej: 630 00 00 00"
               type="tel"
@@ -64,9 +64,9 @@
 
         <!-- Cuenta Twilio SID -->
         <div class="form-group">
-          <label class="block text-lg font-medium text-gray-800 mb-3 font-dm-sans">Cuenta Twilio SID*</label>
+          <label class="block text-sm sm:text-base md:text-lg font-medium text-gray-800 mb-2 sm:mb-3 font-dm-sans">Cuenta Twilio SID*</label>
           <input 
-            class="w-full bg-white border-2 border-gray-200 rounded-2xl p-4 text-lg font-dm-sans placeholder-gray-400 outline-none focus:border-blue-900 transition-colors duration-200"
+            class="w-full bg-white border-2 border-gray-200 rounded-2xl p-3 sm:p-4 text-sm sm:text-base md:text-lg font-dm-sans placeholder-gray-400 outline-none focus:border-blue-900 transition-colors duration-200"
             formControlName="twilioSid" 
             placeholder=""
           >
@@ -74,9 +74,9 @@
 
         <!-- Twilio Auth Token -->
         <div class="form-group">
-          <label class="block text-lg font-medium text-gray-800 mb-3 font-dm-sans">Twilio Auth Token*</label>
+          <label class="block text-sm sm:text-base md:text-lg font-medium text-gray-800 mb-2 sm:mb-3 font-dm-sans">Twilio Auth Token*</label>
           <input 
-            class="w-full bg-white border-2 border-gray-200 rounded-2xl p-4 text-lg font-dm-sans placeholder-gray-400 outline-none focus:border-blue-900 transition-colors duration-200"
+            class="w-full bg-white border-2 border-gray-200 rounded-2xl p-3 sm:p-4 text-sm sm:text-base md:text-lg font-dm-sans placeholder-gray-400 outline-none focus:border-blue-900 transition-colors duration-200"
             formControlName="twilioToken" 
             placeholder=""
           >
@@ -84,9 +84,9 @@
 
         <!-- Etiqueta -->
         <div class="form-group">
-          <label class="block text-lg font-medium text-gray-800 mb-3 font-dm-sans">Etiqueta</label>
+          <label class="block text-sm sm:text-base md:text-lg font-medium text-gray-800 mb-2 sm:mb-3 font-dm-sans">Etiqueta</label>
           <input 
-            class="w-full bg-white border-2 border-gray-200 rounded-2xl p-4 text-lg font-dm-sans placeholder-gray-400 outline-none focus:border-blue-900 transition-colors duration-200"
+            class="w-full bg-white border-2 border-gray-200 rounded-2xl p-3 sm:p-4 text-sm sm:text-base md:text-lg font-dm-sans placeholder-gray-400 outline-none focus:border-blue-900 transition-colors duration-200"
             formControlName="label" 
             placeholder=""
           >
@@ -97,7 +97,7 @@
       <div class="text-center">
         <button 
           type="submit" 
-          class="bg-[#0a1740] hover:bg-gray-950 text-white px-24 py-4 rounded-xl text-lg font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2 mx-auto"
+          class="bg-[#0a1740] hover:bg-gray-950 text-white px-12 sm:px-20 md:px-24 py-3 sm:py-4 rounded-xl text-sm sm:text-base md:text-lg font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center gap-2 mx-auto"
         >
           Importar
         </button>

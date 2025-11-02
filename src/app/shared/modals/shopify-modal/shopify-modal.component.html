@@ -1,0 +1,108 @@
+<div class="relative h-full max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-xl w-full max-w-7xl mx-auto flex flex-col">
+  <!-- Header -->
+  <div class="relative p-8 flex-shrink-0">
+    <button
+      class="absolute top-4 right-4 h-8 w-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors cursor-pointer border-none p-0 z-10"
+      (click)="dialogRef.close()"
+      [attr.aria-label]="t.close"
+    >
+      <mat-icon class="text-gray-600 text-xl h-5 w-5">close</mat-icon>
+    </button>
+    
+    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-2 sm:mb-3 md:mb-4 lg:mb-5 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">
+      Elige Plantilla
+    </h2>
+    <p class="text-center text-sm md:text-base text-black mb-3 sm:mb-6 md:mb-8 max-w-4xl mx-auto tracking-[-0.3px] sm:tracking-[-0.5px] md:tracking-[-1px] px-2 sm:px-4">
+      Define la acción que la IA podrá ejecutar durante la llamada y conecta el webhook de tu modulo de make
+    </p>
+  </div>
+
+  <!-- Content -->
+  <div class="flex-1 px-12 py-8 overflow-y-auto">
+    <!-- Ecommerce Acciones Section -->
+    <div class="mb-12">
+      <h3 class="text-xl font-bold text-gray-900 mb-6 ml-16">Ecommerce Acciones</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        
+        <!-- Get order status -->
+        <div class="transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg bg-slate-200 rounded-2xl p-6 flex items-center justify-between min-h-[120px] max-w-md mx-auto w-full">
+          <div class="flex items-center">
+            <div class="min-w-10 min-h-10 flex items-center justify-center mr-3">
+              <img src="assets/shopify.png" alt="Shopify" class="w-8 h-8 object-contain" />
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-900 mb-1">Get order status</h4>
+              <p class="text-sm text-gray-600">Gets order status from Shopify</p>
+            </div>
+          </div>
+          <div>
+            <label class="relative inline-block w-12 h-6">
+              <input type="checkbox" [(ngModel)]="selectedActions.getOrderStatus" (change)="onActionToggle('getOrderStatus', $event)" class="opacity-0 w-0 h-0">
+              <span class="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-gray-300 transition duration-400 rounded-full before:absolute before:content-[''] before:h-[18px] before:w-[18px] before:left-0.5 before:bottom-0.5 before:bg-white before:transition before:duration-400 before:rounded-full before:shadow-md" [style.background-color]="selectedActions.getOrderStatus ? '#000000' : '#d1d5db'" [class.before:translate-x-6]="selectedActions.getOrderStatus"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Get product info -->
+        <div class="transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg bg-slate-200 rounded-2xl p-6 flex items-center justify-between min-h-[120px] max-w-md mx-auto w-full">
+          <div class="flex items-center">
+            <div class="min-w-10 min-h-10 flex items-center justify-center mr-3">
+              <img src="assets/shopify.png" alt="Shopify" class="w-8 h-8 object-contain" />
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-900 mb-1">Get product info</h4>
+              <p class="text-sm text-gray-600">Gets info from a product</p>
+            </div>
+          </div>
+          <div>
+            <label class="relative inline-block w-12 h-6">
+              <input type="checkbox" [(ngModel)]="selectedActions.getProductInfo" (change)="onActionToggle('getProductInfo', $event)" class="opacity-0 w-0 h-0">
+              <span class="absolute cursor-pointer top-0 left-0 right-0 bottom-0 bg-gray-300 transition duration-400 rounded-full before:absolute before:content-[''] before:h-[18px] before:w-[18px] before:left-0.5 before:bottom-0.5 before:bg-white before:transition before:duration-400 before:rounded-full before:shadow-md" [style.background-color]="selectedActions.getProductInfo ? '#000000' : '#d1d5db'" [class.before:translate-x-6]="selectedActions.getProductInfo"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Standard Actions Section -->
+    <div class="flex-1">
+      <h3 class="text-xl font-bold text-gray-900 mb-6 ml-16">Standard Actions</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        
+        <!-- Custom Action -->
+        <div class="transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg bg-slate-200 rounded-2xl p-6 flex items-center min-h-[120px] max-w-md mx-auto w-full cursor-pointer" (click)="onCustomActionClick()">
+          <div class="flex items-center">
+            <div class="min-w-10 min-h-10 flex items-center justify-center mr-3">
+              <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.375 2.5H10L6.25 16.875H11.25L8.75 27.5L25 10H17.5L19.375 2.5Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.125 6.875L11.875 11.875" stroke="black" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-900 mb-1">Custom Action</h4>
+              <p class="text-sm text-gray-600">Create any action with webhooks</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Book Appointment -->
+        <div class="transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:shadow-lg bg-gray-100 text-gray-400 opacity-70 pointer-events-none rounded-2xl p-6 flex items-center min-h-[120px] max-w-md mx-auto w-full">
+          <div class="flex items-center">
+            <div class="min-w-10 min-h-10 flex items-center justify-center mr-3">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g opacity="0.5">
+                  <path d="M18.6667 2.33337V7.00004M9.33333 2.33337V7.00004M3.5 11.6667H24.5M5.83333 4.66671H22.1667C23.4553 4.66671 24.5 5.71138 24.5 7.00004V23.3334C24.5 24.622 23.4553 25.6667 22.1667 25.6667H5.83333C4.54467 25.6667 3.5 24.622 3.5 23.3334V7.00004C3.5 5.71138 4.54467 4.66671 5.83333 4.66671Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-900 mb-1">Book Appointment</h4>
+              <p class="text-sm text-gray-600">Checks calendar availability and books</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

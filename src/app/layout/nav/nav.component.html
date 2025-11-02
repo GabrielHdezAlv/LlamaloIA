@@ -1,6 +1,7 @@
+
 <!-- Botón para abrir menú en móvil -->
-<div *ngIf="!isOpen && windowWidth < 1280" class="fixed top-4 left-4 z-50">
-  <button (click)="openMenu()" class="p-2 rounded bg-blue-700 text-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+<div *ngIf="windowWidth < 1280" class="fixed top-4 left-4 z-50">
+  <button (click)="openMobileSidebar()" class="p-2 rounded bg-blue-700 text-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
     <span class="sr-only">Abrir menú</span>
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -97,7 +98,7 @@
           Completa retos sencillos y aumenta tus minutos disponibles al 
           <span class="text-blue-900 font-medium">instante.</span>
         </p>
-        <button id="promo-btn" class="w-full bg-gray-100 hover:bg-gray-200 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        <button id="promo-btn" (click)="navigateToAccountGifts()" class="w-full bg-gray-100 hover:bg-gray-200 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
           Conseguir ahora
         </button>
       </div>
@@ -163,7 +164,7 @@
 <!-- Sidebar en escritorio -->
 <div
   *ngIf="windowWidth >= 1280"
-  [class]="'hidden xl:ml-3 xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200 transition-all duration-500 ease-in-out ' + (isCollapsed ? 'xl:w-24 sidebar-collapsed' : 'xl:w-[21rem] xl:max-w-[88rem]')"
+  [class]="'hidden xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200 transition-all duration-500 ease-in-out ' + (isCollapsed ? 'xl:w-24 sidebar-collapsed' : 'xl:w-[21rem] xl:max-w-[88rem]')"
   (mouseenter)="expandOnHover()"
   (mouseleave)="collapseOnLeave()"
 >
@@ -239,7 +240,7 @@
     <div class="px-6 pb-8 space-y-6">
 
       <!-- Promo -->
-      <div *ngIf="!isCollapsed" class="pb-6 space-y-6 transition-all duration-500 ease-in-out opacity-0 animate-slide-in-right" style="animation-delay: 0.8s;">
+      <div *ngIf="!isCollapsed" class="pb-6 space-y-6 transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.8s;">
         <div class="rounded-lg p-1 shadow-sm">
           <p id="promo-title-desktop" class="text-base font-semibold text-gray-900 leading-relaxed mb-2 whitespace-nowrap">
             {{ t.promoTitle }}
@@ -247,13 +248,13 @@
           <p id="promo-desc-desktop" class="text-sm text-gray-600 leading-relaxed mb-4">
             {{ t.promoDescription }}
           </p>
-          <button id="promo-btn-desktop" class="w-full bg-gray-100 hover:bg-gray-200 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          <button id="promo-btn-desktop" (click)="navigateToAccountGifts()" class="w-full bg-gray-100 hover:bg-gray-200 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
             {{ t.promoButton }}
           </button>
         </div>
 
         <!-- Progreso -->
-        <div class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-right" style="animation-delay: 0.8s;">
+        <div class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.8s;">
           <div class="flex justify-between text-sm text-gray-600 mb-1">
             <span id="progress-label-desktop">{{ t.remainingMinutes }}</span>
             <span id="progress-value-desktop">54/200</span>
@@ -275,14 +276,14 @@
               alt="Perfil"
               [style]="isHovering ? 'opacity: 0; transform: scale(0.8);' : 'opacity: 1; transform: scale(1);'"
             />
-          <div *ngIf="!isCollapsed" class="flex flex-col transition-all duration-500 ease-in-out opacity-0 animate-slide-in-right" style="animation-delay: 0.3s;">
+          <div *ngIf="!isCollapsed" class="flex flex-col transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.3s;">
             <p class="font-bold text-black">{{ userName() }}</p>
             <p class="text-xs text-gray-500">{{ t.planPro }}</p>
           </div>
         </div>
 
         <!-- Icono dropdown -->
-        <div *ngIf="!isCollapsed" class="ml-auto transition-all duration-500 ease-in-out opacity-0 animate-slide-in-right" style="animation-delay: 0.4s;">
+        <div *ngIf="!isCollapsed" class="ml-auto transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.4s;">
           <button (click)="toggleDropdown()" class="text-gray-400 hover:text-gray-700 focus:outline-none">
             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -293,7 +294,7 @@
         <!-- Dropdown Menu -->
         <div
           *ngIf="showDropdown && !isCollapsed"
-          class="absolute top-full left-full ml-2 -mt-72 w-64 bg-white rounded-3xl shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-0 animate-slide-in-right"
+          class="absolute top-full left-full ml-2 -mt-72 w-64 bg-white rounded-3xl shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left"
           style="animation-delay: 0.1s;"
         >
           <!-- {{ t.settings }} -->

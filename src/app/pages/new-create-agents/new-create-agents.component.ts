@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common'; // 👈 Importa Location
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
@@ -7,11 +8,11 @@ import { I18nService } from '../../core/services/i18n.service';
 @Component({
   selector: 'app-new-create-agents',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss'
 })
-export class NewCreateAgentsComponent {
+export class NewCreateAgentsComponent implements OnDestroy {
   step: 'agentName' | 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' | 'advancedSettings' | 'final' | 'success' = 'agentName';
 
   // Add this line to declare phoneNumber
@@ -33,6 +34,29 @@ export class NewCreateAgentsComponent {
   isPlaying: boolean = false;
   currentPlayingVoice: string | null = null;
 
+  // Variables para el micrófono
+  isMicrophoneActive: boolean = false;
+  audioLevel: number = 0;
+  audioContext: AudioContext | null = null;
+  analyser: AnalyserNode | null = null;
+  microphone: MediaStreamAudioSourceNode | null = null;
+  animationFrame: number | null = null;
+  
+  // Variables para el video del mar
+  videoSrc: string = 'assets/bucle2.mp4'; // Ruta del video del mar (opcional)
+  
+  // Variables para el carrusel de voces
+  currentVoiceIndex: number = 0;
+  voices = [
+    { id: 'carla', name: 'Carla', image: 'assets/carla_prueba.png' },
+    { id: 'carlos', name: 'Carlos', image: 'assets/carlos_prueba.png' },
+    { id: 'david', name: 'David', image: 'assets/david_prueba.png' },
+    { id: 'jesus', name: 'Jesús', image: 'assets/jesus_prueba.png' },
+    { id: 'claudia', name: 'Claudia', image: 'assets/claudia_prueba.png' },
+    { id: 'maria', name: 'María', image: 'assets/maria_prueba.png' }
+  ];
+  
+
   onSelect(type: 'inbound' | 'outbound') {
     this.step = 'language';
   }
@@ -43,6 +67,72 @@ export class NewCreateAgentsComponent {
 
   onVoiceSelected() {
     this.step = 'instructions';
+  }
+
+  // Métodos para el carrusel de voces
+  nextVoice() {
+    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
+    const visibleCount = isTablet ? 2 : 3;
+    const maxIndex = this.voices.length - visibleCount;
+    
+    if (this.currentVoiceIndex < maxIndex) {
+      // En tablets avanzar de 2 en 2, en desktop de 1 en 1
+      const step = isTablet ? 2 : 1;
+      this.currentVoiceIndex = Math.min(this.currentVoiceIndex + step, maxIndex);
+    }
+  }
+
+  previousVoice() {
+    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
+    
+    if (this.currentVoiceIndex > 0) {
+      // En tablets retroceder de 2 en 2, en desktop de 1 en 1
+      const step = isTablet ? 2 : 1;
+      this.currentVoiceIndex = Math.max(this.currentVoiceIndex - step, 0);
+    }
+  }
+
+  getCurrentVoice() {
+    return this.voices[this.currentVoiceIndex];
+  }
+
+  // Métodos para verificar el estado de los botones
+  isPreviousDisabled(): boolean {
+    return this.currentVoiceIndex === 0;
+  }
+
+  isNextDisabled(): boolean {
+    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
+    const visibleCount = isTablet ? 2 : 3;
+    return this.currentVoiceIndex >= this.voices.length - visibleCount;
+  }
+
+  shouldHideCarousel(): boolean {
+    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
+    const visibleCount = isTablet ? 2 : 3;
+    return this.voices.length <= visibleCount;
+  }
+
+  getMaxIndicatorIndex(): number {
+    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
+    const visibleCount = isTablet ? 2 : 3;
+    return this.voices.length - visibleCount;
+  }
+
+  getVisibleVoices() {
+    // Detectar si es tablet (768px - 1024px)
+    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
+    const visibleCount = isTablet ? 2 : 3; // 2 en tablet, 3 en desktop
+    const startIndex = this.currentVoiceIndex;
+    const endIndex = startIndex + visibleCount;
+    
+    if (endIndex <= this.voices.length) {
+      return this.voices.slice(startIndex, endIndex);
+    } else {
+      // Si se pasa del final, mostrar las primeras voces
+      const remaining = endIndex - this.voices.length;
+      return [...this.voices.slice(startIndex), ...this.voices.slice(0, remaining)];
+    }
   }
 
   goBack() {
@@ -181,7 +271,41 @@ export class NewCreateAgentsComponent {
 
   selectAction(platform: string) {
     console.log('Plataforma seleccionada:', platform);
-    this.step = 'knowledgeBase'; // Avanza a "Base de Conocimientos"
+    
+    if (platform === 'shopify') {
+      // Abrir modal de Shopify
+      const dialogRef = this.modalService.openShopify({
+        title: 'Integración con Shopify',
+        message: 'Configura tu conexión con Shopify',
+        formEnabled: false
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Shopify modal closed with result:', result);
+        if (result && result.type === 'shopify') {
+          console.log('Configuración de Shopify guardada:', result);
+          // Solo avanzar si el usuario completó la configuración explícitamente
+          this.step = 'knowledgeBase';
+        }
+        // Si no hay resultado o no es de tipo shopify, permanecer en la misma página
+      });
+    } else if (platform === 'make') {
+      // Abrir modal de Make
+      const dialogRef = this.modalService.openMake({
+        title: 'Integración con Make',
+        message: 'Configura tu conexión con Make',
+        formEnabled: false
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Make modal closed with result:', result);
+        // El modal de Make ya no retorna resultado, solo se cierra
+        // No avanzar automáticamente
+      });
+    } else {
+      // Para otras plataformas, continuar normalmente
+      this.step = 'knowledgeBase';
+    }
   }
 
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
@@ -331,11 +455,198 @@ export class NewCreateAgentsComponent {
   }, 5000);
  }
 
- // Método para finalizar el proceso
- onFinish() {
+// Método para finalizar el proceso
+onFinish() {
+  // Limpiar el micrófono si está activo
+  this.stopMicrophone();
   // Vuelve a la página anterior (por ejemplo, /dashboard/agents)
   this.location.back();
- }
+}
+
+// Métodos para el micrófono
+async toggleMicrophone() {
+  if (this.isMicrophoneActive) {
+    this.stopMicrophone();
+  } else {
+    await this.startMicrophone();
+  }
+}
+
+async startMicrophone() {
+  try {
+    // Solicitar acceso al micrófono con configuración optimizada
+    const stream = await navigator.mediaDevices.getUserMedia({ 
+      audio: {
+        echoCancellation: false,
+        noiseSuppression: false,
+        autoGainControl: false,
+        sampleRate: 44100
+      }
+    });
+    
+    // Crear contexto de audio optimizado
+    this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    this.analyser = this.audioContext.createAnalyser();
+    this.microphone = this.audioContext.createMediaStreamSource(stream);
+    
+    // Configurar el analizador para sensibilidad equilibrada
+    this.analyser.fftSize = 256; // Resolución equilibrada
+    this.analyser.smoothingTimeConstant = 0.3; // Suavizado moderado
+    this.analyser.minDecibels = -70;
+    this.analyser.maxDecibels = -20;
+    this.microphone.connect(this.analyser);
+    
+    this.isMicrophoneActive = true;
+    this.animateAudioLevel();
+    
+  } catch (error) {
+    console.error('Error al acceder al micrófono:', error);
+    this.modalService.openError({
+      title: 'Error de micrófono',
+      message: 'No se pudo acceder al micrófono. Por favor, verifica los permisos.'
+    });
+  }
+}
+
+stopMicrophone() {
+  if (this.animationFrame) {
+    cancelAnimationFrame(this.animationFrame);
+    this.animationFrame = null;
+  }
+  
+  if (this.microphone) {
+    this.microphone.disconnect();
+    this.microphone = null;
+  }
+  
+  if (this.audioContext) {
+    this.audioContext.close();
+    this.audioContext = null;
+  }
+  
+  this.analyser = null;
+  this.isMicrophoneActive = false;
+  this.audioLevel = 0;
+}
+
+animateAudioLevel() {
+  if (!this.isMicrophoneActive || !this.analyser) return;
+  
+  const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+  
+  const updateLevel = () => {
+    this.analyser!.getByteFrequencyData(dataArray);
+    
+    // Calcular el nivel máximo para respuesta más rápida
+    let max = 0;
+    for (let i = 0; i < dataArray.length; i++) {
+      max = Math.max(max, dataArray[i]);
+    }
+    
+    // Normalizar el nivel (0-1) con respuesta más rápida
+    let normalizedLevel = max / 255;
+    
+    // Aplicar una curva más natural y responsiva
+    normalizedLevel = Math.pow(normalizedLevel, 0.5); // Curva más responsiva
+    
+    // LIMITAR EL NIVEL MÁXIMO A 1.0
+    normalizedLevel = Math.min(normalizedLevel, 1.0);
+    
+    // Transición más equilibrada
+    const targetLevel = normalizedLevel * 1.0; // Reducir sensibilidad aún más
+    this.audioLevel = this.audioLevel * 0.8 + targetLevel * 0.2; // Mucho más suavizado
+    
+    // LIMITAR EL AUDIOLEVEL FINAL A 3.0
+    this.audioLevel = Math.min(this.audioLevel, 3.0);
+    
+    if (this.isMicrophoneActive) {
+      this.animationFrame = requestAnimationFrame(updateLevel);
+    }
+  };
+  
+  updateLevel();
+}
+
+ngOnDestroy() {
+  // Limpiar el micrófono cuando se destruye el componente
+  this.stopMicrophone();
+}
+
+// Métodos para calcular tamaños y posiciones dinámicas estilo ChatGPT
+getWaveSize(waveNumber: number): number {
+  const baseSize = 120;
+  const increment = waveNumber * 40;
+  return baseSize + increment;
+}
+
+getCloudSize(cloudNumber: number): number {
+  const baseSize = 30 + cloudNumber * 15;
+  return baseSize + (this.audioLevel * 20);
+}
+
+getCloudPosition(cloudNumber: number): { x: number, y: number } {
+  const centerOffset = 60;
+  const angle = (cloudNumber * 120) + (this.audioLevel * 30);
+  const radius = 80 + (this.audioLevel * 40);
+  
+  return {
+    x: Math.cos(angle * Math.PI / 180) * radius - centerOffset,
+    y: Math.sin(angle * Math.PI / 180) * radius - centerOffset
+  };
+}
+
+getMainSphereSize(): number {
+  const baseSize = 200; // Aumentado de 120 a 200
+  const maxSize = 280; // Aumentado de 180 a 280
+  return Math.min(baseSize + (this.audioLevel * 30), maxSize);
+}
+
+getMicButtonSize(): number {
+  const sphereSize = this.getMainSphereSize();
+  return Math.min(sphereSize * 0.4, 50);
+}
+
+getMicIconSize(): number {
+  const buttonSize = this.getMicButtonSize();
+  return Math.min(buttonSize * 0.6, 30);
+}
+
+// Métodos para ondas internas
+getInternalWaveSize(waveNumber: number): number {
+  const sphereSize = this.getMainSphereSize();
+  const baseSize = sphereSize * 0.3;
+  const increment = waveNumber * (sphereSize * 0.1);
+  return Math.min(baseSize + increment + (this.audioLevel * 20), sphereSize * 0.8);
+}
+
+getInternalWavePosition(waveNumber: number): { x: number, y: number } {
+  const sphereSize = this.getMainSphereSize();
+  const centerOffset = sphereSize / 2;
+  const angle = (waveNumber * 120) + (this.audioLevel * 45);
+  const radius = sphereSize * 0.15 + (this.audioLevel * 15);
+  
+  return {
+    x: Math.cos(angle * Math.PI / 180) * radius,
+    y: Math.sin(angle * Math.PI / 180) * radius
+  };
+}
+
+getInternalCloudSize(cloudNumber: number): number {
+  const sphereSize = this.getMainSphereSize();
+  const baseSize = sphereSize * 0.15 + cloudNumber * (sphereSize * 0.05);
+  return baseSize + (this.audioLevel * 15);
+}
+
+getInternalCloudPosition(cloudNumber: number): { x: number, y: number } {
+  const sphereSize = this.getMainSphereSize();
+  const angle = (cloudNumber * 180) + (this.audioLevel * 60);
+  const radius = sphereSize * 0.2 + (this.audioLevel * 10);
+  
+  return {
+    x: Math.cos(angle * Math.PI / 180) * radius,
+    y: Math.sin(angle * Math.PI / 180) * radius
+  };
+}
 
  // Método para resetear la configuración a valores por defecto
  resetAdvancedSettings() {
@@ -365,6 +676,50 @@ export class NewCreateAgentsComponent {
  }
 
  onMaxCallDurationChange() {
-  console.log('Max duration: ', this.maxCallDuration);
+   console.log('Max duration: ', this.maxCallDuration);
  }
+
+ // Métodos para efectos del video del mar
+ getVideoFilter(): string {
+   const brightness = 1 + (this.audioLevel * 0.6);
+   const contrast = 1 + (this.audioLevel * 0.4);
+   const saturation = 1 + (this.audioLevel * 0.8);
+   
+   return `brightness(${brightness}) contrast(${contrast}) saturate(${saturation}) blur(${this.audioLevel * 1.2}px)`;
+ }
+
+ getVideoTransform(): string {
+   const scale = 1 + (this.audioLevel * 0.2);
+   const rotation = this.audioLevel * 15; // Rotación más pronunciada
+   
+   return `scale(${scale}) rotate(${rotation}deg)`;
+ }
+
+ getVideoOpacity(): number {
+   return 0.7 + (this.audioLevel * 0.3);
+ }
+
+ getAudioOverlay(): string {
+   if (this.audioLevel < 0.1) return 'transparent';
+   
+   const intensity = this.audioLevel * 0.6;
+   return `radial-gradient(circle, rgba(59, 130, 246, ${intensity}) 0%, transparent 70%)`;
+ }
+
+ getAudioGlow(): string {
+   if (this.audioLevel < 0.1) return 'none';
+   
+   const intensity = this.audioLevel * 50;
+   return `0 0 ${intensity}px rgba(59, 130, 246, 0.8), inset 0 0 ${intensity}px rgba(59, 130, 246, 0.5)`;
+ }
+
+ getSeaGradient(): string {
+   const intensity = 1 + (this.audioLevel * 0.6);
+   return `radial-gradient(circle at center, 
+     rgba(59, 130, 246, ${0.9 * intensity}) 0%, 
+     rgba(147, 197, 253, ${0.7 * intensity}) 30%, 
+     rgba(255, 255, 255, ${0.5 * intensity}) 60%, 
+     rgba(30, 64, 175, ${0.8 * intensity}) 100%)`;
+ }
+
 }

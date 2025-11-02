@@ -174,6 +174,38 @@ export class NavComponent implements OnDestroy, OnInit {
     this.showDropdown = false;
   }
 
+  // Navegar específicamente a la sección de regalos en account
+  navigateToAccountGifts() {
+    // Usar el servicio de navegación para ir a account
+    this.navigationService.navigateToRoute('account');
+    
+    // Esperar un momento y luego activar la pestaña de regalos
+    setTimeout(() => {
+      // Buscar el botón de regalos y hacer clic en él
+      const giftsButton = document.querySelector('[data-tab="gifts"]') as HTMLElement;
+      if (giftsButton) {
+        giftsButton.click();
+      } else {
+        // Si no encuentra el botón por data-tab, buscar por texto
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+          if (button.textContent?.includes('Regalos') || button.textContent?.includes('Gifts')) {
+            button.click();
+          }
+        });
+      }
+      }, 10);
+  }
+
+  // Abrir sidebar móvil
+  openMobileSidebar() {
+    // Disparar evento personalizado para abrir el sidebar móvil (solo en navegador)
+    if (this.isBrowser) {
+      const event = new CustomEvent('openMobileSidebar');
+      window.dispatchEvent(event);
+    }
+  }
+
   // Cerrar sesión
   logout() {
     // Limpiar datos de usuario

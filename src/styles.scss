@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -15,16 +15,16 @@ body {
 }
 
 /* Ocultar barras de scroll */
-html, body {
+html,
+body {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
-html::-webkit-scrollbar, 
+html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none; /* WebKit */
 }
-
 /* Para todos los elementos con scroll */
 * {
   scrollbar-width: none; /* Firefox */
@@ -35,3 +35,20 @@ body::-webkit-scrollbar {
   display: none; /* WebKit */
 }
 
+/* Estilos para el popup de inicio de sesión */
+.login-success-popup-container {
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: auto !important;
+    height: auto !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .mat-mdc-dialog-surface {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}

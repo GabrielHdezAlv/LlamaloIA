@@ -39,7 +39,7 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   }
 
   // TEMPORAL: Cambiar a true para probar estado vacío, false para mostrar agentes ficticios
-  private showEmptyState = true;
+  private showEmptyState = false;
 
   ngOnInit(): void {
     this.i18nService.initializeLanguage();

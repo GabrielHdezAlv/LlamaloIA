@@ -1,7 +1,7 @@
-<div class="min-h-screen flex flex-col py-12 ml-28 mr-[5.5rem] mt-8">
+<div class="min-h-screen flex flex-col py-3 px-3 sm:py-8 sm:px-6 md:py-10 md:px-8 lg:py-12 lg:ml-28 lg:mr-[5.5rem] lg:mt-8">
   <!-- Barra de progreso -->
-  <div class="w-full mb-8">
-    <div class="h-4 w-full bg-gray-300 rounded-full overflow-hidden">
+  <div class="w-full mb-2 sm:mb-4 md:mb-6 lg:mb-8">
+    <div class="h-1.5 sm:h-3 md:h-4 w-full bg-gray-300 rounded-full overflow-hidden">
       <div 
         class="h-full bg-blue-950 transition-all duration-300"
         [class.w-[10vh]]="step === 'agentName'"
@@ -20,40 +20,40 @@
   </div>
 
   @if (step === 'agentName') {
-    <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide flex flex-col justify-center relative" style="scrollbar-width: none; -ms-overflow-style: none;">
-      <div class="-mt-20">
-        <h2 class="text-4xl font-semibold text-center text-blue-950 mb-10 tracking-[-3px]">Nombre del Agente</h2>
-        <p class="text-center text-base text-black mb-8 max-w-2xl mx-auto tracking-[-1px]">
+    <div class="bg-white rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+      <div class="flex-1 flex flex-col justify-center overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+        <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-3 sm:mb-6 md:mb-8 lg:mb-10 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Nombre del Agente</h2>
+        <p class="text-center text-xs sm:text-sm md:text-base text-black mb-3 sm:mb-6 md:mb-8 max-w-2xl mx-auto tracking-[-0.3px] sm:tracking-[-0.5px] md:tracking-[-1px] px-2 sm:px-4">
           Este nombre se usará para identificar al agente dentro de la plataforma. No afecta su comportamiento.
         </p>
-        <div class="max-w-xl w-full mx-auto">
-          <label class="block text-sm font-medium text-black mb-2">Nombre del agente</label>
+        <div class="max-w-xl w-full mx-auto px-2 sm:px-4 md:px-0">
+          <label class="block text-xs sm:text-sm font-medium text-black mb-1.5">Nombre del agente</label>
           <input
             type="text"
             [(ngModel)]="agentName"
             placeholder="Ej. Carla Ventas"
-            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-black focus:border-transparent text-sm text-gray-700"
+            class="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-black focus:border-transparent text-xs sm:text-sm text-gray-700"
           />
         </div>
       </div>
 
-      <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
-        <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 text-lg flex items-center">
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
+        <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center p-1">
           <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
           </svg>
         </button>
 
         <button
-          class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+          class="absolute left-1/2 transform -translate-x-1/2 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
           (click)="onSubmitAgentName()"
         >
           Continuar
         </button>
 
-        <button (click)="onSkip()" class="text-black hover:text-gray-700 text-lg flex items-center">
+        <button (click)="onSkip()" class="text-black hover:text-gray-700 text-sm sm:text-base md:text-lg flex items-center p-1">
           Saltar
-          <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="ml-2 sm:ml-3" width="18" height="18" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
           </svg>
         </button>
@@ -61,33 +61,35 @@
     </div>
   }
   @if (step === 'callType') {
-   <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide relative" style="scrollbar-width: none; -ms-overflow-style: none;">
-      <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Tipo de Llamadas</h2>
+   <div class="bg-white rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+      <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+        <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-4 sm:mb-8 md:mb-12 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Tipo de Llamadas</h2>
 
-      <div class="flex justify-center gap-20 flex-wrap">
+      <div class="flex justify-center gap-4 sm:gap-8 md:gap-12 lg:gap-20 flex-wrap mb-4 sm:mb-6">
         <!-- Inbound -->
         <button
           (click)="onSelect('inbound')"
-          class="flex flex-col items-center p-8 w-[34vh] h-[34vh] bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="flex flex-col items-center p-5 sm:p-8 w-[240px] h-[240px] sm:w-[320px] sm:h-[320px] md:w-[34vh] md:h-[34vh] bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <svg class="mt-20" width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="mt-10 sm:mt-16 md:mt-20" width="70" height="70" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M32.0306 20.4041C33.5444 20.4041 34.939 21.2249 35.6735 22.5483L40.7704 31.7293C41.4377 32.9314 41.469 34.3852 40.8542 35.6149L35.9442 45.4352C35.9442 45.4352 37.3671 52.7506 43.3221 58.7056C49.2771 64.6608 56.5681 66.0591 56.5681 66.0591L66.3867 61.1497C67.6173 60.5345 69.0723 60.5664 70.2748 61.2349L79.4817 66.3537C80.8038 67.0887 81.6238 68.4827 81.6238 69.9954V80.5652C81.6238 85.9477 76.624 89.8354 71.5238 88.1145C61.049 84.5799 44.7892 77.8504 34.4833 67.5445C24.1773 57.2385 17.4477 40.9789 13.9133 30.5039C12.1924 25.4039 16.0801 20.4041 21.4627 20.4041H32.0306Z" stroke="black" stroke-width="5" stroke-linejoin="round"/>
             <path d="M60.4165 41.6665L87.4998 15.6249" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M87.4998 41.6665H60.4165V14.5833" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <span class="text-base font-semibold text-gray-700 mt-7">{{ t.inbound }}</span>
+          <span class="text-sm sm:text-base font-semibold text-gray-700 mt-5 sm:mt-7">{{ t.inbound }}</span>
         </button>
 
         
+      </div>
       </div>
 
       <!-- Botón de retroceso -->
       <button
         (click)="goBack()"
-        class="text-gray-500 hover:text-gray-700 text-lg flex items-center absolute left-0 bottom-0 mb-8 ml-8"
+        class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center absolute left-3 sm:left-4 md:left-8 bottom-0 mb-4 sm:mb-6 md:mb-8 p-1"
         style="z-index:10;"
       >
-        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
         </svg>
       </button>
@@ -97,69 +99,70 @@
   <!-- Pagina: 2 -->
   @if (step === 'language') {
     <!-- Pantalla 2: Idioma -->
-    <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
-      <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Idioma</h2>
+    <div class="bg-white rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+      <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-4 sm:mb-8 md:mb-12 lg:mb-16 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Idioma</h2>
 
       <!-- Slider vertical de idiomas -->
-      <div class="relative max-w-4xl mx-auto">
+      <div class="relative max-w-2xl mx-auto w-full px-2 sm:px-4 md:px-0">
         <!-- Contenedor con scroll vertical y blur inferior -->
         <div class="relative">
-          <div class="flex flex-col gap-6 overflow-y-auto scrollbar-hide language-slider-vertical tracking-[-0.8px]" style="scrollbar-width: none; -ms-overflow-style: none; max-height: 440px;">
+          <div class="flex flex-col gap-4 sm:gap-5 md:gap-6 overflow-y-auto scrollbar-hide language-slider-vertical tracking-[-0.8px] max-h-[320px] sm:max-h-[380px] md:max-h-[440px]" style="scrollbar-width: none; -ms-overflow-style: none;">
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 px-6 sm:px-12 md:px-16 bg-gray-200 rounded-lg sm:rounded-xl md:rounded-2xl hover:bg-gray-200 transition-all duration-300 text-center flex items-center justify-center font-semibold text-medium h-14 sm:h-20 md:h-24 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-md"
               style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/españa_emoji.png" alt="España" class="w-12 h-12 ml-4" />
-              <span class="ml-3 font-normal text-lg">Español</span>
+              <img src="assets/españa_emoji.png" alt="España" class="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+              <span class="ml-2 sm:ml-3 font-normal text-sm sm:text-base md:text-lg">Español</span>
             </button>
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 px-6 sm:px-12 md:px-16 bg-gray-200 rounded-lg sm:rounded-xl md:rounded-2xl hover:bg-gray-200 transition-all duration-300 text-center flex items-center justify-center font-semibold text-medium h-14 sm:h-20 md:h-24 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-md"
               style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/uk_emoji.png" alt="Reino Unido" class="w-12 h-12 ml-4" />
-              <span class="ml-3 font-normal text-lg">Inglés</span>
+              <img src="assets/uk_emoji.png" alt="Reino Unido" class="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+              <span class="ml-2 sm:ml-3 font-normal text-sm sm:text-base md:text-lg">Inglés</span>
             </button>
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 px-6 sm:px-12 md:px-16 bg-gray-200 rounded-lg sm:rounded-xl md:rounded-2xl hover:bg-gray-200 transition-all duration-300 text-center flex items-center justify-center font-semibold text-medium h-14 sm:h-20 md:h-24 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-md"
               style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/francia_emoji.png" alt="Francia" class="w-12 h-12 ml-4" />
-              <span class="ml-3 font-normal text-lg">Francés</span>
+              <img src="assets/francia_emoji.png" alt="Francia" class="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+              <span class="ml-2 sm:ml-3 font-normal text-sm sm:text-base md:text-lg">Francés</span>
             </button>
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 px-6 sm:px-12 md:px-16 bg-gray-200 rounded-lg sm:rounded-xl md:rounded-2xl hover:bg-gray-200 transition-all duration-300 text-center flex items-center justify-center font-semibold text-medium h-14 sm:h-20 md:h-24 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-md"
               style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/italia_emoji.png" alt="Italia" class="w-12 h-12 ml-4" />
-              <span class="ml-3 font-normal text-lg">Italiano</span>
+              <img src="assets/italia_emoji.png" alt="Italia" class="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+              <span class="ml-2 sm:ml-3 font-normal text-sm sm:text-base md:text-lg">Italiano</span>
             </button>
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 px-6 sm:px-12 md:px-16 bg-gray-200 rounded-lg sm:rounded-xl md:rounded-2xl hover:bg-gray-200 transition-all duration-300 text-center flex items-center justify-center font-semibold text-medium h-14 sm:h-20 md:h-24 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-md"
               style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/alemania_emoji.png" alt="Alemania" class="w-12 h-12 ml-4" />
-              <span class="ml-3 font-normal text-lg">Alemania</span>
+              <img src="assets/alemania_emoji.png" alt="Alemania" class="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+              <span class="ml-2 sm:ml-3 font-normal text-sm sm:text-base md:text-lg">Alemania</span>
             </button>
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 px-6 sm:px-12 md:px-16 bg-gray-200 rounded-lg sm:rounded-xl md:rounded-2xl hover:bg-gray-200 transition-all duration-300 text-center flex items-center justify-center font-semibold text-medium h-14 sm:h-20 md:h-24 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-md"
               style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/portugal_emoji.png" alt="Portugal" class="w-12 h-12 ml-4" />
-              <span class="ml-3 font-normal text-lg">Portugal</span>
+              <img src="assets/portugal_emoji.png" alt="Portugal" class="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+              <span class="ml-2 sm:ml-3 font-normal text-sm sm:text-base md:text-lg">Portugal</span>
             </button>
             <button
               (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-12 px-36 bg-gray-200 rounded-2xl hover:bg-gray-200 transition-all duration-300 text-left flex items-center justify-start font-semibold text-medium h-36 shadow-none hover:shadow-none outline-none focus:outline-none"
+              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 px-6 sm:px-12 md:px-16 bg-gray-200 rounded-lg sm:rounded-xl md:rounded-2xl hover:bg-gray-200 transition-all duration-300 text-center flex items-center justify-center font-semibold text-medium h-14 sm:h-20 md:h-24 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-md"
               style="box-shadow: none !important; border: none !important;"
             >
-              <img src="assets/estadosunidos_emoji.png" alt="Estados Unidos" class="w-12 h-12 ml-4" />
-              <span class="ml-3 font-normal text-lg">Estados Unidos</span>
+              <img src="assets/estadosunidos_emoji.png" alt="Estados Unidos" class="w-7 h-7 sm:w-10 sm:h-10 md:w-12 md:h-12" />
+              <span class="ml-2 sm:ml-3 font-normal text-sm sm:text-base md:text-lg">Estados Unidos</span>
             </button>
             
             <!-- Espacio adicional de 400px después de Estados Unidos -->
@@ -171,13 +174,14 @@
           <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none"></div>
         </div>
       </div>
+      </div>
 
       <button
         (click)="goBack()"
-        class="text-gray-500 hover:text-gray-700 text-lg flex items-center absolute left-0 bottom-0 mb-8 ml-8"
+        class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center absolute left-3 sm:left-4 md:left-8 bottom-0 mb-4 sm:mb-6 md:mb-8 p-1"
         style="z-index:10;"
       >
-        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
         </svg>
       </button>
@@ -185,108 +189,144 @@
   }
     @if (step === 'voices') {
       <!-- Pantalla 3: Voces -->
-      <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] flex flex-col relative" style="overflow: hidden;">
-        <h2 class="text-4xl font-semibold text-center text-blue-950 mb-16 tracking-[-3px]">Voces</h2>
+      <div class="bg-white rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+        <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+        <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-3 sm:mb-6 md:mb-8 lg:mb-12 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Voces</h2>
     
-        <div class="flex justify-center gap-6 flex-wrap">
-          <!-- Carla -->
-          <div 
-            class="w-[230px] h-[368px] bg-gray-100 rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
-            (click)="onVoiceSelected()"
-          >
-            <img src="assets/carla_voz.png" alt="Carla" class="w-full h-full object-cover" />
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-              <h3 class="text-white font-bold text-xl text-center">Carla</h3>
-              <button
-                (click)="$event.stopPropagation(); playVoice('carla')"
-                class="mt-2 w-32 bg-white text-gray-700 rounded-full px-4 py-1.5 text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
-              >
-                @if (currentPlayingVoice === 'carla') {
-                  <!-- Icono de pausa (dos rayas) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                    <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                  </svg>
-                  <span class="ml-1">Pausar</span>
-                } @else {
-                  <!-- Icono de play (triángulo) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span class="ml-1">Escuchar</span>
-                }
-              </button>
+        <!-- Contenedor de voces responsive -->
+        <div class="w-full">
+          <!-- Vista móvil: Todas las voces en columna -->
+          <div class="block sm:hidden">
+            <div class="flex flex-col gap-4 px-4">
+              @for (voice of voices; track voice.id) {
+                <div 
+                  class="w-full h-96 rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  (click)="onVoiceSelected()"
+                >
+                  <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+                  <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                    <h3 class="text-white font-bold text-xl text-center">{{ voice.name }}</h3>
+                    <button
+                      (click)="$event.stopPropagation(); playVoice(voice.id)"
+                      class="mt-2 w-36 bg-white text-gray-700 rounded-full px-4 py-2 text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
+                    >
+                      @if (currentPlayingVoice === voice.id) {
+                        <!-- Icono de pausa (dos rayas) -->
+                        <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                          <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                        </svg>
+                        <span class="ml-1">Pausar</span>
+                      } @else {
+                        <!-- Icono de play (triángulo) -->
+                        <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="ml-1">Escuchar</span>
+                      }
+                    </button>
+                  </div>
+                </div>
+              }
             </div>
           </div>
-    
-          <!-- Anas -->
-          <div 
-            class="w-[230px] h-[368px] bg-gray-100 rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
-            (click)="onVoiceSelected()"
-          >
-            <img src="assets/anas_voz.png" alt="Anas" class="w-full h-full object-cover" />
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-              <h3 class="text-white font-bold text-xl text-center">Anas</h3>
-              <button
-                (click)="$event.stopPropagation(); playVoice('anas')"
-                class="mt-2 w-32 bg-white text-gray-700 rounded-full px-4 py-1.5 text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
+
+          <!-- Vista desktop: Carrusel -->
+          <div class="hidden sm:block">
+            <div class="carousel-container relative flex items-center justify-center gap-2 sm:gap-3 md:gap-4 px-8 sm:px-12 md:px-16 mb-3 sm:mb-4">
+              <!-- Botón anterior -->
+              <button 
+                (click)="previousVoice()"
+                class="absolute left-0 z-10 rounded-full p-2 shadow-md transition-all"
+                [class.bg-white]="!isPreviousDisabled()"
+                [class.bg-gray-200]="isPreviousDisabled()"
+                [class.cursor-pointer]="!isPreviousDisabled()"
+                [class.cursor-not-allowed]="isPreviousDisabled()"
+                [class.hover:shadow-lg]="!isPreviousDisabled()"
+                [class.hidden]="shouldHideCarousel()"
+                [disabled]="isPreviousDisabled()"
               >
-                @if (currentPlayingVoice === 'anas') {
-                  <!-- Icono de pausa (dos rayas) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                    <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                  </svg>
-                  <span class="ml-1">Pausar</span>
-                } @else {
-                  <!-- Icono de play (triángulo) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span class="ml-1">Escuchar</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12.5 15L7.5 10L12.5 5" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <!-- Contenedor de voces -->
+              <div class="flex justify-center gap-3 sm:gap-5 md:gap-6">
+                @for (voice of getVisibleVoices(); track voice.id) {
+                  <div 
+                    class="voice-card w-[160px] h-[270px] sm:w-[200px] sm:h-[340px] md:w-[230px] md:h-[368px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
+                    (click)="onVoiceSelected()"
+                  >
+                    <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover" />
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2.5 sm:p-4">
+                      <h3 class="text-white font-bold text-base sm:text-lg md:text-xl text-center">{{ voice.name }}</h3>
+                      <button
+                        (click)="$event.stopPropagation(); playVoice(voice.id)"
+                        class="mt-1.5 sm:mt-2 w-24 sm:w-28 md:w-32 bg-white text-gray-700 rounded-full px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs md:text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
+                      >
+                        @if (currentPlayingVoice === voice.id) {
+                          <!-- Icono de pausa (dos rayas) -->
+                          <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                            <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                          </svg>
+                          <span class="ml-1">Pausar</span>
+                        } @else {
+                          <!-- Icono de play (triángulo) -->
+                          <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                          <span class="ml-1">Escuchar</span>
+                        }
+                      </button>
+                    </div>
+                  </div>
                 }
+              </div>
+
+              <!-- Botón siguiente -->
+              <button 
+                (click)="nextVoice()"
+                class="absolute right-0 z-10 rounded-full p-2 shadow-md transition-all"
+                [class.bg-white]="!isNextDisabled()"
+                [class.bg-gray-200]="isNextDisabled()"
+                [class.cursor-pointer]="!isNextDisabled()"
+                [class.cursor-not-allowed]="isNextDisabled()"
+                [class.hover:shadow-lg]="!isNextDisabled()"
+                [class.hidden]="shouldHideCarousel()"
+                [disabled]="isNextDisabled()"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.5 5L12.5 10L7.5 15" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </button>
             </div>
-          </div>
-    
-          <!-- Carlos -->
-          <div 
-            class="w-[230px] h-[368px] bg-gray-100 rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
-            (click)="onVoiceSelected()"
-          >
-            <img src="assets/carlos_voz.png" alt="Carlos" class="w-full h-full object-cover" />
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-              <h3 class="text-white font-bold text-xl text-center">Carlos</h3>
-              <button
-                (click)="$event.stopPropagation(); playVoice('carlos')"
-                class="mt-2 w-32 bg-white text-gray-700 rounded-full px-4 py-1.5 text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
-              >
-                @if (currentPlayingVoice === 'carlos') {
-                  <!-- Icono de pausa (dos rayas) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                    <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                  </svg>
-                  <span class="ml-1">Pausar</span>
-                } @else {
-                  <!-- Icono de play (triángulo) -->
-                  <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <span class="ml-1">Escuchar</span>
+
+            <!-- Indicadores del carrusel -->
+            <div class="flex justify-center gap-2 mb-4" [class.hidden]="shouldHideCarousel()">
+              @for (voice of voices; track voice.id; let i = $index) {
+                @if (i <= getMaxIndicatorIndex()) {
+                  <button 
+                    (click)="currentVoiceIndex = i"
+                    class="w-2 h-2 rounded-full transition-colors"
+                    [class.bg-blue-500]="i === currentVoiceIndex"
+                    [class.bg-gray-300]="i !== currentVoiceIndex"
+                  ></button>
                 }
-              </button>
+              }
             </div>
           </div>
+        </div>
         </div>
     
         <!-- Botón de retroceso -->
           <button
           (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-lg flex items-center absolute left-0 bottom-0 mb-8 ml-8"
+          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center absolute left-3 sm:left-4 md:left-8 bottom-0 mb-4 sm:mb-6 md:mb-8 p-1"
           style="z-index:10;"
         >
-          <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
           </svg>
         </button>
@@ -295,31 +335,32 @@
 
     @if (step === 'instructions') {
       <!-- Pantalla 4: Instrucciones -->
-      <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] overflow-y-auto scrollbar-hide flex flex-col relative" style="scrollbar-width: none; -ms-overflow-style: none;">
-      <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Instrucciones</h2>
+      <div class="bg-white rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+      <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-2 sm:mb-4 md:mb-5 lg:mb-6 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Instrucciones</h2>
 
-      <p class="text-center text-base text-black mb-8 max-w-2xl mx-auto tracking-[-1px]">
+      <p class="text-center text-xs sm:text-sm md:text-base text-black mb-3 sm:mb-6 md:mb-8 max-w-2xl mx-auto tracking-[-0.3px] sm:tracking-[-0.5px] md:tracking-[-1px] px-2 sm:px-4">
         Define las instrucciones que seguirá tu agente de IA
       </p>
 
       <!-- Mensaje de saludo -->
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-black mb-2">Define un saludo personalizado</label>
+      <div class="mb-3 sm:mb-4 md:mb-6 px-2 sm:px-4 md:px-0">
+        <label class="block text-[11px] sm:text-xs md:text-sm font-medium text-black mb-1">Define un saludo personalizado</label>
         <input
           type="text"
           [(ngModel)]="greeting"
-          placeholder="Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?"
-          class="w-full px-4 py-3 border border-gray-300  rounded-xl  focus:ring-black focus:border-transparent text-xs text-gray-500"
+          placeholder="Hola, gracias por llamar a..."
+          class="w-full px-2.5 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-black focus:border-transparent text-[11px] sm:text-xs md:text-sm text-gray-500"
         />
       </div>
 
       <!-- Selección de plantilla -->
-      <div class="mb-4 w-80 relative">
-        <label class="block text-sm font-medium text-black mb-1">Instrucciones del agente</label>
+      <div class="mb-2 sm:mb-3 md:mb-4 w-full sm:w-80 relative px-2 sm:px-4 md:px-0">
+        <label class="block text-[11px] sm:text-xs md:text-sm font-medium text-black mb-1">Instrucciones del agente</label>
         <div class="relative">
           <select
             [(ngModel)]="template"
-            class="w-full px-3 py-3 border border-gray-300 rounded-xl focus:ring-black focus:border-transparent text-xs text-gray-500 appearance-none"
+            class="w-full px-2.5 sm:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-black focus:border-transparent text-[11px] sm:text-xs md:text-sm text-gray-500 appearance-none"
           >
             <option value="">Elige una plantilla</option>
             <option value="atencion-cliente">Atención al cliente</option>
@@ -327,78 +368,82 @@
             <option value="soporte-tecnico">Soporte técnico</option>
           </select>
           <!-- Flecha personalizada más grande -->
-          <svg class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2" width="35" height="32" viewBox="0 0 27 32" fill="none" style="opacity: 0.5;">
+          <svg class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2" width="28" height="28" viewBox="0 0 27 32" fill="none" style="opacity: 0.5;">
             <path d="M8 12L16 20L24 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
       </div>
 
       <!-- Textarea para instrucciones -->
-      <div class="mb-12">
+      <div class="mb-4 sm:mb-8 md:mb-12 px-2 sm:px-4 md:px-0">
         <textarea
           [(ngModel)]="instructions"
           placeholder="Escribe aquí..."
-          class="w-full px-4 py-3 border border-gray-300 rounded-[1rem] focus:ring-black focus:border-transparent h-[55vh] resize-none"
+          class="w-full px-2.5 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 border border-gray-300 rounded-lg sm:rounded-[1rem] focus:ring-black focus:border-transparent h-28 sm:h-32 md:h-40 lg:h-48 resize-none text-xs sm:text-sm"
         ></textarea>
+      </div>
       </div>
 
       <!-- Botones -->
-      <div class="flex justify-between">
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
         <button
           (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
+          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center p-1"
         >
           <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
           </svg>
         </button>
 
-        <button class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+        <button class="absolute left-1/2 transform -translate-x-1/2 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
           (click)="onSubmit()"
         >
           Continuar
         </button>
+        <div></div>
       </div>
     </div>
   }
 
   @if (step === 'actions') {
     <!-- Pantalla 5: Añadir Acciones -->
-    <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-      <h2 class="text-4xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Añadir Acciones</h2>
+    <div class="bg-white rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+      <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-2 sm:mb-3 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Añadir Acciones</h2>
   
-      <p class="text-center text-sm text-black mb-8 tracking-[-0.5px] mx-auto">
+      <p class="text-center text-xs sm:text-sm text-black mb-3 sm:mb-4 md:mb-6 lg:mb-8 tracking-[-0.3px] sm:tracking-[-0.5px] mx-auto px-2 sm:px-3 md:px-4">
         Define las acciones que puede realizar tu agente
       </p>
   
-      <div class="flex justify-center gap-8 flex-wrap">
+      <div class="flex justify-center gap-4 sm:gap-6 md:gap-8 flex-wrap px-2 sm:px-4 md:px-0 mb-3 sm:mb-4">
         <!-- Shopify -->
           <button
             (click)="selectAction('shopify')"
-            class="w-[285px] h-[285px] rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+            class="w-[170px] h-[170px] sm:w-[200px] sm:h-[200px] md:w-[220px] md:h-[220px] lg:w-[240px] lg:h-[240px] rounded-lg sm:rounded-xl md:rounded-2xl flex flex-col items-center justify-center p-4 sm:p-5 md:p-6 hover:shadow-lg transition-shadow"
             style="background-color: rgba(45, 182, 0, 0.5);"
           >
-          <img src="assets/shopify.png" alt="Shopify" class="w-14 h-26 mt-16" />
-          <span class="font-semibold text-gray-800 mt-14 tracking-[-1.5px] text-base">Shopify</span>
+          <img src="assets/shopify.png" alt="Shopify" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mt-4 sm:mt-6 md:mt-8 lg:mt-10 object-contain" />
+          <span class="font-semibold text-gray-800 mt-4 sm:mt-6 md:mt-8 lg:mt-10 tracking-[-1px] sm:tracking-[-1.5px] text-xs sm:text-sm md:text-base">Shopify</span>
         </button>
   
   
         <!-- Make -->
         <button
           (click)="selectAction('make')"
-          class="w-[285px] h-[285px] rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+          class="w-[170px] h-[170px] sm:w-[200px] sm:h-[200px] md:w-[220px] md:h-[220px] lg:w-[240px] lg:h-[240px] rounded-lg sm:rounded-xl md:rounded-2xl flex flex-col items-center justify-center p-4 sm:p-5 md:p-6 hover:shadow-lg transition-shadow"
           style="background-color: rgba(198, 40, 212, 0.5);"
         >
-         <img src="assets/make.png" alt="Shopify" class="w-16 h-26 mt-20" />
-           <span class="font-semibold text-gray-800 mt-16 tracking-[-1.5px] text-base">Make</span>
+         <img src="assets/make.png" alt="Make" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mt-4 sm:mt-6 md:mt-8 lg:mt-10 object-contain" />
+           <span class="font-semibold text-gray-800 mt-8 sm:mt-10 md:mt-12 lg:mt-14 tracking-[-1px] sm:tracking-[-1.5px] text-xs sm:text-sm md:text-base">Make</span>
         </button>
       </div>
+      </div>
   
-      <!-- Botones siempre abajo -->
-      <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
+      <!-- Botones -->
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
         <button
           (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
+          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center p-1"
         >
           <svg width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
@@ -408,10 +453,10 @@
   
         <button
           (click)="step = 'knowledgeBase'"
-          class="text-black hover:text-gray-700 text-lg flex items-center"
+          class="text-black hover:text-gray-700 text-sm sm:text-base md:text-lg flex items-center p-1"
         >
           Omitir
-          <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="ml-2 sm:ml-3" width="18" height="18" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
           </svg>
         </button>
@@ -421,35 +466,36 @@
 
   @if (step === 'knowledgeBase') {
   <!-- Pantalla 6: Base de Conocimientos -->
-  <div class="bg-white rounded-[2rem] shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-3 tracking-[-3px]">Base de Conocimientos</h2>
+  <div class="bg-white rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-12 lg:p-20 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+    <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-2 sm:mb-3 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Base de Conocimientos</h2>
 
-    <p class="text-center text-base text-black mb-12 mx-auto tracking-[-1px]">
+    <p class="text-center text-xs sm:text-sm md:text-base text-black mb-3 sm:mb-6 md:mb-10 lg:mb-12 mx-auto tracking-[-0.3px] sm:tracking-[-0.5px] md:tracking-[-1px] px-2 sm:px-3 md:px-4">
       Define la base de conocimientos para tu agente
     </p>
 
-    <div class="flex justify-center gap-8 flex-wrap">
+    <div class="flex justify-center gap-4 sm:gap-6 md:gap-8 flex-wrap px-2 sm:px-4 md:px-0 mb-3 sm:mb-4">
       <!-- PDF -->
       <button
         (click)="selectKnowledgeSource('pdf')"
-        class="w-[240px] h-[260px] bg-gray-100 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+        class="w-[160px] h-[180px] sm:w-[180px] sm:h-[200px] md:w-[200px] md:h-[220px] lg:w-[220px] lg:h-[240px] bg-gray-100 rounded-lg sm:rounded-xl md:rounded-2xl flex flex-col items-center justify-center p-3 sm:p-4 md:p-5 hover:shadow-lg transition-shadow"
       >
-      <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M62.5 94.7917H37.5C14.875 94.7917 5.20837 85.125 5.20837 62.5V37.5C5.20837 14.875 14.875 5.20837 37.5 5.20837H58.3334C60.0417 5.20837 61.4584 6.62504 61.4584 8.33337C61.4584 10.0417 60.0417 11.4584 58.3334 11.4584H37.5C18.2917 11.4584 11.4584 18.2917 11.4584 37.5V62.5C11.4584 81.7084 18.2917 88.5417 37.5 88.5417H62.5C81.7084 88.5417 88.5417 81.7084 88.5417 62.5V41.6667C88.5417 39.9584 89.9584 38.5417 91.6667 38.5417C93.375 38.5417 94.7917 39.9584 94.7917 41.6667V62.5C94.7917 85.125 85.125 94.7917 62.5 94.7917Z" fill="#353535"/>
         <path d="M91.6667 44.7917H75C60.75 44.7917 55.2084 39.25 55.2084 25V8.33333C55.2084 7.08333 55.9584 5.91666 57.125 5.45833C58.2917 4.95833 59.625 5.24999 60.5417 6.12499L93.875 39.4583C94.75 40.3333 95.0417 41.7083 94.5417 42.875C94.0417 44.0417 92.9167 44.7917 91.6667 44.7917ZM61.4584 15.875V25C61.4584 35.75 64.25 38.5417 75 38.5417H84.125L61.4584 15.875Z" fill="#353535"/>
         <path d="M54.1666 57.2916H29.1666C27.4583 57.2916 26.0416 55.875 26.0416 54.1666C26.0416 52.4583 27.4583 51.0416 29.1666 51.0416H54.1666C55.875 51.0416 57.2916 52.4583 57.2916 54.1666C57.2916 55.875 55.875 57.2916 54.1666 57.2916Z" fill="#353535"/>
         <path d="M45.8333 73.9584H29.1666C27.4583 73.9584 26.0416 72.5417 26.0416 70.8334C26.0416 69.125 27.4583 67.7084 29.1666 67.7084H45.8333C47.5416 67.7084 48.9583 69.125 48.9583 70.8334C48.9583 72.5417 47.5416 73.9584 45.8333 73.9584Z" fill="#353535"/>
         </svg>
         
-        <span class="font-semibold text-gray-800 mt-4">PDF</span>
+        <span class="font-semibold text-gray-800 mt-2 sm:mt-3 md:mt-4 text-xs sm:text-sm md:text-base">PDF</span>
       </button>
 
       <!-- Web -->
       <button
         (click)="selectKnowledgeSource('web')"
-        class="w-[240px] h-[260px] bg-gray-100 rounded-2xl flex flex-col items-center justify-center p-6 hover:shadow-lg transition-shadow"
+        class="w-[160px] h-[180px] sm:w-[180px] sm:h-[200px] md:w-[200px] md:h-[220px] lg:w-[220px] lg:h-[240px] bg-gray-100 rounded-lg sm:rounded-xl md:rounded-2xl flex flex-col items-center justify-center p-3 sm:p-4 md:p-5 hover:shadow-lg transition-shadow"
       >
-      <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <rect width="100" height="100" fill="url(#pattern0_24_532)" />
         <defs>
           <pattern id="pattern0_24_532" patternUnits="objectBoundingBox" width="1" height="1">
@@ -458,15 +504,16 @@
         </defs>
       </svg>
         
-        <span class="font-semibold text-gray-800 mt-4">Web</span>
-      </button>
+        <span class="font-semibold text-gray-800 mt-2 sm:mt-3 md:mt-4 text-xs sm:text-sm md:text-base">Web</span>
+        </button>
+      </div>
     </div>
 
-    <!-- Botones SIEMPRE FIJOS ABAJO -->
-    <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
+    <!-- Botones -->
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
       <button
           (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
+          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center p-1"
         >
           <svg width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
@@ -475,10 +522,10 @@
 
       <button
         (click)="step = 'summary'"
-        class="text-black hover:text-gray-700 text-lg flex items-center "
+        class="text-black hover:text-gray-700 text-sm sm:text-base md:text-lg flex items-center p-1"
       >
         Omitir
-        <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="ml-2 sm:ml-3" width="18" height="18" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
         </svg>
       </button>
@@ -486,33 +533,118 @@
   </div>
 }
 @if (step === 'summary') {
-  <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px] mt-28">Prueba Agente</h2>
-    <p class="text-center text-base text-black mb-8 max-w-4xl mx-auto">
-      Ingresa un número de teléfono para probar tu agente
-    </p>
-    <div class="flex justify-center gap-4 items-center mb-8">
-      <img src="assets/españa.svg" alt="España" width="20" height="12" />
-      <input type="tel" [(ngModel)]="phoneNumber" placeholder="600 00 00 00" class="w-64 px-4 py-3 border border-gray-300 rounded-lg focus:ring-black focus:border-transparent text-xs text-gray-500"/>
+  <div class="bg-white rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+    <div class="flex-1 overflow-y-auto scrollbar-hide flex flex-col justify-center" style="scrollbar-width: none; -ms-overflow-style: none;">
+    <!-- Título y descripción completamente fijos - posicionamiento absoluto -->
+    <div class="absolute top-0 left-0 right-0 z-10 pt-8 sm:pt-12 md:pt-16">
+      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-2 sm:mb-4 md:mb-6 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Prueba Agente</h2>
+      <p class="text-center text-xs sm:text-sm md:text-base text-black mb-3 sm:mb-6 md:mb-8 max-w-4xl mx-auto px-2 sm:px-4">
+        Habla con nuestro agente de prueba para ver cómo funciona.
+      </p>
     </div>
-    <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
+    
+    <!-- Esfera con animación de líquido fluido -->
+    <div class="flex-1 flex flex-col justify-center items-center relative">
+      <!-- Esfera principal centrada - CON FONDO AZUL 500 -->
+      <div class="relative bg-blue-500 rounded-full flex items-center justify-center shadow-2xl overflow-hidden liquid-sphere"
+           [style.width]="getMainSphereSize() + 'px'"
+           [style.height]="getMainSphereSize() + 'px'"
+           [style.transform]="'scale(' + (1 + audioLevel * 0.15) + ')'"
+           [style.box-shadow]="'0 0 ' + (30 + audioLevel * 40) + 'px rgba(59, 130, 246, 0.8)'"
+           [style.transition]="'transform 0.1s ease-out, box-shadow 0.1s ease-out'">
+        
+        <!-- Video de mar con efectos de audio -->
+        <div class="relative w-full h-full rounded-full overflow-hidden">
+          <!-- Video del mar (si está disponible) -->
+          <video 
+            *ngIf="videoSrc"
+            [src]="videoSrc"
+            [muted]="true"
+            [loop]="true"
+            [autoplay]="true"
+            [playsInline]="true"
+            class="absolute inset-0 w-full h-full object-cover"
+            [style.filter]="getVideoFilter()"
+            [style.transform]="getVideoTransform()"
+            [style.opacity]="getVideoOpacity()"
+          ></video>
+          
+          <!-- Fallback: Animación CSS que simula el mar -->
+          <div 
+            *ngIf="!videoSrc"
+            class="absolute inset-0 w-full h-full sea-animation"
+            [style.background]="getSeaGradient()"
+            [style.filter]="getVideoFilter()"
+            [style.transform]="getVideoTransform()"
+            [style.opacity]="getVideoOpacity()"
+          >
+            <!-- Ondas del mar -->
+            <div class="wave wave-1"></div>
+            <div class="wave wave-2"></div>
+            <div class="wave wave-3"></div>
+            <div class="wave wave-4"></div>
+          </div>
+          
+          <!-- Overlay de audio para efectos visuales -->
+          <div 
+            class="absolute inset-0 rounded-full pointer-events-none"
+            [style.background]="getAudioOverlay()"
+            [style.box-shadow]="getAudioGlow()"
+          ></div>
+        </div>
+        
+      </div>
+      
+    </div>
+    </div>
+    
+    <!-- Botón de micrófono encima del botón Continuar -->
+    <div class="absolute bottom-32 left-1/2 transform -translate-x-1/2">
+      <button (click)="toggleMicrophone()" 
+              class="bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 border-2 border-gray-200 hover:border-blue-300"
+              style="width: 60px; height: 60px;">
+        
+        @if (isMicrophoneActive) {
+          <!-- Icono de micrófono activo -->
+          <svg class="text-red-500 animate-pulse" 
+               style="width: 36px; height: 36px;" 
+               viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+          </svg>
+        } @else {
+          <!-- Icono de micrófono silenciado -->
+          <svg class="text-gray-500" 
+               style="width: 36px; height: 36px;" 
+               viewBox="0 0 24 24" fill="currentColor">
+            <!-- Micrófono -->
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+            <!-- Línea diagonal de tachado -->
+            <path d="M3 3l18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+        }
+      </button>
+    </div>
+    
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
       <button
           (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
+          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center p-1"
         >
-          <svg width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="20" height="20" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
           </svg>
         </button>
-        <button class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2" (click)="onSubmitTestCall()">
+        <button class="absolute left-1/2 transform -translate-x-1/2 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2" (click)="onSubmitTestCall()">
         Continuar
       </button>
       <button
           (click)="step = 'connectPhone'"
-          class="text-black hover:text-gray-700 text-lg flex items-center"
+          class="text-black hover:text-gray-700 text-sm sm:text-base md:text-lg flex items-center p-1"
         >
           Omitir
-          <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="ml-2 sm:ml-3" width="18" height="18" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
           </svg>
         </button>
@@ -521,28 +653,29 @@
 }
 
 @if (step === 'connectPhone') {
-  <div class="bg-white rounded-[2rem] shadow-sm p-16 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+    <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
     <!-- Título principal -->
-    <h2 class="text-4xl font-semibold text-center text-blue-950 tracking-[-3px]">
+    <h2 class="text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-center text-blue-950 tracking-[-0.8px] sm:tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-2.5px] px-2 sm:px-3 md:px-4">
       Conectar Número de Teléfono
     </h2>
-    <p class="text-center font-semibold text-lg text-blue-950 mb-4 -mt-2 tracking-[-1px]">
+    <p class="text-center font-semibold text-sm sm:text-base md:text-lg text-blue-950 mb-2 sm:mb-3 md:mb-4 -mt-0.5 sm:-mt-1 md:-mt-2 tracking-[-0.3px] sm:tracking-[-0.5px] md:tracking-[-1px] px-2 sm:px-4">
       a través de Twilio
     </p>
 
     <!-- Instrucciones -->
-    <div class="space-y-2 mb-8 text-sm text-gray-700 leading-relaxed tracking-[-1px] ml-16">
-      <p><span class="font-semibold">1. Selecciona el prefijo del país</span></p>
-      <p><span class="font-semibold">2. Ingresa tu número de Twilio</span></p>
-      <p><span class="font-semibold">3. Ingresa tu Account SID de Twilio</span></p>
-      <p><span class="font-semibold">4. Asigna un nombre o etiqueta</span></p>
+    <div class="space-y-1 sm:space-y-1.5 md:space-y-2 mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-gray-700 leading-tight sm:leading-relaxed tracking-[-0.2px] sm:tracking-[-0.3px] md:tracking-[-0.5px] ml-1 sm:ml-2 md:ml-4 lg:ml-8 px-1 sm:px-2 md:px-4">
+      <p><span class="font-semibold">1. Seleccionar prefijo de país:</span> Elige el código de país correspondiente.</p>
+      <p><span class="font-semibold">2. Introducir número de Twilio:</span> Ingresa el número asociado a tu cuenta Twilio.</p>
+      <p><span class="font-semibold">3. Twilio Account SID y Auth Token:</span> Completa los campos con tu SID de cuenta y token de autenticación.</p>
+      <p><span class="font-semibold">4. Asignar nombre o etiqueta:</span> Da un nombre o etiqueta identificativa al número de Twilio para facilitar su gestión.</p>
     </div>
 
     <!-- Formulario más pequeño -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ml-8 mr-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 sm:gap-2 md:gap-3 mx-1 sm:mx-2 md:mx-4 lg:mx-6">
       <!-- Número de teléfono -->
       <div class="flex flex-col">
-        <label for="phone" class="block text-xs font-medium text-black mb-1">Número de teléfono*</label>
+        <label for="phone" class="block text-[10px] sm:text-xs font-medium text-black mb-0.5 sm:mb-1">Número de teléfono*</label>
         <div class="flex items-center relative">
           <!-- Dropdown personalizado -->
           <div id="country-dropdown" class="w-14 h-9 bg-white border-r-0 border-gray-300 rounded-l-md px-2 flex items-center cursor-pointer">
@@ -599,49 +732,49 @@
             type="tel"
             id="phone"
             placeholder="630 00 00"
-            class="flex-1 px-3 py-3 border border-gray-300 rounded-xl focus:ring-blue-400 focus:border-blue-400 text-xs text-gray-500"
+            class="flex-1 px-2 sm:px-2.5 md:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-blue-400 focus:border-blue-400 text-[10px] sm:text-xs text-gray-500"
           />
         </div>
       </div>
 
       <!-- Cuenta Twilio SID -->
       <div class="flex flex-col">
-        <label for="sid" class="block text-xs font-medium text-black mb-1">Account SID de Twilio*</label>
+        <label for="sid" class="block text-[10px] sm:text-xs font-medium text-black mb-0.5 sm:mb-1">Account SID de Twilio*</label>
         <input
           type="text"
           id="sid"
-          class="w-full px-3 py-3 border border-gray-300 rounded-xl focus:ring-blue-400 focus:border-blue-400 text-xs text-gray-500"
+          class="w-full px-2 sm:px-2.5 md:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-blue-400 focus:border-blue-400 text-[10px] sm:text-xs text-gray-500"
         />
       </div>
 
       <!-- Twilio Auth Token -->
       <div class="flex flex-col">
-        <label for="token" class="block text-xs font-medium text-black mb-1">Auth Token de Twilio</label>
+        <label for="token" class="block text-[10px] sm:text-xs font-medium text-black mb-0.5 sm:mb-1">Auth Token de Twilio</label>
         <input
           type="password"
           id="token"
-          class="w-full px-3 py-3 border border-gray-300 rounded-xl focus:ring-blue-400 focus:border-blue-400 text-xs text-gray-500"
+          class="w-full px-2 sm:px-2.5 md:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-blue-400 focus:border-blue-400 text-[10px] sm:text-xs text-gray-500"
         />
       </div>
 
       <!-- Etiqueta -->
       <div class="flex flex-col">
-        <label for="label" class="block text-xs font-medium text-black mb-1">Etiqueta</label>
+        <label for="label" class="block text-[10px] sm:text-xs font-medium text-black mb-0.5 sm:mb-1">Etiqueta</label>
         <input
           type="text"
           id="label"
-          class="w-full px-3 py-3 border border-gray-300 rounded-xl focus:ring-blue-400 focus:border-blue-400 text-xs text-gray-500"
+          class="w-full px-2 sm:px-2.5 md:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-blue-400 focus:border-blue-400 text-[10px] sm:text-xs text-gray-500"
         />
       </div>
     </div>
 
     <!-- Selección de número importado -->
-    <div class="mt-6 text-center">
-      <label for="imported-number" class="block text-xs font-medium text-black mb-1">Elige un número importado</label>
-      <div class="relative w-72 mx-auto">
+    <div class="mt-1.5 sm:mt-3 md:mt-4 lg:mt-6 text-center px-1 sm:px-2 md:px-4">
+      <label for="imported-number" class="block text-[10px] sm:text-xs font-medium text-black mb-0.5 sm:mb-1">Elige un número importado</label>
+      <div class="relative w-full sm:w-80 md:w-72 mx-auto">
         <select
           id="imported-number"
-          class="w-full px-3 py-3 border border-gray-300 rounded-xl focus:ring-blue-400 focus:border-blue-400 text-xs text-gray-400 appearance-none"
+          class="w-full px-2 sm:px-2.5 md:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-blue-400 focus:border-blue-400 text-[10px] sm:text-xs text-gray-400 appearance-none"
         >
           <option value="">Elige un número</option>
           <option value="1">+34 630 00 00 00</option>
@@ -654,20 +787,21 @@
         </span>
       </div>
     </div>
+    </div>
 
     <!-- Botones de navegación SIEMPRE FIJOS ABAJO -->
-    <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
       <button
           (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-lg flex items-center"
+          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center p-1"
         >
-          <svg width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="20" height="20" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
           </svg>
         </button>
 
         <button
-          class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+          class="absolute left-1/2 transform -translate-x-1/2 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
           (click)="onConnectPhone()"
         >
           Continuar
@@ -675,10 +809,10 @@
 
       <button
           (click)="step = 'advancedSettings'"
-          class="text-black hover:text-gray-700 text-lg flex items-center"
+          class="text-black hover:text-gray-700 text-sm sm:text-base md:text-lg flex items-center p-1"
         >
           Omitir
-          <svg class="ml-3" width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="ml-2 sm:ml-3" width="18" height="18" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
           </svg>
         </button>
@@ -687,28 +821,29 @@
 }
 
 @if (step === 'advancedSettings') {
-  <div class="bg-white rounded-[2rem] shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
+  <div class="bg-white rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-12 lg:p-20 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+    <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
     <!-- Título -->
-    <h2 class="text-4xl font-semibold text-center text-blue-950 mb-6 tracking-[-3px]">Configuración Avanzada</h2>
+    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-2 sm:mb-3 md:mb-4 lg:mb-6 tracking-[-1px] sm:tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-2.5px] px-2 sm:px-3 md:px-4">Configuración Avanzada</h2>
 
     <!-- Subtítulo -->
-    <p class="text-center text-base text-gray-700 mb-8 max-w-4xl mx-auto">
+    <p class="text-center text-xs sm:text-sm md:text-base text-gray-700 mb-3 sm:mb-4 md:mb-6 lg:mb-8 max-w-4xl mx-auto px-2 sm:px-4">
       Personaliza los parámetros avanzados de tu agente
     </p>
 
     <!-- Tiempo de inactividad -->
-    <div class="flex items-center justify-between mb-6 px-6">
-      <label class="text-sm font-medium text-gray-800">Tiempo de espera de inactividad</label>
-      <div class="flex items-center w-64">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 sm:mb-4 md:mb-5 lg:mb-6 px-2 sm:px-4 md:px-6 gap-2 sm:gap-3 md:gap-0">
+      <label class="text-[10px] sm:text-xs md:text-sm font-medium text-gray-800 w-full sm:w-auto">Tiempo de espera de inactividad</label>
+      <div class="flex items-center w-full sm:w-64">
         <!-- Valor formateado: 0,18 -->
         <span
-          class="w-12 h-12 flex items-center justify-center text-sm font-semibold text-gray-600  border border-gray-300 mr-3 rounded-full transition-all duration-200 hover:bg-gray-200 hover:-translate-y-0.5 hover:shadow-md"
-          style="min-width: 3rem; min-height: 3rem;"
+          class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-xs sm:text-sm font-semibold text-gray-600 border border-gray-300 mr-2 sm:mr-3 rounded-full transition-all duration-200 hover:bg-gray-200 hover:-translate-y-0.5 hover:shadow-md"
+          style="min-width: 2.5rem; min-height: 2.5rem;"
         >
           {{ formatDecimal(inactivityTimeout) }}
         </span>
         <!-- Slider con barra progresiva externa -->
-        <div class="w-full ml-2 h-2 bg-gray-200 rounded-lg relative cursor-pointer">
+        <div class="w-full ml-2 h-1.5 sm:h-2 bg-gray-200 rounded-lg relative cursor-pointer">
           <!-- Barra progresiva (controlada por Angular) -->
           <div
             class="absolute top-0 left-0 h-full bg-gray-500 rounded-lg transition-all duration-75 ease-linear"
@@ -733,18 +868,18 @@
     </div>
 
     <!-- Duración máxima -->
-    <div class="flex items-center justify-between mb-6 px-6">
-      <label class="text-sm font-medium text-gray-800">Duración máxima de llamada</label>
-      <div class="flex items-center w-64">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 sm:mb-4 md:mb-5 lg:mb-6 px-2 sm:px-4 md:px-6 gap-2 sm:gap-3 md:gap-0">
+      <label class="text-[10px] sm:text-xs md:text-sm font-medium text-gray-800 w-full sm:w-auto">Duración máxima de llamada</label>
+      <div class="flex items-center w-full sm:w-64">
         <!-- Valor formateado: 1,34 -->
         <span
-          class="w-12 h-12 flex items-center justify-center text-sm font-semibold text-gray-600  border border-gray-300 mr-3 rounded-full transition-all duration-200 hover:bg-gray-200 hover:-translate-y-0.5 hover:shadow-md"
-          style="min-width: 3rem; min-height: 3rem;"
+          class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-xs sm:text-sm font-semibold text-gray-600 border border-gray-300 mr-2 sm:mr-3 rounded-full transition-all duration-200 hover:bg-gray-200 hover:-translate-y-0.5 hover:shadow-md"
+          style="min-width: 2.5rem; min-height: 2.5rem;"
         >
           {{ formatDecimal(maxCallDuration) }}
         </span>
         <!-- Slider con barra progresiva externa -->
-        <div class="w-full ml-2 h-2 bg-gray-200 rounded-lg relative cursor-pointer">
+        <div class="w-full ml-2 h-1.5 sm:h-2 bg-gray-200 rounded-lg relative cursor-pointer">
           <!-- Barra progresiva -->
           <div
             class="absolute top-0 left-0 h-full bg-gray-500 rounded-lg transition-all duration-75 ease-linear"
@@ -769,9 +904,9 @@
     </div>
 
     <!-- Mensaje de grabación -->
-    <div class="flex items-center mb-6 px-6">
-      <div class="flex items-center">
-        <label class="text-sm font-medium text-gray-800">Mensaje de aviso de grabación</label>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center mb-3 sm:mb-4 md:mb-5 lg:mb-6 px-2 sm:px-4 md:px-6 gap-2 sm:gap-3 md:gap-0">
+      <div class="flex items-center flex-wrap gap-2 sm:gap-0 w-full">
+        <label class="text-[10px] sm:text-xs md:text-sm font-medium text-gray-800">Mensaje de aviso de grabación</label>
         <button
           (click)="toggleRecordingNotice()"
           class="ml-2 text-gray-500 hover:text-gray-700 focus:text-blue-600 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-full p-1"
@@ -805,7 +940,7 @@
 
     <!-- Texto de aviso de grabación -->
     @if (isRecordingNoticeEnabled) {
-      <div class="mb-8 p-4 rounded-full border border-gray-400 text-sm text-gray-400 ml-6 mr-6">
+      <div class="mb-3 sm:mb-4 md:mb-6 lg:mb-8 p-2 sm:p-3 md:p-4 rounded-xl sm:rounded-2xl md:rounded-full border border-gray-400 text-[10px] sm:text-xs md:text-sm text-gray-400 mx-2 sm:mx-4 md:mx-6">
         <div class="flex items-start">
           <div>
             <p>Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.</p>
@@ -813,17 +948,18 @@
         </div>
       </div>
     }
+    </div>
 
     <!-- Botones SIEMPRE FIJOS ABAJO -->
-    <div class="flex justify-between items-center w-full px-0 md:px-8 absolute left-0 bottom-0 pb-8">
-      <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 focus:text-blue-600 text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg px-2 py-1 hover:bg-gray-50">
-        <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
+      <button (click)="goBack()" class="text-gray-500 hover:text-gray-700 focus:text-blue-600 text-base sm:text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg p-1 hover:bg-gray-50">
+        <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
           <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
         </svg>
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+        class="absolute left-1/2 transform -translate-x-1/2 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
         (click)="onSubmitAdvancedSettings()"
       >
         Continuar
@@ -835,32 +971,32 @@
 }
 
 @if (step === 'final') {
-  <div class="bg-white rounded-[2rem] shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-4xl font-semibold text-blue-950 mb-8 tracking-[-3px]">Creando Agente</h2>
-    <div class="flex justify-center my-12">
-      <svg class="animate-spin" width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="bg-white rounded-lg sm:rounded-2xl md:rounded-[2rem] shadow-sm p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20 min-h-[calc(100vh-8rem)] sm:min-h-[60vh] md:min-h-[65vh] lg:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-18rem)] lg:max-h-[calc(100vh-23.4rem)] relative flex flex-col items-center justify-center" style="overflow: hidden;">
+    <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-blue-950 mb-4 sm:mb-6 md:mb-8 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px] px-2 sm:px-4">Creando Agente</h2>
+    <div class="flex justify-center my-4 sm:my-6 md:my-8 lg:my-12">
+      <svg class="animate-spin" width="70" height="70" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M28.9106 90.0612C26.2817 90.9064 23.4654 89.4605 22.6202 86.8316L21.3518 82.8864L20.3836 78.6329L19.7898 74.3111L19.5749 69.9541L19.7406 65.5948L20.2856 61.2667L21.2057 57.0025L22.494 52.8347L24.1406 48.795L26.0333 45.1085C27.2946 42.6519 30.3085 41.6829 32.765 42.9441C35.2216 44.2054 36.1906 47.2193 34.9294 49.6758L33.236 52.974L31.919 56.205L30.8886 59.5385L30.1527 62.9491L29.7168 66.411L29.5842 69.8976L29.7561 73.3825L30.231 76.8391L31.0054 80.2412L32.1402 83.7707C32.9855 86.3996 31.5395 89.216 28.9106 90.0612Z" fill="#20558E"/>
         <path fill-rule="evenodd" clip-rule="evenodd" d="M34.2323 98.3133C36.0863 96.2668 39.2483 96.1109 41.2947 97.965L44.0422 100.454L46.8223 102.563L49.7755 104.421L52.8795 106.014L56.1105 107.331L59.444 108.362L62.8547 109.098L66.3165 109.534L69.8031 109.666L73.288 109.494L76.7446 109.019L80.1467 108.245L83.4684 107.177L86.6844 105.824L89.7701 104.195L92.7022 102.304L95.4583 100.164L98.0174 97.7923L100.36 95.2066L102.468 92.4266L104.327 89.4733L105.92 86.3694L107.237 83.1383L108.268 79.8048L109.004 76.3942L109.439 72.9324L109.572 69.4458L109.4 65.9609L108.925 62.5042L108.151 59.1022L107.083 55.7804L105.729 52.5645L104.101 49.4787L102.21 46.5466L100.07 43.7905L97.6982 41.2314L95.1125 38.8888L92.3325 36.7804L89.3792 34.9223L86.2752 33.3287L83.0442 32.0117L79.7107 30.9813L76.3001 30.2453L72.8383 29.8094L69.3517 29.6769L65.8667 29.8487L62.4101 30.3237L59.0081 31.0981L55.6863 32.1661L52.4704 33.5194L49.3846 35.148L46.2691 37.1576C43.9485 38.6544 40.8539 37.9867 39.3571 35.6661C37.8603 33.3456 38.528 30.251 40.8486 28.7542L44.331 26.5079L48.189 24.4718L52.2098 22.7796L56.3628 21.4444L60.6164 20.4762L64.9381 19.8824L69.2952 19.6675L73.6544 19.8332L77.9826 20.3782L82.2468 21.2983L86.4146 22.5866L90.4542 24.2332L94.335 26.2257L98.0273 28.5488L101.503 31.1848L104.736 34.1138L107.701 37.3134L110.376 40.7592L112.741 44.4251L114.777 48.2831L116.469 52.3039L117.804 56.4569L118.773 60.7105L119.366 65.0322L119.581 69.3893L119.416 73.7485L118.871 78.0767L117.951 82.3409L116.662 86.5087L115.016 90.5483L113.023 94.4291L110.7 98.1214L108.064 101.597L105.135 104.83L101.935 107.795L98.4896 110.47L94.8237 112.835L90.9657 114.871L86.9449 116.563L82.7919 117.899L78.5384 118.867L74.2166 119.461L69.8596 119.675L65.5004 119.51L61.1722 118.965L56.908 118.045L52.7402 116.756L48.7005 115.11L44.8198 113.117L41.1274 110.794L37.6516 108.158L34.5805 105.376C32.5341 103.522 32.3782 100.36 34.2323 98.3133Z" fill="#A3C0E0"/>
       </svg>
     </div>
-    <p class="text-base text-gray-700 max-w-2xl mx-auto">
+    <p class="text-xs sm:text-sm md:text-base text-gray-700 max-w-2xl mx-auto px-2 sm:px-4">
       No cierres esta ventana mientras se crea tu agente
     </p>
   </div>
 }
 
 @if (step === 'success') {
-  <div class="bg-white rounded-2xl shadow-sm p-20 min-h-[70vh] max-h-[calc(100vh-23.4rem)] relative" style="overflow: hidden;">
-    <h2 class="text-4xl font-semibold text-blue-950 mb-8 tracking-[-3px]">¡Agente Creado Exitosamente!</h2>
-    <div class="flex justify-center my-12">
-      <div class="w-24 h-24 bg-blue-200 rounded-full flex items-center justify-center">
-        <svg width="44" height="33" viewBox="0 0 48 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="bg-white rounded-lg sm:rounded-2xl md:rounded-[2rem] shadow-sm p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20 min-h-[calc(100vh-8rem)] sm:min-h-[60vh] md:min-h-[65vh] lg:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-18rem)] lg:max-h-[calc(100vh-23.4rem)] relative flex flex-col items-center justify-center" style="overflow: hidden;">
+    <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-blue-950 mb-4 sm:mb-6 md:mb-8 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px] px-2 sm:px-4">¡Agente Creado Exitosamente!</h2>
+    <div class="flex justify-center my-4 sm:my-6 md:my-8 lg:my-12">
+      <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-blue-200 rounded-full flex items-center justify-center">
+        <svg width="30" height="25" viewBox="0 0 48 33" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M3.64844 16.4522L17.2201 30.0201L44.352 2.8844" stroke="#1E3A8A" stroke-width="5.42714" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
     </div>
     <button
-      class="mx-auto px-20 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+      class="mx-auto px-8 sm:px-10 md:px-16 lg:px-20 py-1.5 sm:py-2 bg-[#0a1740] text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
       (click)="onFinish()"
     >
       Finalizar

@@ -369,9 +369,9 @@ export class I18nService {
       logout: 'Cerrar Sesión',
 
       // Promo card
-      promoTitle: '¡Prueba Llámalo gratis!',
-      promoDescription: 'Crea tu primer agente de voz y recibe 10 minutos gratis para probar todas las funcionalidades.',
-      promoButton: 'Comenzar gratis',
+      promoTitle: '¡Suma Tiempo extra sin pagar!',
+      promoDescription: 'Completa retos sencillos y aumenta tus minutos disponibles al instante.',
+      promoButton: 'Conseguir ahora',
       remainingMinutes: 'Minutos restantes',
       planPro: 'Plan Pro',
 
@@ -398,7 +398,7 @@ export class I18nService {
       searchNumber: 'Buscar el número',
       resolved: 'Resuelto',
       pending: 'Pendiente',
-      selectContactToView: 'Selecciona un contacto para ver la conversación.',
+      selectContactToView: 'Selecciona una conversación de tu historial.',
 
       // Common
       new: 'Nuevo',
