@@ -47,7 +47,7 @@
         </button>
         
         <!-- Información del contacto -->
-        <div class="mb-4 sm:mb-8">
+        <div class="mb-4 sm:mb-4">
           <div class="flex flex-col sm:flex-row items-start justify-between rounded-[2rem] border border-gray-200 p-3 sm:p-4 gap-3 sm:gap-0">
             <div class="flex items-start space-x-3 flex-1">
               <img [src]="selectedContact.avatar" alt="Avatar" class="w-8 h-8 object-cover rounded-full mt-2" />
@@ -61,48 +61,50 @@
             </div>
             <div class="flex flex-col items-end">
               <button class="text-gray-400 hover:text-gray-600 rounded-full border border-gray-300 p-2 sm:p-3">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2.75 5C2.55109 5 2.36032 5.07902 2.21967 5.21967C2.07902 5.36032 2 5.55109 2 5.75C2 5.94891 2.07902 6.13968 2.21967 6.28033C2.36032 6.42098 2.55109 6.5 2.75 6.5V5ZM21.25 6.5C21.4489 6.5 21.6397 6.42098 21.7803 6.28033C21.921 6.13968 22 5.94891 22 5.75C22 5.55109 21.921 5.36032 21.7803 5.21967C21.6397 5.07902 21.4489 5 21.25 5V6.5ZM10.5 10.75C10.5 10.5511 10.421 10.3603 10.2803 10.2197C10.1397 10.079 9.94891 10 9.75 10C9.55109 10 9.36032 10.079 9.21967 10.2197C9.07902 10.3603 9 10.5511 9 10.75H10.5ZM9 16.25C9 16.4489 9.07902 16.6397 9.21967 16.7803C9.36032 16.921 9.55109 17 9.75 17C9.94891 17 10.1397 16.921 10.2803 16.7803C10.421 16.6397 10.5 16.4489 10.5 16.25H9ZM15 10.75C15 10.5511 14.921 10.3603 14.7803 10.2197C14.6397 10.079 14.4489 10 14.25 10C14.0511 10 13.8603 10.079 13.7197 10.2197C13.579 10.3603 13.5 10.5511 13.5 10.75H15ZM13.5 16.25C13.5 16.4489 13.579 16.6397 13.7197 16.7803C13.8603 16.921 14.0511 17 14.25 17C14.4489 17 14.6397 16.921 14.7803 16.7803C14.921 16.6397 15 16.4489 15 16.25H13.5ZM15.148 5.937C15.1976 6.12968 15.3217 6.29477 15.493 6.39594C15.6643 6.49712 15.8688 6.5261 16.0615 6.4765C16.2542 6.4269 16.4193 6.3028 16.5204 6.13148C16.6216 5.96017 16.6506 5.75568 16.601 5.563L15.148 5.937ZM4.002 5.798L4.881 19.427L6.378 19.33L5.499 5.701L4.002 5.798ZM7.625 22H16.375V20.5H7.625V22ZM19.119 19.427L19.998 5.798L18.501 5.701L17.622 19.331L19.119 19.427ZM19.25 5H4.75V6.5H19.25V5ZM2.75 6.5H4.75V5H2.75V6.5ZM19.25 6.5H21.25V5H19.25V6.5ZM16.375 22C17.0737 21.9999 17.7461 21.7339 18.2557 21.256C18.7654 20.7782 19.074 20.1242 19.119 19.427L17.622 19.331C17.6014 19.6478 17.4611 19.9438 17.2295 20.1609C16.9979 20.378 16.6924 20.4999 16.375 20.5V22ZM4.881 19.427C4.92597 20.1242 5.23462 20.7782 5.74427 21.256C6.25391 21.7339 6.92635 21.9999 7.625 22V20.5C7.30757 20.4999 7.00206 20.379 6.77047 20.1619C6.53888 19.9448 6.39857 19.6468 6.378 19.33L4.881 19.427ZM9 10.75V16.25H10.5V10.75H9ZM13.5 10.75V16.25H15V10.75H13.5ZM12 3.5C13.513 3.5 14.787 4.535 15.148 5.937L16.601 5.563C16.073 3.515 14.214 2 12 2V3.5ZM8.852 5.937C9.213 4.535 10.487 3.5 12 3.5V2C9.786 2 7.927 3.515 7.4 5.563L8.852 5.937Z" fill="#727272"/>
-                </svg>
+                <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0.75 3C0.551088 3 0.360322 3.07902 0.21967 3.21967C0.0790175 3.36032 0 3.55109 0 3.75C0 3.94891 0.0790175 4.13968 0.21967 4.28033C0.360322 4.42098 0.551088 4.5 0.75 4.5V3ZM19.25 4.5C19.4489 4.5 19.6397 4.42098 19.7803 4.28033C19.921 4.13968 20 3.94891 20 3.75C20 3.55109 19.921 3.36032 19.7803 3.21967C19.6397 3.07902 19.4489 3 19.25 3V4.5ZM8.5 8.75C8.5 8.55109 8.42098 8.36032 8.28033 8.21967C8.13968 8.07902 7.94891 8 7.75 8C7.55109 8 7.36032 8.07902 7.21967 8.21967C7.07902 8.36032 7 8.55109 7 8.75H8.5ZM7 14.25C7 14.4489 7.07902 14.6397 7.21967 14.7803C7.36032 14.921 7.55109 15 7.75 15C7.94891 15 8.13968 14.921 8.28033 14.7803C8.42098 14.6397 8.5 14.4489 8.5 14.25H7ZM13 8.75C13 8.55109 12.921 8.36032 12.7803 8.21967C12.6397 8.07902 12.4489 8 12.25 8C12.0511 8 11.8603 8.07902 11.7197 8.21967C11.579 8.36032 11.5 8.55109 11.5 8.75H13ZM11.5 14.25C11.5 14.4489 11.579 14.6397 11.7197 14.7803C11.8603 14.921 12.0511 15 12.25 15C12.4489 15 12.6397 14.921 12.7803 14.7803C12.921 14.6397 13 14.4489 13 14.25H11.5ZM13.148 3.937C13.1976 4.12968 13.3217 4.29477 13.493 4.39594C13.6643 4.49712 13.8688 4.5261 14.0615 4.4765C14.2542 4.4269 14.4193 4.3028 14.5204 4.13148C14.6216 3.96017 14.6506 3.75568 14.601 3.563L13.148 3.937ZM2.002 3.798L2.881 17.427L4.378 17.33L3.499 3.701L2.002 3.798ZM5.625 20H14.375V18.5H5.625V20ZM17.119 17.427L17.998 3.798L16.501 3.701L15.622 17.331L17.119 17.427ZM17.25 3H2.75V4.5H17.25V3ZM0.75 4.5H2.75V3H0.75V4.5ZM17.25 4.5H19.25V3H17.25V4.5ZM14.375 20C15.0737 19.9999 15.7461 19.7339 16.2557 19.256C16.7654 18.7782 17.074 18.1242 17.119 17.427L15.622 17.331C15.6014 17.6478 15.4611 17.9438 15.2295 18.1609C14.9979 18.378 14.6924 18.4999 14.375 18.5V20ZM2.881 17.427C2.92597 18.1242 3.23462 18.7782 3.74427 19.256C4.25391 19.7339 4.92635 19.9999 5.625 20V18.5C5.30757 18.4999 5.00206 18.379 4.77047 18.1619C4.53888 17.9448 4.39857 17.6468 4.378 17.33L2.881 17.427ZM7 8.75V14.25H8.5V8.75H7ZM11.5 8.75V14.25H13V8.75H11.5ZM10 1.5C11.513 1.5 12.787 2.535 13.148 3.937L14.601 3.563C14.073 1.515 12.214 0 10 0V1.5ZM6.852 3.937C7.213 2.535 8.487 1.5 10 1.5V0C7.786 0 5.927 1.515 5.4 3.563L6.852 3.937Z" fill="#727272"/>
+                  </svg>
+                  
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Mensajes -->
-        <div class="flex-1 overflow-y-auto p-2 space-y-4 sm:space-y-8 max-h-96 lg:max-h-none">
-          @for (msg of selectedContact.messages; track $index) {
-            @if (msg.sender === 'user') {
-              <!-- Mensaje del cliente -->
-              <div class="flex items-start space-x-2 sm:space-x-3">
-                <img [src]="selectedContact.avatar" alt="Avatar" class="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded-full" />
-                <div>
-                  <p class="font-semibold text-black leading-none text-xs sm:text-sm">{{ selectedContact.phone }}</p>
-                  <p class="text-xs sm:text-sm text-black mt-1 whitespace-pre-line">
-                    {{ msg.text }}
-                  </p>
-                </div>
-              </div>
-            } @else {
-              <!-- Respuesta del agente -->
-              <div class="flex justify-end">
+        <!-- Mensajes con reproductor de audio -->
+        <div class="border border-gray-200 rounded-[2rem] p-4 sm:p-6 bg-white flex flex-col h-[calc(100vh-320px)] md:h-[calc(100vh-350px)] lg:h-[calc(100vh-200px)]">
+          <div class="flex-1 overflow-y-auto p-2 space-y-4 sm:space-y-8">
+            @for (msg of selectedContact.messages; track $index) {
+              @if (msg.sender === 'user') {
+                <!-- Mensaje del cliente -->
                 <div class="flex items-start space-x-2 sm:space-x-3">
-                  <div class="flex flex-col items-end">
-                    <p class="font-semibold text-black text-right text-xs sm:text-sm">{{ t.agentName }}</p>
-                    <p class="text-black mt-1 text-xs sm:text-sm text-right max-w-xs sm:max-w-md whitespace-pre-line">
+                  <img [src]="selectedContact.avatar" alt="Avatar" class="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded-full" />
+                  <div>
+                    <p class="font-semibold text-black leading-none text-xs sm:text-sm">{{ selectedContact.phone }}</p>
+                    <p class="text-xs sm:text-sm text-black mt-1 whitespace-pre-line">
                       {{ msg.text }}
                     </p>
                   </div>
-                  <img src="assets/anas_chat.png" alt="Agent" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full">
                 </div>
-              </div>
+              } @else {
+                <!-- Respuesta del agente -->
+                <div class="flex justify-end">
+                  <div class="flex items-start space-x-2 sm:space-x-3">
+                    <div class="flex flex-col items-end">
+                      <p class="font-semibold text-black text-right text-xs sm:text-sm">{{ t.agentName }}</p>
+                      <p class="text-black mt-1 text-xs sm:text-sm text-right max-w-xs sm:max-w-md whitespace-pre-line">
+                        {{ msg.text }}
+                      </p>
+                    </div>
+                    <img src="assets/anas_chat.png" alt="Agent" class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full">
+                  </div>
+                </div>
+              }
             }
-          }
-        </div>
+          </div>
 
-        <!-- Reproductor de audio -->
-        <div class="mt-4 lg:mt-auto pt-2">
-          <div class="flex items-center space-x-2 sm:space-x-3 rounded-full border border-gray-200 p-2">
+          <!-- Reproductor de audio -->
+          <div class="mt-auto pt-4">
+            <div class="flex items-center space-x-2 sm:space-x-3 rounded-full border border-gray-200 p-2 bg-gray-50">
             <button (click)="togglePlay()" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="24" height="24" rx="10" fill="#292828"/>
@@ -114,6 +116,7 @@
             <div class="flex-1 min-w-0">
               <input type="range" min="0" max="100" value="0" class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer">
             </div>
+          </div>
           </div>
         </div>
       } @else {
