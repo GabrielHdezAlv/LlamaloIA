@@ -120,6 +120,14 @@ export class MetricsComponent implements OnInit {
     toolbar: { show: false },
     offsetX: 0,
     offsetY: -10,
+    animations: {
+      enabled: true,
+      speed: 300,
+      animateGradually: { enabled: false },
+      dynamicAnimation: { enabled: false },
+    },
+    redrawOnWindowResize: true,
+    redrawOnParentResize: true,
   };
 
   callsAreaStroke: ApexStroke = {

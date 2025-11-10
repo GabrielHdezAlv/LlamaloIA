@@ -90,6 +90,8 @@ export class NavComponent implements OnDestroy, OnInit {
     // Activar hover para la animación de la imagen
     this.isHovering = true;
     this.startHoverTimer();
+    // Forzar recalculo de layout para componentes que dependen del ancho (gráficos)
+    this.triggerResizeAfterTransition();
   }
 
   // Colapsar al salir del ratón
@@ -100,6 +102,8 @@ export class NavComponent implements OnDestroy, OnInit {
     // Desactivar hover inmediatamente
     this.isHovering = false;
     this.clearHoverTimer();
+    // Forzar recalculo de layout para componentes que dependen del ancho (gráficos)
+    this.triggerResizeAfterTransition();
   }
 
   // Iniciar timer para que la imagen vuelva a aparecer
@@ -116,6 +120,22 @@ export class NavComponent implements OnDestroy, OnInit {
       clearTimeout(this.hoverTimer);
       this.hoverTimer = null;
     }
+  }
+
+  // Dispara eventos de resize para que librerías como ApexCharts re-rendericen tras el cambio de ancho
+  private triggerResizeAfterTransition() {
+    if (!this.isBrowser) return;
+    const width = window.innerWidth;
+    // Solo aplicar entre 1024px y 1439px (rango laptop)
+    if (width < 1024 || width > 1439) return;
+    // Debounce: un único evento tras finalizar la transición (≈500ms según estilos)
+    if ((window as any).__llamaloResizeTimer) {
+      clearTimeout((window as any).__llamaloResizeTimer);
+    }
+    (window as any).__llamaloResizeTimer = setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+      (window as any).__llamaloResizeTimer = null;
+    }, 420);
   }
 
   selectLanguage(lang: Language) {

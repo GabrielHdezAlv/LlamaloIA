@@ -225,7 +225,7 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
     padding-right: 0 !important;
     
     /* Ensure avatar is centered */
-    > div:last-child {
+    & > div:last-child {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -234,7 +234,7 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
   }
   
   /* Promo box styling */
-  > div:first-child {
+  & > div:first-child {
     > div {
       background-color: #f9fafb !important; /* gray-50 */
       box-shadow: none !important;
@@ -333,6 +333,20 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
       line-height: 1.25rem !important;
     }
   }
+
+  /* Transiciones más suaves y rápidas (solo laptop) */
+  .nav-link,
+  .nav-icon,
+  .nav-text,
+  .relative.w-full.pt-4.pb-6 {
+    transition-duration: 360ms !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .profile-image {
+    transition: width 0.36s cubic-bezier(0.4, 0, 0.2, 1) !important,
+                height 0.36s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
   
   /* Badges de NEW más pequeños */
   .text-xs.text-blue-900.border.border-gray-300.px-3.py-1.rounded-lg.font-bold {
@@ -422,7 +436,7 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
   }
   
   /* Sección inferior más compacta */
-  > div:last-child {
+  .pb-8.space-y-6.w-full > div:last-child {
     padding-top: 0.5rem !important;
   }
   
