@@ -3,7 +3,7 @@
 >
   <!-- Sidebar Desktop (solo visible en xl) -->
   <div 
-    [class]="'hidden xl:block w-full xl:overflow-auto p-4 xl:p-0 h-screen bg-white transition-all duration-500 ease-in-out ' + (isNavCollapsed ? 'xl:w-24' : 'xl:w-80')"
+    [class]="'hidden xl:block w-full xl:overflow-hidden p-0 h-screen bg-white transition-all duration-500 ease-in-out flex-shrink-0 ' + (isNavCollapsed ? 'xl:w-24' : 'xl:w-72')"
   >
     <app-nav #navComponent></app-nav>
   </div>

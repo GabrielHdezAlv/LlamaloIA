@@ -164,17 +164,17 @@
 <!-- Sidebar en escritorio -->
 <div
   *ngIf="windowWidth >= 1280"
-  [class]="'hidden xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200 transition-all duration-500 ease-in-out ' + (isCollapsed ? 'xl:w-24 sidebar-collapsed' : 'xl:w-[21rem] xl:max-w-[88rem]')"
+  [class]="'hidden xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200 transition-all duration-500 ease-in-out ' + (isCollapsed ? 'xl:w-24 sidebar-collapsed' : (windowWidth < 1440 ? 'xl:w-72' : 'xl:w-[21rem] xl:max-w-[88rem]'))"
   (mouseenter)="expandOnHover()"
   (mouseleave)="collapseOnLeave()"
 >
-  <div class="flex flex-col h-full">
+  <div class="flex flex-col h-full w-full overflow-hidden">
     <!-- Logo principal -->
-    <div class="flex items-center justify-center h-16 px-6 mt-6">
+    <div class="flex items-center justify-center h-16 px-6 mt-6 flex-shrink-0">
       <div class="flex items-center gap-2">
-            <img src="../../../assets/logo.png" alt="Llamalo Logo" [class]="isCollapsed ? 'h-8' : 'h-12 pr-4'" class="transition-all duration-500 ease-in-out" />
-        <div *ngIf="!isCollapsed" class="flex flex-col leading-tight transition-all duration-500 ease-in-out opacity-0 animate-fade-in">
-          <span class="brand-font text-5xl mt-2 font-bold text-blue-950 tracking-[-3px]">Llamalo</span>
+            <img src="../../../assets/logo.png" alt="Llamalo Logo" [class]="(isCollapsed ? 'h-8' : (windowWidth < 1440 ? 'h-10 pr-2' : 'h-12 pr-4'))" class="transition-all duration-500 ease-in-out" />
+        <div *ngIf="!isCollapsed" [class]="'flex flex-col leading-tight transition-all duration-500 ease-in-out opacity-0 animate-fade-in ' + (windowWidth < 1440 ? 'gap-0.5' : '')">
+          <span [class]="'brand-font mt-2 font-bold text-blue-950 tracking-[-3px] ' + (windowWidth < 1440 ? 'text-3xl' : 'text-5xl')">Llamalo</span>
           <span class="brand-font text-[10px] mr-0.5 text-end text-black font-bold -mt-1.5 block tracking-[-0.5px]">beta</span>
         </div>
       </div>
@@ -182,7 +182,7 @@
 
 
     <!-- Navegación -->
-    <nav class="flex-1 px-4 py-28 space-y-2 font-semibold text-xl">
+    <nav [class]="'flex-1 px-4 space-y-2 font-semibold text-xl overflow-y-auto ' + (windowWidth < 1440 ? 'py-6' : 'py-28')">
           <a
             [routerLink]="['/dashboard/home']"
             [class]="'nav-link flex items-center gap-3 px-4 py-3 rounded-lg transition mt-2 ' + (isRouteActive('/dashboard/home') ? ' text-blue-900' : 'text-gray-400  hover:text-blue-900')"
@@ -237,18 +237,18 @@
     </nav>
 
     <!-- Sección inferior -->
-    <div class="px-6 pb-8 space-y-6">
+    <div [class]="'pb-8 space-y-6 w-full ' + (windowWidth < 1440 ? 'px-3 space-y-3' : 'px-6') + ' ' + (isCollapsed ? 'px-0' : '')">
 
       <!-- Promo -->
-      <div *ngIf="!isCollapsed" class="pb-6 space-y-6 transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.8s;">
-        <div class="rounded-lg p-1 shadow-sm">
+      <div *ngIf="!isCollapsed" [class]="'pb-6 space-y-6 transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left ' + (windowWidth < 1440 ? 'pb-3 space-y-3' : 'pb-6 space-y-6')" style="animation-delay: 0.8s;">
+        <div class="rounded-lg p-1 bg-gray-50">
           <p id="promo-title-desktop" class="text-base font-semibold text-gray-900 leading-relaxed mb-2 whitespace-nowrap">
             {{ t.promoTitle }}
           </p>
           <p id="promo-desc-desktop" class="text-sm text-gray-600 leading-relaxed mb-4">
             {{ t.promoDescription }}
           </p>
-          <button id="promo-btn-desktop" (click)="navigateToAccountGifts()" class="w-full bg-gray-100 hover:bg-gray-200 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          <button id="promo-btn-desktop" (click)="navigateToAccountGifts()" class="w-full bg-white hover:bg-gray-50 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 border border-gray-200">
             {{ t.promoButton }}
           </button>
         </div>
@@ -259,7 +259,7 @@
             <span id="progress-label-desktop">{{ t.remainingMinutes }}</span>
             <span id="progress-value-desktop">54/200</span>
           </div>
-          <div class="w-full bg-gray-200 rounded-full h-2">
+          <div class="w-full bg-gray-300 rounded-full h-2">
             <div class="bg-blue-900 h-3 rounded-full transition-all duration-1000 ease-out" style="width: 27%"></div>
           </div>
         </div>
@@ -267,12 +267,12 @@
 
 
       <!-- Perfil con dropdown -->
-      <div class="relative flex items-center gap-3 pt-4 pb-6">
+      <div [class]="'relative w-full pt-4 pb-6 ' + (isCollapsed ? 'flex justify-center items-center' : 'flex items-center gap-3')">
         <!-- Avatar y texto -->
-        <div class="flex items-center gap-2 transition-all duration-500 ease-out" [class]="isCollapsed ? 'justify-center' : ''">
+        <div class="flex items-center gap-2 transition-all duration-500 ease-out" [class]="isCollapsed ? 'w-full justify-center' : 'flex-1'">
             <img
               [src]="getUserProfileImage()"
-              class="h-10 w-10 rounded-full border-2 border-blue-900 transition-all duration-200 ease-in-out"
+              class="h-10 w-10 rounded-full border-2 border-blue-900 transition-all duration-200 ease-in-out flex-shrink-0"
               alt="Perfil"
               [style]="isHovering ? 'opacity: 0; transform: scale(0.8);' : 'opacity: 1; transform: scale(1);'"
             />
@@ -283,7 +283,7 @@
         </div>
 
         <!-- Icono dropdown -->
-        <div *ngIf="!isCollapsed" class="ml-auto transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.4s;">
+        <div *ngIf="!isCollapsed" class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.4s;">
           <button (click)="toggleDropdown()" class="text-gray-400 hover:text-gray-700 focus:outline-none">
             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
