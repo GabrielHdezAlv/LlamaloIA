@@ -126,3 +126,100 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Contenedor del gráfico - siempre mantener en su estado */
+.chart-container {
+  width: 100% !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+apx-chart {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Responsive para laptops 1024px - 1439px */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  /* Contenedor */
+  .min-h-screen {
+    padding: 0.75rem !important;
+  }
+
+  /* Gráfico de área */
+  .chart-container {
+    height: 350px !important;
+  }
+
+  /* Medidores semicirculares */
+  .relative.w-48.h-28 {
+    width: 180px !important;
+    height: 100px !important;
+  }
+
+  /* Gráficos circulares */
+  .relative.w-48.h-48 {
+    width: 160px !important;
+    height: 160px !important;
+  }
+
+  /* Tabla con menos altura */
+  table {
+    font-size: 0.875rem !important;
+  }
+
+  th {
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  td {
+    padding: 1rem 0.5rem !important;
+  }
+
+  /* Cards con menos padding */
+  .p-4.sm\:p-5 {
+    padding: 1rem !important;
+  }
+
+  .p-4.sm\:p-6 {
+    padding: 1rem !important;
+  }
+
+  .p-4.sm\:p-6.lg\:p-8 {
+    padding: 1rem !important;
+  }
+
+  /* Gaps más reducidos */
+  .gap-4.sm\:gap-6 {
+    gap: 1rem !important;
+  }
+
+  /* Espaciado entre filas del grid */
+  .grid.grid-cols-1.lg\:grid-cols-3.gap-4.sm\:gap-6.mb-6.sm\:mb-8 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .grid.grid-cols-1.md\:grid-cols-3.gap-4.sm\:gap-6.mb-6.sm\:mb-8 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .grid.grid-cols-1.lg\:grid-cols-3.gap-4.sm\:gap-6 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Mantener la separación de Agentes Creados */
+  .bg-white.rounded-xl.sm\:rounded-\[2rem\].p-4.sm\:p-6.lg\:p-8.col-span-1.lg\:col-span-2.lg\:mr-6.lg\:-mt-20 {
+    margin-top: -5rem !important;
+  }
+
+  /* Overflow para tablas */
+  .overflow-x-auto {
+    overflow-x: hidden !important;
+  }
+
+  /* Redondez de cards */
+  .rounded-xl.sm\:rounded-\[2rem\],
+  .rounded-\[2rem\] {
+    border-radius: 1rem !important;
+  }
+}
