@@ -218,10 +218,7 @@
 
   // Botón de guardar cambios más pequeño (solo en el contenido principal, NO en el modal)
   ::ng-deep .account-settings > div > div:last-child app-ripple-button button {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
+    
     font-size: 0.7rem !important;
   }
   

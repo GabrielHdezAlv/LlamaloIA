@@ -293,7 +293,9 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
   /* Ajustar el ancho del sidebar cuando se expande */
   .hidden.xl\\:flex.xl\\:flex-col.xl\\:h-full.xl\\:fixed.xl\\:inset-y-0 {
     &:not(.sidebar-collapsed) {
-      width: 18rem !important; /* Reducir de 21rem a 18rem */
+      /* Hacer el sidebar claramente más estrecho que el valor por defecto (xl:w-72 => 18rem) */
+      width: 14rem !important;
+      max-width: 14rem !important;
     }
     
     &.sidebar-collapsed {
@@ -304,15 +306,31 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
   /* Reducir padding en nav */
   nav {
     padding-top: 1.5rem !important; /* Reducir de py-28 a py-6 */
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
+    /* Padding simétrico para que los iconos queden centrados en la columna */
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
     padding-bottom: 0.5rem !important;
   }
+
+  /* Subir ligeramente el texto "beta" del logo entre 1024px y 1439px */
+  .brand-font + .brand-font {
+    margin-top: -0.65rem !important;
+  }
   
-  /* Logo container */
+  /* Logo container: alinear el logo con el inicio de los iconos */
   .flex.items-center.justify-center.h-16.px-6.mt-6 {
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
+    justify-content: flex-start !important;
+    padding-left: 2rem !important;   /* mismo inicio visual que iconos (nav padding + nav-link padding) */
+    padding-right: 1rem !important;
+  }
+
+  /* Mover un poco más a la izquierda el texto "Llamalo" en el logo del sidebar */
+  .flex.items-center.justify-center.h-16.px-6.mt-6.flex-shrink-0 > .flex.items-center.gap-2 {
+    column-gap: 0.3rem !important; /* menos espacio entre el icono y el texto */
+  }
+
+  .flex.items-center.justify-center.h-16.px-6.mt-6.flex-shrink-0 .brand-font.mt-2 {
+    margin-left: -0.15rem !important; /* desplaza el bloque de texto ligeramente a la izquierda */
   }
   
   /* Reducir espaciado en nav items */
@@ -333,6 +351,8 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
     .nav-text {
       font-size: 0.9rem !important;
       line-height: 1.25rem !important;
+      /* Evitar que el texto empuje el icono hacia abajo en este breakpoint */
+      margin-top: 0 !important;
     }
   }
   
@@ -346,23 +366,40 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
   /* Reducir promo text */
   #promo-title-desktop,
   #promo-title {
-    font-size: 0.9rem !important;
-    line-height: 1.25rem !important;
-    margin-bottom: 0.5rem !important;
+    font-size: 0.65rem !important;
+    line-height: 0.95rem !important;
+    margin-bottom: -0.1rem !important;
   }
   
   #promo-desc-desktop,
   #promo-desc {
-    font-size: 0.8rem !important;
-    line-height: 1.125rem !important;
-    margin-bottom: 0.75rem !important;
+    font-size: 0.55rem !important;
+    line-height: 0.85rem !important;
+    margin-bottom: 0.4rem !important;
   }
   
   #promo-btn-desktop,
   #promo-btn {
-    font-size: 0.8rem !important;
-    padding: 0.5rem 0.5rem !important;
-    line-height: 1rem !important;
+    font-size: 0.7rem !important;
+    padding: 0.35rem 0.35rem !important;
+    line-height: 0.9rem !important;
+  }
+
+  #promo-card-mobile,
+  #promo-card-desktop {
+    width: 90%;
+    /* Ligeramente desplazado a la izquierda (ajustado) para que se vea centrado */
+    margin-left: -0.15rem;
+    margin-right: auto;
+  }
+
+  /* Hacer el bloque de progreso (texto + barra) igual de estrecho que la promo */
+  #progress-block-mobile,
+  #progress-block-desktop {
+    width: 90%;
+    /* Mismo desplazamiento que la tarjeta de promo */
+    margin-left: -0.15rem;
+    margin-right: auto;
   }
   
   /* Reducir tamaño de progreso */
@@ -370,31 +407,52 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
   #progress-label,
   #progress-value-desktop,
   #progress-value {
-    font-size: 0.75rem !important;
+    font-size: 0.65rem !important;
   }
   
-  .w-full.bg-gray-200.rounded-full.h-2 {
-    height: 0.375rem !important;
+  /* Contenedor gris de la barra (móvil + escritorio) */
+  .w-full.bg-gray-200.rounded-full.h-2,
+  .w-full.bg-gray-300.rounded-full.h-2 {
+    height: 0.24rem !important;
+  }
+
+  /* Barra azul interior (móvil h-2 y escritorio h-3) */
+  .bg-blue-900.h-2.rounded-full,
+  .bg-blue-900.h-3.rounded-full {
+    height: 0.22rem !important;
   }
   
   /* Reducir perfil */
   #user-profile,
   .relative.flex.items-center.gap-3.pt-4.pb-6 {
     gap: 0.75rem !important;
-    padding-top: 0.75rem !important;
-    padding-bottom: 0.75rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
   }
   
   #user-name-desktop,
   #user-name {
+    /* Un poco más grande para mejorar legibilidad en portátiles */
     font-size: 0.8rem !important;
-    line-height: 1.1rem !important;
+    line-height: 1.05rem !important;
   }
   
   #user-plan-desktop,
   #user-plan {
-    font-size: 0.65rem !important;
-    line-height: 0.875rem !important;
+    /* Más pequeño en portátiles (perfil móvil) */
+    font-size: 0.5rem !important;
+    line-height: 0.75rem !important;
+  }
+
+  /* Perfil inferior del sidebar en escritorio (no usa IDs) */
+  .pb-8.space-y-6.w-full > div:last-child p.font-bold.text-black {
+    font-size: 0.8rem !important;
+    line-height: 1.05rem !important;
+  }
+
+  .pb-8.space-y-6.w-full > div:last-child p.text-xs.text-gray-500 {
+    font-size: 0.5rem !important;
+    line-height: 0.75rem !important;
   }
   
   #logout-btn-desktop,
@@ -407,13 +465,13 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
   
   /* Avatar más pequeño */
   .h-10.w-10.rounded-full.border-2.border-blue-900 {
-    width: 2.25rem !important;
-    height: 2.25rem !important;
+    width: 2.1rem !important;
+    height: 2.1rem !important;
   }
   
   .h-14.w-14.rounded-full.border-2.border-blue-900 {
-    width: 2.5rem !important;
-    height: 2.5rem !important;
+    width: 2.3rem !important;
+    height: 2.3rem !important;
   }
   
   /* Dropdown menu adjustments */
@@ -424,8 +482,22 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
   }
   
   /* Sección inferior más compacta */
-  .pb-8.space-y-6.w-full > div:last-child {
-    padding-top: 0.5rem !important;
+  .pb-8.space-y-6.w-full {
+    /* Alinear con el margen del nav en este rango de pantalla */
+    padding-left: 1.5rem !important;
+    padding-right: 0.75rem !important;
+    /* Más margen visual bajo el avatar */
+    padding-bottom: 1.5rem !important;
+    row-gap: 0.75rem !important;
+    /* Subir ligeramente todo el bloque (promo + progreso + perfil) */
+    margin-top: -0.75rem !important;
+
+    > div:last-child {
+      padding-top: 0.5rem !important;
+      /* Desplazar el bloque de perfil más hacia la izquierda
+         para alinearlo mejor con el inicio del texto "¡Suma tiempo extra sin pagar!" */
+      margin-left: -1.5rem !important;
+    }
   }
   
   /* Avatar perfil centrado correctamente */

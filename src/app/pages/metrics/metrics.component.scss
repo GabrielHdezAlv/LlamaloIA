@@ -35,6 +35,11 @@
   transform-origin: left;
 }
 
+/* Limitar el ancho de la barra de países para que termine antes del porcentaje */
+.country-track {
+  max-width: calc(100% - 40px); /* deja un poco menos de espacio para acercar la barra al porcentaje */
+}
+
 // Animación para las barras del gráfico móvil
 .mobile-bar {
   transform-origin: left;

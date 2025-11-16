@@ -32,3 +32,24 @@
 }
 
 /* Media queries para responsive si es necesario */
+
+/* Ajuste de ancho del contenedor del sidebar en portátiles (1280px - 1439px)
+   para que no quede un hueco en blanco entre el sidebar y el dashboard */
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .dashboard {
+    /* Primer hijo del layout: contenedor que reserva el ancho del sidebar */
+    > div:first-child {
+      /* Sidebar expandido (xl:w-72) -> mismo ancho que el sidebar real (14rem) */
+      &.xl\:w-72 {
+        width: 14rem !important;
+        max-width: 14rem !important;
+      }
+
+      /* Sidebar colapsado (xl:w-24) -> mantiene los 6rem originales */
+      &.xl\:w-24 {
+        width: 6rem !important;
+        max-width: 6rem !important;
+      }
+    }
+  }
+}

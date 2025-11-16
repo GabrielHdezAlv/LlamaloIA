@@ -527,20 +527,21 @@
 
 /* Estilos responsive para portátiles 1024px - 1439px - SOLO CONTENIDO EXTERNO */
 @media (min-width: 1024px) and (max-width: 1439px) {
-  // Reducir márgenes y padding del contenedor principal (fuera del recuadro blanco) un poco más
+  // Márgenes del contenedor principal alineados con el header (título y foto de perfil)
+  // para que el recuadro blanco tenga el mismo ancho visual
   :host > div {
-    margin-left: 1.75rem !important; // Reducir más (de 2rem a 1.75rem)
-    margin-right: 0.875rem !important; // Reducir más (de 1rem a 0.875rem)
-    padding-top: 0.875rem !important; // Reducir más (de 1rem a 0.875rem)
+    margin-left: 5.5rem !important;   // un poco menos que lg:ml-28 para no cerrar tanto
+    margin-right: 4.5rem !important;  // un poco menos que lg:mr-[5.5rem]
+    padding-top: 0.875rem !important;
     padding-bottom: 0.875rem !important;
-    padding-left: 0.65rem !important; // Reducir más (de 0.75rem a 0.65rem)
+    padding-left: 0.65rem !important;
     padding-right: 0.65rem !important;
-    margin-top: 0.875rem !important; // Reducir más (de 1rem a 0.875rem)
+    margin-top: 0.875rem !important;
   }
   
   // Reducir altura de la barra de progreso (fuera del recuadro blanco) un poco más
   :host > div > div:first-child {
-    margin-bottom: 0.625rem !important; // Reducir más (de 0.75rem a 0.625rem)
+    margin-bottom: 1rem !important; // Más espacio entre la barra y el recuadro
   }
   
   :host > div > div:first-child > div:first-child {
@@ -567,6 +568,11 @@
     font-size: 0.75rem !important; // Reducir más (de 0.8rem a 0.75rem)
     margin-bottom: 0.875rem !important; // Reducir más (de 1rem a 0.875rem)
     line-height: 1.4 !important;
+  }
+
+  // Subir el subtítulo "a través de Twilio" más cerca del título
+  :host #twilio-subtitle {
+    margin-top: -1.4rem !important;
   }
   
   // Reducir labels un poco más
@@ -675,6 +681,12 @@
   
   :host > div > div.bg-white div[class*="space-y"] p span {
     font-size: 0.65rem !important;
+  }
+
+  // Mover las instrucciones de "Conectar Número de Teléfono" más a la izquierda
+  :host #twilio-steps {
+    margin-left: 0.25rem !important;
+    padding-left: 0.5rem !important;
   }
   
   // Reducir espacios entre elementos del formulario
