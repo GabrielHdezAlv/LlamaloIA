@@ -594,26 +594,26 @@
           </p>
 
           <!-- Tarjeta de Recompensa Trustpilot -->
-          <div class="bg-gray-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 mx-auto">
+          <div class="bg-gray-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 mx-auto gift-card">
             <div class="space-y-3 sm:space-y-4">
               <!-- Título de la recompensa -->
               <h3 class="text-lg sm:text-xl lg:text-2xl font-semibold tracking-[-0.5px]">
-                <span class="text-gray-900">{{ t.trustpilot }}</span>
-                <span class="text-blue-600"> {{ t.trustpilotBonus }}</span>
+                <span class="text-gray-900 trustpilot-title">{{ t.trustpilot }}</span>
+                <span class="text-blue-600 trustpilot-bonus"> {{ t.trustpilotBonus }}</span>
               </h3>
 
               <!-- Descripción -->
               <p
-                class="text-xs sm:text-sm font-semibold text-gray-900 leading-relaxed tracking-[-0.5px]"
+                class="text-xs sm:text-sm text-gray-900 leading-relaxed tracking-[-0.5px]"
               >
                 {{ t.trustpilotDescription }}
               </p>
 
-              <!-- Botón Canjear -->
-              <div class="flex justify-end">
+              <!-- Botón Canjear - ancho completo del recuadro -->
+              <div class="w-full">
                 <app-ripple-button
                   (buttonClick)="redeemReward('Trustpilot')"
-                  buttonClass="w-full sm:w-auto px-4 sm:px-6 py-2 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center justify-center gap-2 text-xs sm:text-sm"
+                  buttonClass="w-full px-4 sm:px-6 py-2 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center justify-center gap-2 text-xs sm:text-sm"
                   rippleColor="rgba(255, 255, 255, 0.4)"
                   [rippleScale]="8"
                 >

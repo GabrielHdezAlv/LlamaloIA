@@ -268,24 +268,20 @@
   <!-- Modal de invitar amigos integrado -->
   <div
     *ngIf="showInviteModal"
-    class="fixed inset-0 bg-gray-500 bg-opacity-30 backdrop-blur-md z-[9999] flex items-center justify-center p-2 sm:p-4"
+    class="fixed inset-0 bg-black/40 backdrop-blur-md z-[9999] flex items-center justify-center px-3 sm:px-4"
     (click)="closeMemberDropdown(); onBackdropClick($event)"
   >
-    <!-- Modal Container -->
+    <!-- Tarjeta principal -->
     <div
-      class="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto modal-container font-sans p-4 sm:p-6 md:p-8 tracking-tight"
+      class="rounded-3xl shadow-2xl w-full max-w-sm sm:max-w-xl md:max-w-2xl max-h-[95vh] overflow-y-auto font-sans bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.65),_white_55%)]"
       (click)="$event.stopPropagation()"
     >
-      <!-- Modal Header -->
-      <div
-        class="flex items-center justify-between pb-4 sm:pb-6 mb-4 sm:mb-6 border-gray-200"
-      >
-        <h2 class="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900">
-          Invite Team Members
-        </h2>
+      <div class="relative flex flex-col rounded-3xl">
+        <!-- Botón cerrar -->
         <button
           (click)="closeInviteModal()"
-          class="text-gray-400 hover:text-gray-600 transition-colors p-1"
+          class="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-600 transition-colors p-1"
+          aria-label="Cerrar"
         >
           <svg
             class="w-5 h-5 sm:w-6 sm:h-6"
@@ -302,416 +298,173 @@
             />
           </svg>
         </button>
-      </div>
 
-      <!-- Modal Body -->
-      <div class="p-2 sm:p-4 md:p-6">
-        <!-- Invite by email section -->
-        <div class="mb-6 sm:mb-8">
-          <h3
-            class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4"
-          >
-            Invite by email
-          </h3>
-
-          <!-- Email input container -->
-          <div
-            class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4"
-          >
-            <div class="relative flex-1">
-              <!-- Vista móvil: Input simple sin dropdown -->
+        <!-- Header -->
+        <div
+          class="px-5 sm:px-7 py-5 sm:py-7 rounded-t-3xl"
+        >
+          <div class="flex items-center gap-2 mb-4">
+            <div class="flex -space-x-3 items-center">
+              <!-- Carlos (izquierda, algo más pequeña) -->
               <div
-                class="sm:hidden flex flex-col h-20 p-2 border border-gray-300 rounded-lg focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500"
+                class="h-10 w-10 rounded-full border-2 border-blue-50 overflow-hidden bg-gray-200"
               >
-                <div class="h-1/2 flex items-center">
-                  <div class="flex-1 overflow-y-auto max-h-full">
-                    <div class="flex flex-wrap gap-2 items-center">
-                      <!-- Chips existentes -->
-                      <div
-                        *ngFor="let name of selectedEmails"
-                        class="flex items-center bg-gray-100 text-gray-700 px-3 py-1 rounded-md text-sm email-chip"
-                      >
-                        <span>{{ name }}</span>
-                        <button
-                          (click)="removeEmail(name)"
-                          class="ml-2 text-gray-500 hover:text-gray-700 transition-colors w-4 h-4 flex items-center justify-center"
-                        >
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M18 6L6 18M6 6L18 18"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-
-                      <!-- Input para escribir nuevo nombre -->
-                      <input
-                        type="text"
-                        [(ngModel)]="emailInput"
-                        (input)="onEmailInputChange()"
-                        (keypress)="onEmailKeyPress($event)"
-                        placeholder="añadir"
-                        class="min-w-[100px] outline-none text-gray-900 placeholder-gray-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="h-1/2"></div>
-              </div>
-
-              <!-- Vista desktop: Input con dropdown integrado -->
-              <div
-                class="hidden sm:flex flex-col h-24 p-3 border border-gray-300 rounded-lg focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500"
-              >
-                <!-- Sección superior: Chips, input y Can Edit en la misma línea -->
-                <div class="h-1/2 flex items-center justify-between gap-2">
-                  <!-- Área de chips con scroll (izquierda) -->
-                  <div class="flex-1 overflow-y-auto max-h-full">
-                    <div class="flex flex-wrap gap-2 items-center">
-                      <!-- Chips existentes -->
-                      <div
-                        *ngFor="let name of selectedEmails"
-                        class="flex items-center bg-gray-100 text-gray-700 px-3 py-1 rounded-md text-sm email-chip"
-                      >
-                        <span>{{ name }}</span>
-                        <button
-                          (click)="removeEmail(name)"
-                          class="ml-2 text-gray-500 hover:text-gray-700 transition-colors w-4 h-4 flex items-center justify-center"
-                        >
-                          <svg
-                            width="12"
-                            height="12"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M18 6L6 18M6 6L18 18"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-
-                      <!-- Input para escribir nuevo nombre - después de las etiquetas -->
-                      <input
-                        type="text"
-                        [(ngModel)]="emailInput"
-                        (input)="onEmailInputChange()"
-                        (keypress)="onEmailKeyPress($event)"
-                        placeholder="añadir"
-                        class="min-w-[100px] outline-none text-gray-900 placeholder-gray-500"
-                      />
-                    </div>
-                  </div>
-
-                  <!-- Can Edit dropdown posicionado correctamente -->
-                  <div class="flex-shrink-0 mt-8">
-                    <div class="relative inline-block">
-                      <select
-                        [(ngModel)]="selectedRole"
-                        class="px-3 py-2 -mr-8 text-gray-700 text-sm focus:outline-none border-none appearance-none bg-transparent pr-3"
-                      >
-                        <option *ngFor="let role of roles" [value]="role">
-                          {{ role }}
-                        </option>
-                      </select>
-                      <!-- Flecha dentro del botón -->
-                      <div
-                        class="absolute right-0 top-1/2 transform -translate-y-1/2 pointer-events-none"
-                      >
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M6 9L12 15L18 9"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Sección inferior: Vacía por ahora -->
-                <div class="h-1/2"></div>
-              </div>
-
-              <!-- Suggestions dropdown -->
-              <div
-                *ngIf="showSuggestions"
-                class="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 suggestions-dropdown"
-              >
-                <div
-                  *ngFor="let suggestion of contactSuggestions; let i = index"
-                  (click)="selectSuggestion(suggestion)"
-                  [class]="
-                    'p-3 cursor-pointer border-b border-gray-100 last:border-b-0 flex items-center gap-3 ' +
-                    (i === hoveredSuggestionIndex
-                      ? 'bg-gray-50'
-                      : 'hover:bg-gray-50')
-                  "
-                  (mouseenter)="hoveredSuggestionIndex = i"
-                  (mouseleave)="hoveredSuggestionIndex = -1"
-                >
-                  <!-- Avatar -->
-                  <div
-                    class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden"
-                  >
-                    <img
-                      [src]="suggestion.avatar"
-                      [alt]="suggestion.name"
-                      class="w-full h-full object-cover"
-                      *ngIf="suggestion.avatar"
-                    />
-                    <svg
-                      *ngIf="!suggestion.avatar"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <circle
-                        cx="12"
-                        cy="7"
-                        r="4"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <div class="font-medium text-gray-900">
-                      {{ suggestion.name }}
-                    </div>
-                    <div class="text-sm text-gray-500">
-                      {{ suggestion.email }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Vista móvil: Botones separados -->
-            <div class="sm:hidden flex gap-3">
-              <!-- Botón de permisos -->
-              <div class="relative w-1/2">
-                <select
-                  [(ngModel)]="selectedRole"
-                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm appearance-none bg-white"
-                >
-                  <option *ngFor="let role of roles" [value]="role">
-                    {{ role }}
-                  </option>
-                </select>
-                <!-- Flecha personalizada -->
-                <div
-                  class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
-                >
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 9L12 15L18 9"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </div>
-              </div>
-
-              <!-- Send button -->
-              <button
-                (click)="sendInvite()"
-                [disabled]="selectedEmails.length === 0"
-                class="w-1/2 flex items-center justify-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors send-button text-sm"
-              >
-                <svg
-                  class="w-4 h-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <span>Send</span>
-              </button>
-            </div>
-
-            <!-- Vista desktop: Solo botón Send -->
-            <button
-              (click)="sendInvite()"
-              [disabled]="selectedEmails.length === 0"
-              class="hidden sm:flex items-center justify-center gap-2 px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors send-button text-base w-auto"
-            >
-              <svg
-                class="w-5 h-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                <img
+                  src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=faces"
+                  alt="Carlos"
+                  class="h-full w-full object-cover"
+                  loading="lazy"
                 />
-              </svg>
-              <span>Send Invite</span>
-            </button>
+              </div>
+              <!-- Carla (centro, más grande y por encima) -->
+              <div
+                class="h-12 w-12 rounded-full border-2 border-blue-50 overflow-hidden bg-gray-200 z-10 shadow-md"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=faces"
+                  alt="Carla"
+                  class="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <!-- Claudia (derecha, algo más pequeña) -->
+              <div
+                class="h-10 w-10 rounded-full border-2 border-blue-50 overflow-hidden bg-gray-200"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=faces"
+                  alt="Claudia"
+                  class="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
           </div>
+          <h2
+            class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 leading-snug tracking-tight"
+          >
+            Invite friends and earn rewards
+          </h2>
+          <p
+            class="mt-2 text-xs sm:text-sm text-gray-700 leading-relaxed max-w-xl"
+          >
+            Share your link with your team and collaborators. When they start
+            using Llamalo, you’ll get extra minutes added to your account.
+          </p>
         </div>
 
-        <!-- Current team members -->
-        <div>
-          <h3
-            class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4"
+        <!-- Cuerpo -->
+        <div class="px-5 sm:px-7 py-4 sm:py-5 rounded-b-3xl">
+          <!-- Input + botón -->
+          <form
+            (submit)="sendInvite(); $event.preventDefault()"
+            class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center"
           >
-            Team Members
-          </h3>
+            <input
+              type="text"
+              name="emailInput"
+              [(ngModel)]="emailInput"
+              (input)="onEmailInputChange()"
+              (keypress)="onEmailKeyPress($event)"
+              placeholder="Email or username"
+              class="flex-1 rounded-full border border-gray-300 px-4 py-2.5 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900"
+            />
+            <button
+              type="submit"
+              [disabled]="!emailInput && selectedEmails.length === 0"
+              class="rounded-full bg-black text-white font-semibold px-5 sm:px-6 py-2.5 text-sm sm:text-base whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+            >
+              Send invite
+            </button>
+          </form>
+
+          <!-- Lista de invitados -->
+          <div
+            class="mt-5 mb-2 text-[11px] sm:text-xs text-gray-500 text-center"
+          >
+            Miembros invitados ({{ teamMembers.length }})
+          </div>
 
           <div
-            class="space-y-2 sm:space-y-3 team-members-container max-h-48 sm:max-h-64 overflow-y-auto relative"
+            *ngIf="teamMembers.length > 0"
+            class="border-y border-gray-100 divide-y divide-gray-100 max-h-56 overflow-y-auto"
           >
             <div
               *ngFor="let member of teamMembers"
-              class="flex items-center justify-between py-2 sm:py-3 team-member"
+              class="flex items-center justify-between gap-3 py-3"
             >
-              <!-- Member info -->
-              <div class="flex items-center gap-2 sm:gap-3">
+              <div class="flex items-center gap-3">
                 <div
-                  class="w-8 h-8 sm:w-10 sm:h-10 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden"
+                  class="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gray-200 overflow-hidden"
                 >
                   <img
                     [src]="member.avatar"
                     [alt]="member.name"
-                    class="w-full h-full object-cover"
-                    *ngIf="member.avatar"
+                    class="h-full w-full object-cover"
                   />
+                </div>
+                <div>
+                  <div class="text-sm font-semibold text-gray-900">
+                    {{ member.name }}
+                  </div>
+                  <div class="text-[11px] sm:text-xs text-gray-500">
+                    {{ member.email }}
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div
+                  class="rounded-full text-[11px] sm:text-xs font-semibold px-3 py-1"
+                  [ngClass]="{
+                    'bg-emerald-50 text-emerald-600': member.status === 'Accepted',
+                    'bg-red-50 text-red-600': member.status === 'Rejected',
+                    'bg-amber-50 text-amber-600': member.status === 'Pending'
+                  }"
+                >
+                  {{ member.status }}
+                </div>
+                <button
+                  type="button"
+                  class="h-6 w-6 flex items-center justify-center rounded-full border border-gray-200 text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors"
+                  (click)="cancelInvite(member)"
+                >
                   <svg
-                    *ngIf="!member.avatar"
-                    class="w-4 h-4 sm:w-5 sm:h-5"
-                    viewBox="0 0 24 24"
+                    class="h-3 w-3"
+                    viewBox="0 0 14 14"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
+                      d="M3 3L11 11M11 3L3 11"
                       stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                    <circle
-                      cx="12"
-                      cy="7"
-                      r="4"
-                      stroke="currentColor"
-                      stroke-width="2"
+                      stroke-width="1.5"
                       stroke-linecap="round"
                       stroke-linejoin="round"
                     />
                   </svg>
-                </div>
-                <div class="font-medium text-gray-900 text-sm sm:text-base">
-                  {{ member.name }}
-                </div>
-              </div>
-
-              <!-- Role selector -->
-              <div class="flex items-center gap-1 sm:gap-2">
-                <button
-                  *ngIf="member.role === 'Owner'"
-                  class="px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2.5 bg-gray-200 text-gray-700 rounded-lg text-xs sm:text-sm font-semibold min-w-[60px] sm:min-w-[80px]"
-                >
-                  Owner
                 </button>
-                <div
-                  *ngIf="member.role !== 'Owner'"
-                  class="relative inline-block"
-                >
-                  <button
-                    (click)="toggleMemberRole(member)"
-                    class="px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2.5 text-gray-700 text-xs sm:text-sm font-semibold focus:outline-none border-none appearance-none bg-slate-400 rounded-lg pr-3 sm:pr-4 flex items-center gap-1 min-w-[60px] sm:min-w-[80px]"
-                  >
-                    <span class="truncate">{{ member.role }}</span>
-                    <svg
-                      class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 9L12 15L18 9"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </button>
-
-                  <!-- Dropdown de roles -->
-                  <div
-                    *ngIf="openDropdownMember === member.name"
-                    class="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[100px] sm:min-w-[120px]"
-                  >
-                    <div class="py-1">
-                      <button
-                        *ngFor="let role of roles"
-                        (click)="updateMemberRole(member, role)"
-                        class="w-full text-left px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                      >
-                        {{ role }}
-                      </button>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
+          </div>
+
+          <div
+            *ngIf="teamMembers.length === 0"
+            class="py-4 text-center text-[11px] sm:text-xs text-gray-400"
+          >
+            No invites yet. Start by sending your first invite.
+          </div>
+
+          <!-- Footer: acciones -->
+          <div
+            class="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-3 text-sm sm:text-base"
+          >
+            <button
+              type="button"
+              class="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2.5 font-medium text-gray-900 hover:bg-gray-100 transition-colors"
+              (click)="copyInviteLink()"
+            >
+              Copy link
+            </button>
           </div>
         </div>
       </div>

@@ -2,14 +2,14 @@ import { Component, OnInit, inject, Inject, PLATFORM_ID } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
-import { NgIf, NgFor, isPlatformBrowser } from '@angular/common';
+import { NgIf, NgFor, NgClass, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { I18nService, Language } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'topbar',
   standalone: true,
-  imports: [NgIf, NgFor, FormsModule],
+  imports: [NgIf, NgFor, NgClass, FormsModule],
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
 })
@@ -101,6 +101,7 @@ export class TopbarComponent implements OnInit {
           name: `${user.name} ${user.lastname}`, 
           email: user.email, 
           role: 'Owner', 
+          status: 'Accepted',
           avatar: user.profileImage || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' 
         }
       ];
@@ -151,7 +152,7 @@ export class TopbarComponent implements OnInit {
 
   navigateTo(route: string) {
     if (route === '/dashboard/community') {
-      // Redirigir al canal de Telegram de Llámalo AI
+      // Redirigir al canal de Telegram de Llamalo AI
       window.open('https://t.me/+wDgRI51qiW1mZjdk', '_blank');
     } else {
       this.router.navigate([route]);
@@ -224,19 +225,33 @@ export class TopbarComponent implements OnInit {
     this.openDropdownMember = null;
   }
 
+  cancelInvite(member: any) {
+    this.teamMembers = this.teamMembers.filter(m => m !== member);
+  }
+
   sendInvite() {
+    // Incluir el valor actual del input si aún no se ha añadido
+    if (this.emailInput && this.emailInput.trim()) {
+      this.addEmail();
+    }
+
+    if (this.selectedEmails.length === 0) {
+      return;
+    }
+
     // Aquí implementarías la lógica para enviar invitaciones
     console.log('Enviando invitaciones:', {
       names: this.selectedEmails,
       role: this.selectedRole
     });
     
-    // Añadir los nuevos miembros a la lista
+    // Añadir los nuevos miembros a la lista (por defecto: Pending)
     this.selectedEmails.forEach(email => {
       const newMember = {
         name: email,
         email: email,
         role: this.selectedRole,
+        status: 'Pending', // Otros posibles estados: 'Accepted', 'Rejected'
         avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' // Avatar por defecto
       };
       this.teamMembers.push(newMember);
@@ -255,6 +270,25 @@ export class TopbarComponent implements OnInit {
         teamMembersContainer.scrollTop = teamMembersContainer.scrollHeight;
       }
     }, 100);
+  }
+
+  copyInviteLink() {
+    const inviteLink = 'https://llamalo.ai'; // TODO: enlazar con URL real de invitación
+    if (this.isBrowser && navigator.clipboard) {
+      navigator.clipboard.writeText(inviteLink).catch((err) => {
+        console.error('Error copying link', err);
+      });
+    }
+  }
+
+  shareInviteOnTwitter() {
+    const inviteLink = 'https://llamalo.ai';
+    if (this.isBrowser) {
+      const text = encodeURIComponent('Únete a Llamalo AI y consigue minutos extra.');
+      const url = encodeURIComponent(inviteLink);
+      const shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+      window.open(shareUrl, '_blank');
+    }
   }
 
   onBackdropClick(event: Event) {

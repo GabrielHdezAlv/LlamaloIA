@@ -465,7 +465,7 @@ export class I18nService {
       redeem: 'Canjear',
       trustpilot: 'Trustpilot',
       trustpilotBonus: '+10 min',
-      trustpilotDescription: 'Gana 10 minutos adicionales dejando una reseña sobre Llámalo en Trustpilot. Una vez publicada, envíanos una captura de pantalla en el chat junto con el email de tu cuenta y añadiremos los minutos extra automáticamente.',
+      trustpilotDescription: 'Gana 10 minutos adicionales dejando una reseña sobre Llamalo en Trustpilot. Una vez publicada, envíanos una captura de pantalla en el chat junto con el email de tu cuenta y añadiremos los minutos extra automáticamente.',
 
       // Modals common
       close: 'Cerrar',
@@ -672,7 +672,7 @@ export class I18nService {
       logout: 'Logout',
 
       // Promo card
-      promoTitle: 'Try Llámalo for free!',
+      promoTitle: 'Try Llamalo for free!',
       promoDescription: 'Create your first voice agent and get 10 free minutes to test all features.',
       promoButton: 'Start for free',
       remainingMinutes: 'Remaining minutes',
@@ -768,7 +768,7 @@ export class I18nService {
       redeem: 'Redeem',
       trustpilot: 'Trustpilot',
       trustpilotBonus: '+10 min',
-      trustpilotDescription: 'Earn 10 additional minutes by leaving a review about Llámalo on Trustpilot. Once published, send us a screenshot in the chat along with your account\'s email and we\'ll add the extra minutes automatically.',
+      trustpilotDescription: 'Earn 10 additional minutes by leaving a review about Llamalo on Trustpilot. Once published, send us a screenshot in the chat along with your account\'s email and we\'ll add the extra minutes automatically.',
 
       // Modals common
       close: 'Close',

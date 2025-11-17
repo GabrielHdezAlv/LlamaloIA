@@ -417,4 +417,23 @@
     padding-top: 0.6rem !important;
     padding-bottom: 0.6rem !important;
   }
+
+  /* Gifts - Trustpilot: un poco más grande, pero sin exagerar, en laptops */
+  .account-settings .gift-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .account-settings .gift-card .trustpilot-title {
+    font-size: 1.2rem;
+  }
+
+  .account-settings .gift-card .trustpilot-bonus {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .account-settings .gift-card p {
+    font-size: 0.8rem;
+    line-height: 1.4rem;
+  }
 }

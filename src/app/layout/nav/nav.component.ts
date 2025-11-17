@@ -184,7 +184,7 @@ export class NavComponent implements OnDestroy, OnInit {
   // Navegar a ruta usando el servicio de navegación
   navigateTo(route: string) {
     if (route === '/dashboard/community') {
-      // Redirigir al canal de Telegram de Llámalo AI
+      // Redirigir al canal de Telegram de Llamalo AI
       window.open('https://t.me/+wDgRI51qiW1mZjdk', '_blank');
     } else {
       // Usar el servicio de navegación para mantener la URL limpia
