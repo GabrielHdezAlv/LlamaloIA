@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common'; // 👈 Importa Location
@@ -47,7 +47,12 @@ export class NewCreateAgentsComponent implements OnDestroy {
   
   // Variables para el carrusel de voces
   currentVoiceIndex: number = 0;
+  tabletPageIndex = 0;
+  private tabletTouchStartX: number | null = null;
+  private tabletTouchDeltaX = 0;
+  private readonly tabletSwipeThreshold = 60;
   voices = [
+    { id: 'custom', name: 'Clonar voz', image: '', isCustom: true },
     { id: 'carla', name: 'Carla', image: 'assets/carla_prueba.png' },
     { id: 'carlos', name: 'Carlos', image: 'assets/carlos_prueba.png' },
     { id: 'david', name: 'David', image: 'assets/david_prueba.png' },
@@ -69,25 +74,29 @@ export class NewCreateAgentsComponent implements OnDestroy {
     this.step = 'instructions';
   }
 
+  createCustomVoice() {
+    console.log('Crear voz personalizada');
+    // Aquí podrías abrir un modal o redirigir al flujo de clonación de voz
+  }
+
   // Métodos para el carrusel de voces
   nextVoice() {
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    const visibleCount = isTablet ? 2 : 3;
-    const maxIndex = this.voices.length - visibleCount;
-    
+    const visibleCount = this.getVisibleCount();
+    const maxIndex = Math.max(this.voices.length - visibleCount, 0);
+
     if (this.currentVoiceIndex < maxIndex) {
       // En tablets avanzar de 2 en 2, en desktop de 1 en 1
-      const step = isTablet ? 2 : 1;
+      const step = visibleCount === 2 ? 2 : 1;
       this.currentVoiceIndex = Math.min(this.currentVoiceIndex + step, maxIndex);
     }
   }
 
   previousVoice() {
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    
+    const visibleCount = this.getVisibleCount();
+
     if (this.currentVoiceIndex > 0) {
       // En tablets retroceder de 2 en 2, en desktop de 1 en 1
-      const step = isTablet ? 2 : 1;
+      const step = visibleCount === 2 ? 2 : 1;
       this.currentVoiceIndex = Math.max(this.currentVoiceIndex - step, 0);
     }
   }
@@ -102,37 +111,144 @@ export class NewCreateAgentsComponent implements OnDestroy {
   }
 
   isNextDisabled(): boolean {
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    const visibleCount = isTablet ? 2 : 3;
+    const visibleCount = this.getVisibleCount();
     return this.currentVoiceIndex >= this.voices.length - visibleCount;
   }
 
   shouldHideCarousel(): boolean {
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    const visibleCount = isTablet ? 2 : 3;
-    return this.voices.length <= visibleCount;
+    return this.voices.length <= this.getVisibleCount();
   }
 
   getMaxIndicatorIndex(): number {
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    const visibleCount = isTablet ? 2 : 3;
-    return this.voices.length - visibleCount;
+    const visibleCount = this.getVisibleCount();
+    return Math.max(this.voices.length - visibleCount, 0);
   }
 
-  getVisibleVoices() {
-    // Detectar si es tablet (768px - 1024px)
-    const isTablet = window.innerWidth >= 768 && window.innerWidth <= 1024;
-    const visibleCount = isTablet ? 2 : 3; // 2 en tablet, 3 en desktop
-    const startIndex = this.currentVoiceIndex;
-    const endIndex = startIndex + visibleCount;
-    
-    if (endIndex <= this.voices.length) {
-      return this.voices.slice(startIndex, endIndex);
-    } else {
-      // Si se pasa del final, mostrar las primeras voces
-      const remaining = endIndex - this.voices.length;
-      return [...this.voices.slice(startIndex), ...this.voices.slice(0, remaining)];
+  getCarouselTransform(): string {
+    const visibleCount = this.getVisibleCount();
+    const gap = this.getSlideGapPx();
+    const offsetPercent = (100 / visibleCount) * this.currentVoiceIndex;
+    if (gap === 0) {
+      return `translateX(-${offsetPercent}%)`;
     }
+    const offsetGap = gap * this.currentVoiceIndex;
+    return `translateX(calc(-${offsetPercent}% - ${offsetGap}px))`;
+  }
+
+  getSlideWidthPercent(): string {
+    const visibleCount = this.getVisibleCount();
+    const gap = this.getSlideGapPx();
+    if (gap === 0) {
+      return `${100 / visibleCount}%`;
+    }
+    const totalGap = gap * (visibleCount - 1);
+    return `calc((100% - ${totalGap}px) / ${visibleCount})`;
+  }
+
+  getSlideFlexValue(): string {
+    return `0 0 ${this.getSlideWidthPercent()}`;
+  }
+
+  @HostListener('window:resize')
+  handleResize() {
+    const visibleCount = this.getVisibleCount();
+    const maxIndex = Math.max(this.voices.length - visibleCount, 0);
+    if (this.currentVoiceIndex > maxIndex) {
+      this.currentVoiceIndex = maxIndex;
+    }
+    this.tabletPageIndex = Math.min(this.tabletPageIndex, this.getTabletTotalPages() - 1);
+  }
+
+  getVisibleCount(): number {
+    const width = this.getViewportWidth();
+    if (width < 1280) {
+      // Tablets y viewports medianos muestran 2 cartas
+      return 2;
+    }
+    return 3;
+  }
+
+  getSlideGapPx(): number {
+    const width = this.getViewportWidth();
+    if (width >= 1536) return 4;
+    if (width >= 1280) return 3;
+    if (width >= 768) return 14;
+    return 8;
+  }
+
+  private getViewportWidth(): number {
+    if (typeof window === 'undefined') {
+      return 1024;
+    }
+    return window.innerWidth;
+  }
+
+  getCarouselPages(): number[] {
+    const totalPages = Math.max(Math.ceil(this.voices.length / this.getVisibleCount()), 1);
+    return Array.from({ length: totalPages }, (_, i) => i);
+  }
+
+  getCurrentPage(): number {
+    return Math.floor(this.currentVoiceIndex / this.getVisibleCount());
+  }
+
+  goToPage(pageIndex: number) {
+    const visibleCount = this.getVisibleCount();
+    const maxIndex = Math.max(this.voices.length - visibleCount, 0);
+    this.currentVoiceIndex = Math.min(pageIndex * visibleCount, maxIndex);
+  }
+
+  // Tablet helpers
+  getTabletPageVoices() {
+    const start = this.tabletPageIndex * 2;
+    return this.voices.slice(start, start + 2);
+  }
+
+  getTabletTotalPages(): number {
+    return Math.max(Math.ceil(this.voices.length / 2), 1);
+  }
+
+  getTabletPagesArray(): number[] {
+    return Array.from({ length: this.getTabletTotalPages() }, (_, i) => i);
+  }
+
+  goToTabletPage(pageIndex: number) {
+    this.tabletPageIndex = Math.min(Math.max(pageIndex, 0), this.getTabletTotalPages() - 1);
+  }
+
+  nextTabletPage() {
+    if (this.tabletPageIndex < this.getTabletTotalPages() - 1) {
+      this.tabletPageIndex += 1;
+    }
+  }
+
+  previousTabletPage() {
+    if (this.tabletPageIndex > 0) {
+      this.tabletPageIndex -= 1;
+    }
+  }
+
+  onTabletTouchStart(event: TouchEvent) {
+    if (event.touches.length !== 1) return;
+    this.tabletTouchStartX = event.touches[0].clientX;
+    this.tabletTouchDeltaX = 0;
+  }
+
+  onTabletTouchMove(event: TouchEvent) {
+    if (this.tabletTouchStartX === null || event.touches.length !== 1) return;
+    const currentX = event.touches[0].clientX;
+    this.tabletTouchDeltaX = currentX - this.tabletTouchStartX;
+  }
+
+  onTabletTouchEnd() {
+    if (this.tabletTouchStartX === null) return;
+    if (this.tabletTouchDeltaX > this.tabletSwipeThreshold) {
+      this.previousTabletPage();
+    } else if (this.tabletTouchDeltaX < -this.tabletSwipeThreshold) {
+      this.nextTabletPage();
+    }
+    this.tabletTouchStartX = null;
+    this.tabletTouchDeltaX = 0;
   }
 
   goBack() {

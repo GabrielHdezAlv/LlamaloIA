@@ -199,71 +199,17 @@
           <div class="block sm:hidden">
             <div class="flex flex-col gap-4 px-4">
               @for (voice of voices; track voice.id) {
-                <div 
-                  class="w-full h-96 rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-                  (click)="onVoiceSelected()"
-                >
-                  <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
-                  <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-                    <h3 class="text-white font-bold text-xl text-center">{{ voice.name }}</h3>
-                    <button
-                      (click)="$event.stopPropagation(); playVoice(voice.id)"
-                      class="mt-2 w-36 bg-white text-gray-700 rounded-full px-4 py-2 text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
-                    >
-                      @if (currentPlayingVoice === voice.id) {
-                        <!-- Icono de pausa (dos rayas) -->
-                        <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                          <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
-                        </svg>
-                        <span class="ml-1">Pausar</span>
-                      } @else {
-                        <!-- Icono de play (triángulo) -->
-                        <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span class="ml-1">Escuchar</span>
-                      }
-                    </button>
-                  </div>
-                </div>
-              }
-            </div>
-          </div>
-
-          <!-- Vista desktop: Carrusel -->
-          <div class="hidden sm:block">
-            <div class="carousel-container relative flex items-center justify-center gap-2 sm:gap-3 md:gap-4 px-8 sm:px-12 md:px-16 mb-3 sm:mb-4">
-              <!-- Botón anterior -->
-              <button 
-                (click)="previousVoice()"
-                class="absolute left-0 z-10 rounded-full p-2 shadow-md transition-all"
-                [class.bg-white]="!isPreviousDisabled()"
-                [class.bg-gray-200]="isPreviousDisabled()"
-                [class.cursor-pointer]="!isPreviousDisabled()"
-                [class.cursor-not-allowed]="isPreviousDisabled()"
-                [class.hover:shadow-lg]="!isPreviousDisabled()"
-                [class.hidden]="shouldHideCarousel()"
-                [disabled]="isPreviousDisabled()"
-              >
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12.5 15L7.5 10L12.5 5" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-
-              <!-- Contenedor de voces -->
-              <div class="flex justify-center gap-3 sm:gap-5 md:gap-6">
-                @for (voice of getVisibleVoices(); track voice.id) {
+                @if (!voice.isCustom) {
                   <div 
-                    class="voice-card w-[160px] h-[270px] sm:w-[200px] sm:h-[340px] md:w-[230px] md:h-[368px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-shadow"
+                    class="w-full h-[420px] sm:h-[460px] rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                     (click)="onVoiceSelected()"
                   >
-                    <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover" />
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2.5 sm:p-4">
-                      <h3 class="text-white font-bold text-base sm:text-lg md:text-xl text-center">{{ voice.name }}</h3>
+                    <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+                      <h3 class="text-white font-bold text-xl text-center">{{ voice.name }}</h3>
                       <button
                         (click)="$event.stopPropagation(); playVoice(voice.id)"
-                        class="mt-1.5 sm:mt-2 w-24 sm:w-28 md:w-32 bg-white text-gray-700 rounded-full px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs md:text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
+                        class="mt-2 w-36 bg-white text-gray-700 rounded-full px-4 py-2 text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
                       >
                         @if (currentPlayingVoice === voice.id) {
                           <!-- Icono de pausa (dos rayas) -->
@@ -282,7 +228,201 @@
                       </button>
                     </div>
                   </div>
+                } @else {
+                  <div
+                    class="w-full h-[420px] sm:h-[460px] rounded-2xl border-2 border-dashed border-gray-300 bg-white flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-600 hover:bg-blue-50 transition-all duration-200"
+                    (click)="createCustomVoice()"
+                  >
+                    <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 6V22M22 14H6" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <h3 class="text-gray-900 font-semibold text-xl mb-2">
+                      Crea tu propia voz
+                    </h3>
+                    <p class="text-gray-500 text-sm uppercase tracking-wide font-semibold">
+                      Clonar voz
+                    </p>
+                  </div>
                 }
+              }
+            </div>
+          </div>
+
+          <!-- Vista tablet: dos cartas por página -->
+          <div class="hidden sm:block xl:hidden">
+            <div
+              class="relative flex items-center justify-center px-6 sm:px-8 mb-3"
+              (touchstart)="onTabletTouchStart($event)"
+              (touchmove)="onTabletTouchMove($event)"
+              (touchend)="onTabletTouchEnd()"
+              (touchcancel)="onTabletTouchEnd()"
+            >
+              <button
+                (click)="previousTabletPage()"
+                class="absolute left-0 z-10 rounded-full p-2 shadow-md transition-all"
+                [class.bg-white]="tabletPageIndex > 0"
+                [class.bg-gray-200]="tabletPageIndex === 0"
+                [disabled]="tabletPageIndex === 0"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12.5 15L7.5 10L12.5 5" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <div class="grid grid-cols-2 gap-4 sm:gap-6 w-full max-w-3xl">
+                @for (voice of getTabletPageVoices(); track voice?.id || $index) {
+                  <div
+                    class="voice-card w-full h-[360px] sm:h-[380px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all"
+                    (click)="voice?.isCustom ? createCustomVoice() : onVoiceSelected()"
+                  >
+                    @if (voice && !voice.isCustom) {
+                      <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover" />
+                      <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-3 sm:p-4">
+                        <h3 class="text-white font-bold text-base sm:text-lg text-center">{{ voice.name }}</h3>
+                        <button
+                          (click)="$event.stopPropagation(); playVoice(voice.id)"
+                          class="mt-2 w-24 sm:w-28 bg-white text-gray-700 rounded-full px-3 py-1 text-xs sm:text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
+                        >
+                          @if (currentPlayingVoice === voice.id) {
+                            <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                              <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                            </svg>
+                            <span class="ml-1">Pausar</span>
+                          } @else {
+                            <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="ml-1">Escuchar</span>
+                          }
+                        </button>
+                      </div>
+                    } @else {
+                      <div class="w-full h-full border-2 border-dashed border-gray-300 bg-white flex flex-col items-center justify-center text-center">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 7V25M25 16H7" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+                          </svg>
+                        </div>
+                        <h3 class="text-gray-900 font-semibold text-base sm:text-lg mb-2">Crea tu propia voz</h3>
+                        <p class="text-gray-500 text-xs uppercase tracking-wide font-semibold">Clonar voz</p>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <button
+                (click)="nextTabletPage()"
+                class="absolute right-0 z-10 rounded-full p-2 shadow-md transition-all"
+                [class.bg-white]="tabletPageIndex < getTabletTotalPages() - 1"
+                [class.bg-gray-200]="tabletPageIndex >= getTabletTotalPages() - 1"
+                [disabled]="tabletPageIndex >= getTabletTotalPages() - 1"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.5 5L12.5 10L7.5 15" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="flex justify-center gap-2 mb-4">
+              @for (page of getTabletPagesArray(); track page; let i = $index) {
+                <button
+                  (click)="goToTabletPage(i)"
+                  class="w-2 h-2 rounded-full transition-colors"
+                  [class.bg-blue-500]="tabletPageIndex === i"
+                  [class.bg-gray-300]="tabletPageIndex !== i"
+                ></button>
+              }
+            </div>
+          </div>
+
+          <!-- Vista desktop: Carrusel -->
+          <div class="hidden xl:block">
+            <div class="max-w-5xl 2xl:max-w-6xl mx-auto">
+            <div class="carousel-container relative flex items-center justify-center px-8 sm:px-12 md:px-16 mb-3 sm:mb-4">
+              <!-- Botón anterior -->
+              <button 
+                (click)="previousVoice()"
+                class="absolute left-0 z-10 rounded-full p-2 shadow-md transition-all"
+                [class.bg-white]="!isPreviousDisabled()"
+                [class.bg-gray-200]="isPreviousDisabled()"
+                [class.cursor-pointer]="!isPreviousDisabled()"
+                [class.cursor-not-allowed]="isPreviousDisabled()"
+                [class.hover:shadow-lg]="!isPreviousDisabled()"
+                [class.hidden]="shouldHideCarousel()"
+                [disabled]="isPreviousDisabled()"
+              >
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12.5 15L7.5 10L12.5 5" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <!-- Contenedor de voces con animación -->
+              <div class="w-full overflow-hidden">
+                <div
+                  class="flex items-stretch transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                  [style.gap.px]="getSlideGapPx()"
+                  [style.transform]="getCarouselTransform()"
+                >
+                  @for (voice of voices; track voice.id) {
+                    <div
+                      class="flex-shrink-0"
+                      [style.flex]="getSlideFlexValue()"
+                      [style.maxWidth]="getSlideWidthPercent()"
+                    >
+                      @if (!voice.isCustom) {
+                        <div 
+                          class="voice-card w-full h-[320px] sm:h-[380px] md:h-[420px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all"
+                          (click)="onVoiceSelected()"
+                        >
+                          <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover" />
+                          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-2.5 sm:p-4">
+                            <h3 class="text-white font-bold text-base sm:text-lg md:text-xl text-center">{{ voice.name }}</h3>
+                            <button
+                              (click)="$event.stopPropagation(); playVoice(voice.id)"
+                              class="mt-1.5 sm:mt-2 w-24 sm:w-28 md:w-32 bg-white text-gray-700 rounded-full px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 text-[10px] sm:text-xs md:text-sm font-medium flex items-center justify-center mx-auto hover:bg-gray-50 transition-colors"
+                            >
+                              @if (currentPlayingVoice === voice.id) {
+                                <!-- Icono de pausa (dos rayas) -->
+                                <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <rect x="2.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                                  <rect x="7.5" y="1.5" width="2.5" height="9" fill="#1E1E1E" rx="0.5"/>
+                                </svg>
+                                <span class="ml-1">Pausar</span>
+                              } @else {
+                                <!-- Icono de play (triángulo) -->
+                                <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M2.70825 1.5L10.2916 6L2.70825 10.5V1.5Z" stroke="#1E1E1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span class="ml-1">Escuchar</span>
+                              }
+                            </button>
+                          </div>
+                        </div>
+                      } @else {
+                        <div
+                          class="voice-card w-full h-[320px] sm:h-[380px] md:h-[420px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] border-2 border-dashed border-gray-300 bg-white flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-600 hover:bg-blue-50 transition-all"
+                          (click)="createCustomVoice()"
+                        >
+                          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M16 7V25M25 16H7" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                          </div>
+                          <h3 class="text-gray-900 font-semibold text-base sm:text-lg md:text-xl mb-2">
+                            Crea tu propia voz
+                          </h3>
+                          <p class="text-gray-500 text-xs sm:text-sm uppercase tracking-wide font-semibold">
+                            Clonar voz
+                          </p>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
               </div>
 
               <!-- Botón siguiente -->
@@ -302,18 +442,17 @@
                 </svg>
               </button>
             </div>
+          </div>
 
             <!-- Indicadores del carrusel -->
             <div class="flex justify-center gap-2 mb-4" [class.hidden]="shouldHideCarousel()">
-              @for (voice of voices; track voice.id; let i = $index) {
-                @if (i <= getMaxIndicatorIndex()) {
-                  <button 
-                    (click)="currentVoiceIndex = i"
-                    class="w-2 h-2 rounded-full transition-colors"
-                    [class.bg-blue-500]="i === currentVoiceIndex"
-                    [class.bg-gray-300]="i !== currentVoiceIndex"
-                  ></button>
-                }
+              @for (page of getCarouselPages(); track page; let i = $index) {
+                <button 
+                  (click)="goToPage(i)"
+                  class="w-2 h-2 rounded-full transition-colors"
+                  [class.bg-blue-500]="getCurrentPage() === i"
+                  [class.bg-gray-300]="getCurrentPage() !== i"
+                ></button>
               }
             </div>
           </div>
