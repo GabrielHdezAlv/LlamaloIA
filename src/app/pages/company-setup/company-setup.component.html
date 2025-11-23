@@ -1,342 +1,744 @@
-<!-- Overlay de fondo con gradiente -->
-<div *ngIf="isSetupActive" class="fixed inset-0 w-screen h-screen bg-gradient-to-br from-white to-blue-500 flex items-center justify-center z-[9999] p-3 sm:p-6 lg:p-[5vh] box-border">
-  <!-- Contenedor principal -->
-  <div class="bg-white rounded-xl sm:rounded-2xl lg:rounded-[20px] p-4 sm:p-6 lg:p-8 max-w-[calc(100vw-1.5rem)] sm:max-w-[calc(100vw-3rem)] lg:max-w-[calc(100vw-10vh)] w-full lg:w-[calc(100vw-10vh)] h-[90vh] sm:h-[90vh] lg:h-[90vh] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] relative flex flex-col items-center text-center overflow-y-auto">
-    
-    <!-- Logo -->
-    <div class="flex flex-row items-center justify-center mb-4 sm:mb-6 mt-8 sm:mt-12 lg:mt-20">
-      <img src="assets/logo.png" alt="Llamalo" class="h-8 sm:h-10 w-auto mr-2 sm:mr-3">
-      <div class="flex flex-col">
-        <div class="text-xl sm:text-2xl font-bold text-blue-950 tracking-[-1px]">Llamalo</div>
-        <div class="text-[10px] sm:text-xs font-bold text-blue-950 tracking-[-0.8px] text-right -mt-1.5 sm:-mt-2">beta</div>
-      </div>
-    </div>
-
-    <!-- Indicador de progreso -->
-    <div *ngIf="currentStep <= 3" class="mb-6 sm:mb-8">
-      <div class="inline-block bg-transparent p-0">
-        <span class="text-sm sm:text-base text-gray-600 font-normal tracking-[-0.8px]">{{ currentStep }}/3</span>
-      </div>
-    </div>
-
-    <!-- Botón Atrás (pasos 2, 3 y 4) -->
-    <div *ngIf="currentStep === 2 || currentStep === 3 || currentStep === 4" class="absolute top-4 left-4 sm:top-6 sm:left-6 lg:top-8 lg:left-8">
-      <button 
-        type="button" 
-        class="text-black text-sm sm:text-base font-medium hover:text-gray-700 transition-colors duration-200 flex items-center gap-1 tracking-[-0.8px]"
-        (click)="goBack()"
-      >
-        <span class="text-base sm:text-lg"><</span> Atrás
-      </button>
-    </div>
-
-    <!-- Contenido principal -->
-    <div class="w-full sm:w-[85%] lg:w-[70%] max-w-[600px] mb-6 sm:mb-8 lg:mb-10 px-2 sm:px-0">
-      <!-- Paso 1: Configuración de empresa -->
-      <div *ngIf="currentStep === 1">
-        <h1 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight whitespace-normal sm:whitespace-nowrap tracking-[-0.8px]">¡Configura tu empresa para empezar a usar Llamalo AI!</h1>
-        <p class="text-sm sm:text-base lg:text-lg text-gray-400 mb-6 sm:mb-8 lg:mb-10 leading-snug tracking-[-0.8px]">Esto nos ayuda a personalizar tu experiencia.</p>
-      </div>
-
-      <!-- Paso 2: Uso principal -->
-      <div *ngIf="currentStep === 2">
-        <h1 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight tracking-[-0.8px]">¿Cuál será el uso principal de Llamalo en tu negocio?</h1>
-        <p class="text-sm sm:text-base lg:text-lg text-gray-400 mb-6 sm:mb-8 lg:mb-10 leading-snug tracking-[-0.8px]">Selecciona dónde quieres usar Llamalo primero</p>
-      </div>
-
-      <!-- Paso 3: Personalizar perfil -->
-      <div *ngIf="currentStep === 3">
-        <h1 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight tracking-[-0.8px]">Personaliza tu perfil</h1>
-        <p class="text-sm sm:text-base lg:text-lg text-gray-400 mb-6 sm:mb-8 lg:mb-10 leading-snug tracking-[-0.8px]">Sube el logo de tu negocio.</p>
-      </div>
-
-      <!-- Paso 1: Formulario de configuración -->
-      <form *ngIf="currentStep === 1" class="w-full sm:w-[80%] lg:w-[60%] max-w-[500px] flex flex-col gap-4 sm:gap-5 mx-auto" (ngSubmit)="continueSetup()">
-        <!-- Nombre de la tienda/negocio -->
-        <div class="flex flex-col text-left">
-          <label for="businessName" class="text-xs sm:text-sm font-semibold text-gray-800 mb-1.5 sm:mb-2 tracking-[-0.8px]">
-            Nombre de la tienda/negocio<span class="text-red-500 ml-0.5">*</span>
-          </label>
-          <input
-            type="text"
-            id="businessName"
-            class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-200 rounded-lg text-sm sm:text-base text-gray-900 bg-white transition-all duration-200 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] placeholder:text-gray-400 box-border tracking-[-0.8px]"
-            [(ngModel)]="businessName"
-            name="businessName"
-            placeholder="Ingresa el nombre de tu empresa"
-            required
-          >
+<!-- Fondo dividido 50/50 blanco (contenido onboarding) y fondo_onboarding.png cuando el setup está activo -->
+<div *ngIf="isSetupActive" class="fixed inset-0 w-screen h-screen flex z-[9998] tracking-[-0.5px]">
+  <!-- Lado izquierdo: cambiamos el contenido según el paso -->
+  <ng-container [ngSwitch]="currentStep">
+    <!-- Paso 1: contenido original -->
+    <div *ngSwitchCase="1" class="w-1/2 h-full bg-white flex items-start justify-center">
+      <div class="w-full max-w-[640px] h-full flex flex-col px-10 xl:px-16 py-10 xl:py-14">
+      <!-- Logo (idéntico al usado en el dashboard/sidebar) -->
+      <div class="flex items-center gap-2 mb-10">
+        <img src="assets/logo.png" alt="Llamalo Logo" class="h-10" />
+        <div class="flex flex-col leading-none mt-1">
+          <span class="brand-font text-3xl font-bold text-blue-950 tracking-[-2px]">Llamalo</span>
+          <span class="brand-font text-[8px] text-end text-gray-700 font-bold -mt-1 block tracking-[-0.02em]">
+            beta
+          </span>
         </div>
-
-        <!-- Tipo de empresa -->
-        <div class="flex flex-col text-left">
-          <label for="companyType" class="text-xs sm:text-sm font-semibold text-gray-800 mb-1.5 sm:mb-2 tracking-[-0.8px]">
-            Tipo de empresa<span class="text-red-500 ml-0.5">*</span>
-          </label>
-          <div class="relative">
-            <select
-              id="companyType"
-              class="w-full px-3 sm:px-4 py-2 sm:py-3 pr-8 border-2 border-gray-200 rounded-lg text-sm sm:text-base text-gray-900 bg-white appearance-none cursor-pointer transition-all duration-200 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] box-border tracking-[-0.8px]"
-              [(ngModel)]="selectedCompanyType"
-              name="companyType"
-              required
-            >
-              <option value="" disabled>Seleccione el tipo de empresa</option>
-              <option *ngFor="let type of companyTypes" [value]="type.id">
-                {{ type.name }}
-              </option>
-            </select>
-            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1.5L6 6.5L11 1.5" stroke="#26203B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <!-- Número de empleados -->
-        <div class="flex flex-col text-left">
-          <label for="employeeRange" class="text-xs sm:text-sm font-semibold text-gray-800 mb-1.5 sm:mb-2 tracking-[-0.8px]">
-            Número de empleados<span class="text-red-500 ml-0.5">*</span>
-          </label>
-          <div class="relative">
-            <select
-              id="employeeRange"
-              class="w-full px-3 sm:px-4 py-2 sm:py-3 pr-8 border-2 border-gray-200 rounded-lg text-sm sm:text-base text-gray-900 bg-white appearance-none cursor-pointer transition-all duration-200 focus:outline-none focus:border-blue-600 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] box-border tracking-[-0.8px]"
-              [(ngModel)]="selectedEmployeeRange"
-              name="employeeRange"
-              required
-            >
-              <option value="" disabled>Select the number of employees</option>
-              <option *ngFor="let range of employeeRanges" [value]="range.id">
-                {{ range.range }}
-              </option>
-            </select>
-            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-              <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1.5L6 6.5L11 1.5" stroke="#26203B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <!-- Botón continuar -->
-        <button
-          type="submit"
-          class="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-900 text-white border-none rounded-lg text-sm sm:text-base font-semibold cursor-pointer transition-all duration-200 mt-4 sm:mt-6 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none tracking-[-0.8px]"
-          [disabled]="!isFormComplete"
-        >
-          Continuar
-        </button>
-      </form>
-
-
-      <!-- Paso 2: Opciones de uso principal -->
-      <div *ngIf="currentStep === 2" class="w-full max-w-[600px] mx-auto">
-        <!-- Grid de opciones -->
-        <div class="grid grid-cols-2 gap-2 sm:gap-4 mb-6 sm:mb-8">
-          <!-- Atención al cliente -->
-          <div 
-            class="bg-white border-2 rounded-lg sm:rounded-xl p-3 sm:p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg h-full flex items-center"
-            [class]="selectedMainUsage === 'customer-service' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'"
-            (click)="selectMainUsage('customer-service')"
-          >
-            <div class="text-center w-full">
-              <div class="mb-1.5 sm:mb-3 flex justify-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 16C20.2092 16 22 14.2092 22 12C22 9.79085 20.2092 8 18 8" stroke="#333333" stroke-width="2" stroke-linejoin="round"/>
-                  <path d="M6 8C3.79086 8 2 9.79085 2 12C2 14.2092 3.79086 16 6 16" stroke="#333333" stroke-width="2" stroke-linejoin="round"/>
-                  <path d="M6 16V15.75V14.5V12V8C6 4.68629 8.6863 2 12 2C15.3137 2 18 4.68629 18 8V16C18 19.3137 15.3137 22 12 22" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div class="text-xs sm:text-sm font-semibold text-gray-800 tracking-[-0.8px]">Atención al cliente</div>
-            </div>
-          </div>
-
-          <!-- Agendar citas -->
-          <div 
-            class="bg-white border-2 rounded-lg sm:rounded-xl p-3 sm:p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
-            [class]="selectedMainUsage === 'appointments' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'"
-            (click)="selectMainUsage('appointments')"
-          >
-            <div class="text-center">
-              <div class="mb-1.5 sm:mb-3 flex justify-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21 4H3C2.44772 4 2 4.44772 2 5V21C2 21.5523 2.44772 22 3 22H21C21.5523 22 22 21.5523 22 21V5C22 4.44772 21.5523 4 21 4Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M2 10H22" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M2 16H22" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M8.5 2V6" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M15.5 2V6" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M8.5 10V22" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M15.5 10V22" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M22 6.5V19.5" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M2 6.5V19.5" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M7 22H17" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div class="text-xs sm:text-sm font-semibold text-gray-800 tracking-[-0.8px]">Agendar citas</div>
-            </div>
-          </div>
-
-          <!-- Recuperación de carritos -->
-          <div 
-            class="bg-white border-2 rounded-lg sm:rounded-xl p-3 sm:p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
-            [class]="selectedMainUsage === 'cart-recovery' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'"
-            (click)="selectMainUsage('cart-recovery')"
-          >
-            <div class="text-center">
-              <div class="mb-1.5 sm:mb-3 flex justify-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1.5 3H3.25L4 6M4 6L6.5 16H19.5L22 6H4Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M6.5 21C7.32843 21 8 20.3284 8 19.5C8 18.6716 7.32843 18 6.5 18C5.67157 18 5 18.6716 5 19.5C5 20.3284 5.67157 21 6.5 21Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M19.5 21C20.3284 21 21 20.3284 21 19.5C21 18.6716 20.3284 18 19.5 18C18.6716 18 18 18.6716 18 19.5C18 20.3284 18.6716 21 19.5 21Z" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div class="text-xs sm:text-sm font-semibold text-gray-800 tracking-[-0.8px]">Recuperación de carritos</div>
-            </div>
-          </div>
-
-          <!-- Ventas telefónicas -->
-          <div 
-            class="bg-white border-2 rounded-lg sm:rounded-xl p-3 sm:p-6 cursor-pointer transition-all duration-200 hover:border-blue-500 hover:shadow-lg"
-            [class]="selectedMainUsage === 'phone-sales' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'"
-            (click)="selectMainUsage('phone-sales')"
-          >
-            <div class="text-center">
-              <div class="mb-1.5 sm:mb-3 flex justify-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14 10L20.5 3.75" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M14 3.5H20.5V10" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M7.18735 4.89722C7.55065 4.89722 7.88535 5.09425 8.06165 5.41185L9.2849 7.61525C9.44505 7.90375 9.45255 8.2527 9.305 8.54785L8.1266 10.9047C8.1266 10.9047 8.4681 12.6604 9.8973 14.0896C11.3265 15.5188 13.0764 15.8544 13.0764 15.8544L15.4328 14.6762C15.7282 14.5285 16.0774 14.5362 16.366 14.6966L18.5756 15.9251C18.8929 16.1016 19.0897 16.4361 19.0897 16.7991V19.3359C19.0897 20.6277 17.8898 21.5608 16.6657 21.1477C14.1518 20.2995 10.2494 18.6844 7.776 16.2109C5.30255 13.7375 3.68745 9.83515 2.83918 7.3212C2.42617 6.09715 3.35922 4.89722 4.65104 4.89722H7.18735Z" stroke="#333333" stroke-width="2" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <div class="text-xs sm:text-sm font-semibold text-gray-800 tracking-[-0.8px]">Ventas telefónicas</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Botón continuar -->
-        <button
-          type="button"
-          class="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-900 text-white border-none rounded-lg text-sm sm:text-base font-semibold cursor-pointer transition-all duration-200 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)] disabled:bg-gray-400 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none tracking-[-0.8px]"
-          [disabled]="!selectedMainUsage"
-          (click)="continueSetup()"
-        >
-          Continuar
-        </button>
-
       </div>
 
-      <!-- Paso 3: Subida de logo -->
-      <div *ngIf="currentStep === 3" class="w-full max-w-[600px] mx-auto">
-        <!-- Área de subida de logo -->
-        <div class="flex flex-col items-center mb-6 sm:mb-8">
-          <!-- Área circular para el logo -->
-          <div 
-            class="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-gray-200 border-4 border-gray-300 flex items-center justify-center cursor-pointer hover:bg-gray-300 transition-all duration-200 mb-4 sm:mb-6"
-            (click)="triggerFileUpload()"
-          >
-            <!-- Preview del logo o icono de subida -->
-            <div *ngIf="logoPreview" class="w-full h-full rounded-full overflow-hidden">
-              <img [src]="logoPreview" alt="Logo preview" class="w-full h-full object-cover">
-            </div>
-            <div *ngIf="!logoPreview" class="flex flex-col items-center">
-              <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.36849 6.79417C5.78249 6.79417 6.11849 7.13017 6.11849 7.54417C6.11849 7.95817 5.78249 8.29417 5.36849 8.29417H4.43549C2.81649 8.29417 1.50049 9.61017 1.50049 11.2282V16.1032C1.50049 17.7222 2.81649 19.0382 4.43549 19.0382H15.5655C17.1835 19.0382 18.5005 17.7222 18.5005 16.1032V11.2192C18.5005 9.60617 17.1885 8.29417 15.5765 8.29417H14.6335C14.2195 8.29417 13.8835 7.95817 13.8835 7.54417C13.8835 7.13017 14.2195 6.79417 14.6335 6.79417H15.5765C18.0155 6.79417 20.0005 8.77917 20.0005 11.2192V16.1032C20.0005 18.5492 18.0105 20.5382 15.5655 20.5382H4.43549C1.99049 20.5382 0.000488281 18.5492 0.000488281 16.1032V11.2282C0.000488281 8.78317 1.99049 6.79417 4.43549 6.79417H5.36849ZM10.5311 0.221771L13.4471 3.14977C13.7391 3.44377 13.7381 3.91777 13.4451 4.20977C13.1511 4.50177 12.6771 4.50177 12.3851 4.20777L10.7495 2.56652L10.7501 13.5411H9.25009L9.24949 2.56652L7.61609 4.20777C7.47009 4.35577 7.27709 4.42877 7.08509 4.42877C6.89409 4.42877 6.70209 4.35577 6.55609 4.20977C6.26309 3.91777 6.26109 3.44377 6.55409 3.14977L9.46909 0.221771C9.75009 -0.0612285 10.2501 -0.0612285 10.5311 0.221771Z" fill="black"/>
-                </svg>
-                
-            </div>
-          </div>
-
-          <!-- Botón de subir logo -->
-          <button
-            type="button"
-            class="bg-white border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-700 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 tracking-[-0.8px]"
-            (click)="triggerFileUpload()"
-          >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="17,8 12,3 7,8" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <line x1="12" y1="3" x2="12" y2="15" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Subir logo
-          </button>
-
-          <!-- Input oculto para archivos -->
-          <input
-            type="file"
-            id="logoUpload"
-            accept="image/*"
-            (change)="onLogoSelected($event)"
-            class="hidden"
-          >
-        </div>
-
-        <!-- Texto opcional -->
-        <p class="text-xs sm:text-sm text-gray-400 text-center mb-6 sm:mb-8 tracking-[-0.8px]">
-          Este paso es opcional. Puedes añadir el logo más adelante desde la configuración.
-        </p>
-
-        <!-- Botón continuar -->
-        <button
-          type="button"
-          class="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-900 text-white border-none rounded-lg text-sm sm:text-base font-semibold cursor-pointer transition-all duration-200 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)] tracking-[-0.8px]"
-          (click)="continueSetup()"
-        >
-          Continuar
-        </button>
-
-      </div>
-
-      <!-- Paso 4: Página de éxito -->
-      <div *ngIf="currentStep === 4" class="w-full max-w-[600px] mx-auto flex flex-col items-center mt-8 sm:mt-12 lg:mt-20">
-        <!-- Icono de éxito -->
-        <div class="w-32 h-32 sm:w-40 sm:h-40 lg:w-44 lg:h-44 bg-blue-100 rounded-full flex items-center justify-center mb-6 sm:mb-8">
-          <svg class="w-10 h-10 sm:w-12 sm:h-12" viewBox="0 0 48 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.64819 16.4524L17.2198 30.0202L44.3517 2.88452" stroke="#1E3A8A" stroke-width="5.42714" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            
-        </div>
-
-        <!-- Mensaje de éxito -->
-        <h1 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 text-center tracking-[-0.8px]">
-          ¡Tu cuenta se ha creado con éxito!
+      <!-- Título y descripción -->
+      <div class="mt-8">
+        <h1 class="text-3xl xl:text-4xl font-extrabold text-[#1E293B] leading-tight tracking-[-2.4px]">
+          ¿Qué quieres conseguir con<br class="hidden md:block" /> Llamalo?
         </h1>
-        <p class="text-base sm:text-lg lg:text-xl text-gray-400 mb-6 sm:mb-8 lg:mb-10 text-center tracking-[-0.8px]">
-          Bienvenido a Llamalo AI
+        <p class="mt-4 text-sm xl:text-base text-gray-500">
+          Puedes seleccionar varias opciones para esta pregunta.
         </p>
+      </div>
 
-        <!-- Botón empezar ahora -->
-        <button
-          type="button"
-          class="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-900 text-white border-none rounded-lg text-sm sm:text-base font-semibold cursor-pointer transition-all duration-200 hover:bg-blue-800 hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-5px_rgba(30,58,138,0.3)] tracking-[-0.8px]"
-          (click)="completeSetup()"
+      <!-- Grid de tarjetas -->
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Tarjeta 1 -->
+        <div
+          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+          [ngClass]="
+            selectedMainUsages.includes('customer-service')
+              ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+          "
+          (click)="selectMainUsage('customer-service')"
         >
-          Empezar ahora
-        </button>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.375 9.375C9.375 9.07663 9.49353 8.79048 9.7045 8.5795C9.91548 8.36853 10.2016 8.25 10.5 8.25H13.5C13.7984 8.25 14.0845 8.36853 14.2955 8.5795C14.5065 8.79048 14.625 9.07663 14.625 9.375C14.625 9.67337 14.5065 9.95952 14.2955 10.1705C14.0845 10.3815 13.7984 10.5 13.5 10.5H10.5C10.2016 10.5 9.91548 10.3815 9.7045 10.1705C9.49353 9.95952 9.375 9.67337 9.375 9.375ZM22.125 6.375V18.375C22.125 18.8723 21.9275 19.3492 21.5758 19.7008C21.2242 20.0525 20.7473 20.25 20.25 20.25H3.75C3.25272 20.25 2.77581 20.0525 2.42417 19.7008C2.07254 19.3492 1.875 18.8723 1.875 18.375V6.375C1.875 5.87772 2.07254 5.40081 2.42417 5.04917C2.77581 4.69754 3.25272 4.5 3.75 4.5H7.125V3.75C7.125 3.05381 7.40156 2.38613 7.89384 1.89384C8.38613 1.40156 9.05381 1.125 9.75 1.125H14.25C14.9462 1.125 15.6139 1.40156 16.1062 1.89384C16.5984 2.38613 16.875 3.05381 16.875 3.75V4.5H20.25C20.7473 4.5 21.2242 4.69754 21.5758 5.04917C21.9275 5.40081 22.125 5.87772 22.125 6.375ZM9.375 4.5H14.625V3.75C14.625 3.65054 14.5855 3.55516 14.5152 3.48484C14.4448 3.41451 14.3495 3.375 14.25 3.375H9.75C9.65054 3.375 9.55516 3.41451 9.48483 3.48484C9.41451 3.55516 9.375 3.65054 9.375 3.75V4.5ZM4.125 6.75V10.0528C6.5527 11.3323 9.25575 12.0007 12 12C14.7444 12.0006 17.4475 11.3319 19.875 10.0519V6.75H4.125ZM19.875 18V12.5569C17.3997 13.6732 14.7153 14.2503 12 14.25C9.28463 14.2505 6.60022 13.6733 4.125 12.5569V18H19.875Z"
+                  fill="#475569"
+                />
+              </svg>
+            </div>
+            <div *ngIf="selectedMainUsages.includes('customer-service')" class="ml-2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                  fill="#1E3A8A"
+                />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900">
+            Atención al cliente<br />(Inbound)
+          </h3>
+          <p class="mt-2 text-xs text-gray-500 leading-snug">
+            Soporta llamadas entrantes: consultas, incidencias y seguimiento post‑venta.
+          </p>
+        </div>
+
+        <!-- Tarjeta 2 -->
+        <div
+          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+          [ngClass]="
+            selectedMainUsages.includes('cart-recovery')
+              ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+          "
+          (click)="selectMainUsage('cart-recovery')"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+              <path
+                d="M19.0847 4.78123C17.663 3.38264 15.8597 2.43548 13.9013 2.0588C11.9429 1.68211 9.91687 1.89271 8.07782 2.66411C6.23877 3.43552 4.66877 4.73331 3.56514 6.39439C2.46151 8.05546 1.8735 10.0057 1.875 12C1.875 16.1925 4.4625 19.7109 8.625 21.1819C9.13405 21.3618 9.67885 21.417 10.2137 21.3429C10.7485 21.2687 11.2577 21.0673 11.6985 20.7556C12.1394 20.4439 12.499 20.0309 12.7472 19.5514C12.9954 19.0719 13.125 18.5399 13.125 18C13.125 17.7016 13.2435 17.4155 13.4545 17.2045C13.6655 16.9935 13.9516 16.875 14.25 16.875H18.5822C19.3479 16.8786 20.0918 16.6202 20.6903 16.1427C21.2889 15.6652 21.7062 14.9973 21.8728 14.25C22.0467 13.4839 22.1313 12.7002 22.125 11.9147C22.1158 10.5836 21.8422 9.26756 21.3203 8.043C20.7984 6.81845 20.0385 5.70975 19.0847 4.78123ZM19.6791 13.7503C19.6232 13.999 19.4839 14.2211 19.2844 14.3797C19.0849 14.5383 18.8371 14.6239 18.5822 14.6222H14.25C13.3549 14.6222 12.4965 14.9777 11.8635 15.6107C11.2306 16.2436 10.875 17.1021 10.875 17.9972C10.8748 18.177 10.8315 18.3542 10.7486 18.5139C10.6658 18.6736 10.5459 18.811 10.399 18.9148C10.2521 19.0186 10.0824 19.0856 9.90424 19.1103C9.72607 19.1349 9.54459 19.1165 9.375 19.0565C7.81407 18.5053 6.50157 17.579 5.58 16.379C4.62267 15.1212 4.11081 13.5807 4.125 12C4.12489 9.92545 4.94337 7.93468 6.40263 6.46015C7.86188 4.98563 9.84403 4.14647 11.9184 4.12498H12C14.0745 4.13342 16.0626 4.95672 17.5357 6.41738C19.0088 7.87804 19.8489 9.85907 19.875 11.9334C19.8801 12.5458 19.8144 13.1568 19.6791 13.754V13.7503ZM13.5 7.12498C13.5 7.42165 13.412 7.71166 13.2472 7.95833C13.0824 8.20501 12.8481 8.39727 12.574 8.5108C12.2999 8.62433 11.9983 8.65403 11.7074 8.59616C11.4164 8.53828 11.1491 8.39542 10.9393 8.18564C10.7296 7.97586 10.5867 7.70859 10.5288 7.41761C10.4709 7.12664 10.5007 6.82504 10.6142 6.55095C10.7277 6.27687 10.92 6.0426 11.1666 5.87777C11.4133 5.71295 11.7033 5.62498 12 5.62498C12.3978 5.62498 12.7794 5.78301 13.0607 6.06432C13.342 6.34562 13.5 6.72715 13.5 7.12498ZM9.375 9.37498C9.375 9.67165 9.28703 9.96166 9.12221 10.2083C8.95739 10.455 8.72312 10.6473 8.44903 10.7608C8.17494 10.8743 7.87334 10.904 7.58237 10.8462C7.2914 10.7883 7.02412 10.6454 6.81434 10.4356C6.60456 10.2259 6.4617 9.95859 6.40382 9.66761C6.34595 9.37664 6.37565 9.07504 6.48918 8.80095C6.60272 8.52686 6.79497 8.2926 7.04165 8.12777C7.28832 7.96295 7.57833 7.87498 7.875 7.87498C8.27283 7.87498 8.65436 8.03301 8.93566 8.31432C9.21697 8.59562 9.375 8.97715 9.375 9.37498ZM9.375 14.625C9.375 14.9217 9.28703 15.2117 9.12221 15.4583C8.95739 15.705 8.72312 15.8973 8.44903 16.0108C8.17494 16.1243 7.87334 16.154 7.58237 16.0962C7.2914 16.0383 7.02412 15.8954 6.81434 15.6856C6.60456 15.4759 6.4617 15.2086 6.40382 14.9176C6.34595 14.6266 6.37565 14.325 6.48918 14.051C6.60272 13.7769 6.79497 13.5426 7.04165 13.3778C7.28832 13.213 7.57833 13.125 7.875 13.125C8.27283 13.125 8.65436 13.283 8.93566 13.5643C9.21697 13.8456 9.375 14.2272 9.375 14.625ZM17.625 9.37498C17.625 9.67165 17.537 9.96166 17.3722 10.2083C17.2074 10.455 16.9731 10.6473 16.699 10.7608C16.4249 10.8743 16.1233 10.904 15.8324 10.8462C15.5414 10.7883 15.2741 10.6454 15.0643 10.4356C14.8546 10.2259 14.7117 9.95859 14.6538 9.66761C14.5959 9.37664 14.6257 9.07504 14.7392 8.80095C14.8527 8.52686 15.045 8.2926 15.2916 8.12777C15.5383 7.96295 15.8283 7.87498 16.125 7.87498C16.5228 7.87498 16.9044 8.03301 17.1857 8.31432C17.467 8.59562 17.625 8.97715 17.625 9.37498Z"
+                fill="#475569"
+              />
+              </svg>
+            </div>
+            <div *ngIf="selectedMainUsages.includes('cart-recovery')" class="ml-2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                  fill="#1E3A8A"
+                />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900">
+            Recuperar carritos<br />abandonados
+          </h3>
+          <p class="mt-2 text-xs text-gray-500 leading-snug">
+            Llamadas salientes para recuperar ventas y ofrecer ayuda personalizada.
+          </p>
+        </div>
+
+        <!-- Tarjeta 3 -->
+        <div
+          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+          [ngClass]="
+            selectedMainUsages.includes('phone-sales')
+              ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+          "
+          (click)="selectMainUsage('phone-sales')"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+              <path
+                d="M22.5 4.875H1.5C1.20163 4.875 0.915483 4.99353 0.704505 5.2045C0.493526 5.41548 0.375 5.70163 0.375 6V18C0.375 18.2984 0.493526 18.5845 0.704505 18.7955C0.915483 19.0065 1.20163 19.125 1.5 19.125H22.5C22.7984 19.125 23.0845 19.0065 23.2955 18.7955C23.5065 18.5845 23.625 18.2984 23.625 18V6C23.625 5.70163 23.5065 5.41548 23.2955 5.2045C23.0845 4.99353 22.7984 4.875 22.5 4.875ZM16.9884 16.875H7.01156C6.78896 15.7952 6.25487 14.8043 5.47529 14.0247C4.6957 13.2451 3.70479 12.711 2.625 12.4884V11.5116C3.70479 11.289 4.6957 10.7549 5.47529 9.97529C6.25487 9.1957 6.78896 8.20479 7.01156 7.125H16.9884C17.211 8.20479 17.7451 9.1957 18.5247 9.97529C19.3043 10.7549 20.2952 11.289 21.375 11.5116V12.4884C20.2952 12.711 19.3043 13.2451 18.5247 14.0247C17.7451 14.8043 17.211 15.7952 16.9884 16.875ZM21.375 9.18188C20.9012 9.01274 20.4709 8.74048 20.1152 8.38477C19.7595 8.02906 19.4873 7.59877 19.3181 7.125H21.375V9.18188ZM4.68187 7.125C4.51274 7.59877 4.24048 8.02906 3.88477 8.38477C3.52906 8.74048 3.09877 9.01274 2.625 9.18188V7.125H4.68187ZM2.625 14.8181C3.09877 14.9873 3.52906 15.2595 3.88477 15.6152C4.24048 15.9709 4.51274 16.4012 4.68187 16.875H2.625V14.8181ZM19.3181 16.875C19.4873 16.4012 19.7595 15.9709 20.1152 15.6152C20.4709 15.2595 20.9012 14.9873 21.375 14.8181V16.875H19.3181ZM12 8.25C11.2583 8.25 10.5333 8.46993 9.91661 8.88199C9.29993 9.29404 8.81928 9.87971 8.53545 10.5649C8.25162 11.2502 8.17736 12.0042 8.32205 12.7316C8.46675 13.459 8.8239 14.1272 9.34835 14.6517C9.8728 15.1761 10.541 15.5333 11.2684 15.6779C11.9958 15.8226 12.7498 15.7484 13.4351 15.4645C14.1203 15.1807 14.706 14.7001 15.118 14.0834C15.5301 13.4667 15.75 12.7417 15.75 12C15.75 11.0054 15.3549 10.0516 14.6517 9.34835C13.9484 8.64509 12.9946 8.25 12 8.25ZM12 13.5C11.7033 13.5 11.4133 13.412 11.1666 13.2472C10.92 13.0824 10.7277 12.8481 10.6142 12.574C10.5006 12.2999 10.4709 11.9983 10.5288 11.7074C10.5867 11.4164 10.7296 11.1491 10.9393 10.9393C11.1491 10.7296 11.4164 10.5867 11.7074 10.5288C11.9983 10.4709 12.2999 10.5006 12.574 10.6142C12.8481 10.7277 13.0824 10.92 13.2472 11.1666C13.412 11.4133 13.5 11.7033 13.5 12C13.5 12.3978 13.342 12.7794 13.0607 13.0607C12.7794 13.342 12.3978 13.5 12 13.5Z"
+                fill="#475569"
+              />
+              </svg>
+            </div>
+            <div *ngIf="selectedMainUsages.includes('phone-sales')" class="ml-2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                  fill="#1E3A8A"
+                />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900">
+            Ventas salientes<br />(Outbound Sales)
+          </h3>
+          <p class="mt-2 text-xs text-gray-500 leading-snug">
+            Agente que realiza llamadas para presentar ofertas, upsells y cerrar pedidos.
+          </p>
+        </div>
+
+        <!-- Tarjeta 4 (seleccionada por defecto) -->
+        <div
+          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+          [ngClass]="
+            selectedMainUsages.includes('confirmations-reminders')
+              ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+          "
+          (click)="selectMainUsage('confirmations-reminders')"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 4.125C10.22 4.125 8.47991 4.65284 6.99987 5.64177C5.51983 6.63071 4.36628 8.03631 3.68509 9.68085C3.0039 11.3254 2.82567 13.135 3.17294 14.8808C3.5202 16.6266 4.37737 18.2303 5.63604 19.489C6.89472 20.7476 8.49836 21.6048 10.2442 21.9521C11.99 22.2993 13.7996 22.1211 15.4442 21.4399C17.0887 20.7587 18.4943 19.6052 19.4832 18.1251C20.4722 16.6451 21 14.905 21 13.125C20.9973 10.7389 20.0482 8.45129 18.361 6.76405C16.6737 5.07682 14.3861 4.12773 12 4.125ZM12 19.875C10.665 19.875 9.35994 19.4791 8.2499 18.7374C7.13987 17.9957 6.27471 16.9415 5.76382 15.7081C5.25293 14.4747 5.11925 13.1175 5.3797 11.8081C5.64015 10.4988 6.28303 9.29603 7.22703 8.35203C8.17104 7.40803 9.37377 6.76515 10.6831 6.5047C11.9925 6.24425 13.3497 6.37792 14.5831 6.88881C15.8165 7.39971 16.8707 8.26487 17.6124 9.3749C18.3541 10.4849 18.75 11.79 18.75 13.125C18.748 14.9146 18.0362 16.6303 16.7708 17.8958C15.5053 19.1612 13.7896 19.873 12 19.875ZM15.4209 9.32906C15.5258 9.43358 15.609 9.55777 15.6658 9.69452C15.7226 9.83126 15.7518 9.97787 15.7518 10.1259C15.7518 10.274 15.7226 10.4206 15.6658 10.5574C15.609 10.6941 15.5258 10.8183 15.4209 10.9228L12.7959 13.5478C12.5846 13.7592 12.298 13.8779 11.9991 13.8779C11.7002 13.8779 11.4135 13.7592 11.2022 13.5478C10.9908 13.3365 10.8721 13.0498 10.8721 12.7509C10.8721 12.4521 10.9908 12.1654 11.2022 11.9541L13.8272 9.32906C13.9317 9.22418 14.0559 9.14097 14.1926 9.08419C14.3294 9.0274 14.476 8.99818 14.6241 8.99818C14.7721 8.99818 14.9187 9.0274 15.0555 9.08419C15.1922 9.14097 15.3164 9.22418 15.4209 9.32906ZM8.625 1.5C8.625 1.20163 8.74353 0.915483 8.95451 0.704505C9.16549 0.493526 9.45164 0.375 9.75 0.375H14.25C14.5484 0.375 14.8345 0.493526 15.0455 0.704505C15.2565 0.915483 15.375 1.20163 15.375 1.5C15.375 1.79837 15.2565 2.08452 15.0455 2.2955C14.8345 2.50647 14.5484 2.625 14.25 2.625H9.75C9.45164 2.625 9.16549 2.50647 8.95451 2.2955C8.74353 2.08452 8.625 1.79837 8.625 1.5Z"
+                  fill="#1E3A8A"
+                />
+              </svg>
+            </div>
+            <div *ngIf="selectedMainUsages.includes('confirmations-reminders')" class="ml-2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                  fill="#1E3A8A"
+                />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-sm font-semibold text-gray-900">
+            Confirmaciones y<br />recordatorios
+          </h3>
+          <p class="mt-2 text-xs text-gray-500 leading-snug">
+            Confirmar pedidos, citas, entregas y enviar recordatorios automáticos.
+          </p>
+        </div>
+      </div>
+
+      <!-- Opción Otro -->
+      <div
+        class="mt-5 rounded-[1.2rem] border border-gray-200 bg-white px-6 py-4 shadow-sm hover:border-blue-600 hover:shadow-md cursor-pointer transition text-sm font-medium text-gray-900 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-3">
+          <svg
+            width="17"
+            height="16"
+            viewBox="0 0 17 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.74975 5.78594V0.9375C3.74975 0.68886 3.65098 0.450403 3.47516 0.274587C3.29935 0.0987721 3.06089 0 2.81225 0C2.56361 0 2.32515 0.0987721 2.14934 0.274587C1.97352 0.450403 1.87475 0.68886 1.87475 0.9375V5.78594C1.32647 5.97984 0.851771 6.33895 0.516027 6.81381C0.180283 7.28867 0 7.85594 0 8.4375C0 9.01906 0.180283 9.58633 0.516027 10.0612C0.851771 10.5361 1.32647 10.8952 1.87475 11.0891V14.6875C1.87475 14.9361 1.97352 15.1746 2.14934 15.3504C2.32515 15.5262 2.56361 15.625 2.81225 15.625C3.06089 15.625 3.29935 15.5262 3.47516 15.3504C3.65098 15.1746 3.74975 14.9361 3.74975 14.6875V11.0891C4.29804 10.8952 4.77273 10.5361 5.10848 10.0612C5.44422 9.58633 5.6245 9.01906 5.6245 8.4375C5.6245 7.85594 5.44422 7.28867 5.10848 6.81381C4.77273 6.33895 4.29804 5.97984 3.74975 5.78594ZM2.81225 9.375C2.62683 9.375 2.44558 9.32002 2.2914 9.217C2.13723 9.11399 2.01707 8.96757 1.94611 8.79627C1.87516 8.62496 1.85659 8.43646 1.89277 8.2546C1.92894 8.07275 2.01823 7.9057 2.14934 7.77459C2.28045 7.64348 2.4475 7.55419 2.62935 7.51801C2.81121 7.48184 2.99971 7.50041 3.17102 7.57136C3.34232 7.64232 3.48874 7.76248 3.59175 7.91665C3.69477 8.07082 3.74975 8.25208 3.74975 8.4375C3.74975 8.68614 3.65098 8.9246 3.47516 9.10041C3.29935 9.27623 3.06089 9.375 2.81225 9.375ZM11.2498 4.6875C11.2489 4.10609 11.0683 3.53917 10.7326 3.06446C10.3969 2.58975 9.92264 2.23049 9.37475 2.03594V0.9375C9.37475 0.68886 9.27598 0.450403 9.10016 0.274587C8.92435 0.0987721 8.68589 0 8.43725 0C8.18861 0 7.95015 0.0987721 7.77434 0.274587C7.59852 0.450403 7.49975 0.68886 7.49975 0.9375V2.03594C6.95147 2.22984 6.47677 2.58895 6.14103 3.06381C5.80528 3.53867 5.625 4.10594 5.625 4.6875C5.625 5.26906 5.80528 5.83633 6.14103 6.31119C6.47677 6.78605 6.95147 7.14516 7.49975 7.33906V14.6875C7.49975 14.9361 7.59852 15.1746 7.77434 15.3504C7.95015 15.5262 8.18861 15.625 8.43725 15.625C8.68589 15.625 8.92435 15.5262 9.10016 15.3504C9.27598 15.1746 9.37475 14.9361 9.37475 14.6875V7.33906C9.92264 7.14451 10.3969 6.78525 10.7326 6.31054C11.0683 5.83583 11.2489 5.26891 11.2498 4.6875ZM8.43725 5.625C8.25183 5.625 8.07058 5.57002 7.9164 5.467C7.76223 5.36399 7.64207 5.21757 7.57111 5.04627C7.50016 4.87496 7.48159 4.68646 7.51777 4.5046C7.55394 4.32275 7.64323 4.1557 7.77434 4.02459C7.90545 3.89348 8.0725 3.80419 8.25435 3.76801C8.43621 3.73184 8.62471 3.75041 8.79602 3.82136C8.96732 3.89232 9.11374 4.01248 9.21675 4.16665C9.31977 4.32082 9.37475 4.50208 9.37475 4.6875C9.37475 4.93614 9.27598 5.1746 9.10016 5.35041C8.92435 5.52623 8.68589 5.625 8.43725 5.625ZM16.8748 10.9375C16.8739 10.3561 16.6933 9.78917 16.3576 9.31446C16.0219 8.83975 15.5476 8.48049 14.9998 8.28594V0.9375C14.9998 0.68886 14.901 0.450403 14.7252 0.274587C14.5493 0.0987721 14.3109 0 14.0623 0C13.8136 0 13.5752 0.0987721 13.3993 0.274587C13.2235 0.450403 13.1248 0.68886 13.1248 0.9375V8.28594C12.5765 8.47984 12.1018 8.83895 11.766 9.31381C11.4303 9.78867 11.25 10.3559 11.25 10.9375C11.25 11.5191 11.4303 12.0863 11.766 12.5612C12.1018 13.0361 12.5765 13.3952 13.1248 13.5891V14.6875C13.1248 14.9361 13.2235 15.1746 13.3993 15.3504C13.5752 15.5262 13.8136 15.625 14.0623 15.625C14.3109 15.625 14.5493 15.5262 14.7252 15.3504C14.901 15.1746 14.9998 14.9361 14.9998 14.6875V13.5891C15.5476 13.3945 16.0219 13.0352 16.3576 12.5605C16.6933 12.0858 16.8739 11.5189 16.8748 10.9375ZM14.0623 11.875C13.8768 11.875 13.6956 11.82 13.5414 11.717C13.3872 11.614 13.2671 11.4676 13.1961 11.2963C13.1252 11.125 13.1066 10.9365 13.1428 10.7546C13.1789 10.5727 13.2682 10.4057 13.3993 10.2746C13.5305 10.1435 13.6975 10.0542 13.8794 10.018C14.0612 9.98184 14.2497 10.0004 14.421 10.0714C14.5923 10.1423 14.7387 10.2625 14.8418 10.4167C14.9448 10.5708 14.9998 10.7521 14.9998 10.9375C14.9998 11.1861 14.901 11.4246 14.7252 11.6004C14.5493 11.7762 14.3109 11.875 14.0623 11.875Z"
+              fill="#94A3B8"
+            />
+          </svg>
+          <span>Otro (personalizado)</span>
+        </div>
+      </div>
+
+        <!-- Progreso y botones inferiores -->
+        <div class="mt-8 flex items-center justify-between">
+          <!-- Dots de progreso -->
+          <div class="flex items-center gap-3">
+            <span class="h-2.5 w-7 rounded-full bg-blue-900"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex items-center gap-8 text-base font-medium">
+            <button
+              type="button"
+              class="flex items-center gap-1 text-slate-600 hover:text-slate-800 transition-colors"
+              (click)="goBack()"
+            >
+              <span class="text-base leading-none">‹</span>
+              <span class="leading-none">Volver</span>
+            </button>
+            <button
+              type="button"
+              class="text-blue-900 font-semibold hover:text-blue-900 transition-colors"
+              (click)="continueSetup()"
+            >
+              Continuar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
-      <!-- Botón saltar en esquina inferior izquierda (solo pasos 1, 2 y 3) -->
-      <div *ngIf="currentStep <= 3" class="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 lg:bottom-8 lg:left-8">
-        <button 
-          type="button" 
-          class="text-black text-sm sm:text-base font-medium hover:text-gray-700 transition-colors duration-200 flex items-center gap-1 tracking-[-0.8px]"
-          (click)="skipSetup()"
-        >
-          Saltar <span class="text-base sm:text-lg">></span>
-        </button>
-      </div>
-  </div>
+    <!-- Paso 2: "¿Cómo nos conociste?" -->
+    <!-- Misma estructura y espaciados que el paso 1 para que no se note el cambio -->
+    <div *ngSwitchCase="2" class="w-1/2 h-full bg-white flex items-start justify-center">
+      <div class="w-full max-w-[640px] h-full flex flex-col px-10 xl:px-16 py-10 xl:py-14">
+        <!-- Logo (idéntico al usado en el dashboard/sidebar) -->
+        <div class="flex items-center gap-2 mb-10">
+          <img src="assets/logo.png" alt="Llamalo Logo" class="h-10" />
+          <div class="flex flex-col leading-none mt-1">
+            <span class="brand-font text-3xl font-bold text-blue-950 tracking-[-2px]">Llamalo</span>
+            <span class="brand-font text-[8px] text-end text-gray-700 font-bold -mt-1 block tracking-[-0.02em]">
+              beta
+            </span>
+          </div>
+        </div>
 
-  <!-- Botón de control para activar/desactivar (solo para testing) -->
-  <div class="fixed top-5 right-5 z-[10000]">
-    <button 
-      type="button" 
-      class="bg-red-600 border-none text-white px-5 py-3 rounded-xl text-sm font-bold cursor-pointer transition-all duration-200 shadow-[0_4px_12px_rgba(239,68,68,0.3)] uppercase tracking-wider hover:bg-red-700 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(239,68,68,0.4)] active:translate-y-0"
-      (click)="toggleSetup()"
-    >
-      {{ isSetupActive ? 'Ocultar' : 'Mostrar' }} Setup
-    </button>
+        <!-- Título y descripción (misma separación que en paso 1: mt-8) -->
+        <div class="mt-8">
+          <h1 class="text-3xl xl:text-4xl font-extrabold text-[#0F172A] leading-tight tracking-[-2.4px]">
+            ¿Cómo nos conociste?
+          </h1>
+          <p class="mt-4 text-sm xl:text-base text-gray-500">
+            Puedes seleccionar varias opciones para esta pregunta.
+          </p>
+        </div>
+
+        <!-- Lista de opciones (misma separación que en paso 1: mt-10) -->
+        <div class="mt-10 flex flex-col gap-3">
+          <!-- Opción 1: Redes sociales (con icono a la izquierda) -->
+          <div
+            class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+            [ngClass]="
+              selectedDiscoveryChannels.includes('social')
+                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+            "
+            (click)="toggleDiscoveryChannel('social')"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <!-- Icono redes sociales actualizado -->
+                <svg
+                  width="22"
+                  height="24"
+                  viewBox="0 0 22 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.5278 4.11288C15.6865 3.18837 15.1807 1.98289 15.1807 0.665039H14.1264M16.5278 4.11288C17.2946 4.95573 18.3328 5.56871 19.515 5.80873C19.8823 5.88535 20.2657 5.92626 20.665 5.92626V9.70605C18.6204 9.70605 16.7246 9.07785 15.1805 8.01536V15.7028C15.1805 19.544 11.9217 22.665 7.92279 22.665C5.8301 22.665 3.93979 21.8068 2.61392 20.443C1.40519 19.1967 0.665039 17.5314 0.665039 15.7028C0.665039 11.9178 3.82799 8.83264 7.74705 8.75091M16.5278 4.11288C16.5074 4.10008 16.487 4.08715 16.4666 4.07409M5.23913 17.5519C4.84511 17.0309 4.61081 16.3925 4.61081 15.6977C4.61081 13.9458 6.09643 12.5206 7.92289 12.5206C8.26366 12.5206 8.59376 12.5767 8.9026 12.6687V8.80715C8.5831 8.76624 8.25833 8.74068 7.92289 8.74068C7.86427 8.74068 7.39247 8.77076 7.33389 8.77076M14.1208 0.665039H11.2348L11.2295 15.8203C11.1656 17.5162 9.70654 18.88 7.92279 18.88C6.8152 18.88 5.84075 18.3539 5.23373 17.5571"
+                    stroke="#1E3A8A"
+                    stroke-width="1.33"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span class="text-sm font-semibold text-gray-900">
+                  Redes sociales (Instagram / TikTok / Twitter / LinkedIn)
+                </span>
+              </div>
+              <div *ngIf="selectedDiscoveryChannels.includes('social')" class="ml-2">
+                <!-- Mismo check que en zona 1 -->
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                    fill="#1E3A8A"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Opción 2 -->
+          <div
+            class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+            [ngClass]="
+              selectedDiscoveryChannels.includes('youtube')
+                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+            "
+            (click)="toggleDiscoveryChannel('youtube')"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <!-- Icono YouTube -->
+                <svg
+                  width="23"
+                  height="21"
+                  viewBox="0 0 23 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M19.5364 5.08102C19.3237 4.91346 19.0657 4.81773 18.8766 4.75875C18.6654 4.6929 18.424 4.63875 18.1702 4.59276C17.6612 4.5005 17.0248 4.42749 16.3193 4.3705C14.9037 4.25612 13.1297 4.19995 11.3671 4.19995C9.60455 4.19995 7.83044 4.25612 6.41489 4.37049C5.70942 4.42749 5.07308 4.5005 4.564 4.59275C4.31022 4.63874 4.06886 4.6929 3.85764 4.75875C3.66851 4.81773 3.41051 4.91346 3.19782 5.08102C2.99621 5.23985 2.88215 5.43578 2.81822 5.56474C2.74697 5.70845 2.69258 5.86421 2.64929 6.01512C2.56247 6.31783 2.49724 6.68379 2.44764 7.07387C2.34778 7.85916 2.2998 8.83658 2.2998 9.80783C2.2998 10.7798 2.34785 11.7712 2.44712 12.5855C2.49657 12.9911 2.56085 13.3707 2.64423 13.6896C2.7163 13.9652 2.83642 14.3408 3.07965 14.6145C3.3052 14.8684 3.62586 14.9835 3.78435 15.0356C3.99008 15.1033 4.22796 15.1565 4.47351 15.2005C4.96868 15.2891 5.60378 15.3586 6.31348 15.4127C7.73934 15.5215 9.55912 15.575 11.3671 15.575C13.175 15.575 14.9949 15.5215 16.4207 15.4127C17.1304 15.3586 17.7655 15.2891 18.2607 15.2005C18.5062 15.1565 18.7442 15.1033 18.9498 15.0356C19.1083 14.9835 19.429 14.8684 19.6546 14.6145C19.8978 14.3408 20.0179 13.9652 20.09 13.6896C20.1733 13.3707 20.2376 12.9911 20.2871 12.5855C20.3864 11.7712 20.4344 10.7798 20.4344 9.80783C20.4344 8.83658 20.3865 7.85916 20.2866 7.07387C20.237 6.6838 20.1717 6.31783 20.085 6.01512C20.0417 5.86421 19.9872 5.70846 19.916 5.56474C19.8521 5.43577 19.7381 5.23985 19.5364 5.08102Z"
+                    stroke="#1E3A8A"
+                    stroke-width="1.67"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M13.933 10.0625L9.67578 12.563V7.56177L13.933 10.0625Z"
+                    stroke="#1E3A8A"
+                    stroke-width="1.67"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span class="text-sm font-semibold text-gray-900">
+                  YouTube
+                </span>
+              </div>
+              <div *ngIf="selectedDiscoveryChannels.includes('youtube')" class="ml-2">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                    fill="#1E3A8A"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Opción 3 -->
+          <div
+            class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+            [ngClass]="
+              selectedDiscoveryChannels.includes('google')
+                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+            "
+            (click)="toggleDiscoveryChannel('google')"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <!-- Icono Google -->
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.8456 7.60946C16.9289 8.11646 16.9776 8.63729 16.9776 9.18587C16.9776 11.7206 16.0747 13.8595 14.5053 15.3109C13.1303 16.5817 11.2484 17.3317 8.9984 17.3317C5.74143 17.3317 2.92893 15.4567 1.56087 12.7345C0.991431 11.6095 0.665039 10.3456 0.665039 8.99837C0.665039 7.65112 0.991431 6.38726 1.56087 5.26226C2.92893 2.54004 5.74143 0.665039 8.9984 0.665039C11.2484 0.665039 13.1303 1.49143 14.5678 2.83865L12.1928 5.21366C11.3247 4.38726 10.2276 3.96365 8.9984 3.96365C6.82476 3.96365 4.98448 5.42893 4.32476 7.40812C4.1581 7.90812 4.06087 8.44279 4.06087 8.99837C4.06087 9.55396 4.15115 10.0886 4.32476 10.5886C4.98448 12.5678 6.82476 14.0331 8.9984 14.0331C10.1234 14.0331 11.0747 13.7275 11.8247 13.2275C12.6997 12.6373 13.2901 11.7692 13.4914 10.7415H8.9984V7.60946H16.8456Z"
+                    stroke="#1E3A8A"
+                    stroke-width="1.33"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span class="text-sm font-semibold text-gray-900">
+                  Google / Buscando alternativas
+                </span>
+              </div>
+              <div *ngIf="selectedDiscoveryChannels.includes('google')" class="ml-2">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                    fill="#1E3A8A"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Opción 4 -->
+          <div
+            class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+            [ngClass]="
+              selectedDiscoveryChannels.includes('communities')
+                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+            "
+            (click)="toggleDiscoveryChannel('communities')"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <!-- Icono Comunidades -->
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15.7449 3.61999C14.5983 3.09556 13.3805 2.71333 12.1095 2.5C11.9494 2.77556 11.7716 3.14888 11.6472 3.44223C10.2952 3.24666 8.95295 3.24666 7.61963 3.44223C7.49518 3.14888 7.3085 2.77556 7.15738 2.5C5.87741 2.71333 4.65963 3.09556 3.52097 3.61999C1.21875 7.01554 0.596524 10.3311 0.907634 13.6022C2.43652 14.7132 3.91208 15.3888 5.36187 15.8333C5.71742 15.3533 6.03743 14.8377 6.31298 14.2955C5.78853 14.1 5.29076 13.86 4.81076 13.5755C4.9352 13.4867 5.05965 13.3889 5.17521 13.2911C8.07298 14.6156 11.2116 14.6156 14.0739 13.2911C14.1983 13.3889 14.3139 13.4867 14.4383 13.5755C13.9583 13.86 13.4605 14.1 12.936 14.2955C13.2116 14.8377 13.5316 15.3533 13.8872 15.8333C15.336 15.3888 16.8205 14.7132 18.3414 13.6022C18.7236 9.81558 17.736 6.52668 15.7449 3.61999ZM6.71298 11.5844C5.84185 11.5844 5.13074 10.7933 5.13074 9.82442C5.13074 8.85558 5.82408 8.06442 6.71298 8.06442C7.59296 8.06442 8.31293 8.85558 8.29515 9.82442C8.29515 10.7933 7.59296 11.5844 6.71298 11.5844ZM12.5539 11.5844C11.6827 11.5844 10.9707 10.7933 10.9707 9.82442C10.9707 8.85558 11.665 8.06442 12.5539 8.06442C13.4339 8.06442 14.1539 8.85558 14.136 9.82442C14.136 10.7933 13.4428 11.5844 12.5539 11.5844Z"
+                    stroke="#1E3A8A"
+                    stroke-width="1.33"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span class="text-sm font-semibold text-gray-900">
+                  Comunidades / Grupos (Slack, Discord, Telegram)
+                </span>
+              </div>
+              <div *ngIf="selectedDiscoveryChannels.includes('communities')" class="ml-2">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                    fill="#1E3A8A"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Opción 5 -->
+          <div
+            class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+            [ngClass]="
+              selectedDiscoveryChannels.includes('events')
+                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+            "
+            (click)="toggleDiscoveryChannel('events')"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <!-- Icono Eventos -->
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15.6141 3.39591H14.1991V2.64344C14.1991 2.35293 13.9723 2.11743 13.6926 2.11743C13.4128 2.11743 13.186 2.35293 13.186 2.64344V3.39591H6.81567V2.64344C6.81567 2.35293 6.58889 2.11743 6.30913 2.11743C6.02938 2.11743 5.80259 2.35293 5.80259 2.64344V3.39591H4.38759C3.62946 3.39591 3.0127 4.0364 3.0127 4.82365V15.402C3.0127 16.1893 3.62948 16.8297 4.38759 16.8297H15.6142C16.3723 16.8297 16.989 16.1893 16.989 15.402V4.82365C16.989 4.03638 16.3722 3.39591 15.6141 3.39591ZM4.02575 4.82365C4.02575 4.61614 4.18774 4.44793 4.38757 4.44793H5.80255V5.04819C5.80255 5.3387 6.02933 5.5742 6.30909 5.5742C6.58884 5.5742 6.81563 5.3387 6.81563 5.04819V4.4479H13.186V5.04817C13.186 5.33868 13.4128 5.57418 13.6926 5.57418C13.9723 5.57418 14.1991 5.33868 14.1991 5.04817V4.4479H15.6141C15.8139 4.4479 15.9759 4.61614 15.9759 4.82362V6.14616H4.02575V4.82365ZM15.976 15.402C15.976 15.6095 15.814 15.7777 15.6141 15.7777H4.38759C4.18774 15.7777 4.02578 15.6095 4.02578 15.402V7.19817H15.976V15.402Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M15.6133 16.8421H4.38672C3.62208 16.8421 3 16.1961 3 15.4021V4.82369C3 4.02967 3.62208 3.38368 4.38672 3.38368H5.7899V2.64351C5.7899 2.34669 6.02243 2.10522 6.30826 2.10522C6.59407 2.10522 6.82663 2.34669 6.82663 2.64351V3.3837H13.1733V2.64351C13.1733 2.34669 13.4059 2.10522 13.6917 2.10522C13.9775 2.10522 14.2101 2.34669 14.2101 2.64351V3.3837H15.6133C16.3779 3.3837 17 4.0297 17 4.82372V15.4021C17 16.1961 16.3779 16.8421 15.6133 16.8421ZM4.38672 3.40826C3.63511 3.40826 3.02365 4.04323 3.02365 4.82372V15.4021C3.02365 16.1825 3.63511 16.8175 4.38672 16.8175H15.6133C16.3649 16.8175 16.9764 16.1826 16.9764 15.4021V4.82372C16.9764 4.04323 16.3649 3.40826 15.6133 3.40826H14.1864V2.64351C14.1864 2.36025 13.9645 2.12978 13.6917 2.12978C13.4189 2.12978 13.197 2.36025 13.197 2.64351V3.40826H6.80298V2.64351C6.80298 2.36025 6.58104 2.12978 6.30826 2.12978C6.03548 2.12978 5.81355 2.36025 5.81355 2.64351V3.40826H4.38672ZM15.6133 15.7901H4.38672C4.1807 15.7901 4.01308 15.616 4.01308 15.402V7.18597H15.9869V15.402C15.9869 15.616 15.8193 15.7901 15.6133 15.7901ZM4.0367 7.21052V15.402C4.0367 15.6024 4.1937 15.7655 4.3867 15.7655H15.6132C15.8062 15.7655 15.9632 15.6024 15.9632 15.402V7.21052H4.0367ZM15.9869 6.15853H4.01306V4.82372C4.01306 4.60978 4.18067 4.43572 4.3867 4.43572H5.8135V5.04827C5.8135 5.33153 6.03543 5.562 6.30821 5.562C6.58099 5.562 6.80293 5.33153 6.80293 5.04827V4.4357H13.197V5.04824C13.197 5.3315 13.4189 5.56197 13.6917 5.56197C13.9645 5.56197 14.1864 5.3315 14.1864 5.04824V4.4357H15.6132C15.8193 4.4357 15.9869 4.60975 15.9869 4.82369L15.9869 6.15853ZM4.0367 6.13397H15.9632V4.82372C15.9632 4.62331 15.8062 4.46028 15.6132 4.46028H14.2101V5.04827C14.2101 5.34506 13.9775 5.58655 13.6917 5.58655C13.4059 5.58655 13.1733 5.34508 13.1733 5.04827V4.46025H6.8266V5.04824C6.8266 5.34504 6.59407 5.58653 6.30824 5.58653C6.0224 5.58653 5.78987 5.34506 5.78987 5.04824V4.46025H4.38672C4.19373 4.46025 4.03673 4.62328 4.03673 4.82369L4.0367 6.13397Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M9.83193 15.2312H10.2739C11.0321 15.2312 11.6489 14.5907 11.6489 13.8035V13.3445C11.6489 12.5572 11.0321 11.9167 10.2739 11.9167H9.83193C9.07382 11.9167 8.45703 12.5572 8.45703 13.3445V13.8035C8.45703 14.5907 9.0738 15.2312 9.83193 15.2312ZM9.47011 13.3445C9.47011 13.1373 9.63243 12.9688 9.83193 12.9688H10.2739C10.4735 12.9688 10.6358 13.1373 10.6358 13.3445V13.8035C10.6358 14.0107 10.4735 14.1792 10.2739 14.1792H9.83193C9.63243 14.1792 9.47011 14.0107 9.47011 13.8035V13.3445Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M10.2731 15.2436H9.83106C9.06642 15.2436 8.44434 14.5976 8.44434 13.8035V13.3446C8.44434 12.5505 9.06642 11.9045 9.83106 11.9045H10.2731C11.0377 11.9045 11.6598 12.5505 11.6598 13.3446V13.8035C11.6598 14.5976 11.0377 15.2436 10.2731 15.2436Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M5.88466 15.2312H6.32667C7.0848 15.2312 7.70156 14.5907 7.70156 13.8035V13.3445C7.70156 12.5572 7.08477 11.9167 6.32667 11.9167H5.88466C5.12653 11.9167 4.50977 12.5572 4.50977 13.3445V13.8035C4.50977 14.5907 5.12653 15.2312 5.88466 15.2312ZM5.52282 13.3445C5.52282 13.1373 5.68514 12.9688 5.88464 12.9688H6.32664C6.52616 12.9688 6.68846 13.1373 6.68846 13.3445V13.8035C6.68846 14.0107 6.52616 14.1792 6.32664 14.1792H5.88464C5.68512 14.1792 5.52282 14.0107 5.52282 13.8035V13.3445Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M6.32775 15.2436H5.88574C5.12111 15.2436 4.49902 14.5976 4.49902 13.8035V13.3446C4.49902 12.5505 5.12111 11.9045 5.88574 11.9045H6.32775C7.09238 11.9045 7.71447 12.5505 7.71447 13.3446V13.8035C7.71447 14.5976 7.09238 15.2436 6.32775 15.2436Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M13.7558 15.2312H14.1978C14.9559 15.2312 15.5727 14.5907 15.5727 13.8035V13.3445C15.5727 12.5572 14.9559 11.9167 14.1978 11.9167H13.7558C12.9976 11.9167 12.3809 12.5572 12.3809 13.3445V13.8035C12.3809 14.5907 12.9976 15.2312 13.7558 15.2312ZM13.3939 13.3445C13.3939 13.1373 13.5562 12.9688 13.7558 12.9688H14.1978C14.3973 12.9688 14.5596 13.1373 14.5596 13.3445V13.8035C14.5596 14.0107 14.3973 14.1792 14.1978 14.1792H13.7558C13.5562 14.1792 13.3939 14.0107 13.3939 13.8035V13.3445Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M14.1979 15.2436H13.7559C12.9912 15.2436 12.3691 14.5976 12.3691 13.8035V13.3446C12.3691 12.5505 12.9912 11.9045 13.7559 11.9045H14.1979C14.9625 11.9045 15.5846 12.5505 15.5846 13.3446V13.8035C15.5846 14.5976 14.9625 15.2436 14.1979 15.2436Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M9.83193 11.136H10.2739C11.0321 11.136 11.6489 10.4955 11.6489 9.70826V9.24927C11.6489 8.462 11.0321 7.82153 10.2739 7.82153H9.83193C9.07382 7.82153 8.45703 8.46203 8.45703 9.24927V9.70826C8.45703 10.4955 9.0738 11.136 9.83193 11.136ZM9.47011 9.24927C9.47011 9.04208 9.63243 8.87355 9.83193 8.87355H10.2739C10.4735 8.87355 10.6358 9.04208 10.6358 9.24927V9.70826C10.6358 9.91545 10.4735 10.084 10.2739 10.084H9.83193C9.63243 10.084 9.47011 9.91545 9.47011 9.70826V9.24927Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M10.2731 11.1481H9.83106C9.06642 11.1481 8.44434 10.5021 8.44434 9.70809V9.2491C8.44434 8.45508 9.06642 7.80908 9.83106 7.80908H10.2731C11.0377 7.80908 11.6598 8.45508 11.6598 9.2491V9.70809C11.6598 10.5021 11.0377 11.1481 10.2731 11.1481Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M13.7558 11.136H14.1978C14.9559 11.136 15.5727 10.4955 15.5727 9.70826V9.24927C15.5727 8.462 14.9559 7.82153 14.1978 7.82153H13.7558C12.9976 7.82153 12.3809 8.46203 12.3809 9.24927V9.70826C12.3809 10.4955 12.9976 11.136 13.7558 11.136ZM13.3939 9.24927C13.3939 9.04208 13.5562 8.87355 13.7558 8.87355H14.1978C14.3973 8.87355 14.5596 9.04208 14.5596 9.24927V9.70826C14.5596 9.91545 14.3973 10.084 14.1978 10.084H13.7558C13.5562 10.084 13.3939 9.91545 13.3939 9.70826V9.24927Z"
+                    fill="#1E3A8A"
+                  />
+                </svg>
+                <span class="text-sm font-semibold text-gray-900">
+                  Evento o webinar
+                </span>
+              </div>
+              <div *ngIf="selectedDiscoveryChannels.includes('events')" class="ml-2">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                    fill="#1E3A8A"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Opción 6 -->
+          <div
+            class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+            [ngClass]="
+              selectedDiscoveryChannels.includes('friend')
+                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+            "
+            (click)="toggleDiscoveryChannel('friend')"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <!-- Icono Recomendación -->
+                <svg
+                  width="18"
+                  height="16"
+                  viewBox="0 0 18 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11.9167 15C11.9167 15.3222 12.1778 15.5833 12.5 15.5833C12.8222 15.5833 13.0833 15.3222 13.0833 15H11.9167ZM2.75 15C2.75 15.3222 3.01117 15.5833 3.33333 15.5833C3.6555 15.5833 3.91667 15.3222 3.91667 15H2.75ZM3.91667 12.5C3.91667 12.1778 3.6555 11.9167 3.33333 11.9167C3.01117 11.9167 2.75 12.1778 2.75 12.5H3.91667ZM9 15C9 15.3222 9.26117 15.5833 9.58333 15.5833C9.9055 15.5833 10.1667 15.3222 10.1667 15H9ZM10.1667 12.5C10.1667 12.1778 9.9055 11.9167 9.58333 11.9167C9.26117 11.9167 9 12.1778 9 12.5H10.1667ZM1.41667 15V13.75H0.25V15H1.41667ZM5.41667 9.75H7.91667V8.58333H5.41667V9.75ZM11.9167 13.75V15H13.0833V13.75H11.9167ZM7.91667 9.75C10.1258 9.75 11.9167 11.5408 11.9167 13.75H13.0833C13.0833 10.8965 10.7702 8.58333 7.91667 8.58333V9.75ZM1.41667 13.75C1.41667 11.5408 3.20753 9.75 5.41667 9.75V8.58333C2.56319 8.58333 0.25 10.8965 0.25 13.75H1.41667ZM7.91667 9.75H11.6667V8.58333H7.91667V9.75ZM15.6667 13.75V15H16.8333V13.75H15.6667ZM11.6667 9.75C13.8758 9.75 15.6667 11.5408 15.6667 13.75H16.8333C16.8333 10.8965 14.5202 8.58333 11.6667 8.58333V9.75ZM3.91667 15V12.5H2.75V15H3.91667ZM10.1667 15V12.5H9V15H10.1667ZM6.66667 6.91667C5.14788 6.91667 3.91667 5.68546 3.91667 4.16667H2.75C2.75 6.32983 4.50355 8.08333 6.66667 8.08333V6.91667ZM3.91667 4.16667C3.91667 2.64788 5.14788 1.41667 6.66667 1.41667V0.25C4.50355 0.25 2.75 2.00356 2.75 4.16667H3.91667ZM6.66667 1.41667C8.18542 1.41667 9.41667 2.64788 9.41667 4.16667H10.5833C10.5833 2.00356 8.82975 0.25 6.66667 0.25V1.41667ZM9.41667 4.16667C9.41667 5.11347 8.93867 5.94883 8.20825 6.44442L8.86317 7.40983C9.90008 6.70642 10.5833 5.51644 10.5833 4.16667H9.41667ZM8.20825 6.44442C7.76875 6.7425 7.23892 6.91667 6.66667 6.91667V8.08333C7.47975 8.08333 8.23658 7.83492 8.86317 7.40983L8.20825 6.44442ZM10.4167 1.41667C11.9354 1.41667 13.1667 2.64788 13.1667 4.16667H14.3333C14.3333 2.00356 12.5797 0.25 10.4167 0.25V1.41667ZM13.1667 4.16667C13.1667 5.11347 12.6887 5.94883 11.9583 6.44442L12.6132 7.40983C13.6501 6.70642 14.3333 5.51644 14.3333 4.16667H13.1667ZM11.9583 6.44442C11.5188 6.7425 10.9889 6.91667 10.4167 6.91667V8.08333C11.2297 8.08333 11.9866 7.83492 12.6132 7.40983L11.9583 6.44442ZM8.69817 2.01958C9.16908 1.64208 9.76575 1.41667 10.4167 1.41667V0.25C9.491 0.25 8.63892 0.57185 7.9685 1.10928L8.69817 2.01958ZM10.4167 6.91667C9.84442 6.91667 9.31458 6.7425 8.87508 6.44442L8.22017 7.40983C8.84675 7.83492 9.60358 8.08333 10.4167 8.08333V6.91667Z"
+                    fill="#1E3A8A"
+                  />
+                  <path
+                    d="M11.9167 15C11.9167 15.3222 12.1778 15.5833 12.5 15.5833C12.8222 15.5833 13.0833 15.3222 13.0833 15M11.9167 15H13.0833M11.9167 15V13.75M13.0833 15V13.75M2.75 15C2.75 15.3222 3.01117 15.5833 3.33333 15.5833C3.6555 15.5833 3.91667 15.3222 3.91667 15M2.75 15H3.91667M2.75 15V12.5M3.91667 15V12.5M3.91667 12.5C3.91667 12.1778 3.6555 11.9167 3.33333 11.9167C3.01117 11.9167 2.75 12.1778 2.75 12.5M3.91667 12.5H2.75M9 15C9 15.3222 9.26117 15.5833 9.58333 15.5833C9.9055 15.5833 10.1667 15.3222 10.1667 15M9 15H10.1667M9 15V12.5M10.1667 15V12.5M10.1667 12.5C10.1667 12.1778 9.9055 11.9167 9.58333 11.9167C9.26117 11.9167 9 12.1778 9 12.5M10.1667 12.5H9M8.53575 6.92708L8.20825 6.44442M8.20825 6.44442C8.93867 5.94883 9.41667 5.11347 9.41667 4.16667M8.20825 6.44442L8.86317 7.40983M8.20825 6.44442C7.76875 6.7425 7.23892 6.91667 6.66667 6.91667M12.2858 6.92708L11.9583 6.44442M11.9583 6.44442C12.6887 5.94883 13.1667 5.11347 13.1667 4.16667M11.9583 6.44442L12.6132 7.40983M11.9583 6.44442C11.5188 6.7425 10.9889 6.91667 10.4167 6.91667M1.41667 13.75V15H0.25V13.75M1.41667 13.75H0.25M1.41667 13.75C1.41667 11.5408 3.20753 9.75 5.41667 9.75M0.25 13.75C0.25 10.8965 2.56319 8.58333 5.41667 8.58333M5.41667 9.75H7.91667M5.41667 9.75V8.58333M7.91667 9.75V8.58333M7.91667 9.75C10.1258 9.75 11.9167 11.5408 11.9167 13.75M7.91667 9.75H11.6667M7.91667 8.58333H5.41667M7.91667 8.58333C10.7702 8.58333 13.0833 10.8965 13.0833 13.75M7.91667 8.58333H11.6667M11.9167 13.75H13.0833M11.6667 9.75V8.58333M11.6667 9.75C13.8758 9.75 15.6667 11.5408 15.6667 13.75M11.6667 8.58333C14.5202 8.58333 16.8333 10.8965 16.8333 13.75M15.6667 13.75V15H16.8333V13.75M15.6667 13.75H16.8333M6.66667 6.91667C5.14788 6.91667 3.91667 5.68546 3.91667 4.16667M6.66667 6.91667V8.08333M3.91667 4.16667H2.75M3.91667 4.16667C3.91667 2.64788 5.14788 1.41667 6.66667 1.41667M2.75 4.16667C2.75 6.32983 4.50355 8.08333 6.66667 8.08333M2.75 4.16667C2.75 2.00356 4.50355 0.25 6.66667 0.25M6.66667 8.08333C7.47975 8.08333 8.23658 7.83492 8.86317 7.40983M6.66667 1.41667V0.25M6.66667 1.41667C8.18542 1.41667 9.41667 2.64788 9.41667 4.16667M6.66667 0.25C8.82975 0.25 10.5833 2.00356 10.5833 4.16667M9.41667 4.16667H10.5833M10.5833 4.16667C10.5833 5.51644 9.90008 6.70642 8.86317 7.40983M10.4167 1.41667C11.9354 1.41667 13.1667 2.64788 13.1667 4.16667M10.4167 1.41667V0.25M10.4167 1.41667C9.76575 1.41667 9.16908 1.64208 8.69817 2.01958L7.9685 1.10928C8.63892 0.57185 9.491 0.25 10.4167 0.25M13.1667 4.16667H14.3333M14.3333 4.16667C14.3333 2.00356 12.5797 0.25 10.4167 0.25M14.3333 4.16667C14.3333 5.51644 13.6501 6.70642 12.6132 7.40983M12.6132 7.40983C11.9866 7.83492 11.2297 8.08333 10.4167 8.08333M10.4167 6.91667V8.08333M10.4167 6.91667C9.84442 6.91667 9.31458 6.7425 8.87508 6.44442L8.22017 7.40983C8.84675 7.83492 9.60358 8.08333 10.4167 8.08333"
+                    stroke="#1E3A8A"
+                    stroke-width="0.5"
+                  />
+                </svg>
+                <span class="text-sm font-semibold text-gray-900">
+                  Recomendación de un amigo o colega
+                </span>
+              </div>
+              <div *ngIf="selectedDiscoveryChannels.includes('friend')" class="ml-2">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                    fill="#1E3A8A"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Opción 7 -->
+          <div
+            class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
+            [ngClass]="
+              selectedDiscoveryChannels.includes('other-source')
+                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
+                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+            "
+            (click)="toggleDiscoveryChannel('other-source')"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <!-- Icono Otro -->
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5.31225 7.97344V3.125C5.31225 2.87636 5.21348 2.6379 5.03766 2.46209C4.86185 2.28627 4.62339 2.1875 4.37475 2.1875C4.12611 2.1875 3.88765 2.28627 3.71184 2.46209C3.53602 2.6379 3.43725 2.87636 3.43725 3.125V7.97344C2.88897 8.16734 2.41427 8.52645 2.07853 9.00131C1.74278 9.47617 1.5625 10.0434 1.5625 10.625C1.5625 11.2066 1.74278 11.7738 2.07853 12.2487C2.41427 12.7236 2.88897 13.0827 3.43725 13.2766V16.875C3.43725 17.1236 3.53602 17.3621 3.71184 17.5379C3.88765 17.7137 4.12611 17.8125 4.37475 17.8125C4.62339 17.8125 4.86185 17.7137 5.03766 17.5379C5.21348 17.3621 5.31225 17.1236 5.31225 16.875V13.2766C5.86054 13.0827 6.33523 12.7236 6.67098 12.2487C7.00672 11.7738 7.187 11.2066 7.187 10.625C7.187 10.0434 7.00672 9.47617 6.67098 9.00131C6.33523 8.52645 5.86054 8.16734 5.31225 7.97344ZM4.37475 11.5625C4.18933 11.5625 4.00808 11.5075 3.8539 11.4045C3.69973 11.3015 3.57957 11.1551 3.50861 10.9838C3.43766 10.8125 3.41909 10.624 3.45527 10.4421C3.49144 10.2602 3.58073 10.0932 3.71184 9.96209C3.84295 9.83098 4.01 9.74169 4.19185 9.70551C4.37371 9.66934 4.56221 9.68791 4.73352 9.75886C4.90482 9.82982 5.05124 9.94998 5.15425 10.1042C5.25727 10.2583 5.31225 10.4396 5.31225 10.625C5.31225 10.8736 5.21348 11.1121 5.03766 11.2879C4.86185 11.4637 4.62339 11.5625 4.37475 11.5625ZM12.8123 6.875C12.8114 6.29359 12.6308 5.72667 12.2951 5.25196C11.9594 4.77725 11.4851 4.41799 10.9373 4.22344V3.125C10.9373 2.87636 10.8385 2.6379 10.6627 2.46209C10.4868 2.28627 10.2484 2.1875 9.99975 2.1875C9.75111 2.1875 9.51265 2.28627 9.33684 2.46209C9.16102 2.6379 9.06225 2.87636 9.06225 3.125V4.22344C8.51397 4.41734 8.03927 4.77645 7.70353 5.25131C7.36778 5.72617 7.1875 6.29344 7.1875 6.875C7.1875 7.45656 7.36778 8.02383 7.70353 8.49869C8.03927 8.97355 8.51397 9.33266 9.06225 9.52656V16.875C9.06225 17.1236 9.16102 17.3621 9.33684 17.5379C9.51265 17.7137 9.75111 17.8125 9.99975 17.8125C10.2484 17.8125 10.4868 17.7137 10.6627 17.5379C10.8385 17.3621 10.9373 17.1236 10.9373 16.875V9.52656C11.4851 9.33201 11.9594 8.97275 12.2951 8.49804C12.6308 8.02333 12.8114 7.45641 12.8123 6.875ZM9.99975 7.8125C9.81433 7.8125 9.63308 7.75752 9.4789 7.6545C9.32473 7.55149 9.20457 7.40507 9.13361 7.23377C9.06266 7.06246 9.04409 6.87396 9.08027 6.6921C9.11644 6.51025 9.20573 6.3432 9.33684 6.21209C9.46795 6.08098 9.635 5.99169 9.81685 5.95551C9.99871 5.91934 10.1872 5.93791 10.3585 6.00886C10.5298 6.07982 10.6762 6.19998 10.7793 6.35415C10.8823 6.50832 10.9373 6.68958 10.9373 6.875C10.9373 7.12364 10.8385 7.3621 10.6627 7.53791C10.4868 7.71373 10.2484 7.8125 9.99975 7.8125ZM18.4373 13.125C18.4364 12.5436 18.2558 11.9767 17.9201 11.502C17.5844 11.0273 17.1101 10.668 16.5623 10.4734V3.125C16.5623 2.87636 16.4635 2.6379 16.2877 2.46209C16.1118 2.28627 15.8734 2.1875 15.6248 2.1875C15.3761 2.1875 15.1377 2.28627 14.9618 2.46209C14.786 2.6379 14.6873 2.87636 14.6873 3.125V10.4734C14.139 10.6673 13.6643 11.0264 13.3285 11.5013C12.9928 11.9762 12.8125 12.5434 12.8125 13.125C12.8125 13.7066 12.9928 14.2738 13.3285 14.7487C13.6643 15.2236 14.139 15.5827 14.6873 15.7766V16.875C14.6873 17.1236 14.786 17.3621 14.9618 17.5379C15.1377 17.7137 15.3761 17.8125 15.6248 17.8125C15.8734 17.8125 16.1118 17.7137 16.2877 17.5379C16.4635 17.3621 16.5623 17.1236 16.5623 16.875V15.7766C17.1101 15.582 17.5844 15.2227 17.9201 14.748C18.2558 14.2733 18.4364 13.7064 18.4373 13.125ZM15.6248 14.0625C15.4393 14.0625 15.2581 14.0075 15.1039 13.9045C14.9497 13.8015 14.8296 13.6551 14.7586 13.4838C14.6877 13.3125 14.6691 13.124 14.7053 12.9421C14.7414 12.7602 14.8307 12.5932 14.9618 12.4621C15.093 12.331 15.26 12.2417 15.4419 12.2055C15.6237 12.1693 15.8122 12.1879 15.9835 12.2589C16.1548 12.3298 16.3012 12.45 16.4043 12.6042C16.5073 12.7583 16.5623 12.9396 16.5623 13.125C16.5623 13.3736 16.4635 13.6121 16.2877 13.7879C16.1118 13.9637 15.8734 14.0625 15.6248 14.0625Z"
+                    fill="#1E3A8A"
+                  />
+                </svg>
+                <span class="text-sm font-semibold text-gray-900">
+                  Otro
+                </span>
+              </div>
+              <div *ngIf="selectedDiscoveryChannels.includes('other-source')" class="ml-2">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                    fill="#1E3A8A"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progreso y botones inferiores (misma separación que en paso 1: mt-8) -->
+        <div class="mt-8 flex items-center justify-between">
+          <!-- Dots de progreso: segundo activo -->
+          <div class="flex items-center gap-3">
+            <span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span>
+            <span class="h-2.5 w-7 rounded-full bg-blue-900"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex items-center gap-8 text-base font-medium">
+            <button
+              type="button"
+              class="flex items-center gap-1 text-slate-600 hover:text-slate-800 transition-colors"
+              (click)="goBack()"
+            >
+              <span class="text-base leading-none">‹</span>
+              <span class="leading-none">Volver</span>
+            </button>
+            <button
+              type="button"
+              class="text-blue-900 font-semibold hover:text-blue-900 transition-colors"
+              (click)="continueSetup()"
+            >
+              Continuar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Lado derecho: fondo de onboarding + mockup (cambia la imagen según la zona) -->
+  <div class="relative w-1/2 h-full bg-cover bg-center bg-no-repeat bg-[url('/assets/fondo_onboarding.png')]">
+    <img
+      [src]="currentStep === 2 ? '/assets/voces_onboard.png' : '/assets/imagen1_onboarding.png'"
+      alt="Onboarding"
+      class="absolute bottom-0 right-0 h-auto transition-all duration-300"
+      [ngClass]="currentStep === 2 ? 'w-[9470px]' : 'w-[130%]'"
+    />
   </div>
+</div>
+
+<!-- Solo botón para mostrar/ocultar el setup -->
+<div class="fixed top-5 right-5 z-[10000]">
+  <button 
+    type="button" 
+    class="bg-red-600 border-none text-white px-5 py-3 rounded-xl text-sm font-bold cursor-pointer transition-all duration-200 shadow-[0_4px_12px_rgba(239,68,68,0.3)] uppercase tracking-wider hover:bg-red-700 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(239,68,68,0.4)] active:translate-y-0"
+    (click)="toggleSetup()"
+  >
+    {{ isSetupActive ? 'Ocultar' : 'Mostrar' }} Setup
+  </button>
 </div>

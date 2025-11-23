@@ -14,6 +14,12 @@ body {
   font-family: "Poppins";
 }
 
+/* Fuente de marca reutilizable (Llamalo/beta) */
+.brand-font {
+  font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+}
+
 /* Ocultar barras de scroll */
 html,
 body {

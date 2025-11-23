@@ -75,7 +75,21 @@ export class CompanySetupComponent implements OnInit {
     }
   ];
 
-  selectedMainUsage: string = '';
+  // Opciones seleccionadas (se pueden elegir varias)
+  selectedMainUsages: string[] = ['confirmations-reminders'];
+
+  // Paso 2: opciones de cómo nos conociste
+  discoveryOptions = [
+    { id: 'social', label: 'Redes sociales (Instagram / TikTok / Twitter / LinkedIn)' },
+    { id: 'youtube', label: 'YouTube' },
+    { id: 'google', label: 'Google / Buscando alternativas' },
+    { id: 'communities', label: 'Comunidades / Grupos (Slack, Discord, Telegram)' },
+    { id: 'events', label: 'Evento o webinar' },
+    { id: 'friend', label: 'Recomendación de un amigo o colega' },
+    { id: 'other-source', label: 'Otro' }
+  ];
+
+  selectedDiscoveryChannels: string[] = [];
   
   // Estado para el logo
   selectedLogo: File | null = null;
@@ -108,35 +122,39 @@ export class CompanySetupComponent implements OnInit {
 
   // Método para continuar con la configuración
   continueSetup() {
-    if (this.currentStep === 1 && this.isFormValid()) {
-      // Avanzar al siguiente paso
+    // SOLO queremos que al darle a "Continue" en la primera página
+    // pase a la "zona 2" (currentStep = 2) y NADA MÁS.
+    if (this.currentStep === 1) {
       this.currentStep = 2;
-    } else if (this.currentStep === 2 && this.selectedMainUsage) {
-      // Avanzar al paso 3
-      this.currentStep = 3;
-    } else if (this.currentStep === 3) {
-      // Avanzar al paso 4 (página de éxito)
-      this.currentStep = 4;
-    } else if (this.currentStep === 4) {
-      // Completar el setup
-      this.completeSetup();
+      return;
     }
   }
 
   // Método para seleccionar una opción de uso principal
   selectMainUsage(usageId: string) {
     console.log('selectMainUsage called with:', usageId);
-    console.log('Current selectedMainUsage:', this.selectedMainUsage);
+    console.log('Current selectedMainUsages:', this.selectedMainUsages);
     
-    // Si ya está seleccionada, la deselecciona
-    if (this.selectedMainUsage === usageId) {
-      this.selectedMainUsage = '';
+    const index = this.selectedMainUsages.indexOf(usageId);
+    if (index > -1) {
+      // Si ya está seleccionada, la deselecciona
+      this.selectedMainUsages.splice(index, 1);
     } else {
-      // Si no está seleccionada, la selecciona
-      this.selectedMainUsage = usageId;
+      // Si no está seleccionada, la añade a la lista
+      this.selectedMainUsages.push(usageId);
     }
     
-    console.log('New selectedMainUsage:', this.selectedMainUsage);
+    console.log('New selectedMainUsages:', this.selectedMainUsages);
+  }
+
+  // Paso 2: seleccionar cómo nos conociste (multi-selección sencilla)
+  toggleDiscoveryChannel(channelId: string) {
+    const index = this.selectedDiscoveryChannels.indexOf(channelId);
+    if (index > -1) {
+      this.selectedDiscoveryChannels.splice(index, 1);
+    } else {
+      this.selectedDiscoveryChannels.push(channelId);
+    }
   }
 
   // Método para saltar la configuración
