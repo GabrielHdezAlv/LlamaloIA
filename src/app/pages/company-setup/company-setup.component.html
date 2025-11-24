@@ -266,7 +266,7 @@
             <button
               type="button"
               class="text-blue-900 font-semibold hover:text-blue-900 transition-colors"
-              (click)="continueSetup()"
+              (click)="goToStep(2)"
             >
               Continuar
             </button>
@@ -711,7 +711,7 @@
             <button
               type="button"
               class="text-blue-900 font-semibold hover:text-blue-900 transition-colors"
-              (click)="continueSetup()"
+              (click)="goToStep(3)"
             >
               Continuar
             </button>
@@ -719,10 +719,53 @@
         </div>
       </div>
     </div>
+
+    <!-- Paso 3: pantalla de bienvenida ocupando TODA la pantalla -->
+    <div
+      *ngSwitchCase="3"
+      class="relative w-full h-full bg-cover bg-no-repeat bg-[url('/assets/fondo_onboarding.png')] bg-[position:center_-140px]"
+    >
+      <!-- Capa oscura negra y suave encima del fondo -->
+      <div class="absolute inset-0 bg-black/5"></div>
+
+      <!-- Contenido grande cerca de la parte baja de la pantalla (un poco más arriba) -->
+      <div
+        class="absolute bottom-16 sm:bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center text-center text-white px-6"
+      >
+        <!-- Logo MUCHO más grande (aún más separado del texto) -->
+        <div class="mb-20 sm:mb-22 md:mb-24">
+          <img src="assets/logo.png" alt="Llamalo Logo" class="h-32 sm:h-40 md:h-48 w-auto mx-auto" />
+        </div>
+
+        <!-- Título más grande -->
+        <h1
+          class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.08em] drop-shadow-sm"
+        >
+          Bienvenido a Llamalo AI
+        </h1>
+
+        <!-- Subtítulo más grande -->
+        <p class="mt-6 text-lg sm:text-2xl md:text-3xl text-sky-50/95 max-w-3xl mx-auto">
+          Deja que la IA hable por ti.
+        </p>
+
+        <!-- Botón principal más grande -->
+        <button
+          type="button"
+          class="mt-10 sm:mt-12 inline-flex items-center justify-center px-16 sm:px-20 md:px-24 py-4 sm:py-4.5 rounded-full bg-[#1E3A8A] hover:bg-[#1E40AF] text-lg sm:text-xl md:text-2xl font-semibold shadow-[0_20px_50px_rgba(37,99,235,0.65)] transition-transform duration-200 hover:-translate-y-0.5"
+          (click)="completeSetup()"
+        >
+          Empezar
+        </button>
+      </div>
+    </div>
   </ng-container>
 
   <!-- Lado derecho: fondo de onboarding + mockup (cambia la imagen según la zona) -->
-  <div class="relative w-1/2 h-full bg-cover bg-center bg-no-repeat bg-[url('/assets/fondo_onboarding.png')]">
+  <div
+    *ngIf="currentStep !== 3"
+    class="relative w-1/2 h-full bg-cover bg-center bg-no-repeat bg-[url('/assets/fondo_onboarding.png')]"
+  >
     <img
       [src]="currentStep === 2 ? '/assets/voces_onboard.png' : '/assets/imagen1_onboarding.png'"
       alt="Onboarding"

@@ -100,6 +100,7 @@ export class CompanySetupComponent implements OnInit {
   
   // Estado para controlar el paso actual
   currentStep: number = 1;
+  maxStep: number = 3;
 
   constructor(private router: Router) {}
 
@@ -122,12 +123,7 @@ export class CompanySetupComponent implements OnInit {
 
   // Método para continuar con la configuración
   continueSetup() {
-    // SOLO queremos que al darle a "Continue" en la primera página
-    // pase a la "zona 2" (currentStep = 2) y NADA MÁS.
-    if (this.currentStep === 1) {
-      this.currentStep = 2;
-      return;
-    }
+    this.goToStep(this.currentStep + 1);
   }
 
   // Método para seleccionar una opción de uso principal
@@ -176,9 +172,18 @@ export class CompanySetupComponent implements OnInit {
 
   // Método para ir hacia atrás
   goBack() {
-    if (this.currentStep > 1) {
-      this.currentStep--;
+    this.goToStep(this.currentStep - 1);
+  }
+
+  // Método genérico para ir a un paso concreto
+  goToStep(step: number) {
+    if (step < 1) {
+      step = 1;
     }
+    if (step > this.maxStep) {
+      step = this.maxStep;
+    }
+    this.currentStep = step;
   }
 
   // Método para manejar la subida del logo

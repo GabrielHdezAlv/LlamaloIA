@@ -15,7 +15,8 @@ import { I18nService, Language } from '../../core/services/i18n.service';
 })
 export class TopbarComponent implements OnInit {
   pageTitle: string = 'Inicio';
-  welcomeText: string = 'Hey Maria, Bienvenido/a';
+  // Texto de bienvenida que se mostrará solo en la Home
+  welcomeText: string = '';
 
   private router = inject(Router);
   public userStorage = inject(UserStorage);
@@ -135,8 +136,14 @@ export class TopbarComponent implements OnInit {
       this.pageTitle = t.settings;
       this.welcomeText = '';
     } else {
+      // Home
       this.pageTitle = t.home;
-      this.welcomeText = '';
+      const user = this.userStorage.user();
+      if (user) {
+        this.welcomeText = `Bienvenido, ${user.name} ${user.lastname} 👋`;
+      } else {
+        this.welcomeText = 'Bienvenido 👋';
+      }
     }
   }
 
