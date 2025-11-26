@@ -115,42 +115,4 @@ body::-webkit-scrollbar {
   animation: ll-hero-bg-fade 900ms ease-out forwards;
 }
 
-/* =========================
-   Tema oscuro global
-   ========================= */
-body.ll-dark {
-  background-color: #020617;
-  color: #e5e7eb;
-}
-
-body.ll-dark .topbar-container {
-  background: rgba(15, 23, 42, 0.96);
-  border-bottom: 1px solid rgba(51, 65, 85, 0.7);
-}
-
-body.ll-dark .topbar-container h1,
-body.ll-dark .topbar-container p {
-  color: #e5e7eb;
-}
-
-body.ll-dark .topbar-container button {
-  color: #e5e7eb;
-}
-
-body.ll-dark .topbar-container button:hover {
-  background-color: rgba(30, 64, 175, 0.2);
-}
-
-/* Overrides suaves para utilidades claras más usadas */
-body.ll-dark .bg-white {
-  background-color: #020617 !important;
-}
-
-body.ll-dark .text-black,
-body.ll-dark .text-gray-900 {
-  color: #e5e7eb !important;
-}
-
-body.ll-dark .text-gray-600 {
-  color: #9ca3af !important;
-}
+/* (Tema oscuro eliminado; estilos originales solo modo claro) */

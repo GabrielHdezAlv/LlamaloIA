@@ -81,18 +81,8 @@ export class TopbarComponent implements OnInit {
     return user?.profileImage || 'assets/predeterminada.webp';
   };
 
-  // Tema oscuro
-  isDarkMode = false;
-
   ngOnInit() {
     this.i18nService.initializeLanguage();
-
-    // Inicializar tema (claro/oscuro) desde localStorage
-    if (this.isBrowser) {
-      const savedTheme = localStorage.getItem('ll-theme');
-      this.isDarkMode = savedTheme === 'dark';
-      this.applyThemeClass();
-    }
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -190,26 +180,6 @@ export class TopbarComponent implements OnInit {
 
   closeInviteModal() {
     this.showInviteModal = false;
-  }
-
-  toggleDarkMode() {
-    if (!this.isBrowser) return;
-
-    this.isDarkMode = !this.isDarkMode;
-    localStorage.setItem('ll-theme', this.isDarkMode ? 'dark' : 'light');
-    this.applyThemeClass();
-  }
-
-  private applyThemeClass() {
-    if (!this.isBrowser) return;
-
-    const body = document.body;
-
-    if (this.isDarkMode) {
-      body.classList.add('ll-dark');
-    } else {
-      body.classList.remove('ll-dark');
-    }
   }
 
   // Métodos del modal de invitación
