@@ -78,6 +78,26 @@ export class CompanySetupComponent implements OnInit {
   // Opciones seleccionadas (se pueden elegir varias)
   selectedMainUsages: string[] = ['confirmations-reminders'];
 
+  // Animaciones zona 1 (onboarding - usos principales)
+  // Solo se animan las tarjetas; el fondo blanco permanece siempre fijo
+  isMainUsageAnimating = false;
+  mainUsageSelectedForTransition: string | null = null;
+  selectedCardFadingOut = false;
+
+  // Animación de entrada suave para la zona 2
+  step2ContentVisible = true;
+
+  // Imagen derecha (mockup del onboarding)
+  rightImageStep = 1; // 1 = zona 1, 2 = zona 2
+  isRightImageFading = false;
+
+  // Sonido de click para botones del onboarding
+  private clickAudio = new Audio('assets/click.mp3');
+
+  // Intro de vídeo antes de la zona 1
+  showIntroVideo = true;
+  isIntroFading = false;
+
   // Paso 2: opciones de cómo nos conociste
   discoveryOptions = [
     { id: 'social', label: 'Redes sociales (Instagram / TikTok / Twitter / LinkedIn)' },
@@ -108,6 +128,7 @@ export class CompanySetupComponent implements OnInit {
     // Aquí podrías verificar si el usuario ya completó el setup
     // Por defecto está desactivado, se activa con el botón
     this.isSetupActive = false;
+    this.showIntroVideo = true;
     
     // Cargar la imagen de perfil existente del usuario
     const currentUser = this.userStore.user();
@@ -119,6 +140,38 @@ export class CompanySetupComponent implements OnInit {
   // Método para activar/desactivar el setup (para testing)
   toggleSetup() {
     this.isSetupActive = !this.isSetupActive;
+    if (this.isSetupActive) {
+      this.currentStep = 1;
+      this.step2ContentVisible = true;
+      this.showIntroVideo = true;
+      this.isIntroFading = false;
+    }
+  }
+
+  // Reproducir sonido de click (con manejo básico de errores)
+  playClick() {
+    try {
+      this.clickAudio.currentTime = 0;
+      this.clickAudio.play();
+    } catch (e) {
+      console.error('No se pudo reproducir el sonido de click', e);
+    }
+  }
+
+  // Control de la intro de vídeo
+  onIntroVideoEnded() {
+    if (!this.showIntroVideo || this.isIntroFading) return;
+    this.isIntroFading = true;
+
+    const fadeDuration = 400; // ms para desvanecer el vídeo
+    setTimeout(() => {
+      this.showIntroVideo = false;
+      this.isIntroFading = false;
+    }, fadeDuration);
+  }
+
+  skipIntro() {
+    this.onIntroVideoEnded();
   }
 
   // Método para continuar con la configuración
@@ -141,6 +194,46 @@ export class CompanySetupComponent implements OnInit {
     }
     
     console.log('New selectedMainUsages:', this.selectedMainUsages);
+  }
+
+  // Maneja el click en una tarjeta de la zona 1 con animación y cambio suave a la zona 2
+  handleMainUsageClick(usageId: string) {
+    // Evitar dobles clics mientras la animación está en curso
+    if (this.isMainUsageAnimating) {
+      return;
+    }
+
+    // Dejamos únicamente la opción pulsada como seleccionada
+    this.selectedMainUsages = [usageId];
+    this.mainUsageSelectedForTransition = usageId;
+    this.isMainUsageAnimating = true;
+    this.selectedCardFadingOut = false;
+    this.step2ContentVisible = false;
+
+    // 1) Animar: las demás tarjetas se desvanecen (controlado por *ngClass)
+    // 2) Mantener un tiempo la tarjeta seleccionada visible
+    const selectedVisibleDelay = 550; // ms con la tarjeta seleccionada visible sola
+    const selectedFadeOutDuration = 250; // ms de fade-out del recuadro seleccionado
+    const step2DelayAfterFade = 200; // ms extra antes de mostrar contenido de zona 2
+
+    // Fase 1: mantener seleccionada
+    setTimeout(() => {
+      // Fase 2: iniciar fade-out suave del recuadro seleccionado
+      this.selectedCardFadingOut = true;
+
+      setTimeout(() => {
+        // Fase 3: cambiar al paso 2 (ya sin ver el recuadro seleccionado)
+        this.goToStep(2);
+
+        // Fase 4: mostrar suavemente el contenido de la zona 2
+        setTimeout(() => {
+          this.step2ContentVisible = true;
+          this.isMainUsageAnimating = false;
+          this.mainUsageSelectedForTransition = null;
+          this.selectedCardFadingOut = false;
+        }, step2DelayAfterFade);
+      }, selectedFadeOutDuration);
+    }, selectedVisibleDelay);
   }
 
   // Paso 2: seleccionar cómo nos conociste (multi-selección sencilla)
@@ -172,6 +265,20 @@ export class CompanySetupComponent implements OnInit {
 
   // Método para ir hacia atrás
   goBack() {
+    // Animación especial al volver del paso 2 al paso 1
+    if (this.currentStep === 2) {
+      const backFadeDuration = 300; // ms para desvanecer la zona 2
+
+      // Iniciar fade-out del contenido de la zona 2
+      this.step2ContentVisible = false;
+
+      setTimeout(() => {
+        this.goToStep(1);
+      }, backFadeDuration);
+
+      return;
+    }
+
     this.goToStep(this.currentStep - 1);
   }
 
@@ -183,7 +290,34 @@ export class CompanySetupComponent implements OnInit {
     if (step > this.maxStep) {
       step = this.maxStep;
     }
+
+    const previousStep = this.currentStep;
     this.currentStep = step;
+
+    // Si se navega a la zona 2 sin venir de la animación de la zona 1,
+    // aseguramos que su contenido esté visible inmediatamente.
+    if (step === 2 && !this.isMainUsageAnimating) {
+      this.step2ContentVisible = true;
+    }
+
+    // Transición suave de la imagen derecha entre pasos 1 y 2
+    if ((step === 1 || step === 2) && step !== previousStep) {
+      this.triggerRightImageTransition(step);
+    }
+  }
+
+  private triggerRightImageTransition(targetStep: number) {
+    if (targetStep === this.rightImageStep || (targetStep !== 1 && targetStep !== 2)) {
+      return;
+    }
+
+    const fadeDuration = 350; // ms
+    this.isRightImageFading = true;
+
+    setTimeout(() => {
+      this.rightImageStep = targetStep;
+      this.isRightImageFading = false;
+    }, fadeDuration);
   }
 
   // Método para manejar la subida del logo

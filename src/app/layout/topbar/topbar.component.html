@@ -61,10 +61,57 @@
     </p>
   </div>
 
-  <!-- Avatar con Dropdown -->
+  <!-- Controles de la derecha (modo oscuro + avatar) -->
   <div
     class="relative mr-4 sm:mr-8 md:mr-12 lg:mr-20 flex items-center gap-1 sm:gap-2 md:gap-3"
   >
+    <!-- Botón modo oscuro -->
+    <button
+      type="button"
+      (click)="toggleDarkMode()"
+      class="p-2 rounded-full border border-gray-200 text-gray-700 hover:bg-gray-100 transition-colors mr-1 hidden sm:inline-flex items-center justify-center"
+    >
+      <span class="sr-only">Cambiar modo oscuro</span>
+      <!-- Sol (modo claro actual) -->
+      <svg
+        *ngIf="!isDarkMode"
+        class="w-4 h-4"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10 4.375C9.66848 4.375 9.34688 4.47349 9.07438 4.65728C8.80188 4.84106 8.59121 5.10196 8.47076 5.4066C8.3503 5.71124 8.32546 6.04601 8.39941 6.36639C8.47335 6.68676 8.64264 6.9775 8.88782 7.21218C9.133 7.44686 9.44326 7.61649 9.78285 7.70452C10.1224 7.79256 10.4791 7.79546 10.8201 7.71289C11.1612 7.63031 11.4741 7.46466 11.7287 7.23198C11.9832 6.99929 12.1697 6.70739 12.2709 6.38351C12.3721 6.05963 12.3844 5.71445 12.3064 5.38416C12.2285 5.05387 12.0627 4.75021 11.8265 4.50523C11.5904 4.26025 11.2923 4.08371 10.964 3.99467C10.6357 3.90564 10.2893 3.9072 9.96131 3.99924C9.63335 4.09129 9.33601 4.27074 9.10417 4.51875"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M10 1.667V3.333M10 16.667V18.333M4.108 4.108L5.292 5.292M14.708 14.708L15.892 15.892M1.667 10H3.333M16.667 10H18.333M4.108 15.892L5.292 14.708M14.708 5.292L15.892 4.108"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <!-- Luna (modo oscuro activo) -->
+      <svg
+        *ngIf="isDarkMode"
+        class="w-4 h-4"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M15.8333 11.6667C15.5922 11.7338 15.3464 11.7818 15.0985 11.8102C13.8894 11.9501 12.6675 11.6912 11.6337 11.0736C10.5998 10.4561 9.81433 9.51229 9.39874 8.38936C8.98314 7.26643 8.95912 6.031 9.33068 4.89296C9.70225 3.75493 10.4468 2.78239 11.4583 2.08333C10.1893 1.73703 8.84685 1.77729 7.60004 2.19939C6.35323 2.62149 5.25895 3.40441 4.4538 4.45326C3.64864 5.5021 3.16896 6.77179 3.07114 8.0945C2.97332 9.41721 3.26156 10.7375 3.90036 11.898C4.53916 13.0586 5.50129 14.0101 6.67253 14.6402C7.84377 15.2704 9.17143 15.5512 10.5 15.45C11.8286 15.3488 13.1019 14.8695 14.1667 14.0726C14.9637 13.4758 15.6065 12.7065 16.0417 11.825C15.9723 11.7721 15.9031 11.7192 15.8333 11.6667Z"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
     <button
       (click)="toggleDropdown()"
       class="flex items-center text-black rounded-lg transition"

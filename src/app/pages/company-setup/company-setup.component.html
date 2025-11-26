@@ -1,9 +1,38 @@
 <!-- Fondo dividido 50/50 blanco (contenido onboarding) y fondo_onboarding.png cuando el setup está activo -->
 <div *ngIf="isSetupActive" class="fixed inset-0 w-screen h-screen flex z-[9998] tracking-[-0.5px]">
-  <!-- Lado izquierdo: cambiamos el contenido según el paso -->
+  <!-- Intro de vídeo a pantalla completa -->
+  <div
+    *ngIf="showIntroVideo"
+    class="absolute inset-0 z-[10000] flex items-center justify-center bg-black"
+    [ngClass]="isIntroFading ? 'opacity-0 transition-opacity duration-500' : 'opacity-100 transition-opacity duration-500'"
+  >
+    <video
+      class="w-full h-full object-cover"
+      autoplay
+      muted
+      playsinline
+      (ended)="onIntroVideoEnded()"
+    >
+      <source src="assets/animacion.mp4" type="video/mp4" />
+      Tu navegador no soporta la reproducción de vídeo HTML5.
+    </video>
+
+    <!-- Botón para saltar la intro -->
+    <button
+      type="button"
+      class="absolute bottom-10 right-10 text-xs sm:text-sm px-3 py-2 rounded-full bg-white/80 text-gray-800 hover:bg-white transition-colors shadow"
+      (click)="skipIntro()"
+    >
+      Saltar animación
+    </button>
+  </div>
+
   <ng-container [ngSwitch]="currentStep">
     <!-- Paso 1: contenido original -->
-    <div *ngSwitchCase="1" class="w-1/2 h-full bg-white flex items-start justify-center">
+    <div
+      *ngSwitchCase="1"
+      class="w-1/2 h-full bg-white flex items-start justify-center"
+    >
       <div class="w-full max-w-[640px] h-full flex flex-col px-10 xl:px-16 py-10 xl:py-14">
       <!-- Logo (idéntico al usado en el dashboard/sidebar) -->
       <div class="flex items-center gap-2 mb-10">
@@ -17,7 +46,14 @@
       </div>
 
       <!-- Título y descripción -->
-      <div class="mt-8">
+      <div
+        class="mt-8 transition-all duration-500 ease-out"
+        [ngClass]="
+          isMainUsageAnimating
+            ? 'opacity-0 translate-y-3 scale-[0.97]'
+            : 'opacity-100 translate-y-0'
+        "
+      >
         <h1 class="text-3xl xl:text-4xl font-extrabold text-[#1E293B] leading-tight tracking-[-2.4px]">
           ¿Qué quieres conseguir con<br class="hidden md:block" /> Llamalo?
         </h1>
@@ -30,13 +66,24 @@
       <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Tarjeta 1 -->
         <div
-          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
-          [ngClass]="
+          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition-all duration-500 ease-out"
+          [ngClass]="[
             selectedMainUsages.includes('customer-service')
               ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
-          "
-          (click)="selectMainUsage('customer-service')"
+              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg',
+            isMainUsageAnimating && mainUsageSelectedForTransition !== 'customer-service'
+              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
+              : '',
+            isMainUsageAnimating &&
+            mainUsageSelectedForTransition === 'customer-service' &&
+            !selectedCardFadingOut
+              ? 'scale-[1.03] shadow-[0_16px_45px_rgba(15,23,42,0.15)]'
+              : '',
+            selectedCardFadingOut && mainUsageSelectedForTransition === 'customer-service'
+              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
+              : ''
+          ]"
+          (click)="playClick(); handleMainUsageClick('customer-service')"
         >
           <div class="flex items-center justify-between mb-4">
             <div class="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center">
@@ -78,13 +125,24 @@
 
         <!-- Tarjeta 2 -->
         <div
-          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
-          [ngClass]="
+          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition-all duration-500 ease-out"
+          [ngClass]="[
             selectedMainUsages.includes('cart-recovery')
               ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
-          "
-          (click)="selectMainUsage('cart-recovery')"
+              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg',
+            isMainUsageAnimating && mainUsageSelectedForTransition !== 'cart-recovery'
+              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
+              : '',
+            isMainUsageAnimating &&
+            mainUsageSelectedForTransition === 'cart-recovery' &&
+            !selectedCardFadingOut
+              ? 'scale-[1.03] shadow-[0_16px_45px_rgba(15,23,42,0.15)]'
+              : '',
+            selectedCardFadingOut && mainUsageSelectedForTransition === 'cart-recovery'
+              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
+              : ''
+          ]"
+          (click)="playClick(); handleMainUsageClick('cart-recovery')"
         >
           <div class="flex items-center justify-between mb-4">
             <div class="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center">
@@ -126,13 +184,24 @@
 
         <!-- Tarjeta 3 -->
         <div
-          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
-          [ngClass]="
+          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition-all duration-500 ease-out"
+          [ngClass]="[
             selectedMainUsages.includes('phone-sales')
               ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
-          "
-          (click)="selectMainUsage('phone-sales')"
+              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg',
+            isMainUsageAnimating && mainUsageSelectedForTransition !== 'phone-sales'
+              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
+              : '',
+            isMainUsageAnimating &&
+            mainUsageSelectedForTransition === 'phone-sales' &&
+            !selectedCardFadingOut
+              ? 'scale-[1.03] shadow-[0_16px_45px_rgba(15,23,42,0.15)]'
+              : '',
+            selectedCardFadingOut && mainUsageSelectedForTransition === 'phone-sales'
+              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
+              : ''
+          ]"
+          (click)="playClick(); handleMainUsageClick('phone-sales')"
         >
           <div class="flex items-center justify-between mb-4">
             <div class="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center">
@@ -174,13 +243,25 @@
 
         <!-- Tarjeta 4 (seleccionada por defecto) -->
         <div
-          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
-          [ngClass]="
+          class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition-all duration-500 ease-out"
+          [ngClass]="[
             selectedMainUsages.includes('confirmations-reminders')
               ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
-          "
-          (click)="selectMainUsage('confirmations-reminders')"
+              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg',
+            isMainUsageAnimating && mainUsageSelectedForTransition !== 'confirmations-reminders'
+              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
+              : '',
+            isMainUsageAnimating &&
+            mainUsageSelectedForTransition === 'confirmations-reminders' &&
+            !selectedCardFadingOut
+              ? 'scale-[1.03] shadow-[0_16px_45px_rgba(15,23,42,0.15)]'
+              : '',
+            selectedCardFadingOut &&
+            mainUsageSelectedForTransition === 'confirmations-reminders'
+              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
+              : ''
+          ]"
+          (click)="playClick(); handleMainUsageClick('confirmations-reminders')"
         >
           <div class="flex items-center justify-between mb-4">
             <div class="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center">
@@ -223,7 +304,12 @@
 
       <!-- Opción Otro -->
       <div
-        class="mt-5 rounded-[1.2rem] border border-gray-200 bg-white px-6 py-4 shadow-sm hover:border-blue-600 hover:shadow-md cursor-pointer transition text-sm font-medium text-gray-900 flex items-center justify-between"
+        class="mt-5 rounded-[1.2rem] border border-gray-200 bg-white px-6 py-4 shadow-sm hover:border-blue-600 hover:shadow-md cursor-pointer transition-all duration-500 ease-out text-sm font-medium text-gray-900 flex items-center justify-between"
+        [ngClass]="
+          isMainUsageAnimating
+            ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
+            : 'opacity-100 translate-y-0'
+        "
       >
         <div class="flex items-center gap-3">
           <svg
@@ -243,7 +329,14 @@
       </div>
 
         <!-- Progreso y botones inferiores -->
-        <div class="mt-8 flex items-center justify-between">
+        <div
+          class="mt-8 flex items-center justify-between transition-all duration-500 ease-out"
+          [ngClass]="
+            isMainUsageAnimating
+              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
+              : 'opacity-100 translate-y-0'
+          "
+        >
           <!-- Dots de progreso -->
           <div class="flex items-center gap-3">
             <span class="h-2.5 w-7 rounded-full bg-blue-900"></span>
@@ -258,7 +351,7 @@
             <button
               type="button"
               class="flex items-center gap-1 text-slate-600 hover:text-slate-800 transition-colors"
-              (click)="goBack()"
+              (click)="playClick(); goBack()"
             >
               <span class="text-base leading-none">‹</span>
               <span class="leading-none">Volver</span>
@@ -266,7 +359,7 @@
             <button
               type="button"
               class="text-blue-900 font-semibold hover:text-blue-900 transition-colors"
-              (click)="goToStep(2)"
+              (click)="playClick(); goToStep(2)"
             >
               Continuar
             </button>
@@ -277,9 +370,12 @@
 
     <!-- Paso 2: "¿Cómo nos conociste?" -->
     <!-- Misma estructura y espaciados que el paso 1 para que no se note el cambio -->
-    <div *ngSwitchCase="2" class="w-1/2 h-full bg-white flex items-start justify-center">
+    <div
+      *ngSwitchCase="2"
+      class="w-1/2 h-full bg-white flex items-start justify-center"
+    >
       <div class="w-full max-w-[640px] h-full flex flex-col px-10 xl:px-16 py-10 xl:py-14">
-        <!-- Logo (idéntico al usado en el dashboard/sidebar) -->
+        <!-- Logo (idéntico al usado en el dashboard/sidebar) - SIN animación -->
         <div class="flex items-center gap-2 mb-10">
           <img src="assets/logo.png" alt="Llamalo Logo" class="h-10" />
           <div class="flex flex-col leading-none mt-1">
@@ -290,18 +386,23 @@
           </div>
         </div>
 
-        <!-- Título y descripción (misma separación que en paso 1: mt-8) -->
-        <div class="mt-8">
+        <!-- Contenido animado de la zona 2 (todo menos el logo) -->
+        <div
+          class="flex flex-col flex-1 transition-all duration-700 ease-out"
+          [ngClass]="step2ContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'"
+        >
+          <!-- Título y descripción (misma separación que en paso 1: mt-8) -->
+          <div class="mt-8">
           <h1 class="text-3xl xl:text-4xl font-extrabold text-[#0F172A] leading-tight tracking-[-2.4px]">
             ¿Cómo nos conociste?
           </h1>
           <p class="mt-4 text-sm xl:text-base text-gray-500">
             Puedes seleccionar varias opciones para esta pregunta.
           </p>
-        </div>
+          </div>
 
-        <!-- Lista de opciones (misma separación que en paso 1: mt-10) -->
-        <div class="mt-10 flex flex-col gap-3">
+          <!-- Lista de opciones (misma separación que en paso 1: mt-10) -->
+          <div class="mt-10 flex flex-col gap-3">
           <!-- Opción 1: Redes sociales (con icono a la izquierda) -->
           <div
             class="rounded-[24px] bg-white px-6 py-6 cursor-pointer transition"
@@ -310,7 +411,7 @@
                 ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
                 : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
             "
-            (click)="toggleDiscoveryChannel('social')"
+            (click)="playClick(); toggleDiscoveryChannel('social')"
           >
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
@@ -359,7 +460,7 @@
                 ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
                 : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
             "
-            (click)="toggleDiscoveryChannel('youtube')"
+            (click)="playClick(); toggleDiscoveryChannel('youtube')"
           >
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
@@ -415,7 +516,7 @@
                 ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
                 : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
             "
-            (click)="toggleDiscoveryChannel('google')"
+            (click)="playClick(); toggleDiscoveryChannel('google')"
           >
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
@@ -463,7 +564,7 @@
                 ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
                 : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
             "
-            (click)="toggleDiscoveryChannel('communities')"
+            (click)="playClick(); toggleDiscoveryChannel('communities')"
           >
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
@@ -511,7 +612,7 @@
                 ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
                 : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
             "
-            (click)="toggleDiscoveryChannel('events')"
+            (click)="playClick(); toggleDiscoveryChannel('events')"
           >
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
@@ -597,7 +698,7 @@
                 ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
                 : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
             "
-            (click)="toggleDiscoveryChannel('friend')"
+            (click)="playClick(); toggleDiscoveryChannel('friend')"
           >
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
@@ -648,7 +749,7 @@
                 ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
                 : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
             "
-            (click)="toggleDiscoveryChannel('other-source')"
+            (click)="playClick(); toggleDiscoveryChannel('other-source')"
           >
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
@@ -685,10 +786,10 @@
               </div>
             </div>
           </div>
-        </div>
+          </div>
 
-        <!-- Progreso y botones inferiores (misma separación que en paso 1: mt-8) -->
-        <div class="mt-8 flex items-center justify-between">
+          <!-- Progreso y botones inferiores (misma separación que en paso 1: mt-8) -->
+          <div class="mt-8 flex items-center justify-between">
           <!-- Dots de progreso: segundo activo -->
           <div class="flex items-center gap-3">
             <span class="h-2.5 w-2.5 rounded-full bg-gray-300"></span>
@@ -703,7 +804,7 @@
             <button
               type="button"
               class="flex items-center gap-1 text-slate-600 hover:text-slate-800 transition-colors"
-              (click)="goBack()"
+              (click)="playClick(); goBack()"
             >
               <span class="text-base leading-none">‹</span>
               <span class="leading-none">Volver</span>
@@ -711,11 +812,12 @@
             <button
               type="button"
               class="text-blue-900 font-semibold hover:text-blue-900 transition-colors"
-              (click)="goToStep(3)"
+              (click)="playClick(); goToStep(3)"
             >
               Continuar
             </button>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -726,34 +828,34 @@
       class="relative w-full h-full bg-cover bg-no-repeat bg-[url('/assets/fondo_onboarding.png')] bg-[position:center_-140px]"
     >
       <!-- Capa oscura negra y suave encima del fondo -->
-      <div class="absolute inset-0 bg-black/5"></div>
+      <div class="absolute inset-0 bg-black/5 ll-hero-bg-fade"></div>
 
       <!-- Contenido grande cerca de la parte baja de la pantalla (un poco más arriba) -->
       <div
         class="absolute bottom-16 sm:bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center text-center text-white px-6"
       >
         <!-- Logo MUCHO más grande (aún más separado del texto) -->
-        <div class="mb-20 sm:mb-22 md:mb-24">
+        <div class="mb-20 sm:mb-22 md:mb-24 ll-hero-fade-up ll-hero-delay-1">
           <img src="assets/logo.png" alt="Llamalo Logo" class="h-32 sm:h-40 md:h-48 w-auto mx-auto" />
         </div>
 
         <!-- Título más grande -->
         <h1
-          class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.08em] drop-shadow-sm"
+          class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.08em] drop-shadow-sm ll-hero-fade-up ll-hero-delay-2"
         >
           Bienvenido a Llamalo AI
         </h1>
 
         <!-- Subtítulo más grande -->
-        <p class="mt-6 text-lg sm:text-2xl md:text-3xl text-sky-50/95 max-w-3xl mx-auto">
+        <p class="mt-6 text-lg sm:text-2xl md:text-3xl text-sky-50/95 max-w-3xl mx-auto ll-hero-fade-up ll-hero-delay-3">
           Deja que la IA hable por ti.
         </p>
 
         <!-- Botón principal más grande -->
         <button
           type="button"
-          class="mt-10 sm:mt-12 inline-flex items-center justify-center px-16 sm:px-20 md:px-24 py-4 sm:py-4.5 rounded-full bg-[#1E3A8A] hover:bg-[#1E40AF] text-lg sm:text-xl md:text-2xl font-semibold shadow-[0_20px_50px_rgba(37,99,235,0.65)] transition-transform duration-200 hover:-translate-y-0.5"
-          (click)="completeSetup()"
+          class="mt-10 sm:mt-12 inline-flex items-center justify-center px-16 sm:px-20 md:px-24 py-4 sm:py-4.5 rounded-full bg-[#1E3A8A] hover:bg-[#1E40AF] text-lg sm:text-xl md:text-2xl font-semibold shadow-[0_20px_50px_rgba(37,99,235,0.65)] transition-transform duration-300 ease-out hover:-translate-y-0.5 ll-hero-fade-up ll-hero-delay-4"
+          (click)="playClick(); completeSetup()"
         >
           Empezar
         </button>
@@ -764,13 +866,22 @@
   <!-- Lado derecho: fondo de onboarding + mockup (cambia la imagen según la zona) -->
   <div
     *ngIf="currentStep !== 3"
-    class="relative w-1/2 h-full bg-cover bg-center bg-no-repeat bg-[url('/assets/fondo_onboarding.png')]"
+    class="relative w-1/2 h-full bg-cover bg-center bg-no-repeat bg-[url('/assets/fondo_onboarding.png')] overflow-hidden"
   >
+    <!-- Capa blanca suave para el desvanecido entre imágenes -->
+    <div
+      class="absolute inset-0 bg-white transition-opacity duration-300 ease-out pointer-events-none"
+      [ngClass]="isRightImageFading ? 'opacity-100' : 'opacity-0'"
+    ></div>
+
+    <!-- Imagen principal -->
     <img
-      [src]="currentStep === 2 ? '/assets/voces_onboard.png' : '/assets/imagen1_onboarding.png'"
+      [src]="rightImageStep === 2 ? '/assets/voces_onboard.png' : '/assets/imagen1_onboarding.png'"
       alt="Onboarding"
-      class="absolute bottom-0 right-0 h-auto transition-all duration-300"
-      [ngClass]="currentStep === 2 ? 'w-[9470px]' : 'w-[130%]'"
+      class="absolute bottom-0 right-0 h-auto transition-opacity duration-500 ease-out"
+      [ngClass]="rightImageStep === 2 ? 'w-[9470px]' : 'w-[130%]'"
+      [class.opacity-0]="isRightImageFading"
+      [class.opacity-100]="!isRightImageFading"
     />
   </div>
 </div>

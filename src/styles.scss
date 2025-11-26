@@ -58,3 +58,99 @@ body::-webkit-scrollbar {
     box-shadow: none !important;
   }
 }
+
+/* =========================
+   Onboarding (zona 3) hero animations
+   ========================= */
+@keyframes ll-hero-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(32px) scale(0.96);
+    filter: blur(8px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.ll-hero-fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: ll-hero-fade-up 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.ll-hero-delay-1 {
+  animation-delay: 120ms;
+}
+.ll-hero-delay-2 {
+  animation-delay: 260ms;
+}
+.ll-hero-delay-3 {
+  animation-delay: 420ms;
+}
+.ll-hero-delay-4 {
+  animation-delay: 580ms;
+}
+
+@keyframes ll-hero-bg-fade {
+  0% {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.ll-hero-bg-fade {
+  opacity: 0;
+  animation: ll-hero-bg-fade 900ms ease-out forwards;
+}
+
+/* =========================
+   Tema oscuro global
+   ========================= */
+body.ll-dark {
+  background-color: #020617;
+  color: #e5e7eb;
+}
+
+body.ll-dark .topbar-container {
+  background: rgba(15, 23, 42, 0.96);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.7);
+}
+
+body.ll-dark .topbar-container h1,
+body.ll-dark .topbar-container p {
+  color: #e5e7eb;
+}
+
+body.ll-dark .topbar-container button {
+  color: #e5e7eb;
+}
+
+body.ll-dark .topbar-container button:hover {
+  background-color: rgba(30, 64, 175, 0.2);
+}
+
+/* Overrides suaves para utilidades claras más usadas */
+body.ll-dark .bg-white {
+  background-color: #020617 !important;
+}
+
+body.ll-dark .text-black,
+body.ll-dark .text-gray-900 {
+  color: #e5e7eb !important;
+}
+
+body.ll-dark .text-gray-600 {
+  color: #9ca3af !important;
+}
