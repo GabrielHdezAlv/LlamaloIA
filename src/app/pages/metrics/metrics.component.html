@@ -3,7 +3,7 @@
       <!-- Encabezado -->
       <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
         <div class="relative w-full sm:w-auto">
-          <select class="appearance-none bg-white rounded-[2rem] w-full px-3 sm:px-4 py-2 pr-10 md:pr-12 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
+          <select class="appearance-none bg-white rounded-[2rem] w-full px-3 sm:px-4 py-2 pr-10 md:pr-12 text-sm sm:text-base border border-gray-200 history-border focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
             <option *ngFor="let p of periods">{{ p }}</option>
           </select>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 absolute right-3 md:right-4 top-2.5 sm:top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -12,7 +12,7 @@
         </div>
   
         <div class="relative w-full sm:w-auto">
-          <select class="appearance-none bg-white rounded-[2rem] w-full px-3 sm:px-4 py-2 pr-10 md:pr-12 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="selectedAgent">
+          <select class="appearance-none bg-white rounded-[2rem] w-full px-3 sm:px-4 py-2 pr-10 md:pr-12 text-sm sm:text-base border border-gray-200 history-border focus:outline-none focus:ring-2 focus:ring-blue-500" [(ngModel)]="selectedAgent">
             <option *ngFor="let a of agents">{{ a }}</option>
           </select>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 absolute right-3 md:right-4 top-2.5 sm:top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -26,7 +26,7 @@
         <!-- Row 1 -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <!-- Gráfico de llamadas exitosas (más largo) -->
-          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 lg:col-span-2 fade-in-section" [class.fade-in-visible]="showGraficoLlamadas">
+          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 lg:col-span-2 fade-in-section border border-gray-200 history-border" [class.fade-in-visible]="showGraficoLlamadas">
             <div class="flex justify-between items-center mb-3 sm:mb-4">
               <h3 class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]">{{ t.totalSuccessfulCalls }}</h3>
               <span class="text-xs sm:text-sm text-green-600 font-medium">↑ 44.2%</span>
@@ -200,7 +200,7 @@
           </div>
   
           <!-- Total Minutos -->
-          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 border border-gray-100 flex flex-col justify-between h-full min-h-[200px] sm:min-h-[220px] fade-in-section" [class.fade-in-visible]="showTotalMinutos">
+          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 border border-gray-200 history-border flex flex-col justify-between h-full min-h-[200px] sm:min-h-[220px] fade-in-section" [class.fade-in-visible]="showTotalMinutos">
             <div>
               <p class="text-xs sm:text-sm lg:text-[15px] font-semibold text-gray-600 mb-1 sm:mb-2 mt-1 tracking-[-0.3px]">{{ t.totalMinutes }}</p>
               <p class="text-2xl sm:text-3xl lg:text-[33px] font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-8 leading-tight">{{ totalMinutesUsed }}/{{ minutesLimit }}</p>
@@ -214,7 +214,7 @@
         <!-- Row 2 -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <!-- Latencia -->
-          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 mb-6 sm:mb-12 lg:mb-20 md:h-[430px] lg:h-auto fade-in-section" [class.fade-in-visible]="showLatencia">
+          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 mb-6 sm:mb-12 lg:mb-20 md:h-[430px] lg:h-auto fade-in-section border border-gray-200 history-border" [class.fade-in-visible]="showLatencia">
             <div class="flex justify-between items-center mb-3 sm:mb-4">
               <h3 class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]">{{ t.latency }}</h3>
               <span [class]="latencyBadgeClasses">{{ latencyLabel }}</span>
@@ -268,7 +268,7 @@
           </div>
   
           <!-- Duración media -->
-          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 mb-6 sm:mb-12 lg:mb-20 lg:mr-6 lg:-ml-3 md:h-[430px] lg:h-auto fade-in-section" [class.fade-in-visible]="showDuracionMedia">
+          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 mb-6 sm:mb-12 lg:mb-20 lg:mr-6 lg:-ml-3 md:h-[430px] lg:h-auto fade-in-section border border-gray-200 history-border" [class.fade-in-visible]="showDuracionMedia">
             <div class="flex justify-between items-center mb-3 sm:mb-4">
               <h3 class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]">{{ t.averageCallDuration }}</h3>
               <span [class]="durationBadgeClasses">{{ durationLabel }}</span>
@@ -320,7 +320,7 @@
           </div>
   
           <!-- Tipo de llamadas -->
-          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 lg:-ml-7 md:h-[430px] lg:h-auto fade-in-section" [class.fade-in-visible]="showTipoLlamadas">
+          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 lg:-ml-7 md:h-[430px] lg:h-auto fade-in-section border border-gray-200 history-border" [class.fade-in-visible]="showTipoLlamadas">
             <h3 class="font-semibold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 tracking-[-0.3px]">Tipo de llamadas</h3>
             
             <!-- Gráfico circular completo -->
@@ -388,7 +388,7 @@
         <!-- Row 3 -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           <!-- Agentes Creados -->
-          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 lg:p-8 col-span-1 lg:col-span-2 lg:mr-6 lg:-mt-20 shadow-none fade-in-section" [class.fade-in-visible]="showAgentesCreados">
+          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 lg:p-8 col-span-1 lg:col-span-2 lg:mr-6 lg:-mt-20 shadow-none fade-in-section border border-gray-200 history-border" [class.fade-in-visible]="showAgentesCreados">
             <h3 class="font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-7 text-base sm:text-lg tracking-[-0.3px]">{{ t.createdAgents }}</h3>
             
             <!-- Vista móvil: Cards -->
@@ -483,7 +483,7 @@
           </div>
   
           <!-- Países -->
-          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 col-span-1 lg:-ml-5 fade-in-section" [class.fade-in-visible]="showPaises">
+          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 col-span-1 lg:-ml-5 fade-in-section border border-gray-200 history-border" [class.fade-in-visible]="showPaises">
             <h3 class="font-semibold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 tracking-[-0.3px]">{{ t.countries }}</h3>
             <div>
               <div class="mb-6 sm:mb-8" *ngFor="let c of countries; let i = index">

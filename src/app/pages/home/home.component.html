@@ -1,13 +1,13 @@
 ﻿<!-- Tarjeta de Resumen -->
 <div
-  class="bg-white rounded-[2rem] shadow-sm p-6 mr-24 mt-8 ml-28 max-lg:p-4 max-lg:mr-4 max-lg:mt-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section"
+  class="bg-white rounded-[2rem] shadow-sm p-6 mr-24 mt-8 ml-28 max-lg:p-4 max-lg:mr-4 max-lg:mt-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border"
   [class.fade-in-visible]="showResumen"
 >
   <div
     class="flex justify-between items-center mb-6 max-lg:flex-col max-lg:items-start max-lg:gap-4"
   >
     <h2
-      class="brand-font text-xl font-semibold text-gray-800 resumen-titulo max-lg:text-lg"
+      class="brand-font text-xl font-semibold text-gray-800 resumen-titulo max-lg:text-lg dark:text-slate-50"
     >
       {{ t.summary }}
     </h2>
@@ -70,11 +70,11 @@
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-lg:gap-4">
     <!-- Total de llamadas exitosas -->
     <div
-      class="flex flex-col p-4 border-r border-gray-200 max-lg:p-3 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0"
+      class="flex flex-col p-4 border-r border-gray-200 max-lg:p-3 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0 dark:border-blue-950"
     >
       <!-- Layout original para desktop -->
       <div
-        class="hidden lg:flex w-16 h-16 bg-gray-100 rounded-full items-center justify-center mb-4"
+        class="hidden lg:flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
       >
         <svg
           width="18"
@@ -135,6 +135,7 @@
             class="align-middle max-lg:w-16 max-lg:h-20"
           >
             <path
+              class="resumen-sparkline"
               d="M96.3237 72.3164C91.1767 68.7988 86.0296 65.2812 80.8826 57.4857C75.7355 49.6903 70.5884 25.5428 65.4414 25.5428C60.2943 25.5428 55.1473 46.0775 50.0002 46.0775C44.8531 46.0775 39.7061 22.1203 34.559 22.1203C29.412 22.1203 24.2649 72.3164 19.1178 72.3164C13.9708 72.3164 8.82373 64.3307 3.67667 56.3449"
               stroke="#1E3A8A"
               stroke-width="3"
@@ -172,11 +173,11 @@
 
     <!-- Tiempo Ahorrado -->
     <div
-      class="flex flex-col p-4 border-r border-gray-200 max-lg:p-3 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0"
+      class="flex flex-col p-4 border-r border-gray-200 max-lg:p-3 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0 dark:border-blue-950"
     >
       <!-- Layout original para desktop -->
       <div
-        class="hidden lg:flex w-16 h-16 bg-gray-100 rounded-full items-center justify-center mb-4"
+        class="hidden lg:flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
       >
         <svg
           width="64"
@@ -235,6 +236,7 @@
             class="max-lg:w-16 max-lg:h-20"
           >
             <path
+              class="resumen-sparkline"
               d="M120.257 62.5C113.618 50.577 106.978 38.654 100.338 28.575C93.6985 18.496 87.0588 2.02502 80.4191 2.02502C73.7794 2.02502 67.1397 17.512 60.5 27.1C53.8603 36.688 47.2206 57.583 40.5809 59.55C33.9412 61.517 27.3015 60.533 20.6618 62.5C14.022 64.467 7.38234 67.908 0.74264 71.35"
               stroke="#1E3A8A"
               stroke-width="3"
@@ -274,7 +276,7 @@
     <div class="flex flex-col p-4 max-lg:p-3">
       <!-- Layout original para desktop -->
       <div
-        class="hidden lg:flex w-16 h-16 bg-gray-100 rounded-full items-center justify-center mb-4"
+        class="hidden lg:flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
       >
         <svg
           width="13"
@@ -331,6 +333,7 @@
             class="max-lg:w-16 max-lg:h-20"
           >
             <path
+              class="resumen-sparkline"
               d="M114.515 41.767C108.235 22.1 101.956 2.43298 95.6764 2.43298C89.397 2.43298 83.1176 26.033 76.8382 26.033C70.5588 26.033 64.2794 18.167 57.9999 18.167C51.7205 18.167 45.4411 39.8 39.1617 39.8C32.8823 39.8 26.6029 33.9 20.3235 28C14.0441 22.1 7.76465 13.25 1.48524 4.39999"
               stroke="#1E3A8A"
               stroke-width="3"
@@ -374,12 +377,12 @@
 >
   <!-- Agentes Activos (2/3 del ancho) -->
   <div
-    class="bg-white rounded-[2rem] shadow-sm p-6 flex-1 min-w-[300px] border border-gray-100 agentes-activos-recuadro fade-in-section max-lg:p-4 max-lg:min-w-0"
+    class="bg-white rounded-[2rem] shadow-sm p-6 flex-1 min-w-[300px] border border-gray-100 agentes-activos-recuadro fade-in-section max-lg:p-4 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border"
     style="flex: 1.8"
     [class.fade-in-visible]="showAgentesActivos"
   >
     <h2
-      class="brand-font text-xl font-semibold text-gray-800 mb-6 agentes-activos-titulo max-lg:text-lg max-lg:mb-4"
+      class="brand-font text-xl font-semibold text-gray-800 mb-6 agentes-activos-titulo max-lg:text-lg max-lg:mb-4 dark:text-slate-50"
     >
       {{ t.activeAgents }}
     </h2>
@@ -520,7 +523,7 @@
 
   <!-- Llamadas por día (1/3 del ancho) -->
   <div
-    class="bg-white rounded-[2rem] shadow-sm p-6 flex-1 min-w-[200px] border border-gray-100 llamadas-por-dia-grafico agentes-activos-recuadro fade-in-section max-lg:p-4 max-lg:min-w-0"
+    class="bg-white rounded-[2rem] shadow-sm p-6 flex-1 min-w-[200px] border border-gray-100 llamadas-por-dia-grafico agentes-activos-recuadro fade-in-section max-lg:p-4 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border"
     style="flex: 1"
     [class.fade-in-visible]="showLlamadasPorDia"
   >

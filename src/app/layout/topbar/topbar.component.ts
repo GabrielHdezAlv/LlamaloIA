@@ -23,6 +23,9 @@ export class TopbarComponent implements OnInit {
   private isBrowser: boolean;
   private i18nService = inject(I18nService);
 
+  // Modo oscuro
+  isDarkMode = false;
+
   showDropdown = false;
   showInviteModal = false;
 
@@ -84,6 +87,19 @@ export class TopbarComponent implements OnInit {
   ngOnInit() {
     this.i18nService.initializeLanguage();
 
+    // Inicializar modo oscuro desde localStorage / preferencia del sistema
+    if (this.isBrowser) {
+      const stored = localStorage.getItem('llamalo-theme');
+      if (stored === 'dark') {
+        this.setDarkMode(true, false);
+      } else if (stored === 'light') {
+        this.setDarkMode(false, false);
+      } else {
+        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        this.setDarkMode(prefersDark, false);
+      }
+    }
+
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -92,6 +108,26 @@ export class TopbarComponent implements OnInit {
 
     this.updateHeader();
     this.initializeTeamMembers();
+  }
+
+  toggleDarkMode() {
+    this.setDarkMode(!this.isDarkMode, true);
+  }
+
+  private setDarkMode(enabled: boolean, persist: boolean) {
+    this.isDarkMode = enabled;
+    if (!this.isBrowser) return;
+
+    const root = document.documentElement;
+    if (enabled) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+
+    if (persist) {
+      localStorage.setItem('llamalo-theme', enabled ? 'dark' : 'light');
+    }
   }
 
   initializeTeamMembers() {

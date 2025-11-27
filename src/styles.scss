@@ -115,4 +115,177 @@ body::-webkit-scrollbar {
   animation: ll-hero-bg-fade 900ms ease-out forwards;
 }
 
-/* (Tema oscuro eliminado; estilos originales solo modo claro) */
+/* Modo oscuro global con Tailwind (clase `dark` en <html>) */
+@layer base {
+  html {
+    @apply bg-slate-50 text-slate-900;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900;
+  }
+
+  /* Fondo general gris oscuro en modo oscuro */
+  html.dark {
+    @apply bg-gray-800 text-slate-50;
+  }
+
+  html.dark body {
+    @apply bg-gray-800 text-slate-50;
+  }
+}
+
+/* Overrides agresivos para que TODO se vea oscuro en modo dark */
+@layer utilities {
+  /* Fondos claros → sidebar / tarjetas gris 700 y fondo gris 800 */
+  html.dark .bg-white {
+    @apply bg-gray-700 !important; /* tarjetas, sidebar, modales gris 700 */
+  }
+
+  html.dark .bg-gray-50 {
+    @apply bg-gray-800 !important; /* fondos suaves → gris 800 (general) */
+  }
+
+  /* No oscurecer `.bg-gray-100` cuando se use para iconos de resumen */
+  html.dark .bg-gray-100:not(.resumen-icon) {
+    @apply bg-gray-800 !important; /* fondos de secciones (dashboard) gris 800 */
+  }
+
+  /* Iconos de resumen (círculos grandes): siempre fondo claro, sin cambios al hacer hover */
+  html.dark .resumen-icon {
+    background-color: #f3f4f6 !important; /* gray-100 constante */
+  }
+
+  html.dark .bg-gray-200 {
+    @apply bg-gray-700 !important; /* gris 700 para barras / detalles (por defecto) */
+  }
+
+  html.dark .bg-blue-50 {
+    @apply bg-gray-700 !important; /* chips suaves pasan a gris 700 */
+  }
+
+  /* Cualquier fondo basado en `slate` se fuerza a gris neutro en modo oscuro */
+  html.dark .bg-slate-900 {
+    @apply bg-gray-700 !important; /* se comporta como recuadro / sidebar */
+  }
+
+  html.dark .bg-slate-800 {
+    @apply bg-gray-700 !important; /* se comporta como recuadro / sidebar */
+  }
+
+  html.dark .bg-slate-700 {
+    @apply bg-gray-700 !important; /* se comporta como recuadro / sidebar */
+  }
+
+  /* Bordes claros → bordes oscuros */
+  html.dark .border-gray-100,
+  html.dark .border-gray-200,
+  html.dark .border-gray-300 {
+    @apply border-slate-700 !important; /* borde oscuro neutro por defecto */
+  }
+
+  /* Bordes más visibles en el historial (recuadros grandes) en modo oscuro */
+  html.dark .history-border {
+    @apply border-gray-500 !important; /* solo estos recuadros van más marcados */
+  }
+
+  /* Texto oscuro → texto claro */
+  html.dark .text-black,
+  html.dark .text-gray-900 {
+    @apply text-white !important;
+  }
+
+  html.dark .text-gray-800,
+  html.dark .text-gray-700,
+  html.dark .text-gray-600,
+  html.dark .text-gray-500 {
+    @apply text-white !important;
+  }
+
+  /* Texto azul muy oscuro → azul claro en modo oscuro (mejor contraste),
+     excepto el logo del sidebar que queremos en blanco puro */
+  html.dark .text-blue-900,
+  html.dark .text-blue-950,
+  html.dark .text-blue-800 {
+    @apply text-blue-300 !important;
+  }
+
+  /* Logo Llamalo del sidebar: azul 950 en claro, blanco en oscuro */
+  .sidebar-logo-text {
+    @apply text-blue-950;
+  }
+
+  html.dark .sidebar-logo-text {
+    @apply text-white !important;
+  }
+
+  /* Barra de progreso de minutos en sidebar
+     - Claro: fondo gris muy claro como en el diseño original
+     - Oscuro: gris medio claramente visible sobre el fondo del sidebar */
+  .sidebar-progress-track {
+    background-color: #e5e7eb; /* gray-200 */
+  }
+
+  html.dark .sidebar-progress-track {
+    background-color: #4b5563 !important; /* gray-600 */
+  }
+
+  /* Cualquier texto slate grisáceo también pasa a blanco en modo oscuro */
+  html.dark .text-slate-400,
+  html.dark .text-slate-300,
+  html.dark .text-slate-200 {
+    @apply text-white !important;
+  }
+
+  /* Sidebar (app-nav): forzar texto e iconos blancos en modo oscuro */
+  html.dark app-nav,
+  html.dark app-nav .nav-link,
+  html.dark app-nav .nav-text {
+    color: #ffffff !important;
+  }
+
+  html.dark app-nav svg {
+    color: #ffffff !important;
+  }
+
+
+  /* Fondos azul 900/950 → azul claro en modo oscuro (barras, badges, etc.) */
+  html.dark .bg-blue-900,
+  html.dark .bg-blue-950 {
+    @apply bg-blue-500 !important;
+  }
+
+  /* Líneas de los mini-gráficos de resumen: azul claro en oscuro */
+  html.dark .resumen-sparkline {
+    stroke: #60A5FA !important;
+  }
+
+  /* Punto de estado "Activo" (círculo azul) solo en modo oscuro */
+  html.dark .agentes-activos-estado-icono circle:first-child {
+    fill: #60A5FA55 !important; /* anillo exterior azul claro */
+  }
+
+  html.dark .agentes-activos-estado-icono circle:last-child {
+    fill: #60A5FA !important; /* punto interior azul claro */
+  }
+
+  /* Botones claros genéricos: en modo oscuro NO aclaramos en hover */
+  html.dark .hover\:bg-gray-100:hover {
+    @apply bg-gray-700 !important; /* hover igual que el recuadro gris 700 */
+  }
+
+  /* No afectar a los círculos de resumen (.resumen-icon), que deben quedarse claros siempre */
+  html.dark .bg-gray-100:not(.resumen-icon):hover {
+    @apply bg-gray-800 !important; /* fondo general se mantiene gris 800 */
+  }
+
+  /* --- Ajustes cuenta: iconos redondos del menú (Perfil / Seguridad / Facturación / Regalos)
+     En modo oscuro los círculos deben verse siempre blancos y NO oscurecerse en hover */
+  html.dark .account-settings .bg-gray-100 {
+    background-color: #ffffff !important;
+  }
+
+  html.dark .account-settings .group:hover .bg-gray-100 {
+    background-color: #ffffff !important;
+  }
+}

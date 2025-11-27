@@ -1,4 +1,4 @@
-<div class="bg-white rounded-[2rem] shadow-sm p-4 sm:p-6 mt-4 sm:mt-8 mx-4 lg:ml-28 lg:mr-[5.5rem] h-auto lg:h-[70vh] flex flex-col fade-in-section" [class.fade-in-visible]="showContent">
+<div class="bg-white rounded-[2rem] shadow-sm p-4 sm:p-6 mt-4 sm:mt-8 mx-4 lg:ml-28 lg:mr-[5.5rem] h-auto lg:h-[70vh] flex flex-col fade-in-section border border-gray-200 history-border" [class.fade-in-visible]="showContent">
   <!-- Contenido principal -->
   <div class="flex flex-col lg:flex-row lg:space-x-4 flex-1 min-h-0">
     <!-- Panel lateral izquierdo (Sidebar) - Oculto en móviles cuando se muestra el chat -->
@@ -8,7 +8,7 @@
         <input
           type="text"
           [placeholder]="t.searchNumber"
-          class="w-full pl-10 pr-4 py-2 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 tracking-[-1px]"
+          class="w-full pl-10 pr-4 py-2 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 tracking-[-1px] history-border"
         />
         <svg class="h-6 w-6 text-gray-400 absolute left-3 top-2.5" width="26" height="26" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.948 3.93002C16.887 3.93002 20.081 7.12302 20.081 11.063C20.081 15.003 16.888 18.196 12.948 18.196C11.251 18.196 9.69199 17.603 8.46799 16.613L5.20999 19.871C5.06848 20.0076 4.87899 20.0831 4.68234 20.0813C4.48569 20.0795 4.29762 20.0005 4.15863 19.8614C4.01964 19.7223 3.94085 19.5341 3.93923 19.3375C3.93762 19.1408 4.01331 18.9514 4.14999 18.81L7.40599 15.553C6.41099 14.327 5.81499 12.764 5.81499 11.062C5.81499 7.12302 9.00799 3.92902 12.948 3.92902V3.93002ZM12.948 5.43002C9.83699 5.43002 7.31499 7.95202 7.31499 11.063C7.31499 14.174 9.83699 16.696 12.948 16.696C16.059 16.696 18.581 14.174 18.581 11.063C18.581 7.95202 16.059 5.43002 12.948 5.43002Z" fill="#727272"/>
@@ -48,7 +48,7 @@
         
         <!-- Información del contacto -->
         <div class="mb-4 sm:mb-4">
-          <div class="flex flex-col sm:flex-row items-start justify-between rounded-[2rem] border border-gray-200 p-3 sm:p-4 gap-3 sm:gap-0">
+          <div class="flex flex-col sm:flex-row items-start justify-between rounded-[2rem] border border-gray-200 p-3 sm:p-4 gap-3 sm:gap-0 history-border">
             <div class="flex items-start space-x-3 flex-1">
               <img [src]="selectedContact.avatar" alt="Avatar" class="w-8 h-8 object-cover rounded-full mt-2" />
               <div class="flex flex-col">
@@ -71,7 +71,7 @@
         </div>
 
         <!-- Mensajes con reproductor de audio -->
-        <div class="border border-gray-200 rounded-[2rem] p-4 sm:p-6 bg-white flex flex-col h-[calc(100vh-320px)] md:h-[calc(100vh-350px)] lg:h-[calc(100vh-200px)]">
+        <div class="border border-gray-200 rounded-[2rem] p-4 sm:p-6 bg-white flex flex-col h-[calc(100vh-320px)] md:h-[calc(100vh-350px)] lg:h-[calc(100vh-200px)] history-border">
           <div class="flex-1 overflow-y-auto p-2 space-y-4 sm:space-y-8">
             @for (msg of selectedContact.messages; track $index) {
               @if (msg.sender === 'user') {
@@ -104,7 +104,7 @@
 
           <!-- Reproductor de audio -->
           <div class="mt-auto pt-4">
-            <div class="flex items-center space-x-2 sm:space-x-3 rounded-full border border-gray-200 p-2 bg-gray-50">
+            <div class="flex items-center space-x-2 sm:space-x-3 rounded-full border border-gray-200 p-2 bg-gray-50 history-border">
             <button (click)="togglePlay()" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0">
               <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="24" height="24" rx="10" fill="#292828"/>
