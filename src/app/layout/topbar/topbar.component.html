@@ -52,10 +52,11 @@
       </h1>
     </div>
 
-    <!-- Mensaje de bienvenida debajo de 'Inicio' -->
+    <!-- Mensaje de bienvenida debajo de 'Inicio'
+         Siempre reservamos el alto para que el contenido de abajo no se mueva
+         (cuando no hay texto queda un hueco vacío, pero la barra mantiene la misma altura). -->
     <p
-      *ngIf="welcomeText"
-      class="text-sm sm:text-base font-medium text-black tracking-[-1px] xl:ml-20 dark:text-slate-200"
+      class="text-sm sm:text-base font-medium text-black tracking-[-1px] xl:ml-20 dark:text-slate-200 min-h-[1.5rem] sm:min-h-[1.75rem] flex items-center"
     >
       {{ welcomeText }}
     </p>

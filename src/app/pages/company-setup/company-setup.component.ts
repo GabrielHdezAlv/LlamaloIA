@@ -92,7 +92,8 @@ export class CompanySetupComponent implements OnInit {
   isRightImageFading = false;
 
   // Sonido de click para botones del onboarding
-  private clickAudio = new Audio('assets/click.mp3');
+  // En SSR (Node) no existe `Audio`, así que lo inicializamos solo en navegador
+  private clickAudio: HTMLAudioElement | null = null;
 
   // Intro de vídeo antes de la zona 1
   showIntroVideo = true;
@@ -129,7 +130,11 @@ export class CompanySetupComponent implements OnInit {
     // Por defecto está desactivado, se activa con el botón
     this.isSetupActive = false;
     this.showIntroVideo = true;
-    
+
+    // Inicializar audio solo en entorno navegador para evitar errores en SSR
+    if (typeof window !== 'undefined' && typeof Audio !== 'undefined') {
+      this.clickAudio = new Audio('assets/click.mp3');
+    }
     // Cargar la imagen de perfil existente del usuario
     const currentUser = this.userStore.user();
     if (currentUser?.profileImage) {
@@ -150,6 +155,9 @@ export class CompanySetupComponent implements OnInit {
 
   // Reproducir sonido de click (con manejo básico de errores)
   playClick() {
+    if (!this.clickAudio) {
+      return;
+    }
     try {
       this.clickAudio.currentTime = 0;
       this.clickAudio.play();

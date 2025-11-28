@@ -139,54 +139,116 @@ body::-webkit-scrollbar {
 @layer utilities {
   /* Fondos claros → sidebar / tarjetas gris 700 y fondo gris 800 */
   html.dark .bg-white {
-    @apply bg-gray-700 !important; /* tarjetas, sidebar, modales gris 700 */
+    background-color: #18181a !important; /* tarjetas, sidebar, modales: color personalizado */
   }
 
   html.dark .bg-gray-50 {
-    @apply bg-gray-800 !important; /* fondos suaves → gris 800 (general) */
+    @apply bg-neutral-900 !important; /* fondos suaves → gris 800 (general) */
   }
 
   /* No oscurecer `.bg-gray-100` cuando se use para iconos de resumen */
   html.dark .bg-gray-100:not(.resumen-icon) {
-    @apply bg-gray-800 !important; /* fondos de secciones (dashboard) gris 800 */
+    background-color: #111113 !important; /* bg-neutral-950 */
   }
 
-  /* Iconos de resumen (círculos grandes): siempre fondo claro, sin cambios al hacer hover */
+  /* Iconos de resumen (círculos grandes en Home):
+     - En oscuro: círculo gris y pictograma en blanco para máximo contraste */
   html.dark .resumen-icon {
-    background-color: #f3f4f6 !important; /* gray-100 constante */
+    background-color: #444444 !important; /* gris del círculo */
+  }
+
+  /* Pictograma blanco */
+  html.dark .resumen-icon svg path {
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+  }
+
+  /* En el icono de "Tiempo ahorrado" el <rect> ocupa todo el círculo.
+     Lo volvemos transparente para que se vea el fondo gris del div. */
+  html.dark .resumen-icon svg rect {
+    fill: transparent !important;
+    stroke: transparent !important;
+  }
+
+  /* Chips de porcentaje (resumen + agentes activos) con el mismo gris
+     que los 3 círculos de resumen en modo oscuro.
+     Usamos selector más específico para ganar a html.dark .bg-gray-100:not(.resumen-icon). */
+  html.dark .bg-gray-100.resumen-porcentaje-chip,
+  html.dark .bg-gray-100.agentes-activos-porcentaje {
+    background-color: #444444 !important;
+  }
+
+  /* Bordes de los porcentajes (resumen + agentes activos) con el mismo
+     color que el resto de bordes en modo oscuro (neutral-800) */
+  html.dark .border-blue-100.resumen-porcentaje-chip,
+  html.dark .border-blue-100.agentes-activos-porcentaje {
+    @apply border-neutral-800 !important;
+  }
+
+  /* Texto e icono de los porcentajes del Home en gris claro en modo oscuro */
+  html.dark .resumen-porcentaje-chip {
+    color: #e5e7eb !important; /* gray-200 */
+  }
+
+  html.dark .resumen-porcentaje-chip svg,
+  html.dark .resumen-porcentaje-chip svg path {
+    color: #e5e7eb !important;
+    stroke: #e5e7eb !important;
+  }
+
+  /* Texto e icono de los porcentajes de Agentes activos en gris claro
+     (el fondo y borde ya se ajustan más arriba). Usamos selectores más
+     específicos para ganar a text-blue-900 en modo oscuro. */
+  html.dark span.agentes-activos-porcentaje {
+    color: #e5e7eb !important; /* gray-200 */
+  }
+
+  html.dark span.agentes-activos-porcentaje svg,
+  html.dark span.agentes-activos-porcentaje svg path,
+  html.dark span.agentes-activos-porcentaje .text-blue-900 {
+    color: #e5e7eb !important;
+    stroke: #e5e7eb !important;
+  }
+
+  /* Barras grises del gráfico "Llamadas por día" con un gris intermedio,
+     un poco más oscuro que antes pero sin llegar al fondo negro */
+  html.dark .llamadas-por-dia-grafico .bg-gray-300 {
+    background-color: #4d4e50 !important; /* approx. gray-600 */
   }
 
   html.dark .bg-gray-200 {
-    @apply bg-gray-700 !important; /* gris 700 para barras / detalles (por defecto) */
+    background-color: #18181a !important; /* gris 700 para barras / detalles (por defecto) */
   }
 
   html.dark .bg-blue-50 {
-    @apply bg-gray-700 !important; /* chips suaves pasan a gris 700 */
+    background-color: #18181a !important;  /* chips suaves pasan a gris 700 */
   }
 
   /* Cualquier fondo basado en `slate` se fuerza a gris neutro en modo oscuro */
   html.dark .bg-slate-900 {
-    @apply bg-gray-700 !important; /* se comporta como recuadro / sidebar */
+    background-color: #18181a !important; /* color con opacidad */
   }
 
   html.dark .bg-slate-800 {
-    @apply bg-gray-700 !important; /* se comporta como recuadro / sidebar */
+    @apply bg-neutral-800 !important; /* se comporta como recuadro / sidebar */
   }
 
   html.dark .bg-slate-700 {
-    @apply bg-gray-700 !important; /* se comporta como recuadro / sidebar */
+    @apply bg-zinc-800 !important; /* se comporta como recuadro / sidebar */
   }
 
   /* Bordes claros → bordes oscuros */
   html.dark .border-gray-100,
   html.dark .border-gray-200,
   html.dark .border-gray-300 {
-    @apply border-slate-700 !important; /* borde oscuro neutro por defecto */
+    @apply border-neutral-800 !important;
   }
 
   /* Bordes más visibles en el historial (recuadros grandes) en modo oscuro */
   html.dark .history-border {
-    @apply border-gray-500 !important; /* solo estos recuadros van más marcados */
+    @apply border-neutral-800 !important; /* solo estos recuadros van más marcados */
+    border-width: 2px !important; /* un poco más grueso para destacar */
   }
 
   /* Texto oscuro → texto claro */
@@ -202,12 +264,12 @@ body::-webkit-scrollbar {
     @apply text-white !important;
   }
 
-  /* Texto azul muy oscuro → azul claro en modo oscuro (mejor contraste),
-     excepto el logo del sidebar que queremos en blanco puro */
+  /* Texto azul en modo oscuro → azul de marca #025AD1
+     (chips, enlaces, labels, etc.; el logo va aparte) */
   html.dark .text-blue-900,
   html.dark .text-blue-950,
   html.dark .text-blue-800 {
-    @apply text-blue-300 !important;
+    color: #025ad1 !important;
   }
 
   /* Logo Llamalo del sidebar: azul 950 en claro, blanco en oscuro */
@@ -249,24 +311,40 @@ body::-webkit-scrollbar {
   }
 
 
-  /* Fondos azul 900/950 → azul claro en modo oscuro (barras, badges, etc.) */
+  /* Fondos azul 900/950 → azul de marca en modo oscuro (barras, badges, etc.)
+     con un poco menos de opacidad para que no "grite" tanto sobre el fondo */
   html.dark .bg-blue-900,
   html.dark .bg-blue-950 {
-    @apply bg-blue-500 !important;
+    background-color: rgba(2, 90, 209, 0.9) !important;
   }
 
-  /* Líneas de los mini-gráficos de resumen: azul claro en oscuro */
+  /* Líneas de los mini-gráficos de resumen: azul de marca en oscuro,
+     también con ligera transparencia */
   html.dark .resumen-sparkline {
-    stroke: #60A5FA !important;
+    stroke: rgba(2, 90, 209, 0.9) !important;
   }
 
-  /* Punto de estado "Activo" (círculo azul) solo en modo oscuro */
-  html.dark .agentes-activos-estado-icono circle:first-child {
-    fill: #60A5FA55 !important; /* anillo exterior azul claro */
+  /* Punto de estado:
+     - Azul de "Activo" → se lleva al azul de marca en modo oscuro.
+     - Para estados grises como "Borrador" oscurecemos un poco el gris para que
+       no se vea tan claro sobre el fondo oscuro (solo cuando el fill coincide
+       con los valores hex configurados en el componente). */
+  /* Activo (azules originales) → azul de marca con opacidad ajustada */
+  html.dark .agentes-activos-estado-icono circle[fill="#1E3A8A80"] {
+    fill: rgba(2, 90, 209, 0.35) !important; /* anillo exterior con transparencia suave */
   }
 
-  html.dark .agentes-activos-estado-icono circle:last-child {
-    fill: #60A5FA !important; /* punto interior azul claro */
+  html.dark .agentes-activos-estado-icono circle[fill="#1E3A8A"] {
+    fill: rgba(2, 90, 209, 0.9) !important; /* punto interior azul de marca con ligera transparencia */
+  }
+
+  /* Borrador (grises) ligeramente más oscuros en oscuro */
+  html.dark .agentes-activos-estado-icono circle[fill="#EDEDED"] {
+    fill: #4d5155 !important; /* gris medio para el anillo exterior */
+  }
+
+  html.dark .agentes-activos-estado-icono circle[fill="#C5CAC4"] {
+    fill: #9ca3af !important; /* gris un poco más oscuro para el punto interior */
   }
 
   /* Botones claros genéricos: en modo oscuro NO aclaramos en hover */
@@ -274,18 +352,44 @@ body::-webkit-scrollbar {
     @apply bg-gray-700 !important; /* hover igual que el recuadro gris 700 */
   }
 
-  /* No afectar a los círculos de resumen (.resumen-icon), que deben quedarse claros siempre */
-  html.dark .bg-gray-100:not(.resumen-icon):hover {
-    @apply bg-gray-800 !important; /* fondo general se mantiene gris 800 */
+  /* Tabla Agentes activos: sin efecto de hover en modo oscuro */
+  html.dark .agentes-activos-recuadro .hover\:bg-gray-50:hover {
+    background-color: transparent !important;
+  }
+
+  /* Botones primarios (Crear agente, Continuar, etc.) que usan bg-[#0a1740]
+     → en modo oscuro pasan al azul de marca #025AD1 */
+  html.dark [class*="bg-[#0a1740]"] {
+    background-color: rgba(2, 90, 209, 0.9) !important;
   }
 
   /* --- Ajustes cuenta: iconos redondos del menú (Perfil / Seguridad / Facturación / Regalos)
-     En modo oscuro los círculos deben verse siempre blancos y NO oscurecerse en hover */
-  html.dark .account-settings .bg-gray-100 {
+     En modo oscuro los 4 círculos del sidebar deben verse SIEMPRE blancos,
+     sin cambiar en hover, sin tocar el modo claro */
+  html.dark .account-settings nav span.bg-gray-100 {
     background-color: #ffffff !important;
   }
 
-  html.dark .account-settings .group:hover .bg-gray-100 {
+  html.dark .account-settings nav button:hover span.bg-gray-100 {
     background-color: #ffffff !important;
+  }
+
+  /* --- Overrides finales para colores específicos de resumen (van al final
+     para ganar a text-black / text-blue-900 en modo oscuro) --- */
+
+  /* Números grandes de los 3 bloques de resumen (1024, 980, 1542) */
+  html.dark .resumen-numero {
+    color: #e5e7eb !important; /* gray-200 */
+  }
+
+  /* Chips de porcentaje de Resumen: texto + icono en gris claro */
+  html.dark .resumen-porcentaje-chip {
+    color: #e5e7eb !important;
+  }
+
+  html.dark .resumen-porcentaje-chip svg,
+  html.dark .resumen-porcentaje-chip svg path {
+    color: #e5e7eb !important;
+    stroke: #e5e7eb !important;
   }
 }

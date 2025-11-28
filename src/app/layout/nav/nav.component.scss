@@ -203,7 +203,9 @@
 
 .sidebar-collapsed .nav-link-active .nav-icon-wrapper {
   background-color: rgba(107, 114, 128, 0.12); // gray-500
-  box-shadow: 0 8px 20px rgba(107, 114, 128, 0.12);
+  /* Sombra centrada para que el resplandor sea un círculo perfecto,
+     sin más intensidad en la parte inferior */
+  box-shadow: 0 0 20px rgba(107, 114, 128, 0.18);
 }
 
 .sidebar-collapsed .nav-link:hover:not(.nav-link-active) .nav-icon-wrapper {

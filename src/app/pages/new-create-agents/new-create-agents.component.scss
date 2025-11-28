@@ -700,6 +700,12 @@
   :host > div > div.bg-white div[class*="grid"] .flex {
     gap: 0.5rem !important; // Reducir gap de flex en formularios
   }
+
+  // ========== VOCES: cartas algo más bajas para que no se corten,
+  // sin cambiar el ancho ni la separación entre ellas ==========
+  .voice-card {
+    height: 360px !important; // antes 420px en md
+  }
   
   // Reducir tamaño de dropdown de país
   :host > div > div.bg-white div[id="country-dropdown"] {
