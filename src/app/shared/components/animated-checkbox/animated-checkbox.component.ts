@@ -39,6 +39,12 @@ import { CommonModule } from '@angular/common';
       flex-shrink: 0;
     }
 
+    /* Modo oscuro: recuadro gris oscuro en lugar de blanco */
+    :host-context(html.dark) .checkbox {
+      border-color: #4b5563;
+      background: #18181a;
+    }
+
     .checkbox:hover {
       border-color: #9ca3af;
       transform: scale(1.02);

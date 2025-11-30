@@ -66,50 +66,65 @@
   <div
     class="relative mr-4 sm:mr-8 md:mr-12 lg:mr-20 flex items-center gap-1 sm:gap-2 md:gap-3"
   >
-    <!-- Botón modo oscuro -->
+    <!-- Interruptor modo oscuro tipo switch -->
     <button
       type="button"
       (click)="toggleDarkMode()"
-      class="mr-2 flex items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 hover:bg-gray-100 px-2 py-2 transition-colors dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:hover:bg-gray-700"
+      class="mr-2 relative inline-flex items-center h-7 w-14 rounded-full border border-gray-200 bg-gray-200/70 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white dark:bg-slate-800 dark:border-slate-600"
+      role="switch"
+      [attr.aria-checked]="isDarkMode"
       [attr.aria-label]="isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro'"
     >
-      <!-- Sol / Luna -->
-      <svg
-        *ngIf="!isDarkMode"
-        class="w-5 h-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+      <!-- Luna (modo oscuro) a la izquierda de la pista -->
+      <span class="pointer-events-none absolute left-1 flex items-center justify-center text-slate-100">
+        <svg
+          *ngIf="isDarkMode"
+          class="w-4 h-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M21 12.79C20.7559 14.2353 20.075 15.5754 19.0515 16.6448C18.028 17.7142 16.7131 18.4638 15.2828 18.7998C13.8524 19.1357 12.3663 19.0444 10.9866 18.5369C9.60693 18.0294 8.38975 17.1253 7.48894 15.9377C6.58813 14.75 6.04214 13.3252 5.9144 11.8387C5.78666 10.3522 6.0824 8.86118 6.76635 7.54289C7.45029 6.22459 8.49456 5.13592 9.77752 4.40701C11.0605 3.6781 12.5246 3.33847 13.9866 3.4249C13.2244 4.34748 12.8127 5.53271 12.8403 6.74897C12.8678 7.96524 13.333 9.12967 14.1537 10.0267C14.9744 10.9237 16.0983 11.4925 17.3127 11.6343C18.5271 11.7761 19.7559 11.4826 20.79 10.81C20.9519 11.4724 21.0323 12.1537 21.03 12.837"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
+
+      <!-- Sol (modo claro) a la derecha de la pista -->
+      <span class="pointer-events-none absolute right-1 flex items-center justify-center text-black">
+        <svg
+          *ngIf="!isDarkMode"
+          class="w-4 h-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 4V2M12 22V20M5.63604 5.63604L4.22183 4.22183M19.7782 19.7782L18.364 18.364M4 12H2M22 12H20M5.63604 18.364L4.22183 19.7782M19.7782 4.22183L18.364 5.63604"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="4"
+            stroke="currentColor"
+            stroke-width="1.7"
+          />
+        </svg>
+      </span>
+
+      <!-- Thumb (sin icono dentro) -->
+      <span
+        class="relative inline-flex h-6 w-6 rounded-full bg-white shadow-md transform transition-transform duration-300 ease-out"
+        [ngClass]="isDarkMode ? 'translate-x-6 bg-slate-900' : 'translate-x-1 bg-white'"
       >
-        <path
-          d="M12 4V2M12 22V20M5.63604 5.63604L4.22183 4.22183M19.7782 19.7782L18.364 18.364M4 12H2M22 12H20M5.63604 18.364L4.22183 19.7782M19.7782 4.22183L18.364 5.63604"
-          stroke="currentColor"
-          stroke-width="1.8"
-          stroke-linecap="round"
-        />
-        <circle
-          cx="12"
-          cy="12"
-          r="4.5"
-          stroke="currentColor"
-          stroke-width="1.8"
-        />
-      </svg>
-      <svg
-        *ngIf="isDarkMode"
-        class="w-5 h-5"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M21 12.79C20.7559 14.2353 20.075 15.5754 19.0515 16.6448C18.028 17.7142 16.7131 18.4638 15.2828 18.7998C13.8524 19.1357 12.3663 19.0444 10.9866 18.5369C9.60693 18.0294 8.38975 17.1253 7.48894 15.9377C6.58813 14.75 6.04214 13.3252 5.9144 11.8387C5.78666 10.3522 6.0824 8.86118 6.76635 7.54289C7.45029 6.22459 8.49456 5.13592 9.77752 4.40701C11.0605 3.6781 12.5246 3.33847 13.9866 3.4249C13.2244 4.34748 12.8127 5.53271 12.8403 6.74897C12.8678 7.96524 13.333 9.12967 14.1537 10.0267C14.9744 10.9237 16.0983 11.4925 17.3127 11.6343C18.5271 11.7761 19.7559 11.4826 20.79 10.81C20.9519 11.4724 21.0323 12.1537 21.03 12.837"
-          stroke="currentColor"
-          stroke-width="1.8"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
+      </span>
     </button>
 
     <!-- Avatar con Dropdown -->
@@ -352,14 +367,14 @@
   >
     <!-- Tarjeta principal -->
     <div
-      class="rounded-3xl shadow-2xl w-full max-w-sm sm:max-w-xl md:max-w-2xl max-h-[95vh] overflow-y-auto font-sans bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.65),_white_55%)]"
+      class="rounded-3xl shadow-2xl w-full max-w-sm sm:max-w-xl md:max-w-2xl max-h-[95vh] overflow-y-auto font-sans bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.65),_white_55%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.7),_rgba(15,23,42,1)_60%)] dark:border dark:border-slate-800 dark:shadow-[0_24px_80px_rgba(15,23,42,0.9)]"
       (click)="$event.stopPropagation()"
     >
       <div class="relative flex flex-col rounded-3xl">
         <!-- Botón cerrar -->
         <button
           (click)="closeInviteModal()"
-          class="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-600 transition-colors p-1"
+          class="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-slate-200 transition-colors p-1"
           aria-label="Cerrar"
         >
           <svg
@@ -420,12 +435,12 @@
             </div>
           </div>
           <h2
-            class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 leading-snug tracking-tight"
+            class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-slate-50 leading-snug tracking-tight"
           >
             Invita a tu equipo y trabaja con ellos 
           </h2>
           <p
-            class="mt-2 text-xs sm:text-sm text-gray-700 leading-relaxed max-w-xl"
+            class="mt-2 text-xs sm:text-sm text-gray-700 dark:text-slate-300 leading-relaxed max-w-xl"
           >
             Comparte tu enlace con tu equipo y colaboradores. Cuando empiecen a usar Llamalo, recibirás minutos extra en tu cuenta.
           </p>
@@ -445,7 +460,7 @@
               (input)="onEmailInputChange()"
               (keypress)="onEmailKeyPress($event)"
               placeholder="Email or username"
-              class="flex-1 rounded-full border border-gray-300 px-4 py-2.5 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900"
+              class="flex-1 rounded-full border border-gray-300 px-4 py-2.5 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-50 dark:placeholder-slate-400 dark:focus:ring-blue-400 dark:focus:border-blue-400"
             />
             <button
               type="submit"
@@ -458,14 +473,14 @@
 
           <!-- Lista de invitados -->
           <div
-            class="mt-5 mb-2 text-[11px] sm:text-xs text-gray-500 text-center"
+            class="mt-5 mb-2 text-[11px] sm:text-xs text-gray-500 dark:text-slate-400 text-center"
           >
             Miembros invitados ({{ teamMembers.length }})
           </div>
 
           <div
             *ngIf="teamMembers.length > 0"
-            class="border-y border-gray-100 divide-y divide-gray-100 max-h-56 overflow-y-auto"
+            class="border-y border-gray-100 divide-y divide-gray-100 dark:border-slate-800 dark:divide-slate-800 max-h-56 overflow-y-auto"
           >
             <div
               *ngFor="let member of teamMembers"
@@ -473,7 +488,7 @@
             >
               <div class="flex items-center gap-3">
                 <div
-                  class="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gray-200 overflow-hidden"
+                  class="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-gray-200 dark:bg-slate-700 overflow-hidden"
                 >
                   <img
                     [src]="member.avatar"
@@ -482,10 +497,10 @@
                   />
                 </div>
                 <div>
-                  <div class="text-sm font-semibold text-gray-900">
+                  <div class="text-sm font-semibold text-gray-900 dark:text-slate-50">
                     {{ member.name }}
                   </div>
-                  <div class="text-[11px] sm:text-xs text-gray-500">
+                  <div class="text-[11px] sm:text-xs text-gray-500 dark:text-slate-400">
                     {{ member.email }}
                   </div>
                 </div>
@@ -496,14 +511,14 @@
                   [ngClass]="{
                     'bg-emerald-50 text-emerald-600': member.status === 'Accepted',
                     'bg-red-50 text-red-600': member.status === 'Rejected',
-                    'bg-amber-50 text-amber-600': member.status === 'Pending'
+                                'bg-amber-50 text-amber-600': member.status === 'Pending'
                   }"
                 >
                   {{ member.status }}
                 </div>
                 <button
                   type="button"
-                  class="h-6 w-6 flex items-center justify-center rounded-full border border-gray-200 text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors"
+                  class="h-6 w-6 flex items-center justify-center rounded-full border border-gray-200 dark:border-slate-700 text-gray-400 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                   (click)="cancelInvite(member)"
                 >
                   <svg
@@ -527,7 +542,7 @@
 
           <div
             *ngIf="teamMembers.length === 0"
-            class="py-4 text-center text-[11px] sm:text-xs text-gray-400"
+            class="py-4 text-center text-[11px] sm:text-xs text-gray-400 dark:text-slate-500"
           >
             No invites yet. Start by sending your first invite.
           </div>
@@ -538,7 +553,7 @@
           >
             <button
               type="button"
-              class="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2.5 font-medium text-gray-900 hover:bg-gray-100 transition-colors"
+              class="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2.5 font-medium text-gray-900 hover:bg-gray-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700 transition-colors"
               (click)="copyInviteLink()"
             >
               Copy link

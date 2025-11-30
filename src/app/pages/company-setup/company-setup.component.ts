@@ -76,7 +76,8 @@ export class CompanySetupComponent implements OnInit {
   ];
 
   // Opciones seleccionadas (se pueden elegir varias)
-  selectedMainUsages: string[] = ['confirmations-reminders'];
+  // Al entrar en el onboarding no debe haber ninguna tarjeta preseleccionada
+  selectedMainUsages: string[] = [];
 
   // Animaciones zona 1 (onboarding - usos principales)
   // Solo se animan las tarjetas; el fondo blanco permanece siempre fijo

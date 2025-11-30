@@ -20,6 +20,43 @@ body {
     "Apple Color Emoji", "Segoe UI Emoji";
 }
 
+/* Texto del logo en el onboarding (forzar blanco en modo oscuro) */
+html.dark .onboarding-logo-text {
+  color: #ffffff !important;
+}
+
+/* Iconos de las 4 tarjetas del paso 1 del onboarding: blancos en modo oscuro */
+html.dark .onboarding-main-icon svg path {
+  fill: #ffffff !important;
+  stroke: transparent !important; /* evitar doble trazo que engorda el icono */
+  opacity: 1 !important;
+}
+
+/* Iconos de las opciones del paso 2 del onboarding: líneas blancas en modo oscuro (sin rellenar el interior) */
+html.dark .onboarding-discovery-icon path {
+  fill: transparent !important;  /* evita bloques sólidos como el rectángulo de YouTube */
+  stroke: #ffffff !important;    /* solo el trazo en blanco */
+  opacity: 1 !important;
+}
+
+/* Autocompletado SOLO para inputs de login/registro (`auth-input`)
+   → que se vean exactamente igual que los inputs normales, sin fondo raro */
+.auth-input:-webkit-autofill,
+.auth-input:-webkit-autofill:hover,
+.auth-input:-webkit-autofill:focus {
+  box-shadow: 0 0 0px 1000px #ffffff inset !important; /* mismo fondo que bg-white */
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #18181a !important;
+}
+
+html.dark .auth-input:-webkit-autofill,
+html.dark .auth-input:-webkit-autofill:hover,
+html.dark .auth-input:-webkit-autofill:focus {
+  box-shadow: 0 0 0px 1000px #18181a inset !important; /* mismo fondo que bg-slate-900/#020617 */
+  -webkit-box-shadow: 0 0 0px 1000px #18181a inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
 /* Ocultar barras de scroll */
 html,
 body {
@@ -157,11 +194,12 @@ body::-webkit-scrollbar {
     background-color: #444444 !important; /* gris del círculo */
   }
 
-  /* Pictograma blanco */
+  /* Pictograma blanco (sin doble trazo ni semitransparencias) */
   html.dark .resumen-icon svg path {
     fill: #ffffff !important;
-    stroke: #ffffff !important;
+    stroke: transparent !important;
     color: #ffffff !important;
+    opacity: 1 !important;
   }
 
   /* En el icono de "Tiempo ahorrado" el <rect> ocupa todo el círculo.
@@ -364,13 +402,14 @@ body::-webkit-scrollbar {
   }
 
   /* --- Ajustes cuenta: iconos redondos del menú (Perfil / Seguridad / Facturación / Regalos)
-     En modo oscuro los 4 círculos del sidebar deben verse SIEMPRE blancos,
-     sin cambiar en hover, sin tocar el modo claro */
-  html.dark .account-settings nav span.bg-gray-100 {
+     Antes forzábamos los círculos a blanco en modo oscuro; ahora dejamos que los que
+     usan `.resumen-icon` hereden el gris de Resumen (círculo gris + icono blanco),
+     y mantenemos blanco solo los restantes si en el futuro se añaden más. */
+  html.dark .account-settings nav span.bg-gray-100:not(.resumen-icon) {
     background-color: #ffffff !important;
   }
 
-  html.dark .account-settings nav button:hover span.bg-gray-100 {
+  html.dark .account-settings nav button:hover span.bg-gray-100:not(.resumen-icon) {
     background-color: #ffffff !important;
   }
 

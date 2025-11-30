@@ -417,23 +417,6 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
     padding: 0.35rem 0.35rem !important;
     line-height: 0.9rem !important;
   }
-
-  #promo-card-mobile,
-  #promo-card-desktop {
-    width: 90%;
-    /* Ligeramente desplazado a la izquierda (ajustado) para que se vea centrado */
-    margin-left: -0.15rem;
-    margin-right: auto;
-  }
-
-  /* Hacer el bloque de progreso (texto + barra) igual de estrecho que la promo */
-  #progress-block-mobile,
-  #progress-block-desktop {
-    width: 90%;
-    /* Mismo desplazamiento que la tarjeta de promo */
-    margin-left: -0.15rem;
-    margin-right: auto;
-  }
   
   /* Reducir tamaño de progreso */
   #progress-label-desktop,
@@ -527,9 +510,6 @@ img.h-10.w-10.rounded-full.border-2.border-blue-900 {
 
     > div:last-child {
       padding-top: 0.5rem !important;
-      /* Desplazar el bloque de perfil más hacia la izquierda
-         para alinearlo mejor con el inicio del texto "¡Suma tiempo extra sin pagar!" */
-      margin-left: -1.5rem !important;
     }
   }
   
