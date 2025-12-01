@@ -235,6 +235,83 @@ body::-webkit-scrollbar {
     stroke: #e5e7eb !important;
   }
 
+  /* New Agents: chips de estado y porcentaje en modo oscuro, mismo fondo/borde que Home,
+     pero manteniendo texto verde/rojo */
+  html.dark .new-agents-status-badge,
+  html.dark .new-agents-percentage-badge {
+    background-color: #444444 !important; /* mismo gris que usamos en .resumen-porcentaje-chip */
+    border-color: #262626 !important;     /* aprox. neutral-800 para el borde */
+  }
+
+  /* Numbers: mismos chips que en New Agents/Home, con texto verde/rojo */
+  html.dark .numbers-status-badge,
+  html.dark .numbers-percentage-badge {
+    background-color: #444444 !important;
+    border-color: #262626 !important;
+  }
+
+  /* Historial: chip "Resuelto" con mismo fondo/borde gris que el resto,
+     manteniendo el texto en verde y la misma forma (pill) */
+  html.dark .historial-status-badge {
+    background-color: #444444 !important;
+    border-color: #262626 !important;
+    color: #4ade80 !important; /* verde más vivo para el texto */
+  }
+
+  /* Metrics: arcos de fondo de los medidores (parte no completada) en gris */
+  html.dark .metrics-progress-bg {
+    stroke: #999999 !important; /* gray-600 aprox, para que no se vea blanco */
+  }
+
+  /* Metrics: gráfico "Tipo de llamadas" - colores solo en modo oscuro */
+  /* Arco Outbound (círculo con stroke original #D1D5DB) */
+  html.dark svg .call-type-arc[stroke="#D1D5DB"] {
+    stroke: #C7CBD3 !important;
+  }
+
+  /* Arco Inbound (círculo con stroke original #9CA3AF) */
+  html.dark svg .call-type-arc[stroke="#9CA3AF"] {
+    stroke: #8E949E !important;
+  }
+
+  /* Leyenda de Tipo de llamadas */
+  html.dark .metrics-call-legend-outbound {
+    background-color: #C7CBD3 !important;
+  }
+
+  html.dark .metrics-call-legend-inbound {
+    background-color: #8E949E !important;
+  }
+
+  /* Metrics: estados con fondo gris y texto de color */
+  html.dark .metrics-status-badge {
+    background-color: #444444 !important; /* mismo gris que otros chips */
+    border-color: #262626 !important;
+  }
+
+  /* Latencia: colores por estado en modo oscuro (solo texto) */
+  html.dark .metrics-status-badge.metrics-status-fast {
+    color: #4ade80 !important; /* verde vivo */
+  }
+
+  html.dark .metrics-status-badge.metrics-status-normal {
+    color: #fbbf24 !important; /* normal latencia: amarillo / naranja suave */
+  }
+
+  html.dark .metrics-status-badge.metrics-status-slow,
+  html.dark .metrics-status-badge.metrics-status-long {
+    color: #f87171 !important; /* rojo suave (latencia lenta) */
+  }
+
+  /* Duración media: NORMAL (verde) / LONG (naranja) */
+  html.dark .metrics-status-badge.metrics-duration-normal {
+    color: #4ade80 !important; /* verde para duración NORMAL */
+  }
+
+  html.dark .metrics-status-badge.metrics-duration-long {
+    color: #fb923c !important; /* naranja para duración LONG */
+  }
+
   /* Texto e icono de los porcentajes de Agentes activos en gris claro
      (el fondo y borde ya se ajustan más arriba). Usamos selectores más
      específicos para ganar a text-blue-900 en modo oscuro. */
@@ -287,6 +364,13 @@ body::-webkit-scrollbar {
   html.dark .history-border {
     @apply border-neutral-800 !important; /* solo estos recuadros van más marcados */
     border-width: 2px !important; /* un poco más grueso para destacar */
+  }
+
+  /* Sidebar: avatares con borde azul en claro (border-blue-900 de Tailwind)
+     y gris de recuadros en oscuro */
+  html.dark .sidebar-avatar {
+    @apply border-neutral-800 !important;
+    border-width: 2px !important;
   }
 
   /* Texto oscuro → texto claro */

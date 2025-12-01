@@ -1,6 +1,6 @@
 ﻿<!-- Tarjeta de Resumen -->
 <div
-  class="bg-white rounded-[2rem] shadow-sm p-6 mr-24 mt-8 ml-28 max-lg:p-4 max-lg:mr-4 max-lg:mt-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border"
+  class="bg-white rounded-[2rem] shadow-sm p-5 2xl:p-4 mr-24 mt-6 2xl:mt-4 ml-28 max-lg:p-4 max-lg:mr-4 max-lg:mt-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border"
   [class.fade-in-visible]="showResumen"
 >
   <div
@@ -576,6 +576,10 @@
     </div>
   </div>
 
-  <!-- Espaciado inferior para evitar que el contenido se corte -->
-  <div class="h-16 max-lg:h-8"></div>
+  <!-- Marca de versión fija abajo, centrada -->
+  <div class="fixed bottom-3 left-0 right-0 flex justify-center pointer-events-none">
+    <span class="text-[11px] sm:text-xs text-gray-400 dark:text-slate-400">
+      Llamalo v2.0
+    </span>
+  </div>
 </div>

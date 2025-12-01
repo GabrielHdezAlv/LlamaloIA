@@ -228,8 +228,8 @@
   transition: width 0.5s ease-out, height 0.5s ease-out;
 }
 
-/* Avatar centered when sidebar is collapsed */
-img.h-10.w-10.rounded-full.border-2.border-blue-900 {
+/* Avatar centered when sidebar is collapsed (solo tamaño, no color de borde) */
+img.h-10.w-10.rounded-full {
   flex-shrink: 0;
 }
 

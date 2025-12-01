@@ -12,7 +12,7 @@
         <img
           [src]="tempProfileImage || userProfileImage()"
           alt="Avatar"
-          class="w-8 h-8 sm:w-10 sm:h-10 rounded-full"
+          class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-blue-900 history-border"
         />
         } @else {
         <div
@@ -237,7 +237,7 @@
         <img
           [src]="tempProfileImage || userProfileImage()"
           alt="Avatar"
-          class="w-16 h-16 sm:w-20 sm:h-20 rounded-full cursor-pointer hover:opacity-80 transition-opacity duration-200"
+          class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-blue-900 history-border cursor-pointer hover:opacity-80 transition-opacity duration-200"
           (click)="onAvatarClick()"
         />
         } @else {

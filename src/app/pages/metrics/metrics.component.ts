@@ -254,6 +254,12 @@ export class MetricsComponent implements OnInit {
   minutesLimit = 1000;
   extraMinutes = 0;
   timeSavedHours = 49;
+  costPerMinute = 0.12; // coste medio por minuto en euros
+
+  get costPerMinuteLabel(): string {
+    // Formateamos con dos decimales y coma para estilo español: 0,12 €/min
+    return `${this.costPerMinute.toFixed(2).replace('.', ',')} €/min`;
+  }
 
   // Latencia
   latencyMs = 1999;
@@ -273,11 +279,11 @@ export class MetricsComponent implements OnInit {
   get latencyBadgeClasses(): string {
     switch (this.latencyLabel) {
       case this.t.fast:
-        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
+        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium metrics-status-badge metrics-status-fast';
       case this.t.normal:
-        return 'text-xs bg-orange-200 text-black px-2 py-1.5 rounded-lg font-medium';
+        return 'text-xs bg-orange-200 text-black px-2 py-1.5 rounded-lg font-medium metrics-status-badge metrics-status-normal';
       default:
-        return 'text-xs bg-red-200 text-black px-2 py-1.5 rounded-lg font-medium';
+        return 'text-xs bg-red-200 text-black px-2 py-1.5 rounded-lg font-medium metrics-status-badge metrics-status-slow';
     }
   }
 
@@ -371,11 +377,11 @@ export class MetricsComponent implements OnInit {
   get durationBadgeClasses(): string {
     switch (this.durationLabel) {
       case this.t.normal:
-        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
+        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium metrics-status-badge metrics-duration-normal';
       case this.t.long:
-        return 'text-xs bg-orange-200 text-black px-2 py-1.5 rounded-lg font-medium';
+        return 'text-xs bg-orange-200 text-black px-2 py-1.5 rounded-lg font-medium metrics-status-badge metrics-duration-long';
       default:
-        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium';
+        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium metrics-status-badge metrics-duration-normal';
     }
   }
 

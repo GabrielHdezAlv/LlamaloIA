@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ChangeDetectorRef, Inject, PLATFORM_ID, computed, inject } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnInit, ChangeDetectorRef, Inject, PLATFORM_ID, computed, inject } from '@angular/core';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavComponent } from '../../layout/nav/nav.component';
@@ -13,7 +13,7 @@ import { UserStorage } from '../../storages/user/user-storage';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   @ViewChild(CompanySetupComponent) companySetupComponent!: CompanySetupComponent;
   @ViewChild(NavComponent) navComponent!: NavComponent;
   private _isNavCollapsed: boolean = true;
@@ -29,17 +29,19 @@ export class DashboardComponent implements AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  ngAfterViewInit() {
-    // Inicializar el estado y forzar la detección de cambios
-    this._isNavCollapsed = this.navComponent?.isCollapsed ?? true;
-    this.cdr.detectChanges();
-
-    // Escuchar evento para abrir sidebar móvil (solo en navegador)
+  ngOnInit() {
+    // Lógica que depende de window / documento (solo en navegador)
     if (isPlatformBrowser(this.platformId)) {
       window.addEventListener('openMobileSidebar', () => {
         this.openMobileSidebar();
       });
     }
+  }
+
+  ngAfterViewInit() {
+    // Inicializar el estado y forzar la detección de cambios del sidebar
+    this._isNavCollapsed = this.navComponent?.isCollapsed ?? true;
+    this.cdr.detectChanges();
   }
 
   get isNavCollapsed(): boolean {
