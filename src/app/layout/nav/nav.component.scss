@@ -547,3 +547,155 @@ img.h-10.w-10.rounded-full {
     transition-duration: 300ms !important;
   }
 }
+
+/* --- Responsive styles for larger laptops (1440px - 1600px) --- */
+@media (min-width: 1440px) and (max-width: 1600px) {
+  /* Ajustar el ancho del sidebar cuando se expande para portátiles grandes */
+  .hidden.xl\\:flex.xl\\:flex-col.xl\\:h-full.xl\\:fixed.xl\\:inset-y-0 {
+    &:not(.sidebar-collapsed) {
+      /* Ancho más estrecho que el valor por defecto (xl:w-[21rem] => 21rem) */
+      width: 16rem !important;
+      max-width: 16rem !important;
+    }
+    
+    &.sidebar-collapsed {
+      width: 6rem !important; /* w-24 */
+    }
+  }
+  
+  /* Reducir padding en nav */
+  nav {
+    padding-top: 1.5rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  /* Reducir espaciado en nav items */
+  .nav-link {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.95rem !important;
+    gap: 0.5rem !important;
+    margin-top: 0.125rem !important;
+    margin-bottom: 0.125rem !important;
+    
+    svg.nav-icon {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      flex-shrink: 0 !important;
+    }
+    
+    .nav-text {
+      font-size: 0.9rem !important;
+      line-height: 1.25rem !important;
+      margin-top: 0 !important;
+    }
+  }
+  
+  /* Logo más pequeño */
+  .flex.items-center.justify-center.h-16.px-6.mt-6.flex-shrink-0 {
+    justify-content: flex-start !important;
+    padding-left: 2rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .flex.items-center.justify-center.h-16.px-6.mt-6.flex-shrink-0 > .flex.items-center.gap-2 {
+    column-gap: 0.3rem !important;
+  }
+  
+  .flex.items-center.justify-center.h-16.px-6.mt-6.flex-shrink-0 .brand-font.mt-2 {
+    margin-left: -0.15rem !important;
+  }
+  
+  /* Badges de NEW más pequeños */
+  .text-xs.text-blue-900.border.border-gray-300.px-3.py-1.rounded-lg.font-bold {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.6rem !important;
+    line-height: 0.875rem !important;
+  }
+  
+  /* Reducir promo text */
+  #promo-title-desktop,
+  #promo-title {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+  
+  #promo-desc-desktop,
+  #promo-desc {
+    font-size: 0.65rem !important;
+    line-height: 0.9rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  #promo-btn-desktop,
+  #promo-btn {
+    font-size: 0.75rem !important;
+    padding: 0.4rem 0.4rem !important;
+    line-height: 1rem !important;
+  }
+  
+  /* Reducir tamaño de progreso */
+  #progress-label-desktop,
+  #progress-label,
+  #progress-value-desktop,
+  #progress-value {
+    font-size: 0.7rem !important;
+  }
+  
+  /* Reducir perfil */
+  #user-profile,
+  .relative.flex.items-center.gap-3.pt-4.pb-6 {
+    gap: 0.75rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  
+  #user-name-desktop,
+  #user-name {
+    font-size: 0.85rem !important;
+    line-height: 1.1rem !important;
+  }
+  
+  #user-plan-desktop,
+  #user-plan {
+    font-size: 0.55rem !important;
+    line-height: 0.8rem !important;
+  }
+  
+  .pb-8.space-y-6.w-full > div:last-child p.font-bold.text-black {
+    font-size: 0.85rem !important;
+    line-height: 1.1rem !important;
+  }
+  
+  .pb-8.space-y-6.w-full > div:last-child p.text-xs.text-gray-500 {
+    font-size: 0.55rem !important;
+    line-height: 0.8rem !important;
+  }
+  
+  /* Avatar más pequeño */
+  .h-10.w-10.rounded-full.border-2.border-blue-900 {
+    width: 2.2rem !important;
+    height: 2.2rem !important;
+  }
+  
+  /* Sección inferior más compacta */
+  .pb-8.space-y-6.w-full {
+    padding-left: 1.5rem !important;
+    padding-right: 0.75rem !important;
+    padding-bottom: 1.5rem !important;
+    row-gap: 0.75rem !important;
+    margin-top: -0.75rem !important;
+    
+    > div:last-child {
+      padding-top: 0.5rem !important;
+    }
+  }
+  
+  /* Subir ligeramente el texto "beta" del logo */
+  .brand-font + .brand-font {
+    margin-top: -0.65rem !important;
+  }
+}
