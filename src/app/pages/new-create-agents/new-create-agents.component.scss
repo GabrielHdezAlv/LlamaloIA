@@ -527,9 +527,9 @@
 
 /* Estilos para modo oscuro */
 :host-context(html.dark) {
-  // Barra de progreso
+  // Barra de progreso superior - fondo gris (no azulado)
   .bg-gray-300 {
-    background-color: #374151 !important; // gray-700
+    background-color: #262626 !important; // gris neutro
   }
   
   // SVG con fill="black" - cambiar a blanco/gris claro
@@ -584,11 +584,11 @@
     background-color: #262626 !important; // color gris #262626
   }
   
-  // Bordes de inputs
+  // Bordes de inputs - mismo gris que el borde del recuadro (gray-800)
   input.dark\:border-slate-600,
   textarea.dark\:border-slate-600,
   select.dark\:border-slate-600 {
-    border-color: #4b5563 !important; // gray-600
+    border-color: #3a3a3a !important; // gray-800 (igual que dark:border-gray-800 del recuadro)
   }
   
   // Inputs con placeholder
@@ -686,12 +686,12 @@
   
   // Bordes de los valores de sliders
   span.border-gray-300 {
-    border-color: #475569 !important; // slate-600
+    border-color: #424242 !important; // slate-600
   }
   
   // Switch de grabación
   .bg-gray-300 {
-    background-color: #475569 !important; // slate-600
+    background-color: #474747 !important; // slate-600
   }
   
   // Texto del mensaje de grabación
@@ -701,7 +701,7 @@
   
   // Borde del mensaje de grabación
   .border-gray-400 {
-    border-color: #475569 !important; // slate-600
+    border-color: #444444 !important; // slate-600
   }
 }
 
