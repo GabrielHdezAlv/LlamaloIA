@@ -525,8 +525,188 @@
   }
 }
 
-/* Estilos responsive para portátiles 1024px - 1439px - SOLO CONTENIDO EXTERNO */
-@media (min-width: 1024px) and (max-width: 1439px) {
+/* Estilos para modo oscuro */
+:host-context(html.dark) {
+  // Barra de progreso
+  .bg-gray-300 {
+    background-color: #374151 !important; // gray-700
+  }
+  
+  // SVG con fill="black" - cambiar a blanco/gris claro
+  svg path[fill="black"] {
+    fill: #e5e7eb !important; // gray-200
+  }
+  
+  // SVG con fill="#353535" - cambiar a blanco
+  svg path[fill="#353535"] {
+    fill: #ffffff !important; // white
+  }
+  
+  // SVG con currentColor - asegurar que sean blancos
+  svg.text-gray-700.dark\:text-white path {
+    fill: currentColor !important;
+  }
+  
+  // Icono de Web - hacer blanco en modo oscuro
+  .web-icon image.web-icon-image {
+    filter: brightness(0) invert(1) !important; // Hacer la imagen blanca en modo oscuro
+  }
+  
+  // SVG con stroke="black" - cambiar a blanco/gris claro
+  svg path[stroke="black"] {
+    stroke: #e5e7eb !important; // gray-200
+  }
+  
+  // SVG con stroke="#374151" - mantener pero ajustar si es necesario
+  svg path[stroke="#374151"] {
+    stroke: #9ca3af !important; // gray-400
+  }
+  
+  // Botones de navegación del carrusel
+  button[class*="rounded-full"] svg path[stroke="#374151"] {
+    stroke: #e5e7eb !important; // gray-200
+  }
+  
+  // Dropdown menu
+  #dropdown-menu {
+    background-color: #262626 !important; // color gris #262626
+    border-color: #4b5563 !important; // gray-600
+  }
+  
+  #dropdown-menu li {
+    color: #e5e7eb !important; // gray-200
+  }
+  
+  // Inputs - fondo gris #262626
+  input.dark\:bg-slate-800,
+  textarea.dark\:bg-slate-800,
+  select.dark\:bg-slate-800 {
+    background-color: #262626 !important; // color gris #262626
+  }
+  
+  // Bordes de inputs
+  input.dark\:border-slate-600,
+  textarea.dark\:border-slate-600,
+  select.dark\:border-slate-600 {
+    border-color: #4b5563 !important; // gray-600
+  }
+  
+  // Inputs con placeholder
+  input::placeholder,
+  textarea::placeholder {
+    color: #9ca3af !important; // gray-400
+  }
+  
+  // Select con texto gris
+  select {
+    color: #e5e7eb !important; // gray-200
+  }
+  
+  // Flecha del select
+  .pointer-events-none svg path[fill="black"] {
+    fill: #e5e7eb !important; // gray-200
+  }
+  
+  // Botones de idiomas
+  .language-button {
+    background-color: #262626 !important; // slate-800
+    color: #e5e7eb !important; // gray-200
+  }
+  
+  .language-button:hover {
+    background-color: #262626 !important; // slate-700
+  }
+  
+  // Botones de acciones (Shopify, Make)
+  button[style*="background-color: rgba(45, 182, 0, 0.5)"] {
+    background-color: rgba(45, 182, 0, 0.3) !important;
+  }
+  
+  button[style*="background-color: rgba(198, 40, 212, 0.5)"] {
+    background-color: rgba(198, 40, 212, 0.3) !important;
+  }
+  
+  // Botones de base de conocimientos
+  button.bg-gray-100 {
+    background-color: #262626 !important; // slate-800
+  }
+  
+  button.bg-gray-100:hover {
+    background-color: #202020 !important; // slate-700
+  }
+  
+  // Indicadores del carrusel
+  button[class*="w-2"][class*="h-2"][class*="rounded-full"] {
+    &.bg-gray-300 {
+      background-color: #262626 !important; // slate-600
+    }
+  }
+  
+  // Iconos SVG en botones de retroceso y navegación
+  button svg path[fill="black"],
+  button svg path[stroke="black"] {
+    fill: #e5e7eb !important;
+    stroke: #e5e7eb !important;
+  }
+  
+  // Iconos en botones de idiomas y otros
+  .language-button svg,
+  button svg {
+    color: #e5e7eb !important;
+  }
+  
+  // Texto en botones de idiomas
+  .language-button span {
+    color: #e5e7eb !important;
+  }
+  
+  // Botones de acciones con texto gris
+  button span.text-gray-800 {
+    color: #e5e7eb !important;
+  }
+  
+  // Botones de base de conocimientos con texto gris
+  button span.text-gray-800 {
+    color: #e5e7eb !important;
+  }
+  
+  // Sliders - barras de progreso
+  .bg-gray-200 {
+    background-color: #262626 !important; // gray-700
+  }
+  
+  .bg-gray-500 {
+    background-color: #3b82f6 !important; // blue-500
+  }
+  
+  // Valores de los sliders
+  span.text-gray-600 {
+    color: #e5e7eb !important;
+  }
+  
+  // Bordes de los valores de sliders
+  span.border-gray-300 {
+    border-color: #475569 !important; // slate-600
+  }
+  
+  // Switch de grabación
+  .bg-gray-300 {
+    background-color: #475569 !important; // slate-600
+  }
+  
+  // Texto del mensaje de grabación
+  .text-gray-400 {
+    color: #9ca3af !important; // gray-400
+  }
+  
+  // Borde del mensaje de grabación
+  .border-gray-400 {
+    border-color: #475569 !important; // slate-600
+  }
+}
+
+/* Estilos responsive para portátiles 1024px - 1600px - SOLO CONTENIDO EXTERNO */
+@media (min-width: 1024px) and (max-width: 1600px) {
   // Márgenes del contenedor principal alineados con el header (título y foto de perfil)
   // para que el recuadro blanco tenga el mismo ancho visual
   :host > div {
@@ -552,19 +732,24 @@
   // Reducir padding interno más (contenido rodeado)
   :host > div > div.bg-white.rounded-lg,
   :host > div > div.bg-white.rounded-2xl,
-  :host > div > div.bg-white.rounded-\[2rem\] {
+  :host > div > div.bg-white.rounded-\[2rem\],
+  :host > div > div.dark\:bg-slate-900.rounded-lg,
+  :host > div > div.dark\:bg-slate-900.rounded-2xl,
+  :host > div > div.dark\:bg-slate-900.rounded-\[2rem\] {
     padding: 1rem !important; // Reducir más (de 1.25rem a 1rem)
   }
   
   // Reducir títulos h2 un poco más
-  :host > div > div.bg-white h2 {
+  :host > div > div.bg-white h2,
+  :host > div > div.dark\:bg-slate-900 h2 {
     font-size: 1.375rem !important; // Reducir más (de 1.5rem a 1.375rem)
     margin-bottom: 0.875rem !important; // Reducir más (de 1rem a 0.875rem)
     line-height: 1.3 !important;
   }
   
   // Reducir párrafos un poco más
-  :host > div > div.bg-white p {
+  :host > div > div.bg-white p,
+  :host > div > div.dark\:bg-slate-900 p {
     font-size: 0.75rem !important; // Reducir más (de 0.8rem a 0.75rem)
     margin-bottom: 0.875rem !important; // Reducir más (de 1rem a 0.875rem)
     line-height: 1.4 !important;
@@ -576,26 +761,31 @@
   }
   
   // Reducir labels un poco más
-  :host > div > div.bg-white label {
+  :host > div > div.bg-white label,
+  :host > div > div.dark\:bg-slate-900 label {
     font-size: 0.7rem !important; // Reducir más (de 0.75rem a 0.7rem)
     margin-bottom: 0.375rem !important; // Reducir más (de 0.5rem a 0.375rem)
   }
   
   // Reducir inputs un poco más
-  :host > div > div.bg-white input {
+  :host > div > div.bg-white input,
+  :host > div > div.dark\:bg-slate-900 input {
     padding: 0.4rem 0.55rem !important; // Reducir más (de 0.45rem 0.65rem)
     font-size: 0.7rem !important; // Reducir más (de 0.75rem a 0.7rem)
   }
   
   // Reducir textarea y select un poco más
   :host > div > div.bg-white textarea,
-  :host > div > div.bg-white select {
+  :host > div > div.bg-white select,
+  :host > div > div.dark\:bg-slate-900 textarea,
+  :host > div > div.dark\:bg-slate-900 select {
     padding: 0.4rem 0.55rem !important; // Reducir más
     font-size: 0.7rem !important; // Reducir más (de 0.75rem a 0.7rem)
   }
   
   // Centrar el icono del dropdown dentro del select
-  :host > div > div.bg-white .relative > svg.pointer-events-none {
+  :host > div > div.bg-white .relative > svg.pointer-events-none,
+  :host > div > div.dark\:bg-slate-900 .relative > svg.pointer-events-none {
     top: 50% !important;
     transform: translateY(-50%) !important;
     right: 0.65rem !important; // Reducir más (de 0.75rem a 0.65rem)
@@ -604,12 +794,14 @@
   }
   
   // Ajustar padding derecho del select para que no se solape con el icono
-  :host > div > div.bg-white select {
+  :host > div > div.bg-white select,
+  :host > div > div.dark\:bg-slate-900 select {
     padding-right: 2rem !important; // Reducir más (de 2.25rem a 2rem)
   }
   
   // Reducir ancho del contenido en Instrucciones y centrarlo
-  :host > div > div.bg-white > div.flex-1 > div[class*="mb-"] {
+  :host > div > div.bg-white > div.flex-1 > div[class*="mb-"],
+  :host > div > div.dark\:bg-slate-900 > div.flex-1 > div[class*="mb-"] {
     max-width: 72% !important; // Reducir más (de 75% a 72%)
     width: 72% !important;
     margin-left: auto !important;
@@ -617,29 +809,35 @@
   }
   
   // Reducir ancho del párrafo descriptivo (ya está centrado con mx-auto)
-  :host > div > div.bg-white > div.flex-1 > p.max-w-2xl {
+  :host > div > div.bg-white > div.flex-1 > p.max-w-2xl,
+  :host > div > div.dark\:bg-slate-900 > div.flex-1 > p.max-w-2xl {
     max-width: 72% !important; // Reducir más (de 75% a 72%)
   }
   
   // Reducir botones un poco más
-  :host > div > div.bg-white button {
+  :host > div > div.bg-white button,
+  :host > div > div.dark\:bg-slate-900 button {
     font-size: 0.7rem !important; // Reducir más (de 0.75rem a 0.7rem)
   }
   
   // Botón "Continuar" (centro) un poco más pequeño
-  :host > div > div.bg-white button[class*="bg-[#0a1740]"] {
+  :host > div > div.bg-white button[class*="bg-[#0a1740]"],
+  :host > div > div.dark\:bg-slate-900 button[class*="bg-[#0a1740]"],
+  :host > div > div.dark\:bg-slate-900 button[class*="dark:bg-blue-700"] {
     padding: 0.55rem 1.1rem !important; // Reducir más (de 0.6rem 1.25rem)
     font-size: 0.7rem !important;
   }
   
   // Reducir iconos SVG un poco más
-  :host > div > div.bg-white svg {
+  :host > div > div.bg-white svg,
+  :host > div > div.dark\:bg-slate-900 svg {
     transform: scale(0.75) !important; // Reducir más (de 0.8 a 0.75)
     transform-origin: center;
   }
   
   // Reducir padding de los botones de navegación un poco más
-  :host > div > div.bg-white > div:last-child {
+  :host > div > div.bg-white > div:last-child,
+  :host > div > div.dark\:bg-slate-900 > div:last-child {
     padding-left: 0.875rem !important; // Reducir más (de 1rem a 0.875rem)
     padding-right: 0.875rem !important;
     padding-bottom: 0.875rem !important; // Reducir más (de 1rem a 0.875rem)
@@ -648,7 +846,10 @@
   // Reducir márgenes y gaps generales un poco más
   :host > div > div.bg-white .gap-4,
   :host > div > div.bg-white .gap-8,
-  :host > div > div.bg-white .gap-12 {
+  :host > div > div.bg-white .gap-12,
+  :host > div > div.dark\:bg-slate-900 .gap-4,
+  :host > div > div.dark\:bg-slate-900 .gap-8,
+  :host > div > div.dark\:bg-slate-900 .gap-12 {
     gap: 0.625rem !important; // Reducir más (de 0.75rem a 0.625rem)
   }
   
@@ -656,7 +857,12 @@
   :host > div > div.bg-white .mb-4,
   :host > div > div.bg-white .mb-6,
   :host > div > div.bg-white .mb-8,
-  :host > div > div.bg-white .mb-10 {
+  :host > div > div.bg-white .mb-10,
+  :host > div > div.dark\:bg-slate-900 .mb-3,
+  :host > div > div.dark\:bg-slate-900 .mb-4,
+  :host > div > div.dark\:bg-slate-900 .mb-6,
+  :host > div > div.dark\:bg-slate-900 .mb-8,
+  :host > div > div.dark\:bg-slate-900 .mb-10 {
     margin-bottom: 0.625rem !important; // Reducir más (de 0.75rem a 0.625rem)
   }
   
@@ -664,22 +870,29 @@
   :host > div > div.bg-white .mt-2,
   :host > div > div.bg-white .mt-3,
   :host > div > div.bg-white .mt-4,
-  :host > div > div.bg-white .mt-6 {
+  :host > div > div.bg-white .mt-6,
+  :host > div > div.dark\:bg-slate-900 .mt-2,
+  :host > div > div.dark\:bg-slate-900 .mt-3,
+  :host > div > div.dark\:bg-slate-900 .mt-4,
+  :host > div > div.dark\:bg-slate-900 .mt-6 {
     margin-top: 0.5rem !important;
   }
   
   // Reducir instrucciones y listas de pasos
-  :host > div > div.bg-white div[class*="space-y"] {
+  :host > div > div.bg-white div[class*="space-y"],
+  :host > div > div.dark\:bg-slate-900 div[class*="space-y"] {
     gap: 0.375rem !important; // Reducir espacio entre elementos
   }
   
-  :host > div > div.bg-white div[class*="space-y"] p {
+  :host > div > div.bg-white div[class*="space-y"] p,
+  :host > div > div.dark\:bg-slate-900 div[class*="space-y"] p {
     font-size: 0.65rem !important; // Reducir tamaño de fuente de instrucciones
     line-height: 1.3 !important;
     margin-bottom: 0.375rem !important;
   }
   
-  :host > div > div.bg-white div[class*="space-y"] p span {
+  :host > div > div.bg-white div[class*="space-y"] p span,
+  :host > div > div.dark\:bg-slate-900 div[class*="space-y"] p span {
     font-size: 0.65rem !important;
   }
 
@@ -690,14 +903,18 @@
   }
   
   // Reducir espacios entre elementos del formulario
-  :host > div > div.bg-white .grid {
+  :host > div > div.bg-white .grid,
+  :host > div > div.dark\:bg-slate-900 .grid {
     gap: 0.5rem !important; // Reducir gap del grid
   }
   
   // Reducir gap de flex solo en formularios, no en todos los flex
   :host > div > div.bg-white .grid .flex,
   :host > div > div.bg-white form .flex,
-  :host > div > div.bg-white div[class*="grid"] .flex {
+  :host > div > div.bg-white div[class*="grid"] .flex,
+  :host > div > div.dark\:bg-slate-900 .grid .flex,
+  :host > div > div.dark\:bg-slate-900 form .flex,
+  :host > div > div.dark\:bg-slate-900 div[class*="grid"] .flex {
     gap: 0.5rem !important; // Reducir gap de flex en formularios
   }
 
@@ -708,7 +925,8 @@
   }
   
   // Reducir tamaño de dropdown de país
-  :host > div > div.bg-white div[id="country-dropdown"] {
+  :host > div > div.bg-white div[id="country-dropdown"],
+  :host > div > div.dark\:bg-slate-900 div[id="country-dropdown"] {
     width: 3rem !important; // Reducir ancho
     height: 2rem !important; // Reducir alto
     padding: 0.25rem !important;
@@ -716,24 +934,29 @@
   
   // Reducir tamaño de banderas en dropdown
   :host > div > div.bg-white div[id="country-dropdown"] svg,
-  :host > div > div.bg-white div[id="dropdown-menu"] svg {
+  :host > div > div.bg-white div[id="dropdown-menu"] svg,
+  :host > div > div.dark\:bg-slate-900 div[id="country-dropdown"] svg,
+  :host > div > div.dark\:bg-slate-900 div[id="dropdown-menu"] svg {
     width: 0.875rem !important; // Reducir tamaño
     height: 0.875rem !important;
   }
   
   // Reducir padding de elementos del formulario de Twilio
-  :host > div > div.bg-white .flex.flex-col {
+  :host > div > div.bg-white .flex.flex-col,
+  :host > div > div.dark\:bg-slate-900 .flex.flex-col {
     margin-bottom: 0.5rem !important; // Reducir espacio entre campos
   }
   
   // Reducir altura mínima de textarea si existe
-  :host > div > div.bg-white textarea {
+  :host > div > div.bg-white textarea,
+  :host > div > div.dark\:bg-slate-900 textarea {
     min-height: 3.5rem !important; // Reducir altura mínima
   }
   
   // Centrar verticalmente el contenido de la sección "Tipo de Llamadas"
   // Solo aplicar cuando el contenedor tiene justify-center (Tipo de Llamadas)
-  :host > div > div.bg-white > div.flex-1:not(:has(textarea)):not(:has(select)) {
+  :host > div > div.bg-white > div.flex-1:not(:has(textarea)):not(:has(select)),
+  :host > div > div.dark\:bg-slate-900 > div.flex-1:not(:has(textarea)):not(:has(select)) {
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -742,22 +965,27 @@
   
   // Asegurar que Instrucciones mantenga su alineación normal
   :host > div > div.bg-white > div.flex-1:has(textarea),
-  :host > div > div.bg-white > div.flex-1:has(select) {
+  :host > div > div.bg-white > div.flex-1:has(select),
+  :host > div > div.dark\:bg-slate-900 > div.flex-1:has(textarea),
+  :host > div > div.dark\:bg-slate-900 > div.flex-1:has(select) {
     justify-content: flex-start !important;
     align-items: stretch !important;
   }
   
   // Centrar el icono dentro del botón "Entrante" (Tipo de Llamadas)
-  :host > div > div.bg-white button.flex.flex-col {
+  :host > div > div.bg-white button.flex.flex-col,
+  :host > div > div.dark\:bg-slate-900 button.flex.flex-col {
     justify-content: center !important;
   }
   
-  :host > div > div.bg-white button.flex.flex-col svg {
+  :host > div > div.bg-white button.flex.flex-col svg,
+  :host > div > div.dark\:bg-slate-900 button.flex.flex-col svg {
     margin-top: 0 !important;
     margin-bottom: 0.5rem !important;
   }
   
-  :host > div > div.bg-white button.flex.flex-col span {
+  :host > div > div.bg-white button.flex.flex-col span,
+  :host > div > div.dark\:bg-slate-900 button.flex.flex-col span {
     margin-top: 0 !important;
   }
   
@@ -765,12 +993,14 @@
   // Bajar el botón del micrófono más en el breakpoint 1024-1439px (pero no demasiado)
   // El div del micrófono está posicionado absolute y está antes del div de navegación (último hijo)
   // Usar selector de atributo para encontrar divs con position absolute que contengan un botón con el estilo específico
-  :host > div > div.bg-white div.absolute:has(button[style*="width: 60px"]) {
+  :host > div > div.bg-white div.absolute:has(button[style*="width: 60px"]),
+  :host > div > div.dark\:bg-slate-900 div.absolute:has(button[style*="width: 60px"]) {
     bottom: 5rem !important; // Bajar el botón (de bottom-32 que es 8rem a 5rem)
   }
   
   // Fallback: seleccionar divs absolute que no sean el último (el último es el de navegación)
-  :host > div > div.bg-white > div.absolute:not(:last-of-type) {
+  :host > div > div.bg-white > div.absolute:not(:last-of-type),
+  :host > div > div.dark\:bg-slate-900 > div.absolute:not(:last-of-type) {
     bottom: 5rem !important; // Bajar el botón del micrófono un poco
   }
 }

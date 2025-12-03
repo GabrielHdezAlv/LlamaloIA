@@ -193,14 +193,22 @@
             <img
               src="../../../assets/logo.png"
               alt="Llamalo Logo"
-              [class]="(isCollapsed ? 'h-8' : (windowWidth < 1440 ? 'h-10 pr-2' : 'h-12 pr-4'))"
+              [ngClass]="{
+                'h-8': isCollapsed,
+                'h-10 pr-2': !isCollapsed && windowWidth < 1440,
+                'h-12 pr-4': !isCollapsed && windowWidth >= 1440
+              }"
               class="transition-all duration-500 ease-in-out block dark:hidden"
             />
             <!-- Logo blanco en modo oscuro -->
             <img
               src="../../../assets/logo_blanco.png"
               alt="Llamalo Logo"
-              [class]="(isCollapsed ? 'h-8' : (windowWidth < 1440 ? 'h-10 pr-2' : 'h-12 pr-4'))"
+              [ngClass]="{
+                'h-8': isCollapsed,
+                'h-10 pr-2': !isCollapsed && windowWidth < 1440,
+                'h-12 pr-4': !isCollapsed && windowWidth >= 1440
+              }"
               class="transition-all duration-500 ease-in-out hidden dark:block"
             />
         <div *ngIf="!isCollapsed" [class]="'flex flex-col leading-tight transition-all duration-500 ease-in-out opacity-0 animate-fade-in ' + (windowWidth < 1440 ? 'gap-0.5' : '')">

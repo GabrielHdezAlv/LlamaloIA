@@ -283,6 +283,20 @@ body::-webkit-scrollbar {
     background-color: #8E949E !important;
   }
 
+  /* Metrics: gráfico de llamadas exitosas - solo la línea con azul de marca en modo oscuro */
+  html.dark .chart-container svg path[stroke="#1E3A8A"],
+  html.dark .chart-container svg path[stroke='#1E3A8A'],
+  html.dark .chart-container svg path[stroke*="#1E3A8A"],
+  html.dark .chart-container svg path[stroke*='#1E3A8A'] {
+    stroke: rgba(2, 90, 209, 0.9) !important;
+  }
+
+  /* Solo la línea del gráfico, no el área rellena */
+  html.dark .chart-container .apexcharts-line-series path,
+  html.dark .chart-container .apexcharts-area-series path[stroke] {
+    stroke: rgba(2, 90, 209, 0.9) !important;
+  }
+
   /* Metrics: estados con fondo gris y texto de color */
   html.dark .metrics-status-badge {
     background-color: #444444 !important; /* mismo gris que otros chips */

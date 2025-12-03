@@ -92,9 +92,13 @@
   box-sizing: content-box;
 }
 
-@media (min-width: 1024px) and (max-width: 1439px) {
+@media (min-width: 1024px) and (max-width: 1600px) {
   .account-settings {
     font-size: 0.75rem;
+    // Hacer el recuadro más estrecho aumentando los márgenes de ambos lados
+    margin-left: 6rem !important; // Aumentar margen izquierdo para moverlo a la derecha
+    margin-right: 6rem !important; // Aumentar margen derecho
+    margin-top: 2rem !important; // Reducir margen superior para subirlo (de lg:mt-16 que es 4rem a 2rem)
   }
   
   // Reducir padding del sidebar para mover el contenido más a la izquierda

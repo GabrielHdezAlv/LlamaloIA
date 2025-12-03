@@ -53,7 +53,6 @@
     }
   }
 }
-
 /* Ajuste de ancho del contenedor del sidebar en portátiles grandes (1440px - 1600px)
    para que no quede un hueco en blanco entre el sidebar y el dashboard */
 @media (min-width: 1440px) and (max-width: 1600px) {
@@ -61,7 +60,7 @@
     /* Primer hijo del layout: contenedor que reserva el ancho del sidebar */
     > div:first-child {
       /* Sidebar expandido (xl:w-[21rem]) -> mismo ancho que el sidebar real (16rem) */
-      &.xl\\:w-\\[21rem\\] {
+      &.xl\:w-\[21rem\] {
         width: 16rem !important;
         max-width: 16rem !important;
       }
