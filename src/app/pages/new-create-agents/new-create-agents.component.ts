@@ -1,9 +1,10 @@
-import { Component, HostListener, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common'; // 👈 Importa Location
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
+import lottie from 'lottie-web';
 
 @Component({
   selector: 'app-new-create-agents',
@@ -12,11 +13,16 @@ import { I18nService } from '../../core/services/i18n.service';
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss'
 })
-export class NewCreateAgentsComponent implements OnDestroy {
+export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
+  @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef<HTMLDivElement>;
+  
   step: 'agentName' | 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' | 'advancedSettings' | 'final' | 'success' = 'agentName';
 
   // Add this line to declare phoneNumber
   phoneNumber = '';
+  
+  private lottieInstance: any = null;
+  private lottieInitialized = false;
 
   constructor(private location: Location, private modalService: ModalService, private i18nService: I18nService) {} // ✅ Añade esto
 
@@ -683,9 +689,42 @@ animateAudioLevel() {
   updateLevel();
 }
 
+ngAfterViewChecked() {
+  // Inicializar Lottie cuando el step es 'final' y el contenedor está disponible
+  if (this.step === 'final' && this.lottieContainer && !this.lottieInitialized) {
+    this.initLottie();
+  } else if (this.step !== 'final' && this.lottieInitialized) {
+    // Limpiar Lottie si cambiamos de step
+    this.destroyLottie();
+  }
+}
+
+initLottie() {
+  if (this.lottieContainer && this.lottieContainer.nativeElement && !this.lottieInstance) {
+    this.lottieInstance = lottie.loadAnimation({
+      container: this.lottieContainer.nativeElement,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'assets/Loading.json'
+    });
+    this.lottieInitialized = true;
+  }
+}
+
+destroyLottie() {
+  if (this.lottieInstance) {
+    this.lottieInstance.destroy();
+    this.lottieInstance = null;
+    this.lottieInitialized = false;
+  }
+}
+
 ngOnDestroy() {
   // Limpiar el micrófono cuando se destruye el componente
   this.stopMicrophone();
+  // Limpiar Lottie
+  this.destroyLottie();
 }
 
 // Métodos para calcular tamaños y posiciones dinámicas estilo ChatGPT
