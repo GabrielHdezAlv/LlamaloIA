@@ -703,6 +703,15 @@
   .border-gray-400 {
     border-color: #444444 !important; // slate-600
   }
+  
+  // Círculo de éxito: gris y checkmark blanco
+  .success-checkmark {
+    background-color: #444444 !important; // gris del círculo
+  }
+  
+  .success-checkmark svg path {
+    stroke: #ffffff !important; // checkmark blanco
+  }
 }
 
 /* Estilos responsive para portátiles 1024px - 1600px - SOLO CONTENIDO EXTERNO */
@@ -896,10 +905,22 @@
     font-size: 0.65rem !important;
   }
 
-  // Mover las instrucciones de "Conectar Número de Teléfono" más a la izquierda
+  // Centrar y reducir ancho de las instrucciones de "Conectar Número de Teléfono"
   :host #twilio-steps {
-    margin-left: 0.25rem !important;
+    max-width: 70% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 2.5rem !important;
     padding-left: 0.5rem !important;
+  }
+  
+  // Reducir márgenes horizontales del formulario de Twilio en portátil y hacerlo menos ancho
+  :host > div > div.bg-white > div.flex-1 > div.grid,
+  :host > div > div.dark\:bg-slate-900 > div.flex-1 > div.grid {
+    max-width: 70% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 3rem !important;
   }
   
   // Reducir espacios entre elementos del formulario
@@ -918,10 +939,15 @@
     gap: 0.5rem !important; // Reducir gap de flex en formularios
   }
 
-  // ========== VOCES: cartas algo más bajas para que no se corten,
-  // sin cambiar el ancho ni la separación entre ellas ==========
+  // ========== VOCES: aumentar altura y espaciado entre cartas ==========
   .voice-card {
-    height: 360px !important; // antes 420px en md
+    height: 400px !important; // Altura en portátiles (reducida un poco)
+  }
+  
+  // Aumentar gap entre cartas en el carrusel de voces
+  :host > div > div.bg-white > div.flex-1 > div.w-full > div.overflow-hidden > div.flex,
+  :host > div > div.dark\:bg-slate-900 > div.flex-1 > div.w-full > div.overflow-hidden > div.flex {
+    gap: 2rem !important; // Aumentar espacio entre cartas
   }
   
   // Reducir tamaño de dropdown de país
@@ -1002,6 +1028,19 @@
   :host > div > div.bg-white > div.absolute:not(:last-of-type),
   :host > div > div.dark\:bg-slate-900 > div.absolute:not(:last-of-type) {
     bottom: 5rem !important; // Bajar el botón del micrófono un poco
+  }
+}
+
+/* Estilos para resolución 1920px - Aumentar altura y espaciado de cartas de voces */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .voice-card {
+    height: 500px !important; // Altura en 1920x1080 (reducida un poco)
+  }
+  
+  // Aumentar gap entre cartas en el carrusel de voces
+  :host > div > div.bg-white > div.flex-1 > div.w-full > div.overflow-hidden > div.flex,
+  :host > div > div.dark\:bg-slate-900 > div.flex-1 > div.w-full > div.overflow-hidden > div.flex {
+    gap: 2.5rem !important; // Aumentar espacio entre cartas
   }
 }
 

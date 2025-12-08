@@ -5,6 +5,78 @@
   background-color: rgba(107, 114, 128, 0.3); // bg-gray-500 bg-opacity-30
 }
 
+// Modo oscuro para el modal
+::ng-deep html.dark .import-modal-overlay {
+  // Fondo del modal
+  > div.bg-white {
+    background-color: #18181a !important; // mismo color que otros modales/tarjetas
+  }
+  
+  // Título del modal
+  h2.text-blue-950 {
+    color: rgba(2, 90, 209, 0.9) !important; // azul de marca
+  }
+  
+  // Textos de instrucciones
+  p.text-black {
+    color: #e5e7eb !important; // gray-200
+  }
+  
+  // Labels
+  label.text-gray-800 {
+    color: #e5e7eb !important; // gray-200
+  }
+  
+  // TODOS los inputs - forzar fondo oscuro
+  input {
+    background-color: #262626 !important; // neutral-800
+    border-color: #404040 !important; // neutral-700
+    color: #e5e7eb !important; // gray-200
+  }
+  
+  // Contenedor de teléfono
+  .phone-input-container {
+    background-color: #262626 !important;
+    border-color: #404040 !important;
+  }
+  
+  // Forzar que cualquier elemento con bg-white dentro del modal sea oscuro
+  [class*="bg-white"] {
+    background-color: #262626 !important;
+  }
+  
+  // Placeholder
+  input::placeholder {
+    color: #9ca3af !important; // gray-400
+  }
+  
+  // Botón de cerrar - icono
+  button svg path[stroke="#1E3A8A"] {
+    stroke: #e5e7eb !important; // gray-200
+  }
+  
+  // Flecha del selector de país
+  .country-selector svg path[stroke="#6B7280"] {
+    stroke: #9ca3af !important; // gray-400
+  }
+  
+  // Botón de importar
+  button[class*="bg-[#0a1740]"] {
+    background-color: rgba(2, 90, 209, 0.9) !important; // azul de marca
+  }
+  
+  // Focus en inputs
+  input:focus {
+    border-color: rgba(2, 90, 209, 0.9) !important;
+  }
+  
+  // Input dentro del contenedor de teléfono
+  .phone-input-container input {
+    color: #e5e7eb !important;
+    background-color: transparent !important;
+  }
+}
+
 // Estilos para el contenedor del modal
 ::ng-deep .custom-dialog-container {
   .mat-mdc-dialog-container {

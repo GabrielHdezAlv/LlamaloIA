@@ -74,7 +74,7 @@
     >
       <!-- Layout original para desktop -->
       <div
-        class="hidden lg:flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
+        class="flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
       >
         <svg
           width="18"
@@ -92,13 +92,13 @@
       </div>
 
       <h3
-        class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos max-lg:text-xs max-lg:mt-4 hidden lg:block"
+        class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos max-lg:text-xs max-lg:mt-4"
       >
         {{ t.totalSuccessfulCalls }}
       </h3>
 
-      <!-- Layout horizontal SOLO para móvil -->
-      <div class="flex lg:hidden items-center gap-3 mb-4 max-lg:gap-2">
+      <!-- Layout horizontal - OCULTO, usar siempre el layout vertical -->
+      <div class="hidden items-center gap-3 mb-4 max-lg:gap-2">
         <div
           class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center"
         >
@@ -177,7 +177,7 @@
     >
       <!-- Layout original para desktop -->
       <div
-        class="hidden lg:flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
+        class="flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
       >
         <svg
           width="64"
@@ -195,13 +195,13 @@
       </div>
 
       <h3
-        class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos max-lg:text-xs max-lg:mt-4 hidden lg:block"
+        class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos max-lg:text-xs max-lg:mt-4"
       >
         {{ t.timeSaved }}
       </h3>
 
-      <!-- Layout horizontal SOLO para móvil -->
-      <div class="flex lg:hidden items-center gap-3 mb-4 max-lg:gap-2">
+      <!-- Layout horizontal - OCULTO, usar siempre el layout vertical -->
+      <div class="hidden items-center gap-3 mb-4 max-lg:gap-2">
         <div
           class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center"
         >
@@ -276,7 +276,7 @@
     <div class="flex flex-col p-4 max-lg:p-3">
       <!-- Layout original para desktop -->
       <div
-        class="hidden lg:flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
+        class="flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
       >
         <svg
           width="13"
@@ -293,13 +293,13 @@
       </div>
 
       <h3
-        class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos max-lg:text-xs max-lg:mt-4 hidden lg:block"
+        class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos max-lg:text-xs max-lg:mt-4"
       >
         {{ t.minutesUsed }}
       </h3>
 
-      <!-- Layout horizontal SOLO para móvil -->
-      <div class="flex lg:hidden items-center gap-3 mb-4 max-lg:gap-2">
+      <!-- Layout horizontal - OCULTO, usar siempre el layout vertical -->
+      <div class="hidden items-center gap-3 mb-4 max-lg:gap-2">
         <div
           class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center"
         >
@@ -576,10 +576,4 @@
     </div>
   </div>
 
-  <!-- Marca de versión fija abajo, centrada -->
-  <div class="fixed bottom-3 left-0 right-0 flex justify-center pointer-events-none">
-    <span class="text-[11px] sm:text-xs text-gray-400 dark:text-slate-400">
-      Llamalo v2.0
-    </span>
-  </div>
 </div>

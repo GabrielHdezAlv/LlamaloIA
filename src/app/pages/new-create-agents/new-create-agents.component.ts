@@ -87,23 +87,20 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
 
   // Métodos para el carrusel de voces
   nextVoice() {
-    const visibleCount = this.getVisibleCount();
-    const maxIndex = Math.max(this.voices.length - visibleCount, 0);
+    // Limitar a máximo 4 clics (avanzar 4 veces desde el inicio)
+    const maxClicks = 4;
+    const maxIndex = Math.min(maxClicks, Math.max(this.voices.length - 1, 0));
 
     if (this.currentVoiceIndex < maxIndex) {
-      // En tablets avanzar de 2 en 2, en desktop de 1 en 1
-      const step = visibleCount === 2 ? 2 : 1;
-      this.currentVoiceIndex = Math.min(this.currentVoiceIndex + step, maxIndex);
+      // Siempre avanzar de 1 en 1
+      this.currentVoiceIndex = Math.min(this.currentVoiceIndex + 1, maxIndex);
     }
   }
 
   previousVoice() {
-    const visibleCount = this.getVisibleCount();
-
     if (this.currentVoiceIndex > 0) {
-      // En tablets retroceder de 2 en 2, en desktop de 1 en 1
-      const step = visibleCount === 2 ? 2 : 1;
-      this.currentVoiceIndex = Math.max(this.currentVoiceIndex - step, 0);
+      // Siempre retroceder de 1 en 1
+      this.currentVoiceIndex = Math.max(this.currentVoiceIndex - 1, 0);
     }
   }
 
@@ -117,8 +114,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   }
 
   isNextDisabled(): boolean {
-    const visibleCount = this.getVisibleCount();
-    return this.currentVoiceIndex >= this.voices.length - visibleCount;
+    // Limitar a máximo 4 clics
+    const maxClicks = 4;
+    const maxIndex = Math.min(maxClicks, Math.max(this.voices.length - 1, 0));
+    return this.currentVoiceIndex >= maxIndex;
   }
 
   shouldHideCarousel(): boolean {
@@ -133,12 +132,48 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   getCarouselTransform(): string {
     const visibleCount = this.getVisibleCount();
     const gap = this.getSlideGapPx();
-    const offsetPercent = (100 / visibleCount) * this.currentVoiceIndex;
+    
     if (gap === 0) {
+      const offsetPercent = (100 / visibleCount) * this.currentVoiceIndex;
       return `translateX(-${offsetPercent}%)`;
     }
-    const offsetGap = gap * this.currentVoiceIndex;
-    return `translateX(calc(-${offsetPercent}% - ${offsetGap}px))`;
+    
+    // Calcular el desplazamiento correcto considerando gaps
+    // El ancho de cada carta es: (100% - totalGap) / visibleCount
+    // El desplazamiento debe ser: índice * (ancho_carta + gap)
+    const totalGap = gap * (visibleCount - 1);
+    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1920;
+    
+    // Obtener el ancho del contenedor (puede tener padding)
+    // El contenedor tiene padding: px-8 sm:px-12 md:px-16
+    let containerPadding = 0;
+    if (viewportWidth >= 768) {
+      containerPadding = viewportWidth >= 1024 ? 64 : 48; // md:px-16 = 64px, sm:px-12 = 48px
+    } else {
+      containerPadding = 32; // px-8 = 32px
+    }
+    
+    // Calcular el ancho disponible (viewport - padding)
+    const availableWidth = viewportWidth - (containerPadding * 2);
+    
+    // Calcular el ancho real de cada carta en píxeles
+    const cardWidthPx = (availableWidth - totalGap) / visibleCount;
+    
+    // Permitir desplazarse hasta la última carta
+    // El índice efectivo puede ser hasta voices.length - 1, pero el desplazamiento visual
+    // debe permitir mostrar la última carta incluso si algunas del inicio quedan fuera
+    const maxPossibleIndex = this.voices.length - 1;
+    const effectiveIndex = Math.min(this.currentVoiceIndex, maxPossibleIndex);
+    
+    // El desplazamiento total en píxeles es: índice * (ancho_carta + gap)
+    // Añadir un pequeño ajuste para evitar el corte (solo si no estamos en el índice 0)
+    const adjustment = effectiveIndex > 0 ? -2 : 0;
+    const totalOffsetPx = effectiveIndex * (cardWidthPx + gap) + adjustment;
+    
+    // Convertir a porcentaje del ancho disponible
+    const offsetPercent = (totalOffsetPx / availableWidth) * 100;
+    
+    return `translateX(-${offsetPercent}%)`;
   }
 
   getSlideWidthPercent(): string {
@@ -176,8 +211,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
 
   getSlideGapPx(): number {
     const width = this.getViewportWidth();
-    if (width >= 1536) return 4;
-    if (width >= 1280) return 3;
+    if (width >= 1920) return 32; // Aumentar gap para 1920x1080
+    if (width >= 1536) return 24; // Aumentar gap para portátiles grandes
+    if (width >= 1280) return 20; // Aumentar gap para portátiles
     if (width >= 768) return 14;
     return 8;
   }
@@ -190,18 +226,36 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   }
 
   getCarouselPages(): number[] {
-    const totalPages = Math.max(Math.ceil(this.voices.length / this.getVisibleCount()), 1);
-    return Array.from({ length: totalPages }, (_, i) => i);
+    // Siempre mostrar 4 puntos de paginación
+    return [0, 1, 2, 3];
   }
 
   getCurrentPage(): number {
-    return Math.floor(this.currentVoiceIndex / this.getVisibleCount());
+    // Calcular qué punto está activo basado en el índice actual
+    // Con 4 puntos, dividimos el rango de índices en 4 partes
+    const maxClicks = 4;
+    const maxIndex = Math.min(maxClicks, Math.max(this.voices.length - 1, 0));
+    if (maxIndex === 0) return 0;
+    
+    // Dividir el rango en 4 partes (3 pasos entre 4 puntos: 0, 1, 2, 3)
+    const step = maxIndex / 3;
+    const currentPage = Math.min(Math.floor(this.currentVoiceIndex / step), 3);
+    return currentPage;
   }
 
   goToPage(pageIndex: number) {
-    const visibleCount = this.getVisibleCount();
-    const maxIndex = Math.max(this.voices.length - visibleCount, 0);
-    this.currentVoiceIndex = Math.min(pageIndex * visibleCount, maxIndex);
+    // Calcular el índice basado en el punto seleccionado
+    // Limitar a máximo 4 clics
+    const maxClicks = 4;
+    const maxIndex = Math.min(maxClicks, Math.max(this.voices.length - 1, 0));
+    if (maxIndex === 0) {
+      this.currentVoiceIndex = 0;
+      return;
+    }
+    
+    // Dividir el rango en 4 partes (3 pasos entre 4 puntos)
+    const step = maxIndex / 3;
+    this.currentVoiceIndex = Math.min(Math.round(pageIndex * step), maxIndex);
   }
 
   // Tablet helpers

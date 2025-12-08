@@ -232,8 +232,8 @@
   }
 
   .llamadas-por-dia-altura {
-    min-height: 200px !important;
-    height: 200px !important;
+    min-height: 160px !important;
+    height: 160px !important;
   }
 
   .resumen-dias-botones > button {
@@ -246,7 +246,7 @@
   }
 
   .llamadas-por-dia-grafico-wrapper {
-    margin-top: 70px !important;
+    margin-top: 20px !important;
   }
 
   .llamadas-por-dia-grafico span.text-sm {
@@ -255,9 +255,13 @@
   }
 
   .llamadas-barra {
-    width: 26px !important;
-    min-width: 26px !important;
-    max-width: 26px !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+  }
+
+  .llamadas-barra-rounded {
+    border-radius: 16px 16px 16px 16px !important;
   }
 
   /* Componentes hijo - home-chart */
@@ -291,6 +295,101 @@
         }
       }
     }
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1350px) {
+  /* Responsive específico para 1200px - 1350px: barras más estrechas y más arriba */
+  
+  /* Reducir margen inferior del contenedor del título y botones para subir el contenido */
+  .agentes-activos-recuadro:first-of-type > div.flex.justify-between {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  /* Reducir espacio entre icono y título en resumen */
+  .resumen-icon {
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Reducir margen superior del título */
+  .resumen-datos {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  /* Reducir espacio entre título y número */
+  .resumen-numero {
+    margin-top: 0 !important;
+  }
+
+  /* Reducir espacio entre número y porcentaje */
+  .resumen-porcentaje-chip {
+    margin-top: 0 !important;
+  }
+  
+  /* Reducir margen del contenedor del porcentaje (div con mt-2) */
+  div.mt-2.flex.items-center {
+    margin-top: 0 !important;
+  }
+  
+  /* Ajustar margen negativo del chip para centrarlo con el texto */
+  .resumen-porcentaje-chip {
+    margin-top: -0.5rem !important;
+  }
+  
+  /* Ajustar también el texto "vs año pasado" para que esté centrado */
+  .resumen-dias-texto {
+    margin-top: -0.5rem !important;
+  }
+  
+  .llamadas-barra {
+    width: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+  }
+
+  .llamadas-barra-rounded {
+    border-radius: 8px 8px 8px 8px !important;
+  }
+
+  /* Ajustar padding del recuadro para evitar cortes */
+  .llamadas-por-dia-grafico.agentes-activos-recuadro {
+    padding-top: 0.75rem !important;
+    padding-bottom: 1.25rem !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  /* Reducir margen inferior del título pero mantener un poco de espacio */
+  .llamadas-por-dia-titulo {
+    margin-bottom: 0.25rem !important;
+  }
+
+  .llamadas-por-dia-grafico-wrapper {
+    margin-top: 0px !important;
+  }
+
+  .llamadas-por-dia-altura {
+    min-height: 140px !important;
+    height: 140px !important;
+  }
+
+  /* Subir solo las barras, no los días */
+  .llamadas-por-dia-grafico .grid.grid-cols-7.items-end {
+    height: 150px !important;
+    max-height: 150px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  
+  /* Sobrescribir cualquier mt-2 del HTML para subir las barras */
+  .llamadas-por-dia-grafico .grid.h-64 {
+    margin-top: 0 !important;
+  }
+
+  /* Separar más los días de las barras */
+  .llamadas-por-dia-grafico .grid.grid-cols-7.items-center {
+    margin-top: 3.5rem !important;
   }
 }
 
@@ -353,6 +452,15 @@
     min-width: 3rem !important;
     max-width: 3rem !important;
   }
+  
+  /* Bajar las barras y los días en tablet */
+  .llamadas-por-dia-grafico-wrapper {
+    margin-top: 3.5rem !important;
+  }
+  
+  .llamadas-por-dia-grafico .grid.grid-cols-7.items-end {
+    margin-top: 3.5rem !important;
+  }
 }
 
 @media (max-width: 640px) {
@@ -360,6 +468,15 @@
     width: 1.75rem !important; /* 28px - más gruesas para móvil pequeño */
     min-width: 1.75rem !important;
     max-width: 1.75rem !important;
+  }
+  
+  /* Bajar las barras y los días en móvil */
+  .llamadas-por-dia-grafico-wrapper {
+    margin-top: 3.5rem !important;
+  }
+  
+  .llamadas-por-dia-grafico .grid.grid-cols-7.items-end {
+    margin-top: 3.5rem !important;
   }
 }
 
