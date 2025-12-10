@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit {
   maxBarHeight: number = 200;
   
   // Porcentajes de llamadas por día (0-100%)
-  callsByDayPercentages: number[] = [40, 100, 30, 60, 45, 30, 40];
+  callsByDayPercentages: number[] = [70, 100, 20, 60, 45, 30, 40];
   
   // Calcular alturas basadas en porcentajes
   get callsByDayHeights(): number[] {

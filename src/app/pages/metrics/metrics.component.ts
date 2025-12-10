@@ -331,6 +331,17 @@ export class MetricsComponent implements OnInit {
     }
   }
 
+  // Coordenadas del marcador de latencia al final del arco
+  get latencyMarkerX(): number {
+    const angle = Math.PI * (1 - this.latencyPercent); // de π (izq) a 0 (der)
+    return 260 + 260 * Math.cos(angle);
+  }
+
+  get latencyMarkerY(): number {
+    const angle = Math.PI * (1 - this.latencyPercent);
+    return 320 - 260 * Math.sin(angle);
+  }
+
   // Método para simular cambios de latencia
   simulateLatency(newLatency: number): void {
     this.latencyMs = newLatency;
@@ -411,6 +422,18 @@ export class MetricsComponent implements OnInit {
         return '#16a34a'; // Verde más oscuro
     }
   }
+
+  // Coordenadas del marcador de duración al final del arco (semicírculo grande)
+  get durationMarkerX(): number {
+    const angle = Math.PI * (1 - this.durationPercent); // de π (izq) a 0 (der)
+    return 260 + 260 * Math.cos(angle);
+  }
+
+  get durationMarkerY(): number {
+    const angle = Math.PI * (1 - this.durationPercent);
+    return 320 - 260 * Math.sin(angle);
+  }
+
 
   // Agentes creados (tabla resumen)
   get createdAgents() {

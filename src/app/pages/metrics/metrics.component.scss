@@ -120,6 +120,24 @@
   animation: glow 2s infinite;
 }
 
+/* Marcadores (latencia y duración) */
+.latency-marker-outer {
+  r: 29;
+  stroke-width: 12;
+}
+.latency-marker-inner {
+  r: 12;
+  stroke-width: 3;
+}
+.duration-marker-outer {
+  r: 29;
+  stroke-width: 12;
+}
+.duration-marker-inner {
+  r: 12;
+  stroke-width: 3;
+}
+
 /* Animaciones de fade in */
 .fade-in-section {
   opacity: 0;
@@ -226,5 +244,29 @@ apx-chart {
   .rounded-xl.sm\:rounded-\[2rem\],
   .rounded-\[2rem\] {
     border-radius: 1rem !important;
+  }
+
+  /* Ajuste de grosor de barra y marcador en laptops */
+  .metrics-progress-bg,
+  .latency-arc,
+  .duration-arc {
+    stroke-width: 52 !important;
+  }
+
+  .latency-marker-outer {
+    r: 24;
+    stroke-width: 10;
+  }
+  .latency-marker-inner {
+    r: 10;
+    stroke-width: 3;
+  }
+  .duration-marker-outer {
+    r: 24;
+    stroke-width: 10;
+  }
+  .duration-marker-inner {
+    r: 10;
+    stroke-width: 3;
   }
 }

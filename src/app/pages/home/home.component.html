@@ -549,14 +549,23 @@
             class="flex flex-col items-center"
             *ngFor="let h of callsByDayHeights; let i = index"
           >
-            <div
-              [style.height.px]="h"
-              [class]="
-                isToday(i)
-                  ? 'w-8 bg-blue-900 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded max-lg:w-5'
-                  : 'w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded max-lg:w-5'
-              "
-            ></div>
+            <div class="llamadas-barra-wrapper">
+              <span
+                class="llamadas-barra-valor font-semibold"
+                [style.bottom.px]="h - 8"
+                [ngClass]="isToday(i) ? 'llamadas-valor-hoy' : 'llamadas-valor-default'"
+              >
+                {{ callsByDayPercentages[i] }}%
+              </span>
+              <div
+                [style.height.px]="h"
+                [class]="
+                  isToday(i)
+                    ? 'w-8 bg-blue-900 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded max-lg:w-5'
+                    : 'w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded max-lg:w-5'
+                "
+              ></div>
+            </div>
           </div>
         </div>
         <!-- Días alineados debajo de las barras -->
