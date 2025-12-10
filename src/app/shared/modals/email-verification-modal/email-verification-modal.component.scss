@@ -1,0 +1,31 @@
+// Estilos específicos para el modal de verificación de email
+// Los estilos principales están en el HTML con clases de Tailwind
+
+// Redondear todas las esquinas del contenedor del modal
+::ng-deep .custom-dialog-container {
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+    border-radius: 3rem !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    border-radius: 3rem !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
+// Asegurar que el contenedor del modal tenga fondo oscuro en modo oscuro
+::ng-deep html.dark .custom-dialog-container {
+  .mat-mdc-dialog-container {
+    background-color: transparent !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    background-color: transparent !important;
+  }
+}

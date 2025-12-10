@@ -40,6 +40,10 @@ import {
   MakeModalComponent,
   MakeModalData,
 } from './make-modal/make-modal.component';
+import {
+  EmailVerificationModalComponent,
+  EmailVerificationModalData,
+} from './email-verification-modal/email-verification-modal.component';
 
 @Injectable({
   providedIn: 'root',
@@ -145,6 +149,15 @@ export class ModalService {
       width: '1200px',
       maxWidth: '95vw',
       disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
+
+  openEmailVerification(data: EmailVerificationModalData = {}) {
+    return this.dialog.open(EmailVerificationModalComponent, {
+      width: '500px',
+      disableClose: true,
       panelClass: 'custom-dialog-container',
       data,
     });

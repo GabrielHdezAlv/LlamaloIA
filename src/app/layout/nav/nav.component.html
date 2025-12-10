@@ -1,4 +1,61 @@
 
+<!-- Tarjeta reutilizable de onboarding (usa ngTemplateOutlet) -->
+<ng-template #sidebarOnboardingCard>
+  <div
+    class="sidebar-onboarding-card mx-auto rounded-2xl shadow-lg bg-white border border-gray-200 dark:bg-slate-900 dark:border-slate-700 flex flex-col gap-2 px-2.5 py-2 w-[80%] md:w-[82%] xl:w-[84%] 2xl:w-[86%] [letter-spacing:-0.35px]"
+  >
+    <div class="flex flex-col items-center text-center gap-2">
+      <div class="sidebar-onboarding-icon w-11 h-11 rounded-2xl grid place-items-center text-[#0B2B6F]">
+        <svg width="24" height="24" viewBox="0 0 600 600" aria-hidden="true" fill="currentColor" class="text-[#0B2B6F]">
+          <path d="M447.70881 -12.781343A42.041451 42.041451 0 0 0 405.66786 29.260344v21.041377H27.434765A42.041302 42.041302 0 0 0-14.606185 92.341354 42.041302 42.041302 0 0 0 27.434765 134.38304H405.66786v21.06602a42.041451 42.041451 0 0 0 84.08301 0v-21.06602h84.02949a42.041302 42.041302 0 0 0 42.043-42.041686 42.041302 42.041302 0 0 0-42.043-42.039633h-84.02949V29.260344A42.041451 42.041451 0 0 0 447.70881-12.781343zm-304.70761 210.270033A42.041451 42.041451 0 0 0 100.9582 239.53038v21.03932H27.447078A42.041302 42.041302 0 0 0-14.593872 302.61139 42.041302 42.041302 0 0 0 27.447078 344.65308H100.9582v21.06602a42.041451 42.041451 0 0 0 84.08395 0v-21.06602H573.79472a42.041302 42.041302 0 0 0 42.04095-42.04169 42.041302 42.041302 0 0 0-42.04095-42.04169H185.04215v-21.03932a42.041451 42.041451 0 0 0-42.041-42.04204zm136.59307 210.27209a42.041451 42.041451 0 0 0-42.04095 42.03964v21.04032H27.447078A42.041302 42.041302 0 0 0-14.593872 512.88143 42.041302 42.041302 0 0 0 27.447078 554.92106H237.55332v21.06807a42.041451 42.041451 0 0 0 84.08195 0v-21.06807h252.15945a42.041302 42.041302 0 0 0 42.04095-42.04065 42.041302 42.041302 0 0 0-42.04095-42.04169H321.63527v-21.04032a42.041451 42.041451 0 0 0-42.04095-42.04064z"/>
+        </svg>
+      </div>
+      <div class="flex flex-col gap-1">
+        <p class="sidebar-onboarding-title text-[15px] font-semibold text-slate-900 dark:text-white">¡Casi estás listo!</p>
+        <p class="sidebar-onboarding-subtitle text-[13px] text-slate-500 dark:text-slate-300 leading-snug">Completa estos pasos y empieza a compartir tus enlaces de marca.</p>
+      </div>
+    </div>
+
+    <div class="sidebar-onboarding-progress flex flex-nowrap items-center justify-center gap-[0.14rem] w-full mt-1" aria-hidden="true">
+      <span
+        *ngFor="let bar of progressBars; let i = index"
+        class="block w-[4px] h-[16px] rounded-md flex-none transition-colors duration-300"
+        [ngStyle]="getBarStyle(i)"
+      ></span>
+    </div>
+
+    <div class="flex flex-col border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-200 bg-white dark:bg-slate-900 dark:border-slate-700 dark:divide-slate-700 mt-1.5">
+      <div class="sidebar-onboarding-step flex items-center gap-2.5 px-3 py-2">
+        <span class="grid place-items-center w-4.5 h-4.5 rounded-full bg-white border border-gray-400 text-gray-500 dark:bg-slate-900 dark:border-gray-500">
+          <svg class="w-3 h-3 text-gray-500 dark:text-gray-300" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 10.5L8.5 14L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="sidebar-onboarding-step-text text-[13px] font-normal text-slate-800 leading-5 dark:text-white">Configura tu dominio</span>
+        <span class="sidebar-onboarding-arrow ml-auto text-slate-900 text-xl font-normal leading-none dark:text-white">›</span>
+      </div>
+      <div class="sidebar-onboarding-step flex items-center gap-2.5 px-3 py-2">
+        <span class="grid place-items-center w-4.5 h-4.5 rounded-full bg-white border border-gray-400 text-gray-500 dark:bg-slate-900 dark:border-gray-500">
+          <svg class="w-3 h-3 text-gray-500 dark:text-gray-300" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 10.5L8.5 14L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="sidebar-onboarding-step-text text-[13px] font-normal text-slate-800 leading-5 dark:text-white">Invita a tu equipo</span>
+        <span class="sidebar-onboarding-arrow ml-auto text-slate-900 text-xl font-normal leading-none dark:text-white">›</span>
+      </div>
+      <div class="sidebar-onboarding-step flex items-center gap-2.5 px-3 py-2">
+        <span class="grid place-items-center w-4.5 h-4.5 rounded-full bg-white border border-gray-400 text-gray-500 dark:bg-slate-900 dark:border-gray-500">
+          <svg class="w-3 h-3 text-gray-500 dark:text-gray-300" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 10.5L8.5 14L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="sidebar-onboarding-step-text text-[13px] font-normal text-slate-800 leading-5 dark:text-white">Crea o importa tus links</span>
+        <span class="sidebar-onboarding-arrow ml-auto text-slate-900 text-xl font-normal leading-none dark:text-white">›</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 <!-- Botón para abrir menú en móvil -->
 <div *ngIf="windowWidth < 1280" class="fixed top-4 left-4 z-50">
   <button (click)="openMobileSidebar()" class="p-2 rounded bg-blue-700 text-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
@@ -99,57 +156,33 @@
     </nav>
 
     <!-- Sección inferior -->
-    <div class="px-6 pb-8 space-y-6">
+    <div class="px-6 pb-2 mt-auto mb-2 flex flex-col gap-1 sidebar-lower-block">
 
-      <!-- Promo -->
-      <div id="promo-card-mobile" class="rounded-lg p-1 shadow-sm w-[90%] mx-auto">
-        <p id="promo-title" class="text-base font-semibold text-gray-900 leading-relaxed mb-2 whitespace-nowrap dark:text-slate-50">
-          ¡Suma tiempo extra sin pagar!
-        </p>
-        <p id="promo-desc" class="text-sm text-gray-600 leading-relaxed mb-4 dark:text-slate-300">
-          Completa retos sencillos y aumenta tus minutos disponibles al 
-          <span class="text-blue-900 font-medium">instante.</span>
-        </p>
-        <button
-          id="promo-btn"
-          (click)="navigateToAccountGifts()"
-          class="w-full bg-blue-900/10 hover:bg-blue-900/20 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50
-                 dark:bg-transparent dark:hover:bg-transparent dark:text-slate-50 dark:border dark:border-slate-600"
-        >
-          Conseguir ahora
-        </button>
-      </div>
+      <!-- Tarjeta estilo onboarding -->
+      <ng-container *ngTemplateOutlet="sidebarOnboardingCard"></ng-container>
 
-      <!-- Progreso de minutos -->
-      <div id="progress-block-mobile" class="w-[90%] mx-auto">
-        <div class="flex justify-between text-sm text-gray-600 mb-1 dark:text-slate-300">
-          <span id="progress-label">Minutos Restantes</span>
-          <span id="progress-value">54/200</span>
-        </div>
-        <div class="w-full rounded-full h-2 sidebar-progress-track">
-          <div class="bg-blue-900 h-2 rounded-full dark:bg-blue-400" style="width: 27%"></div>
-        </div>
-      </div>
-
-      <!-- Perfil -->
-      <div id="user-profile" class="flex items-center gap-3 pt-6 pb-4">
+      <!-- Perfil (solo avatar + iconos en mobile) -->
+      <div *ngIf="windowWidth < 1280" id="user-profile" class="flex items-center gap-3 pt-2 pb-2">
         <img [src]="getUserProfileImage()" class="h-14 w-14 rounded-full border-2 border-blue-900 history-border sidebar-avatar" alt="Perfil" />
 
-        <div id="user-info" class="flex items-center">
-          <div class="flex flex-col">
-            <p id="user-name" class="font-bold text-black">
-              {{ userName().length > 16 ? (userName() | slice:0:16) + '...' : userName() }}
-            </p>
-            <p id="user-plan" class="text-xs text-gray-500">
-              Plan PRO
-            </p>
-          </div>
-          <svg class="h-4 w-4 text-gray-400 ml-1 -mt-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        <div class="flex items-center ml-auto gap-3">
+          <button type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.2498 2C7.03145 2.00411 4.84888 2.07958 3.46423 3.46423C2.07958 4.84888 2.00411 7.03145 2 11.2498H6.91352C6.56255 10.8114 6.30031 10.2943 6.15731 9.72228C5.61906 7.56926 7.56926 5.61906 9.72228 6.15731C10.2943 6.30031 10.8114 6.56255 11.2498 6.91352V2Z"></path>
+              <path d="M2 12.7498C2.00411 16.9681 2.07958 19.1506 3.46423 20.5353C4.84888 21.9199 7.03145 21.9954 11.2498 21.9995V14.1234C10.4701 15.6807 8.8598 16.7498 6.99976 16.7498C6.58555 16.7498 6.24976 16.414 6.24976 15.9998C6.24976 15.5856 6.58555 15.2498 6.99976 15.2498C8.53655 15.2498 9.82422 14.1831 10.1628 12.7498H2Z"></path>
+              <path d="M12.7498 21.9995C16.9681 21.9954 19.1506 21.9199 20.5353 20.5353C21.9199 19.1506 21.9954 16.9681 21.9995 12.7498H13.8367C14.1753 14.1831 15.463 15.2498 16.9998 15.2498C17.414 15.2498 17.7498 15.5856 17.7498 15.9998C17.7498 16.414 17.414 16.7498 16.9998 16.7498C15.1397 16.7498 13.5294 15.6807 12.7498 14.1234V21.9995Z"></path>
+              <path d="M21.9995 11.2498C21.9954 7.03145 21.9199 4.84888 20.5353 3.46423C19.1506 2.07958 16.9681 2.00411 12.7498 2V6.91352C13.1882 6.56255 13.7053 6.30031 14.2772 6.15731C16.4303 5.61906 18.3805 7.56926 17.8422 9.72228C17.6992 10.2943 17.437 10.8114 17.086 11.2498H21.9995Z"></path>
+              <path d="M9.35847 7.61252C10.47 7.8904 11.2498 8.88911 11.2498 10.0348V11.2498H10.0348C8.88911 11.2498 7.8904 10.47 7.61252 9.35847C7.34891 8.30403 8.30403 7.34891 9.35847 7.61252Z"></path>
+              <path d="M12.7498 10.0348V11.2498H13.9647C15.1104 11.2498 16.1091 10.47 16.387 9.35847C16.6506 8.30403 15.6955 7.34891 14.6411 7.61252C13.5295 7.8904 12.7498 8.88911 12.7498 10.0348Z"></path>
+            </svg>
+          </button>
+          <svg class="h-4 w-4 text-gray-400" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z"></path>
+            <path d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z"></path>
           </svg>
         </div>
 
-        <button id="logout-btn" class="ml-auto text-gray-500 hover:text-gray-700 focus:outline-none">
+        <button id="logout-btn" class="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none">
           <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g opacity="0.6">
               <g clip-path="url(#clip0_420_8934)">
@@ -285,62 +318,50 @@
     </nav>
 
     <!-- Sección inferior -->
-    <div [class]="'pb-8 space-y-6 w-full ' + (windowWidth < 1440 ? 'px-3 space-y-3' : 'px-6') + ' ' + (isCollapsed ? 'px-0' : '')">
+    <div [class]="'pb-2 mb-2 w-full flex flex-col mt-auto ' + (windowWidth < 1440 ? 'px-3 gap-1' : 'px-6 gap-1') + ' ' + (isCollapsed ? 'px-0' : '')">
 
-      <!-- Promo -->
-      <div *ngIf="!isCollapsed" [class]="'pb-6 space-y-6 transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left ' + (windowWidth < 1440 ? 'pb-3 space-y-3' : 'pb-6 space-y-6')" style="animation-delay: 0.3s;">
-        <!-- Fondo igual que el sidebar en modo oscuro -->
-        <div id="promo-card-desktop" class="rounded-lg p-1 w-[90%] mx-auto">
-          <p id="promo-title-desktop" class="text-base font-semibold text-gray-900 leading-relaxed mb-2 whitespace-nowrap dark:text-slate-50">
-            {{ t.promoTitle }}
-          </p>
-          <p id="promo-desc-desktop" class="text-sm text-gray-600 leading-relaxed mb-4 dark:text-slate-300">
-            {{ t.promoDescription }}
-          </p>
-          <button
-            id="promo-btn-desktop"
-            (click)="navigateToAccountGifts()"
-            class="w-full bg-blue-900/10 hover:bg-blue-900/20 text-blue-900 font-bold py-3 px-2 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 border border-gray-200
-                   dark:bg-transparent dark:hover:bg-transparent dark:text-slate-50 dark:border-slate-600"
-          >
-            {{ t.promoButton }}
-          </button>
-        </div>
-
-        <!-- Progreso -->
-        <div id="progress-block-desktop" class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left w-[90%] mx-auto" style="animation-delay: 0.4s;">
-          <div class="flex justify-between text-sm text-gray-600 mb-1 dark:text-slate-300">
-            <span id="progress-label-desktop">{{ t.remainingMinutes }}</span>
-            <span id="progress-value-desktop">54/200</span>
-          </div>
-          <div class="w-full rounded-full h-2 sidebar-progress-track">
-            <div class="bg-blue-900 h-2 rounded-full transition-all duration-1000 ease-out dark:bg-blue-400" style="width: 27%"></div>
-          </div>
-        </div>
+      <!-- Tarjeta estilo onboarding (solo cuando está expandido) -->
+      <div *ngIf="!isCollapsed" [class]="'transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left ' + (windowWidth < 1440 ? 'pb-1' : 'pb-1')" style="animation-delay: 0.3s;">
+        <ng-container *ngTemplateOutlet="sidebarOnboardingCard"></ng-container>
       </div>
 
 
       <!-- Perfil con dropdown -->
-      <div [class]="'relative pt-4 pb-6 w-[90%] mx-auto ' + (isCollapsed ? 'flex justify-center items-center' : 'flex items-center gap-3')">
+      <div [class]="'relative pt-2 pb-2 w-[90%] mx-auto ' + (isCollapsed ? 'flex justify-center items-center' : 'flex items-center gap-3')">
         <!-- Avatar y texto -->
-        <div class="flex items-center gap-2 transition-all duration-500 ease-out" [class]="isCollapsed ? 'w-full justify-center' : 'flex-1'">
+        <div
+          class="flex items-center gap-2 transition-all duration-500 ease-out cursor-pointer"
+          [class]="isCollapsed ? 'w-full justify-center' : 'flex-1'"
+          (click)="toggleDropdown()"
+        >
             <img
               [src]="getUserProfileImage()"
-              class="h-10 w-10 rounded-full border-2 border-blue-900 history-border sidebar-avatar transition-all duration-200 ease-in-out flex-shrink-0"
+              class="h-8 w-8 rounded-full border-2 border-blue-900 history-border sidebar-avatar transition-all duration-200 ease-in-out flex-shrink-0"
               alt="Perfil"
               [style]="isHovering ? 'opacity: 0; transform: scale(0.8);' : 'opacity: 1; transform: scale(1);'"
             />
-          <div *ngIf="!isCollapsed" class="flex flex-col transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.15s;">
-            <p class="font-bold text-black">{{ userName() }}</p>
-            <p class="text-xs text-gray-500">{{ t.planPro }}</p>
-          </div>
+          
         </div>
 
-        <!-- Icono dropdown -->
-        <div *ngIf="!isCollapsed" class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.2s;">
-          <button (click)="toggleDropdown()" class="text-gray-400 hover:text-gray-700 focus:outline-none">
-            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+        <!-- Icono regalo y dropdown -->
+        <div *ngIf="!isCollapsed" class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.15s;">
+          <button (click)="goToGifts()" class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none">            
+            <svg class="h-7 w-7 relative top-[4px]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.2498 2C7.03145 2.00411 4.84888 2.07958 3.46423 3.46423C2.07958 4.84888 2.00411 7.03145 2 11.2498H6.91352C6.56255 10.8114 6.30031 10.2943 6.15731 9.72228C5.61906 7.56926 7.56926 5.61906 9.72228 6.15731C10.2943 6.30031 10.8114 6.56255 11.2498 6.91352V2Z"></path>
+              <path d="M2 12.7498C2.00411 16.9681 2.07958 19.1506 3.46423 20.5353C4.84888 21.9199 7.03145 21.9954 11.2498 21.9995V14.1234C10.4701 15.6807 8.8598 16.7498 6.99976 16.7498C6.58555 16.7498 6.24976 16.414 6.24976 15.9998C6.24976 15.5856 6.58555 15.2498 6.99976 15.2498C8.53655 15.2498 9.82422 14.1831 10.1628 12.7498H2Z"></path>
+              <path d="M12.7498 21.9995C16.9681 21.9954 19.1506 21.9199 20.5353 20.5353C21.9199 19.1506 21.9954 16.9681 21.9995 12.7498H13.8367C14.1753 14.1831 15.463 15.2498 16.9998 15.2498C17.414 15.2498 17.7498 15.5856 17.7498 15.9998C17.7498 16.414 17.414 16.7498 16.9998 16.7498C15.1397 16.7498 13.5294 15.6807 12.7498 14.1234V21.9995Z"></path>
+              <path d="M21.9995 11.2498C21.9954 7.03145 21.9199 4.84888 20.5353 3.46423C19.1506 2.07958 16.9681 2.00411 12.7498 2V6.91352C13.1882 6.56255 13.7053 6.30031 14.2772 6.15731C16.4303 5.61906 18.3805 7.56926 17.8422 9.72228C17.6992 10.2943 17.437 10.8114 17.086 11.2498H21.9995Z"></path>
+              <path d="M9.35847 7.61252C10.47 7.8904 11.2498 8.88911 11.2498 10.0348V11.2498H10.0348C8.88911 11.2498 7.8904 10.47 7.61252 9.35847C7.34891 8.30403 8.30403 7.34891 9.35847 7.61252Z"></path>
+              <path d="M12.7498 10.0348V11.2498H13.9647C15.1104 11.2498 16.1091 10.47 16.387 9.35847C16.6506 8.30403 15.6955 7.34891 14.6411 7.61252C13.5295 7.8904 12.7498 8.88911 12.7498 10.0348Z"></path>
+            </svg>
+          </button>
+        </div>
+         
+        <div *ngIf="!isCollapsed" class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.2s.">
+          <button (click)="logout()" class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none" aria-label="Cerrar sesión">
+            <svg class="h-7 w-7 relative top-[4px]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z"></path>
+              <path d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z"></path>
             </svg>
           </button>
         </div>

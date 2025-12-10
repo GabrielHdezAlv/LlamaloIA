@@ -37,31 +37,40 @@
         </div>
       </div>
 
-      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
-        <button (click)="goBack()" class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 text-base sm:text-lg flex items-center p-1">
-          <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor" class="dark:text-slate-300"/>
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-6">
+        <!-- Botón de volver a la izquierda -->
+        <button
+          (click)="goBack()"
+          class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg flex items-center p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
+          style="z-index:10;"
+        >
+          <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
           </svg>
         </button>
 
-        <button
-          class="absolute left-1/2 transform -translate-x-1/2 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+        <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
           (click)="onSubmitAgentName()"
         >
           Continuar
         </button>
 
-        <button (click)="onSkip()" class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-sm sm:text-base md:text-lg flex items-center p-1">
+        <!-- Botón Saltar a la derecha -->
+        <button 
+          (click)="onSkip()" 
+          class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm flex items-center p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
+          style="font-family: 'Poppins', sans-serif;"
+        >
           Saltar
-          <svg class="ml-2 sm:ml-3" width="18" height="18" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+          <svg class="ml-2 sm:ml-3 transition-transform duration-200 hover:translate-x-1" width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z" fill="currentColor"/>
           </svg>
         </button>
       </div>
     </div>
   }
   @if (step === 'callType') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
       <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
         <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-4 sm:mb-8 md:mb-12 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Tipo de Llamadas</h2>
 
@@ -86,11 +95,11 @@
       <!-- Botón de retroceso -->
       <button
         (click)="goBack()"
-        class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 text-base sm:text-lg flex items-center absolute left-3 sm:left-4 md:left-8 bottom-0 mb-4 sm:mb-6 md:mb-8 p-1"
+        class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg flex items-center absolute left-3 sm:left-4 md:left-8 bottom-0 pb-6 p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
         style="z-index:10;"
       >
-        <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor" class="dark:text-slate-300"/>
+        <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
         </svg>
       </button>
     </div>
@@ -179,11 +188,11 @@
 
       <button
         (click)="goBack()"
-        class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center absolute left-3 sm:left-4 md:left-8 bottom-0 mb-4 sm:mb-6 md:mb-8 p-1"
+        class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg flex items-center absolute left-3 sm:left-4 md:left-8 bottom-0 pb-6 p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
         style="z-index:10;"
       >
-        <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+        <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
         </svg>
       </button>
     </div>
@@ -475,11 +484,11 @@
         <!-- Botón de retroceso -->
           <button
           (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center absolute left-3 sm:left-4 md:left-8 bottom-0 mb-4 sm:mb-6 md:mb-8 p-1"
+          class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg flex items-center absolute left-3 sm:left-4 md:left-8 bottom-0 pb-6 p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
           style="z-index:10;"
         >
-          <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+          <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
           </svg>
         </button>
       </div>
@@ -544,23 +553,23 @@
           <textarea
             [(ngModel)]="instructions"
             placeholder="Escribe aquí..."
-            class="w-full px-2.5 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-[1rem] focus:ring-black dark:focus:ring-blue-500 focus:border-transparent h-28 sm:h-32 md:h-40 lg:h-48 resize-none text-xs sm:text-sm dark:text-slate-200"
+            class="w-full px-2.5 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-[1rem] focus:ring-black dark:focus:ring-blue-500 focus:border-transparent h-28 sm:h-32 md:h-40 lg:h-48 resize-none text-xs sm:text-sm dark:text-slate-200 instructions-scroll"
           ></textarea>
       </div>
       </div>
 
       <!-- Botones -->
-      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-6">
         <button
           (click)="goBack()"
-          class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 text-base sm:text-lg flex items-center p-1"
+          class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg p-1 hover:bg-gray-50 dark:hover:bg-slate-800"
         >
-          <svg width="24" height="24" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor" class="dark:text-slate-300"/>
+          <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
           </svg>
         </button>
 
-        <button class="absolute left-1/2 transform -translate-x-1/2 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+        <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
           (click)="onSubmit()"
         >
           Continuar
@@ -605,24 +614,22 @@
       </div>
   
       <!-- Botones -->
-      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
-        <button
-          (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center p-1"
-        >
-          <svg width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-6">
+        <button (click)="goBack()" class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg p-1 hover:bg-gray-50 dark:hover:bg-slate-800">
+          <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
           </svg>
         </button>
             
   
         <button
           (click)="step = 'knowledgeBase'"
-          class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-sm sm:text-base md:text-lg flex items-center p-1"
+          class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm flex items-center p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
+          style="font-family: 'Poppins', sans-serif;"
         >
           Omitir
-          <svg class="ml-2 sm:ml-3" width="18" height="18" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+          <svg class="ml-2 sm:ml-3 transition-transform duration-200 hover:translate-x-1" width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z" fill="currentColor"/>
           </svg>
         </button>
       </div>
@@ -675,23 +682,24 @@
     </div>
 
     <!-- Botones -->
-    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-6">
       <button
           (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center p-1"
+          class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg p-1 hover:bg-gray-50 dark:hover:bg-slate-800"
         >
-          <svg width="24" height="24" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+          <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
           </svg>
         </button>
 
       <button
         (click)="step = 'summary'"
-        class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-sm sm:text-base md:text-lg flex items-center p-1"
+        class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm flex items-center p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
+        style="font-family: 'Poppins', sans-serif;"
       >
         Omitir
-        <svg class="ml-2 sm:ml-3" width="18" height="18" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+        <svg class="ml-2 sm:ml-3 transition-transform duration-200 hover:translate-x-1" width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z" fill="currentColor"/>
         </svg>
       </button>
     </div>
@@ -792,25 +800,23 @@
       </button>
     </div>
     
-    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
-      <button
-          (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center p-1"
-        >
-          <svg width="20" height="20" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
-          </svg>
-        </button>
-        <button class="absolute left-1/2 transform -translate-x-1/2 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2" (click)="onSubmitTestCall()">
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-6">
+      <button (click)="goBack()" class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg p-1 hover:bg-gray-50 dark:hover:bg-slate-800">
+        <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+          <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
+        </svg>
+      </button>
+        <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2" (click)="onSubmitTestCall()">
         Continuar
       </button>
       <button
           (click)="step = 'connectPhone'"
-          class="text-black hover:text-gray-700 text-sm sm:text-base md:text-lg flex items-center p-1"
+          class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm flex items-center p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
+          style="font-family: 'Poppins', sans-serif;"
         >
           Omitir
-          <svg class="ml-2 sm:ml-3" width="18" height="18" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+          <svg class="ml-2 sm:ml-3 transition-transform duration-200 hover:translate-x-1" width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z" fill="currentColor"/>
           </svg>
         </button>
     </div>
@@ -961,18 +967,18 @@
     </div>
 
     <!-- Botones de navegación SIEMPRE FIJOS ABAJO -->
-    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-6">
       <button
           (click)="goBack()"
-          class="text-gray-500 hover:text-gray-700 text-base sm:text-lg flex items-center p-1"
+          class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg p-1 hover:bg-gray-50 dark:hover:bg-slate-800"
         >
-          <svg width="20" height="20" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="black"/>
+          <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
+            <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
           </svg>
         </button>
 
         <button
-          class="absolute left-1/2 transform -translate-x-1/2 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+          class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
           (click)="onConnectPhone()"
         >
           Continuar
@@ -980,11 +986,12 @@
 
       <button
           (click)="step = 'advancedSettings'"
-          class="text-black hover:text-gray-700 text-sm sm:text-base md:text-lg flex items-center p-1"
+          class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm flex items-center p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
+          style="font-family: 'Poppins', sans-serif;"
         >
           Omitir
-          <svg class="ml-2 sm:ml-3" width="18" height="18" viewBox="0 0 18 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0.977252 12.1477C0.777553 11.948 0.759398 11.6355 0.922789 11.4153L0.977252 11.3523L5.82925 6.5L0.977252 1.64775C0.777553 1.44805 0.759398 1.13555 0.922789 0.915341L0.977252 0.852253C1.17695 0.652553 1.48945 0.634398 1.70966 0.797789L1.77275 0.852253L7.02275 6.10225C7.22245 6.30195 7.2406 6.61445 7.07721 6.83466L7.02275 6.89775L1.77275 12.1477C1.55308 12.3674 1.19692 12.3674 0.977252 12.1477Z" fill="black"/>
+          <svg class="ml-2 sm:ml-3 transition-transform duration-200 hover:translate-x-1" width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z" fill="currentColor"/>
           </svg>
         </button>
     </div>
@@ -1122,7 +1129,7 @@
     </div>
 
     <!-- Botones SIEMPRE FIJOS ABAJO -->
-    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-4 sm:pb-6 md:pb-8">
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 absolute left-0 bottom-0 pb-6">
       <button (click)="goBack()" class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg flex items-center transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg p-1 hover:bg-gray-50 dark:hover:bg-slate-800">
         <svg width="20" height="20" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:-translate-x-1">
           <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
@@ -1130,7 +1137,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 py-1.5 sm:py-2 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
         (click)="onSubmitAdvancedSettings()"
       >
         Continuar
@@ -1167,7 +1174,7 @@
       </div>
     </div>
     <button
-      class="mx-auto px-8 sm:px-10 md:px-16 lg:px-20 py-1.5 sm:py-2 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm text-white font-medium font-sans rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
+      class="mx-auto px-8 sm:px-10 md:px-16 lg:px-20 py-1.5 sm:py-2 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
       (click)="onFinish()"
     >
       Finalizar

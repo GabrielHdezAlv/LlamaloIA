@@ -176,9 +176,36 @@ export class AuthFormComponent implements OnInit {
     console.log('register');
 
     event.preventDefault();
+
+    // Validar campos antes de abrir el modal
+    if (!this.fullName || !this.email || !this.password) {
+      this.modalService.openError({
+        title: 'Campos requeridos',
+        message: 'Por favor, completa todos los campos',
+      });
+      return;
+    }
+
+    // Abrir modal de verificación de email
+    const dialogRef = this.modalService.openEmailVerification({
+      email: this.email,
+      title: 'Verificación de correo',
+      message: 'Hemos enviado un código de verificación a tu correo electrónico. Por favor, ingresa el código para completar tu registro.',
+    });
+
+    // Esperar a que el usuario verifique el código
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.verified) {
+        // Solo proceder con el registro si el código fue verificado
+        this.completeRegistration();
+      }
+    });
+  }
+
+  private completeRegistration() {
     var user = {
       name: this.fullName.split(' ')[0],
-      lastname: this.fullName.split(' ')[1],
+      lastname: this.fullName.split(' ')[1] || '',
       email: this.email,
       password: this.password,
     };

@@ -19,6 +19,10 @@ export class NavComponent implements OnDestroy, OnInit {
   windowWidth: number = 0;
   isHovering: boolean = false;
   private hoverTimer: any;
+  // Barras del progreso del onboarding (todas azules y mismas dimensiones)
+  progressBars = Array.from({ length: 32 });
+  // Porcentaje de progreso (0 - 100). Ajusta según datos reales.
+  onboardingProgress = 35;
 
   // Inyectar UserStorage, Router y NavigationService
   // DESPUÉS (público para que el template pueda acceder)
@@ -194,6 +198,14 @@ export class NavComponent implements OnDestroy, OnInit {
     this.showDropdown = false;
   }
 
+  // Ir a la sección de regalos en account
+  goToGifts() {
+    this.router.navigate(['/dashboard/account'], {
+      queryParams: { tab: 'gifts' },
+    });
+    this.showDropdown = false;
+  }
+
   // Navegar específicamente a la sección de regalos en account
   navigateToAccountGifts() {
     // Usar el servicio de navegación para ir a account
@@ -232,6 +244,25 @@ export class NavComponent implements OnDestroy, OnInit {
     this.userStorage.clearUser();
     
     this.router.navigate(['/login']);
+  }
+
+  // Estilo dinámico para cada barra según el progreso
+  getBarStyle(index: number) {
+    const total = this.progressBars.length;
+    const filledBars = (this.onboardingProgress / 100) * total;
+    const isFilled = index < filledBars;
+
+    if (!isFilled) {
+      return { background: '#E5E7EB' };
+    }
+
+    // Gradiente de azul intenso a casi negro en las barras llenas
+    // Hue fijo en 220 (azul), se reduce la luminosidad progresivamente
+    const lightStart = 48; // azul brillante
+    const lightEnd = 14;   // casi negro
+    const lightness = lightStart + ((index / Math.max(total - 1, 1)) * (lightEnd - lightStart));
+
+    return { background: `hsl(220, 90%, ${lightness}%)` };
   }
 
   // Limpiar timer al destruir el componente
