@@ -26,11 +26,37 @@ html.dark .onboarding-logo-text {
   color: #ffffff !important;
 }
 
-/* Iconos de las 4 tarjetas del paso 1 del onboarding: blancos en modo oscuro */
-html.dark .onboarding-main-icon svg path {
-  fill: #ffffff !important;
-  stroke: transparent !important; /* evitar doble trazo que engorda el icono */
+/* Iconos de las 4 tarjetas del paso 1 del onboarding:
+   - Modo claro: trazos oscuros con borde suave
+   - Modo oscuro: trazos claros con borde suave
+   Se respeta currentColor y se evita relleno sólido. */
+.onboarding-main-icon {
+  border: 1px solid #cbd5e1 !important; /* slate-300 */
+  background: transparent !important;
+}
+
+.onboarding-main-icon svg {
+  color: #475569; /* slate-600 en claro */
+  border: none !important;
+  outline: none !important;
+}
+
+.onboarding-main-icon svg path {
+  stroke: currentColor !important;
+  fill: none !important;
   opacity: 1 !important;
+}
+
+.onboarding-main-icon svg path[fill]:not([fill="none"]) {
+  fill: currentColor !important;
+}
+
+html.dark .onboarding-main-icon {
+  border-color: #94a3b8 !important; /* slate-400 */
+}
+
+html.dark .onboarding-main-icon svg {
+  color: #e2e8f0; /* slate-200 */
 }
 
 /* Iconos de las opciones del paso 2 del onboarding: líneas blancas en modo oscuro (sin rellenar el interior) */

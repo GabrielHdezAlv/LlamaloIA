@@ -316,22 +316,30 @@
             <div class="flex flex-col items-center justify-center mb-4 sm:mb-6 mt-4 sm:mt-6">
               <div class="relative w-48 h-48 sm:w-56 sm:h-56 mb-3 sm:mb-4">
                 <svg width="224" height="224" viewBox="0 0 224 224" class="absolute inset-0 w-full h-full">
-                  <circle cx="112" cy="112" r="90" stroke="#f3f4f6" stroke-width="16" fill="none"/>
+                  <circle cx="112" cy="112" r="90" stroke="#f3f4f4" [attr.stroke-width]="callTypeStrokeWidth" fill="none"/>
                   <circle 
                     cx="112" cy="112" r="90" 
-                    stroke="#D1D5DB" stroke-width="16" fill="none"
+                    stroke="#D1D5DB" [attr.stroke-width]="callTypeStrokeWidth" fill="none"
                     [style.stroke-dasharray]="outboundStrokeDasharray"
                     [style.stroke-dashoffset]="outboundStrokeDashoffset"
                     class="call-type-arc transition-all duration-1000 ease-out"
-                    transform="rotate(-90 112 112)"/>
+                    transform="rotate(-90 112 112)"
+                    stroke-linecap="round"/>
                   <circle 
                     cx="112" cy="112" r="90" 
-                    stroke="#9CA3AF" stroke-width="16" fill="none"
+                    stroke="#1D348A" [attr.stroke-width]="inboundStrokeWidth" fill="none"
                     [style.stroke-dasharray]="inboundStrokeDasharray"
                     [style.stroke-dashoffset]="inboundStrokeDashoffset"
                     class="call-type-arc transition-all duration-1000 ease-out"
                     [style.transform]="'rotate(' + (-90 + (outboundPercentage / 100) * 360) + 'deg)'"
-                    [style.transform-origin]="'112px 112px'"/>
+                    [style.transform-origin]="'112px 112px'"
+                    stroke-linecap="round"/>
+                  <!-- Marcador de solape -->
+                  <circle 
+                    [attr.cx]="gapMarkerBetween.x" 
+                    [attr.cy]="gapMarkerBetween.y" 
+                    [attr.r]="gapMarkerRadius" 
+                    fill="#f3f4f6"/>
                 </svg>
               </div>
             </div>
@@ -513,8 +521,8 @@
                     cx="112" 
                     cy="112" 
                     r="90" 
-                    stroke="#f3f4f6" 
-                    stroke-width="16" 
+                    stroke="#f3f4f4" 
+                    [attr.stroke-width]="callTypeStrokeWidth" 
                     fill="none"/>
                   
                   <!-- Arco de Outbound (gris claro) - se dibuja primero -->
@@ -523,26 +531,35 @@
                     cy="112" 
                     r="90" 
                     stroke="#D1D5DB" 
-                    stroke-width="16" 
+                    [attr.stroke-width]="callTypeStrokeWidth" 
                     fill="none"
                     [style.stroke-dasharray]="outboundStrokeDasharray"
                     [style.stroke-dashoffset]="outboundStrokeDashoffset"
                     class="call-type-arc transition-all duration-1000 ease-out"
-                    transform="rotate(-90 112 112)"/>
+                    transform="rotate(-90 112 112)"
+                    stroke-linecap="round"/>
                   
                   <!-- Arco de Inbound (gris medio) - se dibuja después, comenzando donde termina Outbound -->
                   <circle 
                     cx="112" 
                     cy="112" 
                     r="90" 
-                    stroke="#9CA3AF" 
-                    stroke-width="16" 
+                    stroke="#1D348A" 
+                    [attr.stroke-width]="inboundStrokeWidth" 
                     fill="none"
                     [style.stroke-dasharray]="inboundStrokeDasharray"
                     [style.stroke-dashoffset]="inboundStrokeDashoffset"
                     class="call-type-arc transition-all duration-1000 ease-out"
                     [style.transform]="'rotate(' + (-90 + (outboundPercentage / 100) * 360) + 'deg)'"
-                    [style.transform-origin]="'112px 112px'"/>
+                    [style.transform-origin]="'112px 112px'"
+                    stroke-linecap="round"/>
+
+                  <!-- Marcador para solape en un solo lado -->
+                  <circle 
+                    [attr.cx]="gapMarkerBetween.x" 
+                    [attr.cy]="gapMarkerBetween.y" 
+                    [attr.r]="gapMarkerRadius" 
+                    fill="#f3f4f6"/>
                 </svg>
               </div>
             </div>

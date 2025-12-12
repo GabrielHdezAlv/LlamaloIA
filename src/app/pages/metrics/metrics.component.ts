@@ -473,30 +473,75 @@ export class MetricsComponent implements OnInit {
   // Tipo de llamadas - porcentajes dinámicos
   inboundPercentage = 57.2;
   outboundPercentage = 42.8;
+  callTypeStrokeWidth = 30; // grosor de la barra
+  callTypeGapDeg = 6; // hueco angular entre segmentos
+  callTypeRadius = 90;
+
+  get inboundStrokeWidth(): number {
+    return this.callTypeStrokeWidth + 2; // inbound ligeramente más grueso
+  }
 
   // Métodos para el gráfico circular de tipo de llamadas
   get circumference(): number {
-    return 2 * Math.PI * 90; // radio 90
+    return 2 * Math.PI * this.callTypeRadius;
   }
 
-  get inboundStrokeDasharray(): string {
-    return `${this.circumference}`;
+  private degToLen(deg: number): number {
+    return (this.circumference * deg) / 360;
   }
 
-  get inboundStrokeDashoffset(): number {
-    return (
-      this.circumference - (this.circumference * this.inboundPercentage) / 100
-    );
+  get gapLen(): number {
+    return this.degToLen(this.callTypeGapDeg);
+  }
+
+  private arcLength(percent: number): number {
+    return Math.max((this.circumference * percent) / 100 - this.gapLen, 0);
+  }
+
+  get outboundArcLen(): number {
+    return this.arcLength(this.outboundPercentage);
+  }
+
+  get inboundArcLen(): number {
+    return this.arcLength(this.inboundPercentage);
+  }
+
+  // Marcadores de los huecos para simular que un lado pisa al otro
+  get gapMarkerRadius(): number {
+    return Math.max(this.callTypeStrokeWidth / 1.9 - 1 );
+  }
+
+  private angleToPoint(angleDeg: number): { x: number; y: number } {
+    const rad = (angleDeg * Math.PI) / 180;
+    return {
+      x: 112 + this.callTypeRadius * Math.cos(rad),
+      y: 112 + this.callTypeRadius * Math.sin(rad),
+    };
+  }
+
+  get gapMarkerBetween() {
+    // fin de outbound (antes de inbound)
+    const outboundDeg = (this.outboundPercentage / 100) * 360;
+    const angle = -90 + outboundDeg - this.callTypeGapDeg / 2;
+    return this.angleToPoint(angle);
   }
 
   get outboundStrokeDasharray(): string {
-    return `${this.circumference}`;
+    return `${this.outboundArcLen} ${this.circumference}`;
+  }
+
+  get inboundStrokeDasharray(): string {
+    return `${this.inboundArcLen} ${this.circumference}`;
   }
 
   get outboundStrokeDashoffset(): number {
-    return (
-      this.circumference - (this.circumference * this.outboundPercentage) / 100
-    );
+    // inicia en -90°, dejamos medio gap al inicio
+    return this.gapLen / 2;
+  }
+
+  get inboundStrokeDashoffset(): number {
+    // el arco inbound ya se rota en el SVG; solo dejamos medio gap
+    return this.gapLen / 2;
   }
 
   // Método para simular cambios en los porcentajes de tipo de llamadas
