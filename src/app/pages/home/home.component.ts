@@ -89,6 +89,8 @@ export class HomeComponent implements OnInit {
   
   // Porcentajes de llamadas por día (0-100%)
   callsByDayPercentages: number[] = [70, 100, 20, 60, 45, 30, 40];
+  // Número de llamadas por día (datos ficticios pero coherentes con los porcentajes)
+  callsByDayCounts: number[] = [210, 300, 60, 180, 135, 90, 120];
   
   // Calcular alturas basadas en porcentajes
   get callsByDayHeights(): number[] {
