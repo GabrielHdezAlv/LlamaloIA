@@ -546,6 +546,7 @@
             <!-- Botón Generar con IA -->
             <button
               type="button"
+              (click)="openGeneratePromptModal()"
               class="ai-generate-btn absolute right-3 top-3 z-10 flex items-center gap-1.5 px-3 py-1.5 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors"
             >
               <div class="ai-border-mask">
@@ -567,31 +568,6 @@
               placeholder="Escribe aquí..."
               class="w-full px-2.5 sm:px-3 md:px-4 pr-28 sm:pr-32 py-2 sm:py-2.5 md:py-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-[1rem] focus:ring-black dark:focus:ring-blue-500 focus:border-transparent h-28 sm:h-32 md:h-40 lg:h-48 resize-none text-xs sm:text-sm dark:text-slate-200 instructions-scroll"
             ></textarea>
-          </div>
-          
-          <!-- Botones Borrar y Crear Prompt -->
-          <div class="flex justify-end gap-2 px-2 sm:px-4 md:px-0 mt-2 sm:mt-3">
-            <button
-              type="button"
-              class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-200 dark:bg-slate-700 hover:bg-gray-300 dark:hover:bg-slate-600 text-gray-800 dark:text-slate-200 text-xs sm:text-sm font-medium rounded-lg transition-colors border border-gray-400 dark:border-slate-500"
-            >
-              <span>Borrar</span>
-            </button>
-            
-            <button
-              type="button"
-              class="create-prompt-btn flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors border border-gray-400 dark:border-slate-500"
-            >
-              <svg
-                class="w-4 h-4"
-                viewBox="0 0 56 56"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M 26.6875 12.6602 C 26.9687 12.6602 27.1094 12.4961 27.1797 12.2383 C 27.9062 8.3242 27.8594 8.2305 31.9375 7.4570 C 32.2187 7.4102 32.3828 7.2461 32.3828 6.9648 C 32.3828 6.6836 32.2187 6.5195 31.9375 6.4726 C 27.8828 5.6524 28.0000 5.5586 27.1797 1.6914 C 27.1094 1.4336 26.9687 1.2695 26.6875 1.2695 C 26.4062 1.2695 26.2656 1.4336 26.1953 1.6914 C 25.3750 5.5586 25.5156 5.6524 21.4375 6.4726 C 21.1797 6.5195 20.9922 6.6836 20.9922 6.9648 C 20.9922 7.2461 21.1797 7.4102 21.4375 7.4570 C 25.5156 8.2774 25.4687 8.3242 26.1953 12.2383 C 26.2656 12.4961 26.4062 12.6602 26.6875 12.6602 Z M 15.3438 28.7852 C 15.7891 28.7852 16.0938 28.5039 16.1406 28.0821 C 16.9844 21.8242 17.1953 21.8242 23.6641 20.5821 C 24.0860 20.5117 24.3906 20.2305 24.3906 19.7852 C 24.3906 19.3633 24.0860 19.0586 23.6641 18.9883 C 17.1953 18.0977 16.9609 17.8867 16.1406 11.5117 C 16.0938 11.0899 15.7891 10.7852 15.3438 10.7852 C 14.9219 10.7852 14.6172 11.0899 14.5703 11.5352 C 13.7969 17.8164 13.4687 17.7930 7.0469 18.9883 C 6.6250 19.0821 6.3203 19.3633 6.3203 19.7852 C 6.3203 20.2539 6.6250 20.5117 7.1406 20.5821 C 13.5156 21.6133 13.7969 21.7774 14.5703 28.0352 C 14.6172 28.5039 14.9219 28.7852 15.3438 28.7852 Z M 31.2344 54.7305 C 31.8438 54.7305 32.2891 54.2852 32.4062 53.6524 C 34.0703 40.8086 35.8750 38.8633 48.5781 37.4570 C 49.2344 37.3867 49.6797 36.8945 49.6797 36.2852 C 49.6797 35.6758 49.2344 35.2070 48.5781 35.1133 C 35.8750 33.7070 34.0703 31.7617 32.4062 18.9180 C 32.2891 18.2852 31.8438 17.8633 31.2344 17.8633 C 30.6250 17.8633 30.1797 18.2852 30.0860 18.9180 C 28.4219 31.7617 26.5938 33.7070 13.9140 35.1133 C 13.2344 35.2070 12.7891 35.6758 12.7891 36.2852 C 12.7891 36.8945 13.2344 37.3867 13.9140 37.4570 C 26.5703 39.1211 28.3281 40.8321 30.0860 53.6524 C 30.1797 54.2852 30.6250 54.7305 31.2344 54.7305 Z"/>
-              </svg>
-              <span>Crear prompt</span>
-            </button>
           </div>
       </div>
       </div>
@@ -623,30 +599,99 @@
       <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
       <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-2 sm:mb-3 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Añadir Acciones</h2>
   
-      <p class="text-center text-xs sm:text-sm text-black mb-3 sm:mb-4 md:mb-6 lg:mb-8 tracking-[-0.3px] sm:tracking-[-0.5px] mx-auto px-2 sm:px-3 md:px-4">
+      <p class="text-center text-xs sm:text-sm text-black dark:text-slate-300 mb-8 sm:mb-10 md:mb-12 tracking-[-0.3px] sm:tracking-[-0.5px] mx-auto px-2 sm:px-3 md:px-4 max-w-2xl">
         Define las acciones que puede realizar tu agente
       </p>
   
-      <div class="flex justify-center gap-4 sm:gap-6 md:gap-8 flex-wrap px-2 sm:px-4 md:px-0 mb-3 sm:mb-4">
+      <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-2 sm:px-4 md:px-0 mb-3 sm:mb-4">
         <!-- Shopify -->
         <button
           (click)="selectAction('shopify')"
-          class="w-[170px] h-[170px] sm:w-[200px] sm:h-[200px] md:w-[220px] md:h-[220px] lg:w-[240px] lg:h-[240px] rounded-lg sm:rounded-xl md:rounded-2xl flex flex-col items-center justify-center p-4 sm:p-5 md:p-6 hover:shadow-lg transition-shadow"
-          style="background-color: rgba(45, 182, 0, 0.5);"
+          class="creative-action-card group relative overflow-hidden rounded-3xl p-8 sm:p-10 border-2 border-green-300 dark:border-green-800/30 hover:border-green-500 dark:hover:border-green-600 hover:shadow-2xl hover:shadow-green-500/40 dark:hover:shadow-green-500/30 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 shadow-md dark:shadow-none"
+          style="background-color: #022901;"
+          [ngClass]="{'dark:bg-gradient-to-br dark:from-green-950/30 dark:via-emerald-950/20 dark:to-teal-950/30': true}"
         >
-          <img src="assets/shopify.png" alt="Shopify" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mt-4 sm:mt-6 md:mt-8 lg:mt-10 object-contain" />
-          <span class="font-semibold text-gray-800 dark:text-slate-200 mt-4 sm:mt-6 md:mt-8 lg:mt-10 tracking-[-1px] sm:tracking-[-1.5px] text-xs sm:text-sm md:text-base">Shopify</span>
+          <!-- Patrón decorativo de fondo animado -->
+          <div class="absolute inset-0 opacity-20 dark:opacity-5 overflow-hidden">
+            <div class="absolute top-0 left-0 w-40 h-40 bg-green-500 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-0 right-0 w-32 h-32 bg-emerald-400 rounded-full blur-2xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/2 w-24 h-24 bg-teal-300 rounded-full blur-xl opacity-50 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
+          </div>
+          
+          <!-- Línea decorativa superior -->
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <!-- Contenido -->
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-8">
+              <div class="relative">
+                <div class="absolute -inset-4 bg-green-500/30 dark:bg-green-500/20 rounded-2xl blur-xl group-hover:bg-green-500/50 dark:group-hover:bg-green-500/40 group-hover:blur-2xl transition-all duration-500"></div>
+                <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-slate-800 dark:bg-slate-800 flex items-center justify-center shadow-xl dark:shadow-lg group-hover:shadow-green-500/60 dark:group-hover:shadow-green-500/50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border-2 border-green-200 dark:border-green-900/50 group-hover:border-green-500 dark:group-hover:border-green-400">
+                  <img src="assets/shopify.png" alt="Shopify" class="w-12 h-12 sm:w-14 sm:h-14 object-contain group-hover:scale-110 transition-transform duration-500" />
+                </div>
+              </div>
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-800/95 dark:bg-slate-800/90 backdrop-blur-md flex items-center justify-center group-hover:bg-green-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg dark:shadow-md group-hover:shadow-green-500/60 dark:group-hover:shadow-green-500/50 border border-green-200 dark:border-green-900/50 group-hover:border-green-500 dark:group-hover:border-green-400">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white dark:text-white group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </div>
+            </div>
+            
+            <h3 class="text-2xl sm:text-3xl font-bold text-white dark:text-white mb-3 group-hover:text-green-400 dark:group-hover:text-green-400 transition-colors duration-300 tracking-tight">Shopify</h3>
+            <p class="text-sm sm:text-base text-white/90 dark:text-slate-300 leading-relaxed mb-6">Conecta tu tienda online y automatiza la gestión de pedidos, inventario y clientes de forma inteligente.</p>
+            
+            <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-green-400 dark:text-green-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500">
+              <span>Conectar ahora</span>
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </div>
+          </div>
         </button>
-  
   
         <!-- Make -->
         <button
           (click)="selectAction('make')"
-          class="w-[170px] h-[170px] sm:w-[200px] sm:h-[200px] md:w-[220px] md:h-[220px] lg:w-[240px] lg:h-[240px] rounded-lg sm:rounded-xl md:rounded-2xl flex flex-col items-center justify-center p-4 sm:p-5 md:p-6 hover:shadow-lg transition-shadow"
-          style="background-color: rgba(198, 40, 212, 0.5);"
+          class="creative-action-card group relative overflow-hidden rounded-3xl p-8 sm:p-10 border-2 border-purple-300 dark:border-purple-800/30 hover:border-purple-500 dark:hover:border-purple-600 hover:shadow-2xl hover:shadow-purple-500/40 dark:hover:shadow-purple-500/30 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 shadow-md dark:shadow-none"
+          style="background-color: #11061f;"
+          [ngClass]="{'dark:bg-gradient-to-br dark:from-purple-950/30 dark:via-fuchsia-950/20 dark:to-pink-950/30': true}"
         >
-         <img src="assets/make.png" alt="Make" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mt-4 sm:mt-6 md:mt-8 lg:mt-10 object-contain" />
-           <span class="font-semibold text-gray-800 dark:text-slate-200 mt-8 sm:mt-10 md:mt-12 lg:mt-14 tracking-[-1px] sm:tracking-[-1.5px] text-xs sm:text-sm md:text-base">Make</span>
+          <!-- Patrón decorativo de fondo animado -->
+          <div class="absolute inset-0 opacity-30 dark:opacity-5 overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-purple-400 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-fuchsia-300 rounded-full blur-2xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/2 w-24 h-24 bg-pink-200 rounded-full blur-xl opacity-70 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
+          </div>
+          
+          <!-- Línea decorativa superior -->
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <!-- Contenido -->
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-8">
+              <div class="relative">
+                <div class="absolute -inset-4 bg-purple-500/30 dark:bg-purple-500/20 rounded-2xl blur-xl group-hover:bg-purple-500/50 dark:group-hover:bg-purple-500/40 group-hover:blur-2xl transition-all duration-500"></div>
+                <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-slate-800 dark:bg-slate-800 flex items-center justify-center shadow-xl dark:shadow-lg group-hover:shadow-purple-500/60 dark:group-hover:shadow-purple-500/50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border-2 border-purple-200 dark:border-purple-900/50 group-hover:border-purple-500 dark:group-hover:border-purple-400">
+                  <img src="assets/make.png" alt="Make" class="w-12 h-12 sm:w-14 sm:h-14 object-contain group-hover:scale-110 transition-transform duration-500" />
+                </div>
+              </div>
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-800/95 dark:bg-slate-800/90 backdrop-blur-md flex items-center justify-center group-hover:bg-purple-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg dark:shadow-md group-hover:shadow-purple-500/60 dark:group-hover:shadow-purple-500/50 border border-purple-200 dark:border-purple-900/50 group-hover:border-purple-500 dark:group-hover:border-purple-400">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white dark:text-white group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </div>
+            </div>
+            
+            <h3 class="text-2xl sm:text-3xl font-bold text-white dark:text-white mb-3 group-hover:text-purple-400 dark:group-hover:text-purple-400 transition-colors duration-300 tracking-tight">Make</h3>
+            <p class="text-sm sm:text-base text-white/90 dark:text-slate-300 leading-relaxed mb-6">Automatiza procesos complejos conectando múltiples aplicaciones y servicios en flujos de trabajo inteligentes.</p>
+            
+            <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-purple-400 dark:text-purple-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500">
+              <span>Conectar ahora</span>
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </div>
+          </div>
         </button>
       </div>
       </div>
@@ -1217,6 +1262,61 @@
     >
       Finalizar
     </button>
+  </div>
+}
+
+<!-- Modal de Generar Prompt con IA -->
+@if (showGeneratePromptModal) {
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[10000] flex items-center justify-center p-4 fade-in-overlay" (click)="closeGeneratePromptModal()">
+    <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl border-2 border-gray-200 dark:border-slate-400 max-w-2xl w-full max-h-[90vh] overflow-y-auto fade-in-content" (click)="$event.stopPropagation()">
+      <!-- Header del modal -->
+      <div class="flex items-center justify-between p-5 sm:p-6 border-b border-gray-300 dark:border-slate-600">
+        <h2 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Genera un prompt con IA</h2>
+        <button
+          (click)="closeGeneratePromptModal()"
+          class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors -mt-4 sm:-mt-4"
+          aria-label="Cerrar modal"
+        >
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Contenido del modal -->
+      <div class="p-5 sm:p-6">
+        <p class="text-sm sm:text-base text-gray-600 dark:text-slate-300 mb-3">
+          Describe brevemente qué tipo de agente quieres crear y cómo quieres que se comporte.
+        </p>
+
+        <!-- Campo de texto -->
+        <textarea
+          [(ngModel)]="promptDescription"
+          placeholder="Ejemplo: Un agente que ayude a los usuarios a encontrar restaurantes según sus preferencias."
+          class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-slate-400 resize-none"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <!-- Footer con botones -->
+      <div class="flex items-center justify-end gap-3 p-5 sm:p-6 border-t border-gray-300 dark:border-slate-600">
+        <button
+          (click)="closeGeneratePromptModal()"
+          class="px-4 sm:px-6 py-2 sm:py-2.5 bg-transparent border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors text-sm sm:text-base font-medium"
+        >
+          Cancelar
+        </button>
+        <button
+          (click)="generatePrompt()"
+          class="px-4 sm:px-6 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium flex items-center gap-2"
+        >
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 56 56" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 26.6875 12.6602 C 26.9687 12.6602 27.1094 12.4961 27.1797 12.2383 C 27.9062 8.3242 27.8594 8.2305 31.9375 7.4570 C 32.2187 7.4102 32.3828 7.2461 32.3828 6.9648 C 32.3828 6.6836 32.2187 6.5195 31.9375 6.4726 C 27.8828 5.6524 28.0000 5.5586 27.1797 1.6914 C 27.1094 1.4336 26.9687 1.2695 26.6875 1.2695 C 26.4062 1.2695 26.2656 1.4336 26.1953 1.6914 C 25.3750 5.5586 25.5156 5.6524 21.4375 6.4726 C 21.1797 6.5195 20.9922 6.6836 20.9922 6.9648 C 20.9922 7.2461 21.1797 7.4102 21.4375 7.4570 C 25.5156 8.2774 25.4687 8.3242 26.1953 12.2383 C 26.2656 12.4961 26.4062 12.6602 26.6875 12.6602 Z M 15.3438 28.7852 C 15.7891 28.7852 16.0938 28.5039 16.1406 28.0821 C 16.9844 21.8242 17.1953 21.8242 23.6641 20.5821 C 24.0860 20.5117 24.3906 20.2305 24.3906 19.7852 C 24.3906 19.3633 24.0860 19.0586 23.6641 18.9883 C 17.1953 18.0977 16.9609 17.8867 16.1406 11.5117 C 16.0938 11.0899 15.7891 10.7852 15.3438 10.7852 C 14.9219 10.7852 14.6172 11.0899 14.5703 11.5352 C 13.7969 17.8164 13.4687 17.7930 7.0469 18.9883 C 6.6250 19.0821 6.3203 19.3633 6.3203 19.7852 C 6.3203 20.2539 6.6250 20.5117 7.1406 20.5821 C 13.5156 21.6133 13.7969 21.7774 14.5703 28.0352 C 14.6172 28.5039 14.9219 28.7852 15.3438 28.7852 Z M 31.2344 54.7305 C 31.8438 54.7305 32.2891 54.2852 32.4062 53.6524 C 34.0703 40.8086 35.8750 38.8633 48.5781 37.4570 C 49.2344 37.3867 49.6797 36.8945 49.6797 36.2852 C 49.6797 35.6758 49.2344 35.2070 48.5781 35.1133 C 35.8750 33.7070 34.0703 31.7617 32.4062 18.9180 C 32.2891 18.2852 31.8438 17.8633 31.2344 17.8633 C 30.6250 17.8633 30.1797 18.2852 30.0860 18.9180 C 28.4219 31.7617 26.5938 33.7070 13.9140 35.1133 C 13.2344 35.2070 12.7891 35.6758 12.7891 36.2852 C 12.7891 36.8945 13.2344 37.3867 13.9140 37.4570 C 26.5703 39.1211 28.3281 40.8321 30.0860 53.6524 C 30.1797 54.2852 30.6250 54.7305 31.2344 54.7305 Z"/>
+          </svg>
+          Generar prompt
+        </button>
+      </div>
+    </div>
   </div>
 }
 

@@ -2,7 +2,7 @@
 <!-- Tarjeta reutilizable de onboarding (usa ngTemplateOutlet) -->
 <ng-template #sidebarOnboardingCard>
   <div
-    class="sidebar-onboarding-card mx-auto rounded-2xl shadow-lg bg-white border border-gray-200 dark:bg-slate-900 dark:border-slate-700 flex flex-col gap-2 px-2.5 py-2 w-[80%] md:w-[82%] xl:w-[84%] 2xl:w-[86%] [letter-spacing:-0.35px]"
+    class="sidebar-onboarding-card mx-auto rounded-2xl shadow-lg bg-white border border-gray-200 dark:bg-slate-900 dark:border-slate-700 flex flex-col gap-2 px-2.5 py-2 w-[80%] md:w-[82%] xl:w-[84%] 2xl:w-[86%] [letter-spacing:-0.35px] sidebar-onboarding-card-delayed"
   >
     <div class="flex flex-col items-center text-center gap-2">
       <div class="sidebar-onboarding-icon w-11 h-11 rounded-2xl grid place-items-center text-[#0B2B6F]">
@@ -67,12 +67,12 @@
 </div>
 
 <!-- Menú móvil (modal) - Estilo desktop -->
-<div *ngIf="isOpen && windowWidth < 1280" class="fixed inset-0 z-50 flex">
+<div *ngIf="isOpen && windowWidth < 1280" [class]="'fixed inset-0 z-50 flex mobile-sidebar-container' + (isClosing ? ' leaving' : '')">
   <!-- Fondo oscuro -->
-  <div class="fixed inset-0 bg-black/50" (click)="closeMenu()"></div>
+  <div [class]="'fixed inset-0 bg-black/50 mobile-overlay' + (isClosing ? ' leaving' : '')" (click)="closeMenu()"></div>
 
   <!-- Sidebar móvil con estilo de escritorio -->
-  <div class="relative w-72 bg-white shadow-xl flex flex-col h-full">
+  <div [class]="'relative w-72 bg-white shadow-xl flex flex-col h-full mobile-sidebar' + (isClosing ? ' leaving' : '')">
 
     <!-- Logo -->
     <div class="flex items-center gap-2 h-16 px-6 mt-6">
@@ -163,7 +163,7 @@
 
       <!-- Perfil (solo avatar + iconos en mobile) -->
       <div *ngIf="windowWidth < 1280" id="user-profile" class="flex items-center gap-3 pt-2 pb-2">
-        <img [src]="getUserProfileImage()" class="h-14 w-14 rounded-full border-2 border-blue-900 history-border sidebar-avatar" alt="Perfil" />
+        <img [src]="getUserProfileImage()" class="h-14 w-14 rounded-full border-2 border-blue-900 history-border sidebar-avatar" alt="Perfil" style="transition: none !important; animation: none !important;" />
 
         <div class="flex items-center ml-auto gap-3">
           <button type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none">
@@ -336,9 +336,8 @@
         >
             <img
               [src]="getUserProfileImage()"
-              class="h-8 w-8 rounded-full border-2 border-blue-900 history-border sidebar-avatar transition-all duration-200 ease-in-out flex-shrink-0"
+              class="h-8 w-8 rounded-full border-2 border-blue-900 history-border sidebar-avatar flex-shrink-0"
               alt="Perfil"
-              [style]="isHovering ? 'opacity: 0; transform: scale(0.8);' : 'opacity: 1; transform: scale(1);'"
             />
           
         </div>
@@ -460,11 +459,9 @@
             (click)="logout()"
             class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-red-50 transition-colors rounded-b-xl dark:text-white dark:hover:bg-red-900/30"
           >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-700 dark:text-white">
-              <path d="M8.44423 4.11111V1.88889C8.44423 1.39822 8.046 1 7.55534 1H1.77756C1.28689 1 0.888672 1.39822 0.888672 1.88889V12.1111C0.888672 12.6018 1.28689 13 1.77756 13H7.55534C8.046 13 8.44423 12.6018 8.44423 12.1111V9.88889" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M10.8887 4.55554L13.3331 6.99999L10.8887 9.44443" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M13.3333 7H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M1.07267 1.35376L4.02467 3.18398C4.286 3.34576 4.44511 3.63198 4.44511 3.93954V10.0613C4.44511 10.3689 4.286 10.6542 4.02467 10.8169L1.07178 12.648" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z"></path>
+              <path d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z"></path>
             </svg>
             <span class="ml-3 font-medium">{{ t.logout }}</span>
           </button>

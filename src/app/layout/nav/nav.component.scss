@@ -824,3 +824,91 @@ img.h-10.w-10.rounded-full {
     }
   }
 }
+
+/* Animación de fade-in para la tarjeta de onboarding - aparece después de 3 segundos */
+.sidebar-onboarding-card-delayed {
+  opacity: 0;
+  visibility: hidden;
+  animation: fadeInOnboardingCard 0.5s ease-out forwards;
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInOnboardingCard {
+  from {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+/* Animaciones suaves para el sidebar móvil */
+.mobile-sidebar-container {
+  animation: fadeInOverlay 0.3s ease-out;
+}
+
+.mobile-overlay {
+  animation: fadeInOverlay 0.3s ease-out;
+}
+
+.mobile-sidebar {
+  animation: slideInFromLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: left;
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animación de salida suave - se aplica cuando el sidebar se cierra */
+.mobile-sidebar-container.leaving {
+  animation: fadeOutOverlay 0.3s ease-in forwards;
+}
+
+.mobile-overlay.leaving {
+  animation: fadeOutOverlay 0.3s ease-in forwards;
+}
+
+.mobile-sidebar.leaving {
+  animation: slideOutToLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeOutOverlay {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideOutToLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}

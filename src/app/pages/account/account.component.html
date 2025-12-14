@@ -735,4 +735,49 @@
     </div>
   </div>
   }
+
+  <!-- Modal de Selección de Avatar -->
+  @if (showAvatarModal) {
+  <div class="avatar-modal-overlay fixed inset-0 bg-black/40 backdrop-blur-md z-[9999] flex items-center justify-center p-3 sm:p-4" (click)="closeAvatarModal()">
+    <div class="avatar-modal-content bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 max-w-2xl w-full mx-auto max-h-[90vh] overflow-y-auto relative" (click)="$event.stopPropagation()">
+      <!-- Botón de cerrar -->
+      <button
+        (click)="closeAvatarModal()"
+        class="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
+        aria-label="Cerrar modal"
+      >
+        <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- Título -->
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 pr-8">Selecciona un avatar</h2>
+
+      <!-- Grid de avatares predeterminados -->
+      <div class="grid grid-cols-5 gap-4 sm:gap-5 mb-6 sm:mb-8">
+        @for (avatar of defaultAvatars; track avatar) {
+        <button
+          (click)="selectDefaultAvatar(avatar)"
+          class="w-full aspect-square rounded-full overflow-hidden border-2 border-gray-200 hover:border-blue-500 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          <img [src]="avatar" alt="Avatar" class="w-full h-full object-cover" />
+        </button>
+        }
+      </div>
+
+      <!-- Botón para subir foto propia -->
+      <button
+        (click)="onUploadPhotoClick()"
+        class="w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-xl transition-colors duration-200 flex items-center justify-center gap-2"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 15V3M12 3L8 7M12 3L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 17L2 19C2 20.1046 2.89543 21 4 21L20 21C21.1046 21 22 20.1046 22 19L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Subir mi propia foto</span>
+      </button>
+    </div>
+  </div>
+  }
 </div>

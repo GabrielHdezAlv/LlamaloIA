@@ -26,6 +26,21 @@ export class AccountComponent implements OnInit {
 
   activeTab: 'profile' | 'security' | 'billing' | 'gifts' = 'profile';
   showBillingModal = false;
+  showAvatarModal = false;
+  
+  // Avatares predeterminados
+  defaultAvatars = [
+    'https://i.pravatar.cc/150?img=1',
+    'https://i.pravatar.cc/150?img=2',
+    'https://i.pravatar.cc/150?img=3',
+    'https://i.pravatar.cc/150?img=4',
+    'https://i.pravatar.cc/150?img=5',
+    'https://i.pravatar.cc/150?img=6',
+    'https://i.pravatar.cc/150?img=7',
+    'https://i.pravatar.cc/150?img=8',
+    'https://i.pravatar.cc/150?img=9',
+    'https://i.pravatar.cc/150?img=10',
+  ];
 
   // Campos de contraseña
   currentPassword = '';
@@ -139,6 +154,47 @@ export class AccountComponent implements OnInit {
   }
 
   onAvatarClick() {
+    // Abrir modal de selección de avatar
+    this.showAvatarModal = true;
+  }
+
+  openAvatarModal() {
+    this.showAvatarModal = true;
+  }
+
+  closeAvatarModal() {
+    this.showAvatarModal = false;
+  }
+
+  selectDefaultAvatar(avatarUrl: string) {
+    this.tempProfileImage = avatarUrl;
+    this.showAvatarModal = false;
+    // Actualizar el perfil inmediatamente
+    const currentUser = this.user();
+    if (currentUser) {
+      const updatedUserData = {
+        name: this.tempName,
+        lastname: this.tempLastname,
+        email: currentUser.email,
+        country: this.tempCountry,
+        profileImage: avatarUrl,
+        enterprise: this.tempEnterprise,
+        enterpriseWeb: this.tempEnterpriseWeb,
+      };
+
+      this.userService.updateUserProfile(updatedUserData).subscribe({
+        next: (response: any) => {
+          this.userStore.setUser(response);
+          this.showNotification('Avatar actualizado correctamente', 'success');
+        },
+        error: (error: any) => {
+          this.showNotification('Error al actualizar el avatar', 'error');
+        },
+      });
+    }
+  }
+
+  onUploadPhotoClick() {
     // Crear input file oculto
     const input = document.createElement('input');
     input.type = 'file';
@@ -147,6 +203,7 @@ export class AccountComponent implements OnInit {
       const file = event.target.files[0];
       if (file) {
         this.uploadProfileImage(file);
+        this.showAvatarModal = false;
       }
     };
     input.click();

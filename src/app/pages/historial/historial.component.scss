@@ -58,11 +58,28 @@
 /* Animaciones de fade in */
 .fade-in-section {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
 
 .fade-in-section.fade-in-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+}
+
+/* Animación específica para el panel del chat */
+.chat-panel {
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.chat-panel.fade-in-visible {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+/* En móviles, cuando está oculto, mantener invisible */
+@media (max-width: 1023px) {
+  .chat-panel.hidden {
+    display: none !important;
+  }
 }

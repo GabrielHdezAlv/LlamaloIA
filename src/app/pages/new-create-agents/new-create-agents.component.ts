@@ -35,6 +35,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   template = '';
   instructions = '';
   agentName: string = '';
+  
+  // Modal de generar prompt con IA
+  showGeneratePromptModal = false;
+  promptDescription = '';
 
   audioActual: HTMLAudioElement | null = null;
   isPlaying: boolean = false;
@@ -929,6 +933,25 @@ getInternalCloudPosition(cloudNumber: number): { x: number, y: number } {
      rgba(147, 197, 253, ${0.7 * intensity}) 30%, 
      rgba(255, 255, 255, ${0.5 * intensity}) 60%, 
      rgba(30, 64, 175, ${0.8 * intensity}) 100%)`;
+ }
+
+ // Métodos para el modal de generar prompt
+ openGeneratePromptModal() {
+   this.showGeneratePromptModal = true;
+   this.promptDescription = '';
+ }
+
+ closeGeneratePromptModal() {
+   this.showGeneratePromptModal = false;
+   this.promptDescription = '';
+ }
+
+ generatePrompt() {
+   // Aquí iría la lógica para generar el prompt con IA
+   // Por ahora, simplemente cerramos el modal
+   console.log('Generando prompt con descripción:', this.promptDescription);
+   // TODO: Implementar la llamada a la API de IA
+   this.closeGeneratePromptModal();
  }
 
 }

@@ -10,6 +10,14 @@
   transform-origin: center;
 }
 
+// Efecto shimmer para los arcos (similar a las barras de países)
+.latency-arc-shimmer,
+.duration-arc-shimmer {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  pointer-events: none;
+}
+
 // Animación suave para los arcos del gráfico de tipo de llamadas
 .call-type-arc {
   transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
@@ -33,11 +41,35 @@
 // Animación para las barras de países
 .country-bar {
   transform-origin: left;
+  position: relative;
+  overflow: hidden; // Asegurar que el shimmer no se salga
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    border-radius: inherit;
+    animation: shimmer 2s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 /* Limitar el ancho de la barra de países para que termine antes del porcentaje */
 .country-track {
   max-width: calc(100% - 40px); /* deja un poco menos de espacio para acercar la barra al porcentaje */
+  border-radius: 9999px;
 }
 
 // Animación para las barras del gráfico móvil

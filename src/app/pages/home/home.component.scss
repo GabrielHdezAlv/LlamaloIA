@@ -449,6 +449,33 @@
   100% { transform: scale(1); opacity: 1; }
 }
 
+// Animación de gradiente animado para la barra azul de llamadas por día
+.llamadas-barra.bg-blue-900 {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, 
+    #1e3a8a 0%, 
+    #2563eb 25%, 
+    #3b82f6 50%, 
+    #2563eb 75%, 
+    #1e3a8a 100%
+  );
+  background-size: 100% 200%;
+  animation: gradient-flow 3s ease-in-out infinite;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
 /* Estilos responsive para porcentajes azules en móvil */
 @media (max-width: 1024px) {
   .agentes-activos-porcentaje {

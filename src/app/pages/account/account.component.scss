@@ -441,3 +441,34 @@
     line-height: 1.4rem;
   }
 }
+
+// Animaciones para el modal de avatar
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Aplicar animación al backdrop del modal de avatar
+.avatar-modal-overlay {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Aplicar animación al contenido del modal de avatar
+.avatar-modal-content {
+  animation: slideUpFade 0.3s ease-out;
+}

@@ -15,6 +15,7 @@ import { I18nService, Language } from '../../core/services/i18n.service';
 })
 export class NavComponent implements OnDestroy, OnInit {
   isOpen: boolean = false;
+  isClosing: boolean = false;
   isCollapsed: boolean = true;
   windowWidth: number = 0;
   isHovering: boolean = false;
@@ -75,7 +76,15 @@ export class NavComponent implements OnDestroy, OnInit {
   }
 
   closeMenu() {
-    this.isOpen = false;
+    if (this.isClosing) return; // Evitar múltiples cierres simultáneos
+    
+    this.isClosing = true;
+    
+    // Esperar a que termine la animación de salida (400ms)
+    setTimeout(() => {
+      this.isOpen = false;
+      this.isClosing = false;
+    }, 400);
   }
 
   toggleMenu() {

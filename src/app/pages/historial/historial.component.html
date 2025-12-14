@@ -36,7 +36,7 @@
     </div>
 
     <!-- Panel derecho: Chat - Oculto en móviles cuando no hay chat seleccionado -->
-    <div class="flex-1 lg:flex flex-col bg-white h-auto lg:h-full min-h-0" [class.hidden]="!showChat" [class.lg:flex]="true">
+    <div class="flex-1 lg:flex flex-col bg-white h-auto lg:h-full min-h-0 fade-in-section chat-panel" [class.hidden]="!showChat" [class.lg:flex]="true" [class.fade-in-visible]="showChat">
       @if (selectedContact) {
         <!-- Botón volver (solo móviles) -->
         <button (click)="backToContactList()" class="flex items-center gap-2 mb-4 text-gray-600 hover:text-gray-800 lg:hidden">
