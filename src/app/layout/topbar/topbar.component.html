@@ -66,65 +66,63 @@
   <div
     class="relative mr-4 sm:mr-8 md:mr-12 lg:mr-20 flex items-center gap-1 sm:gap-2 md:gap-3"
   >
-    <!-- Interruptor modo oscuro tipo switch -->
+    <!-- Animación Luna a Sol -->
     <button
       type="button"
       (click)="toggleDarkMode()"
-      class="mr-2 relative inline-flex items-center h-7 w-14 rounded-full border border-gray-200 bg-gray-200/70 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white dark:bg-slate-800 dark:border-slate-600"
-      role="switch"
+      class="mr-2 relative inline-flex items-center justify-center w-12 h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn"
       [attr.aria-checked]="isDarkMode"
       [attr.aria-label]="isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro'"
     >
-      <!-- Luna (modo oscuro) a la izquierda de la pista -->
-      <span class="pointer-events-none absolute left-1 flex items-center justify-center text-slate-100">
-        <svg
-          *ngIf="isDarkMode"
-          class="w-4 h-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M21 12.79C20.7559 14.2353 20.075 15.5754 19.0515 16.6448C18.028 17.7142 16.7131 18.4638 15.2828 18.7998C13.8524 19.1357 12.3663 19.0444 10.9866 18.5369C9.60693 18.0294 8.38975 17.1253 7.48894 15.9377C6.58813 14.75 6.04214 13.3252 5.9144 11.8387C5.78666 10.3522 6.0824 8.86118 6.76635 7.54289C7.45029 6.22459 8.49456 5.13592 9.77752 4.40701C11.0605 3.6781 12.5246 3.33847 13.9866 3.4249C13.2244 4.34748 12.8127 5.53271 12.8403 6.74897C12.8678 7.96524 13.333 9.12967 14.1537 10.0267C14.9744 10.9237 16.0983 11.4925 17.3127 11.6343C18.5271 11.7761 19.7559 11.4826 20.79 10.81C20.9519 11.4724 21.0323 12.1537 21.03 12.837"
-            stroke="currentColor"
-            stroke-width="1.7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </span>
-
-      <!-- Sol (modo claro) a la derecha de la pista -->
-      <span class="pointer-events-none absolute right-1 flex items-center justify-center text-black">
-        <svg
-          *ngIf="!isDarkMode"
-          class="w-4 h-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 4V2M12 22V20M5.63604 5.63604L4.22183 4.22183M19.7782 19.7782L18.364 18.364M4 12H2M22 12H20M5.63604 18.364L4.22183 19.7782M19.7782 4.22183L18.364 5.63604"
-            stroke="currentColor"
-            stroke-width="1.7"
-            stroke-linecap="round"
-          />
-          <circle
-            cx="12"
-            cy="12"
-            r="4"
-            stroke="currentColor"
-            stroke-width="1.7"
-          />
-        </svg>
-      </span>
-
-      <!-- Thumb (sin icono dentro) -->
-      <span
-        class="relative inline-flex h-6 w-6 rounded-full bg-white shadow-md transform transition-transform duration-300 ease-out"
-        [ngClass]="isDarkMode ? 'translate-x-6 bg-slate-900' : 'translate-x-1 bg-white'"
+      <svg
+        class="w-6 h-6 theme-icon"
+        [class.dark]="isDarkMode"
+        [class.light]="!isDarkMode"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
-      </span>
+        <!-- Luna (creciente) -->
+        <path
+          class="moon-path"
+          d="M21 12.79C20.7559 14.2353 20.075 15.5754 19.0515 16.6448C18.028 17.7142 16.7131 18.4638 15.2828 18.7998C13.8524 19.1357 12.3663 19.0444 10.9866 18.5369C9.60693 18.0294 8.38975 17.1253 7.48894 15.9377C6.58813 14.75 6.04214 13.3252 5.9144 11.8387C5.78666 10.3522 6.0824 8.86118 6.76635 7.54289C7.45029 6.22459 8.49456 5.13592 9.77752 4.40701C11.0605 3.6781 12.5246 3.33847 13.9866 3.4249C13.2244 4.34748 12.8127 5.53271 12.8403 6.74897C12.8678 7.96524 13.333 9.12967 14.1537 10.0267C14.9744 10.9237 16.0983 11.4925 17.3127 11.6343C18.5271 11.7761 19.7559 11.4826 20.79 10.81C20.9519 11.4724 21.0323 12.1537 21.03 12.837"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+        
+        <!-- Círculo base (inicialmente invisible, se hace visible cuando la luna se transforma) -->
+        <circle
+          class="sun-circle"
+          cx="12"
+          cy="12"
+          r="4.5"
+          stroke="currentColor"
+          stroke-width="1.7"
+          fill="none"
+          opacity="0"
+        />
+        
+        <!-- Rayos del sol -->
+        <g class="sun-rays" opacity="0">
+          <!-- Rayos horizontales y verticales -->
+          <path
+            d="M12 4V2M12 22V20M4 12H2M22 12H20"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+          />
+          <!-- Rayos diagonales -->
+          <path
+            d="M5.63604 5.63604L4.22183 4.22183M19.7782 19.7782L18.364 18.364M5.63604 18.364L4.22183 19.7782M19.7782 4.22183L18.364 5.63604"
+            stroke="currentColor"
+            stroke-width="1.7"
+            stroke-linecap="round"
+          />
+        </g>
+      </svg>
     </button>
 
     <!-- Avatar con Dropdown -->

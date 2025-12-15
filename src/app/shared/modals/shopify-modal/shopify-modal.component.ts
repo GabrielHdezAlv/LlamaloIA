@@ -41,6 +41,7 @@ interface CreatedAction {
     MatIconModule,
   ],
   templateUrl: './shopify-modal.component.html',
+  styleUrls: ['./shopify-modal.component.scss'],
 })
 export class ShopifyModalComponent implements OnInit {
   dialogRef = inject(MatDialogRef<ShopifyModalComponent, any>);

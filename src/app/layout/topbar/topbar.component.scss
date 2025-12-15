@@ -50,3 +50,93 @@
       overflow-y: auto;
     }
   }
+
+  // Animación Luna a Sol
+  .theme-toggle-btn {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .theme-icon {
+    color: #fbbf24; // Color amarillo para el sol en modo claro
+    transition: color 0.3s ease;
+
+    &.dark {
+      color: #e2e8f0; // Color claro para la luna en modo oscuro
+    }
+
+    // Path de la luna (creciente)
+    .moon-path {
+      opacity: 1;
+      transform-origin: center;
+      transform: scale(1) rotate(0deg);
+      transition: opacity 0.4s ease 0.2s, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    // Círculo del sol
+    .sun-circle {
+      opacity: 0;
+      transform-origin: center;
+      transform: scale(0);
+      transition: opacity 0.3s ease 0.4s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s;
+    }
+
+    // Rayos del sol
+    .sun-rays {
+      opacity: 0;
+      transform-origin: center;
+      transform: scale(0) rotate(0deg);
+      transition: opacity 0.3s ease 0.6s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s;
+    }
+
+    // Cuando está en modo claro (light) - muestra el sol
+    &.light {
+      .moon-path {
+        opacity: 0;
+        transform: scale(0.8) rotate(90deg);
+        transition: opacity 0.3s ease 0s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0s;
+      }
+
+      .sun-circle {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .sun-rays {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    // Cuando está en modo oscuro (dark) - muestra la luna
+    &.dark {
+      .moon-path {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        transition: opacity 0.3s ease 0.4s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s;
+      }
+
+      .sun-circle {
+        opacity: 0;
+        transform: scale(0);
+        transition: opacity 0.2s ease 0s, transform 0.3s ease 0s;
+      }
+
+      .sun-rays {
+        opacity: 0;
+        transform: scale(0) rotate(-45deg);
+        transition: opacity 0.2s ease 0s, transform 0.3s ease 0s;
+      }
+    }
+  }

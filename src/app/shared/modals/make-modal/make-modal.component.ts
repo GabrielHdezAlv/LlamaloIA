@@ -32,6 +32,7 @@ interface ActionData {
     MatIconModule,
   ],
   templateUrl: './make-modal.component.html',
+  styleUrls: ['./make-modal.component.scss'],
 })
 export class MakeModalComponent implements OnInit {
   dialogRef = inject(MatDialogRef<MakeModalComponent, any>);

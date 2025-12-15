@@ -547,7 +547,7 @@
             <button
               type="button"
               (click)="openGeneratePromptModal()"
-              class="ai-generate-btn absolute right-3 top-3 z-10 flex items-center gap-1.5 px-3 py-1.5 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors"
+              class="ai-generate-btn absolute right-3 bottom-3 z-10 flex items-center gap-1.5 px-3 py-1.5 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors"
             >
               <div class="ai-border-mask">
                 <div class="ai-border-glow"></div>
@@ -607,15 +607,14 @@
         <!-- Shopify -->
         <button
           (click)="selectAction('shopify')"
-          class="creative-action-card group relative overflow-hidden rounded-3xl p-8 sm:p-10 border-2 border-green-300 dark:border-green-800/30 hover:border-green-500 dark:hover:border-green-600 hover:shadow-2xl hover:shadow-green-500/40 dark:hover:shadow-green-500/30 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 shadow-md dark:shadow-none"
-          style="background-color: #022901;"
+          class="creative-action-card group relative overflow-hidden rounded-3xl p-8 sm:p-10 border-2 border-green-300 dark:border-green-800/30 hover:border-green-500 dark:hover:border-green-600 hover:shadow-2xl hover:shadow-green-500/40 dark:hover:shadow-green-500/30 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 shadow-md dark:shadow-none  dark:bg-[#022901]"
           [ngClass]="{'dark:bg-gradient-to-br dark:from-green-950/30 dark:via-emerald-950/20 dark:to-teal-950/30': true}"
         >
           <!-- Patrón decorativo de fondo animado -->
-          <div class="absolute inset-0 opacity-20 dark:opacity-5 overflow-hidden">
-            <div class="absolute top-0 left-0 w-40 h-40 bg-green-500 rounded-full blur-3xl animate-pulse-slow"></div>
-            <div class="absolute bottom-0 right-0 w-32 h-32 bg-emerald-400 rounded-full blur-2xl animate-pulse-slow" style="animation-delay: 1s;"></div>
-            <div class="absolute top-1/2 left-1/2 w-24 h-24 bg-teal-300 rounded-full blur-xl opacity-50 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
+          <div class="absolute inset-0 opacity-10 dark:opacity-5 overflow-hidden">
+            <div class="absolute top-0 left-0 w-40 h-40 bg-green-400 dark:bg-green-500 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-0 right-0 w-32 h-32 bg-emerald-300 dark:bg-emerald-400 rounded-full blur-2xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/2 w-24 h-24 bg-teal-200 dark:bg-teal-300 rounded-full blur-xl opacity-50 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
           </div>
           
           <!-- Línea decorativa superior -->
@@ -623,22 +622,17 @@
           
           <!-- Contenido -->
           <div class="relative z-10">
-            <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center justify-center mb-8">
               <div class="relative">
                 <div class="absolute -inset-4 bg-green-500/30 dark:bg-green-500/20 rounded-2xl blur-xl group-hover:bg-green-500/50 dark:group-hover:bg-green-500/40 group-hover:blur-2xl transition-all duration-500"></div>
-                <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-slate-800 dark:bg-slate-800 flex items-center justify-center shadow-xl dark:shadow-lg group-hover:shadow-green-500/60 dark:group-hover:shadow-green-500/50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border-2 border-green-200 dark:border-green-900/50 group-hover:border-green-500 dark:group-hover:border-green-400">
+                <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-xl dark:shadow-lg group-hover:shadow-green-500/60 dark:group-hover:shadow-green-500/50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border-2 border-green-300 dark:border-green-900/50 group-hover:border-green-500 dark:group-hover:border-green-400">
                   <img src="assets/shopify.png" alt="Shopify" class="w-12 h-12 sm:w-14 sm:h-14 object-contain group-hover:scale-110 transition-transform duration-500" />
                 </div>
               </div>
-              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-800/95 dark:bg-slate-800/90 backdrop-blur-md flex items-center justify-center group-hover:bg-green-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg dark:shadow-md group-hover:shadow-green-500/60 dark:group-hover:shadow-green-500/50 border border-green-200 dark:border-green-900/50 group-hover:border-green-500 dark:group-hover:border-green-400">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white dark:text-white group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </div>
             </div>
             
-            <h3 class="text-2xl sm:text-3xl font-bold text-white dark:text-white mb-3 group-hover:text-green-400 dark:group-hover:text-green-400 transition-colors duration-300 tracking-tight">Shopify</h3>
-            <p class="text-sm sm:text-base text-white/90 dark:text-slate-300 leading-relaxed mb-6">Conecta tu tienda online y automatiza la gestión de pedidos, inventario y clientes de forma inteligente.</p>
+            <h3 class="text-2xl sm:text-3xl font-bold text-green-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300 tracking-tight">Shopify</h3>
+            <p class="text-sm sm:text-base text-green-700 dark:text-slate-300 leading-relaxed mb-6">Conecta tu tienda online y automatiza la gestión de pedidos, inventario y clientes de forma inteligente.</p>
             
             <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-green-400 dark:text-green-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500">
               <span>Conectar ahora</span>
@@ -652,15 +646,14 @@
         <!-- Make -->
         <button
           (click)="selectAction('make')"
-          class="creative-action-card group relative overflow-hidden rounded-3xl p-8 sm:p-10 border-2 border-purple-300 dark:border-purple-800/30 hover:border-purple-500 dark:hover:border-purple-600 hover:shadow-2xl hover:shadow-purple-500/40 dark:hover:shadow-purple-500/30 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 shadow-md dark:shadow-none"
-          style="background-color: #11061f;"
+          class="creative-action-card group relative overflow-hidden rounded-3xl p-8 sm:p-10 border-2 border-purple-300 dark:border-purple-800/30 hover:border-purple-500 dark:hover:border-purple-600 hover:shadow-2xl hover:shadow-purple-500/40 dark:hover:shadow-purple-500/30 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 shadow-md dark:shadow-none  dark:bg-[#11061f]"
           [ngClass]="{'dark:bg-gradient-to-br dark:from-purple-950/30 dark:via-fuchsia-950/20 dark:to-pink-950/30': true}"
         >
           <!-- Patrón decorativo de fondo animado -->
-          <div class="absolute inset-0 opacity-30 dark:opacity-5 overflow-hidden">
-            <div class="absolute top-0 right-0 w-40 h-40 bg-purple-400 rounded-full blur-3xl animate-pulse-slow"></div>
-            <div class="absolute bottom-0 left-0 w-32 h-32 bg-fuchsia-300 rounded-full blur-2xl animate-pulse-slow" style="animation-delay: 1s;"></div>
-            <div class="absolute top-1/2 left-1/2 w-24 h-24 bg-pink-200 rounded-full blur-xl opacity-70 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
+          <div class="absolute inset-0 opacity-15 dark:opacity-5 overflow-hidden">
+            <div class="absolute top-0 right-0 w-40 h-40 bg-purple-300 dark:bg-purple-400 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-fuchsia-200 dark:bg-fuchsia-300 rounded-full blur-2xl animate-pulse-slow" style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/2 w-24 h-24 bg-pink-100 dark:bg-pink-200 rounded-full blur-xl opacity-70 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
           </div>
           
           <!-- Línea decorativa superior -->
@@ -668,22 +661,17 @@
           
           <!-- Contenido -->
           <div class="relative z-10">
-            <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center justify-center mb-8">
               <div class="relative">
                 <div class="absolute -inset-4 bg-purple-500/30 dark:bg-purple-500/20 rounded-2xl blur-xl group-hover:bg-purple-500/50 dark:group-hover:bg-purple-500/40 group-hover:blur-2xl transition-all duration-500"></div>
-                <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-slate-800 dark:bg-slate-800 flex items-center justify-center shadow-xl dark:shadow-lg group-hover:shadow-purple-500/60 dark:group-hover:shadow-purple-500/50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border-2 border-purple-200 dark:border-purple-900/50 group-hover:border-purple-500 dark:group-hover:border-purple-400">
+                <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-xl dark:shadow-lg group-hover:shadow-purple-500/60 dark:group-hover:shadow-purple-500/50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border-2 border-purple-300 dark:border-purple-900/50 group-hover:border-purple-500 dark:group-hover:border-purple-400">
                   <img src="assets/make.png" alt="Make" class="w-12 h-12 sm:w-14 sm:h-14 object-contain group-hover:scale-110 transition-transform duration-500" />
                 </div>
               </div>
-              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-800/95 dark:bg-slate-800/90 backdrop-blur-md flex items-center justify-center group-hover:bg-purple-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg dark:shadow-md group-hover:shadow-purple-500/60 dark:group-hover:shadow-purple-500/50 border border-purple-200 dark:border-purple-900/50 group-hover:border-purple-500 dark:group-hover:border-purple-400">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white dark:text-white group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </div>
             </div>
             
-            <h3 class="text-2xl sm:text-3xl font-bold text-white dark:text-white mb-3 group-hover:text-purple-400 dark:group-hover:text-purple-400 transition-colors duration-300 tracking-tight">Make</h3>
-            <p class="text-sm sm:text-base text-white/90 dark:text-slate-300 leading-relaxed mb-6">Automatiza procesos complejos conectando múltiples aplicaciones y servicios en flujos de trabajo inteligentes.</p>
+            <h3 class="text-2xl sm:text-3xl font-bold text-purple-800 dark:text-white mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 tracking-tight">Make</h3>
+            <p class="text-sm sm:text-base text-purple-700 dark:text-slate-300 leading-relaxed mb-6">Automatiza procesos complejos conectando múltiples aplicaciones y servicios en flujos de trabajo inteligentes.</p>
             
             <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-purple-400 dark:text-purple-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500">
               <span>Conectar ahora</span>
@@ -920,132 +908,157 @@
       a través de Twilio
     </p>
 
-    <!-- Instrucciones -->
-    <div
-      id="twilio-steps"
-      class="space-y-1 sm:space-y-1.5 md:space-y-2 mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[9px] sm:text-[10px] md:text-xs lg:text-sm text-gray-700 dark:text-slate-300 leading-tight sm:leading-relaxed tracking-[-0.2px] sm:tracking-[-0.3px] md:tracking-[-0.5px] ml-1 sm:ml-2 md:ml-4 lg:ml-8 px-1 sm:px-2 md:px-4"
-    >
-      <p><span class="font-semibold">1. Seleccionar prefijo de país:</span> Elige el código de país correspondiente.</p>
-      <p><span class="font-semibold">2. Introducir número de Twilio:</span> Ingresa el número asociado a tu cuenta Twilio.</p>
-      <p><span class="font-semibold">3. Twilio Account SID y Auth Token:</span> Completa los campos con tu SID de cuenta y token de autenticación.</p>
-      <p><span class="font-semibold">4. Asignar nombre o etiqueta:</span> Da un nombre o etiqueta identificativa al número de Twilio para facilitar su gestión.</p>
+
+    <!-- Botón de ayuda -->
+    <div class="absolute top-4 right-4 z-20">
+      <button
+        (click)="openTwilioStepsModal()"
+        class="w-10 h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-110"
+        aria-label="Ayuda"
+        title="Ver pasos a seguir"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </button>
     </div>
 
-    <!-- Formulario más pequeño -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-1.5 sm:gap-2 md:gap-3 mx-1 sm:mx-2 md:mx-4 lg:mx-6">
-      <!-- Número de teléfono -->
-      <div class="flex flex-col">
-        <label for="phone" class="block text-[10px] sm:text-xs font-medium text-black dark:text-slate-200 mb-0.5 sm:mb-1">Número de teléfono*</label>
-        <div class="flex items-center relative">
-          <!-- Dropdown personalizado -->
-          <div id="country-dropdown" class="w-14 h-9 bg-white dark:bg-slate-800 border-r-0 border-gray-300 dark:border-slate-600 rounded-l-md px-2 flex items-center cursor-pointer">
-            <svg id="current-flag" width="16" height="10" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="20" height="12" fill="#C60B1E"/>
-              <rect y="3" width="20" height="6" fill="#FFC400"/>
-            </svg>
-            <svg class="w-3 h-3 text-gray-500 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-            </svg>
+    <!-- Contenido principal: Formulario centrado -->
+    <div class="max-w-3xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 mt-8 sm:mt-10">
+        <form class="space-y-8">
+        <!-- Número de teléfono -->
+        <div class="space-y-2">
+          <label for="phone" class="block text-base font-semibold text-gray-900 dark:text-slate-100">
+            Número de teléfono <span class="text-red-500 ml-1">*</span>
+          </label>
+          <div class="flex items-center relative">
+            <!-- Dropdown personalizado -->
+            <div (click)="toggleCountryMenu()" class="w-32 h-14 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 border-r-0 rounded-l-xl px-4 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
+              <div class="flex items-center gap-2.5">
+                <svg id="current-flag" width="22" height="14" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 rounded-sm">
+                  <rect width="20" height="12" fill="#C60B1E"/>
+                  <rect y="3" width="20" height="6" fill="#FFC400"/>
+                </svg>
+                <span class="text-sm font-medium text-gray-800 dark:text-slate-200">{{selectedCountryCode}}</span>
+              </div>
+              <svg class="w-4 h-4 text-gray-500 dark:text-slate-400 transition-transform" [class.rotate-180]="showCountryMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </div>
+
+            <!-- Menú desplegable -->
+            <ul [class.hidden]="!showCountryMenu" class="absolute top-full left-0 mt-2 w-32 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 rounded-xl shadow-xl z-20 overflow-hidden">
+              <li (click)="selectCountry('es', '+34', '#C60B1E', '#FFC400')" class="flex items-center px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
+                <svg width="22" height="14" viewBox="0 0 20 12" class="mr-3 flex-shrink-0 rounded-sm">
+                  <rect width="20" height="12" fill="#C60B1E"/>
+                  <rect y="3" width="20" height="6" fill="#FFC400"/>
+                </svg>
+                <span class="font-medium text-gray-800 dark:text-slate-200">+34</span>
+              </li>
+              <li (click)="selectCountry('us', '+1', '#00247D', '#FFF')" class="flex items-center px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
+                <svg width="22" height="14" viewBox="0 0 20 12" class="mr-3 flex-shrink-0 rounded-sm">
+                  <rect width="20" height="12" fill="#00247D"/>
+                  <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2"/>
+                  <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1"/>
+                  <rect x="8" width="4" height="12" fill="#FFF"/>
+                  <rect y="4" width="20" height="4" fill="#FFF"/>
+                  <rect x="8.8" width="2.4" height="12" fill="#CF142B"/>
+                  <rect y="5.2" width="20" height="1.6" fill="#CF142B"/>
+                </svg>
+                <span class="font-medium text-gray-800 dark:text-slate-200">+1</span>
+              </li>
+              <li (click)="selectCountry('fr', '+33', '#0055A4', '#EF4135')" class="flex items-center px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
+                <svg width="22" height="14" viewBox="0 0 20 12" class="mr-3 flex-shrink-0 rounded-sm">
+                  <rect width="20" height="12" fill="#fff"/>
+                  <rect width="6.66" height="12" fill="#0055A4"/>
+                  <rect x="13.33" width="6.67" height="12" fill="#EF4135"/>
+                </svg>
+                <span class="font-medium text-gray-800 dark:text-slate-200">+33</span>
+              </li>
+              <li (click)="selectCountry('de', '+49', '#FFCE00', '#DD0000')" class="flex items-center px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-sm transition-colors">
+                <svg width="22" height="14" viewBox="0 0 20 12" class="mr-3 flex-shrink-0 rounded-sm">
+                  <rect width="20" height="12" fill="#FFCE00"/>
+                  <rect y="6" width="20" height="6" fill="#DD0000"/>
+                  <rect y="4" width="20" height="4" fill="#000"/>
+                </svg>
+                <span class="font-medium text-gray-800 dark:text-slate-200">+49</span>
+              </li>
+            </ul>
+
+            <!-- Input de número -->
+            <input
+              type="tel"
+              id="phone"
+              placeholder="630 00 00 00"
+              class="flex-1 h-14 px-5 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-r-xl rounded-l-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+            />
+          </div>
+        </div>
+
+        <!-- Grid para SID y Token -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Cuenta Twilio SID -->
+          <div class="space-y-2">
+            <label for="sid" class="block text-base font-semibold text-gray-900 dark:text-slate-100">
+              Account SID de Twilio <span class="text-red-500 ml-1">*</span>
+            </label>
+            <input
+              type="text"
+              id="sid"
+              placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              class="w-full h-14 px-5 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+            />
           </div>
 
-          <!-- Menú desplegable -->
-          <ul id="dropdown-menu" class="absolute top-full left-0 mt-1 w-14 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-md shadow-lg z-10 hidden text-xs">
-            <li data-value="es" class="flex items-center px-2 py-1 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer">
-              <svg width="16" height="10" viewBox="0 0 20 12" class="mr-1">
-                <rect width="20" height="12" fill="#C60B1E"/>
-                <rect y="3" width="20" height="6" fill="#FFC400"/>
-              </svg>
-              <span>ES</span>
-            </li>
-            <li data-value="us" class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
-              <svg width="16" height="10" viewBox="0 0 20 12" class="mr-1">
-                <rect width="20" height="12" fill="#00247D"/>
-                <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2"/>
-                <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1"/>
-                <rect x="8" width="4" height="12" fill="#FFF"/>
-                <rect y="4" width="20" height="4" fill="#FFF"/>
-                <rect x="8.8" width="2.4" height="12" fill="#CF142B"/>
-                <rect y="5.2" width="20" height="1.6" fill="#CF142B"/>
-              </svg>
-              <span>US</span>
-            </li>
-            <li data-value="fr" class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
-              <svg width="16" height="10" viewBox="0 0 20 12" class="mr-1">
-                <rect width="20" height="12" fill="#fff"/>
-                <rect width="6.66" height="12" fill="#0055A4"/>
-                <rect x="13.33" width="6.67" height="12" fill="#EF4135"/>
-              </svg>
-              <span>FR</span>
-            </li>
-            <li data-value="de" class="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer">
-              <svg width="16" height="10" viewBox="0 0 20 12" class="mr-1">
-                <rect width="20" height="12" fill="#FFCE00"/>
-                <rect y="6" width="20" height="6" fill="#DD0000"/>
-                <rect y="4" width="20" height="4" fill="#000"/>
-              </svg>
-              <span>DE</span>
-            </li>
-          </ul>
+          <!-- Twilio Auth Token -->
+          <div class="space-y-2">
+            <label for="token" class="block text-base font-semibold text-gray-900 dark:text-slate-100">
+              Auth Token de Twilio <span class="text-red-500 ml-1">*</span>
+            </label>
+            <input
+              type="password"
+              id="token"
+              placeholder="Tu token de autenticación"
+              class="w-full h-14 px-5 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+            />
+          </div>
+        </div>
 
-          <!-- Input de número -->
+        <!-- Etiqueta -->
+        <div class="space-y-2">
+          <label for="label" class="block text-base font-semibold text-gray-900 dark:text-slate-100">
+            Etiqueta <span class="text-gray-500 dark:text-slate-400 text-sm font-normal ml-1">(opcional)</span>
+          </label>
           <input
-            type="tel"
-            id="phone"
-            placeholder="630 00 00"
-            class="flex-1 px-2 sm:px-2.5 md:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl focus:ring-blue-400 focus:border-blue-400 text-[10px] sm:text-xs text-gray-500 dark:text-slate-300"
+            type="text"
+            id="label"
+            placeholder="Ej: Oficina Principal, Ventas, etc."
+            class="w-full h-14 px-5 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
           />
         </div>
-      </div>
 
-      <!-- Cuenta Twilio SID -->
-      <div class="flex flex-col">
-        <label for="sid" class="block text-[10px] sm:text-xs font-medium text-black dark:text-slate-200 mb-0.5 sm:mb-1">Account SID de Twilio*</label>
-        <input
-          type="text"
-          id="sid"
-          class="w-full px-2 sm:px-2.5 md:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl focus:ring-blue-400 focus:border-blue-400 text-[10px] sm:text-xs text-gray-500 dark:text-slate-300"
-        />
-      </div>
-
-      <!-- Twilio Auth Token -->
-      <div class="flex flex-col">
-        <label for="token" class="block text-[10px] sm:text-xs font-medium text-black dark:text-slate-200 mb-0.5 sm:mb-1">Auth Token de Twilio</label>
-        <input
-          type="password"
-          id="token"
-          class="w-full px-2 sm:px-2.5 md:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl focus:ring-blue-400 focus:border-blue-400 text-[10px] sm:text-xs text-gray-500 dark:text-slate-300"
-        />
-      </div>
-
-      <!-- Etiqueta -->
-      <div class="flex flex-col">
-        <label for="label" class="block text-[10px] sm:text-xs font-medium text-black dark:text-slate-200 mb-0.5 sm:mb-1">Etiqueta</label>
-        <input
-          type="text"
-          id="label"
-          class="w-full px-2 sm:px-2.5 md:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl focus:ring-blue-400 focus:border-blue-400 text-[10px] sm:text-xs text-gray-500 dark:text-slate-300"
-        />
-      </div>
-    </div>
-
-      <!-- Selección de número importado -->
-    <div class="mt-1.5 sm:mt-3 md:mt-4 lg:mt-6 text-center px-1 sm:px-2 md:px-4">
-      <label for="imported-number" class="block text-[10px] sm:text-xs font-medium text-black dark:text-slate-200 mb-0.5 sm:mb-1">Elige un número importado</label>
-        <div class="relative w-full sm:w-80 md:w-72 mx-auto">
-          <select
-            id="imported-number"
-            class="w-full px-2 sm:px-2.5 md:px-3 py-2 sm:py-2.5 md:py-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl focus:ring-blue-400 focus:border-blue-400 text-[10px] sm:text-xs text-gray-400 dark:text-slate-400 appearance-none"
-          >
-          <option value="">Elige un número</option>
-          <option value="1">+34 630 00 00 00</option>
-          <option value="2">+1 555 123 4567</option>
-        </select>
-        <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-          <svg width="14" height="11" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.2907 0.55247C14.6817 0.178412 15.3156 0.178535 15.7067 0.55247C16.0978 0.926578 16.0977 1.53284 15.7067 1.90696L8.87857 8.43821C8.87539 8.44134 8.87302 8.44586 8.86979 8.44895C8.67399 8.63612 8.41735 8.72854 8.1608 8.72825C7.9686 8.7282 7.77658 8.67629 7.61002 8.57102C7.58234 8.5535 7.55511 8.53482 7.52897 8.51438C7.50278 8.49395 7.4772 8.4723 7.45279 8.44895C7.4498 8.44609 7.44695 8.44305 7.444 8.44017L0.61588 1.90696C0.225121 1.53284 0.22497 0.926501 0.61588 0.55247C1.00687 0.178426 1.6408 0.178577 2.0319 0.55247L8.1608 6.41477L14.2907 0.55247Z" fill="black"/>
-          </svg>
-        </span>
-      </div>
+        <!-- Selección de número importado -->
+        <div class="space-y-2">
+          <label for="imported-number" class="block text-base font-semibold text-gray-900 dark:text-slate-100">
+            Número importado
+          </label>
+          <div class="relative">
+            <select
+              id="imported-number"
+              class="w-full h-14 px-5 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base text-gray-900 dark:text-slate-100 appearance-none cursor-pointer transition-all shadow-sm font-medium"
+            >
+              <option value="">Selecciona un número importado</option>
+              <option value="1">+34 630 00 00 00</option>
+              <option value="2">+1 555 123 4567</option>
+            </select>
+            <span class="pointer-events-none absolute inset-y-0 right-5 flex items-center">
+              <svg width="18" height="18" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-500 dark:text-slate-400">
+                <path d="M14.2907 0.55247C14.6817 0.178412 15.3156 0.178535 15.7067 0.55247C16.0978 0.926578 16.0977 1.53284 15.7067 1.90696L8.87857 8.43821C8.87539 8.44134 8.87302 8.44586 8.86979 8.44895C8.67399 8.63612 8.41735 8.72854 8.1608 8.72825C7.9686 8.7282 7.77658 8.67629 7.61002 8.57102C7.58234 8.5535 7.55511 8.53482 7.52897 8.51438C7.50278 8.49395 7.4772 8.4723 7.45279 8.44895C7.4498 8.44609 7.44695 8.44305 7.444 8.44017L0.61588 1.90696C0.225121 1.53284 0.22497 0.926501 0.61588 0.55247C1.00687 0.178426 1.6408 0.178577 2.0319 0.55247L8.1608 6.41477L14.2907 0.55247Z" fill="currentColor"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </form>
     </div>
     </div>
 
@@ -1088,127 +1101,147 @@
     <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-2 sm:mb-3 md:mb-4 lg:mb-6 tracking-[-1px] sm:tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-2.5px] px-2 sm:px-3 md:px-4">Configuración Avanzada</h2>
 
     <!-- Subtítulo -->
-    <p class="text-center text-xs sm:text-sm md:text-base text-gray-700 dark:text-slate-300 mb-3 sm:mb-4 md:mb-6 lg:mb-8 max-w-4xl mx-auto px-2 sm:px-4">
+    <p class="text-center text-xs sm:text-sm md:text-base text-gray-700 dark:text-slate-300 mb-6 sm:mb-8 md:mb-10 lg:mb-12 max-w-4xl mx-auto px-2 sm:px-4">
       Personaliza los parámetros avanzados de tu agente
     </p>
 
-    <!-- Tiempo de inactividad -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 sm:mb-4 md:mb-5 lg:mb-6 px-2 sm:px-4 md:px-6 gap-2 sm:gap-3 md:gap-0">
-      <label class="text-[10px] sm:text-xs md:text-sm font-medium text-gray-800 dark:text-slate-200 w-full sm:w-auto">Tiempo de espera de inactividad</label>
-      <div class="flex items-center w-full sm:w-64">
-        <!-- Valor formateado: 0,18 -->
-        <span
-          class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-xs sm:text-sm font-semibold text-gray-600 dark:text-slate-300 border border-gray-300 dark:border-slate-600 mr-2 sm:mr-3 rounded-full transition-all duration-200 hover:bg-gray-200 dark:hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-md"
-          style="min-width: 2.5rem; min-height: 2.5rem;"
-        >
-          {{ formatDecimal(inactivityTimeout) }}
-        </span>
-        <!-- Slider con barra progresiva externa -->
-        <div class="w-full ml-2 h-1.5 sm:h-2 bg-gray-200 dark:bg-slate-700 rounded-lg relative cursor-pointer">
-          <!-- Barra progresiva (controlada por Angular) -->
-          <div
-            class="absolute top-0 left-0 h-full bg-gray-500 dark:bg-blue-600 rounded-lg transition-all duration-75 ease-linear"
-            [style.width.%]="inactivityTimeout"
-          ></div>
-          <!-- Input oculto para capturar el valor -->
-          <input
-            type="range"
-            min="0"
-            max="100"
-            [(ngModel)]="inactivityTimeout"
-            (input)="inactivityTimeout = +$any($event.target).value"
-            class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-          />
-          <!-- Bola controlada por Angular (sin delay) -->
-          <div
-            class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-gray-500 dark:bg-blue-600 rounded-full shadow-sm pointer-events-none transition-all duration-75 ease-linear"
-            [style.left.%]="inactivityTimeout"
-          ></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Duración máxima -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-3 sm:mb-4 md:mb-5 lg:mb-6 px-2 sm:px-4 md:px-6 gap-2 sm:gap-3 md:gap-0">
-      <label class="text-[10px] sm:text-xs md:text-sm font-medium text-gray-800 dark:text-slate-200 w-full sm:w-auto">Duración máxima de llamada</label>
-      <div class="flex items-center w-full sm:w-64">
-        <!-- Valor formateado: 1,34 -->
-        <span
-          class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-xs sm:text-sm font-semibold text-gray-600 dark:text-slate-300 border border-gray-300 dark:border-slate-600 mr-2 sm:mr-3 rounded-full transition-all duration-200 hover:bg-gray-200 dark:hover:bg-slate-700 hover:-translate-y-0.5 hover:shadow-md"
-          style="min-width: 2.5rem; min-height: 2.5rem;"
-        >
-          {{ formatDecimal(maxCallDuration) }}
-        </span>
-        <!-- Slider con barra progresiva externa -->
-        <div class="w-full ml-2 h-1.5 sm:h-2 bg-gray-200 dark:bg-slate-700 rounded-lg relative cursor-pointer">
-          <!-- Barra progresiva -->
-          <div
-            class="absolute top-0 left-0 h-full bg-gray-500 dark:bg-blue-600 rounded-lg transition-all duration-75 ease-linear"
-            [style.width.%]="maxCallDuration"
-          ></div>
-          <!-- Input oculto -->
-          <input
-            type="range"
-            min="0"
-            max="100"
-            [(ngModel)]="maxCallDuration"
-            (input)="maxCallDuration = +$any($event.target).value"
-            class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-          />
-          <!-- Bola -->
-          <div
-            class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-gray-500 dark:bg-blue-600 rounded-full shadow-sm pointer-events-none transition-all duration-75 ease-linear"
-            [style.left.%]="maxCallDuration"
-          ></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mensaje de grabación -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center mb-3 sm:mb-4 md:mb-5 lg:mb-6 px-2 sm:px-4 md:px-6 gap-2 sm:gap-3 md:gap-0">
-      <div class="flex items-center flex-wrap gap-2 sm:gap-0 w-full">
-        <label class="text-[10px] sm:text-xs md:text-sm font-medium text-gray-800 dark:text-slate-200">Mensaje de aviso de grabación</label>
-        <button
-          (click)="toggleRecordingNotice()"
-          class="ml-2 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-full p-1"
-          [title]="isRecordingNoticeEnabled ? 'Desactivar aviso' : 'Activar aviso'"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="transition-transform duration-200 hover:scale-110">
-            <circle cx="8" cy="8" r="7" stroke="currentColor" fill="none"/>
-            <path d="M8 4V12M8 12L10 10M8 12L6 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </button>
-        <div class="relative inline-block w-10 h-6 ml-4 ">
-          <input
-            type="checkbox"
-            [checked]="isRecordingNoticeEnabled"
-            class="sr-only peer"
-            (change)="toggleRecordingNotice()"
-            id="switch-grabacion"
-          />
-          <label
-            for="switch-grabacion"
-            class="absolute inset-0 rounded-full bg-gray-300 dark:bg-slate-600 transition-all duration-300 ease-in-out peer-checked:bg-gray-900 dark:peer-checked:bg-blue-600 peer-focus:ring-2 peer-focus:ring-gray-900 dark:peer-focus:ring-blue-500 peer-focus:ring-opacity-50 cursor-pointer"
-            [class.bg-blue-600]="isRecordingNoticeEnabled"
-          ></label>
-          <div
-            class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-all duration-300 ease-in-out transform shadow-md peer-checked:translate-x-4 peer-focus:ring-2 peer-focus:ring-white pointer-events-none"
-            [class.translate-x-4]="isRecordingNoticeEnabled"
-          ></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Texto de aviso de grabación -->
-    @if (isRecordingNoticeEnabled) {
-      <div class="mb-3 sm:mb-4 md:mb-6 lg:mb-8 p-2 sm:p-3 md:p-4 rounded-xl sm:rounded-2xl md:rounded-full border border-gray-400 dark:border-slate-600 text-[10px] sm:text-xs md:text-sm text-gray-400 dark:text-slate-400 mx-2 sm:mx-4 md:mx-6">
-        <div class="flex items-start">
-          <div>
-            <p>Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.</p>
+    <!-- Contenedor de configuraciones -->
+    <div class="max-w-3xl mx-auto px-2 sm:px-4 md:px-6 space-y-6 sm:space-y-8">
+      
+      <!-- Tiempo de inactividad -->
+      <div class="border-b border-gray-200 dark:border-slate-700 pb-6">
+        <label class="block text-sm font-medium text-gray-900 dark:text-white mb-4">Tiempo de espera de inactividad</label>
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-lg bg-gray-50 dark:bg-slate-800 flex items-center justify-center border border-gray-200 dark:border-slate-700">
+            <span class="text-base font-semibold text-gray-700 dark:text-slate-300">
+              {{ formatDecimal(inactivityTimeout) }}
+            </span>
+          </div>
+          <div class="flex-1 relative">
+            <div class="h-2 bg-gray-200 dark:bg-slate-700 rounded-full relative">
+              <div
+                class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
+                [style.width.%]="inactivityTimeout"
+              ></div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                [(ngModel)]="inactivityTimeout"
+                (input)="inactivityTimeout = +$any($event.target).value"
+                class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
+              />
+              <div
+                class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
+                [style.left.%]="inactivityTimeout"
+              ></div>
+            </div>
           </div>
         </div>
       </div>
-    }
+
+      <!-- Duración máxima -->
+      <div class="border-b border-gray-200 dark:border-slate-700 pb-6">
+        <label class="block text-sm font-medium text-gray-900 dark:text-white mb-4">Duración máxima de llamada</label>
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-lg bg-gray-50 dark:bg-slate-800 flex items-center justify-center border border-gray-200 dark:border-slate-700">
+            <span class="text-base font-semibold text-gray-700 dark:text-slate-300">
+              {{ formatDecimal(maxCallDuration) }}
+            </span>
+          </div>
+          <div class="flex-1 relative">
+            <div class="h-2 bg-gray-200 dark:bg-slate-700 rounded-full relative">
+              <div
+                class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
+                [style.width.%]="maxCallDuration"
+              ></div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                [(ngModel)]="maxCallDuration"
+                (input)="maxCallDuration = +$any($event.target).value"
+                class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
+              />
+              <div
+                class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
+                [style.left.%]="maxCallDuration"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rapidez del agente -->
+      <div class="border-b border-gray-200 dark:border-slate-700 pb-6">
+        <label class="block text-sm font-medium text-gray-900 dark:text-white mb-4">Rapidez del agente</label>
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-lg bg-gray-50 dark:bg-slate-800 flex items-center justify-center border border-gray-200 dark:border-slate-700">
+            <span class="text-base font-semibold text-gray-700 dark:text-slate-300">
+              {{ formatDecimal(agentSpeed) }}
+            </span>
+          </div>
+          <div class="flex-1 relative">
+            <div class="h-2 bg-gray-200 dark:bg-slate-700 rounded-full relative">
+              <div
+                class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
+                [style.width.%]="agentSpeed"
+              ></div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                [(ngModel)]="agentSpeed"
+                (input)="agentSpeed = +$any($event.target).value"
+                class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
+              />
+              <div
+                class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
+                [style.left.%]="agentSpeed"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensaje de grabación -->
+      <div class="pb-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <label class="text-sm font-medium text-gray-900 dark:text-white">Mensaje de aviso de grabación</label>
+            <button
+              (click)="toggleRecordingNotice()"
+              class="w-4 h-4 rounded-full border border-gray-300 dark:border-slate-600 flex items-center justify-center hover:border-gray-400 dark:hover:border-slate-500 transition-colors"
+              [title]="isRecordingNoticeEnabled ? 'Desactivar aviso' : 'Activar aviso'"
+            >
+              <svg width="10" height="10" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-500 dark:text-slate-400">
+                <circle cx="8" cy="8" r="7" stroke="currentColor" fill="none"/>
+                <text x="8" y="11" text-anchor="middle" font-size="8" font-weight="bold" fill="currentColor">i</text>
+              </svg>
+            </button>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              [checked]="isRecordingNoticeEnabled"
+              (change)="toggleRecordingNotice()"
+              class="sr-only peer"
+            />
+            <div class="w-11 h-6 bg-gray-300 dark:bg-slate-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-gray-900 dark:peer-focus:ring-blue-500 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-900 dark:peer-checked:bg-blue-600"></div>
+          </label>
+        </div>
+
+        <!-- Texto de aviso de grabación -->
+        @if (isRecordingNoticeEnabled) {
+          <div class="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
+            <p class="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">
+              Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.
+            </p>
+          </div>
+        }
+      </div>
+
+    </div>
     </div>
 
     <!-- Botones SIEMPRE FIJOS ABAJO -->

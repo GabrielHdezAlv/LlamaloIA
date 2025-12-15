@@ -44,6 +44,10 @@ import {
   EmailVerificationModalComponent,
   EmailVerificationModalData,
 } from './email-verification-modal/email-verification-modal.component';
+import {
+  TwilioStepsModalComponent,
+  TwilioStepsModalData,
+} from './twilio-steps-modal/twilio-steps-modal.component';
 
 @Injectable({
   providedIn: 'root',
@@ -158,6 +162,16 @@ export class ModalService {
     return this.dialog.open(EmailVerificationModalComponent, {
       width: '500px',
       disableClose: true,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
+
+  openTwilioSteps(data: TwilioStepsModalData = {}) {
+    return this.dialog.open(TwilioStepsModalComponent, {
+      width: '600px',
+      maxWidth: '90vw',
+      disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
     });

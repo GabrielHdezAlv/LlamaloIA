@@ -1086,6 +1086,17 @@
   }
 }
 
+// Forzar colores claros en modo claro para las tarjetas de Shopify y Make
+:host-context(html:not(.dark)) {
+  button.creative-action-card.bg-green-100 {
+    background-color: #dcfce7 !important; // green-100, más verde
+  }
+  
+  button.creative-action-card.bg-purple-100 {
+    background-color: #f3e8ff !important; // purple-100, más morado
+  }
+}
+
 /* Estilos para resolución 2560px - Tarjetas de voces más grandes */
 @media (min-width: 2560px) {
   .voice-card {

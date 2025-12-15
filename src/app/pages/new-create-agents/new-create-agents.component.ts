@@ -528,6 +528,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   this.step = 'advancedSettings';
  }
 
+ openTwilioStepsModal() {
+   this.modalService.openTwilioSteps();
+ }
+
  onSkipConnectPhone() {
   // Salta a configuración avanzada
   this.step = 'advancedSettings';
@@ -535,10 +539,61 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
 
  // Declare showCountryMenu property
  showCountryMenu = false;
+ selectedCountryCode = '+34';
+ selectedCountry = 'es';
+
+ toggleCountryMenu() {
+   this.showCountryMenu = !this.showCountryMenu;
+ }
+
+ selectCountry(countryCode: string, code: string, flagColor1: string, flagColor2: string) {
+   this.selectedCountryCode = code;
+   this.selectedCountry = countryCode;
+   this.showCountryMenu = false;
+   this.updateFlag(countryCode);
+ }
+
+ updateFlag(countryCode: string) {
+   const flagSvg = document.getElementById('current-flag');
+   if (!flagSvg) return;
+
+   // Limpiar el contenido anterior
+   flagSvg.innerHTML = '';
+
+   switch (countryCode) {
+     case 'es':
+       flagSvg.innerHTML = '<rect width="20" height="12" fill="#C60B1E"/><rect y="3" width="20" height="6" fill="#FFC400"/>';
+       break;
+     case 'us':
+       flagSvg.innerHTML = '<rect width="20" height="12" fill="#00247D"/><path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2"/><path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1"/><rect x="8" width="4" height="12" fill="#FFF"/><rect y="4" width="20" height="4" fill="#FFF"/><rect x="8.8" width="2.4" height="12" fill="#CF142B"/><rect y="5.2" width="20" height="1.6" fill="#CF142B"/>';
+       break;
+     case 'fr':
+       flagSvg.innerHTML = '<rect width="20" height="12" fill="#fff"/><rect width="6.66" height="12" fill="#0055A4"/><rect x="13.33" width="6.67" height="12" fill="#EF4135"/>';
+       break;
+     case 'de':
+       flagSvg.innerHTML = '<rect width="20" height="12" fill="#FFCE00"/><rect y="6" width="20" height="6" fill="#DD0000"/><rect y="4" width="20" height="4" fill="#000"/>';
+       break;
+   }
+ }
+
+ @HostListener('document:click', ['$event'])
+ onDocumentClick(event: MouseEvent) {
+   const target = event.target as HTMLElement;
+   if (!target) return;
+   
+   const dropdown = target.closest('.w-32.h-14');
+   const menu = target.closest('ul');
+   const menuItem = target.closest('li');
+   
+   if (!dropdown && !menu && !menuItem) {
+     this.showCountryMenu = false;
+   }
+ }
 
  // Nuevas propiedades
  inactivityTimeout = 0;           // Tiempo de inactividad en segundos
  maxCallDuration = 0;            // Duración máxima en segundos
+ agentSpeed = 0;                 // Rapidez del agente
  isRecordingNoticeEnabled = false;
  recordingNoticeText = 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
 
