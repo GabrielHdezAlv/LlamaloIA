@@ -1,0 +1,305 @@
+// Animación suave para el arco de latencia
+.latency-arc {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+// Animación suave para el arco de duración
+.duration-arc {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+// Efecto shimmer para los arcos (similar a las barras de países)
+.latency-arc-shimmer,
+.duration-arc-shimmer {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+  pointer-events: none;
+}
+
+// Animación suave para los arcos del gráfico de tipo de llamadas
+.call-type-arc {
+  transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+/* Animación de latido para el punto azul de agentes activos */
+.latido {
+  transform-origin: center;
+  animation: latir 2s ease-in-out infinite;
+}
+
+@keyframes latir {
+  0%   { transform: scale(1); opacity: 1; }
+  25%  { transform: scale(1.2); opacity: 0.95; }
+  50%  { transform: scale(1); opacity: 1; }
+  75%  { transform: scale(1.15); opacity: 0.98; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+// Animación para las barras de países
+.country-bar {
+  transform-origin: left;
+  position: relative;
+  overflow: hidden; // Asegurar que el shimmer no se salga
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    border-radius: inherit;
+    animation: shimmer 2s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Limitar el ancho de la barra de países para que termine antes del porcentaje */
+.country-track {
+  max-width: calc(100% - 40px); /* deja un poco menos de espacio para acercar la barra al porcentaje */
+  border-radius: 9999px;
+}
+
+// Animación para las barras del gráfico móvil
+.mobile-bar {
+  transform-origin: left;
+  animation: slideInFromLeft 1s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+// Estilos para el scroll horizontal
+.horizontal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 #F1F5F9;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  background: #F1F5F9;
+  border-radius: 3px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+// Ocultar barra de scroll
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+// Efecto de pulso para indicadores de estado
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.status-indicator {
+  animation: pulse 2s infinite;
+}
+
+// Animación de brillo para el medidor
+@keyframes glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6));
+  }
+}
+
+.latency-arc:hover {
+  animation: glow 2s infinite;
+}
+
+/* Marcadores (latencia y duración) */
+.latency-marker-outer {
+  r: 29;
+  stroke-width: 12;
+}
+.latency-marker-inner {
+  r: 12;
+  stroke-width: 3;
+}
+.duration-marker-outer {
+  r: 29;
+  stroke-width: 12;
+}
+.duration-marker-inner {
+  r: 12;
+  stroke-width: 3;
+}
+
+/* Animaciones de fade in */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+}
+
+.fade-in-section.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Contenedor del gráfico - siempre mantener en su estado */
+.chart-container {
+  width: 100% !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+apx-chart {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Responsive para laptops 1024px - 1600px */
+@media (min-width: 1024px) and (max-width: 1600px) {
+  /* Contenedor */
+  .min-h-screen {
+    padding: 0.75rem !important;
+  }
+
+  /* Gráfico de área */
+  .chart-container {
+    height: 350px !important;
+  }
+
+  /* Medidores semicirculares */
+  .relative.w-48.h-28 {
+    width: 180px !important;
+    height: 100px !important;
+  }
+
+  /* Gráficos circulares */
+  .relative.w-48.h-48 {
+    width: 160px !important;
+    height: 160px !important;
+  }
+
+  /* Tabla con menos altura */
+  table {
+    font-size: 0.875rem !important;
+  }
+
+  th {
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  td {
+    padding: 1rem 0.5rem !important;
+  }
+
+  /* Cards con menos padding */
+  .p-4.sm\:p-5 {
+    padding: 1rem !important;
+  }
+
+  .p-4.sm\:p-6 {
+    padding: 1rem !important;
+  }
+
+  .p-4.sm\:p-6.lg\:p-8 {
+    padding: 1rem !important;
+  }
+
+  /* Gaps más reducidos */
+  .gap-4.sm\:gap-6 {
+    gap: 1rem !important;
+  }
+
+  /* Espaciado entre filas del grid */
+  .grid.grid-cols-1.lg\:grid-cols-3.gap-4.sm\:gap-6.mb-6.sm\:mb-8 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .grid.grid-cols-1.md\:grid-cols-3.gap-4.sm\:gap-6.mb-6.sm\:mb-8 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .grid.grid-cols-1.lg\:grid-cols-3.gap-4.sm\:gap-6 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Mantener la separación de Agentes Creados */
+  .bg-white.rounded-xl.sm\:rounded-\[2rem\].p-4.sm\:p-6.lg\:p-8.col-span-1.lg\:col-span-2.lg\:mr-6.lg\:-mt-20 {
+    margin-top: -5rem !important;
+  }
+
+  /* Overflow para tablas */
+  .overflow-x-auto {
+    overflow-x: hidden !important;
+  }
+
+  /* Redondez de cards */
+  .rounded-xl.sm\:rounded-\[2rem\],
+  .rounded-\[2rem\] {
+    border-radius: 1rem !important;
+  }
+
+  /* Ajuste de grosor de barra y marcador en laptops */
+  .metrics-progress-bg,
+  .latency-arc,
+  .duration-arc {
+    stroke-width: 52 !important;
+  }
+
+  .latency-marker-outer {
+    r: 24;
+    stroke-width: 10;
+  }
+  .latency-marker-inner {
+    r: 10;
+    stroke-width: 3;
+  }
+  .duration-marker-outer {
+    r: 24;
+    stroke-width: 10;
+  }
+  .duration-marker-inner {
+    r: 10;
+    stroke-width: 3;
+  }
+}
+

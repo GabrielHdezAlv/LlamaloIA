@@ -632,6 +632,11 @@
   select.dark\:border-slate-600 {
     border-color: #3a3a3a !important; // gray-800 (igual que dark:border-gray-800 del recuadro)
   }
+
+  // Borde inferior del bloque de instrucciones (footer del textarea)
+  .instructions-footer {
+    border-color: #3a3a3a !important;
+  }
   
   // Inputs con placeholder
   input::placeholder,
@@ -1020,6 +1025,7 @@
   :host > div > div.dark\:bg-slate-900 textarea {
     min-height: 3.5rem !important; // Reducir altura mínima
   }
+
   
   // Centrar verticalmente el contenido de la sección "Tipo de Llamadas"
   // Solo aplicar cuando el contenedor tiene justify-center (Tipo de Llamadas)
@@ -1108,8 +1114,13 @@
 
 // Estilos para el botón "Generar con IA" con borde animado (técnica del tutorial)
 .ai-generate-btn {
-  position: absolute !important;
+  position: relative;
   overflow: visible;
+  background: #e5e7eb; /* gray-200 en modo claro */
+}
+
+/* Mantener fondo oscuro original solo en modo dark */
+:host-context(html.dark) .ai-generate-btn {
   background: black;
 }
 

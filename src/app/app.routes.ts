@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { AdminGuard } from './core/guards/admin.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { AgentsComponent } from './pages/agents/agents.component';
 import { AuthFormComponent } from './auth/auth-form/auth-form.component';
@@ -11,6 +12,11 @@ import { HistorialComponent } from './pages/historial/historial.component';
 import { MetricsComponent } from './pages/metrics/metrics.component';
 import { AccountComponent } from './pages/account/account.component';
 import { CompanySetupComponent } from './pages/company-setup/company-setup.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
+import { AdminMetricsComponent } from './pages/admin-metrics/admin-metrics.component';
+import { AdminTokensComponent } from './pages/admin-tokens/admin-tokens.component';
+import { AdminGastoComponent } from './pages/admin-gasto/admin-gasto.component';
 
 
 export const routes: Routes = [
@@ -87,6 +93,22 @@ export const routes: Routes = [
     path: 'company-setup',
     component: CompanySetupComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin',
+    component: AdminDashboardComponent,
+    canActivate: [AdminGuard],
+    children: [
+      { path: '', component: AdminHomeComponent },
+      { path: 'home', component: AdminHomeComponent },
+      { path: 'metrics', component: AdminMetricsComponent },
+      { path: 'tokens', component: AdminTokensComponent },
+      { path: 'gasto', component: AdminGastoComponent },
+      // Aquí puedes agregar más rutas de admin en el futuro
+      // { path: 'users', component: AdminUsersComponent },
+      // { path: 'analytics', component: AdminAnalyticsComponent },
+      // { path: 'settings', component: AdminSettingsComponent },
+    ],
   },
   { path: '**', redirectTo: 'login' },
 ];

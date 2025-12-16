@@ -17,6 +17,8 @@ export class TopbarComponent implements OnInit {
   pageTitle: string = 'Inicio';
   // Texto de bienvenida que se mostrará solo en la Home
   welcomeText: string = '';
+  // Subtítulo/descripción de la página
+  pageSubtitle: string = '';
 
   private router = inject(Router);
   public userStorage = inject(UserStorage);
@@ -149,31 +151,56 @@ export class TopbarComponent implements OnInit {
     const url = this.router.url;
     const t = this.i18nService.getTranslations();
 
-    if (url === '/dashboard/agents/create') {
+    // Rutas de admin
+    if (url.startsWith('/admin/tokens')) {
+      this.pageTitle = 'Tokens de Servicios';
+      this.welcomeText = '';
+      this.pageSubtitle = 'Gestiona y visualiza los tokens de API de los servicios integrados';
+    } else if (url.startsWith('/admin/gasto')) {
+      this.pageTitle = 'Gasto de Servicios';
+      this.welcomeText = '';
+      this.pageSubtitle = 'Gestiona y visualiza el gasto de los servicios integrados';
+    } else if (url.startsWith('/admin/metrics')) {
+      this.pageTitle = 'Métricas';
+      this.welcomeText = '';
+      this.pageSubtitle = '';
+    } else if (url.startsWith('/admin/home') || url === '/admin') {
+      this.pageTitle = 'Información General';
+      this.welcomeText = '';
+      this.pageSubtitle = 'Vista general del sistema y métricas administrativas';
+    } else if (url === '/dashboard/agents/create') {
       this.pageTitle = t.createAgent;
       this.welcomeText = '';
+      this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/agents')) {
       this.pageTitle = t.agents;
       this.welcomeText = '';
+      this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/numbers')) {
       this.pageTitle = t.numbers;
       this.welcomeText = '';
+      this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/history')) {
       this.pageTitle = t.history;
       this.welcomeText = '';
+      this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/metrics')) {
       this.pageTitle = t.metrics;
       this.welcomeText = '';
+      this.pageSubtitle = '';
     } else if (url === '/dashboard/profile') {
       // No hay clave específica de perfil; usar ajustes como equivalente
       this.pageTitle = t.settings;
       this.welcomeText = '';
+      this.pageSubtitle = '';
     } else if (url === '/dashboard/account') {
       this.pageTitle = t.settings;
       this.welcomeText = '';
+      this.pageSubtitle = '';
     } else {
       // Home
       this.pageTitle = t.home;
+      this.pageSubtitle = '';
       const user = this.userStorage.user();
       if (user) {
         this.welcomeText = `Bienvenido, ${user.name} ${user.lastname} 👋`;

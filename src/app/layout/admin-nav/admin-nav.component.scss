@@ -1,0 +1,8 @@
+// Estilos similares al nav normal pero para admin
+.sidebar-collapsed {
+  .transition-opacity {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+

@@ -1,0 +1,387 @@
+<!-- Dashboard Administrativo -->
+<div class="min-h-screen bg-gray-100 dark:bg-gray-800 p-6 xl:p-8">
+  <!-- Tarjeta de Resumen -->
+  <div
+    class="bg-white rounded-[2rem] shadow-sm p-6 2xl:p-6 mr-24 mt-6 2xl:mt-6 ml-28 max-lg:p-5 max-lg:mr-4 max-lg:mt-4 max-lg:ml-4 border border-gray-100 dark:bg-slate-900 dark:border-slate-800"
+  >
+    <div class="flex justify-between items-center mb-7 max-lg:flex-col max-lg:items-start max-lg:gap-4">
+      <h2 class="text-xl font-semibold text-gray-800 dark:text-slate-50">
+        Métricas del Sistema
+      </h2>
+      <div class="flex space-x-3">
+        <button
+          (click)="setRange('1D')"
+          [class]="selectedRange === '1D' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'"
+        >
+          1D
+        </button>
+        <button
+          (click)="setRange('7D')"
+          [class]="selectedRange === '7D' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'"
+        >
+          7D
+        </button>
+        <button
+          (click)="setRange('1M')"
+          [class]="selectedRange === '1M' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'"
+        >
+          1M
+        </button>
+        <button
+          (click)="setRange('6M')"
+          [class]="selectedRange === '6M' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'"
+        >
+          6M
+        </button>
+        <button
+          (click)="setRange('1A')"
+          [class]="selectedRange === '1A' ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center' : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800'"
+        >
+          1A
+        </button>
+      </div>
+    </div>
+
+    <!-- Grid de métricas -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- Total de Usuarios -->
+      <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
+        <div class="mb-3">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-gray-900 dark:text-white">
+            <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">
+          Total de Usuarios
+        </h3>
+        <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+          {{ formatNumber(metrics.totalUsers) }}
+        </p>
+        <p class="text-xs text-green-600 dark:text-green-400">
+          + {{ changes.totalUsers }}% vs período anterior
+        </p>
+      </div>
+
+      <!-- Usuarios Activos -->
+      <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
+        <div class="mb-3">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-gray-900 dark:text-white">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">
+          Usuarios Activos
+        </h3>
+        <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+          {{ formatNumber(metrics.activeUsers) }}
+        </p>
+        <p class="text-xs text-green-600 dark:text-green-400">
+          + {{ changes.activeUsers }}% vs período anterior
+        </p>
+      </div>
+
+      <!-- Ingresos Totales -->
+      <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
+        <div class="mb-3">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-gray-900 dark:text-white">
+            <path d="M11.8 10.9C9.53 10.31 8.8 9.7 8.8 8.75C8.8 7.66 9.81 6.9 11.5 6.9C13.28 6.9 13.94 7.75 14 9H16.21C16.14 7.28 15.09 5.7 13 5.19V3H10V5.16C8.06 5.58 6.5 6.84 6.5 8.77C6.5 11.08 8.41 12.23 11.2 12.9C13.7 13.5 14.2 14.38 14.2 15.31C14.2 16 13.71 17.1 11.5 17.1C9.44 17.1 8.63 16.18 8.5 15H6.32C6.44 17.22 8.22 18.84 10 19.19V21H13V19.15C14.95 18.73 16.5 17.45 16.5 15.47C16.5 12.96 14.47 11.69 11.8 10.9Z" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">
+          Ingresos Totales
+        </h3>
+        <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+          {{ formatCurrency(metrics.totalRevenue) }}
+        </p>
+        <p class="text-xs text-green-600 dark:text-green-400">
+          + {{ changes.totalRevenue }}% vs período anterior
+        </p>
+      </div>
+
+      <!-- Llamadas Totales -->
+      <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
+        <div class="mb-3">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-gray-900 dark:text-white">
+            <path d="M6.62 10.79C8.06 13.62 10.38 15.94 13.21 17.38L15.41 15.18C15.69 14.9 16.08 14.82 16.43 14.93C17.55 15.3 18.75 15.5 20 15.5C20.55 15.5 21 15.95 21 16.5V20C21 20.55 20.55 21 20 21C10.61 21 3 13.39 3 4C3 3.45 3.45 3 4 3H7.5C8.05 3 8.5 3.45 8.5 4C8.5 5.25 8.7 6.45 9.07 7.57C9.18 7.92 9.1 8.31 8.82 8.59L6.62 10.79Z" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">
+          Llamadas Totales
+        </h3>
+        <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+          {{ formatNumber(metrics.totalCalls) }}
+        </p>
+        <p class="text-xs text-green-600 dark:text-green-400">
+          + {{ changes.totalCalls }}% vs período anterior
+        </p>
+      </div>
+
+      <!-- Agentes Totales -->
+      <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
+        <div class="mb-3">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-gray-900 dark:text-white">
+            <path d="M16 11C17.66 11 18.99 9.66 18.99 8C18.99 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM8 11C9.66 11 10.99 9.66 10.99 8C10.99 6.34 9.66 5 8 5C6.34 5 5 6.34 5 8C5 9.66 6.34 11 8 11ZM8 13C5.67 13 1 14.17 1 16.5V19H15V16.5C15 14.17 10.33 13 8 13ZM16 13C15.71 13 15.38 13.02 15.03 13.05C16.19 13.89 17 15 17 16.5V19H23V16.5C23 14.17 18.33 13 16 13Z" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">
+          Agentes Totales
+        </h3>
+        <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+          {{ formatNumber(metrics.totalAgents) }}
+        </p>
+        <p class="text-xs text-green-600 dark:text-green-400">
+          + {{ changes.totalAgents }}% vs período anterior
+        </p>
+      </div>
+
+      <!-- Minutos Totales -->
+      <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
+        <div class="mb-3">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-gray-900 dark:text-white">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V11H13V17ZM13 9H11V7H13V9Z" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">
+          Minutos Totales
+        </h3>
+        <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+          {{ formatNumber(metrics.totalMinutes) }}
+        </p>
+        <p class="text-xs text-green-600 dark:text-green-400">
+          + {{ changes.totalMinutes }}% vs período anterior
+        </p>
+      </div>
+
+      <!-- Nuevos Usuarios Este Mes -->
+      <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
+        <div class="mb-3">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-gray-900 dark:text-white">
+            <path d="M16 11C17.66 11 18.99 9.66 18.99 8C18.99 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM8 11C9.66 11 10.99 9.66 10.99 8C10.99 6.34 9.66 5 8 5C6.34 5 5 6.34 5 8C5 9.66 6.34 11 8 11ZM8 13C5.67 13 1 14.17 1 16.5V19H15V16.5C15 14.17 10.33 13 8 13ZM16 13C15.71 13 15.38 13.02 15.03 13.05C16.19 13.89 17 15 17 16.5V19H23V16.5C23 14.17 18.33 13 16 13ZM19 3V5H21V7H19V9H17V7H15V5H17V3H19Z" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">
+          Nuevos Usuarios (Mes)
+        </h3>
+        <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+          {{ formatNumber(metrics.newUsersThisMonth) }}
+        </p>
+        <p class="text-xs text-green-600 dark:text-green-400">
+          + {{ changes.newUsersThisMonth }}% vs mes anterior
+        </p>
+      </div>
+
+      <!-- Uptime del Sistema -->
+      <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
+        <div class="mb-3">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-gray-900 dark:text-white">
+            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" />
+          </svg>
+        </div>
+        <h3 class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">
+          Uptime del Sistema
+        </h3>
+        <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+          {{ metrics.systemUptime }}%
+        </p>
+        <p class="text-xs text-green-600 dark:text-green-400">
+          + {{ changes.systemUptime }}% vs período anterior
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección inferior: Gráficos y Tablas -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8 mr-24 ml-28 max-lg:mr-4 max-lg:ml-4">
+    <!-- Llamadas por día - Area Chart Interactivo -->
+    <div class="bg-white rounded-[2rem] shadow-sm p-6 border border-gray-100 dark:bg-slate-900 dark:border-slate-800">
+      <div class="mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+          <div>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-slate-50 mb-2">Llamadas por Día</h3>
+            <p class="text-sm text-gray-500 dark:text-slate-400">
+              {{ periodText }}
+            </p>
+          </div>
+          
+          <!-- Botones de selección de período -->
+          <div class="flex gap-2 relative">
+            <button
+              (click)="setPeriod('7d')"
+              [class]="selectedPeriod === '7d' 
+                ? 'px-4 py-2 text-sm font-semibold bg-blue-600 text-white rounded-lg transition-colors' 
+                : 'px-4 py-2 text-sm font-semibold bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors'"
+            >
+              7 días
+            </button>
+            <button
+              (click)="setPeriod('30d')"
+              [class]="selectedPeriod === '30d' 
+                ? 'px-4 py-2 text-sm font-semibold bg-blue-600 text-white rounded-lg transition-colors' 
+                : 'px-4 py-2 text-sm font-semibold bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors'"
+            >
+              30 días
+            </button>
+            <div class="relative month-year-picker-container">
+              <button
+                (click)="setPeriod('month')"
+                [class]="selectedPeriod === 'month' 
+                  ? 'px-4 py-2 text-sm font-semibold bg-blue-600 text-white rounded-lg transition-colors' 
+                  : 'px-4 py-2 text-sm font-semibold bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors'"
+              >
+                Mes
+              </button>
+              
+              <!-- Selector de Mes y Año -->
+              <div 
+                *ngIf="showMonthYearPicker && selectedPeriod === 'month'"
+                class="absolute right-0 mt-2 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 p-4 z-50 min-w-[320px] max-h-[400px] overflow-y-auto"
+                (click)="$event.stopPropagation()"
+              >
+                <!-- Header con botón cerrar -->
+                <div class="flex items-center justify-between mb-4">
+                  <h4 class="text-sm font-semibold text-gray-800 dark:text-slate-200">Seleccionar Período</h4>
+                  <button
+                    (click)="closeMonthYearPicker()"
+                    class="text-gray-400 hover:text-gray-600 dark:hover:text-slate-300 transition-colors"
+                  >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                
+                <!-- Selector de Año -->
+                <div class="mb-4">
+                  <label class="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-2">Año</label>
+                  <div class="flex flex-wrap gap-2">
+                    <button
+                      *ngFor="let year of availableYears"
+                      (click)="selectYear(year)"
+                      [class]="selectedYear === year
+                        ? 'px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-md transition-colors'
+                        : 'px-3 py-1.5 text-xs font-semibold bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-300 rounded-md hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors'"
+                    >
+                      {{ year }}
+                    </button>
+                  </div>
+                </div>
+                
+                <!-- Selector de Mes -->
+                <div>
+                  <label class="block text-xs font-semibold text-gray-700 dark:text-slate-300 mb-2">Mes</label>
+                  <div class="grid grid-cols-4 gap-2">
+                    <button
+                      *ngFor="let monthShort of monthsShort; let i = index"
+                      (click)="selectMonth(i)"
+                      [class]="selectedMonth === i
+                        ? 'px-3 py-2 text-xs font-semibold bg-blue-600 text-white rounded-md transition-colors text-center'
+                        : 'px-3 py-2 text-xs font-semibold bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-300 rounded-md hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors text-center'"
+                      [title]="months[i]"
+                    >
+                      {{ monthShort }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="w-full relative h-80 chart-container" style="overflow: hidden; touch-action: pan-x pan-y;">
+        <apx-chart
+          [series]="callsAreaSeries"
+          [chart]="callsAreaChart"
+          [dataLabels]="callsAreaDataLabels"
+          [stroke]="callsAreaStroke"
+          [grid]="callsAreaGrid"
+          [xaxis]="callsAreaXAxis"
+          [yaxis]="callsAreaYAxis"
+          [colors]="callsAreaColors"
+          [fill]="callsAreaFill"
+          [tooltip]="callsAreaTooltip"
+          style="pointer-events: auto;"
+        ></apx-chart>
+      </div>
+      
+      <!-- Resumen estadístico -->
+      <div class="mt-6 pt-6 border-t border-gray-200 dark:border-slate-700">
+        <div class="grid grid-cols-3 gap-4">
+          <div class="text-center">
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">
+              {{ totalCalls }}
+            </p>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mt-1">Total</p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">
+              {{ averageCalls }}
+            </p>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mt-1">Promedio</p>
+          </div>
+          <div class="text-center">
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">
+              {{ maxCalls }}
+            </p>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mt-1">Máximo</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Usuarios -->
+    <div class="bg-white rounded-[2rem] shadow-sm p-6 border border-gray-100 dark:bg-slate-900 dark:border-slate-800">
+      <div class="mb-5">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-slate-50">Top 5 Usuarios</h3>
+        <p class="text-xs text-gray-500 dark:text-slate-400 mt-1">Por número de llamadas</p>
+      </div>
+      
+      <div class="space-y-2.5">
+        <div 
+          *ngFor="let user of topUsers" 
+          class="flex items-center gap-3.5 p-3.5 bg-gray-50 dark:bg-slate-800/50 rounded-lg border border-gray-100 dark:border-slate-700/50 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+        >
+          <!-- Badge de ranking -->
+          <div class="flex-shrink-0">
+            <div 
+              [class]="user.rank === 1 ? 'bg-gradient-to-br from-amber-400 to-amber-600' : user.rank === 2 ? 'bg-gradient-to-br from-slate-300 to-slate-500' : user.rank === 3 ? 'bg-gradient-to-br from-orange-400 to-orange-600' : 'bg-slate-200 dark:bg-slate-700'"
+              class="w-8 h-8 rounded-lg flex items-center justify-center"
+            >
+              <span class="text-xs font-bold text-white">{{ user.rank }}</span>
+            </div>
+          </div>
+
+          <!-- Foto de perfil -->
+          <div class="relative flex-shrink-0">
+            <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-200 dark:bg-slate-700 border border-gray-200 dark:border-slate-600">
+              <img 
+                [src]="user.image" 
+                [alt]="user.name"
+                class="w-full h-full object-cover"
+                onerror="this.src='assets/predeterminada.webp'"
+              />
+            </div>
+            <div 
+              [class]="user.status === 'Activo' ? 'bg-emerald-500' : 'bg-slate-400'"
+              class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white dark:border-slate-900"
+            ></div>
+          </div>
+
+          <!-- Información del usuario -->
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-gray-900 dark:text-slate-50 truncate">{{ user.name }}</p>
+            <p class="text-xs text-gray-500 dark:text-slate-400 truncate mt-0.5">{{ user.empresa }}</p>
+          </div>
+
+          <!-- Métricas -->
+          <div class="flex items-center gap-3 flex-shrink-0">
+            <span class="text-base font-bold text-gray-900 dark:text-slate-50">{{ formatNumber(user.calls) }} llamadas</span>
+            <span class="text-gray-300 dark:text-slate-600">|</span>
+            <span class="text-base font-bold text-gray-900 dark:text-slate-50">{{ formatNumber(user.minutes) }} min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
