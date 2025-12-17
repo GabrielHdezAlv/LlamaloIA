@@ -1,6 +1,6 @@
-<div class="min-h-screen flex flex-col py-3 px-3 sm:py-8 sm:px-6 md:py-10 md:px-8 lg:py-12 lg:ml-28 lg:mr-[5.5rem] lg:mt-8">
+<div class="min-h-screen flex flex-col pt-2 pb-3 px-3 sm:pt-3 sm:pb-8 sm:px-6 md:pt-4 md:pb-10 md:px-8 lg:pt-5 lg:pb-12 lg:px-8 lg:ml-28 lg:mr-[5.5rem] lg:mt-8">
   <!-- Barra de progreso -->
-  <div class="w-full mb-2 sm:mb-4 md:mb-6 lg:mb-8">
+  <div class="w-full mb-3 sm:mb-4 md:mb-5 lg:mb-6">
     <div class="h-1.5 sm:h-3 md:h-4 w-full bg-gray-300 rounded-full overflow-hidden">
       <div 
         class="h-full bg-blue-950 transition-all duration-300"
@@ -11,16 +11,16 @@
         [class.w-[50vh]]="step === 'instructions'"
         [class.w-[60vh]]="step === 'actions'"
         [class.w-[70vh]]="step === 'knowledgeBase'"
-        [class.w-[80vh]]="step === 'summary'"
-        [class.w-[90vh]]="step === 'connectPhone'"
-        [class.w-[100vh]]="step === 'advancedSettings' || step === 'final'"
+        [class.w-[80vh]]="step === 'advancedSettings'"
+        [class.w-[90vh]]="step === 'summary'"
+        [class.w-[100vh]]="step === 'connectPhone' || step === 'final'"
         [class.w-full]="step === 'success'"
       ></div>
     </div>
   </div>
 
   @if (step === 'agentName') {
-    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] flex flex-col relative">
       <div class="flex-1 flex flex-col justify-center overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
         <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-3 sm:mb-6 md:mb-8 lg:mb-10 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Nombre del Agente</h2>
         <p class="text-center text-xs sm:text-sm md:text-base text-black dark:text-slate-200 mb-3 sm:mb-6 md:mb-8 max-w-2xl mx-auto tracking-[-0.3px] sm:tracking-[-0.5px] md:tracking-[-1px] px-2 sm:px-4">
@@ -70,7 +70,7 @@
     </div>
   }
   @if (step === 'callType') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] flex flex-col relative">
       <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
         <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-4 sm:mb-8 md:mb-12 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Tipo de Llamadas</h2>
 
@@ -108,7 +108,7 @@
   <!-- Pagina: 2 -->
   @if (step === 'language') {
     <!-- Pantalla 2: Idioma -->
-    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] flex flex-col relative">
       <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
       <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-4 sm:mb-8 md:mb-12 lg:mb-16 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Idioma</h2>
 
@@ -199,7 +199,7 @@
   }
     @if (step === 'voices') {
       <!-- Pantalla 3: Voces -->
-      <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+      <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] flex flex-col relative">
         <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
         <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-3 sm:mb-6 md:mb-8 lg:mb-12 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Voces</h2>
     
@@ -496,7 +496,7 @@
 
     @if (step === 'instructions') {
       <!-- Pantalla 4: Instrucciones -->
-      <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+      <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] flex flex-col relative">
       <div class="flex-1 overflow-y-auto scrollbar-width:none scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
       <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-1 md:mb-1 lg:mb-1 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">
         Instrucciones
@@ -543,16 +543,16 @@
       </div>
 
       <!-- Textarea para instrucciones -->
-      <div class="mb-4 sm:mb-8 md:mb-12 px-2 sm:px-4 md:px-0 flex flex-col">
+      <div class="mb-4 sm:mb-8 md:mb-12 px-2 sm:px-4 md:px-0 flex flex-col relative">
         <!-- Textarea -->
         <textarea
           [(ngModel)]="instructions"
           placeholder="Escribe aquí..."
-          class="w-full px-2.5 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 rounded-t-lg sm:rounded-t-[1rem] rounded-b-none border-b-0 focus:outline-none focus:ring-0 dark:focus:ring-0 h-28 sm:h-32 md:h-40 lg:h-48 resize-none text-xs sm:text-sm dark:text-slate-200 instructions-scroll"
+          class="w-full px-2.5 sm:px-3 md:px-4 py-2 sm:py-2.5 md:py-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 rounded-lg sm:rounded-[1rem] focus:outline-none focus:ring-0 dark:focus:ring-0 h-28 sm:h-32 md:h-40 lg:h-48 resize-none text-xs sm:text-sm dark:text-slate-200 instructions-scroll"
         ></textarea>
         
-        <!-- Footer con botón Generar con IA -->
-        <div class="border-x border-x-gray-300 dark:border-x-slate-600 border-b border-b-gray-300 dark:border-b-slate-600 rounded-b-lg sm:rounded-b-[1rem] bg-white dark:bg-slate-800 px-3 py-2 flex justify-end instructions-footer">
+        <!-- Botón Generar con IA en esquina inferior derecha -->
+        <div class="absolute bottom-2 sm:bottom-2.5 md:bottom-3 right-3 sm:right-4 md:right-5 z-10">
           <button
             type="button"
             (click)="openGeneratePromptModal()"
@@ -598,7 +598,7 @@
 
   @if (step === 'actions') {
     <!-- Pantalla 5: Añadir Acciones -->
-    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] flex flex-col relative">
       <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
       <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-2 sm:mb-3 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Añadir Acciones</h2>
   
@@ -606,82 +606,30 @@
         Define las acciones que puede realizar tu agente
       </p>
   
-      <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-2 sm:px-4 md:px-0 mb-3 sm:mb-4">
+      <div class="max-w-xl mx-auto grid grid-cols-2 gap-4 sm:gap-5 md:gap-6 px-2 sm:px-4 md:px-0 mb-3 sm:mb-4">
         <!-- Shopify -->
         <button
           (click)="selectAction('shopify')"
-          class="creative-action-card group relative overflow-hidden rounded-3xl p-8 sm:p-10 border-2 border-green-300 dark:border-green-800/30 hover:border-green-500 dark:hover:border-green-600 hover:shadow-2xl hover:shadow-green-500/40 dark:hover:shadow-green-500/30 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 shadow-md dark:shadow-none  dark:bg-[#022901]"
-          [ngClass]="{'dark:bg-gradient-to-br dark:from-green-950/30 dark:via-emerald-950/20 dark:to-teal-950/30': true}"
+          class="w-full h-[300px] sm:h-[360px] md:h-[420px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-green-500/30 dark:hover:border-green-500/30"
         >
-          <!-- Patrón decorativo de fondo animado -->
-          <div class="absolute inset-0 opacity-10 dark:opacity-5 overflow-hidden">
-            <div class="absolute top-0 left-0 w-40 h-40 bg-green-400 dark:bg-green-500 rounded-full blur-3xl animate-pulse-slow"></div>
-            <div class="absolute bottom-0 right-0 w-32 h-32 bg-emerald-300 dark:bg-emerald-400 rounded-full blur-2xl animate-pulse-slow" style="animation-delay: 1s;"></div>
-            <div class="absolute top-1/2 left-1/2 w-24 h-24 bg-teal-200 dark:bg-teal-300 rounded-full blur-xl opacity-50 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
+          <div class="mb-4 sm:mb-6">
+            <img src="assets/shopify.png" alt="Shopify" class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain" />
           </div>
-          
-          <!-- Línea decorativa superior -->
-          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          
-          <!-- Contenido -->
-          <div class="relative z-10">
-            <div class="flex items-center justify-center mb-8">
-              <div class="relative">
-                <div class="absolute -inset-4 bg-green-500/30 dark:bg-green-500/20 rounded-2xl blur-xl group-hover:bg-green-500/50 dark:group-hover:bg-green-500/40 group-hover:blur-2xl transition-all duration-500"></div>
-                <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-xl dark:shadow-lg group-hover:shadow-green-500/60 dark:group-hover:shadow-green-500/50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border-2 border-green-300 dark:border-green-900/50 group-hover:border-green-500 dark:group-hover:border-green-400">
-                  <img src="assets/shopify.png" alt="Shopify" class="w-12 h-12 sm:w-14 sm:h-14 object-contain group-hover:scale-110 transition-transform duration-500" />
-                </div>
-              </div>
-            </div>
-            
-            <h3 class="text-2xl sm:text-3xl font-bold text-green-800 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300 tracking-tight">Shopify</h3>
-            <p class="text-sm sm:text-base text-green-700 dark:text-slate-300 leading-relaxed mb-6">Conecta tu tienda online y automatiza la gestión de pedidos, inventario y clientes de forma inteligente.</p>
-            
-            <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-green-400 dark:text-green-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500">
-              <span>Conectar ahora</span>
-              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </div>
+          <div class="absolute bottom-0 left-0 right-0 p-2.5 sm:p-4">
+            <h3 class="text-gray-900 dark:text-white font-semibold text-base sm:text-lg md:text-xl text-center tracking-[-2px]">Shopify</h3>
           </div>
         </button>
   
         <!-- Make -->
         <button
           (click)="selectAction('make')"
-          class="creative-action-card group relative overflow-hidden rounded-3xl p-8 sm:p-10 border-2 border-purple-300 dark:border-purple-800/30 hover:border-purple-500 dark:hover:border-purple-600 hover:shadow-2xl hover:shadow-purple-500/40 dark:hover:shadow-purple-500/30 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1 shadow-md dark:shadow-none  dark:bg-[#11061f]"
-          [ngClass]="{'dark:bg-gradient-to-br dark:from-purple-950/30 dark:via-fuchsia-950/20 dark:to-pink-950/30': true}"
+          class="w-full h-[300px] sm:h-[360px] md:h-[420px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-pink-500/30 dark:hover:border-pink-500/30"
         >
-          <!-- Patrón decorativo de fondo animado -->
-          <div class="absolute inset-0 opacity-15 dark:opacity-5 overflow-hidden">
-            <div class="absolute top-0 right-0 w-40 h-40 bg-purple-300 dark:bg-purple-400 rounded-full blur-3xl animate-pulse-slow"></div>
-            <div class="absolute bottom-0 left-0 w-32 h-32 bg-fuchsia-200 dark:bg-fuchsia-300 rounded-full blur-2xl animate-pulse-slow" style="animation-delay: 1s;"></div>
-            <div class="absolute top-1/2 left-1/2 w-24 h-24 bg-pink-100 dark:bg-pink-200 rounded-full blur-xl opacity-70 animate-pulse-slow" style="animation-delay: 0.5s;"></div>
+          <div class="mb-4 sm:mb-6">
+            <img src="assets/make.png" alt="Make" class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain" />
           </div>
-          
-          <!-- Línea decorativa superior -->
-          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          
-          <!-- Contenido -->
-          <div class="relative z-10">
-            <div class="flex items-center justify-center mb-8">
-              <div class="relative">
-                <div class="absolute -inset-4 bg-purple-500/30 dark:bg-purple-500/20 rounded-2xl blur-xl group-hover:bg-purple-500/50 dark:group-hover:bg-purple-500/40 group-hover:blur-2xl transition-all duration-500"></div>
-                <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-xl dark:shadow-lg group-hover:shadow-purple-500/60 dark:group-hover:shadow-purple-500/50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border-2 border-purple-300 dark:border-purple-900/50 group-hover:border-purple-500 dark:group-hover:border-purple-400">
-                  <img src="assets/make.png" alt="Make" class="w-12 h-12 sm:w-14 sm:h-14 object-contain group-hover:scale-110 transition-transform duration-500" />
-                </div>
-              </div>
-            </div>
-            
-            <h3 class="text-2xl sm:text-3xl font-bold text-purple-800 dark:text-white mb-3 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300 tracking-tight">Make</h3>
-            <p class="text-sm sm:text-base text-purple-700 dark:text-slate-300 leading-relaxed mb-6">Automatiza procesos complejos conectando múltiples aplicaciones y servicios en flujos de trabajo inteligentes.</p>
-            
-            <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-purple-400 dark:text-purple-400 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-500">
-              <span>Conectar ahora</span>
-              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </div>
+          <div class="absolute bottom-0 left-0 right-0 p-2.5 sm:p-4">
+            <h3 class="text-gray-900 dark:text-white font-semibold text-base sm:text-lg md:text-xl text-center tracking-[-2px]">Make</h3>
           </div>
         </button>
       </div>
@@ -712,7 +660,7 @@
 
   @if (step === 'knowledgeBase') {
   <!-- Pantalla 6: Base de Conocimientos -->
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-12 lg:p-20 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-12 lg:p-20 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] flex flex-col relative">
     <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
     <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 mb-2 sm:mb-3 tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] lg:tracking-[-3px]">Base de Conocimientos</h2>
 
@@ -767,7 +715,7 @@
         </button>
 
       <button
-        (click)="step = 'summary'"
+        (click)="step = 'advancedSettings'"
         class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm flex items-center p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
         style="font-family: 'Poppins', sans-serif;"
       >
@@ -780,7 +728,7 @@
   </div>
 }
 @if (step === 'summary') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] flex flex-col relative">
     <div class="flex-1 overflow-y-auto scrollbar-hide flex flex-col justify-center" style="scrollbar-width: none; -ms-overflow-style: none;">
     <!-- Título y descripción completamente fijos - posicionamiento absoluto -->
     <div class="absolute top-0 left-0 right-0 z-10 pt-8 sm:pt-12 md:pt-16">
@@ -898,7 +846,7 @@
 }
 
 @if (step === 'connectPhone') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] flex flex-col relative">
     <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
     <!-- Título principal -->
     <h2 class="text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-center text-blue-950 dark:text-white tracking-[-0.8px] sm:tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-2.5px] px-2 sm:px-3 md:px-4">
@@ -927,39 +875,39 @@
     </div>
 
     <!-- Contenido principal: Formulario centrado -->
-    <div class="max-w-3xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 mt-8 sm:mt-10">
-        <form class="space-y-8">
+    <div class="max-w-2xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 mt-4 sm:mt-6">
+        <form class="space-y-4 sm:space-y-5">
         <!-- Número de teléfono -->
-        <div class="space-y-2">
-          <label for="phone" class="block text-base font-semibold text-gray-900 dark:text-slate-100">
+        <div class="space-y-1.5">
+          <label for="phone" class="block text-sm font-semibold text-gray-900 dark:text-slate-100">
             Número de teléfono <span class="text-red-500 ml-1">*</span>
           </label>
           <div class="flex items-center relative">
             <!-- Dropdown personalizado -->
-            <div (click)="toggleCountryMenu()" class="w-32 h-14 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 border-r-0 rounded-l-xl px-4 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
-              <div class="flex items-center gap-2.5">
-                <svg id="current-flag" width="22" height="14" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 rounded-sm">
+            <div (click)="toggleCountryMenu()" class="w-28 h-11 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 border-r-0 rounded-l-lg px-3 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
+              <div class="flex items-center gap-2">
+                <svg id="current-flag" width="18" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 rounded-sm">
                   <rect width="20" height="12" fill="#C60B1E"/>
                   <rect y="3" width="20" height="6" fill="#FFC400"/>
                 </svg>
-                <span class="text-sm font-medium text-gray-800 dark:text-slate-200">{{selectedCountryCode}}</span>
+                <span class="text-xs font-medium text-gray-800 dark:text-slate-200">{{selectedCountryCode}}</span>
               </div>
-              <svg class="w-4 h-4 text-gray-500 dark:text-slate-400 transition-transform" [class.rotate-180]="showCountryMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-3 h-3 text-gray-500 dark:text-slate-400 transition-transform" [class.rotate-180]="showCountryMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
               </svg>
             </div>
 
             <!-- Menú desplegable -->
-            <ul [class.hidden]="!showCountryMenu" class="absolute top-full left-0 mt-2 w-32 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 rounded-xl shadow-xl z-20 overflow-hidden">
-              <li (click)="selectCountry('es', '+34', '#C60B1E', '#FFC400')" class="flex items-center px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
-                <svg width="22" height="14" viewBox="0 0 20 12" class="mr-3 flex-shrink-0 rounded-sm">
+            <ul [class.hidden]="!showCountryMenu" class="absolute top-full left-0 mt-1 w-28 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 rounded-lg shadow-xl z-20 overflow-hidden">
+              <li (click)="selectCountry('es', '+34', '#C60B1E', '#FFC400')" class="flex items-center px-3 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-xs border-b border-gray-100 dark:border-slate-700 transition-colors">
+                <svg width="18" height="12" viewBox="0 0 20 12" class="mr-2 flex-shrink-0 rounded-sm">
                   <rect width="20" height="12" fill="#C60B1E"/>
                   <rect y="3" width="20" height="6" fill="#FFC400"/>
                 </svg>
                 <span class="font-medium text-gray-800 dark:text-slate-200">+34</span>
               </li>
-              <li (click)="selectCountry('us', '+1', '#00247D', '#FFF')" class="flex items-center px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
-                <svg width="22" height="14" viewBox="0 0 20 12" class="mr-3 flex-shrink-0 rounded-sm">
+              <li (click)="selectCountry('us', '+1', '#00247D', '#FFF')" class="flex items-center px-3 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-xs border-b border-gray-100 dark:border-slate-700 transition-colors">
+                <svg width="18" height="12" viewBox="0 0 20 12" class="mr-2 flex-shrink-0 rounded-sm">
                   <rect width="20" height="12" fill="#00247D"/>
                   <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2"/>
                   <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1"/>
@@ -970,16 +918,16 @@
                 </svg>
                 <span class="font-medium text-gray-800 dark:text-slate-200">+1</span>
               </li>
-              <li (click)="selectCountry('fr', '+33', '#0055A4', '#EF4135')" class="flex items-center px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
-                <svg width="22" height="14" viewBox="0 0 20 12" class="mr-3 flex-shrink-0 rounded-sm">
+              <li (click)="selectCountry('fr', '+33', '#0055A4', '#EF4135')" class="flex items-center px-3 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-xs border-b border-gray-100 dark:border-slate-700 transition-colors">
+                <svg width="18" height="12" viewBox="0 0 20 12" class="mr-2 flex-shrink-0 rounded-sm">
                   <rect width="20" height="12" fill="#fff"/>
                   <rect width="6.66" height="12" fill="#0055A4"/>
                   <rect x="13.33" width="6.67" height="12" fill="#EF4135"/>
                 </svg>
                 <span class="font-medium text-gray-800 dark:text-slate-200">+33</span>
               </li>
-              <li (click)="selectCountry('de', '+49', '#FFCE00', '#DD0000')" class="flex items-center px-4 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-sm transition-colors">
-                <svg width="22" height="14" viewBox="0 0 20 12" class="mr-3 flex-shrink-0 rounded-sm">
+              <li (click)="selectCountry('de', '+49', '#FFCE00', '#DD0000')" class="flex items-center px-3 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-xs transition-colors">
+                <svg width="18" height="12" viewBox="0 0 20 12" class="mr-2 flex-shrink-0 rounded-sm">
                   <rect width="20" height="12" fill="#FFCE00"/>
                   <rect y="6" width="20" height="6" fill="#DD0000"/>
                   <rect y="4" width="20" height="4" fill="#000"/>
@@ -993,69 +941,69 @@
               type="tel"
               id="phone"
               placeholder="630 00 00 00"
-              class="flex-1 h-14 px-5 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-r-xl rounded-l-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+              class="flex-1 h-11 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
             />
           </div>
         </div>
 
         <!-- Grid para SID y Token -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <!-- Cuenta Twilio SID -->
-          <div class="space-y-2">
-            <label for="sid" class="block text-base font-semibold text-gray-900 dark:text-slate-100">
+          <div class="space-y-1.5">
+            <label for="sid" class="block text-sm font-semibold text-gray-900 dark:text-slate-100">
               Account SID de Twilio <span class="text-red-500 ml-1">*</span>
             </label>
             <input
               type="text"
               id="sid"
               placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-              class="w-full h-14 px-5 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+              class="w-full h-11 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
             />
           </div>
 
           <!-- Twilio Auth Token -->
-          <div class="space-y-2">
-            <label for="token" class="block text-base font-semibold text-gray-900 dark:text-slate-100">
+          <div class="space-y-1.5">
+            <label for="token" class="block text-sm font-semibold text-gray-900 dark:text-slate-100">
               Auth Token de Twilio <span class="text-red-500 ml-1">*</span>
             </label>
             <input
               type="password"
               id="token"
               placeholder="Tu token de autenticación"
-              class="w-full h-14 px-5 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+              class="w-full h-11 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
             />
           </div>
         </div>
 
         <!-- Etiqueta -->
-        <div class="space-y-2">
-          <label for="label" class="block text-base font-semibold text-gray-900 dark:text-slate-100">
-            Etiqueta <span class="text-gray-500 dark:text-slate-400 text-sm font-normal ml-1">(opcional)</span>
+        <div class="space-y-1.5">
+          <label for="label" class="block text-sm font-semibold text-gray-900 dark:text-slate-100">
+            Etiqueta <span class="text-gray-500 dark:text-slate-400 text-xs font-normal ml-1">(opcional)</span>
           </label>
           <input
             type="text"
             id="label"
             placeholder="Ej: Oficina Principal, Ventas, etc."
-            class="w-full h-14 px-5 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+            class="w-full h-11 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
           />
         </div>
 
         <!-- Selección de número importado -->
-        <div class="space-y-2">
-          <label for="imported-number" class="block text-base font-semibold text-gray-900 dark:text-slate-100">
+        <div class="space-y-1.5">
+          <label for="imported-number" class="block text-sm font-semibold text-gray-900 dark:text-slate-100">
             Número importado
           </label>
           <div class="relative">
             <select
               id="imported-number"
-              class="w-full h-14 px-5 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base text-gray-900 dark:text-slate-100 appearance-none cursor-pointer transition-all shadow-sm font-medium"
+              class="w-full h-11 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-900 dark:text-slate-100 appearance-none cursor-pointer transition-all shadow-sm font-medium"
             >
               <option value="">Selecciona un número importado</option>
               <option value="1">+34 630 00 00 00</option>
               <option value="2">+1 555 123 4567</option>
             </select>
-            <span class="pointer-events-none absolute inset-y-0 right-5 flex items-center">
-              <svg width="18" height="18" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-500 dark:text-slate-400">
+            <span class="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+              <svg width="14" height="14" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-500 dark:text-slate-400">
                 <path d="M14.2907 0.55247C14.6817 0.178412 15.3156 0.178535 15.7067 0.55247C16.0978 0.926578 16.0977 1.53284 15.7067 1.90696L8.87857 8.43821C8.87539 8.44134 8.87302 8.44586 8.86979 8.44895C8.67399 8.63612 8.41735 8.72854 8.1608 8.72825C7.9686 8.7282 7.77658 8.67629 7.61002 8.57102C7.58234 8.5535 7.55511 8.53482 7.52897 8.51438C7.50278 8.49395 7.4772 8.4723 7.45279 8.44895C7.4498 8.44609 7.44695 8.44305 7.444 8.44017L0.61588 1.90696C0.225121 1.53284 0.22497 0.926501 0.61588 0.55247C1.00687 0.178426 1.6408 0.178577 2.0319 0.55247L8.1608 6.41477L14.2907 0.55247Z" fill="currentColor"/>
               </svg>
             </span>
@@ -1084,7 +1032,7 @@
         </button>
 
       <button
-          (click)="step = 'advancedSettings'"
+          (click)="onSkipConnectPhone()"
           class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm flex items-center p-1 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
           style="font-family: 'Poppins', sans-serif;"
         >
@@ -1098,7 +1046,7 @@
 }
 
 @if (step === 'advancedSettings') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-8rem)] sm:min-h-[65vh] md:min-h-[70vh] max-h-[calc(100vh-6rem)] sm:max-h-[calc(100vh-14rem)] md:max-h-[calc(100vh-18rem)] flex flex-col relative">
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-[2rem] shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-16 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] flex flex-col relative">
     <div class="flex-1 overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
     <!-- Título -->
     <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-2 sm:mb-3 md:mb-4 lg:mb-6 tracking-[-1px] sm:tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-2.5px] px-2 sm:px-3 md:px-4">Configuración Avanzada</h2>
@@ -1109,102 +1057,199 @@
     </p>
 
     <!-- Contenedor de configuraciones -->
-    <div class="max-w-3xl mx-auto px-2 sm:px-4 md:px-6 space-y-4 sm:space-y-5">
+    <div class="max-w-3xl mx-auto px-2 sm:px-4 md:px-6 space-y-4 sm:space-y-5" (click)="hideAllTooltips()">
       
-      <!-- Tiempo de inactividad -->
-      <div class="border-b border-gray-200 dark:border-slate-700 pb-4">
-        <label class="block text-xs font-medium text-gray-900 dark:text-white mb-3">Tiempo de espera de inactividad</label>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-gray-50 dark:bg-slate-800 flex items-center justify-center border border-gray-200 dark:border-slate-700">
-            <span class="text-sm font-semibold text-gray-700 dark:text-slate-300">
-              {{ formatDecimal(inactivityTimeout) }}
-            </span>
-          </div>
-          <div class="flex-1 relative">
-            <div class="h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
-              <div
-                class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
-                [style.width.%]="inactivityTimeout"
-              ></div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                [(ngModel)]="inactivityTimeout"
-                (input)="inactivityTimeout = +$any($event.target).value"
-                class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
-              />
-              <div
-                class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
-                [style.left.%]="inactivityTimeout"
-              ></div>
+      <!-- Barras en una sola columna -->
+      <div class="space-y-4 sm:space-y-5">
+        
+        <!-- Tiempo de inactividad -->
+        <div class="border-b border-gray-200 dark:border-slate-700 pb-4">
+          <label class="block text-xs font-medium text-gray-900 dark:text-white mb-3">Tiempo de espera de inactividad</label>
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs text-gray-500 dark:text-slate-400 mb-2">
+              <span>Corto</span>
+              <span>Largo</span>
+            </div>
+            <div class="relative" (click)="$event.stopPropagation()" (mouseenter)="showInactivityTooltipFn()" (mouseleave)="hideInactivityTooltipFn()">
+              <div class="h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
+                <div
+                  class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
+                  [style.width.%]="inactivityTimeout"
+                ></div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  [(ngModel)]="inactivityTimeout"
+                  (input)="inactivityTimeout = +$any($event.target).value; showInactivityTooltipFn()"
+                  (mousedown)="showInactivityTooltipFn()"
+                  (click)="showInactivityTooltipFn(); $event.stopPropagation()"
+                  class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
+                />
+                <div
+                  class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
+                  [style.left.%]="inactivityTimeout"
+                ></div>
+                <!-- Bocadillo con el valor -->
+                <div
+                  *ngIf="showInactivityTooltip"
+                  class="tooltip-bubble absolute bottom-full mb-2 px-2 py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
+                  [style.left.%]="inactivityTimeout"
+                >
+                  <span class="text-xs font-semibold text-gray-900 dark:text-white">
+                    {{ formatDecimal(inactivityTimeout) }}
+                  </span>
+                  <!-- Flecha del bocadillo -->
+                  <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
+                    <div class="w-2 h-2 bg-white dark:bg-slate-800 border-r border-b border-gray-200 dark:border-slate-600 transform rotate-45"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Duración máxima -->
-      <div class="border-b border-gray-200 dark:border-slate-700 pb-4">
-        <label class="block text-xs font-medium text-gray-900 dark:text-white mb-3">Duración máxima de llamada</label>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-gray-50 dark:bg-slate-800 flex items-center justify-center border border-gray-200 dark:border-slate-700">
-            <span class="text-sm font-semibold text-gray-700 dark:text-slate-300">
-              {{ formatDecimal(maxCallDuration) }}
-            </span>
-          </div>
-          <div class="flex-1 relative">
-            <div class="h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
-              <div
-                class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
-                [style.width.%]="maxCallDuration"
-              ></div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                [(ngModel)]="maxCallDuration"
-                (input)="maxCallDuration = +$any($event.target).value"
-                class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
-              />
-              <div
-                class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
-                [style.left.%]="maxCallDuration"
-              ></div>
+        <!-- Duración máxima -->
+        <div class="border-b border-gray-200 dark:border-slate-700 pb-4">
+          <label class="block text-xs font-medium text-gray-900 dark:text-white mb-3">Duración máxima de llamada</label>
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs text-gray-500 dark:text-slate-400 mb-2">
+              <span>Corta</span>
+              <span>Larga</span>
+            </div>
+            <div class="relative" (click)="$event.stopPropagation()" (mouseenter)="showMaxCallDurationTooltipFn()" (mouseleave)="hideMaxCallDurationTooltipFn()">
+              <div class="h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
+                <div
+                  class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
+                  [style.width.%]="maxCallDuration"
+                ></div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  [(ngModel)]="maxCallDuration"
+                  (input)="maxCallDuration = +$any($event.target).value; showMaxCallDurationTooltipFn()"
+                  (mousedown)="showMaxCallDurationTooltipFn()"
+                  (click)="showMaxCallDurationTooltipFn(); $event.stopPropagation()"
+                  class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
+                />
+                <div
+                  class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
+                  [style.left.%]="maxCallDuration"
+                ></div>
+                <!-- Bocadillo con el valor -->
+                <div
+                  *ngIf="showMaxCallDurationTooltip"
+                  class="tooltip-bubble absolute bottom-full mb-2 px-2 py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
+                  [style.left.%]="maxCallDuration"
+                >
+                  <span class="text-xs font-semibold text-gray-900 dark:text-white">
+                    {{ formatDecimal(maxCallDuration) }}
+                  </span>
+                  <!-- Flecha del bocadillo -->
+                  <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
+                    <div class="w-2 h-2 bg-white dark:bg-slate-800 border-r border-b border-gray-200 dark:border-slate-600 transform rotate-45"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Rapidez del agente -->
-      <div class="border-b border-gray-200 dark:border-slate-700 pb-4">
-        <label class="block text-xs font-medium text-gray-900 dark:text-white mb-3">Rapidez del agente</label>
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-gray-50 dark:bg-slate-800 flex items-center justify-center border border-gray-200 dark:border-slate-700">
-            <span class="text-sm font-semibold text-gray-700 dark:text-slate-300">
-              {{ formatDecimal(agentSpeed) }}
-            </span>
-          </div>
-          <div class="flex-1 relative">
-            <div class="h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
-              <div
-                class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
-                [style.width.%]="agentSpeed"
-              ></div>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                [(ngModel)]="agentSpeed"
-                (input)="agentSpeed = +$any($event.target).value"
-                class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
-              />
-              <div
-                class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
-                [style.left.%]="agentSpeed"
-              ></div>
+        <!-- Rapidez del agente -->
+        <div class="border-b border-gray-200 dark:border-slate-700 pb-4">
+          <label class="block text-xs font-medium text-gray-900 dark:text-white mb-3">Rapidez del agente</label>
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs text-gray-500 dark:text-slate-400 mb-2">
+              <span>Lento</span>
+              <span>Muy rápido</span>
+            </div>
+            <div class="relative" (click)="$event.stopPropagation()" (mouseenter)="showAgentSpeedTooltipFn()" (mouseleave)="hideAgentSpeedTooltipFn()">
+              <div class="h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
+                <div
+                  class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
+                  [style.width.%]="agentSpeed"
+                ></div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  [(ngModel)]="agentSpeed"
+                  (input)="agentSpeed = +$any($event.target).value; showAgentSpeedTooltipFn()"
+                  (mousedown)="showAgentSpeedTooltipFn()"
+                  (click)="showAgentSpeedTooltipFn(); $event.stopPropagation()"
+                  class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
+                />
+                <div
+                  class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
+                  [style.left.%]="agentSpeed"
+                ></div>
+                <!-- Bocadillo con el valor -->
+                <div
+                  *ngIf="showAgentSpeedTooltip"
+                  class="tooltip-bubble absolute bottom-full mb-2 px-2 py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
+                  [style.left.%]="agentSpeed"
+                >
+                  <span class="text-xs font-semibold text-gray-900 dark:text-white">
+                    {{ formatDecimal(agentSpeed) }}
+                  </span>
+                  <!-- Flecha del bocadillo -->
+                  <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
+                    <div class="w-2 h-2 bg-white dark:bg-slate-800 border-r border-b border-gray-200 dark:border-slate-600 transform rotate-45"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Temperatura del LLM -->
+        <div class="border-b border-gray-200 dark:border-slate-700 pb-4">
+          <label class="block text-xs font-medium text-gray-900 dark:text-white mb-3">Temperatura del LLM</label>
+          <div class="space-y-2">
+            <div class="flex justify-between text-xs text-gray-500 dark:text-slate-400 mb-2">
+              <span>Baja</span>
+              <span>Alta</span>
+            </div>
+            <div class="relative" (click)="$event.stopPropagation()" (mouseenter)="showLlmTemperatureTooltipFn()" (mouseleave)="hideLlmTemperatureTooltipFn()">
+              <div class="h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
+                <div
+                  class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
+                  [style.width.%]="llmTemperature"
+                ></div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  [(ngModel)]="llmTemperature"
+                  (input)="llmTemperature = +$any($event.target).value; showLlmTemperatureTooltipFn()"
+                  (mousedown)="showLlmTemperatureTooltipFn()"
+                  (click)="showLlmTemperatureTooltipFn(); $event.stopPropagation()"
+                  class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10"
+                />
+                <div
+                  class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
+                  [style.left.%]="llmTemperature"
+                ></div>
+                <!-- Bocadillo con el valor -->
+                <div
+                  *ngIf="showLlmTemperatureTooltip"
+                  class="tooltip-bubble absolute bottom-full mb-2 px-2 py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
+                  [style.left.%]="llmTemperature"
+                >
+                  <span class="text-xs font-semibold text-gray-900 dark:text-white">
+                    {{ formatDecimal(llmTemperature) }}
+                  </span>
+                  <!-- Flecha del bocadillo -->
+                  <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
+                    <div class="w-2 h-2 bg-white dark:bg-slate-800 border-r border-b border-gray-200 dark:border-slate-600 transform rotate-45"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- Mensaje de grabación -->
@@ -1213,9 +1258,9 @@
           <div class="flex items-center gap-2">
             <label class="text-sm font-medium text-gray-900 dark:text-white">Mensaje de aviso de grabación</label>
             <button
-              (click)="toggleRecordingNotice()"
-              class="w-4 h-4 rounded-full border border-gray-300 dark:border-slate-600 flex items-center justify-center hover:border-gray-400 dark:hover:border-slate-500 transition-colors"
-              [title]="isRecordingNoticeEnabled ? 'Desactivar aviso' : 'Activar aviso'"
+              (click)="openRecordingNoticeInfoModal(); $event.stopPropagation()"
+              class="w-4 h-4 rounded-full border border-gray-300 dark:border-slate-600 flex items-center justify-center hover:border-gray-400 dark:hover:border-slate-500 transition-colors cursor-pointer"
+              title="Información sobre el mensaje de aviso de grabación"
             >
               <svg width="10" height="10" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-500 dark:text-slate-400">
                 <circle cx="8" cy="8" r="7" stroke="currentColor" fill="none"/>

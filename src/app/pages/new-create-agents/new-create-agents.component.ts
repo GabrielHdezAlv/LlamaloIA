@@ -316,11 +316,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   }
 
   goBack() {
-    if (this.step === 'advancedSettings') {
-      this.step = 'connectPhone';
-    } else if (this.step === 'connectPhone') {
+    if (this.step === 'connectPhone') {
       this.step = 'summary';
     } else if (this.step === 'summary') {
+      this.step = 'advancedSettings';
+    } else if (this.step === 'advancedSettings') {
       this.step = 'knowledgeBase';
     } else if (this.step === 'knowledgeBase') {
       this.step = 'actions';
@@ -355,13 +355,13 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
     } else if (this.step === 'actions') {
       this.step = 'knowledgeBase';
     } else if (this.step === 'knowledgeBase') {
+      this.step = 'advancedSettings';
+    } else if (this.step === 'advancedSettings') {
       this.step = 'summary';
     } else if (this.step === 'summary') {
       this.step = 'connectPhone';
-    } else if (this.step === 'connectPhone') {
-      this.step = 'advancedSettings';
     }
-    // Si ya está en 'advancedSettings', no hace nada o puedes reiniciar el flujo si lo deseas
+    // Si ya está en 'connectPhone', no hace nada o puedes reiniciar el flujo si lo deseas
   }
 
   // Continuar desde el paso de nombre del agente
@@ -491,13 +491,13 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
   selectKnowledgeSource(source: 'pdf' | 'web') {
     console.log('Fuente seleccionada:', source);
-    // Avanza automáticamente a la siguiente pantalla
-    this.step = 'summary';
+    // Avanza automáticamente a configuración avanzada
+    this.step = 'advancedSettings';
   }
 
   // Opcional: Método para continuar sin elegir fuente
   continueWithoutSource() {
-    this.step = 'summary'; // Pasa a la pantalla final
+    this.step = 'advancedSettings'; // Pasa a configuración avanzada
   }
 
   onSubmitTestCall() {
@@ -509,9 +509,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
       return;
     }
     console.log('Número ingresado para prueba:', this.phoneNumber);
-    // No se envía al backend
-    // Simplemente pasa a la siguiente pantalla (opcional)
-    // this.step = 'finalizado';
+    // Avanza a conectar número de teléfono
+    this.step = 'connectPhone';
   }
 
   // Métodos para conectar número de teléfono
@@ -524,8 +523,13 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
    // label: this.label,
    // importedNumber: this.importedNumber
   });
-  // Navega a configuración avanzada
-  this.step = 'advancedSettings';
+  // Navega a pantalla final
+  this.step = 'final';
+
+  // Simulamos 5 segundos de carga
+  setTimeout(() => {
+    this.step = 'success'; // Cambia a pantalla de éxito
+  }, 5000);
  }
 
  openTwilioStepsModal() {
@@ -533,8 +537,13 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
  }
 
  onSkipConnectPhone() {
-  // Salta a configuración avanzada
-  this.step = 'advancedSettings';
+  // Salta a pantalla final
+  this.step = 'final';
+
+  // Simulamos 5 segundos de carga antes de mostrar éxito
+  setTimeout(() => {
+    this.step = 'success';
+  }, 5000);
  }
 
  // Declare showCountryMenu property
@@ -590,16 +599,78 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
    }
  }
 
- // Nuevas propiedades
- inactivityTimeout = 0;           // Tiempo de inactividad en segundos
- maxCallDuration = 0;            // Duración máxima en segundos
- agentSpeed = 0;                 // Rapidez del agente
- isRecordingNoticeEnabled = false;
- recordingNoticeText = 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+// Nuevas propiedades
+inactivityTimeout = 0;           // Tiempo de inactividad en segundos
+maxCallDuration = 0;            // Duración máxima en segundos
+agentSpeed = 0;                 // Rapidez del agente
+llmTemperature = 0;             // Temperatura del LLM
+isRecordingNoticeEnabled = false;
+recordingNoticeText = 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+
+// Estados de visibilidad de los bocadillos
+showInactivityTooltip = false;
+showMaxCallDurationTooltip = false;
+showAgentSpeedTooltip = false;
+showLlmTemperatureTooltip = false;
+
+// Métodos para mostrar/ocultar bocadillos
+showInactivityTooltipFn() {
+  this.hideAllTooltips();
+  this.showInactivityTooltip = true;
+}
+
+hideInactivityTooltipFn() {
+  this.showInactivityTooltip = false;
+}
+
+showMaxCallDurationTooltipFn() {
+  this.hideAllTooltips();
+  this.showMaxCallDurationTooltip = true;
+}
+
+hideMaxCallDurationTooltipFn() {
+  this.showMaxCallDurationTooltip = false;
+}
+
+showAgentSpeedTooltipFn() {
+  this.hideAllTooltips();
+  this.showAgentSpeedTooltip = true;
+}
+
+hideAgentSpeedTooltipFn() {
+  this.showAgentSpeedTooltip = false;
+}
+
+showLlmTemperatureTooltipFn() {
+  this.hideAllTooltips();
+  this.showLlmTemperatureTooltip = true;
+}
+
+hideLlmTemperatureTooltipFn() {
+  this.showLlmTemperatureTooltip = false;
+}
+
+// Método para ocultar todos los bocadillos
+hideAllTooltips() {
+  this.showInactivityTooltip = false;
+  this.showMaxCallDurationTooltip = false;
+  this.showAgentSpeedTooltip = false;
+  this.showLlmTemperatureTooltip = false;
+}
 
  // Método para cambiar el estado del aviso de grabación
  toggleRecordingNotice() {
   this.isRecordingNoticeEnabled = !this.isRecordingNoticeEnabled;
+ }
+
+ // Método para abrir el modal de información sobre el aviso de grabación
+ openRecordingNoticeInfoModal() {
+  this.modalService.openWarning({
+    title: 'Información sobre el mensaje de aviso de grabación',
+    message: 'El mensaje de aviso de grabación es una notificación que se reproduce al inicio de las llamadas para informar a los interlocutores que la conversación será grabada. Este mensaje cumple con los requisitos legales de protección de datos y privacidad.',
+    confirmText: 'Entendido',
+    showCancelButton: false
+  });
  }
 
  // Método para formatear el tiempo en formato legible
@@ -665,29 +736,22 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
     console.log('Configuración avanzada guardada:', {
       inactivityTimeout: this.inactivityTimeout,
       maxCallDuration: this.maxCallDuration,
+      agentSpeed: this.agentSpeed,
+      llmTemperature: this.llmTemperature,
       isRecordingNoticeEnabled: this.isRecordingNoticeEnabled,
       recordingNoticeText: this.isRecordingNoticeEnabled ? this.recordingNoticeText : null
     });
 
-    // Cambia a pantalla de carga
-    this.step = 'final';
-
-    // Simulamos 5 segundos de carga
-    setTimeout(() => {
-      this.step = 'success'; // Cambia a pantalla de éxito
-    }, 5000);
+    // Cambia a prueba de agente
+    this.step = 'summary';
   }
  }
 
  // Método para saltar la configuración avanzada
  onSkipAdvancedSettings() {
   console.log('Configuración avanzada saltada');
-  this.step = 'final';
-
-  // Simulamos 5 segundos de carga antes de mostrar éxito
-  setTimeout(() => {
-    this.step = 'success';
-  }, 5000);
+  // Avanza a prueba de agente
+  this.step = 'summary';
  }
 
 // Método para finalizar el proceso
@@ -920,6 +984,8 @@ getInternalCloudPosition(cloudNumber: number): { x: number, y: number } {
  resetAdvancedSettings() {
   this.inactivityTimeout = 30;
   this.maxCallDuration = 300;
+  this.agentSpeed = 0;
+  this.llmTemperature = 0;
   this.isRecordingNoticeEnabled = false;
   console.log('Configuración avanzada reseteada a valores por defecto');
  }

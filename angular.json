@@ -81,7 +81,10 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "proxyConfig": "proxy.conf.json"
+            "proxyConfig": "proxy.conf.json",
+            "allowedHosts": [
+              ".loca.lt"
+            ]
           }
         },
         "extract-i18n": {
