@@ -13,8 +13,6 @@ import { UserStorage } from '../../storages/user/user-storage';
 export class AdminNavComponent implements OnDestroy, OnInit {
   isCollapsed: boolean = true;
   windowWidth: number = 0;
-  isHovering: boolean = false;
-  private hoverTimer: any;
 
   // Inyectar UserStorage y Router
   public userStorage = inject(UserStorage);
@@ -48,25 +46,6 @@ export class AdminNavComponent implements OnDestroy, OnInit {
     this.isCollapsed = !this.isCollapsed;
   }
 
-  // Expandir al pasar el ratón por encima
-  expandOnHover() {
-    if (this.isCollapsed) {
-      this.isHovering = true;
-      if (this.hoverTimer) {
-        clearTimeout(this.hoverTimer);
-      }
-    }
-  }
-
-  // Colapsar cuando el ratón sale
-  collapseOnLeave() {
-    if (this.isCollapsed) {
-      this.hoverTimer = setTimeout(() => {
-        this.isHovering = false;
-      }, 200);
-    }
-  }
-
   @HostListener('window:resize', ['$event'])
   onResize() {
     if (this.isBrowser && typeof window !== 'undefined') {
@@ -75,9 +54,7 @@ export class AdminNavComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    if (this.hoverTimer) {
-      clearTimeout(this.hoverTimer);
-    }
+    // Limpieza si es necesario
   }
 }
 

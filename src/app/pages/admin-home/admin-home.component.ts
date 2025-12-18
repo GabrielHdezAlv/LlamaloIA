@@ -22,6 +22,8 @@ import {
 export class AdminHomeComponent implements OnInit {
   selectedRange: '1D' | '7D' | '1M' | '6M' | '1A' = '1A';
   showResumen = false;
+  showContent: boolean = false;
+  private isBrowser: boolean = typeof window !== 'undefined';
 
   // Períodos para el gráfico de llamadas
   selectedPeriod: '7d' | '30d' | 'month' = '7d';
@@ -374,6 +376,18 @@ export class AdminHomeComponent implements OnInit {
       this.showResumen = true;
     }, 100);
     this.updateChart();
+    this.startFadeInAnimation();
+  }
+
+  private startFadeInAnimation(): void {
+    if (!this.isBrowser) {
+      this.showContent = true;
+      return;
+    }
+    
+    setTimeout(() => {
+      this.showContent = true;
+    }, 100);
   }
 
   // Cerrar el selector de mes/año

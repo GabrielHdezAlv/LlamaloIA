@@ -434,6 +434,65 @@ export class MetricsComponent implements OnInit {
     return 320 - 260 * Math.sin(angle);
   }
 
+  // Estado de ánimo
+  moodValue = 75; // Valor del estado de ánimo (0-100%)
+
+  get moodText(): string {
+    if (this.moodValue >= 80) return 'Contento';
+    if (this.moodValue >= 60) return 'Feliz';
+    if (this.moodValue >= 40) return 'Serio';
+    if (this.moodValue >= 20) return 'Triste';
+    return 'Enfadado';
+  }
+
+  get moodLabel(): string {
+    if (this.moodValue >= 70) return 'POSITIVO';
+    if (this.moodValue >= 40) return 'NEUTRAL';
+    return 'NEGATIVO';
+  }
+
+  get moodBadgeClasses(): string {
+    switch (this.moodLabel) {
+      case 'POSITIVO':
+        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium metrics-status-badge metrics-mood-positive';
+      case 'NEUTRAL':
+        return 'text-xs bg-yellow-200 text-black px-2 py-1.5 rounded-lg font-medium metrics-status-badge metrics-mood-neutral';
+      case 'NEGATIVO':
+        return 'text-xs bg-red-200 text-black px-2 py-1.5 rounded-lg font-medium metrics-status-badge metrics-mood-negative';
+      default:
+        return 'text-xs bg-green-200 text-black px-2 py-1.5 rounded-lg font-medium metrics-status-badge metrics-mood-positive';
+    }
+  }
+
+  get moodPercent(): number {
+    return Math.max(0, Math.min(1, this.moodValue / 100));
+  }
+
+  get moodGradientStart(): string {
+    const mood = this.moodText;
+    if (mood === 'Contento' || mood === 'Feliz') return '#22c55e'; // Verde
+    if (mood === 'Serio') return '#eab308'; // Amarillo
+    return '#ef4444'; // Rojo
+  }
+
+  get moodGradientEnd(): string {
+    const mood = this.moodText;
+    if (mood === 'Contento' || mood === 'Feliz') return '#16a34a'; // Verde más oscuro
+    if (mood === 'Serio') return '#ca8a04'; // Amarillo más oscuro
+    return '#dc2626'; // Rojo más oscuro
+  }
+
+  // Coordenadas del marcador de estado de ánimo al final del arco
+  get moodMarkerX(): number {
+    const angle = Math.PI * (1 - this.moodPercent); // de π (izq) a 0 (der)
+    return 260 + 260 * Math.cos(angle);
+  }
+
+  get moodMarkerY(): number {
+    const angle = Math.PI * (1 - this.moodPercent);
+    return 320 - 260 * Math.sin(angle);
+  }
+
 
   // Agentes creados (tabla resumen)
   get createdAgents() {

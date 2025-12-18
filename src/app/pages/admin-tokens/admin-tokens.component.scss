@@ -1,2 +1,147 @@
 // Estilos para la página de tokens
 
+.chart-container-admin {
+  // Ajustes para modo claro del gráfico
+  :deep(.apexcharts-legend) {
+    .apexcharts-legend-series {
+      .apexcharts-legend-text {
+        color: #374151 !important;
+        font-weight: 500;
+      }
+    }
+  }
+
+  :deep(.apexcharts-xaxis-label),
+  :deep(.apexcharts-yaxis-label) {
+    tspan {
+      fill: #6B7280 !important;
+    }
+  }
+
+  :deep(.apexcharts-grid-line) {
+    stroke: #E5E7EB !important;
+    opacity: 0.5;
+  }
+
+  :deep(.apexcharts-yaxis-title-text) {
+    font-weight: 600 !important;
+  }
+}
+
+// Modo oscuro
+:host-context(html.dark) {
+  .chart-container-admin {
+    :deep(.apexcharts-legend) {
+      .apexcharts-legend-series {
+        .apexcharts-legend-text {
+          color: #E5E7EB !important;
+          font-weight: 500;
+        }
+      }
+    }
+
+    :deep(.apexcharts-xaxis-label),
+    :deep(.apexcharts-yaxis-label) {
+      tspan {
+        fill: #9CA3AF !important;
+      }
+    }
+
+    :deep(.apexcharts-grid-line) {
+      stroke: #374151 !important;
+      opacity: 0.3;
+    }
+
+    :deep(.apexcharts-xaxis) {
+      .apexcharts-xaxis-texts-g {
+        text {
+          fill: #9CA3AF !important;
+        }
+      }
+    }
+
+    :deep(.apexcharts-yaxis) {
+      .apexcharts-yaxis-texts-g {
+        text {
+          fill: #9CA3AF !important;
+        }
+      }
+
+      .apexcharts-yaxis-title-text {
+        fill: #FFFFFF !important;
+      }
+    }
+
+    :deep(.apexcharts-tooltip) {
+      background: #1F2937 !important;
+      border: 1px solid #374151 !important;
+      color: #F3F4F6 !important;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2) !important;
+
+      .apexcharts-tooltip-title {
+        background: #111827 !important;
+        border-bottom: 1px solid #374151 !important;
+        color: #F3F4F6 !important;
+      }
+
+      .apexcharts-tooltip-series-group {
+        .apexcharts-tooltip-text {
+          .apexcharts-tooltip-text-y-label,
+          .apexcharts-tooltip-text-y-value {
+            color: #F3F4F6 !important;
+          }
+        }
+      }
+    }
+
+    // Colores de las líneas más vibrantes en modo oscuro
+    :deep(.apexcharts-line-series),
+    :deep(.apexcharts-area-series) {
+      path {
+        filter: brightness(1.1);
+      }
+    }
+
+    // Mejorar visibilidad de los degradados en modo oscuro
+    :deep(.apexcharts-area-series) {
+      .apexcharts-area {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// Forzar fondo blanco para el contenedor del logo de Render en modo oscuro
+:host-context(html.dark) {
+  .render-logo-container {
+    background-color: #FFFFFF !important;
+  }
+}
+
+// Transición sincronizada para modo oscuro/claro en admin
+:host ::ng-deep * {
+  transition-property: background-color, color, border-color, fill, stroke !important;
+  transition-duration: 0.3s !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+// Excepciones: gráficos y canvas
+:host ::ng-deep svg.apexcharts-svg,
+:host ::ng-deep svg.apexcharts-svg *,
+:host ::ng-deep canvas,
+:host ::ng-deep canvas * {
+  transition: none !important;
+}
+
+// Animación fade in
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.fade-in-section.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+

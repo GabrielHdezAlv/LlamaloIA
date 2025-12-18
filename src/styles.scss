@@ -183,10 +183,12 @@ body::-webkit-scrollbar {
 @layer base {
   html {
     @apply bg-slate-50 text-slate-900;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body {
     @apply bg-slate-50 text-slate-900;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   /* Fondo general gris oscuro en modo oscuro */
@@ -197,10 +199,27 @@ body::-webkit-scrollbar {
   html.dark body {
     @apply bg-gray-800 text-slate-50;
   }
+  
 }
 
 /* Overrides agresivos para que TODO se vea oscuro en modo dark */
 @layer utilities {
+  /* Transición sincronizada solo para el layout de admin */
+  .admin-theme-transition,
+  .admin-theme-transition * {
+    transition-property: background-color, color, border-color, fill, stroke;
+    transition-duration: 0.3s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Excepciones: gráficos y canvas dentro del layout admin */
+  .admin-theme-transition svg.apexcharts-svg,
+  .admin-theme-transition svg.apexcharts-svg *,
+  .admin-theme-transition canvas,
+  .admin-theme-transition canvas * {
+    transition: none !important;
+  }
+
   /* Fondos claros → sidebar / tarjetas gris 700 y fondo gris 800 */
   html.dark .bg-white {
     background-color: #18181a !important; /* tarjetas, sidebar, modales: color personalizado */

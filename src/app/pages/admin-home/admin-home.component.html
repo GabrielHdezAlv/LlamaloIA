@@ -1,5 +1,5 @@
 <!-- Dashboard Administrativo -->
-<div class="min-h-screen bg-gray-100 dark:bg-gray-800 p-6 xl:p-8">
+<div class="min-h-screen bg-gray-100 dark:bg-gray-800 p-6 xl:p-8 fade-in-section" [class.fade-in-visible]="showContent">
   <!-- Tarjeta de Resumen -->
   <div
     class="bg-white rounded-[2rem] shadow-sm p-6 2xl:p-6 mr-24 mt-6 2xl:mt-6 ml-28 max-lg:p-5 max-lg:mr-4 max-lg:mt-4 max-lg:ml-4 border border-gray-100 dark:bg-slate-900 dark:border-slate-800"
@@ -43,7 +43,7 @@
     </div>
 
     <!-- Grid de métricas -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
       <!-- Total de Usuarios -->
       <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
         <div class="mb-3">
@@ -59,24 +59,6 @@
         </p>
         <p class="text-xs text-green-600 dark:text-green-400">
           + {{ changes.totalUsers }}% vs período anterior
-        </p>
-      </div>
-
-      <!-- Usuarios Activos -->
-      <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
-        <div class="mb-3">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-gray-900 dark:text-white">
-            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" />
-          </svg>
-        </div>
-        <h3 class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">
-          Usuarios Activos
-        </h3>
-        <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-          {{ formatNumber(metrics.activeUsers) }}
-        </p>
-        <p class="text-xs text-green-600 dark:text-green-400">
-          + {{ changes.activeUsers }}% vs período anterior
         </p>
       </div>
 
@@ -170,23 +152,6 @@
         </p>
       </div>
 
-      <!-- Uptime del Sistema -->
-      <div class="flex flex-col p-5 border border-gray-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-slate-800/50">
-        <div class="mb-3">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-gray-900 dark:text-white">
-            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" />
-          </svg>
-        </div>
-        <h3 class="text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">
-          Uptime del Sistema
-        </h3>
-        <p class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-          {{ metrics.systemUptime }}%
-        </p>
-        <p class="text-xs text-green-600 dark:text-green-400">
-          + {{ changes.systemUptime }}% vs período anterior
-        </p>
-      </div>
     </div>
   </div>
 

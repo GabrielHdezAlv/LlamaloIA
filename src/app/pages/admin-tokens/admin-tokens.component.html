@@ -1,8 +1,9 @@
-<!-- Página de Tokens -->
+<!-- Página de Servicios Externos -->
 <div class="min-h-screen bg-gray-100 dark:bg-gray-800 p-6 xl:p-8">
-  <!-- Sección de Tokens -->
-  <div class="mt-6 mr-24 ml-28 max-lg:mr-4 max-lg:ml-4">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+  <!-- Sección de Servicios Externos -->
+  <div class="mt-6 mr-24 ml-28 max-lg:mr-4 max-lg:ml-4 fade-in-section" [class.fade-in-visible]="showContent">
+    <!-- Primera fila: 4 tarjetas de servicios -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
       <!-- Twilio -->
       <div class="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 p-5 shadow-sm">
         <div class="flex items-center gap-3 mb-4">
@@ -14,9 +15,15 @@
             <span class="text-xs text-green-600 dark:text-green-400">Activo</span>
           </div>
         </div>
-        <div class="mt-4">
-          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Tokens restantes</p>
-          <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(tokens[0].tokensRestantes) }}</p>
+        <div class="mt-4 flex items-end gap-4">
+          <div>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Tokens restantes</p>
+            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(servicios[0].tokensRestantes) }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Gasto</p>
+            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatCurrency(servicios[0].gasto) }}</p>
+          </div>
         </div>
       </div>
 
@@ -31,9 +38,15 @@
             <span class="text-xs text-green-600 dark:text-green-400">Activo</span>
           </div>
         </div>
-        <div class="mt-4">
-          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Tokens restantes</p>
-          <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(tokens[1].tokensRestantes) }}</p>
+        <div class="mt-4 flex items-end gap-4">
+          <div>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Tokens restantes</p>
+            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(servicios[1].tokensRestantes) }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Gasto</p>
+            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatCurrency(servicios[1].gasto) }}</p>
+          </div>
         </div>
       </div>
 
@@ -48,9 +61,15 @@
             <span class="text-xs text-green-600 dark:text-green-400">Activo</span>
           </div>
         </div>
-        <div class="mt-4">
-          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Tokens restantes</p>
-          <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(tokens[2].tokensRestantes) }}</p>
+        <div class="mt-4 flex items-end gap-4">
+          <div>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Tokens restantes</p>
+            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(servicios[2].tokensRestantes) }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Gasto</p>
+            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatCurrency(servicios[2].gasto) }}</p>
+          </div>
         </div>
       </div>
 
@@ -65,9 +84,86 @@
             <span class="text-xs text-green-600 dark:text-green-400">Activo</span>
           </div>
         </div>
-        <div class="mt-4">
-          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Tokens restantes</p>
-          <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(tokens[3].tokensRestantes) }}</p>
+        <div class="mt-4 flex items-end gap-4">
+          <div>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Tokens restantes</p>
+            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(servicios[3].tokensRestantes) }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Gasto</p>
+            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatCurrency(servicios[3].gasto) }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segunda fila: Gráfico en 3 columnas y Render en la cuarta -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
+      <!-- Gráfico de Tokens y Gastos (3 columnas) -->
+      <div class="lg:col-span-3 bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 p-6 shadow-sm">
+        <div class="mb-6 flex justify-between items-center">
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-1">Evolución de Tokens y Gastos</h3>
+            <p class="text-sm text-gray-500 dark:text-slate-400">{{ periodText }}</p>
+          </div>
+          <div class="flex gap-2">
+            <button
+              (click)="setPeriod('7d')"
+              [class]="selectedPeriod === '7d' ? 'px-4 py-2 text-sm font-semibold bg-blue-600 text-white rounded-lg' : 'px-4 py-2 text-sm font-medium text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg'"
+            >
+              7 días
+            </button>
+            <button
+              (click)="setPeriod('30d')"
+              [class]="selectedPeriod === '30d' ? 'px-4 py-2 text-sm font-semibold bg-blue-600 text-white rounded-lg' : 'px-4 py-2 text-sm font-medium text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg'"
+            >
+              Mes
+            </button>
+            <button
+              (click)="setPeriod('1y')"
+              [class]="selectedPeriod === '1y' ? 'px-4 py-2 text-sm font-semibold bg-blue-600 text-white rounded-lg' : 'px-4 py-2 text-sm font-medium text-gray-600 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg'"
+            >
+              Año
+            </button>
+          </div>
+        </div>
+        <div class="chart-container-admin">
+          <apx-chart
+            [series]="chartSeries"
+            [chart]="chartOptions"
+            [xaxis]="chartXAxis"
+            [yaxis]="chartYAxis"
+            [stroke]="chartStroke"
+            [dataLabels]="chartDataLabels"
+            [grid]="chartGrid"
+            [legend]="chartLegend"
+            [colors]="chartColors"
+            [fill]="chartFill"
+            [tooltip]="chartTooltip"
+          ></apx-chart>
+        </div>
+      </div>
+
+      <!-- Render (1 columna) -->
+      <div class="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-800 p-5 shadow-sm self-start">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="render-logo-container w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden shadow-md bg-white dark:bg-white">
+            <img src="assets/render.avif" alt="Render" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-gray-900 dark:text-white">Render</h3>
+            <span class="text-xs text-green-600 dark:text-green-400">Activo</span>
+          </div>
+        </div>
+        <div class="mt-4 flex items-end gap-4">
+          <div>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Tokens restantes</p>
+            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(servicios[4].tokensRestantes) }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Gasto</p>
+            <p class="text-lg font-bold text-gray-900 dark:text-white">{{ formatCurrency(servicios[4].gasto) }}</p>
+          </div>
         </div>
       </div>
     </div>

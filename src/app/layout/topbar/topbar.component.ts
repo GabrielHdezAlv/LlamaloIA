@@ -153,9 +153,13 @@ export class TopbarComponent implements OnInit {
 
     // Rutas de admin
     if (url.startsWith('/admin/tokens')) {
-      this.pageTitle = 'Tokens de Servicios';
+      this.pageTitle = 'Servicios Externos';
       this.welcomeText = '';
       this.pageSubtitle = 'Gestiona y visualiza los tokens de API de los servicios integrados';
+    } else if (url.startsWith('/admin/redes-sociales')) {
+      this.pageTitle = 'Redes Sociales';
+      this.welcomeText = '';
+      this.pageSubtitle = 'Gestiona y visualiza las métricas de tus redes sociales';
     } else if (url.startsWith('/admin/gasto')) {
       this.pageTitle = 'Gasto de Servicios';
       this.welcomeText = '';

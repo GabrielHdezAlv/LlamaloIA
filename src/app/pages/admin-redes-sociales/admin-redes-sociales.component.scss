@@ -1,0 +1,153 @@
+// Estilos para la página de redes sociales
+
+.chart-container-admin {
+  position: relative;
+  
+  // Ajustes para modo claro del gráfico
+  :deep(.apexcharts-legend) {
+    .apexcharts-legend-series {
+      .apexcharts-legend-text {
+        color: #374151 !important;
+        font-weight: 600;
+        font-size: 14px;
+      }
+    }
+  }
+
+  :deep(.apexcharts-xaxis-label),
+  :deep(.apexcharts-yaxis-label) {
+    tspan {
+      fill: #6B7280 !important;
+      font-weight: 600;
+    }
+  }
+
+  :deep(.apexcharts-grid-line) {
+    stroke: #E5E7EB !important;
+    opacity: 0.4;
+  }
+
+  // Estilos limpios y profesionales para las barras
+  :deep(.apexcharts-bar-series) {
+    .apexcharts-bar-area {
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    &:hover .apexcharts-bar-area {
+      opacity: 0.85;
+    }
+  }
+}
+
+// Modo oscuro
+:host-context(html.dark) {
+  .chart-container-admin {
+    :deep(.apexcharts-legend) {
+      .apexcharts-legend-series {
+        .apexcharts-legend-text {
+          color: #E5E7EB !important;
+          font-weight: 600;
+          font-size: 14px;
+        }
+      }
+    }
+
+    :deep(.apexcharts-xaxis-label),
+    :deep(.apexcharts-yaxis-label) {
+      tspan {
+        fill: #9CA3AF !important;
+        font-weight: 600;
+      }
+    }
+
+    :deep(.apexcharts-grid-line) {
+      stroke: #374151 !important;
+      opacity: 0.3;
+    }
+
+    :deep(.apexcharts-xaxis) {
+      .apexcharts-xaxis-texts-g {
+        text {
+          fill: #9CA3AF !important;
+          font-weight: 600;
+        }
+      }
+    }
+
+    :deep(.apexcharts-yaxis) {
+      .apexcharts-yaxis-texts-g {
+        text {
+          fill: #9CA3AF !important;
+          font-weight: 600;
+        }
+      }
+    }
+
+    :deep(.apexcharts-bar-series) {
+      .apexcharts-bar-area {
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      }
+
+      &:hover .apexcharts-bar-area {
+        filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.4));
+      }
+    }
+
+    :deep(.apexcharts-tooltip) {
+      background: #1F2937 !important;
+      border: 1px solid #374151 !important;
+      color: #F3F4F6 !important;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3) !important;
+      border-radius: 8px !important;
+
+      .apexcharts-tooltip-title {
+        background: #111827 !important;
+        border-bottom: 1px solid #374151 !important;
+        color: #F3F4F6 !important;
+        font-weight: 600;
+        padding: 8px 12px;
+      }
+
+      .apexcharts-tooltip-series-group {
+        padding: 4px 12px;
+        
+        .apexcharts-tooltip-text {
+          .apexcharts-tooltip-text-y-label,
+          .apexcharts-tooltip-text-y-value {
+            color: #F3F4F6 !important;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Transición sincronizada para modo oscuro/claro en admin
+:host ::ng-deep * {
+  transition-property: background-color, color, border-color, fill, stroke !important;
+  transition-duration: 0.3s !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+// Excepciones: gráficos y canvas
+:host ::ng-deep svg.apexcharts-svg,
+:host ::ng-deep svg.apexcharts-svg *,
+:host ::ng-deep canvas,
+:host ::ng-deep canvas * {
+  transition: none !important;
+}
+
+// Animación fade in
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.fade-in-section.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
