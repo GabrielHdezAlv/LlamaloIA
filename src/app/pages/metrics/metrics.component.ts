@@ -529,6 +529,25 @@ export class MetricsComponent implements OnInit {
     ].sort((a, b) => b.percent - a.percent);
   }
 
+  // Evaluación de éxito - ordenados de mayor a menor
+  get successEvaluation() {
+    return [
+      { name: 'Exitoso', percent: 78.5, color: 'from-green-500 to-green-600' },
+      { name: 'Parcial', percent: 15.2, color: 'from-yellow-500 to-yellow-600' },
+      { name: 'Fallido', percent: 6.3, color: 'from-red-500 to-red-600' },
+    ].sort((a, b) => b.percent - a.percent);
+  }
+
+  // Razón de finalización de la llamada - ordenados de mayor a menor
+  get callCompletionReasons() {
+    return [
+      { name: 'Completada exitosamente', percent: 72.4, color: 'from-blue-500 to-blue-600' },
+      { name: 'Cliente colgó', percent: 18.6, color: 'from-orange-500 to-orange-600' },
+      { name: 'Error técnico', percent: 5.8, color: 'from-red-500 to-red-600' },
+      { name: 'Tiempo agotado', percent: 3.2, color: 'from-gray-500 to-gray-600' },
+    ].sort((a, b) => b.percent - a.percent);
+  }
+
   // Tipo de llamadas - porcentajes dinámicos
   inboundPercentage = 57.2;
   outboundPercentage = 42.8;
