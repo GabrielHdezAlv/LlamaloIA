@@ -1,7 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { TwilioConfig } from '../../shared/models/twilio-config.model';
+import {
+  TwilioConfig,
+  TwilioConfigRequest,
+} from '../../shared/models/twilio-config.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class TwilioService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://llamaloiabackend.onrender.com/twilio';
+  private apiUrl = 'https://llamaloiabackend-5294.onrender.com/twilio';
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
@@ -35,7 +38,7 @@ export class TwilioService {
   }
 
   // Método para enviar la configuración de Twilio
-  setConfig(config: TwilioConfig): Observable<boolean> {
+  setConfig(config: TwilioConfigRequest): Observable<boolean> {
     return this.http.post<boolean>(`${this.apiUrl}/config`, config, {
       headers: this.getAuthHeaders(),
     });

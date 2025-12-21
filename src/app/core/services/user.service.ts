@@ -2,14 +2,15 @@ import { inject, Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../../shared/models/new-user.model';
 import { LoginUser } from '../../shared/models/login-user.model';
+import { CreateUserDto } from '../../shared/models/create-user-dto.model';
+import { UpdateProfileDto } from '../../shared/models/update-profile-dto.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'https://llamaloiabackend.onrender.com';
+  private apiUrl = 'https://llamaloiabackend-5294.onrender.com';
   private http = inject(HttpClient);
   private isBrowser: boolean;
 
@@ -36,7 +37,11 @@ export class UserService {
 
   private getFileUploadHeaders(): HttpHeaders {
     let token = '';
-    if (this.isBrowser && typeof window !== 'undefined' && window.localStorage) {
+    if (
+      this.isBrowser &&
+      typeof window !== 'undefined' &&
+      window.localStorage
+    ) {
       token = localStorage.getItem('token') || '';
     }
 
@@ -53,19 +58,19 @@ export class UserService {
   }
 
   getUserProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/profile`, {
+    return this.http.get(`${this.apiUrl}/users/profile`, {
       headers: this.getAuthHeaders(),
     });
   }
 
-  RegisterUser(newUser: User): Observable<any> {
+  RegisterUser(newUser: CreateUserDto): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/register`, newUser, {
       headers: this.getAuthHeaders(),
     });
   }
 
-  updateUserProfile(userData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/auth/profile`, userData, {
+  updateUserProfile(userData: UpdateProfileDto): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/users/profile`, userData, {
       headers: this.getAuthHeaders(),
     });
   }
@@ -74,13 +79,15 @@ export class UserService {
     const formData = new FormData();
     formData.append('image', file);
 
-    return this.http.post<any>(`${this.apiUrl}/auth/profile/image`, formData, {
+    return this.http.post<any>(`${this.apiUrl}/users/profile/image`, formData, {
       headers: this.getFileUploadHeaders(),
     });
   }
 
   // IDIOMAS
   getLanguages(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/user/allLanguages`);
+    return this.http.get(`${this.apiUrl}/languages/allLanguages`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 }
