@@ -33,6 +33,9 @@ export class NavComponent implements OnDestroy, OnInit {
   private i18nService = inject(I18nService);
   private isBrowser: boolean;
 
+  // Modo oscuro
+  isDarkMode = false;
+
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -69,6 +72,19 @@ export class NavComponent implements OnDestroy, OnInit {
   ngOnInit() {
     this.onResize();
     this.i18nService.initializeLanguage();
+
+    // Inicializar modo oscuro desde localStorage / preferencia del sistema
+    if (this.isBrowser) {
+      const stored = localStorage.getItem('llamalo-theme');
+      if (stored === 'dark') {
+        this.setDarkMode(true, false);
+      } else if (stored === 'light') {
+        this.setDarkMode(false, false);
+      } else {
+        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        this.setDarkMode(prefersDark, false);
+      }
+    }
   }
 
   openMenu() {
@@ -247,6 +263,16 @@ export class NavComponent implements OnDestroy, OnInit {
     }
   }
 
+  // Abrir modal de recordatorios
+  openReminderModal(event: Event) {
+    event.stopPropagation(); // Evitar que se active el toggle del dropdown
+    // Disparar evento personalizado para abrir el modal de recordatorios (solo en navegador)
+    if (this.isBrowser) {
+      const customEvent = new CustomEvent('openReminderModal');
+      window.dispatchEvent(customEvent);
+    }
+  }
+
   // Cerrar sesión
   logout() {
     // Limpiar datos de usuario
@@ -272,6 +298,27 @@ export class NavComponent implements OnDestroy, OnInit {
     const lightness = lightStart + ((index / Math.max(total - 1, 1)) * (lightEnd - lightStart));
 
     return { background: `hsl(220, 90%, ${lightness}%)` };
+  }
+
+  // Toggle modo oscuro
+  toggleDarkMode() {
+    this.setDarkMode(!this.isDarkMode, true);
+  }
+
+  private setDarkMode(enabled: boolean, persist: boolean) {
+    this.isDarkMode = enabled;
+    if (!this.isBrowser) return;
+
+    const root = document.documentElement;
+    if (enabled) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+
+    if (persist) {
+      localStorage.setItem('llamalo-theme', enabled ? 'dark' : 'light');
+    }
   }
 
   // Limpiar timer al destruir el componente

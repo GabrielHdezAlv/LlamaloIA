@@ -659,7 +659,9 @@
           </div>
   
           <!-- Estado de ánimo (copia) -->
-          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 mb-6 sm:mb-12 md:mb-8 lg:mb-20 lg:-ml-7 md:h-[430px] lg:h-auto fade-in-section border border-gray-200 history-border flex flex-col overflow-hidden" [class.fade-in-visible]="showDuracionMedia">
+          <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 mb-6 sm:mb-12 md:mb-8 lg:mb-20 lg:-ml-7 md:h-[430px] lg:h-auto fade-in-section border border-gray-200 history-border flex flex-col overflow-hidden"
+               [class.fade-in-visible]="showDuracionMedia"
+               [style.transitionDelay]="'1s'">
             <div class="flex justify-between items-start mb-3 sm:mb-4">
               <div>
                 <h3 class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]">Estado de ánimo</h3>
@@ -690,7 +692,8 @@
                     fill="none"
                     [style.stroke-dasharray]="'817'"
                     [style.stroke-dashoffset]="817 - (817 * moodPercent)"
-                    class="duration-arc transition-all duration-1000 ease-out" />
+                    class="duration-arc transition-all duration-1000 ease-out"
+                    [style.transitionDelay]="'1.3s'" />
                   
                   <!-- Efecto shimmer sobre el arco -->
                   <path 
@@ -701,7 +704,8 @@
                     [style.stroke-dasharray]="'817'"
                     [style.stroke-dashoffset]="817 - (817 * moodPercent)"
                     class="duration-arc-shimmer transition-all duration-1000 ease-out"
-                    style="opacity: 0.6;" />
+                    style="opacity: 0.6;"
+                    [style.transitionDelay]="'1.3s'" />
 
                   <!-- Marcador al final del progreso -->
                   <circle 
@@ -711,14 +715,16 @@
                     stroke="url(#durationGradient3)"
                     stroke-width="12"
                     fill="url(#durationGradient3)"
-                    class="duration-marker" />
+                    class="duration-marker"
+                    [style.transitionDelay]="'1.4s'" />
                   <circle 
                     [attr.cx]="moodMarkerX" 
                     [attr.cy]="moodMarkerY" 
                     r="12" 
                     fill="#ffffff" 
                     stroke-width="3" 
-                    class="duration-marker" />
+                    class="duration-marker"
+                    [style.transitionDelay]="'1.4s'" />
                   
                   <!-- Definición del gradiente -->
                   <defs>
@@ -747,8 +753,8 @@
           </div>
         </div>
 
-        <!-- Row 4 - Dos recuadros 50/50 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 -mt-10 sm:-mt-16">
+º        <!-- Row 4 - Dos recuadros 50/50 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 -mt-[3.75rem] sm:-mt-[5.25rem]">
           <!-- Evaluación de éxito -->
           <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 lg:p-8 fade-in-section border border-gray-200 history-border max-h-[444px] lg:max-h-[494px]" [class.fade-in-visible]="showPaises">
             <h3 class="font-semibold text-gray-800 mb-6 sm:mb-8 text-base sm:text-lg tracking-[-0.3px]">Evaluación de éxito</h3>

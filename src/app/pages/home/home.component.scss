@@ -6,6 +6,23 @@
   font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
+/* Juntar más las letras de los textos principales de home */
+.resumen-titulo,
+.resumen-datos,
+.resumen-numero,
+.resumen-porcentaje-chip,
+.resumen-dias-texto,
+.agentes-activos-titulo,
+.llamadas-por-dia-titulo,
+.agentes-activos-tabla,
+.agentes-activos-th,
+.agentes-activos-td,
+.agentes-activos-minutos,
+.agentes-activos-porcentaje,
+.agentes-activos-estado-texto {
+  letter-spacing: -1px;
+}
+
 .llamadas-barra-wrapper {
   position: relative;
   display: flex;
@@ -176,7 +193,7 @@
 
   /* Barra azul (día actual) sin degradado ni animaciones extra */
   .llamadas-barra-hoy {
-    background-color: #4f8cff !important;
+    background-color: #1e3a8a !important;
   }
 }
 
@@ -213,14 +230,84 @@
     margin-bottom: 0.6rem !important;
   }
 
-  .resumen-datos {
-    font-size: 0.7rem !important;
+  /* Títulos de las tarjetas de resumen: "Total de llamadas exitosas", "Tiempo ahorrado", "Minutos utilizados" */
+  h3.resumen-datos {
+    font-size: 0.875rem !important; /* Tamaño intermedio (text-sm es 0.875rem, estaba en 0.7rem) */
+    line-height: 1.25rem !important;
+    margin-top: 1rem !important; /* Reducir espacio superior (de mt-6 que es 1.5rem) */
+    margin-bottom: 0.25rem !important; /* Reducir espacio inferior (de mb-1) */
+  }
+  
+  /* Reducir espacio del icono */
+  .resumen-icon {
+    margin-bottom: 0.75rem !important; /* Reducir espacio inferior del icono (de mb-4) */
+  }
+  
+  /* Reducir espacio entre título y número */
+  .resumen-numero {
+    margin-top: 0.25rem !important; /* Reducir espacio superior del número */
+  }
+  
+  /* Reducir espacio entre número y porcentaje - subir lo que tiene abajo */
+  .resumen-porcentaje-chip,
+  .resumen-dias-texto {
+    margin-top: -0.5rem !important; /* Subir más los porcentajes */
+  }
+  
+  /* Reducir espacio del contenedor del porcentaje */
+  .mt-2.flex.items-center {
+    margin-top: 0.25rem !important; /* Reducir espacio del contenedor */
   }
 
   /* Números grandes del resumen (1024, 980, 1542) - un poco más grandes */
   p.text-5xl {
     font-size: 3rem !important;
     line-height: 1.2 !important;
+  }
+}
+
+/* Reducir aún más el tamaño en 1024px - 1439px */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  /* Números grandes del resumen más pequeños */
+  p.text-5xl.resumen-numero {
+    font-size: 2.5rem !important; /* Más pequeño que 3rem */
+    line-height: 1.1 !important;
+  }
+  
+  /* Porcentajes más pequeños */
+  .resumen-porcentaje-chip {
+    font-size: 0.625rem !important; /* Más pequeño (10px) */
+    padding: 0.1875rem 0.375rem !important; /* Padding más pequeño */
+    line-height: 1 !important;
+  }
+  
+  /* Asegurar que los iconos dentro del porcentaje también sean más pequeños */
+  .resumen-porcentaje-chip svg {
+    width: 0.75rem !important; /* 12px */
+    height: 0.75rem !important;
+  }
+  
+  /* Texto "vs año pasado" más pequeño */
+  .resumen-dias-texto {
+    font-size: 0.5rem !important; /* Más pequeño */
+  }
+  
+  /* Gráficos de tendencia más pequeños */
+  .max-lg\:w-16,
+  .max-lg\:h-20 {
+    width: 60px !important;
+    height: 70px !important;
+  }
+  
+  /* Iconos del resumen más pequeños */
+  .resumen-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  /* Títulos de las tarjetas más pequeños */
+  .resumen-datos {
+    font-size: 0.65rem !important; /* Más pequeño que 0.7rem */
   }
 
   /* SVG con gráficos de tendencia en resumen */

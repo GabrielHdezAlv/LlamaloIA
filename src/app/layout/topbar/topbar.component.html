@@ -45,8 +45,9 @@
   <div
     class="relative mr-4 sm:mr-8 md:mr-12 lg:mr-20 flex items-center gap-1 sm:gap-2 md:gap-3"
   >
-    <!-- Animación Luna a Sol -->
+    <!-- Botón de modo oscuro/claro (solo en admin) -->
     <button
+      *ngIf="isAdminSection"
       type="button"
       (click)="toggleDarkMode()"
       class="mr-2 relative inline-flex items-center justify-center w-12 h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn"
@@ -103,12 +104,6 @@
         </g>
       </svg>
     </button>
-
-    <!-- Avatar con Dropdown -->
-    <button
-      (click)="toggleDropdown()"
-      class="flex items-center text-black rounded-lg transition"
-    ></button>
 
     <!-- Botón de invitar amigos -->
     <button
@@ -313,7 +308,7 @@
   >
     <!-- Tarjeta principal -->
     <div
-      class="rounded-3xl shadow-2xl w-full max-w-sm sm:max-w-xl md:max-w-2xl max-h-[95vh] overflow-y-auto font-sans bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.65),_white_55%)] dark:bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.7),_rgba(15,23,42,1)_60%)] dark:border dark:border-slate-800 dark:shadow-[0_24px_80px_rgba(15,23,42,0.9)]"
+      class="rounded-3xl shadow-2xl w-full max-w-sm sm:max-w-xl md:max-w-2xl max-h-[95vh] overflow-y-auto font-sans bg-white border border-gray-200 dark:bg-slate-900 dark:border-slate-800 dark:shadow-[0_24px_80px_rgba(15,23,42,0.9)]"
       (click)="$event.stopPropagation()"
     >
       <div class="relative flex flex-col rounded-3xl">
@@ -406,12 +401,12 @@
               (input)="onEmailInputChange()"
               (keypress)="onEmailKeyPress($event)"
               placeholder="Email or username"
-              class="flex-1 rounded-full border border-gray-300 px-4 py-2.5 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-50 dark:placeholder-slate-400 dark:focus:ring-blue-400 dark:focus:border-blue-400"
+              class="flex-1 rounded-xl border border-gray-300 px-4 py-2.5 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-50 dark:placeholder-slate-400 dark:focus:ring-blue-400 dark:focus:border-blue-400"
             />
             <button
               type="submit"
               [disabled]="!emailInput && selectedEmails.length === 0"
-              class="rounded-full bg-black text-white font-semibold px-5 sm:px-6 py-2.5 text-sm sm:text-base whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              class="rounded-xl bg-black text-white font-semibold px-5 sm:px-6 py-2.5 text-sm sm:text-base whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
             >
               Send invite
             </button>
@@ -453,7 +448,7 @@
               </div>
               <div class="flex items-center gap-2">
                 <div
-                  class="rounded-full text-[11px] sm:text-xs font-semibold px-3 py-1"
+                  class="rounded-lg text-[11px] sm:text-xs font-semibold px-3 py-1"
                   [ngClass]="{
                     'bg-emerald-50 text-emerald-600': member.status === 'Accepted',
                     'bg-red-50 text-red-600': member.status === 'Rejected',
@@ -464,7 +459,7 @@
                 </div>
                 <button
                   type="button"
-                  class="h-6 w-6 flex items-center justify-center rounded-full border border-gray-200 dark:border-slate-700 text-gray-400 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+                  class="h-6 w-6 flex items-center justify-center rounded-lg border border-gray-200 dark:border-slate-700 text-gray-400 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                   (click)="cancelInvite(member)"
                 >
                   <svg
@@ -499,7 +494,7 @@
           >
             <button
               type="button"
-              class="flex-1 rounded-full border border-gray-200 bg-gray-50 px-4 py-2.5 font-medium text-gray-900 hover:bg-gray-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700 transition-colors"
+              class="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 font-medium text-gray-900 hover:bg-gray-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700 transition-colors"
               (click)="copyInviteLink()"
             >
               Copy link

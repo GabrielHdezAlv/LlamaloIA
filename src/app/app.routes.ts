@@ -17,6 +17,7 @@ import { AdminHomeComponent } from './pages/admin-home/admin-home.component';
 import { AdminMetricsComponent } from './pages/admin-metrics/admin-metrics.component';
 import { AdminTokensComponent } from './pages/admin-tokens/admin-tokens.component';
 import { AdminRedesSocialesComponent } from './pages/admin-redes-sociales/admin-redes-sociales.component';
+import { AdminRecordatorioComponent } from './pages/admin-recordatorio/admin-recordatorio.component';
 
 
 export const routes: Routes = [
@@ -104,6 +105,7 @@ export const routes: Routes = [
       { path: 'metrics', component: AdminMetricsComponent },
       { path: 'tokens', component: AdminTokensComponent },
       { path: 'redes-sociales', component: AdminRedesSocialesComponent },
+      { path: 'recordatorio', component: AdminRecordatorioComponent },
       // Aquí puedes agregar más rutas de admin en el futuro
       // { path: 'users', component: AdminUsersComponent },
       // { path: 'analytics', component: AdminAnalyticsComponent },

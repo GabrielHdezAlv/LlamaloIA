@@ -1,75 +1,60 @@
-.dashboard {
-  min-height: 100vh;
+// Animaciones para el recordatorio
+.reminder-container {
+  position: relative;
+  overflow: hidden;
 }
 
-/* Animaciones del sidebar móvil */
-@keyframes slideInFromLeft {
+.reminder-content {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reminder-container.slide-left .reminder-content,
+.reminder-container.slide-right .reminder-content {
+  opacity: 0;
+}
+
+.reminder-container:not(.slide-left):not(.slide-right) .reminder-content {
+  opacity: 1;
+}
+
+// Cursor para indicar que se puede arrastrar
+.reminder-container.cursor-grab {
+  cursor: grab;
+}
+
+.reminder-container.cursor-grabbing {
+  cursor: grabbing;
+}
+
+// Animación suave para el overlay del modal
+@keyframes fadeInOverlay {
   from {
-    transform: translateX(-100%);
     opacity: 0;
+    backdrop-filter: blur(0px);
   }
   to {
-    transform: translateX(0);
     opacity: 1;
+    backdrop-filter: blur(12px);
   }
 }
 
-@keyframes fadeIn {
+.reminder-overlay {
+  animation: fadeInOverlay 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+// Animación suave para el contenido del modal
+@keyframes slideUpFadeIn {
   from {
     opacity: 0;
+    transform: translateY(30px) scale(0.95);
   }
   to {
     opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-.mobile-sidebar-enter {
-  animation: slideInFromLeft 0.3s ease-out forwards;
-}
-
-.mobile-overlay-enter {
-  animation: fadeIn 0.3s ease-out forwards;
-}
-
-/* Media queries para responsive si es necesario */
-
-/* Ajuste de ancho del contenedor del sidebar en portátiles (1280px - 1439px)
-   para que no quede un hueco en blanco entre el sidebar y el dashboard */
-@media (min-width: 1280px) and (max-width: 1439px) {
-  .dashboard {
-    /* Primer hijo del layout: contenedor que reserva el ancho del sidebar */
-    > div:first-child {
-      /* Sidebar expandido (xl:w-72) -> mismo ancho que el sidebar real (14rem) */
-      &.xl\:w-72 {
-        width: 14rem !important;
-        max-width: 14rem !important;
-      }
-
-      /* Sidebar colapsado (xl:w-24) -> mantiene los 6rem originales */
-      &.xl\:w-24 {
-        width: 6rem !important;
-        max-width: 6rem !important;
-      }
-    }
-  }
-}
-/* Ajuste de ancho del contenedor del sidebar en portátiles grandes (1440px - 1600px)
-   para que no quede un hueco en blanco entre el sidebar y el dashboard */
-@media (min-width: 1440px) and (max-width: 1600px) {
-  .dashboard {
-    /* Primer hijo del layout: contenedor que reserva el ancho del sidebar */
-    > div:first-child {
-      /* Sidebar expandido (xl:w-[21rem]) -> mismo ancho que el sidebar real (16rem) */
-      &.xl\:w-\[21rem\] {
-        width: 16rem !important;
-        max-width: 16rem !important;
-      }
-
-      /* Sidebar colapsado (xl:w-24) -> mantiene los 6rem originales */
-      &.xl\:w-24 {
-        width: 6rem !important;
-        max-width: 6rem !important;
-      }
-    }
-  }
+.reminder-modal-content {
+  animation: slideUpFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0; // Inicialmente invisible para la animación
 }

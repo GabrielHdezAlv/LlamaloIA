@@ -75,13 +75,14 @@
   <div [class]="'relative w-72 bg-white shadow-xl flex flex-col h-full mobile-sidebar' + (isClosing ? ' leaving' : '')">
 
     <!-- Logo -->
-    <div class="flex items-center gap-2 h-16 px-6 mt-6">
-      <!-- Logo normal / blanco según modo -->
-      <img src="../../../assets/logo.png" alt="Llamalo Logo" class="h-12 pr-4 block dark:hidden" />
-      <img src="../../../assets/logo_blanco.png" alt="Llamalo Logo" class="h-12 pr-4 hidden dark:block" />
-      <div class="flex flex-col leading-tight">
+    <div class="flex items-center h-16 px-6 mt-6">
+      <div class="relative mt-2 ml-2">
+        <img src="../../../assets/logo.png" alt="Llamalo Logo" class="h-10 block dark:hidden" style="width: auto; object-fit: contain;" />
+        <img src="../../../assets/logo_blanco.png" alt="Llamalo Logo" class="h-10 hidden dark:block" style="width: auto; object-fit: contain;" />
+      </div>
+      <div class="flex flex-row items-baseline gap-1 leading-tight ml-4">
         <span class="brand-font text-4xl mt-2 font-bold tracking-[-3px] sidebar-logo-text">Llamalo</span>
-        <span class="brand-font text-[10px] mr-0.5 text-end text-black font-bold -mt-1.5 block tracking-[-0.5px] dark:text-slate-300">beta</span>
+        <span class="brand-font text-[10px] text-black font-bold tracking-[-0.5px] dark:text-slate-300">beta</span>
       </div>
     </div>
 
@@ -214,41 +215,77 @@
 <!-- Sidebar en escritorio -->
 <div
   *ngIf="windowWidth >= 1280"
-  [class]="'hidden xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200 dark:border-neutral-800 transition-all duration-500 ease-in-out ' + (isCollapsed ? 'xl:w-24 sidebar-collapsed' : (windowWidth < 1440 ? 'xl:w-60' : 'xl:w-[21rem] xl:max-w-[88rem]'))"
-  (mouseenter)="expandOnHover()"
-  (mouseleave)="collapseOnLeave()"
+  [class]="'hidden xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200 dark:border-neutral-800 transition-all duration-500 ease-in-out group ' + (isCollapsed ? 'xl:w-24 sidebar-collapsed' : (windowWidth < 1440 ? 'xl:w-60' : 'xl:w-[21rem] xl:max-w-[88rem]'))"
 >
   <div class="flex flex-col h-full w-full">
     <!-- Logo principal -->
-    <div class="flex items-center justify-center h-16 px-6 mt-6 flex-shrink-0">
-      <div class="flex items-center gap-2">
-            <!-- Logo normal -->
-            <img
-              src="../../../assets/logo.png"
-              alt="Llamalo Logo"
-              [ngClass]="{
-                'h-8': isCollapsed,
-                'h-10 pr-2': !isCollapsed && windowWidth < 1440,
-                'h-12 pr-4': !isCollapsed && windowWidth >= 1440
-              }"
-              class="transition-all duration-500 ease-in-out block dark:hidden"
-            />
-            <!-- Logo blanco en modo oscuro -->
-            <img
-              src="../../../assets/logo_blanco.png"
-              alt="Llamalo Logo"
-              [ngClass]="{
-                'h-8': isCollapsed,
-                'h-10 pr-2': !isCollapsed && windowWidth < 1440,
-                'h-12 pr-4': !isCollapsed && windowWidth >= 1440
-              }"
-              class="transition-all duration-500 ease-in-out hidden dark:block"
-            />
-        <div *ngIf="!isCollapsed" [class]="'flex flex-col leading-tight transition-all duration-500 ease-in-out opacity-0 animate-fade-in ' + (windowWidth < 1440 ? 'gap-0.5' : '')">
-          <span [class]="'brand-font mt-2 font-bold tracking-[-3px] sidebar-logo-text ' + (windowWidth < 1440 ? 'text-3xl' : 'text-5xl')">Llamalo</span>
-          <span class="brand-font text-[10px] mr-0.5 text-end text-black font-bold -mt-1.5 block tracking-[-0.5px] dark:text-slate-300">beta</span>
+    <div class="flex items-center h-16 px-6 mt-6 flex-shrink-0 relative"
+         [ngClass]="{'justify-center': isCollapsed, 'justify-between': !isCollapsed}">
+      <div class="flex items-center gap-0 relative" [ngClass]="{'justify-center w-full': isCollapsed}">
+        <!-- Logo normal -->
+        <div class="relative mt-2" [ngClass]="{'ml-0': isCollapsed, 'ml-2': !isCollapsed}">
+          <img
+            [ngClass]="{
+              'h-8': isCollapsed,
+              'h-10': !isCollapsed && windowWidth < 1440,
+              'h-11': !isCollapsed && windowWidth >= 1440,
+              'opacity-100 group-hover:opacity-0': isCollapsed
+            }"
+            src="../../../assets/logo.png"
+            alt="Llamalo Logo"
+            class="block dark:hidden relative z-0 transition-[height] duration-500 ease-in-out"
+            [style.transition]="isCollapsed ? 'opacity 0.3s ease-in-out' : 'height 500ms ease-in-out'"
+            style="width: auto; object-fit: contain;"
+          />
+          <!-- Logo blanco en modo oscuro -->
+          <img
+            [ngClass]="{
+              'h-8': isCollapsed,
+              'h-10': !isCollapsed && windowWidth < 1440,
+              'h-11': !isCollapsed && windowWidth >= 1440,
+              'opacity-100 group-hover:opacity-0': isCollapsed
+            }"
+            src="../../../assets/logo_blanco.png"
+            alt="Llamalo Logo"
+            class="hidden dark:block relative z-0 transition-[height] duration-500 ease-in-out"
+            [style.transition]="isCollapsed ? 'opacity 0.3s ease-in-out' : 'height 500ms ease-in-out'"
+            style="width: auto; object-fit: contain;"
+          />
+        </div>
+        <!-- Icono para abrir sidebar (solo cuando está cerrado, aparece en hover) -->
+        <button
+          *ngIf="isCollapsed"
+          (click)="toggleCollapse()"
+          class="sidebar-open-icon absolute left-1/2 -translate-x-1/2 top-[55%] -translate-y-1/2 opacity-0 group-hover:opacity-100 cursor-pointer text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 h-7 flex items-center justify-center z-10"
+          title="Abrir sidebar"
+        >
+          <svg width="77" height="68" viewBox="0 0 77 68" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-5">
+            <rect x="3.5" y="3.5" width="70" height="61" rx="14.5" stroke="currentColor" stroke-width="7"/>
+            <rect x="16" y="15" width="25" height="38" rx="4" fill="currentColor"/>
+          </svg>
+        </button>
+        <!-- Texto Llamalo beta (posición absoluta para no afectar layout) -->
+        <div 
+          [class]="'absolute left-full ml-4 flex flex-row items-baseline gap-1 leading-tight ' + (isCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100 transition-all duration-500 ease-in-out')"
+          [style.transform]="isCollapsed ? 'translateX(-10px)' : 'translateX(0)'"
+          [style.transition]="isCollapsed ? 'none' : 'all 500ms ease-in-out'"
+        >
+          <span [class]="'brand-font mt-2 font-bold tracking-[-3px] sidebar-logo-text whitespace-nowrap ' + (windowWidth < 1440 ? 'text-3xl' : 'text-4xl') + (isCollapsed ? '' : ' transition-all duration-500 ease-in-out')">Llamalo</span>
+          <span [class]="'brand-font text-[10px] text-black font-bold tracking-[-0.5px] dark:text-slate-300 whitespace-nowrap ' + (isCollapsed ? '' : 'transition-all duration-500 ease-in-out')">beta</span>
         </div>
       </div>
+      <!-- Icono para cerrar sidebar (a la derecha, solo cuando está abierto, siempre visible) -->
+      <button
+        *ngIf="!isCollapsed"
+        (click)="toggleCollapse()"
+        class="sidebar-close-icon opacity-100 transition-all duration-500 ease-in-out cursor-pointer text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 mt-2"
+        title="Cerrar sidebar"
+      >
+        <svg width="77" height="68" viewBox="0 0 77 68" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-5">
+          <rect x="3.5" y="3.5" width="70" height="61" rx="14.5" stroke="currentColor" stroke-width="7"/>
+          <rect x="16" y="15" width="7" height="38" rx="3.5" fill="currentColor"/>
+        </svg>
+      </button>
     </div>
 
 
@@ -327,7 +364,79 @@
 
 
       <!-- Perfil con dropdown -->
-      <div [class]="'relative pt-2 pb-2 w-[90%] mx-auto ' + (isCollapsed ? 'flex justify-center items-center' : 'flex items-center gap-3')">
+      <div [class]="'relative pt-2 pb-2 w-[90%] mx-auto ' + (isCollapsed ? 'flex flex-col items-center' : 'flex items-center gap-3')">
+        <!-- Botón de modo oscuro/claro cuando el sidebar está cerrado -->
+        <button
+          *ngIf="isCollapsed"
+          type="button"
+          (click)="toggleDarkMode()"
+          class="mb-8 relative inline-flex items-center justify-center focus:outline-none transition-all duration-300 theme-toggle-btn"
+          [attr.aria-checked]="isDarkMode"
+          [attr.aria-label]="isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro'"
+        >
+          <svg
+            class="w-6 h-6 theme-icon"
+            [class.dark]="isDarkMode"
+            [class.light]="!isDarkMode"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <!-- Luna (creciente) -->
+            <path
+              class="moon-path"
+              d="M21 12.79C20.7559 14.2353 20.075 15.5754 19.0515 16.6448C18.028 17.7142 16.7131 18.4638 15.2828 18.7998C13.8524 19.1357 12.3663 19.0444 10.9866 18.5369C9.60693 18.0294 8.38975 17.1253 7.48894 15.9377C6.58813 14.75 6.04214 13.3252 5.9144 11.8387C5.78666 10.3522 6.0824 8.86118 6.76635 7.54289C7.45029 6.22459 8.49456 5.13592 9.77752 4.40701C11.0605 3.6781 12.5246 3.33847 13.9866 3.4249C13.2244 4.34748 12.8127 5.53271 12.8403 6.74897C12.8678 7.96524 13.333 9.12967 14.1537 10.0267C14.9744 10.9237 16.0983 11.4925 17.3127 11.6343C18.5271 11.7761 19.7559 11.4826 20.79 10.81C20.9519 11.4724 21.0323 12.1537 21.03 12.837"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              fill="none"
+            />
+            
+            <!-- Círculo base (inicialmente invisible, se hace visible cuando la luna se transforma) -->
+            <circle
+              class="sun-circle"
+              cx="12"
+              cy="12"
+              r="4.5"
+              stroke="currentColor"
+              stroke-width="1.7"
+              fill="none"
+              opacity="0"
+            />
+            
+            <!-- Rayos del sol -->
+            <g class="sun-rays" opacity="0">
+              <!-- Rayos horizontales y verticales -->
+              <path
+                d="M12 4V2M12 22V20M4 12H2M22 12H20"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+              <!-- Rayos diagonales -->
+              <path
+                d="M5.63604 5.63604L4.22183 4.22183M19.7782 19.7782L18.364 18.364M5.63604 18.364L4.22183 19.7782M19.7782 4.22183L18.364 5.63604"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+            </g>
+          </svg>
+        </button>
+
+        <!-- Icono de campanita cuando el sidebar está cerrado -->
+        <button
+          *ngIf="isCollapsed"
+          (click)="openReminderModal($event)"
+          class="mb-8 inline-flex items-center justify-center focus:outline-none transition-colors reminder-bell-icon"
+          aria-label="Ver novedades"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+        </button>
+        
         <!-- Avatar y texto -->
         <div
           class="flex items-center gap-2 transition-all duration-500 ease-out cursor-pointer"

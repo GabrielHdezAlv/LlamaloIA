@@ -27,6 +27,9 @@ export class TopbarComponent implements OnInit {
 
   // Modo oscuro
   isDarkMode = false;
+  
+  // Indica si estamos en la sección de admin
+  isAdminSection = false;
 
   showDropdown = false;
   showInviteModal = false;
@@ -150,6 +153,9 @@ export class TopbarComponent implements OnInit {
   updateHeader() {
     const url = this.router.url;
     const t = this.i18nService.getTranslations();
+
+    // Detectar si estamos en la sección de admin
+    this.isAdminSection = url.startsWith('/admin');
 
     // Rutas de admin
     if (url.startsWith('/admin/tokens')) {

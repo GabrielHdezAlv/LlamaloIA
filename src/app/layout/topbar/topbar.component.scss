@@ -68,8 +68,22 @@
     }
   }
 
+  // Reducir tamaño del título en portátiles (1024px - 1440px)
+  @media (min-width: 1024px) and (max-width: 1439px) {
+    h1 {
+      font-size: 1.5rem !important; /* text-2xl en lugar de text-4xl */
+      line-height: 2rem !important;
+    }
+    
+    // Reducir tamaño del texto de bienvenida
+    p.text-sm {
+      font-size: 0.8125rem !important; /* Más pequeño que text-sm (0.875rem) */
+      line-height: 1.25rem !important;
+    }
+  }
+
   .theme-icon {
-    color: #fbbf24; // Color amarillo para el sol en modo claro
+    color: #000000; // Color negro para el sol en modo claro
     transition: color 0.3s ease;
 
     &.dark {

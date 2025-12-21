@@ -60,11 +60,32 @@
      solo ocultar el texto para que los iconos no "salten" de sitio */
   .nav-link {
     justify-content: flex-start;
+    padding-left: 0.75rem;
+    padding-right: 0.5rem;
   }
 
   .nav-text {
     display: none;
   }
+}
+
+/* --- Icono para abrir sidebar cuando está cerrado --- */
+.sidebar-open-icon {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: none;
+}
+
+/* Cuando el sidebar está colapsado, el icono está listo para aparecer */
+.sidebar-collapsed .sidebar-open-icon {
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.group:hover .sidebar-open-icon {
+  opacity: 1;
 }
 
 /* --- Tooltip styles for collapsed sidebar --- */
@@ -180,9 +201,16 @@
 }
 
 .nav-link.nav-link-active {
-  background-color: rgba(107, 114, 128, 0.12); // gray-500
-  box-shadow: 0 10px 30px rgba(107, 114, 128, 0.12);
-  border-radius: 9999px; // recuadro más redondeado (pill)
+  background-color: #f4f4f5; // Color del recuadro seleccionado (modo claro)
+  box-shadow: 0 10px 30px rgba(244, 244, 245, 0.12);
+  border-radius: 1.4rem; // recuadro redondeado
+}
+
+// En modo oscuro, mantener el color original sin sombras
+:host-context(html.dark) .nav-link.nav-link-active,
+html.dark :host .nav-link.nav-link-active {
+  background-color: rgba(107, 114, 128, 0.12) !important; // Color original en modo oscuro
+  box-shadow: none !important; // Eliminar sombras en modo oscuro
 }
 
 .sidebar-collapsed .nav-link.nav-link-active {
@@ -197,16 +225,24 @@
   justify-content: center;
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 9999px;
+  border-radius: 1.4rem;
   background: transparent;
   transition: all 0.35s ease;
 }
 
 .sidebar-collapsed .nav-link-active .nav-icon-wrapper {
-  background-color: rgba(107, 114, 128, 0.12); // gray-500
+  background-color: #f4f4f5; // Color del recuadro seleccionado (modo claro)
   /* Sombra centrada para que el resplandor sea un círculo perfecto,
      sin más intensidad en la parte inferior */
-  box-shadow: 0 0 20px rgba(107, 114, 128, 0.18);
+  box-shadow: 0 0 20px rgba(244, 244, 245, 0.18);
+  border-radius: 0.75rem; // border-radius más pequeño para sidebar cerrado
+}
+
+// En modo oscuro, mantener el color original sin sombras
+:host-context(html.dark) .sidebar-collapsed .nav-link-active .nav-icon-wrapper,
+html.dark :host .sidebar-collapsed .nav-link-active .nav-icon-wrapper {
+  background-color: rgba(107, 114, 128, 0.12) !important; // Color original en modo oscuro
+  box-shadow: none !important; // Eliminar sombras en modo oscuro
 }
 
 .sidebar-collapsed .nav-link:hover:not(.nav-link-active) .nav-icon-wrapper {
@@ -221,7 +257,15 @@
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
     "Apple Color Emoji", "Segoe UI Emoji";
-  font-weight: 500; /* Poppins Medium */
+  font-weight: 600; /* Poppins Semi-bold - más grueso */
+  letter-spacing: -1px; /* Juntar más las letras */
+}
+
+/* Juntar más las letras de los textos de onboarding */
+.sidebar-onboarding-title,
+.sidebar-onboarding-subtitle,
+.sidebar-onboarding-step-text {
+  letter-spacing: -1.1px !important; /* Juntar más las letras */
 }
 
 /* --- Profile image and avatar transitions --- */
@@ -357,6 +401,12 @@ img.h-10.w-10.rounded-full {
     padding-left: 2rem !important;   /* mismo inicio visual que iconos (nav padding + nav-link padding) */
     padding-right: 1rem !important;
   }
+  
+  /* Hacer el logo (icono) más pequeño */
+  .relative.mt-2 img {
+    height: 1.75rem !important; /* h-7 en lugar de h-8 (más pequeño) */
+    width: auto !important;
+  }
 
   /* Mover un poco más a la izquierda el texto "Llamalo" en el logo del sidebar */
   .flex.items-center.justify-center.h-16.px-6.mt-6.flex-shrink-0 > .flex.items-center.gap-2 {
@@ -365,6 +415,31 @@ img.h-10.w-10.rounded-full {
 
   .flex.items-center.justify-center.h-16.px-6.mt-6.flex-shrink-0 .brand-font.mt-2 {
     margin-left: -0.15rem !important; /* desplaza el bloque de texto ligeramente a la izquierda */
+  }
+  
+  /* Hacer el texto "Llamalo" más pequeño */
+  .brand-font.sidebar-logo-text {
+    font-size: 1.375rem !important; /* Más pequeño que text-2xl (1.5rem) */
+    line-height: 1.625rem !important;
+    letter-spacing: -0.0625rem !important; /* -1px en lugar de -3px (solo en este rango) */
+  }
+  
+  /* Hacer el texto "beta" más pequeño - seleccionar por posición relativa */
+  .absolute.left-full .brand-font:last-child {
+    font-size: 0.4375rem !important; /* 7px (más pequeño) */
+    letter-spacing: -0.03125rem !important; /* -0.5px (juntar las letras) */
+  }
+  
+  /* Reducir margen entre logo y texto (solo en este rango) */
+  .absolute.left-full {
+    margin-left: 0.5rem !important; /* ml-2 en lugar de ml-3 (más cerca del logo) */
+    gap: 0.125rem !important; /* Reducir gap entre Llamalo y beta (de gap-1 a gap-0.5) */
+  }
+  
+  /* Hacer el icono de cerrar más pequeño (solo en este rango) */
+  .sidebar-close-icon svg {
+    width: 1.25rem !important; /* w-5 en lugar de w-6 */
+    height: 1rem !important; /* h-4 en lugar de h-5 */
   }
   
   /* Reducir espaciado en nav items */
@@ -388,6 +463,12 @@ img.h-10.w-10.rounded-full {
       /* Evitar que el texto empuje el icono hacia abajo en este breakpoint */
       margin-top: 0 !important;
     }
+  }
+  
+  /* Reducir padding vertical del recuadro seleccionado (solo en este rango) */
+  .nav-link.nav-link-active {
+    padding-top: 0.25rem !important; /* Reducir padding vertical aún más */
+    padding-bottom: 0.25rem !important;
   }
   
   /* Badges de NEW más pequeños */
@@ -652,6 +733,12 @@ img.h-10.w-10.rounded-full {
     }
   }
   
+  /* Reducir padding vertical del recuadro seleccionado (solo en este rango) */
+  .nav-link.nav-link-active {
+    padding-top: 0.25rem !important; /* Reducir padding vertical aún más */
+    padding-bottom: 0.25rem !important;
+  }
+  
   /* Logo más pequeño */
   .flex.items-center.justify-center.h-16.px-6.mt-6.flex-shrink-0 {
     justify-content: flex-start !important;
@@ -910,5 +997,100 @@ img.h-10.w-10.rounded-full {
   to {
     transform: translateX(-100%);
     opacity: 0;
+  }
+}
+
+/* Icono de campanita con estilos del tema (igual que el botón del sol) */
+.reminder-bell-icon {
+  color: #000000; // Color negro para modo claro
+  transition: color 0.3s ease;
+
+  svg {
+    color: inherit;
+  }
+}
+
+// En modo oscuro, color claro
+:host-context(html.dark) .reminder-bell-icon,
+html.dark :host .reminder-bell-icon {
+  color: #e2e8f0 !important; // Color claro para modo oscuro
+}
+
+/* Botón de toggle de tema (igual que el topbar) */
+.theme-toggle-btn {
+  color: #000000; // Color negro para el sol en modo claro
+  transition: color 0.3s ease;
+}
+
+.theme-icon {
+  color: #000000; // Color negro para el sol en modo claro
+  transition: color 0.3s ease;
+
+  &.dark {
+    color: #e2e8f0; // Color claro para la luna en modo oscuro
+  }
+
+  // Path de la luna (creciente)
+  .moon-path {
+    opacity: 1;
+    transform-origin: center;
+    transform: scale(1) rotate(0deg);
+    transition: opacity 0.4s ease 0.2s, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  // Círculo del sol
+  .sun-circle {
+    opacity: 0;
+    transform-origin: center;
+    transform: scale(0);
+    transition: opacity 0.3s ease 0.4s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s;
+  }
+
+  // Rayos del sol
+  .sun-rays {
+    opacity: 0;
+    transform-origin: center;
+    transform: scale(0) rotate(0deg);
+    transition: opacity 0.3s ease 0.6s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s;
+  }
+
+  // Cuando está en modo claro (light) - muestra el sol
+  &.light {
+    .moon-path {
+      opacity: 0;
+      transform: scale(0.8) rotate(90deg);
+      transition: opacity 0.3s ease 0s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0s;
+    }
+
+    .sun-circle {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .sun-rays {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+
+  // Cuando está en modo oscuro (dark) - muestra la luna
+  &.dark {
+    .moon-path {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+      transition: opacity 0.3s ease 0.4s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s;
+    }
+
+    .sun-circle {
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 0.2s ease 0s, transform 0.3s ease 0s;
+    }
+
+    .sun-rays {
+      opacity: 0;
+      transform: scale(0) rotate(-45deg);
+      transition: opacity 0.2s ease 0s, transform 0.3s ease 0s;
+    }
   }
 }
