@@ -16,7 +16,6 @@ import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
-import { ElevenLabsService } from '../../core/services/eleven-labs.service';
 import { ModalService } from '../../shared/modals/modal.service';
 
 @Component({
@@ -44,7 +43,6 @@ export class AgentsComponent implements OnInit {
   private twilioService = inject(TwilioService);
   private agentsService = inject(AgentsService);
   private userService = inject(UserService);
-  private elevenLabsService = inject(ElevenLabsService);
   private modalService = inject(ModalService);
 
   public twilioStorage: any = inject(TwilioStorage);
@@ -149,6 +147,10 @@ export class AgentsComponent implements OnInit {
       data: {
         formEnabled: editMode,
         config: existingConfig,
+        // Pasar los valores requeridos para TwilioConfigRequest
+        firstInteraction: this.firstInteractionMessage || existingConfig?.firstInteraction || '',
+        firstInteractionUrl: existingConfig?.firstInteractionUrl || '',
+        agentInstruction: existingConfig?.agentInstruction || '',
       },
     });
 
@@ -161,7 +163,18 @@ export class AgentsComponent implements OnInit {
         panelClass: 'loader-dialog',
       });
 
-      this.twilioService.setConfig(result).subscribe({
+      // Crear TwilioConfigRequest con los valores necesarios
+      const configRequest: any = {
+        countryCode: result.countryCode || '',
+        phoneNumber: result.phoneNumber || 0,
+        twilioSid: result.twilioSid || '',
+        twilioToken: result.twilioToken || '',
+        firstInteraction: this.firstInteractionMessage || result.firstInteraction || '',
+        firstInteractionUrl: result.firstInteractionUrl || '',
+        agentInstruction: result.agentInstruction || '',
+      };
+
+      this.twilioService.setConfig(configRequest).subscribe({
         next: () => {
           loaderRef.close();
           this.openSuccessDialog(result);
@@ -226,55 +239,31 @@ export class AgentsComponent implements OnInit {
       return;
     }
 
-    // Primero guardar el mensaje de firstInteraction
-    this.elevenLabsService
-      .setFirstInteraction(this.firstInteractionMessage)
-      .subscribe({
-        next: () => {
-          // Actualizar el store local con el nuevo firstInteraction
-          const config = this.twilioStorage.config();
-          if (config) {
-            config.firstInteraction = this.firstInteractionMessage;
-            this.twilioStorage.setConfig(config);
-          }
-          // Luego guardar la configuración del agente
-          this.agentsService.setAgentConfig(this.selectedAgent!).subscribe({
-            next: (response) => {
-              loaderRef.close();
-              this.dialog.open(TwilioSuccessModalComponent, {
-                width: '400px',
-                disableClose: false,
-                panelClass: 'custom-dialog-container',
-                data: {
-                  message: '¡Agente configurado exitosamente!',
-                  title: 'Configuración Completada',
-                },
-              });
-            },
-            error: (error) => {
-              loaderRef.close();
-              console.error('Error al publicar el agente:', error);
-              this.modalService.openError({
-                title: 'Error',
-                message: 'No se pudo publicar el agente.',
-                details: String(error)
-              });
-            },
-          });
-        },
-        error: (error) => {
-          loaderRef.close();
-          console.error(
-            'Error al guardar el mensaje de firstInteraction:',
-            error
-          );
-          this.modalService.openError({
-            title: 'Error',
-            message: 'No se pudo guardar el mensaje inicial.',
-            details: String(error)
-          });
-        },
-      });
+    // Guardar la configuración del agente
+    // Nota: firstInteraction ahora se envía a través de POST /twilio/config
+    this.agentsService.setAgentConfig(this.selectedAgent!).subscribe({
+      next: (response) => {
+        loaderRef.close();
+        this.dialog.open(TwilioSuccessModalComponent, {
+          width: '400px',
+          disableClose: false,
+          panelClass: 'custom-dialog-container',
+          data: {
+            message: '¡Agente configurado exitosamente!',
+            title: 'Configuración Completada',
+          },
+        });
+      },
+      error: (error) => {
+        loaderRef.close();
+        console.error('Error al publicar el agente:', error);
+        this.modalService.openError({
+          title: 'Error',
+          message: 'No se pudo publicar el agente.',
+          details: String(error)
+        });
+      },
+    });
   }
 
   irAlPaso(paso: number) {
