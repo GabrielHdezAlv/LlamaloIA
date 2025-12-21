@@ -1,6 +1,8 @@
 import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { I18nService } from '../../core/services/i18n.service';
+import { MetricsService } from '../../core/services/metrics.service';
+import { DashboardMetrics, MetricsPeriod } from '../../shared/models/dashboard-metrics.model';
 
 @Component({
   selector: 'app-home',
@@ -11,8 +13,11 @@ import { I18nService } from '../../core/services/i18n.service';
 })
 export class HomeComponent implements OnInit {
   private i18nService = inject(I18nService);
+  private metricsService = inject(MetricsService);
   
   selectedRange: '1D' | '7D' | '1M' | '6M' | '1A' = '1A';
+  dashboardMetrics: DashboardMetrics | null = null;
+  isLoadingMetrics: boolean = false;
 
   // Obtener traducciones
   get t() {
@@ -53,11 +58,83 @@ export class HomeComponent implements OnInit {
   };
 
   get summary() {
+    // Si hay datos del backend, usarlos; si no, usar datos por defecto
+    if (this.dashboardMetrics) {
+      return {
+        totalCalls: this.dashboardMetrics.resumen.total_llamadas,
+        callsDeltaPct: 0, // El backend no proporciona este dato
+        timeSavedHours: this.dashboardMetrics.resumen.tiempo_ahorrado,
+        timeSavedDeltaPct: 0, // El backend no proporciona este dato
+        minutesUsed: this.dashboardMetrics.resumen.minutos_utilizados,
+        minutesDeltaPct: 0, // El backend no proporciona este dato
+      };
+    }
     return this.rangeToSummary[this.selectedRange] ?? this.rangeToSummary['1A'];
   }
 
   setRange(range: '1D' | '7D' | '1M' | '6M' | '1A') {
     this.selectedRange = range;
+    // Cargar métricas cuando cambia el rango
+    this.loadMetrics();
+  }
+
+  // Mapear el rango seleccionado al formato del backend
+  private mapRangeToBackendPeriod(range: '1D' | '7D' | '1M' | '6M' | '1A'): MetricsPeriod {
+    const mapping: Record<string, MetricsPeriod> = {
+      '1D': 'day',
+      '7D': 'week',
+      '1M': 'month',
+      '6M': '6months',
+      '1A': 'year',
+    };
+    return mapping[range] || 'week';
+  }
+
+  // Cargar métricas del backend
+  private loadMetrics(): void {
+    this.isLoadingMetrics = true;
+    const period = this.mapRangeToBackendPeriod(this.selectedRange);
+    
+    this.metricsService.getDashboardMetrics(period).subscribe({
+      next: (data: DashboardMetrics) => {
+        this.dashboardMetrics = data;
+        this.isLoadingMetrics = false;
+        
+        // Actualizar datos de llamadas por día
+        this.updateCallsByDay(data);
+        
+        // Actualizar agentes activos
+        this.updateActiveAgents(data);
+      },
+      error: (error) => {
+        console.error('Error al cargar métricas:', error);
+        this.isLoadingMetrics = false;
+        // En caso de error, mantener los datos por defecto
+      }
+    });
+  }
+
+  // Actualizar datos de llamadas por día desde el backend
+  private updateCallsByDay(data: DashboardMetrics): void {
+    if (data.llamadas_ultimos_7_dias && data.llamadas_ultimos_7_dias.length > 0) {
+      // Obtener los últimos 7 días
+      const last7Days = data.llamadas_ultimos_7_dias.slice(-7);
+      
+      // Mapear a arrays de conteos
+      this.callsByDayCounts = last7Days.map(item => item.total);
+      
+      // Calcular porcentajes basados en el máximo
+      const maxCalls = Math.max(...this.callsByDayCounts, 1);
+      this.callsByDayPercentages = this.callsByDayCounts.map(count => 
+        Math.round((count / maxCalls) * 100)
+      );
+    }
+  }
+
+  // Actualizar agentes activos desde el backend
+  private updateActiveAgents(data: DashboardMetrics): void {
+    // Los datos de agentes se actualizarán automáticamente a través del getter
+    // que ahora usará dashboardMetrics.agentes
   }
 
   currentWeekdayIndex: number = this.computeWeekdayIndex();
@@ -110,6 +187,34 @@ export class HomeComponent implements OnInit {
     outerColor: string;
     innerColor: string;
   }> {
+    // Si hay datos del backend, usarlos
+    if (this.dashboardMetrics && this.dashboardMetrics.agentes) {
+      const totalMinutes = this.dashboardMetrics.agentes.reduce(
+        (sum, agent) => sum + agent.minutos_totales, 
+        0
+      );
+      
+      return this.dashboardMetrics.agentes.map(agent => {
+        const percent = totalMinutes > 0 
+          ? Math.round((agent.minutos_totales / totalMinutes) * 100 * 10) / 10
+          : 0;
+        
+        const isActive = agent.estado === 'activo';
+        
+        return {
+          name: agent.nombre,
+          type: agent.tipo === 'inbound' ? this.t.inbound : this.t.outbound,
+          minutes: agent.minutos_totales,
+          percent: percent,
+          status: isActive ? this.t.active : this.t.draft,
+          active: isActive,
+          outerColor: isActive ? '#1E3A8A80' : '#EDEDED',
+          innerColor: isActive ? '#1E3A8A' : '#C5CAC4',
+        };
+      });
+    }
+    
+    // Datos por defecto si no hay datos del backend
     return [
       {
         name: 'Carla',
@@ -135,6 +240,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Cargar métricas al inicializar
+    this.loadMetrics();
+    
     // Ejecutar animaciones siempre
     console.log('HomeComponent ngOnInit - Iniciando animaciones');
     this.startFadeInAnimations();
