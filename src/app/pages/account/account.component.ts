@@ -172,11 +172,10 @@ export class AccountComponent implements OnInit {
     // Actualizar el perfil inmediatamente
     const currentUser = this.user();
     if (currentUser) {
+      // NO incluir email ni country (el backend no los acepta)
       const updatedUserData = {
         name: this.tempName,
         lastname: this.tempLastname,
-        email: currentUser.email,
-        country: this.tempCountry,
         profileImage: avatarUrl,
         enterprise: this.tempEnterprise,
         enterpriseWeb: this.tempEnterpriseWeb,
@@ -301,11 +300,10 @@ export class AccountComponent implements OnInit {
       return;
     }
 
+    // NO incluir email ni country (el backend no los acepta)
     const updatedUserData = {
       name: this.tempName,
       lastname: this.tempLastname,
-      email: currentUser.email,
-      country: this.tempCountry,
       profileImage: this.tempProfileImage,
       enterprise: this.tempEnterprise,
       enterpriseWeb: this.tempEnterpriseWeb,
