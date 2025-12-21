@@ -1,13 +1,17 @@
 <div
   class="account-settings bg-white rounded-xl sm:rounded-2xl shadow-sm pb-0 sm:pb-0 lg:pb-0 h-auto lg:h-[75vh] mt-4 sm:mt-6 lg:mt-16 mx-4 sm:mx-6 lg:ml-28 lg:mr-[5.5rem] 2xl:mx-auto 2xl:max-w-[1400px] 2xl:ml-auto 2xl:mr-auto border border-gray-200 history-border"
 >
-  <div class="max-w-6xl 2xl:max-w-none flex flex-col lg:flex-row lg:h-full min-h-0">
-      <!-- Sidebar -->
-      <div
-        class="w-full lg:w-[32vh] 2xl:w-[400px] bg-gray-100 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none lg:rounded-br-none rounded-b-none p-3 sm:p-4 lg:p-6 2xl:p-8 shadow-sm h-auto lg:h-full"
-      >
+  <div
+    class="max-w-6xl 2xl:max-w-none flex flex-col lg:flex-row lg:h-full min-h-0"
+  >
+    <!-- Sidebar -->
+    <div
+      class="w-full lg:w-[32vh] 2xl:w-[400px] bg-gray-100 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none lg:rounded-br-none rounded-b-none p-3 sm:p-4 lg:p-6 2xl:p-8 shadow-sm h-auto lg:h-full"
+    >
       <!-- Header -->
-      <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 mt-2 sm:mt-3 ml-2 sm:ml-4">
+      <div
+        class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 mt-2 sm:mt-3 ml-2 sm:ml-4"
+      >
         @if (tempProfileImage || userProfileImage()) {
         <img
           [src]="tempProfileImage || userProfileImage()"
@@ -39,10 +43,14 @@
         </div>
         }
         <div>
-          <h3 class="font-semibold text-gray-900 tracking-[-0.8px] text-sm sm:text-base">
+          <h3
+            class="font-semibold text-gray-900 tracking-[-0.8px] text-sm sm:text-base"
+          >
             {{ fullName() }}
           </h3>
-          <p class="text-[10px] sm:text-xs text-gray-500 tracking-[-0.5px]">{{ email() }}</p>
+          <p class="text-[10px] sm:text-xs text-gray-500 tracking-[-0.5px]">
+            {{ email() }}
+          </p>
         </div>
       </div>
 
@@ -81,9 +89,14 @@
               />
             </svg>
           </span>
-          <div class="flex flex-col min-w-0 hidden sm:flex">
-            <span class="font-semibold text-xs sm:text-sm lg:text-base truncate">{{ t.profile }}</span>
-            <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{ t.profileInfo }}</span>
+          <div class="hidden sm:flex sm:flex-col min-w-0">
+            <span
+              class="font-semibold text-xs sm:text-sm lg:text-base truncate"
+              >{{ t.profile }}</span
+            >
+            <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{
+              t.profileInfo
+            }}</span>
           </div>
         </button>
 
@@ -112,9 +125,14 @@
               />
             </svg>
           </span>
-          <div class="flex flex-col min-w-0 hidden sm:flex">
-            <span class="font-semibold text-xs sm:text-sm lg:text-base truncate">{{ t.security }}</span>
-            <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{ t.updatePassword }}</span>
+          <div class="hidden sm:flex sm:flex-col min-w-0">
+            <span
+              class="font-semibold text-xs sm:text-sm lg:text-base truncate"
+              >{{ t.security }}</span
+            >
+            <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{
+              t.updatePassword
+            }}</span>
           </div>
         </button>
 
@@ -143,9 +161,14 @@
               />
             </svg>
           </span>
-          <div class="flex flex-col min-w-0 hidden sm:flex">
-            <span class="font-semibold text-xs sm:text-sm lg:text-base truncate">{{ t.billing }}</span>
-            <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{ t.editPaymentMethod }}</span>
+          <div class="hidden sm:flex sm:flex-col min-w-0">
+            <span
+              class="font-semibold text-xs sm:text-sm lg:text-base truncate"
+              >{{ t.billing }}</span
+            >
+            <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{
+              t.editPaymentMethod
+            }}</span>
           </div>
         </button>
 
@@ -213,9 +236,14 @@
               </defs>
             </svg>
           </span>
-          <div class="flex flex-col min-w-0 hidden sm:flex">
-            <span class="font-semibold text-xs sm:text-sm lg:text-base truncate">{{ t.gifts }}</span>
-            <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{ t.giftsSubtitle }}</span>
+          <div class="hidden sm:flex sm:flex-col min-w-0">
+            <span
+              class="font-semibold text-xs sm:text-sm lg:text-base truncate"
+              >{{ t.gifts }}</span
+            >
+            <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{
+              t.giftsSubtitle
+            }}</span>
           </div>
         </button>
       </nav>
@@ -227,7 +255,9 @@
     >
       @if (activeTab === 'profile') {
       <!-- === SECCIÓN PERFIL === -->
-      <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
+      <h2
+        class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4 sm:mb-6"
+      >
         {{ t.profileInfo }}
       </h2>
 
@@ -266,8 +296,14 @@
         </div>
         }
         <div class="flex flex-col mt-4 sm:mt-6">
-          <span class="text-[10px] sm:text-xs text-gray-500 tracking-[-0.5px]">{{ t.profileInfoHint1 }}</span>
-          <span class="text-[10px] sm:text-xs text-gray-500 tracking-[-0.5px]">{{ t.profileInfoHint2 }}</span>
+          <span
+            class="text-[10px] sm:text-xs text-gray-500 tracking-[-0.5px]"
+            >{{ t.profileInfoHint1 }}</span
+          >
+          <span
+            class="text-[10px] sm:text-xs text-gray-500 tracking-[-0.5px]"
+            >{{ t.profileInfoHint2 }}</span
+          >
         </div>
       </div>
 
@@ -301,7 +337,8 @@
 
         <!-- Email -->
         <div>
-          <label class="block text-xs sm:text-sm font-semibold text-black mb-1.5 sm:mb-2"
+          <label
+            class="block text-xs sm:text-sm font-semibold text-black mb-1.5 sm:mb-2"
             >{{ t.email }}</label
           >
           <div class="relative">
@@ -323,12 +360,15 @@
               />
             </svg>
           </div>
-          <p class="text-[10px] sm:text-xs text-gray-500 mt-1">{{ t.emailNotEditable }}</p>
+          <p class="text-[10px] sm:text-xs text-gray-500 mt-1">
+            {{ t.emailNotEditable }}
+          </p>
         </div>
 
         <!-- País -->
         <div class="relative">
-          <label class="block text-xs sm:text-sm font-semibold text-black mb-1.5 sm:mb-2"
+          <label
+            class="block text-xs sm:text-sm font-semibold text-black mb-1.5 sm:mb-2"
             >{{ t.country }}</label
           >
           <select
@@ -368,7 +408,8 @@
         <!-- Nombre del Negocio y Web del Negocio -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           <div>
-            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5 sm:mb-2"
+            <label
+              class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5 sm:mb-2"
               >{{ t.businessName }}</label
             >
             <div class="relative">
@@ -393,7 +434,8 @@
             </div>
           </div>
           <div>
-            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5 sm:mb-2"
+            <label
+              class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5 sm:mb-2"
               >{{ t.businessWebsite }}</label
             >
             <div class="relative">
@@ -434,7 +476,11 @@
       <!-- === SECCIÓN SEGURIDAD === -->
       <div class="flex flex-col h-full">
         <!-- Encabezado -->
-        <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">{{ t.security }}</h2>
+        <h2
+          class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4 sm:mb-6"
+        >
+          {{ t.security }}
+        </h2>
 
         <!-- Cambiar Contraseña -->
         <div class="space-y-6 sm:space-y-8 flex-1">
@@ -501,9 +547,13 @@
 
         <!-- Eliminar Cuenta - SIEMPRE ABAJO -->
         <div class="pt-4 sm:pt-6 mt-6 sm:mt-8">
-          <div class="flex flex-col sm:flex-row items-start justify-between gap-4">
+          <div
+            class="flex flex-col sm:flex-row items-start justify-between gap-4"
+          >
             <div class="flex-1">
-              <h3 class="text-xs sm:text-sm font-semibold text-gray-900 mb-1 sm:mb-2">
+              <h3
+                class="text-xs sm:text-sm font-semibold text-gray-900 mb-1 sm:mb-2"
+              >
                 {{ t.deleteAccount }}
               </h3>
               <p class="text-[10px] sm:text-xs text-gray-600 tracking-[-0.5px]">
@@ -524,7 +574,11 @@
       } @if (activeTab === 'billing') {
       <!-- === SECCIÓN FACTURACIÓN === -->
       <div class="flex flex-col h-full">
-        <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">{{ t.billing }}</h2>
+        <h2
+          class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mb-4 sm:mb-6"
+        >
+          {{ t.billing }}
+        </h2>
 
         <div class="space-y-4 sm:space-y-6">
           <!-- Suscripción Actual -->
@@ -535,7 +589,8 @@
               {{ t.currentSubscription }}
             </h3>
             <p class="text-xs sm:text-sm text-gray-800 tracking-[-0.5px]">
-              {{ currentPlanMinutes ?? '---' }} {{ t.minutesWord }} {{ t.withPlan }} <strong>{{ t.basicPlan }}</strong>
+              {{ currentPlanMinutes ?? "---" }} {{ t.minutesWord }}
+              {{ t.withPlan }} <strong>{{ t.basicPlan }}</strong>
             </p>
           </div>
 
@@ -546,7 +601,7 @@
               rippleColor="rgba(255, 255, 255, 0.4)"
               [rippleScale]="8"
             >
-            {{ t.cancelSubscription }}
+              {{ t.cancelSubscription }}
             </app-ripple-button>
             <app-ripple-button
               buttonClass="w-full sm:w-auto px-3 sm:px-4 py-2 sm:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs sm:text-sm whitespace-nowrap tracking-[-0.5px] flex items-center justify-center"
@@ -576,8 +631,13 @@
 
           <!-- Protegido por Stripe -->
           <div class="flex items-center mt-4 sm:mt-6">
-            <img src="assets/stripe.png" alt="Stripe" class="h-5 sm:h-6 w-auto" />
-            <span class="ml-2 mt-1 text-sm sm:text-base text-gray-800 tracking-[-0.5px]"
+            <img
+              src="assets/stripe.png"
+              alt="Stripe"
+              class="h-5 sm:h-6 w-auto"
+            />
+            <span
+              class="ml-2 mt-1 text-sm sm:text-base text-gray-800 tracking-[-0.5px]"
               >{{ t.protectedByStripe }}</span
             >
           </div>
@@ -586,20 +646,34 @@
       } @if (activeTab === 'gifts') {
       <!-- === SECCIÓN REGALOS === -->
       <div class="flex flex-col h-full">
-        <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1.5 sm:mb-2">{{ t.gifts }}</h2>
+        <h2
+          class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1.5 sm:mb-2"
+        >
+          {{ t.gifts }}
+        </h2>
         <div class="space-y-4 sm:space-y-6">
           <!-- Descripción -->
-          <p class="text-[10px] sm:text-xs text-gray-600 font-medium tracking-[-1px]">
+          <p
+            class="text-[10px] sm:text-xs text-gray-600 font-medium tracking-[-1px]"
+          >
             {{ t.giftsDescription }}
           </p>
 
           <!-- Tarjeta de Recompensa Trustpilot -->
-          <div class="bg-gray-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 mx-auto gift-card">
+          <div
+            class="bg-gray-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 mx-auto gift-card"
+          >
             <div class="space-y-3 sm:space-y-4">
               <!-- Título de la recompensa -->
-              <h3 class="text-lg sm:text-xl lg:text-2xl font-semibold tracking-[-0.5px]">
-                <span class="text-gray-900 trustpilot-title">{{ t.trustpilot }}</span>
-                <span class="text-blue-600 trustpilot-bonus"> {{ t.trustpilotBonus }}</span>
+              <h3
+                class="text-lg sm:text-xl lg:text-2xl font-semibold tracking-[-0.5px]"
+              >
+                <span class="text-gray-900 trustpilot-title">{{
+                  t.trustpilot
+                }}</span>
+                <span class="text-blue-600 trustpilot-bonus">
+                  {{ t.trustpilotBonus }}</span
+                >
               </h3>
 
               <!-- Descripción -->
@@ -630,47 +704,69 @@
 
   <!-- Modal de Facturación -->
   @if (showBillingModal) {
-  <div class="fixed inset-0 bg-purple-100 bg-opacity-80 flex items-center justify-center p-3 sm:p-6 lg:p-8 z-50 billing-modal-overlay" (click)="closeBillingModal($event)">
+  <div
+    class="fixed inset-0 bg-purple-100 bg-opacity-80 flex items-center justify-center p-3 sm:p-6 lg:p-8 z-50 billing-modal-overlay"
+    (click)="closeBillingModal($event)"
+  >
     <!-- Modal content -->
-    <div class="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[3rem] shadow-2xl p-4 sm:p-8 lg:p-14 max-w-[95vw] sm:max-w-[90vw] lg:max-w-[65rem] w-full mx-auto max-h-[90vh] overflow-y-auto relative" (click)="$event.stopPropagation()">
-      
+    <div
+      class="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[3rem] shadow-2xl p-4 sm:p-8 lg:p-14 max-w-[95vw] sm:max-w-[90vw] lg:max-w-[65rem] w-full mx-auto max-h-[90vh] overflow-y-auto relative"
+      (click)="$event.stopPropagation()"
+    >
       <!-- Botón de cerrar -->
       <button
         (click)="closeBillingModal()"
         class="absolute top-3 right-3 sm:top-4 sm:right-4 lg:top-6 lg:right-6 w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-colors duration-200 z-10"
         aria-label="Cerrar modal"
       >
-        <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 6L6 18M6 6L18 18" stroke="#1E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg
+          class="w-5 h-5 sm:w-6 sm:h-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 6L6 18M6 6L18 18"
+            stroke="#1E3A8A"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </button>
-      
+
       <!-- Selector de minutos -->
       <div class="mb-6 sm:mb-8 max-w-3xl mx-auto">
-        <div class="flex flex-wrap items-center gap-2 mb-3 sm:mb-4 tracking-[-0.4px]">
+        <div
+          class="flex flex-wrap items-center gap-2 mb-3 sm:mb-4 tracking-[-0.4px]"
+        >
           <h2 class="text-sm sm:text-base lg:text-lg font-bold text-gray-800">
             ¿Cuántos minutos necesitarías al mes? Unos
           </h2>
-          <div class="bg-blue-900 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full sm:rounded-[2rem] font-normal text-sm sm:text-base whitespace-nowrap">
+          <div
+            class="bg-blue-900 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full sm:rounded-[2rem] font-normal text-sm sm:text-base whitespace-nowrap"
+          >
             {{ selectedMinutes }}
           </div>
-          <span class="text-gray-700 font-bold text-sm sm:text-base">Minutos</span>
+          <span class="text-gray-700 font-bold text-sm sm:text-base"
+            >Minutos</span
+          >
         </div>
-        
+
         <!-- Slider Personalizado -->
         <div class="relative">
-          <div 
+          <div
             class="relative h-2 sm:h-3 bg-gray-200 rounded-lg cursor-pointer"
             (click)="onSliderTrackClick($event)"
           >
             <!-- Barra de progreso -->
-            <div 
+            <div
               class="absolute top-0 left-0 h-2 sm:h-3 bg-blue-900 rounded-lg transition-all duration-300 ease-out"
               [style.width.%]="((selectedMinutes - 100) / (2000 - 100)) * 100"
             ></div>
-            
+
             <!-- Thumb personalizado -->
-            <div 
+            <div
               class="absolute top-1/2 transform -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 bg-white border-2 border-blue-900 rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-out hover:shadow-xl hover:scale-110"
               [style.left]="getSliderThumbPosition()"
               (mousedown)="startDragging($event)"
@@ -681,21 +777,40 @@
       </div>
 
       <!-- Contenido principal -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-3xl mx-auto bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg tracking-[-0.4px]">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-3xl mx-auto bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg tracking-[-0.4px]"
+      >
         <!-- Sección izquierda - Recuadro del plan (blanco) -->
         <div class="bg-white p-4 sm:p-6 lg:p-8 2xl:p-10 font-dm-sans">
           <div class="space-y-3 sm:space-y-4">
             <div>
-              <span class="text-sm sm:text-base lg:text-xl text-gray-500 font-normal font-dm-sans">{{ selectedPlan?.targetAudience }}</span>
-              <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-950 font-dm-sans">{{ selectedPlan?.name }}</h3>
-              <p class="text-gray-500 mt-4 sm:mt-6 lg:mt-8 text-sm sm:text-base lg:text-xl leading-relaxed font-dm-sans">{{ selectedPlan?.description }}</p>
+              <span
+                class="text-sm sm:text-base lg:text-xl text-gray-500 font-normal font-dm-sans"
+                >{{ selectedPlan?.targetAudience }}</span
+              >
+              <h3
+                class="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-950 font-dm-sans"
+              >
+                {{ selectedPlan?.name }}
+              </h3>
+              <p
+                class="text-gray-500 mt-4 sm:mt-6 lg:mt-8 text-sm sm:text-base lg:text-xl leading-relaxed font-dm-sans"
+              >
+                {{ selectedPlan?.description }}
+              </p>
             </div>
-            
+
             <div class="flex items-baseline gap-2 sm:gap-3">
-              <span class="text-3xl sm:text-4xl lg:text-6xl font-extrabold text-blue-950 font-dm-sans">${{ selectedPlan?.price }}</span>
-              <span class="text-gray-500 text-sm sm:text-base lg:text-xl font-dm-sans">/monthly</span>
+              <span
+                class="text-3xl sm:text-4xl lg:text-6xl font-extrabold text-blue-950 font-dm-sans"
+                >${{ selectedPlan?.price }}</span
+              >
+              <span
+                class="text-gray-500 text-sm sm:text-base lg:text-xl font-dm-sans"
+                >/monthly</span
+              >
             </div>
-            
+
             <button
               (click)="getStarted()"
               class="w-full bg-blue-900 text-white font-medium py-3 sm:py-4 lg:py-6 px-6 sm:px-8 rounded-full transition-colors duration-200 text-sm sm:text-base lg:text-lg font-dm-sans"
@@ -707,52 +822,99 @@
 
         <!-- Sección derecha - Características incluidas (gris muy claro) -->
         <div class="bg-gray-50 p-4 sm:p-6 lg:p-8 2xl:p-10 font-dm-sans">
-          <h4 class="text-lg sm:text-xl lg:text-2xl font-bold text-blue-950 mb-4 sm:mb-6 lg:mt-8 font-dm-sans">What's included</h4>
-          
+          <h4
+            class="text-lg sm:text-xl lg:text-2xl font-bold text-blue-950 mb-4 sm:mb-6 lg:mt-8 font-dm-sans"
+          >
+            What's included
+          </h4>
+
           <div class="space-y-3 sm:space-y-4">
-            <div *ngFor="let feature of selectedPlan?.features" class="flex items-center gap-3 sm:gap-4">
-              <div class="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-blue-700 rounded-full flex items-center justify-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div
+              *ngFor="let feature of selectedPlan?.features"
+              class="flex items-center gap-3 sm:gap-4"
+            >
+              <div
+                class="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-blue-700 rounded-full flex items-center justify-center"
+              >
+                <svg
+                  class="w-5 h-5 sm:w-6 sm:h-6"
+                  viewBox="0 0 27 27"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <g clip-path="url(#clip0_1126_212)">
-                  <path d="M13.8711 26.1522C21.051 26.1522 26.8711 20.3321 26.8711 13.1522C26.8711 5.97232 21.051 0.152222 13.8711 0.152222C6.69119 0.152222 0.871094 5.97232 0.871094 13.1522C0.871094 20.3321 6.69119 26.1522 13.8711 26.1522Z" fill="#1E3A8A"/>
-                  <path d="M7.98828 13.9927L11.3501 17.3545L19.7546 8.94995" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M13.8711 26.1522C21.051 26.1522 26.8711 20.3321 26.8711 13.1522C26.8711 5.97232 21.051 0.152222 13.8711 0.152222C6.69119 0.152222 0.871094 5.97232 0.871094 13.1522C0.871094 20.3321 6.69119 26.1522 13.8711 26.1522Z"
+                      fill="#1E3A8A"
+                    />
+                    <path
+                      d="M7.98828 13.9927L11.3501 17.3545L19.7546 8.94995"
+                      stroke="white"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </g>
                   <defs>
-                  <clipPath id="clip0_1126_212">
-                  <rect width="26" height="26" fill="white" transform="translate(0.871094 0.152222)"/>
-                  </clipPath>
+                    <clipPath id="clip0_1126_212">
+                      <rect
+                        width="26"
+                        height="26"
+                        fill="white"
+                        transform="translate(0.871094 0.152222)"
+                      />
+                    </clipPath>
                   </defs>
-                  </svg>
-                
+                </svg>
               </div>
-              <span class="text-gray-700 text-sm sm:text-base lg:text-lg font-dm-sans">{{ feature }}</span>
+              <span
+                class="text-gray-700 text-sm sm:text-base lg:text-lg font-dm-sans"
+                >{{ feature }}</span
+              >
             </div>
           </div>
         </div>
       </div>
-
-      
     </div>
   </div>
   }
 
   <!-- Modal de Selección de Avatar -->
   @if (showAvatarModal) {
-  <div class="avatar-modal-overlay fixed inset-0 bg-black/40 backdrop-blur-md z-[9999] flex items-center justify-center p-3 sm:p-4" (click)="closeAvatarModal()">
-    <div class="avatar-modal-content bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 max-w-2xl w-full mx-auto max-h-[90vh] overflow-y-auto relative" (click)="$event.stopPropagation()">
+  <div
+    class="avatar-modal-overlay fixed inset-0 bg-black/40 backdrop-blur-md z-[9999] flex items-center justify-center p-3 sm:p-4"
+    (click)="closeAvatarModal()"
+  >
+    <div
+      class="avatar-modal-content bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 max-w-2xl w-full mx-auto max-h-[90vh] overflow-y-auto relative"
+      (click)="$event.stopPropagation()"
+    >
       <!-- Botón de cerrar -->
       <button
         (click)="closeAvatarModal()"
         class="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
         aria-label="Cerrar modal"
       >
-        <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg
+          class="w-5 h-5 sm:w-6 sm:h-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M18 6L6 18M6 6L18 18"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </button>
 
       <!-- Título -->
-      <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 pr-8">Selecciona un avatar</h2>
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 pr-8">
+        Selecciona un avatar
+      </h2>
 
       <!-- Grid de avatares predeterminados -->
       <div class="grid grid-cols-5 gap-4 sm:gap-5 mb-6 sm:mb-8">
@@ -771,9 +933,26 @@
         (click)="onUploadPhotoClick()"
         class="w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-xl transition-colors duration-200 flex items-center justify-center gap-2"
       >
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 15V3M12 3L8 7M12 3L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M2 17L2 19C2 20.1046 2.89543 21 4 21L20 21C21.1046 21 22 20.1046 22 19L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg
+          class="w-5 h-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 15V3M12 3L8 7M12 3L16 7"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M2 17L2 19C2 20.1046 2.89543 21 4 21L20 21C21.1046 21 22 20.1046 22 19L22 17"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
         <span>Subir mi propia foto</span>
       </button>
