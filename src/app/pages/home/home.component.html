@@ -497,14 +497,15 @@
           >
             <div class="llamadas-barra-wrapper">
               <span
+                *ngIf="callsByDayCounts[i] !== 0"
                 class="llamadas-barra-valor font-semibold"
-                [style.bottom.px]="h - 8"
+                [style.bottom.px]="(h > 8 ? h - 8 : 0)"
                 [ngClass]="isToday(i) ? 'llamadas-valor-hoy' : 'llamadas-valor-default'"
               >
                 {{ callsByDayCounts[i] }}
               </span>
               <div
-                [style.height.px]="h"
+                [style.height.px]="h === 0 ? 5 : h"
                 [class]="
                   isToday(i)
                     ? 'w-8 bg-blue-900 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded llamadas-barra-hoy max-lg:w-5'

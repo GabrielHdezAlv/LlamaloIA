@@ -39,59 +39,6 @@ export class HomeComponent implements OnInit {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-  private rangeToSummary: Record<
-    string,
-    {
-      totalCalls: number;
-      callsDeltaPct: number;
-      timeSavedHours: number;
-      timeSavedDeltaPct: number;
-      minutesUsed: number;
-      minutesDeltaPct: number;
-    }
-  > = {
-    '1D': {
-      totalCalls: 42,
-      callsDeltaPct: 4.8,
-      timeSavedHours: 3,
-      timeSavedDeltaPct: 2.1,
-      minutesUsed: 58,
-      minutesDeltaPct: 3.5,
-    },
-    '7D': {
-      totalCalls: 310,
-      callsDeltaPct: 8.2,
-      timeSavedHours: 18,
-      timeSavedDeltaPct: 5.4,
-      minutesUsed: 420,
-      minutesDeltaPct: 6.1,
-    },
-    '1M': {
-      totalCalls: 1240,
-      callsDeltaPct: 16.3,
-      timeSavedHours: 72,
-      timeSavedDeltaPct: 12.7,
-      minutesUsed: 1860,
-      minutesDeltaPct: 14.2,
-    },
-    '6M': {
-      totalCalls: 6460,
-      callsDeltaPct: 36.8,
-      timeSavedHours: 512,
-      timeSavedDeltaPct: 24.2,
-      minutesUsed: 780,
-      minutesDeltaPct: 41.5,
-    },
-    '1A': {
-      totalCalls: 1024,
-      callsDeltaPct: 28.4,
-      timeSavedHours: 980,
-      timeSavedDeltaPct: 19.6,
-      minutesUsed: 1542,
-      minutesDeltaPct: 33.1,
-    },
-  };
-
   get summary() {
     // Si hay datos del backend, usarlos
     if (this.dashboardMetrics) {
@@ -104,8 +51,15 @@ export class HomeComponent implements OnInit {
         minutesDeltaPct: 0, // El backend no proporciona este dato
       };
     }
-    // Si no hay datos, usar datos por defecto (últimos 7 días)
-    return this.rangeToSummary['7D'];
+    // Si no hay datos, devolver valores en cero para evitar mostrar datos ficticios
+    return {
+      totalCalls: 0,
+      callsDeltaPct: 0,
+      timeSavedHours: 0,
+      timeSavedDeltaPct: 0,
+      minutesUsed: 0,
+      minutesDeltaPct: 0,
+    };
   }
 
   // Cargar métricas del backend (últimos 7 días)
@@ -217,16 +171,29 @@ export class HomeComponent implements OnInit {
   // Altura máxima de las barras en píxeles
   maxBarHeight: number = 200;
 
-  // Porcentajes de llamadas por día (0-100%)
-  callsByDayPercentages: number[] = [70, 100, 20, 60, 45, 30, 40];
-  // Número de llamadas por día (datos ficticios pero coherentes con los porcentajes)
-  callsByDayCounts: number[] = [210, 300, 60, 180, 135, 90, 120];
+  // Porcentajes de llamadas por día (0-100%) - inicializados vacíos para evitar mostrar datos ficticios
+  callsByDayPercentages: number[] = [0, 0, 0, 0, 0, 0, 0];
+  // Número de llamadas por día - inicializados en cero para evitar mostrar datos ficticios
+  callsByDayCounts: number[] = [0, 0, 0, 0, 0, 0, 0];
 
   // Calcular alturas basadas en porcentajes
   get callsByDayHeights(): number[] {
     return this.callsByDayPercentages.map((percentage) =>
       Math.round((percentage / 100) * this.maxBarHeight)
     );
+  }
+
+  // NUEVO: Helper para mostrar el número de llamadas por día solo si es distinto de 0
+  showCallsByDayNumber(index: number): boolean {
+    // Asegura que el índice sea válido
+    if (
+      Array.isArray(this.callsByDayCounts) &&
+      index >= 0 &&
+      index < this.callsByDayCounts.length
+    ) {
+      return this.callsByDayCounts[index] !== 0;
+    }
+    return false;
   }
 
   // Datos dinámicos para "Agentes activos" usando traducciones
@@ -268,29 +235,8 @@ export class HomeComponent implements OnInit {
       });
     }
 
-    // Datos por defecto si no hay datos del backend
-    return [
-      {
-        name: 'Carla',
-        type: this.t.inbound,
-        minutes: 530,
-        percent: 25.4,
-        status: this.t.active,
-        active: true,
-        outerColor: '#1E3A8A80',
-        innerColor: '#1E3A8A',
-      },
-      {
-        name: 'Carlos',
-        type: this.t.outbound,
-        minutes: 250,
-        percent: 8.9,
-        status: this.t.draft,
-        active: false,
-        outerColor: '#EDEDED',
-        innerColor: '#C5CAC4',
-      },
-    ];
+    // Si no hay datos del backend, devolver array vacío para evitar mostrar datos ficticios
+    return [];
   }
 
   ngOnInit(): void {
