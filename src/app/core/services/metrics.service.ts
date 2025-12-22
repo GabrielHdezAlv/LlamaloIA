@@ -1,8 +1,8 @@
 import { inject, Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DashboardMetrics, MetricsPeriod } from '../../shared/models/dashboard-metrics.model';
+import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +24,15 @@ export class MetricsService {
       window.localStorage
     ) {
       token = localStorage.getItem('token') || '';
+      
+      // Logs de depuración (sin exponer el token completo)
+      if (!token) {
+        console.warn('⚠️ No se encontró token en localStorage');
+      } else {
+        console.log('✅ Token encontrado, longitud:', token.length, 'Primeros caracteres:', token.substring(0, 20) + '...');
+      }
+    } else {
+      console.warn('⚠️ No estamos en el navegador, no se puede obtener el token');
     }
 
     return new HttpHeaders({
@@ -34,16 +43,13 @@ export class MetricsService {
   }
 
   /**
-   * Obtiene las métricas del dashboard
-   * @param period Período de tiempo (opcional, default: 'week')
+   * Obtiene las métricas del dashboard (últimos 7 días)
+   * El endpoint siempre devuelve los últimos 7 días, no acepta parámetros
    * @returns Observable con las métricas del dashboard
    */
-  getDashboardMetrics(period: MetricsPeriod = 'week'): Observable<DashboardMetrics> {
-    const params = new HttpParams().set('period', period);
-    
+  getDashboardMetrics(): Observable<DashboardMetrics> {
     return this.http.get<DashboardMetrics>(`${this.apiUrl}/dashboard`, {
       headers: this.getAuthHeaders(),
-      params,
     });
   }
 }

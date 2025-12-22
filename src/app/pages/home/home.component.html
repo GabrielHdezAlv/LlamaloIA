@@ -11,60 +11,6 @@
     >
       {{ t.summary }}
     </h2>
-    <div
-      class="flex space-x-3 resumen-dias-botones max-lg:space-x-2 max-lg:overflow-x-auto max-lg:w-full"
-    >
-      <button
-        (click)="setRange('1D')"
-        [class]="
-          selectedRange === '1D'
-            ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center max-lg:w-8 max-lg:h-8 max-lg:text-xs'
-            : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800 max-lg:px-2 max-lg:text-xs'
-        "
-      >
-        1D
-      </button>
-      <button
-        (click)="setRange('7D')"
-        [class]="
-          selectedRange === '7D'
-            ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center max-lg:w-8 max-lg:h-8 max-lg:text-xs'
-            : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800 max-lg:px-2 max-lg:text-xs'
-        "
-      >
-        7D
-      </button>
-      <button
-        (click)="setRange('1M')"
-        [class]="
-          selectedRange === '1M'
-            ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center max-lg:w-8 max-lg:h-8 max-lg:text-xs'
-            : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800 max-lg:px-2 max-lg:text-xs'
-        "
-      >
-        1M
-      </button>
-      <button
-        (click)="setRange('6M')"
-        [class]="
-          selectedRange === '6M'
-            ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center max-lg:w-8 max-lg:h-8 max-lg:text-xs'
-            : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800 max-lg:px-2 max-lg:text-xs'
-        "
-      >
-        6M
-      </button>
-      <button
-        (click)="setRange('1A')"
-        [class]="
-          selectedRange === '1A'
-            ? 'w-10 h-10 text-sm bg-white text-black border border-gray-300 rounded-full flex items-center justify-center max-lg:w-8 max-lg:h-8 max-lg:text-xs'
-            : 'px-3 py-1 text-sm text-gray-600 hover:text-gray-800 max-lg:px-2 max-lg:text-xs'
-        "
-      >
-        1A
-      </button>
-    </div>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-lg:gap-4">
