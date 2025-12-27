@@ -240,10 +240,17 @@ body::-webkit-scrollbar {
     background-color: #444444 !important; /* gris del círculo */
   }
 
-  /* Pictograma blanco (sin doble trazo ni semitransparencias) */
-  html.dark .resumen-icon svg path {
+  /* Pictograma blanco (sin doble trazo ni semitransparencias) - solo para iconos que usan fill */
+  html.dark .resumen-icon svg path:not([stroke-width]) {
     fill: #ffffff !important;
-    stroke: transparent !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  
+  /* Para paths que usan stroke (como el nuevo icono de reloj), mantener stroke blanco y sin fill */
+  html.dark .resumen-icon svg path[stroke-width] {
+    fill: none !important;
+    stroke: #ffffff !important;
     color: #ffffff !important;
     opacity: 1 !important;
   }
