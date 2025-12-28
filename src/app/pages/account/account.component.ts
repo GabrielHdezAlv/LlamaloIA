@@ -30,16 +30,18 @@ export class AccountComponent implements OnInit {
   
   // Avatares predeterminados
   defaultAvatars = [
-    'https://i.pravatar.cc/150?img=1',
-    'https://i.pravatar.cc/150?img=2',
-    'https://i.pravatar.cc/150?img=3',
-    'https://i.pravatar.cc/150?img=4',
-    'https://i.pravatar.cc/150?img=5',
-    'https://i.pravatar.cc/150?img=6',
-    'https://i.pravatar.cc/150?img=7',
-    'https://i.pravatar.cc/150?img=8',
-    'https://i.pravatar.cc/150?img=9',
-    'https://i.pravatar.cc/150?img=10',
+    'assets/animoji_1.png',
+    'assets/animoji_2.png',
+    'assets/animoji_3.png',
+    'assets/animoji_4.png',
+    'assets/animoji_5.png',
+    'assets/animoji_6.png',
+    'assets/animoji_7.png',
+    'assets/animoji_8.png',
+    'assets/animoji_9.png',
+    'assets/animoji_10.png',
+    
+    
   ];
 
   // Campos de contraseña

@@ -353,17 +353,17 @@
             <div class="flex justify-center space-x-6 text-xs sm:text-sm">
               <div class="flex flex-col items-center">
                 <div class="flex items-center">
-                  <div class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-300 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-outbound"></div>
-                  <span>Outbound</span>
-                </div>
-                <span class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base">{{ outboundPercentage | number:'1.1-1' }}%</span>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="flex items-center">
-                  <div class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-400 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-inbound"></div>
+                  <div class="w-4 h-4 sm:w-5 sm:h-5 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-inbound" style="background: linear-gradient(90deg, rgba(0, 81, 255, 1) 0%, rgba(10, 0, 120, 1) 93%);"></div>
                   <span>Inbound</span>
                 </div>
                 <span class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base">{{ inboundPercentage | number:'1.1-1' }}%</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 sm:w-5 sm:h-5 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-outbound" style="background-color: #D1D5DB;"></div>
+                  <span>Outbound</span>
+                </div>
+                <span class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base">{{ outboundPercentage | number:'1.1-1' }}%</span>
               </div>
             </div>
           </div>
@@ -406,17 +406,6 @@
                     [style.stroke-dashoffset]="817 - (817 * latencyPercent)"
                     class="latency-arc transition-all duration-1000 ease-out" />
                   
-                  <!-- Efecto shimmer sobre el arco -->
-                  <path 
-                    d="M 0 320 A 260 260 0 0 1 520 320" 
-                    stroke="url(#latencyShimmer)" 
-                    stroke-width="58" 
-                    fill="none"
-                    [style.stroke-dasharray]="'817'"
-                    [style.stroke-dashoffset]="817 - (817 * latencyPercent)"
-                    class="latency-arc-shimmer transition-all duration-1000 ease-out"
-                    style="opacity: 0.6;" />
-
                   <!-- Marcador al final del progreso -->
                   <circle 
                     [attr.cx]="latencyMarkerX" 
@@ -446,14 +435,6 @@
                     <linearGradient id="latencyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" [attr.stop-color]="latencyGradientStart"/>
                       <stop offset="100%" [attr.stop-color]="latencyGradientEnd"/>
-                    </linearGradient>
-                    <linearGradient id="latencyShimmer" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="transparent" stop-opacity="0"/>
-                      <stop offset="30%" stop-color="white" stop-opacity="0.5"/>
-                      <stop offset="70%" stop-color="white" stop-opacity="0.5"/>
-                      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
-                      <animate attributeName="x1" values="-100%;200%" dur="4s" repeatCount="indefinite"/>
-                      <animate attributeName="x2" values="0%;300%" dur="4s" repeatCount="indefinite"/>
                     </linearGradient>
                   </defs>
                 </svg>
@@ -498,17 +479,6 @@
                     [style.stroke-dashoffset]="817 - (817 * durationPercent)"
                     class="duration-arc transition-all duration-1000 ease-out" />
                   
-                  <!-- Efecto shimmer sobre el arco -->
-                  <path 
-                    d="M 0 320 A 260 260 0 0 1 520 320" 
-                    stroke="url(#durationShimmer)" 
-                    stroke-width="58" 
-                    fill="none"
-                    [style.stroke-dasharray]="'817'"
-                    [style.stroke-dashoffset]="817 - (817 * durationPercent)"
-                    class="duration-arc-shimmer transition-all duration-1000 ease-out"
-                    style="opacity: 0.6;" />
-
                   <!-- Marcador al final del progreso -->
                   <circle 
                     [attr.cx]="durationMarkerX" 
@@ -536,14 +506,6 @@
                     <linearGradient id="durationGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" [attr.stop-color]="durationGradientStart"/>
                       <stop offset="100%" [attr.stop-color]="durationGradientEnd"/>
-                    </linearGradient>
-                    <linearGradient id="durationShimmer" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="transparent" stop-opacity="0"/>
-                      <stop offset="30%" stop-color="white" stop-opacity="0.5"/>
-                      <stop offset="70%" stop-color="white" stop-opacity="0.5"/>
-                      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
-                      <animate attributeName="x1" values="-100%;200%" dur="4s" repeatCount="indefinite"/>
-                      <animate attributeName="x2" values="0%;300%" dur="4s" repeatCount="indefinite"/>
                     </linearGradient>
                   </defs>
                 </svg>
@@ -617,17 +579,17 @@
             <div class="flex justify-center space-x-4 sm:space-x-6 text-xs sm:text-sm">
               <div class="flex flex-col items-center">
                 <div class="flex items-center">
-                  <div class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-300 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-outbound"></div>
-                  <span>Outbound</span>
-                </div>
-                <span class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base">{{ outboundPercentage | number:'1.1-1' }}%</span>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="flex items-center">
-                  <div class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-400 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-inbound"></div>
+                  <div class="w-4 h-4 sm:w-5 sm:h-5 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-inbound" style="background: linear-gradient(90deg, rgba(0, 81, 255, 1) 0%, rgba(10, 0, 120, 1) 93%);"></div>
                   <span>Inbound</span>
                 </div>
                 <span class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base">{{ inboundPercentage | number:'1.1-1' }}%</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="flex items-center">
+                  <div class="w-4 h-4 sm:w-5 sm:h-5 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-outbound" style="background-color: #D1D5DB;"></div>
+                  <span>Outbound</span>
+                </div>
+                <span class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base">{{ outboundPercentage | number:'1.1-1' }}%</span>
               </div>
             </div>
           </div>
@@ -695,18 +657,6 @@
                     class="duration-arc transition-all duration-1000 ease-out"
                     [style.transitionDelay]="'1.3s'" />
                   
-                  <!-- Efecto shimmer sobre el arco -->
-                  <path 
-                    d="M 0 320 A 260 260 0 0 1 520 320" 
-                    stroke="url(#durationShimmer3)" 
-                    stroke-width="58" 
-                    fill="none"
-                    [style.stroke-dasharray]="'817'"
-                    [style.stroke-dashoffset]="817 - (817 * moodPercent)"
-                    class="duration-arc-shimmer transition-all duration-1000 ease-out"
-                    style="opacity: 0.6;"
-                    [style.transitionDelay]="'1.3s'" />
-
                   <!-- Marcador al final del progreso -->
                   <circle 
                     [attr.cx]="moodMarkerX" 
@@ -736,14 +686,6 @@
                     <linearGradient id="durationGradient3" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" [attr.stop-color]="moodGradientStart"/>
                       <stop offset="100%" [attr.stop-color]="moodGradientEnd"/>
-                    </linearGradient>
-                    <linearGradient id="durationShimmer3" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stop-color="transparent" stop-opacity="0"/>
-                      <stop offset="30%" stop-color="white" stop-opacity="0.5"/>
-                      <stop offset="70%" stop-color="white" stop-opacity="0.5"/>
-                      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
-                      <animate attributeName="x1" values="-100%;200%" dur="4s" repeatCount="indefinite"/>
-                      <animate attributeName="x2" values="0%;300%" dur="4s" repeatCount="indefinite"/>
                     </linearGradient>
                   </defs>
                 </svg>
@@ -798,11 +740,6 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Versión al final del contenido -->
-        <div class="text-center py-8 mt-8">
-          <p class="text-sm text-gray-500 dark:text-slate-400" style="font-family: 'Poppins', sans-serif; font-weight: 400;">Llamalo v2.0</p>
         </div>
 
       </div>

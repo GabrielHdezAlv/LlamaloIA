@@ -1,11 +1,13 @@
 import { Component, ViewChild, AfterViewInit, OnInit, ChangeDetectorRef, Inject, PLATFORM_ID, computed, inject } from '@angular/core';
-import { RouterOutlet, RouterModule } from '@angular/router';
+import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavComponent } from '../../layout/nav/nav.component';
 import { TopbarComponent } from '../../layout/topbar/topbar.component';
 import { CompanySetupComponent } from '../company-setup/company-setup.component';
 import { UserStorage } from '../../storages/user/user-storage';
 import { ReminderService, ReminderData } from '../../core/services/reminder.service';
+import { I18nService } from '../../core/services/i18n.service';
+import { NavigationService } from '../../core/services/navigation.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -52,6 +54,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   // Inyectar servicios
   public userStorage = inject(UserStorage);
   private reminderService = inject(ReminderService);
+  private router = inject(Router);
+  public i18nService = inject(I18nService);
+  private navigationService = inject(NavigationService);
+  
+  // Dropdown del perfil
+  showDropdown = false;
+  
+  // Barras del progreso del onboarding
+  progressBars = Array.from({ length: 32 });
+  onboardingProgress = 35;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -288,4 +300,83 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const user = this.userStorage.user();
     return user?.profileImage || 'assets/predeterminada.webp';
   };
+
+  // Obtener traducciones
+  get t() {
+    return this.i18nService.getTranslations();
+  }
+
+  // Método para verificar si una ruta está activa
+  isRouteActive(route: string): boolean {
+    const currentUrl = this.router.url;
+
+    // Caso especial: /dashboard/agents o /dashboard/agents/create → resaltar "Agentes"
+    if (route === '/dashboard/agents') {
+      return (
+        currentUrl === '/dashboard/agents' ||
+        currentUrl === '/dashboard/agents/create'
+      );
+    }
+
+    // Para la ruta de inicio, también activar cuando esté en /dashboard sin nada más
+    if (route === '/dashboard/home') {
+      return currentUrl === '/dashboard/home' || currentUrl === '/dashboard';
+    }
+
+    // Para otras rutas, verificar coincidencia exacta
+    return currentUrl === route;
+  }
+
+  // Método para abrir/cerrar dropdown
+  toggleDropdown() {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  // Navegar a ruta usando el servicio de navegación
+  navigateTo(route: string) {
+    if (route === '/dashboard/community') {
+      // Redirigir al canal de Telegram de Llamalo AI
+      window.open('https://t.me/+wDgRI51qiW1mZjdk', '_blank');
+    } else {
+      // Usar el servicio de navegación para mantener la URL limpia
+      const routeName = route.replace('/dashboard/', '');
+      this.navigationService.navigateToRoute(routeName);
+    }
+    this.showDropdown = false;
+    this.closeMobileSidebar();
+  }
+
+  // Ir a la sección de regalos en account
+  goToGifts() {
+    this.router.navigate(['/dashboard/account'], {
+      queryParams: { tab: 'gifts' },
+    });
+    this.showDropdown = false;
+    this.closeMobileSidebar();
+  }
+
+  // Cerrar sesión
+  logout() {
+    // Limpiar datos de usuario
+    this.userStorage.clearUser();
+    this.router.navigate(['/login']);
+  }
+
+  // Estilo dinámico para cada barra según el progreso
+  getBarStyle(index: number) {
+    const total = this.progressBars.length;
+    const filledBars = (this.onboardingProgress / 100) * total;
+    const isFilled = index < filledBars;
+
+    if (!isFilled) {
+      return { background: '#E5E7EB' };
+    }
+
+    // Gradiente de azul intenso a casi negro en las barras llenas
+    const lightStart = 48;
+    const lightEnd = 14;
+    const lightness = lightStart + ((index / Math.max(total - 1, 1)) * (lightEnd - lightStart));
+
+    return { background: `hsl(220, 90%, ${lightness}%)` };
+  }
 }

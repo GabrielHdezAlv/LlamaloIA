@@ -327,7 +327,7 @@ export class I18nService {
       totalSuccessfulCalls: 'Total de llamadas exitosas',
       timeSaved: 'Tiempo ahorrado',
       minutesUsed: 'Minutos utilizados',
-      activeAgents: 'Agentes activos',
+      activeAgents: 'Tus agentes',
       callsPerDay: 'Llamadas por día',
       agentName: 'Nombre del agente',
       type: 'Tipo',
