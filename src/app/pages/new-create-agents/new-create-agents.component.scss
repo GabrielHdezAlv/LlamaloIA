@@ -601,7 +601,7 @@
   }
   
   // Icono de Web - hacer blanco en modo oscuro
-  .web-icon image.web-icon-image {
+  svg.web-icon-svg > rect {
     filter: brightness(0) invert(1) !important; // Hacer la imagen blanca en modo oscuro
   }
   

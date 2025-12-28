@@ -3,3 +3,63 @@
 .text-red-600 { color: #dc2626; }
 .border-red-200 { border-color: #fecaca; }
 
+// Eliminar bordes solo del contenedor del diálogo de Material (mantener bordes internos)
+::ng-deep .custom-dialog-container {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  
+  .mat-mdc-dialog-container {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+  
+  .mdc-dialog__surface {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  .cdk-overlay-pane {
+    border: none !important;
+    outline: none !important;
+  }
+}
+
+// Eliminar bordes también en modo oscuro (mantener bordes internos)
+::ng-deep html.dark .custom-dialog-container {
+  border: none !important;
+  outline: none !important;
+  
+  .mat-mdc-dialog-container {
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
+  }
+  
+  .mdc-dialog__surface {
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
+  }
+  
+  .cdk-overlay-pane {
+    border: none !important;
+    outline: none !important;
+  }
+}

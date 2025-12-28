@@ -488,11 +488,93 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
     }
   }
 
+  // Propiedades para documentos PDF
+  uploadedDocuments: File[] = [];
+  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
+
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
   selectKnowledgeSource(source: 'pdf' | 'web') {
     console.log('Fuente seleccionada:', source);
-    // Avanza automáticamente a configuración avanzada
-    this.step = 'advancedSettings';
+    
+    if (source === 'web') {
+      // Abrir modal de Web
+      const dialogRef = this.modalService.openWeb({
+        title: 'Web',
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('Web modal closed with result:', result);
+      });
+    } else if (source === 'pdf') {
+      // Abrir selector de archivos para PDF
+      this.openFileSelector();
+    } else {
+      // Para otros casos, avanzar automáticamente a configuración avanzada
+      this.step = 'advancedSettings';
+    }
+  }
+
+  openFileSelector() {
+    // Usar el ViewChild si existe, sino crear uno dinámicamente
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.click();
+    } else {
+      // Crear input de archivo dinámicamente si no existe
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.pdf';
+      input.multiple = true;
+      input.style.display = 'none';
+      input.addEventListener('change', (event: any) => {
+        this.handleFileSelection(event.target.files);
+      });
+      document.body.appendChild(input);
+      input.click();
+      // Remover el input después de usarlo
+      setTimeout(() => {
+        document.body.removeChild(input);
+      }, 100);
+    }
+  }
+
+  handleFileSelection(files: FileList | null) {
+    if (files && files.length > 0) {
+      // Convertir FileList a Array
+      const newFiles = Array.from(files);
+      
+      // Calcular cuántos archivos se pueden agregar (máximo 2 en total)
+      const availableSlots = 2 - this.uploadedDocuments.length;
+      
+      if (availableSlots > 0) {
+        // Agregar solo los archivos que quepan (máximo hasta completar 2)
+        const filesToAdd = newFiles.slice(0, availableSlots);
+        this.uploadedDocuments = [...this.uploadedDocuments, ...filesToAdd];
+        console.log('Documentos subidos:', this.uploadedDocuments.length);
+        
+        // Si el usuario intentó subir más archivos de los permitidos, mostrar modal
+        if (newFiles.length > availableSlots) {
+          this.modalService.openWarning({
+            title: 'Límite de archivos',
+            message: `Solo puedes subir un máximo de 2 archivos. Se agregaron ${filesToAdd.length} de ${newFiles.length} archivos seleccionados.`
+          });
+        }
+      } else {
+        // Si ya se alcanzó el límite, mostrar modal
+        this.modalService.openWarning({
+          title: 'Límite alcanzado',
+          message: 'Solo puedes subir 2 documentos. Por favor, elimina algunos antes de agregar nuevos.'
+        });
+      }
+    }
+  }
+
+  get uploadedDocumentsCount(): number {
+    return this.uploadedDocuments.length;
+  }
+
+  clearUploadedDocuments() {
+    this.uploadedDocuments = [];
+    console.log('Documentos eliminados');
   }
 
   // Opcional: Método para continuar sin elegir fuente

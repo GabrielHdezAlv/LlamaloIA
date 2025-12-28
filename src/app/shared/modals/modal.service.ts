@@ -41,6 +41,10 @@ import {
   MakeModalData,
 } from './make-modal/make-modal.component';
 import {
+  WebModalComponent,
+  WebModalData,
+} from './web-modal/web-modal.component';
+import {
   EmailVerificationModalComponent,
   EmailVerificationModalData,
 } from './email-verification-modal/email-verification-modal.component';
@@ -150,6 +154,16 @@ export class ModalService {
 
   openMake(data: MakeModalData = {}) {
     return this.dialog.open(MakeModalComponent, {
+      width: '1200px',
+      maxWidth: '95vw',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
+
+  openWeb(data: WebModalData = {}) {
+    return this.dialog.open(WebModalComponent, {
       width: '1200px',
       maxWidth: '95vw',
       disableClose: false,

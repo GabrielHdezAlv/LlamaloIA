@@ -1,0 +1,129 @@
+// Estilos del modal de Web
+// Por ahora solo estilos básicos, se pueden expandir según necesidades
+
+// Eliminar bordes del contenedor de Material Dialog
+::ng-deep .custom-dialog-container {
+  .mat-mdc-dialog-container {
+    padding: 0 !important;
+    border-radius: 2rem !important;
+    overflow: visible !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    border-radius: 2rem !important;
+    overflow: visible !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+  }
+}
+
+// Blur de fondo para el overlay del modal
+::ng-deep .cdk-overlay-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(107, 114, 128, 0.3) !important;
+}
+
+::ng-deep .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(107, 114, 128, 0.3) !important;
+}
+
+::ng-deep .cdk-overlay-container {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+// Blur para modo oscuro
+::ng-deep html.dark .cdk-overlay-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+::ng-deep html.dark .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+::ng-deep html.dark .custom-dialog-container {
+  .mat-mdc-dialog-container {
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+  }
+}
+
+// Contenedor del modal con borde
+.modal-container {
+  position: relative;
+}
+
+// Efecto de difuminado al final del scroll
+.links-scroll-wrapper {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 8px; // Ajustar para el padding-right del scroll
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, white);
+    pointer-events: none;
+    z-index: 10;
+  }
+}
+
+:host-context(html.dark) .links-scroll-wrapper::after {
+  background: linear-gradient(to bottom, transparent, #18181A) !important; // Color de fondo del modal en modo oscuro
+}
+
+// Estilos para checkboxes redondeados y transparentes
+input[type="checkbox"] {
+  border-radius: 50% !important;
+  background-color: transparent !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  display: inline-block !important;
+  position: relative !important;
+  width: 1rem !important;
+  height: 1rem !important;
+  min-width: 1rem !important;
+  min-height: 1rem !important;
+}
+
+input[type="checkbox"]:checked {
+  background-color: transparent !important;
+  border-color: #2563eb !important; // blue-600
+}
+
+input[type="checkbox"]:checked::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 8px !important;
+  height: 8px !important;
+  background-color: #2563eb !important;
+  border-radius: 50% !important;
+}

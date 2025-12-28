@@ -1,11 +1,11 @@
-<div class="header flex flex-col p-4 bg-white rounded-t-lg items-end">
-  <span class="title w-full mt-2 text-lg font-semibold text-center">{{
+<div class="header flex flex-col p-4 bg-white dark:bg-[#18181A] rounded-t-lg items-end">
+  <span class="title w-full mt-2 text-lg font-semibold text-center text-gray-900 dark:text-white">{{
     data.title
   }}</span>
 </div>
 
-<div class="p-4 text-center">
-  <p class="text-gray-600">{{ data.message }}</p>
+<div class="p-4 text-center bg-white dark:bg-[#18181A] rounded-b-lg">
+  <p class="text-gray-600 dark:text-gray-300">{{ data.message }}</p>
   <button
     type="submit"
     (click)="dialogRef.close()"
