@@ -1,3 +1,12 @@
+/* Juntar más las letras de los textos principales - mismo que home */
+h1, h2, h3, h4, h5, h6,
+p, span, label, input, textarea, select,
+button, .mat-mdc-button,
+.mat-mdc-table, .mat-mdc-header-cell, .mat-mdc-cell,
+.mat-mdc-form-field, .mat-mdc-card-title, .mat-mdc-card-content {
+  letter-spacing: -1px;
+}
+
 @media (min-width: 2560px) {
   /* Limitar el ancho del contenido y centrarlo solo en 2560px */
   :host {

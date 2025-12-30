@@ -1,3 +1,11 @@
+/* Juntar más las letras de los textos principales - mismo que home */
+h1, h2, h3, h4, h5, h6,
+p, span, label, input, textarea, select,
+button, .mat-mdc-button,
+table, th, td {
+  letter-spacing: -1px;
+}
+
 .text-green-700 { color: #047857; }
 .bg-green-100 { background-color: #dcfce7; }
 .text-green-600 { color: #059669; }

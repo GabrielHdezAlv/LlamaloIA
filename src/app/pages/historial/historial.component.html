@@ -27,7 +27,7 @@
               <img [src]="contact.avatar" alt="Avatar" class="w-8 h-8 object-cover rounded-full" />
               <span class="font-semibold text-gray-800">{{ contact.phone }}</span>
               @if (contact.status === 'resuelto') {
-                <span class="text-[10px] px-1 py-0.5 bg-green-100 text-green-800 border-green-900 rounded-full historial-status-badge">{{ formatStatus(contact.status) }}</span>
+                <span class="text-[11px] px-2 py-0.5 bg-green-100 text-green-800 border-green-900 rounded-lg historial-status-badge tracking-[-0.5px]">{{ formatStatus(contact.status) }}</span>
               }
             </div>
           </div>

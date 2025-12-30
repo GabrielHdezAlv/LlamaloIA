@@ -1,3 +1,11 @@
+/* Juntar más las letras de los textos principales - mismo que home */
+h1, h2, h3, h4, h5, h6,
+p, span, label, input, textarea, select,
+button, .mat-mdc-button,
+table, th, td {
+  letter-spacing: -1px;
+}
+
 // Estilos para el modal de Pasos de Twilio
 
 // Estilos para el contenedor del modal

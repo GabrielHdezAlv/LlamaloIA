@@ -1,5 +1,5 @@
 <!-- Fondo dividido 50/50 blanco (contenido onboarding) y fondo_onboarding.png cuando el setup está activo -->
-<div *ngIf="isSetupActive" class="fixed inset-0 w-screen h-screen flex z-[9998] tracking-[-0.5px] bg-white dark:bg-[#020617] text-black dark:text-slate-50 transition-colors duration-300">
+<div *ngIf="isSetupActive" class="fixed inset-0 w-screen h-screen flex flex-col lg:flex-row z-[9998] tracking-[-0.5px] bg-transparent lg:bg-white lg:dark:bg-[#020617] text-black dark:text-slate-50 transition-colors duration-300">
   <!-- Intro de vídeo a pantalla completa -->
   <div
     *ngIf="showIntroVideo"
@@ -31,9 +31,9 @@
     <!-- Paso 1: contenido original -->
     <div
       *ngSwitchCase="1"
-      class="w-1/2 h-full bg-white dark:bg-[#020617] flex items-start justify-center"
+      class="w-full lg:w-1/2 min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0"
     >
-      <div class="w-full max-w-[640px] h-full flex flex-col px-10 xl:px-16 py-10 xl:py-14">
+      <div class="w-full max-w-[640px] h-full flex flex-col px-10 xl:px-16 py-10 xl:py-14 overflow-y-auto">
       <!-- Logo tipo app icon + texto "Llamalo beta" -->
       <div class="flex items-center gap-3 mb-10">
         <div
@@ -395,9 +395,9 @@
     <!-- Misma estructura y espaciados que el paso 1 para que no se note el cambio -->
     <div
       *ngSwitchCase="2"
-      class="w-1/2 h-full bg-white dark:bg-[#020617] flex items-start justify-center"
+      class="w-full lg:w-1/2 min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0"
     >
-      <div class="w-full max-w-[640px] h-full flex flex-col px-10 xl:px-16 py-10 xl:py-14">
+      <div class="w-full max-w-[640px] h-full flex flex-col px-10 xl:px-16 py-10 xl:py-14 overflow-y-auto">
         <!-- Logo tipo app icon + texto "Llamalo beta" - SIN animación -->
         <div class="flex items-center gap-3 mb-10">
           <div
@@ -905,7 +905,7 @@
   <!-- Lado derecho: fondo de onboarding + mockup (cambia la imagen según la zona) -->
   <div
     *ngIf="currentStep !== 3"
-    class="relative w-1/2 h-full bg-cover bg-center bg-no-repeat bg-[url('/assets/fondo_onboarding.png')] overflow-hidden"
+    class="relative w-full lg:w-1/2 h-96 md:h-[500px] lg:h-full overflow-hidden order-2 lg:order-1 flex-shrink-0 bg-gray-50 dark:bg-[#020617]"
   >
     <!-- Capa blanca suave para el desvanecido entre imágenes -->
     <div

@@ -86,7 +86,7 @@
             </div>
           </div>
           <!-- Desktop -->
-          <div class="hidden sm:block relative h-64 sm:h-80 lg:h-80 chart-container" style="overflow: hidden; touch-action: pan-x pan-y;">
+          <div class="hidden sm:block relative h-64 sm:h-80 lg:h-80 chart-container" style="overflow: hidden; touch-action: none;">
             <apx-chart
               [series]="callsAreaSeries"
               [chart]="callsAreaChart"
@@ -185,7 +185,7 @@
             </div>
             
             <!-- Vista desktop: Gráfico de área original -->
-            <div class="hidden sm:block relative h-64 sm:h-80 lg:h-80 chart-container" style="overflow: hidden; touch-action: pan-x pan-y;">
+            <div class="hidden sm:block relative h-64 sm:h-80 lg:h-80 chart-container" style="overflow: hidden; touch-action: none;">
               <apx-chart
                 [series]="callsAreaSeries"
                 [chart]="callsAreaChart"
@@ -695,8 +695,8 @@
           </div>
         </div>
 
-º        <!-- Row 4 - Dos recuadros 50/50 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 -mt-[3.75rem] sm:-mt-[5.25rem]">
+        <!-- Row 4 - Dos recuadros 50/50 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-0 sm:mt-0 md:mt-0 lg:-mt-[4rem]">
           <!-- Evaluación de éxito -->
           <div class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 lg:p-8 fade-in-section border border-gray-200 history-border max-h-[444px] lg:max-h-[494px]" [class.fade-in-visible]="showPaises">
             <h3 class="font-semibold text-gray-800 mb-6 sm:mb-8 text-base sm:text-lg tracking-[-0.3px]">Evaluación de éxito</h3>

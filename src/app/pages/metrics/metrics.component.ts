@@ -128,6 +128,9 @@ export class MetricsComponent implements OnInit {
     },
     redrawOnWindowResize: true,
     redrawOnParentResize: true,
+    zoom: {
+      enabled: false,
+    },
   };
 
   callsAreaStroke: ApexStroke = {
@@ -713,7 +716,6 @@ export class MetricsComponent implements OnInit {
 
     // Ejecutar animaciones siempre
     this.startFadeInAnimations();
-    this.preventScrollOnChart();
   }
 
   private updateChartForScreenSize(): void {
@@ -738,24 +740,6 @@ export class MetricsComponent implements OnInit {
     };
   }
 
-  // Prevenir scroll de página cuando se hace zoom en el gráfico
-  preventScrollOnChart() {
-    if (!this.isBrowser) return;
-
-    setTimeout(() => {
-      const chartContainer = document.querySelector('.chart-container');
-      if (chartContainer) {
-        chartContainer.addEventListener(
-          'wheel',
-          (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          },
-          { passive: false }
-        );
-      }
-    }, 100);
-  }
 
   private startFadeInAnimations(): void {
     // Solo ejecutar en el navegador

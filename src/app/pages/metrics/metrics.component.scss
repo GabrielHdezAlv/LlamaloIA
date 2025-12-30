@@ -1,3 +1,11 @@
+/* Juntar más las letras de los textos principales - mismo que home */
+h1, h2, h3, h4, h5, h6,
+p, span, label, input, textarea, select,
+button, .mat-mdc-button,
+table, th, td {
+  letter-spacing: -1px;
+}
+
 // Animación suave para el arco de latencia
 .latency-arc {
   transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
@@ -299,6 +307,11 @@ apx-chart {
   /* Ajuste individual de las dos métricas */
   div[class*="max-h-[444px]"][class*="lg:max-h-[494px]"]:not([class*="col-span-2"]) {
     padding-top: 0.25rem !important;
+  }
+
+  /* Juntar solo las dos últimas métricas (Evaluación de éxito y Razón de finalización) en portátiles */
+  .grid.grid-cols-1.md\:grid-cols-2.gap-4.sm\:gap-6 > div[class*="max-h-[444px]"][class*="lg:max-h-[494px]"]:not([class*="col-span-2"]) {
+    margin-top: -1.5rem !important;
   }
 
   /* Overflow para tablas */
