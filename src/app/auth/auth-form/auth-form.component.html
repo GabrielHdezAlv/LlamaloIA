@@ -10,6 +10,7 @@
         {{ title }}
       </h1>
 
+      @if (subtitle && linkText) {
       <p
         class="font-poppins text-gray-600 dark:text-slate-300 text-base lg:text-lg leading-7 mt-4 text-center"
       >
@@ -21,6 +22,7 @@
           {{ linkText }}
         </a>
       </p>
+      }
     </div>
 
     <!-- Texto "Empresas que confian" (más arriba, ahora más grande y gordo) -->
@@ -203,12 +205,13 @@
               Mantener sesión activa
             </label>
           </div>
-          <a
+          <!-- Enlace de recuperación de contraseña deshabilitado temporalmente -->
+          <!-- <a
             href="recover"
             class="text-xs text-black dark:text-slate-200 hover:underline font-medium forgot-password-link whitespace-nowrap tracking-[-0.5px]"
           >
             ¿Has olvidado tu contraseña?
-          </a>
+          </a> -->
         </div>
         }
 
@@ -220,7 +223,8 @@
           {{ buttonText }}
         </button>
 
-        <!-- Register link -->
+        <!-- Register link - Deshabilitado temporalmente -->
+        @if (bottomText && bottomLinkRoute) {
         <div
           class="text-center text-sm md:text-base lg:text-base text-gray-600 dark:text-slate-300 register-text whitespace-nowrap"
         >
@@ -232,6 +236,7 @@
             {{ bottomLinkText }}
           </a>
         </div>
+        }
 
         @if (type !== 'recover') {
         <!-- Divider -->
