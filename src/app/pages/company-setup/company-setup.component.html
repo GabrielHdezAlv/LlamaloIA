@@ -936,10 +936,10 @@
 </div>
 
 <!-- Solo botón para mostrar/ocultar el setup -->
-<div class="fixed top-5 right-5 z-[10000]">
+<div class="fixed top-2 right-2 z-[10000]">
   <button 
     type="button" 
-    class="bg-red-600 border-none text-white px-5 py-3 rounded-xl text-sm font-bold cursor-pointer transition-all duration-200 shadow-[0_4px_12px_rgba(239,68,68,0.3)] uppercase tracking-wider hover:bg-red-700 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(239,68,68,0.4)] active:translate-y-0"
+    class="bg-red-600 border-none text-white px-2 py-0.5 rounded text-[10px] font-medium cursor-pointer transition-all duration-200 shadow hover:bg-red-700"
     (click)="toggleSetup()"
   >
     {{ isSetupActive ? 'Ocultar' : 'Mostrar' }} Setup

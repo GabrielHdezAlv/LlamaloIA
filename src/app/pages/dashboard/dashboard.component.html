@@ -3,7 +3,7 @@
 >
   <!-- Sidebar Desktop (solo visible en xl) -->
   <div 
-    [class]="'hidden xl:block w-full xl:overflow-visible p-0 h-screen bg-white transition-all duration-500 ease-in-out flex-shrink-0 dark:bg-slate-900 ' + (isNavCollapsed ? 'xl:w-24' : 'xl:w-72')"
+    [class]="'hidden xl:block w-full xl:overflow-visible p-0 h-screen bg-white transition-all duration-500 ease-in-out flex-shrink-0 dark:bg-slate-900 ' + (isNavCollapsed ? 'xl:w-12' : 'xl:w-[10rem]')"
   >
     <app-nav #navComponent></app-nav>
   </div>
@@ -329,18 +329,9 @@
   </div>
 
   <div 
-    class="flex-1 px-2 py-4 overflow-x-auto bg-gray-100 transition-all duration-500 ease-in-out min-h-screen dark:bg-gray-800"
+    class="flex-1 px-2 py-4 overflow-x-auto bg-gray-100 transition-all duration-500 ease-in-out min-h-screen dark:bg-gray-800 ml-0"
   >
     <topbar></topbar>
-    <!-- Botón temporal para mostrar el setup de empresa -->
-    <div class="fixed top-4 right-4 z-50 mt-20 flex flex-col gap-2">
-      <button 
-        (click)="toggleCompanySetup()"
-        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow-lg transition-all duration-200"
-      >
-        {{ showCompanySetup ? 'Ocultar' : 'Mostrar' }} Ajustes iniciales
-      </button>
-    </div>
     <router-outlet></router-outlet>
   </div>
 </div>

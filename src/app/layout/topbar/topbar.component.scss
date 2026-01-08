@@ -1,21 +1,17 @@
-/* Juntar más las letras de los textos principales - mismo que home */
-h1, h2, h3, h4, h5, h6,
-p, span, label, input, textarea, select,
-button, .mat-mdc-button,
-table, th, td {
-  letter-spacing: -1px;
-}
 
 .topbar-container {
-    padding-top: 20px;
+    padding-top: 12px;
+    padding-bottom: 8px;
     
     // Responsive adjustments
     @media (max-width: 640px) {
-      padding-top: 16px;
+      padding-top: 10px;
+      padding-bottom: 6px;
     }
     
     @media (max-width: 480px) {
-      padding-top: 12px;
+      padding-top: 8px;
+      padding-bottom: 4px;
     }
   }
 
@@ -76,19 +72,6 @@ table, th, td {
     }
   }
 
-  // Reducir tamaño del título en portátiles (1024px - 1440px)
-  @media (min-width: 1024px) and (max-width: 1439px) {
-    h1 {
-      font-size: 1.5rem !important; /* text-2xl en lugar de text-4xl */
-      line-height: 2rem !important;
-    }
-    
-    // Reducir tamaño del texto de bienvenida
-    p.text-sm {
-      font-size: 0.8125rem !important; /* Más pequeño que text-sm (0.875rem) */
-      line-height: 1.25rem !important;
-    }
-  }
 
   .theme-icon {
     color: #000000; // Color negro para el sol en modo claro

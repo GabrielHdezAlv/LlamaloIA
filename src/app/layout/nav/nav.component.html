@@ -1,63 +1,34 @@
 
-<!-- Tarjeta reutilizable de onboarding (usa ngTemplateOutlet) -->
+<!-- Tarjeta de créditos PAYG -->
 <ng-template #sidebarOnboardingCard>
   <div
-    class="sidebar-onboarding-card mx-auto rounded-2xl shadow-lg bg-white border border-gray-200 dark:bg-slate-900 dark:border-slate-700 flex flex-col gap-2 px-2.5 py-2 w-[80%] md:w-[82%] xl:w-[84%] 2xl:w-[86%] [letter-spacing:-0.35px] sidebar-onboarding-card-delayed"
+    class="sidebar-onboarding-card mx-auto rounded-lg shadow-lg bg-white border border-gray-200 dark:bg-slate-900 dark:border-slate-700 flex flex-col gap-2 px-2 py-2 w-[90%] sidebar-onboarding-card-delayed"
   >
-    <div class="flex flex-col items-center text-center gap-2">
-      <div class="sidebar-onboarding-icon w-11 h-11 rounded-2xl grid place-items-center text-[#0B2B6F]">
-        <svg width="24" height="24" viewBox="0 0 600 600" aria-hidden="true" fill="currentColor" class="text-[#0B2B6F]">
-          <path d="M447.70881 -12.781343A42.041451 42.041451 0 0 0 405.66786 29.260344v21.041377H27.434765A42.041302 42.041302 0 0 0-14.606185 92.341354 42.041302 42.041302 0 0 0 27.434765 134.38304H405.66786v21.06602a42.041451 42.041451 0 0 0 84.08301 0v-21.06602h84.02949a42.041302 42.041302 0 0 0 42.043-42.041686 42.041302 42.041302 0 0 0-42.043-42.039633h-84.02949V29.260344A42.041451 42.041451 0 0 0 447.70881-12.781343zm-304.70761 210.270033A42.041451 42.041451 0 0 0 100.9582 239.53038v21.03932H27.447078A42.041302 42.041302 0 0 0-14.593872 302.61139 42.041302 42.041302 0 0 0 27.447078 344.65308H100.9582v21.06602a42.041451 42.041451 0 0 0 84.08395 0v-21.06602H573.79472a42.041302 42.041302 0 0 0 42.04095-42.04169 42.041302 42.041302 0 0 0-42.04095-42.04169H185.04215v-21.03932a42.041451 42.041451 0 0 0-42.041-42.04204zm136.59307 210.27209a42.041451 42.041451 0 0 0-42.04095 42.03964v21.04032H27.447078A42.041302 42.041302 0 0 0-14.593872 512.88143 42.041302 42.041302 0 0 0 27.447078 554.92106H237.55332v21.06807a42.041451 42.041451 0 0 0 84.08195 0v-21.06807h252.15945a42.041302 42.041302 0 0 0 42.04095-42.04065 42.041302 42.041302 0 0 0-42.04095-42.04169H321.63527v-21.04032a42.041451 42.041451 0 0 0-42.04095-42.04064z"/>
-        </svg>
-      </div>
-      <div class="flex flex-col gap-1">
-        <p class="sidebar-onboarding-title text-[15px] font-semibold text-slate-900 dark:text-white">¡Casi estás listo!</p>
-        <p class="sidebar-onboarding-subtitle text-[13px] text-slate-500 dark:text-slate-300 leading-snug">Completa estos pasos y empieza a compartir tus enlaces de marca.</p>
+    <!-- Header con PAYG badge y Credits -->
+    <div class="flex items-start justify-between w-full">
+      <!-- Badge PAYG -->
+      <span class="px-1.5 py-0.5 bg-gray-200 dark:bg-slate-700 rounded text-[7px] font-semibold text-slate-900 dark:text-white uppercase">
+        Starter
+      </span>
+      <!-- Credits -->
+      <div class="flex flex-col items-end leading-tight">
+        <span class="text-[11px] font-semibold text-slate-900 dark:text-white">10.00</span>
+        <span class="text-[7px] text-slate-500 dark:text-slate-400 leading-relaxed">Credits</span>
       </div>
     </div>
 
-    <div class="sidebar-onboarding-progress flex flex-nowrap items-center justify-center gap-[0.14rem] w-full mt-1" aria-hidden="true">
-      <span
-        *ngFor="let bar of progressBars; let i = index"
-        class="block w-[4px] h-[16px] rounded-md flex-none transition-colors duration-300"
-        [ngStyle]="getBarStyle(i)"
-      ></span>
-    </div>
-
-    <div class="flex flex-col border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-200 bg-white dark:bg-slate-900 dark:border-slate-700 dark:divide-slate-700 mt-1.5">
-      <button type="button" class="sidebar-onboarding-step-button sidebar-onboarding-step flex items-center gap-2.5 px-3 py-2">
-        <span class="grid place-items-center w-4.5 h-4.5 rounded-full bg-white border border-gray-400 text-gray-500 dark:bg-slate-900 dark:border-gray-500">
-          <svg class="w-3 h-3 text-gray-500 dark:text-gray-300" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 10.5L8.5 14L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span class="sidebar-onboarding-step-text text-[13px] font-normal text-slate-800 leading-5 dark:text-white">Configura tu dominio</span>
-        <span class="sidebar-onboarding-arrow ml-auto text-slate-900 text-xl font-normal leading-none dark:text-white">›</span>
-      </button>
-      <button type="button" class="sidebar-onboarding-step-button sidebar-onboarding-step flex items-center gap-2.5 px-3 py-2">
-        <span class="grid place-items-center w-4.5 h-4.5 rounded-full bg-white border border-gray-400 text-gray-500 dark:bg-slate-900 dark:border-gray-500">
-          <svg class="w-3 h-3 text-gray-500 dark:text-gray-300" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 10.5L8.5 14L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span class="sidebar-onboarding-step-text text-[13px] font-normal text-slate-800 leading-5 dark:text-white">Invita a tu equipo</span>
-        <span class="sidebar-onboarding-arrow ml-auto text-slate-900 text-xl font-normal leading-none dark:text-white">›</span>
-      </button>
-      <button type="button" class="sidebar-onboarding-step-button sidebar-onboarding-step flex items-center gap-2.5 px-3 py-2">
-        <span class="grid place-items-center w-4.5 h-4.5 rounded-full bg-white border border-gray-400 text-gray-500 dark:bg-slate-900 dark:border-gray-500">
-          <svg class="w-3 h-3 text-gray-500 dark:text-gray-300" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 10.5L8.5 14L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span class="sidebar-onboarding-step-text text-[13px] font-normal text-slate-800 leading-5 dark:text-white">Crea o importa tus links</span>
-        <span class="sidebar-onboarding-arrow ml-auto text-slate-900 text-xl font-normal leading-none dark:text-white">›</span>
-      </button>
-    </div>
+    <!-- Botón Buy Credits -->
+    <button type="button" class="w-full bg-gray-200 dark:bg-slate-800 hover:bg-gray-300 dark:hover:bg-slate-700 rounded-lg px-2 py-1.5 flex items-center justify-center gap-1 transition-colors">
+      <svg class="w-3 h-3 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+      </svg>
+      <span class="text-[8px] font-medium text-slate-900 dark:text-white leading-relaxed">Buy Credits</span>
+    </button>
   </div>
 </ng-template>
 
 <!-- Botón para abrir menú en móvil -->
-<div *ngIf="windowWidth < 1280" class="fixed top-4 left-4 z-50">
+<div *ngIf="windowWidth < 1280" class="fixed top-4 left-4 z-50 hidden">
   <button (click)="openMobileSidebar()" class="p-2 rounded bg-blue-700 text-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
     <span class="sr-only">Abrir menú</span>
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -75,41 +46,41 @@
   <div [class]="'relative w-72 bg-white shadow-xl flex flex-col h-full mobile-sidebar dark:bg-slate-900 dark:border-slate-800 border-r border-gray-200' + (isClosing ? ' leaving' : '')">
     <div class="flex flex-col h-full w-full">
     <!-- Logo principal -->
-    <div class="flex items-center h-16 px-6 mt-6 flex-shrink-0 relative justify-between">
+    <div class="flex items-center h-12 px-6 mt-4 flex-shrink-0 relative justify-between">
       <div class="flex items-center gap-0 relative justify-between w-full">
         <!-- Logo normal -->
-        <div class="relative mt-2 ml-2">
+        <div class="relative mt-1 ml-2">
           <img
             src="../../../assets/logo.png"
             alt="Llamalo Logo"
-            class="h-10 block dark:hidden relative z-0"
+            class="h-7 block dark:hidden relative z-0"
             style="width: auto; object-fit: contain;"
           />
           <!-- Logo blanco en modo oscuro -->
           <img
             src="../../../assets/logo_blanco.png"
             alt="Llamalo Logo"
-            class="h-10 hidden dark:block relative z-0"
+            class="h-7 hidden dark:block relative z-0"
             style="width: auto; object-fit: contain;"
           />
         </div>
         <!-- Texto Llamalo beta -->
-        <div class="flex flex-row items-baseline gap-1 leading-tight ml-4">
-          <span class="brand-font text-4xl mt-2 font-bold tracking-[-3px] sidebar-logo-text">Llamalo</span>
-          <span class="brand-font text-[10px] text-black font-bold tracking-[-0.5px] dark:text-slate-300">beta</span>
+        <div class="flex flex-row items-baseline gap-0.5 leading-tight ml-1.5">
+          <span class="brand-font text-xl mt-1 font-bold tracking-[-2px] sidebar-logo-text">Llamalo</span>
+          <span class="brand-font text-[8px] text-black font-bold tracking-[-0.5px] dark:text-slate-300">beta</span>
         </div>
       </div>
     </div>
 
     <!-- Navegación -->
-    <nav class="flex-1 px-4 py-28 space-y-2 font-semibold text-xl overflow-y-auto">
+    <nav class="flex-1 px-4 py-28 space-y-2 font-semibold text-base overflow-y-auto">
       <a
         [routerLink]="['/dashboard/home']"
         (click)="closeMenu()"
-        [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition ' + (isRouteActive('/dashboard/home') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
+        [class]="'nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition ' + (isRouteActive('/dashboard/home') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
       >
         <span class="nav-icon-wrapper">
-          <svg width="24" height="25" viewBox="0 0 20 17" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+          <svg width="18" height="19" viewBox="0 0 20 17" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
             <path d="M8.0001 16V11H12.0001V16C12.0001 16.55 12.4501 17 13.0001 17H16.0001C16.5501 17 17.0001 16.55 17.0001 16V8.99997H18.7001C19.1601 8.99997 19.3801 8.42997 19.0301 8.12997L10.6701 0.599971C10.2901 0.259971 9.7101 0.259971 9.3301 0.599971L0.970098 8.12997C0.630098 8.42997 0.840098 8.99997 1.3001 8.99997H3.0001V16C3.0001 16.55 3.4501 17 4.0001 17H7.0001C7.5501 17 8.0001 16.55 8.0001 16Z" />
           </svg>
         </span>
@@ -119,10 +90,10 @@
       <a
         [routerLink]="['/dashboard/agents']"
         (click)="closeMenu()"
-        [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition ' + (isRouteActive('/dashboard/agents') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
+        [class]="'nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition ' + (isRouteActive('/dashboard/agents') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
       >
         <span class="nav-icon-wrapper">
-          <svg width="24" height="25" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+          <svg width="18" height="19" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
             <path d="M18.7425 7.86458C18.6616 7.86458 18.5928 7.84722 18.5361 7.8125C18.4795 7.77778 18.435 7.71701 18.4026 7.63021L17.6986 5.85938L15.9263 5.02604C15.8454 4.99132 15.7887 4.94358 15.7564 4.88281C15.724 4.82205 15.7078 4.74826 15.7078 4.66146C15.7078 4.57465 15.724 4.50087 15.7564 4.4401C15.7887 4.37934 15.8454 4.3316 15.9263 4.29688L17.6986 3.48958L18.4026 1.79688C18.435 1.71007 18.4795 1.64931 18.5361 1.61458C18.5928 1.57986 18.6616 1.5625 18.7425 1.5625C18.8234 1.5625 18.8922 1.57986 18.9489 1.61458C19.0055 1.64931 19.05 1.71007 19.0824 1.79688L19.7864 3.48958L21.5587 4.29688C21.6396 4.3316 21.6963 4.37934 21.7286 4.4401C21.761 4.50087 21.7772 4.57465 21.7772 4.66146C21.7772 4.74826 21.761 4.82205 21.7286 4.88281C21.6963 4.94358 21.6396 4.99132 21.5587 5.02604L19.7864 5.85938L19.0824 7.63021C19.05 7.71701 19.0055 7.77778 18.9489 7.8125C18.8922 7.84722 18.8234 7.86458 18.7425 7.86458ZM18.7425 23.3854C18.6778 23.3854 18.613 23.3681 18.5483 23.3333C18.4835 23.2986 18.435 23.2378 18.4026 23.151L17.6986 21.4583L15.9506 20.651C15.8697 20.6163 15.813 20.5686 15.7806 20.5078C15.7483 20.447 15.7321 20.3733 15.7321 20.2865C15.7321 20.1997 15.7483 20.1259 15.7806 20.0651C15.813 20.0043 15.8697 19.9566 15.9506 19.9219L17.6986 19.1146L18.4026 17.3177C18.435 17.2309 18.4795 17.1701 18.5361 17.1354C18.5928 17.1007 18.6616 17.0833 18.7425 17.0833C18.8234 17.0833 18.8922 17.1007 18.9489 17.1354C19.0055 17.1701 19.05 17.2309 19.0824 17.3177L19.7864 19.1146L21.5344 19.9219C21.6153 19.9566 21.672 20.0043 21.7044 20.0651C21.7367 20.1259 21.7529 20.1997 21.7529 20.2865C21.7529 20.3733 21.7367 20.447 21.7044 20.5078C21.672 20.5686 21.6153 20.6163 21.5344 20.651L19.7864 21.4583L19.0824 23.151C19.05 23.2378 19.0015 23.2986 18.9367 23.3333C18.872 23.3681 18.8072 23.3854 18.7425 23.3854ZM8.08466 18.8802C7.95518 18.8802 7.82975 18.8411 7.70836 18.763C7.58697 18.6849 7.49391 18.5764 7.42917 18.4375L5.85113 14.8177L2.45227 13.1771C2.32279 13.1076 2.22163 13.0078 2.1488 12.8776C2.07597 12.7474 2.03955 12.6128 2.03955 12.474C2.03955 12.3351 2.07597 12.2005 2.1488 12.0703C2.22163 11.9401 2.32279 11.8403 2.45227 11.7708L5.85113 10.1302L7.42917 6.53646C7.49391 6.38021 7.58697 6.26302 7.70836 6.1849C7.82975 6.10677 7.95518 6.06771 8.08466 6.06771C8.21414 6.06771 8.33957 6.10677 8.46096 6.1849C8.58235 6.26302 8.67541 6.37153 8.74015 6.51042L10.3425 10.1302L13.7171 11.7708C13.8627 11.8403 13.972 11.9401 14.0448 12.0703C14.1176 12.2005 14.154 12.3351 14.154 12.474C14.154 12.6128 14.1176 12.7474 14.0448 12.8776C13.972 13.0078 13.8627 13.1076 13.7171 13.1771L10.3425 14.8177L8.74015 18.4375C8.67541 18.5938 8.58235 18.7066 8.46096 18.776C8.33957 18.8455 8.21414 18.8802 8.08466 18.8802Z" />
           </svg>
         </span>
@@ -132,10 +103,10 @@
       <a
         [routerLink]="['/dashboard/numbers']"
         (click)="closeMenu()"
-        [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition ' + (isRouteActive('/dashboard/numbers') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
+        [class]="'nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition ' + (isRouteActive('/dashboard/numbers') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
       >
         <span class="nav-icon-wrapper">
-          <svg width="24" height="25" viewBox="0 0 22 23" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+          <svg width="18" height="19" viewBox="0 0 22 23" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
             <path d="M7.04674 4.69293C7.37976 4.69293 7.68657 4.88174 7.84818 5.1861L8.96949 7.29774C9.1163 7.57422 9.12317 7.90859 8.98792 8.19144L7.90772 10.4501C7.90772 10.4501 8.22076 12.1326 9.53086 13.5023C10.841 14.872 12.445 15.1936 12.445 15.1936L14.6051 14.0644C14.8758 13.9229 15.1959 13.9303 15.4605 14.084L17.486 15.2613C17.7768 15.4304 17.9572 15.751 17.9572 16.0989V18.53C17.9572 19.768 16.8573 20.6621 15.7352 20.2663C13.4308 19.4534 9.85362 17.9056 7.58633 15.5352C5.31901 13.1649 3.8385 9.42515 3.06092 7.0159C2.68232 5.8429 3.53762 4.69293 4.7218 4.69293H7.04674Z" />
           </svg>
         </span>
@@ -145,29 +116,29 @@
       <a
         [routerLink]="['/dashboard/history']"
         (click)="closeMenu()"
-        [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition ' + (isRouteActive('/dashboard/history') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
+        [class]="'nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition ' + (isRouteActive('/dashboard/history') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
       >
         <span class="nav-icon-wrapper">
-          <svg width="24" height="18" viewBox="0 0 17 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+          <svg width="18" height="14" viewBox="0 0 17 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
             <path d="M8.99625 12.7224C8.6357 12.9516 8.12492 12.9516 7.76437 12.7224L1.60495 8.80905C1.2444 8.57982 0.743637 8.57982 0.383085 8.80905C-0.127695 9.13653 -0.127695 9.76692 0.383085 10.0944L7.15343 14.4007C7.87454 14.8591 8.88608 14.8591 9.6172 14.4007L16.3875 10.0944C16.8983 9.76692 16.8983 9.13653 16.3875 8.80905L16.3775 8.80087C16.017 8.57164 15.5162 8.57164 15.1557 8.80087L8.99625 12.7224ZM9.62721 10.2499L16.3976 5.94366C16.9083 4.97761 16.9083 4.97761 16.3976 4.65013L9.62721 0.343848C8.90611 -0.114616 7.89457 -0.114616 7.16345 0.343848L0.393101 4.65832C-0.11768 4.98579 -0.11768 5.62437 0.393101 5.95184L7.16345 10.2581C7.88455 10.7166 8.90611 10.7166 9.62721 10.2499Z" />
           </svg>
         </span>
         <span class="nav-text">{{ t.history }}</span>
-        <span class="ml-auto text-xs text-blue-900 border border-gray-300 px-3 py-1 rounded-lg font-bold">{{ t.new }}</span>
+        <span class="ml-auto text-[10px] text-blue-900 border border-gray-300 px-2 py-0.5 rounded-lg font-bold">{{ t.new }}</span>
       </a>
 
       <a
         [routerLink]="['/dashboard/metrics']"
         (click)="closeMenu()"
-        [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition ' + (isRouteActive('/dashboard/metrics') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
+        [class]="'nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition ' + (isRouteActive('/dashboard/metrics') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
       >
         <span class="nav-icon-wrapper">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
             <path d="M15.5 2C15.1022 2 14.7206 2.15804 14.4393 2.43934C14.158 2.72064 14 3.10218 14 3.5V16.5C14 16.8978 14.158 17.2794 14.4393 17.5607C14.7206 17.842 15.1022 18 15.5 18H16.5C16.8978 18 17.2794 17.842 17.5607 17.5607C17.842 17.2794 18 16.8978 18 16.5V3.5C18 3.10218 17.842 2.72064 17.5607 2.43934C17.2794 2.15804 16.8978 2 16.5 2H15.5ZM9.5 6C9.10218 6 8.72064 6.15804 8.43934 6.43934C8.15804 6.72064 8 7.10218 8 7.5V16.5C8 16.8978 8.15804 17.2794 8.43934 17.5607C8.72064 17.842 9.10218 18 9.5 18H10.5C10.8978 18 11.2794 17.842 11.5607 17.5607C11.842 17.2794 12 16.8978 12 16.5V7.5C12 7.10218 11.842 6.72064 11.5607 6.43934C11.2794 6.15804 10.8978 6 10.5 6H9.5ZM3.5 10C3.10218 10 2.72064 10.158 2.43934 10.4393C2.15804 10.7206 2 11.1022 2 11.5V16.5C2 16.8978 2.15804 17.2794 2.43934 17.5607C2.72064 17.842 3.10218 18 3.5 18H4.5C4.89782 18 5.27936 17.842 5.56066 17.5607C5.84196 17.2794 6 16.8978 6 16.5V11.5C6 11.1022 5.84196 10.7206 5.56066 10.4393C5.27936 10.158 4.89782 10 4.5 10H3.5Z" />
           </svg>
         </span>
         <span class="nav-text">{{ t.metrics }}</span>
-        <span class="ml-auto text-xs text-blue-900 border border-gray-300 px-3 py-1 rounded-lg font-bold">{{ t.new }}</span>
+        <span class="ml-auto text-[10px] text-blue-900 border border-gray-300 px-2 py-0.5 rounded-lg font-bold">{{ t.new }}</span>
       </a>
     </nav>
 
@@ -188,7 +159,7 @@
         >
           <img
             [src]="getUserProfileImage()"
-            class="h-8 w-8 rounded-full border-2 border-blue-900 history-border sidebar-avatar flex-shrink-0"
+            class="h-6 w-6 rounded-full border-2 border-blue-900 history-border sidebar-avatar flex-shrink-0"
             alt="Perfil"
           />
         </div>
@@ -196,7 +167,7 @@
         <!-- Icono regalo -->
         <div>
           <button (click)="goToGifts()" class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none">            
-            <svg class="h-7 w-7 relative top-[4px]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <svg [class]="'relative top-[4px] ' + (isCollapsed ? 'h-4 w-4' : 'h-5 w-5')" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path d="M11.2498 2C7.03145 2.00411 4.84888 2.07958 3.46423 3.46423C2.07958 4.84888 2.00411 7.03145 2 11.2498H6.91352C6.56255 10.8114 6.30031 10.2943 6.15731 9.72228C5.61906 7.56926 7.56926 5.61906 9.72228 6.15731C10.2943 6.30031 10.8114 6.56255 11.2498 6.91352V2Z"></path>
               <path d="M2 12.7498C2.00411 16.9681 2.07958 19.1506 3.46423 20.5353C4.84888 21.9199 7.03145 21.9954 11.2498 21.9995V14.1234C10.4701 15.6807 8.8598 16.7498 6.99976 16.7498C6.58555 16.7498 6.24976 16.414 6.24976 15.9998C6.24976 15.5856 6.58555 15.2498 6.99976 15.2498C8.53655 15.2498 9.82422 14.1831 10.1628 12.7498H2Z"></path>
               <path d="M12.7498 21.9995C16.9681 21.9954 19.1506 21.9199 20.5353 20.5353C21.9199 19.1506 21.9954 16.9681 21.9995 12.7498H13.8367C14.1753 14.1831 15.463 15.2498 16.9998 15.2498C17.414 15.2498 17.7498 15.5856 17.7498 15.9998C17.7498 16.414 17.414 16.7498 16.9998 16.7498C15.1397 16.7498 13.5294 15.6807 12.7498 14.1234V21.9995Z"></path>
@@ -209,7 +180,7 @@
          
         <div>
           <button (click)="logout()" class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none" aria-label="Cerrar sesión">
-            <svg class="h-7 w-7 relative top-[4px]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <svg [class]="'relative top-[4px] ' + (isCollapsed ? 'h-4 w-4' : 'h-5 w-5')" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z"></path>
               <path d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z"></path>
             </svg>
@@ -219,15 +190,15 @@
         <!-- Dropdown Menu -->
         <div
           *ngIf="showDropdown"
-          class="absolute top-full left-0 ml-0 -mt-72 w-64 bg-white rounded-3xl shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-100 dark:bg-slate-900 dark:border-slate-700"
+          class="absolute top-full left-0 ml-0 mt-2 w-44 bg-white rounded-lg shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-100 dark:bg-slate-900 dark:border-slate-700"
         >
           <!-- {{ t.settings }} -->
           <button
             (click)="navigateTo('/dashboard/account'); closeMenu()"
-            class="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-xl dark:text-white dark:hover:bg-slate-800"
+            class="w-full flex items-center gap-2 px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-lg dark:text-white dark:hover:bg-slate-800"
           >
             <svg
-              class="w-5 h-5 text-gray-700 dark:text-white flex-shrink-0"
+              class="w-4 h-4 text-gray-700 dark:text-white flex-shrink-0"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -247,26 +218,26 @@
                 stroke-linejoin="round"
               />
             </svg>
-            <span class="font-medium">{{ t.settings }}</span>
+            <span class="font-medium text-xs">{{ t.settings }}</span>
           </button>
           
           <!-- {{ t.privateCommunity }} -->
           <button
             (click)="navigateTo('/dashboard/community'); closeMenu()"
-            class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors dark:text-white dark:hover:bg-slate-800"
+            class="w-full flex items-center px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors dark:text-white dark:hover:bg-slate-800"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-700 dark:text-white">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-700 dark:text-white">
               <path d="M10.9661 4.23732C9.99273 2.63199 8.23362 1.55554 6.21939 1.55554C3.15273 1.55554 0.666504 4.04176 0.666504 7.10932C0.666504 8.1191 0.940282 9.06399 1.41228 9.87999C1.74117 10.4978 1.37228 11.9573 0.666504 12.6622C1.62384 12.7138 2.88606 12.2818 3.44873 11.9164C3.82295 12.1324 4.41761 12.4195 5.1945 12.5662C5.29406 12.5849 5.40073 12.5813 5.50206 12.5947" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M11.3334 6.44086C13.5423 6.44086 15.3334 8.23197 15.3334 10.4409C15.3334 11.1689 15.1361 11.8489 14.7965 12.4373C14.5592 12.8817 14.8259 13.9333 15.3334 14.4417C14.6436 14.4791 13.7352 14.1671 13.329 13.9049C13.0596 14.0604 12.6312 14.2666 12.0712 14.3733C11.8321 14.4186 11.585 14.4426 11.3325 14.4426C9.12274 14.4426 7.33252 12.6515 7.33252 10.4426C7.33252 8.23286 9.12363 6.44264 11.3325 6.44264L11.3334 6.44086Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span class="ml-3 font-medium">{{ t.privateCommunity }}</span>
+            <span class="ml-2 font-medium text-xs">{{ t.privateCommunity }}</span>
           </button>
           
           <!-- Separador -->
-          <div class="h-px bg-gray-200 my-2 dark:bg-slate-700"></div>
+          <div class="h-px bg-gray-200 my-1 dark:bg-slate-700"></div>
           
          <!-- Idiomas -->
-         <div class="flex gap-2 px-4 py-2">
+         <div class="flex gap-1 px-2 py-1">
            <button
              (click)="selectLanguage(languages[0])"
              [class]="
@@ -274,7 +245,7 @@
                  ? 'bg-blue-900 text-white font-semibold w-1/2'
                  : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
              "
-             class="px-4 py-2 rounded-lg text-base transition-colors"
+             class="px-2 py-1 rounded text-xs transition-colors"
            >
              ES
            </button>
@@ -285,7 +256,7 @@
                  ? 'bg-blue-900 text-white font-semibold w-1/2'
                  : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
              "
-             class="px-4 py-2 rounded-lg text-base transition-colors"
+             class="px-2 py-1 rounded text-xs transition-colors"
            >
              ENG
            </button>
@@ -294,26 +265,26 @@
           <!-- {{ t.helpCenter }} -->
           <button
             (click)="navigateTo('/dashboard/help'); closeMenu()"
-            class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors dark:text-white dark:hover:bg-slate-800"
+            class="w-full flex items-center px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors dark:text-white dark:hover:bg-slate-800"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-700 dark:text-white">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-700 dark:text-white">
               <path d="M8.00011 14.4444C11.5593 14.4444 14.4446 11.5592 14.4446 7.99999C14.4446 4.44082 11.5593 1.55554 8.00011 1.55554C4.44094 1.55554 1.55566 4.44082 1.55566 7.99999C1.55566 11.5592 4.44094 14.4444 8.00011 14.4444Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8 11.3946V7.33331" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8.00022 6.00001C7.50955 6.00001 7.11133 5.6009 7.11133 5.11112C7.11133 4.62134 7.50955 4.22223 8.00022 4.22223C8.49088 4.22223 8.88911 4.62134 8.88911 5.11112C8.88911 5.6009 8.49088 6.00001 8.00022 6.00001Z" fill="currentColor"/>
             </svg>
-            <span class="ml-3 font-medium">{{ t.helpCenter }}</span>
+            <span class="ml-2 font-medium text-xs">{{ t.helpCenter }}</span>
           </button>
           
           <!-- Cerrar sesión -->
           <button
             (click)="logout(); closeMenu()"
-            class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-red-50 transition-colors rounded-b-xl dark:text-white dark:hover:bg-red-900/30"
+            class="w-full flex items-center px-2 py-1.5 text-gray-700 hover:bg-red-50 transition-colors rounded-b-lg dark:text-white dark:hover:bg-red-900/30"
           >
-            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-4 h-4 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z"></path>
               <path d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z"></path>
             </svg>
-            <span class="ml-3 font-medium">{{ t.logout }}</span>
+            <span class="ml-2 font-medium text-xs">{{ t.logout }}</span>
           </button>
         </div>
       </div>
@@ -332,73 +303,59 @@
 <!-- Sidebar en escritorio -->
 <div
   *ngIf="windowWidth >= 1280"
-  [class]="'hidden xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200 dark:border-neutral-800 transition-all duration-500 ease-in-out group ' + (isCollapsed ? 'xl:w-24 sidebar-collapsed' : (windowWidth < 1440 ? 'xl:w-60' : 'xl:w-[21rem] xl:max-w-[88rem]'))"
+  [class]="'hidden xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200 dark:border-neutral-800 transition-all duration-500 ease-in-out group ' + (isCollapsed ? 'xl:w-12' : 'xl:w-[10rem]')"
 >
   <div class="flex flex-col h-full w-full">
     <!-- Logo principal -->
-    <div class="flex items-center h-16 px-6 mt-6 flex-shrink-0 relative"
-         [ngClass]="{'justify-center': isCollapsed, 'justify-between': !isCollapsed}">
-      <div class="flex items-center gap-0 relative" [ngClass]="{'justify-center w-full': isCollapsed}">
-        <!-- Logo normal -->
-        <div class="relative mt-2" [ngClass]="{'ml-0': isCollapsed, 'ml-2': !isCollapsed}">
-          <img
-            [ngClass]="{
-              'h-8': isCollapsed,
-              'h-10': !isCollapsed && windowWidth < 1440,
-              'h-11': !isCollapsed && windowWidth >= 1440,
-              'opacity-100 group-hover:opacity-0': isCollapsed
-            }"
-            src="../../../assets/logo.png"
-            alt="Llamalo Logo"
-            class="block dark:hidden relative z-0 transition-[height] duration-500 ease-in-out"
-            [style.transition]="isCollapsed ? 'opacity 0.3s ease-in-out' : 'height 500ms ease-in-out'"
-            style="width: auto; object-fit: contain;"
-          />
-          <!-- Logo blanco en modo oscuro -->
-          <img
-            [ngClass]="{
-              'h-8': isCollapsed,
-              'h-10': !isCollapsed && windowWidth < 1440,
-              'h-11': !isCollapsed && windowWidth >= 1440,
-              'opacity-100 group-hover:opacity-0': isCollapsed
-            }"
-            src="../../../assets/logo_blanco.png"
-            alt="Llamalo Logo"
-            class="hidden dark:block relative z-0 transition-[height] duration-500 ease-in-out"
-            [style.transition]="isCollapsed ? 'opacity 0.3s ease-in-out' : 'height 500ms ease-in-out'"
-            style="width: auto; object-fit: contain;"
-          />
-        </div>
-        <!-- Icono para abrir sidebar (solo cuando está cerrado, aparece en hover) -->
-        <button
-          *ngIf="isCollapsed"
-          (click)="toggleCollapse()"
-          class="sidebar-open-icon absolute left-1/2 -translate-x-1/2 top-[55%] -translate-y-1/2 opacity-0 group-hover:opacity-100 cursor-pointer text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 h-7 flex items-center justify-center z-10"
-          title="Abrir sidebar"
-        >
-          <svg width="77" height="68" viewBox="0 0 77 68" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-5">
-            <rect x="3.5" y="3.5" width="70" height="61" rx="14.5" stroke="currentColor" stroke-width="7"/>
-            <rect x="16" y="15" width="25" height="38" rx="4" fill="currentColor"/>
-          </svg>
-        </button>
-        <!-- Texto Llamalo beta (posición absoluta para no afectar layout) -->
-        <div 
-          [class]="'absolute left-full ml-4 flex flex-row items-baseline gap-1 leading-tight ' + (isCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100 transition-all duration-500 ease-in-out')"
-          [style.transform]="isCollapsed ? 'translateX(-10px)' : 'translateX(0)'"
-          [style.transition]="isCollapsed ? 'none' : 'all 500ms ease-in-out'"
-        >
-          <span [class]="'brand-font mt-2 font-bold tracking-[-3px] sidebar-logo-text whitespace-nowrap ' + (windowWidth < 1440 ? 'text-3xl' : 'text-4xl') + (isCollapsed ? '' : ' transition-all duration-500 ease-in-out')">Llamalo</span>
-          <span [class]="'brand-font text-[10px] text-black font-bold tracking-[-0.5px] dark:text-slate-300 whitespace-nowrap ' + (isCollapsed ? '' : 'transition-all duration-500 ease-in-out')">beta</span>
-        </div>
+    <div class="flex items-center flex-shrink-0 relative pt-4 h-12">
+      <!-- Logo normal - posición absoluta fija para evitar movimiento durante transición -->
+      <!-- 24px desde izquierda (centro del sidebar cerrado de 48px) con logo centrado -->
+      <div class="absolute left-6 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center flex-shrink-0">
+        <img
+          [ngClass]="{
+            'h-5 w-5': true,
+            'opacity-100 group-hover:opacity-0': isCollapsed
+          }"
+          src="../../../assets/logo.png"
+          alt="Llamalo Logo"
+          class="block dark:hidden relative z-0 transition-opacity duration-300 ease-in-out object-contain"
+        />
+        <!-- Logo blanco en modo oscuro -->
+        <img
+          [ngClass]="{
+            'h-5 w-5': true,
+            'opacity-100 group-hover:opacity-0': isCollapsed
+          }"
+          src="../../../assets/logo_blanco.png"
+          alt="Llamalo Logo"
+          class="hidden dark:block relative z-0 transition-opacity duration-300 ease-in-out object-contain"
+        />
       </div>
+      <!-- Texto "Llamalo beta" - independiente del logo para no afectar la animación -->
+      <div *ngIf="!isCollapsed" class="absolute left-11 top-1/2 -translate-y-1/2 flex items-baseline gap-0.5 flex-shrink-0">
+        <span class="brand-font text-base font-bold tracking-[-1.5px] transition-all duration-500 ease-in-out opacity-0 animate-fade-in text-black dark:text-white">Llamalo</span>
+        <span class="brand-font text-[7px] font-bold tracking-[-0.5px] transition-all duration-500 ease-in-out opacity-0 animate-fade-in text-black dark:text-slate-300">beta</span>
+      </div>
+      <!-- Icono para abrir sidebar (solo cuando está cerrado, aparece en hover) -->
+      <button
+        *ngIf="isCollapsed"
+        (click)="toggleCollapse()"
+        class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 cursor-pointer text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 flex items-center justify-center z-20 transition-opacity duration-300"
+        title="Abrir sidebar"
+      >
+        <svg width="77" height="68" viewBox="0 0 77 68" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
+          <rect x="3.5" y="3.5" width="70" height="61" rx="14.5" stroke="currentColor" stroke-width="7"/>
+          <rect x="16" y="15" width="25" height="38" rx="4" fill="currentColor"/>
+        </svg>
+      </button>
       <!-- Icono para cerrar sidebar (a la derecha, solo cuando está abierto, siempre visible) -->
       <button
         *ngIf="!isCollapsed"
         (click)="toggleCollapse()"
-        class="sidebar-close-icon opacity-100 transition-all duration-500 ease-in-out cursor-pointer text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 mt-2"
+        class="absolute right-2 top-4 opacity-100 transition-all duration-500 ease-in-out cursor-pointer text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
         title="Cerrar sidebar"
       >
-        <svg width="77" height="68" viewBox="0 0 77 68" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-5">
+        <svg width="77" height="68" viewBox="0 0 77 68" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
           <rect x="3.5" y="3.5" width="70" height="61" rx="14.5" stroke="currentColor" stroke-width="7"/>
           <rect x="16" y="15" width="7" height="38" rx="3.5" fill="currentColor"/>
         </svg>
@@ -407,81 +364,79 @@
 
 
     <!-- Navegación -->
-    <nav [class]="'flex-1 px-4 space-y-2 font-semibold text-xl overflow-y-auto ' + (windowWidth < 1440 ? 'py-6' : 'py-28')">
+    <nav class="flex-1 font-semibold text-sm overflow-y-auto flex flex-col pt-5 pb-2 space-y-3 pl-3">
           <a
             [routerLink]="['/dashboard/home']"
-            [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition mt-2 ' + (isRouteActive('/dashboard/home') ? 'nav-link-active text-blue-900' : 'text-gray-400  hover:text-blue-900')"
+            [class]="'relative flex items-center rounded-lg transition w-full py-1 my-0 ' + (isRouteActive('/dashboard/home') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:text-blue-900')"
           >
-        <span class="nav-icon-wrapper">
-          <svg width="24" height="25" viewBox="0 0 20 17" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+        <span [class]="'inline-flex items-center justify-center transition-all duration-300 w-6 h-6 rounded-md flex-shrink-0 ' + (isRouteActive('/dashboard/home') ? 'bg-gray-100 dark:bg-slate-800' : 'hover:bg-gray-100 dark:hover:bg-slate-800')">
+          <svg class="transition-all w-[14px] h-[14px]" viewBox="0 0 20 17" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M8.0001 16V11H12.0001V16C12.0001 16.55 12.4501 17 13.0001 17H16.0001C16.5501 17 17.0001 16.55 17.0001 16V8.99997H18.7001C19.1601 8.99997 19.3801 8.42997 19.0301 8.12997L10.6701 0.599971C10.2901 0.259971 9.7101 0.259971 9.3301 0.599971L0.970098 8.12997C0.630098 8.42997 0.840098 8.99997 1.3001 8.99997H3.0001V16C3.0001 16.55 3.4501 17 4.0001 17H7.0001C7.5501 17 8.0001 16.55 8.0001 16Z" />
           </svg>
         </span>
-        <span *ngIf="!isCollapsed" class="nav-text mt-1 block transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.home }}</span>
+        <span *ngIf="!isCollapsed" class="nav-text text-xs transition-all duration-500 ease-in-out opacity-0 animate-fade-in ml-2">{{ t.home }}</span>
       </a>
 
           <a
             [routerLink]="['/dashboard/agents']"
-            [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition ' + (isRouteActive('/dashboard/agents') ? 'nav-link-active text-blue-900' : 'text-gray-400  hover:text-blue-900')"
+            [class]="'relative flex items-center rounded-lg transition w-full py-1 my-0 ' + (isRouteActive('/dashboard/agents') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:text-blue-900')"
           >
-        <span class="nav-icon-wrapper">
-          <svg width="24" height="25" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+        <span [class]="'inline-flex items-center justify-center transition-all duration-300 w-6 h-6 rounded-md flex-shrink-0 ' + (isRouteActive('/dashboard/agents') ? 'bg-gray-100 dark:bg-slate-800' : 'hover:bg-gray-100 dark:hover:bg-slate-800')">
+          <svg class="transition-all w-[14px] h-[14px]" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M18.7425 7.86458C18.6616 7.86458 18.5928 7.84722 18.5361 7.8125C18.4795 7.77778 18.435 7.71701 18.4026 7.63021L17.6986 5.85938L15.9263 5.02604C15.8454 4.99132 15.7887 4.94358 15.7564 4.88281C15.724 4.82205 15.7078 4.74826 15.7078 4.66146C15.7078 4.57465 15.724 4.50087 15.7564 4.4401C15.7887 4.37934 15.8454 4.3316 15.9263 4.29688L17.6986 3.48958L18.4026 1.79688C18.435 1.71007 18.4795 1.64931 18.5361 1.61458C18.5928 1.57986 18.6616 1.5625 18.7425 1.5625C18.8234 1.5625 18.8922 1.57986 18.9489 1.61458C19.0055 1.64931 19.05 1.71007 19.0824 1.79688L19.7864 3.48958L21.5587 4.29688C21.6396 4.3316 21.6963 4.37934 21.7286 4.4401C21.761 4.50087 21.7772 4.57465 21.7772 4.66146C21.7772 4.74826 21.761 4.82205 21.7286 4.88281C21.6963 4.94358 21.6396 4.99132 21.5587 5.02604L19.7864 5.85938L19.0824 7.63021C19.05 7.71701 19.0055 7.77778 18.9489 7.8125C18.8922 7.84722 18.8234 7.86458 18.7425 7.86458ZM18.7425 23.3854C18.6778 23.3854 18.613 23.3681 18.5483 23.3333C18.4835 23.2986 18.435 23.2378 18.4026 23.151L17.6986 21.4583L15.9506 20.651C15.8697 20.6163 15.813 20.5686 15.7806 20.5078C15.7483 20.447 15.7321 20.3733 15.7321 20.2865C15.7321 20.1997 15.7483 20.1259 15.7806 20.0651C15.813 20.0043 15.8697 19.9566 15.9506 19.9219L17.6986 19.1146L18.4026 17.3177C18.435 17.2309 18.4795 17.1701 18.5361 17.1354C18.5928 17.1007 18.6616 17.0833 18.7425 17.0833C18.8234 17.0833 18.8922 17.1007 18.9489 17.1354C19.0055 17.1701 19.05 17.2309 19.0824 17.3177L19.7864 19.1146L21.5344 19.9219C21.6153 19.9566 21.672 20.0043 21.7044 20.0651C21.7367 20.1259 21.7529 20.1997 21.7529 20.2865C21.7529 20.3733 21.7367 20.447 21.7044 20.5078C21.672 20.5686 21.6153 20.6163 21.5344 20.651L19.7864 21.4583L19.0824 23.151C19.05 23.2378 19.0015 23.2986 18.9367 23.3333C18.872 23.3681 18.8072 23.3854 18.7425 23.3854ZM8.08466 18.8802C7.95518 18.8802 7.82975 18.8411 7.70836 18.763C7.58697 18.6849 7.49391 18.5764 7.42917 18.4375L5.85113 14.8177L2.45227 13.1771C2.32279 13.1076 2.22163 13.0078 2.1488 12.8776C2.07597 12.7474 2.03955 12.6128 2.03955 12.474C2.03955 12.3351 2.07597 12.2005 2.1488 12.0703C2.22163 11.9401 2.32279 11.8403 2.45227 11.7708L5.85113 10.1302L7.42917 6.53646C7.49391 6.38021 7.58697 6.26302 7.70836 6.1849C7.82975 6.10677 7.95518 6.06771 8.08466 6.06771C8.21414 6.06771 8.33957 6.10677 8.46096 6.1849C8.58235 6.26302 8.67541 6.37153 8.74015 6.51042L10.3425 10.1302L13.7171 11.7708C13.8627 11.8403 13.972 11.9401 14.0448 12.0703C14.1176 12.2005 14.154 12.3351 14.154 12.474C14.154 12.6128 14.1176 12.7474 14.0448 12.8776C13.972 13.0078 13.8627 13.1076 13.7171 13.1771L10.3425 14.8177L8.74015 18.4375C8.67541 18.5938 8.58235 18.7066 8.46096 18.776C8.33957 18.8455 8.21414 18.8802 8.08466 18.8802Z" />
           </svg>
         </span>
-        <span *ngIf="!isCollapsed" class="nav-text transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.agents }}</span>
+        <span *ngIf="!isCollapsed" class="nav-text text-xs transition-all duration-500 ease-in-out opacity-0 animate-fade-in ml-2">{{ t.agents }}</span>
       </a>
 
           <a
             [routerLink]="['/dashboard/numbers']"
-            [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition ' + (isRouteActive('/dashboard/numbers') ? 'nav-link-active text-blue-900' : 'text-gray-400  hover:text-blue-900')"
+            [class]="'relative flex items-center rounded-lg transition w-full py-1 my-0 ' + (isRouteActive('/dashboard/numbers') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:text-blue-900')"
           >
-        <span class="nav-icon-wrapper">
-          <svg width="24" height="25" viewBox="0 0 22 23" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+        <span [class]="'inline-flex items-center justify-center transition-all duration-300 w-6 h-6 rounded-md flex-shrink-0 ' + (isRouteActive('/dashboard/numbers') ? 'bg-gray-100 dark:bg-slate-800' : 'hover:bg-gray-100 dark:hover:bg-slate-800')">
+          <svg class="transition-all w-[14px] h-[14px]" viewBox="0 0 22 23" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
             <path d="M7.04674 4.69293C7.37976 4.69293 7.68657 4.88174 7.84818 5.1861L8.96949 7.29774C9.1163 7.57422 9.12317 7.90859 8.98792 8.19144L7.90772 10.4501C7.90772 10.4501 8.22076 12.1326 9.53086 13.5023C10.841 14.872 12.445 15.1936 12.445 15.1936L14.6051 14.0644C14.8758 13.9229 15.1959 13.9303 15.4605 14.084L17.486 15.2613C17.7768 15.4304 17.9572 15.751 17.9572 16.0989V18.53C17.9572 19.768 16.8573 20.6621 15.7352 20.2663C13.4308 19.4534 9.85362 17.9056 7.58633 15.5352C5.31901 13.1649 3.8385 9.42515 3.06092 7.0159C2.68232 5.8429 3.53762 4.69293 4.7218 4.69293H7.04674Z" />
           </svg>
         </span>
-        <span *ngIf="!isCollapsed" class="nav-text mt-1 block transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.numbers }}</span>
+        <span *ngIf="!isCollapsed" class="nav-text text-xs transition-all duration-500 ease-in-out opacity-0 animate-fade-in ml-2">{{ t.numbers }}</span>
       </a>
 
           <a
             [routerLink]="['/dashboard/history']"
-            [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition ' + (isRouteActive('/dashboard/history') ? 'nav-link-active text-blue-900' : 'text-gray-400  hover:text-blue-900')"
+            [class]="'relative flex items-center rounded-lg transition w-full py-1 my-0 ' + (isRouteActive('/dashboard/history') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:text-blue-900')"
           >
-        <span class="nav-icon-wrapper">
-          <svg width="24" height="18" viewBox="0 0 17 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+        <span [class]="'inline-flex items-center justify-center transition-all duration-300 w-6 h-6 rounded-md flex-shrink-0 ' + (isRouteActive('/dashboard/history') ? 'bg-gray-100 dark:bg-slate-800' : 'hover:bg-gray-100 dark:hover:bg-slate-800')">
+          <svg class="transition-all w-[14px] h-[14px]" viewBox="0 0 17 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M8.99625 12.7224C8.6357 12.9516 8.12492 12.9516 7.76437 12.7224L1.60495 8.80905C1.2444 8.57982 0.743637 8.57982 0.383085 8.80905C-0.127695 9.13653 -0.127695 9.76692 0.383085 10.0944L7.15343 14.4007C7.87454 14.8591 8.88608 14.8591 9.6172 14.4007L16.3875 10.0944C16.8983 9.76692 16.8983 9.13653 16.3875 8.80905L16.3775 8.80087C16.017 8.57164 15.5162 8.57164 15.1557 8.80087L8.99625 12.7224ZM9.62721 10.2499L16.3976 5.94366C16.9083 4.97761 16.9083 4.97761 16.3976 4.65013L9.62721 0.343848C8.90611 -0.114616 7.89457 -0.114616 7.16345 0.343848L0.393101 4.65832C-0.11768 4.98579 -0.11768 5.62437 0.393101 5.95184L7.16345 10.2581C7.88455 10.7166 8.90611 10.7166 9.62721 10.2499Z" />
           </svg>
         </span>
-        <span *ngIf="!isCollapsed" class="nav-text transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.history }}</span>
-        <span *ngIf="!isCollapsed" class="ml-auto text-xs text-blue-900 border border-gray-300 px-3 py-1 rounded-lg font-bold transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.new }}</span>
+        <span *ngIf="!isCollapsed" class="nav-text text-xs transition-all duration-500 ease-in-out opacity-0 animate-fade-in ml-2">{{ t.history }}</span>
       </a>
 
           <a
             [routerLink]="['/dashboard/metrics']"
-            [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition ' + (isRouteActive('/dashboard/metrics') ? 'nav-link-active text-blue-900' : 'text-gray-400  hover:text-blue-900')"
+            [class]="'relative flex items-center rounded-lg transition w-full py-1 my-0 ' + (isRouteActive('/dashboard/metrics') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:text-blue-900')"
           >
-        <span class="nav-icon-wrapper">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+        <span [class]="'inline-flex items-center justify-center transition-all duration-300 w-6 h-6 rounded-md flex-shrink-0 ' + (isRouteActive('/dashboard/metrics') ? 'bg-gray-100 dark:bg-slate-800' : 'hover:bg-gray-100 dark:hover:bg-slate-800')">
+          <svg class="transition-all w-[14px] h-[14px]" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M15.5 2C15.1022 2 14.7206 2.15804 14.4393 2.43934C14.158 2.72064 14 3.10218 14 3.5V16.5C14 16.8978 14.158 17.2794 14.4393 17.5607C14.7206 17.842 15.1022 18 15.5 18H16.5C16.8978 18 17.2794 17.842 17.5607 17.5607C17.842 17.2794 18 16.8978 18 16.5V3.5C18 3.10218 17.842 2.72064 17.5607 2.43934C17.2794 2.15804 16.8978 2 16.5 2H15.5ZM9.5 6C9.10218 6 8.72064 6.15804 8.43934 6.43934C8.15804 6.72064 8 7.10218 8 7.5V16.5C8 16.8978 8.15804 17.2794 8.43934 17.5607C8.72064 17.842 9.10218 18 9.5 18H10.5C10.8978 18 11.2794 17.842 11.5607 17.5607C11.842 17.2794 12 16.8978 12 16.5V7.5C12 7.10218 11.842 6.72064 11.5607 6.43934C11.2794 6.15804 10.8978 6 10.5 6H9.5ZM3.5 10C3.10218 10 2.72064 10.158 2.43934 10.4393C2.15804 10.7206 2 11.1022 2 11.5V16.5C2 16.8978 2.15804 17.2794 2.43934 17.5607C2.72064 17.842 3.10218 18 3.5 18H4.5C4.89782 18 5.27936 17.842 5.56066 17.5607C5.84196 17.2794 6 16.8978 6 16.5V11.5C6 11.1022 5.84196 10.7206 5.56066 10.4393C5.27936 10.158 4.89782 10 4.5 10H3.5Z" />
           </svg>
         </span>
-        <span *ngIf="!isCollapsed" class="nav-text transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.metrics }}</span>
-        <span *ngIf="!isCollapsed" class="ml-auto text-xs text-blue-900 border border-gray-300 px-3 py-1 rounded-lg font-bold transition-all duration-500 ease-in-out opacity-0 animate-fade-in">{{ t.new }}</span>
+        <span *ngIf="!isCollapsed" class="nav-text text-xs transition-all duration-500 ease-in-out opacity-0 animate-fade-in ml-2">{{ t.metrics }}</span>
       </a>
     </nav>
 
     <!-- Sección inferior -->
-    <div [class]="'pb-2 mb-2 w-full flex flex-col mt-auto ' + (windowWidth < 1440 ? 'px-3 gap-1' : 'px-6 gap-1') + ' ' + (isCollapsed ? 'px-0' : '')">
+    <div [class]="'pb-1 mb-1 w-full flex flex-col mt-auto gap-0.5 ' + (isCollapsed ? 'px-2' : 'px-2')">
 
       <!-- Tarjeta estilo onboarding (solo cuando está expandido) -->
-      <div *ngIf="!isCollapsed" [class]="'transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left ' + (windowWidth < 1440 ? 'pb-1' : 'pb-1')" style="animation-delay: 0.3s;">
+      <div *ngIf="!isCollapsed" class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left pb-1" style="animation-delay: 0.3s;">
         <ng-container *ngTemplateOutlet="sidebarOnboardingCard"></ng-container>
       </div>
 
 
       <!-- Perfil con dropdown -->
-      <div [class]="'relative pt-2 pb-2 w-[90%] mx-auto ' + (isCollapsed ? 'flex flex-col items-center' : 'flex items-center gap-3')">
+      <div [class]="'relative pt-1 pb-1 w-[90%] mx-auto ' + (isCollapsed ? 'flex flex-col items-center' : 'flex items-center gap-2')">
         <!-- Botón de modo oscuro/claro cuando el sidebar está cerrado -->
         <button
           *ngIf="isCollapsed"
@@ -492,7 +447,7 @@
           [attr.aria-label]="isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro'"
         >
           <svg
-            class="w-6 h-6 theme-icon"
+            class="theme-icon w-[14px] h-[14px]"
             [class.dark]="isDarkMode"
             [class.light]="!isDarkMode"
             viewBox="0 0 24 24"
@@ -549,20 +504,21 @@
           class="mb-8 inline-flex items-center justify-center focus:outline-none transition-colors reminder-bell-icon"
           aria-label="Ver novedades"
         >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+          <svg class="w-[14px] h-[14px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
           </svg>
         </button>
         
         <!-- Avatar y texto -->
         <div
-          class="flex items-center gap-2 transition-all duration-500 ease-out cursor-pointer"
+          class="flex items-center gap-1.5 transition-all duration-500 ease-out cursor-pointer"
           [class]="isCollapsed ? 'w-full justify-center' : 'flex-1'"
           (click)="toggleDropdown()"
         >
             <img
               [src]="getUserProfileImage()"
-              class="h-8 w-8 rounded-full border-2 border-blue-900 history-border sidebar-avatar flex-shrink-0"
+              class="rounded-full border-2 border-blue-900 history-border flex-shrink-0 h-5 w-5"
+              [ngClass]="{'mx-auto': isCollapsed}"
               alt="Perfil"
             />
           
@@ -571,7 +527,7 @@
         <!-- Icono regalo y dropdown -->
         <div *ngIf="!isCollapsed" class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.15s;">
           <button (click)="goToGifts()" class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none">            
-            <svg class="h-7 w-7 relative top-[4px]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <svg class="relative top-[4px] h-4 w-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path d="M11.2498 2C7.03145 2.00411 4.84888 2.07958 3.46423 3.46423C2.07958 4.84888 2.00411 7.03145 2 11.2498H6.91352C6.56255 10.8114 6.30031 10.2943 6.15731 9.72228C5.61906 7.56926 7.56926 5.61906 9.72228 6.15731C10.2943 6.30031 10.8114 6.56255 11.2498 6.91352V2Z"></path>
               <path d="M2 12.7498C2.00411 16.9681 2.07958 19.1506 3.46423 20.5353C4.84888 21.9199 7.03145 21.9954 11.2498 21.9995V14.1234C10.4701 15.6807 8.8598 16.7498 6.99976 16.7498C6.58555 16.7498 6.24976 16.414 6.24976 15.9998C6.24976 15.5856 6.58555 15.2498 6.99976 15.2498C8.53655 15.2498 9.82422 14.1831 10.1628 12.7498H2Z"></path>
               <path d="M12.7498 21.9995C16.9681 21.9954 19.1506 21.9199 20.5353 20.5353C21.9199 19.1506 21.9954 16.9681 21.9995 12.7498H13.8367C14.1753 14.1831 15.463 15.2498 16.9998 15.2498C17.414 15.2498 17.7498 15.5856 17.7498 15.9998C17.7498 16.414 17.414 16.7498 16.9998 16.7498C15.1397 16.7498 13.5294 15.6807 12.7498 14.1234V21.9995Z"></path>
@@ -584,7 +540,7 @@
          
         <div *ngIf="!isCollapsed" class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left" style="animation-delay: 0.2s">
           <button (click)="logout()" class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none" aria-label="Cerrar sesión">
-            <svg class="h-7 w-7 relative top-[4px]" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <svg class="relative top-[4px] h-4 w-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z"></path>
               <path d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z"></path>
             </svg>
@@ -594,16 +550,15 @@
         <!-- Dropdown Menu -->
         <div
           *ngIf="showDropdown && !isCollapsed"
-          class="absolute top-full left-full ml-2 -mt-72 w-64 bg-white rounded-3xl shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left dark:bg-slate-900 dark:border-slate-700"
-          style="animation-delay: 0.05s;"
+          class="absolute top-full left-full ml-2 -mt-40 w-44 bg-white rounded-2xl shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-100 dark:bg-slate-900 dark:border-slate-700"
         >
           <!-- {{ t.settings }} -->
           <button
             (click)="navigateTo('/dashboard/account')"
-            class="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-xl dark:text-white dark:hover:bg-slate-800"
+            class="w-full flex items-center gap-2 px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl dark:text-white dark:hover:bg-slate-800"
           >
             <svg
-              class="w-5 h-5 text-gray-700 dark:text-white flex-shrink-0"
+              class="w-4 h-4 text-gray-700 dark:text-white flex-shrink-0"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -623,26 +578,26 @@
                 stroke-linejoin="round"
               />
             </svg>
-            <span class="font-medium">{{ t.settings }}</span>
+            <span class="font-medium text-xs">{{ t.settings }}</span>
           </button>
           
           <!-- {{ t.privateCommunity }} -->
           <button
             (click)="navigateTo('/dashboard/community')"
-            class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors dark:text-white dark:hover:bg-slate-800"
+            class="w-full flex items-center px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors dark:text-white dark:hover:bg-slate-800"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-700 dark:text-white">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-700 dark:text-white">
               <path d="M10.9661 4.23732C9.99273 2.63199 8.23362 1.55554 6.21939 1.55554C3.15273 1.55554 0.666504 4.04176 0.666504 7.10932C0.666504 8.1191 0.940282 9.06399 1.41228 9.87999C1.74117 10.4978 1.37228 11.9573 0.666504 12.6622C1.62384 12.7138 2.88606 12.2818 3.44873 11.9164C3.82295 12.1324 4.41761 12.4195 5.1945 12.5662C5.29406 12.5849 5.40073 12.5813 5.50206 12.5947" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M11.3334 6.44086C13.5423 6.44086 15.3334 8.23197 15.3334 10.4409C15.3334 11.1689 15.1361 11.8489 14.7965 12.4373C14.5592 12.8817 14.8259 13.9333 15.3334 14.4417C14.6436 14.4791 13.7352 14.1671 13.329 13.9049C13.0596 14.0604 12.6312 14.2666 12.0712 14.3733C11.8321 14.4186 11.585 14.4426 11.3325 14.4426C9.12274 14.4426 7.33252 12.6515 7.33252 10.4426C7.33252 8.23286 9.12363 6.44264 11.3325 6.44264L11.3334 6.44086Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span class="ml-3 font-medium">{{ t.privateCommunity }}</span>
+            <span class="ml-2 font-medium text-xs">{{ t.privateCommunity }}</span>
           </button>
           
           <!-- Separador -->
-          <div class="h-px bg-gray-200 my-2 dark:bg-slate-700"></div>
+          <div class="h-px bg-gray-200 my-1 dark:bg-slate-700"></div>
           
          <!-- Idiomas -->
-         <div class="flex gap-2 px-4 py-2">
+         <div class="flex gap-1 px-2 py-1">
            <button
              (click)="selectLanguage(languages[0])"
              [class]="
@@ -650,7 +605,7 @@
                  ? 'bg-blue-900 text-white font-semibold w-1/2'
                  : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
              "
-             class="px-4 py-2 rounded-lg text-base transition-colors"
+             class="px-2 py-1 rounded text-xs transition-colors"
            >
              ES
            </button>
@@ -661,7 +616,7 @@
                  ? 'bg-blue-900 text-white font-semibold w-1/2'
                  : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
              "
-             class="px-4 py-2 rounded-lg text-base transition-colors"
+             class="px-2 py-1 rounded text-xs transition-colors"
            >
              ENG
            </button>
@@ -670,26 +625,26 @@
           <!-- {{ t.helpCenter }} -->
           <button
             (click)="navigateTo('/dashboard/help')"
-            class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors dark:text-white dark:hover:bg-slate-800"
+            class="w-full flex items-center px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors dark:text-white dark:hover:bg-slate-800"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-gray-700 dark:text-white">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-700 dark:text-white">
               <path d="M8.00011 14.4444C11.5593 14.4444 14.4446 11.5592 14.4446 7.99999C14.4446 4.44082 11.5593 1.55554 8.00011 1.55554C4.44094 1.55554 1.55566 4.44082 1.55566 7.99999C1.55566 11.5592 4.44094 14.4444 8.00011 14.4444Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8 11.3946V7.33331" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8.00022 6.00001C7.50955 6.00001 7.11133 5.6009 7.11133 5.11112C7.11133 4.62134 7.50955 4.22223 8.00022 4.22223C8.49088 4.22223 8.88911 4.62134 8.88911 5.11112C8.88911 5.6009 8.49088 6.00001 8.00022 6.00001Z" fill="currentColor"/>
             </svg>
-            <span class="ml-3 font-medium">{{ t.helpCenter }}</span>
+            <span class="ml-2 font-medium text-xs">{{ t.helpCenter }}</span>
           </button>
           
           <!-- Cerrar sesión -->
           <button
             (click)="logout()"
-            class="w-full flex items-center px-4 py-3 text-gray-700 hover:bg-red-50 transition-colors rounded-b-xl dark:text-white dark:hover:bg-red-900/30"
+            class="w-full flex items-center px-2 py-1.5 text-gray-700 hover:bg-red-50 transition-colors rounded-b-2xl dark:text-white dark:hover:bg-red-900/30"
           >
-            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-4 h-4 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z"></path>
               <path d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z"></path>
             </svg>
-            <span class="ml-3 font-medium">{{ t.logout }}</span>
+            <span class="ml-2 font-medium text-xs">{{ t.logout }}</span>
           </button>
         </div>
       </div>

@@ -1,16 +1,17 @@
 <div
-  class="topbar-container w-full flex items-center justify-between px-2 sm:px-4 md:px-6"
+  class="topbar-container w-full flex items-start justify-center px-2 sm:px-3 md:px-4"
 >
-  <div class="flex flex-col gap-0.5 sm:gap-1">
-    <div class="flex items-center gap-2 sm:gap-4">
+  <div class="flex items-start justify-between w-full max-w-5xl mx-auto">
+    <div class="flex flex-col gap-0.5">
+      <div class="flex items-center gap-2">
       <!-- Botón hamburguesa para móvil -->
       <button
         (click)="openMobileSidebar()"
-        class="xl:hidden p-2 text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors dark:text-slate-100 dark:hover:bg-slate-800"
+        class="xl:hidden p-1.5 text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors dark:text-slate-100 dark:hover:bg-slate-800"
       >
         <span class="sr-only">Abrir menú</span>
         <svg
-          class="w-5 h-5 sm:w-6 sm:h-6"
+          class="w-4 h-4"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -25,7 +26,7 @@
       </button>
 
       <h1
-        class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold xl:ml-20 tracking-[-1px] sm:tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-2.5px] dark:text-slate-50"
+        class="text-lg sm:text-xl md:text-2xl font-bold xl:ml-0 tracking-[-0.7px] dark:text-slate-50 leading-tight"
       >
         {{ pageTitle }}
       </h1>
@@ -35,27 +36,27 @@
          Siempre reservamos el alto para que el contenido de abajo no se mueva
          (cuando no hay texto queda un hueco vacío, pero la barra mantiene la misma altura). -->
     <p
-      class="text-sm sm:text-base font-medium text-black tracking-[-1px] xl:ml-20 dark:text-slate-200 min-h-[1.5rem] sm:min-h-[1.75rem] flex items-center"
+      class="text-xs sm:text-sm font-medium text-black tracking-[-0.7px] xl:ml-0 dark:text-slate-200 min-h-[1.25rem] flex items-center"
     >
       {{ welcomeText || pageSubtitle }}
     </p>
   </div>
 
-  <!-- Controles de la derecha: modo oscuro + avatar -->
-  <div
-    class="relative mr-4 sm:mr-8 md:mr-12 lg:mr-20 flex items-center gap-1 sm:gap-2 md:gap-3"
-  >
+    <!-- Controles de la derecha: modo oscuro + avatar -->
+    <div
+      class="relative flex items-center gap-1 sm:gap-2 mt-0.5"
+    >
     <!-- Botón de modo oscuro/claro (solo en admin) -->
     <button
       *ngIf="isAdminSection"
       type="button"
       (click)="toggleDarkMode()"
-      class="mr-2 relative inline-flex items-center justify-center w-12 h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn"
+      class="mr-1 relative inline-flex items-center justify-center w-8 h-8 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn"
       [attr.aria-checked]="isDarkMode"
       [attr.aria-label]="isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro'"
     >
       <svg
-        class="w-6 h-6 theme-icon"
+        class="w-4 h-4 theme-icon"
         [class.dark]="isDarkMode"
         [class.light]="!isDarkMode"
         viewBox="0 0 24 24"
@@ -108,10 +109,10 @@
     <!-- Botón de invitar amigos -->
     <button
       (click)="openInviteModal()"
-      class="flex items-center gap-1 sm:gap-2 text-black rounded-lg transition hover:bg-gray-100 px-2 sm:px-3 py-2"
+      class="flex items-center gap-1 text-black rounded-lg transition hover:bg-gray-100 px-1.5 py-1"
     >
       <svg
-        class="w-4 h-4 sm:w-5 sm:h-5"
+        class="w-3.5 h-3.5"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -140,7 +141,7 @@
           stroke-linejoin="round"
         />
       </svg>
-      <span class="font-semibold text-sm sm:text-base hidden sm:inline"
+      <span class="font-semibold text-xs hidden sm:inline tracking-[-0.7px]"
         >Invitar</span
       >
     </button>
@@ -148,7 +149,7 @@
     <!-- Avatar -->
     <img
       [src]="getUserProfileImage()"
-      class="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 rounded-full border-2 border-blue-900 history-border cursor-pointer"
+      class="h-7 w-7 sm:h-8 sm:w-8 rounded-full border-2 border-blue-900 history-border cursor-pointer"
       alt="Perfil"
       (click)="toggleDropdown()"
     />
@@ -156,15 +157,15 @@
     <!-- Dropdown Menu -->
     <div
       *ngIf="showDropdown"
-      class="absolute right-0 mt-64 sm:mt-80 w-56 sm:w-64 bg-white rounded-2xl sm:rounded-3xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700"
+      class="absolute right-0 mt-52 w-44 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700"
     >
       <!-- Ajustes -->
       <button
         (click)="navigateTo('/dashboard/account')"
-        class="w-full flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-xl dark:text-slate-100 dark:hover:bg-slate-800"
+        class="w-full flex items-center px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl dark:text-slate-100 dark:hover:bg-slate-800"
       >
         <svg
-          class="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-white"
+          class="w-4 h-4 text-gray-700 dark:text-white"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +185,7 @@
             stroke-linejoin="round"
           />
         </svg>
-        <span class="ml-2 sm:ml-3 font-medium text-sm sm:text-base">{{
+        <span class="ml-2 font-medium text-xs tracking-[-0.7px]">{{
           t.settings
         }}</span>
       </button>
@@ -192,10 +193,10 @@
       <!-- Comunidad Privada -->
       <button
         (click)="navigateTo('/dashboard/community')"
-        class="w-full flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800"
+        class="w-full flex items-center px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800"
       >
         <svg
-          class="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-white"
+          class="w-4 h-4 text-gray-700 dark:text-white"
           viewBox="0 0 16 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -215,16 +216,16 @@
             stroke-linejoin="round"
           />
         </svg>
-        <span class="ml-2 sm:ml-3 font-medium text-sm sm:text-base">{{
+        <span class="ml-2 font-medium text-xs tracking-[-0.7px]">{{
           t.privateCommunity
         }}</span>
       </button>
 
       <!-- Separador -->
-      <div class="h-px bg-gray-200 my-2"></div>
+      <div class="h-px bg-gray-200 my-1"></div>
 
       <!-- Idiomas -->
-      <div class="flex gap-1 sm:gap-2 px-3 sm:px-4 py-2">
+      <div class="flex gap-1 px-2 py-1">
         <button
           (click)="selectLanguage(languages[0])"
           [class]="
@@ -232,7 +233,7 @@
               ? 'bg-blue-900 text-white font-semibold w-1/2'
               : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
           "
-          class="px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base transition-colors"
+          class="px-2 py-1 rounded text-xs transition-colors tracking-[-0.7px]"
         >
           ES
         </button>
@@ -243,7 +244,7 @@
               ? 'bg-blue-900 text-white font-semibold w-1/2'
               : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
           "
-          class="px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base transition-colors"
+          class="px-2 py-1 rounded text-xs transition-colors tracking-[-0.7px]"
         >
           ENG
         </button>
@@ -252,10 +253,10 @@
       <!-- Centro de ayuda -->
       <button
         (click)="navigateTo('/dashboard/help')"
-        class="w-full flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800"
+        class="w-full flex items-center px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800"
       >
         <svg
-          class="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-white"
+          class="w-4 h-4 text-gray-700 dark:text-white"
           viewBox="0 0 16 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -279,7 +280,7 @@
             fill="currentColor"
           />
         </svg>
-        <span class="ml-2 sm:ml-3 font-medium text-sm sm:text-base">{{
+        <span class="ml-2 font-medium text-xs tracking-[-0.7px]">{{
           t.helpCenter
         }}</span>
       </button>
@@ -287,17 +288,18 @@
       <!-- Cerrar sesión -->
       <button
         (click)="logout()"
-        class="w-full flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-red-50 transition-colors rounded-b-xl dark:text-slate-100 dark:hover:bg-red-900/30"
+        class="w-full flex items-center px-2 py-1.5 text-gray-700 hover:bg-red-50 transition-colors rounded-b-2xl dark:text-slate-100 dark:hover:bg-red-900/30"
       >
-        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-4 h-4 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z"></path>
           <path d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z"></path>
         </svg>
-        <span class="ml-2 sm:ml-3 font-medium text-sm sm:text-base">{{
+        <span class="ml-2 font-medium text-xs tracking-[-0.7px]">{{
           t.logout
         }}</span>
       </button>
     </div>
+  </div>
   </div>
 
   <!-- Modal de invitar amigos integrado -->
@@ -376,12 +378,12 @@
             </div>
           </div>
           <h2
-            class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-slate-50 leading-snug tracking-tight"
+            class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-slate-50 leading-snug tracking-[-0.7px]"
           >
             Invita a tu equipo y trabaja con ellos 
           </h2>
           <p
-            class="mt-2 text-xs sm:text-sm text-gray-700 dark:text-slate-300 leading-relaxed max-w-xl"
+            class="mt-2 text-xs sm:text-sm text-gray-700 dark:text-slate-300 leading-relaxed max-w-xl tracking-[-0.7px]"
           >
             Comparte tu enlace con tu equipo y colaboradores. Cuando empiecen a usar Llamalo, recibirás minutos extra en tu cuenta.
           </p>
@@ -401,12 +403,12 @@
               (input)="onEmailInputChange()"
               (keypress)="onEmailKeyPress($event)"
               placeholder="Email or username"
-              class="flex-1 rounded-xl border border-gray-300 px-4 py-2.5 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-50 dark:placeholder-slate-400 dark:focus:ring-blue-400 dark:focus:border-blue-400"
+              class="flex-1 rounded-xl border border-gray-300 px-4 py-2.5 text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-50 dark:placeholder-slate-400 dark:focus:ring-blue-400 dark:focus:border-blue-400 tracking-[-0.7px]"
             />
             <button
               type="submit"
               [disabled]="!emailInput && selectedEmails.length === 0"
-              class="rounded-xl bg-black text-white font-semibold px-5 sm:px-6 py-2.5 text-sm sm:text-base whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              class="rounded-xl bg-black text-white font-semibold px-5 sm:px-6 py-2.5 text-sm sm:text-base whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors tracking-[-0.7px]"
             >
               Send invite
             </button>
@@ -414,7 +416,7 @@
 
           <!-- Lista de invitados -->
           <div
-            class="mt-5 mb-2 text-[11px] sm:text-xs text-gray-500 dark:text-slate-400 text-center"
+            class="mt-5 mb-2 text-[11px] sm:text-xs text-gray-500 dark:text-slate-400 text-center tracking-[-0.7px]"
           >
             Miembros invitados ({{ teamMembers.length }})
           </div>
@@ -438,17 +440,17 @@
                   />
                 </div>
                 <div>
-                  <div class="text-sm font-semibold text-gray-900 dark:text-slate-50">
+                  <div class="text-sm font-semibold text-gray-900 dark:text-slate-50 tracking-[-0.7px]">
                     {{ member.name }}
                   </div>
-                  <div class="text-[11px] sm:text-xs text-gray-500 dark:text-slate-400">
+                  <div class="text-[11px] sm:text-xs text-gray-500 dark:text-slate-400 tracking-[-0.7px]">
                     {{ member.email }}
                   </div>
                 </div>
               </div>
               <div class="flex items-center gap-2">
                 <div
-                  class="rounded-lg text-[11px] sm:text-xs font-semibold px-3 py-1"
+                  class="rounded-lg text-[11px] sm:text-xs font-semibold px-3 py-1 tracking-[-0.7px]"
                   [ngClass]="{
                     'bg-emerald-50 text-emerald-600': member.status === 'Accepted',
                     'bg-red-50 text-red-600': member.status === 'Rejected',
@@ -483,7 +485,7 @@
 
           <div
             *ngIf="teamMembers.length === 0"
-            class="py-4 text-center text-[11px] sm:text-xs text-gray-400 dark:text-slate-500"
+            class="py-4 text-center text-[11px] sm:text-xs text-gray-400 dark:text-slate-500 tracking-[-0.7px]"
           >
             No invites yet. Start by sending your first invite.
           </div>
@@ -494,7 +496,7 @@
           >
             <button
               type="button"
-              class="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 font-medium text-gray-900 hover:bg-gray-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700 transition-colors"
+              class="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 font-medium text-gray-900 hover:bg-gray-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700 transition-colors tracking-[-0.7px]"
               (click)="copyInviteLink()"
             >
               Copy link

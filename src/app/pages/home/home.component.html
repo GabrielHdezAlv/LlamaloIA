@@ -1,30 +1,30 @@
 <!-- Tarjeta de Resumen -->
 <div
-  class="bg-white rounded-[2rem] shadow-sm p-5 2xl:p-4 mr-24 mt-6 2xl:mt-4 ml-28 max-lg:p-4 max-lg:mr-4 max-lg:mt-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border"
+  class="bg-white rounded-2xl shadow-sm p-3 2xl:p-3 mt-3 2xl:mt-2 max-lg:p-3 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border max-w-5xl mx-auto"
   [class.fade-in-visible]="showResumen"
 >
   <div
-    class="flex justify-between items-center mb-6 max-lg:flex-col max-lg:items-start max-lg:gap-4"
+    class="flex justify-between items-center mb-3 max-lg:flex-col max-lg:items-start max-lg:gap-1.5"
   >
     <h2
-      class="brand-font text-xl font-semibold text-gray-800 resumen-titulo max-lg:text-lg dark:text-slate-50"
+      class="brand-font text-sm font-semibold text-gray-800 resumen-titulo max-lg:text-xs dark:text-slate-50 tracking-[-0.7px]"
     >
       {{ t.summary }}
     </h2>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-lg:gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-lg:gap-2">
     <!-- Total de llamadas exitosas -->
     <div
-      class="flex flex-col p-4 border-r border-gray-200 max-lg:p-3 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0 dark:border-neutral-800"
+      class="flex flex-col p-2 border-r border-gray-200 max-lg:p-2 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0 dark:border-neutral-800"
     >
       <!-- Layout original para desktop -->
       <div
-        class="flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
+        class="flex w-10 h-10 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-1.5"
       >
         <svg
-          width="18"
-          height="16"
+          width="12"
+          height="10"
           viewBox="0 0 18 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@
       </div>
 
       <h3
-        class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos max-lg:text-xs max-lg:mt-4"
+        class="text-[10px] font-semibold text-black mb-0.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
       >
         {{ t.totalSuccessfulCalls }}
       </h3>
@@ -62,23 +62,23 @@
             />
           </svg>
         </div>
-        <h3 class="text-xs font-semibold text-black">
+        <h3 class="text-xs font-semibold text-black tracking-[-0.7px]">
           {{ t.totalSuccessfulCalls }}
         </h3>
       </div>
 
-      <div class="flex items-center gap-3 max-lg:gap-2">
-        <p class="text-5xl font-semibold text-black max-lg:text-3xl resumen-numero">
+      <div class="flex items-center gap-1.5 max-lg:gap-1">
+        <p class="text-2xl font-semibold text-black max-lg:text-xl resumen-numero tracking-[-0.7px]">
           {{ summary.totalCalls }}
         </p>
-        <div class="flex items-center h-full ml-3 max-lg:ml-2">
+        <div class="flex items-center h-full ml-1.5 max-lg:ml-1">
           <svg
-            width="100"
-            height="110"
+            width="50"
+            height="55"
             viewBox="0 0 100 99"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="align-middle max-lg:w-16 max-lg:h-20"
+            class="align-middle max-lg:w-10 max-lg:h-12"
           >
             <path
               class="resumen-sparkline"
@@ -90,13 +90,13 @@
         </div>
       </div>
 
-      <div class="mt-2 flex items-center">
+      <div class="mt-0.5 flex items-center">
         <span
-          class="inline-flex items-center px-1 py-1 rounded-lg -mt-4 bg-gray-100 text-sm font-semibold text-blue-900 border border-blue-100 max-lg:text-xs resumen-porcentaje-chip"
+          class="inline-flex items-center px-1.5 py-0.5 rounded-lg -mt-2 bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip tracking-[-0.7px]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-3 w-3 mr-1 text-blue-900"
+            class="h-2 w-2 mr-0 text-blue-900"
             fill="none"
             viewBox="0 0 16 16"
           >
@@ -111,7 +111,7 @@
           {{ summary.callsDeltaPct }}%
         </span>
         <span
-          class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4 max-lg:text-xs"
+          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto -mt-2 max-lg:text-[9px] tracking-[-0.7px]"
           >{{ t.vsLastYear }}</span
         >
       </div>
@@ -119,16 +119,16 @@
 
     <!-- Tiempo Ahorrado -->
     <div
-      class="flex flex-col p-4 border-r border-gray-200 max-lg:p-3 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0 dark:border-neutral-800"
+      class="flex flex-col p-2 border-r border-gray-200 max-lg:p-2 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0 dark:border-neutral-800"
     >
       <!-- Layout original para desktop -->
       <div
-        class="flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
+        class="flex w-10 h-10 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-1.5"
       >
         <!-- SVG modo claro -->
         <svg
-          width="20"
-          height="20"
+          width="14"
+          height="14"
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -144,8 +144,8 @@
         </svg>
         <!-- SVG modo oscuro -->
         <svg
-          width="20"
-          height="20"
+          width="14"
+          height="14"
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +162,7 @@
       </div>
 
       <h3
-        class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos max-lg:text-xs max-lg:mt-4"
+        class="text-[10px] font-semibold text-black mb-0.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
       >
         {{ t.timeSaved }}
       </h3>
@@ -207,21 +207,21 @@
             />
           </svg>
         </div>
-        <h3 class="text-xs font-semibold text-black">{{ t.timeSaved }}</h3>
+        <h3 class="text-xs font-semibold text-black tracking-[-0.7px]">{{ t.timeSaved }}</h3>
       </div>
 
-      <div class="flex items-center gap-3 max-lg:gap-2">
-        <p class="text-5xl font-semibold text-black max-lg:text-3xl resumen-numero">
+      <div class="flex items-center gap-1.5 max-lg:gap-1">
+        <p class="text-2xl font-semibold text-black max-lg:text-xl resumen-numero tracking-[-0.7px]">
           {{ summary.timeSavedHours }}
         </p>
-        <div class="flex items-center h-full ml-3 max-lg:ml-2">
+        <div class="flex items-center h-full ml-1.5 max-lg:ml-1">
           <svg
-            width="100"
-            height="110"
+            width="50"
+            height="55"
             viewBox="0 0 122 73"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="max-lg:w-16 max-lg:h-20"
+            class="max-lg:w-10 max-lg:h-12"
           >
             <path
               class="resumen-sparkline"
@@ -233,13 +233,13 @@
         </div>
       </div>
 
-      <div class="mt-2 flex items-center">
+      <div class="mt-0.5 flex items-center">
         <span
-          class="inline-flex items-center px-1 py-1 rounded-lg -mt-4 bg-gray-100 text-sm font-semibold text-blue-900 border border-blue-100 max-lg:text-xs resumen-porcentaje-chip"
+          class="inline-flex items-center px-1.5 py-0.5 rounded-lg -mt-2 bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip tracking-[-0.7px]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-3 w-3 mr-1 text-blue-900"
+            class="h-2 w-2 mr-0 text-blue-900"
             fill="none"
             viewBox="0 0 16 16"
           >
@@ -254,21 +254,21 @@
           {{ summary.timeSavedDeltaPct }}%
         </span>
         <span
-          class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4 max-lg:text-xs"
+          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto -mt-2 max-lg:text-[9px] tracking-[-0.7px]"
           >{{ t.vsLastYear }}</span
         >
       </div>
     </div>
 
     <!-- Minutos Usados -->
-    <div class="flex flex-col p-4 max-lg:p-3">
+    <div class="flex flex-col p-2 max-lg:p-2">
       <!-- Layout original para desktop -->
       <div
-        class="flex w-16 h-16 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-4"
+        class="flex w-10 h-10 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-1.5"
       >
         <svg
-          width="13"
-          height="13"
+          width="9"
+          height="9"
           viewBox="0 0 11 11"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -281,7 +281,7 @@
       </div>
 
       <h3
-        class="text-sm font-semibold text-black mb-1 mt-6 resumen-datos max-lg:text-xs max-lg:mt-4"
+        class="text-[10px] font-semibold text-black mb-0.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
       >
         {{ t.minutesUsed }}
       </h3>
@@ -304,21 +304,21 @@
             />
           </svg>
         </div>
-        <h3 class="text-xs font-semibold text-black">{{ t.minutesUsed }}</h3>
+        <h3 class="text-xs font-semibold text-black tracking-[-0.7px]">{{ t.minutesUsed }}</h3>
       </div>
 
-      <div class="flex items-center gap-3 max-lg:gap-2">
-        <p class="text-5xl font-semibold text-black max-lg:text-3xl resumen-numero">
+      <div class="flex items-center gap-1.5 max-lg:gap-1">
+        <p class="text-2xl font-semibold text-black max-lg:text-xl resumen-numero tracking-[-0.7px]">
           {{ summary.minutesUsed }}
         </p>
-        <div class="flex items-center h-full ml-3 max-lg:ml-2">
+        <div class="flex items-center h-full ml-1.5 max-lg:ml-1">
           <svg
-            width="100"
-            height="110"
+            width="50"
+            height="55"
             viewBox="0 0 116 43"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="max-lg:w-16 max-lg:h-20"
+            class="max-lg:w-10 max-lg:h-12"
           >
             <path
               class="resumen-sparkline"
@@ -330,13 +330,13 @@
         </div>
       </div>
 
-      <div class="mt-2 flex items-center">
+      <div class="mt-0.5 flex items-center">
         <span
-          class="inline-flex items-center px-1 py-1 -mt-4 rounded-lg bg-gray-100 text-sm font-semibold text-blue-900 border border-blue-100 max-lg:text-xs resumen-porcentaje-chip"
+          class="inline-flex items-center px-1.5 py-0.5 -mt-2 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-3 w-3 mr-1 text-blue-900"
+            class="h-2 w-2 mr-0 text-blue-900"
             fill="none"
             viewBox="0 0 16 16"
           >
@@ -351,7 +351,7 @@
           {{ summary.minutesDeltaPct }}%
         </span>
         <span
-          class="text-sm text-gray-400 ml-2 resumen-dias-texto -mt-4 max-lg:text-xs"
+          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto -mt-2 max-lg:text-[9px] tracking-[-0.7px]"
           >{{ t.vsLastYear }}</span
         >
       </div>
@@ -361,16 +361,16 @@
 
 <!-- Fila de Agentes Activos y Llamadas por día (alineados horizontalmente, con proporciones 2:1) -->
 <div
-  class="flex flex-wrap gap-6 mt-6 mr-24 ml-28 max-lg:flex-col max-lg:gap-4 max-lg:mt-4 max-lg:mr-4 max-lg:ml-4"
+  class="flex flex-wrap gap-3 mt-3 max-lg:flex-col max-lg:gap-2 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 max-w-5xl mx-auto"
 >
   <!-- Agentes Activos (2/3 del ancho) -->
   <div
-    class="bg-white rounded-[2rem] shadow-sm p-6 flex-1 min-w-[300px] border border-gray-100 agentes-activos-recuadro fade-in-section max-lg:p-4 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border"
+    class="bg-white rounded-2xl shadow-sm p-3 flex-1 min-w-[300px] border border-gray-100 agentes-activos-recuadro fade-in-section max-lg:p-3 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border"
     style="flex: 1.8"
     [class.fade-in-visible]="showAgentesActivos"
   >
     <h2
-      class="brand-font text-xl font-semibold text-gray-800 mb-6 agentes-activos-titulo max-lg:text-lg max-lg:mb-4 dark:text-slate-50"
+      class="brand-font text-sm font-semibold text-gray-800 mb-3 agentes-activos-titulo max-lg:text-xs max-lg:mb-2 dark:text-slate-50 tracking-[-0.7px]"
     >
       {{ t.activeAgents }}
     </h2>
@@ -382,22 +382,22 @@
         <thead>
           <tr class="border-b border-gray-200">
             <th
-              class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th max-lg:text-xs max-lg:pb-2"
+              class="text-[10px] font-medium text-gray-500 pb-1.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 tracking-[-0.7px]"
             >
               {{ t.agentName }}
             </th>
             <th
-              class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th max-lg:text-xs max-lg:pb-2"
+              class="text-[10px] font-medium text-gray-500 pb-1.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 tracking-[-0.7px]"
             >
               {{ t.type }}
             </th>
             <th
-              class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th max-lg:text-xs max-lg:pb-2"
+              class="text-[10px] font-medium text-gray-500 pb-1.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 tracking-[-0.7px]"
             >
               {{ t.totalMinutesSpent }}
             </th>
             <th
-              class="text-sm font-medium text-gray-500 pb-3 agentes-activos-th max-lg:text-xs max-lg:pb-2"
+              class="text-[10px] font-medium text-gray-500 pb-1.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 tracking-[-0.7px]"
             >
               {{ t.status }}
             </th>
@@ -409,31 +409,31 @@
             *ngFor="let agent of activeAgents"
           >
             <td
-              class="py-4 text-sm font-medium text-gray-900 agentes-activos-td max-lg:py-3 max-lg:text-xs"
+              class="py-1.5 text-[10px] font-medium text-gray-900 agentes-activos-td max-lg:py-1 max-lg:text-[9px] tracking-[-0.7px]"
             >
               {{ agent.name }}
             </td>
             <td
-              class="py-4 text-sm text-black font-light agentes-activos-td max-lg:py-3 max-lg:text-xs"
+              class="py-1.5 text-[10px] text-black font-light agentes-activos-td max-lg:py-1 max-lg:text-[9px] tracking-[-0.7px]"
             >
               {{ agent.type }}
             </td>
             <td
-              class="py-4 text-sm agentes-activos-td max-lg:py-3 max-lg:text-xs"
+              class="py-1.5 text-[10px] agentes-activos-td max-lg:py-1 max-lg:text-[9px] tracking-[-0.7px]"
             >
               <!-- Layout vertical solo para móvil pequeño (max-sm) -->
               <div class="hidden max-sm:block">
                 <div class="flex flex-col items-center">
                   <span
-                    class="font-normal agentes-activos-minutos text-center"
+                    class="font-normal agentes-activos-minutos text-center tracking-[-0.7px]"
                     >{{ agent.minutes }}</span
                   >
                   <span
-                    class="inline-flex items-center px-0.5 py-0.5 rounded-[2rem] bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 mt-1 agentes-activos-porcentaje"
+                    class="inline-flex items-center px-1.5 py-0.5 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 mt-1 agentes-activos-porcentaje tracking-[-0.7px]"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-1 w-1 mr-0.5 text-blue-900 agentes-activos-icono"
+                      class="h-2 w-2 mr-0 text-blue-900 agentes-activos-icono"
                       fill="none"
                       viewBox="0 0 16 16"
                     >
@@ -452,18 +452,18 @@
 
               <!-- Layout horizontal para tablet y desktop (sm y superior) -->
               <div class="block max-sm:hidden">
-                <span class="font-normal agentes-activos-minutos ml-3">{{
+                <span class="font-normal agentes-activos-minutos ml-3 tracking-[-0.7px]">{{
                   agent.minutes
                 }}</span>
                 <span
-                  class="inline-flex items-center px-0.5 py-0.5 rounded-[0.7rem] bg-gray-100 text-xs font-semibold text-blue-900 border border-blue-100 ml-2 agentes-activos-porcentaje"
+                  class="inline-flex items-center px-1.5 py-0.5 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 ml-2 agentes-activos-porcentaje tracking-[-0.7px]"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-1.5 w-1.5 mr-0.5 text-blue-900 agentes-activos-icono"
-                    fill="none"
-                    viewBox="0 0 16 16"
-                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-2 w-2 mr-0 text-blue-900 agentes-activos-icono"
+                      fill="none"
+                      viewBox="0 0 16 16"
+                    >
                     <path
                       stroke="currentColor"
                       stroke-width="2"
@@ -476,15 +476,15 @@
                 </span>
               </div>
             </td>
-            <td class="py-4 agentes-activos-td max-lg:py-3">
+            <td class="py-1.5 agentes-activos-td max-lg:py-1">
               <div class="flex items-center">
                 <svg
-                  width="16"
-                  height="16"
+                  width="12"
+                  height="12"
                   viewBox="0 0 16 16"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  class="agentes-activos-estado-icono max-lg:w-3 max-lg:h-3"
+                  class="agentes-activos-estado-icono max-lg:w-2 max-lg:h-2"
                 >
                   <circle cx="8" cy="8" r="8" [attr.fill]="agent.outerColor" />
                   <circle
@@ -496,7 +496,7 @@
                   />
                 </svg>
                 <span
-                  class="ml-2 agentes-activos-estado-texto max-lg:ml-1 max-lg:text-xs"
+                  class="ml-1 text-[10px] agentes-activos-estado-texto max-lg:ml-0.5 max-lg:text-[9px] tracking-[-0.7px]"
                   [class.text-gray-700]="agent.status === t.active"
                   [class.text-gray-500]="agent.status !== t.active"
                   >{{ agent.status }}</span
@@ -511,26 +511,26 @@
 
   <!-- Llamadas por día (1/3 del ancho) -->
   <div
-    class="bg-white rounded-[2rem] shadow-sm p-6 flex-1 min-w-[200px] border border-gray-100 llamadas-por-dia-grafico agentes-activos-recuadro fade-in-section max-lg:p-4 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border"
+    class="bg-white rounded-2xl shadow-sm p-3 flex-1 min-w-[200px] border border-gray-100 llamadas-por-dia-grafico agentes-activos-recuadro fade-in-section max-lg:p-3 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border"
     style="flex: 1"
     [class.fade-in-visible]="showLlamadasPorDia"
   >
     <h2
-      class="brand-font text-xl font-semibold text-gray-800 mb-6 llamadas-por-dia-titulo max-lg:text-sm max-lg:mb-2"
+      class="brand-font text-sm font-semibold text-gray-800 mb-3 llamadas-por-dia-titulo max-lg:text-xs max-lg:mb-2 tracking-[-0.7px]"
     >
       {{ t.callsPerDay }}
     </h2>
 
     <!-- Contenedor fijo para las barras y los días -->
     <div
-      class="flex flex-col justify-end h-60 first-letter:llamadas-por-dia-altura llamadas-por-dia-grafico-wrapper max-lg:h-48"
+      class="flex flex-col justify-end h-40 first-letter:llamadas-por-dia-altura llamadas-por-dia-grafico-wrapper max-lg:h-36"
     >
       <!-- Barras y días alineados -->
       <div
-        class="flex flex-col justify-end h-60 llamadas-por-dia-altura max-lg:h-48"
+        class="flex flex-col justify-end h-40 llamadas-por-dia-altura max-lg:h-36"
       >
         <div
-          class="grid grid-cols-7 gap-2 items-end h-64 w-full mt-2 max-lg:gap-0.5 max-lg:h-52"
+          class="grid grid-cols-7 gap-1 items-end h-44 w-full mt-1.5 max-lg:gap-0.5 max-lg:h-40"
         >
           <!-- Se agregó mt-2 para reducir el margen superior -->
           <div
@@ -540,7 +540,7 @@
             <div class="llamadas-barra-wrapper">
               <span
                 *ngIf="callsByDayCounts[i] !== 0"
-                class="llamadas-barra-valor font-semibold"
+                class="llamadas-barra-valor font-semibold tracking-[-0.7px]"
                 [style.bottom.px]="(h > 8 ? h - 8 : 0)"
                 [ngClass]="isToday(i) ? 'llamadas-valor-hoy' : 'llamadas-valor-default'"
               >
@@ -550,8 +550,8 @@
                 [style.height.px]="h === 0 ? 5 : h"
                 [class]="
                   isToday(i)
-                    ? 'w-8 bg-blue-900 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded llamadas-barra-hoy max-lg:w-5'
-                    : 'w-8 bg-gray-300 rounded-t-lg rounded-b-lg llamadas-barra llamadas-barra-rounded max-lg:w-5'
+                    ? 'w-5 bg-blue-900 rounded-t rounded-b llamadas-barra llamadas-barra-rounded llamadas-barra-hoy max-lg:w-3.5'
+                    : 'w-5 bg-gray-300 rounded-t rounded-b llamadas-barra llamadas-barra-rounded max-lg:w-3.5'
                 "
               ></div>
             </div>
@@ -559,10 +559,10 @@
         </div>
         <!-- Días alineados debajo de las barras -->
         <div
-          class="grid grid-cols-7 gap-2 items-center mt-2 w-full max-lg:gap-0.5"
+          class="grid grid-cols-7 gap-1 items-center mt-1 w-full max-lg:gap-0.5"
         >
           <span
-            class="text-sm text-center max-lg:text-xs"
+            class="text-[10px] text-center max-lg:text-[9px] tracking-[-0.7px]"
             [class]="
               isToday(i) ? 'text-blue-900 font-semibold' : 'text-gray-500'
             "
