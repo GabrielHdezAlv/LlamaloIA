@@ -75,3 +75,18 @@ button, .mat-mdc-button,
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Eliminar bordes azules de las filas */
+div[class*="rounded-lg"][class*="flex items-center"] {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+div[class*="rounded-lg"][class*="flex items-center"]:focus,
+div[class*="rounded-lg"][class*="flex items-center"]:focus-visible,
+div[class*="rounded-lg"][class*="flex items-center"]:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}

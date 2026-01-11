@@ -1,16 +1,16 @@
 <div
-  class="account-settings bg-white rounded-xl sm:rounded-2xl shadow-sm pb-0 sm:pb-0 lg:pb-0 h-auto lg:h-[75vh] mt-4 sm:mt-6 lg:mt-16 mx-4 sm:mx-6 lg:ml-28 lg:mr-[5.5rem] 2xl:mx-auto 2xl:max-w-[1400px] 2xl:ml-auto 2xl:mr-auto border border-gray-200 history-border"
+  class="account-settings bg-white rounded-xl sm:rounded-2xl shadow-sm pb-0 sm:pb-0 lg:pb-0 h-auto mt-3 2xl:mt-2 max-lg:mt-3 max-lg:mr-4 max-lg:ml-4 max-w-5xl mx-auto border border-gray-200 history-border"
 >
   <div
-    class="max-w-6xl 2xl:max-w-none flex flex-col lg:flex-row lg:h-full min-h-0"
+    class="max-w-6xl 2xl:max-w-none flex flex-col lg:flex-row min-h-0"
   >
     <!-- Sidebar -->
     <div
-      class="w-full lg:w-[32vh] 2xl:w-[400px] bg-gray-100 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none lg:rounded-br-none rounded-b-none p-3 sm:p-4 lg:p-6 2xl:p-8 shadow-sm h-auto lg:h-full"
+      class="w-full lg:w-[32vh] 2xl:w-[400px] bg-gray-100 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none lg:rounded-br-none rounded-b-none p-3 shadow-sm h-auto"
     >
       <!-- Header -->
       <div
-        class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 mt-2 sm:mt-3 ml-2 sm:ml-4"
+        class="flex items-center gap-2 mb-3 mt-2 ml-2"
       >
         @if (tempProfileImage || userProfileImage()) {
         <img
@@ -44,11 +44,11 @@
         }
         <div>
           <h3
-            class="font-semibold text-gray-900 tracking-[-0.8px] text-sm sm:text-base"
+            class="font-semibold text-gray-900 tracking-[-0.7px] text-sm"
           >
             {{ fullName() }}
           </h3>
-          <p class="text-[10px] sm:text-xs text-gray-500 tracking-[-0.5px]">
+          <p class="text-[10px] text-gray-500 tracking-[-0.5px]">
             {{ email() }}
           </p>
         </div>
@@ -63,16 +63,16 @@
           (click)="setActiveTab('profile')"
           [class]="
             activeTab === 'profile'
-              ? 'flex-1 sm:min-w-[140px] lg:w-60 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 lg:gap-3 px-2 sm:px-2 lg:px-4 py-2.5 sm:py-2.5 lg:py-5 rounded-xl lg:rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
-              : 'flex-1 sm:min-w-[140px] lg:w-60 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 lg:gap-3 px-2 sm:px-2 lg:px-4 py-2.5 sm:py-2.5 lg:py-5 rounded-xl lg:rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
+              ? 'flex-1 sm:min-w-[140px] lg:w-48 flex items-center justify-center sm:justify-start gap-1.5 px-2 py-2 rounded-xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
+              : 'flex-1 sm:min-w-[140px] lg:w-48 flex items-center justify-center sm:justify-start gap-1.5 px-2 py-2 rounded-xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
           "
         >
           <span
-            class="flex items-center justify-center w-11 h-11 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
+            class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
           >
             <svg
-              width="12"
-              height="16"
+              width="10"
+              height="13"
               viewBox="0 0 12 16"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@
           </span>
           <div class="hidden sm:flex sm:flex-col min-w-0">
             <span
-              class="font-semibold text-xs sm:text-sm lg:text-base truncate"
+              class="font-semibold text-xs truncate"
               >{{ t.profile }}</span
             >
             <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{
@@ -105,16 +105,16 @@
           (click)="setActiveTab('security')"
           [class]="
             activeTab === 'security'
-              ? 'flex-1 sm:min-w-[140px] lg:w-60 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 lg:gap-3 px-2 sm:px-2 lg:px-4 py-2.5 sm:py-2.5 lg:py-5 rounded-xl lg:rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
-              : 'flex-1 sm:min-w-[140px] lg:w-60 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 lg:gap-3 px-2 sm:px-2 lg:px-4 py-2.5 sm:py-2.5 lg:py-5 rounded-xl lg:rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
+              ? 'flex-1 sm:min-w-[140px] lg:w-48 flex items-center justify-center sm:justify-start gap-1.5 px-2 py-2 rounded-xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
+              : 'flex-1 sm:min-w-[140px] lg:w-48 flex items-center justify-center sm:justify-start gap-1.5 px-2 py-2 rounded-xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
           "
         >
           <span
-            class="flex items-center justify-center w-11 h-11 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
+            class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
           >
             <svg
-              width="18"
-              height="20"
+              width="15"
+              height="17"
               viewBox="0 0 18 20"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +127,7 @@
           </span>
           <div class="hidden sm:flex sm:flex-col min-w-0">
             <span
-              class="font-semibold text-xs sm:text-sm lg:text-base truncate"
+              class="font-semibold text-xs truncate"
               >{{ t.security }}</span
             >
             <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{
@@ -141,16 +141,16 @@
           (click)="setActiveTab('billing')"
           [class]="
             activeTab === 'billing'
-              ? 'flex-1 sm:min-w-[140px] lg:w-60 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 lg:gap-3 px-2 sm:px-2 lg:px-4 py-2.5 sm:py-2.5 lg:py-5 rounded-xl lg:rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
-              : 'flex-1 sm:min-w-[140px] lg:w-60 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 lg:gap-3 px-2 sm:px-2 lg:px-4 py-2.5 sm:py-2.5 lg:py-5 rounded-xl lg:rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
+              ? 'flex-1 sm:min-w-[140px] lg:w-48 flex items-center justify-center sm:justify-start gap-1.5 px-2 py-2 rounded-xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
+              : 'flex-1 sm:min-w-[140px] lg:w-48 flex items-center justify-center sm:justify-start gap-1.5 px-2 py-2 rounded-xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
           "
         >
           <span
-            class="flex items-center justify-center w-11 h-11 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
+            class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
           >
             <svg
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +163,7 @@
           </span>
           <div class="hidden sm:flex sm:flex-col min-w-0">
             <span
-              class="font-semibold text-xs sm:text-sm lg:text-base truncate"
+              class="font-semibold text-xs truncate"
               >{{ t.billing }}</span
             >
             <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{
@@ -174,71 +174,33 @@
 
         <button
           (click)="setActiveTab('gifts')"
-          data-tab="gifts"
           [class]="
             activeTab === 'gifts'
-              ? 'flex-1 sm:min-w-[140px] lg:w-60 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 lg:gap-3 px-2 sm:px-2 lg:px-4 py-2.5 sm:py-2.5 lg:py-5 rounded-xl lg:rounded-3xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
-              : 'flex-1 sm:min-w-[140px] lg:w-60 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 lg:gap-3 px-2 sm:px-2 lg:px-4 py-2.5 sm:py-2.5 lg:py-5 rounded-xl lg:rounded-3xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
+              ? 'flex-1 sm:min-w-[140px] lg:w-48 flex items-center justify-center sm:justify-start gap-1.5 px-2 py-2 rounded-xl text-left bg-white hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
+              : 'flex-1 sm:min-w-[140px] lg:w-48 flex items-center justify-center sm:justify-start gap-1.5 px-2 py-2 rounded-xl text-left hover:bg-gray-50 transition-colors duration-200 tracking-[-0.5px] group whitespace-nowrap'
           "
         >
           <span
-            class="flex items-center justify-center w-11 h-11 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full bg-gray-100 resumen-icon flex-shrink-0"
+            class="flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
           >
             <svg
-              width="24"
-              height="24"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <rect
-                width="22"
-                height="2"
-                transform="translate(1 11)"
-                fill="#727272"
-              />
-              <rect
-                width="19"
-                height="2"
-                transform="matrix(0 -1 1 0 11 23)"
-                fill="#727272"
-              />
-              <g clip-path="url(#clip0_417_1309)">
-                <mask
-                  id="path-1-outside-1_417_1309"
-                  maskUnits="userSpaceOnUse"
-                  x="0"
-                  y="0"
-                  width="24"
-                  height="24"
-                  fill="black"
-                >
-                  <rect fill="white" width="24" height="24" />
-                  <path d="M20 12V22H4V12" />
-                  <path d="M22 7H2V12H22V7Z" />
-                  <path
-                    d="M12 7H7.5C6.83696 7 6.20107 6.73661 5.73223 6.26777C5.26339 5.79893 5 5.16304 5 4.5C5 3.83696 5.26339 3.20107 5.73223 2.73223C6.20107 2.26339 6.83696 2 7.5 2C11 2 12 7 12 7Z"
-                  />
-                  <path
-                    d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C13 2 12 7 12 7Z"
-                  />
-                </mask>
-                <path
-                  d="M11.1 22C11.1 22.4971 11.5029 22.9 12 22.9C12.4971 22.9 12.9 22.4971 12.9 22H12H11.1ZM12.9 7C12.9 6.50294 12.4971 6.1 12 6.1C11.5029 6.1 11.1 6.50294 11.1 7H12H12.9ZM12 22H12.9V7H12H11.1V22H12ZM21.8 12C21.8 11.0059 20.9941 10.2 20 10.2C19.0059 10.2 18.2 11.0059 18.2 12H20H21.8ZM20 22V23.8C20.9941 23.8 21.8 22.9941 21.8 22H20ZM4 22H2.2C2.2 22.9941 3.00589 23.8 4 23.8V22ZM5.8 12C5.8 11.0059 4.99411 10.2 4 10.2C3.00589 10.2 2.2 11.0059 2.2 12H4H5.8ZM2 7V5.2C1.00589 5.2 0.2 6.00589 0.2 7H2ZM22 7H23.8C23.8 6.00589 22.9941 5.2 22 5.2V7ZM22 12V13.8C22.9941 13.8 23.8 12.9941 23.8 12H22ZM2 12H0.2C0.2 12.9941 1.00589 13.8 2 13.8L2 12ZM7.5 7V5.2V7ZM5 4.5H3.2H5ZM7.5 2V0.2V2ZM16.5 7V5.2V7ZM16.5 2V3.8V2ZM20 12H18.2V22H20H21.8V12H20ZM20 22V20.2H4V22V23.8H20V22ZM4 22H5.8V12H4H2.2V22H4ZM2 7V8.8H22V7V5.2H2V7ZM22 7H20.2V12H22H23.8V7H22ZM22 12V10.2H2V12V13.8H22V12ZM2 12H3.8V7H2H0.2V12H2ZM12 7V5.2H7.5V7V8.8H12V7ZM7.5 7V5.2C7.31435 5.2 7.1363 5.12625 7.00503 4.99497L5.73223 6.26777L4.45944 7.54056C5.26585 8.34697 6.35957 8.8 7.5 8.8V7ZM5.73223 6.26777L7.00503 4.99497C6.87375 4.8637 6.8 4.68565 6.8 4.5H5H3.2C3.2 5.64043 3.65303 6.73415 4.45944 7.54056L5.73223 6.26777ZM5 4.5H6.8C6.8 4.31435 6.87375 4.1363 7.00503 4.00503L5.73223 2.73223L4.45944 1.45944C3.65303 2.26585 3.2 3.35957 3.2 4.5H5ZM5.73223 2.73223L7.00503 4.00503C7.1363 3.87375 7.31435 3.8 7.5 3.8V2V0.2C6.35957 0.2 5.26585 0.653034 4.45944 1.45944L5.73223 2.73223ZM7.5 2V3.8C8.24902 3.8 8.90317 4.30902 9.48531 5.36745C9.75554 5.85878 9.94786 6.36683 10.073 6.76216C10.1346 6.95658 10.1775 7.11585 10.2039 7.22172C10.2171 7.27447 10.2261 7.3134 10.2312 7.33618C10.2337 7.34756 10.2353 7.35485 10.2359 7.35776C10.2362 7.35922 10.2363 7.35958 10.2361 7.3588C10.236 7.35841 10.2359 7.35774 10.2357 7.35677C10.2356 7.35629 10.2355 7.35574 10.2354 7.35511C10.2353 7.3548 10.2352 7.35427 10.2352 7.35411C10.2351 7.35357 10.235 7.35301 12 7C13.765 6.64699 13.7649 6.64639 13.7648 6.64577C13.7648 6.64554 13.7646 6.6449 13.7645 6.64443C13.7643 6.6435 13.7641 6.64249 13.7639 6.64141C13.7635 6.63923 13.763 6.63675 13.7624 6.63395C13.7613 6.62837 13.7598 6.62155 13.7581 6.61355C13.7548 6.59754 13.7503 6.57676 13.7446 6.55151C13.7334 6.50105 13.7174 6.43256 13.6965 6.34859C13.6546 6.18103 13.5919 5.94967 13.5051 5.67534C13.3334 5.13317 13.057 4.39122 12.6397 3.63255C11.8468 2.19098 10.251 0.2 7.5 0.2V2ZM12 7V8.8H16.5V7V5.2H12V7ZM16.5 7V8.8C17.6404 8.8 18.7342 8.34697 19.5406 7.54056L18.2678 6.26777L16.995 4.99497C16.8637 5.12625 16.6857 5.2 16.5 5.2V7ZM18.2678 6.26777L19.5406 7.54056C20.347 6.73415 20.8 5.64043 20.8 4.5H19H17.2C17.2 4.68565 17.1263 4.8637 16.995 4.99497L18.2678 6.26777ZM19 4.5H20.8C20.8 3.35957 20.347 2.26585 19.5406 1.45944L18.2678 2.73223L16.995 4.00503C17.1263 4.1363 17.2 4.31435 17.2 4.5H19ZM18.2678 2.73223L19.5406 1.45944C18.7342 0.653034 17.6404 0.2 16.5 0.2V2V3.8C16.6857 3.8 16.8637 3.87375 16.995 4.00503L18.2678 2.73223ZM16.5 2V0.2C13.749 0.2 12.1532 2.19098 11.3603 3.63255C10.943 4.39122 10.6666 5.13317 10.4949 5.67534C10.4081 5.94967 10.3454 6.18103 10.3035 6.34859C10.2826 6.43256 10.2666 6.50105 10.2554 6.55151C10.2497 6.57676 10.2452 6.59754 10.2419 6.61355C10.2402 6.62155 10.2387 6.62837 10.2376 6.63395C10.237 6.63675 10.2365 6.63923 10.2361 6.64141C10.2359 6.64249 10.2357 6.6435 10.2355 6.64443C10.2354 6.6449 10.2352 6.64554 10.2352 6.64577C10.2351 6.64639 10.235 6.64699 12 7C13.765 7.35301 13.7649 7.35357 13.7648 7.35411C13.7648 7.35427 13.7647 7.3548 13.7646 7.35511C13.7645 7.35574 13.7644 7.35629 13.7643 7.35677C13.7641 7.35774 13.764 7.35841 13.7639 7.3588C13.7637 7.35958 13.7638 7.35922 13.7641 7.35776C13.7647 7.35485 13.7663 7.34756 13.7688 7.33618C13.7739 7.3134 13.7829 7.27447 13.7961 7.22172C13.8225 7.11585 13.8654 6.95658 13.927 6.76216C14.0521 6.36683 14.2445 5.85878 14.5147 5.36745C15.0968 4.30902 15.751 3.8 16.5 3.8V2Z"
-                  fill="#727272"
-                  mask="url(#path-1-outside-1_417_1309)"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_417_1309">
-                  <rect width="24" height="24" fill="white" />
-                </clipPath>
-              </defs>
+              <path d="M11.2498 2C7.03145 2.00411 4.84888 2.07958 3.46423 3.46423C2.07958 4.84888 2.00411 7.03145 2 11.2498H6.91352C6.56255 10.8114 6.30031 10.2943 6.15731 9.72228C5.61906 7.56926 7.56926 5.61906 9.72228 6.15731C10.2943 6.30031 10.8114 6.56255 11.2498 6.91352V2Z" fill="#727272"></path>
+              <path d="M2 12.7498C2.00411 16.9681 2.07958 19.1506 3.46423 20.5353C4.84888 21.9199 7.03145 21.9954 11.2498 21.9995V14.1234C10.4701 15.6807 8.8598 16.7498 6.99976 16.7498C6.58555 16.7498 6.24976 16.414 6.24976 15.9998C6.24976 15.5856 6.58555 15.2498 6.99976 15.2498C8.53655 15.2498 9.82422 14.1831 10.1628 12.7498H2Z" fill="#727272"></path>
+              <path d="M12.7498 21.9995C16.9681 21.9954 19.1506 21.9199 20.5353 20.5353C21.9199 19.1506 21.9954 16.9681 21.9995 12.7498H13.8367C14.1753 14.1831 15.463 15.2498 16.9998 15.2498C17.414 15.2498 17.7498 15.5856 17.7498 15.9998C17.7498 16.414 17.414 16.7498 16.9998 16.7498C15.1397 16.7498 13.5294 15.6807 12.7498 14.1234V21.9995Z" fill="#727272"></path>
+              <path d="M21.9995 11.2498C21.9954 7.03145 21.9199 4.84888 20.5353 3.46423C19.1506 2.07958 16.9681 2.00411 12.7498 2V6.91352C13.1882 6.56255 13.7053 6.30031 14.2772 6.15731C16.4303 5.61906 18.3805 7.56926 17.8422 9.72228C17.6992 10.2943 17.437 10.8114 17.086 11.2498H21.9995Z" fill="#727272"></path>
+              <path d="M9.35847 7.61252C10.47 7.8904 11.2498 8.88911 11.2498 10.0348V11.2498H10.0348C8.88911 11.2498 7.8904 10.47 7.61252 9.35847C7.34891 8.30403 8.30403 7.34891 9.35847 7.61252Z" fill="#727272"></path>
+              <path d="M12.7498 10.0348V11.2498H13.9647C15.1104 11.2498 16.1091 10.47 16.387 9.35847C16.6506 8.30403 15.6955 7.34891 14.6411 7.61252C13.5295 7.8904 12.7498 8.88911 12.7498 10.0348Z" fill="#727272"></path>
             </svg>
           </span>
           <div class="hidden sm:flex sm:flex-col min-w-0">
             <span
-              class="font-semibold text-xs sm:text-sm lg:text-base truncate"
+              class="font-semibold text-xs truncate"
               >{{ t.gifts }}</span
             >
             <span class="text-[10px] sm:text-xs text-gray-500 truncate">{{
@@ -251,28 +213,29 @@
 
     <!-- Main Content -->
     <div
-      class="flex-1 bg-white rounded-b-xl lg:rounded-l-3xl lg:rounded-tl-3xl lg:rounded-r-2xl lg:rounded-b-2xl shadow-sm p-3 sm:p-4 lg:p-6 2xl:p-12 lg:-ml-6 lg:h-full lg:overflow-y-auto"
+      class="flex-1 bg-white rounded-b-xl lg:rounded-l-3xl lg:rounded-tl-3xl lg:rounded-r-2xl lg:rounded-b-2xl shadow-sm p-3 lg:-ml-6 min-h-[500px]"
     >
       @if (activeTab === 'profile') {
       <!-- === SECCIÓN PERFIL === -->
+      <div class="flex flex-col min-h-[500px]">
       <h2
-        class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4 sm:mb-6"
+        class="text-sm font-semibold text-gray-900 mb-3 tracking-[-0.7px]"
       >
         {{ t.profileInfo }}
       </h2>
 
       <!-- Avatar & Text -->
-      <div class="flex items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
+      <div class="flex items-start gap-3 mb-4">
         @if (tempProfileImage || userProfileImage()) {
         <img
           [src]="tempProfileImage || userProfileImage()"
           alt="Avatar"
-          class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-blue-900 history-border cursor-pointer hover:opacity-80 transition-opacity duration-200"
+          class="w-12 h-12 rounded-full border-2 border-blue-900 history-border cursor-pointer hover:opacity-80 transition-opacity duration-200"
           (click)="onAvatarClick()"
         />
         } @else {
         <div
-          class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-100 cursor-pointer hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center"
+          class="w-12 h-12 rounded-full bg-gray-100 cursor-pointer hover:bg-gray-200 transition-colors duration-200 flex items-center justify-center"
           (click)="onAvatarClick()"
         >
           <svg
@@ -295,7 +258,7 @@
           </svg>
         </div>
         }
-        <div class="flex flex-col mt-4 sm:mt-6">
+        <div class="flex flex-col mt-3">
           <span
             class="text-[10px] sm:text-xs text-gray-500 tracking-[-0.5px]"
             >{{ t.profileInfoHint1 }}</span
@@ -312,17 +275,17 @@
         <!-- Nombre Completo -->
         <div>
           <label
-            class="block text-xs sm:text-sm font-semibold text-black mb-1.5 sm:mb-2 tracking-[-0.4px]"
+            class="block text-xs font-semibold text-black mb-1.5 tracking-[-0.4px]"
             >{{ t.fullName }}</label
           >
           <div class="relative">
             <input
               type="text"
               value="{{ fullName() }}"
-              class="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm"
+              class="w-full px-3 py-2 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs"
             />
             <svg
-              class="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-green-500"
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-green-500"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -338,7 +301,7 @@
         <!-- Email -->
         <div>
           <label
-            class="block text-xs sm:text-sm font-semibold text-black mb-1.5 sm:mb-2"
+            class="block text-xs font-semibold text-black mb-1.5"
             >{{ t.email }}</label
           >
           <div class="relative">
@@ -346,10 +309,10 @@
               type="email"
               [value]="email()"
               readonly
-              class="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 text-gray-600 cursor-not-allowed text-xs sm:text-sm"
+              class="w-full px-3 py-2 border border-gray-300 history-border rounded-xl bg-gray-50 text-gray-600 cursor-not-allowed text-xs"
             />
             <svg
-              class="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400"
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -368,12 +331,12 @@
         <!-- País -->
         <div class="relative">
           <label
-            class="block text-xs sm:text-sm font-semibold text-black mb-1.5 sm:mb-2"
+            class="block text-xs font-semibold text-black mb-1.5"
             >{{ t.country }}</label
           >
           <select
             [(ngModel)]="tempCountry"
-            class="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm appearance-none pr-10 sm:pr-12"
+            class="w-full px-3 py-2 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs appearance-none pr-10"
           >
             <option value="">{{ t.selectCountry }}</option>
             <option value="España">España</option>
@@ -406,10 +369,10 @@
         </div>
 
         <!-- Nombre del Negocio y Web del Negocio -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label
-              class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5 sm:mb-2"
+              class="block text-xs font-semibold text-gray-700 mb-1.5"
               >{{ t.businessName }}</label
             >
             <div class="relative">
@@ -418,10 +381,10 @@
                 [value]="enterprise()"
                 [(ngModel)]="tempEnterprise"
                 placeholder="TuTienda"
-                class="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm"
+                class="w-full px-3 py-2 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs"
               />
               <svg
-                class="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-green-500"
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-green-500"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -435,7 +398,7 @@
           </div>
           <div>
             <label
-              class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1.5 sm:mb-2"
+              class="block text-xs font-semibold text-gray-700 mb-1.5"
               >{{ t.businessWebsite }}</label
             >
             <div class="relative">
@@ -444,10 +407,10 @@
                 [value]="enterpriseWeb()"
                 [(ngModel)]="tempEnterpriseWeb"
                 placeholder="https://tutienda.com"
-                class="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm"
+                class="w-full px-3 py-2 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs"
               />
               <svg
-                class="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-green-500"
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-green-500"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -462,22 +425,23 @@
         </div>
 
         <!-- Botón de Guardar -->
-        <div class="flex justify-end mt-6 sm:mt-8">
+        <div class="flex justify-end mt-4">
           <app-ripple-button
             (buttonClick)="saveUserInfo()"
-            buttonClass="w-full sm:w-auto px-6 sm:px-10 py-2 sm:py-2.5 bg-[#0a1740] text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center justify-center gap-2 text-sm sm:text-base"
+            buttonClass="w-full sm:w-auto px-4 py-2 bg-[#0a1740] text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center justify-center gap-2 text-xs"
             rippleColor="rgba(255, 255, 255, 0.4)"
           >
             {{ t.saveChanges }}
           </app-ripple-button>
         </div>
       </div>
+      </div>
       } @if (activeTab === 'security') {
       <!-- === SECCIÓN SEGURIDAD === -->
-      <div class="flex flex-col h-full">
+      <div class="flex flex-col min-h-[500px]">
         <!-- Encabezado -->
         <h2
-          class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-4 sm:mb-6"
+          class="text-sm font-semibold text-gray-900 mb-3 tracking-[-0.7px]"
         >
           {{ t.security }}
         </h2>
@@ -487,11 +451,11 @@
           <!-- Contraseña Actual con "Olvidaste la contraseña?" -->
           <div class="relative">
             <label
-              class="absolute left-4 sm:left-8 top-2 text-[10px] sm:text-xs text-black pointer-events-none tracking-[-1px] bg-white p-1"
+              class="absolute left-4 sm:left-8 top-1 text-[10px] sm:text-xs text-black pointer-events-none tracking-[-1px] bg-white px-1"
               >{{ t.currentPassword }}</label
             >
             <a
-              class="absolute right-4 sm:right-8 top-2 text-[10px] sm:text-xs text-black hover:underline cursor-pointer tracking-[-1px] bg-white p-1"
+              class="absolute right-4 sm:right-8 top-1 text-[10px] sm:text-xs text-black hover:underline cursor-pointer tracking-[-1px] bg-white px-1"
               style="z-index: 2"
               >{{ t.forgotPassword }}</a
             >
@@ -499,36 +463,36 @@
               type="password"
               [(ngModel)]="currentPassword"
               placeholder="1234567"
-              class="w-full mt-5 px-4 sm:px-8 py-2 sm:py-3 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs sm:text-sm bg-white text-black placeholder-gray-400 outline-none"
+              class="w-full mt-3 px-3 py-2 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs bg-white text-black placeholder-gray-400 outline-none"
               style="box-shadow: none"
             />
           </div>
 
           <!-- Nueva y Confirmar Contraseña -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div class="relative">
               <label
-                class="absolute left-4 sm:left-8 top-2 text-[10px] sm:text-xs text-black pointer-events-none tracking-[-1px] bg-white p-1"
+                class="absolute left-4 sm:left-8 top-1 text-[10px] sm:text-xs text-black pointer-events-none tracking-[-1px] bg-white px-1"
                 >{{ t.newPassword }}</label
               >
               <input
                 type="password"
                 [(ngModel)]="newPassword"
                 placeholder="1234567"
-                class="w-full mt-5 px-4 sm:px-8 py-2 sm:py-3 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs sm:text-sm bg-white text-black placeholder-gray-400 outline-none"
+                class="w-full mt-3 px-3 py-2 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs bg-white text-black placeholder-gray-400 outline-none"
                 style="box-shadow: none"
               />
             </div>
             <div class="relative">
               <label
-                class="absolute left-4 sm:left-8 top-2 text-[10px] sm:text-xs text-black pointer-events-none tracking-[-1px] bg-white p-1"
+                class="absolute left-4 sm:left-8 top-1 text-[10px] sm:text-xs text-black pointer-events-none tracking-[-1px] bg-white px-1"
                 >{{ t.confirmNewPassword }}</label
               >
               <input
                 type="password"
                 [(ngModel)]="confirmPassword"
                 placeholder="1234567"
-                class="w-full mt-5 px-4 sm:px-8 py-2 sm:py-3 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs sm:text-sm bg-white text-black placeholder-gray-400 outline-none"
+                class="w-full mt-3 px-3 py-2 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs bg-white text-black placeholder-gray-400 outline-none"
                 style="box-shadow: none"
               />
             </div>
@@ -537,7 +501,7 @@
           <!-- Botón Actualizar -->
           <app-ripple-button
             (buttonClick)="updatePassword()"
-            buttonClass="w-full sm:w-auto px-6 sm:px-8 py-2 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center justify-center gap-2 mt-4 sm:mt-6 text-sm sm:text-base"
+            buttonClass="w-full sm:w-auto px-4 py-2 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center justify-center gap-2 mt-3 text-xs"
             rippleColor="rgba(255, 255, 255, 0.4)"
             [rippleScale]="8"
           >
@@ -546,13 +510,13 @@
         </div>
 
         <!-- Eliminar Cuenta - SIEMPRE ABAJO -->
-        <div class="pt-4 sm:pt-6 mt-6 sm:mt-8">
+        <div class="pt-3 mt-4">
           <div
             class="flex flex-col sm:flex-row items-start justify-between gap-4"
           >
             <div class="flex-1">
               <h3
-                class="text-xs sm:text-sm font-semibold text-gray-900 mb-1 sm:mb-2"
+                class="text-xs font-semibold text-gray-900 mb-1"
               >
                 {{ t.deleteAccount }}
               </h3>
@@ -562,7 +526,7 @@
             </div>
             <app-ripple-button
               (buttonClick)="deleteAccount()"
-              buttonClass="w-full sm:w-auto sm:mt-0 px-4 sm:px-6 py-2 bg-red-600 text-white font-medium font-sans rounded-xl hover:bg-red-700 focus:bg-red-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center justify-center gap-2 whitespace-nowrap text-sm sm:text-base"
+              buttonClass="w-full sm:w-auto sm:mt-0 px-4 py-2 bg-red-600 text-white font-medium font-sans rounded-xl hover:bg-red-700 focus:bg-red-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center justify-center gap-2 whitespace-nowrap text-xs"
               rippleColor="rgba(255, 255, 255, 0.4)"
               [rippleScale]="8"
             >
@@ -573,45 +537,45 @@
       </div>
       } @if (activeTab === 'billing') {
       <!-- === SECCIÓN FACTURACIÓN === -->
-      <div class="flex flex-col h-full">
+      <div class="flex flex-col min-h-[500px]">
         <h2
-          class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 mb-4 sm:mb-6"
+          class="text-sm font-semibold text-gray-800 mb-3 tracking-[-0.7px]"
         >
           {{ t.billing }}
         </h2>
 
-        <div class="space-y-4 sm:space-y-6">
+        <div class="space-y-3">
           <!-- Suscripción Actual -->
           <div>
             <h3
-              class="text-xs sm:text-sm font-semibold text-gray-800 mb-1.5 sm:mb-2 tracking-[-0.5px]"
+              class="text-xs font-semibold text-gray-800 mb-1.5 tracking-[-0.5px]"
             >
               {{ t.currentSubscription }}
             </h3>
-            <p class="text-xs sm:text-sm text-gray-800 tracking-[-0.5px]">
+            <p class="text-xs text-gray-800 tracking-[-0.5px]">
               {{ currentPlanMinutes ?? "---" }} {{ t.minutesWord }}
               {{ t.withPlan }} <strong>{{ t.basicPlan }}</strong>
             </p>
           </div>
 
           <!-- Botones de Acción -->
-          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div class="flex flex-col sm:flex-row gap-2">
             <app-ripple-button
-              buttonClass="w-full sm:w-auto px-3 sm:px-4 py-2 sm:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs sm:text-sm whitespace-nowrap tracking-[-0.5px] flex items-center justify-center"
+              buttonClass="w-full sm:w-auto px-3 py-2 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs whitespace-nowrap tracking-[-0.5px] flex items-center justify-center"
               rippleColor="rgba(255, 255, 255, 0.4)"
               [rippleScale]="8"
             >
               {{ t.cancelSubscription }}
             </app-ripple-button>
             <app-ripple-button
-              buttonClass="w-full sm:w-auto px-3 sm:px-4 py-2 sm:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs sm:text-sm whitespace-nowrap tracking-[-0.5px] flex items-center justify-center"
+              buttonClass="w-full sm:w-auto px-3 py-2 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs whitespace-nowrap tracking-[-0.5px] flex items-center justify-center"
               rippleColor="rgba(255, 255, 255, 0.4)"
               [rippleScale]="8"
             >
               {{ t.editPaymentMethod }}
             </app-ripple-button>
             <app-ripple-button
-              buttonClass="w-full sm:w-auto px-3 sm:px-4 py-2 sm:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs sm:text-sm whitespace-nowrap tracking-[-0.5px] flex items-center justify-center"
+              buttonClass="w-full sm:w-auto px-3 py-2 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs whitespace-nowrap tracking-[-0.5px] flex items-center justify-center"
               rippleColor="rgba(255, 255, 255, 0.4)"
               [rippleScale]="8"
             >
@@ -622,7 +586,7 @@
           <!-- Mejorar/Cambiar Plan -->
           <app-ripple-button
             (buttonClick)="openBillingModal()"
-            buttonClass="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-full hover:from-blue-800 hover:to-blue-700 transition-all duration-200 tracking-[-0.5px] mt-3 sm:mt-4 text-sm sm:text-base"
+            buttonClass="w-full px-4 py-2 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-full hover:from-blue-800 hover:to-blue-700 transition-all duration-200 tracking-[-0.5px] mt-3 text-xs"
             rippleColor="rgba(255, 255, 255, 0.4)"
             [rippleScale]="8"
           >
@@ -630,14 +594,14 @@
           </app-ripple-button>
 
           <!-- Protegido por Stripe -->
-          <div class="flex items-center mt-4 sm:mt-6">
+          <div class="flex items-center mt-3">
             <img
               src="assets/stripe.png"
               alt="Stripe"
-              class="h-5 sm:h-6 w-auto"
+              class="h-4 w-auto"
             />
             <span
-              class="ml-2 mt-1 text-sm sm:text-base text-gray-800 tracking-[-0.5px]"
+              class="ml-2 mt-1 text-xs text-gray-800 tracking-[-0.5px]"
               >{{ t.protectedByStripe }}</span
             >
           </div>
@@ -645,28 +609,28 @@
       </div>
       } @if (activeTab === 'gifts') {
       <!-- === SECCIÓN REGALOS === -->
-      <div class="flex flex-col h-full">
+      <div class="flex flex-col min-h-[500px]">
         <h2
-          class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1.5 sm:mb-2"
+          class="text-sm font-semibold text-gray-900 mb-2 tracking-[-0.7px]"
         >
           {{ t.gifts }}
         </h2>
-        <div class="space-y-4 sm:space-y-6">
+        <div class="space-y-2">
           <!-- Descripción -->
           <p
-            class="text-[10px] sm:text-xs text-gray-600 font-medium tracking-[-1px]"
+            class="text-[10px] text-gray-600 font-medium tracking-[-0.7px] mb-1"
           >
             {{ t.giftsDescription }}
           </p>
 
           <!-- Tarjeta de Recompensa Trustpilot -->
           <div
-            class="bg-gray-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 mx-auto gift-card"
+            class="bg-gray-100 rounded-xl p-3 mx-auto gift-card"
           >
-            <div class="space-y-3 sm:space-y-4">
+            <div class="space-y-2">
               <!-- Título de la recompensa -->
               <h3
-                class="text-lg sm:text-xl lg:text-2xl font-semibold tracking-[-0.5px]"
+                class="text-sm font-semibold tracking-[-0.7px]"
               >
                 <span class="text-gray-900 trustpilot-title">{{
                   t.trustpilot
@@ -678,16 +642,16 @@
 
               <!-- Descripción -->
               <p
-                class="text-xs sm:text-sm text-gray-900 leading-relaxed tracking-[-0.5px]"
+                class="text-xs text-gray-900 leading-relaxed tracking-[-0.5px] mb-1"
               >
                 {{ t.trustpilotDescription }}
               </p>
 
               <!-- Botón Canjear - ancho completo del recuadro -->
-              <div class="w-full">
+              <div class="w-full mt-1">
                 <app-ripple-button
                   (buttonClick)="redeemReward('Trustpilot')"
-                  buttonClass="w-full px-4 sm:px-6 py-2 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center justify-center gap-2 text-xs sm:text-sm"
+                  buttonClass="w-full px-4 py-2 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md tracking-[-0.4px] flex items-center justify-center gap-2 text-xs"
                   rippleColor="rgba(255, 255, 255, 0.4)"
                   [rippleScale]="8"
                 >
@@ -705,22 +669,22 @@
   <!-- Modal de Facturación -->
   @if (showBillingModal) {
   <div
-    class="fixed inset-0 bg-purple-100 bg-opacity-80 flex items-center justify-center p-3 sm:p-6 lg:p-8 z-50 billing-modal-overlay"
+    class="fixed inset-0 bg-purple-100 bg-opacity-80 flex items-center justify-center p-2 sm:p-4 lg:p-6 z-50 billing-modal-overlay"
     (click)="closeBillingModal($event)"
   >
     <!-- Modal content -->
     <div
-      class="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[3rem] shadow-2xl p-4 sm:p-8 lg:p-14 max-w-[95vw] sm:max-w-[90vw] lg:max-w-[65rem] w-full mx-auto max-h-[90vh] overflow-y-auto relative"
+      class="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[3rem] shadow-2xl p-3 sm:p-6 lg:p-10 max-w-[95vw] sm:max-w-[85vw] lg:max-w-[55rem] w-full mx-auto max-h-[90vh] overflow-y-auto relative"
       (click)="$event.stopPropagation()"
     >
       <!-- Botón de cerrar -->
       <button
         (click)="closeBillingModal()"
-        class="absolute top-3 right-3 sm:top-4 sm:right-4 lg:top-6 lg:right-6 w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 flex items-center justify-center transition-colors duration-200 z-10"
+        class="absolute top-2 right-2 sm:top-3 sm:right-3 lg:top-4 lg:right-4 w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 flex items-center justify-center transition-colors duration-200 z-10"
         aria-label="Cerrar modal"
       >
         <svg
-          class="w-5 h-5 sm:w-6 sm:h-6"
+          class="w-4 h-4 sm:w-5 sm:h-5"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -736,19 +700,19 @@
       </button>
 
       <!-- Selector de minutos -->
-      <div class="mb-6 sm:mb-8 max-w-3xl mx-auto">
+      <div class="mb-4 sm:mb-6 max-w-2xl mx-auto">
         <div
-          class="flex flex-wrap items-center gap-2 mb-3 sm:mb-4 tracking-[-0.4px]"
+          class="flex flex-wrap items-center gap-1.5 mb-2 sm:mb-3 tracking-[-0.4px]"
         >
-          <h2 class="text-sm sm:text-base lg:text-lg font-bold text-gray-800">
+          <h2 class="text-xs sm:text-sm lg:text-base font-bold text-gray-800">
             ¿Cuántos minutos necesitarías al mes? Unos
           </h2>
           <div
-            class="bg-blue-900 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full sm:rounded-[2rem] font-normal text-sm sm:text-base whitespace-nowrap"
+            class="bg-blue-900 text-white px-1.5 sm:px-2 py-0.5 rounded-full sm:rounded-[2rem] font-normal text-xs sm:text-sm whitespace-nowrap"
           >
             {{ selectedMinutes }}
           </div>
-          <span class="text-gray-700 font-bold text-sm sm:text-base"
+          <span class="text-gray-700 font-bold text-xs sm:text-sm"
             >Minutos</span
           >
         </div>
@@ -756,18 +720,18 @@
         <!-- Slider Personalizado -->
         <div class="relative">
           <div
-            class="relative h-2 sm:h-3 bg-gray-200 rounded-lg cursor-pointer"
+            class="relative h-1.5 sm:h-2 bg-gray-200 rounded-lg cursor-pointer"
             (click)="onSliderTrackClick($event)"
           >
             <!-- Barra de progreso -->
             <div
-              class="absolute top-0 left-0 h-2 sm:h-3 bg-blue-900 rounded-lg transition-all duration-300 ease-out"
+              class="absolute top-0 left-0 h-1.5 sm:h-2 bg-blue-900 rounded-lg transition-all duration-300 ease-out"
               [style.width.%]="((selectedMinutes - 100) / (2000 - 100)) * 100"
             ></div>
 
             <!-- Thumb personalizado -->
             <div
-              class="absolute top-1/2 transform -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 bg-white border-2 border-blue-900 rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-out hover:shadow-xl hover:scale-110"
+              class="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 bg-white border-2 border-blue-900 rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-out hover:shadow-xl hover:scale-110"
               [style.left]="getSliderThumbPosition()"
               (mousedown)="startDragging($event)"
               (touchstart)="startDragging($event)"
@@ -778,23 +742,23 @@
 
       <!-- Contenido principal -->
       <div
-        class="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-3xl mx-auto bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg tracking-[-0.4px]"
+        class="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-2xl mx-auto bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-lg tracking-[-0.4px]"
       >
         <!-- Sección izquierda - Recuadro del plan (blanco) -->
-        <div class="bg-white p-4 sm:p-6 lg:p-8 2xl:p-10 font-dm-sans">
-          <div class="space-y-3 sm:space-y-4">
+        <div class="bg-white p-3 sm:p-5 lg:p-7 2xl:p-9 font-dm-sans">
+          <div class="space-y-2.5 sm:space-y-3.5">
             <div>
               <span
-                class="text-sm sm:text-base lg:text-xl text-gray-500 font-normal font-dm-sans"
+                class="text-xs sm:text-sm lg:text-base text-gray-500 font-normal font-dm-sans"
                 >{{ selectedPlan?.targetAudience }}</span
               >
               <h3
-                class="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-950 font-dm-sans"
+                class="text-lg sm:text-xl lg:text-2xl font-bold text-blue-950 font-dm-sans"
               >
                 {{ selectedPlan?.name }}
               </h3>
               <p
-                class="text-gray-500 mt-4 sm:mt-6 lg:mt-8 text-sm sm:text-base lg:text-xl leading-relaxed font-dm-sans"
+                class="text-gray-500 mt-3 sm:mt-5 lg:mt-7 text-xs sm:text-sm lg:text-base leading-relaxed font-dm-sans"
               >
                 {{ selectedPlan?.description }}
               </p>
@@ -802,18 +766,18 @@
 
             <div class="flex items-baseline gap-2 sm:gap-3">
               <span
-                class="text-3xl sm:text-4xl lg:text-6xl font-extrabold text-blue-950 font-dm-sans"
+                class="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-blue-950 font-dm-sans"
                 >${{ selectedPlan?.price }}</span
               >
               <span
-                class="text-gray-500 text-sm sm:text-base lg:text-xl font-dm-sans"
+                class="text-gray-500 text-xs sm:text-sm lg:text-base font-dm-sans"
                 >/monthly</span
               >
             </div>
 
             <button
               (click)="getStarted()"
-              class="w-full bg-blue-900 text-white font-medium py-3 sm:py-4 lg:py-6 px-6 sm:px-8 rounded-full transition-colors duration-200 text-sm sm:text-base lg:text-lg font-dm-sans"
+              class="w-full bg-blue-900 text-white font-medium py-2.5 sm:py-3.5 lg:py-5 px-5 sm:px-7 rounded-full transition-colors duration-200 text-xs sm:text-sm lg:text-base font-dm-sans"
             >
               Get started
             </button>
@@ -821,23 +785,23 @@
         </div>
 
         <!-- Sección derecha - Características incluidas (gris muy claro) -->
-        <div class="bg-gray-50 p-4 sm:p-6 lg:p-8 2xl:p-10 font-dm-sans">
+        <div class="bg-gray-50 p-3 sm:p-5 lg:p-7 2xl:p-9 font-dm-sans">
           <h4
-            class="text-lg sm:text-xl lg:text-2xl font-bold text-blue-950 mb-4 sm:mb-6 lg:mt-8 font-dm-sans"
+            class="text-base sm:text-lg lg:text-xl font-bold text-blue-950 mb-3 sm:mb-5 lg:mt-7 font-dm-sans"
           >
             What's included
           </h4>
 
-          <div class="space-y-3 sm:space-y-4">
+          <div class="space-y-2.5 sm:space-y-3.5">
             <div
               *ngFor="let feature of selectedPlan?.features"
-              class="flex items-center gap-3 sm:gap-4"
+              class="flex items-center gap-2.5 sm:gap-3"
             >
               <div
-                class="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-blue-700 rounded-full flex items-center justify-center"
+                class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 bg-blue-700 rounded-full flex items-center justify-center"
               >
                 <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6"
+                  class="w-4 h-4 sm:w-5 sm:h-5"
                   viewBox="0 0 27 27"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -868,7 +832,7 @@
                 </svg>
               </div>
               <span
-                class="text-gray-700 text-sm sm:text-base lg:text-lg font-dm-sans"
+                class="text-gray-700 text-xs sm:text-sm lg:text-base font-dm-sans"
                 >{{ feature }}</span
               >
             </div>

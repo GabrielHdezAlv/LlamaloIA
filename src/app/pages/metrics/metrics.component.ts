@@ -115,11 +115,11 @@ export class MetricsComponent implements OnInit {
 
   callsAreaChart: ApexChart = {
     type: 'area',
-    height: 320,
+    height: 240,
     width: '100%',
     toolbar: { show: false },
-    offsetX: 0,
-    offsetY: -10,
+    offsetX: 5,
+    offsetY: -5,
     animations: {
       enabled: true,
       speed: 300,
@@ -145,7 +145,9 @@ export class MetricsComponent implements OnInit {
     xaxis: { lines: { show: false } },
     yaxis: { lines: { show: true } },
     padding: {
-      bottom: 20,
+      bottom: 5,
+      left: 20,
+      right: 10,
     },
   };
   callsAreaXAxis: ApexXAxis = {
@@ -159,7 +161,7 @@ export class MetricsComponent implements OnInit {
         fontSize: '11px',
         fontWeight: 500,
       },
-      offsetY: 5,
+      offsetY: 2,
       rotate: 0,
       trim: false,
       hideOverlappingLabels: false,
@@ -167,6 +169,8 @@ export class MetricsComponent implements OnInit {
     crosshairs: {
       show: false,
     },
+    floating: false,
+    position: 'bottom',
   };
 
   // Obtener categorías según el período seleccionado
@@ -189,9 +193,17 @@ export class MetricsComponent implements OnInit {
     max: 400,
     tickAmount: 4,
     labels: {
-      style: { colors: '#6B7280', fontSize: '12px' },
+      style: { colors: '#6B7280', fontSize: '11px' },
       formatter: (value: number) => value.toString(),
+      offsetX: 0,
     },
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    forceNiceScale: false,
   };
   callsAreaFill: ApexFill = {
     type: 'gradient',
@@ -644,7 +656,7 @@ export class MetricsComponent implements OnInit {
     // Actualizar altura del gráfico
     this.callsAreaChart = {
       ...this.callsAreaChart,
-      height: isMobile ? 280 : 320,
+      height: isMobile ? 180 : 220,
     };
 
     this.callsAreaXAxis = {
@@ -659,7 +671,7 @@ export class MetricsComponent implements OnInit {
           fontSize: isMobile ? '8px' : isLast30Days ? '9px' : '11px',
           fontWeight: 500,
         },
-        offsetY: 5,
+        offsetY: 2,
         rotate: isMobile ? -30 : isLast30Days ? -45 : 0,
         trim: false,
         hideOverlappingLabels: !isLast30Days,
@@ -723,7 +735,7 @@ export class MetricsComponent implements OnInit {
 
     this.callsAreaChart = {
       ...this.callsAreaChart,
-      height: isMobile ? 280 : 320,
+      height: isMobile ? 180 : 220,
     };
 
     this.callsAreaXAxis = {

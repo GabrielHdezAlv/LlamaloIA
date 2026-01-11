@@ -38,7 +38,7 @@
       </div>
 
       <h3
-        class="text-[10px] font-semibold text-black mb-0.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
+        class="text-[10px] font-semibold text-black mb-1.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
       >
         {{ t.totalSuccessfulCalls }}
       </h3>
@@ -67,32 +67,30 @@
         </h3>
       </div>
 
-      <div class="flex items-center gap-1.5 max-lg:gap-1">
-        <p class="text-2xl font-semibold text-black max-lg:text-xl resumen-numero tracking-[-0.7px]">
+      <div class="flex items-center gap-1.5 max-lg:gap-1 relative">
+        <p class="text-3xl font-semibold text-black max-lg:text-2xl resumen-numero tracking-[-0.7px]">
           {{ summary.totalCalls }}
         </p>
-        <div class="flex items-center h-full ml-1.5 max-lg:ml-1">
-          <svg
-            width="50"
-            height="55"
-            viewBox="0 0 100 99"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="align-middle max-lg:w-10 max-lg:h-12"
-          >
-            <path
-              class="resumen-sparkline"
-              d="M96.3237 72.3164C91.1767 68.7988 86.0296 65.2812 80.8826 57.4857C75.7355 49.6903 70.5884 25.5428 65.4414 25.5428C60.2943 25.5428 55.1473 46.0775 50.0002 46.0775C44.8531 46.0775 39.7061 22.1203 34.559 22.1203C29.412 22.1203 24.2649 72.3164 19.1178 72.3164C13.9708 72.3164 8.82373 64.3307 3.67667 56.3449"
-              stroke="#1E3A8A"
-              stroke-width="3"
-            />
-          </svg>
+        <div class="absolute right-0 flex items-center overflow-visible" style="width: 85px; height: 60px; min-width: 85px; top:-6px;">
+          <apx-chart
+            [series]="callsSparklineSeries"
+            [chart]="sparklineChart"
+            [stroke]="sparklineStroke"
+            [dataLabels]="sparklineDataLabels"
+            [fill]="sparklineFill"
+            [grid]="sparklineGrid"
+            [xaxis]="sparklineXAxis"
+            [yaxis]="sparklineYAxis"
+            [colors]="sparklineColors"
+            [markers]="sparklineMarkers"
+            [tooltip]="sparklineTooltip"
+          ></apx-chart>
         </div>
       </div>
 
-      <div class="mt-0.5 flex items-center">
+      <div class="mt-1.5 flex items-center">
         <span
-          class="inline-flex items-center px-1.5 py-0.5 rounded-lg -mt-2 bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip tracking-[-0.7px]"
+          class="inline-flex items-center px-1.5 py-0.5 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip tracking-[-0.7px]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +109,7 @@
           {{ summary.callsDeltaPct }}%
         </span>
         <span
-          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto -mt-2 max-lg:text-[9px] tracking-[-0.7px]"
+          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto max-lg:text-[9px] tracking-[-0.7px]"
           >{{ t.vsLastYear }}</span
         >
       </div>
@@ -162,7 +160,7 @@
       </div>
 
       <h3
-        class="text-[10px] font-semibold text-black mb-0.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
+        class="text-[10px] font-semibold text-black mb-1.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
       >
         {{ t.timeSaved }}
       </h3>
@@ -210,32 +208,30 @@
         <h3 class="text-xs font-semibold text-black tracking-[-0.7px]">{{ t.timeSaved }}</h3>
       </div>
 
-      <div class="flex items-center gap-1.5 max-lg:gap-1">
-        <p class="text-2xl font-semibold text-black max-lg:text-xl resumen-numero tracking-[-0.7px]">
+      <div class="flex items-center gap-1.5 max-lg:gap-1 relative">
+        <p class="text-3xl font-semibold text-black max-lg:text-2xl resumen-numero tracking-[-0.7px]">
           {{ summary.timeSavedHours }}
         </p>
-        <div class="flex items-center h-full ml-1.5 max-lg:ml-1">
-          <svg
-            width="50"
-            height="55"
-            viewBox="0 0 122 73"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="max-lg:w-10 max-lg:h-12"
-          >
-            <path
-              class="resumen-sparkline"
-              d="M120.257 62.5C113.618 50.577 106.978 38.654 100.338 28.575C93.6985 18.496 87.0588 2.02502 80.4191 2.02502C73.7794 2.02502 67.1397 17.512 60.5 27.1C53.8603 36.688 47.2206 57.583 40.5809 59.55C33.9412 61.517 27.3015 60.533 20.6618 62.5C14.022 64.467 7.38234 67.908 0.74264 71.35"
-              stroke="#1E3A8A"
-              stroke-width="3"
-            />
-          </svg>
+        <div class="absolute right-0 flex items-center overflow-visible" style="width: 85px; height: 60px; min-width: 85px; top: -6px;">
+          <apx-chart
+            [series]="timeSavedSparklineSeries"
+            [chart]="sparklineChart"
+            [stroke]="sparklineStroke"
+            [dataLabels]="sparklineDataLabels"
+            [fill]="sparklineFill"
+            [grid]="sparklineGrid"
+            [xaxis]="sparklineXAxis"
+            [yaxis]="sparklineYAxis"
+            [colors]="sparklineColors"
+            [markers]="sparklineMarkers"
+            [tooltip]="sparklineTooltip"
+          ></apx-chart>
         </div>
       </div>
 
-      <div class="mt-0.5 flex items-center">
+      <div class="mt-1.5 flex items-center">
         <span
-          class="inline-flex items-center px-1.5 py-0.5 rounded-lg -mt-2 bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip tracking-[-0.7px]"
+          class="inline-flex items-center px-1.5 py-0.5 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip tracking-[-0.7px]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -254,14 +250,14 @@
           {{ summary.timeSavedDeltaPct }}%
         </span>
         <span
-          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto -mt-2 max-lg:text-[9px] tracking-[-0.7px]"
+          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto max-lg:text-[9px] tracking-[-0.7px]"
           >{{ t.vsLastYear }}</span
         >
       </div>
     </div>
 
     <!-- Minutos Usados -->
-    <div class="flex flex-col p-2 max-lg:p-2">
+    <div class="flex flex-col p-2 max-lg:p-2 sm:pb-0">
       <!-- Layout original para desktop -->
       <div
         class="flex w-10 h-10 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-1.5"
@@ -281,7 +277,7 @@
       </div>
 
       <h3
-        class="text-[10px] font-semibold text-black mb-0.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
+        class="text-[10px] font-semibold text-black mb-1.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
       >
         {{ t.minutesUsed }}
       </h3>
@@ -307,32 +303,30 @@
         <h3 class="text-xs font-semibold text-black tracking-[-0.7px]">{{ t.minutesUsed }}</h3>
       </div>
 
-      <div class="flex items-center gap-1.5 max-lg:gap-1">
-        <p class="text-2xl font-semibold text-black max-lg:text-xl resumen-numero tracking-[-0.7px]">
+      <div class="flex items-center gap-1.5 max-lg:gap-1 relative">
+        <p class="text-3xl font-semibold text-black max-lg:text-2xl resumen-numero tracking-[-0.7px]">
           {{ summary.minutesUsed }}
         </p>
-        <div class="flex items-center h-full ml-1.5 max-lg:ml-1">
-          <svg
-            width="50"
-            height="55"
-            viewBox="0 0 116 43"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="max-lg:w-10 max-lg:h-12"
-          >
-            <path
-              class="resumen-sparkline"
-              d="M114.515 41.767C108.235 22.1 101.956 2.43298 95.6764 2.43298C89.397 2.43298 83.1176 26.033 76.8382 26.033C70.5588 26.033 64.2794 18.167 57.9999 18.167C51.7205 18.167 45.4411 39.8 39.1617 39.8C32.8823 39.8 26.6029 33.9 20.3235 28C14.0441 22.1 7.76465 13.25 1.48524 4.39999"
-              stroke="#1E3A8A"
-              stroke-width="3"
-            />
-          </svg>
+        <div class="absolute right-0 flex items-center overflow-visible" style="width: 85px; height: 60px; min-width: 85px; top: -6px;">
+          <apx-chart
+            [series]="minutesSparklineSeries"
+            [chart]="sparklineChart"
+            [stroke]="sparklineStroke"
+            [dataLabels]="sparklineDataLabels"
+            [fill]="sparklineFill"
+            [grid]="sparklineGrid"
+            [xaxis]="sparklineXAxis"
+            [yaxis]="sparklineYAxis"
+            [colors]="sparklineColors"
+            [markers]="sparklineMarkers"
+            [tooltip]="sparklineTooltip"
+          ></apx-chart>
         </div>
       </div>
 
-      <div class="mt-0.5 flex items-center">
+      <div class="mt-1.5 flex items-center">
         <span
-          class="inline-flex items-center px-1.5 py-0.5 -mt-2 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip"
+          class="inline-flex items-center px-1.5 py-0.5 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip tracking-[-0.7px]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -351,7 +345,7 @@
           {{ summary.minutesDeltaPct }}%
         </span>
         <span
-          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto -mt-2 max-lg:text-[9px] tracking-[-0.7px]"
+          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto max-lg:text-[9px] tracking-[-0.7px]"
           >{{ t.vsLastYear }}</span
         >
       </div>

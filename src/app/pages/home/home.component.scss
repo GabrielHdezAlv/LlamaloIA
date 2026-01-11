@@ -146,3 +146,56 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+/* Estilos para gráficos sparkline */
+::ng-deep apx-chart {
+  width: 100% !important;
+  height: 100% !important;
+  
+  .apexcharts-canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .apexcharts-svg {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .apexcharts-series path {
+    stroke-width: 2px !important;
+    stroke: #1E3A8A !important;
+  }
+  
+  .apexcharts-plot-area {
+    transform: translateY(0px);
+  }
+  
+  // Ocultar puntos/marcadores
+  .apexcharts-series-markers,
+  .apexcharts-marker {
+    display: none !important;
+  }
+  
+  // Ocultar cualquier punto visible en los extremos
+  circle[stroke="#1E3A8A"],
+  circle[fill="#1E3A8A"] {
+    display: none !important;
+  }
+  
+  // Ocultar tooltip completamente
+  .apexcharts-tooltip {
+    display: none !important;
+  }
+  
+  // Ocultar cualquier overlay o información de datos
+  .apexcharts-tooltip-series-group,
+  .apexcharts-tooltip-title,
+  .apexcharts-xaxistooltip,
+  .apexcharts-yaxistooltip {
+    display: none !important;
+  }
+  
+  // Deshabilitar interacción con el gráfico
+  pointer-events: none;
+}

@@ -3,11 +3,22 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { I18nService } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
+import {
+  NgApexchartsModule,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexYAxis,
+  ApexDataLabels,
+  ApexStroke,
+  ApexGrid,
+  ApexFill,
+} from 'ng-apexcharts';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgApexchartsModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -135,7 +146,39 @@ export class HomeComponent implements OnInit {
       this.callsByDayPercentages = this.callsByDayCounts.map((count) =>
         Math.round((count / maxCalls) * 100)
       );
+
+      // Actualizar datos de los gráficos sparkline
+      this.updateSparklineCharts(data);
     }
+  }
+
+  // Actualizar gráficos sparkline con datos reales
+  private updateSparklineCharts(data: DashboardMetrics): void {
+    // Comentado para mantener los datos manuales que el usuario configura
+    // if (data.llamadas_ultimos_7_dias && data.llamadas_ultimos_7_dias.length > 0) {
+    //   const last7Days = data.llamadas_ultimos_7_dias.slice(-7);
+    //   const callsData = last7Days.map((item) => item.total);
+    //   
+    //   // Si todos los datos son 0, usar datos de ejemplo para que se vea el gráfico
+    //   const allZeros = callsData.every(val => val === 0);
+    //   if (allZeros) {
+    //     this.callsSparklineSeries = [{ name: 'Llamadas', data: [20, 35, 25, 45, 30, 40, 35] }];
+    //     this.timeSavedSparklineSeries = [{ name: 'Tiempo', data: [15, 30, 20, 40, 25, 35, 30] }];
+    //     this.minutesSparklineSeries = [{ name: 'Minutos', data: [10, 25, 15, 35, 20, 30, 25] }];
+    //   } else {
+    //     // Gráfico de llamadas exitosas
+    //     this.callsSparklineSeries = [{ name: 'Llamadas', data: callsData }];
+    //     
+    //     // Para tiempo ahorrado y minutos usados, usar datos proporcionales
+    //     // (el backend no proporciona estos datos específicos, así que usamos datos derivados)
+    //     const maxValue = Math.max(...callsData, 1);
+    //     const timeSavedData = callsData.map(val => Math.round((val / maxValue) * 100));
+    //     const minutesData = callsData.map(val => Math.round((val / maxValue) * 80));
+    //     
+    //     this.timeSavedSparklineSeries = [{ name: 'Tiempo', data: timeSavedData }];
+    //     this.minutesSparklineSeries = [{ name: 'Minutos', data: minutesData }];
+    //   }
+    // }
   }
 
   // Actualizar agentes activos desde el backend
@@ -175,6 +218,73 @@ export class HomeComponent implements OnInit {
   callsByDayPercentages: number[] = [0, 0, 0, 0, 0, 0, 0];
   // Número de llamadas por día - inicializados en cero para evitar mostrar datos ficticios
   callsByDayCounts: number[] = [0, 0, 0, 0, 0, 0, 0];
+
+  // Configuraciones de gráficos sparkline
+  callsSparklineSeries: ApexAxisChartSeries = [{ name: 'Llamadas', data: [250, 0, 25, 120, 30, 40, 35] }];
+  timeSavedSparklineSeries: ApexAxisChartSeries = [{ name: 'Tiempo', data: [15, 30, 20, 40, 25, 35, 30] }];
+  minutesSparklineSeries: ApexAxisChartSeries = [{ name: 'Minutos', data: [0, 0, 0, 0, 0, 0, 0] }];
+
+  // Configuración común para todos los sparklines
+  sparklineChart: ApexChart = {
+    type: 'line',
+    height: 60,
+    width: 85,
+    toolbar: { show: false },
+    sparkline: { enabled: true },
+    animations: { enabled: false },
+    zoom: { enabled: false },
+    events: {
+      dataPointSelection: () => {},
+      markerClick: () => {},
+    },
+  };
+
+  sparklineTooltip: any = {
+    enabled: false,
+    followCursor: false,
+    intersect: false,
+  };
+
+  sparklineStroke: ApexStroke = {
+    curve: 'smooth',
+    width: 2,
+    colors: ['#1E3A8A'],
+    lineCap: 'round',
+  };
+
+  sparklineDataLabels: ApexDataLabels = {
+    enabled: false,
+  };
+
+  sparklineMarkers: any = {
+    size: 0,
+    hover: {
+      size: 0,
+    },
+  };
+
+  sparklineFill: ApexFill = {
+    type: 'solid',
+    opacity: 0,
+  };
+
+  sparklineGrid: ApexGrid = {
+    show: false,
+  };
+
+  sparklineXAxis: ApexXAxis = {
+    labels: { show: false },
+    axisBorder: { show: false },
+    axisTicks: { show: false },
+  };
+
+  sparklineYAxis: ApexYAxis = {
+    show: false,
+    min: 0,
+    max: 500,
+  };
+
+  sparklineColors: string[] = ['#1E3A8A'];
 
   // Calcular alturas basadas en porcentajes
   get callsByDayHeights(): number[] {
@@ -240,9 +350,18 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Los gráficos ya tienen datos por defecto, pero si no hay datos del backend,
+    // se mantendrán los datos por defecto que ya están inicializados
+    
     // Cargar métricas solo si estamos en el navegador (no en SSR)
     if (this.isBrowser) {
       this.loadMetrics();
+    } else {
+      // Si no estamos en el navegador, asegurar que los gráficos tengan datos por defecto
+      // (ya están inicializados arriba, pero esto asegura que se muestren)
+      this.callsSparklineSeries = [{ name: 'Llamadas', data: [20, 35, 25, 45, 30, 40, 35] }];
+      this.timeSavedSparklineSeries = [{ name: 'Tiempo', data: [15, 30, 20, 40, 25, 35, 30] }];
+      this.minutesSparklineSeries = [{ name: 'Minutos', data: [10, 25, 15, 35, 20, 30, 25] }];
     }
 
     // Ejecutar animaciones siempre
