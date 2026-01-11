@@ -215,8 +215,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
 
   getSlideGapPx(): number {
     const width = this.getViewportWidth();
-    if (width >= 1920) return 32; // Aumentar gap para 1920x1080
-    if (width >= 1536) return 24; // Aumentar gap para portátiles grandes
+    
     if (width >= 1280) return 20; // Aumentar gap para portátiles
     if (width >= 768) return 14;
     return 8;
