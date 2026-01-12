@@ -1,75 +1,75 @@
-<div class="relative h-full max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-2xl shadow-xl w-full max-w-2xl mx-auto flex flex-col">
+<div class="relative h-full max-h-[90vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-xl shadow-xl w-full max-w-xl mx-auto flex flex-col">
   <!-- Header -->
-  <div class="relative p-8 pb-6 flex-shrink-0 border-b border-gray-200 dark:border-slate-700">
+  <div class="relative p-5 pb-4 flex-shrink-0 border-b border-gray-200 dark:border-slate-700">
     <button
-      class="absolute top-6 right-6 h-9 w-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer z-10"
+      class="absolute top-4 right-4 h-8 w-8 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer z-10"
       (click)="close()"
       [attr.aria-label]="t.close"
     >
-      <mat-icon class="text-gray-600 dark:text-slate-300 text-xl h-5 w-5">close</mat-icon>
+      <mat-icon class="text-gray-600 dark:text-slate-300 text-lg h-4 w-4">close</mat-icon>
     </button>
     
     <div class="text-center">
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-1.5">
         Pasos a seguir
       </h2>
-      <p class="text-sm text-gray-500 dark:text-slate-400">
+      <p class="text-xs text-gray-500 dark:text-slate-400">
         Sigue estos pasos para conectar tu número
       </p>
     </div>
   </div>
 
   <!-- Content -->
-  <div class="flex-1 px-8 py-8 overflow-y-auto">
-    <div class="space-y-5">
+  <div class="flex-1 px-5 py-5 overflow-y-auto">
+    <div class="space-y-3">
       <!-- Paso 1 -->
-      <div class="bg-gray-50 dark:bg-slate-800/50 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
-        <div class="flex items-start gap-4">
-          <div class="flex-shrink-0 w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-base font-semibold text-white shadow-sm">
+      <div class="bg-gray-50 dark:bg-slate-800/50 rounded-lg p-4 border border-gray-200 dark:border-slate-700">
+        <div class="flex items-start gap-3">
+          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-sm font-semibold text-white shadow-sm">
             1
           </div>
-          <div class="flex-1 pt-1">
-            <h4 class="text-base font-semibold text-gray-900 dark:text-slate-100 mb-1.5">Seleccionar prefijo de país</h4>
-            <p class="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">Elige el código de país correspondiente.</p>
+          <div class="flex-1 pt-0.5">
+            <h4 class="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-1">Seleccionar prefijo de país</h4>
+            <p class="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">Elige el código de país correspondiente.</p>
           </div>
         </div>
       </div>
       
       <!-- Paso 2 -->
-      <div class="bg-gray-50 dark:bg-slate-800/50 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
-        <div class="flex items-start gap-4">
-          <div class="flex-shrink-0 w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-base font-semibold text-white shadow-sm">
+      <div class="bg-gray-50 dark:bg-slate-800/50 rounded-lg p-4 border border-gray-200 dark:border-slate-700">
+        <div class="flex items-start gap-3">
+          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-sm font-semibold text-white shadow-sm">
             2
           </div>
-          <div class="flex-1 pt-1">
-            <h4 class="text-base font-semibold text-gray-900 dark:text-slate-100 mb-1.5">Introducir número de Twilio</h4>
-            <p class="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">Ingresa el número asociado a tu cuenta Twilio.</p>
+          <div class="flex-1 pt-0.5">
+            <h4 class="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-1">Introducir número de Twilio</h4>
+            <p class="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">Ingresa el número asociado a tu cuenta Twilio.</p>
           </div>
         </div>
       </div>
       
       <!-- Paso 3 -->
-      <div class="bg-gray-50 dark:bg-slate-800/50 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
-        <div class="flex items-start gap-4">
-          <div class="flex-shrink-0 w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-base font-semibold text-white shadow-sm">
+      <div class="bg-gray-50 dark:bg-slate-800/50 rounded-lg p-4 border border-gray-200 dark:border-slate-700">
+        <div class="flex items-start gap-3">
+          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-sm font-semibold text-white shadow-sm">
             3
           </div>
-          <div class="flex-1 pt-1">
-            <h4 class="text-base font-semibold text-gray-900 dark:text-slate-100 mb-1.5">Twilio Account SID y Auth Token</h4>
-            <p class="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">Completa los campos con tu SID de cuenta y token de autenticación.</p>
+          <div class="flex-1 pt-0.5">
+            <h4 class="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-1">Twilio Account SID y Auth Token</h4>
+            <p class="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">Completa los campos con tu SID de cuenta y token de autenticación.</p>
           </div>
         </div>
       </div>
       
       <!-- Paso 4 -->
-      <div class="bg-gray-50 dark:bg-slate-800/50 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
-        <div class="flex items-start gap-4">
-          <div class="flex-shrink-0 w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-base font-semibold text-white shadow-sm">
+      <div class="bg-gray-50 dark:bg-slate-800/50 rounded-lg p-4 border border-gray-200 dark:border-slate-700">
+        <div class="flex items-start gap-3">
+          <div class="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-sm font-semibold text-white shadow-sm">
             4
           </div>
-          <div class="flex-1 pt-1">
-            <h4 class="text-base font-semibold text-gray-900 dark:text-slate-100 mb-1.5">Asignar nombre o etiqueta</h4>
-            <p class="text-sm text-gray-600 dark:text-slate-400 leading-relaxed">Da un nombre o etiqueta identificativa al número de Twilio para facilitar su gestión.</p>
+          <div class="flex-1 pt-0.5">
+            <h4 class="text-sm font-semibold text-gray-900 dark:text-slate-100 mb-1">Asignar nombre o etiqueta</h4>
+            <p class="text-xs text-gray-600 dark:text-slate-400 leading-relaxed">Da un nombre o etiqueta identificativa al número de Twilio para facilitar su gestión.</p>
           </div>
         </div>
       </div>

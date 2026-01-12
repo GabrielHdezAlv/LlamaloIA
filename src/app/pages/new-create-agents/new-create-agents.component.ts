@@ -91,21 +91,32 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
 
   // Métodos para el carrusel de voces
   nextVoice() {
-    // Limitar a máximo 4 clics (avanzar 4 veces desde el inicio)
-    const maxClicks = 4;
-    const maxIndex = Math.min(maxClicks, Math.max(this.voices.length - 1, 0));
-
-    if (this.currentVoiceIndex < maxIndex) {
-      // Siempre avanzar de 1 en 1
-      this.currentVoiceIndex = Math.min(this.currentVoiceIndex + 1, maxIndex);
+    const visibleCount = this.getVisibleCount();
+    const maxPageIndex = Math.max(Math.ceil(this.voices.length / visibleCount) - 1, 0);
+    const currentPage = Math.floor(this.currentVoiceIndex / visibleCount);
+    
+    if (currentPage < maxPageIndex) {
+      // Avanzar a la siguiente página (3 voces)
+      this.currentVoiceIndex = Math.min((currentPage + 1) * visibleCount, this.voices.length - 1);
     }
   }
 
   previousVoice() {
-    if (this.currentVoiceIndex > 0) {
-      // Siempre retroceder de 1 en 1
-      this.currentVoiceIndex = Math.max(this.currentVoiceIndex - 1, 0);
+    const visibleCount = this.getVisibleCount();
+    const currentPage = Math.floor(this.currentVoiceIndex / visibleCount);
+    
+    if (currentPage > 0) {
+      // Retroceder a la página anterior (3 voces)
+      this.currentVoiceIndex = (currentPage - 1) * visibleCount;
     }
+  }
+
+  // Obtener las voces de la página actual para desktop
+  getDesktopPageVoices() {
+    const visibleCount = this.getVisibleCount();
+    const currentPage = Math.floor(this.currentVoiceIndex / visibleCount);
+    const start = currentPage * visibleCount;
+    return this.voices.slice(start, start + visibleCount);
   }
 
   getCurrentVoice() {
@@ -118,10 +129,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   }
 
   isNextDisabled(): boolean {
-    // Limitar a máximo 4 clics
-    const maxClicks = 4;
-    const maxIndex = Math.min(maxClicks, Math.max(this.voices.length - 1, 0));
-    return this.currentVoiceIndex >= maxIndex;
+    const visibleCount = this.getVisibleCount();
+    const maxPageIndex = Math.max(Math.ceil(this.voices.length / visibleCount) - 1, 0);
+    const currentPage = Math.floor(this.currentVoiceIndex / visibleCount);
+    return currentPage >= maxPageIndex;
   }
 
   shouldHideCarousel(): boolean {
@@ -134,59 +145,27 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   }
 
   getCarouselTransform(): string {
-    const visibleCount = this.getVisibleCount();
-    const gap = this.getSlideGapPx();
-    
-    if (gap === 0) {
-      const offsetPercent = (100 / visibleCount) * this.currentVoiceIndex;
-      return `translateX(-${offsetPercent}%)`;
-    }
-    
-    // Calcular el desplazamiento correcto considerando gaps
-    // El ancho de cada carta es: (100% - totalGap) / visibleCount
-    // El desplazamiento debe ser: índice * (ancho_carta + gap)
-    const totalGap = gap * (visibleCount - 1);
-    const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1920;
-    
-    // Obtener el ancho del contenedor (puede tener padding)
-    // El contenedor tiene padding: px-8 sm:px-12 md:px-16
-    let containerPadding = 0;
-    if (viewportWidth >= 768) {
-      containerPadding = viewportWidth >= 1024 ? 64 : 48; // md:px-16 = 64px, sm:px-12 = 48px
-    } else {
-      containerPadding = 32; // px-8 = 32px
-    }
-    
-    // Calcular el ancho disponible (viewport - padding)
-    const availableWidth = viewportWidth - (containerPadding * 2);
-    
-    // Calcular el ancho real de cada carta en píxeles
-    const cardWidthPx = (availableWidth - totalGap) / visibleCount;
-    
-    // Permitir desplazarse hasta la última carta
-    // El índice efectivo puede ser hasta voices.length - 1, pero el desplazamiento visual
-    // debe permitir mostrar la última carta incluso si algunas del inicio quedan fuera
-    const maxPossibleIndex = this.voices.length - 1;
-    const effectiveIndex = Math.min(this.currentVoiceIndex, maxPossibleIndex);
-    
-    // El desplazamiento total en píxeles es: índice * (ancho_carta + gap)
-    // Añadir un pequeño ajuste para evitar el corte (solo si no estamos en el índice 0)
-    const adjustment = effectiveIndex > 0 ? -2 : 0;
-    const totalOffsetPx = effectiveIndex * (cardWidthPx + gap) + adjustment;
-    
-    // Convertir a porcentaje del ancho disponible
-    const offsetPercent = (totalOffsetPx / availableWidth) * 100;
-    
-    return `translateX(-${offsetPercent}%)`;
+    // Sin deslizamiento - las cartas se muestran directamente
+    return 'translateX(0)';
   }
 
   getSlideWidthPercent(): string {
     const visibleCount = this.getVisibleCount();
     const gap = this.getSlideGapPx();
+    const viewportWidth = this.getViewportWidth();
+    
+    // Reducir ancho de cartas un 10% en desktop (lg:)
+    const scaleFactor = viewportWidth >= 1280 ? 0.9 : 1;
+    
     if (gap === 0) {
-      return `${100 / visibleCount}%`;
+      return `${(100 / visibleCount) * scaleFactor}%`;
     }
     const totalGap = gap * (visibleCount - 1);
+    
+    if (viewportWidth >= 1280) {
+      // En desktop, aplicar factor de escala
+      return `calc(((100% - ${totalGap}px) / ${visibleCount}) * ${scaleFactor})`;
+    }
     return `calc((100% - ${totalGap}px) / ${visibleCount})`;
   }
 
@@ -229,36 +208,24 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   }
 
   getCarouselPages(): number[] {
-    // Siempre mostrar 4 puntos de paginación
-    return [0, 1, 2, 3];
+    return Array.from({ length: this.getTotalPages() }, (_, i) => i);
   }
 
   getCurrentPage(): number {
-    // Calcular qué punto está activo basado en el índice actual
-    // Con 4 puntos, dividimos el rango de índices en 4 partes
-    const maxClicks = 4;
-    const maxIndex = Math.min(maxClicks, Math.max(this.voices.length - 1, 0));
-    if (maxIndex === 0) return 0;
-    
-    // Dividir el rango en 4 partes (3 pasos entre 4 puntos: 0, 1, 2, 3)
-    const step = maxIndex / 3;
-    const currentPage = Math.min(Math.floor(this.currentVoiceIndex / step), 3);
-    return currentPage;
+    const visibleCount = this.getVisibleCount();
+    return Math.floor(this.currentVoiceIndex / visibleCount);
+  }
+
+  getTotalPages(): number {
+    const visibleCount = this.getVisibleCount();
+    return Math.max(Math.ceil(this.voices.length / visibleCount), 1);
   }
 
   goToPage(pageIndex: number) {
-    // Calcular el índice basado en el punto seleccionado
-    // Limitar a máximo 4 clics
-    const maxClicks = 4;
-    const maxIndex = Math.min(maxClicks, Math.max(this.voices.length - 1, 0));
-    if (maxIndex === 0) {
-      this.currentVoiceIndex = 0;
-      return;
-    }
-    
-    // Dividir el rango en 4 partes (3 pasos entre 4 puntos)
-    const step = maxIndex / 3;
-    this.currentVoiceIndex = Math.min(Math.round(pageIndex * step), maxIndex);
+    const visibleCount = this.getVisibleCount();
+    const maxPageIndex = Math.max(Math.ceil(this.voices.length / visibleCount) - 1, 0);
+    const targetPage = Math.min(Math.max(pageIndex, 0), maxPageIndex);
+    this.currentVoiceIndex = targetPage * visibleCount;
   }
 
   // Tablet helpers
@@ -1009,8 +976,16 @@ getCloudPosition(cloudNumber: number): { x: number, y: number } {
 }
 
 getMainSphereSize(): number {
-  const baseSize = 200; // Aumentado de 120 a 200
-  const maxSize = 280; // Aumentado de 180 a 280
+  const viewportWidth = window.innerWidth;
+  let baseSize = 200;
+  let maxSize = 280;
+  
+  if (viewportWidth >= 1024) {
+    // Desktop: más pequeño
+    baseSize = 140;
+    maxSize = 200;
+  }
+  
   return Math.min(baseSize + (this.audioLevel * 30), maxSize);
 }
 

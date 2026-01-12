@@ -183,7 +183,7 @@ export class ModalService {
 
   openTwilioSteps(data: TwilioStepsModalData = {}) {
     return this.dialog.open(TwilioStepsModalComponent, {
-      width: '600px',
+      width: '480px',
       maxWidth: '90vw',
       disableClose: false,
       panelClass: 'custom-dialog-container',
