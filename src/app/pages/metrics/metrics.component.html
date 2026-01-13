@@ -1,20 +1,20 @@
-<div class="min-h-screen p-3 2xl:p-3 mt-3 2xl:mt-2 max-lg:p-3 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 max-w-5xl mx-auto">
+<div class="min-h-screen p-3 2xl:p-3 3xl:p-8 mt-3 2xl:mt-2 3xl:mt-5 max-lg:p-3 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 max-w-[1050px] 3xl:max-w-[1350px] mx-auto">
       <!-- Encabezado -->
-      <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 max-lg:gap-1.5 mb-3 max-lg:mb-2">
+      <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 3xl:gap-4 max-lg:gap-1.5 mb-3 3xl:mb-4 max-lg:mb-2">
         <div class="relative w-full sm:w-auto">
-          <select class="appearance-none bg-white rounded-2xl w-full px-2.5 sm:px-3 py-1.5 pr-8 md:pr-10 text-[10px] sm:text-[10px] max-lg:text-[9px] border border-gray-100 history-border focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]" [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
+          <select class="appearance-none bg-white rounded-2xl w-full px-2.5 sm:px-3 3xl:px-4 py-1.5 3xl:py-2 pr-8 md:pr-10 3xl:pr-12 text-[10px] sm:text-[10px] 3xl:text-sm max-lg:text-[9px] border border-gray-100 history-border focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]" [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
             <option *ngFor="let p of periods">{{ p }}</option>
           </select>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 max-lg:h-3 max-lg:w-3 text-gray-400 absolute right-2 max-lg:right-1.5 top-1.5 max-lg:top-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 3xl:h-4 3xl:w-4 max-lg:h-3 max-lg:w-3 text-gray-400 absolute right-2 3xl:right-3 max-lg:right-1.5 top-1.5 3xl:top-2 max-lg:top-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </div>
   
         <div class="relative w-full sm:w-auto">
-          <select class="appearance-none bg-white rounded-2xl w-full px-2.5 sm:px-3 py-1.5 pr-8 md:pr-10 text-[10px] sm:text-[10px] max-lg:text-[9px] border border-gray-100 history-border focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]" [(ngModel)]="selectedAgent">
+          <select class="appearance-none bg-white rounded-2xl w-full px-2.5 sm:px-3 3xl:px-4 py-1.5 3xl:py-2 pr-8 md:pr-10 3xl:pr-12 text-[10px] sm:text-[10px] 3xl:text-sm max-lg:text-[9px] border border-gray-100 history-border focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]" [(ngModel)]="selectedAgent">
             <option *ngFor="let a of agents">{{ a }}</option>
           </select>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 max-lg:h-3 max-lg:w-3 text-gray-400 absolute right-2 max-lg:right-1.5 top-1.5 max-lg:top-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 3xl:h-4 3xl:w-4 max-lg:h-3 max-lg:w-3 text-gray-400 absolute right-2 3xl:right-3 max-lg:right-1.5 top-1.5 3xl:top-2 max-lg:top-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
         </div>
@@ -24,7 +24,7 @@
       <div class="rounded-2xl h-auto lg:h-[calc(100vh-250px)] lg:overflow-y-auto flex flex-col">
         <div class="flex-1">
         <!-- Total llamadas exitosas (solo tablets: full width) -->
-        <div class="hidden md:block lg:hidden bg-white rounded-2xl px-3 pt-3 pb-1 fade-in-section border border-gray-100 history-border mb-4 min-h-[280px] dark:bg-slate-900 dark:border-slate-800" [class.fade-in-visible]="showGraficoLlamadas">
+          <div class="hidden md:block lg:hidden bg-white rounded-2xl px-3 3xl:px-4 pt-3 3xl:pt-4 pb-1 3xl:pb-2 fade-in-section border border-gray-100 history-border mb-4 3xl:mb-5 min-h-[280px] dark:bg-slate-900 dark:border-slate-800" [class.fade-in-visible]="showGraficoLlamadas">
           <div class="flex justify-between items-center mb-1 max-lg:mb-1">
             <h3 class="font-semibold text-sm max-lg:text-xs text-gray-800 tracking-[-0.7px] dark:text-slate-50">{{ t.totalSuccessfulCalls }}</h3>
             <span class="text-[9px] max-lg:text-[8px] text-green-600 font-medium dark:text-green-300 tracking-[-0.7px]">↑ 44.2%</span>
@@ -103,9 +103,9 @@
         </div>
 
         <!-- Row 1 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 max-lg:gap-1.5 mb-4 max-lg:mb-3 md:mb-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 3xl:gap-4 max-lg:gap-1.5 mb-4 3xl:mb-5 max-lg:mb-3 md:mb-3">
           <!-- Gráfico de llamadas exitosas (desktop y móvil; oculto en tablet) -->
-          <div class="block md:hidden lg:block bg-white rounded-2xl px-3 pt-3 pb-1 lg:col-span-2 fade-in-section border border-gray-100 history-border min-h-[280px] dark:bg-slate-900 dark:border-slate-800" [class.fade-in-visible]="showGraficoLlamadas">
+          <div class="block md:hidden lg:block bg-white rounded-2xl px-3 3xl:px-4 pt-3 3xl:pt-4 pb-1 3xl:pb-2 lg:col-span-2 fade-in-section border border-gray-100 history-border min-h-[280px] dark:bg-slate-900 dark:border-slate-800" [class.fade-in-visible]="showGraficoLlamadas">
             <div class="flex justify-between items-center mb-1 max-lg:mb-1">
               <h3 class="font-semibold text-sm max-lg:text-xs text-gray-800 tracking-[-0.7px] dark:text-slate-50">{{ t.totalSuccessfulCalls }}</h3>
               <span class="text-[9px] max-lg:text-[8px] text-green-600 font-medium dark:text-green-300 tracking-[-0.7px]">↑ 44.2%</span>
@@ -368,7 +368,7 @@
           </div>
         </div>
         <!-- Row 2 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1.5 max-lg:gap-1 lg:gap-2.5 mb-4 max-lg:mb-3 md:mb-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1.5 3xl:gap-3 max-lg:gap-1 lg:gap-2.5 3xl:lg:gap-4 mb-4 3xl:mb-5 max-lg:mb-3 md:mb-3">
           <!-- Latencia -->
           <div class="bg-white rounded-2xl px-3 pt-3 lg:px-3 lg:pt-3 pb-2 lg:pb-2.5 mb-4 max-lg:mb-3 md:mb-3 lg:mb-6 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 history-border flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-[calc(100%-0.5rem)] lg:w-[calc(100%-0.75rem)]" [class.fade-in-visible]="showLatencia">
             <div class="flex justify-between items-start mb-2 lg:mb-2">
@@ -595,9 +595,9 @@
         </div>
   
         <!-- Row 3 -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 max-lg:gap-1.5">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 3xl:gap-4 max-lg:gap-1.5">
           <!-- Países -->
-          <div class="bg-white rounded-2xl p-2.5 max-lg:p-2 lg:p-3 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 history-border max-h-[325px] lg:max-h-[330px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)]" [class.fade-in-visible]="showPaises">
+          <div class="bg-white rounded-2xl p-2.5 max-lg:p-2 lg:p-3 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 history-border max-h-[335px] lg:max-h-[334px] 3xl:lg:max-h-[372px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)]" [class.fade-in-visible]="showPaises">
             <h3 class="font-semibold text-gray-800 mb-2 max-lg:mb-1.5 lg:mb-3 text-sm max-lg:text-xs lg:text-base tracking-[-0.7px] dark:text-slate-50">{{ t.countries }}</h3>
             <div class="overflow-y-auto">
               <div class="mb-3 max-lg:mb-2 lg:mb-4" *ngFor="let c of countries; let i = index">
@@ -695,7 +695,7 @@
         </div>
 
         <!-- Row 4 - Dos recuadros 50/50 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 max-lg:gap-1.5 mt-0 sm:mt-0 md:mt-0 lg:-mt-3">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 3xl:gap-4 max-lg:gap-1.5 mt-0 sm:mt-0 md:mt-0 lg:-mt-3">
           <!-- Evaluación de éxito -->
           <div class="bg-white rounded-2xl p-2.5 max-lg:p-2 lg:p-3 fade-in-section border border-gray-100 history-border max-h-[360px] lg:max-h-[400px] dark:bg-slate-900 dark:border-slate-800" [class.fade-in-visible]="showPaises">
             <h3 class="font-semibold text-gray-800 mb-3 max-lg:mb-2 text-sm max-lg:text-xs tracking-[-0.7px] dark:text-slate-50">Evaluación de éxito</h3>

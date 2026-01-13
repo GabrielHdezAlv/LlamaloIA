@@ -1,34 +1,34 @@
-<div class="bg-white rounded-2xl shadow-sm p-3 2xl:p-3 mt-3 2xl:mt-2 max-lg:p-3 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border max-w-5xl mx-auto h-auto lg:h-[70vh] flex flex-col" [class.fade-in-visible]="showContent">
+<div class="bg-white rounded-2xl shadow-sm p-3 2xl:p-3 3xl:p-8 mt-3 2xl:mt-2 3xl:mt-5 max-lg:p-3 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border max-w-5xl 3xl:max-w-7xl mx-auto h-auto lg:h-[70vh] flex flex-col" [class.fade-in-visible]="showContent">
   <!-- Contenido principal -->
   <div class="flex flex-col lg:flex-row lg:space-x-4 flex-1 min-h-0">
     <!-- Panel lateral izquierdo (Sidebar) - Oculto en móviles cuando se muestra el chat -->
-    <div class="w-full lg:w-72 flex-shrink-0 flex flex-col space-y-4 h-auto lg:h-full mb-6 lg:mb-0" [class.hidden]="showChat" [class.lg:flex]="showChat">
+    <div class="w-full lg:w-72 flex-shrink-0 flex flex-col space-y-4 3xl:space-y-6 h-auto lg:h-full mb-6 3xl:mb-8 lg:mb-0" [class.hidden]="showChat" [class.lg:flex]="showChat">
       <!-- Buscador -->
       <div class="relative">
         <input
           type="text"
           [placeholder]="t.searchNumber"
-          class="w-full pl-8 pr-3 py-1.5 max-lg:py-1 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 tracking-[-0.7px] history-border text-[10px] max-lg:text-[9px] dark:bg-slate-800 dark:border-slate-700 dark:text-slate-50"
+          class="w-full pl-8 3xl:pl-10 pr-3 3xl:pr-4 py-1.5 3xl:py-2 max-lg:py-1 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 history-border text-[10px] 3xl:text-sm max-lg:text-[9px] dark:bg-slate-800 dark:border-slate-700 dark:text-slate-50"
         />
-        <svg class="h-4 w-4 max-lg:h-3.5 max-lg:w-3.5 text-gray-400 absolute left-2.5 max-lg:left-2 top-1.5 max-lg:top-1" width="26" height="26" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="h-4 w-4 3xl:h-5 3xl:w-5 max-lg:h-3.5 max-lg:w-3.5 text-gray-400 absolute left-2.5 3xl:left-3 max-lg:left-2 top-1.5 3xl:top-2 max-lg:top-1" width="26" height="26" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.948 3.93002C16.887 3.93002 20.081 7.12302 20.081 11.063C20.081 15.003 16.888 18.196 12.948 18.196C11.251 18.196 9.69199 17.603 8.46799 16.613L5.20999 19.871C5.06848 20.0076 4.87899 20.0831 4.68234 20.0813C4.48569 20.0795 4.29762 20.0005 4.15863 19.8614C4.01964 19.7223 3.94085 19.5341 3.93923 19.3375C3.93762 19.1408 4.01331 18.9514 4.14999 18.81L7.40599 15.553C6.41099 14.327 5.81499 12.764 5.81499 11.062C5.81499 7.12302 9.00799 3.92902 12.948 3.92902V3.93002ZM12.948 5.43002C9.83699 5.43002 7.31499 7.95202 7.31499 11.063C7.31499 14.174 9.83699 16.696 12.948 16.696C16.059 16.696 18.581 14.174 18.581 11.063C18.581 7.95202 16.059 5.43002 12.948 5.43002Z" fill="#727272"/>
         </svg>
       </div>
 
       <!-- Lista de contactos -->
-      <div class="flex-1 space-y-1 overflow-y-auto min-h-0 max-h-64 lg:max-h-none">
+      <div class="flex-1 space-y-1 3xl:space-y-2 overflow-y-auto min-h-0 max-h-64 lg:max-h-none">
         @for (contact of contacts; track contact.id) {
           <div
             (click)="selectContact(contact)"
-            class="rounded-lg p-1.5 hover:bg-gray-100 cursor-pointer transition-colors dark:hover:bg-slate-800"
+            class="rounded-lg p-1.5 3xl:p-2.5 hover:bg-gray-100 cursor-pointer transition-colors dark:hover:bg-slate-800"
             [class.bg-gray-100]="selectedContact?.id === contact.id"
             [class.dark:bg-slate-800]="selectedContact?.id === contact.id"
           >
-            <div class="flex items-center space-x-2 max-lg:space-x-1.5">
-              <img [src]="contact.avatar" alt="Avatar" class="w-7 h-7 max-lg:w-6 max-lg:h-6 object-cover rounded-full flex-shrink-0" />
-              <span class="font-semibold text-[10px] text-gray-800 max-lg:text-[9px] dark:text-slate-50 tracking-[-0.7px] leading-tight">{{ contact.phone }}</span>
+            <div class="flex items-center space-x-2 3xl:space-x-3 max-lg:space-x-1.5">
+              <img [src]="contact.avatar" alt="Avatar" class="w-7 h-7 3xl:w-10 3xl:h-10 max-lg:w-6 max-lg:h-6 object-cover rounded-full flex-shrink-0" />
+              <span class="font-semibold text-[10px] 3xl:text-sm text-gray-800 max-lg:text-[9px] dark:text-slate-50 leading-tight">{{ contact.phone }}</span>
               @if (contact.status === 'resuelto') {
-                <span class="text-[9px] px-1.5 py-0.5 bg-green-100 text-green-800 border-green-900 rounded-lg historial-status-badge tracking-[-0.7px] max-lg:text-[8px] max-lg:px-1 max-lg:py-0.5 dark:bg-green-900 dark:border-green-800 dark:text-green-300 leading-tight">{{ formatStatus(contact.status) }}</span>
+                <span class="text-[9px] 3xl:text-xs px-1.5 3xl:px-2.5 py-0.5 3xl:py-1.5 bg-green-100 text-green-800 border-green-900 rounded-lg historial-status-badge max-lg:text-[8px] max-lg:px-1 max-lg:py-0.5 dark:bg-green-900 dark:border-green-800 dark:text-green-300 leading-tight">{{ formatStatus(contact.status) }}</span>
               }
             </div>
           </div>
@@ -40,29 +40,29 @@
     <div class="flex-1 lg:flex flex-col bg-white h-auto lg:h-full min-h-0 fade-in-section chat-panel" [class.hidden]="!showChat" [class.lg:flex]="true" [class.fade-in-visible]="showChat">
       @if (selectedContact) {
         <!-- Botón volver (solo móviles) -->
-        <button (click)="backToContactList()" class="flex items-center gap-2 mb-3 max-lg:mb-2 text-gray-600 hover:text-gray-800 lg:hidden dark:text-slate-400 dark:hover:text-slate-50">
-          <svg class="w-5 h-5 max-lg:w-4 max-lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button (click)="backToContactList()" class="flex items-center gap-2 3xl:gap-3 mb-3 3xl:mb-4 max-lg:mb-2 text-gray-600 hover:text-gray-800 lg:hidden dark:text-slate-400 dark:hover:text-slate-50">
+          <svg class="w-5 h-5 3xl:w-6 3xl:h-6 max-lg:w-4 max-lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
-          <span class="font-semibold text-[10px] max-lg:text-[9px] tracking-[-0.7px]">Volver</span>
+          <span class="font-semibold text-[10px] 3xl:text-sm max-lg:text-[9px] ">Volver</span>
         </button>
         
         <!-- Información del contacto -->
-        <div class="mb-3 max-lg:mb-2">
-          <div class="flex flex-col sm:flex-row items-start justify-between rounded-2xl border border-gray-100 p-2 sm:p-3 gap-2 sm:gap-0 history-border dark:border-slate-800 dark:bg-slate-900">
-            <div class="flex items-center space-x-2 max-lg:space-x-1.5 flex-1">
-              <img [src]="selectedContact.avatar" alt="Avatar" class="w-7 h-7 max-lg:w-6 max-lg:h-6 object-cover rounded-full flex-shrink-0" />
+        <div class="mb-3 3xl:mb-4 max-lg:mb-2">
+          <div class="flex flex-col sm:flex-row items-start justify-between rounded-2xl border border-gray-100 p-2 sm:p-3 3xl:p-4 gap-2 3xl:gap-3 sm:gap-0 history-border dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex items-center space-x-2 3xl:space-x-3 max-lg:space-x-1.5 flex-1">
+              <img [src]="selectedContact.avatar" alt="Avatar" class="w-7 h-7 3xl:w-10 3xl:h-10 max-lg:w-6 max-lg:h-6 object-cover rounded-full flex-shrink-0" />
               <div class="flex flex-col justify-center">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 max-lg:space-x-1.5">
-                  <p class="font-semibold text-black leading-tight sm:mr-2 text-[10px] sm:text-[10px] max-lg:text-[9px] dark:text-slate-50 tracking-[-0.7px]">{{ selectedContact.phone }}</p>
-                  <span class="text-gray-400 text-[9px] sm:text-[9px] max-lg:text-[8px] font-semibold mt-0.5 sm:mt-0 dark:text-slate-400 tracking-[-0.7px] leading-tight">{{ selectedContact.time }}</span>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 3xl:sm:space-x-3 max-lg:space-x-1.5">
+                  <p class="font-semibold text-black leading-tight sm:mr-2 3xl:sm:mr-3 text-[10px] sm:text-[10px] 3xl:text-sm max-lg:text-[9px] dark:text-slate-50 ">{{ selectedContact.phone }}</p>
+                  <span class="text-gray-400 text-[9px] sm:text-[9px] 3xl:text-xs max-lg:text-[8px] font-semibold mt-0.5 sm:mt-0 dark:text-slate-400 leading-tight">{{ selectedContact.time }}</span>
                 </div>
-                <p class="text-[9px] sm:text-[9px] max-lg:text-[8px] text-black mt-1 max-lg:mt-0.5 ml-0 sm:ml-0.5 dark:text-slate-400 tracking-[-0.7px] leading-tight">{{ selectedContact.lastInteraction }}</p>
+                <p class="text-[9px] sm:text-[9px] 3xl:text-xs max-lg:text-[8px] text-black mt-1 3xl:mt-1.5 max-lg:mt-0.5 ml-0 sm:ml-0.5 dark:text-slate-400 leading-tight">{{ selectedContact.lastInteraction }}</p>
               </div>
             </div>
             <div class="flex flex-col items-end">
-              <button class="text-gray-400 hover:text-gray-600 rounded-full border border-gray-300 p-1.5 sm:p-2 max-lg:p-1 dark:text-slate-400 dark:hover:text-slate-50 dark:border-slate-700">
-                <svg class="w-5 h-5 max-lg:w-4 max-lg:h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <button class="text-gray-400 hover:text-gray-600 rounded-full border border-gray-300 p-1.5 sm:p-2 3xl:p-2.5 max-lg:p-1 dark:text-slate-400 dark:hover:text-slate-50 dark:border-slate-700">
+                <svg class="w-5 h-5 3xl:w-6 3xl:h-6 max-lg:w-4 max-lg:h-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0.75 3C0.551088 3 0.360322 3.07902 0.21967 3.21967C0.0790175 3.36032 0 3.55109 0 3.75C0 3.94891 0.0790175 4.13968 0.21967 4.28033C0.360322 4.42098 0.551088 4.5 0.75 4.5V3ZM19.25 4.5C19.4489 4.5 19.6397 4.42098 19.7803 4.28033C19.921 4.13968 20 3.94891 20 3.75C20 3.55109 19.921 3.36032 19.7803 3.21967C19.6397 3.07902 19.4489 3 19.25 3V4.5ZM8.5 8.75C8.5 8.55109 8.42098 8.36032 8.28033 8.21967C8.13968 8.07902 7.94891 8 7.75 8C7.55109 8 7.36032 8.07902 7.21967 8.21967C7.07902 8.36032 7 8.55109 7 8.75H8.5ZM7 14.25C7 14.4489 7.07902 14.6397 7.21967 14.7803C7.36032 14.921 7.55109 15 7.75 15C7.94891 15 8.13968 14.921 8.28033 14.7803C8.42098 14.6397 8.5 14.4489 8.5 14.25H7ZM13 8.75C13 8.55109 12.921 8.36032 12.7803 8.21967C12.6397 8.07902 12.4489 8 12.25 8C12.0511 8 11.8603 8.07902 11.7197 8.21967C11.579 8.36032 11.5 8.55109 11.5 8.75H13ZM11.5 14.25C11.5 14.4489 11.579 14.6397 11.7197 14.7803C11.8603 14.921 12.0511 15 12.25 15C12.4489 15 12.6397 14.921 12.7803 14.7803C12.921 14.6397 13 14.4489 13 14.25H11.5ZM13.148 3.937C13.1976 4.12968 13.3217 4.29477 13.493 4.39594C13.6643 4.49712 13.8688 4.5261 14.0615 4.4765C14.2542 4.4269 14.4193 4.3028 14.5204 4.13148C14.6216 3.96017 14.6506 3.75568 14.601 3.563L13.148 3.937ZM2.002 3.798L2.881 17.427L4.378 17.33L3.499 3.701L2.002 3.798ZM5.625 20H14.375V18.5H5.625V20ZM17.119 17.427L17.998 3.798L16.501 3.701L15.622 17.331L17.119 17.427ZM17.25 3H2.75V4.5H17.25V3ZM0.75 4.5H2.75V3H0.75V4.5ZM17.25 4.5H19.25V3H17.25V4.5ZM14.375 20C15.0737 19.9999 15.7461 19.7339 16.2557 19.256C16.7654 18.7782 17.074 18.1242 17.119 17.427L15.622 17.331C15.6014 17.6478 15.4611 17.9438 15.2295 18.1609C14.9979 18.378 14.6924 18.4999 14.375 18.5V20ZM2.881 17.427C2.92597 18.1242 3.23462 18.7782 3.74427 19.256C4.25391 19.7339 4.92635 19.9999 5.625 20V18.5C5.30757 18.4999 5.00206 18.379 4.77047 18.1619C4.53888 17.9448 4.39857 17.6468 4.378 17.33L2.881 17.427ZM7 8.75V14.25H8.5V8.75H7ZM11.5 8.75V14.25H13V8.75H11.5ZM10 1.5C11.513 1.5 12.787 2.535 13.148 3.937L14.601 3.563C14.073 1.515 12.214 0 10 0V1.5ZM6.852 3.937C7.213 2.535 8.487 1.5 10 1.5V0C7.786 0 5.927 1.515 5.4 3.563L6.852 3.937Z" fill="#727272"/>
                   </svg>
                   
@@ -72,16 +72,16 @@
         </div>
 
         <!-- Mensajes con reproductor de audio -->
-        <div class="border border-gray-100 rounded-2xl p-2 sm:p-3 bg-white flex flex-col h-[calc(100vh-320px)] md:h-[calc(100vh-350px)] lg:h-[calc(100vh-200px)] history-border dark:border-slate-800 dark:bg-slate-900">
-          <div class="flex-1 overflow-y-auto p-1.5 max-lg:p-1 space-y-2 sm:space-y-3 max-lg:space-y-1.5">
+        <div class="border border-gray-100 rounded-2xl p-2 sm:p-3 3xl:p-4 bg-white flex flex-col h-[calc(100vh-320px)] md:h-[calc(100vh-350px)] lg:h-[calc(100vh-200px)] history-border dark:border-slate-800 dark:bg-slate-900">
+          <div class="flex-1 overflow-y-auto p-1.5 3xl:p-2.5 max-lg:p-1 space-y-2 3xl:space-y-4 sm:space-y-3 max-lg:space-y-1.5">
             @for (msg of selectedContact.messages; track $index) {
               @if (msg.sender === 'user') {
                 <!-- Mensaje del cliente -->
-                <div class="flex items-center space-x-2 max-lg:space-x-1.5">
-                  <img [src]="selectedContact.avatar" alt="Avatar" class="w-7 h-7 max-lg:w-6 max-lg:h-6 object-cover rounded-full flex-shrink-0" />
+                <div class="flex items-center space-x-2 3xl:space-x-3 max-lg:space-x-1.5">
+                  <img [src]="selectedContact.avatar" alt="Avatar" class="w-7 h-7 3xl:w-10 3xl:h-10 max-lg:w-6 max-lg:h-6 object-cover rounded-full flex-shrink-0" />
                   <div class="flex flex-col justify-center">
-                    <p class="font-semibold text-black leading-tight text-[10px] max-lg:text-[9px] dark:text-slate-50 tracking-[-0.7px]">{{ selectedContact.phone }}</p>
-                    <p class="text-[9px] max-lg:text-[8px] text-black mt-0.5 whitespace-pre-line dark:text-slate-300 tracking-[-0.7px] leading-tight">
+                    <p class="font-semibold text-black leading-tight text-[10px] 3xl:text-sm max-lg:text-[9px] dark:text-slate-50 ">{{ selectedContact.phone }}</p>
+                    <p class="text-[9px] 3xl:text-xs max-lg:text-[8px] text-black mt-0.5 3xl:mt-1 whitespace-pre-line dark:text-slate-300 leading-tight">
                       {{ msg.text }}
                     </p>
                   </div>
@@ -89,14 +89,14 @@
               } @else {
                 <!-- Respuesta del agente -->
                 <div class="flex justify-end">
-                  <div class="flex items-center space-x-2 max-lg:space-x-1.5">
+                  <div class="flex items-center space-x-2 3xl:space-x-3 max-lg:space-x-1.5">
                     <div class="flex flex-col items-end justify-center">
-                      <p class="font-semibold text-black text-right text-[10px] max-lg:text-[9px] dark:text-slate-50 tracking-[-0.7px] leading-tight">{{ t.agentName }}</p>
-                      <p class="text-black mt-0.5 text-[9px] max-lg:text-[8px] text-right max-w-xs sm:max-w-md whitespace-pre-line dark:text-slate-300 tracking-[-0.7px] leading-tight">
+                      <p class="font-semibold text-black text-right text-[10px] 3xl:text-sm max-lg:text-[9px] dark:text-slate-50 leading-tight">{{ t.agentName }}</p>
+                      <p class="text-black mt-0.5 3xl:mt-1 text-[9px] 3xl:text-xs max-lg:text-[8px] text-right max-w-xs sm:max-w-md whitespace-pre-line dark:text-slate-300 leading-tight">
                         {{ msg.text }}
                       </p>
                     </div>
-                    <img src="assets/anas_chat.png" alt="Agent" class="w-7 h-7 max-lg:w-6 max-lg:h-6 rounded-full flex-shrink-0">
+                    <img src="assets/anas_chat.png" alt="Agent" class="w-7 h-7 3xl:w-10 3xl:h-10 max-lg:w-6 max-lg:h-6 rounded-full flex-shrink-0">
                   </div>
                 </div>
               }
@@ -104,24 +104,24 @@
           </div>
 
           <!-- Reproductor de audio -->
-          <div class="mt-auto pt-2 max-lg:pt-1.5">
-            <div class="flex items-center space-x-2 max-lg:space-x-1.5 rounded-full border border-gray-100 p-1.5 max-lg:p-1 bg-gray-50 history-border dark:border-slate-800 dark:bg-slate-800">
-            <button (click)="togglePlay()" class="w-6 h-6 max-lg:w-5 max-lg:h-5 rounded-full flex items-center justify-center flex-shrink-0">
-              <svg class="w-5 h-5 max-lg:w-4 max-lg:h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div class="mt-auto pt-0 max-lg:pt-0">
+            <div class="flex items-center space-x-2 3xl:space-x-3 max-lg:space-x-1.5 rounded-full border border-gray-100 p-1.5 3xl:p-2 max-lg:p-1 bg-gray-50 history-border dark:border-slate-800 dark:bg-slate-800">
+            <button (click)="togglePlay()" class="w-6 h-6 3xl:w-8 3xl:h-8 max-lg:w-5 max-lg:h-5 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 3xl:w-6 3xl:h-6 max-lg:w-4 max-lg:h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="24" height="24" rx="10" fill="#292828"/>
                 <path d="M12.948 3.92999C16.887 3.92999 20.081 7.12299 20.081 11.063C20.081 15.003 16.888 18.196 12.948 18.196C11.251 18.196 9.69199 17.603 8.46799 16.613L5.20999 19.871C5.06848 20.0075 4.87899 20.083 4.68234 20.0812C4.48569 20.0794 4.29762 20.0005 4.15863 19.8614C4.01964 19.7222 3.94085 19.5341 3.93923 19.3374C3.93762 19.1408 4.01331 18.9514 4.14999 18.81L7.40599 15.553C6.41099 14.327 5.81499 12.764 5.81499 11.062C5.81499 7.12299 9.00799 3.92899 12.948 3.92899V3.92999ZM12.948 5.42999C9.83699 5.42999 7.31499 7.95199 7.31499 11.063C7.31499 14.174 9.83699 16.696 12.948 16.696C16.059 16.696 18.581 14.174 18.581 11.063C18.581 7.95199 16.059 5.42999 12.948 5.42999Z" fill="#292828"/>
                 <path d="M8 6V18.8333L18.0833 12.4167L8 6Z" fill="white"/>
               </svg>
             </button>
-            <span class="text-[9px] max-lg:text-[8px] text-gray-600 whitespace-nowrap dark:text-slate-400 tracking-[-0.7px]">{{ currentAudioTime }} / {{ audioDuration }}</span>
-            <div class="flex-1 min-w-0">
+            <span class="text-[9px] 3xl:text-xs max-lg:text-[8px] text-gray-600 whitespace-nowrap dark:text-slate-400 flex-shrink-0">{{ currentAudioTime }} / {{ audioDuration }}</span>
+            <div class="flex-1 min-w-0 flex items-center">
               <input type="range" min="0" max="100" value="0" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700">
             </div>
           </div>
           </div>
         </div>
       } @else {
-        <div class="flex-1 flex items-center justify-center text-gray-500 text-[10px] max-lg:text-[9px] dark:text-slate-400 tracking-[-0.7px]">
+        <div class="flex-1 flex items-center justify-center text-gray-500 text-[10px] 3xl:text-sm max-lg:text-[9px] dark:text-slate-400 ">
           {{ t.selectContactToView }}
         </div>
       }

@@ -1,30 +1,3 @@
-/* Juntar más las letras de los textos principales - mismo que home */
-h1, h2, h3, h4, h5, h6,
-p, span, label, input, textarea, select,
-button, .mat-mdc-button,
-table, th, td {
-  letter-spacing: -1px;
-}
-
-/* --- Títulos con letter-spacing --- */
-.welcome-title,
-.login-title,
-.register-link,
-.google-button,
-.login-button,
-.forgot-password-link,
-.remember-label,
-.divider-text,
-.register-text,
-.input-label {
-  letter-spacing: -1px;
-}
-
-.login-subtitle,
-.register-text,
-.divider-text {
-  letter-spacing: -1px;
-}
 
 /* --- Checkbox personalizado (opcional: puedes reforzar el color) --- */
 .custom-checkbox {

@@ -1,94 +1,91 @@
-/* Juntar más las letras de los textos principales - mismo que home */
-h1, h2, h3, h4, h5, h6,
-p, span, label, input, textarea, select,
-button, .mat-mdc-button,
-.mat-mdc-table, .mat-mdc-header-cell, .mat-mdc-cell,
-.mat-mdc-form-field, .mat-mdc-card-title, .mat-mdc-card-content {
-  letter-spacing: -1px;
-}
 
-@media (min-width: 2560px) {
-  /* Limitar el ancho del contenido y centrarlo solo en 2560px */
-  :host {
-    max-width: 1600px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    display: block !important;
-  }
-  
-  :host > div {
-    max-width: 1600px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
 
-  /* Hacer todo más grande en 2560px */
-  h1, h2, h3, h4, h5, h6 {
-    font-size: 1.7rem !important;
-    margin-bottom: 1.1rem !important;
-  }
-
-  .mat-mdc-button {
-    font-size: 1.1rem !important;
-    padding: 0.45rem 1.1rem !important;
-  }
-
-  .mat-mdc-table {
-    font-size: 1.2rem !important;
-  }
-
-  .mat-mdc-header-cell {
-    font-size: 1.15rem !important;
-    padding: 1.4rem !important;
-  }
-
-  .mat-mdc-cell {
-    font-size: 1.15rem !important;
-    padding: 1.4rem !important;
-  }
-
-  .mat-mdc-form-field {
-    font-size: 1.1rem !important;
-  }
-
-  .mat-mdc-card {
-    padding: 3rem !important;
-  }
-
-  .mat-mdc-card-title {
-    font-size: 1.7rem !important;
-  }
-
-  .mat-mdc-card-content {
-    font-size: 1.1rem !important;
-  }
-}
-
-/* Animaciones de fade in */
-.fade-in-section {
-  opacity: 0;
-  transform: translateY(20px) scale(0.95);
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-}
-
-.fade-in-section.fade-in-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-/* Animación específica para el panel del chat */
-.chat-panel {
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-}
-
-.chat-panel.fade-in-visible {
-  opacity: 1 !important;
-  transform: translateY(0) scale(1) !important;
-}
 
 /* En móviles, cuando está oculto, mantener invisible */
 @media (max-width: 1023px) {
   .chat-panel.hidden {
     display: none !important;
   }
+}
+
+/* Estilos personalizados para la barra de progreso del reproductor de audio */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Track (barra de fondo) */
+input[type="range"]::-webkit-slider-track {
+  background: #e5e7eb;
+  height: 4px;
+  border-radius: 8px;
+}
+
+input[type="range"]::-moz-range-track {
+  background: #e5e7eb;
+  height: 4px;
+  border-radius: 8px;
+}
+
+.dark input[type="range"]::-webkit-slider-track {
+  background: #475569;
+}
+
+.dark input[type="range"]::-moz-range-track {
+  background: #475569;
+}
+
+/* Thumb (círculo deslizante) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #1e3a8a;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  margin-top: -1px;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+  background: #1e3a8a;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.dark input[type="range"]::-webkit-slider-thumb {
+  background: #3b82f6;
+  border-color: #1e293b;
+}
+
+.dark input[type="range"]::-moz-range-thumb {
+  background: #3b82f6;
+  border-color: #1e293b;
+}
+
+/* Hover */
+input[type="range"]:hover::-webkit-slider-thumb {
+  background: #1e40af;
+  transform: scale(1.1);
+}
+
+input[type="range"]:hover::-moz-range-thumb {
+  background: #1e40af;
+  transform: scale(1.1);
+}
+
+.dark input[type="range"]:hover::-webkit-slider-thumb {
+  background: #2563eb;
+}
+
+.dark input[type="range"]:hover::-moz-range-thumb {
+  background: #2563eb;
 }

@@ -7,7 +7,7 @@
       ></div>
     </div>
     <div
-      class="mt-6 hidden grid-cols-4 text-sm font-medium text-gray-600 sm:grid"
+      class="mt-6 3xl:mt-8 hidden grid-cols-4 text-sm 3xl:text-base font-medium text-gray-600 sm:grid"
     >
       <div
         class="cursor-pointer"
@@ -55,16 +55,16 @@
 
 <div class="mt-8">
   <!-- Paso 1: Voz e Idioma -->
-  <div *ngIf="currentStep === 1" class="bg-white rounded-[2rem] shadow p-8 border border-gray-200">
-    <h3 class="text-lg font-semibold mb-4">Paso 1. Voz e Idioma</h3>
-    <p class="text-sm text-gray-600 mb-6">
+  <div *ngIf="currentStep === 1" class="bg-white rounded-[2rem] shadow p-8 3xl:p-12 border border-gray-200">
+    <h3 class="text-lg 3xl:text-xl font-semibold mb-4 3xl:mb-6">Paso 1. Voz e Idioma</h3>
+    <p class="text-sm 3xl:text-base text-gray-600 mb-6 3xl:mb-8">
       Configura el idioma y la voz que utilizará tu agente para interactuar con
       los clientes.
     </p>
 
     <!-- Idioma -->
     <div class="flex mb-4 mt-4 w-full">
-      <p class="w-1/2 mb-2 text-sm text-gray-600">
+      <p class="w-1/2 mb-2 3xl:mb-3 text-sm 3xl:text-base text-gray-600">
         <span class="font-bold">Idioma:</span> Configura el idioma en el que tu
         agente interactuará, asegurando una comunicación efectiva y adaptada a
         las necesidades de tus clientes
@@ -74,18 +74,18 @@
         <div class="w-1/2">
           <button
             (click)="showDropdown = !showDropdown"
-            class="w-full flex items-center justify-between px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm focus:outline-none"
+            class="w-full flex items-center justify-between px-4 3xl:px-5 py-2 3xl:py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm 3xl:text-base focus:outline-none"
           >
-            <div class="flex items-center gap-2 text-base">
+            <div class="flex items-center gap-2 3xl:gap-3 text-base 3xl:text-lg">
               <img
                 [src]="selectedLanguage?.flag"
                 alt="Flag"
-                class="w-8 h-6 rounded-sm object-cover"
+                class="w-8 h-6 3xl:w-10 3xl:h-8 rounded-sm object-cover"
               />
               {{ selectedLanguage?.name || "Seleccionar idioma" }}
             </div>
             <svg
-              class="w-4 h-4 ml-2"
+              class="w-4 h-4 3xl:w-5 3xl:h-5 ml-2 3xl:ml-3"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
@@ -102,12 +102,12 @@
             <li
               *ngFor="let lang of languages"
               (click)="selectLanguage(lang)"
-              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              class="flex items-center gap-2 3xl:gap-3 px-4 3xl:px-5 py-2 3xl:py-3 hover:bg-gray-100 cursor-pointer"
             >
               <img
                 [src]="lang.flag"
                 alt="Flag"
-                class="w-8 h-6 rounded-sm object-cover"
+                class="w-8 h-6 3xl:w-10 3xl:h-8 rounded-sm object-cover"
               />
               {{ lang.name }}
             </li>
@@ -118,7 +118,7 @@
 
     <!-- Voz -->
     <div class="flex mb-4 mt-4 w-full">
-      <p class="w-1/2 mb-2 text-sm text-gray-600">
+      <p class="w-1/2 mb-2 3xl:mb-3 text-sm 3xl:text-base text-gray-600">
         <span class="font-bold">Voz:</span> Selecciona el tono y estilo de voz
         que mejor representen la personalidad de tu marca y brinden una
         experiencia única a tus clientes
@@ -128,18 +128,18 @@
         <div class="w-1/2">
           <button
             (click)="showVoiceDropdown = !showVoiceDropdown"
-            class="w-full flex items-center justify-between px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm focus:outline-none"
+            class="w-full flex items-center justify-between px-4 3xl:px-5 py-2 3xl:py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm 3xl:text-base focus:outline-none"
           >
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 3xl:gap-3">
               <img
                 [src]="selectedAgent?.photoUrl"
                 alt="{{ selectedAgent?.name }}"
-                class="w-8 h-8 rounded-full object-cover"
+                class="w-8 h-8 3xl:w-10 3xl:h-10 rounded-full object-cover"
               />
               {{ selectedAgent?.name || "Seleccionar voz" }}
             </div>
             <svg
-              class="w-4 h-4 ml-2"
+              class="w-4 h-4 3xl:w-5 3xl:h-5 ml-2 3xl:ml-3"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
@@ -156,12 +156,12 @@
             <li
               *ngFor="let agent of agents"
               (click)="selectAgent(agent)"
-              class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              class="flex items-center gap-2 3xl:gap-3 px-4 3xl:px-5 py-2 3xl:py-3 hover:bg-gray-100 cursor-pointer"
             >
               <img
                 [src]="agent.photoUrl"
                 alt="{{ agent.name }}"
-                class="w-8 h-8 rounded-full object-cover"
+                class="w-8 h-8 3xl:w-10 3xl:h-10 rounded-full object-cover"
               />
               {{ agent.name }}
             </li>
@@ -172,21 +172,21 @@
   </div>
 
   <!-- Paso 2: Instrucciones del Agente -->
-  <div *ngIf="currentStep === 2" class="bg-white rounded-[2rem] shadow p-8 border border-gray-200">
-    <h3 class="text-lg font-semibold mb-4">Paso 2. Instrucciones del Agente</h3>
-    <p class="text-sm text-gray-600 mb-6">
+  <div *ngIf="currentStep === 2" class="bg-white rounded-[2rem] shadow p-8 3xl:p-12 border border-gray-200">
+    <h3 class="text-lg 3xl:text-xl font-semibold mb-4 3xl:mb-6">Paso 2. Instrucciones del Agente</h3>
+    <p class="text-sm 3xl:text-base text-gray-600 mb-6 3xl:mb-8">
       Define las instrucciones y comportamientos específicos que debe seguir tu
       agente.
     </p>
 
-    <div class="mt-4">
-      <label class="text-md">
+    <div class="mt-4 3xl:mt-6">
+      <label class="text-md 3xl:text-lg">
         Definir un mensaje de saludo personalizado
       </label>
       <p class="w-full pr-20 mt-2">
         <mat-form-field class="w-full">
           <textarea
-            class="w-full text-sm resize-none placeholder:text-sm placeholder:whitespace-normal"
+            class="w-full text-sm 3xl:text-base resize-none placeholder:text-sm 3xl:placeholder:text-base placeholder:whitespace-normal"
             matInput
             [(ngModel)]="firstInteractionMessage"
             placeholder="Hola, Soy [Nombre del Agente]. Te llamo de [Nombre del Negocio]. Vengo a recordarle que se olvidó su carrito, ¿es cierto?"
@@ -195,12 +195,12 @@
       </p>
     </div>
 
-    <div class="mt-4">
-      <label class="text-md"> Instrucciones para el agente </label>
+    <div class="mt-4 3xl:mt-6">
+      <label class="text-md 3xl:text-lg"> Instrucciones para el agente </label>
       <p class="w-full pr-20 mt-2">
         <mat-form-field class="w-full">
           <textarea
-            class="w-full text-sm resize-none placeholder:text-sm placeholder:whitespace-normal"
+            class="w-full text-sm 3xl:text-base resize-none placeholder:text-sm 3xl:placeholder:text-base placeholder:whitespace-normal"
             matInput
             placeholder="Escribe aquí..."
           ></textarea>
@@ -210,14 +210,14 @@
   </div>
 
   <!-- Paso 3: Conexión con Twilio -->
-  <div *ngIf="currentStep === 3" class="bg-white rounded-[2rem] shadow p-8 border border-gray-200">
-    <h3 class="text-lg font-semibold mb-4">Paso 3. Conexión con Twilio</h3>
-    <p class="text-sm text-gray-600 mb-6">
+  <div *ngIf="currentStep === 3" class="bg-white rounded-[2rem] shadow p-8 3xl:p-12 border border-gray-200">
+    <h3 class="text-lg 3xl:text-xl font-semibold mb-4 3xl:mb-6">Paso 3. Conexión con Twilio</h3>
+    <p class="text-sm 3xl:text-base text-gray-600 mb-6 3xl:mb-8">
       Configura la integración con Twilio para habilitar las llamadas
       telefónicas.
     </p>
 
-    <ul class="flex flex-col gap-1.5 pl-6 mt-5 mb-6 text-sm">
+    <ul class="flex flex-col gap-1.5 3xl:gap-2 pl-6 3xl:pl-8 mt-5 3xl:mt-6 mb-6 3xl:mb-8 text-sm 3xl:text-base">
       <li>
         - Seleccionar prefijo de país: Elige el código de país correspondiente.
       </li>
@@ -242,12 +242,12 @@
           'bg-green-600': twilioStorage.config()
         }"
         (click)="openIntegrationDialog(!twilioStorage.config())"
-        class="rounded-[2rem] p-3 text-white text-sm hover:opacity-90 transition-opacity flex items-center gap-2"
+        class="rounded-[2rem] p-3 3xl:p-4 text-white text-sm 3xl:text-base hover:opacity-90 transition-opacity flex items-center gap-2 3xl:gap-3"
       >
         <svg
           *ngIf="!twilioStorage.config()"
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
+          class="h-5 w-5 3xl:h-6 3xl:w-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -262,7 +262,7 @@
         <svg
           *ngIf="twilioStorage.config()"
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
+          class="h-5 w-5 3xl:h-6 3xl:w-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -290,9 +290,9 @@
   </div>
 
   <!-- Paso 4: Completado -->
-  <div *ngIf="currentStep === 4" class="bg-white rounded-[2rem] shadow p-8 border border-gray-200">
-    <h3 class="text-lg font-semibold mb-4">¡Configuración Completada!</h3>
-    <p class="text-sm text-gray-600 mb-6">
+  <div *ngIf="currentStep === 4" class="bg-white rounded-[2rem] shadow p-8 3xl:p-12 border border-gray-200">
+    <h3 class="text-lg 3xl:text-xl font-semibold mb-4 3xl:mb-6">¡Configuración Completada!</h3>
+    <p class="text-sm 3xl:text-base text-gray-600 mb-6 3xl:mb-8">
       Tu agente está listo para ser utilizado. Revisa la configuración antes de
       publicar.
     </p>

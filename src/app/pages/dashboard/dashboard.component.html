@@ -3,7 +3,7 @@
 >
   <!-- Sidebar Desktop (solo visible en xl) -->
   <div 
-    [class]="'hidden xl:block w-full xl:overflow-visible p-0 h-screen bg-white transition-all duration-500 ease-in-out flex-shrink-0 dark:bg-slate-900 ' + (isNavCollapsed ? 'xl:w-12' : 'xl:w-[10rem]')"
+    [class]="'hidden xl:block w-full xl:overflow-visible p-0 h-screen bg-white transition-all duration-500 ease-in-out flex-shrink-0 dark:bg-slate-900 ' + (isNavCollapsed ? 'xl:w-12 3xl:w-16' : 'xl:w-[10rem] 3xl:w-[12rem]')"
   >
     <app-nav #navComponent></app-nav>
   </div>
@@ -43,8 +43,8 @@
             </div>
             <!-- Texto Llamalo beta -->
             <div class="flex flex-row items-baseline gap-0 leading-tight">
-              <span class="brand-font text-4xl mt-2 font-bold tracking-[-3px] sidebar-logo-text">Llamalo</span>
-              <span class="brand-font text-[10px] text-black font-bold tracking-[-0.5px] dark:text-slate-300">beta</span>
+              <span class="brand-font text-4xl mt-2 font-bold  sidebar-logo-text">Llamalo</span>
+              <span class="brand-font text-[10px] text-black font-bold  dark:text-slate-300">beta</span>
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@
           <!-- Tarjeta estilo onboarding -->
           <div class="pb-1">
             <div
-              class="sidebar-onboarding-card mx-auto rounded-2xl shadow-lg bg-white border border-gray-200 dark:bg-slate-900 dark:border-slate-700 flex flex-col gap-2 px-2.5 py-2 w-[84%] [letter-spacing:-0.35px]"
+              class="sidebar-onboarding-card mx-auto rounded-2xl shadow-lg bg-white border border-gray-200 dark:bg-slate-900 dark:border-slate-700 flex flex-col gap-2 px-2.5 py-2 w-[84%] "
             >
               <div class="flex flex-col items-center text-center gap-2">
                 <div class="sidebar-onboarding-icon w-11 h-11 rounded-2xl grid place-items-center text-[#0B2B6F]">

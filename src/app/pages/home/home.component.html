@@ -1,26 +1,26 @@
 <!-- Tarjeta de Resumen -->
 <div
-  class="bg-white rounded-2xl shadow-sm p-3 2xl:p-3 mt-3 2xl:mt-2 max-lg:p-3 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border max-w-5xl mx-auto"
+  class="bg-white rounded-2xl shadow-sm p-3 2xl:p-3 3xl:p-8 mt-3 2xl:mt-2 3xl:mt-5 max-lg:p-3 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border max-w-5xl 3xl:max-w-7xl mx-auto"
   [class.fade-in-visible]="showResumen"
 >
   <div
     class="flex justify-between items-center mb-3 max-lg:flex-col max-lg:items-start max-lg:gap-1.5"
   >
     <h2
-      class="brand-font text-sm font-semibold text-gray-800 resumen-titulo max-lg:text-xs dark:text-slate-50 tracking-[-0.7px]"
+      class="brand-font text-sm 3xl:text-lg font-semibold text-gray-800 resumen-titulo max-lg:text-xs dark:text-slate-50 "
     >
       {{ t.summary }}
     </h2>
   </div>
 
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-lg:gap-2">
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 3xl:gap-6 max-lg:gap-2">
     <!-- Total de llamadas exitosas -->
     <div
-      class="flex flex-col p-2 border-r border-gray-200 max-lg:p-2 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0 dark:border-neutral-800"
+      class="flex flex-col p-2 3xl:p-5 border-r border-gray-200 max-lg:p-2 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0 dark:border-neutral-800"
     >
       <!-- Layout original para desktop -->
       <div
-        class="flex w-10 h-10 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-1.5"
+        class="flex w-10 h-10 3xl:w-14 3xl:h-14 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-1.5"
       >
         <svg
           width="12"
@@ -29,6 +29,7 @@
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style="rotate: -90deg"
+          class="3xl:w-4 3xl:h-5"
         >
           <path
             d="M16.935 3.58897L17.773 6.82097C17.919 7.25497 18 7.71997 18 8.20397V11.717C18 12.2751 17.8901 12.8277 17.6765 13.3434C17.4629 13.859 17.1499 14.3275 16.7552 14.7222C16.3606 15.1168 15.892 15.4299 15.3764 15.6435C14.8608 15.857 14.3081 15.967 13.75 15.967H4.25C3.12283 15.967 2.04183 15.5192 1.2448 14.7222C0.447767 13.9251 0 12.8441 0 11.717V8.20397C0 7.94797 0.023 7.69797 0.066 7.45497H0.00999999V6.13697C0.00999673 5.31811 0.278026 4.52175 0.773149 3.86953C1.26827 3.21731 1.96327 2.74508 2.752 2.52497L11.06 0.204973C11.6679 0.035282 12.3036 -0.0115448 12.9298 0.067229C13.5561 0.146003 14.1604 0.348797 14.7073 0.663763C15.2543 0.978728 15.733 1.39955 16.1155 1.90163C16.498 2.40372 16.7766 2.977 16.935 3.58797V3.58897ZM13.75 5.45497H4.25C3.52065 5.45497 2.82118 5.7447 2.30546 6.26043C1.78973 6.77615 1.5 7.47563 1.5 8.20497V11.718C1.5 12.4473 1.78973 13.1468 2.30546 13.6625C2.82118 14.1782 3.52065 14.468 4.25 14.468H13.75C14.4793 14.468 15.1788 14.1782 15.6945 13.6625C16.2103 13.1468 16.5 12.4473 16.5 11.718V8.20497C16.5 7.47563 16.2103 6.77615 15.6945 6.26043C15.1788 5.7447 14.4793 5.45497 13.75 5.45497ZM11.463 1.65097L3.155 3.97097C2.829 4.06197 2.537 4.22197 2.292 4.43297C2.89648 4.11783 3.56831 3.95382 4.25 3.95497H13.75C14.409 3.95497 15.033 4.10497 15.59 4.37297L15.483 3.96597C15.3747 3.54788 15.1841 3.15557 14.9223 2.81199C14.6606 2.4684 14.3331 2.18042 13.9588 1.96488C13.5845 1.74935 13.171 1.61057 12.7425 1.55668C12.314 1.50278 11.879 1.53483 11.463 1.65097Z"
@@ -38,7 +39,7 @@
       </div>
 
       <h3
-        class="text-[10px] font-semibold text-black mb-1.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
+        class="text-[10px] 3xl:text-sm font-semibold text-black mb-1.5 3xl:mb-2.5 mt-2 3xl:mt-3.5 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 "
       >
         {{ t.totalSuccessfulCalls }}
       </h3>
@@ -62,13 +63,13 @@
             />
           </svg>
         </div>
-        <h3 class="text-xs font-semibold text-black tracking-[-0.7px]">
+        <h3 class="text-xs font-semibold text-black ">
           {{ t.totalSuccessfulCalls }}
         </h3>
       </div>
 
       <div class="flex items-center gap-1.5 max-lg:gap-1 relative">
-        <p class="text-3xl font-semibold text-black max-lg:text-2xl resumen-numero tracking-[-0.7px]">
+        <p class="text-3xl 3xl:text-5xl font-semibold text-black max-lg:text-2xl resumen-numero ">
           {{ summary.totalCalls }}
         </p>
         <div class="absolute right-0 flex items-center overflow-visible" style="width: 85px; height: 60px; min-width: 85px; top:-6px;">
@@ -90,11 +91,11 @@
 
       <div class="mt-1.5 flex items-center">
         <span
-          class="inline-flex items-center px-1.5 py-0.5 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip tracking-[-0.7px]"
+          class="inline-flex items-center px-1.5 3xl:px-2.5 py-0.5 3xl:py-1.5 rounded-lg bg-gray-100 text-[10px] 3xl:text-sm font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-2 w-2 mr-0 text-blue-900"
+            class="h-3 w-3 3xl:h-4 3xl:w-4 mr-0 text-blue-900"
             fill="none"
             viewBox="0 0 16 16"
           >
@@ -109,7 +110,7 @@
           {{ summary.callsDeltaPct }}%
         </span>
         <span
-          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto max-lg:text-[9px] tracking-[-0.7px]"
+          class="text-[10px] 3xl:text-sm text-gray-400 ml-2 3xl:ml-4 resumen-dias-texto max-lg:text-[9px] "
           >{{ t.vsLastYear }}</span
         >
       </div>
@@ -117,11 +118,11 @@
 
     <!-- Tiempo Ahorrado -->
     <div
-      class="flex flex-col p-2 border-r border-gray-200 max-lg:p-2 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0 dark:border-neutral-800"
+      class="flex flex-col p-2 3xl:p-5 border-r border-gray-200 max-lg:p-2 max-lg:border-r-0 sm:border-r sm:border-gray-200 sm:border-b-0 sm:pb-0 dark:border-neutral-800"
     >
       <!-- Layout original para desktop -->
       <div
-        class="flex w-10 h-10 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-1.5"
+        class="flex w-10 h-10 3xl:w-14 3xl:h-14 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-1.5"
       >
         <!-- SVG modo claro -->
         <svg
@@ -130,7 +131,7 @@
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          class="block dark:hidden"
+          class="block dark:hidden 3xl:w-5 3xl:h-5"
         >
           <path
             d="M3.06152 10C3.55362 6.05369 6.92001 3 10.9996 3C15.4179 3 18.9996 6.58172 18.9996 11C18.9996 15.4183 15.4179 19 10.9996 19H6M11 11V7M9 1H13M1 13H6M3 16H8"
@@ -147,7 +148,7 @@
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          class="hidden dark:block"
+          class="hidden dark:block 3xl:w-5 3xl:h-5"
         >
           <path
             d="M3.06152 10C3.55362 6.05369 6.92001 3 10.9996 3C15.4179 3 18.9996 6.58172 18.9996 11C18.9996 15.4183 15.4179 19 10.9996 19H6M11 11V7M9 1H13M1 13H6M3 16H8"
@@ -160,7 +161,7 @@
       </div>
 
       <h3
-        class="text-[10px] font-semibold text-black mb-1.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
+        class="text-[10px] 3xl:text-sm font-semibold text-black mb-1.5 3xl:mb-2.5 mt-2 3xl:mt-3.5 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 "
       >
         {{ t.timeSaved }}
       </h3>
@@ -205,11 +206,11 @@
             />
           </svg>
         </div>
-        <h3 class="text-xs font-semibold text-black tracking-[-0.7px]">{{ t.timeSaved }}</h3>
+        <h3 class="text-xs font-semibold text-black ">{{ t.timeSaved }}</h3>
       </div>
 
       <div class="flex items-center gap-1.5 max-lg:gap-1 relative">
-        <p class="text-3xl font-semibold text-black max-lg:text-2xl resumen-numero tracking-[-0.7px]">
+        <p class="text-3xl 3xl:text-5xl font-semibold text-black max-lg:text-2xl resumen-numero ">
           {{ summary.timeSavedHours }}
         </p>
         <div class="absolute right-0 flex items-center overflow-visible" style="width: 85px; height: 60px; min-width: 85px; top: -6px;">
@@ -231,11 +232,11 @@
 
       <div class="mt-1.5 flex items-center">
         <span
-          class="inline-flex items-center px-1.5 py-0.5 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip tracking-[-0.7px]"
+          class="inline-flex items-center px-1.5 3xl:px-2.5 py-0.5 3xl:py-1.5 rounded-lg bg-gray-100 text-[10px] 3xl:text-sm font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-2 w-2 mr-0 text-blue-900"
+            class="h-3 w-3 3xl:h-4 3xl:w-4 mr-0 text-blue-900"
             fill="none"
             viewBox="0 0 16 16"
           >
@@ -250,17 +251,19 @@
           {{ summary.timeSavedDeltaPct }}%
         </span>
         <span
-          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto max-lg:text-[9px] tracking-[-0.7px]"
+          class="text-[10px] 3xl:text-sm text-gray-400 ml-2 3xl:ml-4 resumen-dias-texto max-lg:text-[9px] "
           >{{ t.vsLastYear }}</span
         >
       </div>
     </div>
 
     <!-- Minutos Usados -->
-    <div class="flex flex-col p-2 max-lg:p-2 sm:pb-0">
+    <div
+      class="flex flex-col p-2 3xl:p-5 max-lg:p-2 sm:pb-0 dark:border-neutral-800"
+    >
       <!-- Layout original para desktop -->
       <div
-        class="flex w-10 h-10 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-1.5"
+        class="flex w-10 h-10 3xl:w-14 3xl:h-14 bg-gray-100 resumen-icon rounded-full items-center justify-center mb-1.5"
       >
         <svg
           width="9"
@@ -268,6 +271,7 @@
           viewBox="0 0 11 11"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          class="3xl:w-4 3xl:h-4"
         >
           <path
             d="M3.87616 0.717896L7.53332 0.717896C8.26264 0.717912 8.96209 1.00764 9.4778 1.52335C9.99351 2.03906 10.2832 2.73851 10.2833 3.46783L10.2825 7.12428C10.2825 7.22281 10.2631 7.32036 10.2254 7.41139C10.1877 7.50241 10.1325 7.58512 10.0628 7.65478C9.99314 7.72445 9.91044 7.77971 9.81941 7.81741C9.72839 7.85512 9.63083 7.87452 9.53231 7.87452C9.43379 7.87452 9.33623 7.85512 9.2452 7.81741C9.15418 7.77971 9.07148 7.72445 9.00181 7.65478C8.93214 7.58512 8.87688 7.50241 8.83918 7.41139C8.80147 7.32036 8.78207 7.22281 8.78207 7.12428L8.78207 3.46713C8.78192 3.40845 8.77766 3.34985 8.76934 3.29176L1.57806 10.483C1.43741 10.6237 1.24665 10.7027 1.04773 10.7027C0.848822 10.7027 0.658056 10.6237 0.517404 10.483C0.376752 10.3424 0.297734 10.1516 0.297734 9.95271C0.297734 9.7538 0.376751 9.56303 0.517404 9.42238L7.7101 2.22969C7.65154 2.2213 7.59247 2.21705 7.53332 2.21696L3.87616 2.21696C3.68195 2.21011 3.49798 2.12814 3.36302 1.98832C3.22805 1.8485 3.15262 1.66176 3.15262 1.46743C3.15262 1.2731 3.22805 1.08635 3.36302 0.946537C3.49798 0.806721 3.68195 0.724751 3.87616 0.717896Z"
@@ -277,7 +281,7 @@
       </div>
 
       <h3
-        class="text-[10px] font-semibold text-black mb-1.5 mt-2 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 tracking-[-0.7px]"
+        class="text-[10px] 3xl:text-sm font-semibold text-black mb-1.5 3xl:mb-2.5 mt-2 3xl:mt-3.5 resumen-datos max-lg:text-[9px] max-lg:mt-1.5 "
       >
         {{ t.minutesUsed }}
       </h3>
@@ -300,11 +304,11 @@
             />
           </svg>
         </div>
-        <h3 class="text-xs font-semibold text-black tracking-[-0.7px]">{{ t.minutesUsed }}</h3>
+        <h3 class="text-xs font-semibold text-black ">{{ t.minutesUsed }}</h3>
       </div>
 
       <div class="flex items-center gap-1.5 max-lg:gap-1 relative">
-        <p class="text-3xl font-semibold text-black max-lg:text-2xl resumen-numero tracking-[-0.7px]">
+        <p class="text-3xl 3xl:text-5xl font-semibold text-black max-lg:text-2xl resumen-numero ">
           {{ summary.minutesUsed }}
         </p>
         <div class="absolute right-0 flex items-center overflow-visible" style="width: 85px; height: 60px; min-width: 85px; top: -6px;">
@@ -326,11 +330,11 @@
 
       <div class="mt-1.5 flex items-center">
         <span
-          class="inline-flex items-center px-1.5 py-0.5 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip tracking-[-0.7px]"
+          class="inline-flex items-center px-1.5 3xl:px-2.5 py-0.5 3xl:py-1.5 rounded-lg bg-gray-100 text-[10px] 3xl:text-sm font-semibold text-blue-900 border border-blue-100 max-lg:text-[9px] resumen-porcentaje-chip "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-2 w-2 mr-0 text-blue-900"
+            class="h-3 w-3 3xl:h-4 3xl:w-4 mr-0 text-blue-900"
             fill="none"
             viewBox="0 0 16 16"
           >
@@ -345,7 +349,7 @@
           {{ summary.minutesDeltaPct }}%
         </span>
         <span
-          class="text-[10px] text-gray-400 ml-2 resumen-dias-texto max-lg:text-[9px] tracking-[-0.7px]"
+          class="text-[10px] 3xl:text-sm text-gray-400 ml-2 3xl:ml-4 resumen-dias-texto max-lg:text-[9px] "
           >{{ t.vsLastYear }}</span
         >
       </div>
@@ -355,16 +359,16 @@
 
 <!-- Fila de Agentes Activos y Llamadas por día (alineados horizontalmente, con proporciones 2:1) -->
 <div
-  class="flex flex-wrap gap-3 mt-3 max-lg:flex-col max-lg:gap-2 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 max-w-5xl mx-auto"
+  class="flex flex-wrap gap-3 3xl:gap-6 mt-3 3xl:mt-5 max-lg:flex-col max-lg:gap-2 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 max-w-5xl 3xl:max-w-7xl mx-auto"
 >
   <!-- Agentes Activos (2/3 del ancho) -->
   <div
-    class="bg-white rounded-2xl shadow-sm p-3 flex-1 min-w-[300px] border border-gray-100 agentes-activos-recuadro fade-in-section max-lg:p-3 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border"
+    class="bg-white rounded-2xl shadow-sm p-3 3xl:p-8 flex-1 min-w-[300px] border border-gray-100 agentes-activos-recuadro fade-in-section max-lg:p-3 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border"
     style="flex: 1.8"
     [class.fade-in-visible]="showAgentesActivos"
   >
     <h2
-      class="brand-font text-sm font-semibold text-gray-800 mb-3 agentes-activos-titulo max-lg:text-xs max-lg:mb-2 dark:text-slate-50 tracking-[-0.7px]"
+      class="brand-font text-sm 3xl:text-lg font-semibold text-gray-800 mb-3 3xl:mb-5 agentes-activos-titulo max-lg:text-xs max-lg:mb-2 dark:text-slate-50 "
     >
       {{ t.activeAgents }}
     </h2>
@@ -376,22 +380,22 @@
         <thead>
           <tr class="border-b border-gray-200">
             <th
-              class="text-[10px] font-medium text-gray-500 pb-1.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 tracking-[-0.7px]"
+              class="text-[10px] 3xl:text-sm font-medium text-gray-500 pb-1.5 3xl:pb-2.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 "
             >
               {{ t.agentName }}
             </th>
             <th
-              class="text-[10px] font-medium text-gray-500 pb-1.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 tracking-[-0.7px]"
+              class="text-[10px] 3xl:text-sm font-medium text-gray-500 pb-1.5 3xl:pb-2.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 "
             >
               {{ t.type }}
             </th>
             <th
-              class="text-[10px] font-medium text-gray-500 pb-1.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 tracking-[-0.7px]"
+              class="text-[10px] 3xl:text-sm font-medium text-gray-500 pb-1.5 3xl:pb-2.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 "
             >
               {{ t.totalMinutesSpent }}
             </th>
             <th
-              class="text-[10px] font-medium text-gray-500 pb-1.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 tracking-[-0.7px]"
+              class="text-[10px] 3xl:text-sm font-medium text-gray-500 pb-1.5 3xl:pb-2.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 "
             >
               {{ t.status }}
             </th>
@@ -403,31 +407,31 @@
             *ngFor="let agent of activeAgents"
           >
             <td
-              class="py-1.5 text-[10px] font-medium text-gray-900 agentes-activos-td max-lg:py-1 max-lg:text-[9px] tracking-[-0.7px]"
+              class="py-1.5 3xl:py-2.5 text-[10px] 3xl:text-sm font-medium text-gray-900 agentes-activos-td max-lg:py-1 max-lg:text-[9px] "
             >
               {{ agent.name }}
             </td>
             <td
-              class="py-1.5 text-[10px] text-black font-light agentes-activos-td max-lg:py-1 max-lg:text-[9px] tracking-[-0.7px]"
+              class="py-1.5 3xl:py-2.5 text-[10px] 3xl:text-sm text-black font-light agentes-activos-td max-lg:py-1 max-lg:text-[9px] "
             >
               {{ agent.type }}
             </td>
             <td
-              class="py-1.5 text-[10px] agentes-activos-td max-lg:py-1 max-lg:text-[9px] tracking-[-0.7px]"
+              class="py-1.5 3xl:py-2.5 text-[10px] 3xl:text-sm agentes-activos-td max-lg:py-1 max-lg:text-[9px] "
             >
               <!-- Layout vertical solo para móvil pequeño (max-sm) -->
               <div class="hidden max-sm:block">
                 <div class="flex flex-col items-center">
                   <span
-                    class="font-normal agentes-activos-minutos text-center tracking-[-0.7px]"
+                    class="font-normal agentes-activos-minutos text-center "
                     >{{ agent.minutes }}</span
                   >
                   <span
-                    class="inline-flex items-center px-1.5 py-0.5 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 mt-1 agentes-activos-porcentaje tracking-[-0.7px]"
+                    class="inline-flex items-center px-1.5 3xl:px-2.5 py-0.5 3xl:py-1.5 rounded-lg bg-gray-100 text-[10px] 3xl:text-sm font-semibold text-blue-900 border border-blue-100 mt-1 3xl:mt-2 agentes-activos-porcentaje "
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-2 w-2 mr-0 text-blue-900 agentes-activos-icono"
+                      class="h-3 w-3 3xl:h-4 3xl:w-4 mr-0 text-blue-900 agentes-activos-icono"
                       fill="none"
                       viewBox="0 0 16 16"
                     >
@@ -446,15 +450,15 @@
 
               <!-- Layout horizontal para tablet y desktop (sm y superior) -->
               <div class="block max-sm:hidden">
-                <span class="font-normal agentes-activos-minutos ml-3 tracking-[-0.7px]">{{
+                <span class="font-normal agentes-activos-minutos ml-3 ">{{
                   agent.minutes
                 }}</span>
                 <span
-                  class="inline-flex items-center px-1.5 py-0.5 rounded-lg bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 ml-2 agentes-activos-porcentaje tracking-[-0.7px]"
+                  class="inline-flex items-center px-1.5 3xl:px-2.5 py-0.5 3xl:py-1.5 rounded-lg bg-gray-100 text-[10px] 3xl:text-sm font-semibold text-blue-900 border border-blue-100 ml-2 3xl:ml-4 agentes-activos-porcentaje "
                 >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-2 w-2 mr-0 text-blue-900 agentes-activos-icono"
+                      class="h-3 w-3 3xl:h-4 3xl:w-4 mr-0 text-blue-900 agentes-activos-icono"
                       fill="none"
                       viewBox="0 0 16 16"
                     >
@@ -478,7 +482,7 @@
                   viewBox="0 0 16 16"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  class="agentes-activos-estado-icono max-lg:w-2 max-lg:h-2"
+                  class="agentes-activos-estado-icono 3xl:w-4 3xl:h-4 max-lg:w-2 max-lg:h-2"
                 >
                   <circle cx="8" cy="8" r="8" [attr.fill]="agent.outerColor" />
                   <circle
@@ -490,7 +494,7 @@
                   />
                 </svg>
                 <span
-                  class="ml-1 text-[10px] agentes-activos-estado-texto max-lg:ml-0.5 max-lg:text-[9px] tracking-[-0.7px]"
+                  class="ml-1 3xl:ml-1.5 text-[10px] 3xl:text-xs agentes-activos-estado-texto max-lg:ml-0.5 max-lg:text-[9px] "
                   [class.text-gray-700]="agent.status === t.active"
                   [class.text-gray-500]="agent.status !== t.active"
                   >{{ agent.status }}</span
@@ -505,12 +509,12 @@
 
   <!-- Llamadas por día (1/3 del ancho) -->
   <div
-    class="bg-white rounded-2xl shadow-sm p-3 flex-1 min-w-[200px] border border-gray-100 llamadas-por-dia-grafico agentes-activos-recuadro fade-in-section max-lg:p-3 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border"
+    class="bg-white rounded-2xl shadow-sm p-3 3xl:p-8 flex-1 min-w-[200px] border border-gray-100 llamadas-por-dia-grafico agentes-activos-recuadro fade-in-section max-lg:p-3 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border hidden lg:block"
     style="flex: 1"
     [class.fade-in-visible]="showLlamadasPorDia"
   >
     <h2
-      class="brand-font text-sm font-semibold text-gray-800 mb-3 llamadas-por-dia-titulo max-lg:text-xs max-lg:mb-2 tracking-[-0.7px]"
+      class="brand-font text-sm 3xl:text-lg font-semibold text-gray-800 mb-3 3xl:mb-5 llamadas-por-dia-titulo max-lg:text-xs max-lg:mb-2 "
     >
       {{ t.callsPerDay }}
     </h2>
@@ -534,7 +538,7 @@
             <div class="llamadas-barra-wrapper">
               <span
                 *ngIf="callsByDayCounts[i] !== 0"
-                class="llamadas-barra-valor font-semibold tracking-[-0.7px]"
+                class="llamadas-barra-valor font-semibold "
                 [style.bottom.px]="(h > 8 ? h - 8 : 0)"
                 [ngClass]="isToday(i) ? 'llamadas-valor-hoy' : 'llamadas-valor-default'"
               >
@@ -544,8 +548,8 @@
                 [style.height.px]="h === 0 ? 5 : h"
                 [class]="
                   isToday(i)
-                    ? 'w-5 bg-blue-900 rounded-t rounded-b llamadas-barra llamadas-barra-rounded llamadas-barra-hoy max-lg:w-3.5'
-                    : 'w-5 bg-gray-300 rounded-t rounded-b llamadas-barra llamadas-barra-rounded max-lg:w-3.5'
+                    ? 'w-10 bg-blue-900 rounded-t rounded-b llamadas-barra llamadas-barra-rounded llamadas-barra-hoy'
+                    : 'w-10 bg-gray-300 rounded-t rounded-b llamadas-barra llamadas-barra-rounded'
                 "
               ></div>
             </div>
@@ -556,7 +560,7 @@
           class="grid grid-cols-7 gap-1 items-center mt-1 w-full max-lg:gap-0.5"
         >
           <span
-            class="text-[10px] text-center max-lg:text-[9px] tracking-[-0.7px]"
+            class="text-[10px] 3xl:text-sm text-center max-lg:text-[9px] "
             [class]="
               isToday(i) ? 'text-blue-900 font-semibold' : 'text-gray-500'
             "

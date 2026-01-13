@@ -9,6 +9,9 @@ module.exports = {
         sans: ["InterVariable", ...defaultTheme.fontFamily.sans],
         "dm-sans": ["DM Sans", ...defaultTheme.fontFamily.sans],
       },
+      screens: {
+        '3xl': '1920px',
+      },
     },
   },
   plugins: [],
