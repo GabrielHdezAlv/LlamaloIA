@@ -1,7 +1,7 @@
 <div
   class="topbar-container w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8"
 >
-  <div class="flex items-start justify-between w-full max-w-5xl 3xl:max-w-7xl mx-auto">
+  <div class="flex items-start justify-between w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
     <div class="flex flex-col gap-0.5">
       <div class="flex items-center gap-2">
       <!-- Botón hamburguesa para móvil -->
@@ -11,7 +11,7 @@
       >
         <span class="sr-only">Abrir menú</span>
         <svg
-          class="w-4 h-4 3xl:w-5 3xl:h-5"
+          class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -26,7 +26,7 @@
       </button>
 
       <h1
-        class="text-lg sm:text-xl md:text-2xl 3xl:text-4xl font-bold xl:ml-0  dark:text-slate-50 leading-tight"
+        class="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-3xl 3xl:text-4xl font-bold xl:ml-0  dark:text-slate-50 leading-tight"
       >
         {{ pageTitle }}
       </h1>
@@ -36,7 +36,7 @@
          Siempre reservamos el alto para que el contenido de abajo no se mueva
          (cuando no hay texto queda un hueco vacío, pero la barra mantiene la misma altura). -->
     <p
-      class="text-xs sm:text-sm 3xl:text-lg font-medium text-black  xl:ml-0 dark:text-slate-200 min-h-[1.25rem] flex items-center"
+      class="text-sm sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-lg font-medium text-black  xl:ml-0 dark:text-slate-200 min-h-[1.25rem] flex items-center"
     >
       {{ welcomeText || pageSubtitle }}
     </p>
@@ -44,19 +44,19 @@
 
     <!-- Controles de la derecha: modo oscuro + avatar -->
     <div
-      class="relative flex items-center gap-1 sm:gap-2 3xl:gap-4 mt-0.5"
+      class="relative flex items-center gap-2 sm:gap-2 md:gap-2 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-4 mt-0.5"
     >
     <!-- Botón de modo oscuro/claro (solo en admin) -->
     <button
       *ngIf="isAdminSection"
       type="button"
       (click)="toggleDarkMode()"
-      class="mr-1 relative inline-flex items-center justify-center w-8 h-8 3xl:w-12 3xl:h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn"
+      class="mr-1 relative inline-flex items-center justify-center w-10 h-10 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-10 xl:h-10 2xl:w-10 2xl:h-10 3xl:w-12 3xl:h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn"
       [attr.aria-checked]="isDarkMode"
       [attr.aria-label]="isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro'"
     >
       <svg
-        class="w-4 h-4 3xl:w-6 3xl:h-6 theme-icon"
+        class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6 theme-icon"
         [class.dark]="isDarkMode"
         [class.light]="!isDarkMode"
         viewBox="0 0 24 24"
@@ -109,10 +109,10 @@
     <!-- Botón de invitar amigos -->
     <button
       (click)="openInviteModal()"
-      class="flex items-center gap-1 3xl:gap-2 text-black rounded-lg transition hover:bg-gray-100 px-1.5 3xl:px-3 py-1 3xl:py-2"
+      class="flex items-center gap-2 sm:gap-1 md:gap-1 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 text-black rounded-lg transition hover:bg-gray-100 px-2.5 sm:px-1.5 md:px-1.5 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-3 py-1.5 sm:py-1 md:py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2"
     >
       <svg
-        class="w-3.5 h-3.5 3xl:w-5 3xl:h-5"
+        class="w-4.5 h-4.5 sm:w-3.5 sm:h-3.5 md:w-3.5 md:h-3.5 lg:w-4.5 lg:h-4.5 xl:w-4.5 xl:h-4.5 2xl:w-4.5 2xl:h-4.5 3xl:w-5 3xl:h-5"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +141,7 @@
           stroke-linejoin="round"
         />
       </svg>
-      <span class="font-semibold text-xs 3xl:text-lg hidden sm:inline "
+      <span class="font-semibold text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-lg hidden sm:inline "
         >Invitar</span
       >
     </button>
@@ -149,7 +149,7 @@
     <!-- Avatar -->
     <img
       [src]="getUserProfileImage()"
-      class="h-7 w-7 sm:h-8 sm:w-8 3xl:h-12 3xl:w-12 rounded-full border-2 border-blue-900 history-border cursor-pointer"
+      class="h-10 w-10 sm:h-8 sm:w-8 md:h-8 md:w-8 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border-2 border-blue-900 history-border cursor-pointer"
       alt="Perfil"
       (click)="toggleDropdown()"
     />
@@ -157,15 +157,15 @@
     <!-- Dropdown Menu -->
     <div
       *ngIf="showDropdown"
-      class="absolute right-0 mt-52 3xl:mt-64 w-44 3xl:w-48 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700"
+      class="absolute right-0 mt-56 sm:mt-52 md:mt-52 lg:mt-56 xl:mt-56 2xl:mt-56 3xl:mt-64 w-48 sm:w-44 md:w-44 lg:w-48 xl:w-48 2xl:w-48 3xl:w-48 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700"
     >
       <!-- Ajustes -->
       <button
         (click)="navigateTo('/dashboard/account')"
-        class="w-full flex items-center gap-2 px-2 3xl:px-2.5 py-1.5 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl dark:text-slate-100 dark:hover:bg-slate-800"
+        class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl dark:text-slate-100 dark:hover:bg-slate-800"
       >
         <svg
-          class="w-4 h-4 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
+          class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +185,7 @@
             stroke-linejoin="round"
           />
         </svg>
-        <span class="font-medium text-xs 3xl:text-sm ">{{
+        <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm ">{{
           t.settings
         }}</span>
       </button>
@@ -193,10 +193,10 @@
       <!-- Comunidad Privada -->
       <button
         (click)="navigateTo('/dashboard/community')"
-        class="w-full flex items-center gap-2 px-2 3xl:px-2.5 py-1.5 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800"
+        class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800"
       >
         <svg
-          class="w-4 h-4 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
+          class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
           viewBox="0 0 16 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -216,7 +216,7 @@
             stroke-linejoin="round"
           />
         </svg>
-        <span class="font-medium text-xs 3xl:text-sm ">{{
+        <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm ">{{
           t.privateCommunity
         }}</span>
       </button>
@@ -233,7 +233,7 @@
               ? 'bg-blue-900 text-white font-semibold w-1/2'
               : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
           "
-          class="px-2 3xl:px-2.5 py-1 3xl:py-1.5 rounded text-xs 3xl:text-sm transition-colors "
+          class="px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-1.5 sm:py-1 md:py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-1.5 rounded text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm transition-colors "
         >
           ES
         </button>
@@ -244,7 +244,7 @@
               ? 'bg-blue-900 text-white font-semibold w-1/2'
               : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
           "
-          class="px-2 3xl:px-2.5 py-1 3xl:py-1.5 rounded text-xs 3xl:text-sm transition-colors "
+          class="px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-1.5 sm:py-1 md:py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-1.5 rounded text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm transition-colors "
         >
           ENG
         </button>
@@ -253,10 +253,10 @@
       <!-- Centro de ayuda -->
       <button
         (click)="navigateTo('/dashboard/help')"
-        class="w-full flex items-center gap-2 px-2 3xl:px-2.5 py-1.5 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800"
+        class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800"
       >
         <svg
-          class="w-4 h-4 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
+          class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
           viewBox="0 0 16 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -280,7 +280,7 @@
             fill="currentColor"
           />
         </svg>
-        <span class="font-medium text-xs 3xl:text-sm ">{{
+        <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm ">{{
           t.helpCenter
         }}</span>
       </button>
@@ -288,13 +288,13 @@
       <!-- Cerrar sesión -->
       <button
         (click)="logout()"
-        class="w-full flex items-center gap-2 px-2 3xl:px-2.5 py-1.5 3xl:py-2 text-gray-700 hover:bg-red-50 transition-colors rounded-b-2xl dark:text-slate-100 dark:hover:bg-red-900/30"
+        class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-red-50 transition-colors rounded-b-2xl dark:text-slate-100 dark:hover:bg-red-900/30"
       >
-        <svg class="w-4 h-4 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z"></path>
           <path d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z"></path>
         </svg>
-        <span class="font-medium text-xs 3xl:text-sm ">{{
+        <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm ">{{
           t.logout
         }}</span>
       </button>

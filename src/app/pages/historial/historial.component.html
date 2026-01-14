@@ -1,4 +1,4 @@
-<div class="bg-white rounded-2xl shadow-sm p-3 2xl:p-3 3xl:p-8 mt-3 2xl:mt-2 3xl:mt-5 max-lg:p-3 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border max-w-5xl 3xl:max-w-7xl mx-auto h-auto lg:h-[70vh] flex flex-col" [class.fade-in-visible]="showContent">
+<div class="bg-white rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 mt-3 2xl:mt-2 3xl:mt-5 max-lg:p-3 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 border border-gray-100 agentes-activos-recuadro fade-in-section dark:bg-slate-900 dark:border-slate-800 history-border max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto h-auto lg:h-[70vh] flex flex-col" [class.fade-in-visible]="showContent">
   <!-- Contenido principal -->
   <div class="flex flex-col lg:flex-row lg:space-x-4 flex-1 min-h-0">
     <!-- Panel lateral izquierdo (Sidebar) - Oculto en móviles cuando se muestra el chat -->
@@ -8,9 +8,9 @@
         <input
           type="text"
           [placeholder]="t.searchNumber"
-          class="w-full pl-8 3xl:pl-10 pr-3 3xl:pr-4 py-1.5 3xl:py-2 max-lg:py-1 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 history-border text-[10px] 3xl:text-sm max-lg:text-[9px] dark:bg-slate-800 dark:border-slate-700 dark:text-slate-50"
+          class="w-full pl-8 lg:pl-9 xl:pl-9 2xl:pl-9 3xl:pl-10 pr-3 lg:pr-3.5 xl:pr-3.5 2xl:pr-3.5 3xl:pr-4 py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 max-lg:py-1 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 history-border text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-[9px] dark:bg-slate-800 dark:border-slate-700 dark:text-slate-50"
         />
-        <svg class="h-4 w-4 3xl:h-5 3xl:w-5 max-lg:h-3.5 max-lg:w-3.5 text-gray-400 absolute left-2.5 3xl:left-3 max-lg:left-2 top-1.5 3xl:top-2 max-lg:top-1" width="26" height="26" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="h-4 w-4 lg:h-4 lg:w-4 xl:h-4 xl:w-4 2xl:h-4 2xl:w-4 3xl:h-5 3xl:w-5 max-lg:h-3.5 max-lg:w-3.5 text-gray-400 absolute left-2.5 lg:left-2.5 xl:left-2.5 2xl:left-2.5 3xl:left-3 max-lg:left-2 top-1/2 -translate-y-1/2" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.948 3.93002C16.887 3.93002 20.081 7.12302 20.081 11.063C20.081 15.003 16.888 18.196 12.948 18.196C11.251 18.196 9.69199 17.603 8.46799 16.613L5.20999 19.871C5.06848 20.0076 4.87899 20.0831 4.68234 20.0813C4.48569 20.0795 4.29762 20.0005 4.15863 19.8614C4.01964 19.7223 3.94085 19.5341 3.93923 19.3375C3.93762 19.1408 4.01331 18.9514 4.14999 18.81L7.40599 15.553C6.41099 14.327 5.81499 12.764 5.81499 11.062C5.81499 7.12302 9.00799 3.92902 12.948 3.92902V3.93002ZM12.948 5.43002C9.83699 5.43002 7.31499 7.95202 7.31499 11.063C7.31499 14.174 9.83699 16.696 12.948 16.696C16.059 16.696 18.581 14.174 18.581 11.063C18.581 7.95202 16.059 5.43002 12.948 5.43002Z" fill="#727272"/>
         </svg>
       </div>
@@ -20,15 +20,15 @@
         @for (contact of contacts; track contact.id) {
           <div
             (click)="selectContact(contact)"
-            class="rounded-lg p-1.5 3xl:p-2.5 hover:bg-gray-100 cursor-pointer transition-colors dark:hover:bg-slate-800"
+            class="rounded-lg p-1.5 lg:p-2 xl:p-2 2xl:p-2 3xl:p-2.5 hover:bg-gray-100 cursor-pointer transition-colors dark:hover:bg-slate-800"
             [class.bg-gray-100]="selectedContact?.id === contact.id"
             [class.dark:bg-slate-800]="selectedContact?.id === contact.id"
           >
             <div class="flex items-center space-x-2 3xl:space-x-3 max-lg:space-x-1.5">
               <img [src]="contact.avatar" alt="Avatar" class="w-7 h-7 3xl:w-10 3xl:h-10 max-lg:w-6 max-lg:h-6 object-cover rounded-full flex-shrink-0" />
-              <span class="font-semibold text-[10px] 3xl:text-sm text-gray-800 max-lg:text-[9px] dark:text-slate-50 leading-tight">{{ contact.phone }}</span>
+              <span class="font-semibold text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-gray-800 max-lg:text-[9px] dark:text-slate-50 leading-tight">{{ contact.phone }}</span>
               @if (contact.status === 'resuelto') {
-                <span class="text-[9px] 3xl:text-xs px-1.5 3xl:px-2.5 py-0.5 3xl:py-1.5 bg-green-100 text-green-800 border-green-900 rounded-lg historial-status-badge max-lg:text-[8px] max-lg:px-1 max-lg:py-0.5 dark:bg-green-900 dark:border-green-800 dark:text-green-300 leading-tight">{{ formatStatus(contact.status) }}</span>
+                <span class="text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs px-1.5 lg:px-2 xl:px-2 2xl:px-2 3xl:px-2.5 py-0.5 lg:py-1 xl:py-1 2xl:py-1 3xl:py-1.5 bg-green-100 text-green-800 border-green-900 rounded-lg historial-status-badge max-lg:text-[8px] max-lg:px-1 max-lg:py-0.5 dark:bg-green-900 dark:border-green-800 dark:text-green-300 leading-tight">{{ formatStatus(contact.status) }}</span>
               }
             </div>
           </div>
@@ -44,7 +44,7 @@
           <svg class="w-5 h-5 3xl:w-6 3xl:h-6 max-lg:w-4 max-lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
-          <span class="font-semibold text-[10px] 3xl:text-sm max-lg:text-[9px] ">Volver</span>
+          <span class="font-semibold text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-[9px] ">Volver</span>
         </button>
         
         <!-- Información del contacto -->
@@ -54,10 +54,10 @@
               <img [src]="selectedContact.avatar" alt="Avatar" class="w-7 h-7 3xl:w-10 3xl:h-10 max-lg:w-6 max-lg:h-6 object-cover rounded-full flex-shrink-0" />
               <div class="flex flex-col justify-center">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 3xl:sm:space-x-3 max-lg:space-x-1.5">
-                  <p class="font-semibold text-black leading-tight sm:mr-2 3xl:sm:mr-3 text-[10px] sm:text-[10px] 3xl:text-sm max-lg:text-[9px] dark:text-slate-50 ">{{ selectedContact.phone }}</p>
-                  <span class="text-gray-400 text-[9px] sm:text-[9px] 3xl:text-xs max-lg:text-[8px] font-semibold mt-0.5 sm:mt-0 dark:text-slate-400 leading-tight">{{ selectedContact.time }}</span>
+                  <p class="font-semibold text-black leading-tight sm:mr-2 lg:sm:mr-2.5 xl:sm:mr-2.5 2xl:sm:mr-2.5 3xl:sm:mr-3 text-[10px] sm:text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-[9px] dark:text-slate-50 ">{{ selectedContact.phone }}</p>
+                  <span class="text-gray-400 text-[9px] sm:text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs max-lg:text-[8px] font-semibold mt-0.5 sm:mt-0 dark:text-slate-400 leading-tight">{{ selectedContact.time }}</span>
                 </div>
-                <p class="text-[9px] sm:text-[9px] 3xl:text-xs max-lg:text-[8px] text-black mt-1 3xl:mt-1.5 max-lg:mt-0.5 ml-0 sm:ml-0.5 dark:text-slate-400 leading-tight">{{ selectedContact.lastInteraction }}</p>
+                <p class="text-[9px] sm:text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs max-lg:text-[8px] text-black mt-1 lg:mt-1.5 xl:mt-1.5 2xl:mt-1.5 3xl:mt-1.5 max-lg:mt-0.5 ml-0 sm:ml-0.5 dark:text-slate-400 leading-tight">{{ selectedContact.lastInteraction }}</p>
               </div>
             </div>
             <div class="flex flex-col items-end">
@@ -80,8 +80,8 @@
                 <div class="flex items-center space-x-2 3xl:space-x-3 max-lg:space-x-1.5">
                   <img [src]="selectedContact.avatar" alt="Avatar" class="w-7 h-7 3xl:w-10 3xl:h-10 max-lg:w-6 max-lg:h-6 object-cover rounded-full flex-shrink-0" />
                   <div class="flex flex-col justify-center">
-                    <p class="font-semibold text-black leading-tight text-[10px] 3xl:text-sm max-lg:text-[9px] dark:text-slate-50 ">{{ selectedContact.phone }}</p>
-                    <p class="text-[9px] 3xl:text-xs max-lg:text-[8px] text-black mt-0.5 3xl:mt-1 whitespace-pre-line dark:text-slate-300 leading-tight">
+                    <p class="font-semibold text-black leading-tight text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-[9px] dark:text-slate-50 ">{{ selectedContact.phone }}</p>
+                    <p class="text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs max-lg:text-[8px] text-black mt-0.5 lg:mt-1 xl:mt-1 2xl:mt-1 3xl:mt-1 whitespace-pre-line dark:text-slate-300 leading-tight">
                       {{ msg.text }}
                     </p>
                   </div>
@@ -91,8 +91,8 @@
                 <div class="flex justify-end">
                   <div class="flex items-center space-x-2 3xl:space-x-3 max-lg:space-x-1.5">
                     <div class="flex flex-col items-end justify-center">
-                      <p class="font-semibold text-black text-right text-[10px] 3xl:text-sm max-lg:text-[9px] dark:text-slate-50 leading-tight">{{ t.agentName }}</p>
-                      <p class="text-black mt-0.5 3xl:mt-1 text-[9px] 3xl:text-xs max-lg:text-[8px] text-right max-w-xs sm:max-w-md whitespace-pre-line dark:text-slate-300 leading-tight">
+                      <p class="font-semibold text-black text-right text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-[9px] dark:text-slate-50 leading-tight">{{ t.agentName }}</p>
+                      <p class="text-black mt-0.5 lg:mt-1 xl:mt-1 2xl:mt-1 3xl:mt-1 text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs max-lg:text-[8px] text-right max-w-xs sm:max-w-md whitespace-pre-line dark:text-slate-300 leading-tight">
                         {{ msg.text }}
                       </p>
                     </div>

@@ -211,12 +211,7 @@ export class TopbarComponent implements OnInit {
       // Home
       this.pageTitle = t.home;
       this.pageSubtitle = '';
-      const user = this.userStorage.user();
-      if (user) {
-        this.welcomeText = `Bienvenido, ${user.name} ${user.lastname} 👋`;
-      } else {
-        this.welcomeText = 'Bienvenido 👋';
-      }
+      this.welcomeText = '';
     }
   }
 

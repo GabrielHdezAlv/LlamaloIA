@@ -980,7 +980,11 @@ getMainSphereSize(): number {
   let baseSize = 200;
   let maxSize = 280;
   
-  if (viewportWidth >= 1024) {
+  if (viewportWidth >= 1920) {
+    // 3xl: más grande
+    baseSize = 180;
+    maxSize = 260;
+  } else if (viewportWidth >= 1024) {
     // Desktop: más pequeño
     baseSize = 140;
     maxSize = 200;
