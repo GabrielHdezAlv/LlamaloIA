@@ -365,40 +365,30 @@ export class HomeComponent implements OnInit {
     }
 
     // Ejecutar animaciones siempre
-    console.log('HomeComponent ngOnInit - Iniciando animaciones');
     this.startFadeInAnimations();
   }
 
   private startFadeInAnimations(): void {
-    console.log('startFadeInAnimations - isBrowser:', this.isBrowser);
-
     // Verificar si estamos en el navegador de manera más robusta
     const isInBrowser = typeof window !== 'undefined' && window.localStorage;
-    console.log('Verificación robusta del navegador:', isInBrowser);
 
     if (!isInBrowser) {
-      console.log('No es navegador, mostrando secciones inmediatamente');
       this.showAllSectionsImmediately();
       return;
     }
 
-    console.log('Ejecutando animaciones con delays...');
-
     // Resumen aparece primero (sin delay)
     setTimeout(() => {
-      console.log('Mostrando Resumen');
       this.showResumen = true;
     }, 100);
 
     // Agentes Activos aparece después de 500ms
     setTimeout(() => {
-      console.log('Mostrando Agentes Activos');
       this.showAgentesActivos = true;
     }, 600);
 
     // Llamadas por día aparece después de 1000ms
     setTimeout(() => {
-      console.log('Mostrando Llamadas por día');
       this.showLlamadasPorDia = true;
     }, 1100);
   }

@@ -24,15 +24,6 @@ export class MetricsService {
       window.localStorage
     ) {
       token = localStorage.getItem('token') || '';
-      
-      // Logs de depuración (sin exponer el token completo)
-      if (!token) {
-        console.warn('⚠️ No se encontró token en localStorage');
-      } else {
-        console.log('✅ Token encontrado, longitud:', token.length, 'Primeros caracteres:', token.substring(0, 20) + '...');
-      }
-    } else {
-      console.warn('⚠️ No estamos en el navegador, no se puede obtener el token');
     }
 
     return new HttpHeaders({

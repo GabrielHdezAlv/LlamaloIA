@@ -83,9 +83,7 @@ export class AccountComponent implements OnInit {
 
   // Método para cambiar de pestaña
   setActiveTab(tab: 'profile' | 'security' | 'billing' | 'gifts') {
-    console.log('Setting active tab to:', tab); // Debug log
     this.activeTab = tab;
-    console.log('Active tab is now:', this.activeTab); // Debug log
   }
 
   userProfileImage = computed(() => this.user()?.profileImage ?? '');
