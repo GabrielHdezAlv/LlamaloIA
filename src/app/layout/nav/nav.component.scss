@@ -164,6 +164,26 @@
   }
 }
 
+@keyframes fadeInActive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+
+
+
+// Asegurar que cuando no está activo, el background se quite inmediatamente sin transición
+.nav-link-inactive {
+  background-color: transparent !important;
+  transition: none !important;
+  animation: none !important;
+}
+
 .animate-fade-in {
   animation: fadeIn 0.5s ease-in-out forwards;
 }

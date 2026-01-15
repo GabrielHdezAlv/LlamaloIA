@@ -1,6 +1,6 @@
 <div class="min-h-screen flex flex-col pt-2 pb-3 px-2 sm:pt-3 sm:pb-8 sm:px-3 md:pt-4 md:pb-10 md:px-4 lg:pt-3 lg:pb-3 lg:px-1 lg:mt-3 3xl:pt-6 3xl:pb-8 3xl:px-6 max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
   <!-- Barra de progreso -->
-  <div class="w-full mb-3 sm:mb-4 md:mb-5 lg:mb-2">
+  <div class="w-full mb-3 sm:mb-4 md:mb-5 lg:mb-3 xl:mb-3 2xl:mb-3">
     <div class="h-1 sm:h-1.5 md:h-2 3xl:h-2.5 w-full bg-gray-300 rounded-full overflow-hidden">
       <div 
         class="h-full bg-blue-950 transition-all duration-300"
@@ -20,24 +20,24 @@
   </div>
 
   @if (step === 'agentName') {
-    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg:">Nombre del Agente</h2>
-      <p class="text-center text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-black dark:text-slate-200 mb-3 sm:mb-6 md:mb-8 lg:mb-2 3xl:mb-4 max-w-2xl mx-auto  sm: md: px-2 sm:px-4">
+    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg:">Nombre del Agente</h2>
+      <p class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-200 mb-3 sm:mb-6 md:mb-8 lg:mb-3 xl:mb-3 2xl:mb-3 3xl:mb-4 max-w-2xl mx-auto  sm: md: px-2 sm:px-4">
         Este nombre se usará para identificar al agente dentro de la plataforma. No afecta su comportamiento.
       </p>
       <div class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
-        <div class="max-w-xl w-full mx-auto px-2 sm:px-4 md:px-0 lg:px-2 mt-4 sm:mt-5 md:mt-6 lg:mt-24">
-          <label class="block text-xs sm:text-sm lg:text-[10px] 3xl:text-base font-medium text-black dark:text-slate-200 mb-1.5 lg:mb-1 3xl:mb-2.5">Nombre del agente</label>
+        <div class="max-w-xl w-full mx-auto px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 mt-4 sm:mt-5 md:mt-6 lg:mt-20 xl:mt-20 2xl:mt-20">
+          <label class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-black dark:text-slate-200 mb-1.5 lg:mb-2 xl:mb-2 2xl:mb-2 3xl:mb-2.5">Nombre del agente</label>
           <input
             type="text"
             [(ngModel)]="agentName"
             placeholder="Ej. Carla Ventas"
-            class="w-full px-3.5 sm:px-4 md:px-4 lg:px-2.5 3xl:px-5 py-2.5 sm:py-3 md:py-3.5 lg:py-1.5 3xl:py-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl lg:rounded-md 3xl:rounded-xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-gray-700 dark:text-slate-200"
+            class="w-full px-3.5 sm:px-4 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-5 py-2.5 sm:py-3 md:py-3.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-700 dark:text-slate-200"
           />
         </div>
       </div>
 
-      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-2 absolute left-0 bottom-0 pb-6">
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
         <!-- Botón de volver a la izquierda -->
         <button
           (click)="goBack()"
@@ -49,7 +49,7 @@
           </svg>
         </button>
 
-        <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-4 3xl:px-8 py-1.5 sm:py-2 lg:py-1 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-[10px] 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
           (click)="onSubmitAgentName()"
         >
           Continuar
@@ -70,14 +70,14 @@
     </div>
   }
   @if (step === 'callType') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg:">Tipo de Llamadas</h2>
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg:">Tipo de Llamadas</h2>
       <div class="flex-1 flex flex-col justify-center overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
-      <div class="w-[90%] max-w-[400px] mx-auto grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-3 px-2 sm:px-3 md:px-4 lg:px-2 mb-3 sm:mb-4 -mt-8 sm:-mt-9 md:-mt-10 lg:-mt-8">
+      <div class="w-[90%] max-w-[400px] mx-auto grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-4 xl:gap-4 2xl:gap-4 px-2 sm:px-3 md:px-4 lg:px-3 xl:px-3 2xl:px-3 mb-3 sm:mb-4 -mt-8 sm:-mt-9 md:-mt-10 lg:-mt-8">
         <!-- Inbound -->
         <button
           (click)="onSelect('inbound')"
-          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[260px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-blue-500/30 dark:hover:border-blue-500/30"
+          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-blue-500/30 dark:hover:border-blue-500/30"
         >
           <div class="mb-4 sm:mb-6">
             <svg class="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 3xl:w-28 3xl:h-28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,7 +94,7 @@
         <!-- Outbound -->
         <button
           disabled
-          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[260px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-not-allowed opacity-60 bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent"
+          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-not-allowed opacity-60 bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent"
         >
           <div class="mb-4 sm:mb-6 opacity-50">
             <svg class="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 3xl:w-32 3xl:h-32 text-gray-900 dark:text-white" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,7 +111,7 @@
       </div>
       </div>
 
-      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-2 absolute left-0 bottom-0 pb-6">
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
         <!-- Botón de volver a la izquierda -->
         <button
           (click)="goBack()"
@@ -123,7 +123,7 @@
           </svg>
         </button>
 
-        <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-4 3xl:px-8 py-1.5 sm:py-2 lg:py-1 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-[10px] 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
           (click)="onSelect('inbound')"
         >
           Continuar
@@ -147,11 +147,11 @@
   <!-- Pagina: 2 -->
   @if (step === 'language') {
     <!-- Pantalla 2: Idioma -->
-    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg:">Idioma</h2>
+    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg:">Idioma</h2>
       <div class="flex-1 flex flex-col justify-center overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
       <!-- Slider vertical de idiomas -->
-      <div class="relative max-w-2xl mx-auto w-full px-2 sm:px-4 md:px-0 lg:px-2">
+      <div class="relative max-w-2xl mx-auto w-full px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3">
         <!-- Contenedor con scroll vertical y blur inferior -->
         <div class="relative">
           <!-- Gradiente de desvanecido inferior -->
@@ -316,7 +316,7 @@
       </div>
       </div>
 
-      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-2 absolute left-0 bottom-0 pb-6">
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
         <!-- Botón de volver a la izquierda -->
         <button
           (click)="goBack()"
@@ -346,8 +346,8 @@
   }
     @if (step === 'voices') {
       <!-- Pantalla 3: Voces -->
-      <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-        <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg:">Voces</h2>
+      <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+        <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg:">Voces</h2>
         <div class="flex-1 flex flex-col justify-center overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
         <!-- Contenedor de voces responsive -->
         <div class="w-full">
@@ -626,7 +626,7 @@
         </div>
         </div>
     
-        <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-2 absolute left-0 bottom-0 pb-6">
+        <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
           <!-- Botón de volver a la izquierda -->
           <button
             (click)="goBack()"
@@ -657,18 +657,18 @@
 
     @if (step === 'instructions') {
       <!-- Pantalla 4: Instrucciones -->
-      <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-1 lg:mb-1 3xl:mb-3  sm: md: lg:">
+      <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-1 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg:">
         Instrucciones
       </h2>
 
-      <p class="text-center text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-black dark:text-slate-200 mb-3 sm:mb-5 md:mb-7 lg:mb-2 3xl:mb-4 max-w-2xl mx-auto  sm: md: px-2 sm:px-4">
+      <p class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-200 mb-3 sm:mb-5 md:mb-7 lg:mb-3 xl:mb-3 2xl:mb-3 3xl:mb-4 max-w-2xl mx-auto  sm: md: px-2 sm:px-4">
         Define las instrucciones que seguirá tu agente de IA.
       </p>
 
       <div class="flex-1 flex flex-col justify-start pt-4 sm:pt-6 md:pt-8 lg:pt-2 overflow-y-auto scrollbar-width:none scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
       <!-- Mensaje de saludo -->
-      <div class="mb-3 sm:mb-4 md:mb-5 lg:mb-2 px-2 sm:px-4 md:px-0 lg:px-2">
+      <div class="mb-3 sm:mb-4 md:mb-5 lg:mb-3 xl:mb-3 2xl:mb-3 px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3">
           <label class="flex items-center gap-2 text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base font-medium text-black dark:text-slate-200 mb-1 lg:mb-0.5 3xl:mb-2">
             <svg
               class="w-5 h-5 lg:w-4.5 lg:h-4.5 3xl:w-6 3xl:h-6"
@@ -684,12 +684,12 @@
             type="text"
             [(ngModel)]="greeting"
             placeholder="Hola, gracias por llamar a..."
-            class="w-full px-2.5 sm:px-3 md:px-4 lg:px-2.5 3xl:px-5 py-2 sm:py-2.5 md:py-3 lg:py-1.5 3xl:py-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl lg:rounded-md 3xl:rounded-xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base text-gray-500 dark:text-slate-300"
+            class="w-full px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-5 py-2 sm:py-2.5 md:py-3 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base text-gray-500 dark:text-slate-300"
           />
       </div>
 
       <!-- Título de instrucciones (sin selector) -->
-      <div class="mb-2 sm:mb-2.5 md:mb-3 lg:mb-1.5 w-full sm:w-80 px-2 sm:px-4 md:px-0 lg:px-2">
+      <div class="mb-2 sm:mb-2.5 md:mb-3 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 w-full sm:w-80 px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3">
         <div class="flex items-center gap-2 text-black dark:text-slate-200">
           <svg
             class="w-4 h-4 lg:w-3.5 lg:h-3.5 3xl:w-5 3xl:h-5"
@@ -704,12 +704,12 @@
       </div>
 
       <!-- Textarea para instrucciones -->
-      <div class="mb-4 sm:mb-6 md:mb-10 lg:mb-2 px-2 sm:px-4 md:px-0 lg:px-2 flex flex-col relative">
+      <div class="mb-4 sm:mb-6 md:mb-10 lg:mb-3 xl:mb-3 2xl:mb-3 px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 flex flex-col relative">
         <!-- Textarea -->
         <textarea
           [(ngModel)]="instructions"
           placeholder="Escribe aquí..."
-          class="w-full px-2.5 sm:px-3 md:px-4 lg:px-2.5 3xl:px-5 py-2 sm:py-2.5 md:py-3 lg:py-2 3xl:py-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 rounded-lg sm:rounded-[1rem] lg:rounded-md 3xl:rounded-xl focus:outline-none focus:ring-0 dark:focus:ring-0 h-32 sm:h-36 md:h-44 lg:h-32 3xl:h-40 resize-none text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base dark:text-slate-200 instructions-scroll"
+          class="w-full px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-5 py-2 sm:py-2.5 md:py-3 lg:py-2 3xl:py-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 rounded-lg sm:rounded-[1rem] lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:outline-none focus:ring-0 dark:focus:ring-0 h-32 sm:h-36 md:h-44 lg:h-32 3xl:h-40 resize-none text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base dark:text-slate-200 instructions-scroll"
         ></textarea>
         
         <!-- Botón Generar con IA en esquina inferior derecha -->
@@ -717,7 +717,7 @@
           <button
             type="button"
             (click)="openGeneratePromptModal()"
-            class="ai-generate-btn flex items-center gap-1.5 3xl:gap-2 px-2.5 py-1.5 lg:px-2 lg:py-1 3xl:px-3 3xl:py-2 text-black text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base font-medium rounded-lg 3xl:rounded-xl transition-colors"
+            class="ai-generate-btn flex items-center gap-1.5 3xl:gap-2 px-2.5 py-1.5 lg:px-3 xl:px-3 2xl:px-3 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:px-3 3xl:py-2 text-black text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base font-medium rounded-lg 3xl:rounded-xl transition-colors"
           >
             <div class="ai-border-mask">
               <div class="ai-border-glow"></div>
@@ -737,7 +737,7 @@
       </div>
 
       <!-- Botones -->
-      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-2 absolute left-0 bottom-0 pb-6">
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
         <button
           (click)="goBack()"
           class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
@@ -748,7 +748,7 @@
           </svg>
         </button>
 
-        <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-4 3xl:px-8 py-1.5 sm:py-2 lg:py-1 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-[10px] 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
           (click)="onSubmit()"
         >
           Continuar
@@ -771,19 +771,19 @@
 
   @if (step === 'actions') {
     <!-- Pantalla 5: Añadir Acciones -->
-    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg:">Añadir Acciones</h2>
+    <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+      <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg:">Añadir Acciones</h2>
   
-      <p class="text-center text-xs sm:text-sm text-black dark:text-slate-300 mb-8 sm:mb-10 md:mb-12 lg:mb-2  sm: mx-auto px-2 sm:px-3 md:px-4 max-w-2xl">
+      <p class="text-center text-xs sm:text-sm text-black dark:text-slate-300 mb-8 sm:mb-10 md:mb-12 lg:mb-3 xl:mb-3 2xl:mb-3  sm: mx-auto px-2 sm:px-3 md:px-4 max-w-2xl">
         Define las acciones que puede realizar tu agente
       </p>
   
       <div class="flex-1 flex flex-col justify-center overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
-      <div class="w-[90%] max-w-[400px] mx-auto grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-3 px-2 sm:px-3 md:px-4 lg:px-2 mb-3 sm:mb-4 -mt-8 sm:-mt-9 md:-mt-10 lg:-mt-8">
+      <div class="w-[90%] max-w-[400px] mx-auto grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-4 xl:gap-4 2xl:gap-4 px-2 sm:px-3 md:px-4 lg:px-3 xl:px-3 2xl:px-3 mb-3 sm:mb-4 -mt-8 sm:-mt-9 md:-mt-10 lg:-mt-8">
         <!-- Shopify -->
         <button
           (click)="selectAction('shopify')"
-          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[260px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-green-500/30 dark:hover:border-green-500/30"
+          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-green-500/30 dark:hover:border-green-500/30"
         >
           <div class="mb-4 sm:mb-6">
             <img src="assets/shopify.png" alt="Shopify" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 3xl:w-28 3xl:h-28 object-contain" />
@@ -796,7 +796,7 @@
         <!-- Make -->
         <button
           (click)="selectAction('make')"
-          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[260px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-pink-500/30 dark:hover:border-pink-500/30"
+          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-pink-500/30 dark:hover:border-pink-500/30"
         >
           <div class="mb-4 sm:mb-6">
             <img src="assets/make.png" alt="Make" class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 3xl:w-28 3xl:h-28 object-contain" />
@@ -809,7 +809,7 @@
       </div>
   
       <!-- Botones -->
-      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-2 absolute left-0 bottom-0 pb-6">
+      <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
         <button (click)="goBack()" class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
           style="z-index:10;"
         >
@@ -835,19 +835,19 @@
 
   @if (step === 'knowledgeBase') {
   <!-- Pantalla 6: Base de Conocimientos -->
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg:">Base de Conocimientos</h2>
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg:">Base de Conocimientos</h2>
 
-        <p class="text-center text-xs sm:text-sm text-black dark:text-slate-300 mb-8 sm:mb-10 md:mb-12 lg:mb-2  sm: mx-auto px-2 sm:px-3 md:px-4 max-w-2xl">
+        <p class="text-center text-xs sm:text-sm text-black dark:text-slate-300 mb-8 sm:mb-10 md:mb-12 lg:mb-3 xl:mb-3 2xl:mb-3  sm: mx-auto px-2 sm:px-3 md:px-4 max-w-2xl">
       Define la base de conocimientos para tu agente
     </p>
 
     <div class="flex-1 flex flex-col justify-center overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
-    <div class="w-[90%] max-w-[400px] mx-auto grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-3 px-2 sm:px-3 md:px-4 lg:px-2 mb-3 sm:mb-4 -mt-8 sm:-mt-9 md:-mt-10 lg:-mt-8">
+    <div class="w-[90%] max-w-[400px] mx-auto grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-4 xl:gap-4 2xl:gap-4 px-2 sm:px-3 md:px-4 lg:px-3 xl:px-3 2xl:px-3 mb-3 sm:mb-4 -mt-8 sm:-mt-9 md:-mt-10 lg:-mt-8">
       <!-- PDF -->
       <button
         (click)="selectKnowledgeSource('pdf')"
-        class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[260px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-blue-500/30 dark:hover:border-blue-500/30"
+        class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-blue-500/30 dark:hover:border-blue-500/30"
       >
         <input
           #fileInput
@@ -888,7 +888,7 @@
       <!-- Web -->
       <button
         (click)="selectKnowledgeSource('web')"
-        class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[260px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-purple-500/30 dark:hover:border-purple-500/30"
+        class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-purple-500/30 dark:hover:border-purple-500/30"
       >
         <div class="mb-4 sm:mb-6">
           <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="sm:w-20 sm:h-20 md:w-24 md:h-24 web-icon-svg">
@@ -908,7 +908,7 @@
     </div>
 
     <!-- Botones -->
-    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-2 absolute left-0 bottom-0 pb-6">
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
       <button (click)="goBack()" class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800">
         <svg class="w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:-translate-x-1" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
@@ -930,10 +930,10 @@
   </div>
 }
 @if (step === 'summary') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <!-- Título y descripción -->
-    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg:">Prueba Agente</h2>
-    <p class="text-center text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-black dark:text-slate-200 mb-3 sm:mb-6 md:mb-8 lg:mb-2 3xl:mb-4 max-w-4xl mx-auto px-2 sm:px-4">
+    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg:">Prueba Agente</h2>
+    <p class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-200 mb-3 sm:mb-6 md:mb-8 lg:mb-3 xl:mb-3 2xl:mb-3 3xl:mb-4 max-w-4xl mx-auto px-2 sm:px-4">
       Habla con nuestro agente de prueba para ver cómo funciona.
     </p>
     
@@ -1019,14 +1019,14 @@
       </button>
     </div>
     
-    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-2 absolute left-0 bottom-0 pb-6">
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
       <button (click)="goBack()" class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800">
         <svg class="w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:-translate-x-1" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
         </svg>
       </button>
             
-      <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-4 3xl:px-8 py-1.5 sm:py-2 lg:py-1 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-[10px] 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3" (click)="onSubmitTestCall()">
+      <button class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3" (click)="onSubmitTestCall()">
         Continuar
       </button>
 
@@ -1045,14 +1045,14 @@
 }
 
 @if (step === 'connectPhone') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <!-- Título principal -->
-    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg: px-2 sm:px-3 md:px-4">
+    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg: px-2 sm:px-3 md:px-4">
       Conectar Número de Teléfono
     </h2>
     <p
       id="twilio-subtitle"
-      class="text-center font-semibold text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-blue-950 dark:text-slate-200 mb-6 sm:mb-8 md:mb-10 lg:mb-1 3xl:mb-2  sm: md: px-2 sm:px-4"
+      class="text-center font-semibold text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-blue-950 dark:text-slate-200 mb-6 sm:mb-8 md:mb-10 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-2  sm: md: px-2 sm:px-4"
     >
       a través de Twilio
     </p>
@@ -1073,16 +1073,16 @@
 
     <div class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
     <!-- Contenido principal: Formulario centrado -->
-    <div class="max-w-2xl mx-auto px-2 sm:px-4 md:px-6 lg:px-4 pt-3 sm:pt-4 md:pt-5 lg:pt-2">
+    <div class="max-w-2xl mx-auto px-2 sm:px-4 md:px-6 lg:px-5 xl:px-5 2xl:px-5 pt-3 sm:pt-4 md:pt-5 lg:pt-2">
         <form class="space-y-4 sm:space-y-5 lg:space-y-3 3xl:space-y-4">
         <!-- Número de teléfono -->
         <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2">
-          <label for="phone" class="block text-xs sm:text-sm lg:text-[10px] 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
+          <label for="phone" class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
             Número de teléfono <span class="text-red-500 ml-1">*</span>
           </label>
           <div class="flex items-center relative">
             <!-- Dropdown personalizado -->
-            <div (click)="toggleCountryMenu()" class="w-28 h-8 sm:h-9 md:h-10 lg:h-8 3xl:w-36 3xl:h-11 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 border-r-0 rounded-l-lg px-2.5 sm:px-3 md:px-3 lg:px-2.5 3xl:px-4 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
+            <div (click)="toggleCountryMenu()" class="w-28 h-8 sm:h-9 md:h-10 lg:h-8 3xl:w-36 3xl:h-11 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 border-r-0 rounded-l-lg px-2.5 sm:px-3 md:px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
               <div class="flex items-center gap-1.5 lg:gap-1 3xl:gap-2">
                 <svg id="current-flag" width="16" height="11" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 rounded-sm lg:w-[14px] lg:h-[10px] 3xl:w-5 3xl:h-3.5">
                   <rect width="20" height="12" fill="#C60B1E"/>
@@ -1097,14 +1097,14 @@
 
             <!-- Menú desplegable -->
             <ul [class.hidden]="!showCountryMenu" class="absolute top-full left-0 mt-1 3xl:mt-1.5 w-28 3xl:w-36 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 rounded-lg shadow-xl z-20 overflow-hidden">
-              <li (click)="selectCountry('es', '+34', '#C60B1E', '#FFC400')" class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-2 3xl:px-4 py-1.5 sm:py-2 md:py-2 lg:py-1.5 3xl:py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] 3xl:text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
+              <li (click)="selectCountry('es', '+34', '#C60B1E', '#FFC400')" class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 py-1.5 sm:py-2 md:py-2 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] 3xl:text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
                 <svg width="16" height="11" viewBox="0 0 20 12" class="mr-1.5 lg:mr-1 3xl:mr-2 flex-shrink-0 rounded-sm lg:w-[14px] lg:h-[10px] 3xl:w-5 3xl:h-3.5">
                   <rect width="20" height="12" fill="#C60B1E"/>
                   <rect y="3" width="20" height="6" fill="#FFC400"/>
                 </svg>
                 <span class="font-medium text-gray-800 dark:text-slate-200">+34</span>
               </li>
-              <li (click)="selectCountry('us', '+1', '#00247D', '#FFF')" class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-2 py-1.5 sm:py-2 md:py-2 lg:py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
+              <li (click)="selectCountry('us', '+1', '#00247D', '#FFF')" class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-3 xl:px-3 2xl:px-3 py-1.5 sm:py-2 md:py-2 lg:py-2 xl:py-2 2xl:py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
                 <svg width="16" height="11" viewBox="0 0 20 12" class="mr-1.5 lg:mr-1 3xl:mr-2 flex-shrink-0 rounded-sm lg:w-[14px] lg:h-[10px] 3xl:w-5 3xl:h-3.5">
                   <rect width="20" height="12" fill="#00247D"/>
                   <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2"/>
@@ -1116,7 +1116,7 @@
                 </svg>
                 <span class="font-medium text-gray-800 dark:text-slate-200">+1</span>
               </li>
-              <li (click)="selectCountry('fr', '+33', '#0055A4', '#EF4135')" class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-2 py-1.5 sm:py-2 md:py-2 lg:py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
+              <li (click)="selectCountry('fr', '+33', '#0055A4', '#EF4135')" class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-3 xl:px-3 2xl:px-3 py-1.5 sm:py-2 md:py-2 lg:py-2 xl:py-2 2xl:py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
                 <svg width="16" height="11" viewBox="0 0 20 12" class="mr-1.5 lg:mr-1 3xl:mr-2 flex-shrink-0 rounded-sm lg:w-[14px] lg:h-[10px] 3xl:w-5 3xl:h-3.5">
                   <rect width="20" height="12" fill="#fff"/>
                   <rect width="6.66" height="12" fill="#0055A4"/>
@@ -1124,7 +1124,7 @@
                 </svg>
                 <span class="font-medium text-gray-800 dark:text-slate-200">+33</span>
               </li>
-              <li (click)="selectCountry('de', '+49', '#FFCE00', '#DD0000')" class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-2 py-1.5 sm:py-2 md:py-2 lg:py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] transition-colors">
+              <li (click)="selectCountry('de', '+49', '#FFCE00', '#DD0000')" class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-3 xl:px-3 2xl:px-3 py-1.5 sm:py-2 md:py-2 lg:py-2 xl:py-2 2xl:py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] transition-colors">
                 <svg width="16" height="11" viewBox="0 0 20 12" class="mr-1.5 lg:mr-1 3xl:mr-2 flex-shrink-0 rounded-sm lg:w-[14px] lg:h-[10px] 3xl:w-5 3xl:h-3.5">
                   <rect width="20" height="12" fill="#FFCE00"/>
                   <rect y="6" width="20" height="6" fill="#DD0000"/>
@@ -1139,62 +1139,62 @@
               type="tel"
               id="phone"
               placeholder="630 00 00 00"
-              class="flex-1 h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-2.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+              class="flex-1 h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
             />
           </div>
         </div>
 
         <!-- Grid para SID y Token -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-3 3xl:gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-4">
           <!-- Cuenta Twilio SID -->
           <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2">
-            <label for="sid" class="block text-xs sm:text-sm lg:text-[10px] 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
+            <label for="sid" class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
               Account SID de Twilio <span class="text-red-500 ml-1">*</span>
             </label>
             <input
               type="text"
               id="sid"
               placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-              class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-2.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+              class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
             />
           </div>
 
           <!-- Twilio Auth Token -->
           <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2">
-            <label for="token" class="block text-xs sm:text-sm lg:text-[10px] 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
+            <label for="token" class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
               Auth Token de Twilio <span class="text-red-500 ml-1">*</span>
             </label>
             <input
               type="password"
               id="token"
               placeholder="Tu token de autenticación"
-              class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-2.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+              class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
             />
           </div>
         </div>
 
         <!-- Etiqueta -->
         <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2">
-          <label for="label" class="block text-xs sm:text-sm lg:text-[10px] 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
+          <label for="label" class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
             Etiqueta <span class="text-gray-500 dark:text-slate-400 text-[10px] sm:text-xs lg:text-[9px] 3xl:text-sm font-normal ml-1">(opcional)</span>
           </label>
           <input
             type="text"
             id="label"
             placeholder="Ej: Oficina Principal, Ventas, etc."
-            class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-2.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
+            class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium"
           />
         </div>
 
         <!-- Selección de número importado -->
         <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2">
-          <label for="imported-number" class="block text-xs sm:text-sm lg:text-[10px] 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
+          <label for="imported-number" class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
             Número importado
           </label>
           <div class="relative">
             <select
               id="imported-number"
-              class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-2.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-gray-900 dark:text-slate-100 appearance-none cursor-pointer transition-all shadow-sm font-medium"
+              class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-100 appearance-none cursor-pointer transition-all shadow-sm font-medium"
             >
               <option value="">Selecciona un número importado</option>
               <option value="1">+34 630 00 00 00</option>
@@ -1212,7 +1212,7 @@
     </div>
 
     <!-- Botones -->
-    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-2 absolute left-0 bottom-0 pb-6">
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
       <button (click)="goBack()" class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800">
         <svg class="w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:-translate-x-1" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z" fill="currentColor"/>
@@ -1221,7 +1221,7 @@
             
 
         <button
-          class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-4 3xl:px-8 py-1.5 sm:py-2 lg:py-1 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-[10px] 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+          class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
           (click)="onConnectPhone()"
         >
           Continuar
@@ -1242,12 +1242,12 @@
 }
 
 @if (step === 'advancedSettings') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <!-- Título -->
-    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg: px-2 sm:px-3 md:px-4">Configuración Avanzada</h2>
+    <h2 class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg: px-2 sm:px-3 md:px-4">Configuración Avanzada</h2>
 
     <!-- Subtítulo -->
-    <p class="text-center text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-sm text-gray-700 dark:text-slate-300 mb-6 sm:mb-8 md:mb-10 lg:mb-1 3xl:mb-1.5 max-w-4xl mx-auto px-2 sm:px-4">
+    <p class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-gray-700 dark:text-slate-300 mb-6 sm:mb-8 md:mb-10 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1.5 max-w-4xl mx-auto px-2 sm:px-4">
       Personaliza los parámetros avanzados de tu agente
     </p>
 
@@ -1263,9 +1263,9 @@
         
         <!-- Tiempo de inactividad -->
         <div class="border-b border-gray-200 dark:border-slate-700 pb-3 lg:pb-2">
-          <label class="block text-xs lg:text-[10px] 3xl:text-sm font-medium text-gray-900 dark:text-white mb-2 lg:mb-1.5 3xl:mb-1.5">Tiempo de espera de inactividad</label>
+          <label class="block text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-medium text-gray-900 dark:text-white mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 3xl:mb-1.5">Tiempo de espera de inactividad</label>
           <div class="space-y-2 lg:space-y-1 3xl:space-y-2">
-            <div class="flex justify-between text-xs lg:text-[10px] 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-1 3xl:mb-1">
+            <div class="flex justify-between text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1">
               <span>Corto</span>
               <span>Largo</span>
             </div>
@@ -1292,10 +1292,10 @@
                 <!-- Bocadillo con el valor -->
                 <div
                   *ngIf="showInactivityTooltip"
-                  class="tooltip-bubble absolute bottom-full mb-2 lg:mb-1 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
+                  class="tooltip-bubble absolute bottom-full mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
                   [style.left.%]="inactivityTimeout"
                 >
-                  <span class="text-xs lg:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-white">
+                  <span class="text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white">
                     {{ formatDecimal(inactivityTimeout) }}
                   </span>
                   <!-- Flecha del bocadillo -->
@@ -1310,9 +1310,9 @@
 
         <!-- Duración máxima -->
         <div class="border-b border-gray-200 dark:border-slate-700 pb-3 lg:pb-2">
-          <label class="block text-xs lg:text-[10px] 3xl:text-base font-medium text-gray-900 dark:text-white mb-2 lg:mb-1.5 3xl:mb-2">Duración máxima de llamada</label>
+          <label class="block text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-gray-900 dark:text-white mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 3xl:mb-2">Duración máxima de llamada</label>
           <div class="space-y-2 lg:space-y-1 3xl:space-y-2">
-            <div class="flex justify-between text-xs lg:text-[10px] 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-1 3xl:mb-1">
+            <div class="flex justify-between text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1">
               <span>Corta</span>
               <span>Larga</span>
             </div>
@@ -1339,10 +1339,10 @@
                 <!-- Bocadillo con el valor -->
                 <div
                   *ngIf="showMaxCallDurationTooltip"
-                  class="tooltip-bubble absolute bottom-full mb-2 lg:mb-1 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
+                  class="tooltip-bubble absolute bottom-full mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
                   [style.left.%]="maxCallDuration"
                 >
-                  <span class="text-xs lg:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-white">
+                  <span class="text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white">
                     {{ formatDecimal(maxCallDuration) }}
                   </span>
                   <!-- Flecha del bocadillo -->
@@ -1357,9 +1357,9 @@
 
         <!-- Rapidez del agente -->
         <div class="border-b border-gray-200 dark:border-slate-700 pb-3 lg:pb-2">
-          <label class="block text-xs lg:text-[10px] 3xl:text-base font-medium text-gray-900 dark:text-white mb-2 lg:mb-1.5 3xl:mb-2">Velocidad de conversacion</label>
+          <label class="block text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-gray-900 dark:text-white mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 3xl:mb-2">Velocidad de conversacion</label>
           <div class="space-y-2 lg:space-y-1 3xl:space-y-2">
-            <div class="flex justify-between text-xs lg:text-[10px] 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-1 3xl:mb-1">
+            <div class="flex justify-between text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1">
               <span>Lento</span>
               <span>Muy rápido</span>
             </div>
@@ -1386,10 +1386,10 @@
                 <!-- Bocadillo con el valor -->
                 <div
                   *ngIf="showAgentSpeedTooltip"
-                  class="tooltip-bubble absolute bottom-full mb-2 lg:mb-1 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
+                  class="tooltip-bubble absolute bottom-full mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
                   [style.left.%]="agentSpeed"
                 >
-                  <span class="text-xs lg:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-white">
+                  <span class="text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white">
                     {{ formatDecimal(agentSpeed) }}
                   </span>
                   <!-- Flecha del bocadillo -->
@@ -1404,9 +1404,9 @@
 
         <!-- Temperatura del LLM -->
         <div class="border-b border-gray-200 dark:border-slate-700 pb-3 lg:pb-2">
-          <label class="block text-xs lg:text-[10px] 3xl:text-base font-medium text-gray-900 dark:text-white mb-2 lg:mb-1.5 3xl:mb-2">Temperatura del LLM</label>
+          <label class="block text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-gray-900 dark:text-white mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 3xl:mb-2">Temperatura del LLM</label>
           <div class="space-y-2 lg:space-y-1 3xl:space-y-2">
-            <div class="flex justify-between text-xs lg:text-[10px] 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-1 3xl:mb-1">
+            <div class="flex justify-between text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1">
               <span>Baja</span>
               <span>Alta</span>
             </div>
@@ -1433,10 +1433,10 @@
                 <!-- Bocadillo con el valor -->
                 <div
                   *ngIf="showLlmTemperatureTooltip"
-                  class="tooltip-bubble absolute bottom-full mb-2 lg:mb-1 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
+                  class="tooltip-bubble absolute bottom-full mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
                   [style.left.%]="llmTemperature"
                 >
-                  <span class="text-xs lg:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-white">
+                  <span class="text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white">
                     {{ formatDecimal(llmTemperature) }}
                   </span>
                   <!-- Flecha del bocadillo -->
@@ -1492,7 +1492,7 @@
     </div>
 
     <!-- Botones -->
-    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-2 absolute left-0 bottom-0 pb-6">
+    <div class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
       <button (click)="goBack()" class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
         style="z-index:10;"
       >
@@ -1503,7 +1503,7 @@
             
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-4 3xl:px-8 py-1.5 sm:py-2 lg:py-1 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-[10px] 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onSubmitAdvancedSettings()"
       >
         Continuar
@@ -1515,9 +1515,9 @@
 }
 
 @if (step === 'final') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6 sm:p-8 md:p-12 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none relative flex flex-col" style="overflow: hidden;">
-    <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg: px-2 sm:px-4">Creando Agente</h2>
-    <p class="text-xs sm:text-sm md:text-base lg:text-[10px] 3xl:text-base text-gray-700 dark:text-slate-300 mb-4 sm:mb-6 md:mb-8 lg:mb-2 3xl:mb-4 max-w-2xl mx-auto px-2 sm:px-4">
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6 sm:p-8 md:p-12 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none relative flex flex-col" style="overflow: hidden;">
+    <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg: px-2 sm:px-4">Creando Agente</h2>
+    <p class="text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-700 dark:text-slate-300 mb-4 sm:mb-6 md:mb-8 lg:mb-3 xl:mb-3 2xl:mb-3 3xl:mb-4 max-w-2xl mx-auto px-2 sm:px-4">
       No cierres esta ventana mientras se crea tu agente
     </p>
     <div class="flex-1 flex items-center justify-center">
@@ -1530,10 +1530,10 @@
 }
 
 @if (step === 'success') {
-   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6 sm:p-8 md:p-12 lg:p-4 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[450px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none relative flex flex-col" style="overflow: hidden;">
-    <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-1 3xl:mb-3  sm: md: lg: px-2 sm:px-4">¡Agente Creado Exitosamente!</h2>
+   <div class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6 sm:p-8 md:p-12 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none relative flex flex-col" style="overflow: hidden;">
+    <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg: px-2 sm:px-4">¡Agente Creado Exitosamente!</h2>
     <div class="flex-1 flex flex-col items-center justify-center">
-      <div class="flex justify-center mt-2 sm:mt-3 md:mt-4 lg:mt-2 3xl:mt-4 mb-4 sm:mb-6 md:mb-8 lg:mb-12 3xl:mb-16">
+      <div class="flex justify-center mt-2 sm:mt-3 md:mt-4 lg:mt-2 3xl:mt-4 mb-4 sm:mb-6 md:mb-8 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-22 3xl:mb-16">
         <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-24 lg:h-24 3xl:w-32 3xl:h-32 bg-blue-200 dark:bg-[#444444] rounded-full flex items-center justify-center success-checkmark">
           <svg width="42" height="35" viewBox="0 0 48 33" fill="none" xmlns="http://www.w3.org/2000/svg" class="3xl:w-14 3xl:h-12">
             <path d="M3.64844 16.4522L17.2201 30.0201L44.352 2.8844" stroke="#1E3A8A" stroke-width="5.42714" stroke-linecap="round" stroke-linejoin="round" class="dark:stroke-white"/>
@@ -1541,7 +1541,7 @@
         </div>
       </div>
       <button
-        class="px-8 sm:px-10 md:px-16 lg:px-4 3xl:px-10 py-1.5 sm:py-2 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="px-8 sm:px-10 md:px-16 lg:px-5 xl:px-5 2xl:px-5 3xl:px-10 py-1.5 sm:py-2 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm 3xl:text-base text-white font-medium font-[Poppins,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onFinish()"
       >
         Finalizar
