@@ -1,29 +1,29 @@
-<div class="modal-container relative h-full max-h-[90vh] bg-white dark:bg-[#18181A] rounded-[2rem] border-4 border-gray-300 dark:border-slate-600 w-full max-w-7xl mx-auto flex flex-col overflow-hidden">
-  <div class="overflow-y-auto flex-1 relative z-10" [class.pb-20]="links.length > 0" [class.pb-6]="links.length === 0">
+<div class="modal-container relative h-full max-h-[75vh] bg-white dark:bg-[#18181A] rounded-2xl border-2 border-gray-300 dark:border-slate-600 w-full max-w-xl mx-auto flex flex-col overflow-hidden">
+  <div class="overflow-y-auto flex-1 relative z-10" [class.pb-16]="links.length > 0" [class.pb-4]="links.length === 0">
   <!-- Header con título en esquina superior izquierda -->
-  <div class="relative p-6 pb-2 flex-shrink-0">
+  <div class="relative p-5 pb-2 flex-shrink-0">
     <button
-      class="absolute top-4 right-4 flex items-center justify-center hover:opacity-70 transition-opacity cursor-pointer border-none p-0 z-10"
+      class="absolute top-3 right-3 flex items-center justify-center hover:opacity-70 transition-opacity cursor-pointer border-none p-0 z-10"
       (click)="onClose()"
       [attr.aria-label]="t.close"
     >
-      <mat-icon class="text-gray-600 dark:text-gray-300 text-2xl h-6 w-6">close</mat-icon>
+      <mat-icon class="text-gray-600 dark:text-gray-300 text-xl h-5 w-5">close</mat-icon>
     </button>
     
-    <h2 class="text-lg sm:text-2xl md:text-3xl font-semibold text-blue-950 dark:text-white tracking-[-1px] sm:tracking-[-2px] md:tracking-[-2.5px] mb-4">
+    <h2 class="text-base sm:text-lg md:text-xl font-semibold text-blue-950 dark:text-white tracking-[-0.5px] sm:tracking-[-1px] mb-3">
       Web
     </h2>
 
     <!-- Recuadro Add links -->
-    <div class="mt-2 border-2 border-gray-300 dark:border-slate-600 rounded-[2rem] bg-white dark:bg-slate-800 overflow-hidden">
+    <div class="mt-2 border border-gray-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 overflow-hidden">
       <!-- Header del recuadro con botón para expandir/colapsar -->
       <button
         (click)="toggleExpand()"
-        class="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer"
+        class="w-full flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer"
       >
-        <span class="text-base sm:text-lg font-medium text-gray-900 dark:text-slate-200">Add links</span>
+        <span class="text-sm sm:text-base font-medium text-gray-900 dark:text-slate-200">Add links</span>
         <svg
-          class="w-5 h-5 text-gray-600 dark:text-slate-400 transition-transform duration-200"
+          class="w-4 h-4 text-gray-600 dark:text-slate-400 transition-transform duration-200"
           [class.rotate-180]="isExpanded"
           fill="none"
           stroke="currentColor"
@@ -37,18 +37,18 @@
       <div
         class="overflow-hidden transition-all duration-300 ease-in-out"
         [class.max-h-0]="!isExpanded"
-        [class.max-h-[800px]]="isExpanded"
+        [class.max-h-[600px]]="isExpanded"
       >
-        <div class="px-6 pb-6">
+        <div class="px-4 pb-4">
           <!-- URL Input Field -->
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-600 dark:text-slate-400 mb-2">
+          <div class="mb-3">
+            <label class="block text-xs font-medium text-gray-600 dark:text-slate-400 mb-1.5">
               URL
             </label>
-            <div class="relative flex items-center border-2 border-gray-300 dark:border-slate-600 rounded-[1rem] bg-gray-100 dark:bg-slate-700 overflow-hidden">
+            <div class="relative flex items-center border border-gray-300 dark:border-slate-600 rounded-lg bg-gray-100 dark:bg-slate-700 overflow-hidden">
               <!-- Protocol selector -->
-              <div class="relative flex items-center px-3 py-2.5 bg-gray-100 dark:bg-slate-700">
-                <span class="text-sm text-gray-900 dark:text-slate-200 mr-1">{{ urlProtocol }}</span>
+              <div class="relative flex items-center px-2.5 py-2 bg-gray-100 dark:bg-slate-700">
+                <span class="text-xs text-gray-900 dark:text-slate-200 mr-1">{{ urlProtocol }}</span>
                 <select
                   [(ngModel)]="urlProtocol"
                   class="absolute inset-0 w-full opacity-0 cursor-pointer"
@@ -56,17 +56,17 @@
                   <option value="https://">https://</option>
                   <option value="http://">http://</option>
                 </select>
-                <svg class="w-4 h-4 text-gray-500 dark:text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-3 h-3 text-gray-500 dark:text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
-                <div class="ml-2 h-5 w-0.5 bg-gray-300 dark:bg-slate-500"></div>
+                <div class="ml-2 h-4 w-0.5 bg-gray-300 dark:bg-slate-500"></div>
               </div>
               <!-- Domain input -->
               <input
                 type="text"
                 [(ngModel)]="url"
                 placeholder="www.example.com"
-                class="flex-1 px-4 py-2.5 bg-transparent border-0 text-sm text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none"
+                class="flex-1 px-3 py-2 bg-transparent border-0 text-sm text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none"
               />
             </div>
           </div>
@@ -77,7 +77,7 @@
           <div class="w-full">
             <button
               (click)="onFetchLinks()"
-              class="w-full px-6 py-2.5 bg-[#0a1740] dark:bg-blue-700 text-white text-sm font-medium rounded-[1rem] hover:bg-gray-950 dark:hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              class="w-full px-4 py-2 bg-[#0a1740] dark:bg-blue-700 text-white text-sm font-medium rounded-lg hover:bg-gray-950 dark:hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Fetch links
             </button>
@@ -88,14 +88,14 @@
 
     <!-- Link sources section (fuera del recuadro Add links) -->
     @if (links.length > 0) {
-    <div class="mt-6">
+    <div class="mt-4">
       <!-- Header con título y buscador -->
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-slate-200">Link sources</h3>
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-semibold text-gray-900 dark:text-slate-200">Link sources</h3>
         
         <!-- Search bar -->
         <div class="relative">
-          <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -103,50 +103,50 @@
             [(ngModel)]="searchQuery"
             (ngModelChange)="onSearchChange()"
             placeholder="Search..."
-            class="pl-10 pr-4 py-2 border border-gray-300 dark:border-slate-600 rounded-[1rem] bg-white dark:bg-slate-800 text-sm text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="pl-8 pr-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-xs text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
       </div>
 
       <!-- Checkbox para seleccionar todos -->
       @if (links.length > 0) {
-        <div class="mb-3 flex items-center">
+        <div class="mb-2 flex items-center">
           <input
             type="checkbox"
             [checked]="allSelected"
             [indeterminate]="someSelected"
             (change)="toggleSelectAll()"
-            class="w-4 h-4 text-blue-600 bg-transparent border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600 cursor-pointer"
+            class="w-3.5 h-3.5 text-blue-600 bg-transparent border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600 cursor-pointer"
           />
-          <label class="ml-2 text-sm font-medium text-gray-900 dark:text-slate-200 cursor-pointer">Select all</label>
+          <label class="ml-2 text-xs font-medium text-gray-900 dark:text-slate-200 cursor-pointer">Select all</label>
         </div>
       }
       
       <!-- Lista de links con scroll -->
       <div class="links-scroll-wrapper relative">
-        <div class="links-scroll-container max-h-[400px] overflow-y-auto space-y-2 pr-2">
+        <div class="links-scroll-container max-h-[250px] overflow-y-auto space-y-1.5 pr-1">
           @for (link of displayedLinks; track link) {
-            <div class="p-3 border-2 border-gray-200 dark:border-slate-700 rounded-[1rem] bg-white dark:bg-slate-800 flex items-center justify-between group">
+            <div class="p-2.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-between group">
               <div class="flex items-center flex-1 min-w-0">
                 <!-- Checkbox para seleccionar link individual -->
                 <input
                   type="checkbox"
                   [checked]="isLinkSelected(link)"
                   (change)="toggleSelectLink(link)"
-                  class="w-4 h-4 text-blue-600 bg-transparent border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600 cursor-pointer mr-3 flex-shrink-0"
+                  class="w-3.5 h-3.5 text-blue-600 bg-transparent border-gray-300 rounded-full focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:border-gray-600 cursor-pointer mr-2 flex-shrink-0"
                 />
-                <svg class="w-5 h-5 text-gray-500 dark:text-slate-400 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 text-gray-500 dark:text-slate-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                 </svg>
-                <span class="text-sm text-gray-900 dark:text-slate-200 break-all">{{ link }}</span>
+                <span class="text-xs text-gray-900 dark:text-slate-200 break-all">{{ link }}</span>
               </div>
               
               <!-- Menú de tres puntos -->
               <button
-                class="ml-3 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-slate-300 transition-colors flex-shrink-0 opacity-0 group-hover:opacity-100"
+                class="ml-2 p-1 text-gray-400 hover:text-gray-600 dark:hover:text-slate-300 transition-colors flex-shrink-0 opacity-0 group-hover:opacity-100"
                 [attr.aria-label]="'Más opciones para ' + link"
               >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <circle cx="5" cy="12" r="2" />
                   <circle cx="12" cy="12" r="2" />
                   <circle cx="19" cy="12" r="2" />
@@ -163,38 +163,38 @@
 
   <!-- Barra de acciones cuando hay links seleccionados -->
   @if (selectedCount > 0) {
-    <div class="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-black rounded-[2rem] shadow-2xl px-4 py-2 z-50 w-auto min-w-[400px]">
+    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black rounded-xl shadow-2xl px-3 py-1.5 z-50 w-auto min-w-[320px]">
       <div class="flex items-center justify-between">
         <!-- Contador -->
-        <span class="text-white font-medium">
+        <span class="text-white font-medium text-sm">
           {{ selectedCount }} {{ selectedCount === 1 ? 'selected' : 'selected' }}
         </span>
 
         <!-- Separador -->
-        <div class="h-6 w-px bg-gray-700 mx-4"></div>
+        <div class="h-5 w-px bg-gray-700 mx-3"></div>
 
         <!-- Botones de acción -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
           <!-- Botón Delete -->
           <button
             (click)="onDelete()"
-            class="flex items-center gap-2 px-4 py-1.5 border border-red-500/30 rounded-[2rem] hover:bg-red-500/10 transition-colors"
+            class="flex items-center gap-1.5 px-3 py-1 border border-red-500/30 rounded-lg hover:bg-red-500/10 transition-colors"
           >
-            <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3.5 h-3.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
-            <span class="text-red-500 font-medium text-sm">Delete</span>
+            <span class="text-red-500 font-medium text-xs">Delete</span>
           </button>
 
           <!-- Botón Select all -->
           <button
             (click)="toggleSelectAll()"
-            class="flex items-center gap-2 px-4 py-1.5 border border-blue-500/30 rounded-[2rem] hover:bg-blue-500/10 transition-colors"
+            class="flex items-center gap-1.5 px-3 py-1 border border-blue-500/30 rounded-lg hover:bg-blue-500/10 transition-colors"
           >
-            <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span class="text-blue-500 font-medium text-sm">Select all</span>
+            <span class="text-blue-500 font-medium text-xs">Select all</span>
           </button>
         </div>
       </div>

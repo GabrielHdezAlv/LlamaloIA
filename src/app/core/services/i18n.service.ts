@@ -337,7 +337,7 @@ export class I18nService {
       draft: 'Borrador',
       inbound: 'Entrante',
       outbound: 'Saliente',
-      vsLastYear: 'vs año pasado',
+      vsLastYear: 'vs semana pasada',
 
       // Days of the week
       monday: 'Lunes',
