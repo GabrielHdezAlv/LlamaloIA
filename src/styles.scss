@@ -509,11 +509,10 @@ body::-webkit-scrollbar {
   }
 
 
-  /* Fondos azul 900/950 → azul de marca en modo oscuro (barras, badges, etc.)
-     con un poco menos de opacidad para que no "grite" tanto sobre el fondo */
+  /* Fondos azul 900/950 → azul de marca en modo oscuro (barras, badges, etc.) */
   html.dark .bg-blue-900,
   html.dark .bg-blue-950 {
-    background-color: rgba(2, 90, 209, 0.9) !important;
+    background-color: rgb(2, 90, 209) !important;
   }
 
   /* Líneas de los mini-gráficos de resumen: azul de marca en oscuro,
