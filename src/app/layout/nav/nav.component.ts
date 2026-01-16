@@ -17,6 +17,7 @@ export class NavComponent implements OnDestroy, OnInit {
   isOpen: boolean = false;
   isClosing: boolean = false;
   isCollapsed: boolean = true;
+  private justOpened: boolean = false;
   windowWidth: number = 0;
   isHovering: boolean = false;
   private hoverTimer: any;
@@ -108,7 +109,33 @@ export class NavComponent implements OnDestroy, OnInit {
   }
 
   toggleCollapse() {
+    const wasCollapsed = this.isCollapsed;
     this.isCollapsed = !this.isCollapsed;
+    
+    // Si estamos abriendo el sidebar, marcar flag para ignorar el próximo clic
+    if (wasCollapsed && !this.isCollapsed) {
+      this.justOpened = true;
+      setTimeout(() => {
+        this.justOpened = false;
+      }, 100);
+    }
+  }
+
+  // Colapsar/cerrar sidebar al navegar a una página
+  collapseOnNavigate() {
+    // Cerrar dropdown si está abierto
+    this.showDropdown = false;
+    
+    // Cerrar sidebar móvil si está abierto
+    if (this.windowWidth < 1280) {
+      if (this.isOpen && !this.isClosing) {
+        this.closeMenu();
+      }
+    } else {
+      // Colapsar sidebar de escritorio
+      this.isCollapsed = true;
+      this.triggerResizeAfterTransition();
+    }
   }
 
   // Expandir al pasar el ratón por encima
@@ -170,6 +197,7 @@ export class NavComponent implements OnDestroy, OnInit {
   selectLanguage(lang: Language) {
     this.i18nService.setLanguage(lang);
     this.showLanguageMenu = false;
+    this.collapseOnNavigate();
   }
 
   @HostListener('window:resize')
@@ -178,6 +206,33 @@ export class NavComponent implements OnDestroy, OnInit {
       this.windowWidth = window.innerWidth;
       // En pantallas grandes, el sidebar está siempre abierto
       this.isOpen = this.windowWidth >= 1280;
+    }
+  }
+
+  // Cerrar sidebar al hacer clic fuera de él
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Ignorar si el sidebar acaba de abrirse
+    if (this.justOpened) {
+      return;
+    }
+    
+    // Solo actuar si el sidebar está expandido en escritorio
+    if (this.isCollapsed || this.windowWidth < 1280) {
+      return;
+    }
+    
+    const target = event.target as HTMLElement;
+    
+    // Verificar si el clic fue dentro del sidebar
+    const sidebar = target.closest('app-nav');
+    const isInsideSidebar = sidebar !== null;
+    
+    // Si el clic fue fuera del sidebar y está expandido, cerrarlo
+    if (!isInsideSidebar) {
+      this.isCollapsed = true;
+      this.showDropdown = false;
+      this.triggerResizeAfterTransition();
     }
   }
 
@@ -221,6 +276,7 @@ export class NavComponent implements OnDestroy, OnInit {
       this.navigationService.navigateToRoute(routeName);
     }
     this.showDropdown = false;
+    this.collapseOnNavigate();
   }
 
   // Ir a la sección de regalos en account
@@ -229,6 +285,7 @@ export class NavComponent implements OnDestroy, OnInit {
       queryParams: { tab: 'gifts' },
     });
     this.showDropdown = false;
+    this.collapseOnNavigate();
   }
 
   // Navegar específicamente a la sección de regalos en account
@@ -277,7 +334,7 @@ export class NavComponent implements OnDestroy, OnInit {
   logout() {
     // Limpiar datos de usuario
     this.userStorage.clearUser();
-    
+    this.collapseOnNavigate();
     this.router.navigate(['/login']);
   }
 

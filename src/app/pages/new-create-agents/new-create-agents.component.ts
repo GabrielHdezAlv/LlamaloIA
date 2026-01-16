@@ -1,10 +1,33 @@
-import { Component, HostListener, OnDestroy, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, AfterViewChecked, ElementRef, ViewChild, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Location } from '@angular/common'; // 👈 Importa Location
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Location } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import lottie from 'lottie-web';
+
+// Clave para localStorage
+const AGENT_DRAFT_KEY = 'llamalo_agent_draft';
+
+// Interface para los datos guardados
+interface AgentDraft {
+  step: string;
+  agentName: string;
+  greeting: string;
+  template: string;
+  instructions: string;
+  currentVoiceIndex: number;
+  selectedCountry: string;
+  selectedCountryCode: string;
+  phoneNumber: string;
+  inactivityTimeout: number;
+  maxCallDuration: number;
+  agentSpeed: number;
+  llmTemperature: number;
+  isRecordingNoticeEnabled: boolean;
+  recordingNoticeText: string;
+  savedAt: number; // timestamp
+}
 
 @Component({
   selector: 'app-new-create-agents',
@@ -13,22 +36,156 @@ import lottie from 'lottie-web';
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss'
 })
-export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
+export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, OnInit {
   @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef<HTMLDivElement>;
   
   step: 'agentName' | 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' | 'advancedSettings' | 'final' | 'success' = 'agentName';
+
+  // Popup de recuperación de borrador
+  showRecoveryPopup = false;
+  savedDraft: AgentDraft | null = null;
 
   // Add this line to declare phoneNumber
   phoneNumber = '';
   
   private lottieInstance: any = null;
   private lottieInitialized = false;
+  private isBrowser: boolean;
 
-  constructor(private location: Location, private modalService: ModalService, private i18nService: I18nService) {} // ✅ Añade esto
+  constructor(
+    private location: Location, 
+    private modalService: ModalService, 
+    private i18nService: I18nService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   // Obtener traducciones
   get t() {
     return this.i18nService.getTranslations();
+  }
+
+  ngOnInit() {
+    // Verificar si hay un borrador guardado al iniciar
+    this.checkForSavedDraft();
+  }
+
+  // Verificar si hay datos guardados
+  private checkForSavedDraft() {
+    if (!this.isBrowser) return;
+    
+    try {
+      const savedData = localStorage.getItem(AGENT_DRAFT_KEY);
+      console.log('Borrador guardado encontrado:', savedData);
+      
+      if (savedData) {
+        this.savedDraft = JSON.parse(savedData);
+        console.log('Borrador parseado:', this.savedDraft);
+        
+        // Verificar que el borrador tenga datos significativos
+        if (this.savedDraft) {
+          // Mostrar popup si está más allá del primer paso O si tiene nombre de agente
+          if (this.savedDraft.step !== 'agentName' || (this.savedDraft.agentName && this.savedDraft.agentName.trim() !== '')) {
+            console.log('Mostrando popup de recuperación');
+            this.showRecoveryPopup = true;
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Error al parsear borrador guardado:', e);
+      localStorage.removeItem(AGENT_DRAFT_KEY);
+    }
+  }
+
+  // Recuperar el borrador guardado
+  recoverDraft() {
+    if (this.savedDraft) {
+      this.step = this.savedDraft.step as any;
+      this.agentName = this.savedDraft.agentName || '';
+      this.greeting = this.savedDraft.greeting || 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
+      this.template = this.savedDraft.template || '';
+      this.instructions = this.savedDraft.instructions || '';
+      this.currentVoiceIndex = this.savedDraft.currentVoiceIndex || 0;
+      this.selectedCountry = this.savedDraft.selectedCountry || 'es';
+      this.selectedCountryCode = this.savedDraft.selectedCountryCode || '+34';
+      this.phoneNumber = this.savedDraft.phoneNumber || '';
+      this.inactivityTimeout = this.savedDraft.inactivityTimeout || 0;
+      this.maxCallDuration = this.savedDraft.maxCallDuration || 0;
+      this.agentSpeed = this.savedDraft.agentSpeed || 0;
+      this.llmTemperature = this.savedDraft.llmTemperature || 0;
+      this.isRecordingNoticeEnabled = this.savedDraft.isRecordingNoticeEnabled || false;
+      this.recordingNoticeText = this.savedDraft.recordingNoticeText || 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+    }
+    this.showRecoveryPopup = false;
+  }
+
+  // Descartar el borrador y empezar de nuevo
+  discardDraft() {
+    this.clearSavedDraft();
+    this.showRecoveryPopup = false;
+  }
+
+  // Guardar el estado actual en localStorage
+  saveDraft() {
+    if (!this.isBrowser) return;
+    
+    try {
+      const draft: AgentDraft = {
+        step: this.step,
+        agentName: this.agentName,
+        greeting: this.greeting,
+        template: this.template,
+        instructions: this.instructions,
+        currentVoiceIndex: this.currentVoiceIndex,
+        selectedCountry: this.selectedCountry,
+        selectedCountryCode: this.selectedCountryCode,
+        phoneNumber: this.phoneNumber,
+        inactivityTimeout: this.inactivityTimeout,
+        maxCallDuration: this.maxCallDuration,
+        agentSpeed: this.agentSpeed,
+        llmTemperature: this.llmTemperature,
+        isRecordingNoticeEnabled: this.isRecordingNoticeEnabled,
+        recordingNoticeText: this.recordingNoticeText,
+        savedAt: Date.now()
+      };
+      
+      localStorage.setItem(AGENT_DRAFT_KEY, JSON.stringify(draft));
+      console.log('Borrador guardado:', draft);
+    } catch (e) {
+      console.error('Error al guardar borrador:', e);
+    }
+  }
+
+  // Limpiar el borrador guardado
+  clearSavedDraft() {
+    if (!this.isBrowser) return;
+    try {
+      localStorage.removeItem(AGENT_DRAFT_KEY);
+      console.log('Borrador eliminado');
+    } catch (e) {
+      console.error('Error al eliminar borrador:', e);
+    }
+  }
+
+  // Obtener texto del paso guardado para mostrar en el popup
+  getSavedStepText(): string {
+    if (!this.savedDraft) return '';
+    
+    const stepNames: Record<string, string> = {
+      'agentName': 'Nombre del agente',
+      'callType': 'Tipo de llamada',
+      'language': 'Idioma',
+      'voices': 'Voces',
+      'instructions': 'Instrucciones',
+      'actions': 'Acciones',
+      'knowledgeBase': 'Base de conocimientos',
+      'advancedSettings': 'Configuración avanzada',
+      'summary': 'Resumen',
+      'connectPhone': 'Conectar teléfono'
+    };
+    
+    return stepNames[this.savedDraft.step] || this.savedDraft.step;
   }
 
   greeting = 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
@@ -74,14 +231,17 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
 
   onSelect(type: 'inbound' | 'outbound') {
     this.step = 'language';
+    this.saveDraft();
   }
 
   onLanguageSelected() {
     this.step = 'voices';
+    this.saveDraft();
   }
 
   onVoiceSelected() {
     this.step = 'instructions';
+    this.saveDraft();
   }
 
   createCustomVoice() {
@@ -341,6 +501,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
       return;
     }
     this.step = 'callType';
+    this.saveDraft();
   }
 
   playVoice(voiceName: string) {
@@ -413,6 +574,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
     });
 
     this.step = 'actions'; // Avanza a "Añadir Acciones"
+    this.saveDraft();
   }
 
   selectAction(platform: string) {
@@ -546,6 +708,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   // Opcional: Método para continuar sin elegir fuente
   continueWithoutSource() {
     this.step = 'advancedSettings'; // Pasa a configuración avanzada
+    this.saveDraft();
   }
 
   onSubmitTestCall() {
@@ -559,6 +722,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
     console.log('Número ingresado para prueba:', this.phoneNumber);
     // Avanza a conectar número de teléfono
     this.step = 'connectPhone';
+    this.saveDraft();
   }
 
   // Métodos para conectar número de teléfono
@@ -577,6 +741,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   // Simulamos 5 segundos de carga
   setTimeout(() => {
     this.step = 'success'; // Cambia a pantalla de éxito
+    // Limpiar el borrador cuando el agente se crea con éxito
+    this.clearSavedDraft();
   }, 5000);
  }
 
@@ -591,6 +757,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked {
   // Simulamos 5 segundos de carga antes de mostrar éxito
   setTimeout(() => {
     this.step = 'success';
+    // Limpiar el borrador cuando el agente se crea con éxito
+    this.clearSavedDraft();
   }, 5000);
  }
 
@@ -792,6 +960,7 @@ hideAllTooltips() {
 
     // Cambia a prueba de agente
     this.step = 'summary';
+    this.saveDraft();
   }
  }
 

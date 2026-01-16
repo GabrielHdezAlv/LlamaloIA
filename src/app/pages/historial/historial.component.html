@@ -115,7 +115,15 @@
             </button>
             <span class="text-[9px] 3xl:text-xs max-lg:text-[8px] text-gray-600 whitespace-nowrap dark:text-slate-400 flex-shrink-0">{{ currentAudioTime }} / {{ audioDuration }}</span>
             <div class="flex-1 min-w-0 flex items-center">
-              <input type="range" min="0" max="100" value="0" class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700">
+              <input 
+                type="range" 
+                min="0" 
+                max="100" 
+                [value]="audioProgress"
+                (input)="onProgressChange($event)"
+                class="audio-progress-slider w-full h-1.5 rounded-lg appearance-none cursor-pointer"
+                [style.background]="'linear-gradient(to right, #3b82f6 0%, #3b82f6 ' + audioProgress + '%, #374151 ' + audioProgress + '%, #374151 100%)'"
+              >
             </div>
           </div>
           </div>

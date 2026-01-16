@@ -116,6 +116,7 @@ export class HistorialComponent implements OnInit, AfterViewInit {
   selectedContact: Contact | null = null; // null por defecto para móviles
   currentAudioTime = '0:00';
   audioDuration = '1:23';
+  audioProgress = 30; // Porcentaje de progreso del audio (0-100)
   isPlaying = false;
   showChat = false; // Para controlar vista móvil
 
@@ -124,8 +125,17 @@ export class HistorialComponent implements OnInit, AfterViewInit {
     // Aquí puedes simular carga de audio o duración real
     this.currentAudioTime = '0:00';
     this.audioDuration = contact.id === 1 ? '1:23' : contact.id === 2 ? '2:10' : '0:45';
+    this.audioProgress = 0; // Reiniciar progreso
     this.isPlaying = false;
     this.showChat = true; // Mostrar chat en móviles
+  }
+
+  // Actualizar progreso cuando el usuario mueve el slider
+  onProgressChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.audioProgress = Number(input.value);
+    // Aquí calcularías el tiempo actual basado en el progreso
+    // Por ahora es solo visual
   }
 
   backToContactList() {

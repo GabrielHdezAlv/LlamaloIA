@@ -1,10 +1,18 @@
-import { Component, OnInit, inject, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, inject, Inject, PLATFORM_ID, HostListener, ElementRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
 import { NgIf, NgFor, NgClass, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { I18nService, Language } from '../../core/services/i18n.service';
+
+const AGENT_DRAFT_KEY = 'llamalo_agent_draft';
+
+interface AgentDraft {
+  step: string;
+  agentName: string;
+  savedAt: number;
+}
 
 @Component({
   selector: 'topbar',
@@ -33,6 +41,10 @@ export class TopbarComponent implements OnInit {
 
   showDropdown = false;
   showInviteModal = false;
+  
+  // Draft recovery
+  hasSavedDraft = false;
+  savedDraft: AgentDraft | null = null;
 
   // Variables para el modal de invitación
   emailInput: string = '';
@@ -62,8 +74,27 @@ export class TopbarComponent implements OnInit {
   // Roles disponibles
   roles = ['Can Edit', 'Can View', 'Can Comment'];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private elementRef: ElementRef
+  ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // Cerrar dropdown si se hace clic fuera de él
+    if (this.showDropdown) {
+      const dropdownElement = this.elementRef.nativeElement.querySelector('.topbar-dropdown');
+      const avatarElement = this.elementRef.nativeElement.querySelector('.topbar-avatar');
+      const target = event.target as HTMLElement;
+      
+      if (dropdownElement && avatarElement && 
+          !dropdownElement.contains(target) && 
+          !avatarElement.contains(target)) {
+        this.showDropdown = false;
+      }
+    }
   }
 
   // Idiomas usando el servicio de i18n
@@ -109,10 +140,66 @@ export class TopbarComponent implements OnInit {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         this.updateHeader();
+        this.checkForSavedDraft();
       });
 
     this.updateHeader();
     this.initializeTeamMembers();
+    this.checkForSavedDraft();
+  }
+
+  checkForSavedDraft() {
+    if (!this.isBrowser) return;
+    
+    // No mostrar el banner si ya estamos en la página de crear agentes
+    if (this.router.url === '/dashboard/agents/create') {
+      this.hasSavedDraft = false;
+      return;
+    }
+    
+    const savedData = localStorage.getItem(AGENT_DRAFT_KEY);
+    if (savedData) {
+      try {
+        this.savedDraft = JSON.parse(savedData);
+        // Solo mostrar si hay algo significativo guardado
+        if (this.savedDraft && (this.savedDraft.step !== 'agentName' || this.savedDraft.agentName)) {
+          this.hasSavedDraft = true;
+        } else {
+          this.hasSavedDraft = false;
+        }
+      } catch (e) {
+        this.hasSavedDraft = false;
+      }
+    } else {
+      this.hasSavedDraft = false;
+    }
+  }
+
+  goToRecoverDraft() {
+    this.router.navigate(['/dashboard/agents/create']);
+  }
+
+  discardDraft() {
+    if (this.isBrowser) {
+      localStorage.removeItem(AGENT_DRAFT_KEY);
+    }
+    this.hasSavedDraft = false;
+    this.savedDraft = null;
+  }
+
+  getSavedStepText(): string {
+    if (!this.savedDraft) return '';
+    const stepTexts: Record<string, string> = {
+      'agentName': 'Nombre',
+      'language': 'Idioma',
+      'template': 'Plantilla',
+      'greeting': 'Saludo',
+      'instructions': 'Instrucciones',
+      'voice': 'Voz',
+      'advanced': 'Avanzado',
+      'final': 'Final'
+    };
+    return stepTexts[this.savedDraft.step] || this.savedDraft.step;
   }
 
   toggleDarkMode() {

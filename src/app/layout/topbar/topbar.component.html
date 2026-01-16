@@ -1,7 +1,7 @@
 <div
   class="topbar-container w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8"
 >
-  <div class="flex items-start justify-between w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
+  <div class="flex items-center justify-between w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
     <div class="flex flex-col gap-0.5">
       <div class="flex items-center gap-2">
       <!-- Botón hamburguesa para móvil -->
@@ -27,6 +27,7 @@
 
       <h1
         class="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-3xl 3xl:text-4xl font-bold xl:ml-0  dark:text-slate-50 leading-tight"
+        style="letter-spacing: -1.7px;"
       >
         {{ pageTitle }}
       </h1>
@@ -40,6 +41,33 @@
     >
       {{ welcomeText || pageSubtitle }}
     </p>
+  </div>
+  
+  <!-- Banner de borrador guardado (centro inferior) -->
+  <div *ngIf="hasSavedDraft" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-black rounded-xl px-4 py-2.5 shadow-lg">
+    <span class="text-sm text-white font-medium whitespace-nowrap">
+      Creación de agente en curso: <span class="font-semibold">{{ savedDraft?.agentName || 'Sin nombre' }}</span>
+    </span>
+    <button 
+      (click)="discardDraft()" 
+      class="flex items-center justify-center gap-1.5 text-xs bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg px-3 py-1.5 transition-colors"
+    >
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Eliminar
+    </button>
+    <button 
+      (click)="goToRecoverDraft()" 
+      class="flex items-center justify-center gap-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-1.5 rounded-lg transition-colors"
+    >
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 4V10H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3.51 15C4.15839 16.8404 5.38734 18.4202 7.01166 19.5014C8.63598 20.5826 10.5677 21.1066 12.5157 20.9945C14.4637 20.8823 16.3226 20.1402 17.8121 18.8798C19.3017 17.6193 20.3413 15.909 20.7742 14.0064C21.2072 12.1037 21.0101 10.112 20.2126 8.33111C19.4152 6.55025 18.0605 5.07687 16.3528 4.13277C14.6451 3.18868 12.6769 2.82527 10.7447 3.09712C8.81245 3.36897 7.02091 4.26142 5.64 5.64L1 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Recuperar
+    </button>
   </div>
 
     <!-- Controles de la derecha: modo oscuro + avatar -->
@@ -149,7 +177,7 @@
     <!-- Avatar -->
     <img
       [src]="getUserProfileImage()"
-      class="h-10 w-10 sm:h-8 sm:w-8 md:h-8 md:w-8 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border-2 border-blue-900 history-border cursor-pointer"
+      class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-8 md:w-8 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border-2 border-blue-900 history-border cursor-pointer"
       alt="Perfil"
       (click)="toggleDropdown()"
     />
@@ -157,7 +185,7 @@
     <!-- Dropdown Menu -->
     <div
       *ngIf="showDropdown"
-      class="absolute right-0 mt-56 sm:mt-52 md:mt-52 lg:mt-56 xl:mt-56 2xl:mt-56 3xl:mt-64 w-48 sm:w-44 md:w-44 lg:w-48 xl:w-48 2xl:w-48 3xl:w-48 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700"
+      class="topbar-dropdown absolute right-0 mt-56 sm:mt-52 md:mt-52 lg:mt-56 xl:mt-56 2xl:mt-56 3xl:mt-64 w-48 sm:w-44 md:w-44 lg:w-48 xl:w-48 2xl:w-48 3xl:w-48 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700"
     >
       <!-- Ajustes -->
       <button

@@ -18,7 +18,7 @@
     </div>
 
     <!-- Botón Buy Credits -->
-    <button type="button" class="w-full bg-gray-200 dark:bg-slate-800 hover:bg-gray-300 dark:hover:bg-slate-700 rounded-lg px-2 3xl:px-3 py-1.5 3xl:py-2 flex items-center justify-center gap-1 3xl:gap-1.5 transition-colors">
+    <button type="button" (click)="collapseOnNavigate()" class="w-full bg-gray-200 dark:bg-slate-800 hover:bg-gray-300 dark:hover:bg-slate-700 rounded-lg px-2 3xl:px-3 py-1.5 3xl:py-2 flex items-center justify-center gap-1 3xl:gap-1.5 transition-colors">
       <svg class="w-3 h-3 3xl:w-4 3xl:h-4 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
       </svg>
@@ -66,8 +66,8 @@
         </div>
         <!-- Texto Llamalo beta -->
         <div class="flex flex-row items-baseline gap-0.5 leading-tight ml-1.5">
-          <span class="brand-font text-2xl mt-1 font-bold  sidebar-logo-text">Llamalo</span>
-          <span class="brand-font text-[9px] text-black font-bold  dark:text-slate-300">beta</span>
+          <span class="text-2xl mt-1 font-bold sidebar-logo-text" style="font-family: 'Poppins', sans-serif;">Llamalo</span>
+          <span class="text-[9px] text-black font-bold dark:text-slate-300" style="font-family: 'Poppins', sans-serif;">beta</span>
         </div>
       </div>
     </div>
@@ -333,13 +333,13 @@
       </div>
       <!-- Texto "Llamalo beta" - independiente del logo para no afectar la animación -->
       <div *ngIf="!isCollapsed" class="absolute left-11 3xl:left-14 top-1/2 -translate-y-1/2 flex items-baseline gap-0.5 flex-shrink-0">
-        <span class="brand-font text-xl 3xl:text-2xl font-bold  transition-all duration-500 ease-in-out opacity-0 animate-fade-in text-black dark:text-white">Llamalo</span>
-        <span class="brand-font text-[9px] 3xl:text-[10px] font-bold  transition-all duration-500 ease-in-out opacity-0 animate-fade-in text-black dark:text-slate-300">beta</span>
+        <span class="text-xl 3xl:text-2xl font-bold transition-all duration-500 ease-in-out opacity-0 animate-fade-in text-black dark:text-white" style="font-family: 'Poppins', sans-serif;">Llamalo</span>
+        <span class="text-[9px] 3xl:text-[10px] font-bold transition-all duration-500 ease-in-out opacity-0 animate-fade-in text-black dark:text-slate-300" style="font-family: 'Poppins', sans-serif;">beta</span>
       </div>
       <!-- Icono para abrir sidebar (solo cuando está cerrado, aparece en hover) -->
       <button
         *ngIf="isCollapsed"
-        (click)="toggleCollapse()"
+        (click)="toggleCollapse(); $event.stopPropagation()"
         class="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 cursor-pointer text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 flex items-center justify-center z-20 transition-opacity duration-300"
         title="Abrir sidebar"
       >
@@ -367,6 +367,7 @@
     <nav class="flex-1 font-semibold text-sm overflow-y-auto flex flex-col pt-5 3xl:pt-6 pb-2 3xl:pb-3 space-y-3 3xl:space-y-4 pl-3 3xl:pl-4">
           <a
             [routerLink]="['/dashboard/home']"
+            (click)="collapseOnNavigate()"
             [class]="'relative flex items-center rounded-lg transition my-0 w-full py-1 ' + (isRouteActive('/dashboard/home') && !isCollapsed ? 'text-white' : isRouteActive('/dashboard/home') && isCollapsed ? 'text-white' : 'text-gray-400 hover:text-blue-900')"
           >
         <span *ngIf="isRouteActive('/dashboard/home')" class="absolute left-0 top-1/2 -translate-y-1/2 rounded-md h-6 3xl:h-7 nav-link-active-bg bg-blue-950 dark:bg-[#025AD1]" [style.width]="isCollapsed ? '1.5rem' : 'calc(100% - 0.5rem)'" [style.opacity]="isCollapsed ? '1' : '1'" [style.transition]="'width 0.5s ease-in-out, opacity 0.3s ease-in-out'"></span>
@@ -380,6 +381,7 @@
 
           <a
             [routerLink]="['/dashboard/agents']"
+            (click)="collapseOnNavigate()"
             [class]="'relative flex items-center rounded-lg transition my-0 w-full py-1 ' + (isRouteActive('/dashboard/agents') && !isCollapsed ? 'text-white' : isRouteActive('/dashboard/agents') && isCollapsed ? 'text-white' : 'text-gray-400 hover:text-blue-900')"
           >
         <span *ngIf="isRouteActive('/dashboard/agents')" class="absolute left-0 top-1/2 -translate-y-1/2 rounded-md h-6 3xl:h-7 nav-link-active-bg bg-blue-950 dark:bg-[#025AD1]" [style.width]="isCollapsed ? '1.5rem' : 'calc(100% - 0.5rem)'" [style.opacity]="isCollapsed ? '1' : '1'" [style.transition]="'width 0.5s ease-in-out, opacity 0.3s ease-in-out'"></span>
@@ -393,6 +395,7 @@
 
           <a
             [routerLink]="['/dashboard/numbers']"
+            (click)="collapseOnNavigate()"
             [class]="'relative flex items-center rounded-lg transition my-0 w-full py-1 ' + (isRouteActive('/dashboard/numbers') && !isCollapsed ? 'text-white' : isRouteActive('/dashboard/numbers') && isCollapsed ? 'text-white' : 'text-gray-400 hover:text-blue-900')"
           >
         <span *ngIf="isRouteActive('/dashboard/numbers')" class="absolute left-0 top-1/2 -translate-y-1/2 rounded-md h-6 3xl:h-7 nav-link-active-bg bg-blue-950 dark:bg-[#025AD1]" [style.width]="isCollapsed ? '1.5rem' : 'calc(100% - 0.5rem)'" [style.opacity]="isCollapsed ? '1' : '1'" [style.transition]="'width 0.5s ease-in-out, opacity 0.3s ease-in-out'"></span>
@@ -406,6 +409,7 @@
 
           <a
             [routerLink]="['/dashboard/history']"
+            (click)="collapseOnNavigate()"
             [class]="'relative flex items-center rounded-lg transition my-0 w-full py-1 ' + (isRouteActive('/dashboard/history') && !isCollapsed ? 'text-white' : isRouteActive('/dashboard/history') && isCollapsed ? 'text-white' : 'text-gray-400 hover:text-blue-900')"
           >
         <span *ngIf="isRouteActive('/dashboard/history')" class="absolute left-0 top-1/2 -translate-y-1/2 rounded-md h-6 3xl:h-7 nav-link-active-bg bg-blue-950 dark:bg-[#025AD1]" [style.width]="isCollapsed ? '1.5rem' : 'calc(100% - 0.5rem)'" [style.opacity]="isCollapsed ? '1' : '1'" [style.transition]="'width 0.5s ease-in-out, opacity 0.3s ease-in-out'"></span>
@@ -419,6 +423,7 @@
 
           <a
             [routerLink]="['/dashboard/metrics']"
+            (click)="collapseOnNavigate()"
             [class]="'relative flex items-center rounded-lg transition my-0 w-full py-1 ' + (isRouteActive('/dashboard/metrics') && !isCollapsed ? 'text-white' : isRouteActive('/dashboard/metrics') && isCollapsed ? 'text-white' : 'text-gray-400 hover:text-blue-900')"
           >
         <span *ngIf="isRouteActive('/dashboard/metrics')" class="absolute left-0 top-1/2 -translate-y-1/2 rounded-md h-6 3xl:h-7 nav-link-active-bg bg-blue-950 dark:bg-[#025AD1]" [style.width]="isCollapsed ? '1.5rem' : 'calc(100% - 0.5rem)'" [style.opacity]="isCollapsed ? '1' : '1'" [style.transition]="'width 0.5s ease-in-out, opacity 0.3s ease-in-out'"></span>
