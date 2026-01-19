@@ -234,8 +234,8 @@ export class HomeComponent implements OnInit {
     animations: { enabled: false },
     zoom: { enabled: false },
     events: {
-      dataPointSelection: () => {},
-      markerClick: () => {},
+      dataPointSelection: () => { },
+      markerClick: () => { },
     },
   };
 
@@ -301,7 +301,7 @@ export class HomeComponent implements OnInit {
       index >= 0 &&
       index < this.callsByDayCounts.length
     ) {
-      return this.callsByDayCounts[index] !== 0;
+      return this.callsByDayCounts[index] >= 5;
     }
     return false;
   }
@@ -352,7 +352,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     // Los gráficos ya tienen datos por defecto, pero si no hay datos del backend,
     // se mantendrán los datos por defecto que ya están inicializados
-    
+
     // Cargar métricas solo si estamos en el navegador (no en SSR)
     if (this.isBrowser) {
       this.loadMetrics();

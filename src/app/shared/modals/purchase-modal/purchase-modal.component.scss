@@ -1,12 +1,17 @@
+// Estilos para modo oscuro
+:host-context(html.dark) {
+    .bg-white {
+        background-color: #18181A !important;
+    }
+}
 
+// Asegurar que el contenedor del modal tenga fondo oscuro en modo oscuro
+::ng-deep html.dark .custom-dialog-container {
+    .mat-mdc-dialog-container {
+        background-color: transparent !important;
+    }
 
-.text-green-600 { color: #059669; }
-.bg-green-100 { background-color: #dcfce7; }
-.text-green-700 { color: #047857; }
-.bg-green-50 { background-color: #f0fdf4; }
-.border-green-200 { border-color: #bbf7d0; }
-.text-blue-700 { color: #1d4ed8; }
-.bg-blue-50 { background-color: #eff6ff; }
-.border-blue-200 { border-color: #bfdbfe; }
-.text-blue-600 { color: #2563eb; }
-
+    .mat-mdc-dialog-surface {
+        background-color: transparent !important;
+    }
+}

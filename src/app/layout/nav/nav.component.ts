@@ -218,8 +218,8 @@ export class NavComponent implements OnDestroy, OnInit {
       return;
     }
 
-    // Solo actuar si el sidebar está expandido en escritorio
-    if (this.isCollapsed || this.windowWidth < 1280) {
+    // Solo actuar si el sidebar está expandido o el dropdown está abierto en escritorio
+    if ((this.isCollapsed && !this.showDropdown) || this.windowWidth < 1280) {
       return;
     }
 

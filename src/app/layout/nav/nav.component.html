@@ -180,7 +180,7 @@
           <!-- Icono regalo -->
           <div>
             <button (click)="goToGifts()"
-              class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none">
+              class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none translate-x-[1px]">
               <svg [class]="'relative top-[4px] ' + (isCollapsed ? 'h-4 w-4' : 'h-5 w-5')" viewBox="0 0 24 24"
                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -263,14 +263,14 @@
                selectedLanguage.code === 'es'
                  ? 'bg-blue-900 text-white font-semibold w-1/2'
                  : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
-             " class="px-2 3xl:px-2.5 py-1 3xl:py-1.5 rounded text-xs 3xl:text-sm transition-colors">
+             " class="px-2 3xl:px-2.5 py-1 3xl:py-1.5 rounded-lg text-xs 3xl:text-sm transition-colors">
                 ES
               </button>
               <button (click)="selectLanguage(languages[1])" [class]="
                selectedLanguage.code === 'en'
                  ? 'bg-blue-900 text-white font-semibold w-1/2'
                  : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
-             " class="px-2 3xl:px-2.5 py-1 3xl:py-1.5 rounded text-xs 3xl:text-sm transition-colors">
+             " class="px-2 3xl:px-2.5 py-1 3xl:py-1.5 rounded-lg text-xs 3xl:text-sm transition-colors">
                 ENG
               </button>
             </div>
@@ -332,13 +332,13 @@
       <div
         class="absolute left-6 3xl:left-8 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center flex-shrink-0">
         <img [ngClass]="{
-            'h-5 w-5 3xl:h-6 3xl:w-6': true,
+            'h-[1.4rem] w-[1.4rem] 3xl:h-7 3xl:w-7': true, 
             'opacity-100 group-hover:opacity-0': isCollapsed
           }" src="../../../assets/logo_azul.png" alt="Llamalo Logo"
           class="block dark:hidden relative z-0 transition-opacity duration-300 ease-in-out object-contain" />
         <!-- Logo blanco en modo oscuro -->
         <img [ngClass]="{
-            'h-5 w-5 3xl:h-6 3xl:w-6': true,
+            'h-[1.4rem] w-[1.4rem] 3xl:h-7 3xl:w-7': true,
             'opacity-100 group-hover:opacity-0': isCollapsed
           }" src="../../../assets/logo_blanco.png" alt="Llamalo Logo"
           class="hidden dark:block relative z-0 transition-opacity duration-300 ease-in-out object-contain" />
@@ -378,7 +378,7 @@
 
     <!-- Navegación -->
     <nav
-      class="flex-1 font-semibold text-sm overflow-y-auto flex flex-col pt-5 3xl:pt-6 pb-2 3xl:pb-3 space-y-3 3xl:space-y-4 pl-3 3xl:pl-4">
+      class="flex-1 font-semibold text-sm overflow-y-auto flex flex-col pt-5 3xl:pt-6 pb-2 3xl:pb-3 space-y-3 3xl:space-y-4 pl-3 3xl:pl-[1.1rem]">
       <a [routerLink]="['/dashboard/home']" (click)="collapseOnNavigate()"
         [class]="'relative flex items-center rounded-lg transition my-0 w-full py-1 ' + (isRouteActive('/dashboard/home') && !isCollapsed ? 'text-white' : isRouteActive('/dashboard/home') && isCollapsed ? 'text-white' : 'text-gray-400 hover:text-blue-900')">
         <span *ngIf="isRouteActive('/dashboard/home')"
@@ -525,7 +525,7 @@
         [class]="'relative pt-1 pb-1 w-[90%] mx-auto ' + (isCollapsed ? 'flex flex-col items-center' : 'flex items-center gap-2')">
         <!-- Botón de modo oscuro/claro cuando el sidebar está cerrado -->
         <button *ngIf="isCollapsed" type="button" (click)="toggleDarkMode()"
-          class="mb-8 relative inline-flex items-center justify-center focus:outline-none transition-all duration-300 theme-toggle-btn"
+          class="mb-8 relative inline-flex items-center justify-center focus:outline-none transition-all duration-300 theme-toggle-btn translate-x-[1px]"
           [attr.aria-checked]="isDarkMode"
           [attr.aria-label]="isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro'">
           <!-- Icono Luna (para activar modo oscuro) - Visible en modo claro -->
@@ -533,7 +533,7 @@
             fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M12 22C17.5228 22 22 17.5228 22 12C22 11.5373 21.3065 11.4608 21.0672 11.8568C19.9289 13.7406 17.8615 15 15.5 15C11.9101 15 9 12.0899 9 8.5C9 6.13845 10.2594 4.07105 12.1432 2.93276C12.5392 2.69347 12.4627 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-              fill="currentColor"></path>
+              fill="#1B2559"></path>
           </svg>
 
           <!-- Icono Sol (para activar modo claro) - Visible en modo oscuro -->
@@ -636,10 +636,10 @@
 
         <!-- Icono de regalos cuando el sidebar está cerrado -->
         <button *ngIf="isCollapsed" (click)="goToGifts()"
-          class="mb-8 inline-flex items-center justify-center focus:outline-none transition-colors"
+          class="mb-8 inline-flex items-center justify-center focus:outline-none transition-colors translate-x-[1px]"
           aria-label="Ver regalos">
-          <svg class="w-[14px] h-[14px] 3xl:w-[16px] 3xl:h-[16px]" viewBox="0 0 24 24" fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-[14px] h-[14px] 3xl:w-[16px] 3xl:h-[16px] text-[#1B2559] dark:text-blue-400" viewBox="0 0 24 24"
+            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M11.2498 2C7.03145 2.00411 4.84888 2.07958 3.46423 3.46423C2.07958 4.84888 2.00411 7.03145 2 11.2498H6.91352C6.56255 10.8114 6.30031 10.2943 6.15731 9.72228C5.61906 7.56926 7.56926 5.61906 9.72228 6.15731C10.2943 6.30031 10.8114 6.56255 11.2498 6.91352V2Z">
             </path>
@@ -674,7 +674,7 @@
         <div *ngIf="!isCollapsed" class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left"
           style="animation-delay: 0.1s;">
           <button (click)="toggleDarkMode()"
-            class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none">
+            class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none translate-x-[1px]">
             <!-- Icono Luna (para activar modo oscuro) - Visible en modo claro -->
             <svg *ngIf="!isDarkMode" class="relative top-[4px] h-4 w-4 3xl:h-5 3xl:w-5" viewBox="0 0 24 24" fill="none"
               xmlns="http://www.w3.org/2000/svg">
@@ -786,7 +786,7 @@
         <div *ngIf="!isCollapsed" class="transition-all duration-500 ease-in-out opacity-0 animate-slide-in-left"
           style="animation-delay: 0.15s;">
           <button (click)="goToGifts()"
-            class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none">
+            class="inline-flex items-center justify-center text-gray-400 hover:text-gray-700 focus:outline-none translate-x-[1px]">
             <svg class="relative top-[4px] h-4 w-4 3xl:h-5 3xl:w-5" viewBox="0 0 24 24" fill="currentColor"
               xmlns="http://www.w3.org/2000/svg">
               <path
@@ -829,7 +829,7 @@
         </div>
 
         <!-- Dropdown Menu -->
-        <div *ngIf="showDropdown && !isCollapsed"
+        <div *ngIf="showDropdown"
           class="absolute top-full left-full ml-2 -mt-40 3xl:-mt-48 w-44 3xl:w-48  bg-white rounded-2xl shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-100 dark:bg-slate-900 dark:border-slate-700">
           <!-- {{ t.settings }} -->
           <button (click)="navigateTo('/dashboard/account')"
@@ -870,14 +870,14 @@
                selectedLanguage.code === 'es'
                  ? 'bg-blue-900 text-white font-semibold w-1/2'
                  : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
-             " class="px-2 3xl:px-2.5 py-1 3xl:py-1.5 rounded text-xs 3xl:text-sm transition-colors">
+             " class="px-2 3xl:px-2.5 py-1 3xl:py-1.5 rounded-lg text-xs 3xl:text-sm transition-colors">
               ES
             </button>
             <button (click)="selectLanguage(languages[1])" [class]="
                selectedLanguage.code === 'en'
                  ? 'bg-blue-900 text-white font-semibold w-1/2'
                  : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
-             " class="px-2 3xl:px-2.5 py-1 3xl:py-1.5 rounded text-xs 3xl:text-sm transition-colors">
+             " class="px-2 3xl:px-2.5 py-1 3xl:py-1.5 rounded-lg text-xs 3xl:text-sm transition-colors">
               ENG
             </button>
           </div>

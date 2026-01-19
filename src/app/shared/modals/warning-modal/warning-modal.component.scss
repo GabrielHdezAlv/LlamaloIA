@@ -1,14 +1,17 @@
+.text-blue-950 {
+  color: #172554;
+}
 
-
-.text-blue-950 { color: #172554; }
-.bg-blue-950 { background-color: #172554; }
+.bg-blue-950 {
+  background-color: #172554;
+}
 
 // Estilos para modo oscuro
 :host-context(html.dark) {
   .text-blue-950 {
     color: #ffffff !important;
   }
-  
+
   .bg-white {
     background-color: #18181A !important;
   }
@@ -19,7 +22,7 @@
   .mat-mdc-dialog-container {
     background-color: transparent !important;
   }
-  
+
   .mat-mdc-dialog-surface {
     background-color: transparent !important;
   }
