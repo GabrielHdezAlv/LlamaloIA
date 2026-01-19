@@ -36,6 +36,9 @@ export class MetricsComponent implements OnInit {
   showTipoLlamadas: boolean = false;
   showAgentesCreados: boolean = false;
   showPaises: boolean = false;
+  showEstadoAnimo: boolean = false;
+  showEvaluacionExito: boolean = false;
+  showRazonFinalizacion: boolean = false;
 
   // Propiedades para el gráfico móvil compacto
   mobileChartData: any[] = [];
@@ -547,19 +550,19 @@ export class MetricsComponent implements OnInit {
   // Evaluación de éxito - ordenados de mayor a menor
   get successEvaluation() {
     return [
-      { name: 'Exitoso', percent: 78.5, color: 'from-green-500 to-green-600' },
-      { name: 'Parcial', percent: 15.2, color: 'from-yellow-500 to-yellow-600' },
-      { name: 'Fallido', percent: 6.3, color: 'from-red-500 to-red-600' },
+      { name: 'Exitoso', percent: 78.5, color: 'bg-green-500' },
+      { name: 'Parcial', percent: 15.2, color: 'bg-yellow-500' },
+      { name: 'Fallido', percent: 6.3, color: 'bg-red-500' },
     ].sort((a, b) => b.percent - a.percent);
   }
 
   // Razón de finalización de la llamada - ordenados de mayor a menor
   get callCompletionReasons() {
     return [
-      { name: 'Completada exitosamente', percent: 72.4, color: 'from-blue-500 to-blue-600' },
-      { name: 'Cliente colgó', percent: 18.6, color: 'from-orange-500 to-orange-600' },
-      { name: 'Error técnico', percent: 5.8, color: 'from-red-500 to-red-600' },
-      { name: 'Tiempo agotado', percent: 3.2, color: 'from-gray-500 to-gray-600' },
+      { name: 'Completada exitosamente', percent: 72.4, color: 'bg-blue-500' },
+      { name: 'Cliente colgó', percent: 18.6, color: 'bg-orange-500' },
+      { name: 'Error técnico', percent: 5.8, color: 'bg-red-500' },
+      { name: 'Tiempo agotado', percent: 3.2, color: 'bg-gray-500' },
     ].sort((a, b) => b.percent - a.percent);
   }
 
@@ -726,7 +729,7 @@ export class MetricsComponent implements OnInit {
       window.addEventListener('resize', () => this.updateChartForScreenSize());
     }
 
-    // Ejecutar animaciones siempre
+    // Ejecutar animaciones escalonadas
     this.startFadeInAnimations();
   }
 
@@ -760,40 +763,55 @@ export class MetricsComponent implements OnInit {
       return;
     }
 
-    // Gráfico de llamadas aparece primero (100ms)
+    // 1. Total de llamadas exitosas (100ms)
     setTimeout(() => {
       this.showGraficoLlamadas = true;
     }, 100);
 
-    // Total Minutos aparece después (300ms)
+    // 2. Total de minutos (300ms)
     setTimeout(() => {
       this.showTotalMinutos = true;
     }, 300);
 
-    // Latencia aparece después (500ms)
+    // 3. Latencia (500ms)
     setTimeout(() => {
       this.showLatencia = true;
     }, 500);
 
-    // Duración media aparece después (700ms)
+    // 4. Duración media (700ms)
     setTimeout(() => {
       this.showDuracionMedia = true;
     }, 700);
 
-    // Tipo de llamadas aparece después (900ms)
+    // 5. Tipo de llamadas (900ms)
     setTimeout(() => {
       this.showTipoLlamadas = true;
     }, 900);
 
-    // Agentes Creados aparece después (1100ms)
-    setTimeout(() => {
-      this.showAgentesCreados = true;
-    }, 1100);
-
-    // Países aparece después (1300ms)
+    // 6. Países (1100ms)
     setTimeout(() => {
       this.showPaises = true;
+    }, 1100);
+
+    // 7. Estado de ánimo (1300ms)
+    setTimeout(() => {
+      this.showEstadoAnimo = true;
     }, 1300);
+
+    // 8. Evaluación de éxito (1500ms)
+    setTimeout(() => {
+      this.showEvaluacionExito = true;
+    }, 1500);
+
+    // 9. Razón de finalización de la llamada (1700ms)
+    setTimeout(() => {
+      this.showRazonFinalizacion = true;
+    }, 1700);
+
+    // Agentes Creados (opcional, si existe)
+    setTimeout(() => {
+      this.showAgentesCreados = true;
+    }, 1900);
   }
 
   private showAllSectionsImmediately(): void {
@@ -803,7 +821,10 @@ export class MetricsComponent implements OnInit {
     this.showLatencia = true;
     this.showDuracionMedia = true;
     this.showTipoLlamadas = true;
-    this.showAgentesCreados = true;
     this.showPaises = true;
+    this.showEstadoAnimo = true;
+    this.showEvaluacionExito = true;
+    this.showRazonFinalizacion = true;
+    this.showAgentesCreados = true;
   }
 }

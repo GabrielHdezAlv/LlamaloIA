@@ -1,3 +1,22 @@
+/* Asegurar interletrado general en todo el componente */
+:host {
+  letter-spacing: -0.7px !important;
+}
+
+:host * {
+  letter-spacing: -0.7px !important;
+}
+
+:host *::before,
+:host *::after {
+  letter-spacing: -0.7px !important;
+}
+
+/* Forzar interletrado usando ::ng-deep para penetrar encapsulado */
+::ng-deep app-new-create-agents,
+::ng-deep app-new-create-agents * {
+  letter-spacing: -0.7px !important;
+}
 
 /* Estilos para el slider vertical de idiomas */
 .language-slider-vertical {
@@ -9,7 +28,8 @@
 .instructions-scroll {
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #6b7280 transparent; /* thumb, track */
+  scrollbar-color: #6b7280 transparent;
+  /* thumb, track */
 }
 
 .instructions-scroll::-webkit-scrollbar {
@@ -38,13 +58,15 @@
 }
 
 .instructions-scroll::-webkit-scrollbar-thumb {
-  background: #6b7280; /* gris neutro */
+  background: #6b7280;
+  /* gris neutro */
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .instructions-scroll::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af; /* un poco más claro al hover */
+  background: #9ca3af;
+  /* un poco más claro al hover */
 }
 
 .language-slider-vertical::-webkit-scrollbar {
@@ -66,6 +88,21 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
+/* Títulos grandes azules: usar Poppins solo en este componente */
+:host h2.text-blue-950,
+:host h2.text-blue-900,
+:host h2.text-blue-800,
+:host h2.text-blue-700,
+:host h3.text-blue-950,
+:host h3.text-blue-900,
+:host .text-4xl.text-blue-950,
+:host .text-4xl.text-blue-900,
+:host .text-3xl.text-blue-950,
+:host .text-3xl.text-blue-900 {
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Inter', sans-serif !important;
+  /* mantén el peso y tamaño definidos en la plantilla; solo cambia la familia */
+}
+
 /* Liquid Fluid Animations - MUCHO MÁS DINÁMICAS */
 @keyframes liquid-wave-1 {
   0% {
@@ -73,21 +110,25 @@
     opacity: 0.6;
     filter: blur(1px);
   }
+
   25% {
     transform: translateX(40px) translateY(-5px) scaleX(1.2) scaleY(0.8);
     opacity: 0.8;
     filter: blur(1.5px);
   }
+
   50% {
     transform: translateX(160px) translateY(10px) scaleX(0.8) scaleY(1.3);
     opacity: 0.4;
     filter: blur(0.8px);
   }
+
   75% {
     transform: translateX(280px) translateY(-8px) scaleX(1.1) scaleY(0.9);
     opacity: 0.7;
     filter: blur(1.2px);
   }
+
   100% {
     transform: translateX(460px) translateY(0px) scaleX(1) scaleY(1);
     opacity: 0.6;
@@ -101,16 +142,19 @@
     opacity: 0.5;
     filter: blur(1px);
   }
+
   30% {
     transform: translateY(40px) translateX(3px) scaleY(1.3) scaleX(0.7);
     opacity: 0.7;
     filter: blur(1.5px);
   }
+
   60% {
     transform: translateY(140px) translateX(-2px) scaleY(0.6) scaleX(1.4);
     opacity: 0.3;
     filter: blur(0.6px);
   }
+
   100% {
     transform: translateY(300px) translateX(0px) scaleY(1) scaleX(1);
     opacity: 0.5;
@@ -124,16 +168,19 @@
     opacity: 0.4;
     filter: blur(1.5px);
   }
+
   35% {
     transform: rotate(45deg) translateX(20px) translateY(10px) scale(1.4);
     opacity: 0.6;
     filter: blur(2px);
   }
+
   70% {
     transform: rotate(45deg) translateX(100px) translateY(50px) scale(0.7);
     opacity: 0.2;
     filter: blur(1px);
   }
+
   100% {
     transform: rotate(45deg) translateX(180px) translateY(90px) scale(1);
     opacity: 0.4;
@@ -147,21 +194,25 @@
     opacity: 0.4;
     filter: blur(2px);
   }
+
   25% {
     transform: scale(1.5) rotate(90deg) translateX(20px) translateY(-10px);
     opacity: 0.6;
     filter: blur(3px);
   }
+
   50% {
     transform: scale(0.8) rotate(180deg) translateX(-15px) translateY(15px);
     opacity: 0.2;
     filter: blur(1px);
   }
+
   75% {
     transform: scale(1.3) rotate(270deg) translateX(10px) translateY(5px);
     opacity: 0.5;
     filter: blur(2.5px);
   }
+
   100% {
     transform: scale(1) rotate(360deg) translateX(0px) translateY(0px);
     opacity: 0.4;
@@ -175,16 +226,19 @@
     opacity: 0.5;
     filter: blur(1px);
   }
+
   40% {
     transform: translateX(30px) translateY(-8px) scaleX(1.3) scaleY(0.8);
     opacity: 0.7;
     filter: blur(1.5px);
   }
+
   80% {
     transform: translateX(150px) translateY(12px) scaleX(0.7) scaleY(1.4);
     opacity: 0.3;
     filter: blur(0.8px);
   }
+
   100% {
     transform: translateX(270px) translateY(0px) scaleX(1) scaleY(1);
     opacity: 0.5;
@@ -198,16 +252,19 @@
     opacity: 0.4;
     filter: blur(1.5px);
   }
+
   45% {
     transform: translateY(50px) translateX(-3px) scaleY(1.4) scaleX(0.6);
     opacity: 0.6;
     filter: blur(2px);
   }
+
   90% {
     transform: translateY(200px) translateX(2px) scaleY(0.5) scaleX(1.5);
     opacity: 0.2;
     filter: blur(1px);
   }
+
   100% {
     transform: translateY(350px) translateX(0px) scaleY(1) scaleX(1);
     opacity: 0.4;
@@ -221,11 +278,13 @@
     opacity: 0.3;
     filter: blur(1px);
   }
+
   50% {
     transform: translateX(-30px) translateY(5px) scaleX(1.2) scaleY(0.9);
     opacity: 0.5;
     filter: blur(1.5px);
   }
+
   100% {
     transform: translateX(-150px) translateY(0px) scaleX(1) scaleY(1);
     opacity: 0.3;
@@ -239,11 +298,13 @@
     opacity: 0.4;
     filter: blur(1.5px);
   }
+
   60% {
     transform: rotate(-30deg) translateX(-20px) translateY(10px) scale(1.3);
     opacity: 0.6;
     filter: blur(2px);
   }
+
   100% {
     transform: rotate(-30deg) translateX(-110px) translateY(55px) scale(1);
     opacity: 0.4;
@@ -258,6 +319,7 @@
     opacity: 0.3;
     filter: blur(0.5px);
   }
+
   100% {
     transform: translateY(-200px) translateX(5px) scale(1.5);
     opacity: 0;
@@ -271,6 +333,7 @@
     opacity: 0.4;
     filter: blur(0.5px);
   }
+
   100% {
     transform: translateY(-180px) translateX(-3px) scale(1.3);
     opacity: 0;
@@ -284,6 +347,7 @@
     opacity: 0.5;
     filter: blur(0.5px);
   }
+
   100% {
     transform: translateY(-220px) translateX(2px) scale(1.7);
     opacity: 0;
@@ -297,6 +361,7 @@
     opacity: 0.25;
     filter: blur(0.5px);
   }
+
   100% {
     transform: translateY(-190px) translateX(-4px) scale(1.4);
     opacity: 0;
@@ -311,6 +376,7 @@
     opacity: 0.6;
     filter: blur(0.5px);
   }
+
   100% {
     transform: translateY(150px) translateX(2px) scale(1.2);
     opacity: 0;
@@ -324,6 +390,7 @@
     opacity: 0.5;
     filter: blur(0.5px);
   }
+
   100% {
     transform: translateY(180px) translateX(-1px) scale(1.4);
     opacity: 0;
@@ -399,12 +466,12 @@
   position: absolute;
   width: 200%;
   height: 200%;
-  background: linear-gradient(45deg, 
-    rgba(59, 130, 246, 0.3) 0%, 
-    rgba(147, 197, 253, 0.5) 25%, 
-    rgba(255, 255, 255, 0.7) 50%, 
-    rgba(147, 197, 253, 0.5) 75%, 
-    rgba(59, 130, 246, 0.3) 100%);
+  background: linear-gradient(45deg,
+      rgba(59, 130, 246, 0.3) 0%,
+      rgba(147, 197, 253, 0.5) 25%,
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(147, 197, 253, 0.5) 75%,
+      rgba(59, 130, 246, 0.3) 100%);
   border-radius: 50%;
   animation: wave-motion 4s ease-in-out infinite;
 }
@@ -438,18 +505,23 @@
 }
 
 @keyframes wave-motion {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(1);
     opacity: 0.6;
   }
+
   25% {
     transform: translateX(-40%) translateY(-40%) rotate(90deg) scale(1.1);
     opacity: 0.8;
   }
+
   50% {
     transform: translateX(-30%) translateY(-30%) rotate(180deg) scale(1.2);
     opacity: 0.4;
   }
+
   75% {
     transform: translateX(-20%) translateY(-20%) rotate(270deg) scale(1.1);
     opacity: 0.7;
@@ -460,20 +532,21 @@
 .carousel-container {
   /* Asegurar espacio suficiente para las flechas */
   position: relative;
-  
+
   /* Espaciado mejorado para evitar colisiones */
   .voice-card {
     transition: all 0.3s ease;
-    flex-shrink: 0; /* Evitar que las cartas se compriman */
+    flex-shrink: 0;
+    /* Evitar que las cartas se compriman */
   }
-  
+
   /* Asegurar que las cartas estén en línea horizontal */
   .flex {
     flex-wrap: nowrap !important;
     display: flex !important;
     align-items: center !important;
   }
-  
+
   /* Posicionar flechas fuera del área de contenido */
   button[class*="absolute"] {
     z-index: 15;
@@ -483,63 +556,64 @@
 
 /* Estilos para modo oscuro */
 :host-context(html.dark) {
+
   // Barra de progreso superior - fondo gris (no azulado)
   .bg-gray-300 {
     background-color: #262626 !important; // gris neutro
   }
-  
+
   // SVG con fill="black" - cambiar a blanco/gris claro
   svg path[fill="black"] {
     fill: #e5e7eb !important; // gray-200
   }
-  
+
   // SVG con fill="#353535" - cambiar a blanco
   svg path[fill="#353535"] {
     fill: #ffffff !important; // white
   }
-  
+
   // SVG con currentColor - asegurar que sean blancos
   svg.text-gray-700.dark\:text-white path {
     fill: currentColor !important;
   }
-  
+
   // Icono de Web - hacer blanco en modo oscuro
-  svg.web-icon-svg > rect {
+  svg.web-icon-svg>rect {
     filter: brightness(0) invert(1) !important; // Hacer la imagen blanca en modo oscuro
   }
-  
+
   // SVG con stroke="black" - cambiar a blanco/gris claro
   svg path[stroke="black"] {
     stroke: #e5e7eb !important; // gray-200
   }
-  
+
   // SVG con stroke="#374151" - mantener pero ajustar si es necesario
   svg path[stroke="#374151"] {
     stroke: #9ca3af !important; // gray-400
   }
-  
+
   // Botones de navegación del carrusel
   button[class*="rounded-full"] svg path[stroke="#374151"] {
     stroke: #e5e7eb !important; // gray-200
   }
-  
+
   // Dropdown menu
   #dropdown-menu {
     background-color: #262626 !important; // color gris #262626
     border-color: #4b5563 !important; // gray-600
   }
-  
+
   #dropdown-menu li {
     color: #e5e7eb !important; // gray-200
   }
-  
+
   // Inputs - fondo gris #262626
   input.dark\:bg-slate-800,
   textarea.dark\:bg-slate-800,
   select.dark\:bg-slate-800 {
     background-color: #262626 !important; // color gris #262626
   }
-  
+
   // Bordes de inputs - mismo gris que el borde del recuadro (gray-800)
   input.dark\:border-slate-600,
   textarea.dark\:border-slate-600,
@@ -551,125 +625,125 @@
   .instructions-footer {
     border-color: #3a3a3a !important;
   }
-  
+
   // Inputs con placeholder
   input::placeholder,
   textarea::placeholder {
     color: #9ca3af !important; // gray-400
   }
-  
+
   // Select con texto gris
   select {
     color: #e5e7eb !important; // gray-200
   }
-  
+
   // Flecha del select
   .pointer-events-none svg path[fill="black"] {
     fill: #e5e7eb !important; // gray-200
   }
-  
+
   // Botones de idiomas
   .language-button {
     background-color: #262626 !important; // slate-800
     color: #e5e7eb !important; // gray-200
   }
-  
+
   .language-button:hover {
     background-color: #262626 !important; // slate-700
   }
-  
+
   // Botones de acciones (Shopify, Make)
   button[style*="background-color: rgba(45, 182, 0, 0.5)"] {
     background-color: rgba(45, 182, 0, 0.3) !important;
   }
-  
+
   button[style*="background-color: rgba(198, 40, 212, 0.5)"] {
     background-color: rgba(198, 40, 212, 0.3) !important;
   }
-  
+
   // Botones de base de conocimientos
   button.bg-gray-100 {
     background-color: #262626 !important; // slate-800
   }
-  
+
   button.bg-gray-100:hover {
     background-color: #202020 !important; // slate-700
   }
-  
+
   // Indicadores del carrusel
   button[class*="w-2"][class*="h-2"][class*="rounded-full"] {
     &.bg-gray-300 {
       background-color: #262626 !important; // slate-600
     }
   }
-  
+
   // Iconos SVG en botones de retroceso y navegación
   button svg path[fill="black"],
   button svg path[stroke="black"] {
     fill: #e5e7eb !important;
     stroke: #e5e7eb !important;
   }
-  
+
   // Iconos en botones de idiomas y otros
   .language-button svg,
   button svg {
     color: #e5e7eb !important;
   }
-  
+
   // Texto en botones de idiomas
   .language-button span {
     color: #e5e7eb !important;
   }
-  
+
   // Botones de acciones con texto gris
   button span.text-gray-800 {
     color: #e5e7eb !important;
   }
-  
+
   // Botones de base de conocimientos con texto gris
   button span.text-gray-800 {
     color: #e5e7eb !important;
   }
-  
+
   // Sliders - barras de progreso
   .bg-gray-200 {
     background-color: #262626 !important; // gray-700
   }
-  
+
   .bg-gray-500 {
     background-color: #3b82f6 !important; // blue-500
   }
-  
+
   // Valores de los sliders
   span.text-gray-600 {
     color: #e5e7eb !important;
   }
-  
+
   // Bordes de los valores de sliders
   span.border-gray-300 {
     border-color: #424242 !important; // slate-600
   }
-  
+
   // Switch de grabación
   .bg-gray-300 {
     background-color: #474747 !important; // slate-600
   }
-  
+
   // Texto del mensaje de grabación
   .text-gray-400 {
     color: #9ca3af !important; // gray-400
   }
-  
+
   // Borde del mensaje de grabación
   .border-gray-400 {
     border-color: #444444 !important; // slate-600
   }
-  
+
   // Círculo de éxito: gris y checkmark blanco
   .success-checkmark {
     background-color: #444444 !important; // gris del círculo
   }
-  
+
   .success-checkmark svg path {
     stroke: #ffffff !important; // checkmark blanco
   }
@@ -680,7 +754,7 @@
   button.creative-action-card.bg-green-100 {
     background-color: #dcfce7 !important; // green-100, más verde
   }
-  
+
   button.creative-action-card.bg-purple-100 {
     background-color: #f3e8ff !important; // purple-100, más morado
   }
@@ -690,7 +764,8 @@
 .ai-generate-btn {
   position: relative;
   overflow: visible;
-  background: #e5e7eb; /* gray-200 en modo claro */
+  background: #e5e7eb;
+  /* gray-200 en modo claro */
 }
 
 /* Mantener fondo oscuro original solo en modo dark */
@@ -732,6 +807,7 @@
   0% {
     transform: rotate(0deg) translate(-50%, -50%);
   }
+
   100% {
     transform: rotate(360deg) translate(-50%, -50%);
   }
@@ -750,6 +826,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -760,6 +837,7 @@
     opacity: 0;
     transform: translateY(20px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -768,10 +846,13 @@
 
 /* Animación pulse-slow para los patrones decorativos */
 @keyframes pulse-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.5;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.8;
     transform: scale(1.1);
@@ -793,6 +874,7 @@
     opacity: 0;
     transform: translateX(-50%) translateY(5px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
@@ -804,6 +886,7 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
   }
+
   to {
     opacity: 0;
     transform: translateX(-50%) translateY(5px) scale(0.95);
@@ -818,5 +901,47 @@
   animation: tooltipFadeOut 0.2s ease-out forwards;
 }
 
+/* Animaciones para transición de páginas del carrusel */
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
 
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Aplicar animación a las tarjetas del carrusel */
+.voice-card {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Animación específica para el contenedor de voces */
+.carousel-container .flex {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}

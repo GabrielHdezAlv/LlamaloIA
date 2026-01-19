@@ -1,4 +1,3 @@
-
 // Animación suave para el arco de latencia
 .latency-arc {
   transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);
@@ -32,44 +31,44 @@
 }
 
 @keyframes latir {
-  0%   { transform: scale(1); opacity: 1; }
-  25%  { transform: scale(1.2); opacity: 0.95; }
-  50%  { transform: scale(1); opacity: 1; }
-  75%  { transform: scale(1.15); opacity: 0.98; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  25% {
+    transform: scale(1.2);
+    opacity: 0.95;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  75% {
+    transform: scale(1.15);
+    opacity: 0.98;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
+// Animación para las barras de países
 // Animación para las barras de países
 .country-bar {
   transform-origin: left;
   position: relative;
-  overflow: hidden; // Asegurar que el shimmer no se salga
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    border-radius: inherit;
-    animation: shimmer 2s infinite;
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+  overflow: hidden;
 }
 
 /* Limitar el ancho de la barra de países para que termine antes del porcentaje */
 .country-track {
-  max-width: calc(100% - 28px); /* deja un poco menos de espacio para acercar la barra al porcentaje */
+  max-width: calc(100% - 28px);
+  /* deja un poco menos de espacio para acercar la barra al porcentaje */
   border-radius: 9999px;
 }
 
@@ -85,6 +84,7 @@
     opacity: 0;
     transform: scaleX(0);
   }
+
   100% {
     opacity: 1;
     transform: scaleX(1);
@@ -117,19 +117,25 @@
 
 // Ocultar barra de scroll
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
+  display: none;
+  /* Chrome, Safari and Opera */
 }
 
 // Efecto de pulso para indicadores de estado
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -141,9 +147,12 @@
 
 // Animación de brillo para el medidor
 @keyframes glow {
-  0%, 100% {
+
+  0%,
+  100% {
     filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.3));
   }
+
   50% {
     filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.6));
   }
@@ -158,14 +167,17 @@
   r: 29;
   stroke-width: 12;
 }
+
 .latency-marker-inner {
   r: 12;
   stroke-width: 3;
 }
+
 .duration-marker-outer {
   r: 29;
   stroke-width: 12;
 }
+
 .duration-marker-inner {
   r: 12;
   stroke-width: 3;

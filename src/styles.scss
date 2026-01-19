@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -15,10 +16,6 @@ body {
     "Apple Color Emoji", "Segoe UI Emoji";
 }
 
-/* Interletrado general negativo para todas las páginas */
-* {
-  letter-spacing: -0.7px;
-}
 
 /* Fuente de marca reutilizable (Llamalo/beta) */
 .brand-font {
@@ -36,12 +33,14 @@ html.dark .onboarding-logo-text {
    - Modo oscuro: trazos claros con borde suave
    Se respeta currentColor y se evita relleno sólido. */
 .onboarding-main-icon {
-  border: 1px solid #cbd5e1 !important; /* slate-300 */
+  border: 1px solid #cbd5e1 !important;
+  /* slate-300 */
   background: transparent !important;
 }
 
 .onboarding-main-icon svg {
-  color: #475569; /* slate-600 en claro */
+  color: #475569;
+  /* slate-600 en claro */
   border: none !important;
   outline: none !important;
 }
@@ -57,17 +56,21 @@ html.dark .onboarding-logo-text {
 }
 
 html.dark .onboarding-main-icon {
-  border-color: #94a3b8 !important; /* slate-400 */
+  border-color: #94a3b8 !important;
+  /* slate-400 */
 }
 
 html.dark .onboarding-main-icon svg {
-  color: #e2e8f0; /* slate-200 */
+  color: #e2e8f0;
+  /* slate-200 */
 }
 
 /* Iconos de las opciones del paso 2 del onboarding: líneas blancas en modo oscuro (sin rellenar el interior) */
 html.dark .onboarding-discovery-icon path {
-  fill: transparent !important;  /* evita bloques sólidos como el rectángulo de YouTube */
-  stroke: #ffffff !important;    /* solo el trazo en blanco */
+  fill: transparent !important;
+  /* evita bloques sólidos como el rectángulo de YouTube */
+  stroke: #ffffff !important;
+  /* solo el trazo en blanco */
   opacity: 1 !important;
 }
 
@@ -76,7 +79,8 @@ html.dark .onboarding-discovery-icon path {
 .auth-input:-webkit-autofill,
 .auth-input:-webkit-autofill:hover,
 .auth-input:-webkit-autofill:focus {
-  box-shadow: 0 0 0px 1000px #ffffff inset !important; /* mismo fondo que bg-white */
+  box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  /* mismo fondo que bg-white */
   -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
   -webkit-text-fill-color: #18181a !important;
 }
@@ -84,7 +88,8 @@ html.dark .onboarding-discovery-icon path {
 html.dark .auth-input:-webkit-autofill,
 html.dark .auth-input:-webkit-autofill:hover,
 html.dark .auth-input:-webkit-autofill:focus {
-  box-shadow: 0 0 0px 1000px #18181a inset !important; /* mismo fondo que bg-slate-900/#020617 */
+  box-shadow: 0 0 0px 1000px #18181a inset !important;
+  /* mismo fondo que bg-slate-900/#020617 */
   -webkit-box-shadow: 0 0 0px 1000px #18181a inset !important;
   -webkit-text-fill-color: #ffffff !important;
 }
@@ -92,22 +97,29 @@ html.dark .auth-input:-webkit-autofill:focus {
 /* Ocultar barras de scroll */
 html,
 body {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-  display: none; /* WebKit */
+  display: none;
+  /* WebKit */
 }
+
 /* Para todos los elementos con scroll */
 * {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
 }
 
 *::-webkit-scrollbar {
-  display: none; /* WebKit */
+  display: none;
+  /* WebKit */
 }
 
 /* Estilos para el popup de inicio de sesión */
@@ -137,11 +149,13 @@ body::-webkit-scrollbar {
     transform: translateY(32px) scale(0.96);
     filter: blur(8px);
   }
+
   60% {
     opacity: 1;
     transform: translateY(0) scale(1);
     filter: blur(0);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -158,12 +172,15 @@ body::-webkit-scrollbar {
 .ll-hero-delay-1 {
   animation-delay: 120ms;
 }
+
 .ll-hero-delay-2 {
   animation-delay: 260ms;
 }
+
 .ll-hero-delay-3 {
   animation-delay: 420ms;
 }
+
 .ll-hero-delay-4 {
   animation-delay: 580ms;
 }
@@ -173,6 +190,7 @@ body::-webkit-scrollbar {
     opacity: 0;
     transform: scale(1.04);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -186,6 +204,22 @@ body::-webkit-scrollbar {
 
 /* Modo oscuro global con Tailwind (clase `dark` en <html>) */
 @layer base {
+
+  /* Interletrado general negativo para todas las páginas */
+  *,
+  *::before,
+  *::after {
+    letter-spacing: -0.7px;
+  }
+
+  /* Forzar interletrado en new-create-agents (por si el encapsulado lo bloquea) */
+  app-new-create-agents,
+  app-new-create-agents *,
+  app-new-create-agents *::before,
+  app-new-create-agents *::after {
+    letter-spacing: -0.7px !important;
+  }
+
   html {
     @apply bg-slate-50 text-slate-900;
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -204,11 +238,64 @@ body::-webkit-scrollbar {
   html.dark body {
     @apply bg-gray-800 text-slate-50;
   }
-  
+
+  /* Azules en modo claro → #1b2559 */
+  html:not(.dark) .text-blue-900,
+  html:not(.dark) .text-blue-950,
+  html:not(.dark) .text-blue-800,
+  html:not(.dark) .text-blue-700,
+  html:not(.dark) .text-blue-600 {
+    color: #1b2559 !important;
+  }
+
+  html:not(.dark) .bg-blue-900,
+  html:not(.dark) .bg-blue-950,
+  html:not(.dark) .bg-blue-800,
+  html:not(.dark) .bg-blue-700,
+  html:not(.dark) .bg-blue-600 {
+    background-color: #1b2559 !important;
+  }
+
+  html:not(.dark) .border-blue-900,
+  html:not(.dark) .border-blue-950,
+  html:not(.dark) .border-blue-800,
+  html:not(.dark) .border-blue-700,
+  html:not(.dark) .border-blue-600 {
+    border-color: #1b2559 !important;
+  }
+
+  /* Logo del sidebar en modo claro */
+  html:not(.dark) .sidebar-logo-text {
+    color: #1b2559 !important;
+  }
+
+  /* Botones con bg-[#0a1740] en modo claro → #1b2559 */
+  html:not(.dark) [class*="bg-[#0a1740]"] {
+    background-color: #1b2559 !important;
+  }
+
+  /* Gráficos y SVGs con azul en modo claro */
+  html:not(.dark) svg path[stroke="#1E3A8A"],
+  html:not(.dark) svg path[stroke='#1E3A8A'],
+  html:not(.dark) .chart-container svg path[stroke="#1E3A8A"] {
+    stroke: #1b2559 !important;
+  }
+
+  html:not(.dark) svg path[fill="#1E3A8A"],
+  html:not(.dark) svg circle[fill="#1E3A8A"] {
+    fill: #1b2559 !important;
+  }
+
+  /* Sparklines en modo claro */
+  html:not(.dark) .resumen-sparkline {
+    stroke: #1b2559 !important;
+  }
+
 }
 
 /* Overrides agresivos para que TODO se vea oscuro en modo dark */
 @layer utilities {
+
   /* Transición sincronizada solo para el layout de admin */
   .admin-theme-transition,
   .admin-theme-transition * {
@@ -227,22 +314,26 @@ body::-webkit-scrollbar {
 
   /* Fondos claros → sidebar / tarjetas gris 700 y fondo gris 800 */
   html.dark .bg-white {
-    background-color: #18181a !important; /* tarjetas, sidebar, modales: color personalizado */
+    background-color: #18181a !important;
+    /* tarjetas, sidebar, modales: color personalizado */
   }
 
   html.dark .bg-gray-50 {
-    @apply bg-neutral-900 !important; /* fondos suaves → gris 800 (general) */
+    @apply bg-neutral-900 !important;
+    /* fondos suaves → gris 800 (general) */
   }
 
   /* No oscurecer `.bg-gray-100` cuando se use para iconos de resumen */
   html.dark .bg-gray-100:not(.resumen-icon) {
-    background-color: #111113 !important; /* bg-neutral-950 */
+    background-color: #111113 !important;
+    /* bg-neutral-950 */
   }
 
   /* Iconos de resumen (círculos grandes en Home):
      - En oscuro: círculo gris y pictograma en blanco para máximo contraste */
   html.dark .resumen-icon {
-    background-color: #444444 !important; /* gris del círculo */
+    background-color: #444444 !important;
+    /* gris del círculo */
   }
 
   /* Pictograma blanco (sin doble trazo ni semitransparencias) - solo para iconos que usan fill */
@@ -251,7 +342,7 @@ body::-webkit-scrollbar {
     color: #ffffff !important;
     opacity: 1 !important;
   }
-  
+
   /* Para paths que usan stroke (como el nuevo icono de reloj), mantener stroke blanco y sin fill */
   html.dark .resumen-icon svg path[stroke-width] {
     fill: none !important;
@@ -284,7 +375,8 @@ body::-webkit-scrollbar {
 
   /* Texto e icono de los porcentajes del Home en gris claro en modo oscuro */
   html.dark .resumen-porcentaje-chip {
-    color: #e5e7eb !important; /* gray-200 */
+    color: #e5e7eb !important;
+    /* gray-200 */
   }
 
   html.dark .resumen-porcentaje-chip svg,
@@ -297,8 +389,10 @@ body::-webkit-scrollbar {
      pero manteniendo texto verde/rojo */
   html.dark .new-agents-status-badge,
   html.dark .new-agents-percentage-badge {
-    background-color: #444444 !important; /* mismo gris que usamos en .resumen-porcentaje-chip */
-    border-color: #262626 !important;     /* aprox. neutral-800 para el borde */
+    background-color: #444444 !important;
+    /* mismo gris que usamos en .resumen-porcentaje-chip */
+    border-color: #262626 !important;
+    /* aprox. neutral-800 para el borde */
   }
 
   /* Numbers: mismos chips que en New Agents/Home, con texto verde/rojo */
@@ -313,16 +407,21 @@ body::-webkit-scrollbar {
   html.dark .historial-status-badge {
     background-color: #444444 !important;
     border-color: #262626 !important;
-    color: #4ade80 !important; /* verde más vivo para el texto */
+    color: #4ade80 !important;
+    /* verde más vivo para el texto */
   }
 
   /* Metrics: arcos de fondo de los medidores con patrón */
   .metrics-progress-bg {
-    color: #d1d5db; /* tono claro para patrón en modo claro */
+    color: #d1d5db;
+    /* tono claro para patrón en modo claro */
   }
+
   html.dark .metrics-progress-bg {
-    stroke: url(#latencyPattern) !important; /* patrón rayado en oscuro */
-    color: rgba(255, 255, 255, 0.12) !important; /* líneas tenues */
+    stroke: url(#latencyPattern) !important;
+    /* patrón rayado en oscuro */
+    color: rgba(255, 255, 255, 0.12) !important;
+    /* líneas tenues */
   }
 
   /* Metrics: gráfico "Tipo de llamadas" - colores solo en modo oscuro */
@@ -350,49 +449,56 @@ body::-webkit-scrollbar {
   html.dark .chart-container svg path[stroke='#1E3A8A'],
   html.dark .chart-container svg path[stroke*="#1E3A8A"],
   html.dark .chart-container svg path[stroke*='#1E3A8A'] {
-    stroke: rgba(2, 90, 209, 0.9) !important;
+    stroke: rgba(30, 58, 138, 0.9) !important;
   }
 
   /* Solo la línea del gráfico, no el área rellena */
   html.dark .chart-container .apexcharts-line-series path,
   html.dark .chart-container .apexcharts-area-series path[stroke] {
-    stroke: rgba(2, 90, 209, 0.9) !important;
+    stroke: rgba(30, 58, 138, 0.9) !important;
   }
 
   /* Metrics: estados con fondo gris y texto de color */
   html.dark .metrics-status-badge {
-    background-color: #444444 !important; /* mismo gris que otros chips */
+    background-color: #444444 !important;
+    /* mismo gris que otros chips */
     border-color: #262626 !important;
   }
 
   /* Latencia: colores por estado en modo oscuro (solo texto) */
   html.dark .metrics-status-badge.metrics-status-fast {
-    color: #4ade80 !important; /* verde vivo */
+    color: #4ade80 !important;
+    /* verde vivo */
   }
 
   html.dark .metrics-status-badge.metrics-status-normal {
-    color: #fbbf24 !important; /* normal latencia: amarillo / naranja suave */
+    color: #fbbf24 !important;
+    /* normal latencia: amarillo / naranja suave */
   }
 
   html.dark .metrics-status-badge.metrics-status-slow,
   html.dark .metrics-status-badge.metrics-status-long {
-    color: #f87171 !important; /* rojo suave (latencia lenta) */
+    color: #f87171 !important;
+    /* rojo suave (latencia lenta) */
   }
 
   /* Duración media: NORMAL (verde) / LONG (naranja) */
   html.dark .metrics-status-badge.metrics-duration-normal {
-    color: #4ade80 !important; /* verde para duración NORMAL */
+    color: #4ade80 !important;
+    /* verde para duración NORMAL */
   }
 
   html.dark .metrics-status-badge.metrics-duration-long {
-    color: #fb923c !important; /* naranja para duración LONG */
+    color: #fb923c !important;
+    /* naranja para duración LONG */
   }
 
   /* Texto e icono de los porcentajes de Agentes activos en gris claro
      (el fondo y borde ya se ajustan más arriba). Usamos selectores más
      específicos para ganar a text-blue-900 en modo oscuro. */
   html.dark span.agentes-activos-porcentaje {
-    color: #e5e7eb !important; /* gray-200 */
+    color: #e5e7eb !important;
+    /* gray-200 */
   }
 
   html.dark span.agentes-activos-porcentaje svg,
@@ -405,28 +511,34 @@ body::-webkit-scrollbar {
   /* Barras grises del gráfico "Llamadas por día" con un gris intermedio,
      un poco más oscuro que antes pero sin llegar al fondo negro */
   html.dark .llamadas-por-dia-grafico .bg-gray-300 {
-    background-color: #4d4e50 !important; /* approx. gray-600 */
+    background-color: #4d4e50 !important;
+    /* approx. gray-600 */
   }
 
   html.dark .bg-gray-200 {
-    background-color: #18181a !important; /* gris 700 para barras / detalles (por defecto) */
+    background-color: #18181a !important;
+    /* gris 700 para barras / detalles (por defecto) */
   }
 
   html.dark .bg-blue-50 {
-    background-color: #18181a !important;  /* chips suaves pasan a gris 700 */
+    background-color: #18181a !important;
+    /* chips suaves pasan a gris 700 */
   }
 
   /* Cualquier fondo basado en `slate` se fuerza a gris neutro en modo oscuro */
   html.dark .bg-slate-900 {
-    background-color: #18181a !important; /* color con opacidad */
+    background-color: #18181a !important;
+    /* color con opacidad */
   }
 
   html.dark .bg-slate-800 {
-    @apply bg-neutral-800 !important; /* se comporta como recuadro / sidebar */
+    @apply bg-neutral-800 !important;
+    /* se comporta como recuadro / sidebar */
   }
 
   html.dark .bg-slate-700 {
-    @apply bg-zinc-800 !important; /* se comporta como recuadro / sidebar */
+    @apply bg-zinc-800 !important;
+    /* se comporta como recuadro / sidebar */
   }
 
   /* Bordes claros → bordes oscuros */
@@ -438,8 +550,10 @@ body::-webkit-scrollbar {
 
   /* Bordes más visibles en el historial (recuadros grandes) en modo oscuro */
   html.dark .history-border {
-    @apply border-neutral-800 !important; /* solo estos recuadros van más marcados */
-    border-width: 2px !important; /* un poco más grueso para destacar */
+    @apply border-neutral-800 !important;
+    /* solo estos recuadros van más marcados */
+    border-width: 2px !important;
+    /* un poco más grueso para destacar */
   }
 
   /* Sidebar: avatares con borde azul en claro (border-blue-900 de Tailwind)
@@ -452,7 +566,8 @@ body::-webkit-scrollbar {
   /* Texto oscuro → texto claro */
   html.dark .text-black,
   html.dark .text-gray-900 {
-    color: #e5e7eb !important; /* gris muy claro en vez de blanco puro */
+    color: #e5e7eb !important;
+    /* gris muy claro en vez de blanco puro */
   }
 
   html.dark .text-gray-800,
@@ -462,12 +577,12 @@ body::-webkit-scrollbar {
     color: #e5e7eb !important;
   }
 
-  /* Texto azul en modo oscuro → azul de marca #025AD1
+  /* Texto azul en modo oscuro → azul de marca #1E3A8A
      (chips, enlaces, labels, etc.; el logo va aparte) */
   html.dark .text-blue-900,
   html.dark .text-blue-950,
   html.dark .text-blue-800 {
-    color: #025ad1 !important;
+    color: #1E3A8A !important;
   }
 
   /* Logo Llamalo del sidebar: azul 950 en claro, blanco en oscuro */
@@ -483,11 +598,13 @@ body::-webkit-scrollbar {
      - Claro: fondo gris muy claro como en el diseño original
      - Oscuro: gris medio claramente visible sobre el fondo del sidebar */
   .sidebar-progress-track {
-    background-color: #e5e7eb; /* gray-200 */
+    background-color: #e5e7eb;
+    /* gray-200 */
   }
 
   html.dark .sidebar-progress-track {
-    background-color: #4b5563 !important; /* gray-600 */
+    background-color: #4b5563 !important;
+    /* gray-600 */
   }
 
   /* Cualquier texto slate grisáceo también pasa a blanco en modo oscuro */
@@ -512,13 +629,13 @@ body::-webkit-scrollbar {
   /* Fondos azul 900/950 → azul de marca en modo oscuro (barras, badges, etc.) */
   html.dark .bg-blue-900,
   html.dark .bg-blue-950 {
-    background-color: rgb(2, 90, 209) !important;
+    background-color: #1E3A8A !important;
   }
 
   /* Líneas de los mini-gráficos de resumen: azul de marca en oscuro,
      también con ligera transparencia */
   html.dark .resumen-sparkline {
-    stroke: rgba(2, 90, 209, 0.9) !important;
+    stroke: rgba(30, 58, 138, 0.9) !important;
   }
 
   /* Punto de estado:
@@ -528,25 +645,30 @@ body::-webkit-scrollbar {
        con los valores hex configurados en el componente). */
   /* Activo (azules originales) → azul de marca con opacidad ajustada */
   html.dark .agentes-activos-estado-icono circle[fill="#1E3A8A80"] {
-    fill: rgba(2, 90, 209, 0.35) !important; /* anillo exterior con transparencia suave */
+    fill: rgba(30, 58, 138, 0.35) !important;
+    /* anillo exterior con transparencia suave */
   }
 
   html.dark .agentes-activos-estado-icono circle[fill="#1E3A8A"] {
-    fill: rgba(2, 90, 209, 0.9) !important; /* punto interior azul de marca con ligera transparencia */
+    fill: rgba(30, 58, 138, 0.9) !important;
+    /* punto interior azul de marca con ligera transparencia */
   }
 
   /* Borrador (grises) ligeramente más oscuros en oscuro */
   html.dark .agentes-activos-estado-icono circle[fill="#EDEDED"] {
-    fill: #4d5155 !important; /* gris medio para el anillo exterior */
+    fill: #4d5155 !important;
+    /* gris medio para el anillo exterior */
   }
 
   html.dark .agentes-activos-estado-icono circle[fill="#C5CAC4"] {
-    fill: #9ca3af !important; /* gris un poco más oscuro para el punto interior */
+    fill: #9ca3af !important;
+    /* gris un poco más oscuro para el punto interior */
   }
 
   /* Botones claros genéricos: en modo oscuro NO aclaramos en hover */
   html.dark .hover\:bg-gray-100:hover {
-    @apply bg-gray-700 !important; /* hover igual que el recuadro gris 700 */
+    @apply bg-gray-700 !important;
+    /* hover igual que el recuadro gris 700 */
   }
 
   /* Tabla Agentes activos: sin efecto de hover en modo oscuro */
@@ -555,9 +677,9 @@ body::-webkit-scrollbar {
   }
 
   /* Botones primarios (Crear agente, Continuar, etc.) que usan bg-[#0a1740]
-     → en modo oscuro pasan al azul de marca #025AD1 */
+     → en modo oscuro pasan al azul de marca #1E3A8A */
   html.dark [class*="bg-[#0a1740]"] {
-    background-color: rgba(2, 90, 209, 0.9) !important;
+    background-color: rgba(30, 58, 138, 0.9) !important;
   }
 
   /* --- Ajustes cuenta: iconos redondos del menú (Perfil / Seguridad / Facturación / Regalos)
@@ -577,7 +699,8 @@ body::-webkit-scrollbar {
 
   /* Números grandes de los 3 bloques de resumen (1024, 980, 1542) */
   html.dark .resumen-numero {
-    color: #e5e7eb !important; /* gray-200 */
+    color: #e5e7eb !important;
+    /* gray-200 */
   }
 
   /* Chips de porcentaje de Resumen: texto + icono en gris claro */

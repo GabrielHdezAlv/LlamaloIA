@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
 import { I18nService } from '../../core/services/i18n.service';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 export interface Contact {
   id: number;
@@ -162,11 +162,11 @@ export class HistorialComponent implements OnInit, AfterViewInit {
 
   private startFadeInAnimation(): void {
     console.log('HistorialComponent startFadeInAnimation - isBrowser:', this.isBrowser);
-    
+
     // Verificar si estamos en el navegador de manera más robusta
     const isInBrowser = typeof window !== 'undefined' && window.localStorage;
     console.log('Verificación robusta del navegador:', isInBrowser);
-    
+
     if (!isInBrowser) {
       console.log('No es navegador, mostrando contenido inmediatamente');
       this.showContent = true;
@@ -175,7 +175,7 @@ export class HistorialComponent implements OnInit, AfterViewInit {
     }
 
     console.log('Ejecutando animación con delay...');
-    
+
     // Contenido aparece después de 100ms
     setTimeout(() => {
       console.log('Mostrando contenido de historial');

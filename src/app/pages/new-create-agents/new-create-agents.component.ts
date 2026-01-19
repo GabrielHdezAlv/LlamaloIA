@@ -38,7 +38,7 @@ interface AgentDraft {
 })
 export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, OnInit {
   @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef<HTMLDivElement>;
-  
+
   step: 'agentName' | 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' | 'advancedSettings' | 'final' | 'success' = 'agentName';
 
   // Popup de recuperación de borrador
@@ -47,14 +47,14 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   // Add this line to declare phoneNumber
   phoneNumber = '';
-  
+
   private lottieInstance: any = null;
   private lottieInitialized = false;
   private isBrowser: boolean;
 
   constructor(
-    private location: Location, 
-    private modalService: ModalService, 
+    private location: Location,
+    private modalService: ModalService,
     private i18nService: I18nService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -74,15 +74,15 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   // Verificar si hay datos guardados
   private checkForSavedDraft() {
     if (!this.isBrowser) return;
-    
+
     try {
       const savedData = localStorage.getItem(AGENT_DRAFT_KEY);
       console.log('Borrador guardado encontrado:', savedData);
-      
+
       if (savedData) {
         this.savedDraft = JSON.parse(savedData);
         console.log('Borrador parseado:', this.savedDraft);
-        
+
         // Verificar que el borrador tenga datos significativos
         if (this.savedDraft) {
           // Mostrar popup si está más allá del primer paso O si tiene nombre de agente
@@ -129,7 +129,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   // Guardar el estado actual en localStorage
   saveDraft() {
     if (!this.isBrowser) return;
-    
+
     try {
       const draft: AgentDraft = {
         step: this.step,
@@ -149,7 +149,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         recordingNoticeText: this.recordingNoticeText,
         savedAt: Date.now()
       };
-      
+
       localStorage.setItem(AGENT_DRAFT_KEY, JSON.stringify(draft));
       console.log('Borrador guardado:', draft);
     } catch (e) {
@@ -171,7 +171,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   // Obtener texto del paso guardado para mostrar en el popup
   getSavedStepText(): string {
     if (!this.savedDraft) return '';
-    
+
     const stepNames: Record<string, string> = {
       'agentName': 'Nombre del agente',
       'callType': 'Tipo de llamada',
@@ -184,7 +184,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       'summary': 'Resumen',
       'connectPhone': 'Conectar teléfono'
     };
-    
+
     return stepNames[this.savedDraft.step] || this.savedDraft.step;
   }
 
@@ -192,7 +192,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   template = '';
   instructions = '';
   agentName: string = '';
-  
+
   // Modal de generar prompt con IA
   showGeneratePromptModal = false;
   promptDescription = '';
@@ -208,10 +208,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   analyser: AnalyserNode | null = null;
   microphone: MediaStreamAudioSourceNode | null = null;
   animationFrame: number | null = null;
-  
+
   // Variables para el video del mar
   videoSrc: string = 'assets/bucle2.mp4'; // Ruta del video del mar (opcional)
-  
+
   // Variables para el carrusel de voces
   currentVoiceIndex: number = 0;
   tabletPageIndex = 0;
@@ -219,15 +219,15 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   private tabletTouchDeltaX = 0;
   private readonly tabletSwipeThreshold = 60;
   voices = [
-    { id: 'custom', name: 'Clonar voz', image: '', isCustom: true },
-    { id: 'carla', name: 'Carla', image: 'assets/carla_prueba.png' },
-    { id: 'carlos', name: 'Carlos', image: 'assets/carlos_prueba.png' },
-    { id: 'david', name: 'David', image: 'assets/david_prueba.png' },
-    { id: 'jesus', name: 'Jesús', image: 'assets/jesus_prueba.png' },
-    { id: 'claudia', name: 'Claudia', image: 'assets/claudia_prueba.png' },
-    { id: 'maria', name: 'María', image: 'assets/maria_prueba.png' }
+    { id: 'custom', name: 'Clonar voz', image: '', isCustom: true, description: '', badgeText: '' },
+    { id: 'carla', name: 'Carla', image: 'assets/carla_prueba.png', description: 'Diseñadora de Producto enfocada en simplicidad y usabilidad.', badgeText: 'Top 1% Voz' },
+    { id: 'carlos', name: 'Carlos', image: 'assets/carlos_prueba.png', description: 'Especialista en Soporte Técnico con tono calmado y resolutivo.', badgeText: 'Top 5% Voz' },
+    { id: 'david', name: 'David', image: 'assets/david_prueba.png', description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.', badgeText: 'Top Ventas' },
+    { id: 'jesus', name: 'Jesús', image: 'assets/jesus_prueba.png', description: 'Asistente Virtual amigable ideal para recepción de llamadas.', badgeText: 'Popular' },
+    { id: 'claudia', name: 'Claudia', image: 'assets/claudia_prueba.png', description: 'Narradora profesional perfecta para contenido educativo.', badgeText: 'Nueva' },
+    { id: 'maria', name: 'María', image: 'assets/maria_prueba.png', description: 'Agente de atención al cliente con gran empatía y paciencia.', badgeText: 'Destacada' }
   ];
-  
+
 
   onSelect(type: 'inbound' | 'outbound') {
     this.step = 'language';
@@ -254,7 +254,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     const visibleCount = this.getVisibleCount();
     const maxPageIndex = Math.max(Math.ceil(this.voices.length / visibleCount) - 1, 0);
     const currentPage = Math.floor(this.currentVoiceIndex / visibleCount);
-    
+
     if (currentPage < maxPageIndex) {
       // Avanzar a la siguiente página (3 voces)
       this.currentVoiceIndex = Math.min((currentPage + 1) * visibleCount, this.voices.length - 1);
@@ -264,7 +264,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   previousVoice() {
     const visibleCount = this.getVisibleCount();
     const currentPage = Math.floor(this.currentVoiceIndex / visibleCount);
-    
+
     if (currentPage > 0) {
       // Retroceder a la página anterior (3 voces)
       this.currentVoiceIndex = (currentPage - 1) * visibleCount;
@@ -313,15 +313,15 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     const visibleCount = this.getVisibleCount();
     const gap = this.getSlideGapPx();
     const viewportWidth = this.getViewportWidth();
-    
+
     // Reducir ancho de cartas un 10% en desktop (lg:)
     const scaleFactor = viewportWidth >= 1280 ? 0.9 : 1;
-    
+
     if (gap === 0) {
       return `${(100 / visibleCount) * scaleFactor}%`;
     }
     const totalGap = gap * (visibleCount - 1);
-    
+
     if (viewportWidth >= 1280) {
       // En desktop, aplicar factor de escala
       return `calc(((100% - ${totalGap}px) / ${visibleCount}) * ${scaleFactor})`;
@@ -354,7 +354,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   getSlideGapPx(): number {
     const width = this.getViewportWidth();
-    
+
     if (width >= 1280) return 20; // Aumentar gap para portátiles
     if (width >= 768) return 14;
     return 8;
@@ -579,7 +579,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   selectAction(platform: string) {
     console.log('Plataforma seleccionada:', platform);
-    
+
     if (platform === 'shopify') {
       // Abrir modal de Shopify
       const dialogRef = this.modalService.openShopify({
@@ -623,7 +623,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
   selectKnowledgeSource(source: 'pdf' | 'web') {
     console.log('Fuente seleccionada:', source);
-    
+
     if (source === 'web') {
       // Abrir modal de Web
       const dialogRef = this.modalService.openWeb({
@@ -669,16 +669,16 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (files && files.length > 0) {
       // Convertir FileList a Array
       const newFiles = Array.from(files);
-      
+
       // Calcular cuántos archivos se pueden agregar (máximo 2 en total)
       const availableSlots = 2 - this.uploadedDocuments.length;
-      
+
       if (availableSlots > 0) {
         // Agregar solo los archivos que quepan (máximo hasta completar 2)
         const filesToAdd = newFiles.slice(0, availableSlots);
         this.uploadedDocuments = [...this.uploadedDocuments, ...filesToAdd];
         console.log('Documentos subidos:', this.uploadedDocuments.length);
-        
+
         // Si el usuario intentó subir más archivos de los permitidos, mostrar modal
         if (newFiles.length > availableSlots) {
           this.modalService.openWarning({
@@ -726,582 +726,582 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   // Métodos para conectar número de teléfono
- onConnectPhone() {
-  // Aquí puedes validar los datos antes de continuar
-  console.log('Datos del número de teléfono:', {
-    phone: this.phoneNumber,
-  //  sid: this.sid,
-  //  token: this.token,
-   // label: this.label,
-   // importedNumber: this.importedNumber
-  });
-  // Navega a pantalla final
-  this.step = 'final';
-
-  // Simulamos 5 segundos de carga
-  setTimeout(() => {
-    this.step = 'success'; // Cambia a pantalla de éxito
-    // Limpiar el borrador cuando el agente se crea con éxito
-    this.clearSavedDraft();
-  }, 5000);
- }
-
- openTwilioStepsModal() {
-   this.modalService.openTwilioSteps();
- }
-
- onSkipConnectPhone() {
-  // Salta a pantalla final
-  this.step = 'final';
-
-  // Simulamos 5 segundos de carga antes de mostrar éxito
-  setTimeout(() => {
-    this.step = 'success';
-    // Limpiar el borrador cuando el agente se crea con éxito
-    this.clearSavedDraft();
-  }, 5000);
- }
-
- // Declare showCountryMenu property
- showCountryMenu = false;
- selectedCountryCode = '+34';
- selectedCountry = 'es';
-
- toggleCountryMenu() {
-   this.showCountryMenu = !this.showCountryMenu;
- }
-
- selectCountry(countryCode: string, code: string, flagColor1: string, flagColor2: string) {
-   this.selectedCountryCode = code;
-   this.selectedCountry = countryCode;
-   this.showCountryMenu = false;
-   this.updateFlag(countryCode);
- }
-
- updateFlag(countryCode: string) {
-   const flagSvg = document.getElementById('current-flag');
-   if (!flagSvg) return;
-
-   // Limpiar el contenido anterior
-   flagSvg.innerHTML = '';
-
-   switch (countryCode) {
-     case 'es':
-       flagSvg.innerHTML = '<rect width="20" height="12" fill="#C60B1E"/><rect y="3" width="20" height="6" fill="#FFC400"/>';
-       break;
-     case 'us':
-       flagSvg.innerHTML = '<rect width="20" height="12" fill="#00247D"/><path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2"/><path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1"/><rect x="8" width="4" height="12" fill="#FFF"/><rect y="4" width="20" height="4" fill="#FFF"/><rect x="8.8" width="2.4" height="12" fill="#CF142B"/><rect y="5.2" width="20" height="1.6" fill="#CF142B"/>';
-       break;
-     case 'fr':
-       flagSvg.innerHTML = '<rect width="20" height="12" fill="#fff"/><rect width="6.66" height="12" fill="#0055A4"/><rect x="13.33" width="6.67" height="12" fill="#EF4135"/>';
-       break;
-     case 'de':
-       flagSvg.innerHTML = '<rect width="20" height="12" fill="#FFCE00"/><rect y="6" width="20" height="6" fill="#DD0000"/><rect y="4" width="20" height="4" fill="#000"/>';
-       break;
-   }
- }
-
- @HostListener('document:click', ['$event'])
- onDocumentClick(event: MouseEvent) {
-   const target = event.target as HTMLElement;
-   if (!target) return;
-   
-   const dropdown = target.closest('.w-32.h-14');
-   const menu = target.closest('ul');
-   const menuItem = target.closest('li');
-   
-   if (!dropdown && !menu && !menuItem) {
-     this.showCountryMenu = false;
-   }
- }
-
-// Nuevas propiedades
-inactivityTimeout = 0;           // Tiempo de inactividad en segundos
-maxCallDuration = 0;            // Duración máxima en segundos
-agentSpeed = 0;                 // Rapidez del agente
-llmTemperature = 0;             // Temperatura del LLM
-isRecordingNoticeEnabled = false;
-recordingNoticeText = 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
-
-// Estados de visibilidad de los bocadillos
-showInactivityTooltip = false;
-showMaxCallDurationTooltip = false;
-showAgentSpeedTooltip = false;
-showLlmTemperatureTooltip = false;
-
-// Métodos para mostrar/ocultar bocadillos
-showInactivityTooltipFn() {
-  this.hideAllTooltips();
-  this.showInactivityTooltip = true;
-}
-
-hideInactivityTooltipFn() {
-  this.showInactivityTooltip = false;
-}
-
-showMaxCallDurationTooltipFn() {
-  this.hideAllTooltips();
-  this.showMaxCallDurationTooltip = true;
-}
-
-hideMaxCallDurationTooltipFn() {
-  this.showMaxCallDurationTooltip = false;
-}
-
-showAgentSpeedTooltipFn() {
-  this.hideAllTooltips();
-  this.showAgentSpeedTooltip = true;
-}
-
-hideAgentSpeedTooltipFn() {
-  this.showAgentSpeedTooltip = false;
-}
-
-showLlmTemperatureTooltipFn() {
-  this.hideAllTooltips();
-  this.showLlmTemperatureTooltip = true;
-}
-
-hideLlmTemperatureTooltipFn() {
-  this.showLlmTemperatureTooltip = false;
-}
-
-// Método para ocultar todos los bocadillos
-hideAllTooltips() {
-  this.showInactivityTooltip = false;
-  this.showMaxCallDurationTooltip = false;
-  this.showAgentSpeedTooltip = false;
-  this.showLlmTemperatureTooltip = false;
-}
-
- // Método para cambiar el estado del aviso de grabación
- toggleRecordingNotice() {
-  this.isRecordingNoticeEnabled = !this.isRecordingNoticeEnabled;
- }
-
- // Método para abrir el modal de información sobre el aviso de grabación
- openRecordingNoticeInfoModal() {
-  this.modalService.openWarning({
-    title: 'Información sobre el mensaje de aviso de grabación',
-    message: 'El mensaje de aviso de grabación es una notificación que se reproduce al inicio de las llamadas para informar a los interlocutores que la conversación será grabada. Este mensaje cumple con los requisitos legales de protección de datos y privacidad.',
-    confirmText: 'Entendido',
-    showCancelButton: false
-  });
- }
-
- // Método para formatear el tiempo en formato legible
- formatTime(seconds: number): string {
-  if (seconds < 60) {
-    return `${seconds}`;
-  } else if (seconds < 3600) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return remainingSeconds > 0 ? `${minutes} ${remainingSeconds}` : `${minutes}`;
-  } else {
-    const hours = Math.floor(seconds / 3600);
-    const remainingMinutes = Math.floor((seconds % 3600) / 60);
-    return remainingMinutes > 0 ? `${hours} ${remainingMinutes}` : `${hours}`;
-  }
- }
-
- // Método para obtener el tiempo de inactividad formateado
- getFormattedInactivityTimeout(): string {
-  return this.formatTime(this.inactivityTimeout);
- }
-
- // Método para obtener la duración máxima formateada
- getFormattedMaxCallDuration(): string {
-  return this.formatTime(this.maxCallDuration);
- }
-
- // Método para actualizar el tiempo de inactividad
- updateInactivityTimeout(value: number) {
-  this.inactivityTimeout = value;
-  console.log('Tiempo de inactividad actualizado:', this.getFormattedInactivityTimeout());
- }
-
- // Método para actualizar la duración máxima
- updateMaxCallDuration(value: number) {
-  this.maxCallDuration = value;
-  console.log('Duración máxima actualizada:', this.getFormattedMaxCallDuration());
- }
-
- // Método para validar la configuración avanzada
- validateAdvancedSettings(): boolean {
-  if (this.inactivityTimeout < 0 || this.inactivityTimeout > 300) {
-    this.modalService.openError({
-      title: 'Valor inválido',
-      message: 'El tiempo de inactividad debe estar entre 0 y 300 segundos',
+  onConnectPhone() {
+    // Aquí puedes validar los datos antes de continuar
+    console.log('Datos del número de teléfono:', {
+      phone: this.phoneNumber,
+      //  sid: this.sid,
+      //  token: this.token,
+      // label: this.label,
+      // importedNumber: this.importedNumber
     });
-    return false;
-  }
-  
-  if (this.maxCallDuration < 60 || this.maxCallDuration > 3600) {
-    this.modalService.openError({
-      title: 'Valor inválido',
-      message: 'La duración máxima debe estar entre 60 y 3600 segundos',
-    });
-    return false;
-  }
-  
-  return true;
- }
+    // Navega a pantalla final
+    this.step = 'final';
 
- onSubmitAdvancedSettings() {
-  if (this.validateAdvancedSettings()) {
-    console.log('Configuración avanzada guardada:', {
-      inactivityTimeout: this.inactivityTimeout,
-      maxCallDuration: this.maxCallDuration,
-      agentSpeed: this.agentSpeed,
-      llmTemperature: this.llmTemperature,
-      isRecordingNoticeEnabled: this.isRecordingNoticeEnabled,
-      recordingNoticeText: this.isRecordingNoticeEnabled ? this.recordingNoticeText : null
-    });
+    // Simulamos 5 segundos de carga
+    setTimeout(() => {
+      this.step = 'success'; // Cambia a pantalla de éxito
+      // Limpiar el borrador cuando el agente se crea con éxito
+      this.clearSavedDraft();
+    }, 5000);
+  }
 
-    // Cambia a prueba de agente
+  openTwilioStepsModal() {
+    this.modalService.openTwilioSteps();
+  }
+
+  onSkipConnectPhone() {
+    // Salta a pantalla final
+    this.step = 'final';
+
+    // Simulamos 5 segundos de carga antes de mostrar éxito
+    setTimeout(() => {
+      this.step = 'success';
+      // Limpiar el borrador cuando el agente se crea con éxito
+      this.clearSavedDraft();
+    }, 5000);
+  }
+
+  // Declare showCountryMenu property
+  showCountryMenu = false;
+  selectedCountryCode = '+34';
+  selectedCountry = 'es';
+
+  toggleCountryMenu() {
+    this.showCountryMenu = !this.showCountryMenu;
+  }
+
+  selectCountry(countryCode: string, code: string, flagColor1: string, flagColor2: string) {
+    this.selectedCountryCode = code;
+    this.selectedCountry = countryCode;
+    this.showCountryMenu = false;
+    this.updateFlag(countryCode);
+  }
+
+  updateFlag(countryCode: string) {
+    const flagSvg = document.getElementById('current-flag');
+    if (!flagSvg) return;
+
+    // Limpiar el contenido anterior
+    flagSvg.innerHTML = '';
+
+    switch (countryCode) {
+      case 'es':
+        flagSvg.innerHTML = '<rect width="20" height="12" fill="#C60B1E"/><rect y="3" width="20" height="6" fill="#FFC400"/>';
+        break;
+      case 'us':
+        flagSvg.innerHTML = '<rect width="20" height="12" fill="#00247D"/><path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2"/><path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1"/><rect x="8" width="4" height="12" fill="#FFF"/><rect y="4" width="20" height="4" fill="#FFF"/><rect x="8.8" width="2.4" height="12" fill="#CF142B"/><rect y="5.2" width="20" height="1.6" fill="#CF142B"/>';
+        break;
+      case 'fr':
+        flagSvg.innerHTML = '<rect width="20" height="12" fill="#fff"/><rect width="6.66" height="12" fill="#0055A4"/><rect x="13.33" width="6.67" height="12" fill="#EF4135"/>';
+        break;
+      case 'de':
+        flagSvg.innerHTML = '<rect width="20" height="12" fill="#FFCE00"/><rect y="6" width="20" height="6" fill="#DD0000"/><rect y="4" width="20" height="4" fill="#000"/>';
+        break;
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target) return;
+
+    const dropdown = target.closest('.w-32.h-14');
+    const menu = target.closest('ul');
+    const menuItem = target.closest('li');
+
+    if (!dropdown && !menu && !menuItem) {
+      this.showCountryMenu = false;
+    }
+  }
+
+  // Nuevas propiedades
+  inactivityTimeout = 0;           // Tiempo de inactividad en segundos
+  maxCallDuration = 0;            // Duración máxima en segundos
+  agentSpeed = 0;                 // Rapidez del agente
+  llmTemperature = 0;             // Temperatura del LLM
+  isRecordingNoticeEnabled = false;
+  recordingNoticeText = 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+
+  // Estados de visibilidad de los bocadillos
+  showInactivityTooltip = false;
+  showMaxCallDurationTooltip = false;
+  showAgentSpeedTooltip = false;
+  showLlmTemperatureTooltip = false;
+
+  // Métodos para mostrar/ocultar bocadillos
+  showInactivityTooltipFn() {
+    this.hideAllTooltips();
+    this.showInactivityTooltip = true;
+  }
+
+  hideInactivityTooltipFn() {
+    this.showInactivityTooltip = false;
+  }
+
+  showMaxCallDurationTooltipFn() {
+    this.hideAllTooltips();
+    this.showMaxCallDurationTooltip = true;
+  }
+
+  hideMaxCallDurationTooltipFn() {
+    this.showMaxCallDurationTooltip = false;
+  }
+
+  showAgentSpeedTooltipFn() {
+    this.hideAllTooltips();
+    this.showAgentSpeedTooltip = true;
+  }
+
+  hideAgentSpeedTooltipFn() {
+    this.showAgentSpeedTooltip = false;
+  }
+
+  showLlmTemperatureTooltipFn() {
+    this.hideAllTooltips();
+    this.showLlmTemperatureTooltip = true;
+  }
+
+  hideLlmTemperatureTooltipFn() {
+    this.showLlmTemperatureTooltip = false;
+  }
+
+  // Método para ocultar todos los bocadillos
+  hideAllTooltips() {
+    this.showInactivityTooltip = false;
+    this.showMaxCallDurationTooltip = false;
+    this.showAgentSpeedTooltip = false;
+    this.showLlmTemperatureTooltip = false;
+  }
+
+  // Método para cambiar el estado del aviso de grabación
+  toggleRecordingNotice() {
+    this.isRecordingNoticeEnabled = !this.isRecordingNoticeEnabled;
+  }
+
+  // Método para abrir el modal de información sobre el aviso de grabación
+  openRecordingNoticeInfoModal() {
+    this.modalService.openWarning({
+      title: 'Información sobre el mensaje de aviso de grabación',
+      message: 'El mensaje de aviso de grabación es una notificación que se reproduce al inicio de las llamadas para informar a los interlocutores que la conversación será grabada. Este mensaje cumple con los requisitos legales de protección de datos y privacidad.',
+      confirmText: 'Entendido',
+      showCancelButton: false
+    });
+  }
+
+  // Método para formatear el tiempo en formato legible
+  formatTime(seconds: number): string {
+    if (seconds < 60) {
+      return `${seconds}`;
+    } else if (seconds < 3600) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      return remainingSeconds > 0 ? `${minutes} ${remainingSeconds}` : `${minutes}`;
+    } else {
+      const hours = Math.floor(seconds / 3600);
+      const remainingMinutes = Math.floor((seconds % 3600) / 60);
+      return remainingMinutes > 0 ? `${hours} ${remainingMinutes}` : `${hours}`;
+    }
+  }
+
+  // Método para obtener el tiempo de inactividad formateado
+  getFormattedInactivityTimeout(): string {
+    return this.formatTime(this.inactivityTimeout);
+  }
+
+  // Método para obtener la duración máxima formateada
+  getFormattedMaxCallDuration(): string {
+    return this.formatTime(this.maxCallDuration);
+  }
+
+  // Método para actualizar el tiempo de inactividad
+  updateInactivityTimeout(value: number) {
+    this.inactivityTimeout = value;
+    console.log('Tiempo de inactividad actualizado:', this.getFormattedInactivityTimeout());
+  }
+
+  // Método para actualizar la duración máxima
+  updateMaxCallDuration(value: number) {
+    this.maxCallDuration = value;
+    console.log('Duración máxima actualizada:', this.getFormattedMaxCallDuration());
+  }
+
+  // Método para validar la configuración avanzada
+  validateAdvancedSettings(): boolean {
+    if (this.inactivityTimeout < 0 || this.inactivityTimeout > 300) {
+      this.modalService.openError({
+        title: 'Valor inválido',
+        message: 'El tiempo de inactividad debe estar entre 0 y 300 segundos',
+      });
+      return false;
+    }
+
+    if (this.maxCallDuration < 60 || this.maxCallDuration > 3600) {
+      this.modalService.openError({
+        title: 'Valor inválido',
+        message: 'La duración máxima debe estar entre 60 y 3600 segundos',
+      });
+      return false;
+    }
+
+    return true;
+  }
+
+  onSubmitAdvancedSettings() {
+    if (this.validateAdvancedSettings()) {
+      console.log('Configuración avanzada guardada:', {
+        inactivityTimeout: this.inactivityTimeout,
+        maxCallDuration: this.maxCallDuration,
+        agentSpeed: this.agentSpeed,
+        llmTemperature: this.llmTemperature,
+        isRecordingNoticeEnabled: this.isRecordingNoticeEnabled,
+        recordingNoticeText: this.isRecordingNoticeEnabled ? this.recordingNoticeText : null
+      });
+
+      // Cambia a prueba de agente
+      this.step = 'summary';
+      this.saveDraft();
+    }
+  }
+
+  // Método para saltar la configuración avanzada
+  onSkipAdvancedSettings() {
+    console.log('Configuración avanzada saltada');
+    // Avanza a prueba de agente
     this.step = 'summary';
-    this.saveDraft();
   }
- }
 
- // Método para saltar la configuración avanzada
- onSkipAdvancedSettings() {
-  console.log('Configuración avanzada saltada');
-  // Avanza a prueba de agente
-  this.step = 'summary';
- }
-
-// Método para finalizar el proceso
-onFinish() {
-  // Limpiar el micrófono si está activo
-  this.stopMicrophone();
-  // Vuelve a la página anterior (por ejemplo, /dashboard/agents)
-  this.location.back();
-}
-
-// Métodos para el micrófono
-async toggleMicrophone() {
-  if (this.isMicrophoneActive) {
+  // Método para finalizar el proceso
+  onFinish() {
+    // Limpiar el micrófono si está activo
     this.stopMicrophone();
-  } else {
-    await this.startMicrophone();
+    // Vuelve a la página anterior (por ejemplo, /dashboard/agents)
+    this.location.back();
   }
-}
 
-async startMicrophone() {
-  try {
-    // Solicitar acceso al micrófono con configuración optimizada
-    const stream = await navigator.mediaDevices.getUserMedia({ 
-      audio: {
-        echoCancellation: false,
-        noiseSuppression: false,
-        autoGainControl: false,
-        sampleRate: 44100
-      }
-    });
-    
-    // Crear contexto de audio optimizado
-    this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    this.analyser = this.audioContext.createAnalyser();
-    this.microphone = this.audioContext.createMediaStreamSource(stream);
-    
-    // Configurar el analizador para sensibilidad equilibrada
-    this.analyser.fftSize = 256; // Resolución equilibrada
-    this.analyser.smoothingTimeConstant = 0.3; // Suavizado moderado
-    this.analyser.minDecibels = -70;
-    this.analyser.maxDecibels = -20;
-    this.microphone.connect(this.analyser);
-    
-    this.isMicrophoneActive = true;
-    this.animateAudioLevel();
-    
-  } catch (error) {
-    console.error('Error al acceder al micrófono:', error);
-    this.modalService.openError({
-      title: 'Error de micrófono',
-      message: 'No se pudo acceder al micrófono. Por favor, verifica los permisos.'
-    });
-  }
-}
-
-stopMicrophone() {
-  if (this.animationFrame) {
-    cancelAnimationFrame(this.animationFrame);
-    this.animationFrame = null;
-  }
-  
-  if (this.microphone) {
-    this.microphone.disconnect();
-    this.microphone = null;
-  }
-  
-  if (this.audioContext) {
-    this.audioContext.close();
-    this.audioContext = null;
-  }
-  
-  this.analyser = null;
-  this.isMicrophoneActive = false;
-  this.audioLevel = 0;
-}
-
-animateAudioLevel() {
-  if (!this.isMicrophoneActive || !this.analyser) return;
-  
-  const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
-  
-  const updateLevel = () => {
-    this.analyser!.getByteFrequencyData(dataArray);
-    
-    // Calcular el nivel máximo para respuesta más rápida
-    let max = 0;
-    for (let i = 0; i < dataArray.length; i++) {
-      max = Math.max(max, dataArray[i]);
-    }
-    
-    // Normalizar el nivel (0-1) con respuesta más rápida
-    let normalizedLevel = max / 255;
-    
-    // Aplicar una curva más natural y responsiva
-    normalizedLevel = Math.pow(normalizedLevel, 0.5); // Curva más responsiva
-    
-    // LIMITAR EL NIVEL MÁXIMO A 1.0
-    normalizedLevel = Math.min(normalizedLevel, 1.0);
-    
-    // Transición más equilibrada
-    const targetLevel = normalizedLevel * 1.0; // Reducir sensibilidad aún más
-    this.audioLevel = this.audioLevel * 0.8 + targetLevel * 0.2; // Mucho más suavizado
-    
-    // LIMITAR EL AUDIOLEVEL FINAL A 3.0
-    this.audioLevel = Math.min(this.audioLevel, 3.0);
-    
+  // Métodos para el micrófono
+  async toggleMicrophone() {
     if (this.isMicrophoneActive) {
-      this.animationFrame = requestAnimationFrame(updateLevel);
+      this.stopMicrophone();
+    } else {
+      await this.startMicrophone();
     }
-  };
-  
-  updateLevel();
-}
+  }
 
-ngAfterViewChecked() {
-  // Inicializar Lottie cuando el step es 'final' y el contenedor está disponible
-  if (this.step === 'final' && this.lottieContainer && !this.lottieInitialized) {
-    this.initLottie();
-  } else if (this.step !== 'final' && this.lottieInitialized) {
-    // Limpiar Lottie si cambiamos de step
+  async startMicrophone() {
+    try {
+      // Solicitar acceso al micrófono con configuración optimizada
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false,
+          sampleRate: 44100
+        }
+      });
+
+      // Crear contexto de audio optimizado
+      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      this.analyser = this.audioContext.createAnalyser();
+      this.microphone = this.audioContext.createMediaStreamSource(stream);
+
+      // Configurar el analizador para sensibilidad equilibrada
+      this.analyser.fftSize = 256; // Resolución equilibrada
+      this.analyser.smoothingTimeConstant = 0.3; // Suavizado moderado
+      this.analyser.minDecibels = -70;
+      this.analyser.maxDecibels = -20;
+      this.microphone.connect(this.analyser);
+
+      this.isMicrophoneActive = true;
+      this.animateAudioLevel();
+
+    } catch (error) {
+      console.error('Error al acceder al micrófono:', error);
+      this.modalService.openError({
+        title: 'Error de micrófono',
+        message: 'No se pudo acceder al micrófono. Por favor, verifica los permisos.'
+      });
+    }
+  }
+
+  stopMicrophone() {
+    if (this.animationFrame) {
+      cancelAnimationFrame(this.animationFrame);
+      this.animationFrame = null;
+    }
+
+    if (this.microphone) {
+      this.microphone.disconnect();
+      this.microphone = null;
+    }
+
+    if (this.audioContext) {
+      this.audioContext.close();
+      this.audioContext = null;
+    }
+
+    this.analyser = null;
+    this.isMicrophoneActive = false;
+    this.audioLevel = 0;
+  }
+
+  animateAudioLevel() {
+    if (!this.isMicrophoneActive || !this.analyser) return;
+
+    const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+
+    const updateLevel = () => {
+      this.analyser!.getByteFrequencyData(dataArray);
+
+      // Calcular el nivel máximo para respuesta más rápida
+      let max = 0;
+      for (let i = 0; i < dataArray.length; i++) {
+        max = Math.max(max, dataArray[i]);
+      }
+
+      // Normalizar el nivel (0-1) con respuesta más rápida
+      let normalizedLevel = max / 255;
+
+      // Aplicar una curva más natural y responsiva
+      normalizedLevel = Math.pow(normalizedLevel, 0.5); // Curva más responsiva
+
+      // LIMITAR EL NIVEL MÁXIMO A 1.0
+      normalizedLevel = Math.min(normalizedLevel, 1.0);
+
+      // Transición más equilibrada
+      const targetLevel = normalizedLevel * 1.0; // Reducir sensibilidad aún más
+      this.audioLevel = this.audioLevel * 0.8 + targetLevel * 0.2; // Mucho más suavizado
+
+      // LIMITAR EL AUDIOLEVEL FINAL A 3.0
+      this.audioLevel = Math.min(this.audioLevel, 3.0);
+
+      if (this.isMicrophoneActive) {
+        this.animationFrame = requestAnimationFrame(updateLevel);
+      }
+    };
+
+    updateLevel();
+  }
+
+  ngAfterViewChecked() {
+    // Inicializar Lottie cuando el step es 'final' y el contenedor está disponible
+    if (this.step === 'final' && this.lottieContainer && !this.lottieInitialized) {
+      this.initLottie();
+    } else if (this.step !== 'final' && this.lottieInitialized) {
+      // Limpiar Lottie si cambiamos de step
+      this.destroyLottie();
+    }
+  }
+
+  initLottie() {
+    if (this.lottieContainer && this.lottieContainer.nativeElement && !this.lottieInstance) {
+      this.lottieInstance = lottie.loadAnimation({
+        container: this.lottieContainer.nativeElement,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: 'assets/Loading.json'
+      });
+      this.lottieInitialized = true;
+    }
+  }
+
+  destroyLottie() {
+    if (this.lottieInstance) {
+      this.lottieInstance.destroy();
+      this.lottieInstance = null;
+      this.lottieInitialized = false;
+    }
+  }
+
+  ngOnDestroy() {
+    // Limpiar el micrófono cuando se destruye el componente
+    this.stopMicrophone();
+    // Limpiar Lottie
     this.destroyLottie();
   }
-}
 
-initLottie() {
-  if (this.lottieContainer && this.lottieContainer.nativeElement && !this.lottieInstance) {
-    this.lottieInstance = lottie.loadAnimation({
-      container: this.lottieContainer.nativeElement,
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      path: 'assets/Loading.json'
-    });
-    this.lottieInitialized = true;
+  // Métodos para calcular tamaños y posiciones dinámicas estilo ChatGPT
+  getWaveSize(waveNumber: number): number {
+    const baseSize = 120;
+    const increment = waveNumber * 40;
+    return baseSize + increment;
   }
-}
 
-destroyLottie() {
-  if (this.lottieInstance) {
-    this.lottieInstance.destroy();
-    this.lottieInstance = null;
-    this.lottieInitialized = false;
+  getCloudSize(cloudNumber: number): number {
+    const baseSize = 30 + cloudNumber * 15;
+    return baseSize + (this.audioLevel * 20);
   }
-}
 
-ngOnDestroy() {
-  // Limpiar el micrófono cuando se destruye el componente
-  this.stopMicrophone();
-  // Limpiar Lottie
-  this.destroyLottie();
-}
+  getCloudPosition(cloudNumber: number): { x: number, y: number } {
+    const centerOffset = 60;
+    const angle = (cloudNumber * 120) + (this.audioLevel * 30);
+    const radius = 80 + (this.audioLevel * 40);
 
-// Métodos para calcular tamaños y posiciones dinámicas estilo ChatGPT
-getWaveSize(waveNumber: number): number {
-  const baseSize = 120;
-  const increment = waveNumber * 40;
-  return baseSize + increment;
-}
-
-getCloudSize(cloudNumber: number): number {
-  const baseSize = 30 + cloudNumber * 15;
-  return baseSize + (this.audioLevel * 20);
-}
-
-getCloudPosition(cloudNumber: number): { x: number, y: number } {
-  const centerOffset = 60;
-  const angle = (cloudNumber * 120) + (this.audioLevel * 30);
-  const radius = 80 + (this.audioLevel * 40);
-  
-  return {
-    x: Math.cos(angle * Math.PI / 180) * radius - centerOffset,
-    y: Math.sin(angle * Math.PI / 180) * radius - centerOffset
-  };
-}
-
-getMainSphereSize(): number {
-  const viewportWidth = window.innerWidth;
-  let baseSize = 200;
-  let maxSize = 280;
-  
-  if (viewportWidth >= 1920) {
-    // 3xl: más grande
-    baseSize = 180;
-    maxSize = 260;
-  } else if (viewportWidth >= 1024) {
-    // Desktop: más pequeño
-    baseSize = 140;
-    maxSize = 200;
+    return {
+      x: Math.cos(angle * Math.PI / 180) * radius - centerOffset,
+      y: Math.sin(angle * Math.PI / 180) * radius - centerOffset
+    };
   }
-  
-  return Math.min(baseSize + (this.audioLevel * 30), maxSize);
-}
 
-getMicButtonSize(): number {
-  const sphereSize = this.getMainSphereSize();
-  return Math.min(sphereSize * 0.4, 50);
-}
+  getMainSphereSize(): number {
+    const viewportWidth = window.innerWidth;
+    let baseSize = 200;
+    let maxSize = 280;
 
-getMicIconSize(): number {
-  const buttonSize = this.getMicButtonSize();
-  return Math.min(buttonSize * 0.6, 30);
-}
+    if (viewportWidth >= 1920) {
+      // 3xl: más grande
+      baseSize = 180;
+      maxSize = 260;
+    } else if (viewportWidth >= 1024) {
+      // Desktop: más pequeño
+      baseSize = 140;
+      maxSize = 200;
+    }
 
-// Métodos para ondas internas
-getInternalWaveSize(waveNumber: number): number {
-  const sphereSize = this.getMainSphereSize();
-  const baseSize = sphereSize * 0.3;
-  const increment = waveNumber * (sphereSize * 0.1);
-  return Math.min(baseSize + increment + (this.audioLevel * 20), sphereSize * 0.8);
-}
+    return Math.min(baseSize + (this.audioLevel * 30), maxSize);
+  }
 
-getInternalWavePosition(waveNumber: number): { x: number, y: number } {
-  const sphereSize = this.getMainSphereSize();
-  const centerOffset = sphereSize / 2;
-  const angle = (waveNumber * 120) + (this.audioLevel * 45);
-  const radius = sphereSize * 0.15 + (this.audioLevel * 15);
-  
-  return {
-    x: Math.cos(angle * Math.PI / 180) * radius,
-    y: Math.sin(angle * Math.PI / 180) * radius
-  };
-}
+  getMicButtonSize(): number {
+    const sphereSize = this.getMainSphereSize();
+    return Math.min(sphereSize * 0.4, 50);
+  }
 
-getInternalCloudSize(cloudNumber: number): number {
-  const sphereSize = this.getMainSphereSize();
-  const baseSize = sphereSize * 0.15 + cloudNumber * (sphereSize * 0.05);
-  return baseSize + (this.audioLevel * 15);
-}
+  getMicIconSize(): number {
+    const buttonSize = this.getMicButtonSize();
+    return Math.min(buttonSize * 0.6, 30);
+  }
 
-getInternalCloudPosition(cloudNumber: number): { x: number, y: number } {
-  const sphereSize = this.getMainSphereSize();
-  const angle = (cloudNumber * 180) + (this.audioLevel * 60);
-  const radius = sphereSize * 0.2 + (this.audioLevel * 10);
-  
-  return {
-    x: Math.cos(angle * Math.PI / 180) * radius,
-    y: Math.sin(angle * Math.PI / 180) * radius
-  };
-}
+  // Métodos para ondas internas
+  getInternalWaveSize(waveNumber: number): number {
+    const sphereSize = this.getMainSphereSize();
+    const baseSize = sphereSize * 0.3;
+    const increment = waveNumber * (sphereSize * 0.1);
+    return Math.min(baseSize + increment + (this.audioLevel * 20), sphereSize * 0.8);
+  }
 
- // Método para resetear la configuración a valores por defecto
- resetAdvancedSettings() {
-  this.inactivityTimeout = 30;
-  this.maxCallDuration = 300;
-  this.agentSpeed = 0;
-  this.llmTemperature = 0;
-  this.isRecordingNoticeEnabled = false;
-  console.log('Configuración avanzada reseteada a valores por defecto');
- }
+  getInternalWavePosition(waveNumber: number): { x: number, y: number } {
+    const sphereSize = this.getMainSphereSize();
+    const centerOffset = sphereSize / 2;
+    const angle = (waveNumber * 120) + (this.audioLevel * 45);
+    const radius = sphereSize * 0.15 + (this.audioLevel * 15);
 
- // Método para obtener un resumen de la configuración
- getAdvancedSettingsSummary(): string {
-  return `Tiempo de inactividad: ${this.getFormattedInactivityTimeout()}, Duración máxima: ${this.getFormattedMaxCallDuration()}, Aviso de grabación: ${this.isRecordingNoticeEnabled ? 'Activado' : 'Desactivado'}`;
- }
+    return {
+      x: Math.cos(angle * Math.PI / 180) * radius,
+      y: Math.sin(angle * Math.PI / 180) * radius
+    };
+  }
 
- // Formatea número a decimal con coma (ej: 18 → '0,18')
- formatDecimal(value: number): string {
-  // Limitamos a 200 para no exceder 2,00
-  const clamped = Math.min(value, 200);
-  const realValue = clamped / 100; // 18 → 0.18, 134 → 1.34
-  return realValue.toFixed(2).replace('.', ',');
- }
+  getInternalCloudSize(cloudNumber: number): number {
+    const sphereSize = this.getMainSphereSize();
+    const baseSize = sphereSize * 0.15 + cloudNumber * (sphereSize * 0.05);
+    return baseSize + (this.audioLevel * 15);
+  }
 
- // Métodos para detectar cambios en los sliders
- onInactivityChange() {
-  // Puedes agregar lógica si necesitas más adelante
-  console.log('Inactivity: ', this.inactivityTimeout);
- }
+  getInternalCloudPosition(cloudNumber: number): { x: number, y: number } {
+    const sphereSize = this.getMainSphereSize();
+    const angle = (cloudNumber * 180) + (this.audioLevel * 60);
+    const radius = sphereSize * 0.2 + (this.audioLevel * 10);
 
- onMaxCallDurationChange() {
-   console.log('Max duration: ', this.maxCallDuration);
- }
+    return {
+      x: Math.cos(angle * Math.PI / 180) * radius,
+      y: Math.sin(angle * Math.PI / 180) * radius
+    };
+  }
 
- // Métodos para efectos del video del mar
- getVideoFilter(): string {
-   const brightness = 1 + (this.audioLevel * 0.6);
-   const contrast = 1 + (this.audioLevel * 0.4);
-   const saturation = 1 + (this.audioLevel * 0.8);
-   
-   return `brightness(${brightness}) contrast(${contrast}) saturate(${saturation}) blur(${this.audioLevel * 1.2}px)`;
- }
+  // Método para resetear la configuración a valores por defecto
+  resetAdvancedSettings() {
+    this.inactivityTimeout = 30;
+    this.maxCallDuration = 300;
+    this.agentSpeed = 0;
+    this.llmTemperature = 0;
+    this.isRecordingNoticeEnabled = false;
+    console.log('Configuración avanzada reseteada a valores por defecto');
+  }
 
- getVideoTransform(): string {
-   const scale = 1 + (this.audioLevel * 0.2);
-   const rotation = this.audioLevel * 15; // Rotación más pronunciada
-   
-   return `scale(${scale}) rotate(${rotation}deg)`;
- }
+  // Método para obtener un resumen de la configuración
+  getAdvancedSettingsSummary(): string {
+    return `Tiempo de inactividad: ${this.getFormattedInactivityTimeout()}, Duración máxima: ${this.getFormattedMaxCallDuration()}, Aviso de grabación: ${this.isRecordingNoticeEnabled ? 'Activado' : 'Desactivado'}`;
+  }
 
- getVideoOpacity(): number {
-   return 0.7 + (this.audioLevel * 0.3);
- }
+  // Formatea número a decimal con coma (ej: 18 → '0,18')
+  formatDecimal(value: number): string {
+    // Limitamos a 200 para no exceder 2,00
+    const clamped = Math.min(value, 200);
+    const realValue = clamped / 100; // 18 → 0.18, 134 → 1.34
+    return realValue.toFixed(2).replace('.', ',');
+  }
 
- getAudioOverlay(): string {
-   if (this.audioLevel < 0.1) return 'transparent';
-   
-   const intensity = this.audioLevel * 0.6;
-   return `radial-gradient(circle, rgba(59, 130, 246, ${intensity}) 0%, transparent 70%)`;
- }
+  // Métodos para detectar cambios en los sliders
+  onInactivityChange() {
+    // Puedes agregar lógica si necesitas más adelante
+    console.log('Inactivity: ', this.inactivityTimeout);
+  }
 
- getAudioGlow(): string {
-   if (this.audioLevel < 0.1) return 'none';
-   
-   const intensity = this.audioLevel * 50;
-   return `0 0 ${intensity}px rgba(59, 130, 246, 0.8), inset 0 0 ${intensity}px rgba(59, 130, 246, 0.5)`;
- }
+  onMaxCallDurationChange() {
+    console.log('Max duration: ', this.maxCallDuration);
+  }
 
- getSeaGradient(): string {
-   const intensity = 1 + (this.audioLevel * 0.6);
-   return `radial-gradient(circle at center, 
+  // Métodos para efectos del video del mar
+  getVideoFilter(): string {
+    const brightness = 1 + (this.audioLevel * 0.6);
+    const contrast = 1 + (this.audioLevel * 0.4);
+    const saturation = 1 + (this.audioLevel * 0.8);
+
+    return `brightness(${brightness}) contrast(${contrast}) saturate(${saturation}) blur(${this.audioLevel * 1.2}px)`;
+  }
+
+  getVideoTransform(): string {
+    const scale = 1 + (this.audioLevel * 0.2);
+    const rotation = this.audioLevel * 15; // Rotación más pronunciada
+
+    return `scale(${scale}) rotate(${rotation}deg)`;
+  }
+
+  getVideoOpacity(): number {
+    return 0.7 + (this.audioLevel * 0.3);
+  }
+
+  getAudioOverlay(): string {
+    if (this.audioLevel < 0.1) return 'transparent';
+
+    const intensity = this.audioLevel * 0.6;
+    return `radial-gradient(circle, rgba(59, 130, 246, ${intensity}) 0%, transparent 70%)`;
+  }
+
+  getAudioGlow(): string {
+    if (this.audioLevel < 0.1) return 'none';
+
+    const intensity = this.audioLevel * 50;
+    return `0 0 ${intensity}px rgba(59, 130, 246, 0.8), inset 0 0 ${intensity}px rgba(59, 130, 246, 0.5)`;
+  }
+
+  getSeaGradient(): string {
+    const intensity = 1 + (this.audioLevel * 0.6);
+    return `radial-gradient(circle at center, 
      rgba(59, 130, 246, ${0.9 * intensity}) 0%, 
      rgba(147, 197, 253, ${0.7 * intensity}) 30%, 
      rgba(255, 255, 255, ${0.5 * intensity}) 60%, 
      rgba(30, 64, 175, ${0.8 * intensity}) 100%)`;
- }
+  }
 
- // Métodos para el modal de generar prompt
- openGeneratePromptModal() {
-   this.showGeneratePromptModal = true;
-   this.promptDescription = '';
- }
+  // Métodos para el modal de generar prompt
+  openGeneratePromptModal() {
+    this.showGeneratePromptModal = true;
+    this.promptDescription = '';
+  }
 
- closeGeneratePromptModal() {
-   this.showGeneratePromptModal = false;
-   this.promptDescription = '';
- }
+  closeGeneratePromptModal() {
+    this.showGeneratePromptModal = false;
+    this.promptDescription = '';
+  }
 
- generatePrompt() {
-   // Aquí iría la lógica para generar el prompt con IA
-   // Por ahora, simplemente cerramos el modal
-   console.log('Generando prompt con descripción:', this.promptDescription);
-   // TODO: Implementar la llamada a la API de IA
-   this.closeGeneratePromptModal();
- }
+  generatePrompt() {
+    // Aquí iría la lógica para generar el prompt con IA
+    // Por ahora, simplemente cerramos el modal
+    console.log('Generando prompt con descripción:', this.promptDescription);
+    // TODO: Implementar la llamada a la API de IA
+    this.closeGeneratePromptModal();
+  }
 
 }

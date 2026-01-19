@@ -50,8 +50,8 @@ export class NavComponent implements OnDestroy, OnInit {
     return 'Usuario';
   });
 
-   // Método para obtener la imagen del perfil del usuario
-   getUserProfileImage = () => {
+  // Método para obtener la imagen del perfil del usuario
+  getUserProfileImage = () => {
     const user = this.userStorage.user();
     return user?.profileImage || 'assets/predeterminada.webp';
   };
@@ -94,9 +94,9 @@ export class NavComponent implements OnDestroy, OnInit {
 
   closeMenu() {
     if (this.isClosing) return; // Evitar múltiples cierres simultáneos
-    
+
     this.isClosing = true;
-    
+
     // Esperar a que termine la animación de salida (400ms)
     setTimeout(() => {
       this.isOpen = false;
@@ -111,7 +111,7 @@ export class NavComponent implements OnDestroy, OnInit {
   toggleCollapse() {
     const wasCollapsed = this.isCollapsed;
     this.isCollapsed = !this.isCollapsed;
-    
+
     // Si estamos abriendo el sidebar, marcar flag para ignorar el próximo clic
     if (wasCollapsed && !this.isCollapsed) {
       this.justOpened = true;
@@ -125,7 +125,7 @@ export class NavComponent implements OnDestroy, OnInit {
   collapseOnNavigate() {
     // Cerrar dropdown si está abierto
     this.showDropdown = false;
-    
+
     // Cerrar sidebar móvil si está abierto
     if (this.windowWidth < 1280) {
       if (this.isOpen && !this.isClosing) {
@@ -197,7 +197,8 @@ export class NavComponent implements OnDestroy, OnInit {
   selectLanguage(lang: Language) {
     this.i18nService.setLanguage(lang);
     this.showLanguageMenu = false;
-    this.collapseOnNavigate();
+    // No colapsar el sidebar al cambiar idioma
+    // this.collapseOnNavigate();
   }
 
   @HostListener('window:resize')
@@ -216,18 +217,24 @@ export class NavComponent implements OnDestroy, OnInit {
     if (this.justOpened) {
       return;
     }
-    
+
     // Solo actuar si el sidebar está expandido en escritorio
     if (this.isCollapsed || this.windowWidth < 1280) {
       return;
     }
-    
+
     const target = event.target as HTMLElement;
-    
+
+    // Si el elemento fue eliminado del DOM (ej. al cambiar icono theme con *ngIf), 
+    // asumir que fue una interacción válida y no cerrar
+    if (!target.isConnected) {
+      return;
+    }
+
     // Verificar si el clic fue dentro del sidebar
     const sidebar = target.closest('app-nav');
     const isInsideSidebar = sidebar !== null;
-    
+
     // Si el clic fue fuera del sidebar y está expandido, cerrarlo
     if (!isInsideSidebar) {
       this.isCollapsed = true;
@@ -285,14 +292,15 @@ export class NavComponent implements OnDestroy, OnInit {
       queryParams: { tab: 'gifts' },
     });
     this.showDropdown = false;
-    this.collapseOnNavigate();
+    // No colapsar el sidebar al ir a regalos desde el footer
+    // this.collapseOnNavigate();
   }
 
   // Navegar específicamente a la sección de regalos en account
   navigateToAccountGifts() {
     // Usar el servicio de navegación para ir a account
     this.navigationService.navigateToRoute('account');
-    
+
     // Esperar un momento y luego activar la pestaña de regalos
     setTimeout(() => {
       // Buscar el botón de regalos y hacer clic en él
@@ -308,7 +316,7 @@ export class NavComponent implements OnDestroy, OnInit {
           }
         });
       }
-      }, 10);
+    }, 10);
   }
 
   // Abrir sidebar móvil
