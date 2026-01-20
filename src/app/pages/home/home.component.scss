@@ -6,31 +6,24 @@
   font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
-.llamadas-barra-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
+.llamadas-barra {
+  background-color: #cbd5e1;
+  /* slate-300 */
 }
 
-.llamadas-barra-valor {
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.95rem;
-  line-height: 1.1;
-  color: #ffffff !important;
-  opacity: 1 !important;
-  z-index: 2;
-  pointer-events: none;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+.dark .llamadas-barra {
+  background-color: #334155;
+  /* slate-700 */
 }
 
-.llamadas-valor-default,
-.llamadas-valor-hoy {
-  color: #ffffff !important;
+.llamadas-barra-hoy {
+  background-color: #1e3a8a !important;
+  /* blue-900 */
+}
+
+.dark .llamadas-barra-hoy {
+  background-color: #3b82f6 !important;
+  /* blue-500 */
 }
 
 
@@ -41,11 +34,30 @@
 }
 
 @keyframes latir {
-  0%   { transform: scale(1); opacity: 1; }
-  25%  { transform: scale(1.2); opacity: 0.95; }
-  50%  { transform: scale(1); opacity: 1; }
-  75%  { transform: scale(1.15); opacity: 0.98; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  25% {
+    transform: scale(1.2);
+    opacity: 0.95;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  75% {
+    transform: scale(1.15);
+    opacity: 0.98;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Barra azul de llamadas por día sin animación extra (usa el bg-blue-900 de Tailwind) */
@@ -53,141 +65,123 @@
 /* Estilos responsive para porcentajes azules en móvil */
 @media (max-width: 1024px) {
   .agentes-activos-porcentaje {
-    font-size: 0.625rem !important; /* 10px */
-    padding: 0.125rem 0.25rem !important; /* px-0.5 py-0.5 más pequeños */
-    margin-left: 0.25rem !important; /* ml-1 más pequeño */
+    font-size: 0.625rem !important;
+    /* 10px */
+    padding: 0.125rem 0.25rem !important;
+    /* px-0.5 py-0.5 más pequeños */
+    margin-left: 0.25rem !important;
+    /* ml-1 más pequeño */
     line-height: 1 !important;
   }
-  
+
   .llamadas-barra-valor {
     font-size: 0.75rem;
     top: 6px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
   }
-  
+
   .agentes-activos-icono {
-    width: 0.75rem !important; /* 12px */
+    width: 0.75rem !important;
+    /* 12px */
     height: 0.75rem !important;
-    margin-right: 0.125rem !important; /* mr-0.5 más pequeño */
+    margin-right: 0.125rem !important;
+    /* mr-0.5 más pequeño */
   }
 }
 
 @media (max-width: 640px) {
   .agentes-activos-porcentaje {
-    font-size: 0.5rem !important; /* 8px */
-    padding: 0.0625rem 0.1875rem !important; /* más pequeños aún */
-    margin-left: 0.125rem !important; /* ml-0.5 */
+    font-size: 0.5rem !important;
+    /* 8px */
+    padding: 0.0625rem 0.1875rem !important;
+    /* más pequeños aún */
+    margin-left: 0.125rem !important;
+    /* ml-0.5 */
     line-height: 0.875 !important;
   }
-  
+
   .llamadas-barra-valor {
     font-size: 0.6rem;
     top: 5px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
   }
-  
+
   .agentes-activos-icono {
-    width: 0.625rem !important; /* 10px */
+    width: 0.625rem !important;
+    /* 10px */
     height: 0.625rem !important;
-    margin-right: 0.0625rem !important; /* mr-0.5 más pequeño */
+    margin-right: 0.0625rem !important;
+    /* mr-0.5 más pequeño */
   }
-  
+
   /* Ajustar la columna Tipo para que no esté tan pegado en móvil */
   .agentes-activos-tabla th:nth-child(2),
   .agentes-activos-tabla td:nth-child(2) {
-    padding-left: 0.5rem !important; /* Agregar padding izquierdo */
-    padding-right: 0.75rem !important; /* Reducir padding derecho */
+    padding-left: 0.5rem !important;
+    /* Agregar padding izquierdo */
+    padding-right: 0.75rem !important;
+    /* Reducir padding derecho */
   }
 }
 
-/* Hacer las barras del gráfico más gruesas en móvil y tablet */
-@media (max-width: 1024px) {
-  .llamadas-barra {
-    width: 3rem !important; /* 48px - más gruesas para tablet */
-    min-width: 3rem !important;
-    max-width: 3rem !important;
-  }
-  
-  /* Bajar las barras y los días en tablet */
-  .llamadas-por-dia-grafico-wrapper {
-    margin-top: 3.5rem !important;
-  }
-  
-  .llamadas-por-dia-grafico .grid.grid-cols-7.items-end {
-    margin-top: 3.5rem !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .llamadas-barra {
-    width: 1.75rem !important; /* 28px - más gruesas para móvil pequeño */
-    min-width: 1.75rem !important;
-    max-width: 1.75rem !important;
-  }
-  
-  /* Bajar las barras y los días en móvil */
-  .llamadas-por-dia-grafico-wrapper {
-    margin-top: 3.5rem !important;
-  }
-  
-  .llamadas-por-dia-grafico .grid.grid-cols-7.items-end {
-    margin-top: 3.5rem !important;
-  }
+/* Chart container height adjustments if needed */
+.llamadas-por-dia-grafico {
+  min-height: 200px;
 }
 
 /* Animaciones de fade in */
-  .fade-in-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.35s ease-out, transform 0.35s ease-out;
-  }
-  
-  .fade-in-section.fade-in-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+}
+
+.fade-in-section.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* Estilos para gráficos sparkline */
 ::ng-deep apx-chart {
   width: 100% !important;
   height: 100% !important;
-  
+
   .apexcharts-canvas {
     width: 100% !important;
     height: 100% !important;
   }
-  
+
   .apexcharts-svg {
     width: 100% !important;
     height: 100% !important;
   }
-  
+
   .apexcharts-series path {
     stroke-width: 2px !important;
     stroke: #1E3A8A !important;
   }
-  
+
   .apexcharts-plot-area {
     transform: translateY(0px);
   }
-  
+
   // Ocultar puntos/marcadores
   .apexcharts-series-markers,
   .apexcharts-marker {
     display: none !important;
   }
-  
+
   // Ocultar cualquier punto visible en los extremos
   circle[stroke="#1E3A8A"],
   circle[fill="#1E3A8A"] {
     display: none !important;
   }
-  
+
   // Ocultar tooltip completamente
   .apexcharts-tooltip {
     display: none !important;
   }
-  
+
   // Ocultar cualquier overlay o información de datos
   .apexcharts-tooltip-series-group,
   .apexcharts-tooltip-title,
@@ -195,7 +189,7 @@
   .apexcharts-yaxistooltip {
     display: none !important;
   }
-  
+
   // Deshabilitar interacción con el gráfico
   pointer-events: none;
 }

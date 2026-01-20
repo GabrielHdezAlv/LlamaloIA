@@ -50,7 +50,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-0.5 sm:py-1 lg:py-0.5 xl:py-0.5 2xl:py-0.5 3xl:py-1.5 bg-[#0a1740] dark:bg-blue-700 text-[9px] sm:text-[10px] lg:text-[9px] xl:text-[9px] 2xl:text-[9px] 3xl:text-[13px] text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onSubmitAgentName()">
         Continuar
       </button>
@@ -142,7 +142,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-0.5 sm:py-1 lg:py-0.5 xl:py-0.5 2xl:py-0.5 3xl:py-1.5 bg-[#0a1740] dark:bg-blue-700 text-[9px] sm:text-[10px] lg:text-[9px] xl:text-[9px] 2xl:text-[9px] 3xl:text-[13px] text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onSelect('inbound')">
         Continuar
       </button>
@@ -802,14 +802,18 @@
         <div
           class="absolute bottom-2.5 sm:bottom-3 md:bottom-3.5 lg:bottom-2 right-5 sm:right-6 md:right-7 lg:right-5 z-10">
           <button type="button" (click)="openGeneratePromptModal()"
-            class="ai-generate-btn flex items-center gap-1.5 3xl:gap-2 px-2.5 py-1.5 lg:px-3 xl:px-3 2xl:px-3 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:px-3 3xl:py-2 text-black text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base font-medium rounded-lg 3xl:rounded-xl transition-colors">
+            class="ai-generate-btn flex items-center gap-1.5 3xl:gap-2 px-3 py-1 lg:px-3 xl:px-3 2xl:px-3 lg:py-1 xl:py-1 2xl:py-1 3xl:px-4 3xl:py-2 text-black text-[9px] sm:text-[10px] md:text-[11px] lg:text-[9px] 3xl:text-xs font-medium rounded-md 3xl:rounded-xl transition-colors">
             <div class="ai-border-mask">
               <div class="ai-border-glow"></div>
             </div>
-            <svg class="w-4 h-4 lg:w-3.5 lg:h-3.5 3xl:w-5 3xl:h-5 relative z-10" viewBox="0 0 56 56" fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-3.5 h-3.5 lg:w-3 lg:h-3 3xl:w-4.5 3xl:h-4.5 relative z-10" viewBox="0 0 24 24"
+              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path
-                d="M 26.6875 12.6602 C 26.9687 12.6602 27.1094 12.4961 27.1797 12.2383 C 27.9062 8.3242 27.8594 8.2305 31.9375 7.4570 C 32.2187 7.4102 32.3828 7.2461 32.3828 6.9648 C 32.3828 6.6836 32.2187 6.5195 31.9375 6.4726 C 27.8828 5.6524 28.0000 5.5586 27.1797 1.6914 C 27.1094 1.4336 26.9687 1.2695 26.6875 1.2695 C 26.4062 1.2695 26.2656 1.4336 26.1953 1.6914 C 25.3750 5.5586 25.5156 5.6524 21.4375 6.4726 C 21.1797 6.5195 20.9922 6.6836 20.9922 6.9648 C 20.9922 7.2461 21.1797 7.4102 21.4375 7.4570 C 25.5156 8.2774 25.4687 8.3242 26.1953 12.2383 C 26.2656 12.4961 26.4062 12.6602 26.6875 12.6602 Z M 15.3438 28.7852 C 15.7891 28.7852 16.0938 28.5039 16.1406 28.0821 C 16.9844 21.8242 17.1953 21.8242 23.6641 20.5821 C 24.0860 20.5117 24.3906 20.2305 24.3906 19.7852 C 24.3906 19.3633 24.0860 19.0586 23.6641 18.9883 C 17.1953 18.0977 16.9609 17.8867 16.1406 11.5117 C 16.0938 11.0899 15.7891 10.7852 15.3438 10.7852 C 14.9219 10.7852 14.6172 11.0899 14.5703 11.5352 C 13.7969 17.8164 13.4687 17.7930 7.0469 18.9883 C 6.6250 19.0821 6.3203 19.3633 6.3203 19.7852 C 6.3203 20.2539 6.6250 20.5117 7.1406 20.5821 C 13.5156 21.6133 13.7969 21.7774 14.5703 28.0352 C 14.6172 28.5039 14.9219 28.7852 15.3438 28.7852 Z M 31.2344 54.7305 C 31.8438 54.7305 32.2891 54.2852 32.4062 53.6524 C 34.0703 40.8086 35.8750 38.8633 48.5781 37.4570 C 49.2344 37.3867 49.6797 36.8945 49.6797 36.2852 C 49.6797 35.6758 49.2344 35.2070 48.5781 35.1133 C 35.8750 33.7070 34.0703 31.7617 32.4062 18.9180 C 32.2891 18.2852 31.8438 17.8633 31.2344 17.8633 C 30.6250 17.8633 30.1797 18.2852 30.0860 18.9180 C 28.4219 31.7617 26.5938 33.7070 13.9140 35.1133 C 13.2344 35.2070 12.7891 35.6758 12.7891 36.2852 C 12.7891 36.8945 13.2344 37.3867 13.9140 37.4570 C 26.5703 39.1211 28.3281 40.8321 30.0860 53.6524 C 30.1797 54.2852 30.6250 54.7305 31.2344 54.7305 Z" />
+                d="M7.45284 2.71266C7.8276 1.76244 9.1724 1.76245 9.54716 2.71267L10.7085 5.65732C10.8229 5.94743 11.0526 6.17707 11.3427 6.29148L14.2873 7.45284C15.2376 7.8276 15.2376 9.1724 14.2873 9.54716L11.3427 10.7085C11.0526 10.8229 10.8229 11.0526 10.7085 11.3427L9.54716 14.2873C9.1724 15.2376 7.8276 15.2376 7.45284 14.2873L6.29148 11.3427C6.17707 11.0526 5.94743 10.8229 5.65732 10.7085L2.71266 9.54716C1.76244 9.1724 1.76245 7.8276 2.71267 7.45284L5.65732 6.29148C5.94743 6.17707 6.17707 5.94743 6.29148 5.65732L7.45284 2.71266Z"
+                fill="currentColor" />
+              <path
+                d="M16.9245 13.3916C17.1305 12.8695 17.8695 12.8695 18.0755 13.3916L18.9761 15.6753C19.039 15.8348 19.1652 15.961 19.3247 16.0239L21.6084 16.9245C22.1305 17.1305 22.1305 17.8695 21.6084 18.0755L19.3247 18.9761C19.1652 19.039 19.039 19.1652 18.9761 19.3247L18.0755 21.6084C17.8695 22.1305 17.1305 22.1305 16.9245 21.6084L16.0239 19.3247C15.961 19.1652 15.8348 19.039 15.6753 18.9761L13.3916 18.0755C12.8695 17.8695 12.8695 17.1305 13.3916 16.9245L15.6753 16.0239C15.8348 15.961 15.961 15.8348 16.0239 15.6753L16.9245 13.3916Z"
+                fill="currentColor" />
             </svg>
             <span class="relative z-10">Generar con IA</span>
           </button>
@@ -832,7 +836,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-0.5 sm:py-1 lg:py-0.5 xl:py-0.5 2xl:py-0.5 3xl:py-1.5 bg-[#0a1740] dark:bg-blue-700 text-[9px] sm:text-[10px] lg:text-[9px] xl:text-[9px] 2xl:text-[9px] 3xl:text-[13px] text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onSubmit()">
         Continuar
       </button>
@@ -1135,7 +1139,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-0.5 sm:py-1 lg:py-0.5 xl:py-0.5 2xl:py-0.5 3xl:py-1.5 bg-[#0a1740] dark:bg-blue-700 text-[9px] sm:text-[10px] lg:text-[9px] xl:text-[9px] 2xl:text-[9px] 3xl:text-[13px] text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onSubmitTestCall()">
         Continuar
       </button>
@@ -1343,7 +1347,7 @@
 
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-0.5 sm:py-1 lg:py-0.5 xl:py-0.5 2xl:py-0.5 3xl:py-1.5 bg-[#0a1740] dark:bg-blue-700 text-[9px] sm:text-[10px] lg:text-[9px] xl:text-[9px] 2xl:text-[9px] 3xl:text-[13px] text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onConnectPhone()">
         Continuar
       </button>

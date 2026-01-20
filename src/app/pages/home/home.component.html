@@ -317,45 +317,30 @@
     </div>
   </div>
 
-  <!-- Llamadas por día (1/3 del ancho) -->
   <div
-    class="bg-white rounded-2xl shadow-sm p-3 3xl:p-8 flex-1 min-w-[200px] border border-gray-100 llamadas-por-dia-grafico agentes-activos-recuadro fade-in-section max-lg:p-3 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border hidden lg:block"
+    class="bg-white rounded-2xl shadow-sm p-3 3xl:p-8 flex-1 min-w-[200px] border border-gray-100 llamadas-por-dia-grafico agentes-activos-recuadro fade-in-section max-lg:p-3 max-lg:min-w-0 dark:bg-slate-900 dark:border-slate-800 history-border"
+    style="flex: 1" [class.fade-in-visible]="showLlamadasPorDia">
     style="flex: 1" [class.fade-in-visible]="showLlamadasPorDia">
     <h2
-      class="brand-font text-sm 3xl:text-lg font-semibold text-gray-800 mb-3 3xl:mb-5 llamadas-por-dia-titulo max-lg:text-xs max-lg:mb-2 ">
+      class="brand-font text-sm 3xl:text-lg font-semibold text-gray-800 dark:text-slate-50 mb-3 3xl:mb-5 llamadas-por-dia-titulo max-lg:text-xs max-lg:mb-2 ">
       {{ t.callsPerDay }}
     </h2>
 
-    <!-- Contenedor fijo para las barras y los días -->
-    <div
-      class="flex flex-col justify-end h-40 lg:h-56 xl:h-56 2xl:h-56 first-letter:llamadas-por-dia-altura llamadas-por-dia-grafico-wrapper max-lg:h-36">
-      <!-- Barras y días alineados -->
-      <div class="flex flex-col justify-end h-40 lg:h-56 xl:h-56 2xl:h-56 llamadas-por-dia-altura max-lg:h-36">
-        <div
-          class="grid grid-cols-7 gap-1 items-end h-44 lg:h-60 xl:h-60 2xl:h-60 w-full mt-1.5 max-lg:gap-0.5 max-lg:h-40">
-          <!-- Se agregó mt-2 para reducir el margen superior -->
-          <div class="flex flex-col items-center" *ngFor="let h of callsByDayHeights; let i = index">
-            <div class="llamadas-barra-wrapper">
-              <span *ngIf="showCallsByDayNumber(i)" class="llamadas-barra-valor font-semibold "
-                [style.bottom.px]="(h > 8 ? h - 8 : 0)"
-                [ngClass]="isToday(i) ? 'llamadas-valor-hoy' : 'llamadas-valor-default'">
-                {{ callsByDayCounts[i] }}
-              </span>
-              <div [style.height.px]="h === 0 ? 5 : h" [class]="
-                  isToday(i)
-                    ? 'w-10 bg-blue-900 rounded-xl llamadas-barra llamadas-barra-rounded llamadas-barra-hoy'
-                    : 'w-10 bg-gray-300 rounded-xl llamadas-barra llamadas-barra-rounded'
-                "></div>
-            </div>
-          </div>
+    <div class="flex flex-col justify-end w-full px-1 lg:px-4">
+      <div class="grid grid-cols-7 gap-2 lg:gap-4 items-end w-full mb-2">
+        <div class="flex flex-col items-center" *ngFor="let h of callsByDayHeights; let i = index">
+          <span *ngIf="showCallsByDayNumber(i)" class="text-[10px] lg:text-xs font-semibold mb-1 dark:text-slate-200"
+            [ngClass]="isToday(i) ? 'text-blue-900' : 'text-gray-500'">
+            {{ callsByDayCounts[i] }}
+          </span>
+          <div [style.height.px]="h === 0 ? 5 : h"
+            class="llamadas-barra w-full rounded-t-lg transition-all duration-300"
+            [ngClass]="isToday(i) ? 'llamadas-barra-hoy' : ''"></div>
         </div>
-        <!-- Días alineados debajo de las barras -->
-        <div class="grid grid-cols-7 gap-1 items-center mt-1 w-full max-lg:gap-0.5">
-          <span class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-center max-lg:text-[9px] "
-            [class]="
-              isToday(i) ? 'text-blue-900 font-semibold' : 'text-gray-500'
-            " *ngFor="let d of days; let i = index">{{ d }}</span>
-        </div>
+      </div>
+      <div class="grid grid-cols-7 gap-2 lg:gap-4 w-full">
+        <span class="text-[9px] lg:text-xs text-center truncate dark:text-slate-400" [class.text-blue-900]="isToday(i)"
+          [class.font-bold]="isToday(i)" *ngFor="let d of days; let i = index">{{ d }}</span>
       </div>
     </div>
   </div>
