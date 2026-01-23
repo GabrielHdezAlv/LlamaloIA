@@ -20,15 +20,16 @@ interface EmployeeRange {
   selector: 'app-company-setup',
   standalone: true,
   imports: [CommonModule, FormsModule, MatSnackBarModule],
-  templateUrl: './company-setup.component.html'
+  templateUrl: './company-setup.component.html',
+  styleUrl: './company-setup.component.scss'
 })
 export class CompanySetupComponent implements OnInit {
-  
+
   // Servicios inyectados
   private userService = inject(UserService);
   private userStore = inject(UserStorage);
   private snackBar = inject(MatSnackBar);
-  
+
   // Datos del formulario
   businessName: string = 'LLAMALO S.L';
   selectedCompanyType: string = '';
@@ -57,20 +58,20 @@ export class CompanySetupComponent implements OnInit {
 
   // Opciones de uso principal
   mainUsageOptions = [
-    { 
-      id: 'customer-service', 
+    {
+      id: 'customer-service',
       name: 'Atención al cliente'
     },
-    { 
-      id: 'appointments', 
+    {
+      id: 'appointments',
       name: 'Agendar citas'
     },
-    { 
-      id: 'cart-recovery', 
+    {
+      id: 'cart-recovery',
       name: 'Recuperación de carritos'
     },
-    { 
-      id: 'phone-sales', 
+    {
+      id: 'phone-sales',
       name: 'Ventas telefónicas'
     }
   ];
@@ -97,8 +98,10 @@ export class CompanySetupComponent implements OnInit {
   private clickAudio: HTMLAudioElement | null = null;
 
   // Intro de vídeo antes de la zona 1
-  showIntroVideo = true;
-  isIntroFading = false;
+  // Intro de bienvenida animada
+  showWelcomeSequence = true;
+  isWelcomeFading = false;
+  welcomeExitTriggered = false;
 
   // Paso 2: opciones de cómo nos conociste
   discoveryOptions = [
@@ -112,25 +115,26 @@ export class CompanySetupComponent implements OnInit {
   ];
 
   selectedDiscoveryChannels: string[] = [];
-  
+
   // Estado para el logo
   selectedLogo: File | null = null;
   logoPreview: string | null = null;
 
   // Estado para controlar si el setup está activo
   isSetupActive: boolean = false;
-  
+
   // Estado para controlar el paso actual
   currentStep: number = 1;
   maxStep: number = 3;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngOnInit() {
     // Aquí podrías verificar si el usuario ya completó el setup
     // Por defecto está desactivado, se activa con el botón
     this.isSetupActive = false;
-    this.showIntroVideo = true;
+    this.showWelcomeSequence = true;
+    this.startWelcomeSequence();
 
     // Inicializar audio solo en entorno navegador para evitar errores en SSR
     if (typeof window !== 'undefined' && typeof Audio !== 'undefined') {
@@ -149,8 +153,10 @@ export class CompanySetupComponent implements OnInit {
     if (this.isSetupActive) {
       this.currentStep = 1;
       this.step2ContentVisible = true;
-      this.showIntroVideo = true;
-      this.isIntroFading = false;
+      this.showWelcomeSequence = true;
+      this.welcomeExitTriggered = false;
+      this.isWelcomeFading = false;
+      this.startWelcomeSequence();
     }
   }
 
@@ -168,19 +174,20 @@ export class CompanySetupComponent implements OnInit {
   }
 
   // Control de la intro de vídeo
-  onIntroVideoEnded() {
-    if (!this.showIntroVideo || this.isIntroFading) return;
-    this.isIntroFading = true;
-
-    const fadeDuration = 400; // ms para desvanecer el vídeo
+  startWelcomeSequence() {
     setTimeout(() => {
-      this.showIntroVideo = false;
-      this.isIntroFading = false;
-    }, fadeDuration);
+      this.welcomeExitTriggered = true;
+      setTimeout(() => {
+        this.showWelcomeSequence = false;
+      }, 1000); // Duración de la animación de salida (cortina)
+    }, 5000); // 5 segundos de espera
   }
 
-  skipIntro() {
-    this.onIntroVideoEnded();
+  skipWelcome() {
+    this.welcomeExitTriggered = true;
+    setTimeout(() => {
+      this.showWelcomeSequence = false;
+    }, 200);
   }
 
   // Método para continuar con la configuración
@@ -192,7 +199,7 @@ export class CompanySetupComponent implements OnInit {
   selectMainUsage(usageId: string) {
     console.log('selectMainUsage called with:', usageId);
     console.log('Current selectedMainUsages:', this.selectedMainUsages);
-    
+
     const index = this.selectedMainUsages.indexOf(usageId);
     if (index > -1) {
       // Si ya está seleccionada, la deselecciona
@@ -201,7 +208,7 @@ export class CompanySetupComponent implements OnInit {
       // Si no está seleccionada, la añade a la lista
       this.selectedMainUsages.push(usageId);
     }
-    
+
     console.log('New selectedMainUsages:', this.selectedMainUsages);
   }
 
@@ -370,14 +377,14 @@ export class CompanySetupComponent implements OnInit {
       setTimeout(() => {
         this.showNotification('Imagen cargada correctamente (modo local)', 'success');
       }, 1000);
-      
+
       return; // Salir aquí temporalmente para evitar la subida al backend
 
       // Subir al backend
       this.userService.uploadProfileImage(file).subscribe({
         next: (response: any) => {
           console.log('Respuesta del backend:', response);
-          
+
           // Verificar que la respuesta tenga la URL de la imagen
           if (response && response.imageUrl) {
             // Actualizar el usuario en el storage con la nueva imagen
@@ -389,7 +396,7 @@ export class CompanySetupComponent implements OnInit {
               };
               this.userStore.setUser(updatedUser);
             }
-            
+
             // Actualizar el preview con la URL del backend
             this.logoPreview = response.imageUrl;
             this.showNotification('Logo subido correctamente', 'success');
@@ -442,9 +449,9 @@ export class CompanySetupComponent implements OnInit {
 
   // Validar si el formulario es válido
   private isFormValid(): boolean {
-    return this.businessName.trim() !== '' && 
-           this.selectedCompanyType !== '' && 
-           this.selectedEmployeeRange !== '';
+    return this.businessName.trim() !== '' &&
+      this.selectedCompanyType !== '' &&
+      this.selectedEmployeeRange !== '';
   }
 
   // Getter para verificar si el formulario es válido

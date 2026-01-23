@@ -1,0 +1,250 @@
+.support-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+
+    .widget-container {
+        width: 380px;
+        height: 600px;
+        background: #000000;
+        border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .widget-content {
+            flex: 1;
+            padding: 32px;
+            background: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+
+            .widget-title {
+                margin: 0;
+                font-size: 20px;
+                font-weight: 500;
+                color: #ffffff;
+                text-align: center;
+                opacity: 0.9;
+                letter-spacing: -0.5px;
+            }
+
+            .sphere-wrapper {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+            }
+
+            .controls-wrapper {
+                display: flex;
+                gap: 24px;
+                justify-content: center;
+                padding-bottom: 24px;
+                width: 100%;
+
+                .mic-btn,
+                .action-btn {
+                    width: 64px;
+                    height: 64px;
+                    border-radius: 50%;
+                    background: #ffffff;
+                    border: none;
+                    color: #000000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+                    &:hover {
+                        background: #f0f0f0;
+                        transform: scale(1.1);
+                    }
+
+                    &.active {
+                        background: #3b82f6;
+                        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+                        color: white; // Active state icon white
+                    }
+                }
+            }
+        }
+    }
+
+    .launcher {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #1b2559;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(27, 37, 89, 0.4);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+            transform: scale(1.05);
+            background: #25337a;
+        }
+
+        &.active {
+            background: #1b2559;
+        }
+    }
+}
+
+// Liquid Sphere Styles
+.liquid-sphere-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(27, 37, 89, 0.1);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.3);
+}
+
+.liquid-sphere {
+    width: 100%;
+    height: 100%;
+    background: #1b2559;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    box-shadow:
+        0 0 30px rgba(27, 37, 89, 0.5),
+        inset 0 0 30px rgba(255, 255, 255, 0.1);
+    animation: pulse 2s infinite ease-in-out;
+
+    .sphere-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+        opacity: 0.8;
+    }
+
+    .wave {
+        z-index: 1;
+        position: absolute;
+        bottom: 0;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 40%;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: rotate 10s linear infinite;
+
+        &:nth-child(2) {
+            background: rgba(255, 255, 255, 0.05);
+            animation: rotate 15s linear infinite;
+            border-radius: 43%;
+        }
+
+        &:nth-child(3) {
+            background: rgba(255, 255, 255, 0.08);
+            animation: rotate 20s linear infinite;
+            border-radius: 45%;
+        }
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg) translateY(0);
+    }
+
+    to {
+        transform: rotate(360deg) translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 30px rgba(27, 37, 89, 0.5);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 50px rgba(27, 37, 89, 0.7);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 30px rgba(27, 37, 89, 0.5);
+    }
+}
+
+@keyframes micPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+// Responsive
+@media (max-width: 480px) {
+    .support-widget {
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        padding: 0;
+
+        .widget-container {
+            width: 100%;
+            height: 100vh;
+            border-radius: 0;
+            bottom: 0;
+        }
+
+        .launcher {
+            display: none;
+        }
+    }
+}

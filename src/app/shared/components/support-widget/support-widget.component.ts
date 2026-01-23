@@ -1,0 +1,144 @@
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { ModalService } from '../../modals/modal.service';
+
+@Component({
+    selector: 'app-support-widget',
+    standalone: true,
+    imports: [CommonModule],
+    templateUrl: './support-widget.component.html',
+    styleUrl: './support-widget.component.scss'
+})
+export class SupportWidgetComponent implements OnInit, OnDestroy {
+    isOpen = false;
+    audioLevel = 0;
+    isMicrophoneActive = false;
+
+    private animationId: any;
+    private isBrowser: boolean;
+    private audioContext: AudioContext | null = null;
+    private analyser: AnalyserNode | null = null;
+    private microphone: MediaStreamAudioSourceNode | null = null;
+
+    constructor(
+        @Inject(PLATFORM_ID) platformId: Object,
+        private modalService: ModalService
+    ) {
+        this.isBrowser = isPlatformBrowser(platformId);
+    }
+
+    ngOnInit() {
+        if (this.isBrowser) {
+            this.animateIdle();
+        }
+    }
+
+    ngOnDestroy() {
+        if (this.isBrowser) {
+            this.stopMicrophone();
+            if (this.animationId) {
+                cancelAnimationFrame(this.animationId);
+            }
+        }
+    }
+
+    toggle() {
+        this.isOpen = !this.isOpen;
+    }
+
+    async toggleMicrophone() {
+        if (this.isMicrophoneActive) {
+            this.stopMicrophone();
+            this.animateIdle();
+        } else {
+            await this.startMicrophone();
+        }
+    }
+
+    private async startMicrophone() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    autoGainControl: true
+                }
+            });
+
+            this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+            this.analyser = this.audioContext.createAnalyser();
+            this.microphone = this.audioContext.createMediaStreamSource(stream);
+
+            this.analyser.fftSize = 256;
+            this.analyser.smoothingTimeConstant = 0.3;
+            this.microphone.connect(this.analyser);
+
+            this.isMicrophoneActive = true;
+            if (this.animationId) cancelAnimationFrame(this.animationId);
+            this.animateVoice();
+
+        } catch (error) {
+            console.error('Error al acceder al micrófono:', error);
+            this.modalService.openError({
+                title: 'Error de micrófono',
+                message: 'No se pudo acceder al micrófono. Por favor, verifica los permisos.'
+            });
+        }
+    }
+
+    private stopMicrophone() {
+        if (this.microphone) {
+            this.microphone.disconnect();
+            this.microphone = null;
+        }
+
+        if (this.audioContext) {
+            this.audioContext.close();
+            this.audioContext = null;
+        }
+
+        this.analyser = null;
+        this.isMicrophoneActive = false;
+        this.audioLevel = 0;
+    }
+
+    private animateIdle() {
+        const animate = () => {
+            if (!this.isBrowser || this.isMicrophoneActive) return;
+            // Pulso sinusoidal suave
+            this.audioLevel = Math.sin(Date.now() / 1000) * 0.2 + 0.1;
+            this.animationId = requestAnimationFrame(animate);
+        };
+        animate();
+    }
+
+    private animateVoice() {
+        if (!this.isMicrophoneActive || !this.analyser) return;
+
+        const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+
+        const updateLevel = () => {
+            if (!this.isMicrophoneActive || !this.analyser) return;
+
+            this.analyser.getByteFrequencyData(dataArray);
+
+            let max = 0;
+            for (let i = 0; i < dataArray.length; i++) {
+                max = Math.max(max, dataArray[i]);
+            }
+
+            let normalizedLevel = max / 255;
+            normalizedLevel = Math.pow(normalizedLevel, 0.5);
+            normalizedLevel = Math.min(normalizedLevel, 1.0);
+
+            // Factor de sensibilidad para que se note más la voz
+            const targetLevel = normalizedLevel * 2.5;
+            this.audioLevel = this.audioLevel * 0.7 + targetLevel * 0.3;
+            this.audioLevel = Math.min(this.audioLevel, 4.0);
+
+            this.animationId = requestAnimationFrame(updateLevel);
+        };
+
+        updateLevel();
+    }
+}
