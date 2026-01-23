@@ -13,6 +13,9 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     isOpen = false;
     audioLevel = 0;
     isMicrophoneActive = false;
+    isSettingsOpen = false;
+    volume = 80; // Default volume
+    isPlaying = false;
 
     private animationId: any;
     private isBrowser: boolean;
@@ -44,6 +47,21 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
 
     toggle() {
         this.isOpen = !this.isOpen;
+        if (!this.isOpen) this.isSettingsOpen = false;
+    }
+
+    toggleSettings() {
+        this.isSettingsOpen = !this.isSettingsOpen;
+    }
+
+    setVolume(value: string) {
+        this.volume = parseInt(value);
+        // Here you would typically adjust the actual audio output volume
+        // if هناك actual audio logic.
+    }
+
+    togglePlayback() {
+        this.isPlaying = !this.isPlaying;
     }
 
     async toggleMicrophone() {

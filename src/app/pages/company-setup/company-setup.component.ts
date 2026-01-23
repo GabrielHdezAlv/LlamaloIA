@@ -180,7 +180,7 @@ export class CompanySetupComponent implements OnInit {
       setTimeout(() => {
         this.showWelcomeSequence = false;
       }, 1000); // Duración de la animación de salida (cortina)
-    }, 5000); // 5 segundos de espera
+    }, 3000); // 3 segundos de espera (reducido de 5s)
   }
 
   skipWelcome() {

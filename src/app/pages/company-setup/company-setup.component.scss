@@ -27,16 +27,18 @@
 
 
 .brand-name {
+    font-family: 'Poppins', sans-serif;
     font-size: 3.5rem;
-    font-weight: 900;
-    letter-spacing: -0.06em;
+    font-weight: 700;
+    letter-spacing: -0.08em;
     line-height: 0.9;
     background: linear-gradient(45deg,
-            #6366f1,
-            #a855f7,
+            #16abd8,
+            #06005a,
             #3b82f6,
-            #8b5cf6,
+            #ffffff,
             #1d4ed8);
+
     background-size: 300% 300%;
     -webkit-background-clip: text;
     background-clip: text;
