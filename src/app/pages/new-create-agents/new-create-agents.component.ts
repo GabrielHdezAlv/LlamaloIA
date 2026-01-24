@@ -52,6 +52,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   private lottieInitialized = false;
   private isBrowser: boolean;
 
+  // Estado del sidebar
+  isSidebarOpen: boolean = false;
+
   constructor(
     private location: Location,
     private modalService: ModalService,
@@ -69,6 +72,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   ngOnInit() {
     // Verificar si hay un borrador guardado al iniciar
     this.checkForSavedDraft();
+
+    // Iniciar animación en reposo
+    if (this.isBrowser) {
+      this.animateIdle();
+    }
   }
 
   // Verificar si hay datos guardados
@@ -116,6 +124,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.llmTemperature = this.savedDraft.llmTemperature || 0;
       this.isRecordingNoticeEnabled = this.savedDraft.isRecordingNoticeEnabled || false;
       this.recordingNoticeText = this.savedDraft.recordingNoticeText || 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+
+      if (this.step === 'summary') {
+        this.animateIdle();
+      }
     }
     this.showRecoveryPopup = false;
   }
@@ -220,12 +232,12 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   private readonly tabletSwipeThreshold = 60;
   voices = [
     { id: 'custom', name: 'Clonar voz', image: '', isCustom: true, description: '', badgeText: '' },
-    { id: 'carla', name: 'Carla', image: 'assets/carla_prueba.png', description: 'Diseñadora de Producto enfocada en simplicidad y usabilidad.', badgeText: 'Top 1% Voz' },
-    { id: 'carlos', name: 'Carlos', image: 'assets/carlos_prueba.png', description: 'Especialista en Soporte Técnico con tono calmado y resolutivo.', badgeText: 'Top 5% Voz' },
-    { id: 'david', name: 'David', image: 'assets/david_prueba.png', description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.', badgeText: 'Top Ventas' },
-    { id: 'jesus', name: 'Jesús', image: 'assets/jesus_prueba.png', description: 'Asistente Virtual amigable ideal para recepción de llamadas.', badgeText: 'Popular' },
-    { id: 'claudia', name: 'Claudia', image: 'assets/claudia_prueba.png', description: 'Narradora profesional perfecta para contenido educativo.', badgeText: 'Nueva' },
-    { id: 'maria', name: 'María', image: 'assets/maria_prueba.png', description: 'Agente de atención al cliente con gran empatía y paciencia.', badgeText: 'Destacada' }
+    { id: 'carla', name: 'Carla', image: 'assets/carla_prueba.webp', description: 'Diseñadora de Producto enfocada en simplicidad y usabilidad.', badgeText: 'Top 1% Voz' },
+    { id: 'carlos', name: 'Carlos', image: 'assets/carlos_prueba.webp', description: 'Especialista en Soporte Técnico con tono calmado y resolutivo.', badgeText: 'Top 5% Voz' },
+    { id: 'david', name: 'David', image: 'assets/david_prueba.webp', description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.', badgeText: 'Top Ventas' },
+    { id: 'jesus', name: 'Jesús', image: 'assets/jesus_prueba.webp', description: 'Asistente Virtual amigable ideal para recepción de llamadas.', badgeText: 'Popular' },
+    { id: 'claudia', name: 'Claudia', image: 'assets/claudia_prueba.webp', description: 'Narradora profesional perfecta para contenido educativo.', badgeText: 'Nueva' },
+    { id: 'maria', name: 'María', image: 'assets/maria_prueba.webp', description: 'Agente de atención al cliente con gran empatía y paciencia.', badgeText: 'Destacada' }
   ];
 
 
@@ -240,8 +252,17 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   onVoiceSelected() {
+    this.isSidebarOpen = true;
+  }
+
+  confirmVoiceSelection() {
+    this.isSidebarOpen = false;
     this.step = 'instructions';
     this.saveDraft();
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen = false;
   }
 
   createCustomVoice() {
@@ -445,8 +466,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (this.step === 'connectPhone') {
       this.step = 'summary';
     } else if (this.step === 'summary') {
-      this.step = 'advancedSettings';
-    } else if (this.step === 'advancedSettings') {
       this.step = 'knowledgeBase';
     } else if (this.step === 'knowledgeBase') {
       this.step = 'actions';
@@ -481,8 +500,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     } else if (this.step === 'actions') {
       this.step = 'knowledgeBase';
     } else if (this.step === 'knowledgeBase') {
-      this.step = 'advancedSettings';
-    } else if (this.step === 'advancedSettings') {
       this.step = 'summary';
     } else if (this.step === 'summary') {
       this.step = 'connectPhone';
@@ -637,8 +654,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       // Abrir selector de archivos para PDF
       this.openFileSelector();
     } else {
-      // Para otros casos, avanzar automáticamente a configuración avanzada
-      this.step = 'advancedSettings';
+      // Para otros casos, avanzar automáticamente a resumen
+      this.step = 'summary';
     }
   }
 
@@ -707,7 +724,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   // Opcional: Método para continuar sin elegir fuente
   continueWithoutSource() {
-    this.step = 'advancedSettings'; // Pasa a configuración avanzada
+    this.step = 'summary'; // Pasa a resumen
     this.saveDraft();
   }
 
@@ -960,6 +977,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
       // Cambia a prueba de agente
       this.step = 'summary';
+      this.animateIdle();
       this.saveDraft();
     }
   }
@@ -969,6 +987,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     console.log('Configuración avanzada saltada');
     // Avanza a prueba de agente
     this.step = 'summary';
+    this.animateIdle();
   }
 
   // Método para finalizar el proceso
@@ -983,6 +1002,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   async toggleMicrophone() {
     if (this.isMicrophoneActive) {
       this.stopMicrophone();
+      this.animateIdle();
     } else {
       await this.startMicrophone();
     }
@@ -1005,11 +1025,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.analyser = this.audioContext.createAnalyser();
       this.microphone = this.audioContext.createMediaStreamSource(stream);
 
-      // Configurar el analizador para sensibilidad equilibrada
-      this.analyser.fftSize = 256; // Resolución equilibrada
-      this.analyser.smoothingTimeConstant = 0.3; // Suavizado moderado
-      this.analyser.minDecibels = -70;
-      this.analyser.maxDecibels = -20;
+      // Configurar el analizador para una detección más limpia y menos sensible al ruido de fondo
+      this.analyser.fftSize = 256;
+      this.analyser.smoothingTimeConstant = 0.4; // Un poco más de suavizado
+      this.analyser.minDecibels = -60; // Ignorar ruidos más bajos (antes -70)
+      this.analyser.maxDecibels = -10;
       this.microphone.connect(this.analyser);
 
       this.isMicrophoneActive = true;
@@ -1045,6 +1065,20 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.audioLevel = 0;
   }
 
+  private animateIdle() {
+    const animate = () => {
+      // Detener si el micrófono se activa o si no estamos en el navegador
+      if (!this.isBrowser || this.isMicrophoneActive || this.step !== 'summary') {
+        return;
+      }
+
+      // Pulso sinusoidal suave para el estado idle
+      this.audioLevel = Math.sin(Date.now() / 1000) * 0.2 + 0.1;
+      this.animationFrame = requestAnimationFrame(animate);
+    };
+    animate();
+  }
+
   animateAudioLevel() {
     if (!this.isMicrophoneActive || !this.analyser) return;
 
@@ -1062,18 +1096,15 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       // Normalizar el nivel (0-1) con respuesta más rápida
       let normalizedLevel = max / 255;
 
-      // Aplicar una curva más natural y responsiva
-      normalizedLevel = Math.pow(normalizedLevel, 0.5); // Curva más responsiva
-
-      // LIMITAR EL NIVEL MÁXIMO A 1.0
+      // Aplicar una curva lineal para reducir la hipersensibilidad a sonidos bajos
       normalizedLevel = Math.min(normalizedLevel, 1.0);
 
-      // Transición más equilibrada
-      const targetLevel = normalizedLevel * 1.0; // Reducir sensibilidad aún más
-      this.audioLevel = this.audioLevel * 0.8 + targetLevel * 0.2; // Mucho más suavizado
+      // Transición ajustada: menos multiplicador para una reacción más natural
+      const targetLevel = normalizedLevel * 1.8;
+      this.audioLevel = this.audioLevel * 0.75 + targetLevel * 0.25;
 
-      // LIMITAR EL AUDIOLEVEL FINAL A 3.0
-      this.audioLevel = Math.min(this.audioLevel, 3.0);
+      // Límite de seguridad
+      this.audioLevel = Math.min(this.audioLevel, 3.5);
 
       if (this.isMicrophoneActive) {
         this.animationFrame = requestAnimationFrame(updateLevel);
@@ -1145,21 +1176,13 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   getMainSphereSize(): number {
+    if (!this.isBrowser) return 160;
     const viewportWidth = window.innerWidth;
-    let baseSize = 200;
-    let maxSize = 280;
 
-    if (viewportWidth >= 1920) {
-      // 3xl: más grande
-      baseSize = 180;
-      maxSize = 260;
-    } else if (viewportWidth >= 1024) {
-      // Desktop: más pequeño
-      baseSize = 140;
-      maxSize = 200;
-    }
-
-    return Math.min(baseSize + (this.audioLevel * 30), maxSize);
+    // Tamaños reducidos para una estética más refinada y menos invasiva
+    if (viewportWidth >= 1920) return 200; // 3xl
+    if (viewportWidth >= 1280) return 160; // Desktop grande
+    return 130; // Laptops y tablets
   }
 
   getMicButtonSize(): number {

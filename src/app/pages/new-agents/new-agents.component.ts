@@ -50,8 +50,8 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     } else {
       // Para mostrar agentes ficticios (como estaban antes)
       this.agents = [
-        { labsId: '1', name: 'Carlos', photoUrl: 'assets/carlos.png' } as Agent,
-        { labsId: '2', name: 'Carla', photoUrl: 'assets/carla.png' } as Agent,
+        { labsId: '1', name: 'Carlos', photoUrl: 'assets/carlos.webp' } as Agent,
+        { labsId: '2', name: 'Carla', photoUrl: 'assets/carla.webp' } as Agent,
       ];
     }
 

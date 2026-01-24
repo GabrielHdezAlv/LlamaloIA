@@ -535,15 +535,15 @@ export class MetricsComponent implements OnInit {
   // Países (porcentaje y barra) - ordenados de mayor a menor
   get countries() {
     return [
-      { name: this.t.unitedStates, img: 'assets/eeuu.png', percent: 65.5 },
-      { name: this.t.france, img: 'assets/france.png', percent: 57.5 },
-      { name: this.t.spain, img: 'assets/spain.png', percent: 45.2 },
+      { name: this.t.unitedStates, img: 'assets/eeuu.webp', percent: 65.5 },
+      { name: this.t.france, img: 'assets/france.webp', percent: 57.5 },
+      { name: this.t.spain, img: 'assets/spain.webp', percent: 45.2 },
       {
         name: this.t.unitedKingdom,
-        img: 'assets/united-kingdom.png',
+        img: 'assets/united-kingdom.webp',
         percent: 33.2,
       },
-      { name: this.t.brazil, img: 'assets/brasil.png', percent: 25.8 },
+      { name: this.t.brazil, img: 'assets/brasil.webp', percent: 25.8 },
     ].sort((a, b) => b.percent - a.percent);
   }
 

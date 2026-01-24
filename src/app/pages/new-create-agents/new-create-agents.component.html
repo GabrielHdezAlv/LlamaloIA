@@ -8,8 +8,8 @@
         [class.w-[20vh]]="step === 'callType'" [class.w-[30vh]]="step === 'language'"
         [class.w-[40vh]]="step === 'voices'" [class.w-[50vh]]="step === 'instructions'"
         [class.w-[60vh]]="step === 'actions'" [class.w-[70vh]]="step === 'knowledgeBase'"
-        [class.w-[80vh]]="step === 'advancedSettings'" [class.w-[90vh]]="step === 'summary'"
-        [class.w-[100vh]]="step === 'connectPhone' || step === 'final'" [class.w-full]="step === 'success'"></div>
+        [class.w-[80vh]]="step === 'summary'" [class.w-[90vh]]="step === 'connectPhone'"
+        [class.w-[100vh]]="step === 'final'" [class.w-full]="step === 'success'"></div>
     </div>
   </div>
 
@@ -50,7 +50,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-0.5 sm:py-1 lg:py-0.5 xl:py-0.5 2xl:py-0.5 3xl:py-1.5 bg-[#0a1740] dark:bg-blue-700 text-[9px] sm:text-[10px] lg:text-[9px] xl:text-[9px] 2xl:text-[9px] 3xl:text-[13px] text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onSubmitAgentName()">
         Continuar
       </button>
@@ -142,7 +142,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-0.5 sm:py-1 lg:py-0.5 xl:py-0.5 2xl:py-0.5 3xl:py-1.5 bg-[#0a1740] dark:bg-blue-700 text-[9px] sm:text-[10px] lg:text-[9px] xl:text-[9px] 2xl:text-[9px] 3xl:text-[13px] text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onSelect('inbound')">
         Continuar
       </button>
@@ -171,205 +171,280 @@
     <h2
       class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0.5 sm:mb-0.5 md:mb-1 lg:mb-1 xl:mb-1 2xl:mb-1 3xl:mb-1  sm: md: lg:">
       Idioma</h2>
-    <div class="flex-1 flex flex-col justify-center overflow-y-auto scrollbar-hide"
+    <div class="flex-1 flex flex-col justify-start pt-0 overflow-y-auto scrollbar-hide"
       style="scrollbar-width: none; -ms-overflow-style: none;">
-      <!-- Slider vertical de idiomas -->
-      <div class="relative max-w-2xl mx-auto w-full px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3">
-        <!-- Contenedor con scroll vertical y blur inferior -->
-        <div class="relative">
-          <!-- Gradiente de desvanecido inferior -->
-          <div
-            class="absolute bottom-0 left-0 right-0 h-16 sm:h-20 md:h-24 bg-gradient-to-t from-white dark:from-[#18181A] to-transparent pointer-events-none z-10">
-          </div>
-          <div
-            class="flex flex-col gap-4 sm:gap-5 md:gap-6 lg:gap-2 overflow-y-auto scrollbar-hide language-slider-vertical  max-h-[320px] sm:max-h-[380px] md:max-h-[350px] pt-4 sm:pt-5 md:pt-6 lg:pt-3 pb-4 sm:pb-5 md:pb-6 lg:pb-3"
-            style="scrollbar-width: none; -ms-overflow-style: none;">
-            <button (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 lg:p-2 3xl:p-4 pl-4 sm:pl-7 md:pl-9 lg:pl-3 3xl:pl-2 pr-5 sm:pr-10 md:pr-[3.5rem] lg:pr-4 3xl:pr-8 bg-gray-200 dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl lg:rounded-lg 3xl:rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 text-left flex items-center justify-end gap-2 sm:gap-3 md:gap-4 3xl:gap-3 font-semibold text-medium h-20 sm:h-28 md:h-32 lg:h-16 3xl:h-20 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-xs 3xl:max-w-sm border-[3px] 3xl:border-4 border-gray-300 dark:border-slate-600">
-              <svg class="w-9 h-6 sm:w-12 sm:h-8 md:w-14 md:h-10 lg:w-10 lg:h-7 3xl:w-12 3xl:h-9 flex-shrink-0"
-                viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                style="min-width: 2.25rem; min-height: 1.5rem;">
-                <svg width="21" height="15" viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g clip-path="url(#clip0_104_50)">
-                    <rect width="21" height="15" rx="3" fill="#F93939" />
-                    <path
-                      d="M19 0H2C0.89543 0 0 0.89543 0 2V13C0 14.1046 0.89543 15 2 15H19C20.1046 15 21 14.1046 21 13V2C21 0.89543 20.1046 0 19 0Z"
-                      fill="#F93939" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 4H21V11H0V4Z" fill="#FFDA2C" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M9 6.22201V8.742C9 9.442 8.328 10.002 7.5 10.002H5.5C4.674 10 4 9.43701 4 8.74001V6.22C4 5.648 4.448 5.17001 5.064 5.01501C5.25 4.49501 5.822 4.96101 6.5 4.96101C7.182 4.96101 7.75 4.498 7.936 5.016C8.55 5.175 9 5.65401 9 6.22201Z"
-                      fill="#D4AF2C" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9 7H10V10H9V7ZM3 7H4V10H3V7Z" fill="#CBCBCB" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9 9H10V10H9V9ZM3 9H4V10H3V9Z" fill="#1A47B8" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9 6H10V7H9V6ZM3 6H4V7H3V6Z" fill="#D4AF2C" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 6H6V7.5H5V6ZM7 8H8V9.5H7V8Z" fill="#AF010D" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 8H6V9.5H5V8Z" fill="#FFDA2C" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7 6H8V7.5H7V6Z" fill="#AE6A3E" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6 6L5 5H8L7 6H6Z" fill="#AF010D" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4H7V5H6V4Z" fill="#D4AF2C" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_104_50">
-                      <rect width="21" height="15" rx="3" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
+      <!-- Grid de banderas -->
+      <div class="relative max-w-4xl mx-auto w-full px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3">
 
-              </svg>
-              <span
-                class="font-semibold text-sm sm:text-base md:text-lg 3xl:text-base dark:text-slate-200 text-left w-[120px] sm:w-[140px] md:w-[160px] 3xl:w-[140px]">Español</span>
-            </button>
-            <button (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 lg:p-2 3xl:p-4 pl-4 sm:pl-7 md:pl-9 lg:pl-3 3xl:pl-2 pr-5 sm:pr-10 md:pr-[3.5rem] lg:pr-4 3xl:pr-8 bg-gray-200 dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl lg:rounded-lg 3xl:rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 text-left flex items-center justify-end gap-2 sm:gap-3 md:gap-4 3xl:gap-3 font-semibold text-medium h-20 sm:h-28 md:h-32 lg:h-16 3xl:h-20 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-xs 3xl:max-w-sm border-[3px] 3xl:border-4 border-gray-300 dark:border-slate-600">
-              <svg class="w-9 h-6 sm:w-12 sm:h-8 md:w-14 md:h-10 lg:w-10 lg:h-7 3xl:w-12 3xl:h-9 flex-shrink-0"
-                viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                style="min-width: 2.25rem; min-height: 1.5rem;">
-                <g clip-path="url(#clip0_104_62)">
-                  <rect width="21" height="15" rx="3" fill="#1A47B8" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M2.23397 0H0V2.5L18.7539 15L21 15V12.5L2.23397 0Z"
-                    fill="white" />
-                  <path d="M0.745098 0L21 13.5354V15H20.2724L0 1.45056V0H0.745098Z" fill="#F93939" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M19.0001 0H21.0001V2.5C21.0001 2.5 8.00988 10.8281 2.00008 15H7.62939e-05V12.5L19.0001 0Z"
-                    fill="white" />
-                  <path d="M21 0H20.3218L0 13.5471V15H0.745098L21 1.46151V0Z" fill="#F93939" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M7.63708 0H13.3804V4.62682H21V10.3701H13.3804V15H7.63708V10.3701H0V4.62682H7.63708V0Z"
-                    fill="white" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M8.8421 0H12.1579V5.76923H21V9.23077H12.1579V15H8.8421V9.23077H0V5.76923H8.8421V0Z"
-                    fill="#F93939" />
-                </g>
-                <defs>
-                  <clipPath id="clip0_104_62">
-                    <rect width="21" height="15" rx="3" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
-              <span
-                class="font-semibold text-sm sm:text-base md:text-lg 3xl:text-base dark:text-slate-200 text-left w-[120px] sm:w-[140px] md:w-[160px] 3xl:w-[140px]">Inglés</span>
-            </button>
-            <button (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 lg:p-2 3xl:p-4 pl-4 sm:pl-7 md:pl-9 lg:pl-3 3xl:pl-2 pr-5 sm:pr-10 md:pr-[3.5rem] lg:pr-4 3xl:pr-8 bg-gray-200 dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl lg:rounded-lg 3xl:rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 text-left flex items-center justify-end gap-2 sm:gap-3 md:gap-4 3xl:gap-3 font-semibold text-medium h-20 sm:h-28 md:h-32 lg:h-16 3xl:h-20 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-xs 3xl:max-w-sm border-[3px] 3xl:border-4 border-gray-300 dark:border-slate-600">
-              <svg class="w-9 h-6 sm:w-12 sm:h-8 md:w-14 md:h-10 lg:w-10 lg:h-7 3xl:w-12 3xl:h-9 flex-shrink-0"
-                viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                style="min-width: 2.25rem; min-height: 1.5rem;">
-                <g clip-path="url(#clip0_104_82)">
-                  <rect width="21" height="15" rx="3" fill="white" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M14 0H21V15H14V0Z" fill="#F93939" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H7V15H0V0Z" fill="#1A47B8" />
-                </g>
-                <defs>
-                  <clipPath id="clip0_104_82">
-                    <rect width="21" height="15" rx="3" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
-              <span
-                class="font-semibold text-sm sm:text-base md:text-lg 3xl:text-base dark:text-slate-200 text-left w-[120px] sm:w-[140px] md:w-[160px] 3xl:w-[140px]">Francés</span>
-            </button>
-            <button (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 lg:p-2 3xl:p-4 pl-4 sm:pl-7 md:pl-9 lg:pl-3 3xl:pl-2 pr-5 sm:pr-10 md:pr-[3.5rem] lg:pr-4 3xl:pr-8 bg-gray-200 dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl lg:rounded-lg 3xl:rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 text-left flex items-center justify-end gap-2 sm:gap-3 md:gap-4 3xl:gap-3 font-semibold text-medium h-20 sm:h-28 md:h-32 lg:h-16 3xl:h-20 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-xs 3xl:max-w-sm border-[3px] 3xl:border-4 border-gray-300 dark:border-slate-600">
-              <svg class="w-9 h-6 sm:w-12 sm:h-8 md:w-14 md:h-10 lg:w-10 lg:h-7 3xl:w-12 3xl:h-9 flex-shrink-0"
-                viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                style="min-width: 2.25rem; min-height: 1.5rem;">
-                <g clip-path="url(#clip0_104_41)">
-                  <rect width="21" height="15" rx="3" fill="white" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M14 0H21V15H14V0Z" fill="#F93939" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H7V15H0V0Z" fill="#249F58" />
-                </g>
-                <defs>
-                  <clipPath id="clip0_104_41">
-                    <rect width="21" height="15" rx="3" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
-              <span
-                class="font-semibold text-sm sm:text-base md:text-lg 3xl:text-base dark:text-slate-200 text-left w-[120px] sm:w-[140px] md:w-[160px] 3xl:w-[140px]">Italiano</span>
-            </button>
-            <button (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 lg:p-2 3xl:p-4 pl-4 sm:pl-7 md:pl-9 lg:pl-3 3xl:pl-2 pr-5 sm:pr-10 md:pr-[3.5rem] lg:pr-4 3xl:pr-8 bg-gray-200 dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl lg:rounded-lg 3xl:rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 text-left flex items-center justify-end gap-2 sm:gap-3 md:gap-4 3xl:gap-3 font-semibold text-medium h-20 sm:h-28 md:h-32 lg:h-16 3xl:h-20 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-xs 3xl:max-w-sm border-[3px] 3xl:border-4 border-gray-300 dark:border-slate-600">
-              <svg class="w-9 h-6 sm:w-12 sm:h-8 md:w-14 md:h-10 lg:w-10 lg:h-7 3xl:w-12 3xl:h-9 flex-shrink-0"
-                viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                style="min-width: 2.25rem; min-height: 1.5rem;">
-                <g clip-path="url(#clip0_104_38)">
-                  <rect width="21" height="15" rx="3" fill="#F93939" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 10H21V15H0V10Z" fill="#FFDA2C" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H21V5H0V0Z" fill="#151515" />
-                </g>
-                <defs>
-                  <clipPath id="clip0_104_38">
-                    <rect width="21" height="15" rx="3" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
-              <span
-                class="font-semibold text-sm sm:text-base md:text-lg 3xl:text-base dark:text-slate-200 text-left w-[120px] sm:w-[140px] md:w-[160px] 3xl:w-[140px]">Alemania</span>
-            </button>
-            <button (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 lg:p-2 3xl:p-4 pl-4 sm:pl-7 md:pl-9 lg:pl-3 3xl:pl-2 pr-5 sm:pr-10 md:pr-[3.5rem] lg:pr-4 3xl:pr-8 bg-gray-200 dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl lg:rounded-lg 3xl:rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 text-left flex items-center justify-end gap-2 sm:gap-3 md:gap-4 3xl:gap-3 font-semibold text-medium h-20 sm:h-28 md:h-32 lg:h-16 3xl:h-20 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-xs 3xl:max-w-sm border-[3px] 3xl:border-4 border-gray-300 dark:border-slate-600">
-              <svg class="w-9 h-6 sm:w-12 sm:h-8 md:w-14 md:h-10 lg:w-10 lg:h-7 3xl:w-12 3xl:h-9 flex-shrink-0"
-                viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                style="min-width: 2.25rem; min-height: 1.5rem;">
-                <g clip-path="url(#clip0_pt_round)">
-                  <rect width="21" height="15" rx="3" fill="#F93939" />
-                  <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M0 3C0 1.34315 1.34315 0 3 0H7V15H3C1.34315 15 0 13.6569 0 12V3Z" fill="#249F58" />
+        <div class="grid grid-cols-5 gap-y-10 gap-x-8 justify-items-center items-start py-10">
+          <!-- Español -->
+          <button (click)="onLanguageSelected()"
+            class="flex flex-col items-center justify-center group focus:outline-none">
+            <div
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
+              <svg width="92" height="72" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1828_2669)">
+                  <rect width="72" height="52" rx="13" fill="#C70318" />
                   <path
-                    d="M7 10C8.65685 10 10 8.65685 10 7C10 5.34315 8.65685 4 7 4C5.34315 4 4 5.34315 4 7C4 8.65685 5.34315 10 7 10Z"
-                    fill="#FFDA2C" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9 8V5H5V8C5 8.552 5.895 9 7 9C8.105 9 9 8.552 9 8Z"
-                    fill="#F93939" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6 6H8V8H6V6Z" fill="white" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6 6H7V7H6V6ZM7 7H8V8H7V7Z" fill="#1A47B8" />
+                    d="M65.1429 0H6.85714C3.07005 0 0 3.10416 0 6.93333V45.0667C0 48.8958 3.07005 52 6.85714 52H65.1429C68.93 52 72 48.8958 72 45.0667V6.93333C72 3.10416 68.93 0 65.1429 0Z"
+                    fill="#C70318" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 13.8667H72V38.1334H0V13.8667Z" fill="#FFC500" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M30.8577 21.5698V30.3058C30.8577 32.7324 28.5537 34.6738 25.7148 34.6738H18.8577C16.0257 34.6668 13.7148 32.7151 13.7148 30.2988V21.5628C13.7148 19.5799 15.2508 17.9228 17.3628 17.3855C18.0006 15.5828 19.9617 17.1983 22.2863 17.1983C24.6246 17.1983 26.572 15.5932 27.2097 17.389C29.3148 17.9402 30.8577 19.6007 30.8577 21.5698Z"
+                    fill="#D4AF2C" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M30.8566 24.2666H34.2852V34.6666H30.8566V24.2666ZM10.2852 24.2666H13.7137V34.6666H10.2852V24.2666Z"
+                    fill="#CBCBCB" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M30.8566 31.2002H34.2852V34.6669H30.8566V31.2002ZM10.2852 31.2002H13.7137V34.6669H10.2852V31.2002Z"
+                    fill="#1A47B8" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M30.8566 20.7998H34.2852V24.2665H30.8566V20.7998ZM10.2852 20.7998H13.7137V24.2665H10.2852V20.7998Z"
+                    fill="#D4AF2C" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M17.1426 20.7998H20.5711V25.9998H17.1426V20.7998ZM23.9997 27.7331H27.4283V32.9331H23.9997V27.7331Z"
+                    fill="#AF010D" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1426 27.7334H20.5711V32.9334H17.1426V27.7334Z"
+                    fill="#FFC500" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M24 20.7998H27.4286V25.9998H24V20.7998Z"
+                    fill="#AE6A3E" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M20.5711 20.8002L17.1426 17.3335H27.4283L23.9997 20.8002H20.5711Z" fill="#AF010D" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5723 13.8667H24.0008V17.3334H20.5723V13.8667Z"
+                    fill="#D4AF2C" />
                 </g>
                 <defs>
-                  <clipPath id="clip0_pt_round">
-                    <rect width="21" height="15" rx="3" fill="white" />
+                  <clipPath id="clip0_1828_2669">
+                    <rect width="72" height="52" rx="13" fill="white" />
                   </clipPath>
                 </defs>
               </svg>
-              <span
-                class="font-semibold text-sm sm:text-base md:text-lg 3xl:text-base dark:text-slate-200 text-left w-[120px] sm:w-[140px] md:w-[160px] 3xl:w-[140px]">Portugal</span>
-            </button>
-            <button (click)="onLanguageSelected()"
-              class="language-button flex-shrink-0 p-3 sm:p-5 md:p-6 lg:p-2 3xl:p-4 pl-4 sm:pl-7 md:pl-9 lg:pl-3 3xl:pl-2 pr-5 sm:pr-10 md:pr-[3.5rem] lg:pr-4 3xl:pr-8 bg-gray-200 dark:bg-slate-800 rounded-lg sm:rounded-xl md:rounded-2xl lg:rounded-lg 3xl:rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-300 text-left flex items-center justify-end gap-2 sm:gap-3 md:gap-4 3xl:gap-3 font-semibold text-medium h-20 sm:h-28 md:h-32 lg:h-16 3xl:h-20 shadow-none hover:shadow-none outline-none focus:outline-none mx-auto w-full max-w-xs 3xl:max-w-sm border-[3px] 3xl:border-4 border-gray-300 dark:border-slate-600">
-              <svg class="w-9 h-6 sm:w-12 sm:h-8 md:w-14 md:h-10 lg:w-10 lg:h-7 3xl:w-12 3xl:h-9 flex-shrink-0"
-                viewBox="0 0 21 15" fill="none" xmlns="http://www.w3.org/2000/svg"
-                style="min-width: 2.25rem; min-height: 1.5rem;">
-                <g clip-path="url(#clip0_104_69)">
-                  <rect width="21" height="15" rx="3" fill="white" />
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H9V7H0V0Z" fill="#1A47B8" />
+            </div>
+            <span
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Español</span>
+          </button>
+
+          <!-- Inglés -->
+          <button (click)="onLanguageSelected()"
+            class="flex flex-col items-center justify-center group focus:outline-none">
+            <div
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1816_7491)">
+                  <rect width="75" height="52" rx="13" fill="#001B69" />
                   <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M9 0V1H21V0H9ZM9 2V3H21V2H9ZM9 4V5H21V4H9ZM9 6V7H21V6H9ZM0 8V9H21V8H0ZM0 10V11H21V10H0ZM0 12V13H21V12H0ZM0 14V15H21V14H0Z"
-                    fill="#F93939" />
+                    d="M7.97847 0H0V8.66667L66.9782 52L75 52V43.3333L7.97847 0Z" fill="white" />
+                  <path d="M2.66107 0L75 46.9228V52H72.4013L0 5.0286V0H2.66107Z" fill="#C9072A" />
                   <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M1 1V2H2V1H1ZM3 1V2H4V1H3ZM5 1V2H6V1H5ZM7 1V2H8V1H7ZM6 2V3H7V2H6ZM4 2V3H5V2H4ZM2 2V3H3V2H2ZM1 3V4H2V3H1ZM3 3V4H4V3H3ZM5 3V4H6V3H5ZM7 3V4H8V3H7ZM1 5V6H2V5H1ZM3 5V6H4V5H3ZM5 5V6H6V5H5ZM7 5V6H8V5H7ZM6 4V5H7V4H6ZM4 4V5H5V4H4ZM2 4V5H3V4H2Z"
+                    d="M67.8571 0H75V8.66667C75 8.66667 28.6064 37.5373 7.14286 52H0V43.3333L67.8571 0Z" fill="white" />
+                  <path d="M75 0H72.5777L0 46.9632V52H2.66107L75 5.06658V0Z" fill="#C9072A" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M27.2753 0H47.7871V16.0396H75V35.9498H47.7871V52H27.2753V35.9498H0V16.0396H27.2753V0Z"
+                    fill="white" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M31.5789 0H43.4211V20H75V32H43.4211V52H31.5789V32H0V20H31.5789V0Z" fill="#C9072A" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1816_7491">
+                    <rect width="75" height="52" rx="13" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <span
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Inglés</span>
+          </button>
+
+          <!-- Francés -->
+          <button (click)="onLanguageSelected()"
+            class="flex flex-col items-center justify-center group focus:outline-none">
+            <div
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
+              <svg width="92" height="72" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1816_7478)">
+                  <rect width="72" height="52" rx="13" fill="white" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M48 0H72V52H48V0Z" fill="#CF0921" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H24V52H0V0Z" fill="#002153" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1816_7478">
+                    <rect width="72" height="52" rx="13" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <span
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Francés</span>
+          </button>
+
+          <!-- Italiano -->
+          <button (click)="onLanguageSelected()"
+            class="flex flex-col items-center justify-center group focus:outline-none">
+            <div
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1816_7499)">
+                  <rect width="75" height="52" rx="13" fill="white" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M50 0H75V52H50V0Z" fill="#CF2734" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H25V52H0V0Z" fill="#009344" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1816_7499">
+                    <rect width="75" height="52" rx="13" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <span
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Italiano</span>
+          </button>
+
+          <!-- Alemán -->
+          <button (click)="onLanguageSelected()"
+            class="flex flex-col items-center justify-center group focus:outline-none">
+            <div
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1816_7487)">
+                  <rect width="72" height="52" rx="13" fill="#DE0000" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 34.6665H72V51.9998H0V34.6665Z" fill="#FFCF00" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H72V17.3333H0V0Z" fill="#151515" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1816_7487">
+                    <rect width="72" height="52" rx="13" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <span
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Alemán</span>
+          </button>
+
+          <!-- Portugués -->
+          <button (click)="onLanguageSelected()"
+            class="flex flex-col items-center justify-center group focus:outline-none">
+            <div
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
+              <svg width="92" height="72" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1828_2661)">
+                  <path
+                    d="M61.7143 0H10.2857C4.60507 0 0 4.65624 0 10.4V41.6C0 47.3438 4.60507 52 10.2857 52H61.7143C67.3949 52 72 47.3438 72 41.6V10.4C72 4.65624 67.3949 0 61.7143 0Z"
+                    fill="#EE151F" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H24V52H0V0Z" fill="#006032" />
+                  <path
+                    d="M24.0006 34.6667C29.6812 34.6667 34.2863 30.0104 34.2863 24.2667C34.2863 18.523 29.6812 13.8667 24.0006 13.8667C18.3199 13.8667 13.7148 18.523 13.7148 24.2667C13.7148 30.0104 18.3199 34.6667 24.0006 34.6667Z"
+                    fill="#FFDA2C" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M30.8569 27.7335V17.3335H17.1426V27.7335C17.1426 29.6471 20.2111 31.2002 23.9997 31.2002C27.7883 31.2002 30.8569 29.6471 30.8569 27.7335Z"
+                    fill="#EE151F" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5723 20.7998H27.4294V27.7331H20.5723V20.7998Z"
+                    fill="white" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M20.5723 20.7998H24.0008V24.2665H20.5723V20.7998ZM24.0008 24.2665H27.4294V27.7331H24.0008V24.2665Z"
+                    fill="#1A47B8" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1828_2661">
+                    <rect width="72" height="52" rx="13" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <span
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Portugués</span>
+          </button>
+
+          <!-- Estados Unidos -->
+          <button (click)="onLanguageSelected()"
+            class="flex flex-col items-center justify-center group focus:outline-none">
+            <div
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1816_7482)">
+                  <rect width="75" height="52" rx="13" fill="white" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H32.1429V24.2667H0V0Z" fill="#001A5B" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M32.1429 0V3.46667H75V0H32.1429ZM32.1429 6.93333V10.4H75V6.93333H32.1429ZM32.1429 13.8667V17.3333H75V13.8667H32.1429ZM32.1429 20.8V24.2667H75V20.8H32.1429ZM0 27.7333V31.2H75V27.7333H0ZM0 34.6667V38.1333H75V34.6667H0ZM0 41.6V45.0667H75V41.6H0ZM0 48.5333V52H75V48.5333H0Z"
+                    fill="#C0032C" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M3.57227 3.4668V6.93346H7.14369V3.4668H3.57227ZM10.7151 3.4668V6.93346H14.2866V3.4668H10.7151ZM17.858 3.4668V6.93346H21.4294V3.4668H17.858ZM25.0008 3.4668V6.93346H28.5723V3.4668H25.0008ZM21.4294 6.93346V10.4001H25.0008V6.93346H21.4294ZM14.2866 6.93346V10.4001H17.858V6.93346H14.2866ZM7.14369 6.93346V10.4001H10.7151V6.93346H7.14369ZM3.57227 10.4001V13.8668H7.14369V10.4001H3.57227ZM10.7151 10.4001V13.8668H14.2866V10.4001H10.7151ZM17.858 10.4001V13.8668H21.4294V10.4001H17.858ZM25.0008 10.4001V13.8668H28.5723V10.4001H25.0008ZM3.57227 17.3335V20.8001H7.14369V17.3335H3.57227ZM10.7151 17.3335V20.8001H14.2866V17.3335H10.7151ZM17.858 17.3335V20.8001H21.4294V17.3335H17.858ZM25.0008 17.3335V20.8001H28.5723V17.3335H25.0008ZM21.4294 13.8668V17.3335H25.0008V13.8668H21.4294ZM14.2866 13.8668V17.3335H17.858V13.8668H14.2866ZM7.14369 13.8668V17.3335H10.7151V13.8668H7.14369Z"
                     fill="white" />
                 </g>
                 <defs>
-                  <clipPath id="clip0_104_69">
-                    <rect width="21" height="15" rx="3" fill="white" />
+                  <clipPath id="clip0_1816_7482">
+                    <rect width="75" height="52" rx="13" fill="white" />
                   </clipPath>
                 </defs>
               </svg>
-              <span
-                class="font-semibold text-sm sm:text-base md:text-lg 3xl:text-base dark:text-slate-200 text-left w-[120px] sm:w-[140px] md:w-[160px] 3xl:w-[140px]">Estados
-                Unidos</span>
-            </button>
+            </div>
+            <span
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Estados
+              Unidos</span>
+          </button>
+          <!-- Turquia -->
+          <button (click)="onLanguageSelected()"
+            class="flex flex-col items-center justify-center group focus:outline-none">
+            <div
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="75" height="52" rx="13" fill="#E30A17" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M50.0073 29.9936L45.8573 32.1082L46.6501 27.6258L43.293 24.4469L47.9358 23.7882L50.0073 19.7114L52.0787 23.7917L56.7215 24.4504L53.3644 27.6224L54.1573 32.1048"
+                  fill="white" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M33.9277 38.1334C40.8313 38.1334 46.4277 32.7011 46.4277 26C46.4277 19.299 40.8313 13.8667 33.9277 13.8667C27.0242 13.8667 21.4277 19.299 21.4277 26C21.4277 32.7011 27.0242 38.1334 33.9277 38.1334ZM37.4992 34.6667C42.4277 34.6667 46.4277 30.784 46.4277 26C46.4277 21.216 42.4277 17.3334 37.4992 17.3334C32.5706 17.3334 28.5706 21.216 28.5706 26C28.5706 30.784 32.5706 34.6667 37.4992 34.6667Z"
+                  fill="white" />
+              </svg>
+            </div>
+            <span
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Turco</span>
+          </button>
 
-            <!-- Espacio adicional de 400px después de Estados Unidos -->
-            <div class="h-96"></div>
+          <!-- Suecia -->
+          <button (click)="onLanguageSelected()"
+            class="flex flex-col items-center justify-center group focus:outline-none">
+            <div
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1816_7506)">
+                  <rect width="75" height="52" rx="13" fill="#005194" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M21.4286 31.2H0V20.8H21.4286V0H32.1429V20.8H75V31.2H32.1429V52H21.4286V31.2Z" fill="#FECC00" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1816_7506">
+                    <rect width="75" height="52" rx="13" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <span
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Sueco</span>
+          </button>
 
-          </div>
+          <!-- Holanda -->
+          <button (click)="onLanguageSelected()"
+            class="flex flex-col items-center justify-center group focus:outline-none">
+            <div
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1816_7509)">
+                  <rect width="75" height="52" rx="13" fill="white" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 34.6665H75V51.9998H0V34.6665Z" fill="#1E448D" />
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H75V17.3333H0V0Z" fill="#B01923" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1816_7509">
+                    <rect width="75" height="52" rx="13" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <span
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Danés</span>
+          </button>
 
-          <!-- Efecto de blur en la parte inferior -->
-          <div class="absolute bottom-0 left-0 right-0 h-16 sm:h-20 pointer-events-none hidden dark:block"
-            style="background: linear-gradient(to top, #18181a 0%, rgba(24, 24, 26, 0.8) 30%, rgba(24, 24, 26, 0.4) 60%, rgba(24, 24, 26, 0.1) 85%, transparent 100%);">
-          </div>
-          <div class="absolute bottom-0 left-0 right-0 h-16 sm:h-20 pointer-events-none block dark:hidden"
-            style="background: linear-gradient(to top, #ffffff 0%, rgba(255, 255, 255, 0.8) 30%, rgba(255, 255, 255, 0.4) 60%, rgba(255, 255, 255, 0.1) 85%, transparent 100%);">
-          </div>
         </div>
       </div>
     </div>
@@ -388,7 +463,11 @@
         </svg>
       </button>
 
-
+      <button
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        (click)="onLanguageSelected()">
+        Continuar
+      </button>
 
       <!-- Botón Saltar a la derecha -->
       <button (click)="onSkip()"
@@ -726,8 +805,6 @@
         </svg>
       </button>
 
-
-
       <!-- Botón Saltar a la derecha -->
       <button (click)="onSkip()"
         class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
@@ -767,9 +844,19 @@
           class="flex items-center gap-2 text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base font-medium text-black dark:text-slate-200 mb-1 lg:mb-0.5 3xl:mb-2">
           <svg class="w-5 h-5 lg:w-4.5 lg:h-4.5 3xl:w-6 3xl:h-6" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M11.2071 3.6797C11.0909 3.85386 11 4.14834 11 4.5V6V11C11 11.5523 10.5523 12 10 12C9.44772 12 9 11.5523 9 11V6C9 5.64834 8.90906 5.35386 8.79295 5.1797C8.6966 5.03518 8.61209 5 8.5 5C8.38791 5 8.3034 5.03518 8.20705 5.1797C8.09094 5.35386 8 5.64834 8 6V12V15C8 15.5523 7.55228 16 7 16C6.44772 16 6 15.5523 6 15V12C6 11.6483 5.90906 11.3539 5.79295 11.1797C5.6966 11.0352 5.61209 11 5.5 11C5.38791 11 5.3034 11.0352 5.20705 11.1797C5.09094 11.3539 5 11.6483 5 12V16C5 17.033 5.70057 18.1402 7.0547 19.0429C8.3875 19.9315 10.1939 20.5 12 20.5C15.6675 20.5 18 18.251 18 16V9C18 8.64834 17.9091 8.35386 17.7929 8.1797C17.6966 8.03518 17.6121 8 17.5 8C17.3879 8 17.3034 8.03518 17.2071 8.1797C17.0909 8.35386 17 8.64834 17 9V12C17 12.5523 16.5523 13 16 13C15.4477 13 15 12.5523 15 12V9V6C15 5.64834 14.9091 5.35386 14.7929 5.1797C14.6966 5.03518 14.6121 5 14.5 5C14.3879 5 14.3034 5.03518 14.2071 5.1797C14.0909 5.35386 14 5.64834 14 6V11C14 11.5523 13.5523 12 13 12C12.4477 12 12 11.5523 12 11V6V4.5C12 4.14834 11.9091 3.85386 11.7929 3.6797C11.6966 3.53518 11.6121 3.5 11.5 3.5C11.3879 3.5 11.3034 3.53518 11.2071 3.6797ZM13.7452 3.12242C13.975 3.04395 14.227 3 14.5 3C15.3879 3 16.0534 3.46482 16.4571 4.0703C16.8409 4.64614 17 5.35166 17 6V6.05195C17.1578 6.01815 17.3245 6 17.5 6C18.3879 6 19.0534 6.46482 19.4571 7.0703C19.8409 7.64614 20 8.35166 20 9V16C20 19.749 16.3325 22.5 12 22.5C9.80613 22.5 7.6125 21.8185 5.9453 20.7071C4.29943 19.6098 3 17.967 3 16V12C3 11.3517 3.15906 10.6461 3.54295 10.0703C3.9466 9.46482 4.61209 9 5.5 9C5.67545 9 5.84222 9.01815 6 9.05195V6C6 5.35166 6.15906 4.64614 6.54295 4.0703C6.9466 3.46482 7.61209 3 8.5 3C8.77302 3 9.02501 3.04395 9.25482 3.12242C9.33156 2.92998 9.427 2.74423 9.54295 2.5703C9.9466 1.96482 10.6121 1.5 11.5 1.5C12.3879 1.5 13.0534 1.96482 13.4571 2.5703C13.573 2.74423 13.6684 2.92998 13.7452 3.12242Z"
-              fill="currentColor"></path>
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M4.41377 17.859C4.77159 17.6504 5.23081 17.7713 5.43947 18.1291C6.26633 19.5471 7.53043 20.6193 9.0893 21.3151C9.46755 21.4839 9.63733 21.9274 9.46851 22.3057C9.29969 22.6839 8.85621 22.8537 8.47796 22.6849C6.66645 21.8764 5.14664 20.6046 4.14369 18.8847C3.93503 18.5269 4.05595 18.0677 4.41377 17.859Z"
+                fill="currentColor"></path>
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M18.9058 3.92194C17.8919 2.88646 16.4459 2.50452 15.0303 2.9073C14.6319 3.02066 14.2171 2.78959 14.1037 2.39119C13.9904 1.99279 14.2214 1.57792 14.6198 1.46456C16.558 0.913072 18.5745 1.43959 19.9775 2.8725C20.2673 3.16846 20.2623 3.64331 19.9664 3.9331C19.6704 4.2229 19.1956 4.2179 18.9058 3.92194Z"
+                fill="currentColor"></path>
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M11.1901 3.30839C10.9761 2.94131 10.3523 2.7187 9.71858 3.08085C9.08722 3.44168 8.97618 4.07772 9.18651 4.4384L11.7122 8.76952C11.9208 9.12734 11.7999 9.58656 11.4421 9.79522C11.0843 10.0039 10.6251 9.88296 10.4164 9.52514L7.04885 3.75032C6.83479 3.38324 6.21098 3.16063 5.57731 3.52278C4.94595 3.88361 4.83491 4.51965 5.04525 4.88033L8.83373 11.377C9.04239 11.7348 8.92147 12.1941 8.56365 12.4027C8.20583 12.6114 7.74661 12.4905 7.53795 12.1326L5.85418 9.24522C5.64012 8.87814 5.01631 8.65553 4.38264 9.01768C3.75128 9.37851 3.64024 10.0145 3.85058 10.3752L7.63906 16.8719C9.248 19.631 13.2184 20.5264 16.5853 18.6021C19.95 16.6792 21.146 12.8377 19.5408 10.085L17.0152 5.75387C16.8011 5.38679 16.1773 5.16418 15.5436 5.52633C14.9123 5.88716 14.8012 6.5232 15.0116 6.88389L16.6953 9.7713C16.7961 9.94411 16.8237 10.15 16.7719 10.3432C16.7201 10.5365 16.5933 10.701 16.4196 10.8003C14.8771 11.6818 14.4044 13.3863 15.0797 14.5443C15.2884 14.9022 15.1675 15.3614 14.8096 15.57C14.4518 15.7787 13.9926 15.6578 13.7839 15.3C12.8712 13.7348 13.24 11.8501 14.4189 10.5181C14.7485 10.1457 14.8613 9.60396 14.6108 9.17438L11.1901 3.30839Z"
+                fill="currentColor"></path>
+            </g>
           </svg>
           Define un saludo personalizado
         </label>
@@ -836,7 +923,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-0.5 sm:py-1 lg:py-0.5 xl:py-0.5 2xl:py-0.5 3xl:py-1.5 bg-[#0a1740] dark:bg-blue-700 text-[9px] sm:text-[10px] lg:text-[9px] xl:text-[9px] 2xl:text-[9px] 3xl:text-[13px] text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onSubmit()">
         Continuar
       </button>
@@ -878,7 +965,7 @@
         <button (click)="selectAction('shopify')"
           class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-green-500/30 dark:hover:border-green-500/30">
           <div class="mb-4 sm:mb-6">
-            <img src="assets/shopify.png" alt="Shopify"
+            <img src="assets/shopify.webp" alt="Shopify"
               class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 3xl:w-28 3xl:h-28 object-contain" />
           </div>
           <div class="absolute bottom-0 left-0 right-0 p-2.5 sm:p-4">
@@ -892,7 +979,7 @@
         <button (click)="selectAction('make')"
           class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-pink-500/30 dark:hover:border-pink-500/30">
           <div class="mb-4 sm:mb-6">
-            <img src="assets/make.png" alt="Make"
+            <img src="assets/make.webp" alt="Make"
               class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 3xl:w-28 3xl:h-28 object-contain" />
           </div>
           <div class="absolute bottom-0 left-0 right-0 p-2.5 sm:p-4">
@@ -916,6 +1003,12 @@
             d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z"
             fill="currentColor" />
         </svg>
+      </button>
+
+      <button
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        (click)="step = 'knowledgeBase'; saveDraft()">
+        Continuar
       </button>
 
 
@@ -1004,7 +1097,7 @@
               <rect width="100" height="100" fill="url(#pattern0_web_532)" />
               <defs>
                 <pattern id="pattern0_web_532" patternUnits="objectBoundingBox" width="1" height="1">
-                  <image href="assets/web.png" width="100" height="100" preserveAspectRatio="none"
+                  <image href="assets/web.webp" width="100" height="100" preserveAspectRatio="none"
                     class="web-icon-image" />
                 </pattern>
               </defs>
@@ -1032,8 +1125,14 @@
         </svg>
       </button>
 
+      <button
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        (click)="continueWithoutSource()">
+        Continuar
+      </button>
 
-      <button (click)="step = 'advancedSettings'"
+
+      <button (click)="step = 'summary'"
         class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
         style="font-family: 'Inter', sans-serif;">
         Omitir
@@ -1049,7 +1148,7 @@
   }
   @if (step === 'summary') {
   <div
-    class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+    class="bg-white dark:bg-black rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <!-- Título y descripción -->
     <h2
       class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0.5 sm:mb-0.5 md:mb-1 lg:mb-1 xl:mb-1 2xl:mb-1 3xl:mb-1  sm: md: lg:">
@@ -1059,43 +1158,26 @@
       Habla con nuestro agente de prueba para ver cómo funciona.
     </p>
 
-    <div class="flex-1 overflow-y-auto scrollbar-hide flex flex-col"
-      style="scrollbar-width: none; -ms-overflow-style: none;">
-      <!-- Esfera con animación de líquido fluido -->
-      <div class="flex-1 flex flex-col justify-start items-center relative pt-8 lg:pt-12">
-        <!-- Esfera principal centrada - CON FONDO AZUL 500 -->
-        <div
-          class="relative bg-blue-500 rounded-full flex items-center justify-center shadow-2xl overflow-hidden liquid-sphere"
-          [style.width]="getMainSphereSize() + 'px'" [style.height]="getMainSphereSize() + 'px'"
-          [style.transform]="'scale(' + (1 + audioLevel * 0.15) + ')'"
-          [style.box-shadow]="'0 0 ' + (30 + audioLevel * 40) + 'px rgba(59, 130, 246, 0.8)'"
-          [style.transition]="'transform 0.1s ease-out, box-shadow 0.1s ease-out'">
+    <div class="flex-1 flex flex-col justify-start items-center relative pt-8 lg:pt-12">
+      <!-- Esfera premium con animación de líquido fluido -->
+      <div class="sphere-wrapper" [style.width]="getMainSphereSize() + 'px'" [style.height]="getMainSphereSize() + 'px'"
+        [style.transform]="'scale(' + (1 + audioLevel * 0.15) + ')'">
 
-          <!-- Video de mar con efectos de audio -->
-          <div class="relative w-full h-full rounded-full overflow-hidden">
-            <!-- Video del mar (si está disponible) -->
-            <video *ngIf="videoSrc" [src]="videoSrc" [muted]="true" [loop]="true" [autoplay]="true" [playsInline]="true"
-              class="absolute inset-0 w-full h-full object-cover" [style.filter]="getVideoFilter()"
-              [style.transform]="getVideoTransform()" [style.opacity]="getVideoOpacity()"></video>
-
-            <!-- Fallback: Animación CSS que simula el mar -->
-            <div *ngIf="!videoSrc" class="absolute inset-0 w-full h-full sea-animation"
-              [style.background]="getSeaGradient()" [style.filter]="getVideoFilter()"
-              [style.transform]="getVideoTransform()" [style.opacity]="getVideoOpacity()">
-              <!-- Ondas del mar -->
-              <div class="wave wave-1"></div>
-              <div class="wave wave-2"></div>
-              <div class="wave wave-3"></div>
-              <div class="wave wave-4"></div>
-            </div>
-
-            <!-- Overlay de audio para efectos visuales -->
-            <div class="absolute inset-0 rounded-full pointer-events-none" [style.background]="getAudioOverlay()"
-              [style.box-shadow]="getAudioGlow()"></div>
-          </div>
-
+        <div class="outer-glow" [style.opacity]="0.3 + (audioLevel * 0.7)"
+          [style.transform]="'scale(' + (1.2 + audioLevel * 0.5) + ')'">
         </div>
 
+        <div class="liquid-sphere-container" [style.width]="getMainSphereSize() + 'px'"
+          [style.height]="getMainSphereSize() + 'px'">
+          <div class="liquid-sphere">
+            <div class="blob"></div>
+            <div class="blob"></div>
+            <div class="blob"></div>
+
+
+
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1139,7 +1221,7 @@
       </button>
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-0.5 sm:py-1 lg:py-0.5 xl:py-0.5 2xl:py-0.5 3xl:py-1.5 bg-[#0a1740] dark:bg-blue-700 text-[9px] sm:text-[10px] lg:text-[9px] xl:text-[9px] 2xl:text-[9px] 3xl:text-[13px] text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onSubmitTestCall()">
         Continuar
       </button>
@@ -1305,7 +1387,7 @@
           </div>
 
           <!-- Selección de número importado -->
-          <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2">
+          <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2 hidden">
             <label for="imported-number"
               class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
               Número importado
@@ -1347,7 +1429,7 @@
 
 
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-0.5 sm:py-1 lg:py-0.5 xl:py-0.5 2xl:py-0.5 3xl:py-1.5 bg-[#0a1740] dark:bg-blue-700 text-[9px] sm:text-[10px] lg:text-[9px] xl:text-[9px] 2xl:text-[9px] 3xl:text-[13px] text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
         (click)="onConnectPhone()">
         Continuar
       </button>
@@ -1367,278 +1449,6 @@
   </div>
   }
 
-  @if (step === 'advancedSettings') {
-  <div
-    class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-    <!-- Título -->
-    <h2
-      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0.5 sm:mb-0.5 md:mb-1 lg:mb-1 xl:mb-1 2xl:mb-1 3xl:mb-1  sm: md: lg: px-2 sm:px-3 md:px-4">
-      Configuración Avanzada</h2>
-
-    <!-- Subtítulo -->
-    <p
-      class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-700 dark:text-slate-300 mb-6 sm:mb-8 md:mb-10 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1.5 max-w-4xl mx-auto px-2 sm:px-4">
-      Personaliza los parámetros avanzados de tu agente
-    </p>
-
-    <div class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide"
-      style="scrollbar-width: none; -ms-overflow-style: none;">
-      <!-- Contenedor de configuraciones -->
-      <div
-        class="advanced-config-container w-full max-w-5xl lg:max-w-6xl 2xl:max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:pt-0 space-y-4 sm:space-y-5"
-        (click)="hideAllTooltips()">
-
-        <!-- Barras en una sola columna -->
-        <div class="space-y-4 sm:space-y-5 lg:space-y-3">
-
-          <!-- Tiempo de inactividad -->
-          <div class="border-b border-gray-200 dark:border-slate-700 pb-3 lg:pb-2">
-            <label
-              class="block text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-medium text-gray-900 dark:text-white mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 3xl:mb-1.5">Tiempo
-              de espera de inactividad</label>
-            <div class="space-y-2 lg:space-y-1 3xl:space-y-2">
-              <div
-                class="flex justify-between text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1">
-                <span>Corto</span>
-                <span>Largo</span>
-              </div>
-              <div class="relative" (click)="$event.stopPropagation()" (mouseenter)="showInactivityTooltipFn()"
-                (mouseleave)="hideInactivityTooltipFn()">
-                <div class="h-1.5 lg:h-1 3xl:h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
-                  <div
-                    class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
-                    [style.width.%]="inactivityTimeout"></div>
-                  <input type="range" min="0" max="100" [(ngModel)]="inactivityTimeout"
-                    (input)="inactivityTimeout = +$any($event.target).value; showInactivityTooltipFn()"
-                    (mousedown)="showInactivityTooltipFn()"
-                    (click)="showInactivityTooltipFn(); $event.stopPropagation()"
-                    class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                  <div
-                    class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 lg:w-3 lg:h-3 3xl:w-4 3xl:h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
-                    [style.left.%]="inactivityTimeout"></div>
-                  <!-- Bocadillo con el valor -->
-                  <div *ngIf="showInactivityTooltip"
-                    class="tooltip-bubble absolute bottom-full mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
-                    [style.left.%]="inactivityTimeout">
-                    <span
-                      class="text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white">
-                      {{ formatDecimal(inactivityTimeout) }}
-                    </span>
-                    <!-- Flecha del bocadillo -->
-                    <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-                      <div
-                        class="w-2 h-2 bg-white dark:bg-slate-800 border-r border-b border-gray-200 dark:border-slate-600 transform rotate-45">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Duración máxima -->
-          <div class="border-b border-gray-200 dark:border-slate-700 pb-3 lg:pb-2">
-            <label
-              class="block text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-gray-900 dark:text-white mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 3xl:mb-2">Duración
-              máxima de llamada</label>
-            <div class="space-y-2 lg:space-y-1 3xl:space-y-2">
-              <div
-                class="flex justify-between text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1">
-                <span>Corta</span>
-                <span>Larga</span>
-              </div>
-              <div class="relative" (click)="$event.stopPropagation()" (mouseenter)="showMaxCallDurationTooltipFn()"
-                (mouseleave)="hideMaxCallDurationTooltipFn()">
-                <div class="h-1.5 lg:h-1 3xl:h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
-                  <div
-                    class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
-                    [style.width.%]="maxCallDuration"></div>
-                  <input type="range" min="0" max="100" [(ngModel)]="maxCallDuration"
-                    (input)="maxCallDuration = +$any($event.target).value; showMaxCallDurationTooltipFn()"
-                    (mousedown)="showMaxCallDurationTooltipFn()"
-                    (click)="showMaxCallDurationTooltipFn(); $event.stopPropagation()"
-                    class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                  <div
-                    class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 lg:w-3 lg:h-3 3xl:w-4 3xl:h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
-                    [style.left.%]="maxCallDuration"></div>
-                  <!-- Bocadillo con el valor -->
-                  <div *ngIf="showMaxCallDurationTooltip"
-                    class="tooltip-bubble absolute bottom-full mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
-                    [style.left.%]="maxCallDuration">
-                    <span
-                      class="text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white">
-                      {{ formatDecimal(maxCallDuration) }}
-                    </span>
-                    <!-- Flecha del bocadillo -->
-                    <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-                      <div
-                        class="w-2 h-2 bg-white dark:bg-slate-800 border-r border-b border-gray-200 dark:border-slate-600 transform rotate-45">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Rapidez del agente -->
-          <div class="border-b border-gray-200 dark:border-slate-700 pb-3 lg:pb-2">
-            <label
-              class="block text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-gray-900 dark:text-white mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 3xl:mb-2">Velocidad
-              de conversacion</label>
-            <div class="space-y-2 lg:space-y-1 3xl:space-y-2">
-              <div
-                class="flex justify-between text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1">
-                <span>Lento</span>
-                <span>Muy rápido</span>
-              </div>
-              <div class="relative" (click)="$event.stopPropagation()" (mouseenter)="showAgentSpeedTooltipFn()"
-                (mouseleave)="hideAgentSpeedTooltipFn()">
-                <div class="h-1.5 lg:h-1 3xl:h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
-                  <div
-                    class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
-                    [style.width.%]="agentSpeed"></div>
-                  <input type="range" min="0" max="100" [(ngModel)]="agentSpeed"
-                    (input)="agentSpeed = +$any($event.target).value; showAgentSpeedTooltipFn()"
-                    (mousedown)="showAgentSpeedTooltipFn()"
-                    (click)="showAgentSpeedTooltipFn(); $event.stopPropagation()"
-                    class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                  <div
-                    class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 lg:w-3 lg:h-3 3xl:w-4 3xl:h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
-                    [style.left.%]="agentSpeed"></div>
-                  <!-- Bocadillo con el valor -->
-                  <div *ngIf="showAgentSpeedTooltip"
-                    class="tooltip-bubble absolute bottom-full mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
-                    [style.left.%]="agentSpeed">
-                    <span
-                      class="text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white">
-                      {{ formatDecimal(agentSpeed) }}
-                    </span>
-                    <!-- Flecha del bocadillo -->
-                    <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-                      <div
-                        class="w-2 h-2 bg-white dark:bg-slate-800 border-r border-b border-gray-200 dark:border-slate-600 transform rotate-45">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Temperatura del LLM -->
-          <div class="border-b border-gray-200 dark:border-slate-700 pb-3 lg:pb-2">
-            <label
-              class="block text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-gray-900 dark:text-white mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 3xl:mb-2">Temperatura
-              del LLM</label>
-            <div class="space-y-2 lg:space-y-1 3xl:space-y-2">
-              <div
-                class="flex justify-between text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-500 dark:text-slate-400 mb-1.5 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1">
-                <span>Baja</span>
-                <span>Alta</span>
-              </div>
-              <div class="relative" (click)="$event.stopPropagation()" (mouseenter)="showLlmTemperatureTooltipFn()"
-                (mouseleave)="hideLlmTemperatureTooltipFn()">
-                <div class="h-1.5 lg:h-1 3xl:h-1.5 bg-gray-200 dark:bg-slate-700 rounded-full relative">
-                  <div
-                    class="absolute top-0 left-0 h-full bg-blue-950 dark:bg-blue-600 rounded-full transition-all duration-200"
-                    [style.width.%]="llmTemperature"></div>
-                  <input type="range" min="0" max="100" [(ngModel)]="llmTemperature"
-                    (input)="llmTemperature = +$any($event.target).value; showLlmTemperatureTooltipFn()"
-                    (mousedown)="showLlmTemperatureTooltipFn()"
-                    (click)="showLlmTemperatureTooltipFn(); $event.stopPropagation()"
-                    class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                  <div
-                    class="absolute top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 lg:w-3 lg:h-3 3xl:w-4 3xl:h-4 bg-blue-950 dark:bg-blue-600 rounded-full pointer-events-none transition-all duration-200"
-                    [style.left.%]="llmTemperature"></div>
-                  <!-- Bocadillo con el valor -->
-                  <div *ngIf="showLlmTemperatureTooltip"
-                    class="tooltip-bubble absolute bottom-full mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-1.5 px-2 py-1 lg:px-1.5 lg:py-0.5 3xl:px-2.5 3xl:py-1 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-gray-200 dark:border-slate-600 pointer-events-none z-20"
-                    [style.left.%]="llmTemperature">
-                    <span
-                      class="text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white">
-                      {{ formatDecimal(llmTemperature) }}
-                    </span>
-                    <!-- Flecha del bocadillo -->
-                    <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-px">
-                      <div
-                        class="w-2 h-2 bg-white dark:bg-slate-800 border-r border-b border-gray-200 dark:border-slate-600 transform rotate-45">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Mensaje de grabación -->
-        <div class="pb-3 lg:pb-2">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <label class="text-sm lg:text-xs 3xl:text-sm font-medium text-gray-900 dark:text-white">Mensaje de aviso
-                de grabación</label>
-              <button (click)="openRecordingNoticeInfoModal(); $event.stopPropagation()"
-                class="w-4 h-4 lg:w-3.5 lg:h-3.5 3xl:w-4 3xl:h-4 rounded-full border border-gray-300 dark:border-slate-600 flex items-center justify-center hover:border-gray-400 dark:hover:border-slate-500 transition-colors cursor-pointer"
-                title="Información sobre el mensaje de aviso de grabación">
-                <svg width="10" height="10" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="text-gray-500 dark:text-slate-400 lg:w-2.5 lg:h-2.5 3xl:w-3 3xl:h-3">
-                  <circle cx="8" cy="8" r="7" stroke="currentColor" fill="none" />
-                  <text x="8" y="11" text-anchor="middle" font-size="8" font-weight="bold" fill="currentColor">i</text>
-                </svg>
-              </button>
-            </div>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" [checked]="isRecordingNoticeEnabled" (change)="toggleRecordingNotice()"
-                class="sr-only peer" />
-              <div
-                class="w-11 h-6 lg:w-9 lg:h-5 3xl:w-12 3xl:h-6 bg-gray-300 dark:bg-slate-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-gray-900 dark:peer-focus:ring-blue-500 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] lg:after:top-[1px] lg:after:left-[1px] 3xl:after:top-[2px] 3xl:after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 lg:after:h-4 lg:after:w-4 3xl:after:h-5 3xl:after:w-5 after:transition-all peer-checked:bg-gray-900 dark:peer-checked:bg-blue-600">
-              </div>
-            </label>
-          </div>
-
-          <!-- Texto de aviso de grabación -->
-          @if (isRecordingNoticeEnabled) {
-          <div
-            class="mt-3 lg:mt-2 p-3 lg:p-2 rounded-lg bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700">
-            <p class="text-sm lg:text-xs 3xl:text-sm text-gray-600 dark:text-slate-400 leading-relaxed">
-              Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más
-              información sobre el tratamiento de sus datos en nuestra política de privacidad.
-            </p>
-          </div>
-          }
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Botones -->
-    <div
-      class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
-      <button (click)="goBack()"
-        class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="z-index:10;">
-        <svg
-          class="w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:-translate-x-1 3xl:-translate-y-[1.3px]"
-          viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
-
-
-      <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
-        (click)="onSubmitAdvancedSettings()">
-        Continuar
-      </button>
-
-      <div></div>
-    </div>
-  </div>
-  }
 
   @if (step === 'final') {
   <div
@@ -1737,4 +1547,134 @@
   </div>
   }
 
+  <!-- Sidebar Negro (Derecha) -->
+  <div class="fixed inset-0 z-[10001] pointer-events-none" [class.pointer-events-auto]="isSidebarOpen">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/50 transition-opacity duration-300 pointer-events-auto"
+      [class.opacity-0]="!isSidebarOpen" [class.pointer-events-none]="!isSidebarOpen" [class.hidden]="!isSidebarOpen"
+      (click)="closeSidebar()">
+    </div>
+
+    <!-- Sidebar -->
+    <aside
+      class="absolute top-0 right-0 h-full w-full max-w-[320px] bg-[#111111] text-white shadow-2xl transition-transform duration-300 transform pointer-events-auto"
+      [class.translate-x-full]="!isSidebarOpen" [class.translate-x-0]="isSidebarOpen">
+
+      <div class="p-4 h-full flex flex-col">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-[13px] font-medium font-[Poppins] text-white/90">Configuración de Agente</h2>
+          <button (click)="closeSidebar()"
+            class="p-1.5 hover:bg-white/10 rounded-lg transition-colors text-white/60 hover:text-white">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto scrollbar-hide">
+          <div class="space-y-5 mt-1">
+            <!-- Slider: Tiempo de espera de inactividad -->
+            <div class="space-y-3">
+              <label class="block text-[11px] font-medium text-white/70">Tiempo de espera de inactividad</label>
+
+              <div class="relative pt-0.5">
+                <div class="flex justify-between mb-1.5 px-0.5">
+                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Corto</span>
+                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Largo</span>
+                </div>
+                <input type="range" [(ngModel)]="inactivityTimeout" min="0" max="100"
+                  class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
+                  [style.background]="'linear-gradient(to right, #3b82f6 ' + inactivityTimeout + '%, rgba(255, 255, 255, 0.1) ' + inactivityTimeout + '%)'" />
+              </div>
+            </div>
+
+            <!-- Slider: Duración máxima de llamada -->
+            <div class="space-y-3 pt-1">
+              <label class="block text-[11px] font-medium text-white/70">Duración máxima de llamada</label>
+
+              <div class="relative pt-0.5">
+                <div class="flex justify-between mb-1.5 px-0.5">
+                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Corta</span>
+                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Larga</span>
+                </div>
+                <input type="range" [(ngModel)]="maxCallDuration" min="0" max="100"
+                  class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
+                  [style.background]="'linear-gradient(to right, #3b82f6 ' + maxCallDuration + '%, rgba(255, 255, 255, 0.1) ' + maxCallDuration + '%)'" />
+              </div>
+            </div>
+
+            <!-- Slider: Velocidad de conversación -->
+            <div class="space-y-3 pt-1">
+              <label class="block text-[11px] font-medium text-white/70">Velocidad de conversación</label>
+
+              <div class="relative pt-0.5">
+                <div class="flex justify-between mb-1.5 px-0.5">
+                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Lento</span>
+                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Muy rápido</span>
+                </div>
+                <input type="range" [(ngModel)]="agentSpeed" min="0" max="100"
+                  class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
+                  [style.background]="'linear-gradient(to right, #3b82f6 ' + agentSpeed + '%, rgba(255, 255, 255, 0.1) ' + agentSpeed + '%)'" />
+              </div>
+            </div>
+
+            <!-- Slider: Temperatura del LLM -->
+            <div class="space-y-3 pt-1">
+              <label class="block text-[11px] font-medium text-white/70">Temperatura del LLM</label>
+
+              <div class="relative pt-0.5">
+                <div class="flex justify-between mb-1.5 px-0.5">
+                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Baja</span>
+                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Alta</span>
+                </div>
+                <input type="range" [(ngModel)]="llmTemperature" min="0" max="100"
+                  class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
+                  [style.background]="'linear-gradient(to right, #3b82f6 ' + llmTemperature + '%, rgba(255, 255, 255, 0.1) ' + llmTemperature + '%)'" />
+              </div>
+            </div>
+
+            <!-- Toggle: Mensaje de aviso de grabación -->
+            <div class="space-y-3 pt-3 border-t border-white/5">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <label class="text-[11px] font-medium text-white/70">Mensaje de aviso de grabación</label>
+                  <svg class="w-3 h-3 text-white/30 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <!-- Toggle Switch -->
+                <button (click)="isRecordingNoticeEnabled = !isRecordingNoticeEnabled"
+                  class="relative inline-flex h-[18px] w-8 items-center rounded-full transition-colors duration-200 focus:outline-none"
+                  [style.backgroundColor]="isRecordingNoticeEnabled ? '#2563eb' : 'rgba(255, 255, 255, 0.1)'">
+                  <span
+                    class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform duration-200"
+                    [style.transform]="isRecordingNoticeEnabled ? 'translateX(16px)' : 'translateX(2px)'"></span>
+                </button>
+              </div>
+
+              <!-- Textarea: Mensaje de aviso -->
+              @if (isRecordingNoticeEnabled) {
+              <div class="animate-in fade-in slide-in-from-top-2 duration-200">
+                <div class="w-full bg-white/5 border border-white/10 rounded-lg p-3">
+                  <p class="text-[10px] text-white/50 leading-relaxed italic">
+                    {{ recordingNoticeText }}
+                  </p>
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón de Confirmación -->
+        <div class="pt-4 mt-auto">
+          <button (click)="confirmVoiceSelection()"
+            class="w-full py-2.5 bg-[#1B2559] hover:bg-blue-800 text-white text-[11px] font-medium rounded-lg transition-all duration-200 shadow-lg shadow-blue-900/20 active:scale-[0.98] border border-white/5">
+            Confirmar y Continuar
+          </button>
+        </div>
+      </div>
+    </aside>
+  </div>
 </div>

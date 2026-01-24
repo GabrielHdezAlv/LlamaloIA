@@ -24,8 +24,8 @@
         <div class="flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5">
           <div
             class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-white dark:bg-white/10 shadow-[0_12px_30px_rgba(15,23,42,0.18)] flex items-center justify-center">
-            <img src="assets/logo.png" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto dark:hidden" />
-            <img src="assets/logo_blanco.png" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto hidden dark:block" />
+            <img src="assets/logo.webp" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto dark:hidden" />
+            <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto hidden dark:block" />
           </div>
           <div class="flex flex-col leading-none mt-0.5">
             <span
@@ -294,8 +294,8 @@
         <div class="flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5">
           <div
             class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-white dark:bg-white/10 shadow-[0_12px_30px_rgba(15,23,42,0.18)] flex items-center justify-center">
-            <img src="assets/logo.png" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto dark:hidden" />
-            <img src="assets/logo_blanco.png" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto hidden dark:block" />
+            <img src="assets/logo.webp" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto dark:hidden" />
+            <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto hidden dark:block" />
           </div>
           <div class="flex flex-col leading-none mt-0.5">
             <span
@@ -599,7 +599,7 @@
 
     <!-- Paso 3: pantalla de bienvenida ocupando TODA la pantalla -->
     <div *ngSwitchCase="3"
-      class="relative w-full h-full bg-cover bg-no-repeat bg-[url('/assets/fondo_onboarding2.png')] bg-[position:center_-140px] dark:bg-[url('/assets/fondo_modo_oscuro2.jpg')] dark:bg-center">
+      class="relative w-full h-full bg-cover bg-no-repeat bg-[url('/assets/fondo_onboarding2.webp')] bg-[position:center_-140px] dark:bg-[url('/assets/fondo_modo_oscuro2.jpg')] dark:bg-center">
       <!-- Capa oscura negra y suave encima del fondo -->
       <div class="absolute inset-0 bg-black/5 ll-hero-bg-fade"></div>
 
@@ -608,7 +608,7 @@
         class="absolute bottom-16 sm:bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center text-center text-white px-6">
         <!-- Logo normal centrado (sin recuadro) -->
         <div class="mb-16 sm:mb-20 md:mb-24 ll-hero-fade-up ll-hero-delay-1">
-          <img src="assets/logo.png" alt="Llamalo Logo" class="h-20 sm:h-24 md:h-28 w-auto mx-auto" />
+          <img src="assets/logo.webp" alt="Llamalo Logo" class="h-20 sm:h-24 md:h-28 w-auto mx-auto" />
         </div>
 
         <!-- Título más grande -->
@@ -642,12 +642,12 @@
 
     <!-- Imagen principal -->
     <!-- Imagen principal modo claro -->
-    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard.png' : '/assets/imagen1_onboarding.png'" alt="Onboarding"
+    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard.webp' : '/assets/imagen1_onboarding.webp'" alt="Onboarding"
       class="absolute bottom-0 right-0 h-auto transition-opacity duration-500 ease-out dark:hidden"
       [ngClass]="rightImageStep === 2 ? 'w-[9470px]' : 'w-[130%]'" [class.opacity-0]="isRightImageFading"
       [class.opacity-100]="!isRightImageFading" />
     <!-- Imagen principal modo oscuro (nuevas *_oscuro) -->
-    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard_oscuro.png' : '/assets/imagen1_onboarding_oscuro.png'"
+    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard_oscuro.webp' : '/assets/imagen1_onboarding_oscuro.webp'"
       alt="Onboarding oscuro"
       class="absolute bottom-0 right-0 h-auto transition-opacity duration-500 ease-out hidden dark:block"
       [ngClass]="rightImageStep === 2 ? 'w-[9470px]' : 'w-[130%]'" [class.opacity-0]="isRightImageFading"

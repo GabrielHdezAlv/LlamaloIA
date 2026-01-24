@@ -30,16 +30,16 @@ export class AccountComponent implements OnInit {
   
   // Avatares predeterminados
   defaultAvatars = [
-    'assets/animoji_1.png',
-    'assets/animoji_2.png',
-    'assets/animoji_3.png',
-    'assets/animoji_4.png',
-    'assets/animoji_5.png',
-    'assets/animoji_6.png',
-    'assets/animoji_7.png',
-    'assets/animoji_8.png',
-    'assets/animoji_9.png',
-    'assets/animoji_10.png',
+    'assets/animoji_1.webp',
+    'assets/animoji_2.webp',
+    'assets/animoji_3.webp',
+    'assets/animoji_4.webp',
+    'assets/animoji_5.webp',
+    'assets/animoji_6.webp',
+    'assets/animoji_7.webp',
+    'assets/animoji_8.webp',
+    'assets/animoji_9.webp',
+    'assets/animoji_10.webp',
     
     
   ];
