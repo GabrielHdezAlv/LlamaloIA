@@ -22,16 +22,15 @@
       <div class="w-full max-w-[480px] h-full flex flex-col px-4 sm:px-5 md:px-6 py-4 sm:py-5 md:py-6 overflow-y-auto">
         <!-- Logo tipo app icon + texto "Llamalo beta" -->
         <div class="flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5">
-          <div
-            class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-white dark:bg-white/10 shadow-[0_12px_30px_rgba(15,23,42,0.18)] flex items-center justify-center">
-            <img src="assets/logo.webp" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto dark:hidden" />
-            <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto hidden dark:block" />
+          <div class="flex items-center justify-center">
+            <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-7 sm:h-8 w-auto dark:hidden" />
+            <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-7 sm:h-8 w-auto hidden dark:block" />
           </div>
-          <div class="flex flex-col leading-none mt-0.5">
+          <div class="flex flex-row items-baseline gap-1 leading-none">
             <span
-              class="brand-font onboarding-logo-text text-xl sm:text-2xl font-bold text-blue-950 dark:text-white  mt-1">Llamalo</span>
+              class="font-poppins onboarding-logo-text text-xl sm:text-2xl font-bold text-blue-950 dark:text-white">Llamalo</span>
             <span
-              class="brand-font text-[6px] sm:text-[7px] text-end text-gray-700 dark:text-slate-300 font-bold -mt-1 block tracking-[-0.02em]">
+              class="font-poppins text-[8px] sm:text-[9px] text-gray-700 dark:text-slate-300 font-bold block tracking-[-0.02em]">
               beta
             </span>
           </div>
@@ -292,16 +291,15 @@
       <div class="w-full max-w-[480px] h-full flex flex-col px-4 sm:px-5 md:px-6 py-4 sm:py-5 md:py-6 overflow-y-auto">
         <!-- Logo tipo app icon + texto "Llamalo beta" - SIN animación -->
         <div class="flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-5">
-          <div
-            class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-white dark:bg-white/10 shadow-[0_12px_30px_rgba(15,23,42,0.18)] flex items-center justify-center">
-            <img src="assets/logo.webp" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto dark:hidden" />
-            <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-5 sm:h-6 w-auto hidden dark:block" />
+          <div class="flex items-center justify-center">
+            <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-7 sm:h-8 w-auto dark:hidden" />
+            <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-7 sm:h-8 w-auto hidden dark:block" />
           </div>
-          <div class="flex flex-col leading-none mt-0.5">
+          <div class="flex flex-row items-baseline gap-1 leading-none">
             <span
-              class="brand-font onboarding-logo-text text-xl sm:text-2xl font-bold text-blue-950 dark:text-white  mt-1">Llamalo</span>
+              class="font-poppins onboarding-logo-text text-xl sm:text-2xl font-bold text-blue-950 dark:text-white">Llamalo</span>
             <span
-              class="brand-font text-[6px] sm:text-[7px] text-end text-gray-700 dark:text-slate-300 font-bold -mt-1 block tracking-[-0.02em]">
+              class="font-poppins text-[8px] sm:text-[9px] text-gray-700 dark:text-slate-300 font-bold block tracking-[-0.02em]">
               beta
             </span>
           </div>
@@ -608,7 +606,7 @@
         class="absolute bottom-16 sm:bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center text-center text-white px-6">
         <!-- Logo normal centrado (sin recuadro) -->
         <div class="mb-16 sm:mb-20 md:mb-24 ll-hero-fade-up ll-hero-delay-1">
-          <img src="assets/logo.webp" alt="Llamalo Logo" class="h-20 sm:h-24 md:h-28 w-auto mx-auto" />
+          <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-20 sm:h-24 md:h-28 w-auto mx-auto" />
         </div>
 
         <!-- Título más grande -->
@@ -642,8 +640,8 @@
 
     <!-- Imagen principal -->
     <!-- Imagen principal modo claro -->
-    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard.webp' : '/assets/imagen1_onboarding.webp'" alt="Onboarding"
-      class="absolute bottom-0 right-0 h-auto transition-opacity duration-500 ease-out dark:hidden"
+    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard.webp' : '/assets/imagen1_onboarding.webp'"
+      alt="Onboarding" class="absolute bottom-0 right-0 h-auto transition-opacity duration-500 ease-out dark:hidden"
       [ngClass]="rightImageStep === 2 ? 'w-[9470px]' : 'w-[130%]'" [class.opacity-0]="isRightImageFading"
       [class.opacity-100]="!isRightImageFading" />
     <!-- Imagen principal modo oscuro (nuevas *_oscuro) -->

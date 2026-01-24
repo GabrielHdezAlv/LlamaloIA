@@ -304,14 +304,18 @@
   // Inputs - fondo gris #262626
   input.dark\:bg-slate-800,
   textarea.dark\:bg-slate-800,
-  select.dark\:bg-slate-800 {
+  select.dark\:bg-slate-800,
+  div.dark\:bg-slate-800,
+  ul.dark\:bg-slate-800 {
     background-color: #262626 !important; // color gris #262626
   }
 
   // Bordes de inputs - mismo gris que el borde del recuadro (gray-800)
   input.dark\:border-slate-600,
   textarea.dark\:border-slate-600,
-  select.dark\:border-slate-600 {
+  select.dark\:border-slate-600,
+  div.dark\:border-slate-600,
+  ul.dark\:border-slate-600 {
     border-color: #3a3a3a !important; // gray-800 (igual que dark:border-gray-800 del recuadro)
   }
 
@@ -653,11 +657,21 @@
 /* Sidebar Specific Styles */
 aside {
   z-index: 60;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 1px solid var(--sidebar-border);
 
   h2 {
     font-family: 'Poppins', sans-serif !important;
   }
+}
+
+:host {
+  --slider-track: rgba(0, 0, 0, 0.1);
+  --sidebar-border: rgba(0, 0, 0, 0.1);
+}
+
+:host-context(html.dark) {
+  --slider-track: rgba(255, 255, 255, 0.1);
+  --sidebar-border: rgba(255, 255, 255, 0.1);
 }
 
 .custom-slider {

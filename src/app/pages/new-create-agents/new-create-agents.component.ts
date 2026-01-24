@@ -213,6 +213,15 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   greeting = 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
   template = '';
   instructions = '';
+  showExpandInstructionsModal = false;
+
+  openExpandInstructionsModal() {
+    this.showExpandInstructionsModal = true;
+  }
+
+  closeExpandInstructionsModal() {
+    this.showExpandInstructionsModal = false;
+  }
   agentName: string = '';
 
   // Modal de generar prompt con IA
@@ -263,7 +272,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         const mappedVoices = backendVoices.map((voice: Voice) => {
           // Buscar si existe una voz con el mismo nombre en las voces por defecto para mantener imagen y descripción
           const defaultVoice = this.voices.find(v => v.name.toLowerCase() === voice.name.toLowerCase());
-          
+
           return {
             id: defaultVoice?.id || voice.voiceId, // Mantener el id original si existe, sino usar voiceId
             voiceId: voice.voiceId, // Agregar el voiceId del backend
@@ -277,10 +286,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
         // Mantener la opción de "Clonar voz" al inicio y agregar las voces del backend
         const customVoiceOption = this.voices.find(v => v.isCustom);
-        this.voices = customVoiceOption 
+        this.voices = customVoiceOption
           ? [customVoiceOption, ...mappedVoices]
           : mappedVoices;
-        
+
         this.voicesLoaded = true;
         console.log('Voces cargadas:', this.voices);
       },
@@ -876,10 +885,12 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     const target = event.target as HTMLElement;
     if (!target) return;
 
-    const dropdown = target.closest('.w-32.h-14');
+    // Buscar si el click fue dentro del dropdown o del menú
+    const dropdown = target.closest('[class*="w-28"]') || target.closest('[class*="w-36"]');
     const menu = target.closest('ul');
     const menuItem = target.closest('li');
 
+    // Solo cerrar si el click fue fuera del dropdown y del menú
     if (!dropdown && !menu && !menuItem) {
       this.showCountryMenu = false;
     }

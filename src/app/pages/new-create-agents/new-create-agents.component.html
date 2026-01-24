@@ -17,7 +17,7 @@
   <div
     class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <h2
-      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0.5 sm:mb-0.5 md:mb-1 lg:mb-1 xl:mb-1 2xl:mb-1 3xl:mb-1  sm: md: lg:">
+      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
       Nombre del Agente</h2>
     <p
       class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-200 mb-2 sm:mb-3 md:mb-4 lg:mb-2 xl:mb-2 2xl:mb-2 3xl:mb-2 max-w-2xl mx-auto  sm: md: px-2 sm:px-4">
@@ -26,12 +26,12 @@
     <div class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide"
       style="scrollbar-width: none; -ms-overflow-style: none;">
       <div
-        class="max-w-xl w-full mx-auto px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 mt-4 sm:mt-5 md:mt-6 lg:mt-20 xl:mt-20 2xl:mt-20">
+        class="max-w-xl w-full mx-auto px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 mt-4 sm:mt-5 md:mt-6 lg:mt-[8rem] xl:mt-[8rem] 2xl:mt-[8rem]">
         <label
           class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-black dark:text-slate-200 mb-1.5 lg:mb-2 xl:mb-2 2xl:mb-2 3xl:mb-2.5">Nombre
           del agente</label>
         <input type="text" [(ngModel)]="agentName" placeholder="Ej. Carla Ventas"
-          class="w-full px-3.5 sm:px-4 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-5 py-2.5 sm:py-3 md:py-3.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-700 dark:text-slate-200" />
+          class="w-full px-3.5 sm:px-4 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-5 py-2.5 sm:py-3 md:py-3.5 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl lg:rounded-xl xl:rounded-xl 2xl:rounded-xl 3xl:rounded-2xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-lg text-gray-700 dark:text-slate-200" />
       </div>
     </div>
 
@@ -826,7 +826,7 @@
   <div
     class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <h2
-      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0.5 sm:mb-0.5 md:mb-1 lg:mb-1 xl:mb-1 2xl:mb-1 3xl:mb-1  sm: md: lg:">
+      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
       Instrucciones
     </h2>
 
@@ -841,23 +841,7 @@
       <!-- Mensaje de saludo -->
       <div class="mb-3 sm:mb-4 md:mb-5 lg:mb-3 xl:mb-3 2xl:mb-3 px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3">
         <label
-          class="flex items-center gap-2 text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base font-medium text-black dark:text-slate-200 mb-1 lg:mb-0.5 3xl:mb-2">
-          <svg class="w-5 h-5 lg:w-4.5 lg:h-4.5 3xl:w-6 3xl:h-6" viewBox="0 0 24 24" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-            <g id="SVGRepo_iconCarrier">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M4.41377 17.859C4.77159 17.6504 5.23081 17.7713 5.43947 18.1291C6.26633 19.5471 7.53043 20.6193 9.0893 21.3151C9.46755 21.4839 9.63733 21.9274 9.46851 22.3057C9.29969 22.6839 8.85621 22.8537 8.47796 22.6849C6.66645 21.8764 5.14664 20.6046 4.14369 18.8847C3.93503 18.5269 4.05595 18.0677 4.41377 17.859Z"
-                fill="currentColor"></path>
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M18.9058 3.92194C17.8919 2.88646 16.4459 2.50452 15.0303 2.9073C14.6319 3.02066 14.2171 2.78959 14.1037 2.39119C13.9904 1.99279 14.2214 1.57792 14.6198 1.46456C16.558 0.913072 18.5745 1.43959 19.9775 2.8725C20.2673 3.16846 20.2623 3.64331 19.9664 3.9331C19.6704 4.2229 19.1956 4.2179 18.9058 3.92194Z"
-                fill="currentColor"></path>
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M11.1901 3.30839C10.9761 2.94131 10.3523 2.7187 9.71858 3.08085C9.08722 3.44168 8.97618 4.07772 9.18651 4.4384L11.7122 8.76952C11.9208 9.12734 11.7999 9.58656 11.4421 9.79522C11.0843 10.0039 10.6251 9.88296 10.4164 9.52514L7.04885 3.75032C6.83479 3.38324 6.21098 3.16063 5.57731 3.52278C4.94595 3.88361 4.83491 4.51965 5.04525 4.88033L8.83373 11.377C9.04239 11.7348 8.92147 12.1941 8.56365 12.4027C8.20583 12.6114 7.74661 12.4905 7.53795 12.1326L5.85418 9.24522C5.64012 8.87814 5.01631 8.65553 4.38264 9.01768C3.75128 9.37851 3.64024 10.0145 3.85058 10.3752L7.63906 16.8719C9.248 19.631 13.2184 20.5264 16.5853 18.6021C19.95 16.6792 21.146 12.8377 19.5408 10.085L17.0152 5.75387C16.8011 5.38679 16.1773 5.16418 15.5436 5.52633C14.9123 5.88716 14.8012 6.5232 15.0116 6.88389L16.6953 9.7713C16.7961 9.94411 16.8237 10.15 16.7719 10.3432C16.7201 10.5365 16.5933 10.701 16.4196 10.8003C14.8771 11.6818 14.4044 13.3863 15.0797 14.5443C15.2884 14.9022 15.1675 15.3614 14.8096 15.57C14.4518 15.7787 13.9926 15.6578 13.7839 15.3C12.8712 13.7348 13.24 11.8501 14.4189 10.5181C14.7485 10.1457 14.8613 9.60396 14.6108 9.17438L11.1901 3.30839Z"
-                fill="currentColor"></path>
-            </g>
-          </svg>
+          class="flex items-center gap-2 text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base font-medium text-black dark:text-slate-200 mb-1 lg:mb-2.5 3xl:mb-3">
           Define un saludo personalizado
         </label>
         <input type="text" [(ngModel)]="greeting" placeholder="Hola, gracias por llamar a..."
@@ -866,16 +850,20 @@
 
       <!-- Título de instrucciones (sin selector) -->
       <div
-        class="mb-2 sm:mb-2.5 md:mb-3 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 w-full sm:w-80 px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3">
+        class="mb-2 sm:mb-2.5 md:mb-3 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 w-full px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 flex items-center justify-between">
         <div class="flex items-center gap-2 text-black dark:text-slate-200">
-          <svg class="w-4 h-4 lg:w-3.5 lg:h-3.5 3xl:w-5 3xl:h-5" viewBox="0 0 28 28" fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M18,24 L2,24 C0.896,24 0,24.896 0,26 C0,27.104 0.896,28 2,28 L18,28 C19.104,28 20,27.104 20,26 C20,24.896 19.104,24 18,24 L18,24 Z M26,16 L2,16 C0.896,16 0,16.896 0,18 C0,19.104 0.896,20 2,20 L26,20 C27.104,20 28,19.104 28,18 C28,16.896 27.104,16 26,16 L26,16 Z M2,12 L18,12 C19.104,12 20,11.104 20,10 C20,8.896 19.104,8 18,8 L2,8 C0.896,8 0,8.896 0,10 C0,11.104 0.896,12 2,12 L2,12 Z M2,4 L26,4 C27.104,4 28,3.104 28,2 C28,0.896 27.104,0 26,0 L2,0 C0.896,0 0,0.896 0,2 C0,3.104 0.896,4 2,4 L2,4 Z" />
-          </svg>
           <label class="block text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base font-medium">Instrucciones
             del agente</label>
         </div>
+        <!-- Botón para expandir -->
+        <button (click)="openExpandInstructionsModal()"
+          class="ml-auto p-1 text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
+          title="Expandir vista">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
       </div>
 
       <!-- Textarea para instrucciones -->
@@ -883,7 +871,7 @@
         class="mb-4 sm:mb-6 md:mb-10 lg:mb-3 xl:mb-3 2xl:mb-3 px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 flex flex-col relative">
         <!-- Textarea -->
         <textarea [(ngModel)]="instructions" placeholder="Escribe aquí..."
-          class="w-full px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-5 py-2 sm:py-2.5 md:py-3 lg:py-2 3xl:py-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 rounded-lg sm:rounded-[1rem] lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:outline-none focus:ring-0 dark:focus:ring-0 h-32 sm:h-36 md:h-44 lg:h-32 3xl:h-40 resize-none text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base dark:text-slate-200 instructions-scroll"></textarea>
+          class="w-full px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-5 py-2 sm:py-2.5 md:py-3 lg:py-2 3xl:py-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 rounded-lg sm:rounded-[1rem] lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:outline-none focus:ring-0 dark:focus:ring-0 h-48 sm:h-52 md:h-64 lg:h-48 3xl:h-64 resize-none text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base dark:text-slate-200 instructions-scroll"></textarea>
 
         <!-- Botón Generar con IA en esquina inferior derecha -->
         <div
@@ -949,7 +937,7 @@
   <div
     class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <h2
-      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0.5 sm:mb-0.5 md:mb-1 lg:mb-1 xl:mb-1 2xl:mb-1 3xl:mb-1  sm: md: lg:">
+      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
       Añadir Acciones</h2>
 
     <p
@@ -1032,7 +1020,7 @@
   <div
     class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <h2
-      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0.5 sm:mb-0.5 md:mb-1 lg:mb-1 xl:mb-1 2xl:mb-1 3xl:mb-1  sm: md: lg:">
+      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
       Base de Conocimientos</h2>
 
     <p
@@ -1151,7 +1139,7 @@
     class="bg-white dark:bg-black rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <!-- Título y descripción -->
     <h2
-      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0.5 sm:mb-0.5 md:mb-1 lg:mb-1 xl:mb-1 2xl:mb-1 3xl:mb-1  sm: md: lg:">
+      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
       Prueba Agente</h2>
     <p
       class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-200 mb-2 sm:mb-3 md:mb-4 lg:mb-2 xl:mb-2 2xl:mb-2 3xl:mb-2 max-w-4xl mx-auto px-2 sm:px-4">
@@ -1246,7 +1234,7 @@
     class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <!-- Título principal -->
     <h2
-      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0.5 sm:mb-0.5 md:mb-1 lg:mb-1 xl:mb-1 2xl:mb-1 3xl:mb-1  sm: md: lg: px-2 sm:px-3 md:px-4">
+      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg: px-2 sm:px-3 md:px-4">
       Conectar Número de Teléfono
     </h2>
     <p id="twilio-subtitle"
@@ -1269,7 +1257,7 @@
     <div class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide"
       style="scrollbar-width: none; -ms-overflow-style: none;">
       <!-- Contenido principal: Formulario centrado -->
-      <div class="max-w-2xl mx-auto px-2 sm:px-4 md:px-6 lg:px-5 xl:px-5 2xl:px-5 pt-3 sm:pt-4 md:pt-5 lg:pt-2">
+      <div class="max-w-xl mx-auto px-2 sm:px-4 md:px-6 lg:px-5 xl:px-5 2xl:px-5 pt-3 sm:pt-4 md:pt-5 lg:pt-12">
         <form class="space-y-4 sm:space-y-5 lg:space-y-3 3xl:space-y-4">
           <!-- Número de teléfono -->
           <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2">
@@ -1280,7 +1268,7 @@
             <div class="flex items-center relative">
               <!-- Dropdown personalizado -->
               <div (click)="toggleCountryMenu()"
-                class="w-28 h-8 sm:h-9 md:h-10 lg:h-8 3xl:w-36 3xl:h-11 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 border-r-0 rounded-l-lg px-2.5 sm:px-3 md:px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
+                class="w-28 h-10 sm:h-11 md:h-12 lg:h-11 3xl:w-36 3xl:h-12 bg-white dark:bg-slate-800 border-2 border-r-0 border-gray-200 dark:border-slate-600 rounded-l-lg px-2.5 sm:px-3 md:px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
                 <div class="flex items-center gap-1.5 lg:gap-1 3xl:gap-2">
                   <svg id="current-flag" width="16" height="11" viewBox="0 0 20 12" fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -1348,7 +1336,7 @@
 
               <!-- Input de número -->
               <input type="tel" id="phone" placeholder="630 00 00 00"
-                class="flex-1 h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+                class="flex-1 h-10 sm:h-11 md:h-12 lg:h-11 3xl:h-12 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
             </div>
           </div>
 
@@ -1361,7 +1349,7 @@
                 Account SID de Twilio <span class="text-red-500 ml-1">*</span>
               </label>
               <input type="text" id="sid" placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+                class="w-full h-10 sm:h-11 md:h-12 lg:h-11 3xl:h-12 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
             </div>
 
             <!-- Twilio Auth Token -->
@@ -1371,7 +1359,7 @@
                 Auth Token de Twilio <span class="text-red-500 ml-1">*</span>
               </label>
               <input type="password" id="token" placeholder="Tu token de autenticación"
-                class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+                class="w-full h-10 sm:h-11 md:h-12 lg:h-11 3xl:h-12 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
             </div>
           </div>
 
@@ -1383,7 +1371,7 @@
                 class="text-gray-500 dark:text-slate-400 text-[10px] sm:text-xs lg:text-[9px] 3xl:text-sm font-normal ml-1">(opcional)</span>
             </label>
             <input type="text" id="label" placeholder="Ej: Oficina Principal, Ventas, etc."
-              class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+              class="w-full h-10 sm:h-11 md:h-12 lg:h-11 3xl:h-12 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
           </div>
 
           <!-- Selección de número importado -->
@@ -1455,14 +1443,15 @@
     class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6 sm:p-8 md:p-12 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none relative flex flex-col"
     style="overflow: hidden;">
     <h2
-      class="text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1 sm:mb-1 md:mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-3  sm: md: lg: px-2 sm:px-4">
+      class="text-xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg: px-2 sm:px-4">
       Creando Agente</h2>
     <p
       class="text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-700 dark:text-slate-300 mb-4 sm:mb-6 md:mb-8 lg:mb-3 xl:mb-3 2xl:mb-3 3xl:mb-4 max-w-2xl mx-auto px-2 sm:px-4">
       No cierres esta ventana mientras se crea tu agente
     </p>
     <div class="flex-1 flex items-center justify-center">
-      <div #lottieContainer class="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-48 lg:h-48 3xl:w-64 3xl:h-64"></div>
+      <div #lottieContainer
+        class="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[380px] lg:h-[380px] 3xl:w-[500px] 3xl:h-[500px]"></div>
     </div>
   </div>
   }
@@ -1497,7 +1486,7 @@
 
   <!-- Modal de Generar Prompt con IA -->
   @if (showGeneratePromptModal) {
-  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[10000] flex items-center justify-center p-4 fade-in-overlay"
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[10002] flex items-center justify-center p-4 fade-in-overlay"
     (click)="closeGeneratePromptModal()">
     <div
       class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl border-2 border-gray-200 dark:border-slate-400 max-w-2xl w-full max-h-[90vh] overflow-y-auto fade-in-content"
@@ -1557,14 +1546,15 @@
 
     <!-- Sidebar -->
     <aside
-      class="absolute top-0 right-0 h-full w-full max-w-[320px] bg-[#111111] text-white shadow-2xl transition-transform duration-300 transform pointer-events-auto"
+      class="absolute top-0 right-0 h-full w-full max-w-[320px] bg-white dark:bg-[#111111] text-gray-900 dark:text-white shadow-2xl transition-transform duration-300 transform pointer-events-auto rounded-l-[1.5rem] sm:rounded-l-[1.5rem] overflow-hidden"
       [class.translate-x-full]="!isSidebarOpen" [class.translate-x-0]="isSidebarOpen">
 
       <div class="p-4 h-full flex flex-col">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-[13px] font-medium font-[Poppins] text-white/90">Configuración de Agente</h2>
+          <h2 class="text-[13px] font-medium font-[Poppins] text-gray-800 dark:text-white/90">Configuración de Agente
+          </h2>
           <button (click)="closeSidebar()"
-            class="p-1.5 hover:bg-white/10 rounded-lg transition-colors text-white/60 hover:text-white">
+            class="p-1.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-colors text-gray-400 dark:text-white/60 hover:text-gray-900 dark:hover:text-white">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
@@ -1575,70 +1565,83 @@
           <div class="space-y-5 mt-1">
             <!-- Slider: Tiempo de espera de inactividad -->
             <div class="space-y-3">
-              <label class="block text-[11px] font-medium text-white/70">Tiempo de espera de inactividad</label>
+              <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Tiempo de espera de
+                inactividad</label>
 
               <div class="relative pt-0.5">
                 <div class="flex justify-between mb-1.5 px-0.5">
-                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Corto</span>
-                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Largo</span>
+                  <span
+                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Corto</span>
+                  <span
+                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Largo</span>
                 </div>
                 <input type="range" [(ngModel)]="inactivityTimeout" min="0" max="100"
                   class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
-                  [style.background]="'linear-gradient(to right, #3b82f6 ' + inactivityTimeout + '%, rgba(255, 255, 255, 0.1) ' + inactivityTimeout + '%)'" />
+                  [style.background]="'linear-gradient(to right, #3b82f6 ' + inactivityTimeout + '%, var(--slider-track) ' + inactivityTimeout + '%)'" />
               </div>
             </div>
 
             <!-- Slider: Duración máxima de llamada -->
             <div class="space-y-3 pt-1">
-              <label class="block text-[11px] font-medium text-white/70">Duración máxima de llamada</label>
+              <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Duración máxima de
+                llamada</label>
 
               <div class="relative pt-0.5">
                 <div class="flex justify-between mb-1.5 px-0.5">
-                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Corta</span>
-                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Larga</span>
+                  <span
+                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Corta</span>
+                  <span
+                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Larga</span>
                 </div>
                 <input type="range" [(ngModel)]="maxCallDuration" min="0" max="100"
                   class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
-                  [style.background]="'linear-gradient(to right, #3b82f6 ' + maxCallDuration + '%, rgba(255, 255, 255, 0.1) ' + maxCallDuration + '%)'" />
+                  [style.background]="'linear-gradient(to right, #3b82f6 ' + maxCallDuration + '%, var(--slider-track) ' + maxCallDuration + '%)'" />
               </div>
             </div>
 
             <!-- Slider: Velocidad de conversación -->
             <div class="space-y-3 pt-1">
-              <label class="block text-[11px] font-medium text-white/70">Velocidad de conversación</label>
+              <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Velocidad de
+                conversación</label>
 
               <div class="relative pt-0.5">
                 <div class="flex justify-between mb-1.5 px-0.5">
-                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Lento</span>
-                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Muy rápido</span>
+                  <span
+                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Lento</span>
+                  <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Muy
+                    rápido</span>
                 </div>
                 <input type="range" [(ngModel)]="agentSpeed" min="0" max="100"
                   class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
-                  [style.background]="'linear-gradient(to right, #3b82f6 ' + agentSpeed + '%, rgba(255, 255, 255, 0.1) ' + agentSpeed + '%)'" />
+                  [style.background]="'linear-gradient(to right, #3b82f6 ' + agentSpeed + '%, var(--slider-track) ' + agentSpeed + '%)'" />
               </div>
             </div>
 
             <!-- Slider: Temperatura del LLM -->
             <div class="space-y-3 pt-1">
-              <label class="block text-[11px] font-medium text-white/70">Temperatura del LLM</label>
+              <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Temperatura del LLM</label>
 
               <div class="relative pt-0.5">
                 <div class="flex justify-between mb-1.5 px-0.5">
-                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Baja</span>
-                  <span class="text-[9px] uppercase tracking-wider text-white/40 font-semibold">Alta</span>
+                  <span
+                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Baja</span>
+                  <span
+                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Alta</span>
                 </div>
                 <input type="range" [(ngModel)]="llmTemperature" min="0" max="100"
                   class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
-                  [style.background]="'linear-gradient(to right, #3b82f6 ' + llmTemperature + '%, rgba(255, 255, 255, 0.1) ' + llmTemperature + '%)'" />
+                  [style.background]="'linear-gradient(to right, #3b82f6 ' + llmTemperature + '%, var(--slider-track) ' + llmTemperature + '%)'" />
               </div>
             </div>
 
             <!-- Toggle: Mensaje de aviso de grabación -->
-            <div class="space-y-3 pt-3 border-t border-white/5">
+            <div class="space-y-3 pt-3 border-t border-gray-100 dark:border-white/5">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                  <label class="text-[11px] font-medium text-white/70">Mensaje de aviso de grabación</label>
-                  <svg class="w-3 h-3 text-white/30 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <label class="text-[11px] font-medium text-gray-600 dark:text-white/70">Mensaje de aviso de
+                    grabación</label>
+                  <svg class="w-3 h-3 text-gray-400 dark:text-white/30 cursor-help" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                   </svg>
@@ -1646,7 +1649,7 @@
                 <!-- Toggle Switch -->
                 <button (click)="isRecordingNoticeEnabled = !isRecordingNoticeEnabled"
                   class="relative inline-flex h-[18px] w-8 items-center rounded-full transition-colors duration-200 focus:outline-none"
-                  [style.backgroundColor]="isRecordingNoticeEnabled ? '#2563eb' : 'rgba(255, 255, 255, 0.1)'">
+                  [style.backgroundColor]="isRecordingNoticeEnabled ? '#2563eb' : 'var(--slider-track)'">
                   <span
                     class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform duration-200"
                     [style.transform]="isRecordingNoticeEnabled ? 'translateX(16px)' : 'translateX(2px)'"></span>
@@ -1656,8 +1659,9 @@
               <!-- Textarea: Mensaje de aviso -->
               @if (isRecordingNoticeEnabled) {
               <div class="animate-in fade-in slide-in-from-top-2 duration-200">
-                <div class="w-full bg-white/5 border border-white/10 rounded-lg p-3">
-                  <p class="text-[10px] text-white/50 leading-relaxed italic">
+                <div
+                  class="w-full bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 rounded-lg p-3">
+                  <p class="text-[10px] text-gray-500 dark:text-white/50 leading-relaxed italic">
                     {{ recordingNoticeText }}
                   </p>
                 </div>
@@ -1677,4 +1681,59 @@
       </div>
     </aside>
   </div>
+  <!-- Modal para instrucciones expandidas -->
+  @if (showExpandInstructionsModal) {
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[10000] flex items-center justify-center p-4 fade-in-overlay"
+    (click)="closeExpandInstructionsModal()">
+    <div
+      class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl border-2 border-gray-200 dark:border-slate-400 w-full max-w-3xl h-[70vh] flex flex-col fade-in-content"
+      (click)="$event.stopPropagation()">
+      <!-- Header -->
+      <div class="flex items-center justify-between p-4 border-none">
+        <h2 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Instrucciones del Agente</h2>
+        <div class="flex items-center gap-3">
+          <button type="button" (click)="openGeneratePromptModal()"
+            class="ai-generate-btn flex items-center gap-1.5 3xl:gap-2 px-3 py-1 lg:px-3 xl:px-3 2xl:px-3 lg:py-1 xl:py-1 2xl:py-1 3xl:px-4 3xl:py-2 text-black text-[9px] sm:text-[10px] md:text-[11px] lg:text-[9px] 3xl:text-xs font-medium rounded-md 3xl:rounded-xl transition-colors">
+            <div class="ai-border-mask">
+              <div class="ai-border-glow"></div>
+            </div>
+            <svg class="w-3.5 h-3.5 lg:w-3 lg:h-3 3xl:w-4.5 3xl:h-4.5 relative z-10" viewBox="0 0 24 24"
+              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M7.45284 2.71266C7.8276 1.76244 9.1724 1.76245 9.54716 2.71266L10.7085 5.65732C10.8229 5.94743 11.0526 6.17707 11.3427 6.29148L14.2873 7.45284C15.2376 7.8276 15.2376 9.1724 14.2873 9.54716L11.3427 10.7085C11.0526 10.8229 10.8229 11.0526 10.7085 11.3427L9.54716 14.2873C9.1724 15.2376 7.8276 15.2376 7.45284 14.2873L6.29148 11.3427C6.17707 11.0526 5.94743 10.8229 5.65732 10.7085L2.71266 9.54716C1.76244 9.1724 1.76245 7.8276 2.71267 7.45284L5.65732 6.29148C5.94743 6.17707 6.17707 5.94743 6.29148 5.65732L7.45284 2.71266Z"
+                fill="currentColor" />
+              <path
+                d="M16.9245 13.3916C17.1305 12.8695 17.8695 12.8695 18.0755 13.3916L18.9761 15.6753C19.039 15.8348 19.1652 15.961 19.3247 16.0239L21.6084 16.9245C22.1305 17.1305 22.1305 17.8695 21.6084 18.0755L19.3247 18.9761C19.1652 19.039 19.039 19.1652 18.9761 19.3247L18.0755 21.6084C17.8695 22.1305 17.1305 22.1305 16.9245 21.6084L16.0239 19.3247C15.961 19.1652 15.8348 19.039 15.6753 18.9761L13.3916 18.0755C12.8695 17.8695 12.8695 17.1305 13.3916 16.9245L15.6753 16.0239C15.8348 15.961 15.961 15.8348 16.0239 15.6753L16.9245 13.3916Z"
+                fill="currentColor" />
+            </svg>
+            <span class="relative z-10">Generar con IA</span>
+          </button>
+          <button (click)="closeExpandInstructionsModal()"
+            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="flex-1 px-4 py-0 relative">
+        <textarea [(ngModel)]="instructions" placeholder="Escribe aquí las instrucciones detalladas..."
+          class="w-full h-full p-4 border border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-900 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-[10px] sm:text-xs text-gray-900 dark:text-slate-200 resize-none font-mono leading-relaxed outline-none"></textarea>
+
+
+      </div>
+
+      <!-- Footer -->
+      <div class="p-4 flex justify-end">
+        <button (click)="closeExpandInstructionsModal()"
+          class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium">
+          Listo
+        </button>
+      </div>
+    </div>
+  </div>
+  }
 </div>

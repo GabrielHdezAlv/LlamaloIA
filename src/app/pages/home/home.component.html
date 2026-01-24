@@ -325,20 +325,20 @@
       {{ t.callsPerDay }}
     </h2>
 
-    <div class="flex flex-col flex-1 justify-end w-full px-1 lg:px-4">
-      <div class="grid grid-cols-7 gap-2 lg:gap-4 items-end w-full mb-2">
+    <div class="flex flex-col flex-1 justify-end w-full px-0.5 lg:px-2">
+      <div class="grid grid-cols-7 gap-1.5 lg:gap-2.5 items-end w-full mb-2">
         <div class="flex flex-col items-center" *ngFor="let h of callsByDayHeights; let i = index">
           <div [style.height.px]="h === 0 ? 5 : h"
             class="llamadas-barra w-full rounded-xl transition-all duration-300 relative flex justify-center items-start pt-1.5"
             [ngClass]="isToday(i) ? 'llamadas-barra-hoy' : ''">
             <span *ngIf="showCallsByDayNumber(i)"
-              class="text-[9px] lg:text-[13px] font-bold text-white dropdown-shadow">
+              class="text-[9px] lg:text-[13px] font-bold text-black dark:text-white">
               {{ callsByDayCounts[i] }}
             </span>
           </div>
         </div>
       </div>
-      <div class="grid grid-cols-7 gap-2 lg:gap-4 w-full">
+      <div class="grid grid-cols-7 gap-1.5 lg:gap-2.5 w-full">
         <span class="text-[9px] lg:text-xs text-center truncate dark:text-slate-400" [class.text-blue-900]="isToday(i)"
           [class.font-bold]="isToday(i)" *ngFor="let d of days; let i = index">{{ d }}</span>
       </div>

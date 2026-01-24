@@ -1,167 +1,73 @@
+/* Animaciones de fade-in para el modal */
+.fade-in-overlay {
+  animation: fadeInOverlay 0.3s ease-out forwards;
+}
 
+.fade-in-content {
+  animation: fadeInContent 0.3s ease-out forwards;
+}
 
-// Estilos del modal de importar número - Idéntico al modal de facturación
-
-// Animación suave para el overlay del modal
 @keyframes fadeInOverlay {
   from {
     opacity: 0;
-    backdrop-filter: blur(0px);
   }
+
   to {
     opacity: 1;
-    backdrop-filter: blur(12px);
   }
 }
 
-// Animación suave para el contenido del modal
-@keyframes slideUpFadeIn {
+@keyframes fadeInContent {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    transform: translateY(20px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-.import-modal-overlay {
-  backdrop-filter: blur(12px);
-  animation: fadeInOverlay 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.import-modal-content {
-  animation: slideUpFadeIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  opacity: 0; // Inicialmente invisible para la animación
-}
-
-// Modo oscuro para el modal
-::ng-deep html.dark .import-modal-overlay {
-  // Fondo del modal
-  > div.bg-white {
-    background-color: #18181a !important; // mismo color que otros modales/tarjetas
-  }
-  
-  // Título del modal
-  h2.text-blue-950 {
-    color: rgba(2, 90, 209, 0.9) !important; // azul de marca
-  }
-  
-  // Textos de instrucciones
-  p.text-black {
-    color: #e5e7eb !important; // gray-200
-  }
-  
-  // Labels
-  label.text-gray-800 {
-    color: #e5e7eb !important; // gray-200
-  }
-  
-  // TODOS los inputs - forzar fondo oscuro
-  input {
-    background-color: #262626 !important; // neutral-800
-    border-color: #404040 !important; // neutral-700
-    color: #e5e7eb !important; // gray-200
-  }
-  
-  // Contenedor de teléfono
-  .phone-input-container {
-    background-color: #262626 !important;
-    border-color: #404040 !important;
-  }
-  
-  // Forzar que cualquier elemento con bg-white dentro del modal sea oscuro
-  [class*="bg-white"] {
-    background-color: #262626 !important;
-  }
-  
-  // Placeholder
-  input::placeholder {
-    color: #9ca3af !important; // gray-400
-  }
-  
-  // Botón de cerrar - icono
-  button svg path[stroke="#1E3A8A"] {
-    stroke: #e5e7eb !important; // gray-200
-  }
-  
-  // Flecha del selector de país
-  .country-selector svg path[stroke="#6B7280"] {
-    stroke: #9ca3af !important; // gray-400
-  }
-  
-  // Botón de importar
-  button[class*="bg-[#0a1740]"] {
-    background-color: rgba(2, 90, 209, 0.9) !important; // azul de marca
-  }
-  
-  // Focus en inputs
-  input:focus {
-    border-color: rgba(2, 90, 209, 0.9) !important;
-  }
-  
-  // Input dentro del contenedor de teléfono
-  .phone-input-container input {
-    color: #e5e7eb !important;
-    background-color: transparent !important;
-  }
-}
-
-// Estilos para el contenedor del modal
+/* Estilos para el contenedor del modal de Material */
 ::ng-deep .custom-dialog-container {
   .mat-mdc-dialog-container {
     padding: 0;
-    border-radius: 3rem;
-    overflow: hidden;
     background: transparent;
     box-shadow: none;
+    max-width: 95vw !important;
   }
 }
 
-// Animación para el spinner (si se necesita)
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-// Responsive
-@media (max-width: 1024px) {
-  .import-modal-overlay {
-    padding: 1rem;
-  }
-  
+/* Estilos para modo oscuro */
+:host-context(html.dark) {
   .bg-white {
-    padding: 2rem;
+    background-color: #111111 !important; // neutral dark
+  }
+
+  input.dark\:bg-slate-800,
+  div.dark\:bg-slate-800,
+  ul.dark\:bg-slate-800 {
+    background-color: #262626 !important;
+  }
+
+  input.dark\:border-slate-600,
+  div.dark\:border-slate-600,
+  ul.dark\:border-slate-600 {
+    border-color: #3a3a3a !important;
+  }
+
+  input::placeholder {
+    color: #9ca3af !important;
   }
 }
 
-@media (max-width: 640px) {
-  .import-modal-overlay {
-    padding: 0.5rem;
-  }
-  
-  .bg-white {
-    padding: 1.5rem;
-    border-radius: 2rem !important;
-  }
-  
-  .grid {
-    grid-template-columns: 1fr !important;
-    gap: 1rem;
-  }
-  
-  .text-3xl {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-  
-  .text-lg {
-    font-size: 1rem;
-    line-height: 1.5rem;
+/* Estilo para el scrollbar del menú desplegable si es necesario */
+ul {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }

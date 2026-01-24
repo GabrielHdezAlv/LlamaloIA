@@ -24,6 +24,10 @@ body {
     "Apple Color Emoji", "Segoe UI Emoji";
 }
 
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
 /* Texto del logo en el onboarding (forzar blanco en modo oscuro) */
 html.dark .onboarding-logo-text {
   color: #ffffff !important;
