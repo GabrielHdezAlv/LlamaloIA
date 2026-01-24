@@ -1,9 +1,11 @@
-import { Component, HostListener, OnDestroy, AfterViewChecked, ElementRef, ViewChild, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, OnDestroy, AfterViewChecked, ElementRef, ViewChild, OnInit, Inject, PLATFORM_ID, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
+import { AgentsService } from '../../core/services/agents.service';
+import { Voice } from '../../shared/models/voice.model';
 import lottie from 'lottie-web';
 
 // Clave para localStorage
@@ -54,6 +56,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   // Estado del sidebar
   isSidebarOpen: boolean = false;
+
+  private agentsService = inject(AgentsService);
+  private voicesLoaded = false;
 
   constructor(
     private location: Location,
@@ -124,6 +129,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.llmTemperature = this.savedDraft.llmTemperature || 0;
       this.isRecordingNoticeEnabled = this.savedDraft.isRecordingNoticeEnabled || false;
       this.recordingNoticeText = this.savedDraft.recordingNoticeText || 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+
+      // Si el paso es 'voices', cargar las voces del backend
+      if (this.step === 'voices') {
+        this.loadVoices();
+      }
 
       if (this.step === 'summary') {
         this.animateIdle();
@@ -240,6 +250,46 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     { id: 'maria', name: 'María', image: 'assets/maria_prueba.webp', description: 'Agente de atención al cliente con gran empatía y paciencia.', badgeText: 'Destacada' }
   ];
 
+  // Método para cargar las voces del backend
+  private loadVoices() {
+    // Solo cargar si no se han cargado antes
+    if (this.voicesLoaded) {
+      return;
+    }
+
+    this.agentsService.getAgents().subscribe({
+      next: (backendVoices: Voice[]) => {
+        // Mapear las voces del backend al formato esperado por el componente
+        const mappedVoices = backendVoices.map((voice: Voice) => {
+          // Buscar si existe una voz con el mismo nombre en las voces por defecto para mantener imagen y descripción
+          const defaultVoice = this.voices.find(v => v.name.toLowerCase() === voice.name.toLowerCase());
+          
+          return {
+            id: defaultVoice?.id || voice.voiceId, // Mantener el id original si existe, sino usar voiceId
+            voiceId: voice.voiceId, // Agregar el voiceId del backend
+            name: voice.name,
+            image: defaultVoice?.image || '',
+            isCustom: false,
+            description: defaultVoice?.description || `Voz ${voice.name}`,
+            badgeText: defaultVoice?.badgeText || ''
+          };
+        });
+
+        // Mantener la opción de "Clonar voz" al inicio y agregar las voces del backend
+        const customVoiceOption = this.voices.find(v => v.isCustom);
+        this.voices = customVoiceOption 
+          ? [customVoiceOption, ...mappedVoices]
+          : mappedVoices;
+        
+        this.voicesLoaded = true;
+        console.log('Voces cargadas:', this.voices);
+      },
+      error: (error) => {
+        console.error('Error al cargar las voces:', error);
+        // Mantener las voces por defecto en caso de error
+      }
+    });
+  }
 
   onSelect(type: 'inbound' | 'outbound') {
     this.step = 'language';
@@ -248,6 +298,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   onLanguageSelected() {
     this.step = 'voices';
+    this.loadVoices();
     this.saveDraft();
   }
 
@@ -473,6 +524,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.step = 'instructions';
     } else if (this.step === 'instructions') {
       this.step = 'voices';
+      this.loadVoices();
     } else if (this.step === 'voices') {
       this.step = 'language';
     } else if (this.step === 'language') {
@@ -493,6 +545,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.step = 'language';
     } else if (this.step === 'language') {
       this.step = 'voices';
+      this.loadVoices();
     } else if (this.step === 'voices') {
       this.step = 'instructions';
     } else if (this.step === 'instructions') {
