@@ -1,5 +1,3 @@
-import { Agent } from './agent.model';
-
 export class User {
   userId?: string;
   name: string;
@@ -11,7 +9,8 @@ export class User {
   email: string;
   password: string;
   token?: string;
-  agent?: Agent;
+  voiceId?: string;
+  language?: any;
 
   constructor(
     name: string,
@@ -24,7 +23,8 @@ export class User {
     enterpriseWeb?: string,
     country?: string,
     token?: string,
-    agent?: Agent
+    voiceId?: string,
+    language?: any
   ) {
     this.userId = userId;
     this.name = name;
@@ -36,6 +36,7 @@ export class User {
     this.enterpriseWeb = enterpriseWeb;
     this.country = country;
     this.token = token;
-    this.agent = agent;
+    this.voiceId = voiceId;
+    this.language = language;
   }
 }

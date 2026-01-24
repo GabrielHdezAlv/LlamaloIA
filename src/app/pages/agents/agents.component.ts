@@ -13,7 +13,7 @@ import { TwilioService } from '../../core/services/twilio.service';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { AgentsService } from '../../core/services/agents.service';
-import { Agent } from '../../shared/models/agent.model';
+import { Voice } from '../../shared/models/voice.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../shared/modals/modal.service';
@@ -65,9 +65,9 @@ export class AgentsComponent implements OnInit {
 
   showDropdown = false;
 
-  agents: Agent[] = [];
+  voices: Voice[] = [];
 
-  selectedAgent: Agent | null = null;
+  selectedVoice: Voice | null = null;
   selectedLanguage: any = null;
   showVoiceDropdown = false;
 
@@ -89,24 +89,32 @@ export class AgentsComponent implements OnInit {
       this.languages = languages;
     });
 
-    this.agentsService.getAgents().subscribe((agents) => {
-      this.agents = agents;
+    this.agentsService.getAgents().subscribe((voices) => {
+      this.voices = voices;
 
-      // Recuperar el agente seleccionado del localStorage
-      let savedAgentId: string | null = null;
+      // Recuperar la voz seleccionada del localStorage
+      let savedVoiceId: string | null = null;
 
       if (typeof window !== 'undefined' && window.localStorage) {
-        savedAgentId = localStorage.getItem('selectedAgentId');
+        savedVoiceId = localStorage.getItem('selectedVoiceId');
       }
 
-      if (savedAgentId && agents.length > 0) {
-        this.selectedAgent =
-          agents.find((agent) => agent.labsId === savedAgentId) || agents[0];
+      if (savedVoiceId && voices.length > 0) {
+        this.selectedVoice =
+          voices.find((voice) => voice.voiceId === savedVoiceId) || voices[0];
       } else {
-        this.selectedAgent = this.userStorage.user()?.agent ?? agents[0];
+        // Si hay una voz guardada en el usuario, intentar encontrarla
+        const userVoiceId = this.userStorage.user()?.voiceId;
+        if (userVoiceId && voices.length > 0) {
+          this.selectedVoice = voices.find((voice) => voice.voiceId === userVoiceId) || voices[0];
+        } else {
+          this.selectedVoice = voices[0] || null;
+        }
       }
 
-      this.selectedLanguage = this.selectedAgent?.language ?? this.languages[0];
+      // Obtener el idioma guardado o usar el primero por defecto
+      const savedLanguage = this.userStorage.user()?.language;
+      this.selectedLanguage = savedLanguage || this.languages[0];
     });
 
     // Inicializar el mensaje de saludo personalizado
@@ -122,18 +130,18 @@ export class AgentsComponent implements OnInit {
     this.showDropdown = false;
   }
 
-  selectAgent(agent: Agent) {
-    this.selectedAgent = agent;
+  selectVoice(voice: Voice) {
+    this.selectedVoice = voice;
     this.showVoiceDropdown = false;
 
-    // Guardar el agente seleccionado en localStorage
+    // Guardar la voz seleccionada en localStorage
     if (
-      agent &&
-      agent.labsId &&
+      voice &&
+      voice.voiceId &&
       typeof window !== 'undefined' &&
       window.localStorage
     ) {
-      localStorage.setItem('selectedAgentId', agent.labsId);
+      localStorage.setItem('selectedVoiceId', voice.voiceId);
     }
   }
 
@@ -211,9 +219,9 @@ export class AgentsComponent implements OnInit {
   }
 
   publishAgent() {
-    console.log('publishAgent: ', this.selectedAgent);
+    console.log('publishAgent: ', this.selectedVoice);
 
-    if (!this.selectedAgent) {
+    if (!this.selectedVoice) {
       return;
     }
 
@@ -222,8 +230,6 @@ export class AgentsComponent implements OnInit {
       disableClose: false,
       panelClass: 'loader-dialog',
     });
-
-    this.selectedAgent.language = this.selectedLanguage;
 
     // Validar que el mensaje no esté vacío
     if (
@@ -239,9 +245,8 @@ export class AgentsComponent implements OnInit {
       return;
     }
 
-    // Guardar la configuración del agente
-    // Nota: firstInteraction ahora se envía a través de POST /twilio/config
-    this.agentsService.setAgentConfig(this.selectedAgent!).subscribe({
+    // Guardar la configuración de la voz
+    this.agentsService.setAgentConfig(this.selectedVoice, this.selectedLanguage).subscribe({
       next: (response) => {
         loaderRef.close();
         this.dialog.open(TwilioSuccessModalComponent, {
@@ -249,17 +254,17 @@ export class AgentsComponent implements OnInit {
           disableClose: false,
           panelClass: 'custom-dialog-container',
           data: {
-            message: '¡Agente configurado exitosamente!',
+            message: '¡Voz configurada exitosamente!',
             title: 'Configuración Completada',
           },
         });
       },
       error: (error) => {
         loaderRef.close();
-        console.error('Error al publicar el agente:', error);
+        console.error('Error al publicar la voz:', error);
         this.modalService.openError({
           title: 'Error',
-          message: 'No se pudo publicar el agente.',
+          message: 'No se pudo publicar la voz.',
           details: String(error)
         });
       },

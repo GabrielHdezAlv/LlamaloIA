@@ -1,6 +1,6 @@
 import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Agent } from '../../shared/models/agent.model';
+import { Voice } from '../../shared/models/voice.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -9,7 +9,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class AgentsService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://llamaloiabackend-5294.onrender.com/agents';
+  private apiUrl = 'https://llamaloiabackend-5294.onrender.com/voices';
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
@@ -34,15 +34,18 @@ export class AgentsService {
     });
   }
 
-  // Método para obtener la configuración de Twilio del usuario
-  getAgents(): Observable<Agent[]> {
-    return this.http.get<Agent[]>(`${this.apiUrl}/allAgents`, {
+  // Método para obtener las voces disponibles
+  getAgents(): Observable<Voice[]> {
+    return this.http.get<Voice[]>(`${this.apiUrl}/allVoices`, {
       headers: this.getAuthHeaders(),
     });
   }
 
-  setAgentConfig(agent: Agent): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/setAgentConfig`, agent, {
+  setAgentConfig(voice: Voice, language: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/setVoiceConfig`, {
+      voiceId: voice.voiceId,
+      language: language
+    }, {
       headers: this.getAuthHeaders(),
     });
   }

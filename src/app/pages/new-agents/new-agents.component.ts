@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, inject, Inject, PLATFORM_ID, ChangeDe
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AgentsService } from '../../core/services/agents.service';
-import { Agent } from '../../shared/models/agent.model';
+import { Voice } from '../../shared/models/voice.model';
 import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 
@@ -18,7 +18,7 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   router = inject(Router);
   private cdr: ChangeDetectorRef;
 
-  agents: Agent[] = [];
+  voices: Voice[] = [];
 
   // Obtener traducciones
   get t() {
@@ -38,7 +38,7 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     this.cdr = cdr;
   }
 
-  // TEMPORAL: Cambiar a true para probar estado vacío, false para mostrar agentes ficticios
+  // TEMPORAL: Cambiar a true para probar estado vacío, false para mostrar voces ficticias
   private showEmptyState = false;
 
   ngOnInit(): void {
@@ -46,19 +46,19 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     
     if (this.showEmptyState) {
       // Para probar estado vacío
-      this.agents = [];
+      this.voices = [];
     } else {
-      // Para mostrar agentes ficticios (como estaban antes)
-      this.agents = [
-        { labsId: '1', name: 'Carlos', photoUrl: 'assets/carlos.webp' } as Agent,
-        { labsId: '2', name: 'Carla', photoUrl: 'assets/carla.webp' } as Agent,
+      // Para mostrar voces ficticias (como estaban antes)
+      this.voices = [
+        { name: 'Carlos', voiceId: '1' } as Voice,
+        { name: 'Carla', voiceId: '2' } as Voice,
       ];
     }
 
-    // Código original comentado para cuando quieras usar el backend real:
+    // Código para usar el backend real:
     // this.agentsService.getAgents().subscribe({
-    //   next: (agents) => (this.agents = agents || []),
-    //   error: () => (this.agents = []),
+    //   next: (voices) => (this.voices = voices || []),
+    //   error: () => (this.voices = []),
     // });
   }
 
