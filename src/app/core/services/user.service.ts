@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { LoginUser } from '../../shared/models/login-user.model';
 import { CreateUserDto } from '../../shared/models/create-user-dto.model';
 import { UpdateProfileDto } from '../../shared/models/update-profile-dto.model';
+import { UserProfileResponseDto } from '../../shared/models/user-profile-response.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -57,8 +58,8 @@ export class UserService {
     });
   }
 
-  getUserProfile(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/users/profile`, {
+  getUserProfile(): Observable<UserProfileResponseDto> {
+    return this.http.get<UserProfileResponseDto>(`${this.apiUrl}/users/profile`, {
       headers: this.getAuthHeaders(),
     });
   }
