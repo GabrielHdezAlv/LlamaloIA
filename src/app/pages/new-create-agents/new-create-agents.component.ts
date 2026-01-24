@@ -660,22 +660,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     console.log('Plataforma seleccionada:', platform);
 
     if (platform === 'shopify') {
-      // Abrir modal de Shopify
-      const dialogRef = this.modalService.openShopify({
-        title: 'Integración con Shopify',
-        message: 'Configura tu conexión con Shopify',
-        formEnabled: false
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('Shopify modal closed with result:', result);
-        if (result && result.type === 'shopify') {
-          console.log('Configuración de Shopify guardada:', result);
-          // Solo avanzar si el usuario completó la configuración explícitamente
-          this.step = 'knowledgeBase';
-        }
-        // Si no hay resultado o no es de tipo shopify, permanecer en la misma página
-      });
+      // Avanzar directamente sin modal (el modal ha sido eliminado)
+      this.step = 'knowledgeBase';
+      this.saveDraft();
     } else if (platform === 'make') {
       // Abrir modal de Make
       const dialogRef = this.modalService.openMake({
@@ -690,7 +677,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         // No avanzar automáticamente
       });
     } else {
-      // Para otras plataformas, continuar normalmente
+      // Para otras plataformas, continuar normalmente (actualmente ninguna excepto manual/omitir)
       this.step = 'knowledgeBase';
     }
   }

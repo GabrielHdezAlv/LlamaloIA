@@ -33,10 +33,6 @@ import {
   LoginSuccessModalData,
 } from './login-success-modal/login-success-modal.component';
 import {
-  ShopifyModalComponent,
-  ShopifyModalData,
-} from './shopify-modal/shopify-modal.component';
-import {
   MakeModalComponent,
   MakeModalData,
 } from './make-modal/make-modal.component';
@@ -142,15 +138,6 @@ export class ModalService {
     return dialogRef;
   }
 
-  openShopify(data: ShopifyModalData = {}) {
-    return this.dialog.open(ShopifyModalComponent, {
-      width: '1200px',
-      maxWidth: '95vw',
-      disableClose: false,
-      panelClass: 'custom-dialog-container',
-      data,
-    });
-  }
 
   openMake(data: MakeModalData = {}) {
     return this.dialog.open(MakeModalComponent, {

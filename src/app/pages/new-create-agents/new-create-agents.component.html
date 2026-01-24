@@ -1450,7 +1450,7 @@
       No cierres esta ventana mientras se crea tu agente
     </p>
     <div class="flex-1 flex items-center justify-center">
-      <div #lottieContainer
+      <div #lottieContainer id="lottieContainer"
         class="w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[380px] lg:h-[380px] 3xl:w-[500px] 3xl:h-[500px]"></div>
     </div>
   </div>
@@ -1489,15 +1489,16 @@
   <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[10002] flex items-center justify-center p-4 fade-in-overlay"
     (click)="closeGeneratePromptModal()">
     <div
-      class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl border-2 border-gray-200 dark:border-slate-400 max-w-2xl w-full max-h-[90vh] overflow-y-auto fade-in-content"
+      class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl border-2 border-gray-200 dark:border-slate-400 max-w-md w-full max-h-[90vh] overflow-y-auto fade-in-content"
       (click)="$event.stopPropagation()">
       <!-- Header del modal -->
-      <div class="flex items-center justify-between p-5 sm:p-6 border-b border-gray-300 dark:border-slate-600">
-        <h2 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Genera un prompt con IA</h2>
+      <div class="flex items-center justify-between p-4 border-b border-gray-300 dark:border-slate-600">
+        <h2 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white leading-tight">Genera un prompt con
+          IA</h2>
         <button (click)="closeGeneratePromptModal()"
-          class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors -mt-4 sm:-mt-4"
+          class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors -mt-1"
           aria-label="Cerrar modal">
-          <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
               stroke-linejoin="round" />
           </svg>
@@ -1505,27 +1506,25 @@
       </div>
 
       <!-- Contenido del modal -->
-      <div class="p-5 sm:p-6">
-        <p class="text-sm sm:text-base text-gray-600 dark:text-slate-300 mb-3">
-          Describe brevemente qué tipo de agente quieres crear y cómo quieres que se comporte.
+      <div class="p-4">
+        <p class="text-xs sm:text-sm text-gray-600 dark:text-slate-300 mb-2">
+          Describe qué tipo de agente quieres crear y cómo quieres que se comporte.
         </p>
-
-        <!-- Campo de texto -->
         <textarea [(ngModel)]="promptDescription"
-          placeholder="Ejemplo: Un agente que ayude a los usuarios a encontrar restaurantes según sus preferencias."
-          class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-slate-400 resize-none"
-          rows="4"></textarea>
+          placeholder="Ejemplo: Un agente que ayude a los usuarios a encontrar restaurantes..."
+          class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-slate-400 resize-none"
+          rows="3"></textarea>
       </div>
 
       <!-- Footer con botones -->
-      <div class="flex items-center justify-end gap-3 p-5 sm:p-6 border-t border-gray-300 dark:border-slate-600">
+      <div class="flex items-center justify-end gap-3 p-4 border-t border-gray-300 dark:border-slate-600">
         <button (click)="closeGeneratePromptModal()"
-          class="px-4 sm:px-6 py-2 sm:py-2.5 bg-transparent border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors text-sm sm:text-base font-medium">
+          class="px-4 py-2 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors text-xs sm:text-sm font-medium">
           Cancelar
         </button>
         <button (click)="generatePrompt()"
-          class="px-4 sm:px-6 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base font-medium flex items-center gap-2">
-          <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 56 56" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-xs sm:text-sm font-medium flex items-center gap-2">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 56 56" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M 26.6875 12.6602 C 26.9687 12.6602 27.1094 12.4961 27.1797 12.2383 C 27.9062 8.3242 27.8594 8.2305 31.9375 7.4570 C 32.2187 7.4102 32.3828 7.2461 32.3828 6.9648 C 32.3828 6.6836 32.2187 6.5195 31.9375 6.4726 C 27.8828 5.6524 28.0000 5.5586 27.1797 1.6914 C 27.1094 1.4336 26.9687 1.2695 26.6875 1.2695 C 26.4062 1.2695 26.2656 1.4336 26.1953 1.6914 C 25.3750 5.5586 25.5156 5.6524 21.4375 6.4726 C 21.1797 6.5195 20.9922 6.6836 20.9922 6.9648 C 20.9922 7.2461 21.1797 7.4102 21.4375 7.4570 C 25.5156 8.2774 25.4687 8.3242 26.1953 12.2383 C 26.2656 12.4961 26.4062 12.6602 26.6875 12.6602 Z M 15.3438 28.7852 C 15.7891 28.7852 16.0938 28.5039 16.1406 28.0821 C 16.9844 21.8242 17.1953 21.8242 23.6641 20.5821 C 24.0860 20.5117 24.3906 20.2305 24.3906 19.7852 C 24.3906 19.3633 24.0860 19.0586 23.6641 18.9883 C 17.1953 18.0977 16.9609 17.8867 16.1406 11.5117 C 16.0938 11.0899 15.7891 10.7852 15.3438 10.7852 C 14.9219 10.7852 14.6172 11.0899 14.5703 11.5352 C 13.7969 17.8164 13.4687 17.7930 7.0469 18.9883 C 6.6250 19.0821 6.3203 19.3633 6.3203 19.7852 C 6.3203 20.2539 6.6250 20.5117 7.1406 20.5821 C 13.5156 21.6133 13.7969 21.7774 14.5703 28.0352 C 14.6172 28.5039 14.9219 28.7852 15.3438 28.7852 Z M 31.2344 54.7305 C 31.8438 54.7305 32.2891 54.2852 32.4062 53.6524 C 34.0703 40.8086 35.8750 38.8633 48.5781 37.4570 C 49.2344 37.3867 49.6797 36.8945 49.6797 36.2852 C 49.6797 35.6758 49.2344 35.2070 48.5781 35.1133 C 35.8750 33.7070 34.0703 31.7617 32.4062 18.9180 C 32.2891 18.2852 31.8438 17.8633 31.2344 17.8633 C 30.6250 17.8633 30.1797 18.2852 30.0860 18.9180 C 28.4219 31.7617 26.5938 33.7070 13.9140 35.1133 C 13.2344 35.2070 12.7891 35.6758 12.7891 36.2852 C 12.7891 36.8945 13.2344 37.3867 13.9140 37.4570 C 26.5703 39.1211 28.3281 40.8321 30.0860 53.6524 C 30.1797 54.2852 30.6250 54.7305 31.2344 54.7305 Z" />
           </svg>

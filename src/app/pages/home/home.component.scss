@@ -11,9 +11,9 @@
   /* slate-200 */
 }
 
-.dark .llamadas-barra {
-  background-color: #475569;
-  /* slate-600 */
+:host-context(.dark) .llamadas-barra {
+  background-color: #444444;
+  /* slate-800 */
 }
 
 .llamadas-barra-hoy {
@@ -21,7 +21,7 @@
   /* blue-900 */
 }
 
-.dark .llamadas-barra-hoy {
+:host-context(.dark) .llamadas-barra-hoy {
   background-color: #60a5fa !important;
   /* blue-400 */
 }

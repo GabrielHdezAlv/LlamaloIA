@@ -141,7 +141,7 @@
 .liquid-sphere {
   width: 100%;
   height: 100%;
-  background: linear-gradient(-45deg, #131835, #3b82f6, #a331c5, #4b4dbe, #7c36bd);
+  background: linear-gradient(-45deg, #1a2146, #0d2852, #1f2577, #000135, #3335a0);
   background-size: 400% 400%;
   // Doble pulso (rainbow flow + pulso rapido de 2s) idéntico al asistente
   animation: rainbow-flow 8s ease infinite, sphere-pulse 2s infinite ease-in-out;
@@ -684,5 +684,13 @@ aside {
     cursor: pointer;
     box-shadow: none;
     border: none;
+  }
+}
+
+/* Color del loader en el paso final */
+#lottieContainer {
+  ::ng-deep svg path {
+    stroke: #1B2559 !important;
+    fill: #1B2559 !important;
   }
 }
