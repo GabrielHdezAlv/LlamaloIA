@@ -57,8 +57,7 @@ export class AccountComponent implements OnInit {
   tempName = '';
   tempLastname = '';
   tempCountry = '';
-  tempEnterprise = '';
-  tempEnterpriseWeb = '';
+  tempEnterprise: { name: string; url: string } = { name: '', url: '' };
   tempProfileImage = '';
 
   // Facturación
@@ -97,9 +96,12 @@ export class AccountComponent implements OnInit {
   userProfileImage = computed(() => this.user()?.profileImage ?? '');
   enterprise = computed(() => {
     const ent = this.user()?.enterprise;
-    return typeof ent === 'string' ? ent : ent?.name || '';
+    return ent?.name || '';
   });
-  enterpriseWeb = computed(() => this.user()?.enterpriseWeb ?? '');
+  enterpriseWeb = computed(() => {
+    const ent = this.user()?.enterprise;
+    return ent?.url || '';
+  });
 
   ngOnInit() {
     this.i18nService.initializeLanguage();
@@ -109,11 +111,8 @@ export class AccountComponent implements OnInit {
       this.tempName = user.name || '';
       this.tempLastname = user.lastname || '';
       this.tempCountry = user.country || '';
-      // Extraer string si enterprise es un objeto
-      this.tempEnterprise = typeof user.enterprise === 'string'
-        ? user.enterprise
-        : user.enterprise?.name || '';
-      this.tempEnterpriseWeb = user.enterpriseWeb || '';
+      // Inicializar enterprise como objeto
+      this.tempEnterprise = user.enterprise || { name: '', url: '' };
       this.tempProfileImage = user.profileImage || '';
     }
 
@@ -192,7 +191,6 @@ export class AccountComponent implements OnInit {
         lastname: this.tempLastname,
         profileImage: avatarUrl,
         enterprise: this.tempEnterprise,
-        enterpriseWeb: this.tempEnterpriseWeb,
       };
 
       this.userService.updateUserProfile(updatedUserData).subscribe({
@@ -324,7 +322,6 @@ export class AccountComponent implements OnInit {
       lastname: this.tempLastname,
       profileImage: this.tempProfileImage,
       enterprise: this.tempEnterprise,
-      enterpriseWeb: this.tempEnterpriseWeb,
     };
 
     this.userService.updateUserProfile(updatedUserData).subscribe({

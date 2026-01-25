@@ -63,8 +63,14 @@ export const UserStorage = signalStore(
       try {
         const profile = await firstValueFrom(userService.getUserProfile());
         if (profile) {
-          storageRepo.setItem(Store.UserStorage, 'user', profile as User);
-          patchState(store, { user: profile as User });
+          // Normalizar enterprise: si no existe, usar valores por defecto
+          const normalizedProfile = {
+            ...profile,
+            enterprise: profile.enterprise || { name: '', url: '' }
+          } as User;
+          
+          storageRepo.setItem(Store.UserStorage, 'user', normalizedProfile);
+          patchState(store, { user: normalizedProfile });
           
           // Actualizar TwilioStorage si viene en el perfil
           if (profile.twilio) {

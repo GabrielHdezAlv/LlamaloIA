@@ -6,6 +6,5 @@ export interface UpdateProfileDto {
   name?: string;
   lastname?: string;
   profileImage?: string;
-  enterprise?: string;
-  enterpriseWeb?: string;
+  enterprise?: { name: string; url: string };
 }

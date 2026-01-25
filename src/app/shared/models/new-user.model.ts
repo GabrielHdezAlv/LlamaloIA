@@ -3,8 +3,7 @@ export class User {
   name?: string; // Opcional porque puede venir undefined del perfil
   lastname?: string; // Opcional porque puede venir undefined del perfil
   profileImage?: string;
-  enterprise?: string | { name: string; url: string };
-  enterpriseWeb?: string;
+  enterprise?: { name: string; url: string };
   country?: string;
   email?: string; // Opcional porque puede venir undefined del perfil
   password?: string; // Opcional porque no viene del perfil del usuario
@@ -50,8 +49,7 @@ export class User {
     password: string | undefined,
     userId: string,
     profileImage?: string,
-    enterprise?: string | { name: string; url: string },
-    enterpriseWeb?: string,
+    enterprise?: { name: string; url: string },
     country?: string,
     token?: string,
     voiceId?: string,
@@ -64,7 +62,6 @@ export class User {
     this.password = password;
     this.profileImage = profileImage;
     this.enterprise = enterprise;
-    this.enterpriseWeb = enterpriseWeb;
     this.country = country;
     this.token = token;
     this.voiceId = voiceId;
