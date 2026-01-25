@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { TwilioService } from '../../../core/services/twilio.service';
+import { ModalService } from '../modal.service';
 
 export interface ImportNumberModalData {
   title?: string;
@@ -32,6 +34,8 @@ export class ImportNumberModalComponent {
   dialogRef = inject(MatDialogRef<ImportNumberModalComponent>);
   data = inject<ImportNumberModalData>(MAT_DIALOG_DATA);
   private fb = inject(FormBuilder);
+  private twilioService = inject(TwilioService);
+  private modalService = inject(ModalService);
 
   importForm: FormGroup;
   isLoading = false;
@@ -80,12 +84,59 @@ export class ImportNumberModalComponent {
 
   onSubmit(): void {
     if (this.importForm.valid) {
-      console.log('Formulario enviado:', {
-        ...this.importForm.value,
-        countryCode: this.selectedCountryCode,
-        country: this.selectedCountry
+      const phoneNumber = this.importForm.get('phoneNumber')?.value?.trim();
+      
+      if (!phoneNumber) {
+        this.modalService.openError({
+          title: 'Número de teléfono requerido',
+          message: 'Por favor, ingresa un número de teléfono válido.'
+        });
+        return;
+      }
+
+      // Construir el número completo con código de país
+      const fullPhoneNumber = `${this.selectedCountryCode}${phoneNumber}`;
+      
+      console.log('🔍 Validando número de teléfono:', fullPhoneNumber);
+      
+      this.isLoading = true;
+
+      // Primero validar el número de teléfono
+      this.twilioService.validatePhone(fullPhoneNumber).subscribe({
+        next: (response) => {
+          console.log('✅ Número validado correctamente:', response);
+          this.isLoading = false;
+          
+          // Si la validación es exitosa, cerrar el modal con los datos
+          this.dialogRef.close({
+            ...this.importForm.value,
+            countryCode: this.selectedCountryCode,
+            country: this.selectedCountry
+          });
+        },
+        error: (error) => {
+          console.error('❌ Error al validar número:', error);
+          this.isLoading = false;
+          
+          // Manejar diferentes tipos de errores
+          let errorMessage = 'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
+          
+          if (error.status === 400) {
+            errorMessage = error?.error?.message || 'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
+          } else if (error.status === 401) {
+            errorMessage = 'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
+          } else if (error.status === 404) {
+            errorMessage = 'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración en Ajustes > Conexiones > Twilio.';
+          } else if (error?.error?.message) {
+            errorMessage = error.error.message;
+          }
+          
+          this.modalService.openError({
+            title: 'Error al validar número',
+            message: errorMessage
+          });
+        }
       });
-      this.dialogRef.close(this.importForm.value);
     }
   }
 

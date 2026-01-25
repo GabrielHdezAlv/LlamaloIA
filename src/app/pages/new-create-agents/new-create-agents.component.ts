@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { AgentsService } from '../../core/services/agents.service';
+import { TwilioService } from '../../core/services/twilio.service';
 import { Voice } from '../../shared/models/voice.model';
 import { SetAgentConfigDto, VoiceParameters } from '../../shared/models/agent.model';
 import lottie from 'lottie-web';
@@ -73,6 +74,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   isSidebarOpen: boolean = false;
 
   private agentsService = inject(AgentsService);
+  private twilioService = inject(TwilioService);
   private voicesLoaded = false;
 
   constructor(
@@ -892,6 +894,45 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       }
     }
 
+    // Construir el número completo con código de país
+    const fullPhoneNumber = `${this.selectedCountryCode || '+34'}${this.phoneNumber.trim()}`;
+    
+    console.log('🔍 Validando número de teléfono:', fullPhoneNumber);
+
+    // Primero validar el número de teléfono
+    this.twilioService.validatePhone(fullPhoneNumber).subscribe({
+      next: (response) => {
+        console.log('✅ Número validado correctamente:', response);
+        
+        // Si la validación es exitosa, proceder a crear el agente
+        this.createAgentAfterValidation();
+      },
+      error: (error) => {
+        console.error('❌ Error al validar número:', error);
+        
+        // Manejar diferentes tipos de errores
+        let errorMessage = 'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
+        
+        if (error.status === 400) {
+          errorMessage = error?.error?.message || 'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
+        } else if (error.status === 401) {
+          errorMessage = 'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
+        } else if (error.status === 404) {
+          errorMessage = 'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración en Ajustes > Conexiones > Twilio.';
+        } else if (error?.error?.message) {
+          errorMessage = error.error.message;
+        }
+        
+        this.modalService.openError({
+          title: 'Error al validar número',
+          message: errorMessage
+        });
+      }
+    });
+  }
+
+  // Método para crear el agente después de validar el número
+  private createAgentAfterValidation() {
     // Construir el objeto que se enviará al endpoint
     // Usar el voiceId guardado cuando se seleccionó la voz, o obtenerlo de la voz actual como fallback
     const voiceId = this.selectedVoiceId || (() => {

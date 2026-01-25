@@ -50,4 +50,15 @@ export class TwilioService {
       headers: this.getAuthHeaders(),
     });
   }
+
+  // Método para validar un número de teléfono
+  validatePhone(phoneNumber: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiUrl}/validate-phone`,
+      { phoneNumber },
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  }
 }

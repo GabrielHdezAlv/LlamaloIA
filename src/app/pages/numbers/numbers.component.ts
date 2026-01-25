@@ -52,6 +52,11 @@ export class NumbersComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // Obtener los phoneNumbers del usuario al entrar
+    this.loadPhoneNumbers();
+  }
+
+  // Método para cargar los números de teléfono del perfil
+  private loadPhoneNumbers(): void {
     this.userService.getUserProfile().subscribe({
       next: (profile) => {
         console.log('📞 PhoneNumbers del usuario:', profile.phoneNumbers);
@@ -137,8 +142,15 @@ export class NumbersComponent implements OnInit, AfterViewInit {
           dialogRef.afterClosed().subscribe(result => {
             if (result) {
               console.log('Número importado:', result);
-              // Aquí puedes agregar la lógica para procesar el número importado
-              // Por ejemplo, actualizar la lista de números, mostrar un mensaje de éxito, etc.
+              
+              // Mostrar mensaje de éxito
+              this.modalService.openSuccess({
+                title: 'Número importado',
+                message: 'El número de teléfono se ha importado correctamente.'
+              });
+              
+              // Actualizar el perfil y recargar los números de teléfono
+              this.loadPhoneNumbers();
             }
           });
         }
