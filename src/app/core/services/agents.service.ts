@@ -3,13 +3,21 @@ import { Observable } from 'rxjs';
 import { Voice } from '../../shared/models/voice.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
+import {
+  SetAgentConfigDto,
+  CreateAgentResponse,
+  UpdateAgentResponse,
+  ListAgentsResponse,
+  DeleteAgentResponse,
+} from '../../shared/models/agent.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AgentsService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://llamaloiabackend-5294.onrender.com/voices';
+  private apiUrl = 'https://llamaloiabackend-5294.onrender.com/agents';
+  private voicesApiUrl = 'https://llamaloiabackend-5294.onrender.com/voices';
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
@@ -35,18 +43,51 @@ export class AgentsService {
   }
 
   // Método para obtener las voces disponibles
-  getAgents(): Observable<Voice[]> {
-    return this.http.get<Voice[]>(`${this.apiUrl}/allVoices`, {
+  getVoices(): Observable<Voice[]> {
+    return this.http.get<Voice[]>(`${this.voicesApiUrl}/allVoices`, {
       headers: this.getAuthHeaders(),
     });
   }
 
-  setAgentConfig(voice: Voice, language: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/setVoiceConfig`, {
-      voiceId: voice.voiceId,
-      language: language
-    }, {
+  // Método para crear un nuevo agente
+  createAgent(config: SetAgentConfigDto): Observable<CreateAgentResponse> {
+    return this.http.post<CreateAgentResponse>(`${this.apiUrl}`, config, {
       headers: this.getAuthHeaders(),
     });
+  }
+
+  // Método para listar todos los agentes
+  getAgentsList(): Observable<ListAgentsResponse> {
+    return this.http.get<ListAgentsResponse>(`${this.apiUrl}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  // Método para actualizar un agente específico
+  updateAgent(index: number, config: SetAgentConfigDto): Observable<UpdateAgentResponse> {
+    return this.http.put<UpdateAgentResponse>(`${this.apiUrl}/${index}`, config, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  // Método para eliminar un agente
+  deleteAgent(index: number): Observable<DeleteAgentResponse> {
+    return this.http.delete<DeleteAgentResponse>(`${this.apiUrl}/${index}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  // Método de compatibilidad - obtener voces (mantener por compatibilidad con código existente)
+  // @deprecated Usar getVoices() en su lugar
+  getAgents(): Observable<Voice[]> {
+    return this.getVoices();
+  }
+
+  // Método deprecado - mantener por compatibilidad temporal
+  // @deprecated Usar createAgent en su lugar
+  setAgentConfig(voice: Voice, language: any): Observable<any> {
+    console.warn('setAgentConfig está deprecado. Usa createAgent en su lugar.');
+    // Por compatibilidad, retornar un observable vacío o lanzar error
+    throw new Error('setAgentConfig está deprecado. Usa createAgent en su lugar.');
   }
 }

@@ -266,7 +266,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       return;
     }
 
-    this.agentsService.getAgents().subscribe({
+    this.agentsService.getVoices().subscribe({
       next: (backendVoices: Voice[]) => {
         // Mapear las voces del backend al formato esperado por el componente
         const mappedVoices = backendVoices.map((voice: Voice) => {

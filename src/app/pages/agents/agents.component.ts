@@ -14,6 +14,7 @@ import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { AgentsService } from '../../core/services/agents.service';
 import { Voice } from '../../shared/models/voice.model';
+import { SetAgentConfigDto } from '../../shared/models/agent.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../shared/modals/modal.service';
@@ -89,7 +90,7 @@ export class AgentsComponent implements OnInit {
       this.languages = languages;
     });
 
-    this.agentsService.getAgents().subscribe((voices) => {
+    this.agentsService.getVoices().subscribe((voices) => {
       this.voices = voices;
 
       // Recuperar la voz seleccionada del localStorage
@@ -240,8 +241,40 @@ export class AgentsComponent implements OnInit {
       return;
     }
 
-    // Guardar la configuración de la voz
-    this.agentsService.setAgentConfig(this.selectedVoice, this.selectedLanguage).subscribe({
+    // Obtener configuración de Twilio
+    const twilioConfig = this.twilioStorage.config();
+    
+    // Validar que tenemos los datos necesarios
+    if (!twilioConfig?.countryCode || !twilioConfig?.phoneNumber) {
+      loaderRef.close();
+      this.modalService.openError({
+        title: 'Validación',
+        message: 'Por favor, configura primero la integración con Twilio (número de teléfono).',
+      });
+      return;
+    }
+
+    // Construir el DTO para crear el agente
+    const languageCode = typeof this.selectedLanguage === 'string' 
+      ? this.selectedLanguage 
+      : this.selectedLanguage?.code || 'es';
+
+    const agentConfig: SetAgentConfigDto = {
+      name: this.selectedVoice.name || 'Agente',
+      language: languageCode,
+      type: 'inbound', // Por defecto inbound, puede ser configurable en el futuro
+      voiceId: this.selectedVoice.voiceId,
+      firstInteraction: this.firstInteractionMessage,
+      agentInstruction: twilioConfig.agentInstruction || '',
+      phoneNumbers: {
+        countryCode: twilioConfig.countryCode,
+        number: twilioConfig.phoneNumber,
+      },
+      label: `${this.selectedVoice.name} - ${this.selectedLanguage?.name || languageCode}`,
+    };
+
+    // Crear el agente
+    this.agentsService.createAgent(agentConfig).subscribe({
       next: (response) => {
         loaderRef.close();
         this.dialog.open(TwilioSuccessModalComponent, {
@@ -249,17 +282,17 @@ export class AgentsComponent implements OnInit {
           disableClose: false,
           panelClass: 'custom-dialog-container',
           data: {
-            message: '¡Voz configurada exitosamente!',
+            message: '¡Agente creado exitosamente!',
             title: 'Configuración Completada',
           },
         });
       },
       error: (error) => {
         loaderRef.close();
-        console.error('Error al publicar la voz:', error);
+        console.error('Error al crear el agente:', error);
         this.modalService.openError({
           title: 'Error',
-          message: 'No se pudo publicar la voz.',
+          message: 'No se pudo crear el agente.',
           details: String(error)
         });
       },
