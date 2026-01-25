@@ -2,7 +2,9 @@ import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { I18nService } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
+import { AgentsService } from '../../core/services/agents.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
+import { Agent } from '../../shared/models/agent.model';
 import {
   NgApexchartsModule,
   ApexAxisChartSeries,
@@ -25,9 +27,11 @@ import {
 export class HomeComponent implements OnInit {
   private i18nService = inject(I18nService);
   private metricsService = inject(MetricsService);
+  private agentsService = inject(AgentsService);
 
   dashboardMetrics: DashboardMetrics | null = null;
   isLoadingMetrics: boolean = false;
+  userAgents: Agent[] = [];
 
   // Obtener traducciones
   get t() {
@@ -317,25 +321,26 @@ export class HomeComponent implements OnInit {
     outerColor: string;
     innerColor: string;
   }> {
-    // Si hay datos del backend, usarlos
-    if (this.dashboardMetrics && this.dashboardMetrics.agentes) {
-      const totalMinutes = this.dashboardMetrics.agentes.reduce(
-        (sum, agent) => sum + agent.minutos_totales,
+    // Si hay agentes del usuario, usarlos
+    if (this.userAgents && this.userAgents.length > 0) {
+      const totalMinutes = this.userAgents.reduce(
+        (sum, agent) => sum + (agent.totalMinutes || 0),
         0
       );
 
-      return this.dashboardMetrics.agentes.map((agent) => {
+      return this.userAgents.map((agent) => {
+        const minutes = agent.totalMinutes || 0;
         const percent =
           totalMinutes > 0
-            ? Math.round((agent.minutos_totales / totalMinutes) * 100 * 10) / 10
+            ? Math.round((minutes / totalMinutes) * 100 * 10) / 10
             : 0;
 
-        const isActive = agent.estado === 'activo';
+        const isActive = agent.state === 'Activo';
 
         return {
-          name: agent.nombre,
-          type: agent.tipo === 'inbound' ? this.t.inbound : this.t.outbound,
-          minutes: agent.minutos_totales,
+          name: agent.name,
+          type: agent.type === 'inbound' ? this.t.inbound : this.t.outbound,
+          minutes: minutes,
           percent: percent,
           status: isActive ? this.t.active : this.t.draft,
           active: isActive,
@@ -345,7 +350,7 @@ export class HomeComponent implements OnInit {
       });
     }
 
-    // Si no hay datos del backend, devolver array vacío para evitar mostrar datos ficticios
+    // Si no hay agentes, devolver array vacío
     return [];
   }
 
@@ -356,6 +361,7 @@ export class HomeComponent implements OnInit {
     // Cargar métricas solo si estamos en el navegador (no en SSR)
     if (this.isBrowser) {
       this.loadMetrics();
+      this.loadUserAgents();
     } else {
       // Si no estamos en el navegador, asegurar que los gráficos tengan datos por defecto
       // (ya están inicializados arriba, pero esto asegura que se muestren)
@@ -366,6 +372,20 @@ export class HomeComponent implements OnInit {
 
     // Ejecutar animaciones siempre
     this.startFadeInAnimations();
+  }
+
+  // Cargar agentes del usuario
+  private loadUserAgents(): void {
+    this.agentsService.getAgentsList().subscribe({
+      next: (response) => {
+        console.log('✅ Agentes del usuario cargados en dashboard:', response);
+        this.userAgents = response.agents || [];
+      },
+      error: (error) => {
+        console.error('❌ Error al obtener agentes en dashboard:', error);
+        this.userAgents = [];
+      },
+    });
   }
 
   private startFadeInAnimations(): void {
