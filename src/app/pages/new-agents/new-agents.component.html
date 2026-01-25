@@ -6,7 +6,7 @@
       class="brand-font text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-lg font-semibold text-gray-800 resumen-titulo max-lg:text-xs dark:text-slate-50 ">
       {{ t.yourAgents }}</h2>
     @if (agents.length > 0) {
-    <app-ripple-button (buttonClick)="router.navigateByUrl('/dashboard/agents/create')"
+    <app-ripple-button (buttonClick)="navigateToCreateAgent()"
       buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white w-auto px-3 sm:px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-10 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2 rounded-lg text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-1 whitespace-nowrap max-lg:text-[9px] max-lg:px-2 max-lg:py-0.5"
       rippleColor="rgba(255, 255, 255, 0.4)">
       {{ t.createAgent }}
@@ -231,7 +231,7 @@
     </p>
     <p class="text-[10px] 3xl:text-sm text-gray-400 mb-2 3xl:mb-4 max-lg:text-[9px] max-lg:mb-1.5 dark:text-slate-400 ">
       {{ t.createItNow }}</p>
-    <app-ripple-button (buttonClick)="router.navigateByUrl('/dashboard/agents/create')"
+    <app-ripple-button (buttonClick)="navigateToCreateAgent()"
       buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white w-full sm:w-auto px-4 sm:px-5 lg:px-6 3xl:px-10 py-1 3xl:py-2 rounded-lg text-[10px] 3xl:text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-1 max-lg:text-[9px] max-lg:px-3 max-lg:py-0.5"
       rippleColor="rgba(255, 255, 255, 0.4)">
       {{ t.createAgentButton }}
