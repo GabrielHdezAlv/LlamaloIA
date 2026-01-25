@@ -62,6 +62,9 @@ export class AccountComponent implements OnInit {
   // Facturación
   currentPlanMinutes: number | null = null;
 
+  // Integraciones
+  showTwilioConfig = false;
+
   // Usuario actual
   private userStore = inject(UserStorage);
   user = this.userStore.user;
