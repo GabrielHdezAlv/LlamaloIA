@@ -21,6 +21,7 @@ interface AgentDraft {
   currentVoiceIndex: number;
   selectedCountry: string;
   selectedCountryCode: string;
+  selectedCallType?: 'inbound' | 'outbound' | null;
   phoneNumber: string;
   inactivityTimeout: number;
   maxCallDuration: number;
@@ -31,17 +32,19 @@ interface AgentDraft {
   savedAt: number; // timestamp
 }
 
+import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
+
 @Component({
   selector: 'app-new-create-agents',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, AiSphereComponent],
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss'
 })
 export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, OnInit {
   @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef<HTMLDivElement>;
 
-  step: 'agentName' | 'callType' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' | 'advancedSettings' | 'final' | 'success' = 'agentName';
+  step: 'agentName' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' | 'advancedSettings' | 'final' | 'success' = 'agentName';
 
   // Popup de recuperación de borrador
   showRecoveryPopup = false;
@@ -49,6 +52,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   // Add this line to declare phoneNumber
   phoneNumber = '';
+  selectedCallType: 'inbound' | 'outbound' | null = null;
 
   private lottieInstance: any = null;
   private lottieInitialized = false;
@@ -118,6 +122,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.agentName = this.savedDraft.agentName || '';
       this.greeting = this.savedDraft.greeting || 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
       this.template = this.savedDraft.template || '';
+      // Recuperar el tipo de llamada si existe
+      this.selectedCallType = (this.savedDraft as any).selectedCallType || null;
       this.instructions = this.savedDraft.instructions || '';
       this.currentVoiceIndex = this.savedDraft.currentVoiceIndex || 0;
       this.selectedCountry = this.savedDraft.selectedCountry || 'es';
@@ -160,6 +166,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         template: this.template,
         instructions: this.instructions,
         currentVoiceIndex: this.currentVoiceIndex,
+        selectedCallType: this.selectedCallType,
         selectedCountry: this.selectedCountry,
         selectedCountryCode: this.selectedCountryCode,
         phoneNumber: this.phoneNumber,
@@ -195,8 +202,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (!this.savedDraft) return '';
 
     const stepNames: Record<string, string> = {
-      'agentName': 'Nombre del agente',
-      'callType': 'Tipo de llamada',
+      'agentName': 'Nombre y Tipo',
+      // 'callType': 'Tipo de llamada', // Eliminado
       'language': 'Idioma',
       'voices': 'Voces',
       'instructions': 'Instrucciones',
@@ -300,9 +307,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     });
   }
 
-  onSelect(type: 'inbound' | 'outbound') {
-    this.step = 'language';
-    this.saveDraft();
+  onSelectCallType(type: 'inbound' | 'outbound') {
+    this.selectedCallType = type;
   }
 
   onLanguageSelected() {
@@ -537,8 +543,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     } else if (this.step === 'voices') {
       this.step = 'language';
     } else if (this.step === 'language') {
-      this.step = 'callType';
-    } else if (this.step === 'callType') {
       this.step = 'agentName';
     } else if (this.step === 'agentName') {
       // Primer paso: volver a la pantalla anterior
@@ -549,8 +553,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   onSkip() {
     if (this.step === 'agentName') {
-      this.step = 'callType';
-    } else if (this.step === 'callType') {
       this.step = 'language';
     } else if (this.step === 'language') {
       this.step = 'voices';
@@ -579,7 +581,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       });
       return;
     }
-    this.step = 'callType';
+    this.step = 'language';
     this.saveDraft();
   }
 
@@ -778,13 +780,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   onSubmitTestCall() {
-    if (!this.phoneNumber) {
-      this.modalService.openError({
-        title: 'Número requerido',
-        message: 'Por favor, ingrese un número de teléfono',
-      });
-      return;
-    }
+
     console.log('Número ingresado para prueba:', this.phoneNumber);
     // Avanza a conectar número de teléfono
     this.step = 'connectPhone';
@@ -816,17 +812,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.modalService.openTwilioSteps();
   }
 
-  onSkipConnectPhone() {
-    // Salta a pantalla final
-    this.step = 'final';
 
-    // Simulamos 5 segundos de carga antes de mostrar éxito
-    setTimeout(() => {
-      this.step = 'success';
-      // Limpiar el borrador cuando el agente se crea con éxito
-      this.clearSavedDraft();
-    }, 5000);
-  }
 
   // Declare showCountryMenu property
   showCountryMenu = false;
@@ -1376,6 +1362,12 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     console.log('Generando prompt con descripción:', this.promptDescription);
     // TODO: Implementar la llamada a la API de IA
     this.closeGeneratePromptModal();
+  }
+
+  onSkipConnectPhone() {
+    console.log('Saltando conexión de teléfono...');
+    this.step = 'final';
+    this.saveDraft();
   }
 
 }

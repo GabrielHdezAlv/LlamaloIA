@@ -2,14 +2,15 @@
   class="min-h-screen flex flex-col pt-2 pb-3 px-2 sm:pt-3 sm:pb-8 sm:px-3 md:pt-4 md:pb-10 md:px-4 lg:pt-3 lg:pb-3 lg:px-1 lg:mt-3 3xl:pt-6 3xl:pb-8 3xl:px-6 max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
 
   <!-- Barra de progreso -->
+  <!-- Barra de progreso -->
   <div class="w-full mb-3 sm:mb-4 md:mb-5 lg:mb-3 xl:mb-3 2xl:mb-3">
     <div class="h-1 sm:h-1.5 md:h-2 3xl:h-2.5 w-full bg-gray-300 rounded-full overflow-hidden">
-      <div class="h-full bg-blue-950 transition-all duration-300" [class.w-[10vh]]="step === 'agentName'"
-        [class.w-[20vh]]="step === 'callType'" [class.w-[30vh]]="step === 'language'"
-        [class.w-[40vh]]="step === 'voices'" [class.w-[50vh]]="step === 'instructions'"
-        [class.w-[60vh]]="step === 'actions'" [class.w-[70vh]]="step === 'knowledgeBase'"
-        [class.w-[80vh]]="step === 'summary'" [class.w-[90vh]]="step === 'connectPhone'"
-        [class.w-[100vh]]="step === 'final'" [class.w-full]="step === 'success'"></div>
+      <div class="h-full bg-blue-950 transition-all duration-300" [class.w-[12vh]]="step === 'agentName'"
+        [class.w-[24vh]]="step === 'language'" [class.w-[36vh]]="step === 'voices'"
+        [class.w-[48vh]]="step === 'instructions'" [class.w-[60vh]]="step === 'actions'"
+        [class.w-[72vh]]="step === 'knowledgeBase'" [class.w-[84vh]]="step === 'summary'"
+        [class.w-[90vh]]="step === 'connectPhone'" [class.w-[100vh]]="step === 'final'"
+        [class.w-full]="step === 'success'"></div>
     </div>
   </div>
 
@@ -18,7 +19,7 @@
     class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <h2
       class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
-      Nombre del Agente</h2>
+      Configuración del Agente</h2>
     <p
       class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-200 mb-2 sm:mb-3 md:mb-4 lg:mb-2 xl:mb-2 2xl:mb-2 3xl:mb-2 max-w-2xl mx-auto  sm: md: px-2 sm:px-4">
       Este nombre se usará para identificar al agente dentro de la plataforma. No afecta su comportamiento.
@@ -26,12 +27,69 @@
     <div class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide"
       style="scrollbar-width: none; -ms-overflow-style: none;">
       <div
-        class="max-w-xl w-full mx-auto px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 mt-4 sm:mt-5 md:mt-6 lg:mt-[8rem] xl:mt-[8rem] 2xl:mt-[8rem]">
+        class="max-w-xl w-full mx-auto px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 mt-4 sm:mt-5 md:mt-6 lg:mt-[0.5rem] xl:mt-[0.5rem] 2xl:mt-[0.5rem]">
         <label
           class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-black dark:text-slate-200 mb-1.5 lg:mb-2 xl:mb-2 2xl:mb-2 3xl:mb-2.5">Nombre
           del agente</label>
         <input type="text" [(ngModel)]="agentName" placeholder="Ej. Carla Ventas"
-          class="w-full px-3.5 sm:px-4 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-5 py-2.5 sm:py-3 md:py-3.5 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl lg:rounded-xl xl:rounded-xl 2xl:rounded-xl 3xl:rounded-2xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-lg text-gray-700 dark:text-slate-200" />
+          class="w-full px-3 sm:px-3.5 md:px-4 lg:px-3 xl:px-3 2xl:px-3 3xl:px-5 py-2 sm:py-2.5 md:py-3 lg:py-2 xl:py-2 2xl:py-2 3xl:py-3.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl lg:rounded-xl xl:rounded-xl 2xl:rounded-xl 3xl:rounded-2xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-lg text-gray-700 dark:text-slate-200" />
+      </div>
+
+      <!-- Call Type Section (Unified) -->
+      <div class="max-w-xl w-full mx-auto px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 mt-6 sm:mt-8">
+        <label
+          class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-black dark:text-slate-200 mb-3">Tipo
+          de llamada</label>
+        <div class="grid grid-cols-2 gap-4">
+          <!-- Inbound -->
+          <button (click)="onSelectCallType('inbound')" [class.border-blue-500]="selectedCallType === 'inbound'"
+            [class.ring-2]="selectedCallType === 'inbound'" [class.ring-blue-500]="selectedCallType === 'inbound'"
+            class="w-full h-[180px] sm:h-[200px] rounded-xl relative cursor-pointer hover:shadow-md transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border border-gray-200 dark:border-gray-700">
+            <div class="mb-3 text-gray-900 dark:text-white" [class.text-blue-600]="selectedCallType === 'inbound'"
+              [class.dark:text-blue-400]="selectedCallType === 'inbound'">
+              <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M32.0306 20.4041C33.5444 20.4041 34.939 21.2249 35.6735 22.5483L40.7704 31.7293C41.4377 32.9314 41.469 34.3852 40.8542 35.6149L35.9442 45.4352C35.9442 45.4352 37.3671 52.7506 43.3221 58.7056C49.2771 64.6608 56.5681 66.0591 56.5681 66.0591L66.3867 61.1497C67.6173 60.5345 69.0723 60.5664 70.2748 61.2349L79.4817 66.3537C80.8038 67.0887 81.6238 68.4827 81.6238 69.9954V80.5652C81.6238 85.9477 76.624 89.8354 71.5238 88.1145C61.049 84.5799 44.7892 77.8504 34.4833 67.5445C24.1773 57.2385 17.4477 40.9789 13.9133 30.5039C12.1924 25.4039 16.0801 20.4041 21.4627 20.4041H32.0306Z"
+                  stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
+                <path d="M60.4165 41.6665L87.4998 15.6249" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M87.4998 41.6665H60.4165V14.5833" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base text-gray-900 dark:text-white">
+              {{ t.inbound }}
+            </h3>
+
+            @if(selectedCallType === 'inbound') {
+            <div class="absolute top-2 right-2 text-blue-500 bg-blue-50 dark:bg-blue-900/30 rounded-full p-1">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            }
+          </button>
+
+          <!-- Outbound -->
+          <button disabled
+            class="w-full h-[180px] sm:h-[200px] rounded-xl relative cursor-not-allowed opacity-60 bg-white dark:bg-slate-800 flex flex-col items-center justify-center border border-gray-200 dark:border-gray-700">
+            <div class="mb-3 opacity-50 text-gray-900 dark:text-white">
+              <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M58.333 41.6667L85.4163 15.625" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M58.333 14.5835H85.4163V41.6668" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M29.9476 20.4053C31.4614 20.4053 32.856 21.2263 33.5905 22.5496L38.6874 31.7304C39.3547 32.9325 39.386 34.3865 38.7712 35.6163L33.8612 45.4365C33.8612 45.4365 35.2841 52.7519 41.2391 58.7069C47.1941 64.6619 54.4851 66.0602 54.4851 66.0602L64.3037 61.151C65.5343 60.5356 66.9893 60.5675 68.1918 61.236L77.3987 66.3548C78.7208 67.09 79.5408 68.4837 79.5408 69.9965V80.5662C79.5408 85.949 74.541 89.8367 69.4408 88.1156C58.966 84.5812 42.7062 77.8517 32.4003 67.5456C22.0943 57.2398 15.3647 40.98 11.8303 30.5052C10.1094 25.405 13.9971 20.4053 19.3796 20.4053H29.9476Z"
+                  stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-sm sm:text-base text-gray-900 dark:text-white">
+              {{ t.outbound }}
+            </h3>
+            <p class="text-[10px] text-gray-500 mt-1">Próximamente</p>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -55,114 +113,11 @@
         Continuar
       </button>
 
-      <!-- Botón Saltar a la derecha -->
-      <button (click)="onSkip()"
-        class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="font-family: 'Inter', sans-serif;">
-        Saltar
-        <svg class="ml-2 sm:ml-3 3xl:ml-4 w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:translate-x-1"
-          viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
+
     </div>
   </div>
   }
-  @if (step === 'callType') {
-  <div
-    class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-    <h2
-      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0.5 sm:mb-0.5 md:mb-1 lg:mb-1 xl:mb-1 2xl:mb-1 3xl:mb-1  sm: md: lg:">
-      Tipo de Llamadas</h2>
-    <div class="flex-1 flex flex-col justify-center overflow-y-auto scrollbar-hide"
-      style="scrollbar-width: none; -ms-overflow-style: none;">
-      <div
-        class="w-[90%] max-w-[400px] mx-auto grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-4 xl:gap-4 2xl:gap-4 px-2 sm:px-3 md:px-4 lg:px-3 xl:px-3 2xl:px-3 mb-3 sm:mb-4 -mt-8 sm:-mt-9 md:-mt-10 lg:-mt-8">
-        <!-- Inbound -->
-        <button (click)="onSelect('inbound')"
-          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-blue-500/30 dark:hover:border-blue-500/30">
-          <div class="mb-4 sm:mb-6">
-            <svg class="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 3xl:w-28 3xl:h-28" viewBox="0 0 100 100" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M32.0306 20.4041C33.5444 20.4041 34.939 21.2249 35.6735 22.5483L40.7704 31.7293C41.4377 32.9314 41.469 34.3852 40.8542 35.6149L35.9442 45.4352C35.9442 45.4352 37.3671 52.7506 43.3221 58.7056C49.2771 64.6608 56.5681 66.0591 56.5681 66.0591L66.3867 61.1497C67.6173 60.5345 69.0723 60.5664 70.2748 61.2349L79.4817 66.3537C80.8038 67.0887 81.6238 68.4827 81.6238 69.9954V80.5652C81.6238 85.9477 76.624 89.8354 71.5238 88.1145C61.049 84.5799 44.7892 77.8504 34.4833 67.5445C24.1773 57.2385 17.4477 40.9789 13.9133 30.5039C12.1924 25.4039 16.0801 20.4041 21.4627 20.4041H32.0306Z"
-                stroke="currentColor" stroke-width="5" stroke-linejoin="round" class="text-gray-900 dark:text-white" />
-              <path d="M60.4165 41.6665L87.4998 15.6249" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-                stroke-linejoin="round" class="text-gray-900 dark:text-white" />
-              <path d="M87.4998 41.6665H60.4165V14.5833" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-                stroke-linejoin="round" class="text-gray-900 dark:text-white" />
-            </svg>
-          </div>
-          <div class="absolute bottom-0 left-0 right-0 p-2.5 sm:p-4">
-            <h3
-              class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base md:text-lg lg:text-xs 3xl:text-base text-center ">
-              {{ t.inbound }}</h3>
-          </div>
-        </button>
 
-        <!-- Outbound -->
-        <button disabled
-          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-not-allowed opacity-60 bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent">
-          <div class="mb-4 sm:mb-6 opacity-50">
-            <svg class="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 3xl:w-32 3xl:h-32 text-gray-900 dark:text-white"
-              viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M58.333 41.6667L85.4163 15.625" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path d="M58.333 14.5835H85.4163V41.6668" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <path
-                d="M29.9476 20.4053C31.4614 20.4053 32.856 21.2263 33.5905 22.5496L38.6874 31.7304C39.3547 32.9325 39.386 34.3865 38.7712 35.6163L33.8612 45.4365C33.8612 45.4365 35.2841 52.7519 41.2391 58.7069C47.1941 64.6619 54.4851 66.0602 54.4851 66.0602L64.3037 61.151C65.5343 60.5356 66.9893 60.5675 68.1918 61.236L77.3987 66.3548C78.7208 67.09 79.5408 68.4837 79.5408 69.9965V80.5662C79.5408 85.949 74.541 89.8367 69.4408 88.1156C58.966 84.5812 42.7062 77.8517 32.4003 67.5456C22.0943 57.2398 15.3647 40.98 11.8303 30.5052C10.1094 25.405 13.9971 20.4053 19.3796 20.4053H29.9476Z"
-                stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
-            </svg>
-          </div>
-          <div class="absolute bottom-0 left-0 right-0 p-2.5 sm:p-4">
-            <h3
-              class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base md:text-lg lg:text-xs text-center  mb-2">
-              {{ t.outbound }}</h3>
-            <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 text-center">Próximamente</p>
-          </div>
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
-      <!-- Botón de volver a la izquierda -->
-      <button (click)="goBack()"
-        class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="z-index:10;">
-        <svg class="w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:-translate-x-1" viewBox="0 0 18 18"
-          fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
-
-      <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
-        (click)="onSelect('inbound')">
-        Continuar
-      </button>
-
-      <!-- Botón Saltar a la derecha -->
-      <button (click)="onSkip()"
-        class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="font-family: 'Inter', sans-serif;">
-        Saltar
-        <svg class="ml-2 sm:ml-3 3xl:ml-4 w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:translate-x-1"
-          viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  }
   <!-- Pagina: 2 -->
   @if (step === 'language') {
   <!-- Pantalla 2: Idioma -->
@@ -463,24 +418,7 @@
         </svg>
       </button>
 
-      <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
-        (click)="onLanguageSelected()">
-        Continuar
-      </button>
 
-      <!-- Botón Saltar a la derecha -->
-      <button (click)="onSkip()"
-        class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="font-family: 'Inter', sans-serif;">
-        Saltar
-        <svg class="ml-2 sm:ml-3 3xl:ml-4 w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:translate-x-1"
-          viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
     </div>
   </div>
   }
@@ -805,18 +743,7 @@
         </svg>
       </button>
 
-      <!-- Botón Saltar a la derecha -->
-      <button (click)="onSkip()"
-        class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="font-family: 'Inter', sans-serif;">
-        Saltar
-        <svg class="ml-2 sm:ml-3 3xl:ml-4 w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:translate-x-1"
-          viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
+
     </div>
   </div>
   }
@@ -917,17 +844,7 @@
       </button>
 
       <!-- Botón Saltar a la derecha -->
-      <button (click)="onSkip()"
-        class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="font-family: 'Inter', sans-serif;">
-        Saltar
-        <svg class="ml-2 sm:ml-3 3xl:ml-4 w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:translate-x-1"
-          viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
+
     </div>
   </div>
   }
@@ -1146,27 +1063,9 @@
       Habla con nuestro agente de prueba para ver cómo funciona.
     </p>
 
-    <div class="flex-1 flex flex-col justify-start items-center relative pt-8 lg:pt-12">
+    <div class="flex-1 flex flex-col justify-start items-center relative pt-0 lg:pt-0 -mt-2 lg:-mt-6">
       <!-- Esfera premium con animación de líquido fluido -->
-      <div class="sphere-wrapper" [style.width]="getMainSphereSize() + 'px'" [style.height]="getMainSphereSize() + 'px'"
-        [style.transform]="'scale(' + (1 + audioLevel * 0.15) + ')'">
-
-        <div class="outer-glow" [style.opacity]="0.3 + (audioLevel * 0.7)"
-          [style.transform]="'scale(' + (1.2 + audioLevel * 0.5) + ')'">
-        </div>
-
-        <div class="liquid-sphere-container" [style.width]="getMainSphereSize() + 'px'"
-          [style.height]="getMainSphereSize() + 'px'">
-          <div class="liquid-sphere">
-            <div class="blob"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
-
-
-
-          </div>
-        </div>
-      </div>
+      <app-ai-sphere [audioLevel]="audioLevel"></app-ai-sphere>
     </div>
 
     <!-- Botón de micrófono encima del botón Continuar -->
@@ -1214,17 +1113,7 @@
         Continuar
       </button>
 
-      <button (click)="step = 'connectPhone'"
-        class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="font-family: 'Inter', sans-serif;">
-        Saltar
-        <svg class="ml-2 sm:ml-3 3xl:ml-4 w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:translate-x-1"
-          viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
+
     </div>
   </div>
   }
@@ -1242,21 +1131,22 @@
       a través de Twilio
     </p>
 
-    <!-- Botón de ayuda -->
-    <div class="absolute top-4 right-4 3xl:top-6 3xl:right-6 z-20">
-      <button (click)="openTwilioStepsModal()"
-        class="w-8 h-8 lg:w-7 lg:h-7 3xl:w-10 3xl:h-10 bg-blue-600 dark:bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-200 shadow-md hover:shadow-lg hover:scale-110"
-        aria-label="Ayuda" title="Ver pasos a seguir">
-        <svg class="w-4 h-4 lg:w-3.5 lg:h-3.5 3xl:w-5 3xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </button>
-    </div>
+
 
     <div class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide"
       style="scrollbar-width: none; -ms-overflow-style: none;">
       <!-- Contenido principal: Formulario centrado -->
+      <div class="absolute top-3 right-3 sm:top-4 sm:right-4 z-20">
+        <button (click)="openTwilioStepsModal()"
+          class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-slate-900 flex items-center justify-center">
+          <svg class="w-5 h-5 3xl:w-6 3xl:h-6" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor">
+            <path
+              d="M10.656 8.864q0-2.208 1.568-3.776t3.776-1.568 3.776 1.568 1.6 3.776q0 0.256-0.064 0.448l-1.76 6.944q-0.096 1.408-1.12 2.368t-2.432 0.96q-1.376 0-2.4-0.928t-1.152-2.304q-0.32-0.96-0.672-2.112t-0.736-2.784-0.384-2.592zM12.416 24.928q0-1.472 1.056-2.496t2.528-1.056 2.528 1.056 1.056 2.496q0 1.504-1.056 2.528t-2.528 1.056-2.528-1.056-1.056-2.528z">
+            </path>
+          </svg>
+        </button>
+      </div>
       <div class="max-w-xl mx-auto px-2 sm:px-4 md:px-6 lg:px-5 xl:px-5 2xl:px-5 pt-3 sm:pt-4 md:pt-5 lg:pt-12">
         <form class="space-y-4 sm:space-y-5 lg:space-y-3 3xl:space-y-4">
           <!-- Número de teléfono -->
@@ -1422,17 +1312,9 @@
         Continuar
       </button>
 
-      <button (click)="onSkipConnectPhone()"
-        class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="font-family: 'Inter', sans-serif;">
-        Saltar
-        <svg class="ml-2 sm:ml-3 3xl:ml-4 w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:translate-x-1"
-          viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
+
+
+
     </div>
   </div>
   }

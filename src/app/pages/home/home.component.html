@@ -331,8 +331,8 @@
           <div [style.height.px]="h === 0 ? 5 : h"
             class="llamadas-barra w-full rounded-xl transition-all duration-300 relative flex justify-center items-start pt-1.5"
             [ngClass]="isToday(i) ? 'llamadas-barra-hoy' : ''">
-            <span *ngIf="showCallsByDayNumber(i)"
-              class="text-[9px] lg:text-[13px] font-bold text-black dark:text-white">
+            <span *ngIf="showCallsByDayNumber(i)" class="text-[9px] lg:text-[13px] font-bold dark:text-white"
+              [class.text-white]="isToday(i)" [class.text-black]="!isToday(i)">
               {{ callsByDayCounts[i] }}
             </span>
           </div>

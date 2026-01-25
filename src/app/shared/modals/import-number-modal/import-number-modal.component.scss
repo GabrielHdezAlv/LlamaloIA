@@ -29,6 +29,12 @@
   }
 }
 
+/* Estilos para el título */
+h2.text-blue-950 {
+  font-family: 'Poppins', sans-serif !important;
+  letter-spacing: -2px !important;
+}
+
 /* Estilos para el contenedor del modal de Material */
 ::ng-deep .custom-dialog-container {
   .mat-mdc-dialog-container {
