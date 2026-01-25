@@ -24,7 +24,8 @@ export interface TwilioConfig {
  * Tipo extendido para el storage local que incluye campos adicionales
  * que no vienen del servidor pero se necesitan localmente
  */
-export interface TwilioConfigLocal extends TwilioConfig {
+export interface TwilioConfigLocal extends Omit<TwilioConfig, 'inboundMinutes'> {
+  inboundMinutes?: TwilioConfig['inboundMinutes']; // Opcional para storage local
   countryCode?: string;
   phoneNumber?: number;
   firstInteraction?: string;

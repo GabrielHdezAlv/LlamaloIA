@@ -1,21 +1,21 @@
 export class User {
   userId?: string;
-  name: string;
-  lastname: string;
+  name?: string; // Opcional porque puede venir undefined del perfil
+  lastname?: string; // Opcional porque puede venir undefined del perfil
   profileImage?: string;
   enterprise?: string | { name: string; url: string };
   enterpriseWeb?: string;
   country?: string;
-  email: string;
-  password: string;
+  email?: string; // Opcional porque puede venir undefined del perfil
+  password?: string; // Opcional porque no viene del perfil del usuario
   token?: string;
   voiceId?: string;
   language?: any;
   // Nuevos campos opcionales
   integrations?: {
     shopify?: {
-      connected: boolean;
-      shopDomain: string;
+      connected?: boolean;
+      shopDomain?: string;
     };
   };
   twilio?: {
@@ -44,10 +44,10 @@ export class User {
   agent?: any; // Compatibilidad: primer agente del array
 
   constructor(
-    name: string,
-    lastname: string,
-    email: string,
-    password: string,
+    name: string | undefined,
+    lastname: string | undefined,
+    email: string | undefined,
+    password: string | undefined,
     userId: string,
     profileImage?: string,
     enterprise?: string | { name: string; url: string },

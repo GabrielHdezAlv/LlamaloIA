@@ -87,7 +87,10 @@ export class AccountComponent implements OnInit {
   }
 
   userProfileImage = computed(() => this.user()?.profileImage ?? '');
-  enterprise = computed(() => this.user()?.enterprise ?? '');
+  enterprise = computed(() => {
+    const ent = this.user()?.enterprise;
+    return typeof ent === 'string' ? ent : ent?.name || '';
+  });
   enterpriseWeb = computed(() => this.user()?.enterpriseWeb ?? '');
 
   ngOnInit() {
@@ -98,7 +101,10 @@ export class AccountComponent implements OnInit {
       this.tempName = user.name || '';
       this.tempLastname = user.lastname || '';
       this.tempCountry = user.country || '';
-      this.tempEnterprise = user.enterprise || '';
+      // Extraer string si enterprise es un objeto
+      this.tempEnterprise = typeof user.enterprise === 'string' 
+        ? user.enterprise 
+        : user.enterprise?.name || '';
       this.tempEnterpriseWeb = user.enterpriseWeb || '';
       this.tempProfileImage = user.profileImage || '';
     }
