@@ -2,12 +2,22 @@ import { Component, inject, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDe
 import { I18nService } from '../../core/services/i18n.service';
 import { Router } from '@angular/router';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
+import { UserService } from '../../core/services/user.service';
+
+interface PhoneNumberDisplay {
+  phoneId: number;
+  countryCode: string;
+  number: string;
+  label?: string;
+  state: string; // Mock por ahora
+  importedBy: string; // Mock por ahora
+}
 
 @Component({
   selector: 'app-numbers',
-  imports: [RippleButtonComponent],
+  imports: [RippleButtonComponent, CommonModule],
   templateUrl: './numbers.component.html',
   styleUrl: './numbers.component.scss'
 })
@@ -15,10 +25,14 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   private i18nService = inject(I18nService);
   router = inject(Router);
   private modalService = inject(ModalService);
+  private userService = inject(UserService);
   private cdr: ChangeDetectorRef;
 
   // Variable para controlar la animación de fade in
   showContent: boolean = false;
+
+  // Lista de números de teléfono para mostrar en la tabla
+  phoneNumbers: PhoneNumberDisplay[] = [];
 
   private isBrowser: boolean;
 
@@ -37,7 +51,39 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // No hacer nada aquí, esperar a AfterViewInit
+    // Obtener los phoneNumbers del usuario al entrar
+    this.userService.getUserProfile().subscribe({
+      next: (profile) => {
+        console.log('📞 PhoneNumbers del usuario:', profile.phoneNumbers);
+        console.log('📞 Perfil completo:', profile);
+        
+        // Mapear los phoneNumbers del usuario a la estructura de la tabla
+        if (profile.phoneNumbers && profile.phoneNumbers.length > 0) {
+          this.phoneNumbers = profile.phoneNumbers.map((phone, index) => ({
+            phoneId: phone.phoneId || index + 1,
+            countryCode: phone.countryCode || '',
+            number: String(phone.number || ''), // Convertir a string por si viene como número
+            label: `Número ${phone.phoneId || index + 1}`, // Generar label basado en phoneId
+            state: 'Activo', // Mock - se añadirá más adelante
+            importedBy: 'Twilio' // Mock - se añadirá más adelante
+          }));
+          console.log('📞 PhoneNumbers mapeados:', this.phoneNumbers);
+          console.log('📞 Cantidad de números:', this.phoneNumbers.length);
+          // Forzar detección de cambios
+          this.cdr.detectChanges();
+        } else {
+          this.phoneNumbers = [];
+          console.log('📞 No hay phoneNumbers en el perfil');
+          console.log('📞 Array phoneNumbers vacío:', this.phoneNumbers);
+          this.cdr.detectChanges();
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener el perfil del usuario:', error);
+        this.phoneNumbers = [];
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -82,6 +128,11 @@ export class NumbersComponent implements OnInit, AfterViewInit {
         // Por ejemplo, actualizar la lista de números, mostrar un mensaje de éxito, etc.
       }
     });
+  }
+
+  // Método helper para formatear el número de teléfono
+  formatPhoneNumber(countryCode: string, number: string): string {
+    return `${countryCode} ${number}`;
   }
 
 }
