@@ -44,8 +44,6 @@ export class ImportNumberModalComponent {
   constructor() {
     this.importForm = this.fb.group({
       phoneNumber: ['', Validators.required],
-      twilioSid: ['', Validators.required],
-      twilioToken: ['', Validators.required],
       label: ['']
     });
   }
