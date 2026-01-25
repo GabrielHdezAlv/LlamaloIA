@@ -24,10 +24,10 @@ export class AccountComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private platformId = inject(PLATFORM_ID);
 
-  activeTab: 'profile' | 'security' | 'billing' | 'gifts' = 'profile';
+  activeTab: 'profile' | 'security' | 'billing' | 'gifts' | 'connections' = 'profile';
   showBillingModal = false;
   showAvatarModal = false;
-  
+
   // Avatares predeterminados
   defaultAvatars = [
     'assets/animoji_1.webp',
@@ -40,8 +40,8 @@ export class AccountComponent implements OnInit {
     'assets/animoji_8.webp',
     'assets/animoji_9.webp',
     'assets/animoji_10.webp',
-    
-    
+
+
   ];
 
   // Campos de contraseña
@@ -82,7 +82,7 @@ export class AccountComponent implements OnInit {
   }
 
   // Método para cambiar de pestaña
-  setActiveTab(tab: 'profile' | 'security' | 'billing' | 'gifts') {
+  setActiveTab(tab: 'profile' | 'security' | 'billing' | 'gifts' | 'connections') {
     this.activeTab = tab;
   }
 
@@ -95,20 +95,20 @@ export class AccountComponent implements OnInit {
 
   ngOnInit() {
     this.i18nService.initializeLanguage();
-    
+
     const user = this.user();
     if (user) {
       this.tempName = user.name || '';
       this.tempLastname = user.lastname || '';
       this.tempCountry = user.country || '';
       // Extraer string si enterprise es un objeto
-      this.tempEnterprise = typeof user.enterprise === 'string' 
-        ? user.enterprise 
+      this.tempEnterprise = typeof user.enterprise === 'string'
+        ? user.enterprise
         : user.enterprise?.name || '';
       this.tempEnterpriseWeb = user.enterpriseWeb || '';
       this.tempProfileImage = user.profileImage || '';
     }
-    
+
     // Inicializar el slider del modal de facturación
     setTimeout(() => {
       this.updateSliderBackground();
@@ -121,13 +121,13 @@ export class AccountComponent implements OnInit {
         console.log('Activating gifts tab'); // Debug log
         this.setActiveTab('gifts');
         // Limpiar el parámetro de consulta después de un pequeño delay
-         setTimeout(() => {
-           this.router.navigate([], {
-             relativeTo: this.route,
-             queryParams: {},
-             replaceUrl: true
-           });
-         }, 10);
+        setTimeout(() => {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {},
+            replaceUrl: true
+          });
+        }, 10);
       }
     });
   }
@@ -141,10 +141,10 @@ export class AccountComponent implements OnInit {
       });
       return;
     }
-    
+
     // Aquí puedes enviar al backend
     console.log('Contraseña actualizada');
-    
+
     // Mostrar modal de éxito en lugar de notificación básica
     this.modalService.openPasswordSuccess({
       title: 'Contraseña actualizada',
@@ -152,7 +152,7 @@ export class AccountComponent implements OnInit {
       showContinueButton: true,
       continueButtonText: 'Entendido'
     });
-    
+
     // Limpiar los campos después del éxito
     this.currentPassword = '';
     this.newPassword = '';
@@ -362,7 +362,7 @@ export class AccountComponent implements OnInit {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    
+
     const percentage = ((this.selectedMinutes - 100) / (2000 - 100)) * 100;
     const slider = document.querySelector('.slider') as HTMLInputElement;
     if (slider) {
@@ -374,7 +374,7 @@ export class AccountComponent implements OnInit {
 
   getSliderThumbPosition(): string {
     const percentage = Math.min(100, Math.max(0, ((this.selectedMinutes - 100) / (2000 - 100)) * 100));
-    
+
     if (this.selectedMinutes === 2000) {
       return 'calc(100% - 12px)'; // Llega al final sin espacio
     } else if (this.selectedMinutes === 100) {
@@ -389,11 +389,11 @@ export class AccountComponent implements OnInit {
     const rect = sliderTrack.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    
+
     // Convertir porcentaje a valor entre 100 y 2000
     const value = Math.round(100 + (percentage / 100) * (2000 - 100));
     const stepValue = Math.round(value / 50) * 50; // Redondear al step más cercano
-    
+
     this.selectedMinutes = Math.max(100, Math.min(2000, stepValue));
   }
 
@@ -401,33 +401,33 @@ export class AccountComponent implements OnInit {
     this.isDragging = true;
     event.preventDefault();
     event.stopPropagation();
-    
+
     const sliderContainer = (event.target as HTMLElement).closest('.relative') as HTMLElement;
-    
+
     const handleMouseMove = (e: Event) => {
       if (!this.isDragging || !sliderContainer) return;
-      
+
       e.preventDefault();
-      
+
       const mouseEvent = e as MouseEvent;
       const touchEvent = e as TouchEvent;
       const clientX = touchEvent.touches ? touchEvent.touches[0].clientX : mouseEvent.clientX;
-      
+
       const rect = sliderContainer.getBoundingClientRect();
       const x = clientX - rect.left;
       const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-      
+
       // Convertir porcentaje a valor entre 100 y 2000
       const value = Math.round(100 + (percentage / 100) * (2000 - 100));
       const stepValue = Math.round(value / 50) * 50; // Redondear al step más cercano
-      
+
       this.selectedMinutes = Math.max(100, Math.min(2000, stepValue));
     };
 
     const handleMouseUp = (e: Event) => {
       this.isDragging = false;
       e.preventDefault();
-      
+
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('touchmove', handleMouseMove);
