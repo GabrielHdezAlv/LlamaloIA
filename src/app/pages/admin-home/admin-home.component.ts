@@ -330,7 +330,7 @@ export class AdminHomeComponent implements OnInit {
       calls: 530, 
       minutes: 1240, 
       status: 'Activo',
-      image: 'assets/predeterminada.webp',
+      profileImage: 'assets/predeterminada.webp',
       rank: 1
     },
     { 
@@ -339,7 +339,7 @@ export class AdminHomeComponent implements OnInit {
       calls: 450, 
       minutes: 980, 
       status: 'Activo',
-      image: 'assets/predeterminada.webp',
+      profileImage: 'assets/predeterminada.webp',
       rank: 2
     },
     { 
@@ -348,7 +348,7 @@ export class AdminHomeComponent implements OnInit {
       calls: 320, 
       minutes: 750, 
       status: 'Activo',
-      image: 'assets/predeterminada.webp',
+      profileImage: 'assets/predeterminada.webp',
       rank: 3
     },
     { 
@@ -357,7 +357,7 @@ export class AdminHomeComponent implements OnInit {
       calls: 280, 
       minutes: 620, 
       status: 'Activo',
-      image: 'assets/predeterminada.webp',
+      profileImage: 'assets/predeterminada.webp',
       rank: 4
     },
     { 
@@ -366,7 +366,7 @@ export class AdminHomeComponent implements OnInit {
       calls: 245, 
       minutes: 580, 
       status: 'Activo',
-      image: 'assets/predeterminada.webp',
+      profileImage: 'assets/predeterminada.webp',
       rank: 5
     }
   ];

@@ -320,7 +320,7 @@
           <div class="relative flex-shrink-0">
             <div class="w-12 h-12 rounded-full overflow-hidden bg-gray-200 dark:bg-slate-700 border border-gray-200 dark:border-slate-600">
               <img 
-                [src]="user.image" 
+                [src]="user.profileImage || 'assets/predeterminada.webp'" 
                 [alt]="user.name"
                 class="w-full h-full object-cover"
                 onerror="this.src='assets/predeterminada.webp'"

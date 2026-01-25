@@ -248,6 +248,10 @@ export class AccountComponent implements OnInit {
       next: (response: any) => {
         this.tempProfileImage = response.imageUrl;
         this.showNotification('Imagen subida correctamente', 'success');
+        // Recargar la página para actualizar el perfil desde el backend
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       },
       error: (error: any) => {
         console.error('Error al subir imagen:', error);

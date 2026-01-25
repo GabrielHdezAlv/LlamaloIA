@@ -1,4 +1,4 @@
-import { ApplicationConfig, PLATFORM_ID, inject, ErrorHandler } from '@angular/core';
+import { ApplicationConfig, PLATFORM_ID, inject, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from '../app.routes';
 import {
@@ -10,6 +10,7 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 import { STORAGE_REPOSITORY } from '../storages/storage-repository.token';
 import { LocalStorageRepository } from '../storages/local-storage.repository';
 import { ModalService } from '../shared/modals/modal.service';
+import { UserStorage } from '../storages/user/user-storage';
 
 class GlobalErrorHandler implements ErrorHandler {
   private modalService = inject(ModalService);
@@ -26,6 +27,11 @@ class GlobalErrorHandler implements ErrorHandler {
   }
 }
 
+// Función para inicializar y cargar el perfil del usuario
+export function initializeUserProfile(userStorage: InstanceType<typeof UserStorage>): () => Promise<void> {
+  return () => userStorage.loadUserProfile();
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withFetch()),
@@ -37,5 +43,11 @@ export const appConfig: ApplicationConfig = {
       useClass: LocalStorageRepository,
     },
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeUserProfile,
+      deps: [UserStorage],
+      multi: true,
+    },
   ],
 };
