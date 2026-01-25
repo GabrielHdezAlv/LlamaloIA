@@ -116,16 +116,40 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   }
 
   openImportNumberModal(): void {
-    const dialogRef = this.modalService.openImportNumber({
-      title: 'Importar Número de Teléfono',
-      message: 'Importa un número de teléfono desde tu proveedor de servicios de telecomunicaciones.'
-    });
+    // Verificar si el usuario tiene configuración de Twilio antes de abrir el modal
+    this.userService.getUserProfile().subscribe({
+      next: (profile) => {
+        const hasTwilioConfig = profile.twilio?.twilioSid && profile.twilio?.twilioToken;
+        
+        if (!hasTwilioConfig) {
+          // Mostrar modal indicando que debe configurar Twilio primero
+          this.modalService.openError({
+            title: 'Configuración de Twilio requerida',
+            message: 'Para importar un número de teléfono, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
+          });
+        } else {
+          // Si tiene la configuración, abrir el modal de importar número
+          const dialogRef = this.modalService.openImportNumber({
+            title: 'Importar Número de Teléfono',
+            message: 'Importa un número de teléfono desde tu proveedor de servicios de telecomunicaciones.'
+          });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Número importado:', result);
-        // Aquí puedes agregar la lógica para procesar el número importado
-        // Por ejemplo, actualizar la lista de números, mostrar un mensaje de éxito, etc.
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+              console.log('Número importado:', result);
+              // Aquí puedes agregar la lógica para procesar el número importado
+              // Por ejemplo, actualizar la lista de números, mostrar un mensaje de éxito, etc.
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error al verificar configuración de Twilio:', error);
+        // En caso de error, mostrar el modal de todas formas para ser seguro
+        this.modalService.openError({
+          title: 'Configuración de Twilio requerida',
+          message: 'Para importar un número de teléfono, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
+        });
       }
     });
   }
