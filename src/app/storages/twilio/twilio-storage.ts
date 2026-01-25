@@ -9,10 +9,10 @@ import {
 } from '@ngrx/signals';
 import { STORAGE_REPOSITORY } from '../storage-repository.token';
 import { Store } from '../store.enum';
-import type { TwilioConfig } from '../../shared/models/twilio-config.model';
+import type { TwilioConfigLocal } from '../../shared/models/twilio-config.model';
 
 type TwilioState = {
-  config: TwilioConfig | null;
+  config: TwilioConfigLocal | null;
   initialized: boolean;
 };
 
@@ -26,7 +26,7 @@ export const TwilioStorage = signalStore(
   withState<TwilioState>(() => initialState),
 
   withMethods((store: any, storageRepo = inject(STORAGE_REPOSITORY)) => ({
-    setConfig(config: TwilioConfig) {
+    setConfig(config: TwilioConfigLocal) {
       storageRepo.setItem(Store.TwilioStorage, 'config', config);
       patchState(store, { config });
     },
@@ -44,7 +44,7 @@ export const TwilioStorage = signalStore(
   withHooks({
     onInit(store: any, storageRepo = inject(STORAGE_REPOSITORY)) {
       const configSignal = computed(async () => {
-        const storedConfig = await storageRepo.getItem<TwilioConfig>(
+        const storedConfig = await storageRepo.getItem<TwilioConfigLocal>(
           Store.TwilioStorage,
           'config'
         );

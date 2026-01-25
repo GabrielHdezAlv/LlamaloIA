@@ -8,7 +8,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TwilioIntegrationModalComponent } from '../../shared/modals/twilio-integration-modal/twilio-integration-modal.component';
 import { TwilioSuccessModalComponent } from '../../shared/modals/twilio-success-modal/twilio-success-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { TwilioConfig } from '../../shared/models/twilio-config.model';
+import { TwilioConfig, TwilioConfigRequest, TwilioConfigLocal } from '../../shared/models/twilio-config.model';
 import { TwilioService } from '../../core/services/twilio.service';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
@@ -155,14 +155,14 @@ export class AgentsComponent implements OnInit {
       data: {
         formEnabled: editMode,
         config: existingConfig,
-        // Pasar los valores requeridos para TwilioConfigRequest
+        // Valores adicionales para el storage local (TwilioConfigLocal)
         firstInteraction: this.firstInteractionMessage || existingConfig?.firstInteraction || '',
         firstInteractionUrl: existingConfig?.firstInteractionUrl || '',
         agentInstruction: existingConfig?.agentInstruction || '',
       },
     });
 
-    dialogRef.afterClosed().subscribe((result: TwilioConfig) => {
+    dialogRef.afterClosed().subscribe((result: TwilioConfigLocal) => {
       if (!result) return;
 
       const loaderRef = this.dialog.open(LoaderComponent, {
@@ -171,15 +171,10 @@ export class AgentsComponent implements OnInit {
         panelClass: 'loader-dialog',
       });
 
-      // Crear TwilioConfigRequest con los valores necesarios
-      const configRequest: any = {
-        countryCode: result.countryCode || '',
-        phoneNumber: result.phoneNumber || 0,
+      // Crear TwilioConfigRequest con solo twilioSid y twilioToken
+      const configRequest: TwilioConfigRequest = {
         twilioSid: result.twilioSid || '',
         twilioToken: result.twilioToken || '',
-        firstInteraction: this.firstInteractionMessage || result.firstInteraction || '',
-        firstInteractionUrl: result.firstInteractionUrl || '',
-        agentInstruction: result.agentInstruction || '',
       };
 
       this.twilioService.setConfig(configRequest).subscribe({
@@ -200,7 +195,7 @@ export class AgentsComponent implements OnInit {
     });
   }
 
-  openSuccessDialog(twilioData: TwilioConfig) {
+  openSuccessDialog(twilioData: TwilioConfigLocal) {
     this.dialog.open(TwilioSuccessModalComponent, {
       width: '400px',
       disableClose: false,

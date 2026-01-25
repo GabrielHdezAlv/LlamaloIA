@@ -3,30 +3,31 @@
  * Todos los campos son requeridos
  */
 export interface TwilioConfigRequest {
-  countryCode: string;
-  phoneNumber: number;
   twilioSid: string;
   twilioToken: string;
-  firstInteraction: string; // Requerido (no opcional)
-  firstInteractionUrl: string; // Requerido
-  agentInstruction: string; // Requerido
 }
 
 /**
  * DTO para GET /twilio/info (Response)
- * Todos los campos son opcionales
  */
 export interface TwilioConfig {
+  twilioSid: string;        // ✅ Siempre presente (si está configurado)
+  twilioToken: string;      // ✅ Siempre presente (si está configurado)
+  inboundMinutes: {         // ✅ Siempre presente
+    minutes: string;
+    unit: string;
+    message?: string;
+  };
+}
+
+/**
+ * Tipo extendido para el storage local que incluye campos adicionales
+ * que no vienen del servidor pero se necesitan localmente
+ */
+export interface TwilioConfigLocal extends TwilioConfig {
   countryCode?: string;
   phoneNumber?: number;
-  twilioSid?: string;
-  twilioToken?: string;
   firstInteraction?: string;
   firstInteractionUrl?: string;
   agentInstruction?: string;
-  inboundMinutes?: {
-    minutes: string;
-    unit?: string;
-    message?: string;
-  };
 }

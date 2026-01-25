@@ -17,7 +17,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TwilioConfig, TwilioConfigRequest } from '../../../shared/models/twilio-config.model';
+import { TwilioConfig, TwilioConfigRequest, TwilioConfigLocal } from '../../../shared/models/twilio-config.model';
 import { TwilioStorage } from '../../../storages/twilio/twilio-storage';
 import { TwilioService } from '../../../core/services/twilio.service';
 import { I18nService } from '../../../core/services/i18n.service';
@@ -118,30 +118,25 @@ export class TwilioIntegrationModalComponent implements OnInit {
       return;
     }
 
-    // Obtener valores adicionales del data si están disponibles
+    const configRequest: TwilioConfigRequest = {
+      twilioSid: this.form.get('twilioSid')?.value,
+      twilioToken: this.form.get('twilioToken')?.value,
+    };
+
+    // Obtener valores adicionales del data si están disponibles para el storage local
     const firstInteraction = this.data?.firstInteraction || '';
     const firstInteractionUrl = this.data?.firstInteractionUrl || '';
     const agentInstruction = this.data?.agentInstruction || '';
 
-    const configRequest: TwilioConfigRequest = {
+    // Guardar en el storage local (usar TwilioConfigLocal para storage)
+    const configForStorage: TwilioConfigLocal = {
       countryCode: this.form.get('countryCode')?.value,
       phoneNumber: Number(this.form.get('phoneNumber')?.value),
-      twilioSid: this.form.get('twilioSid')?.value,
-      twilioToken: this.form.get('twilioToken')?.value,
+      twilioSid: configRequest.twilioSid,
+      twilioToken: configRequest.twilioToken,
       firstInteraction: firstInteraction,
       firstInteractionUrl: firstInteractionUrl,
       agentInstruction: agentInstruction,
-    };
-
-    // Guardar en el storage local (usar TwilioConfig para storage)
-    const configForStorage: TwilioConfig = {
-      countryCode: configRequest.countryCode,
-      phoneNumber: configRequest.phoneNumber,
-      twilioSid: configRequest.twilioSid,
-      twilioToken: configRequest.twilioToken,
-      firstInteraction: configRequest.firstInteraction,
-      firstInteractionUrl: configRequest.firstInteractionUrl,
-      agentInstruction: configRequest.agentInstruction,
     };
     this.twilioStorage.setConfig(configForStorage);
 
