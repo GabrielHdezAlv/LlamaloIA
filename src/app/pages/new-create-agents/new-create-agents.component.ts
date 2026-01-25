@@ -589,9 +589,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (this.step === 'connectPhone') {
       this.step = 'summary';
     } else if (this.step === 'summary') {
-      this.step = 'knowledgeBase';
+      this.step = 'instructions'; // Salta "Añadir Acciones" y "Base de Conocimientos"
     } else if (this.step === 'knowledgeBase') {
-      this.step = 'actions';
+      this.step = 'instructions';
     } else if (this.step === 'actions') {
       this.step = 'instructions';
     } else if (this.step === 'instructions') {
@@ -617,9 +617,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     } else if (this.step === 'voices') {
       this.step = 'instructions';
     } else if (this.step === 'instructions') {
-      this.step = 'actions';
+      this.step = 'summary'; // Salta "Añadir Acciones" y "Base de Conocimientos"
     } else if (this.step === 'actions') {
-      this.step = 'knowledgeBase';
+      this.step = 'summary';
     } else if (this.step === 'knowledgeBase') {
       this.step = 'summary';
     } else if (this.step === 'summary') {
@@ -713,7 +713,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       instructions: this.instructions
     });
 
-    this.step = 'actions'; // Avanza a "Añadir Acciones"
+    this.step = 'summary'; // Salta "Añadir Acciones" y "Base de Conocimientos", va directamente a "Resumen"
     this.saveDraft();
   }
 
