@@ -44,6 +44,16 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.i18nService.initializeLanguage();
     
+    // Listar agentes del usuario
+    this.agentsService.getAgentsList().subscribe({
+      next: (response) => {
+        console.log('✅ Agentes del usuario:', response);
+      },
+      error: (error) => {
+        console.error('❌ Error al obtener agentes:', error);
+      },
+    });
+    
     if (this.showEmptyState) {
       // Para probar estado vacío
       this.voices = [];

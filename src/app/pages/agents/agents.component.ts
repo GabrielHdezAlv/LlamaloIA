@@ -122,6 +122,16 @@ export class AgentsComponent implements OnInit {
     const config = this.twilioStorage.config();
     this.firstInteractionMessage = config?.firstInteraction || '';
 
+    // Listar agentes del usuario
+    this.agentsService.getAgentsList().subscribe({
+      next: (response) => {
+        console.log('✅ Agentes del usuario:', response);
+      },
+      error: (error) => {
+        console.error('❌ Error al obtener agentes:', error);
+      },
+    });
+
     // Ejecutar animación siempre
     this.startFadeInAnimation();
   }
