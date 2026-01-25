@@ -38,6 +38,8 @@ export interface UserProfileResponseDto {
     phoneId: number;
     countryCode: string;
     number: string;
+    state: "Activo" | "Inactivo";
+    importedBy: string;
   }>;
   agents?: Array<{
     name: string;

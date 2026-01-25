@@ -11,8 +11,8 @@ interface PhoneNumberDisplay {
   countryCode: string;
   number: string;
   label?: string;
-  state: string; // Mock por ahora
-  importedBy: string; // Mock por ahora
+  state: "Activo" | "Inactivo";
+  importedBy: string;
 }
 
 @Component({
@@ -64,8 +64,8 @@ export class NumbersComponent implements OnInit, AfterViewInit {
             countryCode: phone.countryCode || '',
             number: String(phone.number || ''), // Convertir a string por si viene como número
             label: `Número ${phone.phoneId || index + 1}`, // Generar label basado en phoneId
-            state: 'Activo', // Mock - se añadirá más adelante
-            importedBy: 'Twilio' // Mock - se añadirá más adelante
+            state: phone.state || 'Activo', // Usar state del backend o 'Activo' por defecto
+            importedBy: phone.importedBy || 'Twilio' // Usar importedBy del backend o 'Twilio' por defecto
           }));
           console.log('📞 PhoneNumbers mapeados:', this.phoneNumbers);
           console.log('📞 Cantidad de números:', this.phoneNumbers.length);
