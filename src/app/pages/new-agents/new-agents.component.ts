@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, inject, Inject, PLATFORM_ID, ChangeDe
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AgentsService } from '../../core/services/agents.service';
-import { Voice } from '../../shared/models/voice.model';
+import { Agent } from '../../shared/models/agent.model';
 import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 
@@ -18,7 +18,7 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   router = inject(Router);
   private cdr: ChangeDetectorRef;
 
-  voices: Voice[] = [];
+  agents: Agent[] = [];
 
   // Obtener traducciones
   get t() {
@@ -48,28 +48,13 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     this.agentsService.getAgentsList().subscribe({
       next: (response) => {
         console.log('✅ Agentes del usuario:', response);
+        this.agents = response.agents || [];
       },
       error: (error) => {
         console.error('❌ Error al obtener agentes:', error);
+        this.agents = [];
       },
     });
-    
-    if (this.showEmptyState) {
-      // Para probar estado vacío
-      this.voices = [];
-    } else {
-      // Para mostrar voces ficticias (como estaban antes)
-      this.voices = [
-        { name: 'Carlos', voiceId: '1' } as Voice,
-        { name: 'Carla', voiceId: '2' } as Voice,
-      ];
-    }
-
-    // Código para usar el backend real:
-    // this.agentsService.getAgents().subscribe({
-    //   next: (voices) => (this.voices = voices || []),
-    //   error: () => (this.voices = []),
-    // });
   }
 
   ngAfterViewInit(): void {
