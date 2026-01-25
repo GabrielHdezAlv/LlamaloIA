@@ -1,4 +1,15 @@
 /**
+ * Parámetros de configuración de voz
+ */
+export interface VoiceParameters {
+  stability: number;      // 0-1.0
+  similarity: number;     // 0-1.0
+  style: number;          // 0-1.0
+  boost: boolean;         // true/false
+  speed: number;          // 0.25-4.0
+}
+
+/**
  * Modelo de agente
  */
 export interface Agent {
@@ -14,6 +25,9 @@ export interface Agent {
     number: string;                // Guardado como string en BD
   };
   label: string;
+  state: "Activo" | "Inactivo";
+  parameters: VoiceParameters;
+  totalMinutes: number;           // Solo lectura - viene del backend
 }
 
 /**
@@ -31,6 +45,8 @@ export interface SetAgentConfigDto {
     number: number;                 // integer
   };
   label: string;
+  parameters: VoiceParameters;
+  state: "Activo" | "Inactivo";
 }
 
 /**

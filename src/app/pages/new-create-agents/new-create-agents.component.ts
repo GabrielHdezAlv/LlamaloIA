@@ -6,7 +6,7 @@ import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { AgentsService } from '../../core/services/agents.service';
 import { Voice } from '../../shared/models/voice.model';
-import { SetAgentConfigDto } from '../../shared/models/agent.model';
+import { SetAgentConfigDto, VoiceParameters } from '../../shared/models/agent.model';
 import lottie from 'lottie-web';
 
 // Clave para localStorage
@@ -31,6 +31,13 @@ interface AgentDraft {
   llmTemperature: number;
   isRecordingNoticeEnabled: boolean;
   recordingNoticeText: string;
+  voiceParameters?: {
+    stability: number;
+    similarity: number;
+    style: number;
+    boost: boolean;
+    speed: number;
+  };
   savedAt: number; // timestamp
 }
 
@@ -140,6 +147,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.llmTemperature = this.savedDraft.llmTemperature || 0;
       this.isRecordingNoticeEnabled = this.savedDraft.isRecordingNoticeEnabled || false;
       this.recordingNoticeText = this.savedDraft.recordingNoticeText || 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+      
+      // Recuperar parámetros de voz si existen
+      if (this.savedDraft.voiceParameters) {
+        this.voiceParameters = { ...this.voiceParameters, ...this.savedDraft.voiceParameters };
+      }
 
       // Si el paso es 'voices', cargar las voces del backend
       if (this.step === 'voices') {
@@ -190,6 +202,13 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         llmTemperature: this.llmTemperature,
         isRecordingNoticeEnabled: this.isRecordingNoticeEnabled,
         recordingNoticeText: this.recordingNoticeText,
+        voiceParameters: {
+          stability: this.voiceParameters.stability,
+          similarity: this.voiceParameters.similarity,
+          style: this.voiceParameters.style,
+          boost: this.voiceParameters.boost,
+          speed: this.voiceParameters.speed
+        },
         savedAt: Date.now()
       };
 
@@ -891,7 +910,15 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         countryCode: this.selectedCountryCode || '+34',
         number: Number(this.phoneNumber) || 0
       },
-      label: this.label || `${this.agentName || 'Agente'} - ${this.selectedCountry || 'es'}`
+      label: this.label || `${this.agentName || 'Agente'} - ${this.selectedCountry || 'es'}`,
+      parameters: {
+        stability: this.voiceParameters.stability,
+        similarity: this.voiceParameters.similarity,
+        style: this.voiceParameters.style,
+        boost: this.voiceParameters.boost,
+        speed: this.voiceParameters.speed
+      },
+      state: "Activo"
     };
 
     console.log('🚀 Enviando objeto a POST /agents:', agentConfig);
@@ -990,6 +1017,15 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   llmTemperature = 0;             // Temperatura del LLM
   isRecordingNoticeEnabled = false;
   recordingNoticeText = 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+
+  // Parámetros de voz
+  voiceParameters: VoiceParameters = {
+    stability: 0.72,      // 0-1.0
+    similarity: 0.8,      // 0-1.0
+    style: 0.5,           // 0-1.0
+    boost: true,          // true/false
+    speed: 0.98           // 0.25-4.0
+  };
 
   // Estados de visibilidad de los bocadillos
   showInactivityTooltip = false;

@@ -281,6 +281,14 @@ export class AgentsComponent implements OnInit {
         number: twilioConfig.phoneNumber,
       },
       label: `${this.selectedVoice.name} - ${this.selectedLanguage?.name || languageCode}`,
+      parameters: {
+        stability: 0.72,
+        similarity: 0.8,
+        style: 0.5,
+        boost: true,
+        speed: 0.98
+      },
+      state: "Activo"
     };
 
     // Crear el agente

@@ -1444,79 +1444,95 @@
 
         <div class="flex-1 overflow-y-auto scrollbar-hide">
           <div class="space-y-5 mt-1">
-            <!-- Slider: Tiempo de espera de inactividad -->
-            <div class="space-y-3">
-              <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Tiempo de espera de
-                inactividad</label>
-
-              <div class="relative pt-0.5">
-                <div class="flex justify-between mb-1.5 px-0.5">
-                  <span
-                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Corto</span>
-                  <span
-                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Largo</span>
-                </div>
-                <input type="range" [(ngModel)]="inactivityTimeout" min="0" max="100"
-                  class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
-                  [style.background]="'linear-gradient(to right, #3b82f6 ' + inactivityTimeout + '%, var(--slider-track) ' + inactivityTimeout + '%)'" />
-              </div>
-            </div>
-
-            <!-- Slider: Duración máxima de llamada -->
-            <div class="space-y-3 pt-1">
-              <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Duración máxima de
-                llamada</label>
-
-              <div class="relative pt-0.5">
-                <div class="flex justify-between mb-1.5 px-0.5">
-                  <span
-                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Corta</span>
-                  <span
-                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Larga</span>
-                </div>
-                <input type="range" [(ngModel)]="maxCallDuration" min="0" max="100"
-                  class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
-                  [style.background]="'linear-gradient(to right, #3b82f6 ' + maxCallDuration + '%, var(--slider-track) ' + maxCallDuration + '%)'" />
-              </div>
-            </div>
-
-            <!-- Slider: Velocidad de conversación -->
-            <div class="space-y-3 pt-1">
-              <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Velocidad de
-                conversación</label>
-
-              <div class="relative pt-0.5">
-                <div class="flex justify-between mb-1.5 px-0.5">
-                  <span
-                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Lento</span>
-                  <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Muy
-                    rápido</span>
-                </div>
-                <input type="range" [(ngModel)]="agentSpeed" min="0" max="100"
-                  class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
-                  [style.background]="'linear-gradient(to right, #3b82f6 ' + agentSpeed + '%, var(--slider-track) ' + agentSpeed + '%)'" />
-              </div>
-            </div>
-
-            <!-- Slider: Temperatura del LLM -->
-            <div class="space-y-3 pt-1">
-              <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Temperatura del LLM</label>
-
-              <div class="relative pt-0.5">
-                <div class="flex justify-between mb-1.5 px-0.5">
-                  <span
-                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Baja</span>
-                  <span
-                    class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">Alta</span>
-                </div>
-                <input type="range" [(ngModel)]="llmTemperature" min="0" max="100"
-                  class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
-                  [style.background]="'linear-gradient(to right, #3b82f6 ' + llmTemperature + '%, var(--slider-track) ' + llmTemperature + '%)'" />
-              </div>
-            </div>
-
-            <!-- Toggle: Mensaje de aviso de grabación -->
+            <!-- Parámetros de Voz -->
             <div class="space-y-3 pt-3 border-t border-gray-100 dark:border-white/5">
+              <h3 class="text-[12px] font-semibold text-gray-700 dark:text-white/80 mb-3">Parámetros de Voz</h3>
+
+              <!-- Slider: Stability -->
+              <div class="space-y-3">
+                <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Estabilidad</label>
+                <div class="relative pt-0.5">
+                  <div class="flex justify-between mb-1.5 px-0.5">
+                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0</span>
+                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">1.0</span>
+                  </div>
+                  <input type="range" [(ngModel)]="voiceParameters.stability" name="stability" min="0" max="1" step="0.01"
+                    class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
+                    [style.background]="'linear-gradient(to right, #3b82f6 ' + (voiceParameters.stability * 100) + '%, var(--slider-track) ' + (voiceParameters.stability * 100) + '%)'" />
+                  <div class="text-center mt-1">
+                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.stability.toFixed(2) }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slider: Similarity -->
+              <div class="space-y-3 pt-1">
+                <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Similitud</label>
+                <div class="relative pt-0.5">
+                  <div class="flex justify-between mb-1.5 px-0.5">
+                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0</span>
+                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">1.0</span>
+                  </div>
+                  <input type="range" [(ngModel)]="voiceParameters.similarity" name="similarity" min="0" max="1" step="0.01"
+                    class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
+                    [style.background]="'linear-gradient(to right, #3b82f6 ' + (voiceParameters.similarity * 100) + '%, var(--slider-track) ' + (voiceParameters.similarity * 100) + '%)'" />
+                  <div class="text-center mt-1">
+                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.similarity.toFixed(2) }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slider: Style -->
+              <div class="space-y-3 pt-1">
+                <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Estilo</label>
+                <div class="relative pt-0.5">
+                  <div class="flex justify-between mb-1.5 px-0.5">
+                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0</span>
+                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">1.0</span>
+                  </div>
+                  <input type="range" [(ngModel)]="voiceParameters.style" name="style" min="0" max="1" step="0.01"
+                    class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
+                    [style.background]="'linear-gradient(to right, #3b82f6 ' + (voiceParameters.style * 100) + '%, var(--slider-track) ' + (voiceParameters.style * 100) + '%)'" />
+                  <div class="text-center mt-1">
+                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.style.toFixed(2) }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slider: Speed -->
+              <div class="space-y-3 pt-1">
+                <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Velocidad</label>
+                <div class="relative pt-0.5">
+                  <div class="flex justify-between mb-1.5 px-0.5">
+                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0.25</span>
+                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">4.0</span>
+                  </div>
+                  <input type="range" [(ngModel)]="voiceParameters.speed" name="speed" min="0.25" max="4" step="0.01"
+                    class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
+                    [style.background]="'linear-gradient(to right, #3b82f6 ' + ((voiceParameters.speed - 0.25) / 3.75 * 100) + '%, var(--slider-track) ' + ((voiceParameters.speed - 0.25) / 3.75 * 100) + '%)'" />
+                  <div class="text-center mt-1">
+                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.speed.toFixed(2) }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Toggle: Boost -->
+              <div class="space-y-3 pt-1">
+                <div class="flex items-center justify-between">
+                  <label class="text-[11px] font-medium text-gray-600 dark:text-white/70">Boost</label>
+                  <button (click)="voiceParameters.boost = !voiceParameters.boost"
+                    class="relative inline-flex h-[18px] w-8 items-center rounded-full transition-colors duration-200 focus:outline-none"
+                    [style.backgroundColor]="voiceParameters.boost ? '#2563eb' : 'var(--slider-track)'">
+                    <span
+                      class="inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform duration-200"
+                      [style.transform]="voiceParameters.boost ? 'translateX(16px)' : 'translateX(2px)'"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Toggle: Mensaje de aviso de grabación - OCULTO POR AHORA -->
+            <!-- <div class="space-y-3 pt-3 border-t border-gray-100 dark:border-white/5">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <label class="text-[11px] font-medium text-gray-600 dark:text-white/70">Mensaje de aviso de
@@ -1527,7 +1543,6 @@
                       d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                   </svg>
                 </div>
-                <!-- Toggle Switch -->
                 <button (click)="isRecordingNoticeEnabled = !isRecordingNoticeEnabled"
                   class="relative inline-flex h-[18px] w-8 items-center rounded-full transition-colors duration-200 focus:outline-none"
                   [style.backgroundColor]="isRecordingNoticeEnabled ? '#2563eb' : 'var(--slider-track)'">
@@ -1537,7 +1552,6 @@
                 </button>
               </div>
 
-              <!-- Textarea: Mensaje de aviso -->
               @if (isRecordingNoticeEnabled) {
               <div class="animate-in fade-in slide-in-from-top-2 duration-200">
                 <div
@@ -1548,7 +1562,7 @@
                 </div>
               </div>
               }
-            </div>
+            </div> -->
           </div>
         </div>
 
