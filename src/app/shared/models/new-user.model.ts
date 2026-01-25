@@ -3,7 +3,7 @@ export class User {
   name: string;
   lastname: string;
   profileImage?: string;
-  enterprise?: string;
+  enterprise?: string | { name: string; url: string };
   enterpriseWeb?: string;
   country?: string;
   email: string;
@@ -11,6 +11,37 @@ export class User {
   token?: string;
   voiceId?: string;
   language?: any;
+  // Nuevos campos opcionales
+  integrations?: {
+    shopify?: {
+      connected: boolean;
+      shopDomain: string;
+    };
+  };
+  twilio?: {
+    twilioSid: string;
+    twilioToken: string;
+  };
+  phoneNumbers?: Array<{
+    phoneId: number;
+    countryCode: string;
+    number: string;
+  }>;
+  agents?: Array<{
+    name: string;
+    type: 'outbound' | 'inbound';
+    language: string;
+    voiceId: string;
+    firstInteraction: string;
+    agentInstruction: string;
+    phoneNumbers: {
+      phoneId: number;
+      countryCode: string;
+      number: string;
+    };
+    label: string;
+  }>;
+  agent?: any; // Compatibilidad: primer agente del array
 
   constructor(
     name: string,
@@ -19,7 +50,7 @@ export class User {
     password: string,
     userId: string,
     profileImage?: string,
-    enterprise?: string,
+    enterprise?: string | { name: string; url: string },
     enterpriseWeb?: string,
     country?: string,
     token?: string,
