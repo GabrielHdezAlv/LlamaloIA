@@ -440,7 +440,7 @@
             @if (!voice.isCustom) {
             <div
               class="w-[320px] h-[420px] sm:h-[460px] rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-              (click)="onVoiceSelected()">
+              (click)="onVoiceSelected(voice)">
               <img [src]="voice.image" [alt]="voice.name"
                 class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
               <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
@@ -523,7 +523,7 @@
               @for (voice of getTabletPageVoices(); track voice?.id || $index) {
               <div
                 class="voice-card w-full h-[360px] sm:h-[380px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all"
-                (click)="voice?.isCustom ? createCustomVoice() : onVoiceSelected()">
+                (click)="voice?.isCustom ? createCustomVoice() : onVoiceSelected(voice)">
                 @if (voice && !voice.isCustom) {
                 <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover" />
                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 sm:p-4">
@@ -631,7 +631,7 @@
                     @if (!voice.isCustom) {
                     <div
                       class="voice-card w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[340px] 3xl:h-[420px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-all"
-                      (click)="onVoiceSelected()">
+                      (click)="onVoiceSelected(voice)">
                       <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover" />
                       <div
                         class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 sm:p-4">
@@ -1225,7 +1225,7 @@
               </ul>
 
               <!-- Input de número -->
-              <input type="tel" id="phone" placeholder="630 00 00 00"
+              <input type="tel" id="phone" name="phone" [(ngModel)]="phoneNumber" placeholder="630 00 00 00"
                 class="flex-1 h-10 sm:h-11 md:h-12 lg:h-11 3xl:h-12 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
             </div>
           </div>
@@ -1260,7 +1260,7 @@
               Etiqueta <span
                 class="text-gray-500 dark:text-slate-400 text-[10px] sm:text-xs lg:text-[9px] 3xl:text-sm font-normal ml-1">(opcional)</span>
             </label>
-            <input type="text" id="label" placeholder="Ej: Oficina Principal, Ventas, etc."
+            <input type="text" id="label" name="label" [(ngModel)]="label" placeholder="Ej: Oficina Principal, Ventas, etc."
               class="w-full h-10 sm:h-11 md:h-12 lg:h-11 3xl:h-12 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
           </div>
 

@@ -6,6 +6,7 @@ import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { AgentsService } from '../../core/services/agents.service';
 import { Voice } from '../../shared/models/voice.model';
+import { SetAgentConfigDto } from '../../shared/models/agent.model';
 import lottie from 'lottie-web';
 
 // Clave para localStorage
@@ -19,6 +20,7 @@ interface AgentDraft {
   template: string;
   instructions: string;
   currentVoiceIndex: number;
+  selectedVoiceId: string; // voiceId de la voz seleccionada
   selectedCountry: string;
   selectedCountryCode: string;
   selectedCallType?: 'inbound' | 'outbound' | null;
@@ -53,6 +55,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   // Add this line to declare phoneNumber
   phoneNumber = '';
   selectedCallType: 'inbound' | 'outbound' | null = null;
+  label: string = ''; // Etiqueta del agente
+  selectedVoiceId: string = ''; // voiceId de la voz seleccionada
 
   private lottieInstance: any = null;
   private lottieInitialized = false;
@@ -126,6 +130,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.selectedCallType = (this.savedDraft as any).selectedCallType || null;
       this.instructions = this.savedDraft.instructions || '';
       this.currentVoiceIndex = this.savedDraft.currentVoiceIndex || 0;
+      this.selectedVoiceId = this.savedDraft.selectedVoiceId || '';
       this.selectedCountry = this.savedDraft.selectedCountry || 'es';
       this.selectedCountryCode = this.savedDraft.selectedCountryCode || '+34';
       this.phoneNumber = this.savedDraft.phoneNumber || '';
@@ -143,6 +148,14 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
       if (this.step === 'summary') {
         this.animateIdle();
+      }
+
+      // Si el paso recuperado es 'connectPhone', mostrar datos guardados
+      if (this.step === 'connectPhone') {
+        // Usar setTimeout para asegurar que el componente esté completamente inicializado
+        setTimeout(() => {
+          this.logSavedData();
+        }, 100);
       }
     }
     this.showRecoveryPopup = false;
@@ -166,6 +179,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         template: this.template,
         instructions: this.instructions,
         currentVoiceIndex: this.currentVoiceIndex,
+        selectedVoiceId: this.selectedVoiceId,
         selectedCallType: this.selectedCallType,
         selectedCountry: this.selectedCountry,
         selectedCountryCode: this.selectedCountryCode,
@@ -317,11 +331,35 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.saveDraft();
   }
 
-  onVoiceSelected() {
+  onVoiceSelected(voice?: any) {
+    // Si se pasa la voz como parámetro, guardar el voiceId
+    if (voice) {
+      this.selectedVoiceId = (voice as any)?.voiceId || voice?.id || '';
+      // Actualizar el índice también para mantener consistencia
+      const voiceIndex = this.voices.findIndex(v => 
+        (v as any)?.voiceId === this.selectedVoiceId || v.id === this.selectedVoiceId
+      );
+      if (voiceIndex !== -1) {
+        this.currentVoiceIndex = voiceIndex;
+      }
+    } else {
+      // Si no se pasa parámetro, usar la voz actual según el índice
+      const currentVoice = this.getCurrentVoice();
+      if (currentVoice) {
+        this.selectedVoiceId = (currentVoice as any)?.voiceId || currentVoice.id || '';
+      }
+    }
     this.isSidebarOpen = true;
   }
 
   confirmVoiceSelection() {
+    // Asegurar que el voiceId esté guardado antes de continuar
+    if (!this.selectedVoiceId) {
+      const currentVoice = this.getCurrentVoice();
+      if (currentVoice) {
+        this.selectedVoiceId = (currentVoice as any)?.voiceId || currentVoice.id || '';
+      }
+    }
     this.isSidebarOpen = false;
     this.step = 'instructions';
     this.saveDraft();
@@ -567,6 +605,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.step = 'summary';
     } else if (this.step === 'summary') {
       this.step = 'connectPhone';
+      // Mostrar datos guardados cuando llegamos a esta pantalla
+      this.logSavedData();
     }
     // Si ya está en 'connectPhone', no hace nada o puedes reiniciar el flujo si lo deseas
   }
@@ -785,27 +825,101 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     // Avanza a conectar número de teléfono
     this.step = 'connectPhone';
     this.saveDraft();
+    // Mostrar datos guardados cuando llegamos a esta pantalla
+    this.logSavedData();
+  }
+
+  // Método para mostrar datos guardados
+  private logSavedData() {
+    const currentVoice = this.getCurrentVoice();
+    // Usar el voiceId guardado cuando se seleccionó la voz, o obtenerlo de la voz actual como fallback
+    const voiceId = this.selectedVoiceId || (currentVoice ? ((currentVoice as any)?.voiceId || currentVoice.id) : null);
+    const savedData = {
+      agentName: this.agentName,
+      selectedCallType: this.selectedCallType,
+      language: this.selectedCountry, // Código del país como idioma
+      voice: currentVoice ? {
+        name: currentVoice.name,
+        voiceId: voiceId
+      } : null,
+      greeting: this.greeting,
+      instructions: this.instructions,
+      phoneNumber: this.phoneNumber,
+      selectedCountryCode: this.selectedCountryCode,
+      label: this.label
+    };
+    console.log('📋 Datos guardados hasta ahora:', savedData);
   }
 
   // Métodos para conectar número de teléfono
   onConnectPhone() {
-    // Aquí puedes validar los datos antes de continuar
-    console.log('Datos del número de teléfono:', {
-      phone: this.phoneNumber,
-      //  sid: this.sid,
-      //  token: this.token,
-      // label: this.label,
-      // importedNumber: this.importedNumber
-    });
-    // Navega a pantalla final
+    // Validar datos requeridos
+    if (!this.phoneNumber || !this.phoneNumber.trim()) {
+      this.modalService.openError({
+        title: 'Número de teléfono requerido',
+        message: 'Por favor, ingresa un número de teléfono válido.'
+      });
+      return;
+    }
+
+    if (!this.selectedVoiceId) {
+      const currentVoice = this.getCurrentVoice();
+      if (!currentVoice) {
+        this.modalService.openError({
+          title: 'Voz no seleccionada',
+          message: 'Por favor, selecciona una voz para el agente.'
+        });
+        return;
+      }
+    }
+
+    // Construir el objeto que se enviará al endpoint
+    // Usar el voiceId guardado cuando se seleccionó la voz, o obtenerlo de la voz actual como fallback
+    const voiceId = this.selectedVoiceId || (() => {
+      const currentVoice = this.getCurrentVoice();
+      return (currentVoice as any)?.voiceId || currentVoice?.id || '';
+    })();
+    
+    const agentConfig: SetAgentConfigDto = {
+      name: this.agentName || 'Agente',
+      language: this.selectedCountry || 'es', // Usar código del país como idioma
+      type: this.selectedCallType || 'inbound',
+      voiceId: voiceId,
+      firstInteraction: this.greeting || '',
+      agentInstruction: this.instructions || '',
+      phoneNumbers: {
+        countryCode: this.selectedCountryCode || '+34',
+        number: Number(this.phoneNumber) || 0
+      },
+      label: this.label || `${this.agentName || 'Agente'} - ${this.selectedCountry || 'es'}`
+    };
+
+    console.log('🚀 Enviando objeto a POST /agents:', agentConfig);
+    
+    // Navegar a pantalla de carga
     this.step = 'final';
 
-    // Simulamos 5 segundos de carga
-    setTimeout(() => {
-      this.step = 'success'; // Cambia a pantalla de éxito
-      // Limpiar el borrador cuando el agente se crea con éxito
-      this.clearSavedDraft();
-    }, 5000);
+    // Enviar petición al backend
+    this.agentsService.createAgent(agentConfig).subscribe({
+      next: (response) => {
+        console.log('✅ Agente creado exitosamente:', response);
+        // Cambiar a pantalla de éxito
+        this.step = 'success';
+        // Limpiar el borrador cuando el agente se crea con éxito
+        this.clearSavedDraft();
+      },
+      error: (error) => {
+        console.error('❌ Error al crear agente:', error);
+        // Volver a la pantalla de conectar teléfono
+        this.step = 'connectPhone';
+        // Mostrar mensaje de error
+        const errorMessage = error?.error?.message || error?.message || 'Error al crear el agente. Por favor, intenta nuevamente.';
+        this.modalService.openError({
+          title: 'Error al crear agente',
+          message: errorMessage
+        });
+      }
+    });
   }
 
   openTwilioStepsModal() {
