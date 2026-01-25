@@ -5,6 +5,7 @@ import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
 import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
+import { ModalService } from '../../shared/modals/modal.service';
 
 @Component({
   selector: 'app-new-agents',
@@ -15,6 +16,7 @@ import { RippleButtonComponent } from '../../shared/components/ripple-button/rip
 export class NewAgentsComponent implements OnInit, AfterViewInit {
   private agentsService = inject(AgentsService);
   private i18nService = inject(I18nService);
+  private modalService = inject(ModalService);
   router = inject(Router);
   private cdr: ChangeDetectorRef;
 
@@ -45,16 +47,7 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     this.i18nService.initializeLanguage();
     
     // Listar agentes del usuario
-    this.agentsService.getAgentsList().subscribe({
-      next: (response) => {
-        console.log('✅ Agentes del usuario:', response);
-        this.agents = response.agents || [];
-      },
-      error: (error) => {
-        console.error('❌ Error al obtener agentes:', error);
-        this.agents = [];
-      },
-    });
+    this.loadAgents();
   }
 
   ngAfterViewInit(): void {
@@ -84,5 +77,50 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
       this.showContent = true;
       this.cdr.detectChanges();
     }, 100);
+  }
+
+  // Método para cargar la lista de agentes
+  private loadAgents(): void {
+    this.agentsService.getAgentsList().subscribe({
+      next: (response) => {
+        console.log('✅ Agentes del usuario:', response);
+        this.agents = response.agents || [];
+      },
+      error: (error) => {
+        console.error('❌ Error al obtener agentes:', error);
+        this.agents = [];
+      },
+    });
+  }
+
+  // Método para eliminar un agente
+  deleteAgent(agentIndex: number, agentName: string): void {
+    // Confirmar eliminación
+    const confirmed = confirm(`¿Está seguro de que desea eliminar el agente "${agentName}"?`);
+    
+    if (!confirmed) {
+      return;
+    }
+
+    // Realizar petición DELETE
+    this.agentsService.deleteAgent(agentIndex).subscribe({
+      next: (response) => {
+        console.log('✅ Agente eliminado:', response);
+        this.modalService.openSuccess({
+          title: 'Agente eliminado',
+          message: response.message || 'El agente ha sido eliminado correctamente.'
+        });
+        // Recargar la lista de agentes
+        this.loadAgents();
+      },
+      error: (error) => {
+        console.error('❌ Error al eliminar agente:', error);
+        const errorMessage = error?.error?.message || error?.message || 'Error al eliminar el agente. Por favor, intenta nuevamente.';
+        this.modalService.openError({
+          title: 'Error al eliminar agente',
+          message: errorMessage
+        });
+      }
+    });
   }
 }
