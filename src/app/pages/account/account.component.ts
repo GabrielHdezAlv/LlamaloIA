@@ -8,6 +8,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
+import { TwilioService } from '../../core/services/twilio.service';
 
 @Component({
   selector: 'app-account',
@@ -23,6 +24,7 @@ export class AccountComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private platformId = inject(PLATFORM_ID);
+  private twilioService = inject(TwilioService);
 
   activeTab: 'profile' | 'security' | 'billing' | 'gifts' | 'connections' = 'profile';
   showBillingModal = false;
@@ -64,6 +66,9 @@ export class AccountComponent implements OnInit {
 
   // Integraciones
   showTwilioConfig = false;
+  twilioSid = '';
+  twilioToken = '';
+  isLoadingTwilio = false;
 
   // Usuario actual
   private userStore = inject(UserStorage);
@@ -447,5 +452,43 @@ export class AccountComponent implements OnInit {
     console.log('Plan seleccionado:', this.selectedPlan);
     console.log('Minutos seleccionados:', this.selectedMinutes);
     // Aquí implementarías la lógica para procesar el pago
+  }
+
+  // Método para guardar la configuración de Twilio
+  saveTwilioConfig() {
+    // Validar que los campos no estén vacíos
+    if (!this.twilioSid || !this.twilioToken) {
+      this.showNotification('Por favor, completa todos los campos', 'error');
+      return;
+    }
+
+    // Activar loader
+    this.isLoadingTwilio = true;
+
+    // Preparar los datos para enviar
+    const config = {
+      twilioSid: this.twilioSid.trim(),
+      twilioToken: this.twilioToken.trim()
+    };
+
+    // Realizar la petición POST
+    this.twilioService.setConfig(config).subscribe({
+      next: (response) => {
+        this.isLoadingTwilio = false;
+        this.showNotification('Configuración de Twilio guardada correctamente', 'success');
+        // Opcional: cerrar el formulario después de guardar
+        // this.showTwilioConfig = false;
+        // Opcional: limpiar los campos
+        // this.twilioSid = '';
+        // this.twilioToken = '';
+      },
+      error: (error) => {
+        this.isLoadingTwilio = false;
+        // Mostrar mensaje de error del servidor o genérico
+        const errorMessage = error?.error?.message || error?.message || 'Error al guardar la configuración de Twilio';
+        this.showNotification(errorMessage, 'error');
+        console.error('Error al guardar configuración de Twilio:', error);
+      }
+    });
   }
 }
