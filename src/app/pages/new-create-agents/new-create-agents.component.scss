@@ -512,6 +512,187 @@
   }
 }
 
+// Estilos para la validación automática del input de teléfono
+.phone-input-wrapper {
+  position: relative;
+  overflow: visible;
+}
+
+.phone-input-border-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: inherit; // Usar inherit para que se adapte al border-radius del input
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) border-box;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0) border-box;
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.phone-input-border-glow {
+  background: conic-gradient(from 0deg, transparent 0%, #1B2559 10%, #1B2559 15%, #1B2559 20%, transparent 25%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  min-width: 200px;
+  min-height: 200px;
+  transform: translate(-50%, -50%);
+  transform-origin: 0 0;
+  animation: rotateShine 2s linear infinite;
+}
+
+// Aplicar estilos de borde según el estado - mayor especificidad
+// Solo para el input del número de teléfono (que tiene rounded-l-none)
+:host ::ng-deep .phone-input-wrapper input.phone-input-border-success.rounded-l-none,
+.phone-input-wrapper input.phone-input-border-success.rounded-l-none {
+  border-color: #10b981 !important; // green-500
+  border-width: 2px !important;
+  border-left: none !important; // Eliminar borde izquierdo cuando está validado (solo para teléfono)
+  box-shadow: 1px 0 0 0 #10b981, 0 -1px 0 0 #10b981, 0 1px 0 0 #10b981 !important; // Solo bordes superior, inferior y derecho
+}
+
+:host ::ng-deep .phone-input-wrapper input.phone-input-border-success.rounded-l-none:focus,
+.phone-input-wrapper input.phone-input-border-success.rounded-l-none:focus {
+  border-color: #10b981 !important;
+  border-left: none !important;
+  box-shadow: 1px 0 0 0 #10b981, 0 -1px 0 0 #10b981, 0 1px 0 0 #10b981 !important;
+  outline: none !important;
+}
+
+:host ::ng-deep .phone-input-wrapper input.phone-input-border-error.rounded-l-none,
+.phone-input-wrapper input.phone-input-border-error.rounded-l-none {
+  border-color: #ef4444 !important; // red-500
+  border-width: 2px !important;
+  border-left: none !important; // Eliminar borde izquierdo cuando hay error (solo para teléfono)
+  box-shadow: 1px 0 0 0 #ef4444, 0 -1px 0 0 #ef4444, 0 1px 0 0 #ef4444 !important; // Solo bordes superior, inferior y derecho
+}
+
+:host ::ng-deep .phone-input-wrapper input.phone-input-border-error.rounded-l-none:focus,
+.phone-input-wrapper input.phone-input-border-error.rounded-l-none:focus {
+  border-color: #ef4444 !important;
+  border-left: none !important;
+  box-shadow: 1px 0 0 0 #ef4444, 0 -1px 0 0 #ef4444, 0 1px 0 0 #ef4444 !important;
+  outline: none !important;
+}
+
+// Para los inputs de SID y Token (que tienen rounded-lg, no rounded-l-none)
+:host ::ng-deep .phone-input-wrapper input.phone-input-border-success.rounded-lg,
+.phone-input-wrapper input.phone-input-border-success.rounded-lg {
+  border-color: #10b981 !important; // green-500
+  border-width: 2px !important;
+  box-shadow: 0 0 0 1px #10b981 !important; // Todos los bordes
+}
+
+:host ::ng-deep .phone-input-wrapper input.phone-input-border-success.rounded-lg:focus,
+.phone-input-wrapper input.phone-input-border-success.rounded-lg:focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 1px #10b981 !important;
+  outline: none !important;
+}
+
+:host ::ng-deep .phone-input-wrapper input.phone-input-border-error.rounded-lg,
+.phone-input-wrapper input.phone-input-border-error.rounded-lg {
+  border-color: #ef4444 !important; // red-500
+  border-width: 2px !important;
+  box-shadow: 0 0 0 1px #ef4444 !important; // Todos los bordes
+}
+
+:host ::ng-deep .phone-input-wrapper input.phone-input-border-error.rounded-lg:focus,
+.phone-input-wrapper input.phone-input-border-error.rounded-lg:focus {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 1px #ef4444 !important;
+  outline: none !important;
+}
+
+// Cuando está validando, ocultar el borde normal y mostrar solo la animación
+:host ::ng-deep .phone-input-wrapper.validating input,
+.phone-input-wrapper.validating input {
+  border-color: transparent !important;
+  border-width: 2px !important;
+}
+
+// Asegurar que los estilos se apliquen incluso con otras clases de Tailwind
+// Solo para el input del número de teléfono (rounded-l-none)
+:host ::ng-deep input.phone-input-border-success.border-gray-300.rounded-l-none,
+:host ::ng-deep input.phone-input-border-success.dark\:border-slate-600.rounded-l-none,
+input.phone-input-border-success.border-gray-300.rounded-l-none,
+input.phone-input-border-success.dark\:border-slate-600.rounded-l-none {
+  border-color: #10b981 !important; // green-500
+  border-width: 2px !important;
+  border-left: none !important; // Eliminar borde izquierdo cuando está validado (solo para teléfono)
+  box-shadow: 1px 0 0 0 #10b981, 0 -1px 0 0 #10b981, 0 1px 0 0 #10b981 !important; // Solo bordes superior, inferior y derecho
+}
+
+:host ::ng-deep input.phone-input-border-error.border-gray-300.rounded-l-none,
+:host ::ng-deep input.phone-input-border-error.dark\:border-slate-600.rounded-l-none,
+input.phone-input-border-error.border-gray-300.rounded-l-none,
+input.phone-input-border-error.dark\:border-slate-600.rounded-l-none {
+  border-color: #ef4444 !important; // red-500
+  border-width: 2px !important;
+  border-left: none !important; // Eliminar borde izquierdo cuando hay error (solo para teléfono)
+  box-shadow: 1px 0 0 0 #ef4444, 0 -1px 0 0 #ef4444, 0 1px 0 0 #ef4444 !important; // Solo bordes superior, inferior y derecho
+}
+
+// Para los inputs de SID y Token (rounded-lg)
+:host ::ng-deep input.phone-input-border-success.border-gray-300.rounded-lg,
+:host ::ng-deep input.phone-input-border-success.dark\:border-slate-600.rounded-lg,
+input.phone-input-border-success.border-gray-300.rounded-lg,
+input.phone-input-border-success.dark\:border-slate-600.rounded-lg {
+  border-color: #10b981 !important; // green-500
+  border-width: 2px !important;
+  box-shadow: 0 0 0 1px #10b981 !important; // Todos los bordes
+}
+
+:host ::ng-deep input.phone-input-border-error.border-gray-300.rounded-lg,
+:host ::ng-deep input.phone-input-border-error.dark\:border-slate-600.rounded-lg,
+input.phone-input-border-error.border-gray-300.rounded-lg,
+input.phone-input-border-error.dark\:border-slate-600.rounded-lg {
+  border-color: #ef4444 !important; // red-500
+  border-width: 2px !important;
+  box-shadow: 0 0 0 1px #ef4444 !important; // Todos los bordes
+}
+
+// Aplicar estilos de borde al dropdown del prefijo
+:host ::ng-deep div.phone-input-border-success,
+div.phone-input-border-success {
+  border-color: #10b981 !important; // green-500
+  border-width: 2px !important;
+  box-shadow: -1px 0 0 0 #10b981, 0 -1px 0 0 #10b981, 0 1px 0 0 #10b981 !important; // Solo bordes superior, inferior e izquierdo
+  border-right: none !important; // Eliminar borde derecho cuando está validado
+}
+
+:host ::ng-deep div.phone-input-border-error,
+div.phone-input-border-error {
+  border-color: #ef4444 !important; // red-500
+  border-width: 2px !important;
+  box-shadow: -1px 0 0 0 #ef4444, 0 -1px 0 0 #ef4444, 0 1px 0 0 #ef4444 !important; // Solo bordes superior, inferior e izquierdo
+  border-right: none !important; // Eliminar borde derecho cuando hay error
+}
+
+// Asegurar que se apliquen incluso con otras clases de Tailwind en el div
+:host ::ng-deep div.phone-input-border-success.border-gray-300,
+:host ::ng-deep div.phone-input-border-success.dark\:border-slate-600,
+div.phone-input-border-success.border-gray-300,
+div.phone-input-border-success.dark\:border-slate-600 {
+  border-color: #10b981 !important; // green-500
+  border-width: 2px !important;
+}
+
+:host ::ng-deep div.phone-input-border-error.border-gray-300,
+:host ::ng-deep div.phone-input-border-error.dark\:border-slate-600,
+div.phone-input-border-error.border-gray-300,
+div.phone-input-border-error.dark\:border-slate-600 {
+  border-color: #ef4444 !important; // red-500
+  border-width: 2px !important;
+}
+
 /* Animaciones de fade-in para el modal */
 .fade-in-overlay {
   animation: fadeInOverlay 0.3s ease-out forwards;
@@ -665,6 +846,11 @@
 
 .connection-container.expanded {
   max-height: 600px;
+}
+
+/* Override para permitir que el menú desplegable se vea */
+.connection-container.overflow-visible {
+  overflow: visible !important;
 }
 
 /* Aplicar animación a las tarjetas del carrusel */

@@ -921,7 +921,9 @@
         <!-- Twilio -->
         <div class="connection-container border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"
           [class.bg-gray-50]="showTwilioConfig" [class.dark:bg-slate-800]="showTwilioConfig"
-          [class.expanded]="showTwilioConfig">
+          [class.expanded]="showTwilioConfig"
+          [class.overflow-visible]="showCountryMenu"
+          [style.overflow]="showCountryMenu ? 'visible' : 'hidden'">
           <div
             class="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer rounded-t-xl"
             (click)="showTwilioConfig = !showTwilioConfig">
@@ -950,22 +952,82 @@
                   <label
                     class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Account
                     SID</label>
-                  <input type="text" placeholder="ACxxxxxxxx..."
-                    class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8">
+                  <div class="relative phone-input-wrapper"
+                    [class.validating]="isValidatingTwilio">
+                    <input type="text" [(ngModel)]="twilioSid" (ngModelChange)="onTwilioSidChange()" placeholder="ACxxxxxxxx..."
+                      [disabled]="isValidatingTwilio"
+                      [class.phone-input-border-success]="twilioSidValidationStatus === 'success'"
+                      [class.phone-input-border-error]="twilioSidValidationStatus === 'error'"
+                      class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-0 focus:border-gray-300 dark:focus:border-slate-600 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 disabled:opacity-50 disabled:cursor-not-allowed relative z-0">
+                    
+                    <!-- Animación del borde cuando está validando -->
+                    @if (isValidatingTwilio) {
+                      <div class="phone-input-border-mask">
+                        <div class="phone-input-border-glow"></div>
+                      </div>
+                    }
+                  </div>
                 </div>
 
                 <div class="flex-1 space-y-1">
                   <label
                     class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Auth
                     Token</label>
-                  <input type="password" placeholder="••••••••••••••••"
-                    class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8">
+                  <div class="relative phone-input-wrapper"
+                    [class.validating]="isValidatingTwilio">
+                    <input type="password" [(ngModel)]="twilioToken" (ngModelChange)="onTwilioTokenChange()" placeholder="••••••••••••••••"
+                      [disabled]="isValidatingTwilio"
+                      [class.phone-input-border-success]="twilioTokenValidationStatus === 'success'"
+                      [class.phone-input-border-error]="twilioTokenValidationStatus === 'error'"
+                      class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-0 focus:border-gray-300 dark:focus:border-slate-600 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 disabled:opacity-50 disabled:cursor-not-allowed relative z-0">
+                    
+                    <!-- Animación del borde cuando está validando -->
+                    @if (isValidatingTwilio) {
+                      <div class="phone-input-border-mask">
+                        <div class="phone-input-border-glow"></div>
+                      </div>
+                    }
+                  </div>
                 </div>
 
-                <button
-                  class="px-4 py-1.5 bg-black dark:bg-white text-white dark:text-gray-900 text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 mb-[1px] whitespace-nowrap shadow-sm">
-                  Guardar
-                </button>
+                <div class="relative group">
+                  <button
+                    (click)="validateTwilioConfig()"
+                    [disabled]="isValidatingTwilio || !twilioSid || !twilioToken || !twilioSid.trim() || !twilioToken.trim()"
+                    class="px-4 py-1.5 bg-black dark:bg-white text-white dark:text-gray-900 text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 mb-[1px] whitespace-nowrap shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[90px] justify-center">
+                    @if (isValidatingTwilio) {
+                      <!-- Loader -->
+                      <svg class="animate-spin h-3.5 w-3.5 text-white dark:text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      <span>Validando...</span>
+                    } @else if (twilioValidationStatus === 'success') {
+                      <!-- Tick verde -->
+                      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" stroke="#10b981" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      <span style="color: #111827 !important;">Validado</span>
+                    } @else if (twilioValidationStatus === 'error') {
+                      <!-- X roja -->
+                      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" stroke="#ef4444" d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                      <span style="color: #111827 !important;">Error</span>
+                    } @else {
+                      <span>Validar</span>
+                    }
+                  </button>
+                  <!-- Tooltip con mensaje de error (solo visible cuando hay error) -->
+                  @if (twilioValidationStatus === 'error') {
+                    <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-normal max-w-xs w-max" style="z-index: 9999;">
+                      {{ twilioErrorMessage }}
+                      <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
+                        <div class="border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
+                      </div>
+                    </div>
+                  }
+                </div>
               </div>
 
               <!-- Número de teléfono y Etiqueta en una línea -->
@@ -976,8 +1038,12 @@
                     de teléfono <span class="text-red-500">*</span></label>
                   <div class="flex items-center relative">
                     <!-- Dropdown personalizado -->
-                    <div (click)="toggleCountryMenu()"
-                      class="w-24 h-8 bg-white dark:bg-slate-800 border border-r-0 border-gray-300 dark:border-slate-600 rounded-l-lg px-2 flex items-center justify-between gap-1.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
+                    <div #countryDropdown (click)="toggleCountryMenu(); $event.stopPropagation()"
+                      [class.cursor-pointer]="true"
+                      [class.phone-input-border-success]="phoneValidationStatus === 'success'"
+                      [class.phone-input-border-error]="phoneValidationStatus === 'error'"
+                      class="w-24 h-8 bg-white dark:bg-slate-800 border border-r-0 border-gray-300 dark:border-slate-600 rounded-l-lg px-2 flex items-center justify-between gap-1.5 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm relative z-10"
+                      [class.border-r-0]="phoneValidationStatus === 'success' || phoneValidationStatus === 'error'">
                       <div class="flex items-center gap-1">
                         <svg id="current-flag" width="14" height="10" viewBox="0 0 20 12" fill="none"
                           xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 rounded-sm">
@@ -993,53 +1059,34 @@
                       </svg>
                     </div>
 
-                    <!-- Menú desplegable -->
-                    <ul [class.hidden]="!showCountryMenu"
-                      class="absolute top-full left-0 mt-1 w-24 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg shadow-xl z-50 overflow-hidden">
-                      <li (click)="selectCountry('es', '+34', '#C60B1E', '#FFC400')"
-                        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
-                        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
-                          <rect width="20" height="12" fill="#C60B1E" />
-                          <rect y="3" width="20" height="6" fill="#FFC400" />
-                        </svg>
-                        <span class="font-medium text-gray-800 dark:text-slate-200">+34</span>
-                      </li>
-                      <li (click)="selectCountry('us', '+1', '#00247D', '#FFF')"
-                        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
-                        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
-                          <rect width="20" height="12" fill="#00247D" />
-                          <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
-                          <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1" />
-                          <rect x="8" width="4" height="12" fill="#FFF" />
-                          <rect y="4" width="20" height="4" fill="#FFF" />
-                          <rect x="8.8" width="2.4" height="12" fill="#CF142B" />
-                          <rect y="5.2" width="20" height="1.6" fill="#CF142B" />
-                        </svg>
-                        <span class="font-medium text-gray-800 dark:text-slate-200">+1</span>
-                      </li>
-                      <li (click)="selectCountry('fr', '+33', '#0055A4', '#EF4135')"
-                        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
-                        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
-                          <rect width="20" height="12" fill="#fff" />
-                          <rect width="6.66" height="12" fill="#0055A4" />
-                          <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
-                        </svg>
-                        <span class="font-medium text-gray-800 dark:text-slate-200">+33</span>
-                      </li>
-                      <li (click)="selectCountry('de', '+49', '#FFCE00', '#DD0000')"
-                        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] transition-colors">
-                        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
-                          <rect width="20" height="12" fill="#FFCE00" />
-                          <rect y="6" width="20" height="6" fill="#DD0000" />
-                          <rect y="4" width="20" height="4" fill="#000" />
-                        </svg>
-                        <span class="font-medium text-gray-800 dark:text-slate-200">+49</span>
-                      </li>
-                    </ul>
 
-                    <!-- Input de número -->
-                    <input type="tel" [(ngModel)]="phoneNumber" placeholder="630 00 00 00"
-                      class="flex-1 h-8 px-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+                    <!-- Input de número con validación automática -->
+                    <div class="flex-1 relative phone-input-wrapper group"
+                      [class.validating]="isValidatingPhone">
+                      <input type="tel" [(ngModel)]="phoneNumber" (ngModelChange)="onPhoneNumberChange()" placeholder="630 00 00 00"
+                        [disabled]="!isTwilioValidated"
+                        [class.phone-input-border-success]="phoneValidationStatus === 'success'"
+                        [class.phone-input-border-error]="phoneValidationStatus === 'error'"
+                        class="w-full h-8 px-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed relative z-0"
+                        [class.border-l-0]="phoneValidationStatus === 'success' || phoneValidationStatus === 'error'" />
+                      
+                      <!-- Animación del borde cuando está validando -->
+                      @if (isValidatingPhone) {
+                        <div class="phone-input-border-mask">
+                          <div class="phone-input-border-glow"></div>
+                        </div>
+                      }
+                      
+                      <!-- Tooltip de error -->
+                      @if (phoneValidationStatus === 'error' && phoneErrorMessage) {
+                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-normal max-w-xs w-max" style="z-index: 9999;">
+                          {{ phoneErrorMessage }}
+                          <div class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
+                            <div class="border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
+                          </div>
+                        </div>
+                      }
+                    </div>
                   </div>
                 </div>
 
@@ -1798,5 +1845,53 @@
       </div>
     </div>
   </div>
+  }
+
+  <!-- Menú desplegable del selector de prefijo (renderizado fuera del contenedor con overflow-hidden) -->
+  @if (showCountryMenu && countryDropdown) {
+    <ul class="fixed w-24 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg shadow-xl overflow-hidden"
+      [style.top.px]="getCountryMenuTop()"
+      [style.left.px]="getCountryMenuLeft()"
+      style="z-index: 99999;">
+      <li (click)="selectCountry('es', '+34', '#C60B1E', '#FFC400'); $event.stopPropagation()"
+        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
+        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
+          <rect width="20" height="12" fill="#C60B1E" />
+          <rect y="3" width="20" height="6" fill="#FFC400" />
+        </svg>
+        <span class="font-medium text-gray-800 dark:text-slate-200">+34</span>
+      </li>
+      <li (click)="selectCountry('us', '+1', '#00247D', '#FFF'); $event.stopPropagation()"
+        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
+        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
+          <rect width="20" height="12" fill="#00247D" />
+          <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
+          <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1" />
+          <rect x="8" width="4" height="12" fill="#FFF" />
+          <rect y="4" width="20" height="4" fill="#FFF" />
+          <rect x="8.8" width="2.4" height="12" fill="#CF142B" />
+          <rect y="5.2" width="20" height="1.6" fill="#CF142B" />
+        </svg>
+        <span class="font-medium text-gray-800 dark:text-slate-200">+1</span>
+      </li>
+      <li (click)="selectCountry('fr', '+33', '#0055A4', '#EF4135'); $event.stopPropagation()"
+        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
+        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
+          <rect width="20" height="12" fill="#fff" />
+          <rect width="6.66" height="12" fill="#0055A4" />
+          <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
+        </svg>
+        <span class="font-medium text-gray-800 dark:text-slate-200">+33</span>
+      </li>
+      <li (click)="selectCountry('de', '+49', '#FFCE00', '#DD0000'); $event.stopPropagation()"
+        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] transition-colors">
+        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
+          <rect width="20" height="12" fill="#FFCE00" />
+          <rect y="6" width="20" height="6" fill="#DD0000" />
+          <rect y="4" width="20" height="4" fill="#000" />
+        </svg>
+        <span class="font-medium text-gray-800 dark:text-slate-200">+49</span>
+      </li>
+    </ul>
   }
 </div>

@@ -53,6 +53,7 @@ import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.c
 })
 export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, OnInit {
   @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('countryDropdown', { static: false }) countryDropdown!: ElementRef<HTMLDivElement>;
 
   step: 'agentName' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' | 'advancedSettings' | 'final' | 'success' = 'agentName';
 
@@ -72,6 +73,22 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     description: '',
     serverUrl: ''
   };
+
+  // Variables para Twilio
+  twilioSid = '';
+  twilioToken = '';
+  isValidatingTwilio = false;
+  twilioValidationStatus: 'success' | 'error' | null = null;
+  twilioErrorMessage = '';
+  isTwilioValidated = false;
+  twilioSidValidationStatus: 'success' | 'error' | null = null;
+  twilioTokenValidationStatus: 'success' | 'error' | null = null;
+
+  // Variables para validación automática del teléfono
+  isValidatingPhone = false;
+  phoneValidationStatus: 'success' | 'error' | null = null;
+  phoneErrorMessage = '';
+  private phoneValidationTimeout: any = null;
 
   private lottieInstance: any = null;
   private lottieInitialized = false;
@@ -818,6 +835,158 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.showTwilioConfig = !this.showTwilioConfig;
   }
 
+  // Método para resetear el estado de validación cuando cambian los inputs
+  onTwilioSidChange() {
+    this.twilioValidationStatus = null;
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.twilioErrorMessage = '';
+    this.isTwilioValidated = false;
+  }
+
+  onTwilioTokenChange() {
+    this.twilioValidationStatus = null;
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.twilioErrorMessage = '';
+    this.isTwilioValidated = false;
+  }
+
+  // Método para validar la configuración de Twilio
+  validateTwilioConfig() {
+    // Validar que ambos campos estén completos
+    if (!this.twilioSid || !this.twilioToken || !this.twilioSid.trim() || !this.twilioToken.trim()) {
+      this.modalService.openError({
+        title: 'Campos requeridos',
+        message: 'Por favor, completa tanto el Account SID como el Auth Token antes de validar.'
+      });
+      return;
+    }
+
+    // Resetear estado previo
+    this.twilioValidationStatus = null;
+    this.twilioErrorMessage = '';
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.isValidatingTwilio = true;
+
+    // Llamar al endpoint de validación
+    this.twilioService.setConfig({
+      twilioSid: this.twilioSid.trim(),
+      twilioToken: this.twilioToken.trim()
+    }).subscribe({
+      next: (response) => {
+        this.isValidatingTwilio = false;
+        this.twilioValidationStatus = 'success';
+        this.twilioSidValidationStatus = 'success';
+        this.twilioTokenValidationStatus = 'success';
+        this.isTwilioValidated = true;
+        console.log('✅ Configuración de Twilio validada correctamente:', response);
+        
+        // Si ya hay un número de teléfono ingresado, validarlo automáticamente
+        if (this.phoneNumber && this.phoneNumber.trim()) {
+          this.validatePhoneNumber();
+        }
+      },
+      error: (error) => {
+        this.isValidatingTwilio = false;
+        this.twilioValidationStatus = 'error';
+        this.twilioSidValidationStatus = 'error';
+        this.twilioTokenValidationStatus = 'error';
+        this.isTwilioValidated = false;
+        
+        // Extraer mensaje de error
+        let errorMessage = 'Error al validar la configuración de Twilio. Por favor, verifica tus credenciales.';
+        
+        if (error?.error?.message) {
+          errorMessage = error.error.message;
+        } else if (error?.message) {
+          errorMessage = error.message;
+        } else if (error.status === 401) {
+          errorMessage = 'Credenciales inválidas. Por favor, verifica tu Account SID y Auth Token.';
+        } else if (error.status === 400) {
+          errorMessage = 'Datos inválidos. Por favor, verifica el formato de tus credenciales.';
+        }
+        
+        this.twilioErrorMessage = errorMessage;
+        console.error('❌ Error al validar configuración de Twilio:', error);
+      }
+    });
+  }
+
+  // Método para validar automáticamente el número de teléfono
+  onPhoneNumberChange() {
+    // Limpiar timeout anterior si existe
+    if (this.phoneValidationTimeout) {
+      clearTimeout(this.phoneValidationTimeout);
+    }
+
+    // Resetear estado si el campo está vacío
+    if (!this.phoneNumber || !this.phoneNumber.trim()) {
+      this.phoneValidationStatus = null;
+      this.phoneErrorMessage = '';
+      this.isValidatingPhone = false;
+      return;
+    }
+
+    // Validar que Twilio esté validado primero
+    if (!this.isTwilioValidated) {
+      this.phoneValidationStatus = null;
+      return;
+    }
+
+    // Esperar 500ms después de que el usuario deje de escribir (debounce)
+    this.phoneValidationTimeout = setTimeout(() => {
+      this.validatePhoneNumber();
+    }, 500);
+  }
+
+  // Método para validar el número de teléfono
+  private validatePhoneNumber() {
+    if (!this.phoneNumber || !this.phoneNumber.trim()) {
+      return;
+    }
+
+    // Construir el número completo con código de país
+    const fullPhoneNumber = `${this.selectedCountryCode || '+34'}${this.phoneNumber.trim()}`;
+    
+    // Resetear estado previo
+    this.phoneValidationStatus = null;
+    this.phoneErrorMessage = '';
+    this.isValidatingPhone = true;
+
+    console.log('🔍 Validando número de teléfono automáticamente:', fullPhoneNumber);
+
+    // Llamar al endpoint de validación
+    this.twilioService.validatePhone(fullPhoneNumber).subscribe({
+      next: (response) => {
+        this.isValidatingPhone = false;
+        this.phoneValidationStatus = 'success';
+        console.log('✅ Número validado correctamente:', response);
+      },
+      error: (error) => {
+        this.isValidatingPhone = false;
+        this.phoneValidationStatus = 'error';
+        
+        // Extraer mensaje de error
+        let errorMessage = 'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
+        
+        if (error.status === 400) {
+          errorMessage = error?.error?.message || 'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
+        } else if (error.status === 401) {
+          errorMessage = 'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
+        } else if (error.status === 404) {
+          errorMessage = 'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración.';
+        } else if (error?.error?.message) {
+          errorMessage = error.error.message;
+        }
+        
+        this.phoneErrorMessage = errorMessage;
+        console.error('❌ Error al validar número:', error);
+      }
+    });
+  }
+
   // Propiedades para documentos PDF
   uploadedDocuments: File[] = [];
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
@@ -1076,6 +1245,33 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   toggleCountryMenu() {
     this.showCountryMenu = !this.showCountryMenu;
+    // Forzar detección de cambios para actualizar la posición del menú
+    if (this.showCountryMenu && this.isBrowser) {
+      setTimeout(() => {
+        // Esto fuerza a Angular a actualizar la vista
+      }, 0);
+    }
+  }
+
+  // Métodos para calcular la posición del menú desplegable
+  getCountryMenuTop(): number {
+    if (!this.isBrowser || !this.countryDropdown) return 0;
+    try {
+      const rect = this.countryDropdown.nativeElement.getBoundingClientRect();
+      return rect.bottom + 4; // mt-1 = 4px
+    } catch {
+      return 0;
+    }
+  }
+
+  getCountryMenuLeft(): number {
+    if (!this.isBrowser || !this.countryDropdown) return 0;
+    try {
+      const rect = this.countryDropdown.nativeElement.getBoundingClientRect();
+      return rect.left;
+    } catch {
+      return 0;
+    }
   }
 
   selectCountry(countryCode: string, code: string, flagColor1: string, flagColor2: string) {
@@ -1083,6 +1279,14 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.selectedCountry = countryCode;
     this.showCountryMenu = false;
     this.updateFlag(countryCode);
+    
+    // Resetear validación del teléfono cuando cambia el prefijo
+    if (this.phoneNumber && this.phoneNumber.trim()) {
+      this.phoneValidationStatus = null;
+      this.phoneErrorMessage = '';
+      // Revalidar automáticamente con el nuevo prefijo
+      this.validatePhoneNumber();
+    }
   }
 
   updateFlag(countryCode: string) {
@@ -1450,6 +1654,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   ngOnDestroy() {
+    // Limpiar timeout de validación de teléfono si existe
+    if (this.phoneValidationTimeout) {
+      clearTimeout(this.phoneValidationTimeout);
+    }
     // Limpiar el micrófono cuando se destruye el componente
     this.stopMicrophone();
     // Limpiar Lottie
