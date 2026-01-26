@@ -1,33 +1,38 @@
-<div class="p-4 max-w-sm bg-white dark:bg-[#18181A] rounded-lg">
-  <div class="flex items-center mb-3">
-    <div class="flex items-center justify-center rounded-full bg-blue-950 dark:bg-blue-700 mr-3" style="width: 32px; height: 32px;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-5 text-white">
+<div class="modal-container">
+  <!-- Icono centrado superior -->
+  <div class="modal-icon-wrapper warning">
+    <div class="modal-icon-circle warning">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="modal-icon">
         <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
-    <h2 class="text-lg font-semibold text-blue-950 dark:text-white">{{ data.title || t.warningTitleDefault }}</h2>
-  </div>
-  
-  <p class="text-sm text-gray-800 dark:text-gray-200 mb-3 ml-11">{{ data.message }}</p>
-  
-  <div *ngIf="data.details" class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-2.5 mb-3">
-    <p class="text-xs text-blue-800 dark:text-blue-200">{{ data.details }}</p>
   </div>
 
-  <div class="flex justify-end space-x-2">
-    <button 
-      *ngIf="data.showCancelButton !== false"
-      (click)="cancel()"
-      class="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-    >
-      {{ data.cancelText || t.cancel }}
-    </button>
-    <button 
-      (click)="confirm()"
-      class="px-3 py-1.5 text-sm font-medium text-white bg-blue-950 dark:bg-blue-700 border border-transparent rounded-lg hover:bg-blue-900 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-950"
-    >
-      {{ data.confirmText || t.continue }}
-    </button>
+  <!-- Contenido -->
+  <div class="modal-content">
+    <h2 class="modal-title warning">{{ data.title || t.warningTitleDefault }}</h2>
+    
+    <p class="modal-message">{{ data.message }}</p>
+    
+    <div *ngIf="data.details" class="modal-details warning">
+      <p>{{ data.details }}</p>
+    </div>
+
+    <div class="modal-actions">
+      <button 
+        *ngIf="data.showCancelButton !== false"
+        (click)="cancel()"
+        class="modal-button modal-button-secondary"
+      >
+        {{ data.cancelText || t.cancel }}
+      </button>
+      <button 
+        (click)="confirm()"
+        class="modal-button modal-button-primary warning"
+      >
+        {{ data.confirmText || t.continue }}
+      </button>
+    </div>
   </div>
 </div>
 

@@ -1,8 +1,291 @@
+// Estilos base del modal
+.modal-container {
+  @apply max-w-md mx-auto bg-white dark:bg-[#18181A] rounded-2xl shadow-2xl overflow-hidden;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  
+  :host-context(html.dark) & {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
 
+// Contenedor del icono
+.modal-icon-wrapper {
+  @apply flex justify-center pt-8 pb-4;
+  
+  &.success {
+    background: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, transparent 100%);
+  }
+  
+  &.error {
+    background: linear-gradient(180deg, rgba(239, 68, 68, 0.08) 0%, transparent 100%);
+  }
+  
+  &.warning {
+    background: linear-gradient(180deg, rgba(251, 191, 36, 0.08) 0%, transparent 100%);
+  }
+}
 
-.text-green-700 { color: #047857; }
-.bg-green-100 { background-color: #dcfce7; }
-.text-green-600 { color: #059669; }
-.bg-green-50 { background-color: #f0fdf4; }
-.text-green-800 { color: #065f46; }
+// Círculo del icono
+.modal-icon-circle {
+  @apply rounded-full flex items-center justify-center;
+  width: 72px;
+  height: 72px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &.success {
+    @apply bg-green-100 dark:bg-green-900/40;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
+    
+    .modal-icon {
+      @apply text-green-600 dark:text-green-400;
+      width: 36px;
+      height: 36px;
+    }
+  }
+  
+  &.error {
+    @apply bg-red-100 dark:bg-red-900/40;
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.25);
+    
+    .modal-icon {
+      @apply text-red-600 dark:text-red-400;
+      width: 36px;
+      height: 36px;
+    }
+  }
+  
+  &.warning {
+    @apply bg-amber-100 dark:bg-amber-900/40;
+    box-shadow: 0 4px 20px rgba(251, 191, 36, 0.25);
+    
+    .modal-icon {
+      @apply text-amber-600 dark:text-amber-400;
+      width: 36px;
+      height: 36px;
+    }
+  }
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
 
+// Contenido del modal
+.modal-content {
+  @apply px-6 pb-6;
+}
+
+// Título
+.modal-title {
+  @apply text-center text-xl font-bold mb-3;
+  letter-spacing: -0.5px;
+  
+  &.success {
+    @apply text-green-700 dark:text-green-400;
+  }
+  
+  &.error {
+    @apply text-red-700 dark:text-red-400;
+  }
+  
+  &.warning {
+    @apply text-amber-700 dark:text-amber-400;
+  }
+}
+
+// Mensaje
+.modal-message {
+  @apply text-center text-sm text-gray-700 dark:text-gray-300 mb-4 leading-relaxed;
+  line-height: 1.6;
+}
+
+// Detalles
+.modal-details {
+  @apply rounded-xl p-4 mb-4 text-xs overflow-auto;
+  max-height: 200px;
+  border: 1px solid;
+  
+  &.success {
+    @apply bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200;
+    border-color: rgba(16, 185, 129, 0.2);
+    
+    pre {
+      @apply text-green-800 dark:text-green-200;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  }
+  
+  &.error {
+    @apply bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200;
+    border-color: rgba(239, 68, 68, 0.2);
+    
+    pre {
+      @apply text-red-800 dark:text-red-200;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: inherit;
+    }
+  }
+  
+  &.warning {
+    @apply bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200;
+    border-color: rgba(251, 191, 36, 0.2);
+    
+    p {
+      @apply text-amber-800 dark:text-amber-200;
+    }
+  }
+}
+
+// Acciones
+.modal-actions {
+  @apply flex justify-end gap-3 mt-6;
+}
+
+// Botones
+.modal-button {
+  @apply px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200;
+  min-width: 100px;
+  
+  &:focus {
+    @apply outline-none ring-2 ring-offset-2;
+  }
+  
+  &.modal-button-primary {
+    &.success {
+      @apply bg-green-600 dark:bg-green-700 text-white;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      
+      &:hover {
+        @apply bg-green-700 dark:bg-green-600;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+      
+      &:focus {
+        @apply ring-green-500;
+      }
+    }
+    
+    &.error {
+      @apply bg-red-600 dark:bg-red-700 text-white;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+      
+      &:hover {
+        @apply bg-red-700 dark:bg-red-600;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+      
+      &:focus {
+        @apply ring-red-500;
+      }
+    }
+    
+    &.warning {
+      @apply bg-amber-600 dark:bg-amber-700 text-white;
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+      
+      &:hover {
+        @apply bg-amber-700 dark:bg-amber-600;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(251, 191, 36, 0.4);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+      
+      &:focus {
+        @apply ring-amber-500;
+      }
+    }
+  }
+  
+  &.modal-button-secondary {
+    @apply bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-slate-600;
+    
+    &:hover {
+      @apply bg-gray-50 dark:bg-slate-700;
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+    
+    &:focus {
+      @apply ring-gray-500;
+    }
+  }
+}
+
+// Eliminar bordes del contenedor de Material Dialog
+::ng-deep .custom-dialog-container {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  
+  .mat-mdc-dialog-container {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+  
+  .mdc-dialog__surface {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  .cdk-overlay-pane {
+    border: none !important;
+    outline: none !important;
+  }
+}
+
+::ng-deep html.dark .custom-dialog-container {
+  border: none !important;
+  outline: none !important;
+  
+  .mat-mdc-dialog-container {
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
+  }
+  
+  .mat-mdc-dialog-surface {
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
+  }
+  
+  .mdc-dialog__surface {
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
+  }
+  
+  .cdk-overlay-pane {
+    border: none !important;
+    outline: none !important;
+  }
+}

@@ -1,22 +1,30 @@
-<div class="p-4 max-w-sm bg-white dark:bg-[#18181A] rounded-lg">
-  <div class="flex items-center mb-2">
-    <div class="flex items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 mr-3" style="width: 32px; height: 32px;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-5 text-red-400 dark:text-red-500">
+<div class="modal-container">
+  <!-- Icono centrado superior -->
+  <div class="modal-icon-wrapper error">
+    <div class="modal-icon-circle error">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="modal-icon">
         <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
-    <h2 class="text-lg font-semibold text-red-700 dark:text-red-400">{{ data.title || t.errorTitleDefault }}</h2>
   </div>
-  <p class="text-sm text-gray-800 dark:text-gray-200 mb-3 ml-11">{{ data.message }}</p>
-  <pre *ngIf="data.details" class="bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-red-200 text-xs p-2.5 rounded mb-3 overflow-auto border border-red-200 dark:border-red-800" style="max-height: 200px;">
-{{ data.details }}
-  </pre>
-  <div class="flex justify-end">
-    <button 
-      (click)="close()"
-      class="mt-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700 text-blue-950 dark:text-white font-semibold py-1.5 px-4 rounded-lg transition-colors text-sm"
-    >
-      {{ t.close }}
-    </button>
+
+  <!-- Contenido -->
+  <div class="modal-content">
+    <h2 class="modal-title error">{{ data.title || t.errorTitleDefault }}</h2>
+    
+    <p class="modal-message">{{ data.message }}</p>
+    
+    <div *ngIf="data.details" class="modal-details error">
+      <pre>{{ data.details }}</pre>
+    </div>
+
+    <div class="modal-actions">
+      <button 
+        (click)="close()"
+        class="modal-button modal-button-primary error"
+      >
+        {{ t.close }}
+      </button>
+    </div>
   </div>
 </div>

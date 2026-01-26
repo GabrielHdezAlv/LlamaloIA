@@ -1,63 +1,68 @@
-<div class="p-6 max-w-lg bg-white dark:bg-[#18181A] rounded-lg">
-  <div class="flex items-center mb-4">
-    <div class="flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 mr-3" style="width: 40px; height: 40px;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-green-600 dark:text-green-400">
+<div class="modal-container purchase">
+  <!-- Icono centrado superior -->
+  <div class="modal-icon-wrapper success">
+    <div class="modal-icon-circle success">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="modal-icon">
         <path d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
-    <h2 class="text-xl font-semibold text-gray-800 dark:text-white">{{ data.title || t.confirmPurchaseTitle }}</h2>
   </div>
 
-  <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-4 mb-6">
-    <div class="flex justify-between items-start mb-3">
-      <div>
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ data.productName }}</h3>
-        <p *ngIf="data.description" class="text-sm text-gray-600 dark:text-gray-300 mt-1">{{ data.description }}</p>
+  <!-- Contenido -->
+  <div class="modal-content">
+    <h2 class="modal-title success">{{ data.title || t.confirmPurchaseTitle }}</h2>
+
+    <div class="purchase-info-card">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ data.productName }}</h3>
+          <p *ngIf="data.description" class="text-sm text-gray-600 dark:text-gray-300 mt-1.5">{{ data.description }}</p>
+        </div>
+        <div class="text-right">
+          <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ formattedPrice }}</div>
+          <div *ngIf="billingText" class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ billingText }}</div>
+        </div>
       </div>
-      <div class="text-right">
-        <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ formattedPrice }}</div>
-        <div *ngIf="billingText" class="text-sm text-gray-500 dark:text-gray-400">{{ billingText }}</div>
+
+      <div *ngIf="data.features && data.features.length > 0" class="border-t border-gray-200 dark:border-slate-700 pt-4">
+        <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">{{ t.includes }}</h4>
+        <ul class="space-y-2">
+          <li *ngFor="let feature of data.features" class="flex items-center text-sm text-gray-600 dark:text-gray-300">
+            <svg class="w-4 h-4 text-green-500 dark:text-green-400 mr-2.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            {{ feature }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="modal-details success mb-6">
+      <div class="flex items-start">
+        <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2.5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+        </svg>
+        <div class="text-sm">
+          <p class="font-semibold text-blue-700 dark:text-blue-200 mb-1">{{ t.securePayment }}</p>
+          <p class="text-blue-600 dark:text-blue-300">{{ t.securePaymentDesc }}</p>
+        </div>
       </div>
     </div>
 
-    <div *ngIf="data.features && data.features.length > 0" class="border-t border-gray-200 dark:border-slate-700 pt-3">
-      <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ t.includes }}</h4>
-      <ul class="space-y-1">
-        <li *ngFor="let feature of data.features" class="flex items-center text-sm text-gray-600 dark:text-gray-300">
-          <svg class="w-4 h-4 text-green-500 dark:text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-          </svg>
-          {{ feature }}
-        </li>
-      </ul>
+    <div class="modal-actions">
+      <button 
+        (click)="cancel()"
+        class="modal-button modal-button-secondary"
+      >
+        {{ t.cancel }}
+      </button>
+      <button 
+        (click)="confirmPurchase()"
+        class="modal-button modal-button-primary success"
+      >
+        {{ t.confirmPurchase }}
+      </button>
     </div>
-  </div>
-
-  <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mb-6">
-    <div class="flex items-start">
-      <svg class="w-5 h-5 text-blue-500 dark:text-blue-400 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-      </svg>
-      <div class="text-sm text-blue-700 dark:text-blue-200">
-        <p class="font-medium">{{ t.securePayment }}</p>
-        <p class="text-blue-600 dark:text-blue-300">{{ t.securePaymentDesc }}</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="flex justify-end space-x-3">
-    <button 
-      (click)="cancel()"
-      class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-    >
-      {{ t.cancel }}
-    </button>
-    <button 
-      (click)="confirmPurchase()"
-      class="px-6 py-2 text-sm font-medium text-white bg-green-600 dark:bg-green-700 border border-transparent rounded-lg hover:bg-green-700 dark:hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-    >
-      {{ t.confirmPurchase }}
-    </button>
   </div>
 </div>
 
