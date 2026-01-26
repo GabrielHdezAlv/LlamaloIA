@@ -29,18 +29,10 @@
                     </div>
                 </div>
             </div>
-            <div class="sphere-wrapper"
-                [style.transform]="'scale(' + (1 + (isPlaying && isMicrophoneActive ? audioLevel : 0) * 0.15) + ')'">
-                <div class="outer-glow"
-                    [style.opacity]="0.3 + ((isPlaying && isMicrophoneActive ? audioLevel : 0) * 0.7)"
-                    [style.transform]="'scale(' + (1.2 + (isPlaying && isMicrophoneActive ? audioLevel : 0) * 0.5) + ')'">
-                </div>
-                <div class="liquid-sphere-container">
-                    <div class="liquid-sphere">
-                        <div class="blob"></div>
-                        <div class="blob"></div>
-                        <div class="blob"></div>
-                    </div>
+            <div class="sphere-wrapper w-full relative" style="flex: 1; overflow: hidden;">
+                <div
+                    style="position: absolute; top: 65%; left: 50%; transform: translate(-50%, -45%) scale(1); pointer-events: none;">
+                    <app-ai-sphere [audioLevel]="audioLevel"></app-ai-sphere>
                 </div>
             </div>
 

@@ -65,6 +65,13 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   selectedCallType: 'inbound' | 'outbound' | null = null;
   label: string = ''; // Etiqueta del agente
   selectedVoiceId: string = ''; // voiceId de la voz seleccionada
+  showTwilioConfig = false;
+  showMakeConfig = false;
+  makeActionData = {
+    name: '',
+    description: '',
+    serverUrl: ''
+  };
 
   private lottieInstance: any = null;
   private lottieInitialized = false;
@@ -343,7 +350,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   onSelectCallType(type: 'inbound' | 'outbound') {
-    this.selectedCallType = type;
+    // Si ya está seleccionado, deseleccionar; si no, seleccionar
+    this.selectedCallType = this.selectedCallType === type ? null : type;
   }
 
   onLanguageSelected() {
@@ -619,7 +627,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     } else if (this.step === 'voices') {
       this.step = 'instructions';
     } else if (this.step === 'instructions') {
-      this.step = 'summary'; // Salta "Añadir Acciones" y "Base de Conocimientos"
+      this.step = 'actions'; // Ir a "Añadir Acciones"
     } else if (this.step === 'actions') {
       this.step = 'summary';
     } else if (this.step === 'knowledgeBase') {
@@ -715,7 +723,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       instructions: this.instructions
     });
 
-    this.step = 'summary'; // Salta "Añadir Acciones" y "Base de Conocimientos", va directamente a "Resumen"
+    this.step = 'actions'; // Ir a "Añadir Acciones"
     this.saveDraft();
   }
 
@@ -727,18 +735,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.step = 'knowledgeBase';
       this.saveDraft();
     } else if (platform === 'make') {
-      // Abrir modal de Make
-      const dialogRef = this.modalService.openMake({
-        title: 'Integración con Make',
-        message: 'Configura tu conexión con Make',
-        formEnabled: false
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('Make modal closed with result:', result);
-        // El modal de Make ya no retorna resultado, solo se cierra
-        // No avanzar automáticamente
-      });
+      // Toggle del desplegable de Make (ya no se usa modal)
+      this.showMakeConfig = !this.showMakeConfig;
     } else {
       // Para otras plataformas, continuar normalmente (actualmente ninguna excepto manual/omitir)
       this.step = 'knowledgeBase';
