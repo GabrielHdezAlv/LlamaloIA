@@ -8,7 +8,7 @@
       <div class="h-full bg-blue-950 transition-all duration-300" [class.w-[12vh]]="step === 'agentName'"
         [class.w-[24vh]]="step === 'language'" [class.w-[36vh]]="step === 'voices'"
         [class.w-[48vh]]="step === 'instructions'" [class.w-[54vh]]="step === 'actions'"
-        [class.w-[60vh]]="step === 'summary'" [class.w-[72vh]]="step === 'connectPhone'"
+        [class.w-[60vh]]="step === 'summary'"
         [class.w-[84vh]]="step === 'final'" [class.w-full]="step === 'success'"></div>
     </div>
   </div>
@@ -108,6 +108,7 @@
 
       <button
         class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        style="z-index: 9999;"
         (click)="onSubmitAgentName()">
         Continuar
       </button>
@@ -808,6 +809,7 @@
 
       <button
         class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        style="z-index: 9999;"
         (click)="onSubmit()">
         Continuar
       </button>
@@ -1103,10 +1105,14 @@
 
         <!-- Botón Continuar dentro del contenedor de conexiones (cuando Make o Twilio están abiertos) -->
         @if (showMakeConfig || showTwilioConfig) {
-        <div class="flex justify-center mt-6">
+        <div class="flex justify-center mt-6" style="z-index: 9999; position: relative;">
           <button
-            class="px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md flex items-center gap-2 3xl:gap-3"
-            (click)="step = 'summary'; saveDraft()">
+            [disabled]="!canContinueFromConnections"
+            [class.opacity-50]="!canContinueFromConnections"
+            [class.cursor-not-allowed]="!canContinueFromConnections"
+            class="px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md flex items-center gap-2 3xl:gap-3 disabled:hover:bg-[#0a1740] disabled:dark:hover:bg-blue-700 disabled:hover:shadow-md disabled:hover:-translate-y-0"
+            style="z-index: 9999; position: relative;"
+            (click)="onContinueFromConnections()">
             Continuar
           </button>
         </div>
@@ -1131,24 +1137,15 @@
       <!-- Botón Continuar en posición original (solo cuando Make y Twilio NO están abiertos) -->
       @if (!showMakeConfig && !showTwilioConfig) {
       <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
-        (click)="step = 'summary'; saveDraft()">
+        [disabled]="!canContinueFromConnections"
+        [class.opacity-50]="!canContinueFromConnections"
+        [class.cursor-not-allowed]="!canContinueFromConnections"
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3 disabled:hover:bg-[#0a1740] disabled:dark:hover:bg-blue-700 disabled:hover:shadow-md disabled:hover:-translate-y-0"
+        style="z-index: 9999;"
+        (click)="onContinueFromConnections()">
         Continuar
       </button>
       }
-
-
-      <button (click)="step = 'summary'; saveDraft()"
-        class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="font-family: 'Inter', sans-serif;">
-        Saltar
-        <svg class="ml-2 sm:ml-3 3xl:ml-4 w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:translate-x-1"
-          viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M5.97725 3.35225C5.77755 3.55195 5.7594 3.86445 5.92279 4.08466L5.97725 4.14775L10.8293 9L5.97725 13.8523C5.77755 14.052 5.7594 14.3645 5.92279 14.5847L5.97725 14.6477C6.17695 14.8474 6.48945 14.8656 6.70966 14.7022L6.77275 14.6477L12.0227 9.39775C12.2224 9.19805 12.2406 8.88555 12.0772 8.66534L12.0227 8.60225L6.77275 3.35225C6.55308 3.13258 6.19692 3.13258 5.97725 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
     </div>
   </div>
   }
@@ -1253,6 +1250,7 @@
 
       <button
         class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        style="z-index: 9999;"
         (click)="continueWithoutSource()">
         Continuar
       </button>
@@ -1330,6 +1328,7 @@
 
       <button
         class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        style="z-index: 9999;"
         (click)="onSubmitTestCall()">
         Continuar
       </button>
@@ -1339,184 +1338,6 @@
   </div>
   }
 
-  @if (step === 'connectPhone') {
-  <div
-    class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-    <!-- Título principal -->
-    <h2
-      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg: px-2 sm:px-3 md:px-4">
-      Conectar Número de Teléfono
-    </h2>
-    <p id="twilio-subtitle"
-      class="text-center font-semibold text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-blue-950 dark:text-slate-200 mb-6 sm:mb-8 md:mb-10 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2 3xl:mb-2  sm: md: px-2 sm:px-4">
-      a través de Twilio
-    </p>
-
-
-
-    <div class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide"
-      style="scrollbar-width: none; -ms-overflow-style: none;">
-      <!-- Contenido principal: Formulario centrado -->
-      <div class="absolute top-3 right-3 sm:top-4 sm:right-4 z-20">
-        <button (click)="openTwilioStepsModal()"
-          class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-slate-900 flex items-center justify-center">
-          <svg class="w-5 h-5 3xl:w-6 3xl:h-6" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor">
-            <path
-              d="M10.656 8.864q0-2.208 1.568-3.776t3.776-1.568 3.776 1.568 1.6 3.776q0 0.256-0.064 0.448l-1.76 6.944q-0.096 1.408-1.12 2.368t-2.432 0.96q-1.376 0-2.4-0.928t-1.152-2.304q-0.32-0.96-0.672-2.112t-0.736-2.784-0.384-2.592zM12.416 24.928q0-1.472 1.056-2.496t2.528-1.056 2.528 1.056 1.056 2.496q0 1.504-1.056 2.528t-2.528 1.056-2.528-1.056-1.056-2.528z">
-            </path>
-          </svg>
-        </button>
-      </div>
-      <div class="max-w-xl mx-auto px-2 sm:px-4 md:px-6 lg:px-5 xl:px-5 2xl:px-5 pt-3 sm:pt-4 md:pt-5 lg:pt-12">
-        <form class="space-y-4 sm:space-y-5 lg:space-y-3 3xl:space-y-4">
-          <!-- Número de teléfono -->
-          <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2">
-            <label for="phone"
-              class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
-              Número de teléfono <span class="text-red-500 ml-1">*</span>
-            </label>
-            <div class="flex items-center relative">
-              <!-- Dropdown personalizado -->
-              <div (click)="toggleCountryMenu()"
-                class="w-28 h-10 sm:h-11 md:h-12 lg:h-11 3xl:w-36 3xl:h-12 bg-white dark:bg-slate-800 border-2 border-r-0 border-gray-200 dark:border-slate-600 rounded-l-lg px-2.5 sm:px-3 md:px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
-                <div class="flex items-center gap-1.5 lg:gap-1 3xl:gap-2">
-                  <svg id="current-flag" width="16" height="11" viewBox="0 0 20 12" fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="flex-shrink-0 rounded-sm lg:w-[14px] lg:h-[10px] 3xl:w-5 3xl:h-3.5">
-                    <rect width="20" height="12" fill="#C60B1E" />
-                    <rect y="3" width="20" height="6" fill="#FFC400" />
-                  </svg>
-                  <span
-                    class="text-[10px] sm:text-xs lg:text-[9px] 3xl:text-sm font-medium text-gray-800 dark:text-slate-200">{{selectedCountryCode}}</span>
-                </div>
-                <svg
-                  class="w-2.5 h-2.5 lg:w-2 lg:h-2 3xl:w-3 3xl:h-3 text-gray-500 dark:text-slate-400 transition-transform"
-                  [class.rotate-180]="showCountryMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-
-              <!-- Menú desplegable -->
-              <ul [class.hidden]="!showCountryMenu"
-                class="absolute top-full left-0 mt-1 3xl:mt-1.5 w-28 3xl:w-36 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 rounded-lg shadow-xl z-20 overflow-hidden">
-                <li (click)="selectCountry('es', '+34', '#C60B1E', '#FFC400')"
-                  class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 py-1.5 sm:py-2 md:py-2 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] 3xl:text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
-                  <svg width="16" height="11" viewBox="0 0 20 12"
-                    class="mr-1.5 lg:mr-1 3xl:mr-2 flex-shrink-0 rounded-sm lg:w-[14px] lg:h-[10px] 3xl:w-5 3xl:h-3.5">
-                    <rect width="20" height="12" fill="#C60B1E" />
-                    <rect y="3" width="20" height="6" fill="#FFC400" />
-                  </svg>
-                  <span class="font-medium text-gray-800 dark:text-slate-200">+34</span>
-                </li>
-                <li (click)="selectCountry('us', '+1', '#00247D', '#FFF')"
-                  class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-3 xl:px-3 2xl:px-3 py-1.5 sm:py-2 md:py-2 lg:py-2 xl:py-2 2xl:py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
-                  <svg width="16" height="11" viewBox="0 0 20 12"
-                    class="mr-1.5 lg:mr-1 3xl:mr-2 flex-shrink-0 rounded-sm lg:w-[14px] lg:h-[10px] 3xl:w-5 3xl:h-3.5">
-                    <rect width="20" height="12" fill="#00247D" />
-                    <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
-                    <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1" />
-                    <rect x="8" width="4" height="12" fill="#FFF" />
-                    <rect y="4" width="20" height="4" fill="#FFF" />
-                    <rect x="8.8" width="2.4" height="12" fill="#CF142B" />
-                    <rect y="5.2" width="20" height="1.6" fill="#CF142B" />
-                  </svg>
-                  <span class="font-medium text-gray-800 dark:text-slate-200">+1</span>
-                </li>
-                <li (click)="selectCountry('fr', '+33', '#0055A4', '#EF4135')"
-                  class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-3 xl:px-3 2xl:px-3 py-1.5 sm:py-2 md:py-2 lg:py-2 xl:py-2 2xl:py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
-                  <svg width="16" height="11" viewBox="0 0 20 12"
-                    class="mr-1.5 lg:mr-1 3xl:mr-2 flex-shrink-0 rounded-sm lg:w-[14px] lg:h-[10px] 3xl:w-5 3xl:h-3.5">
-                    <rect width="20" height="12" fill="#fff" />
-                    <rect width="6.66" height="12" fill="#0055A4" />
-                    <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
-                  </svg>
-                  <span class="font-medium text-gray-800 dark:text-slate-200">+33</span>
-                </li>
-                <li (click)="selectCountry('de', '+49', '#FFCE00', '#DD0000')"
-                  class="flex items-center px-2.5 sm:px-3 md:px-3 lg:px-3 xl:px-3 2xl:px-3 py-1.5 sm:py-2 md:py-2 lg:py-2 xl:py-2 2xl:py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[10px] sm:text-xs lg:text-[9px] transition-colors">
-                  <svg width="16" height="11" viewBox="0 0 20 12"
-                    class="mr-1.5 lg:mr-1 3xl:mr-2 flex-shrink-0 rounded-sm lg:w-[14px] lg:h-[10px] 3xl:w-5 3xl:h-3.5">
-                    <rect width="20" height="12" fill="#FFCE00" />
-                    <rect y="6" width="20" height="6" fill="#DD0000" />
-                    <rect y="4" width="20" height="4" fill="#000" />
-                  </svg>
-                  <span class="font-medium text-gray-800 dark:text-slate-200">+49</span>
-                </li>
-              </ul>
-
-              <!-- Input de número -->
-              <input type="tel" id="phone" name="phone" [(ngModel)]="phoneNumber" placeholder="630 00 00 00"
-                class="flex-1 h-10 sm:h-11 md:h-12 lg:h-11 3xl:h-12 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
-            </div>
-          </div>
-
-          <!-- Etiqueta -->
-          <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2">
-            <label for="label"
-              class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
-              Etiqueta <span
-                class="text-gray-500 dark:text-slate-400 text-[10px] sm:text-xs lg:text-[9px] 3xl:text-sm font-normal ml-1">(opcional)</span>
-            </label>
-            <input type="text" id="label" name="label" [(ngModel)]="label"
-              placeholder="Ej: Oficina Principal, Ventas, etc."
-              class="w-full h-10 sm:h-11 md:h-12 lg:h-11 3xl:h-12 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
-          </div>
-
-          <!-- Selección de número importado -->
-          <div class="space-y-1.5 lg:space-y-1 3xl:space-y-2 hidden">
-            <label for="imported-number"
-              class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-100">
-              Número importado
-            </label>
-            <div class="relative">
-              <select id="imported-number"
-                class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-11 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-100 appearance-none cursor-pointer transition-all shadow-sm font-medium">
-                <option value="">Selecciona un número importado</option>
-                <option value="1">+34 630 00 00 00</option>
-                <option value="2">+1 555 123 4567</option>
-              </select>
-              <span
-                class="pointer-events-none absolute inset-y-0 right-2.5 sm:right-3 md:right-4 lg:right-2.5 3xl:right-4 flex items-center">
-                <svg width="12" height="12" viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="text-gray-500 dark:text-slate-400 lg:w-[10px] lg:h-[10px] 3xl:w-4 3xl:h-4">
-                  <path
-                    d="M14.2907 0.55247C14.6817 0.178412 15.3156 0.178535 15.7067 0.55247C16.0978 0.926578 16.0977 1.53284 15.7067 1.90696L8.87857 8.43821C8.87539 8.44134 8.87302 8.44586 8.86979 8.44895C8.67399 8.63612 8.41735 8.72854 8.1608 8.72825C7.9686 8.7282 7.77658 8.67629 7.61002 8.57102C7.58234 8.5535 7.55511 8.53482 7.52897 8.51438C7.50278 8.49395 7.4772 8.4723 7.45279 8.44895C7.4498 8.44609 7.44695 8.44305 7.444 8.44017L0.61588 1.90696C0.225121 1.53284 0.22497 0.926501 0.61588 0.55247C1.00687 0.178426 1.6408 0.178577 2.0319 0.55247L8.1608 6.41477L14.2907 0.55247Z"
-                    fill="currentColor" />
-                </svg>
-              </span>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Botones -->
-    <div
-      class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
-      <button (click)="goBack()"
-        class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800">
-        <svg class="w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:-translate-x-1" viewBox="0 0 18 18"
-          fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
-
-
-      <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
-        (click)="onConnectPhone()">
-        Continuar
-      </button>
-
-
-
-
-    </div>
-  </div>
-  }
 
 
   @if (step === 'final') {

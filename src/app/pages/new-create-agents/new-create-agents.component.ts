@@ -192,8 +192,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         this.animateIdle();
       }
 
-      // Si el paso recuperado es 'connectPhone', mostrar datos guardados
-      if (this.step === 'connectPhone') {
+      // Si el paso recuperado es 'summary', mostrar datos guardados
+      if (this.step === 'summary') {
         // Usar setTimeout para asegurar que el componente esté completamente inicializado
         setTimeout(() => {
           this.logSavedData();
@@ -674,10 +674,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   goBack() {
-    if (this.step === 'connectPhone') {
-      this.step = 'summary';
-    } else if (this.step === 'summary') {
-      this.step = 'instructions'; // Salta "Añadir Acciones" y "Base de Conocimientos"
+    if (this.step === 'summary') {
+      this.step = 'actions'; // Volver a "Conexiones" desde "Prueba Agente"
     } else if (this.step === 'knowledgeBase') {
       this.step = 'instructions';
     } else if (this.step === 'actions') {
@@ -713,11 +711,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     } else if (this.step === 'knowledgeBase') {
       this.step = 'summary';
     } else if (this.step === 'summary') {
-      this.step = 'connectPhone';
-      // Mostrar datos guardados cuando llegamos a esta pantalla
+      // Avanzar directamente a crear el agente
+      this.createAgentAfterValidation();
       this.logSavedData();
     }
-    // Si ya está en 'connectPhone', no hace nada o puedes reiniciar el flujo si lo deseas
   }
 
   // Continuar desde el paso de nombre del agente
@@ -914,6 +911,54 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     });
   }
 
+  // Getter para verificar si Twilio está completamente validado
+  get isTwilioCompletelyValidated(): boolean {
+    return (
+      this.twilioSidValidationStatus === 'success' &&
+      this.twilioTokenValidationStatus === 'success' &&
+      this.phoneValidationStatus === 'success' &&
+      this.isTwilioValidated
+    );
+  }
+
+  // Getter para verificar si el botón Continuar debe estar habilitado
+  get canContinueFromConnections(): boolean {
+    // Si Make está abierto, siempre se puede continuar
+    if (this.showMakeConfig) {
+      return true;
+    }
+    // Si solo Twilio está abierto, requiere validación completa
+    if (this.showTwilioConfig && !this.showMakeConfig) {
+      return this.isTwilioCompletelyValidated;
+    }
+    // Si ninguno está abierto, verificar si Twilio está validado (incluso con acordeón cerrado)
+    if (!this.showMakeConfig && !this.showTwilioConfig) {
+      return this.isTwilioCompletelyValidated;
+    }
+    return false;
+  }
+
+  // Método para continuar desde la sección de conexiones
+  onContinueFromConnections() {
+    // Verificar si se puede continuar usando el getter
+    if (!this.canContinueFromConnections) {
+      console.log('No se puede continuar. Estado:', {
+        showMakeConfig: this.showMakeConfig,
+        showTwilioConfig: this.showTwilioConfig,
+        isTwilioCompletelyValidated: this.isTwilioCompletelyValidated,
+        twilioSidStatus: this.twilioSidValidationStatus,
+        twilioTokenStatus: this.twilioTokenValidationStatus,
+        phoneStatus: this.phoneValidationStatus,
+        isTwilioValidated: this.isTwilioValidated
+      });
+      return;
+    }
+    
+    // Avanzar al siguiente paso
+    this.step = 'summary';
+    this.saveDraft();
+  }
+
   // Método para validar automáticamente el número de teléfono
   onPhoneNumberChange() {
     // Limpiar timeout anterior si existe
@@ -1083,10 +1128,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   onSubmitTestCall() {
-
     console.log('Número ingresado para prueba:', this.phoneNumber);
-    // Avanza a conectar número de teléfono
-    this.step = 'connectPhone';
+    // Avanza directamente a crear el agente
+    this.createAgentAfterValidation();
     this.saveDraft();
     // Mostrar datos guardados cuando llegamos a esta pantalla
     this.logSavedData();
@@ -1220,8 +1264,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       },
       error: (error) => {
         console.error('❌ Error al crear agente:', error);
-        // Volver a la pantalla de conectar teléfono
-        this.step = 'connectPhone';
+        // Volver a la pantalla de prueba agente
+        this.step = 'summary';
         // Mostrar mensaje de error
         const errorMessage = error?.error?.message || error?.message || 'Error al crear el agente. Por favor, intenta nuevamente.';
         this.modalService.openError({
