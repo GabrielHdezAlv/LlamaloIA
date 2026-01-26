@@ -1,5 +1,5 @@
 <div
-  class="min-h-screen flex flex-col pt-2 pb-3 px-2 sm:pt-3 sm:pb-8 sm:px-3 md:pt-4 md:pb-10 md:px-4 lg:pt-3 lg:pb-3 lg:px-1 lg:mt-3 3xl:pt-6 3xl:pb-8 3xl:px-6 max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
+  class="flex flex-col pt-2 pb-3 px-2 sm:pt-3 sm:pb-8 sm:px-3 md:pt-4 md:pb-10 md:px-4 lg:pt-3 lg:pb-3 lg:px-1 lg:mt-3 3xl:pt-6 3xl:pb-8 3xl:px-6 max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
 
   <!-- Barra de progreso -->
   <!-- Barra de progreso -->
@@ -15,7 +15,7 @@
 
   @if (step === 'agentName') {
   <div
-    class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+    class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-0 lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <h2
       class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
       Configuración del Agente</h2>
@@ -132,11 +132,13 @@
 
         <div class="grid grid-cols-5 gap-y-10 gap-x-8 justify-items-center items-start py-10">
           <!-- Español -->
-          <button (click)="onLanguageSelected()"
+          <button (click)="onLanguageSelected('es', '+34', $event)"
             class="flex flex-col items-center justify-center group focus:outline-none">
             <div
-              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
-              <svg width="92" height="72" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100 relative"
+              [class.opacity-100]="isLanguageSelected('es')">
+              <svg width="92" height="72" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                [class.scale-[1.25]]="isLanguageSelected('es')" class="transition-transform duration-300">
                 <g clip-path="url(#clip0_1828_2669)">
                   <rect width="72" height="52" rx="13" fill="#C70318" />
                   <path
@@ -179,11 +181,13 @@
           </button>
 
           <!-- Inglés -->
-          <button (click)="onLanguageSelected()"
+          <button (click)="onLanguageSelected('en', '+44', $event)"
             class="flex flex-col items-center justify-center group focus:outline-none">
             <div
-              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
-              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100 relative"
+              [class.opacity-100]="isLanguageSelected('en')">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                [class.scale-[1.25]]="isLanguageSelected('en')" class="transition-transform duration-300">
                 <g clip-path="url(#clip0_1816_7491)">
                   <rect width="75" height="52" rx="13" fill="#001B69" />
                   <path fill-rule="evenodd" clip-rule="evenodd"
@@ -206,15 +210,17 @@
               </svg>
             </div>
             <span
-              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Inglés</span>
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Inglés Britanico</span>
           </button>
 
           <!-- Francés -->
-          <button (click)="onLanguageSelected()"
+          <button (click)="onLanguageSelected('fr', '+33', $event)"
             class="flex flex-col items-center justify-center group focus:outline-none">
             <div
-              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
-              <svg width="92" height="72" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100 relative"
+              [class.opacity-100]="isLanguageSelected('fr')">
+              <svg width="92" height="72" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                [class.scale-[1.25]]="isLanguageSelected('fr')" class="transition-transform duration-300">
                 <g clip-path="url(#clip0_1816_7478)">
                   <rect width="72" height="52" rx="13" fill="white" />
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M48 0H72V52H48V0Z" fill="#CF0921" />
@@ -232,11 +238,13 @@
           </button>
 
           <!-- Italiano -->
-          <button (click)="onLanguageSelected()"
+          <button (click)="onLanguageSelected('it', '+39', $event)"
             class="flex flex-col items-center justify-center group focus:outline-none">
             <div
-              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
-              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100 relative"
+              [class.opacity-100]="isLanguageSelected('it')">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                [class.scale-[1.25]]="isLanguageSelected('it')" class="transition-transform duration-300">
                 <g clip-path="url(#clip0_1816_7499)">
                   <rect width="75" height="52" rx="13" fill="white" />
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M50 0H75V52H50V0Z" fill="#CF2734" />
@@ -254,11 +262,13 @@
           </button>
 
           <!-- Alemán -->
-          <button (click)="onLanguageSelected()"
+          <button (click)="onLanguageSelected('de', '+49', $event)"
             class="flex flex-col items-center justify-center group focus:outline-none">
             <div
-              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
-              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100 relative"
+              [class.opacity-100]="isLanguageSelected('de')">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                [class.scale-[1.25]]="isLanguageSelected('de')" class="transition-transform duration-300">
                 <g clip-path="url(#clip0_1816_7487)">
                   <rect width="72" height="52" rx="13" fill="#DE0000" />
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M0 34.6665H72V51.9998H0V34.6665Z" fill="#FFCF00" />
@@ -276,11 +286,13 @@
           </button>
 
           <!-- Portugués -->
-          <button (click)="onLanguageSelected()"
+          <button (click)="onLanguageSelected('pt', '+351', $event)"
             class="flex flex-col items-center justify-center group focus:outline-none">
             <div
-              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
-              <svg width="92" height="72" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100 relative"
+              [class.opacity-100]="isLanguageSelected('pt')">
+              <svg width="92" height="72" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                [class.scale-[1.25]]="isLanguageSelected('pt')" class="transition-transform duration-300">
                 <g clip-path="url(#clip0_1828_2661)">
                   <path
                     d="M61.7143 0H10.2857C4.60507 0 0 4.65624 0 10.4V41.6C0 47.3438 4.60507 52 10.2857 52H61.7143C67.3949 52 72 47.3438 72 41.6V10.4C72 4.65624 67.3949 0 61.7143 0Z"
@@ -310,11 +322,13 @@
           </button>
 
           <!-- Estados Unidos -->
-          <button (click)="onLanguageSelected()"
+          <button (click)="onLanguageSelected('us', '+1', $event)"
             class="flex flex-col items-center justify-center group focus:outline-none">
             <div
-              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
-              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100 relative"
+              [class.opacity-100]="isLanguageSelected('us')">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                [class.scale-[1.25]]="isLanguageSelected('us')" class="transition-transform duration-300">
                 <g clip-path="url(#clip0_1816_7482)">
                   <rect width="75" height="52" rx="13" fill="white" />
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M0 0H32.1429V24.2667H0V0Z" fill="#001A5B" />
@@ -333,15 +347,16 @@
               </svg>
             </div>
             <span
-              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Estados
-              Unidos</span>
+              class="mt-4 text-base font-semibold text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">Inglés Americano</span>
           </button>
           <!-- Turquia -->
-          <button (click)="onLanguageSelected()"
+          <button (click)="onLanguageSelected('tr', '+90', $event)"
             class="flex flex-col items-center justify-center group focus:outline-none">
             <div
-              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
-              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100 relative"
+              [class.opacity-100]="isLanguageSelected('tr')">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                [class.scale-[1.25]]="isLanguageSelected('tr')" class="transition-transform duration-300">
                 <rect width="75" height="52" rx="13" fill="#E30A17" />
                 <path fill-rule="evenodd" clip-rule="evenodd"
                   d="M50.0073 29.9936L45.8573 32.1082L46.6501 27.6258L43.293 24.4469L47.9358 23.7882L50.0073 19.7114L52.0787 23.7917L56.7215 24.4504L53.3644 27.6224L54.1573 32.1048"
@@ -356,11 +371,13 @@
           </button>
 
           <!-- Suecia -->
-          <button (click)="onLanguageSelected()"
+          <button (click)="onLanguageSelected('se', '+46', $event)"
             class="flex flex-col items-center justify-center group focus:outline-none">
             <div
-              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
-              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100 relative"
+              [class.opacity-100]="isLanguageSelected('se')">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                [class.scale-[1.25]]="isLanguageSelected('se')" class="transition-transform duration-300">
                 <g clip-path="url(#clip0_1816_7506)">
                   <rect width="75" height="52" rx="13" fill="#005194" />
                   <path fill-rule="evenodd" clip-rule="evenodd"
@@ -378,11 +395,13 @@
           </button>
 
           <!-- Holanda -->
-          <button (click)="onLanguageSelected()"
+          <button (click)="onLanguageSelected('nl', '+31', $event)"
             class="flex flex-col items-center justify-center group focus:outline-none">
             <div
-              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100">
-              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              class="p-2 rounded-xl transition-all duration-300 group-hover:scale-110 group-active:scale-95 opacity-90 group-hover:opacity-100 relative"
+              [class.opacity-100]="isLanguageSelected('nl')">
+              <svg width="92" height="72" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                [class.scale-[1.25]]="isLanguageSelected('nl')" class="transition-transform duration-300">
                 <g clip-path="url(#clip0_1816_7509)">
                   <rect width="75" height="52" rx="13" fill="white" />
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M0 34.6665H75V51.9998H0V34.6665Z" fill="#1E448D" />
@@ -402,6 +421,14 @@
         </div>
       </div>
     </div>
+
+    <!-- Mensaje de confirmación -->
+    @if (hasPendingLanguageSelection()) {
+    <div
+      class="absolute bottom-4 right-4 sm:right-6 md:right-8 lg:right-4 xl:right-4 2xl:right-4   text-white px-4 py-2   text-sm sm:text-base animate-fadeIn z-20">
+      Pulse de nuevo para confirmar
+    </div>
+    }
 
     <div
       class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
@@ -436,7 +463,6 @@
         <div class="block sm:hidden">
           <div class="flex flex-col gap-4 px-4 items-center">
             @for (voice of voices; track voice.id) {
-            @if (!voice.isCustom) {
             <div
               class="w-[320px] h-[420px] sm:h-[460px] rounded-2xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
               (click)="onVoiceSelected(voice)">
@@ -479,25 +505,6 @@
                 </div>
               </div>
             </div>
-            } @else {
-            <div
-              class="w-full h-[420px] sm:h-[460px] rounded-2xl border-2 border-dashed border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-600 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-slate-700 transition-all duration-200"
-              (click)="createCustomVoice()">
-              <div
-                class="w-16 h-16 3xl:w-16 3xl:h-16 rounded-full bg-gray-100 dark:bg-slate-700 flex items-center justify-center mb-4 3xl:mb-4">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14 6V22M22 14H6" stroke="#6B7280" class="dark:stroke-slate-300" stroke-width="1.5"
-                    stroke-linecap="round" />
-                </svg>
-              </div>
-              <h3 class="text-gray-900 dark:text-slate-200 font-semibold text-xl mb-2">
-                Crea tu propia voz
-              </h3>
-              <p class="text-gray-500 dark:text-slate-400 text-sm uppercase  font-semibold">
-                Clonar voz
-              </p>
-            </div>
-            }
             }
           </div>
         </div>
@@ -522,8 +529,7 @@
               @for (voice of getTabletPageVoices(); track voice?.id || $index) {
               <div
                 class="voice-card w-full h-[360px] sm:h-[380px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all"
-                (click)="voice?.isCustom ? createCustomVoice() : onVoiceSelected(voice)">
-                @if (voice && !voice.isCustom) {
+                (click)="onVoiceSelected(voice)">
                 <img [src]="voice.image" [alt]="voice.name" class="w-full h-full object-cover" />
                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 sm:p-4">
                   <h3 class="text-white font-bold text-base sm:text-lg mb-1.5">{{ voice.name }}</h3>
@@ -562,21 +568,6 @@
                     </button>
                   </div>
                 </div>
-                } @else {
-                <div
-                  class="w-full h-full border-2 border-dashed border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 flex flex-col items-center justify-center text-center">
-                  <div
-                    class="w-16 h-16 sm:w-20 sm:h-20 3xl:w-16 3xl:h-16 rounded-full bg-gray-100 dark:bg-slate-700 flex items-center justify-center mb-4 3xl:mb-4">
-                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M16 7V25M25 16H7" stroke="#6B7280" class="dark:stroke-slate-300" stroke-width="1.5"
-                        stroke-linecap="round" />
-                    </svg>
-                  </div>
-                  <h3 class="text-gray-900 dark:text-slate-200 font-semibold text-base sm:text-lg mb-2">Crea tu propia
-                    voz</h3>
-                  <p class="text-gray-500 dark:text-slate-400 text-xs uppercase  font-semibold">Clonar voz</p>
-                </div>
-                }
               </div>
               }
             </div>
@@ -627,7 +618,6 @@
                   @for (voice of getDesktopPageVoices(); track voice.id) {
                   <div class="flex-shrink-0" [style.flex]="getSlideFlexValue()"
                     [style.maxWidth]="getSlideWidthPercent()">
-                    @if (!voice.isCustom) {
                     <div
                       class="voice-card w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[340px] 3xl:h-[420px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg transition-all"
                       (click)="onVoiceSelected(voice)">
@@ -676,26 +666,6 @@
                         </div>
                       </div>
                     </div>
-                    } @else {
-                    <div
-                      class="voice-card w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[340px] 3xl:h-[420px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] border-2 border-dashed border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 flex flex-col items-center justify-center text-center cursor-pointer hover:border-blue-600 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-slate-700 transition-all"
-                      (click)="createCustomVoice()">
-                      <div
-                        class="w-16 h-16 sm:w-20 sm:h-20 3xl:w-16 3xl:h-16 rounded-full bg-gray-100 dark:bg-slate-700 flex items-center justify-center mb-4 3xl:mb-4">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M16 7V25M25 16H7" stroke="#6B7280" class="dark:stroke-slate-300" stroke-width="1.5"
-                            stroke-linecap="round" />
-                        </svg>
-                      </div>
-                      <h3
-                        class="text-gray-900 dark:text-slate-200 font-semibold text-base sm:text-lg md:text-xl lg:text-sm mb-2">
-                        Crea tu propia voz
-                      </h3>
-                      <p class="text-gray-500 dark:text-slate-400 text-xs sm:text-sm uppercase  font-semibold">
-                        Clonar voz
-                      </p>
-                    </div>
-                    }
                   </div>
                   }
                 </div>
@@ -878,16 +848,17 @@
             </div>
           </div>
           <button (click)="selectAction('shopify')"
-            class="text-xs font-semibold text-white hover:text-blue-800 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 px-3 py-1.5 rounded-lg transition-colors">
+            class="text-xs font-semibold text-white dark:text-gray-900 bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 px-3 py-1.5 rounded-lg transition-colors">
             Conectar
           </button>
         </div>
 
         <!-- Make -->
-        <div class="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden transition-all duration-300"
-          [class.bg-gray-50]="showMakeConfig" [class.dark:bg-slate-800]="showMakeConfig">
+        <div class="connection-container border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"
+          [class.bg-gray-50]="showMakeConfig" [class.dark:bg-slate-800]="showMakeConfig"
+          [class.expanded]="showMakeConfig">
           <div
-            class="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            class="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer rounded-t-xl"
             (click)="selectAction('make')">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 flex items-center justify-center">
@@ -898,23 +869,19 @@
                 <p class="text-xs text-gray-500 dark:text-gray-400">Automatiza tus flujos de trabajo</p>
               </div>
             </div>
-            <button class="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
-              [class.text-white]="!showMakeConfig" [class.bg-blue-50]="showMakeConfig"
-              [class.bg-blue-500]="!showMakeConfig" [class.text-blue-600]="showMakeConfig"
-              [class.dark:bg-blue-600]="!showMakeConfig" [class.dark:text-white]="!showMakeConfig"
-              [class.hover:bg-blue-600]="!showMakeConfig">
+            <button
+              class="connect-button text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors bg-black dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100">
               {{ showMakeConfig ? 'Cerrar' : 'Conectar' }}
             </button>
           </div>
 
           <!-- Formulario Desplegable -->
           @if (showMakeConfig) {
-          <div class="px-4 pb-3 pt-0 animate-fadeIn">
+          <div class="px-4 pb-3 pt-0 slide-down">
             <div class="space-y-3">
               <!-- Nombre de la acción -->
               <div class="space-y-1">
-                <label
-                  class="text-[10px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">Nombre
+                <label class="text-[10px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">Nombre
                   de la acción*</label>
                 <input type="text" [(ngModel)]="makeActionData.name" placeholder="Ingresa el nombre de la acción"
                   class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8">
@@ -931,8 +898,7 @@
 
               <!-- URL del servidor -->
               <div class="space-y-1">
-                <label
-                  class="text-[10px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">URL
+                <label class="text-[10px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">URL
                   del servidor*</label>
                 <div class="relative">
                   <input type="url" [(ngModel)]="makeActionData.serverUrl" placeholder="https://hook.eu1.make.com/..."
@@ -944,7 +910,7 @@
               </div>
 
               <button
-                class="w-full px-4 py-1.5 bg-black dark:bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors h-8 whitespace-nowrap shadow-sm">
+                class="w-full px-4 py-1.5 bg-black dark:bg-white text-white dark:text-gray-900 text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 whitespace-nowrap shadow-sm">
                 Guardar
               </button>
             </div>
@@ -953,10 +919,11 @@
         </div>
 
         <!-- Twilio -->
-        <div class="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden transition-all duration-300"
-          [class.bg-gray-50]="showTwilioConfig" [class.dark:bg-slate-800]="showTwilioConfig">
+        <div class="connection-container border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"
+          [class.bg-gray-50]="showTwilioConfig" [class.dark:bg-slate-800]="showTwilioConfig"
+          [class.expanded]="showTwilioConfig">
           <div
-            class="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            class="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer rounded-t-xl"
             (click)="showTwilioConfig = !showTwilioConfig">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 flex items-center justify-center">
@@ -967,19 +934,16 @@
                 <p class="text-xs text-gray-500 dark:text-gray-400">Conecta tu número de teléfono</p>
               </div>
             </div>
-            <button class="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
-              [class.text-white]="!showTwilioConfig" [class.bg-blue-50]="showTwilioConfig"
-              [class.bg-blue-500]="!showTwilioConfig" [class.text-blue-600]="showTwilioConfig"
-              [class.dark:bg-blue-600]="!showTwilioConfig" [class.dark:text-white]="!showTwilioConfig"
-              [class.hover:bg-blue-600]="!showTwilioConfig">
+            <button
+              class="connect-button text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors bg-black dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100">
               {{ showTwilioConfig ? 'Cerrar' : 'Conectar' }}
             </button>
           </div>
 
           <!-- Formulario Desplegable -->
           @if (showTwilioConfig) {
-          <div class="px-4 pb-3 pt-0 animate-fadeIn">
-            <div class="space-y-3">
+          <div class="px-4 pb-3 pt-0 slide-down ">
+            <div class="space-y-3 ">
               <!-- Account SID y Auth Token en una línea -->
               <div class="flex items-end gap-3">
                 <div class="flex-1 space-y-1">
@@ -999,7 +963,7 @@
                 </div>
 
                 <button
-                  class="px-4 py-1.5 bg-black dark:bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors h-8 mb-[1px] whitespace-nowrap shadow-sm">
+                  class="px-4 py-1.5 bg-black dark:bg-white text-white dark:text-gray-900 text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 mb-[1px] whitespace-nowrap shadow-sm">
                   Guardar
                 </button>
               </div>

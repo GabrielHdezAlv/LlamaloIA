@@ -74,7 +74,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   private lottieInstance: any = null;
   private lottieInitialized = false;
-  private isBrowser: boolean;
+  private isBrowser: boolean = false;
 
   // Estado del sidebar
   isSidebarOpen: boolean = false;
@@ -89,6 +89,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+    // Bloquear scroll del body cuando el componente se inicializa
+    if (this.isBrowser && typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+    }
   }
 
   // Obtener traducciones
@@ -297,7 +301,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   private tabletTouchDeltaX = 0;
   private readonly tabletSwipeThreshold = 60;
   voices = [
-    { id: 'custom', name: 'Clonar voz', image: '', isCustom: true, description: '', badgeText: '' },
     { id: 'carla', name: 'Carla', image: 'assets/carla_prueba.webp', description: 'Diseñadora de Producto enfocada en simplicidad y usabilidad.', badgeText: 'Top 1% Voz' },
     { id: 'carlos', name: 'Carlos', image: 'assets/carlos_prueba.webp', description: 'Especialista en Soporte Técnico con tono calmado y resolutivo.', badgeText: 'Top 5% Voz' },
     { id: 'david', name: 'David', image: 'assets/david_prueba.webp', description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.', badgeText: 'Top Ventas' },
@@ -331,11 +334,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
           };
         });
 
-        // Mantener la opción de "Clonar voz" al inicio y agregar las voces del backend
-        const customVoiceOption = this.voices.find(v => v.isCustom);
-        this.voices = customVoiceOption
-          ? [customVoiceOption, ...mappedVoices]
-          : mappedVoices;
+        // Agregar las voces del backend
+        this.voices = mappedVoices;
 
         this.voicesLoaded = true;
         console.log('Voces cargadas:', this.voices);
@@ -352,10 +352,71 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.selectedCallType = this.selectedCallType === type ? null : type;
   }
 
-  onLanguageSelected() {
-    this.step = 'voices';
-    this.loadVoices();
-    this.saveDraft();
+  private pendingLanguageSelection: string | null = null;
+
+  // Método helper para verificar si un idioma está seleccionado
+  isLanguageSelected(languageCode: string): boolean {
+    return this.selectedCountry === languageCode && this.pendingLanguageSelection === languageCode;
+  }
+
+  // Método helper para verificar si hay un idioma pendiente de confirmación
+  hasPendingLanguageSelection(): boolean {
+    return this.pendingLanguageSelection !== null;
+  }
+
+  // Método para limpiar la selección pendiente
+  clearPendingLanguageSelection() {
+    this.pendingLanguageSelection = null;
+  }
+
+  // Método para manejar clics fuera de las banderas (a nivel de documento)
+  // Este método se combina con onDocumentClick más abajo
+  private handleLanguageSelectionClick(event: MouseEvent) {
+    // Solo procesar si estamos en el step de idioma y hay una selección pendiente
+    if (this.step !== 'language' || !this.pendingLanguageSelection) {
+      return;
+    }
+
+    const target = event.target as HTMLElement;
+    if (!target) return;
+    
+    // Verificar si el clic fue en un botón de idioma o dentro de él
+    // Los botones de idioma están dentro del grid y tienen la clase "group"
+    const isLanguageButton = target.closest('button.group') || target.closest('button[class*="flex flex-col"]');
+    // Si no fue en un botón de idioma, limpiar la selección pendiente
+    if (!isLanguageButton) {
+      this.clearPendingLanguageSelection();
+    }
+  }
+
+  onLanguageSelected(languageCode: string = 'es', countryCode: string = '+34', event?: Event) {
+    // Prevenir la propagación del evento para evitar que se limpie la selección
+    if (event) {
+      event.stopPropagation();
+    }
+    // Si el idioma clickeado ya está seleccionado y hay una selección pendiente, es el segundo click
+    if (this.pendingLanguageSelection && 
+        this.selectedCountry === languageCode &&
+        this.pendingLanguageSelection === languageCode) {
+      // Segundo click en el mismo idioma: avanzar al siguiente paso
+      this.pendingLanguageSelection = null;
+      this.step = 'voices';
+      this.loadVoices();
+      this.saveDraft();
+      return;
+    }
+
+    // Si es un idioma diferente al seleccionado, reiniciar la selección pendiente
+    if (this.selectedCountry !== languageCode) {
+      this.pendingLanguageSelection = null;
+    }
+
+    // Primer click: seleccionar idioma pero no avanzar
+    this.selectedCountry = languageCode;
+    this.selectedCountryCode = countryCode;
+    this.pendingLanguageSelection = languageCode;
+    this.updateFlag(languageCode);
+    // No avanzar al siguiente paso, esperar el segundo click
   }
 
   onVoiceSelected(voice?: any) {
@@ -396,10 +457,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.isSidebarOpen = false;
   }
 
-  createCustomVoice() {
-    console.log('Crear voz personalizada');
-    // Aquí podrías abrir un modal o redirigir al flujo de clonación de voz
-  }
 
   // Métodos para el carrusel de voces
   nextVoice() {
@@ -741,6 +798,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     }
   }
 
+  toggleTwilioConfig() {
+    this.showTwilioConfig = !this.showTwilioConfig;
+  }
+
   // Propiedades para documentos PDF
   uploadedDocuments: File[] = [];
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
@@ -996,6 +1057,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (!target) return;
+
+    // Manejar clics para limpiar selección de idioma pendiente
+    this.handleLanguageSelectionClick(event);
 
     // Buscar si el click fue dentro del dropdown o del menú
     const dropdown = target.closest('[class*="w-28"]') || target.closest('[class*="w-36"]');
