@@ -9,8 +9,7 @@ export interface UserProfileResponseDto {
   name?: string;
   lastname?: string;
   profileImage?: string;
-  enterprise?: string; // Nombre de la empresa (de enterprise.name) - Compatibilidad con DTO antiguo
-  enterpriseWeb?: string; // URL de la empresa (de enterprise.url) - Compatibilidad con DTO antiguo
+  enterprise?: { name: string; url: string };
   email?: string;
   createdAt?: string | null; // Fecha formateada en español (ej: "12 de octubre de 2025, 10:30:45")
   twilio?: TwilioConfig;
@@ -38,6 +37,8 @@ export interface UserProfileResponseDto {
     phoneId: number;
     countryCode: string;
     number: string;
+    state: "Activo" | "Inactivo";
+    importedBy: string;
   }>;
   agents?: Array<{
     name: string;

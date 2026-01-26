@@ -88,7 +88,9 @@
 
             <div class="md:col-start-10 flex items-center">
                 <span
-                    class="inline-block px-1.5 lg:px-2 xl:px-2 2xl:px-2 3xl:px-2.5 py-0.5 lg:py-1 xl:py-1 2xl:py-1 3xl:py-1.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg numbers-status-badge max-lg:text-[9px] max-lg:px-1 max-lg:py-0.5 dark:bg-green-900 dark:border-green-800 dark:text-green-300 ">{{
+                    [class]="phone.state === 'Inactivo' 
+                        ? 'inline-block px-1.5 lg:px-2 xl:px-2 2xl:px-2 3xl:px-2.5 py-0.5 lg:py-1 xl:py-1 2xl:py-1 3xl:py-1.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold bg-orange-100 border-orange-300 border text-orange-600 rounded-lg numbers-status-badge max-lg:text-[9px] max-lg:px-1 max-lg:py-0.5 dark:bg-orange-900 dark:border-orange-800 dark:text-orange-400'
+                        : 'inline-block px-1.5 lg:px-2 xl:px-2 2xl:px-2 3xl:px-2.5 py-0.5 lg:py-1 xl:py-1 2xl:py-1 3xl:py-1.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg numbers-status-badge max-lg:text-[9px] max-lg:px-1 max-lg:py-0.5 dark:bg-green-900 dark:border-green-800 dark:text-green-300'">{{
                     phone.state || t.active }}</span>
             </div>
 
@@ -160,7 +162,9 @@
                         t.status }}:</span>
                     <div class="mt-0.5 3xl:mt-1 max-lg:mt-0">
                         <span
-                            class="inline-block px-1.5 py-0.5 3xl:px-2.5 3xl:py-1.5 text-[9px] 3xl:text-xs font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg numbers-status-badge max-lg:text-[8px] max-lg:px-1 max-lg:py-0.5 dark:bg-green-900 dark:border-green-800 dark:text-green-300 ">{{
+                            [class]="phone.state === 'Inactivo'
+                                ? 'inline-block px-1.5 py-0.5 3xl:px-2.5 3xl:py-1.5 text-[9px] 3xl:text-xs font-semibold bg-orange-100 border-orange-300 border text-orange-600 rounded-lg numbers-status-badge max-lg:text-[8px] max-lg:px-1 max-lg:py-0.5 dark:bg-orange-900 dark:border-orange-800 dark:text-orange-400'
+                                : 'inline-block px-1.5 py-0.5 3xl:px-2.5 3xl:py-1.5 text-[9px] 3xl:text-xs font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg numbers-status-badge max-lg:text-[8px] max-lg:px-1 max-lg:py-0.5 dark:bg-green-900 dark:border-green-800 dark:text-green-300'">{{
                             phone.state || t.active }}</span>
                     </div>
                 </div>

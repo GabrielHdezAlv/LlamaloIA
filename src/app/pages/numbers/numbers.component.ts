@@ -11,8 +11,8 @@ interface PhoneNumberDisplay {
   countryCode: string;
   number: string;
   label?: string;
-  state: string; // Mock por ahora
-  importedBy: string; // Mock por ahora
+  state: "Activo" | "Inactivo";
+  importedBy: string;
 }
 
 @Component({
@@ -52,6 +52,11 @@ export class NumbersComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // Obtener los phoneNumbers del usuario al entrar
+    this.loadPhoneNumbers();
+  }
+
+  // Método para cargar los números de teléfono del perfil
+  private loadPhoneNumbers(): void {
     this.userService.getUserProfile().subscribe({
       next: (profile) => {
         console.log('📞 PhoneNumbers del usuario:', profile.phoneNumbers);
@@ -64,8 +69,8 @@ export class NumbersComponent implements OnInit, AfterViewInit {
             countryCode: phone.countryCode || '',
             number: String(phone.number || ''), // Convertir a string por si viene como número
             label: `Número ${phone.phoneId || index + 1}`, // Generar label basado en phoneId
-            state: 'Activo', // Mock - se añadirá más adelante
-            importedBy: 'Twilio' // Mock - se añadirá más adelante
+            state: phone.state || 'Activo', // Usar state del backend o 'Activo' por defecto
+            importedBy: phone.importedBy || 'Twilio' // Usar importedBy del backend o 'Twilio' por defecto
           }));
           console.log('📞 PhoneNumbers mapeados:', this.phoneNumbers);
           console.log('📞 Cantidad de números:', this.phoneNumbers.length);
@@ -116,16 +121,47 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   }
 
   openImportNumberModal(): void {
-    const dialogRef = this.modalService.openImportNumber({
-      title: 'Importar Número de Teléfono',
-      message: 'Importa un número de teléfono desde tu proveedor de servicios de telecomunicaciones.'
-    });
+    // Verificar si el usuario tiene configuración de Twilio antes de abrir el modal
+    this.userService.getUserProfile().subscribe({
+      next: (profile) => {
+        const hasTwilioConfig = profile.twilio?.twilioSid && profile.twilio?.twilioToken;
+        
+        if (!hasTwilioConfig) {
+          // Mostrar modal indicando que debe configurar Twilio primero
+          this.modalService.openError({
+            title: 'Configuración de Twilio requerida',
+            message: 'Para importar un número de teléfono, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
+          });
+        } else {
+          // Si tiene la configuración, abrir el modal de importar número
+          const dialogRef = this.modalService.openImportNumber({
+            title: 'Importar Número de Teléfono',
+            message: 'Importa un número de teléfono desde tu proveedor de servicios de telecomunicaciones.'
+          });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Número importado:', result);
-        // Aquí puedes agregar la lógica para procesar el número importado
-        // Por ejemplo, actualizar la lista de números, mostrar un mensaje de éxito, etc.
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+              console.log('Número importado:', result);
+              
+              // Mostrar mensaje de éxito
+              this.modalService.openSuccess({
+                title: 'Número importado',
+                message: 'El número de teléfono se ha importado correctamente.'
+              });
+              
+              // Actualizar el perfil y recargar los números de teléfono
+              this.loadPhoneNumbers();
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error al verificar configuración de Twilio:', error);
+        // En caso de error, mostrar el modal de todas formas para ser seguro
+        this.modalService.openError({
+          title: 'Configuración de Twilio requerida',
+          message: 'Para importar un número de teléfono, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
+        });
       }
     });
   }

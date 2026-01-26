@@ -8,6 +8,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
+import { TwilioService } from '../../core/services/twilio.service';
 
 @Component({
   selector: 'app-account',
@@ -23,6 +24,7 @@ export class AccountComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private platformId = inject(PLATFORM_ID);
+  private twilioService = inject(TwilioService);
 
   activeTab: 'profile' | 'security' | 'billing' | 'gifts' | 'connections' = 'profile';
   showBillingModal = false;
@@ -55,8 +57,7 @@ export class AccountComponent implements OnInit {
   tempName = '';
   tempLastname = '';
   tempCountry = '';
-  tempEnterprise = '';
-  tempEnterpriseWeb = '';
+  tempEnterprise: { name: string; url: string } = { name: '', url: '' };
   tempProfileImage = '';
 
   // Facturación
@@ -64,6 +65,9 @@ export class AccountComponent implements OnInit {
 
   // Integraciones
   showTwilioConfig = false;
+  twilioSid = '';
+  twilioToken = '';
+  isLoadingTwilio = false;
 
   // Usuario actual
   private userStore = inject(UserStorage);
@@ -92,9 +96,12 @@ export class AccountComponent implements OnInit {
   userProfileImage = computed(() => this.user()?.profileImage ?? '');
   enterprise = computed(() => {
     const ent = this.user()?.enterprise;
-    return typeof ent === 'string' ? ent : ent?.name || '';
+    return ent?.name || '';
   });
-  enterpriseWeb = computed(() => this.user()?.enterpriseWeb ?? '');
+  enterpriseWeb = computed(() => {
+    const ent = this.user()?.enterprise;
+    return ent?.url || '';
+  });
 
   ngOnInit() {
     this.i18nService.initializeLanguage();
@@ -104,11 +111,8 @@ export class AccountComponent implements OnInit {
       this.tempName = user.name || '';
       this.tempLastname = user.lastname || '';
       this.tempCountry = user.country || '';
-      // Extraer string si enterprise es un objeto
-      this.tempEnterprise = typeof user.enterprise === 'string'
-        ? user.enterprise
-        : user.enterprise?.name || '';
-      this.tempEnterpriseWeb = user.enterpriseWeb || '';
+      // Inicializar enterprise como objeto
+      this.tempEnterprise = user.enterprise || { name: '', url: '' };
       this.tempProfileImage = user.profileImage || '';
     }
 
@@ -187,7 +191,6 @@ export class AccountComponent implements OnInit {
         lastname: this.tempLastname,
         profileImage: avatarUrl,
         enterprise: this.tempEnterprise,
-        enterpriseWeb: this.tempEnterpriseWeb,
       };
 
       this.userService.updateUserProfile(updatedUserData).subscribe({
@@ -243,6 +246,10 @@ export class AccountComponent implements OnInit {
       next: (response: any) => {
         this.tempProfileImage = response.imageUrl;
         this.showNotification('Imagen subida correctamente', 'success');
+        // Recargar la página para actualizar el perfil desde el backend
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       },
       error: (error: any) => {
         console.error('Error al subir imagen:', error);
@@ -315,7 +322,6 @@ export class AccountComponent implements OnInit {
       lastname: this.tempLastname,
       profileImage: this.tempProfileImage,
       enterprise: this.tempEnterprise,
-      enterpriseWeb: this.tempEnterpriseWeb,
     };
 
     this.userService.updateUserProfile(updatedUserData).subscribe({
@@ -447,5 +453,43 @@ export class AccountComponent implements OnInit {
     console.log('Plan seleccionado:', this.selectedPlan);
     console.log('Minutos seleccionados:', this.selectedMinutes);
     // Aquí implementarías la lógica para procesar el pago
+  }
+
+  // Método para guardar la configuración de Twilio
+  saveTwilioConfig() {
+    // Validar que los campos no estén vacíos
+    if (!this.twilioSid || !this.twilioToken) {
+      this.showNotification('Por favor, completa todos los campos', 'error');
+      return;
+    }
+
+    // Activar loader
+    this.isLoadingTwilio = true;
+
+    // Preparar los datos para enviar
+    const config = {
+      twilioSid: this.twilioSid.trim(),
+      twilioToken: this.twilioToken.trim()
+    };
+
+    // Realizar la petición POST
+    this.twilioService.setConfig(config).subscribe({
+      next: (response) => {
+        this.isLoadingTwilio = false;
+        this.showNotification('Configuración de Twilio guardada correctamente', 'success');
+        // Opcional: cerrar el formulario después de guardar
+        // this.showTwilioConfig = false;
+        // Opcional: limpiar los campos
+        // this.twilioSid = '';
+        // this.twilioToken = '';
+      },
+      error: (error) => {
+        this.isLoadingTwilio = false;
+        // Mostrar mensaje de error del servidor o genérico
+        const errorMessage = error?.error?.message || error?.message || 'Error al guardar la configuración de Twilio';
+        this.showNotification(errorMessage, 'error');
+        console.error('Error al guardar configuración de Twilio:', error);
+      }
+    });
   }
 }

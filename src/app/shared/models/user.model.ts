@@ -3,7 +3,7 @@ export interface User {
   profileImage: string;
   name: string;
   lastname: string;
-  enterprise: {
+  enterprise?: {
     name: string;
     url: string;
   };

@@ -111,25 +111,6 @@
           </div>
         </div>
 
-        <!-- Grid para SID y Token -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-          <div class="space-y-2">
-            <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
-              Account SID de Twilio <span class="text-red-500 ml-1">*</span>
-            </label>
-            <input type="text" formControlName="twilioSid" placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-              class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
-          </div>
-
-          <div class="space-y-2">
-            <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
-              Auth Token de Twilio <span class="text-red-500 ml-1">*</span>
-            </label>
-            <input type="password" formControlName="twilioToken" placeholder="Tu token de autenticación"
-              class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
-          </div>
-        </div>
-
         <!-- Etiqueta -->
         <div class="space-y-2">
           <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
@@ -142,9 +123,15 @@
 
         <!-- Botón de importar -->
         <div class="pt-6 sm:pt-8 flex justify-center">
-          <button type="submit" [disabled]="importForm.invalid"
-            class="px-10 sm:px-16 py-3 bg-[#1B2559] dark:bg-blue-700 text-white font-semibold rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0">
-            Importar Número
+          <button type="submit" [disabled]="importForm.invalid || isLoading"
+            class="px-10 sm:px-16 py-3 bg-[#1B2559] dark:bg-blue-700 text-white font-semibold rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center gap-2">
+            @if (isLoading) {
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            }
+            {{ isLoading ? 'Validando...' : 'Importar Número' }}
           </button>
         </div>
       </form>
