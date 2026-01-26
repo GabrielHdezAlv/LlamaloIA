@@ -1,27 +1,27 @@
-<div class="modal-container">
+<div class="modal-container 3xl:max-w-xl">
   <!-- Icono centrado superior -->
-  <div class="modal-icon-wrapper error">
-    <div class="modal-icon-circle error">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="modal-icon">
+  <div class="modal-icon-wrapper error pt-8 pb-4 3xl:pt-12 3xl:pb-6">
+    <div class="modal-icon-circle error w-[72px] h-[72px] 3xl:w-24 3xl:h-24">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="modal-icon w-9 h-9 3xl:w-12 3xl:h-12">
         <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </div>
   </div>
 
   <!-- Contenido -->
-  <div class="modal-content">
-    <h2 class="modal-title error">{{ data.title || t.errorTitleDefault }}</h2>
+  <div class="modal-content px-6 pb-6 3xl:px-8 3xl:pb-8">
+    <h2 class="modal-title error text-center text-xl font-bold mb-3 3xl:text-2xl 3xl:mb-4">{{ data.title || t.errorTitleDefault }}</h2>
     
-    <p class="modal-message">{{ data.message }}</p>
+    <p class="modal-message text-center text-sm text-gray-700 dark:text-gray-300 mb-4 leading-relaxed 3xl:text-base 3xl:mb-5">{{ data.message }}</p>
     
-    <div *ngIf="data.details" class="modal-details error">
+    <div *ngIf="data.details" class="modal-details error rounded-xl p-4 mb-4 text-xs overflow-auto max-h-[200px] 3xl:p-5 3xl:mb-5 3xl:text-sm 3xl:max-h-[250px]">
       <pre>{{ data.details }}</pre>
     </div>
 
-    <div class="modal-actions">
+    <div class="modal-actions flex justify-end gap-3 mt-6 3xl:gap-4 3xl:mt-8">
       <button 
         (click)="close()"
-        class="modal-button modal-button-primary error"
+        class="modal-button modal-button-primary error px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 min-w-[100px] 3xl:px-6 3xl:py-3 3xl:text-base 3xl:min-w-[120px]"
       >
         {{ t.close }}
       </button>
