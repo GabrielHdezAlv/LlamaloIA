@@ -670,12 +670,6 @@ body::-webkit-scrollbar {
     /* gris un poco más oscuro para el punto interior */
   }
 
-  /* Botones claros genéricos: en modo oscuro NO aclaramos en hover */
-  html.dark .hover\:bg-gray-100:hover {
-    @apply bg-gray-700 !important;
-    /* hover igual que el recuadro gris 700 */
-  }
-
   /* Tabla Agentes activos: sin efecto de hover en modo oscuro */
   html.dark .agentes-activos-recuadro .hover\:bg-gray-50:hover {
     background-color: transparent !important;
@@ -685,18 +679,6 @@ body::-webkit-scrollbar {
      → en modo oscuro pasan al azul de marca #1E3A8A */
   html.dark [class*="bg-[#0a1740]"] {
     background-color: rgba(30, 58, 138, 0.9) !important;
-  }
-
-  /* --- Ajustes cuenta: iconos redondos del menú (Perfil / Seguridad / Facturación / Regalos)
-     Antes forzábamos los círculos a blanco en modo oscuro; ahora dejamos que los que
-     usan `.resumen-icon` hereden el gris de Resumen (círculo gris + icono blanco),
-     y mantenemos blanco solo los restantes si en el futuro se añaden más. */
-  html.dark .account-settings nav span.bg-gray-100:not(.resumen-icon) {
-    background-color: #ffffff !important;
-  }
-
-  html.dark .account-settings nav button:hover span.bg-gray-100:not(.resumen-icon) {
-    background-color: #ffffff !important;
   }
 
   /* --- Overrides finales para colores específicos de resumen (van al final
@@ -718,4 +700,21 @@ body::-webkit-scrollbar {
     color: #e5e7eb !important;
     stroke: #e5e7eb !important;
   }
+}
+
+/* Overrides fuera de @layer para evitar css-syntax-error con Tailwind (selectores span/hover:bg-gray-100) */
+
+/* Botones claros genéricos: en modo oscuro NO aclaramos en hover */
+html.dark .hover\:bg-gray-100:hover {
+  background-color: #374151 !important; /* gray-700 */
+}
+
+/* Ajustes cuenta: iconos redondos del menú (Perfil / Seguridad / Facturación / Regalos).
+   Los que usan .resumen-icon heredan el gris; el resto se mantiene blanco en oscuro. */
+html.dark .account-settings nav span.bg-gray-100:not(.resumen-icon) {
+  background-color: #ffffff !important;
+}
+
+html.dark .account-settings nav button:hover span.bg-gray-100:not(.resumen-icon) {
+  background-color: #ffffff !important;
 }
