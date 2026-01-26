@@ -1036,14 +1036,13 @@
                   <label
                     class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Número
                     de teléfono <span class="text-red-500">*</span></label>
-                  <div class="flex items-center relative">
+                  <div class="flex items-center relative"
+                      [class.phone-input-container-success]="phoneValidationStatus === 'success'"
+                      [class.phone-input-container-error]="phoneValidationStatus === 'error'">
                     <!-- Dropdown personalizado -->
                     <div #countryDropdown (click)="toggleCountryMenu(); $event.stopPropagation()"
                       [class.cursor-pointer]="true"
-                      [class.phone-input-border-success]="phoneValidationStatus === 'success'"
-                      [class.phone-input-border-error]="phoneValidationStatus === 'error'"
-                      class="w-24 h-8 bg-white dark:bg-slate-800 border border-r-0 border-gray-300 dark:border-slate-600 rounded-l-lg px-2 flex items-center justify-between gap-1.5 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm relative z-10"
-                      [class.border-r-0]="phoneValidationStatus === 'success' || phoneValidationStatus === 'error'">
+                      class="w-24 h-8 bg-white dark:bg-slate-800 border border-r-0 border-gray-300 dark:border-slate-600 rounded-l-lg px-2 flex items-center justify-between gap-1.5 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm relative z-10">
                       <div class="flex items-center gap-1">
                         <svg id="current-flag" width="14" height="10" viewBox="0 0 20 12" fill="none"
                           xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 rounded-sm">
@@ -1065,10 +1064,9 @@
                       [class.validating]="isValidatingPhone">
                       <input type="tel" [(ngModel)]="phoneNumber" (ngModelChange)="onPhoneNumberChange()" placeholder="630 00 00 00"
                         [disabled]="!isTwilioValidated"
-                        [class.phone-input-border-success]="phoneValidationStatus === 'success'"
-                        [class.phone-input-border-error]="phoneValidationStatus === 'error'"
                         class="w-full h-8 px-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed relative z-0"
-                        [class.border-l-0]="phoneValidationStatus === 'success' || phoneValidationStatus === 'error'" />
+                        [class.border-l-0]="phoneValidationStatus === 'success' || phoneValidationStatus === 'error'"
+                        [class.border-none]="phoneValidationStatus === 'success' || phoneValidationStatus === 'error'" />
                       
                       <!-- Animación del borde cuando está validando -->
                       @if (isValidatingPhone) {
