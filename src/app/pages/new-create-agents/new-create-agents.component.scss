@@ -203,6 +203,17 @@
 /* Estilos para modo oscuro */
 :host-context(html.dark) {
 
+  // Ring blanco cuando el recuadro de inbound/outbound está seleccionado
+  button.ring-2.ring-blue-500 {
+    --tw-ring-color: #ffffff !important; // blanco en modo oscuro
+    box-shadow: 0 0 0 1px #ffffff !important; // sobrescribir el ring azul
+  }
+
+  // Borde blanco cuando el recuadro de inbound/outbound está seleccionado
+  button.border-blue-500 {
+    border-color: #ffffff !important; // blanco en modo oscuro cuando está seleccionado
+  }
+
   // Barra de progreso superior - fondo gris (no azulado)
   .bg-gray-300 {
     background-color: #262626 !important; // gris neutro
@@ -397,10 +408,34 @@
   .success-checkmark svg path {
     stroke: #ffffff !important; // checkmark blanco
   }
+
+  // Asegurar que el tick de selección solo sea visible cuando el botón está seleccionado
+  button:not(.border-blue-500)>div[class*="absolute"][class*="top-2"][class*="right-2"] {
+    display: none !important;
+  }
+}
+
+// Asegurar que el tick de selección solo sea visible cuando el botón está seleccionado (modo claro)
+:host-context(html:not(.dark)) {
+  button:not(.border-blue-500)>div[class*="absolute"][class*="top-2"][class*="right-2"] {
+    display: none !important;
+  }
 }
 
 // Forzar colores claros en modo claro para las tarjetas de Shopify y Make
 :host-context(html:not(.dark)) {
+
+  // Ring negro cuando el recuadro de inbound/outbound está seleccionado
+  button.ring-2.ring-blue-500 {
+    --tw-ring-color: #000000 !important; // negro en modo claro
+    box-shadow: 0 0 0 1px #000000 !important; // sobrescribir el ring azul
+  }
+
+  // Borde negro cuando el recuadro de inbound/outbound está seleccionado
+  button.border-blue-500 {
+    border-color: #000000 !important; // negro en modo claro cuando está seleccionado
+  }
+
   button.creative-action-card.bg-green-100 {
     background-color: #dcfce7 !important; // green-100, más verde
   }
@@ -584,6 +619,10 @@
   to {
     opacity: 1;
   }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
 }
 
 /* Aplicar animación a las tarjetas del carrusel */

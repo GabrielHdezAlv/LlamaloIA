@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../modals/modal.service';
+import { AiSphereComponent } from '../ai-sphere/ai-sphere.component';
 
 @Component({
     selector: 'app-support-widget',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, AiSphereComponent],
     templateUrl: './support-widget.component.html',
     styleUrl: './support-widget.component.scss'
 })
@@ -150,9 +151,9 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
             normalizedLevel = Math.min(normalizedLevel, 1.0);
 
             // Factor de sensibilidad para que se note más la voz
-            const targetLevel = normalizedLevel * 2.5;
+            const targetLevel = normalizedLevel * 1;
             this.audioLevel = this.audioLevel * 0.7 + targetLevel * 0.3;
-            this.audioLevel = Math.min(this.audioLevel, 4.0);
+            this.audioLevel = Math.min(this.audioLevel, 1);
 
             this.animationId = requestAnimationFrame(updateLevel);
         };

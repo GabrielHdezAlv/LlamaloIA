@@ -7,10 +7,9 @@
     <div class="h-1 sm:h-1.5 md:h-2 3xl:h-2.5 w-full bg-gray-300 rounded-full overflow-hidden">
       <div class="h-full bg-blue-950 transition-all duration-300" [class.w-[12vh]]="step === 'agentName'"
         [class.w-[24vh]]="step === 'language'" [class.w-[36vh]]="step === 'voices'"
-        [class.w-[48vh]]="step === 'instructions'"
-        [class.w-[60vh]]="step === 'summary'"
-        [class.w-[72vh]]="step === 'connectPhone'" [class.w-[84vh]]="step === 'final'"
-        [class.w-full]="step === 'success'"></div>
+        [class.w-[48vh]]="step === 'instructions'" [class.w-[54vh]]="step === 'actions'"
+        [class.w-[60vh]]="step === 'summary'" [class.w-[72vh]]="step === 'connectPhone'"
+        [class.w-[84vh]]="step === 'final'" [class.w-full]="step === 'success'"></div>
     </div>
   </div>
 
@@ -32,7 +31,7 @@
           class="block text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-black dark:text-slate-200 mb-1.5 lg:mb-2 xl:mb-2 2xl:mb-2 3xl:mb-2.5">Nombre
           del agente</label>
         <input type="text" [(ngModel)]="agentName" placeholder="Ej. Carla Ventas"
-          class="w-full px-3 sm:px-3.5 md:px-4 lg:px-3 xl:px-3 2xl:px-3 3xl:px-5 py-2 sm:py-2.5 md:py-3 lg:py-2 xl:py-2 2xl:py-2 3xl:py-3.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl lg:rounded-xl xl:rounded-xl 2xl:rounded-xl 3xl:rounded-2xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-lg text-gray-700 dark:text-slate-200" />
+          class="w-full px-3 sm:px-3.5 md:px-4 lg:px-3 xl:px-3 2xl:px-3 3xl:px-5 py-1.5 sm:py-2 md:py-2.5 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md sm:rounded-lg lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-[10px] sm:text-xs md:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-700 dark:text-slate-200" />
       </div>
 
       <!-- Call Type Section (Unified) -->
@@ -44,7 +43,7 @@
           <!-- Inbound -->
           <button (click)="onSelectCallType('inbound')" [class.border-blue-500]="selectedCallType === 'inbound'"
             [class.ring-2]="selectedCallType === 'inbound'" [class.ring-blue-500]="selectedCallType === 'inbound'"
-            class="w-full h-[180px] sm:h-[200px] rounded-xl relative cursor-pointer hover:shadow-md transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border border-gray-200 dark:border-gray-700">
+            class="w-full h-[180px] sm:h-[200px] rounded-xl relative cursor-pointer hover:shadow-md transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border border-gray-200 dark:border-gray-00">
             <div class="mb-3 text-gray-900 dark:text-white" [class.text-blue-600]="selectedCallType === 'inbound'"
               [class.dark:text-blue-400]="selectedCallType === 'inbound'">
               <svg class="w-10 h-10" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -850,49 +849,259 @@
   }
 
   @if (step === 'actions') {
-  <!-- Pantalla 5: Añadir Acciones -->
+  <!-- Pantalla 5: Conexiones -->
   <div
     class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <h2
       class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
-      Añadir Acciones</h2>
+      Conexiones</h2>
 
     <p
-      class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-300 mb-8 sm:mb-10 md:mb-12 lg:mb-3 xl:mb-3 2xl:mb-3  sm: mx-auto px-2 sm:px-3 md:px-4 max-w-2xl">
-      Define las acciones que puede realizar tu agente
+      class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-300 mb-4 sm:mb-6 md:mb-8 lg:mb-3 xl:mb-3 2xl:mb-3  sm: mx-auto px-2 sm:px-3 md:px-4 max-w-2xl">
+      Conecta tus aplicaciones favoritas para potenciar a tus agentes.
     </p>
 
-    <div class="flex-1 flex flex-col justify-center overflow-y-auto scrollbar-hide"
+    <div
+      class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3"
       style="scrollbar-width: none; -ms-overflow-style: none;">
-      <div
-        class="w-[90%] max-w-[400px] mx-auto grid grid-cols-2 gap-3 sm:gap-4 md:gap-5 lg:gap-4 xl:gap-4 2xl:gap-4 px-2 sm:px-3 md:px-4 lg:px-3 xl:px-3 2xl:px-3 mb-3 sm:mb-4 -mt-8 sm:-mt-9 md:-mt-10 lg:-mt-8">
+      <div class="space-y-4 max-w-2xl mx-auto w-full">
         <!-- Shopify -->
-        <button (click)="selectAction('shopify')"
-          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-green-500/30 dark:hover:border-green-500/30">
-          <div class="mb-4 sm:mb-6">
-            <img src="assets/shopify.webp" alt="Shopify"
-              class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 3xl:w-28 3xl:h-28 object-contain" />
+        <div
+          class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <img src="assets/shopify.webp" alt="Shopify" class="w-8 h-8 object-contain">
+            </div>
+            <div>
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Shopify</h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Conecta tu tienda e-commerce</p>
+            </div>
           </div>
-          <div class="absolute bottom-0 left-0 right-0 p-2.5 sm:p-4">
-            <h3
-              class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base md:text-lg lg:text-xs 3xl:text-base text-center ">
-              Shopify</h3>
-          </div>
-        </button>
+          <button (click)="selectAction('shopify')"
+            class="text-xs font-semibold text-white hover:text-blue-800 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 px-3 py-1.5 rounded-lg transition-colors">
+            Conectar
+          </button>
+        </div>
 
         <!-- Make -->
-        <button (click)="selectAction('make')"
-          class="w-full h-[420px] sm:h-[480px] md:h-[540px] lg:h-[300px] xl:h-[300px] 2xl:h-[300px] rounded-2xl sm:rounded-3xl md:rounded-[2rem] overflow-hidden shadow-md relative cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all bg-white dark:bg-slate-800 flex flex-col items-center justify-center border-4 border-transparent hover:border-pink-500/30 dark:hover:border-pink-500/30">
-          <div class="mb-4 sm:mb-6">
-            <img src="assets/make.webp" alt="Make"
-              class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 3xl:w-28 3xl:h-28 object-contain" />
+        <div class="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden transition-all duration-300"
+          [class.bg-gray-50]="showMakeConfig" [class.dark:bg-slate-800]="showMakeConfig">
+          <div
+            class="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            (click)="selectAction('make')">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 flex items-center justify-center">
+                <img src="assets/make.webp" alt="Make" class="w-8 h-8 object-contain">
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Make</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Automatiza tus flujos de trabajo</p>
+              </div>
+            </div>
+            <button class="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+              [class.text-white]="!showMakeConfig" [class.bg-blue-50]="showMakeConfig"
+              [class.bg-blue-500]="!showMakeConfig" [class.text-blue-600]="showMakeConfig"
+              [class.dark:bg-blue-600]="!showMakeConfig" [class.dark:text-white]="!showMakeConfig"
+              [class.hover:bg-blue-600]="!showMakeConfig">
+              {{ showMakeConfig ? 'Cerrar' : 'Conectar' }}
+            </button>
           </div>
-          <div class="absolute bottom-0 left-0 right-0 p-2.5 sm:p-4">
-            <h3
-              class="text-gray-900 dark:text-white font-semibold text-sm sm:text-base md:text-lg lg:text-xs 3xl:text-base text-center ">
-              Make</h3>
+
+          <!-- Formulario Desplegable -->
+          @if (showMakeConfig) {
+          <div class="px-4 pb-3 pt-0 animate-fadeIn">
+            <div class="space-y-3">
+              <!-- Nombre de la acción -->
+              <div class="space-y-1">
+                <label
+                  class="text-[10px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">Nombre
+                  de la acción*</label>
+                <input type="text" [(ngModel)]="makeActionData.name" placeholder="Ingresa el nombre de la acción"
+                  class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8">
+              </div>
+
+              <!-- Descripción de la acción -->
+              <div class="space-y-1">
+                <label
+                  class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 tracking-wider ml-1">Descripción
+                  de la acción</label>
+                <textarea [(ngModel)]="makeActionData.description" placeholder="Describe qué hace esta acción" rows="2"
+                  class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all resize-none"></textarea>
+              </div>
+
+              <!-- URL del servidor -->
+              <div class="space-y-1">
+                <label
+                  class="text-[10px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">URL
+                  del servidor*</label>
+                <div class="relative">
+                  <input type="url" [(ngModel)]="makeActionData.serverUrl" placeholder="https://hook.eu1.make.com/..."
+                    class="w-full px-3 py-1.5 pr-10 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8">
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-2">
+                    <img src="assets/make.webp" alt="Make" class="w-4 h-4 object-contain opacity-50">
+                  </div>
+                </div>
+              </div>
+
+              <button
+                class="w-full px-4 py-1.5 bg-black dark:bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors h-8 whitespace-nowrap shadow-sm">
+                Guardar
+              </button>
+            </div>
           </div>
-        </button>
+          }
+        </div>
+
+        <!-- Twilio -->
+        <div class="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden transition-all duration-300"
+          [class.bg-gray-50]="showTwilioConfig" [class.dark:bg-slate-800]="showTwilioConfig">
+          <div
+            class="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            (click)="showTwilioConfig = !showTwilioConfig">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 flex items-center justify-center">
+                <img src="assets/twilio.jpg" alt="Twilio" class="w-8 h-8 object-contain rounded-full">
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Twilio</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Conecta tu número de teléfono</p>
+              </div>
+            </div>
+            <button class="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+              [class.text-white]="!showTwilioConfig" [class.bg-blue-50]="showTwilioConfig"
+              [class.bg-blue-500]="!showTwilioConfig" [class.text-blue-600]="showTwilioConfig"
+              [class.dark:bg-blue-600]="!showTwilioConfig" [class.dark:text-white]="!showTwilioConfig"
+              [class.hover:bg-blue-600]="!showTwilioConfig">
+              {{ showTwilioConfig ? 'Cerrar' : 'Conectar' }}
+            </button>
+          </div>
+
+          <!-- Formulario Desplegable -->
+          @if (showTwilioConfig) {
+          <div class="px-4 pb-3 pt-0 animate-fadeIn">
+            <div class="space-y-3">
+              <!-- Account SID y Auth Token en una línea -->
+              <div class="flex items-end gap-3">
+                <div class="flex-1 space-y-1">
+                  <label
+                    class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Account
+                    SID</label>
+                  <input type="text" placeholder="ACxxxxxxxx..."
+                    class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8">
+                </div>
+
+                <div class="flex-1 space-y-1">
+                  <label
+                    class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Auth
+                    Token</label>
+                  <input type="password" placeholder="••••••••••••••••"
+                    class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8">
+                </div>
+
+                <button
+                  class="px-4 py-1.5 bg-black dark:bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors h-8 mb-[1px] whitespace-nowrap shadow-sm">
+                  Guardar
+                </button>
+              </div>
+
+              <!-- Número de teléfono y Etiqueta en una línea -->
+              <div class="flex items-end gap-3">
+                <div class="flex-1 space-y-1">
+                  <label
+                    class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Número
+                    de teléfono <span class="text-red-500">*</span></label>
+                  <div class="flex items-center relative">
+                    <!-- Dropdown personalizado -->
+                    <div (click)="toggleCountryMenu()"
+                      class="w-24 h-8 bg-white dark:bg-slate-800 border border-r-0 border-gray-300 dark:border-slate-600 rounded-l-lg px-2 flex items-center justify-between gap-1.5 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
+                      <div class="flex items-center gap-1">
+                        <svg id="current-flag" width="14" height="10" viewBox="0 0 20 12" fill="none"
+                          xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 rounded-sm">
+                          <rect width="20" height="12" fill="#C60B1E" />
+                          <rect y="3" width="20" height="6" fill="#FFC400" />
+                        </svg>
+                        <span
+                          class="text-[9px] font-medium text-gray-800 dark:text-slate-200">{{selectedCountryCode}}</span>
+                      </div>
+                      <svg class="w-2 h-2 text-gray-500 dark:text-slate-400 transition-transform"
+                        [class.rotate-180]="showCountryMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+
+                    <!-- Menú desplegable -->
+                    <ul [class.hidden]="!showCountryMenu"
+                      class="absolute top-full left-0 mt-1 w-24 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg shadow-xl z-50 overflow-hidden">
+                      <li (click)="selectCountry('es', '+34', '#C60B1E', '#FFC400')"
+                        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
+                        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
+                          <rect width="20" height="12" fill="#C60B1E" />
+                          <rect y="3" width="20" height="6" fill="#FFC400" />
+                        </svg>
+                        <span class="font-medium text-gray-800 dark:text-slate-200">+34</span>
+                      </li>
+                      <li (click)="selectCountry('us', '+1', '#00247D', '#FFF')"
+                        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
+                        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
+                          <rect width="20" height="12" fill="#00247D" />
+                          <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
+                          <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1" />
+                          <rect x="8" width="4" height="12" fill="#FFF" />
+                          <rect y="4" width="20" height="4" fill="#FFF" />
+                          <rect x="8.8" width="2.4" height="12" fill="#CF142B" />
+                          <rect y="5.2" width="20" height="1.6" fill="#CF142B" />
+                        </svg>
+                        <span class="font-medium text-gray-800 dark:text-slate-200">+1</span>
+                      </li>
+                      <li (click)="selectCountry('fr', '+33', '#0055A4', '#EF4135')"
+                        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] border-b border-gray-100 dark:border-slate-700 transition-colors">
+                        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
+                          <rect width="20" height="12" fill="#fff" />
+                          <rect width="6.66" height="12" fill="#0055A4" />
+                          <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
+                        </svg>
+                        <span class="font-medium text-gray-800 dark:text-slate-200">+33</span>
+                      </li>
+                      <li (click)="selectCountry('de', '+49', '#FFCE00', '#DD0000')"
+                        class="flex items-center px-2 py-1.5 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-[9px] transition-colors">
+                        <svg width="14" height="10" viewBox="0 0 20 12" class="mr-1 flex-shrink-0 rounded-sm">
+                          <rect width="20" height="12" fill="#FFCE00" />
+                          <rect y="6" width="20" height="6" fill="#DD0000" />
+                          <rect y="4" width="20" height="4" fill="#000" />
+                        </svg>
+                        <span class="font-medium text-gray-800 dark:text-slate-200">+49</span>
+                      </li>
+                    </ul>
+
+                    <!-- Input de número -->
+                    <input type="tel" [(ngModel)]="phoneNumber" placeholder="630 00 00 00"
+                      class="flex-1 h-8 px-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+                  </div>
+                </div>
+
+                <div class="flex-1 space-y-1">
+                  <label
+                    class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Etiqueta
+                    <span class="text-gray-500 dark:text-gray-400 text-[9px] font-normal">(opcional)</span></label>
+                  <input type="text" [(ngModel)]="label" placeholder="Ej: Oficina Principal, Ventas, etc."
+                    class="w-full h-8 px-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+
+        <!-- Botón Continuar dentro del contenedor de conexiones (cuando Make o Twilio están abiertos) -->
+        @if (showMakeConfig || showTwilioConfig) {
+        <div class="flex justify-center mt-6">
+          <button
+            class="px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md flex items-center gap-2 3xl:gap-3"
+            (click)="step = 'summary'; saveDraft()">
+            Continuar
+          </button>
+        </div>
+        }
       </div>
     </div>
 
@@ -910,14 +1119,17 @@
         </svg>
       </button>
 
+      <!-- Botón Continuar en posición original (solo cuando Make y Twilio NO están abiertos) -->
+      @if (!showMakeConfig && !showTwilioConfig) {
       <button
         class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
-        (click)="step = 'knowledgeBase'; saveDraft()">
+        (click)="step = 'summary'; saveDraft()">
         Continuar
       </button>
+      }
 
 
-      <button (click)="step = 'knowledgeBase'"
+      <button (click)="step = 'summary'; saveDraft()"
         class="text-black dark:text-slate-200 hover:text-gray-700 dark:hover:text-slate-400 text-xs sm:text-sm 3xl:text-base flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
         style="font-family: 'Inter', sans-serif;">
         Saltar
@@ -1237,7 +1449,8 @@
               Etiqueta <span
                 class="text-gray-500 dark:text-slate-400 text-[10px] sm:text-xs lg:text-[9px] 3xl:text-sm font-normal ml-1">(opcional)</span>
             </label>
-            <input type="text" id="label" name="label" [(ngModel)]="label" placeholder="Ej: Oficina Principal, Ventas, etc."
+            <input type="text" id="label" name="label" [(ngModel)]="label"
+              placeholder="Ej: Oficina Principal, Ventas, etc."
               class="w-full h-10 sm:h-11 md:h-12 lg:h-11 3xl:h-12 px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-xs sm:text-sm md:text-base lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
           </div>
 
@@ -1430,14 +1643,18 @@
                 <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Estabilidad</label>
                 <div class="relative pt-0.5">
                   <div class="flex justify-between mb-1.5 px-0.5">
-                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0</span>
-                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">1.0</span>
+                    <span
+                      class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0</span>
+                    <span
+                      class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">1.0</span>
                   </div>
-                  <input type="range" [(ngModel)]="voiceParameters.stability" name="stability" min="0" max="1" step="0.01"
+                  <input type="range" [(ngModel)]="voiceParameters.stability" name="stability" min="0" max="1"
+                    step="0.01"
                     class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
                     [style.background]="'linear-gradient(to right, #3b82f6 ' + (voiceParameters.stability * 100) + '%, var(--slider-track) ' + (voiceParameters.stability * 100) + '%)'" />
                   <div class="text-center mt-1">
-                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.stability.toFixed(2) }}</span>
+                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.stability.toFixed(2)
+                      }}</span>
                   </div>
                 </div>
               </div>
@@ -1447,14 +1664,18 @@
                 <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Similitud</label>
                 <div class="relative pt-0.5">
                   <div class="flex justify-between mb-1.5 px-0.5">
-                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0</span>
-                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">1.0</span>
+                    <span
+                      class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0</span>
+                    <span
+                      class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">1.0</span>
                   </div>
-                  <input type="range" [(ngModel)]="voiceParameters.similarity" name="similarity" min="0" max="1" step="0.01"
+                  <input type="range" [(ngModel)]="voiceParameters.similarity" name="similarity" min="0" max="1"
+                    step="0.01"
                     class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
                     [style.background]="'linear-gradient(to right, #3b82f6 ' + (voiceParameters.similarity * 100) + '%, var(--slider-track) ' + (voiceParameters.similarity * 100) + '%)'" />
                   <div class="text-center mt-1">
-                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.similarity.toFixed(2) }}</span>
+                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.similarity.toFixed(2)
+                      }}</span>
                   </div>
                 </div>
               </div>
@@ -1464,14 +1685,17 @@
                 <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Estilo</label>
                 <div class="relative pt-0.5">
                   <div class="flex justify-between mb-1.5 px-0.5">
-                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0</span>
-                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">1.0</span>
+                    <span
+                      class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0</span>
+                    <span
+                      class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">1.0</span>
                   </div>
                   <input type="range" [(ngModel)]="voiceParameters.style" name="style" min="0" max="1" step="0.01"
                     class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
                     [style.background]="'linear-gradient(to right, #3b82f6 ' + (voiceParameters.style * 100) + '%, var(--slider-track) ' + (voiceParameters.style * 100) + '%)'" />
                   <div class="text-center mt-1">
-                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.style.toFixed(2) }}</span>
+                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.style.toFixed(2)
+                      }}</span>
                   </div>
                 </div>
               </div>
@@ -1481,14 +1705,17 @@
                 <label class="block text-[11px] font-medium text-gray-600 dark:text-white/70">Velocidad</label>
                 <div class="relative pt-0.5">
                   <div class="flex justify-between mb-1.5 px-0.5">
-                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0.25</span>
-                    <span class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">4.0</span>
+                    <span
+                      class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">0.25</span>
+                    <span
+                      class="text-[9px] uppercase tracking-wider text-gray-400 dark:text-white/40 font-semibold">4.0</span>
                   </div>
                   <input type="range" [(ngModel)]="voiceParameters.speed" name="speed" min="0.25" max="4" step="0.01"
                     class="custom-slider w-full h-1 rounded-lg appearance-none cursor-pointer transition-all"
                     [style.background]="'linear-gradient(to right, #3b82f6 ' + ((voiceParameters.speed - 0.25) / 3.75 * 100) + '%, var(--slider-track) ' + ((voiceParameters.speed - 0.25) / 3.75 * 100) + '%)'" />
                   <div class="text-center mt-1">
-                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.speed.toFixed(2) }}</span>
+                    <span class="text-[10px] text-gray-500 dark:text-white/50">{{ voiceParameters.speed.toFixed(2)
+                      }}</span>
                   </div>
                 </div>
               </div>
