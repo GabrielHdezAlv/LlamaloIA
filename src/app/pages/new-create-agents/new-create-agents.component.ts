@@ -450,12 +450,16 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         this.selectedVoiceId = (currentVoice as any)?.voiceId || currentVoice.id || '';
       }
     }
+    this.pauseVoice();
     this.isSidebarOpen = false;
     this.step = 'instructions';
     this.saveDraft();
   }
 
   closeSidebar() {
+    if (this.step === 'voices') {
+      this.pauseVoice();
+    }
     this.isSidebarOpen = false;
   }
 
@@ -665,6 +669,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.step = 'voices';
       this.loadVoices();
     } else if (this.step === 'voices') {
+      this.pauseVoice();
       this.step = 'language';
     } else if (this.step === 'language') {
       this.step = 'agentName';
@@ -682,6 +687,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.step = 'voices';
       this.loadVoices();
     } else if (this.step === 'voices') {
+      this.pauseVoice();
       this.step = 'instructions';
     } else if (this.step === 'instructions') {
       this.step = 'actions'; // Ir a "Añadir Acciones"
@@ -711,24 +717,32 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.saveDraft();
   }
 
-  playVoice(voiceName: string) {
-    if (this.isPlaying && this.currentPlayingVoice === voiceName) {
-      // Si ya está reproduciendo esta voz, pausar
+  /** Códigos de idioma con muestras en assets/voces (nombre_idioma.mp3). */
+  private readonly VOCES_LANG_CODES: readonly string[] = ['es', 'en', 'it', 'de', 'fr'];
+
+  playVoice(voice: { id?: string; name?: string }) {
+    const voiceId = (voice?.id ?? '').toString().toLowerCase();
+    if (!voiceId) return;
+
+    if (this.isPlaying && this.currentPlayingVoice === voiceId) {
       this.pauseVoice();
       return;
     }
 
-    console.log('Reproduciendo voz:', voiceName);
+    const lang = this.VOCES_LANG_CODES.includes(this.selectedCountry)
+      ? this.selectedCountry
+      : 'es';
+    const path = `assets/voces/${voiceId}_${lang}.mp3`;
 
     if (this.audioActual) {
       this.audioActual.pause();
       this.audioActual.currentTime = 0;
     }
 
-    const audio = new Audio(`assets/${voiceName}.mp3`);
+    const audio = new Audio(path);
     this.audioActual = audio;
     this.isPlaying = true;
-    this.currentPlayingVoice = voiceName;
+    this.currentPlayingVoice = voiceId;
 
     audio.play().catch(err => {
       console.error('Error al reproducir audio:', err);
@@ -750,7 +764,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     };
 
     audio.onerror = () => {
-      console.error('Error al cargar el audio');
+      console.error('Error al cargar el audio:', path);
       this.isPlaying = false;
       this.currentPlayingVoice = null;
       if (this.audioActual === audio) {
@@ -758,7 +772,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       }
       this.modalService.openError({
         title: 'Error de audio',
-        message: 'Hubo un problema al cargar el audio',
+        message: 'No hay muestra de audio para esta voz e idioma.',
       });
     };
   }

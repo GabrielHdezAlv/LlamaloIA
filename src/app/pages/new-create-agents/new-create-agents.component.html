@@ -485,7 +485,7 @@
                   </div>
 
                   <!-- Listen button -->
-                  <button (click)="$event.stopPropagation(); playVoice(voice.id)"
+                  <button (click)="$event.stopPropagation(); playVoice(voice)"
                     class="bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-200 rounded-full px-5 py-2 text-sm font-medium flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
                     @if (currentPlayingVoice === voice.id) {
                     <svg width="10" height="10" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -549,7 +549,7 @@
                     </div>
 
                     <!-- Listen button -->
-                    <button (click)="$event.stopPropagation(); playVoice(voice.id)"
+                    <button (click)="$event.stopPropagation(); playVoice(voice)"
                       class="bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-200 rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm font-medium flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
                       @if (currentPlayingVoice === voice.id) {
                       <svg width="10" height="10" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -644,7 +644,7 @@
                           </div>
 
                           <!-- Listen button -->
-                          <button (click)="$event.stopPropagation(); playVoice(voice.id)"
+                          <button (click)="$event.stopPropagation(); playVoice(voice)"
                             class="bg-white dark:bg-slate-800 text-gray-700 dark:text-slate-200 rounded-full px-4 sm:px-5 py-2 text-xs sm:text-sm lg:text-xs 3xl:text-sm font-medium flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
                             @if (currentPlayingVoice === voice.id) {
                             <!-- Icono de pausa (dos rayas) -->

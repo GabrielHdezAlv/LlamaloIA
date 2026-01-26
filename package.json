@@ -7,7 +7,8 @@
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:llamaloIO": "node dist/llamalo-io/server/server.mjs"
+    "serve:ssr:llamaloIO": "node dist/llamalo-io/server/server.mjs",
+    "rename:voces": "node scripts/rename-voces.js"
   },
   "private": true,
   "dependencies": {
