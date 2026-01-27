@@ -48,12 +48,28 @@ export class AuthFormComponent implements OnInit {
   password: string = '';
   confirmPassword: string = '';
   fullName: string = '';
+  country: string = '';          // ✅ NUEVO - Requerido
+  marketingConsent: boolean = false; // ✅ NUEVO - Requerido
 
   // Estado para mostrar/ocultar contraseña
   showPassword: boolean = false;
 
   // Estado para recordar sesión
   rememberMe: boolean = false;
+
+  // Lista de países con códigos ISO
+  countries = [
+    { code: 'ES', name: 'España' },
+    { code: 'FR', name: 'Francia' },
+    { code: 'IT', name: 'Italia' },
+    { code: 'PT', name: 'Portugal' },
+    { code: 'DE', name: 'Alemania' },
+    { code: 'GB', name: 'Reino Unido' },
+    { code: 'US', name: 'Estados Unidos' },
+    { code: 'MX', name: 'México' },
+    { code: 'AR', name: 'Argentina' },
+    { code: 'CO', name: 'Colombia' },
+  ];
 
   private userService = inject(UserService);
   private snackBar = inject(MatSnackBar);
@@ -178,10 +194,19 @@ export class AuthFormComponent implements OnInit {
     event.preventDefault();
 
     // Validar campos antes de abrir el modal
-    if (!this.fullName || !this.email || !this.password) {
+    if (!this.fullName || !this.email || !this.password || !this.country) {
       this.modalService.openError({
         title: 'Campos requeridos',
-        message: 'Por favor, completa todos los campos',
+        message: 'Por favor, completa todos los campos incluyendo el país',
+      });
+      return;
+    }
+
+    // Validar consentimiento de marketing
+    if (!this.marketingConsent) {
+      this.modalService.openError({
+        title: 'Consentimiento requerido',
+        message: 'Debes aceptar el consentimiento de marketing para continuar',
       });
       return;
     }
@@ -208,6 +233,8 @@ export class AuthFormComponent implements OnInit {
       lastname: this.fullName.split(' ')[1] || '',
       email: this.email,
       password: this.password,
+      country: this.country,          // ✅ NUEVO - Requerido
+      marketingConsent: this.marketingConsent, // ✅ NUEVO - Requerido
     };
 
     this.userService.RegisterUser(user).subscribe({

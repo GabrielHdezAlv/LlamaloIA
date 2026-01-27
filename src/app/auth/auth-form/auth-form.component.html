@@ -152,6 +152,51 @@
           </div>
         </div>
         }
+
+        <!-- Select País solo para registro -->
+        @if (type === 'register') {
+          <div class="relative">
+            <label
+              for="country"
+              class="absolute left-4 top-1 text-xs text-gray-500 dark:text-slate-400 input-label"
+            >
+              País
+            </label>
+            <select
+              id="country"
+              [(ngModel)]="country"
+              name="country"
+              required
+              class="auth-input block w-full px-4 pt-6 pb-2 md:py-4 lg:py-4 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-black focus:border-black dark:focus:ring-blue-400 dark:focus:border-blue-400 bg-white dark:bg-slate-900 text-black dark:text-slate-50 transition duration-200 text-sm md:text-base lg:text-base appearance-none pr-10"
+            >
+              <option value="">Selecciona un país</option>
+              @for (countryOption of countries; track countryOption.code) {
+                <option [value]="countryOption.code">{{ countryOption.name }}</option>
+              }
+            </select>
+            <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none w-5 h-5 text-gray-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        }
+
+        <!-- Marketing Consent Checkbox solo para registro -->
+        @if (type === 'register') {
+          <div class="flex items-start">
+            <app-animated-checkbox
+              [checked]="marketingConsent"
+              (checkedChange)="marketingConsent = $event"
+              class=""
+            ></app-animated-checkbox>
+            <label
+              class="pt-1 ml-2 text-xs text-gray-600 dark:text-slate-300 cursor-pointer"
+              (click)="marketingConsent = !marketingConsent"
+            >
+              Acepto recibir comunicaciones de marketing y promociones de Llamalo AI
+            </label>
+          </div>
+        }
+
         <!-- Remember me & Forgot password -->
         @if (type === 'login') {
         <div class="flex items-center justify-between">

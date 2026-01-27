@@ -4,7 +4,8 @@ export class User {
   lastname?: string; // Opcional porque puede venir undefined del perfil
   profileImage?: string;
   enterprise?: { name: string; url: string };
-  country?: string;
+  country?: string;          // ✅ NUEVO - Opcional
+  marketingConsent?: boolean; // ✅ NUEVO - Opcional
   email?: string; // Opcional porque puede venir undefined del perfil
   password?: string; // Opcional porque no viene del perfil del usuario
   token?: string;

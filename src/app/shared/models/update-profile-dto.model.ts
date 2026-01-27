@@ -1,10 +1,12 @@
 /**
  * DTO para actualización de perfil
- * NO incluye email ni country (el backend no los acepta)
+ * Campos opcionales para actualizar el perfil
  */
 export interface UpdateProfileDto {
   name?: string;
   lastname?: string;
   profileImage?: string;
   enterprise?: { name: string; url: string };
+  country?: string;          // ✅ NUEVO - Opcional
+  marketingConsent?: boolean; // ✅ NUEVO - Opcional
 }

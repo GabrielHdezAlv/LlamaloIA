@@ -57,8 +57,23 @@ export class AccountComponent implements OnInit {
   tempName = '';
   tempLastname = '';
   tempCountry = '';
+  tempMarketingConsent: boolean = false;
   tempEnterprise: { name: string; url: string } = { name: '', url: '' };
   tempProfileImage = '';
+
+  // Lista de países con códigos ISO
+  countries = [
+    { code: 'ES', name: 'España' },
+    { code: 'FR', name: 'Francia' },
+    { code: 'IT', name: 'Italia' },
+    { code: 'PT', name: 'Portugal' },
+    { code: 'DE', name: 'Alemania' },
+    { code: 'GB', name: 'Reino Unido' },
+    { code: 'US', name: 'Estados Unidos' },
+    { code: 'MX', name: 'México' },
+    { code: 'AR', name: 'Argentina' },
+    { code: 'CO', name: 'Colombia' },
+  ];
 
   // Facturación
   currentPlanMinutes: number | null = null;
@@ -111,6 +126,7 @@ export class AccountComponent implements OnInit {
       this.tempName = user.name || '';
       this.tempLastname = user.lastname || '';
       this.tempCountry = user.country || '';
+      this.tempMarketingConsent = user.marketingConsent || false;
       // Inicializar enterprise como objeto
       this.tempEnterprise = user.enterprise || { name: '', url: '' };
       this.tempProfileImage = user.profileImage || '';
@@ -185,12 +201,14 @@ export class AccountComponent implements OnInit {
     // Actualizar el perfil inmediatamente
     const currentUser = this.user();
     if (currentUser) {
-      // NO incluir email ni country (el backend no los acepta)
+      // Actualizar perfil con country y marketingConsent (ahora permitidos)
       const updatedUserData = {
         name: this.tempName,
         lastname: this.tempLastname,
         profileImage: avatarUrl,
         enterprise: this.tempEnterprise,
+        country: this.tempCountry,
+        marketingConsent: this.tempMarketingConsent,
       };
 
       this.userService.updateUserProfile(updatedUserData).subscribe({
@@ -316,12 +334,14 @@ export class AccountComponent implements OnInit {
       return;
     }
 
-    // NO incluir email ni country (el backend no los acepta)
+    // Actualizar perfil con country y marketingConsent (ahora permitidos)
     const updatedUserData = {
       name: this.tempName,
       lastname: this.tempLastname,
       profileImage: this.tempProfileImage,
       enterprise: this.tempEnterprise,
+      country: this.tempCountry,
+      marketingConsent: this.tempMarketingConsent,
     };
 
     this.userService.updateUserProfile(updatedUserData).subscribe({

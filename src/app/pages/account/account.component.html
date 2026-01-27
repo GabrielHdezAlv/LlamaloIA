@@ -264,16 +264,9 @@
             <select [(ngModel)]="tempCountry"
               class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-3 py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-1.5 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-xs appearance-none pr-10">
               <option value="">{{ t.selectCountry }}</option>
-              <option value="España">España</option>
-              <option value="Francia">Francia</option>
-              <option value="Italia">Italia</option>
-              <option value="Portugal">Portugal</option>
-              <option value="Alemania">Alemania</option>
-              <option value="Reino Unido">Reino Unido</option>
-              <option value="Estados Unidos">Estados Unidos</option>
-              <option value="México">México</option>
-              <option value="Argentina">Argentina</option>
-              <option value="Colombia">Colombia</option>
+              @for (countryOption of countries; track countryOption.code) {
+                <option [value]="countryOption.code">{{ countryOption.name }}</option>
+              }
             </select>
             <span class="pointer-events-none absolute inset-y-0 right-2 sm:right-4 top-7 sm:top-9 flex items-center">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -282,6 +275,22 @@
                   fill="#727272" />
               </svg>
             </span>
+          </div>
+
+          <!-- Consentimiento de Marketing -->
+          <div class="flex items-start">
+            <input
+              type="checkbox"
+              id="marketingConsent"
+              [(ngModel)]="tempMarketingConsent"
+              class="mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+            />
+            <label
+              for="marketingConsent"
+              class="ml-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-xs text-gray-700 cursor-pointer"
+            >
+              Acepto recibir comunicaciones de marketing y promociones
+            </label>
           </div>
 
           <!-- Nombre del Negocio y Web del Negocio -->

@@ -11,6 +11,8 @@ export interface UserProfileResponseDto {
   profileImage?: string;
   enterprise?: { name: string; url: string };
   email?: string;
+  country?: string;          // ✅ NUEVO - Opcional
+  marketingConsent?: boolean; // ✅ NUEVO - Opcional
   createdAt?: string | null; // Fecha formateada en español (ej: "12 de octubre de 2025, 10:30:45")
   twilio?: TwilioConfig;
   agent?: {
