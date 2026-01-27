@@ -57,6 +57,7 @@ export class AccountComponent implements OnInit {
   // Campos temporales para el formulario
   tempName = '';
   tempLastname = '';
+  tempFullName = '';
   tempCountry = '';
   tempMarketingConsent: boolean = false;
   tempEnterprise: { name: string; url: string } = { name: '', url: '' };
@@ -126,6 +127,8 @@ export class AccountComponent implements OnInit {
     if (user) {
       this.tempName = user.name || '';
       this.tempLastname = user.lastname || '';
+      // Inicializar nombre completo combinando name y lastname
+      this.tempFullName = `${user.name || ''} ${user.lastname || ''}`.trim();
       this.tempCountry = user.country || '';
       this.tempMarketingConsent = user.marketingConsent || false;
       // Inicializar enterprise como objeto
@@ -202,12 +205,31 @@ export class AccountComponent implements OnInit {
     // Actualizar el perfil inmediatamente
     const currentUser = this.user();
     if (currentUser) {
+      // Dividir el nombre completo en name y lastname
+      const fullNameParts = this.tempFullName.trim().split(/\s+/);
+      let name = '';
+      let lastname = '';
+      
+      if (fullNameParts.length > 0) {
+        name = fullNameParts[0];
+        if (fullNameParts.length > 1) {
+          // Todo lo demás es el apellido
+          lastname = fullNameParts.slice(1).join(' ');
+        }
+      }
+
+      // Construir el objeto enterprise con los valores de los inputs
+      const enterprise = {
+        name: this.tempEnterprise.name || '',
+        url: this.tempEnterprise.url || ''
+      };
+
       // Actualizar perfil con country y marketingConsent (ahora permitidos)
       const updatedUserData = {
-        name: this.tempName,
-        lastname: this.tempLastname,
+        name: name,
+        lastname: lastname,
         profileImage: avatarUrl,
-        enterprise: this.tempEnterprise,
+        enterprise: enterprise,
         country: this.tempCountry,
         marketingConsent: this.tempMarketingConsent,
       };
@@ -335,12 +357,31 @@ export class AccountComponent implements OnInit {
       return;
     }
 
+    // Dividir el nombre completo en name y lastname
+    const fullNameParts = this.tempFullName.trim().split(/\s+/);
+    let name = '';
+    let lastname = '';
+    
+    if (fullNameParts.length > 0) {
+      name = fullNameParts[0];
+      if (fullNameParts.length > 1) {
+        // Todo lo demás es el apellido
+        lastname = fullNameParts.slice(1).join(' ');
+      }
+    }
+
+    // Construir el objeto enterprise con los valores de los inputs
+    const enterprise = {
+      name: this.tempEnterprise.name || '',
+      url: this.tempEnterprise.url || ''
+    };
+
     // Actualizar perfil con country y marketingConsent (ahora permitidos)
     const updatedUserData = {
-      name: this.tempName,
-      lastname: this.tempLastname,
+      name: name,
+      lastname: lastname,
       profileImage: this.tempProfileImage,
-      enterprise: this.tempEnterprise,
+      enterprise: enterprise,
       country: this.tempCountry,
       marketingConsent: this.tempMarketingConsent,
     };
