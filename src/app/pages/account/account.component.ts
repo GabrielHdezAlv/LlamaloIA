@@ -8,12 +8,13 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
+import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
 import { TwilioService } from '../../core/services/twilio.service';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [FormsModule, MatSnackBarModule, CommonModule, RippleButtonComponent],
+  imports: [FormsModule, MatSnackBarModule, CommonModule, RippleButtonComponent, AnimatedCheckboxComponent],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss', './billing-modal-blur.scss'],
 })

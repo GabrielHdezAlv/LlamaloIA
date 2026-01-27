@@ -8,7 +8,6 @@ import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../shared/modals/modal.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 import { Agent } from '../../shared/models/agent.model';
-import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 import {
   NgApexchartsModule,
   ApexAxisChartSeries,
@@ -24,7 +23,7 @@ import {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NgApexchartsModule, RouterModule, RippleButtonComponent],
+  imports: [CommonModule, NgApexchartsModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })

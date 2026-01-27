@@ -14,7 +14,8 @@
   @apply flex justify-center pt-8 pb-4;
   
   &.error {
-    background: linear-gradient(180deg, rgba(239, 68, 68, 0.08) 0%, transparent 100%);
+    // Azul en lugar de rojo
+    background: linear-gradient(180deg, rgba(37, 99, 235, 0.08) 0%, transparent 100%);
   }
 }
 
@@ -26,11 +27,12 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   
   &.error {
-    @apply bg-red-100 dark:bg-red-900/40;
-    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.25);
+    // Azul en lugar de rojo
+    @apply bg-blue-100 dark:bg-blue-900/40;
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.25);
     
     .modal-icon {
-      @apply text-red-600 dark:text-red-400;
+      @apply text-blue-600 dark:text-blue-400;
       width: 36px;
       height: 36px;
     }
@@ -52,7 +54,8 @@
   letter-spacing: -0.5px;
   
   &.error {
-    @apply text-red-700 dark:text-red-400;
+    // Azul en lugar de rojo
+    @apply text-blue-700 dark:text-blue-400;
   }
 }
 
@@ -69,11 +72,12 @@
   border: 1px solid;
   
   &.error {
-    @apply bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200;
-    border-color: rgba(239, 68, 68, 0.2);
+    // Azul en lugar de rojo
+    @apply bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200;
+    border-color: rgba(37, 99, 235, 0.2);
     
     pre {
-      @apply text-red-800 dark:text-red-200;
+      @apply text-blue-800 dark:text-blue-200;
       white-space: pre-wrap;
       word-wrap: break-word;
       font-family: inherit;
@@ -98,13 +102,14 @@
   
   &.modal-button-primary {
     &.error {
-      @apply bg-red-600 dark:bg-red-700 text-white;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+      // Azul en lugar de rojo
+      @apply bg-blue-600 dark:bg-blue-700 text-white;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
       
       &:hover {
-        @apply bg-red-700 dark:bg-red-600;
+        @apply bg-blue-700 dark:bg-blue-600;
         transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
       }
       
       &:active {
@@ -112,7 +117,7 @@
       }
       
       &:focus {
-        @apply ring-red-500;
+        @apply ring-blue-500;
       }
     }
   }

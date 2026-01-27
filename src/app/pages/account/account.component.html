@@ -147,34 +147,6 @@
               }}</span>
           </div>
         </button>
-
-
-        <!-- Conexiones -->
-        <button (click)="setActiveTab('connections')" [class]="
-            activeTab === 'connections'
-              ? 'flex-1 sm:min-w-[140px] lg:w-48 flex items-center justify-center sm:justify-start gap-1.5 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-2 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-2 rounded-xl text-left bg-white hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
-              : 'flex-1 sm:min-w-[140px] lg:w-48 flex items-center justify-center sm:justify-start gap-1.5 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-2 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-2 rounded-xl text-left hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
-          ">
-          <span
-            class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-8 3xl:h-8 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0">
-            <!-- Icono de enlace/conexión -->
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-              class="lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5">
-              <path
-                d="M14 10C14 9.44771 13.5523 9 13 9H12.5C9.46243 9 7 11.4624 7 14.5C7 17.5376 9.46243 20 12.5 20H17.5C20.5376 20 23 17.5376 23 14.5C23 12.0091 21.3441 9.90488 19.073 9.22823C18.5098 9.06042 18 9.52887 18 10.1166V10.1683C18 10.6659 18.3745 11.0735 18.8345 11.2634C20.1055 11.788 21 13.0395 21 14.5C21 16.433 19.433 18 17.5 18H12.5C10.567 18 9 16.433 9 14.5C9 12.567 10.567 11 12.5 11H13C13.5523 11 14 10.5523 14 10Z"
-                fill="#727272" />
-              <path
-                d="M11.5 4C14.5376 4 17 6.46243 17 9.5C17 12.5376 14.5376 15 11.5 15H11C10.4477 15 10 14.5523 10 14C10 13.4477 10.4477 13 11 13H11.5C13.433 13 15 11.433 15 9.5C15 7.567 13.433 6 11.5 6H6.5C4.567 6 3 7.567 3 9.5C3 10.9605 3.89451 12.212 5.16553 12.7366C5.62548 12.9264 6 13.3341 6 13.8317V13.8834C6 14.4711 5.49024 14.9396 4.92699 14.7718C2.65592 14.0951 1 11.9909 1 9.5C1 6.46243 3.46243 4 6.5 4H11.5Z"
-                fill="#727272" />
-            </svg>
-          </span>
-          <div class="hidden sm:flex sm:flex-col min-w-0">
-            <span class="font-semibold text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs truncate">Conexiones</span>
-            <span class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-500 truncate">
-              Gestionar integraciones
-            </span>
-          </div>
-        </button>
       </nav>
     </div>
 
@@ -183,14 +155,14 @@
       class="w-full lg:w-[80%] 3xl:flex-1 bg-white rounded-b-xl lg:rounded-l-3xl lg:rounded-tl-3xl lg:rounded-r-2xl lg:rounded-b-2xl shadow-sm p-3 lg:p-3 xl:p-3 2xl:p-3 3xl:p-3 lg:-ml-6 xl:-ml-6 2xl:-ml-6 3xl:-ml-32 min-h-[460px]">
       @if (activeTab === 'profile') {
       <!-- === SECCIÓN PERFIL === -->
-      <div class="flex flex-col h-full min-h-[480px] mx-4 mt-6 3xl:min-h-[476px]"
-        style="transform: scale(0.95); transform-origin: top left; width: calc(105.26% - 2rem); height: 105.26%;">
+      <div class="flex flex-col h-full min-h-[430px] mx-4 mt-4 3xl:min-h-[485px] 3xl:mt-6"
+        style="transform: scale(0.9); transform-origin: top left; width: calc(111.11% - 2rem); height: 111.11%;">
         <h2 class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-900 mb-3 ">
           {{ t.profileInfo }}
         </h2>
 
         <!-- Avatar & Text -->
-        <div class="flex items-start gap-3 mb-4">
+        <div class="flex items-start gap-3 mb-3 3xl:mb-4">
           @if (tempProfileImage || userProfileImage()) {
           <img [src]="tempProfileImage || userProfileImage()" alt="Avatar"
             class="w-12 h-12 rounded-full border-2 border-blue-900 history-border cursor-pointer hover:opacity-80 transition-opacity duration-200"
@@ -218,7 +190,7 @@
         </div>
 
         <!-- Formulario -->
-        <div class="space-y-2.5 sm:space-y-3 lg:space-y-3 xl:space-y-3 2xl:space-y-3 3xl:space-y-5">
+        <div class="space-y-2 sm:space-y-2.5 lg:space-y-2.5 xl:space-y-2.5 2xl:space-y-2.5 3xl:space-y-5">
           <!-- Nombre Completo -->
           <div>
             <label
@@ -265,7 +237,7 @@
               class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-3 py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-1.5 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-xs appearance-none pr-10">
               <option value="">{{ t.selectCountry }}</option>
               @for (countryOption of countries; track countryOption.code) {
-                <option [value]="countryOption.code">{{ countryOption.name }}</option>
+              <option [value]="countryOption.code">{{ countryOption.name }}</option>
               }
             </select>
             <span class="pointer-events-none absolute inset-y-0 right-2 sm:right-4 top-7 sm:top-9 flex items-center">
@@ -277,19 +249,17 @@
             </span>
           </div>
 
-          <!-- Consentimiento de Marketing -->
+          <!-- Consentimiento de Marketing / Pedidos (mismo checkbox animado que en auth) -->
           <div class="flex items-start">
-            <input
-              type="checkbox"
-              id="marketingConsent"
-              [(ngModel)]="tempMarketingConsent"
-              class="mt-1 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-            />
+            <app-animated-checkbox
+              [checked]="tempMarketingConsent"
+              (checkedChange)="tempMarketingConsent = $event"
+            ></app-animated-checkbox>
             <label
-              for="marketingConsent"
-              class="ml-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-xs text-gray-700 cursor-pointer"
+              class="pt-1 ml-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-xs text-gray-700 cursor-pointer"
+              (click)="tempMarketingConsent = !tempMarketingConsent"
             >
-              Acepto recibir comunicaciones de marketing y promociones
+            Acepto recibir comunicaciones de marketing y promociones
             </label>
           </div>
 
@@ -340,7 +310,7 @@
       </div>
       } @if (activeTab === 'security') {
       <!-- === SECCIÓN SEGURIDAD === -->
-      <div class="flex flex-col h-full min-h-[480px] 3xl:min-h-[476px] mx-4 mt-6 pb-4"
+      <div class="flex flex-col h-full min-h-[486px] 3xl:min-h-[485px] mx-4 mt-6 pb-4"
         style="transform: scale(0.95); transform-origin: top left; width: calc(105.26% - 2rem); height: 105.26%;">
         <!-- Encabezado -->
         <h2 class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-900 mb-3 ">
@@ -410,7 +380,7 @@
       </div>
       } @if (activeTab === 'billing') {
       <!-- === SECCIÓN FACTURACIÓN === -->
-      <div class="flex flex-col h-full min-h-[480px] 3xl:min-h-[476px] mx-4 mt-6"
+      <div class="flex flex-col h-full min-h-[486px] 3xl:min-h-[485px] mx-4 mt-6"
         style="transform: scale(0.95); transform-origin: top left; width: calc(105.26% - 2rem); height: 105.26%;">
         <h2 class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-800 mb-3 ">
           {{ t.billing }}
@@ -465,7 +435,7 @@
       </div>
       } @if (activeTab === 'gifts') {
       <!-- === SECCIÓN REGALOS === -->
-      <div class="flex flex-col h-full min-h-[480px] 3xl:min-h-[476px] mx-4 mt-6"
+      <div class="flex flex-col h-full min-h-[486px] 3xl:min-h-[485px] mx-4 mt-6"
         style="transform: scale(0.95); transform-origin: top left; width: calc(105.26% - 2rem); height: 105.26%;">
         <h2 class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-900 mb-2 ">
           {{ t.gifts }}
@@ -502,113 +472,6 @@
                 </app-ripple-button>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="flex-1"></div>
-      </div>
-      } @if (activeTab === 'connections') {
-      <!-- === SECCIÓN CONEXIONES === -->
-      <div class="flex flex-col h-full min-h-[480px] 3xl:min-h-[476px] mx-4 mt-6"
-        style="transform: scale(0.95); transform-origin: top left; width: calc(105.26% - 2rem); height: 105.26%;">
-        <h2 class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-900 mb-2 ">
-          Conexiones
-        </h2>
-        <div class="space-y-4">
-          <p class="text-xs text-gray-600">Conecta tus aplicaciones favoritas para potenciar a tus agentes.</p>
-
-          <!-- Shopify -->
-          <div
-            class="border border-gray-200 rounded-xl p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 flex items-center justify-center">
-                <!-- Shopify Logo -->
-                <img src="assets/shopify.png" alt="Shopify" class="w-8 h-8 object-contain">
-              </div>
-              <div>
-                <h3 class="text-sm font-semibold text-gray-900">Shopify</h3>
-                <p class="text-xs text-gray-500">Conecta tu tienda e-commerce</p>
-              </div>
-            </div>
-            <button
-              class="text-xs font-semibold text-white hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">Conectar</button>
-          </div>
-
-          <!-- Make -->
-          <div
-            class="border border-gray-200 rounded-xl p-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 flex items-center justify-center">
-                <!-- Make Logo -->
-                <img src="assets/make.png" alt="Make" class="w-8 h-8 object-contain">
-              </div>
-              <div>
-                <h3 class="text-sm font-semibold text-gray-900">Make</h3>
-                <p class="text-xs text-gray-500">Automatiza tus flujos de trabajo</p>
-              </div>
-            </div>
-            <button
-              class="text-xs font-semibold text-white hover:text-blue-800 bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">Conectar</button>
-          </div>
-
-          <!-- Twilio -->
-          <div class="border border-gray-200 rounded-xl overflow-hidden transition-all duration-300"
-            [class.bg-gray-50]="showTwilioConfig" [class.dark:bg-transparent]="showTwilioConfig">
-            <div
-              class="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-transparent transition-colors cursor-pointer"
-              (click)="showTwilioConfig = !showTwilioConfig">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 flex items-center justify-center">
-                  <!-- Twilio Logo -->
-                  <img src="assets/twilio.jpg" alt="Twilio" class="w-8 h-8 object-contain rounded-full">
-                </div>
-                <div>
-                  <h3 class="text-sm font-semibold text-gray-900">Twilio</h3>
-                  <p class="text-xs text-gray-500">Conecta tu número de teléfono</p>
-                </div>
-              </div>
-              <button class="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
-                [class.text-white]="!showTwilioConfig" [class.bg-blue-50]="showTwilioConfig"
-                [class.bg-blue-500]="!showTwilioConfig" [class.text-blue-600]="showTwilioConfig"
-                [class.hover:bg-blue-600]="!showTwilioConfig">
-                {{ showTwilioConfig ? 'Cerrar' : 'Conectar' }}
-              </button>
-            </div>
-
-            <!-- Formulario Desplegable -->
-            @if (showTwilioConfig) {
-            <div class="px-4 pb-3 pt-0 animate-fadeIn">
-              <div class="flex items-end gap-3">
-                <div class="flex-1 space-y-1">
-                  <label class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider ml-1">Account
-                    SID</label>
-                  <input type="text" placeholder="ACxxxxxxxx..." [(ngModel)]="twilioSid"
-                    [disabled]="isLoadingTwilio"
-                    class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 disabled:opacity-50 disabled:cursor-not-allowed">
-                </div>
-
-                <div class="flex-1 space-y-1">
-                  <label class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider ml-1">Auth
-                    Token</label>
-                  <input type="password" placeholder="••••••••••••••••" [(ngModel)]="twilioToken"
-                    [disabled]="isLoadingTwilio"
-                    class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-700 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 disabled:opacity-50 disabled:cursor-not-allowed">
-                </div>
-
-                <button
-                  (click)="saveTwilioConfig()"
-                  [disabled]="isLoadingTwilio"
-                  class="px-4 py-1.5 bg-black dark:bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors h-8 mb-[1px] whitespace-nowrap shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-                  @if (isLoadingTwilio) {
-                  <svg class="animate-spin h-3 w-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  }
-                  Guardar
-                </button>
-              </div>
-            </div>
-            }
           </div>
         </div>
         <div class="flex-1"></div>

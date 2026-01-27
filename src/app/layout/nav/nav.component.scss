@@ -1,8 +1,8 @@
-
 :host {
   font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   position: relative;
-  z-index: 40; /* Asegura que el sidebar y su dropdown estén por encima del contenido principal */
+  z-index: 40;
+  /* Asegura que el sidebar y su dropdown estén por encima del contenido principal */
 }
 
 .brand-font {
@@ -114,6 +114,7 @@
     opacity: 0;
     transform: translateY(-50%) translateX(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(-50%) translateX(0);
@@ -125,6 +126,7 @@
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -136,6 +138,7 @@
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -147,6 +150,7 @@
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -158,6 +162,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -168,6 +173,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -206,8 +212,7 @@
 /* Juntar más las letras de los textos de onboarding */
 .sidebar-onboarding-title,
 .sidebar-onboarding-subtitle,
-.sidebar-onboarding-step-text {
-}
+.sidebar-onboarding-step-text {}
 
 /* --- Profile image and avatar transitions --- */
 .profile-image {
@@ -226,7 +231,7 @@ img.h-10.w-10.rounded-full {
   width: 100%;
   background-color: transparent;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &.flex.justify-center.items-center {
     /* When collapsed, center the avatar */
     padding-left: 0 !important;
@@ -234,7 +239,7 @@ img.h-10.w-10.rounded-full {
     margin-left: auto !important;
     margin-right: auto !important;
   }
-  
+
   &.flex.items-center.gap-3 {
     /* When expanded, normal layout */
     padding-left: inherit;
@@ -246,34 +251,37 @@ img.h-10.w-10.rounded-full {
 .pb-8.space-y-6.w-full {
   width: 100%;
   background-color: transparent;
-  
+
   &.px-0 {
     padding-left: 0 !important;
     padding-right: 0 !important;
-    
+
     /* Ensure avatar is centered */
-    & > div:last-child {
+    &>div:last-child {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
     }
   }
-  
+
   /* Promo box styling: que el fondo sea el mismo azul del sidebar
      y el botón azul intenso, sin tarjetas blancas. */
-  & > div:first-child {
-    > div {
-      background-color: transparent !important; /* deja ver el azul del sidebar */
+  &>div:first-child {
+    >div {
+      background-color: transparent !important;
+      /* deja ver el azul del sidebar */
       box-shadow: none !important;
-      
+
       button {
-        background-color: #1d4ed8 !important; /* approx. bg-blue-700 */
+        background-color: #1d4ed8 !important;
+        /* approx. bg-blue-700 */
         border: 1px solid #1d4ed8 !important;
         color: #ffffff !important;
-        
+
         &:hover {
-          background-color: #1e3a8a !important; /* azul un poco más oscuro */
+          background-color: #1e3a8a !important;
+          /* azul un poco más oscuro */
         }
       }
     }
@@ -287,7 +295,7 @@ img.h-10.w-10.rounded-full {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  
+
   nav {
     &.overflow-y-auto {
       overflow-y: auto;
@@ -314,6 +322,7 @@ img.h-10.w-10.rounded-full {
     visibility: hidden;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     visibility: visible;
@@ -339,6 +348,7 @@ img.h-10.w-10.rounded-full {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -349,6 +359,7 @@ img.h-10.w-10.rounded-full {
     transform: translateX(-100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -372,6 +383,7 @@ img.h-10.w-10.rounded-full {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -382,6 +394,7 @@ img.h-10.w-10.rounded-full {
     transform: translateX(0);
     opacity: 1;
   }
+
   to {
     transform: translateX(-100%);
     opacity: 0;
