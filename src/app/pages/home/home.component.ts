@@ -1,10 +1,14 @@
 import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { I18nService } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
 import { AgentsService } from '../../core/services/agents.service';
+import { UserService } from '../../core/services/user.service';
+import { ModalService } from '../../shared/modals/modal.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 import { Agent } from '../../shared/models/agent.model';
+import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 import {
   NgApexchartsModule,
   ApexAxisChartSeries,
@@ -20,7 +24,7 @@ import {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NgApexchartsModule],
+  imports: [CommonModule, NgApexchartsModule, RouterModule, RippleButtonComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -28,6 +32,9 @@ export class HomeComponent implements OnInit {
   private i18nService = inject(I18nService);
   private metricsService = inject(MetricsService);
   private agentsService = inject(AgentsService);
+  private userService = inject(UserService);
+  private modalService = inject(ModalService);
+  private router = inject(Router);
 
   dashboardMetrics: DashboardMetrics | null = null;
   isLoadingMetrics: boolean = false;
@@ -418,5 +425,38 @@ export class HomeComponent implements OnInit {
     this.showResumen = true;
     this.showAgentesActivos = true;
     this.showLlamadasPorDia = true;
+  }
+
+  // Método para verificar si el usuario tiene configuración de Twilio
+  private checkTwilioConfig(): void {
+    this.userService.getUserProfile().subscribe({
+      next: (profile) => {
+        const hasTwilioConfig = profile.twilio?.twilioSid && profile.twilio?.twilioToken;
+        
+        if (!hasTwilioConfig) {
+          // Mostrar modal indicando que debe configurar Twilio primero
+          this.modalService.openError({
+            title: 'Configuración de Twilio requerida',
+            message: 'Para crear un agente, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
+          });
+        } else {
+          // Si tiene la configuración, navegar a crear agente
+          this.router.navigateByUrl('/dashboard/agents/create');
+        }
+      },
+      error: (error) => {
+        console.error('Error al verificar configuración de Twilio:', error);
+        // En caso de error, mostrar el modal de todas formas para ser seguro
+        this.modalService.openError({
+          title: 'Configuración de Twilio requerida',
+          message: 'Para crear un agente, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
+        });
+      }
+    });
+  }
+
+  // Método para navegar a crear agente (con validación)
+  navigateToCreateAgent(): void {
+    this.checkTwilioConfig();
   }
 }
