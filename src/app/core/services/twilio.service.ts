@@ -52,10 +52,13 @@ export class TwilioService {
   }
 
   // Método para validar un número de teléfono
-  validatePhone(phoneNumber: string): Observable<{ message: string }> {
+  validatePhone(countryCode: string, number: string): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(
       `${this.apiUrl}/validate-phone`,
-      { phoneNumber },
+      { 
+        countryCode: countryCode.startsWith('+') ? countryCode : `+${countryCode}`,
+        number: number.trim()
+      },
       {
         headers: this.getAuthHeaders(),
       }

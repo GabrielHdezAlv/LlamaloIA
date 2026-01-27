@@ -94,15 +94,15 @@ export class ImportNumberModalComponent {
         return;
       }
 
-      // Construir el número completo con código de país
-      const fullPhoneNumber = `${this.selectedCountryCode}${phoneNumber}`;
+      const countryCode = this.selectedCountryCode;
+      const number = phoneNumber;
       
-      console.log('🔍 Validando número de teléfono:', fullPhoneNumber);
+      console.log('🔍 Validando número de teléfono:', { countryCode, number });
       
       this.isLoading = true;
 
       // Primero validar el número de teléfono
-      this.twilioService.validatePhone(fullPhoneNumber).subscribe({
+      this.twilioService.validatePhone(countryCode, number).subscribe({
         next: (response) => {
           console.log('✅ Número validado correctamente:', response);
           this.isLoading = false;

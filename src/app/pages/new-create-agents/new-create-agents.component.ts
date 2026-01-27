@@ -992,18 +992,18 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       return;
     }
 
-    // Construir el número completo con código de país
-    const fullPhoneNumber = `${this.selectedCountryCode || '+34'}${this.phoneNumber.trim()}`;
+    const countryCode = this.selectedCountryCode || '+34';
+    const number = this.phoneNumber.trim();
     
     // Resetear estado previo
     this.phoneValidationStatus = null;
     this.phoneErrorMessage = '';
     this.isValidatingPhone = true;
 
-    console.log('🔍 Validando número de teléfono automáticamente:', fullPhoneNumber);
+    console.log('🔍 Validando número de teléfono automáticamente:', { countryCode, number });
 
     // Llamar al endpoint de validación
-    this.twilioService.validatePhone(fullPhoneNumber).subscribe({
+    this.twilioService.validatePhone(countryCode, number).subscribe({
       next: (response) => {
         this.isValidatingPhone = false;
         this.phoneValidationStatus = 'success';
@@ -1180,13 +1180,13 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       }
     }
 
-    // Construir el número completo con código de país
-    const fullPhoneNumber = `${this.selectedCountryCode || '+34'}${this.phoneNumber.trim()}`;
+    const countryCode = this.selectedCountryCode || '+34';
+    const number = this.phoneNumber.trim();
     
-    console.log('🔍 Validando número de teléfono:', fullPhoneNumber);
+    console.log('🔍 Validando número de teléfono:', { countryCode, number });
 
     // Primero validar el número de teléfono
-    this.twilioService.validatePhone(fullPhoneNumber).subscribe({
+    this.twilioService.validatePhone(countryCode, number).subscribe({
       next: (response) => {
         console.log('✅ Número validado correctamente:', response);
         
