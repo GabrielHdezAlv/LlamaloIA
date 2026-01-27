@@ -99,6 +99,21 @@ export class AccountComponent implements OnInit {
 
   email = computed(() => this.user()?.email ?? '');
 
+  // Información de eliminación programada
+  scheduledDeletionDate = computed(() => this.user()?.scheduledDeletionDate ?? null);
+  
+  daysRemaining = computed(() => {
+    const deletionDate = this.scheduledDeletionDate();
+    if (!deletionDate) return null;
+    
+    const now = new Date();
+    const deletion = new Date(deletionDate);
+    const diffTime = deletion.getTime() - now.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    return diffDays > 0 ? diffDays : 0;
+  });
+
   // Traducciones
   get t() {
     return this.i18nService.getTranslations();
@@ -346,12 +361,58 @@ export class AccountComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         console.log('Usuario confirmó la eliminación de cuenta');
-        // Aquí iría la lógica para eliminar la cuenta
-        // Por ejemplo: llamar a un servicio que elimine la cuenta del backend
-        this.modalService.openSuccess({
-          title: 'Cuenta eliminada',
-          message: 'Tu cuenta ha sido eliminada exitosamente.',
-          details: 'Todos tus datos han sido eliminados permanentemente.'
+        
+        // Llamar al endpoint para programar la eliminación
+        this.userService.deleteAccount().subscribe({
+          next: (response) => {
+            console.log('Cuenta programada para eliminación:', response);
+            
+            // Actualizar el perfil del usuario para incluir scheduledDeletionDate
+            this.userService.getUserProfile().subscribe({
+              next: (profile) => {
+                this.userStore.setUser(profile);
+              },
+              error: (error) => {
+                console.error('Error al actualizar perfil:', error);
+              }
+            });
+
+            // Mostrar mensaje de éxito con la fecha programada
+            const deletionDate = new Date(response.scheduledDeletionDate);
+            const formattedDate = deletionDate.toLocaleDateString('es-ES', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit'
+            });
+
+            this.modalService.openSuccess({
+              title: this.t.accountDeletionScheduled || 'Cuenta programada para eliminación',
+              message: this.t.accountDeletionScheduledMessage || 'Tu cuenta ha sido programada para eliminación en 10 días.',
+              details: `${this.t.accountDeletionScheduledDetails || 'La eliminación se realizará el'} ${formattedDate}. ${this.t.accountDeletionRecoveryInfo || 'Tienes 10 días para recuperar tus datos si cambias de opinión.'}`
+            });
+          },
+          error: (error) => {
+            console.error('Error al programar eliminación de cuenta:', error);
+            
+            let errorMessage = this.t.accountDeletionError || 'Error al programar la eliminación de cuenta';
+            
+            if (error?.error?.message) {
+              errorMessage = error.error.message;
+            } else if (error?.status === 401) {
+              errorMessage = this.t.accountDeletionUnauthorized || 'No autorizado. Por favor, inicia sesión nuevamente.';
+            } else if (error?.status === 404) {
+              errorMessage = this.t.accountDeletionNotFound || 'Usuario no encontrado.';
+            } else if (error?.status === 400) {
+              errorMessage = this.t.accountDeletionBadRequest || 'Error al procesar la solicitud.';
+            }
+
+            this.modalService.openError({
+              title: this.t.errorTitleDefault || 'Error',
+              message: errorMessage
+            });
+          }
         });
       } else if (result === 'support') {
         console.log('Usuario quiere contactar con soporte');

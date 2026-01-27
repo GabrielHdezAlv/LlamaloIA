@@ -190,6 +190,18 @@ export interface Translations {
   irreversiblePoint2: string;
   irreversiblePoint3: string;
   deleteMyAccount: string;
+  accountDeletionScheduled: string;
+  accountDeletionScheduledMessage: string;
+  accountDeletionScheduledDetails: string;
+  accountDeletionRecoveryInfo: string;
+  accountDeletionError: string;
+  accountDeletionUnauthorized: string;
+  accountDeletionNotFound: string;
+  accountDeletionBadRequest: string;
+  accountDeletionScheduledWarning: string;
+  daysRemaining: string;
+  accountDeletionCancelInfo: string;
+  deleteAccountRecoveryPeriod: string;
 
   // Purchase modal
   securePaymentDesc: string;
@@ -505,6 +517,18 @@ export class I18nService {
       irreversiblePoint2: 'Se perderá todo el historial de llamadas',
       irreversiblePoint3: 'No podrás acceder a tu cuenta nuevamente',
       deleteMyAccount: 'Sí, eliminar mi cuenta',
+      accountDeletionScheduled: 'Cuenta programada para eliminación',
+      accountDeletionScheduledMessage: 'Tu cuenta ha sido programada para eliminación en 10 días.',
+      accountDeletionScheduledDetails: 'La eliminación se realizará el',
+      accountDeletionRecoveryInfo: 'Tienes 10 días para recuperar tus datos si cambias de opinión.',
+      accountDeletionError: 'Error al programar la eliminación de cuenta',
+      accountDeletionUnauthorized: 'No autorizado. Por favor, inicia sesión nuevamente.',
+      accountDeletionNotFound: 'Usuario no encontrado.',
+      accountDeletionBadRequest: 'Error al procesar la solicitud.',
+      accountDeletionScheduledWarning: 'Tu cuenta está programada para eliminación',
+      daysRemaining: 'días restantes',
+      accountDeletionCancelInfo: 'Puedes cancelar la eliminación contactando con soporte.',
+      deleteAccountRecoveryPeriod: 'Tendrás 10 días para recuperar tus datos antes de que la eliminación sea permanente.',
 
       // Purchase modal
       securePaymentDesc: 'Tu información de pago está protegida',
@@ -840,6 +864,18 @@ export class I18nService {
       modalAccountNotRecoverable: '• You won\'t be able to recover your account',
       contactSupport: 'Contact support',
       deleteMyAccountAndData: 'Delete my account and all my data',
+      accountDeletionScheduled: 'Account scheduled for deletion',
+      accountDeletionScheduledMessage: 'Your account has been scheduled for deletion in 10 days.',
+      accountDeletionScheduledDetails: 'Deletion will occur on',
+      accountDeletionRecoveryInfo: 'You have 10 days to recover your data if you change your mind.',
+      accountDeletionError: 'Error scheduling account deletion',
+      accountDeletionUnauthorized: 'Unauthorized. Please log in again.',
+      accountDeletionNotFound: 'User not found.',
+      accountDeletionBadRequest: 'Error processing the request.',
+      accountDeletionScheduledWarning: 'Your account is scheduled for deletion',
+      daysRemaining: 'days remaining',
+      accountDeletionCancelInfo: 'You can cancel the deletion by contacting support.',
+      deleteAccountRecoveryPeriod: 'You will have 10 days to recover your data before the deletion becomes permanent.',
 
       // Twilio integration modal
       twilioIntegrationTitle: 'Twilio Integration',

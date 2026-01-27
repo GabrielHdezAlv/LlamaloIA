@@ -349,13 +349,39 @@
 
         <!-- Eliminar Cuenta - SIEMPRE ABAJO -->
         <div class="mt-44 pt-4  border-gray-200">
+          <!-- Alerta de eliminación programada -->
+          @if (scheduledDeletionDate() && daysRemaining() !== null && daysRemaining()! > 0) {
+            <div class="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl">
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div class="flex-1">
+                  <h4 class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-xs font-semibold text-yellow-800 dark:text-yellow-200 mb-1">
+                    {{ t.accountDeletionScheduledWarning }}
+                  </h4>
+                  <p class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-yellow-700 dark:text-yellow-300 mb-2">
+                    {{ daysRemaining() }} {{ t.daysRemaining }} hasta la eliminación permanente de tu cuenta.
+                  </p>
+                  <p class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-yellow-600 dark:text-yellow-400">
+                    {{ t.accountDeletionCancelInfo }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          }
+
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="flex-1">
-              <h3 class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-xs font-semibold text-gray-900 mb-1">
+              <h3 class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-xs font-semibold text-gray-900 dark:text-gray-100 mb-1">
                 {{ t.deleteAccount }}
               </h3>
-              <p class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-600 ">
-                {{ t.deleteAccountDescription }}
+              <p class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-gray-600 dark:text-gray-400">
+                @if (scheduledDeletionDate() && daysRemaining() !== null && daysRemaining()! > 0) {
+                  Tu cuenta está programada para eliminación. Tienes {{ daysRemaining() }} {{ t.daysRemaining }}.
+                } @else {
+                  {{ t.deleteAccountDescription }}
+                }
               </p>
             </div>
             <app-ripple-button (buttonClick)="deleteAccount()"

@@ -105,4 +105,14 @@ export class UserService {
       }
     );
   }
+
+  // Eliminar cuenta (programada)
+  deleteAccount(): Observable<{ message: string; scheduledDeletionDate: string }> {
+    return this.http.delete<{ message: string; scheduledDeletionDate: string }>(
+      `${this.apiUrl}/users/account`,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  }
 }
