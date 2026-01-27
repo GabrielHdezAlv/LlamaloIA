@@ -148,6 +148,14 @@
     border: none !important;
     outline: none !important;
   }
+  
+  // Aumentar ancho en 3xl
+  @media (min-width: 1920px) {
+    .cdk-overlay-pane {
+      width: 576px !important; // max-w-xl = 576px
+      max-width: 576px !important;
+    }
+  }
 }
 
 ::ng-deep html.dark .custom-dialog-container {
