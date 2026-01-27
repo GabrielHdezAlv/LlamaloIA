@@ -9,5 +9,6 @@ export interface CreateUserDto {
   password: string;
   country: string;          // ✅ NUEVO - Requerido
   marketingConsent: boolean; // ✅ NUEVO - Requerido
+  accountStatus: number;    // ⬅️ NUEVO: Obligatorio (0 = Inactivo, 1 = Activo, 2 = Eliminado)
 }
 

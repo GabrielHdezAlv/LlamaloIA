@@ -9,4 +9,5 @@ export interface UpdateProfileDto {
   enterprise?: { name: string; url: string };
   country?: string;          // ✅ NUEVO - Opcional
   marketingConsent?: boolean; // ✅ NUEVO - Opcional
+  accountStatus?: number;    // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado)
 }

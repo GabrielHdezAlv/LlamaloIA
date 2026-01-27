@@ -6,6 +6,7 @@ export class User {
   enterprise?: { name: string; url: string };
   country?: string;          // ✅ NUEVO - Opcional
   marketingConsent?: boolean; // ✅ NUEVO - Opcional
+  accountStatus?: number;    // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado)
   email?: string; // Opcional porque puede venir undefined del perfil
   password?: string; // Opcional porque no viene del perfil del usuario
   token?: string;

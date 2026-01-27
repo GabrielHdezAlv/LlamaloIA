@@ -235,6 +235,7 @@ export class AuthFormComponent implements OnInit {
       password: this.password,
       country: this.country,          // ✅ NUEVO - Requerido
       marketingConsent: this.marketingConsent, // ✅ NUEVO - Requerido
+      accountStatus: 1,              // ⬅️ NUEVO: Por defecto Activo (1) para nuevos usuarios
     };
 
     this.userService.RegisterUser(user).subscribe({
