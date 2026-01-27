@@ -6,11 +6,12 @@ import {
   withEventReplay,
 } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { STORAGE_REPOSITORY } from '../storages/storage-repository.token';
 import { LocalStorageRepository } from '../storages/local-storage.repository';
 import { ModalService } from '../shared/modals/modal.service';
 import { UserStorage } from '../storages/user/user-storage';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 class GlobalErrorHandler implements ErrorHandler {
   private modalService = inject(ModalService);
@@ -34,7 +35,10 @@ export function initializeUserProfile(userStorage: InstanceType<typeof UserStora
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withFetch()),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([authInterceptor])
+    ),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideAnimationsAsync(),
