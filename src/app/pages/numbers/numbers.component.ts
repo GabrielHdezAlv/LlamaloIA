@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDetectorRef, HostListener } from '@angular/core';
 import { I18nService } from '../../core/services/i18n.service';
 import { Router } from '@angular/router';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
@@ -33,6 +33,7 @@ export class NumbersComponent implements OnInit, AfterViewInit {
 
   // Lista de números de teléfono para mostrar en la tabla
   phoneNumbers: PhoneNumberDisplay[] = [];
+  openMenuIndex: number | null = null;
 
   private isBrowser: boolean;
 
@@ -169,6 +170,46 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   // Método helper para formatear el número de teléfono
   formatPhoneNumber(countryCode: string, number: string): string {
     return `${countryCode} ${number}`;
+  }
+
+  // Método para abrir/cerrar el menú de acciones
+  toggleMenu(index: number): void {
+    if (this.openMenuIndex === index) {
+      this.openMenuIndex = null;
+    } else {
+      this.openMenuIndex = index;
+    }
+  }
+
+  // Método para editar número
+  editNumber(index: number): void {
+    this.openMenuIndex = null;
+    // TODO: Implementar navegación a editar número
+    console.log('Editar número:', index);
+  }
+
+  // Método para eliminar número
+  deleteNumber(index: number, phoneLabel: string): void {
+    this.openMenuIndex = null;
+    
+    // Confirmar eliminación
+    const confirmed = confirm(`¿Está seguro de que desea eliminar el número "${phoneLabel}"?`);
+
+    if (!confirmed) {
+      return;
+    }
+
+    // TODO: Implementar lógica para eliminar número
+    console.log('Eliminar número:', index);
+  }
+
+  // Cerrar menú al hacer clic fuera
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.relative')) {
+      this.openMenuIndex = null;
+    }
   }
 
 }
