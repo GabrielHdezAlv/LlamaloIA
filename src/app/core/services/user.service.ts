@@ -91,4 +91,18 @@ export class UserService {
       headers: this.getAuthHeaders(),
     });
   }
+
+  // Cambiar contraseña
+  changePassword(newPassword: string, confirmPassword: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/auth/change-password`,
+      {
+        newPassword,
+        confirmPassword,
+      },
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  }
 }

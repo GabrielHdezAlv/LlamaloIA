@@ -48,7 +48,6 @@ export class AccountComponent implements OnInit {
   ];
 
   // Campos de contraseña
-  currentPassword = '';
   newPassword = '';
   confirmPassword = '';
 
@@ -161,29 +160,64 @@ export class AccountComponent implements OnInit {
 
   // Método para actualizar contraseña
   updatePassword() {
-    if (this.newPassword !== this.confirmPassword) {
+    // Validar que las contraseñas no estén vacías
+    if (!this.newPassword || !this.confirmPassword) {
       this.modalService.openError({
-        title: this.t.invalidPassword,
-        message: this.t.passwordsDoNotMatch,
+        title: this.t.invalidPassword || 'Error',
+        message: 'Por favor, completa ambos campos de contraseña',
       });
       return;
     }
 
-    // Aquí puedes enviar al backend
-    console.log('Contraseña actualizada');
+    // Validar longitud mínima de 8 caracteres
+    if (this.newPassword.length < 8) {
+      this.modalService.openError({
+        title: this.t.invalidPassword || 'Error',
+        message: 'La contraseña debe tener al menos 8 caracteres',
+      });
+      return;
+    }
 
-    // Mostrar modal de éxito en lugar de notificación básica
-    this.modalService.openPasswordSuccess({
-      title: 'Contraseña actualizada',
-      message: 'Tu contraseña ha sido actualizada correctamente. Te recomendamos cerrar sesión y volver a iniciar sesión con tu nueva contraseña.',
-      showContinueButton: true,
-      continueButtonText: 'Entendido'
+    // Validar que las contraseñas coincidan
+    if (this.newPassword !== this.confirmPassword) {
+      this.modalService.openError({
+        title: this.t.invalidPassword || 'Error',
+        message: this.t.passwordsDoNotMatch || 'Las contraseñas no coinciden',
+      });
+      return;
+    }
+
+    // Llamar al endpoint para cambiar la contraseña
+    this.userService.changePassword(this.newPassword, this.confirmPassword).subscribe({
+      next: (response) => {
+        // Mostrar modal de éxito
+        this.modalService.openPasswordSuccess({
+          title: 'Contraseña actualizada',
+          message: 'Tu contraseña ha sido actualizada correctamente. Te recomendamos cerrar sesión y volver a iniciar sesión con tu nueva contraseña.',
+          showContinueButton: true,
+          continueButtonText: 'Entendido'
+        });
+
+        // Limpiar los campos después del éxito
+        this.newPassword = '';
+        this.confirmPassword = '';
+      },
+      error: (error) => {
+        // Manejar errores del backend
+        let errorMessage = 'Error al actualizar la contraseña';
+        
+        if (error?.error?.message) {
+          errorMessage = error.error.message;
+        } else if (error?.message) {
+          errorMessage = error.message;
+        }
+
+        this.modalService.openError({
+          title: 'Error',
+          message: errorMessage,
+        });
+      }
     });
-
-    // Limpiar los campos después del éxito
-    this.currentPassword = '';
-    this.newPassword = '';
-    this.confirmPassword = '';
   }
 
   onAvatarClick() {

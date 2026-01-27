@@ -319,18 +319,6 @@
 
         <!-- Cambiar Contraseña -->
         <div class="space-y-6 sm:space-y-8">
-          <!-- Contraseña Actual con "Olvidaste la contraseña?" -->
-          <div class="relative">
-            <label
-              class="absolute left-4 sm:left-8 top-1 text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-black pointer-events-none  bg-white px-1">{{
-              t.currentPassword }}</label>
-            <a class="absolute right-4 sm:right-8 top-1 text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-xs text-black hover:underline cursor-pointer  bg-white px-1"
-              style="z-index: 2">{{ t.forgotPassword }}</a>
-            <input type="password" [(ngModel)]="currentPassword" placeholder="1234567"
-              class="w-full mt-3 px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-2 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-xs bg-white text-black placeholder-gray-400 outline-none"
-              style="box-shadow: none" />
-          </div>
-
           <!-- Nueva y Confirmar Contraseña -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-3">
             <div class="relative">
