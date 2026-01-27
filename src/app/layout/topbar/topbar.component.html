@@ -1,7 +1,7 @@
 <div class="topbar-container w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8">
   <div
-    class="flex items-center justify-between w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
-    <div class="flex flex-col gap-0.5">
+    class="flex items-start justify-between w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
+    <div class="flex flex-col gap-0">
       <div class="flex items-center gap-2">
         <!-- Botón hamburguesa para móvil -->
         <button (click)="openMobileSidebar()"
@@ -14,17 +14,21 @@
         </button>
 
         <h1
-          class="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-3xl 3xl:text-4xl font-bold xl:ml-0  dark:text-slate-50 leading-tight"
+          class="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-3xl 2xl:text-3xl 3xl:text-4xl font-bold xl:ml-0 dark:text-slate-50 leading-tight"
           style="letter-spacing: -2.1px;">
           {{ pageTitle }}
         </h1>
       </div>
 
-      <!-- Mensaje de bienvenida o subtítulo debajo del título
-         Siempre reservamos el alto para que el contenido de abajo no se mueva
-         (cuando no hay texto queda un hueco vacío, pero la barra mantiene la misma altura). -->
-      <p
-        class="text-sm sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-lg font-medium text-black  xl:ml-0 dark:text-slate-200 min-h-[1.25rem] flex items-center">
+      <!-- Saludo debajo del título (solo en la Home) -->
+      <p *ngIf="pageTitle === t.home"
+        class="text-[10px] sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base font-semibold greeting-gradient xl:ml-[0.5px] leading-tight -mt-2 ">
+        Hola {{ userName() }}
+      </p>
+
+      <!-- Mensaje de bienvenida o subtítulo debajo del saludo (solo si existe texto) -->
+      <p *ngIf="welcomeText || pageSubtitle"
+        class="text-sm sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-lg font-medium text-black xl:ml-0 dark:text-slate-200 flex items-center">
         {{ welcomeText || pageSubtitle }}
       </p>
     </div>
@@ -46,7 +50,7 @@
         Eliminar
       </button>
       <button (click)="goToRecoverDraft()"
-        class="flex items-center justify-center gap-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-1.5 rounded-lg transition-colors">
+        class="flex items-center justify-center gap-1.5 text-xs bg-[#1B2559] dark:bg-[#1E3A8A] hover:bg-blue-700 text-white font-medium px-3 py-1.5 rounded-lg transition-colors">
         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M1 4V10H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           <path
@@ -240,23 +244,28 @@
           <div class="flex items-center gap-2 3xl:gap-3 mb-3 3xl:mb-4">
             <div class="flex -space-x-2 3xl:-space-x-3 items-center">
               <!-- Carlos (izquierda, algo más pequeña) -->
-              <div class="h-8 w-8 sm:h-10 sm:w-10 3xl:h-14 3xl:w-14 rounded-full border-2 3xl:border-[3px] border-black overflow-hidden">
+              <div
+                class="h-8 w-8 sm:h-10 sm:w-10 3xl:h-14 3xl:w-14 rounded-full border-2 3xl:border-[3px] border-black overflow-hidden">
                 <img src="assets/animoji_1.webp" alt="Animoji 1" class="h-full w-full object-cover" loading="lazy" />
               </div>
               <!-- Carla (centro, más grande y por encima) -->
-              <div class="h-10 w-10 sm:h-12 sm:w-12 3xl:h-16 3xl:w-16 rounded-full border-2 3xl:border-[3px] border-black overflow-hidden z-10 shadow-md">
+              <div
+                class="h-10 w-10 sm:h-12 sm:w-12 3xl:h-16 3xl:w-16 rounded-full border-2 3xl:border-[3px] border-black overflow-hidden z-10 shadow-md">
                 <img src="assets/animoji_2.webp" alt="Animoji 2" class="h-full w-full object-cover" loading="lazy" />
               </div>
               <!-- Claudia (derecha, algo más pequeña) -->
-              <div class="h-8 w-8 sm:h-10 sm:w-10 3xl:h-14 3xl:w-14 rounded-full border-2 3xl:border-[3px] border-black overflow-hidden">
+              <div
+                class="h-8 w-8 sm:h-10 sm:w-10 3xl:h-14 3xl:w-14 rounded-full border-2 3xl:border-[3px] border-black overflow-hidden">
                 <img src="assets/animoji_3.webp" alt="Animoji 3" class="h-full w-full object-cover" loading="lazy" />
               </div>
             </div>
           </div>
-          <h2 class="text-base sm:text-lg md:text-xl 3xl:text-2xl font-bold text-gray-900 dark:text-slate-50 leading-snug ">
+          <h2
+            class="text-base sm:text-lg md:text-xl 3xl:text-2xl font-bold text-gray-900 dark:text-slate-50 leading-snug ">
             Invita a tu equipo y trabaja con ellos
           </h2>
-          <p class="mt-1.5 3xl:mt-2 text-xs sm:text-sm 3xl:text-base text-gray-700 dark:text-slate-300 leading-relaxed max-w-lg 3xl:max-w-2xl ">
+          <p
+            class="mt-1.5 3xl:mt-2 text-xs sm:text-sm 3xl:text-base text-gray-700 dark:text-slate-300 leading-relaxed max-w-lg 3xl:max-w-2xl ">
             Comparte tu enlace con tu equipo y colaboradores. Cuando empiecen a usar Llamalo, recibirás minutos extra en
             tu cuenta.
           </p>
@@ -277,15 +286,18 @@
           </form>
 
           <!-- Lista de invitados -->
-          <div class="mt-4 3xl:mt-6 mb-1.5 3xl:mb-2 text-[10px] sm:text-xs 3xl:text-sm text-gray-500 dark:text-slate-400 text-center ">
+          <div
+            class="mt-4 3xl:mt-6 mb-1.5 3xl:mb-2 text-[10px] sm:text-xs 3xl:text-sm text-gray-500 dark:text-slate-400 text-center ">
             Miembros invitados ({{ teamMembers.length }})
           </div>
 
           <div *ngIf="teamMembers.length > 0"
             class="border-y border-gray-100 divide-y divide-gray-100 dark:border-slate-800 dark:divide-slate-800 max-h-48 3xl:max-h-64 overflow-y-auto">
-            <div *ngFor="let member of teamMembers" class="flex items-center justify-between gap-2.5 3xl:gap-3 py-2.5 3xl:py-3">
+            <div *ngFor="let member of teamMembers"
+              class="flex items-center justify-between gap-2.5 3xl:gap-3 py-2.5 3xl:py-3">
               <div class="flex items-center gap-2.5 3xl:gap-3">
-                <div class="h-8 w-8 sm:h-9 sm:w-9 3xl:h-12 3xl:w-12 rounded-full bg-gray-200 dark:bg-slate-700 overflow-hidden">
+                <div
+                  class="h-8 w-8 sm:h-9 sm:w-9 3xl:h-12 3xl:w-12 rounded-full bg-gray-200 dark:bg-slate-700 overflow-hidden">
                   <img [src]="member.avatar" [alt]="member.name" class="h-full w-full object-cover" />
                 </div>
                 <div>
@@ -298,7 +310,9 @@
                 </div>
               </div>
               <div class="flex items-center gap-1.5 3xl:gap-2">
-                <div class="rounded-md text-[10px] sm:text-[11px] 3xl:text-sm font-semibold px-2 3xl:px-3 py-0.5 3xl:py-1 " [ngClass]="{
+                <div
+                  class="rounded-md text-[10px] sm:text-[11px] 3xl:text-sm font-semibold px-2 3xl:px-3 py-0.5 3xl:py-1 "
+                  [ngClass]="{
                     'bg-emerald-50 text-emerald-600': member.status === 'Accepted',
                     'bg-red-50 text-red-600': member.status === 'Rejected',
                                 'bg-amber-50 text-amber-600': member.status === 'Pending'
@@ -308,7 +322,8 @@
                 <button type="button"
                   class="h-5 w-5 3xl:h-6 3xl:w-6 flex items-center justify-center rounded-md border border-gray-200 dark:border-slate-700 text-gray-400 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
                   (click)="cancelInvite(member)">
-                  <svg class="h-2.5 w-2.5 3xl:h-3 3xl:w-3" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="h-2.5 w-2.5 3xl:h-3 3xl:w-3" viewBox="0 0 14 14" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                       stroke-linejoin="round" />
                   </svg>
