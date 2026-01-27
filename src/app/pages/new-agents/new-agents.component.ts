@@ -174,8 +174,26 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   // Método para editar agente
   editAgent(index: number): void {
     this.openMenuIndex = null;
-    // TODO: Implementar navegación a editar agente
-    console.log('Editar agente:', index);
+    
+    const agent = this.agents[index];
+    if (!agent) {
+      console.error('Agente no encontrado en el índice:', index);
+      return;
+    }
+
+    // Obtener el ID del agente (agentId o phoneId como fallback)
+    const agentId = agent.agentId || agent.phoneNumbers?.phoneId;
+    
+    if (!agentId) {
+      this.modalService.openError({
+        title: 'Error',
+        message: 'No se pudo identificar el agente. Por favor, recarga la página e intenta nuevamente.'
+      });
+      return;
+    }
+
+    // Navegar a la página de edición
+    this.router.navigate(['/dashboard/agents/edit', agentId]);
   }
 
   // Método para dejar de publicar

@@ -1,0 +1,306 @@
+<!-- Modal de Editar Agente -->
+<div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[10000] flex items-center justify-center p-4 fade-in-overlay"
+  (click)="close()">
+  <div
+    class="bg-white dark:bg-[#111111] rounded-xl sm:rounded-2xl border-2 border-gray-200 dark:border-gray-800 w-full max-w-4xl max-h-[90vh] flex flex-col fade-in-content relative overflow-hidden"
+    (click)="$event.stopPropagation()">
+
+    <!-- Botón de cerrar -->
+    <button (click)="close()"
+      class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors z-30">
+      <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </button>
+
+    <!-- Contenido con scroll -->
+    <div class="flex-1 overflow-y-auto p-6 sm:p-8">
+      <!-- Título principal -->
+      <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-1">
+        Editar Agente
+      </h2>
+      <p class="text-center font-semibold text-sm sm:text-base text-blue-950 dark:text-slate-300 mb-8 sm:mb-12">
+        Modifica la configuración de tu agente
+      </p>
+
+      <!-- Formulario -->
+      <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="w-full max-w-3xl mx-auto space-y-5 sm:space-y-6">
+        
+        <!-- Nombre del agente -->
+        <div class="space-y-2">
+          <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+            Nombre del agente <span class="text-red-500 ml-1">*</span>
+          </label>
+          <input type="text" formControlName="name" placeholder="Ej: Marta"
+            class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+          @if (editForm.get('name')?.invalid && editForm.get('name')?.touched) {
+            <p class="text-xs text-red-500">{{ getErrorMessage('name') }}</p>
+          }
+        </div>
+
+        <!-- Idioma y Tipo -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+          <div class="space-y-2">
+            <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+              Idioma <span class="text-red-500 ml-1">*</span>
+            </label>
+            <select formControlName="language"
+              class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 transition-all shadow-sm font-medium">
+              @for (lang of languages; track lang.code) {
+                <option [value]="lang.code">{{ lang.name }}</option>
+              }
+            </select>
+            @if (editForm.get('language')?.invalid && editForm.get('language')?.touched) {
+              <p class="text-xs text-red-500">{{ getErrorMessage('language') }}</p>
+            }
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+              Tipo <span class="text-red-500 ml-1">*</span>
+            </label>
+            <select formControlName="type"
+              class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 transition-all shadow-sm font-medium">
+              <option value="inbound">Entrante</option>
+              <option value="outbound">Saliente</option>
+            </select>
+            @if (editForm.get('type')?.invalid && editForm.get('type')?.touched) {
+              <p class="text-xs text-red-500">{{ getErrorMessage('type') }}</p>
+            }
+          </div>
+        </div>
+
+        <!-- Voz -->
+        <div class="space-y-2">
+          <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+            Voz <span class="text-red-500 ml-1">*</span>
+          </label>
+          <select formControlName="voiceId"
+            class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 transition-all shadow-sm font-medium">
+            @for (voice of voices; track voice.voiceId) {
+              <option [value]="voice.voiceId">{{ voice.name }}</option>
+            }
+          </select>
+          @if (editForm.get('voiceId')?.invalid && editForm.get('voiceId')?.touched) {
+            <p class="text-xs text-red-500">{{ getErrorMessage('voiceId') }}</p>
+          }
+        </div>
+
+        <!-- Primera interacción -->
+        <div class="space-y-2">
+          <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+            Primera interacción <span class="text-red-500 ml-1">*</span>
+          </label>
+          <textarea formControlName="firstInteraction" rows="3" placeholder="Ej: Hola, bienvenido a LlamaloIA. ¿En qué puedo ayudarte?"
+            class="w-full px-4 py-3 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium resize-y"></textarea>
+          @if (editForm.get('firstInteraction')?.invalid && editForm.get('firstInteraction')?.touched) {
+            <p class="text-xs text-red-500">{{ getErrorMessage('firstInteraction') }}</p>
+          }
+        </div>
+
+        <!-- Instrucciones del agente -->
+        <div class="space-y-2">
+          <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+            Instrucciones del agente <span class="text-red-500 ml-1">*</span>
+          </label>
+          <textarea formControlName="agentInstruction" rows="4" placeholder="Ej: Eres un asistente virtual amigable y profesional."
+            class="w-full px-4 py-3 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium resize-y"></textarea>
+          @if (editForm.get('agentInstruction')?.invalid && editForm.get('agentInstruction')?.touched) {
+            <p class="text-xs text-red-500">{{ getErrorMessage('agentInstruction') }}</p>
+          }
+        </div>
+
+        <!-- Número de teléfono -->
+        <div class="space-y-2">
+          <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+            Número de teléfono <span class="text-red-500 ml-1">*</span>
+          </label>
+          <div class="flex items-center relative">
+            <!-- Dropdown personalizado -->
+            <div (click)="toggleCountryMenu()"
+              class="w-28 sm:w-32 h-11 sm:h-12 bg-white dark:bg-slate-800 border-2 border-r-0 border-gray-200 dark:border-slate-600 rounded-l-lg px-3 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm">
+              <div class="flex items-center gap-2">
+                <ng-container [ngSwitch]="selectedCountry">
+                  <svg *ngSwitchCase="'es'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
+                    <rect width="20" height="12" fill="#C60B1E" />
+                    <rect y="3" width="20" height="6" fill="#FFC400" />
+                  </svg>
+                  <svg *ngSwitchCase="'us'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
+                    <rect width="20" height="12" fill="#00247D" />
+                    <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
+                    <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1" />
+                    <rect x="8" width="4" height="12" fill="#FFF" />
+                    <rect y="4" width="20" height="4" fill="#FFF" />
+                  </svg>
+                  <svg *ngSwitchCase="'fr'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
+                    <rect width="20" height="12" fill="#fff" />
+                    <rect width="6.66" height="12" fill="#0055A4" />
+                    <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
+                  </svg>
+                  <svg *ngSwitchCase="'de'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
+                    <rect width="20" height="12" fill="#FFCE00" />
+                    <rect y="6" width="20" height="6" fill="#DD0000" />
+                    <rect y="4" width="20" height="4" fill="#000" />
+                  </svg>
+                </ng-container>
+                <span class="text-xs sm:text-sm font-medium text-gray-800 dark:text-slate-200">{{selectedCountryCode}}</span>
+              </div>
+              <svg class="w-3 h-3 text-gray-500 dark:text-slate-400 transition-transform"
+                [class.rotate-180]="showCountryMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+
+            <!-- Menú desplegable -->
+            <ul [class.hidden]="!showCountryMenu"
+              class="absolute top-full left-0 mt-1.5 w-32 sm:w-36 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-600 rounded-lg shadow-xl z-20 overflow-hidden">
+              <li (click)="selectCountry('es', '+34')"
+                class="flex items-center px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-xs sm:text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
+                <svg width="20" height="12" class="mr-2 rounded-sm">
+                  <rect width="20" height="12" fill="#C60B1E" />
+                  <rect y="3" width="20" height="6" fill="#FFC400" />
+                </svg>
+                <span class="font-medium text-gray-800 dark:text-slate-200">+34</span>
+              </li>
+              <li (click)="selectCountry('us', '+1')"
+                class="flex items-center px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-xs sm:text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
+                <svg width="20" height="12" class="mr-2 rounded-sm">
+                  <rect width="20" height="12" fill="#00247D" />
+                  <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
+                </svg>
+                <span class="font-medium text-gray-800 dark:text-slate-200">+1</span>
+              </li>
+              <li (click)="selectCountry('fr', '+33')"
+                class="flex items-center px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-xs sm:text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
+                <svg width="20" height="12" class="mr-2 rounded-sm">
+                  <rect width="20" height="12" fill="#0055A4" />
+                  <rect x="6.66" width="6.66" height="12" fill="#fff" />
+                  <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
+                </svg>
+                <span class="font-medium text-gray-800 dark:text-slate-200">+33</span>
+              </li>
+              <li (click)="selectCountry('de', '+49')"
+                class="flex items-center px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-xs sm:text-sm transition-colors">
+                <svg width="20" height="12" class="mr-2 rounded-sm">
+                  <rect width="20" height="12" fill="#FFCE00" />
+                  <rect y="6" width="20" height="6" fill="#DD0000" />
+                  <rect y="4" width="20" height="4" fill="#000" />
+                </svg>
+                <span class="font-medium text-gray-800 dark:text-slate-200">+49</span>
+              </li>
+            </ul>
+
+            <input type="tel" formControlName="phoneNumber" placeholder="630 00 00 00"
+              class="flex-1 h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+          </div>
+          @if (editForm.get('phoneNumber')?.invalid && editForm.get('phoneNumber')?.touched) {
+            <p class="text-xs text-red-500">{{ getErrorMessage('phoneNumber') }}</p>
+          }
+        </div>
+
+        <!-- Etiqueta y Estado -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+          <div class="space-y-2">
+            <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+              Etiqueta <span class="text-gray-500 dark:text-slate-400 text-xs sm:text-sm font-normal ml-1">(opcional)</span>
+            </label>
+            <input type="text" formControlName="label" placeholder="Ej: Agente principal"
+              class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+              Estado <span class="text-red-500 ml-1">*</span>
+            </label>
+            <select formControlName="state"
+              class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 transition-all shadow-sm font-medium">
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+            @if (editForm.get('state')?.invalid && editForm.get('state')?.touched) {
+              <p class="text-xs text-red-500">{{ getErrorMessage('state') }}</p>
+            }
+          </div>
+        </div>
+
+        <!-- Parámetros de voz -->
+        <div class="border-t-2 border-gray-200 dark:border-slate-700 pt-5 sm:pt-6">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-slate-100 mb-4">Parámetros de voz</h3>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+            <div class="space-y-2">
+              <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+                Estabilidad (0.0 - 1.0) <span class="text-red-500 ml-1">*</span>
+              </label>
+              <input type="number" formControlName="stability" step="0.01" min="0" max="1"
+                class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 transition-all shadow-sm font-medium" />
+              @if (editForm.get('stability')?.invalid && editForm.get('stability')?.touched) {
+                <p class="text-xs text-red-500">{{ getErrorMessage('stability') }}</p>
+              }
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+                Similitud (0.0 - 1.0) <span class="text-red-500 ml-1">*</span>
+              </label>
+              <input type="number" formControlName="similarity" step="0.01" min="0" max="1"
+                class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 transition-all shadow-sm font-medium" />
+              @if (editForm.get('similarity')?.invalid && editForm.get('similarity')?.touched) {
+                <p class="text-xs text-red-500">{{ getErrorMessage('similarity') }}</p>
+              }
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+                Estilo (0.0 - 1.0) <span class="text-red-500 ml-1">*</span>
+              </label>
+              <input type="number" formControlName="style" step="0.01" min="0" max="1"
+                class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 transition-all shadow-sm font-medium" />
+              @if (editForm.get('style')?.invalid && editForm.get('style')?.touched) {
+                <p class="text-xs text-red-500">{{ getErrorMessage('style') }}</p>
+              }
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">
+                Velocidad (0.25 - 4.0) <span class="text-red-500 ml-1">*</span>
+              </label>
+              <input type="number" formControlName="speed" step="0.01" min="0.25" max="4"
+                class="w-full h-11 sm:h-12 px-4 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base text-gray-900 dark:text-slate-100 transition-all shadow-sm font-medium" />
+              @if (editForm.get('speed')?.invalid && editForm.get('speed')?.touched) {
+                <p class="text-xs text-red-500">{{ getErrorMessage('speed') }}</p>
+              }
+            </div>
+          </div>
+
+          <div class="mt-5 sm:mt-6">
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input type="checkbox" formControlName="boost"
+                class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 dark:bg-slate-700 dark:border-slate-600" />
+              <span class="text-sm sm:text-base font-semibold text-gray-900 dark:text-slate-100">Boost</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="pt-6 sm:pt-8 flex justify-center gap-4">
+          <button type="button" (click)="close()"
+            class="px-8 sm:px-12 py-3 bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-slate-200 font-semibold rounded-lg sm:rounded-xl hover:bg-gray-300 dark:hover:bg-slate-600 transition-all duration-200 shadow-md">
+            Cancelar
+          </button>
+          <button type="submit" [disabled]="editForm.invalid || isLoading"
+            class="px-8 sm:px-12 py-3 bg-[#1B2559] dark:bg-blue-700 text-white font-semibold rounded-lg sm:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center gap-2">
+            @if (isLoading) {
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            }
+            {{ isLoading ? 'Guardando...' : 'Guardar cambios' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

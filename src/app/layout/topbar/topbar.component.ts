@@ -269,6 +269,10 @@ export class TopbarComponent implements OnInit {
       this.pageTitle = t.createAgent;
       this.welcomeText = '';
       this.pageSubtitle = '';
+    } else if (url.startsWith('/dashboard/agents/edit/')) {
+      this.pageTitle = '';
+      this.welcomeText = '';
+      this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/agents')) {
       this.pageTitle = t.agents;
       this.welcomeText = '';

@@ -18,6 +18,7 @@ import { AdminMetricsComponent } from './pages/admin-metrics/admin-metrics.compo
 import { AdminTokensComponent } from './pages/admin-tokens/admin-tokens.component';
 import { AdminRedesSocialesComponent } from './pages/admin-redes-sociales/admin-redes-sociales.component';
 import { AdminRecordatorioComponent } from './pages/admin-recordatorio/admin-recordatorio.component';
+import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
 
 
 export const routes: Routes = [
@@ -83,7 +84,8 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'myAgents', component: HomeComponent },
       { path: 'agents', component: NewAgentsComponent },
-      { path: 'agents/create', component: NewCreateAgentsComponent }, // 👈 nueva ruta
+      { path: 'agents/create', component: NewCreateAgentsComponent },
+      { path: 'agents/edit/:agentId', component: EditAgentComponent },
       { path: 'numbers', component: NumbersComponent },
       { path: 'history', component: HistorialComponent },
       { path: 'metrics', component: MetricsComponent },

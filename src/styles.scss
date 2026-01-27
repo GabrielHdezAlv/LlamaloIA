@@ -244,6 +244,27 @@ body::-webkit-scrollbar {
     @apply bg-gray-800 text-slate-50;
   }
 
+  /* Estilos para el botón de play en modo oscuro */
+  html.dark .play-button {
+    background-color: #ffffff !important; // blanco en modo oscuro
+    border-color: #e5e7eb !important; // gray-200 por defecto
+    
+    &:hover {
+      border-color: #3b82f6 !important; // blue-500
+      background-color: #ffffff !important; // mantener blanco en hover
+    }
+    
+    &:active {
+      border-color: #3b82f6 !important; // blue-500
+      background-color: #ffffff !important; // mantener blanco en active
+    }
+    
+    &.active {
+      border-color: #3b82f6 !important; // blue-500
+      background-color: #ffffff !important; // mantener blanco cuando está activo
+    }
+  }
+
   /* Azules en modo claro → #1b2559 */
   html:not(.dark) .text-blue-900,
   html:not(.dark) .text-blue-950,

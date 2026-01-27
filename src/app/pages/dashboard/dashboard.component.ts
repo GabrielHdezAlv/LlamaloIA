@@ -310,11 +310,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   isRouteActive(route: string): boolean {
     const currentUrl = this.router.url;
 
-    // Caso especial: /dashboard/agents o /dashboard/agents/create → resaltar "Agentes"
+    // Caso especial: /dashboard/agents o /dashboard/agents/create o /dashboard/agents/edit → resaltar "Agentes"
     if (route === '/dashboard/agents') {
       return (
         currentUrl === '/dashboard/agents' ||
-        currentUrl === '/dashboard/agents/create'
+        currentUrl === '/dashboard/agents/create' ||
+        currentUrl.startsWith('/dashboard/agents/edit/')
       );
     }
 

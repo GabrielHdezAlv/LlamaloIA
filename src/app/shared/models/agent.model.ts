@@ -13,6 +13,7 @@ export interface VoiceParameters {
  * Modelo de agente
  */
 export interface Agent {
+  agentId?: number;               // ID único del agente (viene del backend en respuestas)
   name: string;
   type: "outbound" | "inbound";
   language: string;
