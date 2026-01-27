@@ -80,23 +80,31 @@ html.dark .onboarding-discovery-icon path {
 }
 
 /* Autocompletado SOLO para inputs de login/registro (`auth-input`)
-   → que se vean exactamente igual que los inputs normales, sin fondo raro */
+   → que se vean exactamente igual que los inputs normales, sin fondo raro ni reborde blanco */
 .auth-input:-webkit-autofill,
 .auth-input:-webkit-autofill:hover,
-.auth-input:-webkit-autofill:focus {
-  box-shadow: 0 0 0px 1000px #ffffff inset !important;
-  /* mismo fondo que bg-white */
-  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+.auth-input:-webkit-autofill:focus,
+.auth-input:-webkit-autofill:active {
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
   -webkit-text-fill-color: #18181a !important;
+  outline: none !important;
+  border: 2px solid #d1d5db !important;
+  /* border-2 border-gray-300: mismo borde que el input */
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 html.dark .auth-input:-webkit-autofill,
 html.dark .auth-input:-webkit-autofill:hover,
-html.dark .auth-input:-webkit-autofill:focus {
-  box-shadow: 0 0 0px 1000px #18181a inset !important;
-  /* mismo fondo que bg-slate-900/#020617 */
-  -webkit-box-shadow: 0 0 0px 1000px #18181a inset !important;
-  -webkit-text-fill-color: #ffffff !important;
+html.dark .auth-input:-webkit-autofill:focus,
+html.dark .auth-input:-webkit-autofill:active {
+  box-shadow: 0 0 0 1000px #0f172a inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #18181A inset !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  outline: none !important;
+  border: 2px solid #252525 !important;
+  /* border-2 border-slate-700: mismo borde que el input en dark */
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Ocultar barras de scroll */
