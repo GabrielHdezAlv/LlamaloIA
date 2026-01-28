@@ -66,7 +66,8 @@ export class NumbersComponent implements OnInit, AfterViewInit {
       this.importForm = this.fb.group({
         phoneNumber: ['', Validators.required],
         twilioSid: [''],
-        twilioToken: ['']
+        twilioToken: [''],
+        label: [''] // Etiqueta opcional para el número importado
       });
   }
 
