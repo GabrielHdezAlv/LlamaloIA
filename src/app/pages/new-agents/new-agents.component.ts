@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, inject, Inject, PLATFORM_ID, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
 import { I18nService } from '../../core/services/i18n.service';
@@ -20,6 +20,7 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   private modalService = inject(ModalService);
   private userService = inject(UserService);
   router = inject(Router);
+  private route = inject(ActivatedRoute);
   private cdr: ChangeDetectorRef;
 
   agents: Agent[] = [];
@@ -34,6 +35,7 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   showContent: boolean = false;
 
   private isBrowser: boolean;
+  private errorModalShown: boolean = false;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -56,6 +58,31 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // Ejecutar animación después de que la vista esté completamente inicializada
     this.startFadeInAnimation();
+
+    // Comprobar si venimos de otra pantalla con un error que deba mostrarse aquí
+    // Hacerlo en ngAfterViewInit para asegurar que el componente esté completamente renderizado
+    if (!this.errorModalShown && typeof window !== 'undefined') {
+      const historyState = window.history?.state as { errorModal?: { title: string; message: string } } | undefined;
+      
+      if (historyState?.errorModal) {
+        this.errorModalShown = true;
+        // Usar setTimeout para asegurar que el modal se abra después de que el componente esté completamente inicializado
+        setTimeout(() => {
+          const dialogRef = this.modalService.openError({
+            title: historyState.errorModal!.title,
+            message: historyState.errorModal!.message,
+          });
+          
+          // Limpiar el estado después de que el modal se cierre
+          dialogRef.afterClosed().subscribe(() => {
+            if (window.history.replaceState) {
+              const currentState = window.history.state || {};
+              window.history.replaceState({ ...currentState, errorModal: undefined }, '');
+            }
+          });
+        }, 300);
+      }
+    }
   }
 
   private startFadeInAnimation(): void {

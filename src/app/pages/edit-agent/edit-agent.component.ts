@@ -87,11 +87,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       this.agentId = parseInt(agentIdParam, 10);
       this.loadAgent();
     } else {
-      this.modalService.openError({
-        title: 'Error',
-        message: 'No se pudo identificar el agente.'
-      });
-      this.router.navigate(['/dashboard/agents']);
+      this.navigateToAgentsWithError(
+        'Error',
+        'No se pudo identificar el agente.'
+      );
       return;
     }
 
@@ -209,11 +208,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         );
         
         if (!agent) {
-          this.modalService.openError({
-            title: 'Error',
-            message: 'Agente no encontrado.'
-          });
-          this.router.navigate(['/dashboard/agents']);
+          this.navigateToAgentsWithError(
+            'Error',
+            'Agente no encontrado.'
+          );
           return;
         }
 
@@ -222,11 +220,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error al cargar agente:', error);
-        this.modalService.openError({
-          title: 'Error',
-          message: 'No se pudo cargar la información del agente.'
-        });
-        this.router.navigate(['/dashboard/agents']);
+        this.navigateToAgentsWithError(
+          'Error',
+          'No se pudo cargar la información del agente.'
+        );
       }
     });
   }
@@ -345,11 +342,14 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     
     if (!voiceId || !language) return;
 
+    // Verificar si el idioma tiene audio disponible
+    if (!this.VOCES_LANG_CODES.includes(language)) return;
+
     const selectedVoice = this.voices.find(v => v.voiceId === voiceId);
     if (!selectedVoice) return;
 
     const voiceName = selectedVoice.name.toLowerCase();
-    const lang = this.VOCES_LANG_CODES.includes(language) ? language : 'es';
+    const lang = language;
     const cacheKey = `${voiceName}_${lang}`;
     const path = `assets/voces/${cacheKey}.mp3`;
 
@@ -418,10 +418,17 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       return;
     }
 
+    // Verificar si el idioma tiene audio disponible
+    if (!this.VOCES_LANG_CODES.includes(language)) {
+      this.navigateToAgentsWithError(
+        'Error de audio',
+        `No hay muestra de audio disponible para la voz "${selectedVoice.name}" en el idioma seleccionado.`
+      );
+      return;
+    }
+
     // Mapear el código de idioma al formato usado en assets/voces
-    const lang = this.VOCES_LANG_CODES.includes(language)
-      ? language
-      : 'es';
+    const lang = language;
     
     // Construir la clave de caché y la ruta
     const cacheKey = `${voiceName}_${lang}`;
@@ -458,10 +465,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       this.isPlaying = false;
       this.currentPlayingVoice = null;
       this.audioLevel = 0;
-      this.modalService.openError({
-        title: 'Error de audio',
-        message: 'No se pudo reproducir el audio de prueba.'
-      });
+      this.navigateToAgentsWithError(
+        'Error de audio',
+        'No se pudo reproducir el audio de prueba.'
+      );
     });
 
     audio.onended = () => {
@@ -487,10 +494,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       if (this.animationId) {
         cancelAnimationFrame(this.animationId);
       }
-      this.modalService.openError({
-        title: 'Error de audio',
-        message: 'No hay muestra de audio para esta voz e idioma.'
-      });
+      this.navigateToAgentsWithError(
+        'Error de audio',
+        `No hay muestra de audio disponible para la voz "${selectedVoice.name}" en el idioma seleccionado.`
+      );
       this.animateIdle();
     };
   }
@@ -588,11 +595,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           } else if (error?.status === 400) {
             errorMessage = 'Error en los datos enviados. Por favor, verifica todos los campos.';
           }
-          
-          this.modalService.openError({
-            title: 'Error al actualizar agente',
-            message: errorMessage
-          });
+
+          this.navigateToAgentsWithError(
+            'Error al actualizar agente',
+            errorMessage
+          );
         }
       });
     } else {
@@ -636,5 +643,19 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       return `El valor máximo es ${field.errors?.['max'].max}`;
     }
     return '';
+  }
+
+  /**
+   * Navega a la pantalla de agentes mostrando allí el modal de error.
+   */
+  private navigateToAgentsWithError(title: string, message: string): void {
+    this.router.navigate(['/dashboard/agents'], {
+      state: {
+        errorModal: {
+          title,
+          message,
+        },
+      },
+    });
   }
 }
