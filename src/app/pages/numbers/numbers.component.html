@@ -269,12 +269,6 @@
             <form [formGroup]="importForm" (ngSubmit)="onImportSubmit()"
                 class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">{{ t.label
-                        }}</label>
-                    <input type="text" formControlName="label" [placeholder]="t.labelPlaceholder"
-                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500  text-sm" />
-                </div>
-                <div>
                     <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">Número de teléfono
                         <span class="text-red-500">*</span></label>
                     <div class="flex">
@@ -312,9 +306,13 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">{{
-                        t.twilioAccountSidPlaceholder }}</label>
-                    <input type="text" formControlName="twilioSid" [placeholder]="t.twilioAccountSidPlaceholder"
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">SID de cuenta Twilio</label>
+                    <input type="text" formControlName="twilioSid" placeholder="SID de cuenta Twilio"
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 text-sm" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">Token de cuenta Twilio</label>
+                    <input type="password" formControlName="twilioToken" placeholder="Token de cuenta Twilio"
                         class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 text-sm" />
                 </div>
 

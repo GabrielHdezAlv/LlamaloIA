@@ -65,8 +65,8 @@ export class NumbersComponent implements OnInit, AfterViewInit {
       this.cdr = cdr;
       this.importForm = this.fb.group({
         phoneNumber: ['', Validators.required],
-        label: [''],
-        twilioSid: ['']
+        twilioSid: [''],
+        twilioToken: ['']
       });
   }
 
@@ -157,7 +157,7 @@ export class NumbersComponent implements OnInit, AfterViewInit {
           return;
         }
         this.showImportSidebar = true;
-        this.importForm.reset({ phoneNumber: '', label: '', twilioSid: '' });
+        this.importForm.reset({ phoneNumber: '', twilioSid: '', twilioToken: '' });
         this.selectedCountryCode = '+34';
         this.selectedCountry = 'es';
         this.routingRegionEnabled = false;
