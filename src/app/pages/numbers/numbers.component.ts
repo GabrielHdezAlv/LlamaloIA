@@ -295,11 +295,7 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   }
 
   // Método para editar número
-  editNumber(index: number): void {
-    this.openMenuIndex = null;
-    // TODO: Implementar navegación a editar número
-    console.log('Editar número:', index);
-  }
+  // (Funcionalidad de edición deshabilitada actualmente)
 
   // Método para eliminar número
   deleteNumber(index: number, phoneLabel: string): void {
