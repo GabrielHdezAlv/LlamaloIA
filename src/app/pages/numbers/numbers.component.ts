@@ -204,6 +204,16 @@ export class NumbersComponent implements OnInit, AfterViewInit {
     this.selectedCountryCode = dial;
     this.selectedCountry = code;
     this.showCountryMenu = false;
+
+    // Si había un error de importación y el usuario cambia el prefijo,
+    // limpiamos errores para permitir un nuevo intento sin tocar los inputs.
+    if (this.importErrorMessage) {
+      this.importErrorMessage = null;
+    }
+    this.importForm.get('phoneNumber')?.setErrors(null);
+    this.importForm.get('twilioSid')?.setErrors(null);
+    this.importForm.get('twilioToken')?.setErrors(null);
+    this.importForm.updateValueAndValidity({ emitEvent: false });
   }
 
   onImportSubmit(): void {
