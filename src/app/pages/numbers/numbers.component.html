@@ -1,5 +1,5 @@
 <div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8">
-    <div class="w-full rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 mt-3 2xl:mt-2 3xl:mt-5 max-lg:p-3 max-lg:mt-2 agentes-activos-recuadro fade-in-section max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl"
+    <div class="w-full rounded-2xl  p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 mt-3 2xl:mt-2 3xl:mt-5 max-lg:p-3 max-lg:mt-2 agentes-activos-recuadro fade-in-section max-w-[74rem] mx-auto"
         [class.fade-in-visible]="showContent">
         <div
             class="flex justify-between items-center gap-3 mb-3 3xl:mb-5 max-lg:flex-col max-lg:items-start max-lg:gap-1.5">
@@ -19,14 +19,26 @@
             </div>
 
             @if (phoneNumbers.length > 0) {
-            <app-ripple-button (buttonClick)="openImportNumberModal()"
-                buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white w-auto px-3 sm:px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-10 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2 rounded-lg text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-1 whitespace-nowrap max-lg:text-[9px] max-lg:px-2 max-lg:py-0.5"
-                rippleColor="rgba(255, 255, 255, 0.4)">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-                {{ t.importNumber }}
-            </app-ripple-button>
+            <div class="import-dropdown-wrap relative">
+                <app-ripple-button (buttonClick)="toggleImportDropdown()"
+                    buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white w-auto px-3 sm:px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-10 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2 rounded-lg text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-1 whitespace-nowrap max-lg:text-[9px] max-lg:px-2 max-lg:py-0.5"
+                    rippleColor="rgba(255, 255, 255, 0.4)">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                    </svg>
+                    {{ t.importNumber }}
+                </app-ripple-button>
+                @if (showImportDropdown) {
+                <div
+                    class="absolute right-0 top-full mt-1.5 w-56 z-50 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden py-1">
+                    <button (click)="openImportFromTwilio()" type="button"
+                        class="w-full text-left px-4 py-3 text-sm font-medium text-gray-900 dark:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
+                        {{ t.fromTwilio }}
+                    </button>
+                </div>
+                }
+            </div>
             }
         </div>
 
@@ -34,21 +46,21 @@
         <!-- Tabla Desktop (oculta en móviles y tablets) -->
         <div
             class="hidden lg:grid grid-cols-12 gap-4 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-6 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-gray-400 pb-1.5 lg:pb-2 xl:pb-2 2xl:pb-2 3xl:pb-2.5 mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 3xl:mb-4 max-lg:text-[9px] dark:text-slate-400 border-b border-gray-300 dark:border-slate-600">
-            <!-- Cabecera Número -->
+            <!-- Cabecera ID -->
             <div class="col-span-3 flex items-center">
-                <span class="font-medium text-gray-500 dark:text-slate-400">{{ t.number }}</span>
+                <span class="font-medium text-gray-400  ml-2">{{ t.number }}</span>
             </div>
 
             <!-- Cabecera Número teléfono -->
             <div class="col-span-2 flex items-center">
-                <span class="font-medium text-gray-500 dark:text-slate-400">Número teléfono</span>
+                <span class="font-medium text-gray-400  ml-1">Número teléfono</span>
             </div>
 
             <!-- Cabecera Estado -->
-            <div class="col-span-2 font-medium text-gray-400 dark:text-slate-400">{{ t.status }}</div>
+            <div class="col-span-2 font-medium text-gray-400  ml-2">{{ t.status }}</div>
 
             <!-- Cabecera Importado de -->
-            <div class="col-span-3 font-medium text-gray-400 dark:text-slate-400">{{ t.importedFrom }}</div>
+            <div class="col-span-3 font-medium text-gray-400 -ml-1">{{ t.importedFrom }}</div>
 
             <!-- Columna vacía para el icono de acciones -->
             <div class="col-span-2"></div>
@@ -59,7 +71,7 @@
             @for (phone of phoneNumbers; track phone.phoneId; let i = $index) {
             <div class="p-1.5 lg:p-2 xl:p-2 2xl:p-2 3xl:p-3 rounded-lg flex items-center gap-2 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-4 md:grid md:grid-cols-12 md:gap-4 lg:md:gap-4 xl:md:gap-4 2xl:md:gap-4 3xl:md:gap-6 group hover:bg-gray-200 transition-colors duration-200 hover:cursor-pointer max-lg:p-3 dark:hover:bg-slate-800 outline-none focus:outline-none focus-visible:outline-none"
                 tabindex="-1">
-                <!-- Columna Número -->
+                <!-- Columna ID -->
                 <div class="col-span-3 flex flex-col justify-center mt-1">
                     <p
                         class="font-semibold text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-gray-900 dark:text-slate-50 max-lg:text-[9px]">
@@ -78,8 +90,8 @@
                 <div class="col-span-2 flex items-center">
                     <span
                         [class]="phone.state === 'Inactivo' 
-                        ? 'inline-block px-1.5 lg:px-2 xl:px-2 2xl:px-2 3xl:px-2.5 py-0.5 lg:py-1 xl:py-1 2xl:py-1 3xl:py-1.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold bg-orange-100 border-orange-300 border text-orange-600 rounded-lg numbers-status-badge max-lg:text-[9px] max-lg:px-1 max-lg:py-0.5 dark:bg-orange-900 dark:border-orange-800 dark:text-orange-400'
-                        : 'inline-block px-1.5 lg:px-2 xl:px-2 2xl:px-2 3xl:px-2.5 py-0.5 lg:py-1 xl:py-1 2xl:py-1 3xl:py-1.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg numbers-status-badge max-lg:text-[9px] max-lg:px-1 max-lg:py-0.5 dark:bg-green-900 dark:border-green-800 dark:text-green-300'">{{
+                        ? 'inline-block px-1.5 lg:px-2 xl:px-2 2xl:px-2 3xl:px-2.5 py-0.5 lg:py-1 xl:py-1 2xl:py-1 3xl:py-1.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold'
+                        : 'inline-block px-1.5 lg:px-2 xl:px-2 2xl:px-2 3xl:px-2.5 py-0.5 lg:py-1 xl:py-1 2xl:py-1 3xl:py-1.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold'">{{
                         phone.state || t.active }}</span>
                 </div>
 
@@ -206,15 +218,123 @@
             <p
                 class="text-[10px] 3xl:text-sm text-gray-400 mb-2 3xl:mb-4 max-lg:text-[9px] max-lg:mb-1.5 dark:text-slate-400 ">
                 Importa tu primer número ahora</p>
-            <app-ripple-button (buttonClick)="openImportNumberModal()"
-                buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white w-full sm:w-auto px-4 sm:px-5 lg:px-6 3xl:px-10 py-1 3xl:py-2 rounded-lg text-[10px] 3xl:text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-1 max-lg:text-[9px] max-lg:px-3 max-lg:py-0.5"
-                rippleColor="rgba(255, 255, 255, 0.4)">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-                {{ t.importNumber }}
-            </app-ripple-button>
+            <div class="import-dropdown-wrap relative">
+                <app-ripple-button (buttonClick)="toggleImportDropdown()"
+                    buttonClass="bg-[#0a1740] hover:bg-gray-950 text-white w-full sm:w-auto px-4 sm:px-5 lg:px-6 3xl:px-10 py-1 3xl:py-2 rounded-lg text-[10px] 3xl:text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-1 max-lg:text-[9px] max-lg:px-3 max-lg:py-0.5"
+                    rippleColor="rgba(255, 255, 255, 0.4)">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                    </svg>
+                    {{ t.importNumber }}
+                </app-ripple-button>
+                @if (showImportDropdown) {
+                <div
+                    class="absolute left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 top-full mt-1.5 w-56 z-50 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden py-1">
+                    <button (click)="openImportFromTwilio()" type="button"
+                        class="w-full text-left px-4 py-3 text-sm font-medium text-gray-900 dark:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
+                        {{ t.fromTwilio }}
+                    </button>
+                </div>
+                }
+            </div>
         </div>
         }
     </div>
+
+    <!-- Sidebar importar número (fuera del recuadro, a nivel de página) -->
+    @if (showImportSidebar) {
+    <div class="fixed inset-0 z-[10000] flex" aria-modal="true">
+        <div (click)="closeImportSidebar()" class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+            role="button" tabindex="-1" aria-label="Cerrar"></div>
+        <aside
+            class="absolute right-0 top-0 bottom-0 w-full max-w-sm bg-white dark:bg-[#0f0f11] border-l border-gray-200 dark:border-slate-800 shadow-2xl flex flex-col animate-slide-in-right">
+            <header
+                class="flex items-center justify-between px-5 py-4 border-gray-200 dark:border-slate-800 flex-shrink-0">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-gray-700 dark:text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                    </svg>
+                    <h2 class="text-sm font-semibold text-gray-900 dark:text-white">{{ t.importNumberFromTwilio }}</h2>
+                </div>
+                <button (click)="closeImportSidebar()" type="button"
+                    class="p-2 rounded-lg text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </header>
+            <form [formGroup]="importForm" (ngSubmit)="onImportSubmit()"
+                class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">{{ t.label
+                        }}</label>
+                    <input type="text" formControlName="label" [placeholder]="t.labelPlaceholder"
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500  text-sm" />
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">Número de teléfono
+                        <span class="text-red-500">*</span></label>
+                    <div class="flex">
+                        <div class="country-dropdown-wrap relative flex-shrink-0">
+                            <div (click)="toggleCountryMenu()"
+                                class="w-24 h-11 flex items-center justify-between gap-1 px-3 rounded-l-lg border border-r-0 border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-[#1a1a1a] cursor-pointer hover:bg-gray-100 dark:hover:bg-[#222]">
+                                <span class="text-sm font-medium text-gray-800 dark:text-slate-200">{{
+                                    selectedCountryCode }}</span>
+                                <svg class="w-3 h-3 text-gray-500 dark:text-slate-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                            @if (showCountryMenu) {
+                            <ul
+                                class="absolute top-full left-0 mt-1 w-36 rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-lg z-50 py-1">
+                                <li (click)="selectCountry('es', '+34')"
+                                    class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200">
+                                    +34 España</li>
+                                <li (click)="selectCountry('us', '+1')"
+                                    class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200">
+                                    +1 USA</li>
+                                <li (click)="selectCountry('fr', '+33')"
+                                    class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200">
+                                    +33 Francia</li>
+                                <li (click)="selectCountry('de', '+49')"
+                                    class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-800 dark:text-slate-200">
+                                    +49 Alemania</li>
+                            </ul>
+                            }
+                        </div>
+                        <input type="tel" formControlName="phoneNumber" placeholder="630 00 00 00"
+                            class="flex-1 h-11 px-4 rounded-r-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 text-sm" />
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">{{
+                        t.twilioAccountSidPlaceholder }}</label>
+                    <input type="text" formControlName="twilioSid" [placeholder]="t.twilioAccountSidPlaceholder"
+                        class="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 text-sm" />
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" [disabled]="importForm.invalid || isImportLoading"
+                        class="w-full py-3 rounded-lg font-semibold text-sm bg-[#1B2559] dark:bg-blue-700 text-white hover:bg-[#0a1740] dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2">
+                        @if (isImportLoading) {
+                        <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        }
+                        {{ isImportLoading ? 'Validando...' : 'Importar número' }}
+                    </button>
+                </div>
+            </form>
+        </aside>
+    </div>
+    }
 </div>

@@ -5,6 +5,8 @@ import { RippleButtonComponent } from '../../shared/components/ripple-button/rip
 import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
 import { UserService } from '../../core/services/user.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { TwilioService } from '../../core/services/twilio.service';
 
 interface PhoneNumberDisplay {
   phoneId: number;
@@ -17,7 +19,7 @@ interface PhoneNumberDisplay {
 
 @Component({
   selector: 'app-numbers',
-  imports: [RippleButtonComponent, CommonModule],
+  imports: [RippleButtonComponent, CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './numbers.component.html',
   styleUrl: './numbers.component.scss'
 })
@@ -26,6 +28,8 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   router = inject(Router);
   private modalService = inject(ModalService);
   private userService = inject(UserService);
+  private twilioService = inject(TwilioService);
+  private fb = inject(FormBuilder);
   private cdr: ChangeDetectorRef;
 
   // Variable para controlar la animación de fade in
@@ -34,6 +38,16 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   // Lista de números de teléfono para mostrar en la tabla
   phoneNumbers: PhoneNumberDisplay[] = [];
   openMenuIndex: number | null = null;
+
+  // Importar número: dropdown + sidebar
+  showImportDropdown = false;
+  showImportSidebar = false;
+  importForm: FormGroup;
+  isImportLoading = false;
+  showCountryMenu = false;
+  selectedCountryCode = '+34';
+  selectedCountry = 'es';
+  routingRegionEnabled = false;
 
   private isBrowser: boolean;
 
@@ -49,6 +63,11 @@ export class NumbersComponent implements OnInit, AfterViewInit {
       this.i18nService.initializeLanguage();
       this.isBrowser = isPlatformBrowser(this.platformId);
       this.cdr = cdr;
+      this.importForm = this.fb.group({
+        phoneNumber: ['', Validators.required],
+        label: [''],
+        twilioSid: ['']
+      });
   }
 
   ngOnInit(): void {
@@ -69,7 +88,7 @@ export class NumbersComponent implements OnInit, AfterViewInit {
             phoneId: phone.phoneId || index + 1,
             countryCode: phone.countryCode || '',
             number: String(phone.number || ''), // Convertir a string por si viene como número
-            label: `Número ${phone.phoneId || index + 1}`, // Generar label basado en phoneId
+            label: `ID ${phone.phoneId || index + 1}`, // Generar label basado en phoneId
             state: phone.state || 'Activo', // Usar state del backend o 'Activo' por defecto
             importedBy: phone.importedBy || 'Twilio' // Usar importedBy del backend o 'Twilio' por defecto
           }));
@@ -121,48 +140,80 @@ export class NumbersComponent implements OnInit, AfterViewInit {
     }, 100);
   }
 
-  openImportNumberModal(): void {
-    // Verificar si el usuario tiene configuración de Twilio antes de abrir el modal
+  toggleImportDropdown(): void {
+    this.showImportDropdown = !this.showImportDropdown;
+  }
+
+  openImportFromTwilio(): void {
+    this.showImportDropdown = false;
     this.userService.getUserProfile().subscribe({
       next: (profile) => {
         const hasTwilioConfig = profile.twilio?.twilioSid && profile.twilio?.twilioToken;
-        
         if (!hasTwilioConfig) {
-          // Mostrar modal indicando que debe configurar Twilio primero
           this.modalService.openError({
             title: 'Configuración de Twilio requerida',
             message: 'Para importar un número de teléfono, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
           });
-        } else {
-          // Si tiene la configuración, abrir el modal de importar número
-          const dialogRef = this.modalService.openImportNumber({
-            title: 'Importar Número de Teléfono',
-            message: 'Importa un número de teléfono desde tu proveedor de servicios de telecomunicaciones.'
-          });
-
-          dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-              console.log('Número importado:', result);
-              
-              // Mostrar mensaje de éxito
-              this.modalService.openSuccess({
-                title: 'Número importado',
-                message: 'El número de teléfono se ha importado correctamente.'
-              });
-              
-              // Actualizar el perfil y recargar los números de teléfono
-              this.loadPhoneNumbers();
-            }
-          });
+          return;
         }
+        this.showImportSidebar = true;
+        this.importForm.reset({ phoneNumber: '', label: '', twilioSid: '' });
+        this.selectedCountryCode = '+34';
+        this.selectedCountry = 'es';
+        this.routingRegionEnabled = false;
       },
-      error: (error) => {
-        console.error('Error al verificar configuración de Twilio:', error);
-        // En caso de error, mostrar el modal de todas formas para ser seguro
+      error: () => {
         this.modalService.openError({
           title: 'Configuración de Twilio requerida',
           message: 'Para importar un número de teléfono, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
         });
+      }
+    });
+  }
+
+  closeImportSidebar(): void {
+    this.showImportSidebar = false;
+    this.showCountryMenu = false;
+  }
+
+  toggleCountryMenu(): void {
+    this.showCountryMenu = !this.showCountryMenu;
+  }
+
+  selectCountry(code: string, dial: string): void {
+    this.selectedCountryCode = dial;
+    this.selectedCountry = code;
+    this.showCountryMenu = false;
+  }
+
+  onImportSubmit(): void {
+    if (!this.importForm.valid) return;
+    const phoneNumber = this.importForm.get('phoneNumber')?.value?.trim();
+    if (!phoneNumber) {
+      this.modalService.openError({
+        title: 'Número de teléfono requerido',
+        message: 'Por favor, ingresa un número de teléfono válido.'
+      });
+      return;
+    }
+    this.isImportLoading = true;
+    this.twilioService.validatePhone(this.selectedCountryCode, phoneNumber).subscribe({
+      next: () => {
+        this.isImportLoading = false;
+        this.closeImportSidebar();
+        this.modalService.openSuccess({
+          title: 'Número importado',
+          message: 'El número de teléfono se ha importado correctamente.'
+        });
+        this.loadPhoneNumbers();
+      },
+      error: (err) => {
+        this.isImportLoading = false;
+        let msg = 'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
+        if (err?.status === 400) {
+          msg = err?.error?.message || 'Número no disponible. Verifica que el número sea correcto y esté disponible en Twilio.';
+        } else if (err?.error?.message) msg = err.error.message;
+        this.modalService.openError({ title: 'Error al validar número', message: msg });
       }
     });
   }
@@ -207,9 +258,9 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    if (!target.closest('.relative')) {
-      this.openMenuIndex = null;
-    }
+    if (!target.closest('.relative')) this.openMenuIndex = null;
+    if (!target.closest('.import-dropdown-wrap')) this.showImportDropdown = false;
+    if (this.showImportSidebar && !target.closest('.country-dropdown-wrap')) this.showCountryMenu = false;
   }
 
 }

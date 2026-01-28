@@ -352,8 +352,12 @@ body::-webkit-scrollbar {
     /* tarjetas, sidebar, modales: color personalizado */
   }
 
+  .bg-gray-50  {
+    background-color: #F3F4F6 !important;
+  }
+
   html.dark .bg-gray-50 {
-    @apply bg-neutral-900 !important;
+    background-color: #111113 !important;
     /* fondos suaves → gris 800 (general) */
   }
 
@@ -419,9 +423,7 @@ body::-webkit-scrollbar {
     stroke: #e5e7eb !important;
   }
 
-  /* New Agents: chips de estado y porcentaje en modo oscuro, mismo fondo/borde que Home,
-     pero manteniendo texto verde/rojo */
-  html.dark .new-agents-status-badge,
+  /* New Agents: chip de porcentaje en modo oscuro, mismo fondo/borde que Home */
   html.dark .new-agents-percentage-badge {
     background-color: #444444 !important;
     /* mismo gris que usamos en .resumen-porcentaje-chip */

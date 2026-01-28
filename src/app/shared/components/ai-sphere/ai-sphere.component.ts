@@ -98,9 +98,9 @@ export class AiSphereComponent implements AfterViewInit, OnDestroy {
         const d = img.data;
 
         const c1 = [30, 70, 255];
-        const c2 = [160, 40, 255];
+        const c2 = [50, 120, 255];
         const c3 = [20, 180, 240];
-        const c4 = [220, 30, 160];
+        const c4 = [30, 140, 255];
 
         const warpIntensity = 0.22 + (level * 0.4);
 
@@ -172,7 +172,7 @@ export class AiSphereComponent implements AfterViewInit, OnDestroy {
 
         const cyan = `0, 40, 120`;
         const sapphire = `0, 20, 100`;
-        const magenta = `0, 10, 80`;
+        const blueGlow = `40, 120, 220`;
 
         // 1. Sapphire/Cyan Glow (Offset to the left)
         const leftAtm = ctx.createRadialGradient(cx - r * 0.5, cy, r * 0.2, cx, cy, glowRadius);
@@ -185,11 +185,11 @@ export class AiSphereComponent implements AfterViewInit, OnDestroy {
         ctx.arc(cx, cy, s / 2, 0, Math.PI * 2);
         ctx.fill();
 
-        // 2. Magenta Glow (Offset to the right)
+        // 2. Blue Glow (Offset to the right)
         const rightAtm = ctx.createRadialGradient(cx + r * 0.5, cy, r * 0.2, cx, cy, glowRadius);
-        rightAtm.addColorStop(0, `rgba(${magenta}, ${0.15 + level * 0.25})`);
-        rightAtm.addColorStop(0.6, `rgba(${magenta}, ${0.05 + level * 0.1})`);
-        rightAtm.addColorStop(1, `rgba(${magenta}, 0)`);
+        rightAtm.addColorStop(0, `rgba(${blueGlow}, ${0.15 + level * 0.25})`);
+        rightAtm.addColorStop(0.6, `rgba(${blueGlow}, ${0.05 + level * 0.1})`);
+        rightAtm.addColorStop(1, `rgba(${blueGlow}, 0)`);
 
         ctx.fillStyle = rightAtm;
         ctx.beginPath();

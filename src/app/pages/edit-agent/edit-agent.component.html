@@ -1,5 +1,5 @@
 <div class="min-h-screen p-6 bg-gray-50 dark:bg-[#111113]">
-  <div class="max-w-7xl mx-auto">
+  <div class="max-w-7xl mx-auto ">
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Agente</h1>
@@ -154,104 +154,6 @@
             <input type="text" formControlName="label" placeholder="Ej: Agente principal"
               class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm" />
           </div>
-        </div>
-
-        <!-- Parámetros de voz -->
-        <div class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
-          <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">Parámetros de voz</h3>
-          
-          <div class="grid grid-cols-2 gap-4 mb-4">
-            <div class="space-y-2">
-              <label class="block text-xs text-gray-600 dark:text-gray-400">Estabilidad</label>
-              <div class="relative">
-                <input type="number" formControlName="stability" step="0.01" min="0" max="1"
-                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
-                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
-                  <button type="button" (click)="incrementValue('stability', 0.01, 1)"
-                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                    </svg>
-                  </button>
-                  <button type="button" (click)="decrementValue('stability', 0.01, 0)"
-                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="space-y-2">
-              <label class="block text-xs text-gray-600 dark:text-gray-400">Similitud</label>
-              <div class="relative">
-                <input type="number" formControlName="similarity" step="0.01" min="0" max="1"
-                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
-                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
-                  <button type="button" (click)="incrementValue('similarity', 0.01, 1)"
-                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                    </svg>
-                  </button>
-                  <button type="button" (click)="decrementValue('similarity', 0.01, 0)"
-                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="space-y-2">
-              <label class="block text-xs text-gray-600 dark:text-gray-400">Estilo</label>
-              <div class="relative">
-                <input type="number" formControlName="style" step="0.01" min="0" max="1"
-                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
-                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
-                  <button type="button" (click)="incrementValue('style', 0.01, 1)"
-                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                    </svg>
-                  </button>
-                  <button type="button" (click)="decrementValue('style', 0.01, 0)"
-                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="space-y-2">
-              <label class="block text-xs text-gray-600 dark:text-gray-400">Velocidad</label>
-              <div class="relative">
-                <input type="number" formControlName="speed" step="0.01" min="0.25" max="4"
-                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
-                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
-                  <button type="button" (click)="incrementValue('speed', 0.01, 4)"
-                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                    </svg>
-                  </button>
-                  <button type="button" (click)="decrementValue('speed', 0.01, 0.25)"
-                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" formControlName="boost"
-              class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-[#1A1A1A] text-blue-600 focus:ring-blue-500/50">
-            <span class="text-sm text-gray-900 dark:text-white">Boost</span>
-          </label>
         </div>
 
       </div>
@@ -464,6 +366,104 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Parámetros de voz (debajo del recuadro esfera + voz) -->
+        <div class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+          <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">Parámetros de voz</h3>
+          
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="space-y-2">
+              <label class="block text-xs text-gray-600 dark:text-gray-400">Estabilidad</label>
+              <div class="relative">
+                <input type="number" formControlName="stability" step="0.01" min="0" max="1"
+                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
+                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
+                  <button type="button" (click)="incrementValue('stability', 0.01, 1)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                  </button>
+                  <button type="button" (click)="decrementValue('stability', 0.01, 0)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="block text-xs text-gray-600 dark:text-gray-400">Similitud</label>
+              <div class="relative">
+                <input type="number" formControlName="similarity" step="0.01" min="0" max="1"
+                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
+                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
+                  <button type="button" (click)="incrementValue('similarity', 0.01, 1)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                  </button>
+                  <button type="button" (click)="decrementValue('similarity', 0.01, 0)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="block text-xs text-gray-600 dark:text-gray-400">Estilo</label>
+              <div class="relative">
+                <input type="number" formControlName="style" step="0.01" min="0" max="1"
+                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
+                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
+                  <button type="button" (click)="incrementValue('style', 0.01, 1)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                  </button>
+                  <button type="button" (click)="decrementValue('style', 0.01, 0)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="block text-xs text-gray-600 dark:text-gray-400">Velocidad</label>
+              <div class="relative">
+                <input type="number" formControlName="speed" step="0.01" min="0.25" max="4"
+                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
+                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
+                  <button type="button" (click)="incrementValue('speed', 0.01, 4)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                  </button>
+                  <button type="button" (click)="decrementValue('speed', 0.01, 0.25)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" formControlName="boost"
+              class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-[#1A1A1A] text-blue-600 focus:ring-blue-500/50">
+            <span class="text-sm text-gray-900 dark:text-white">Boost</span>
+          </label>
         </div>
 
       </div>

@@ -78,6 +78,14 @@ export interface Translations {
   clientNumber: string;
   storeNumber: string;
   label: string;
+  fromTwilio: string;
+  fromSipTrunk: string;
+  importNumberFromTwilio: string;
+  labelPlaceholder: string;
+  twilioAccountSidPlaceholder: string;
+  routingRegionConfig: string;
+  routingRegionDesc: string;
+  comingSoon: string;
 
   // Historial page
   searchNumber: string;
@@ -391,7 +399,7 @@ export class I18nService {
       yourAgents: 'Tus Agentes',
       createAgent: 'Crear Agente',
       agent: 'Agente',
-      number: 'Número',
+      number: 'ID',
       edit: 'Editar',
       delete: 'Eliminar',
       stopPublishing: 'Dejar de Publicar',
@@ -402,9 +410,17 @@ export class I18nService {
       // Numbers page
       importNumber: 'Importar Numero',
       importedFrom: 'Importado de',
-      clientNumber: 'Numero Cliente',
+      clientNumber: 'ID Cliente',
       storeNumber: 'Numero de tienda',
       label: 'Etiqueta',
+      fromTwilio: 'Desde Twilio',
+      fromSipTrunk: 'Desde SIP Trunk',
+      importNumberFromTwilio: 'Importar número de teléfono desde Twilio',
+      labelPlaceholder: 'Nombre fácil de identificar del número de teléfono',
+      twilioAccountSidPlaceholder: 'SID de Cuenta Twilio',
+      routingRegionConfig: 'Configuración de la región de enrutamiento',
+      routingRegionDesc: 'Configura una región de enrutamiento específica con un token dedicado',
+      comingSoon: 'Próximamente',
 
       // Historial page
       searchNumber: 'Buscar el número',
@@ -706,7 +722,7 @@ export class I18nService {
       yourAgents: 'Your agents',
       createAgent: 'Create Agent',
       agent: 'Agent',
-      number: 'Number',
+      number: 'ID',
       edit: 'Edit',
       delete: 'Delete',
       stopPublishing: 'Stop publishing',
@@ -717,9 +733,17 @@ export class I18nService {
       // Numbers page
       importNumber: 'Import Number',
       importedFrom: 'Imported from',
-      clientNumber: 'Client Number',
+      clientNumber: 'Client ID',
       storeNumber: 'Store Number',
       label: 'Label',
+      fromTwilio: 'From Twilio',
+      fromSipTrunk: 'From SIP Trunk',
+      importNumberFromTwilio: 'Import phone number from Twilio',
+      labelPlaceholder: 'Easy-to-identify name for the phone number',
+      twilioAccountSidPlaceholder: 'Twilio Account SID',
+      routingRegionConfig: 'Routing region configuration',
+      routingRegionDesc: 'Configure a specific routing region with a dedicated token',
+      comingSoon: 'Coming soon',
 
       // Historial page
       searchNumber: 'Search number',
