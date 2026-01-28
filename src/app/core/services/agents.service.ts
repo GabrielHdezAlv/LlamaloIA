@@ -56,11 +56,19 @@ export class AgentsService {
     });
   }
 
-  // Método para listar todos los agentes
-  getAgentsList(): Observable<ListAgentsResponse> {
-    return this.http.get<ListAgentsResponse>(`${this.apiUrl}`, {
+  // Método para listar todos los agentes (con búsqueda opcional)
+  getAgentsList(q?: string): Observable<ListAgentsResponse> {
+    const hasQuery = q && q.trim().length > 0;
+
+    const options: {
+      headers: HttpHeaders;
+      params?: { q: string };
+    } = {
       headers: this.getAuthHeaders(),
-    });
+      ...(hasQuery ? { params: { q: q!.trim() } } : {}),
+    };
+
+    return this.http.get<ListAgentsResponse>(`${this.apiUrl}`, options);
   }
 
   // Método para actualizar un agente específico

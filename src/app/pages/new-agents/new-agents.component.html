@@ -11,8 +11,13 @@
               d="M21 21l-4.35-4.35M17 10.5A6.5 6.5 0 104 10.5a6.5 6.5 0 0013 0z" />
           </svg>
         </div>
-        <input type="text" placeholder="Agentes de búsqueda..."
-          class="w-full pl-9 pr-3 py-1 text-sm lg:text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-500 focus:border-gray-400 dark:focus:border-slate-500 transition-colors duration-200" />
+        <input
+          #searchInput
+          type="text"
+          placeholder="Agentes de búsqueda..."
+          (input)="onSearchChange(searchInput.value)"
+          class="w-full pl-9 pr-3 py-1 text-sm lg:text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-500 focus:border-gray-400 dark:focus:border-slate-500 transition-colors duration-200"
+        />
       </div>
     </div>
 

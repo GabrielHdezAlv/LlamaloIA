@@ -7,6 +7,8 @@ import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 import { ModalService } from '../../shared/modals/modal.service';
 import { UserService } from '../../core/services/user.service';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-agents',
@@ -37,6 +39,10 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   private isBrowser: boolean;
   private errorModalShown: boolean = false;
 
+  // Búsqueda
+  searchTerm: string = '';
+  private searchSubject = new Subject<string>();
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     cdr: ChangeDetectorRef
@@ -51,7 +57,25 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.i18nService.initializeLanguage();
 
-    // Listar agentes del usuario
+    // Suscribirse a los cambios de búsqueda con debounce
+    this.searchSubject
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((term) => this.agentsService.getAgentsList(term && term.trim().length > 0 ? term : undefined))
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('✅ Agentes filtrados:', response);
+          this.agents = response.agents || [];
+        },
+        error: (error) => {
+          console.error('❌ Error al buscar agentes:', error);
+          this.agents = [];
+        },
+      });
+
+    // Listar agentes del usuario inicialmente (sin búsqueda)
     this.loadAgents();
   }
 
@@ -83,6 +107,19 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
         }, 300);
       }
     }
+  }
+
+  // Handler para cambios en la barra de búsqueda
+  onSearchChange(term: string): void {
+    this.searchTerm = term;
+
+    // Si el input está vacío, recargamos la lista completa sin query param
+    if (!term || term.trim().length === 0) {
+      this.loadAgents();
+      return;
+    }
+
+    this.searchSubject.next(term);
   }
 
   private startFadeInAnimation(): void {
