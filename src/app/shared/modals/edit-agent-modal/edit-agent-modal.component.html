@@ -127,11 +127,13 @@
                     <rect y="3" width="20" height="6" fill="#FFC400" />
                   </svg>
                   <svg *ngSwitchCase="'us'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
-                    <rect width="20" height="12" fill="#00247D" />
-                    <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
-                    <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1" />
-                    <rect x="8" width="4" height="12" fill="#FFF" />
-                    <rect y="4" width="20" height="4" fill="#FFF" />
+                    <rect width="20" height="12" fill="#B22234" />
+                    <rect y="1" width="20" height="2" fill="#FFFFFF" />
+                    <rect y="3" width="20" height="2" fill="#B22234" />
+                    <rect y="5" width="20" height="2" fill="#FFFFFF" />
+                    <rect y="7" width="20" height="2" fill="#B22234" />
+                    <rect y="9" width="20" height="2" fill="#FFFFFF" />
+                    <rect width="9" height="7" fill="#3C3B6E" />
                   </svg>
                   <svg *ngSwitchCase="'fr'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
                     <rect width="20" height="12" fill="#fff" />
@@ -139,9 +141,9 @@
                     <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
                   </svg>
                   <svg *ngSwitchCase="'de'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
-                    <rect width="20" height="12" fill="#FFCE00" />
-                    <rect y="6" width="20" height="6" fill="#DD0000" />
-                    <rect y="4" width="20" height="4" fill="#000" />
+                    <rect width="20" height="12" fill="#000000" />
+                    <rect y="4" width="20" height="8" fill="#DD0000" />
+                    <rect y="8" width="20" height="4" fill="#FFCE00" />
                   </svg>
                 </ng-container>
                 <span class="text-xs sm:text-sm font-medium text-gray-800 dark:text-slate-200">{{selectedCountryCode}}</span>
@@ -166,8 +168,13 @@
               <li (click)="selectCountry('us', '+1')"
                 class="flex items-center px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-xs sm:text-sm border-b border-gray-100 dark:border-slate-700 transition-colors">
                 <svg width="20" height="12" class="mr-2 rounded-sm">
-                  <rect width="20" height="12" fill="#00247D" />
-                  <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
+                  <rect width="20" height="12" fill="#B22234" />
+                  <rect y="1" width="20" height="2" fill="#FFFFFF" />
+                  <rect y="3" width="20" height="2" fill="#B22234" />
+                  <rect y="5" width="20" height="2" fill="#FFFFFF" />
+                  <rect y="7" width="20" height="2" fill="#B22234" />
+                  <rect y="9" width="20" height="2" fill="#FFFFFF" />
+                  <rect width="9" height="7" fill="#3C3B6E" />
                 </svg>
                 <span class="font-medium text-gray-800 dark:text-slate-200">+1</span>
               </li>
@@ -183,9 +190,9 @@
               <li (click)="selectCountry('de', '+49')"
                 class="flex items-center px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 cursor-pointer text-xs sm:text-sm transition-colors">
                 <svg width="20" height="12" class="mr-2 rounded-sm">
-                  <rect width="20" height="12" fill="#FFCE00" />
-                  <rect y="6" width="20" height="6" fill="#DD0000" />
-                  <rect y="4" width="20" height="4" fill="#000" />
+                  <rect width="20" height="12" fill="#000000" />
+                  <rect y="4" width="20" height="8" fill="#DD0000" />
+                  <rect y="8" width="20" height="4" fill="#FFCE00" />
                 </svg>
                 <span class="font-medium text-gray-800 dark:text-slate-200">+49</span>
               </li>
