@@ -50,6 +50,9 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   routingRegionEnabled = false;
 
   private isBrowser: boolean;
+  private userTwilioSid: string | null = null;
+  private userTwilioToken: string | null = null;
+  importErrorMessage: string | null = null;
 
   // Obtener traducciones
   get t() {
@@ -68,6 +71,16 @@ export class NumbersComponent implements OnInit, AfterViewInit {
         twilioSid: [''],
         twilioToken: [''],
         label: [''] // Etiqueta opcional para el número importado
+      });
+
+      // Limpiar errores de servidor al modificar cualquier campo del formulario
+      this.importForm.valueChanges.subscribe(() => {
+        if (this.importErrorMessage) {
+          this.importErrorMessage = null;
+        }
+        this.importForm.get('phoneNumber')?.setErrors(null);
+        this.importForm.get('twilioSid')?.setErrors(null);
+        this.importForm.get('twilioToken')?.setErrors(null);
       });
   }
 
@@ -147,6 +160,7 @@ export class NumbersComponent implements OnInit, AfterViewInit {
 
   openImportFromTwilio(): void {
     this.showImportDropdown = false;
+    this.importErrorMessage = null;
     this.userService.getUserProfile().subscribe({
       next: (profile) => {
         const hasTwilioConfig = profile.twilio?.twilioSid && profile.twilio?.twilioToken;
@@ -157,8 +171,13 @@ export class NumbersComponent implements OnInit, AfterViewInit {
           });
           return;
         }
+        // Guardar credenciales de Twilio del usuario para utilizarlas al importar
+        this.userTwilioSid = profile.twilio!.twilioSid;
+        this.userTwilioToken = profile.twilio!.twilioToken;
+
         this.showImportSidebar = true;
-        this.importForm.reset({ phoneNumber: '', twilioSid: '', twilioToken: '' });
+        // Limpiar solo el número y etiqueta; las credenciales se obtienen del perfil
+        this.importForm.reset({ phoneNumber: '' });
         this.selectedCountryCode = '+34';
         this.selectedCountry = 'es';
         this.routingRegionEnabled = false;
@@ -189,6 +208,7 @@ export class NumbersComponent implements OnInit, AfterViewInit {
 
   onImportSubmit(): void {
     if (!this.importForm.valid) return;
+    this.importErrorMessage = null;
     const phoneNumber = this.importForm.get('phoneNumber')?.value?.trim();
     if (!phoneNumber) {
       this.modalService.openError({
@@ -197,24 +217,55 @@ export class NumbersComponent implements OnInit, AfterViewInit {
       });
       return;
     }
+
+    // Obtener SID y Token: si en el futuro se permite sobrescribir desde el formulario,
+    // se podrían leer de ahí; por ahora usamos los almacenados en el perfil del usuario.
+    const twilioSid = this.userTwilioSid;
+    const twilioToken = this.userTwilioToken;
+
+    if (!twilioSid || !twilioToken) {
+      this.modalService.openError({
+        title: 'Configuración de Twilio requerida',
+        message: 'No se han encontrado las credenciales de Twilio del usuario. Por favor, verifica tu configuración en Ajustes > Conexiones > Twilio.'
+      });
+      return;
+    }
+
     this.isImportLoading = true;
-    this.twilioService.validatePhone(this.selectedCountryCode, phoneNumber).subscribe({
-      next: () => {
+    this.twilioService
+      .createPhoneNumber(this.selectedCountryCode, phoneNumber, twilioSid, twilioToken)
+      .subscribe({
+      next: (response) => {
         this.isImportLoading = false;
+        this.importErrorMessage = null;
         this.closeImportSidebar();
         this.modalService.openSuccess({
           title: 'Número importado',
-          message: 'El número de teléfono se ha importado correctamente.'
+          message: response?.message || 'El número de teléfono se ha importado correctamente.'
         });
         this.loadPhoneNumbers();
       },
       error: (err) => {
         this.isImportLoading = false;
-        let msg = 'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
-        if (err?.status === 400) {
-          msg = err?.error?.message || 'Número no disponible. Verifica que el número sea correcto y esté disponible en Twilio.';
-        } else if (err?.error?.message) msg = err.error.message;
-        this.modalService.openError({ title: 'Error al validar número', message: msg });
+        let msg = 'Error al importar el número de teléfono. Por favor, intenta nuevamente.';
+        const backendMessage: string | undefined = err?.error?.message || err?.message;
+
+        if (backendMessage && backendMessage !== 'Cannot POST /twilio/phone-number') {
+          msg = backendMessage;
+        } else if (err?.status === 400) {
+          msg = 'Las credenciales de Twilio o el número de teléfono no son válidos. Revisa los datos e inténtalo de nuevo.';
+        } else if (err?.status === 404) {
+          msg = 'Usuario no encontrado. Por favor, inicia sesión nuevamente.';
+        } else if (err?.status === 0) {
+          msg = 'No se ha podido contactar con el servidor. Comprueba tu conexión a internet o inténtalo de nuevo en unos minutos.';
+        }
+        this.importErrorMessage = msg;
+
+        // Marcar campos como con error para resaltar en rojo
+        this.importForm.get('phoneNumber')?.setErrors({ server: true });
+        this.importForm.get('twilioSid')?.setErrors({ server: true });
+        this.importForm.get('twilioToken')?.setErrors({ server: true });
+        this.importForm.markAllAsTouched();
       }
     });
   }

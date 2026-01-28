@@ -66,6 +66,27 @@ export class TwilioService {
     );
   }
 
+  // Nuevo método para crear/importar un número de teléfono desde Twilio
+  createPhoneNumber(
+    countryCode: string,
+    number: string,
+    twilioSid: string,
+    twilioToken: string
+  ): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiUrl}/phone-number`,
+      {
+        countryCode: countryCode.startsWith('+') ? countryCode : `+${countryCode}`,
+        number: number.trim(),
+        twilioSid,
+        twilioToken,
+      },
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  }
+
   // Método para eliminar un número de teléfono
   deletePhoneNumber(phoneId: number): Observable<{ message: string; affectedAgents: number }> {
     const request = new HttpRequest(
