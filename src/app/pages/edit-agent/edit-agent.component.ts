@@ -8,6 +8,8 @@ import { ModalService } from '../../shared/modals/modal.service';
 import { Agent, SetAgentConfigDto } from '../../shared/models/agent.model';
 import { Voice } from '../../shared/models/voice.model';
 import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
+import { TwilioService } from '../../core/services/twilio.service';
+import { debounceTime, distinctUntilChanged, switchMap, Subject, takeUntil, mergeMap, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-edit-agent',
@@ -29,6 +31,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private userService = inject(UserService);
   private modalService = inject(ModalService);
   private platformId = inject(PLATFORM_ID);
+  private twilioService = inject(TwilioService);
 
   editForm!: FormGroup;
   isLoading = false;
@@ -56,6 +59,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   showLanguageMenu = false;
   selectedLanguageCode = 'es';
   selectedLanguageFlag = 'es';
+  
+  // Propiedades para validación de teléfono
+  isValidatingPhone = false;
+  phoneValidationMessage = '';
+  phoneIsValid: boolean | null = null;
+  private phoneValidationSubject = new Subject<{ countryCode: string; number: string; timestamp: number }>();
+  private destroy$ = new Subject<void>();
   
   private isBrowser: boolean;
 
@@ -179,6 +189,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (this.isBrowser) {
       this.animateIdle();
     }
+
+    // Configurar validación automática del teléfono
+    this.setupPhoneValidation();
   }
 
   ngOnDestroy(): void {
@@ -195,6 +208,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       audio.src = '';
     });
     this.audioCache.clear();
+    
+    // Limpiar suscripciones
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private loadAgent(): void {
@@ -238,6 +255,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.selectedLanguageCode = agentLanguage;
     this.selectedLanguageFlag = this.getLanguageFlag(agentLanguage);
     
+    // Resetear estado de validación al cargar el agente
+    this.phoneIsValid = null;
+    this.phoneValidationMessage = '';
+    this.isValidatingPhone = false;
+    
     this.editForm.patchValue({
       name: this.agent.name || '',
       language: agentLanguage,
@@ -254,7 +276,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       style: this.agent.parameters?.style ?? 0.0,
       boost: this.agent.parameters?.boost ?? false,
       speed: this.agent.parameters?.speed ?? 1.0
-    });
+    }, { emitEvent: false }); // No emitir eventos al poblar el formulario para evitar validaciones innecesarias
     // Precargar el audio después de poblar el formulario
     setTimeout(() => this.preloadAudio(), 200);
   }
@@ -278,6 +300,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.selectedCountry = countryCode;
     this.showCountryMenu = false;
     this.editForm.patchValue({ countryCode: code });
+    // Validar teléfono cuando cambia el prefijo
+    this.validatePhoneNumber();
   }
 
   getLanguageFlag(languageCode: string): string {
@@ -542,10 +566,85 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     animate();
   }
 
+  get phoneChanged(): boolean {
+    const newCountryCode = this.selectedCountryCode;
+    const newNumberDigits = this.editForm.value.phoneNumber
+      ? this.editForm.value.phoneNumber.replace(/\D/g, '')
+      : '';
+
+    const originalCountryCode = this.agent?.phoneNumbers?.countryCode || null;
+    const originalNumberDigits =
+      this.agent?.phoneNumbers?.number != null
+        ? String(this.agent.phoneNumbers.number)
+        : null;
+
+    return (
+      !originalCountryCode ||
+      !originalNumberDigits ||
+      originalCountryCode !== newCountryCode ||
+      originalNumberDigits !== newNumberDigits
+    );
+  }
+
   onSubmit(): void {
     if (this.editForm.valid && this.agentId) {
-      const formValue = this.editForm.value;
+      // Verificar si el teléfono ha sido validado y es válido
+      const newCountryCode = this.selectedCountryCode;
+      const newNumberDigits = this.editForm.value.phoneNumber.replace(/\D/g, '');
 
+      const originalCountryCode = this.agent?.phoneNumbers?.countryCode || null;
+      const originalNumberDigits =
+        this.agent?.phoneNumbers?.number != null
+          ? String(this.agent.phoneNumbers.number)
+          : null;
+
+      const phoneChanged =
+        !originalCountryCode ||
+        !originalNumberDigits ||
+        originalCountryCode !== newCountryCode ||
+        originalNumberDigits !== newNumberDigits;
+
+      // Si el teléfono cambió, debe estar validado y ser válido
+      if (phoneChanged) {
+        // Si aún se está validando, no permitir guardar
+        if (this.isValidatingPhone) {
+          this.modalService.openError({
+            title: 'Validando teléfono',
+            message: 'Por favor, espera a que termine la validación del número de teléfono.',
+          });
+          return;
+        }
+
+        // Si no es válido, no permitir guardar
+        if (this.phoneIsValid === false) {
+          this.modalService.openError({
+            title: 'Error de validación',
+            message: this.phoneValidationMessage || 'El número de teléfono no es válido. Por favor, verifica el número.',
+          });
+          return;
+        }
+
+        // Si no se ha validado aún (es null), forzar validación antes de guardar
+        if (this.phoneIsValid === null) {
+          this.validatePhoneNumber();
+          this.modalService.openError({
+            title: 'Validación requerida',
+            message: 'Por favor, espera a que se valide el número de teléfono antes de guardar.',
+          });
+          return;
+        }
+
+        // Solo permitir guardar si es válido
+        if (this.phoneIsValid !== true) {
+          this.modalService.openError({
+            title: 'Error de validación',
+            message: 'El número de teléfono debe ser válido antes de guardar.',
+          });
+          return;
+        }
+      }
+
+      const formValue = this.editForm.value;
       const updateData: SetAgentConfigDto = {
         name: formValue.name.trim(),
         language: formValue.language,
@@ -554,8 +653,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         firstInteraction: formValue.firstInteraction.trim(),
         agentInstruction: formValue.agentInstruction?.trim() || '',
         phoneNumbers: {
-          countryCode: this.selectedCountryCode,
-          number: parseInt(formValue.phoneNumber.replace(/\D/g, ''), 10)
+          countryCode: newCountryCode,
+          number: parseInt(newNumberDigits, 10),
         },
         label: formValue.label.trim(),
         state: formValue.state,
@@ -564,46 +663,50 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           similarity: formValue.similarity,
           style: formValue.style,
           boost: formValue.boost,
-          speed: formValue.speed
-        }
+          speed: formValue.speed,
+        },
       };
 
       this.isLoading = true;
-
-      this.agentsService.updateAgent(this.agentId, updateData).subscribe({
+      this.agentsService.updateAgent(this.agentId!, updateData).subscribe({
         next: (response) => {
           console.log('✅ Agente actualizado:', response);
           this.isLoading = false;
           this.modalService.openSuccess({
             title: 'Agente actualizado',
-            message: response.message || 'El agente ha sido actualizado correctamente.'
+            message:
+              response.message ||
+              'El agente ha sido actualizado correctamente.',
           });
           this.router.navigate(['/dashboard/agents']);
         },
         error: (error) => {
           console.error('❌ Error al actualizar agente:', error);
           this.isLoading = false;
-          
-          let errorMessage = 'Error al actualizar el agente. Por favor, intenta nuevamente.';
-          
+
+          let errorMessage =
+            'Error al actualizar el agente. Por favor, intenta nuevamente.';
+
           if (error?.error?.message) {
             errorMessage = error.error.message;
           } else if (error?.status === 401) {
-            errorMessage = 'No autorizado. Por favor, inicia sesión nuevamente.';
+            errorMessage =
+              'No autorizado. Por favor, inicia sesión nuevamente.';
           } else if (error?.status === 404) {
             errorMessage = 'Agente no encontrado.';
           } else if (error?.status === 400) {
-            errorMessage = 'Error en los datos enviados. Por favor, verifica todos los campos.';
+            errorMessage =
+              'Error en los datos enviados. Por favor, verifica todos los campos.';
           }
 
           this.navigateToAgentsWithError(
             'Error al actualizar agente',
             errorMessage
           );
-        }
+        },
       });
     } else {
-      Object.keys(this.editForm.controls).forEach(key => {
+      Object.keys(this.editForm.controls).forEach((key) => {
         this.editForm.get(key)?.markAsTouched();
       });
     }
@@ -656,6 +759,130 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           message,
         },
       },
+    });
+  }
+
+  /**
+   * Configura la validación automática del teléfono cuando cambia el número o el prefijo
+   */
+  private setupPhoneValidation(): void {
+    // Listener para cambios en el número de teléfono
+    this.editForm.get('phoneNumber')?.valueChanges
+      .pipe(
+        debounceTime(800), // Esperar 800ms después de que el usuario deje de escribir
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.validatePhoneNumber();
+      });
+
+    // Listener para cambios en el código de país
+    this.editForm.get('countryCode')?.valueChanges
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.validatePhoneNumber();
+      });
+
+    // Configurar el Subject para validación con debounce
+    this.phoneValidationSubject
+      .pipe(
+        debounceTime(500),
+        switchMap(({ countryCode, number }) => {
+          this.isValidatingPhone = true;
+          this.phoneIsValid = null;
+          this.phoneValidationMessage = '';
+          return this.twilioService.validatePhone(countryCode, number).pipe(
+            catchError((error) => {
+              // Manejar el error y devolver un observable que permita continuar
+              console.error('❌ Error al validar teléfono:', error);
+              this.isValidatingPhone = false;
+              this.phoneIsValid = false;
+              
+              if (error?.error?.message) {
+                this.phoneValidationMessage = error.error.message;
+              } else {
+                this.phoneValidationMessage = 'No se pudo validar el número de teléfono. Por favor, verifica que sea correcto.';
+              }
+              
+              // Devolver un observable vacío para que el stream continúe
+              return of(null);
+            })
+          );
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            // Solo actualizar si hay una respuesta válida (no es un error)
+            this.isValidatingPhone = false;
+            this.phoneIsValid = true;
+            this.phoneValidationMessage = response.message || 'Número de teléfono válido';
+          }
+        },
+        error: (error) => {
+          // Este error solo se ejecutaría si hay un error en el pipe principal
+          console.error('❌ Error inesperado en validación:', error);
+          this.isValidatingPhone = false;
+        },
+      });
+  }
+
+  /**
+   * Valida el número de teléfono actual
+   */
+  private validatePhoneNumber(): void {
+    const phoneNumber = this.editForm.get('phoneNumber')?.value || '';
+    const countryCode = this.selectedCountryCode;
+    
+    // Solo validar si hay un número ingresado
+    if (!phoneNumber || phoneNumber.trim() === '') {
+      this.phoneIsValid = null;
+      this.phoneValidationMessage = '';
+      this.isValidatingPhone = false;
+      return;
+    }
+
+    // Limpiar el número (solo dígitos)
+    const numberDigits = phoneNumber.replace(/\D/g, '');
+    
+    // Solo validar si hay dígitos
+    if (!numberDigits || numberDigits.length === 0) {
+      this.phoneIsValid = null;
+      this.phoneValidationMessage = '';
+      this.isValidatingPhone = false;
+      return;
+    }
+
+    // Comparar con el número original del agente
+    const originalCountryCode = this.agent?.phoneNumbers?.countryCode || null;
+    const originalNumberDigits =
+      this.agent?.phoneNumbers?.number != null
+        ? String(this.agent.phoneNumbers.number)
+        : null;
+
+    // Si el número es igual al original, marcarlo como válido sin hacer petición
+    if (
+      originalCountryCode &&
+      originalNumberDigits &&
+      originalCountryCode === countryCode &&
+      originalNumberDigits === numberDigits
+    ) {
+      this.isValidatingPhone = false;
+      this.phoneIsValid = true;
+      this.phoneValidationMessage = '';
+      return;
+    }
+
+    // Si el número es diferente, hacer la validación
+    // Enviar al Subject para validación con debounce
+    // Agregar timestamp para asegurar que cada validación sea única
+    this.phoneValidationSubject.next({
+      countryCode,
+      number: numberDigits,
+      timestamp: Date.now()
     });
   }
 }
