@@ -96,8 +96,6 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   private loadPhoneNumbers(q?: string): void {
     this.userService.getUserPhoneNumbers(q).subscribe({
       next: (response) => {
-        console.log('📞 Response /users/phone-numbers:', response);
-
         const phones = response?.phoneNumbers || [];
 
         if (phones.length > 0) {
@@ -109,14 +107,10 @@ export class NumbersComponent implements OnInit, AfterViewInit {
             state: phone.state || 'Activo', // Usar state del backend o 'Activo' por defecto
             importedBy: phone.importedBy || 'Twilio', // Usar importedBy del backend o 'Twilio' por defecto
           }));
-          console.log('📞 PhoneNumbers mapeados:', this.phoneNumbers);
-          console.log('📞 Cantidad de números:', this.phoneNumbers.length);
           // Forzar detección de cambios
           this.cdr.detectChanges();
         } else {
           this.phoneNumbers = [];
-          console.log('📞 No hay phoneNumbers devueltos por el endpoint /users/phone-numbers');
-          console.log('📞 Array phoneNumbers vacío:', this.phoneNumbers);
           this.cdr.detectChanges();
         }
       },
@@ -134,24 +128,17 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   }
 
   private startFadeInAnimation(): void {
-    console.log('NumbersComponent startFadeInAnimation - isBrowser:', this.isBrowser);
-    
     // Verificar si estamos en el navegador de manera más robusta
     const isInBrowser = typeof window !== 'undefined' && window.localStorage;
-    console.log('Verificación robusta del navegador:', isInBrowser);
     
     if (!isInBrowser) {
-      console.log('No es navegador, mostrando contenido inmediatamente');
       this.showContent = true;
       this.cdr.detectChanges();
       return;
     }
-
-    console.log('Ejecutando animación con delay...');
     
     // Contenido aparece después de 100ms
     setTimeout(() => {
-      console.log('Mostrando contenido de números');
       this.showContent = true;
       this.cdr.detectChanges();
     }, 100);

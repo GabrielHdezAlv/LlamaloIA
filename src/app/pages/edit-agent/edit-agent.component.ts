@@ -670,7 +670,6 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.agentsService.updateAgent(this.agentId!, updateData).subscribe({
         next: (response) => {
-          console.log('✅ Agente actualizado:', response);
           this.isLoading = false;
           this.modalService.openSuccess({
             title: 'Agente actualizado',

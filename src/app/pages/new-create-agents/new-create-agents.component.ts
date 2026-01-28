@@ -135,17 +135,14 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
     try {
       const savedData = localStorage.getItem(AGENT_DRAFT_KEY);
-      console.log('Borrador guardado encontrado:', savedData);
 
       if (savedData) {
         this.savedDraft = JSON.parse(savedData);
-        console.log('Borrador parseado:', this.savedDraft);
 
         // Verificar que el borrador tenga datos significativos
         if (this.savedDraft) {
           // Mostrar popup si está más allá del primer paso O si tiene nombre de agente
           if (this.savedDraft.step !== 'agentName' || (this.savedDraft.agentName && this.savedDraft.agentName.trim() !== '')) {
-            console.log('Mostrando popup de recuperación');
             this.showRecoveryPopup = true;
           }
         }
@@ -243,7 +240,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       };
 
       localStorage.setItem(AGENT_DRAFT_KEY, JSON.stringify(draft));
-      console.log('Borrador guardado:', draft);
     } catch (e) {
       console.error('Error al guardar borrador:', e);
     }
@@ -254,7 +250,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (!this.isBrowser) return;
     try {
       localStorage.removeItem(AGENT_DRAFT_KEY);
-      console.log('Borrador eliminado');
     } catch (e) {
       console.error('Error al eliminar borrador:', e);
     }
@@ -357,7 +352,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         this.voices = mappedVoices;
 
         this.voicesLoaded = true;
-        console.log('Voces cargadas:', this.voices);
       },
       error: (error) => {
         console.error('Error al cargar las voces:', error);
@@ -802,19 +796,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   onSubmit() {
-    console.log('Formulario enviado', {
-      greeting: this.greeting,
-      template: this.template,
-      instructions: this.instructions
-    });
-
     this.step = 'actions'; // Ir a "Añadir Acciones"
     this.saveDraft();
   }
 
   selectAction(platform: string) {
-    console.log('Plataforma seleccionada:', platform);
-
     if (platform === 'shopify') {
       // Avanzar directamente sin modal (el modal ha sido eliminado)
       this.step = 'knowledgeBase';
@@ -878,7 +864,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         this.twilioSidValidationStatus = 'success';
         this.twilioTokenValidationStatus = 'success';
         this.isTwilioValidated = true;
-        console.log('✅ Configuración de Twilio validada correctamente:', response);
         
         // Si ya hay un número de teléfono ingresado, validarlo automáticamente
         if (this.phoneNumber && this.phoneNumber.trim()) {
@@ -942,15 +927,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   onContinueFromConnections() {
     // Verificar si se puede continuar usando el getter
     if (!this.canContinueFromConnections) {
-      console.log('No se puede continuar. Estado:', {
-        showMakeConfig: this.showMakeConfig,
-        showTwilioConfig: this.showTwilioConfig,
-        isTwilioCompletelyValidated: this.isTwilioCompletelyValidated,
-        twilioSidStatus: this.twilioSidValidationStatus,
-        twilioTokenStatus: this.twilioTokenValidationStatus,
-        phoneStatus: this.phoneValidationStatus,
-        isTwilioValidated: this.isTwilioValidated
-      });
       return;
     }
     
@@ -1000,14 +976,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.phoneErrorMessage = '';
     this.isValidatingPhone = true;
 
-    console.log('🔍 Validando número de teléfono automáticamente:', { countryCode, number });
-
     // Llamar al endpoint de validación
     this.twilioService.validatePhone(countryCode, number).subscribe({
       next: (response) => {
         this.isValidatingPhone = false;
         this.phoneValidationStatus = 'success';
-        console.log('✅ Número validado correctamente:', response);
       },
       error: (error) => {
         this.isValidatingPhone = false;
@@ -1038,8 +1011,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
   selectKnowledgeSource(source: 'pdf' | 'web') {
-    console.log('Fuente seleccionada:', source);
-
     if (source === 'web') {
       // Abrir modal de Web
       const dialogRef = this.modalService.openWeb({
@@ -1047,7 +1018,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log('Web modal closed with result:', result);
       });
     } else if (source === 'pdf') {
       // Abrir selector de archivos para PDF
@@ -1093,7 +1063,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         // Agregar solo los archivos que quepan (máximo hasta completar 2)
         const filesToAdd = newFiles.slice(0, availableSlots);
         this.uploadedDocuments = [...this.uploadedDocuments, ...filesToAdd];
-        console.log('Documentos subidos:', this.uploadedDocuments.length);
 
         // Si el usuario intentó subir más archivos de los permitidos, mostrar modal
         if (newFiles.length > availableSlots) {
@@ -1118,7 +1087,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   clearUploadedDocuments() {
     this.uploadedDocuments = [];
-    console.log('Documentos eliminados');
   }
 
   // Opcional: Método para continuar sin elegir fuente
@@ -1128,7 +1096,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   onSubmitTestCall() {
-    console.log('Número ingresado para prueba:', this.phoneNumber);
     // Avanza directamente a crear el agente
     this.createAgentAfterValidation();
     this.saveDraft();
@@ -1155,7 +1122,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       selectedCountryCode: this.selectedCountryCode,
       label: this.label
     };
-    console.log('📋 Datos guardados hasta ahora:', savedData);
   }
 
   // Métodos para conectar número de teléfono
@@ -1182,14 +1148,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
     const countryCode = this.selectedCountryCode || '+34';
     const number = this.phoneNumber.trim();
-    
-    console.log('🔍 Validando número de teléfono:', { countryCode, number });
 
     // Primero validar el número de teléfono
     this.twilioService.validatePhone(countryCode, number).subscribe({
       next: (response) => {
-        console.log('✅ Número validado correctamente:', response);
-        
         // Si la validación es exitosa, proceder a crear el agente
         this.createAgentAfterValidation();
       },
@@ -1247,8 +1209,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       },
       state: "Activo"
     };
-
-    console.log('🚀 Enviando objeto a POST /agents:', agentConfig);
     
     // Navegar a pantalla de carga
     this.step = 'final';
@@ -1256,7 +1216,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     // Enviar petición al backend
     this.agentsService.createAgent(agentConfig).subscribe({
       next: (response) => {
-        console.log('✅ Agente creado exitosamente:', response);
         // Cambiar a pantalla de éxito
         this.step = 'success';
         // Limpiar el borrador cuando el agente se crea con éxito
@@ -1486,13 +1445,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   // Método para actualizar el tiempo de inactividad
   updateInactivityTimeout(value: number) {
     this.inactivityTimeout = value;
-    console.log('Tiempo de inactividad actualizado:', this.getFormattedInactivityTimeout());
   }
 
   // Método para actualizar la duración máxima
   updateMaxCallDuration(value: number) {
     this.maxCallDuration = value;
-    console.log('Duración máxima actualizada:', this.getFormattedMaxCallDuration());
   }
 
   // Método para validar la configuración avanzada
@@ -1518,15 +1475,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   onSubmitAdvancedSettings() {
     if (this.validateAdvancedSettings()) {
-      console.log('Configuración avanzada guardada:', {
-        inactivityTimeout: this.inactivityTimeout,
-        maxCallDuration: this.maxCallDuration,
-        agentSpeed: this.agentSpeed,
-        llmTemperature: this.llmTemperature,
-        isRecordingNoticeEnabled: this.isRecordingNoticeEnabled,
-        recordingNoticeText: this.isRecordingNoticeEnabled ? this.recordingNoticeText : null
-      });
-
       // Cambia a prueba de agente
       this.step = 'summary';
       this.animateIdle();
@@ -1536,7 +1484,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   // Método para saltar la configuración avanzada
   onSkipAdvancedSettings() {
-    console.log('Configuración avanzada saltada');
     // Avanza a prueba de agente
     this.step = 'summary';
     this.animateIdle();
@@ -1795,7 +1742,6 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.agentSpeed = 0;
     this.llmTemperature = 0;
     this.isRecordingNoticeEnabled = false;
-    console.log('Configuración avanzada reseteada a valores por defecto');
   }
 
   // Método para obtener un resumen de la configuración
@@ -1814,11 +1760,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   // Métodos para detectar cambios en los sliders
   onInactivityChange() {
     // Puedes agregar lógica si necesitas más adelante
-    console.log('Inactivity: ', this.inactivityTimeout);
   }
 
   onMaxCallDurationChange() {
-    console.log('Max duration: ', this.maxCallDuration);
   }
 
   // Métodos para efectos del video del mar
@@ -1878,13 +1822,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   generatePrompt() {
     // Aquí iría la lógica para generar el prompt con IA
     // Por ahora, simplemente cerramos el modal
-    console.log('Generando prompt con descripción:', this.promptDescription);
     // TODO: Implementar la llamada a la API de IA
     this.closeGeneratePromptModal();
   }
 
   onSkipConnectPhone() {
-    console.log('Saltando conexión de teléfono...');
     this.step = 'final';
     this.saveDraft();
   }

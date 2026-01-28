@@ -66,7 +66,6 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
       )
       .subscribe({
         next: (response) => {
-          console.log('✅ Agentes filtrados:', response);
           this.agents = response.agents || [];
         },
         error: (error) => {
@@ -123,24 +122,17 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   }
 
   private startFadeInAnimation(): void {
-    console.log('NewAgentsComponent startFadeInAnimation - isBrowser:', this.isBrowser);
-
     // Verificar si estamos en el navegador de manera más robusta
     const isInBrowser = typeof window !== 'undefined' && window.localStorage;
-    console.log('Verificación robusta del navegador:', isInBrowser);
 
     if (!isInBrowser) {
-      console.log('No es navegador, mostrando contenido inmediatamente');
       this.showContent = true;
       this.cdr.detectChanges();
       return;
     }
 
-    console.log('Ejecutando animación con delay...');
-
     // Contenido aparece después de 100ms
     setTimeout(() => {
-      console.log('Mostrando contenido de new-agents');
       this.showContent = true;
       this.cdr.detectChanges();
     }, 100);
@@ -150,7 +142,6 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   private loadAgents(): void {
     this.agentsService.getAgentsList().subscribe({
       next: (response) => {
-        console.log('✅ Agentes del usuario:', response);
         this.agents = response.agents || [];
       },
       error: (error) => {
@@ -185,7 +176,6 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     // Realizar petición DELETE
     this.agentsService.deleteAgent(agentId).subscribe({
       next: (response) => {
-        console.log('✅ Agente eliminado:', response);
         this.modalService.openSuccess({
           title: 'Agente eliminado',
           message: response.message || 'El agente ha sido eliminado correctamente.'
@@ -275,7 +265,6 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   stopPublishing(index: number): void {
     this.openMenuIndex = null;
     // TODO: Implementar lógica para dejar de publicar
-    console.log('Dejar de publicar agente:', index);
   }
 
   // Cerrar menú al hacer clic fuera

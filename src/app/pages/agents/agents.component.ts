@@ -125,7 +125,6 @@ export class AgentsComponent implements OnInit {
     // Listar agentes del usuario
     this.agentsService.getAgentsList().subscribe({
       next: (response) => {
-        console.log('✅ Agentes del usuario:', response);
       },
       error: (error) => {
         console.error('❌ Error al obtener agentes:', error);
@@ -225,8 +224,6 @@ export class AgentsComponent implements OnInit {
   }
 
   publishAgent() {
-    console.log('publishAgent: ', this.selectedVoice);
-
     if (!this.selectedVoice) {
       return;
     }
@@ -334,23 +331,16 @@ export class AgentsComponent implements OnInit {
   }
 
   private startFadeInAnimation(): void {
-    console.log('AgentsComponent startFadeInAnimation - isBrowser:', this.isBrowser);
-    
     // Verificar si estamos en el navegador de manera más robusta
     const isInBrowser = typeof window !== 'undefined' && window.localStorage;
-    console.log('Verificación robusta del navegador:', isInBrowser);
     
     if (!isInBrowser) {
-      console.log('No es navegador, mostrando contenido inmediatamente');
       this.showContent = true;
       return;
     }
-
-    console.log('Ejecutando animación con delay...');
     
     // Contenido aparece después de 100ms
     setTimeout(() => {
-      console.log('Mostrando contenido de agentes');
       this.showContent = true;
     }, 100);
   }
