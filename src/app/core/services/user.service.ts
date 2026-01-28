@@ -52,6 +52,54 @@ export class UserService {
     });
   }
 
+  /**
+   * Obtener lista de números de teléfono del usuario autenticado
+   * Endpoint: GET /users/phone-numbers
+   * Query param opcional: q
+   *
+   * Estructura esperada de respuesta:
+   * {
+   *   phoneNumbers: Array<{
+   *     phoneId: number;
+   *     countryCode: string;
+   *     number: string;
+   *     state: "Activo" | "Inactivo";
+   *     importedBy: string;
+   *   }>
+   * }
+   */
+  getUserPhoneNumbers(
+    q?: string
+  ): Observable<{
+    phoneNumbers: Array<{
+      phoneId: number;
+      countryCode: string;
+      number: string;
+      state: 'Activo' | 'Inactivo';
+      importedBy: string;
+    }>;
+  }> {
+    const hasQuery = q && q.trim().length > 0;
+
+    const options: {
+      headers: HttpHeaders;
+      params?: { q: string };
+    } = {
+      headers: this.getAuthHeaders(),
+      ...(hasQuery ? { params: { q: q!.trim() } } : {}),
+    };
+
+    return this.http.get<{
+      phoneNumbers: Array<{
+        phoneId: number;
+        countryCode: string;
+        number: string;
+        state: 'Activo' | 'Inactivo';
+        importedBy: string;
+      }>;
+    }>(`${this.apiUrl}/users/phone-numbers`, options);
+  }
+
   LoginUser(user: LoginUser): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, user, {
       headers: this.getAuthHeaders(),

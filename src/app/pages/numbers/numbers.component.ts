@@ -39,6 +39,9 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   phoneNumbers: PhoneNumberDisplay[] = [];
   openMenuIndex: number | null = null;
 
+  // Búsqueda de números
+  searchTerm: string = '';
+
   // Importar número: dropdown + sidebar
   showImportDropdown = false;
   showImportSidebar = false;
@@ -90,21 +93,21 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   }
 
   // Método para cargar los números de teléfono del perfil
-  private loadPhoneNumbers(): void {
-    this.userService.getUserProfile().subscribe({
-      next: (profile) => {
-        console.log('📞 PhoneNumbers del usuario:', profile.phoneNumbers);
-        console.log('📞 Perfil completo:', profile);
-        
-        // Mapear los phoneNumbers del usuario a la estructura de la tabla
-        if (profile.phoneNumbers && profile.phoneNumbers.length > 0) {
-          this.phoneNumbers = profile.phoneNumbers.map((phone, index) => ({
+  private loadPhoneNumbers(q?: string): void {
+    this.userService.getUserPhoneNumbers(q).subscribe({
+      next: (response) => {
+        console.log('📞 Response /users/phone-numbers:', response);
+
+        const phones = response?.phoneNumbers || [];
+
+        if (phones.length > 0) {
+          this.phoneNumbers = phones.map((phone, index) => ({
             phoneId: phone.phoneId || index + 1,
             countryCode: phone.countryCode || '',
             number: String(phone.number || ''), // Convertir a string por si viene como número
             label: `ID ${phone.phoneId || index + 1}`, // Generar label basado en phoneId
             state: phone.state || 'Activo', // Usar state del backend o 'Activo' por defecto
-            importedBy: phone.importedBy || 'Twilio' // Usar importedBy del backend o 'Twilio' por defecto
+            importedBy: phone.importedBy || 'Twilio', // Usar importedBy del backend o 'Twilio' por defecto
           }));
           console.log('📞 PhoneNumbers mapeados:', this.phoneNumbers);
           console.log('📞 Cantidad de números:', this.phoneNumbers.length);
@@ -112,16 +115,16 @@ export class NumbersComponent implements OnInit, AfterViewInit {
           this.cdr.detectChanges();
         } else {
           this.phoneNumbers = [];
-          console.log('📞 No hay phoneNumbers en el perfil');
+          console.log('📞 No hay phoneNumbers devueltos por el endpoint /users/phone-numbers');
           console.log('📞 Array phoneNumbers vacío:', this.phoneNumbers);
           this.cdr.detectChanges();
         }
       },
       error: (error) => {
-        console.error('Error al obtener el perfil del usuario:', error);
+        console.error('Error al obtener los números de teléfono del usuario:', error);
         this.phoneNumbers = [];
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 
@@ -156,6 +159,12 @@ export class NumbersComponent implements OnInit, AfterViewInit {
 
   toggleImportDropdown(): void {
     this.showImportDropdown = !this.showImportDropdown;
+  }
+
+  // Actualizar lista al cambiar el término de búsqueda
+  onSearchChange(): void {
+    const term = this.searchTerm?.trim();
+    this.loadPhoneNumbers(term || undefined);
   }
 
   openImportFromTwilio(): void {
