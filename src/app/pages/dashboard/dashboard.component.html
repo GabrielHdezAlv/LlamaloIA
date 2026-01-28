@@ -117,6 +117,22 @@
             <span class="nav-text">{{ t.metrics }}</span>
             <span class="ml-auto text-xs text-blue-900 border border-gray-300 px-3 py-1 rounded-lg font-bold">{{ t.new }}</span>
           </a>
+
+          <a
+            [routerLink]="['/dashboard/knowledge-base']"
+            (click)="closeMobileSidebar()"
+            [class]="'nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg transition ' + (isRouteActive('/dashboard/knowledge-base') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')"
+          >
+            <span class="nav-icon-wrapper">
+              <svg width="24" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                <path d="M8 7h8" />
+                <path d="M8 11h8" />
+              </svg>
+            </span>
+            <span class="nav-text">{{ t.knowledgeBase }}</span>
+          </a>
         </nav>
 
         <!-- Sección inferior -->

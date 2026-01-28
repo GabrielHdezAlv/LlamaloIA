@@ -19,6 +19,7 @@ import { AdminTokensComponent } from './pages/admin-tokens/admin-tokens.componen
 import { AdminRedesSocialesComponent } from './pages/admin-redes-sociales/admin-redes-sociales.component';
 import { AdminRecordatorioComponent } from './pages/admin-recordatorio/admin-recordatorio.component';
 import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
+import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
 
 
 export const routes: Routes = [
@@ -89,6 +90,7 @@ export const routes: Routes = [
       { path: 'numbers', component: NumbersComponent },
       { path: 'history', component: HistorialComponent },
       { path: 'metrics', component: MetricsComponent },
+      { path: 'knowledge-base', component: KnowledgeBaseComponent },
 
       // 🔽 Nuevas rutas del dropdown
       { path: 'account', component: AccountComponent },

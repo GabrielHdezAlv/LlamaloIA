@@ -157,6 +157,19 @@
           <span class="ml-auto text-[10px] text-blue-900 border border-gray-300 px-2 py-0.5 rounded-lg font-bold">{{
             t.new }}</span>
         </a>
+
+        <a [routerLink]="['/dashboard/knowledge-base']" (click)="closeMenu()"
+          [class]="'nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition ' + (isRouteActive('/dashboard/knowledge-base') ? 'nav-link-active text-blue-900' : 'text-gray-400 hover:bg-gray-100 hover:text-blue-900')">
+          <span class="nav-icon-wrapper">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" class="nav-icon">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              <path d="M8 7h8" />
+              <path d="M8 11h8" />
+            </svg>
+          </span>
+          <span class="nav-text">{{ t.knowledgeBase }}</span>
+        </a>
       </nav>
 
       <!-- Sección inferior -->
@@ -507,6 +520,28 @@
         <span *ngIf="!isCollapsed"
           class="relative z-10 nav-text text-xs 3xl:text-sm transition-all duration-500 ease-in-out opacity-0 animate-fade-in ml-2 3xl:ml-2.5">{{
           t.metrics }}</span>
+      </a>
+
+      <a [routerLink]="['/dashboard/knowledge-base']" (click)="collapseOnNavigate()"
+        [class]="'relative flex items-center rounded-lg transition my-0 w-full py-1 ' + (isRouteActive('/dashboard/knowledge-base') && !isCollapsed ? 'text-white' : isRouteActive('/dashboard/knowledge-base') && isCollapsed ? 'text-white' : 'text-gray-400 hover:text-blue-900')">
+        <span *ngIf="isRouteActive('/dashboard/knowledge-base')"
+          class="absolute left-0 top-1/2 -translate-y-1/2 rounded-md h-6 3xl:h-7 nav-link-active-bg bg-blue-950 dark:bg-[#1E3A8A]"
+          [style.width]="isCollapsed ? '1.5rem' : 'calc(100% - 0.5rem)'" [style.opacity]="isCollapsed ? '1' : '1'"
+          [style.transition]="'width 0.5s ease-in-out, opacity 0.3s ease-in-out'"></span>
+        <span
+          [class]="'relative z-10 inline-flex items-center justify-center rounded-md flex-shrink-0 ' + (isRouteActive('/dashboard/knowledge-base') && isCollapsed ? 'p-1 w-6 h-6 3xl:w-7 3xl:h-7 bg-blue-950 dark:bg-[#1E3A8A]' : isRouteActive('/dashboard/knowledge-base') ? 'p-1 w-6 h-6 3xl:w-7 3xl:h-7' : 'w-6 h-6 3xl:w-7 3xl:h-7 transition-all duration-300 hover:bg-gray-100 dark:hover:bg-slate-800 nav-link-inactive')">
+          <svg
+            [class]="'transition-all w-[16px] h-[16px] 3xl:w-[18px] 3xl:h-[18px] ' + (isRouteActive('/dashboard/knowledge-base') ? '' : '')"
+            [style.color]="isRouteActive('/dashboard/knowledge-base') ? '#FFFFFF' : ''" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            <path d="M8 7h8" />
+            <path d="M8 11h8" />
+          </svg>
+        </span>
+        <span *ngIf="!isCollapsed"
+          class="relative z-10 nav-text text-xs 3xl:text-sm transition-all duration-500 ease-in-out opacity-0 animate-fade-in ml-2 3xl:ml-2.5">{{
+          t.knowledgeBase }}</span>
       </a>
     </nav>
 

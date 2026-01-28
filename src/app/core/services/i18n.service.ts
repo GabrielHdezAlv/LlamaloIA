@@ -48,6 +48,8 @@ export interface Translations {
   numbers: string;
   history: string;
   metrics: string;
+  knowledgeBase: string;
+  knowledgeBaseEmpty: string;
   settings: string;
   privateCommunity: string;
   helpCenter: string;
@@ -278,7 +280,6 @@ export interface Translations {
   voices: string;
   instructions: string;
   addActions: string;
-  knowledgeBase: string;
   testAgent: string;
   connectPhoneNumber: string;
   throughTwilio: string;
@@ -383,6 +384,8 @@ export class I18nService {
       numbers: 'Números',
       history: 'Historial',
       metrics: 'Métricas',
+      knowledgeBase: 'Base de conocimientos',
+      knowledgeBaseEmpty: 'Esta sección está vacía por ahora.',
       settings: 'Ajustes',
       privateCommunity: 'Comunidad Privada',
       helpCenter: 'Centro de Ayuda',
@@ -613,7 +616,6 @@ export class I18nService {
       voices: 'Voces',
       instructions: 'Instrucciones',
       addActions: 'Añadir acciones',
-      knowledgeBase: 'Base de conocimiento',
       testAgent: 'Probar agente',
       connectPhoneNumber: 'Conectar número de teléfono',
       throughTwilio: 'A través de Twilio',
@@ -706,6 +708,8 @@ export class I18nService {
       numbers: 'Numbers',
       history: 'History',
       metrics: 'Metrics',
+      knowledgeBase: 'Knowledge base',
+      knowledgeBaseEmpty: 'This section is empty for now.',
       settings: 'Settings',
       privateCommunity: 'Private Community',
       helpCenter: 'Help Center',
@@ -936,7 +940,6 @@ export class I18nService {
       voices: 'Voices',
       instructions: 'Instructions',
       addActions: 'Add actions',
-      knowledgeBase: 'Knowledge base',
       testAgent: 'Test agent',
       connectPhoneNumber: 'Connect phone number',
       throughTwilio: 'Through Twilio',
