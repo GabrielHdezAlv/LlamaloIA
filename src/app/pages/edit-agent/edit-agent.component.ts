@@ -107,8 +107,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Precargar audio cuando cambia la voz
+    // Precargar audio cuando cambia la voz y detener reproducción si está activa
     this.editForm.get('voiceId')?.valueChanges.subscribe(() => {
+      if (this.isPlaying) {
+        this.pauseTestAudio();
+      }
       this.preloadAudio();
     });
 
@@ -311,6 +314,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.selectedLanguageFlag = this.getLanguageFlag(languageCode);
     this.showLanguageMenu = false;
     this.editForm.patchValue({ language: languageCode });
+    // Detener reproducción si está activa al cambiar el idioma
+    if (this.isPlaying) {
+      this.pauseTestAudio();
+    }
     // Precargar el audio cuando se cambia el idioma
     this.preloadAudio();
   }
