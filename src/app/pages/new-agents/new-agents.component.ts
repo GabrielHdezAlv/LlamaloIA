@@ -124,18 +124,29 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   }
 
   // Método para eliminar un agente
-  deleteAgent(agentIndex: number, agentName: string): void {
+  deleteAgent(agent: Agent): void {
     this.openMenuIndex = null;
     
+    // Obtener el agentId (usar agentId o phoneId como fallback)
+    const agentId = agent.agentId || agent.phoneNumbers?.phoneId;
+    
+    if (!agentId) {
+      this.modalService.openError({
+        title: 'Error',
+        message: 'No se pudo identificar el agente. Por favor, recarga la página e intenta nuevamente.'
+      });
+      return;
+    }
+    
     // Confirmar eliminación
-    const confirmed = confirm(`¿Está seguro de que desea eliminar el agente "${agentName}"?`);
+    const confirmed = confirm(`¿Está seguro de que desea eliminar el agente "${agent.name}"?`);
 
     if (!confirmed) {
       return;
     }
 
     // Realizar petición DELETE
-    this.agentsService.deleteAgent(agentIndex).subscribe({
+    this.agentsService.deleteAgent(agentId).subscribe({
       next: (response) => {
         console.log('✅ Agente eliminado:', response);
         this.modalService.openSuccess({

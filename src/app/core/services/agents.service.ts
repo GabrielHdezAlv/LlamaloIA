@@ -64,15 +64,15 @@ export class AgentsService {
   }
 
   // Método para actualizar un agente específico
-  updateAgent(index: number, config: SetAgentConfigDto): Observable<UpdateAgentResponse> {
-    return this.http.put<UpdateAgentResponse>(`${this.apiUrl}/${index}`, config, {
+  updateAgent(agentId: number, config: SetAgentConfigDto): Observable<UpdateAgentResponse> {
+    return this.http.put<UpdateAgentResponse>(`${this.apiUrl}/${agentId}`, config, {
       headers: this.getAuthHeaders(),
     });
   }
 
   // Método para eliminar un agente
-  deleteAgent(index: number): Observable<DeleteAgentResponse> {
-    return this.http.delete<DeleteAgentResponse>(`${this.apiUrl}/${index}`, {
+  deleteAgent(agentId: number): Observable<DeleteAgentResponse> {
+    return this.http.delete<DeleteAgentResponse>(`${this.apiUrl}/${agentId}`, {
       headers: this.getAuthHeaders(),
     });
   }

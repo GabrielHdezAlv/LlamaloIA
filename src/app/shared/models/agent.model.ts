@@ -56,7 +56,7 @@ export interface SetAgentConfigDto {
 export interface CreateAgentResponse {
   message: string;
   agent: Agent;
-  index: number;
+  agentId: number;
 }
 
 /**
