@@ -321,6 +321,7 @@ export class HomeComponent implements OnInit {
   get activeAgents(): Array<{
     name: string;
     type: string;
+    phone: string | null;
     minutes: number;
     percent: number;
     status: string;
@@ -343,10 +344,14 @@ export class HomeComponent implements OnInit {
             : 0;
 
         const isActive = agent.state === 'Activo';
+        const phone = agent.phoneNumbers
+          ? `${agent.phoneNumbers.countryCode} ${agent.phoneNumbers.number}`
+          : null;
 
         return {
           name: agent.name,
           type: agent.type === 'inbound' ? this.t.inbound : this.t.outbound,
+          phone,
           minutes: minutes,
           percent: percent,
           status: isActive ? this.t.active : this.t.draft,

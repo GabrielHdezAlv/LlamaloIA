@@ -20,7 +20,7 @@ export interface Agent {
   voiceId: string;
   firstInteraction: string;
   agentInstruction: string;
-  phoneNumbers: {
+  phoneNumbers?: {
     phoneId: number;               // Generado automáticamente
     countryCode: string;
     number: string;                // Guardado como string en BD

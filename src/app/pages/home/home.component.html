@@ -240,6 +240,10 @@
             </th>
             <th
               class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-medium text-gray-500 pb-1.5 3xl:pb-2.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 ">
+              Número teléfono
+            </th>
+            <th
+              class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-medium text-gray-500 pb-1.5 3xl:pb-2.5 agentes-activos-th max-lg:text-[9px] max-lg:pb-1 ">
               {{ t.type }}
             </th>
             <th
@@ -257,6 +261,16 @@
             <td
               class="py-1.5 lg:py-3 xl:py-3 2xl:py-3 3xl:py-2.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-medium text-gray-900 agentes-activos-td max-lg:py-1 max-lg:text-[9px] ">
               {{ agent.name }}
+            </td>
+            <td
+              class="py-1.5 lg:py-3 xl:py-3 2xl:py-3 3xl:py-2.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-black font-light agentes-activos-td max-lg:py-1 max-lg:text-[9px] ">
+              <span class="inline-block">
+                @if (agent.phone) {
+                  {{ agent.phone }}
+                } @else {
+                  <span class="text-gray-400 italic">Sin número asignado</span>
+                }
+              </span>
             </td>
             <td
               class="py-1.5 lg:py-3 xl:py-3 2xl:py-3 3xl:py-2.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-black font-light agentes-activos-td max-lg:py-1 max-lg:text-[9px] ">

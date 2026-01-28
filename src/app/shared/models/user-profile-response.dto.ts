@@ -51,7 +51,7 @@ export interface UserProfileResponseDto {
     voiceId: string;
     firstInteraction: string;
     agentInstruction: string;
-    phoneNumbers: {
+    phoneNumbers?: {
       phoneId: number;
       countryCode: string;
       number: string;

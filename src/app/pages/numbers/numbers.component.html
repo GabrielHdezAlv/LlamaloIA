@@ -160,7 +160,7 @@
                             class="text-[9px] 3xl:text-xs text-gray-400 max-lg:text-[8px] dark:text-slate-400 mb-1.5 3xl:mb-2 max-lg:mb-1 ">
                             {{ phone.countryCode }} {{ phone.number }}</p>
                         <div class="flex gap-1.5 3xl:gap-2 text-[9px] 3xl:text-xs max-lg:gap-1 dark:text-slate-400">
-                            <button
+                            <button (click)="editNumber($index)"
                                 class="flex items-center gap-0.5 hover:text-indigo-600 font-semibold max-lg:text-[10px] ">
                                 <svg width="12" height="12" viewBox="0 0 13 14" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -170,7 +170,7 @@
                                 </svg>
                                 {{ t.edit }}
                             </button>
-                            <button
+                            <button (click)="deleteNumber($index, phone.label || t.clientNumber)"
                                 class="flex items-center gap-0.5 hover:text-red-400 font-semibold max-lg:text-[10px] ">
                                 <svg width="12" height="12" viewBox="0 0 15 14" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">

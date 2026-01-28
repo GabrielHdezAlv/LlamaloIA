@@ -70,7 +70,11 @@
       <div class="col-span-2 flex items-center">
         <span
           class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-medium text-gray-900 dark:text-slate-50 max-lg:text-[9px]">
-          {{ agent.phoneNumbers.countryCode }} {{ agent.phoneNumbers.number }}
+          @if (agent.phoneNumbers && agent.phoneNumbers.countryCode && agent.phoneNumbers.number) {
+            {{ agent.phoneNumbers.countryCode }} {{ agent.phoneNumbers.number }}
+          } @else {
+            <span class="text-gray-400 italic">Sin número asignado</span>
+          }
         </span>
       </div>
 

@@ -36,7 +36,7 @@ export class User {
     voiceId: string;
     firstInteraction: string;
     agentInstruction: string;
-    phoneNumbers: {
+    phoneNumbers?: {
       phoneId: number;
       countryCode: string;
       number: string;

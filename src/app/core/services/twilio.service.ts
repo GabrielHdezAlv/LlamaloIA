@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { inject, Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import {
@@ -6,6 +6,7 @@ import {
   TwilioConfigRequest,
 } from '../../shared/models/twilio-config.model';
 import { Observable } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -62,6 +63,24 @@ export class TwilioService {
       {
         headers: this.getAuthHeaders(),
       }
+    );
+  }
+
+  // Método para eliminar un número de teléfono
+  deletePhoneNumber(phoneId: number): Observable<{ message: string; affectedAgents: number }> {
+    const request = new HttpRequest(
+      'DELETE',
+      `${this.apiUrl}/phone-number`,
+      { phoneId },
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+    return this.http.request<{ message: string; affectedAgents: number }>(request).pipe(
+      filter((event): event is HttpResponse<{ message: string; affectedAgents: number }> => 
+        event instanceof HttpResponse
+      ),
+      map(event => event.body!)
     );
   }
 }

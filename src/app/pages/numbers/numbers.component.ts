@@ -243,15 +243,53 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   deleteNumber(index: number, phoneLabel: string): void {
     this.openMenuIndex = null;
     
-    // Confirmar eliminación
-    const confirmed = confirm(`¿Está seguro de que desea eliminar el número "${phoneLabel}"?`);
+    const phone = this.phoneNumbers[index];
+    if (!phone) return;
 
-    if (!confirmed) {
-      return;
-    }
+    // Formatear el número para mostrar en el mensaje
+    const formattedNumber = this.formatPhoneNumber(phone.countryCode, phone.number);
 
-    // TODO: Implementar lógica para eliminar número
-    console.log('Eliminar número:', index);
+    // Mostrar modal de confirmación
+    const dialogRef = this.modalService.openWarning({
+      title: 'Eliminar número de teléfono',
+      message: `¿Está seguro de que desea eliminar el número "${formattedNumber}"?`,
+      details: 'Al eliminar este número, si hay algún agente con este número asignado, se volverá inactivo.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Usuario confirmó la eliminación
+        this.twilioService.deletePhoneNumber(phone.phoneId).subscribe({
+          next: (response) => {
+            // Mostrar mensaje de éxito con información sobre agentes afectados
+            let message = 'El número de teléfono se ha eliminado correctamente.';
+            if (response.affectedAgents > 0) {
+              message += ` ${response.affectedAgents} agente(s) que tenía(n) este número asignado se ha(n) vuelto inactivo(s).`;
+            }
+            this.modalService.openSuccess({
+              title: 'Número eliminado',
+              message: message
+            });
+            // Recargar la lista de números
+            this.loadPhoneNumbers();
+          },
+          error: (err) => {
+            let errorMessage = 'Error al eliminar el número de teléfono. Por favor, intenta nuevamente.';
+            if (err?.status === 404) {
+              errorMessage = 'El número de teléfono no existe.';
+            } else if (err?.error?.message) {
+              errorMessage = err.error.message;
+            }
+            this.modalService.openError({
+              title: 'Error al eliminar número',
+              message: errorMessage
+            });
+          }
+        });
+      }
+    });
   }
 
   // Cerrar menú al hacer clic fuera
