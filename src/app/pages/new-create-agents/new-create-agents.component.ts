@@ -123,6 +123,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     // Verificar si hay un borrador guardado al iniciar
     this.checkForSavedDraft();
 
+    // Si hay borrador (p. ej. usuario llegó desde "Recuperar" del topbar), restaurar paso y datos
+    if (this.savedDraft && this.showRecoveryPopup) {
+      this.recoverDraft();
+    }
+
     // Iniciar animación en reposo
     if (this.isBrowser) {
       this.animateIdle();
@@ -153,34 +158,34 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     }
   }
 
-  // Recuperar el borrador guardado
+  // Recuperar el borrador guardado (paso actual y todo lo escrito)
   recoverDraft() {
     if (this.savedDraft) {
       this.step = this.savedDraft.step as any;
       this.agentName = this.savedDraft.agentName || '';
       this.greeting = this.savedDraft.greeting || 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
       this.template = this.savedDraft.template || '';
-      // Recuperar el tipo de llamada si existe
-      this.selectedCallType = (this.savedDraft as any).selectedCallType || null;
+      this.selectedCallType = (this.savedDraft as any).selectedCallType ?? null;
       this.instructions = this.savedDraft.instructions || '';
-      this.currentVoiceIndex = this.savedDraft.currentVoiceIndex || 0;
+      this.currentVoiceIndex = this.savedDraft.currentVoiceIndex ?? 0;
       this.selectedVoiceId = this.savedDraft.selectedVoiceId || '';
       this.selectedCountry = this.savedDraft.selectedCountry || 'es';
       this.selectedCountryCode = this.savedDraft.selectedCountryCode || '+34';
       this.phoneNumber = this.savedDraft.phoneNumber || '';
-      this.inactivityTimeout = this.savedDraft.inactivityTimeout || 0;
-      this.maxCallDuration = this.savedDraft.maxCallDuration || 0;
-      this.agentSpeed = this.savedDraft.agentSpeed || 0;
-      this.llmTemperature = this.savedDraft.llmTemperature || 0;
-      this.isRecordingNoticeEnabled = this.savedDraft.isRecordingNoticeEnabled || false;
+      this.inactivityTimeout = this.savedDraft.inactivityTimeout ?? 0;
+      this.maxCallDuration = this.savedDraft.maxCallDuration ?? 0;
+      this.agentSpeed = this.savedDraft.agentSpeed ?? 0;
+      this.llmTemperature = this.savedDraft.llmTemperature ?? 0;
+      this.isRecordingNoticeEnabled = this.savedDraft.isRecordingNoticeEnabled ?? false;
       this.recordingNoticeText = this.savedDraft.recordingNoticeText || 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
-      
-      // Recuperar parámetros de voz si existen
+
       if (this.savedDraft.voiceParameters) {
         this.voiceParameters = { ...this.voiceParameters, ...this.savedDraft.voiceParameters };
       }
 
-      // Si el paso es 'voices', cargar las voces del backend
+      // Actualizar bandera de idioma cuando la vista esté lista
+      setTimeout(() => this.updateFlag(this.selectedCountry), 0);
+
       if (this.step === 'voices') {
         this.loadVoices();
       }
@@ -189,12 +194,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         this.animateIdle();
       }
 
-      // Si el paso recuperado es 'summary', mostrar datos guardados
       if (this.step === 'summary') {
-        // Usar setTimeout para asegurar que el componente esté completamente inicializado
-        setTimeout(() => {
-          this.logSavedData();
-        }, 100);
+        setTimeout(() => this.logSavedData(), 100);
       }
     }
     this.showRecoveryPopup = false;
@@ -1645,6 +1646,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   ngOnDestroy() {
+    // Guardar borrador al salir para que "Recuperar" restaure paso y datos
+    this.saveDraft();
     // Limpiar timeout de validación de teléfono si existe
     if (this.phoneValidationTimeout) {
       clearTimeout(this.phoneValidationTimeout);
@@ -1653,6 +1656,12 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.stopMicrophone();
     // Limpiar Lottie
     this.destroyLottie();
+  }
+
+  /** Guardar borrador al cerrar pestaña o salir de la página (navegación externa). */
+  @HostListener('window:beforeunload')
+  onBeforeUnload() {
+    this.saveDraft();
   }
 
   // Métodos para calcular tamaños y posiciones dinámicas estilo ChatGPT
