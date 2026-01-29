@@ -289,6 +289,10 @@ export class TopbarComponent implements OnInit {
       this.pageTitle = t.metrics;
       this.welcomeText = '';
       this.pageSubtitle = '';
+    } else if (url.startsWith('/dashboard/knowledge-base')) {
+      this.pageTitle = t.knowledgeBase;
+      this.welcomeText = '';
+      this.pageSubtitle = '';
     } else if (url === '/dashboard/profile') {
       // No hay clave específica de perfil; usar ajustes como equivalente
       this.pageTitle = t.settings;

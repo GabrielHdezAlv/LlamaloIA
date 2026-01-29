@@ -50,6 +50,18 @@ export interface Translations {
   metrics: string;
   knowledgeBase: string;
   knowledgeBaseEmpty: string;
+  knowledgeBaseMoreResults: string;
+  knowledgeBaseVia: string;
+  knowledgeBasePdf: string;
+  knowledgeBaseWeb: string;
+  knowledgeBaseText: string;
+  knowledgeBaseOther: string;
+  knowledgeBaseAddPdf: string;
+  knowledgeBaseAddWeb: string;
+  knowledgeBaseAddText: string;
+  knowledgeBaseNoDocuments: string;
+  knowledgeBaseNoDocumentsYet: string;
+  knowledgeBaseSearchPlaceholder: string;
   settings: string;
   privateCommunity: string;
   helpCenter: string;
@@ -386,6 +398,18 @@ export class I18nService {
       metrics: 'Métricas',
       knowledgeBase: 'Base de conocimientos',
       knowledgeBaseEmpty: 'Esta sección está vacía por ahora.',
+      knowledgeBaseMoreResults: 'más resultados',
+      knowledgeBaseVia: 'vía',
+      knowledgeBasePdf: 'PDF',
+      knowledgeBaseWeb: 'Web',
+      knowledgeBaseText: 'Texto',
+      knowledgeBaseOther: 'Otro',
+      knowledgeBaseAddPdf: 'Añadir PDF',
+      knowledgeBaseAddWeb: 'Añadir Web',
+      knowledgeBaseAddText: 'Añadir Texto',
+      knowledgeBaseNoDocuments: 'No se encontraron documentos',
+      knowledgeBaseNoDocumentsYet: 'Aún no tienes documentos.',
+      knowledgeBaseSearchPlaceholder: 'Buscar documentos...',
       settings: 'Ajustes',
       privateCommunity: 'Comunidad Privada',
       helpCenter: 'Centro de Ayuda',
@@ -710,6 +734,18 @@ export class I18nService {
       metrics: 'Metrics',
       knowledgeBase: 'Knowledge base',
       knowledgeBaseEmpty: 'This section is empty for now.',
+      knowledgeBaseMoreResults: 'more results',
+      knowledgeBaseVia: 'via',
+      knowledgeBasePdf: 'PDF',
+      knowledgeBaseWeb: 'Web',
+      knowledgeBaseText: 'Text',
+      knowledgeBaseOther: 'Other',
+      knowledgeBaseAddPdf: 'Add PDF',
+      knowledgeBaseAddWeb: 'Add Web',
+      knowledgeBaseAddText: 'Add Text',
+      knowledgeBaseNoDocuments: 'No documents found',
+      knowledgeBaseNoDocumentsYet: 'You don\'t have any documents yet.',
+      knowledgeBaseSearchPlaceholder: 'Search documents...',
       settings: 'Settings',
       privateCommunity: 'Private Community',
       helpCenter: 'Help Center',

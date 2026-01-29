@@ -599,9 +599,10 @@ body::-webkit-scrollbar {
     border-width: 2px !important;
   }
 
-  /* Texto oscuro → texto claro */
-  html.dark .text-black,
-  html.dark .text-gray-900 {
+  /* Texto oscuro → texto claro.
+     Excepción: .create-agent-btn-white-dark y .import-number-btn-white-dark mantienen texto oscuro (botón blanco). */
+  html.dark .text-black:not(.create-agent-btn-white-dark):not(.import-number-btn-white-dark),
+  html.dark .text-gray-900:not(.create-agent-btn-white-dark):not(.import-number-btn-white-dark) {
     color: #e5e7eb !important;
     /* gris muy claro en vez de blanco puro */
   }
@@ -707,9 +708,23 @@ body::-webkit-scrollbar {
   }
 
   /* Botones primarios (Crear agente, Continuar, etc.) que usan bg-[#0a1740]
-     → en modo oscuro pasan al azul de marca #1E3A8A */
-  html.dark [class*="bg-[#0a1740]"] {
+     → en modo oscuro pasan al azul de marca #1E3A8A.
+     Excepción: .create-agent-btn-white-dark (new-agents) y .import-number-btn-white-dark (numbers) quedan blanco. */
+  html.dark [class*="bg-[#0a1740]"]:not(.create-agent-btn-white-dark):not(.import-number-btn-white-dark) {
     background-color: rgba(30, 58, 138, 0.9) !important;
+  }
+
+  /* Crear agente (new-agents) e Importar número (numbers): texto e icono oscuros en modo oscuro (botón blanco) */
+  html.dark .create-agent-btn-white-dark,
+  html.dark .import-number-btn-white-dark {
+    color: #111827 !important;
+  }
+  html.dark .create-agent-btn-white-dark svg,
+  html.dark .create-agent-btn-white-dark svg path,
+  html.dark .import-number-btn-white-dark svg,
+  html.dark .import-number-btn-white-dark svg path {
+    color: #111827 !important;
+    stroke: #111827 !important;
   }
 
   /* --- Overrides finales para colores específicos de resumen (van al final
@@ -735,8 +750,9 @@ body::-webkit-scrollbar {
 
 /* Overrides fuera de @layer para evitar css-syntax-error con Tailwind (selectores span/hover:bg-gray-100) */
 
-/* Botones claros genéricos: en modo oscuro NO aclaramos en hover */
-html.dark .hover\:bg-gray-100:hover {
+/* Botones claros genéricos: en modo oscuro NO aclaramos en hover.
+   Excepción: .create-agent-btn-white-dark y .import-number-btn-white-dark mantienen hover gris claro. */
+html.dark .hover\:bg-gray-100:hover:not(.create-agent-btn-white-dark):not(.import-number-btn-white-dark) {
   background-color: #374151 !important; /* gray-700 */
 }
 
