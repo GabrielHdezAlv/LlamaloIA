@@ -1,4 +1,15 @@
-import { Component, HostListener, OnDestroy, AfterViewChecked, ElementRef, ViewChild, OnInit, Inject, PLATFORM_ID, inject } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  AfterViewChecked,
+  ElementRef,
+  ViewChild,
+  OnInit,
+  Inject,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
@@ -7,7 +18,10 @@ import { I18nService } from '../../core/services/i18n.service';
 import { AgentsService } from '../../core/services/agents.service';
 import { TwilioService } from '../../core/services/twilio.service';
 import { Voice } from '../../shared/models/voice.model';
-import { SetAgentConfigDto, VoiceParameters } from '../../shared/models/agent.model';
+import {
+  SetAgentConfigDto,
+  VoiceParameters,
+} from '../../shared/models/agent.model';
 import lottie from 'lottie-web';
 
 // Clave para localStorage
@@ -49,13 +63,28 @@ import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.c
   standalone: true,
   imports: [FormsModule, CommonModule, AiSphereComponent],
   templateUrl: './new-create-agents.component.html',
-  styleUrl: './new-create-agents.component.scss'
+  styleUrl: './new-create-agents.component.scss',
 })
-export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, OnInit {
-  @ViewChild('lottieContainer', { static: false }) lottieContainer!: ElementRef<HTMLDivElement>;
-  @ViewChild('countryDropdown', { static: false }) countryDropdown!: ElementRef<HTMLDivElement>;
+export class NewCreateAgentsComponent
+  implements OnDestroy, AfterViewChecked, OnInit
+{
+  @ViewChild('lottieContainer', { static: false })
+  lottieContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('countryDropdown', { static: false })
+  countryDropdown!: ElementRef<HTMLDivElement>;
 
-  step: 'agentName' | 'language' | 'voices' | 'instructions' | 'actions' | 'knowledgeBase' | 'summary' | 'connectPhone' | 'advancedSettings' | 'final' | 'success' = 'agentName';
+  step:
+    | 'agentName'
+    | 'language'
+    | 'voices'
+    | 'instructions'
+    | 'actions'
+    | 'knowledgeBase'
+    | 'summary'
+    | 'connectPhone'
+    | 'advancedSettings'
+    | 'final'
+    | 'success' = 'agentName';
 
   // Popup de recuperación de borrador
   showRecoveryPopup = false;
@@ -71,7 +100,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   makeActionData = {
     name: '',
     description: '',
-    serverUrl: ''
+    serverUrl: '',
   };
 
   // Variables para Twilio
@@ -105,7 +134,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     private location: Location,
     private modalService: ModalService,
     private i18nService: I18nService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
     // Bloquear scroll del body cuando el componente se inicializa
@@ -142,7 +171,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         // Verificar que el borrador tenga datos significativos
         if (this.savedDraft) {
           // Mostrar popup si está más allá del primer paso O si tiene nombre de agente
-          if (this.savedDraft.step !== 'agentName' || (this.savedDraft.agentName && this.savedDraft.agentName.trim() !== '')) {
+          if (
+            this.savedDraft.step !== 'agentName' ||
+            (this.savedDraft.agentName &&
+              this.savedDraft.agentName.trim() !== '')
+          ) {
             this.showRecoveryPopup = true;
           }
         }
@@ -158,7 +191,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (this.savedDraft) {
       this.step = this.savedDraft.step as any;
       this.agentName = this.savedDraft.agentName || '';
-      this.greeting = this.savedDraft.greeting || 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
+      this.greeting =
+        this.savedDraft.greeting ||
+        'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
       this.template = this.savedDraft.template || '';
       // Recuperar el tipo de llamada si existe
       this.selectedCallType = (this.savedDraft as any).selectedCallType || null;
@@ -172,12 +207,18 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       this.maxCallDuration = this.savedDraft.maxCallDuration || 0;
       this.agentSpeed = this.savedDraft.agentSpeed || 0;
       this.llmTemperature = this.savedDraft.llmTemperature || 0;
-      this.isRecordingNoticeEnabled = this.savedDraft.isRecordingNoticeEnabled || false;
-      this.recordingNoticeText = this.savedDraft.recordingNoticeText || 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
-      
+      this.isRecordingNoticeEnabled =
+        this.savedDraft.isRecordingNoticeEnabled || false;
+      this.recordingNoticeText =
+        this.savedDraft.recordingNoticeText ||
+        'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+
       // Recuperar parámetros de voz si existen
       if (this.savedDraft.voiceParameters) {
-        this.voiceParameters = { ...this.voiceParameters, ...this.savedDraft.voiceParameters };
+        this.voiceParameters = {
+          ...this.voiceParameters,
+          ...this.savedDraft.voiceParameters,
+        };
       }
 
       // Si el paso es 'voices', cargar las voces del backend
@@ -234,9 +275,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
           similarity: this.voiceParameters.similarity,
           style: this.voiceParameters.style,
           boost: this.voiceParameters.boost,
-          speed: this.voiceParameters.speed
+          speed: this.voiceParameters.speed,
         },
-        savedAt: Date.now()
+        savedAt: Date.now(),
       };
 
       localStorage.setItem(AGENT_DRAFT_KEY, JSON.stringify(draft));
@@ -260,22 +301,23 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (!this.savedDraft) return '';
 
     const stepNames: Record<string, string> = {
-      'agentName': 'Nombre y Tipo',
+      agentName: 'Nombre y Tipo',
       // 'callType': 'Tipo de llamada', // Eliminado
-      'language': 'Idioma',
-      'voices': 'Voces',
-      'instructions': 'Instrucciones',
-      'actions': 'Acciones',
-      'knowledgeBase': 'Base de conocimientos',
-      'advancedSettings': 'Configuración avanzada',
-      'summary': 'Resumen',
-      'connectPhone': 'Conectar teléfono'
+      language: 'Idioma',
+      voices: 'Voces',
+      instructions: 'Instrucciones',
+      actions: 'Acciones',
+      knowledgeBase: 'Base de conocimientos',
+      advancedSettings: 'Configuración avanzada',
+      summary: 'Resumen',
+      connectPhone: 'Conectar teléfono',
     };
 
     return stepNames[this.savedDraft.step] || this.savedDraft.step;
   }
 
-  greeting = 'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
+  greeting =
+    'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
   template = '';
   instructions = '';
   showExpandInstructionsModal = false;
@@ -314,13 +356,51 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   private tabletTouchStartX: number | null = null;
   private tabletTouchDeltaX = 0;
   private readonly tabletSwipeThreshold = 60;
-  voices = [
-    { id: 'carla', name: 'Carla', image: 'assets/carla_prueba.webp', description: 'Diseñadora de Producto enfocada en simplicidad y usabilidad.', badgeText: 'Top 1% Voz' },
-    { id: 'carlos', name: 'Carlos', image: 'assets/carlos_prueba.webp', description: 'Especialista en Soporte Técnico con tono calmado y resolutivo.', badgeText: 'Top 5% Voz' },
-    { id: 'david', name: 'David', image: 'assets/david_prueba.webp', description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.', badgeText: 'Top Ventas' },
-    { id: 'jesus', name: 'Jesús', image: 'assets/jesus_prueba.webp', description: 'Asistente Virtual amigable ideal para recepción de llamadas.', badgeText: 'Popular' },
-    { id: 'claudia', name: 'Claudia', image: 'assets/claudia_prueba.webp', description: 'Narradora profesional perfecta para contenido educativo.', badgeText: 'Nueva' },
-    { id: 'maria', name: 'María', image: 'assets/maria_prueba.webp', description: 'Agente de atención al cliente con gran empatía y paciencia.', badgeText: 'Destacada' }
+  // Array vacío inicial - se llenará con datos del backend
+  voices: any[] = [];
+
+  // Datos mockeados de referencia para imágenes, descripciones y badges
+  private readonly defaultVoicesData = [
+    {
+      name: 'Carla',
+      image: 'assets/carla_prueba.webp',
+      description:
+        'Diseñadora de Producto enfocada en simplicidad y usabilidad.',
+      badgeText: 'Top 1% Voz',
+    },
+    {
+      name: 'Carlos',
+      image: 'assets/carlos_prueba.webp',
+      description:
+        'Especialista en Soporte Técnico con tono calmado y resolutivo.',
+      badgeText: 'Top 5% Voz',
+    },
+    {
+      name: 'David',
+      image: 'assets/david_prueba.webp',
+      description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.',
+      badgeText: 'Top Ventas',
+    },
+    {
+      name: 'Jesús',
+      image: 'assets/jesus_prueba.webp',
+      description:
+        'Asistente Virtual amigable ideal para recepción de llamadas.',
+      badgeText: 'Popular',
+    },
+    {
+      name: 'Claudia',
+      image: 'assets/claudia_prueba.webp',
+      description: 'Narradora profesional perfecta para contenido educativo.',
+      badgeText: 'Nueva',
+    },
+    {
+      name: 'María',
+      image: 'assets/maria_prueba.webp',
+      description:
+        'Agente de atención al cliente con gran empatía y paciencia.',
+      badgeText: 'Destacada',
+    },
   ];
 
   // Método para cargar las voces del backend
@@ -332,31 +412,34 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
     this.agentsService.getVoices().subscribe({
       next: (backendVoices: Voice[]) => {
-        // Mapear las voces del backend al formato esperado por el componente
+        // Construir objetos combinando datos del backend con datos mockeados
         const mappedVoices = backendVoices.map((voice: Voice) => {
-          // Buscar si existe una voz con el mismo nombre en las voces por defecto para mantener imagen y descripción
-          const defaultVoice = this.voices.find(v => v.name.toLowerCase() === voice.name.toLowerCase());
+          // Buscar si existe una voz con el mismo nombre en los datos mockeados para mantener imagen, descripción y badge
+          const defaultVoice = this.defaultVoicesData.find(
+            (v) => v.name.toLowerCase() === voice.name.toLowerCase(),
+          );
 
           return {
-            id: defaultVoice?.id || voice.voiceId, // Mantener el id original si existe, sino usar voiceId
+            id: voice.voiceId, // Usar voiceId del backend como id
             voiceId: voice.voiceId, // Agregar el voiceId del backend
-            name: voice.name,
-            image: defaultVoice?.image || '',
+            name: voice.name, // Usar nombre del backend
+            image: defaultVoice?.image || '', // Mantener imagen mockeada si existe
             isCustom: false,
-            description: defaultVoice?.description || `Voz ${voice.name}`,
-            badgeText: defaultVoice?.badgeText || ''
+            description: defaultVoice?.description || `Voz ${voice.name}`, // Mantener descripción mockeada si existe
+            badgeText: defaultVoice?.badgeText || '', // Mantener badge mockeado si existe
           };
         });
 
-        // Agregar las voces del backend
+        // Asignar las voces construidas con datos del backend
         this.voices = mappedVoices;
 
         this.voicesLoaded = true;
       },
       error: (error) => {
         console.error('Error al cargar las voces:', error);
-        // Mantener las voces por defecto en caso de error
-      }
+        // Dejar el array vacío en caso de error
+        this.voices = [];
+      },
     });
   }
 
@@ -369,7 +452,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   // Método helper para verificar si un idioma está seleccionado
   isLanguageSelected(languageCode: string): boolean {
-    return this.selectedCountry === languageCode && this.pendingLanguageSelection === languageCode;
+    return (
+      this.selectedCountry === languageCode &&
+      this.pendingLanguageSelection === languageCode
+    );
   }
 
   // Método helper para verificar si hay un idioma pendiente de confirmación
@@ -392,25 +478,33 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
     const target = event.target as HTMLElement;
     if (!target) return;
-    
+
     // Verificar si el clic fue en un botón de idioma o dentro de él
     // Los botones de idioma están dentro del grid y tienen la clase "group"
-    const isLanguageButton = target.closest('button.group') || target.closest('button[class*="flex flex-col"]');
+    const isLanguageButton =
+      target.closest('button.group') ||
+      target.closest('button[class*="flex flex-col"]');
     // Si no fue en un botón de idioma, limpiar la selección pendiente
     if (!isLanguageButton) {
       this.clearPendingLanguageSelection();
     }
   }
 
-  onLanguageSelected(languageCode: string = 'es', countryCode: string = '+34', event?: Event) {
+  onLanguageSelected(
+    languageCode: string = 'es',
+    countryCode: string = '+34',
+    event?: Event,
+  ) {
     // Prevenir la propagación del evento para evitar que se limpie la selección
     if (event) {
       event.stopPropagation();
     }
     // Si el idioma clickeado ya está seleccionado y hay una selección pendiente, es el segundo click
-    if (this.pendingLanguageSelection && 
-        this.selectedCountry === languageCode &&
-        this.pendingLanguageSelection === languageCode) {
+    if (
+      this.pendingLanguageSelection &&
+      this.selectedCountry === languageCode &&
+      this.pendingLanguageSelection === languageCode
+    ) {
       // Segundo click en el mismo idioma: avanzar al siguiente paso
       this.pendingLanguageSelection = null;
       this.step = 'voices';
@@ -437,8 +531,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (voice) {
       this.selectedVoiceId = (voice as any)?.voiceId || voice?.id || '';
       // Actualizar el índice también para mantener consistencia
-      const voiceIndex = this.voices.findIndex(v => 
-        (v as any)?.voiceId === this.selectedVoiceId || v.id === this.selectedVoiceId
+      const voiceIndex = this.voices.findIndex(
+        (v) =>
+          (v as any)?.voiceId === this.selectedVoiceId ||
+          v.id === this.selectedVoiceId,
       );
       if (voiceIndex !== -1) {
         this.currentVoiceIndex = voiceIndex;
@@ -447,7 +543,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       // Si no se pasa parámetro, usar la voz actual según el índice
       const currentVoice = this.getCurrentVoice();
       if (currentVoice) {
-        this.selectedVoiceId = (currentVoice as any)?.voiceId || currentVoice.id || '';
+        this.selectedVoiceId =
+          (currentVoice as any)?.voiceId || currentVoice.id || '';
       }
     }
     this.isSidebarOpen = true;
@@ -458,7 +555,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (!this.selectedVoiceId) {
       const currentVoice = this.getCurrentVoice();
       if (currentVoice) {
-        this.selectedVoiceId = (currentVoice as any)?.voiceId || currentVoice.id || '';
+        this.selectedVoiceId =
+          (currentVoice as any)?.voiceId || currentVoice.id || '';
       }
     }
     this.pauseVoice();
@@ -474,16 +572,21 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.isSidebarOpen = false;
   }
 
-
   // Métodos para el carrusel de voces
   nextVoice() {
     const visibleCount = this.getVisibleCount();
-    const maxPageIndex = Math.max(Math.ceil(this.voices.length / visibleCount) - 1, 0);
+    const maxPageIndex = Math.max(
+      Math.ceil(this.voices.length / visibleCount) - 1,
+      0,
+    );
     const currentPage = Math.floor(this.currentVoiceIndex / visibleCount);
 
     if (currentPage < maxPageIndex) {
       // Avanzar a la siguiente página (3 voces)
-      this.currentVoiceIndex = Math.min((currentPage + 1) * visibleCount, this.voices.length - 1);
+      this.currentVoiceIndex = Math.min(
+        (currentPage + 1) * visibleCount,
+        this.voices.length - 1,
+      );
     }
   }
 
@@ -516,7 +619,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   isNextDisabled(): boolean {
     const visibleCount = this.getVisibleCount();
-    const maxPageIndex = Math.max(Math.ceil(this.voices.length / visibleCount) - 1, 0);
+    const maxPageIndex = Math.max(
+      Math.ceil(this.voices.length / visibleCount) - 1,
+      0,
+    );
     const currentPage = Math.floor(this.currentVoiceIndex / visibleCount);
     return currentPage >= maxPageIndex;
   }
@@ -566,7 +672,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (this.currentVoiceIndex > maxIndex) {
       this.currentVoiceIndex = maxIndex;
     }
-    this.tabletPageIndex = Math.min(this.tabletPageIndex, this.getTabletTotalPages() - 1);
+    this.tabletPageIndex = Math.min(
+      this.tabletPageIndex,
+      this.getTabletTotalPages() - 1,
+    );
   }
 
   getVisibleCount(): number {
@@ -609,7 +718,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   goToPage(pageIndex: number) {
     const visibleCount = this.getVisibleCount();
-    const maxPageIndex = Math.max(Math.ceil(this.voices.length / visibleCount) - 1, 0);
+    const maxPageIndex = Math.max(
+      Math.ceil(this.voices.length / visibleCount) - 1,
+      0,
+    );
     const targetPage = Math.min(Math.max(pageIndex, 0), maxPageIndex);
     this.currentVoiceIndex = targetPage * visibleCount;
   }
@@ -629,7 +741,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   goToTabletPage(pageIndex: number) {
-    this.tabletPageIndex = Math.min(Math.max(pageIndex, 0), this.getTabletTotalPages() - 1);
+    this.tabletPageIndex = Math.min(
+      Math.max(pageIndex, 0),
+      this.getTabletTotalPages() - 1,
+    );
   }
 
   nextTabletPage() {
@@ -726,21 +841,72 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   /** Códigos de idioma con muestras en assets/voces (nombre_idioma.mp3). */
-  private readonly VOCES_LANG_CODES: readonly string[] = ['es', 'en', 'it', 'de', 'fr'];
+  private readonly VOCES_LANG_CODES: readonly string[] = [
+    'es',
+    'en',
+    'it',
+    'de',
+    'fr',
+  ];
 
-  playVoice(voice: { id?: string; name?: string }) {
-    const voiceId = (voice?.id ?? '').toString().toLowerCase();
-    if (!voiceId) return;
+  playVoice(voice: { id?: string; name?: string; voiceId?: string }) {
+    // Usar el nombre de la voz para buscar el audio (como en edit-agent)
+    const voiceName = voice?.name?.toLowerCase() || '';
+    if (!voiceName) {
+      console.error('No se proporcionó nombre de voz');
+      return;
+    }
 
-    if (this.isPlaying && this.currentPlayingVoice === voiceId) {
+    // Usar id o voiceId para identificar la voz actualmente reproduciendo
+    const voiceIdentifier = voice?.id || voice?.voiceId || '';
+    if (!voiceIdentifier) {
+      console.error('No se proporcionó identificador de voz');
+      return;
+    }
+
+    if (this.isPlaying && this.currentPlayingVoice === voiceIdentifier) {
       this.pauseVoice();
       return;
     }
 
-    const lang = this.VOCES_LANG_CODES.includes(this.selectedCountry)
-      ? this.selectedCountry
-      : 'es';
-    const path = `assets/voces/${voiceId}_${lang}.mp3`;
+    // Usar el código del idioma seleccionado en la pantalla de "Idiomas" (selectedCountry)
+    // Este es el código que se selecciona cuando el usuario hace clic en un idioma
+    if (!this.selectedCountry) {
+      console.warn('No hay idioma seleccionado, usando español por defecto');
+      this.modalService.openError({
+        title: 'Error',
+        message:
+          'Por favor, selecciona un idioma primero en la pantalla de "Idiomas".',
+      });
+      return;
+    }
+
+    let lang = this.selectedCountry;
+
+    // Mapear códigos especiales a códigos de idioma válidos para los archivos de audio
+    // Los archivos de audio usan códigos como: es, en, it, de, fr
+    if (lang === 'us') {
+      lang = 'en'; // Inglés Americano -> inglés
+    } else if (!this.VOCES_LANG_CODES.includes(lang)) {
+      // Si el código no está en los códigos válidos, usar español como fallback
+      console.warn(
+        `Código de idioma '${lang}' no válido, usando español como fallback`,
+      );
+      lang = 'es';
+    }
+
+    // Normalizar el nombre de la voz: eliminar acentos y caracteres especiales
+    const normalizedVoiceName = this.normalizeVoiceName(voiceName);
+    const path = `assets/voces/${normalizedVoiceName}_${lang}.mp3`;
+
+    console.log('Intentando reproducir audio:', {
+      voiceName,
+      normalizedVoiceName,
+      lang,
+      path,
+      selectedCountry: this.selectedCountry,
+      selectedCountryCode: this.selectedCountryCode,
+    });
 
     if (this.audioActual) {
       this.audioActual.pause();
@@ -750,29 +916,16 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     const audio = new Audio(path);
     this.audioActual = audio;
     this.isPlaying = true;
-    this.currentPlayingVoice = voiceId;
+    this.currentPlayingVoice = voiceIdentifier;
 
-    audio.play().catch(err => {
-      console.error('Error al reproducir audio:', err);
-      this.isPlaying = false;
-      this.currentPlayingVoice = null;
-      this.modalService.openError({
-        title: 'Error de audio',
-        message: 'No se pudo reproducir el audio',
-        details: String(err)
+    // Configurar manejadores de eventos antes de intentar reproducir
+    audio.onerror = (error) => {
+      console.error('Error al cargar el audio:', {
+        path,
+        error,
+        voiceName,
+        lang,
       });
-    });
-
-    audio.onended = () => {
-      this.isPlaying = false;
-      this.currentPlayingVoice = null;
-      if (this.audioActual === audio) {
-        this.audioActual = null;
-      }
-    };
-
-    audio.onerror = () => {
-      console.error('Error al cargar el audio:', path);
       this.isPlaying = false;
       this.currentPlayingVoice = null;
       if (this.audioActual === audio) {
@@ -783,6 +936,40 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         message: 'No hay muestra de audio para esta voz e idioma.',
       });
     };
+
+    audio.onended = () => {
+      this.isPlaying = false;
+      this.currentPlayingVoice = null;
+      if (this.audioActual === audio) {
+        this.audioActual = null;
+      }
+    };
+
+    audio.play().catch((err) => {
+      console.error('Error al reproducir audio:', {
+        err,
+        path,
+        voiceName,
+        lang,
+      });
+      this.isPlaying = false;
+      this.currentPlayingVoice = null;
+      this.modalService.openError({
+        title: 'Error de audio',
+        message:
+          'No se pudo reproducir el audio. Verifique que el archivo existe.',
+        details: `Ruta: ${path}`,
+      });
+    });
+  }
+
+  // Normalizar el nombre de la voz para que coincida con los archivos de audio
+  private normalizeVoiceName(name: string): string {
+    return name
+      .toLowerCase()
+      .normalize('NFD') // Normalizar a NFD (descomponer acentos)
+      .replace(/[\u0300-\u036f]/g, '') // Eliminar diacríticos (acentos)
+      .trim();
   }
 
   pauseVoice() {
@@ -838,10 +1025,16 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   // Método para validar la configuración de Twilio
   validateTwilioConfig() {
     // Validar que ambos campos estén completos
-    if (!this.twilioSid || !this.twilioToken || !this.twilioSid.trim() || !this.twilioToken.trim()) {
+    if (
+      !this.twilioSid ||
+      !this.twilioToken ||
+      !this.twilioSid.trim() ||
+      !this.twilioToken.trim()
+    ) {
       this.modalService.openError({
         title: 'Campos requeridos',
-        message: 'Por favor, completa tanto el Account SID como el Auth Token antes de validar.'
+        message:
+          'Por favor, completa tanto el Account SID como el Auth Token antes de validar.',
       });
       return;
     }
@@ -854,46 +1047,51 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.isValidatingTwilio = true;
 
     // Llamar al endpoint de validación
-    this.twilioService.setConfig({
-      twilioSid: this.twilioSid.trim(),
-      twilioToken: this.twilioToken.trim()
-    }).subscribe({
-      next: (response) => {
-        this.isValidatingTwilio = false;
-        this.twilioValidationStatus = 'success';
-        this.twilioSidValidationStatus = 'success';
-        this.twilioTokenValidationStatus = 'success';
-        this.isTwilioValidated = true;
-        
-        // Si ya hay un número de teléfono ingresado, validarlo automáticamente
-        if (this.phoneNumber && this.phoneNumber.trim()) {
-          this.validatePhoneNumber();
-        }
-      },
-      error: (error) => {
-        this.isValidatingTwilio = false;
-        this.twilioValidationStatus = 'error';
-        this.twilioSidValidationStatus = 'error';
-        this.twilioTokenValidationStatus = 'error';
-        this.isTwilioValidated = false;
-        
-        // Extraer mensaje de error
-        let errorMessage = 'Error al validar la configuración de Twilio. Por favor, verifica tus credenciales.';
-        
-        if (error?.error?.message) {
-          errorMessage = error.error.message;
-        } else if (error?.message) {
-          errorMessage = error.message;
-        } else if (error.status === 401) {
-          errorMessage = 'Credenciales inválidas. Por favor, verifica tu Account SID y Auth Token.';
-        } else if (error.status === 400) {
-          errorMessage = 'Datos inválidos. Por favor, verifica el formato de tus credenciales.';
-        }
-        
-        this.twilioErrorMessage = errorMessage;
-        console.error('❌ Error al validar configuración de Twilio:', error);
-      }
-    });
+    this.twilioService
+      .setConfig({
+        twilioSid: this.twilioSid.trim(),
+        twilioToken: this.twilioToken.trim(),
+      })
+      .subscribe({
+        next: (response) => {
+          this.isValidatingTwilio = false;
+          this.twilioValidationStatus = 'success';
+          this.twilioSidValidationStatus = 'success';
+          this.twilioTokenValidationStatus = 'success';
+          this.isTwilioValidated = true;
+
+          // Si ya hay un número de teléfono ingresado, validarlo automáticamente
+          if (this.phoneNumber && this.phoneNumber.trim()) {
+            this.validatePhoneNumber();
+          }
+        },
+        error: (error) => {
+          this.isValidatingTwilio = false;
+          this.twilioValidationStatus = 'error';
+          this.twilioSidValidationStatus = 'error';
+          this.twilioTokenValidationStatus = 'error';
+          this.isTwilioValidated = false;
+
+          // Extraer mensaje de error
+          let errorMessage =
+            'Error al validar la configuración de Twilio. Por favor, verifica tus credenciales.';
+
+          if (error?.error?.message) {
+            errorMessage = error.error.message;
+          } else if (error?.message) {
+            errorMessage = error.message;
+          } else if (error.status === 401) {
+            errorMessage =
+              'Credenciales inválidas. Por favor, verifica tu Account SID y Auth Token.';
+          } else if (error.status === 400) {
+            errorMessage =
+              'Datos inválidos. Por favor, verifica el formato de tus credenciales.';
+          }
+
+          this.twilioErrorMessage = errorMessage;
+          console.error('❌ Error al validar configuración de Twilio:', error);
+        },
+      });
   }
 
   // Getter para verificar si Twilio está completamente validado
@@ -929,7 +1127,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (!this.canContinueFromConnections) {
       return;
     }
-    
+
     // Avanzar al siguiente paso
     this.step = 'summary';
     this.saveDraft();
@@ -970,7 +1168,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
     const countryCode = this.selectedCountryCode || '+34';
     const number = this.phoneNumber.trim();
-    
+
     // Resetear estado previo
     this.phoneValidationStatus = null;
     this.phoneErrorMessage = '';
@@ -985,29 +1183,35 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       error: (error) => {
         this.isValidatingPhone = false;
         this.phoneValidationStatus = 'error';
-        
+
         // Extraer mensaje de error
-        let errorMessage = 'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
-        
+        let errorMessage =
+          'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
+
         if (error.status === 400) {
-          errorMessage = error?.error?.message || 'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
+          errorMessage =
+            error?.error?.message ||
+            'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
         } else if (error.status === 401) {
-          errorMessage = 'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
+          errorMessage =
+            'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
         } else if (error.status === 404) {
-          errorMessage = 'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración.';
+          errorMessage =
+            'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración.';
         } else if (error?.error?.message) {
           errorMessage = error.error.message;
         }
-        
+
         this.phoneErrorMessage = errorMessage;
         console.error('❌ Error al validar número:', error);
-      }
+      },
     });
   }
 
   // Propiedades para documentos PDF
   uploadedDocuments: File[] = [];
-  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('fileInput', { static: false })
+  fileInput!: ElementRef<HTMLInputElement>;
 
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
   selectKnowledgeSource(source: 'pdf' | 'web') {
@@ -1017,8 +1221,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         title: 'Web',
       });
 
-      dialogRef.afterClosed().subscribe(result => {
-      });
+      dialogRef.afterClosed().subscribe((result) => {});
     } else if (source === 'pdf') {
       // Abrir selector de archivos para PDF
       this.openFileSelector();
@@ -1068,14 +1271,15 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         if (newFiles.length > availableSlots) {
           this.modalService.openWarning({
             title: 'Límite de archivos',
-            message: `Solo puedes subir un máximo de 2 archivos. Se agregaron ${filesToAdd.length} de ${newFiles.length} archivos seleccionados.`
+            message: `Solo puedes subir un máximo de 2 archivos. Se agregaron ${filesToAdd.length} de ${newFiles.length} archivos seleccionados.`,
           });
         }
       } else {
         // Si ya se alcanzó el límite, mostrar modal
         this.modalService.openWarning({
           title: 'Límite alcanzado',
-          message: 'Solo puedes subir 2 documentos. Por favor, elimina algunos antes de agregar nuevos.'
+          message:
+            'Solo puedes subir 2 documentos. Por favor, elimina algunos antes de agregar nuevos.',
         });
       }
     }
@@ -1107,20 +1311,24 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   private logSavedData() {
     const currentVoice = this.getCurrentVoice();
     // Usar el voiceId guardado cuando se seleccionó la voz, o obtenerlo de la voz actual como fallback
-    const voiceId = this.selectedVoiceId || (currentVoice ? ((currentVoice as any)?.voiceId || currentVoice.id) : null);
+    const voiceId =
+      this.selectedVoiceId ||
+      (currentVoice ? (currentVoice as any)?.voiceId || currentVoice.id : null);
     const savedData = {
       agentName: this.agentName,
       selectedCallType: this.selectedCallType,
       language: this.selectedCountry, // Código del país como idioma
-      voice: currentVoice ? {
-        name: currentVoice.name,
-        voiceId: voiceId
-      } : null,
+      voice: currentVoice
+        ? {
+            name: currentVoice.name,
+            voiceId: voiceId,
+          }
+        : null,
       greeting: this.greeting,
       instructions: this.instructions,
       phoneNumber: this.phoneNumber,
       selectedCountryCode: this.selectedCountryCode,
-      label: this.label
+      label: this.label,
     };
   }
 
@@ -1130,7 +1338,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (!this.phoneNumber || !this.phoneNumber.trim()) {
       this.modalService.openError({
         title: 'Número de teléfono requerido',
-        message: 'Por favor, ingresa un número de teléfono válido.'
+        message: 'Por favor, ingresa un número de teléfono válido.',
       });
       return;
     }
@@ -1140,7 +1348,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       if (!currentVoice) {
         this.modalService.openError({
           title: 'Voz no seleccionada',
-          message: 'Por favor, selecciona una voz para el agente.'
+          message: 'Por favor, selecciona una voz para el agente.',
         });
         return;
       }
@@ -1157,25 +1365,30 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       },
       error: (error) => {
         console.error('❌ Error al validar número:', error);
-        
+
         // Manejar diferentes tipos de errores
-        let errorMessage = 'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
-        
+        let errorMessage =
+          'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
+
         if (error.status === 400) {
-          errorMessage = error?.error?.message || 'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
+          errorMessage =
+            error?.error?.message ||
+            'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
         } else if (error.status === 401) {
-          errorMessage = 'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
+          errorMessage =
+            'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
         } else if (error.status === 404) {
-          errorMessage = 'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración en Ajustes > Conexiones > Twilio.';
+          errorMessage =
+            'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración en Ajustes > Conexiones > Twilio.';
         } else if (error?.error?.message) {
           errorMessage = error.error.message;
         }
-        
+
         this.modalService.openError({
           title: 'Error al validar número',
-          message: errorMessage
+          message: errorMessage,
         });
-      }
+      },
     });
   }
 
@@ -1183,11 +1396,13 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   private createAgentAfterValidation() {
     // Construir el objeto que se enviará al endpoint
     // Usar el voiceId guardado cuando se seleccionó la voz, o obtenerlo de la voz actual como fallback
-    const voiceId = this.selectedVoiceId || (() => {
-      const currentVoice = this.getCurrentVoice();
-      return (currentVoice as any)?.voiceId || currentVoice?.id || '';
-    })();
-    
+    const voiceId =
+      this.selectedVoiceId ||
+      (() => {
+        const currentVoice = this.getCurrentVoice();
+        return (currentVoice as any)?.voiceId || currentVoice?.id || '';
+      })();
+
     const agentConfig: SetAgentConfigDto = {
       name: this.agentName || 'Agente',
       language: this.selectedCountry || 'es', // Usar código del país como idioma
@@ -1197,19 +1412,21 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       agentInstruction: this.instructions || '',
       phoneNumbers: {
         countryCode: this.selectedCountryCode || '+34',
-        number: Number(this.phoneNumber) || 0
+        number: Number(this.phoneNumber) || 0,
       },
-      label: this.label || `${this.agentName || 'Agente'} - ${this.selectedCountry || 'es'}`,
+      label:
+        this.label ||
+        `${this.agentName || 'Agente'} - ${this.selectedCountry || 'es'}`,
       parameters: {
         stability: this.voiceParameters.stability,
         similarity: this.voiceParameters.similarity,
         style: this.voiceParameters.style,
         boost: this.voiceParameters.boost,
-        speed: this.voiceParameters.speed
+        speed: this.voiceParameters.speed,
       },
-      state: "Activo"
+      state: 'Activo',
     };
-    
+
     // Navegar a pantalla de carga
     this.step = 'final';
 
@@ -1226,20 +1443,21 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         // Volver a la pantalla de prueba agente
         this.step = 'summary';
         // Mostrar mensaje de error
-        const errorMessage = error?.error?.message || error?.message || 'Error al crear el agente. Por favor, intenta nuevamente.';
+        const errorMessage =
+          error?.error?.message ||
+          error?.message ||
+          'Error al crear el agente. Por favor, intenta nuevamente.';
         this.modalService.openError({
           title: 'Error al crear agente',
-          message: errorMessage
+          message: errorMessage,
         });
-      }
+      },
     });
   }
 
   openTwilioStepsModal() {
     this.modalService.openTwilioSteps();
   }
-
-
 
   // Declare showCountryMenu property
   showCountryMenu = false;
@@ -1277,12 +1495,17 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     }
   }
 
-  selectCountry(countryCode: string, code: string, flagColor1: string, flagColor2: string) {
+  selectCountry(
+    countryCode: string,
+    code: string,
+    flagColor1: string,
+    flagColor2: string,
+  ) {
     this.selectedCountryCode = code;
     this.selectedCountry = countryCode;
     this.showCountryMenu = false;
     this.updateFlag(countryCode);
-    
+
     // Resetear validación del teléfono cuando cambia el prefijo
     if (this.phoneNumber && this.phoneNumber.trim()) {
       this.phoneValidationStatus = null;
@@ -1301,16 +1524,20 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
     switch (countryCode) {
       case 'es':
-        flagSvg.innerHTML = '<rect width="20" height="12" fill="#C60B1E"/><rect y="3" width="20" height="6" fill="#FFC400"/>';
+        flagSvg.innerHTML =
+          '<rect width="20" height="12" fill="#C60B1E"/><rect y="3" width="20" height="6" fill="#FFC400"/>';
         break;
       case 'us':
-        flagSvg.innerHTML = '<rect width="20" height="12" fill="#00247D"/><path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2"/><path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1"/><rect x="8" width="4" height="12" fill="#FFF"/><rect y="4" width="20" height="4" fill="#FFF"/><rect x="8.8" width="2.4" height="12" fill="#CF142B"/><rect y="5.2" width="20" height="1.6" fill="#CF142B"/>';
+        flagSvg.innerHTML =
+          '<rect width="20" height="12" fill="#00247D"/><path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2"/><path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1"/><rect x="8" width="4" height="12" fill="#FFF"/><rect y="4" width="20" height="4" fill="#FFF"/><rect x="8.8" width="2.4" height="12" fill="#CF142B"/><rect y="5.2" width="20" height="1.6" fill="#CF142B"/>';
         break;
       case 'fr':
-        flagSvg.innerHTML = '<rect width="20" height="12" fill="#fff"/><rect width="6.66" height="12" fill="#0055A4"/><rect x="13.33" width="6.67" height="12" fill="#EF4135"/>';
+        flagSvg.innerHTML =
+          '<rect width="20" height="12" fill="#fff"/><rect width="6.66" height="12" fill="#0055A4"/><rect x="13.33" width="6.67" height="12" fill="#EF4135"/>';
         break;
       case 'de':
-        flagSvg.innerHTML = '<rect width="20" height="12" fill="#FFCE00"/><rect y="6" width="20" height="6" fill="#DD0000"/><rect y="4" width="20" height="4" fill="#000"/>';
+        flagSvg.innerHTML =
+          '<rect width="20" height="12" fill="#FFCE00"/><rect y="6" width="20" height="6" fill="#DD0000"/><rect y="4" width="20" height="4" fill="#000"/>';
         break;
     }
   }
@@ -1324,7 +1551,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.handleLanguageSelectionClick(event);
 
     // Buscar si el click fue dentro del dropdown o del menú
-    const dropdown = target.closest('[class*="w-28"]') || target.closest('[class*="w-36"]');
+    const dropdown =
+      target.closest('[class*="w-28"]') || target.closest('[class*="w-36"]');
     const menu = target.closest('ul');
     const menuItem = target.closest('li');
 
@@ -1335,20 +1563,21 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   // Nuevas propiedades
-  inactivityTimeout = 0;           // Tiempo de inactividad en segundos
-  maxCallDuration = 0;            // Duración máxima en segundos
-  agentSpeed = 0;                 // Rapidez del agente
-  llmTemperature = 0;             // Temperatura del LLM
+  inactivityTimeout = 0; // Tiempo de inactividad en segundos
+  maxCallDuration = 0; // Duración máxima en segundos
+  agentSpeed = 0; // Rapidez del agente
+  llmTemperature = 0; // Temperatura del LLM
   isRecordingNoticeEnabled = false;
-  recordingNoticeText = 'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
+  recordingNoticeText =
+    'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
 
   // Parámetros de voz
   voiceParameters: VoiceParameters = {
-    stability: 0.72,      // 0-1.0
-    similarity: 0.8,      // 0-1.0
-    style: 0.5,           // 0-1.0
-    boost: true,          // true/false
-    speed: 0.98           // 0.25-4.0
+    stability: 0.72, // 0-1.0
+    similarity: 0.8, // 0-1.0
+    style: 0.5, // 0-1.0
+    boost: true, // true/false
+    speed: 0.98, // 0.25-4.0
   };
 
   // Estados de visibilidad de los bocadillos
@@ -1411,9 +1640,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   openRecordingNoticeInfoModal() {
     this.modalService.openWarning({
       title: 'Información sobre el mensaje de aviso de grabación',
-      message: 'El mensaje de aviso de grabación es una notificación que se reproduce al inicio de las llamadas para informar a los interlocutores que la conversación será grabada. Este mensaje cumple con los requisitos legales de protección de datos y privacidad.',
+      message:
+        'El mensaje de aviso de grabación es una notificación que se reproduce al inicio de las llamadas para informar a los interlocutores que la conversación será grabada. Este mensaje cumple con los requisitos legales de protección de datos y privacidad.',
       confirmText: 'Entendido',
-      showCancelButton: false
+      showCancelButton: false,
     });
   }
 
@@ -1424,7 +1654,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     } else if (seconds < 3600) {
       const minutes = Math.floor(seconds / 60);
       const remainingSeconds = seconds % 60;
-      return remainingSeconds > 0 ? `${minutes} ${remainingSeconds}` : `${minutes}`;
+      return remainingSeconds > 0
+        ? `${minutes} ${remainingSeconds}`
+        : `${minutes}`;
     } else {
       const hours = Math.floor(seconds / 3600);
       const remainingMinutes = Math.floor((seconds % 3600) / 60);
@@ -1515,12 +1747,14 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
           echoCancellation: false,
           noiseSuppression: false,
           autoGainControl: false,
-          sampleRate: 44100
-        }
+          sampleRate: 44100,
+        },
       });
 
       // Crear contexto de audio optimizado
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      this.audioContext = new (
+        window.AudioContext || (window as any).webkitAudioContext
+      )();
       this.analyser = this.audioContext.createAnalyser();
       this.microphone = this.audioContext.createMediaStreamSource(stream);
 
@@ -1533,12 +1767,12 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
       this.isMicrophoneActive = true;
       this.animateAudioLevel();
-
     } catch (error) {
       console.error('Error al acceder al micrófono:', error);
       this.modalService.openError({
         title: 'Error de micrófono',
-        message: 'No se pudo acceder al micrófono. Por favor, verifica los permisos.'
+        message:
+          'No se pudo acceder al micrófono. Por favor, verifica los permisos.',
       });
     }
   }
@@ -1567,7 +1801,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   private animateIdle() {
     const animate = () => {
       // Detener si el micrófono se activa o si no estamos en el navegador
-      if (!this.isBrowser || this.isMicrophoneActive || this.step !== 'summary') {
+      if (
+        !this.isBrowser ||
+        this.isMicrophoneActive ||
+        this.step !== 'summary'
+      ) {
         return;
       }
 
@@ -1615,7 +1853,11 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   ngAfterViewChecked() {
     // Inicializar Lottie cuando el step es 'final' y el contenedor está disponible
-    if (this.step === 'final' && this.lottieContainer && !this.lottieInitialized) {
+    if (
+      this.step === 'final' &&
+      this.lottieContainer &&
+      !this.lottieInitialized
+    ) {
       this.initLottie();
     } else if (this.step !== 'final' && this.lottieInitialized) {
       // Limpiar Lottie si cambiamos de step
@@ -1624,13 +1866,17 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   initLottie() {
-    if (this.lottieContainer && this.lottieContainer.nativeElement && !this.lottieInstance) {
+    if (
+      this.lottieContainer &&
+      this.lottieContainer.nativeElement &&
+      !this.lottieInstance
+    ) {
       this.lottieInstance = lottie.loadAnimation({
         container: this.lottieContainer.nativeElement,
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        path: 'assets/Loading.json'
+        path: 'assets/Loading.json',
       });
       this.lottieInitialized = true;
     }
@@ -1664,17 +1910,17 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
   getCloudSize(cloudNumber: number): number {
     const baseSize = 30 + cloudNumber * 15;
-    return baseSize + (this.audioLevel * 20);
+    return baseSize + this.audioLevel * 20;
   }
 
-  getCloudPosition(cloudNumber: number): { x: number, y: number } {
+  getCloudPosition(cloudNumber: number): { x: number; y: number } {
     const centerOffset = 60;
-    const angle = (cloudNumber * 120) + (this.audioLevel * 30);
-    const radius = 80 + (this.audioLevel * 40);
+    const angle = cloudNumber * 120 + this.audioLevel * 30;
+    const radius = 80 + this.audioLevel * 40;
 
     return {
-      x: Math.cos(angle * Math.PI / 180) * radius - centerOffset,
-      y: Math.sin(angle * Math.PI / 180) * radius - centerOffset
+      x: Math.cos((angle * Math.PI) / 180) * radius - centerOffset,
+      y: Math.sin((angle * Math.PI) / 180) * radius - centerOffset,
     };
   }
 
@@ -1703,35 +1949,38 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     const sphereSize = this.getMainSphereSize();
     const baseSize = sphereSize * 0.3;
     const increment = waveNumber * (sphereSize * 0.1);
-    return Math.min(baseSize + increment + (this.audioLevel * 20), sphereSize * 0.8);
+    return Math.min(
+      baseSize + increment + this.audioLevel * 20,
+      sphereSize * 0.8,
+    );
   }
 
-  getInternalWavePosition(waveNumber: number): { x: number, y: number } {
+  getInternalWavePosition(waveNumber: number): { x: number; y: number } {
     const sphereSize = this.getMainSphereSize();
     const centerOffset = sphereSize / 2;
-    const angle = (waveNumber * 120) + (this.audioLevel * 45);
-    const radius = sphereSize * 0.15 + (this.audioLevel * 15);
+    const angle = waveNumber * 120 + this.audioLevel * 45;
+    const radius = sphereSize * 0.15 + this.audioLevel * 15;
 
     return {
-      x: Math.cos(angle * Math.PI / 180) * radius,
-      y: Math.sin(angle * Math.PI / 180) * radius
+      x: Math.cos((angle * Math.PI) / 180) * radius,
+      y: Math.sin((angle * Math.PI) / 180) * radius,
     };
   }
 
   getInternalCloudSize(cloudNumber: number): number {
     const sphereSize = this.getMainSphereSize();
     const baseSize = sphereSize * 0.15 + cloudNumber * (sphereSize * 0.05);
-    return baseSize + (this.audioLevel * 15);
+    return baseSize + this.audioLevel * 15;
   }
 
-  getInternalCloudPosition(cloudNumber: number): { x: number, y: number } {
+  getInternalCloudPosition(cloudNumber: number): { x: number; y: number } {
     const sphereSize = this.getMainSphereSize();
-    const angle = (cloudNumber * 180) + (this.audioLevel * 60);
-    const radius = sphereSize * 0.2 + (this.audioLevel * 10);
+    const angle = cloudNumber * 180 + this.audioLevel * 60;
+    const radius = sphereSize * 0.2 + this.audioLevel * 10;
 
     return {
-      x: Math.cos(angle * Math.PI / 180) * radius,
-      y: Math.sin(angle * Math.PI / 180) * radius
+      x: Math.cos((angle * Math.PI) / 180) * radius,
+      y: Math.sin((angle * Math.PI) / 180) * radius,
     };
   }
 
@@ -1762,27 +2011,26 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     // Puedes agregar lógica si necesitas más adelante
   }
 
-  onMaxCallDurationChange() {
-  }
+  onMaxCallDurationChange() {}
 
   // Métodos para efectos del video del mar
   getVideoFilter(): string {
-    const brightness = 1 + (this.audioLevel * 0.6);
-    const contrast = 1 + (this.audioLevel * 0.4);
-    const saturation = 1 + (this.audioLevel * 0.8);
+    const brightness = 1 + this.audioLevel * 0.6;
+    const contrast = 1 + this.audioLevel * 0.4;
+    const saturation = 1 + this.audioLevel * 0.8;
 
     return `brightness(${brightness}) contrast(${contrast}) saturate(${saturation}) blur(${this.audioLevel * 1.2}px)`;
   }
 
   getVideoTransform(): string {
-    const scale = 1 + (this.audioLevel * 0.2);
+    const scale = 1 + this.audioLevel * 0.2;
     const rotation = this.audioLevel * 15; // Rotación más pronunciada
 
     return `scale(${scale}) rotate(${rotation}deg)`;
   }
 
   getVideoOpacity(): number {
-    return 0.7 + (this.audioLevel * 0.3);
+    return 0.7 + this.audioLevel * 0.3;
   }
 
   getAudioOverlay(): string {
@@ -1800,7 +2048,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   getSeaGradient(): string {
-    const intensity = 1 + (this.audioLevel * 0.6);
+    const intensity = 1 + this.audioLevel * 0.6;
     return `radial-gradient(circle at center, 
      rgba(59, 130, 246, ${0.9 * intensity}) 0%, 
      rgba(147, 197, 253, ${0.7 * intensity}) 30%, 
@@ -1830,5 +2078,4 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.step = 'final';
     this.saveDraft();
   }
-
 }
