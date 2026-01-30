@@ -836,83 +836,83 @@
     <div
       class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3"
       style="scrollbar-width: none; -ms-overflow-style: none;">
-      <div class="space-y-4 max-w-2xl mx-auto w-full">
+      <div class="space-y-4 3xl:space-y-6 max-w-2xl 3xl:max-w-3xl mx-auto w-full">
         <!-- Shopify -->
         <div
-          class="border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 flex items-center justify-center">
-              <img src="assets/shopify.webp" alt="Shopify" class="w-8 h-8 object-contain">
+          class="border border-gray-200 dark:border-gray-700 rounded-xl 3xl:rounded-2xl p-4 3xl:p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors">
+          <div class="flex items-center gap-3 3xl:gap-4">
+            <div class="w-10 h-10 3xl:w-14 3xl:h-14 flex items-center justify-center">
+              <img src="assets/shopify.webp" alt="Shopify" class="w-8 h-8 3xl:w-12 3xl:h-12 object-contain">
             </div>
             <div>
-              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Shopify</h3>
-              <p class="text-xs text-gray-500 dark:text-gray-400">Conecta tu tienda e-commerce</p>
+              <h3 class="text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-white">Shopify</h3>
+              <p class="text-xs 3xl:text-base text-gray-500 dark:text-gray-400">Conecta tu tienda e-commerce</p>
             </div>
           </div>
           <button (click)="selectAction('shopify')"
-            class="text-xs font-semibold text-white dark:text-white bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 px-3 py-1.5 rounded-lg transition-colors">
+            class="text-xs 3xl:text-base font-semibold text-white dark:text-gray-900 bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 px-3 py-1.5 3xl:px-5 3xl:py-3 rounded-lg 3xl:rounded-xl transition-colors">
             Conectar
           </button>
         </div>
 
         <!-- Make -->
-        <div class="connection-container border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"
+        <div class="connection-container border border-gray-200 dark:border-gray-700 rounded-xl 3xl:rounded-2xl overflow-hidden"
           [class.bg-gray-50]="showMakeConfig" [class.dark:bg-slate-800]="showMakeConfig"
           [class.expanded]="showMakeConfig">
           <div
-            class="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer rounded-t-xl"
+            class="p-4 3xl:p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer rounded-t-xl 3xl:rounded-t-2xl"
             (click)="selectAction('make')">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 flex items-center justify-center">
-                <img src="assets/make.webp" alt="Make" class="w-8 h-8 object-contain">
+            <div class="flex items-center gap-3 3xl:gap-4">
+              <div class="w-10 h-10 3xl:w-14 3xl:h-14 flex items-center justify-center">
+                <img src="assets/make.webp" alt="Make" class="w-8 h-8 3xl:w-12 3xl:h-12 object-contain">
               </div>
               <div>
-                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Make</h3>
-                <p class="text-xs text-gray-500 dark:text-gray-400">Automatiza tus flujos de trabajo</p>
+                <h3 class="text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-white">Make</h3>
+                <p class="text-xs 3xl:text-base text-gray-500 dark:text-gray-400">Automatiza tus flujos de trabajo</p>
               </div>
             </div>
             <button
-              class="connect-button text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors bg-black dark:bg-white text-white dark:white hover:bg-gray-800 dark:hover:bg-gray-100">
+              class="connect-button text-xs 3xl:text-base font-semibold px-3 py-1.5 3xl:px-5 3xl:py-3 rounded-lg 3xl:rounded-xl transition-colors bg-black dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100">
               {{ showMakeConfig ? 'Cerrar' : 'Conectar' }}
             </button>
           </div>
 
           <!-- Formulario Desplegable -->
           @if (showMakeConfig) {
-          <div class="px-4 pb-3 pt-0 slide-down">
-            <div class="space-y-3">
+          <div class="px-4 pb-3 3xl:pb-5 3xl:px-5 pt-0 slide-down">
+            <div class="space-y-3 3xl:space-y-4">
               <!-- Nombre de la acción -->
-              <div class="space-y-1">
-                <label class="text-[10px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">Nombre
+              <div class="space-y-1 3xl:space-y-1.5">
+                <label class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">Nombre
                   de la acción*</label>
                 <input type="text" [(ngModel)]="makeActionData.name" placeholder="Ingresa el nombre de la acción"
-                  class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8">
+                  class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs 3xl:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 3xl:h-11">
               </div>
 
               <!-- Descripción de la acción -->
-              <div class="space-y-1">
+              <div class="space-y-1 3xl:space-y-1.5">
                 <label
-                  class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 tracking-wider ml-1">Descripción
+                  class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 tracking-wider ml-1">Descripción
                   de la acción</label>
                 <textarea [(ngModel)]="makeActionData.description" placeholder="Describe qué hace esta acción" rows="2"
-                  class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all resize-none"></textarea>
+                  class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 3xl:text-base border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all resize-none"></textarea>
               </div>
 
               <!-- URL del servidor -->
-              <div class="space-y-1">
-                <label class="text-[10px] font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">URL
+              <div class="space-y-1 3xl:space-y-1.5">
+                <label class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">URL
                   del servidor*</label>
                 <div class="relative">
                   <input type="url" [(ngModel)]="makeActionData.serverUrl" placeholder="https://hook.eu1.make.com/..."
-                    class="w-full px-3 py-1.5 pr-10 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8">
-                  <div class="absolute inset-y-0 right-0 flex items-center pr-2">
-                    <img src="assets/make.webp" alt="Make" class="w-4 h-4 object-contain opacity-50">
+                    class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 pr-10 3xl:pr-12 border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs 3xl:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 3xl:h-11">
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-2 3xl:pr-3">
+                    <img src="assets/make.webp" alt="Make" class="w-4 h-4 3xl:w-5 3xl:h-5 object-contain opacity-50">
                   </div>
                 </div>
               </div>
 
               <button
-                class="w-full px-4 py-1.5 bg-black dark:bg-white text-white dark:text-gray-900 text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 whitespace-nowrap shadow-sm">
+                class="w-full px-4 py-1.5 3xl:px-5 3xl:py-3 3xl:text-base bg-black dark:bg-white text-white dark:text-gray-900 text-xs font-medium rounded-lg 3xl:rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 3xl:h-11 whitespace-nowrap shadow-sm">
                 Guardar
               </button>
             </div>
@@ -921,44 +921,44 @@
         </div>
 
         <!-- Twilio -->
-        <div class="connection-container border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"
+        <div class="connection-container border border-gray-200 dark:border-gray-700 rounded-xl 3xl:rounded-2xl overflow-hidden"
           [class.bg-gray-50]="showTwilioConfig" [class.dark:bg-slate-800]="showTwilioConfig"
           [class.expanded]="showTwilioConfig" [class.overflow-visible]="showCountryMenu"
           [style.overflow]="showCountryMenu ? 'visible' : 'hidden'">
           <div
-            class="p-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer rounded-t-xl"
+            class="p-4 3xl:p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer rounded-t-xl 3xl:rounded-t-2xl"
             (click)="showTwilioConfig = !showTwilioConfig">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 flex items-center justify-center">
-                <img src="assets/twilio.jpg" alt="Twilio" class="w-8 h-8 object-contain rounded-full">
+            <div class="flex items-center gap-3 3xl:gap-4">
+              <div class="w-10 h-10 3xl:w-14 3xl:h-14 flex items-center justify-center">
+                <img src="assets/twilio.jpg" alt="Twilio" class="w-8 h-8 3xl:w-12 3xl:h-12 object-contain rounded-full">
               </div>
               <div>
-                <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Twilio</h3>
-                <p class="text-xs text-gray-500 dark:text-gray-400">Conecta tu número de teléfono</p>
+                <h3 class="text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-white">Twilio</h3>
+                <p class="text-xs 3xl:text-base text-gray-500 dark:text-gray-400">Conecta tu número de teléfono</p>
               </div>
             </div>
             <button
-              class="connect-button text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors bg-black dark:bg-white text-white dark:text-white hover:bg-gray-800 dark:hover:bg-gray-100">
+              class="connect-button text-xs 3xl:text-base font-semibold px-3 py-1.5 3xl:px-5 3xl:py-3 rounded-lg 3xl:rounded-xl transition-colors bg-black dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100">
               {{ showTwilioConfig ? 'Cerrar' : 'Conectar' }}
             </button>
           </div>
 
           <!-- Formulario Desplegable -->
           @if (showTwilioConfig) {
-          <div class="px-4 pb-3 pt-0 slide-down ">
-            <div class="space-y-3 ">
+          <div class="px-4 pb-3 3xl:pb-5 3xl:px-5 pt-0 slide-down ">
+            <div class="space-y-3 3xl:space-y-4 ">
               <!-- Account SID y Auth Token en una línea -->
-              <div class="flex items-end gap-3">
-                <div class="flex-1 space-y-1">
+              <div class="flex items-end gap-3 3xl:gap-4">
+                <div class="flex-1 space-y-1 3xl:space-y-1.5">
                   <label
-                    class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Account
+                    class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Account
                     SID</label>
                   <div class="relative phone-input-wrapper" [class.validating]="isValidatingTwilio">
                     <input type="text" [(ngModel)]="twilioSid" (ngModelChange)="onTwilioSidChange()"
                       placeholder="ACxxxxxxxx..." [disabled]="isValidatingTwilio"
                       [class.phone-input-border-success]="twilioSidValidationStatus === 'success'"
                       [class.phone-input-border-error]="twilioSidValidationStatus === 'error'"
-                      class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-0 focus:border-gray-300 dark:focus:border-slate-600 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 disabled:opacity-50 disabled:cursor-not-allowed relative z-0">
+                      class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-0 focus:border-gray-300 dark:focus:border-slate-600 text-xs 3xl:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 3xl:h-11 disabled:opacity-50 disabled:cursor-not-allowed relative z-0">
 
                     <!-- Animación del borde cuando está validando -->
                     @if (isValidatingTwilio) {
@@ -969,16 +969,16 @@
                   </div>
                 </div>
 
-                <div class="flex-1 space-y-1">
+                <div class="flex-1 space-y-1 3xl:space-y-1.5">
                   <label
-                    class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Auth
+                    class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Auth
                     Token</label>
                   <div class="relative phone-input-wrapper" [class.validating]="isValidatingTwilio">
                     <input type="password" [(ngModel)]="twilioToken" (ngModelChange)="onTwilioTokenChange()"
                       placeholder="••••••••••••••••" [disabled]="isValidatingTwilio"
                       [class.phone-input-border-success]="twilioTokenValidationStatus === 'success'"
                       [class.phone-input-border-error]="twilioTokenValidationStatus === 'error'"
-                      class="w-full px-3 py-1.5 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-0 focus:border-gray-300 dark:focus:border-slate-600 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 disabled:opacity-50 disabled:cursor-not-allowed relative z-0">
+                      class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-0 focus:border-gray-300 dark:focus:border-slate-600 text-xs 3xl:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 3xl:h-11 disabled:opacity-50 disabled:cursor-not-allowed relative z-0">
 
                     <!-- Animación del borde cuando está validando -->
                     @if (isValidatingTwilio) {
@@ -992,7 +992,7 @@
                 <div class="relative group">
                   <button (click)="validateTwilioConfig()"
                     [disabled]="isValidatingTwilio || !twilioSid || !twilioToken || !twilioSid.trim() || !twilioToken.trim()"
-                    class="px-4 py-1.5 bg-black dark:bg-white text-white dark:text-gray-900 text-xs font-medium rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 mb-[1px] whitespace-nowrap shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[90px] justify-center">
+                    class="px-4 py-1.5 3xl:px-5 3xl:py-3 3xl:text-base bg-black dark:bg-white text-white dark:text-gray-900 text-xs font-medium rounded-lg 3xl:rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 3xl:h-11 mb-[1px] whitespace-nowrap shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[90px] 3xl:min-w-[110px] justify-center">
                     @if (isValidatingTwilio) {
                     <!-- Loader -->
                     <svg class="animate-spin h-3.5 w-3.5 text-white dark:text-gray-900"
@@ -1036,10 +1036,10 @@
               </div>
 
               <!-- Número de teléfono y Etiqueta en una línea -->
-              <div class="flex items-end gap-3">
-                <div class="flex-1 space-y-1">
+              <div class="flex items-end gap-3 3xl:gap-4">
+                <div class="flex-1 space-y-1 3xl:space-y-1.5">
                   <label
-                    class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Número
+                    class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Número
                     de teléfono <span class="text-red-500">*</span></label>
                   <div class="flex items-center relative"
                     [class.phone-input-container-success]="phoneValidationStatus === 'success'"
@@ -1047,17 +1047,17 @@
                     <!-- Dropdown personalizado -->
                     <div #countryDropdown (click)="toggleCountryMenu(); $event.stopPropagation()"
                       [class.cursor-pointer]="true"
-                      class="w-24 h-8 bg-white dark:bg-slate-800 border border-r-0 border-gray-300 dark:border-slate-600 rounded-l-lg px-2 flex items-center justify-between gap-1.5 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm relative z-10">
+                      class="w-24 h-8 3xl:w-28 3xl:h-11 bg-white dark:bg-slate-800 border border-r-0 border-gray-300 dark:border-slate-600 rounded-l-lg 3xl:rounded-l-xl px-2 3xl:px-3 flex items-center justify-between gap-1.5 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm relative z-10">
                       <div class="flex items-center gap-1">
                         <svg id="current-flag" width="14" height="10" viewBox="0 0 20 12" fill="none"
-                          xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 rounded-sm">
+                          xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 rounded-sm 3xl:w-4 3xl:h-3">
                           <rect width="20" height="12" fill="#C60B1E" />
                           <rect y="3" width="20" height="6" fill="#FFC400" />
                         </svg>
                         <span
-                          class="text-[9px] font-medium text-gray-800 dark:text-slate-200">{{selectedCountryCode}}</span>
+                          class="text-[9px] 3xl:text-sm font-medium text-gray-800 dark:text-slate-200">{{selectedCountryCode}}</span>
                       </div>
-                      <svg class="w-2 h-2 text-gray-500 dark:text-slate-400 transition-transform"
+                      <svg class="w-2 h-2 3xl:w-2.5 3xl:h-2.5 text-gray-500 dark:text-slate-400 transition-transform"
                         [class.rotate-180]="showCountryMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                       </svg>
@@ -1068,7 +1068,7 @@
                     <div class="flex-1 relative phone-input-wrapper group" [class.validating]="isValidatingPhone">
                       <input type="tel" [(ngModel)]="phoneNumber" (ngModelChange)="onPhoneNumberChange()"
                         placeholder="630 00 00 00" [disabled]="!isTwilioValidated"
-                        class="w-full h-8 px-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg rounded-l-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed relative z-0"
+                        class="w-full h-8 3xl:h-11 px-2.5 3xl:px-3 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg 3xl:rounded-r-xl rounded-l-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed relative z-0"
                         [class.border-l-0]="phoneValidationStatus === 'success' || phoneValidationStatus === 'error'"
                         [class.border-none]="phoneValidationStatus === 'success' || phoneValidationStatus === 'error'" />
 
@@ -1094,12 +1094,12 @@
                   </div>
                 </div>
 
-                <div class="flex-1 space-y-1">
+                <div class="flex-1 space-y-1 3xl:space-y-1.5">
                   <label
-                    class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Etiqueta
-                    <span class="text-gray-500 dark:text-gray-400 text-[9px] font-normal">(opcional)</span></label>
+                    class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">Etiqueta
+                    <span class="text-gray-500 dark:text-gray-400 text-[9px] 3xl:text-xs font-normal">(opcional)</span></label>
                   <input type="text" [(ngModel)]="label" placeholder="Ej: Oficina Principal, Ventas, etc."
-                    class="w-full h-8 px-3 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
+                    class="w-full h-8 3xl:h-11 px-3 3xl:px-4 3xl:py-3 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg 3xl:rounded-xl focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium" />
                 </div>
               </div>
             </div>

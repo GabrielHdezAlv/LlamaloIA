@@ -252,6 +252,12 @@ body::-webkit-scrollbar {
     @apply bg-gray-800 text-slate-50;
   }
 
+  /* Página Shopify onboarding: fondo negro (body y html) en modo oscuro */
+  html.dark.page-shopify-onboarding,
+  html.dark body.page-shopify-onboarding {
+    background-color: #000000 !important;
+  }
+
   /* Estilos para el botón de play en modo oscuro */
   html.dark .play-button {
     background-color: #ffffff !important; // blanco en modo oscuro
@@ -360,6 +366,11 @@ body::-webkit-scrollbar {
   html.dark .bg-gray-50 {
     background-color: #111113 !important;
     /* fondos suaves → gris 800 (general) */
+  }
+
+  /* Onboarding Shopify: fondo negro en modo oscuro (excepción al gris global) */
+  html.dark .shopify-onboarding {
+    background-color: #000000 !important;
   }
 
   /* No oscurecer `.bg-gray-100` cuando se use para iconos de resumen */

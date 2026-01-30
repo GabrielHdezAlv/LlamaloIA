@@ -856,8 +856,21 @@ div.phone-input-container-error .phone-input-wrapper input {
   overflow: hidden;
 }
 
+/* En 3xl las tarjetas tienen más padding/logo, hace falta más altura cuando están colapsadas */
+@media (min-width: 1920px) {
+  .connection-container {
+    max-height: 120px;
+  }
+}
+
 .connection-container.expanded {
   max-height: 600px;
+}
+
+@media (min-width: 1920px) {
+  .connection-container.expanded {
+    max-height: 700px;
+  }
 }
 
 /* Override para permitir que el menú desplegable se vea */
