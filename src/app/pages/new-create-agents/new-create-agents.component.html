@@ -7,8 +7,9 @@
     <div class="h-1 sm:h-1.5 md:h-2 3xl:h-2.5 w-full bg-gray-300 rounded-full overflow-hidden">
       <div class="h-full bg-blue-950 transition-all duration-300" [class.w-[12vh]]="step === 'agentName'"
         [class.w-[24vh]]="step === 'language'" [class.w-[36vh]]="step === 'voices'"
-        [class.w-[48vh]]="step === 'instructions'" [class.w-[54vh]]="step === 'actions'"
-        [class.w-[60vh]]="step === 'summary'" [class.w-[84vh]]="step === 'final'" [class.w-full]="step === 'success'">
+        [class.w-[42vh]]="step === 'connectBusiness'" [class.w-[48vh]]="step === 'instructions'"
+        [class.w-[54vh]]="step === 'knowledgeBase'" [class.w-[60vh]]="step === 'summary'"
+        [class.w-[72vh]]="step === 'connectPhone'" [class.w-[84vh]]="step === 'final'" [class.w-full]="step === 'success'">
       </div>
     </div>
   </div>
@@ -719,118 +720,18 @@
   </div>
   }
 
-  @if (step === 'instructions') {
-  <!-- Pantalla 4: Instrucciones -->
+  @if (step === 'connectBusiness') {
+  <!-- Conecta tu negocio (solo Shopify) -->
   <div
     class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
     <h2
       class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
-      Instrucciones
+      Conecta tu negocio
     </h2>
 
     <p
-      class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-200 mb-2 sm:mb-3 md:mb-4 lg:mb-2 xl:mb-2 2xl:mb-2 3xl:mb-2 max-w-2xl mx-auto  sm: md: px-2 sm:px-4">
-      Define las instrucciones que seguirá tu agente de IA.
-    </p>
-
-    <div
-      class="flex-1 flex flex-col justify-start pt-4 sm:pt-6 md:pt-8 lg:pt-2 overflow-y-auto scrollbar-width:none scrollbar-hide"
-      style="scrollbar-width: none; -ms-overflow-style: none;">
-      <!-- Mensaje de saludo -->
-      <div class="mb-3 sm:mb-4 md:mb-5 lg:mb-3 xl:mb-3 2xl:mb-3 px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3">
-        <label
-          class="flex items-center gap-2 text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base font-medium text-black dark:text-slate-200 mb-1 lg:mb-2.5 3xl:mb-3">
-          Define un saludo personalizado
-        </label>
-        <input type="text" [(ngModel)]="greeting" placeholder="Hola, gracias por llamar a..."
-          class="w-full px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-5 py-2 sm:py-2.5 md:py-3 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2.5 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-lg sm:rounded-xl lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base text-gray-500 dark:text-slate-300" />
-      </div>
-
-      <!-- Título de instrucciones (sin selector) -->
-      <div
-        class="mb-2 sm:mb-2.5 md:mb-3 lg:mb-3 xl:mb-3 2xl:mb-3 xl:mb-2 2xl:mb-2.5 w-full px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 flex items-center justify-between">
-        <div class="flex items-center gap-2 text-black dark:text-slate-200">
-          <label class="block text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base font-medium">Instrucciones
-            del agente</label>
-        </div>
-        <!-- Botón para expandir -->
-        <button (click)="openExpandInstructionsModal()"
-          class="ml-auto p-1 text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
-          title="Expandir vista">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </button>
-      </div>
-
-      <!-- Textarea para instrucciones -->
-      <div
-        class="mb-4 sm:mb-6 md:mb-10 lg:mb-3 xl:mb-3 2xl:mb-3 px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3 flex flex-col relative">
-        <!-- Textarea -->
-        <textarea [(ngModel)]="instructions" placeholder="Escribe aquí..."
-          class="w-full px-2.5 sm:px-3 md:px-4 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-5 py-2 sm:py-2.5 md:py-3 lg:py-2 3xl:py-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 rounded-lg sm:rounded-[1rem] lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:outline-none focus:ring-0 dark:focus:ring-0 h-48 sm:h-52 md:h-64 lg:h-48 3xl:h-64 resize-none text-[11px] sm:text-xs md:text-sm lg:text-[11px] 3xl:text-base dark:text-slate-200 instructions-scroll"></textarea>
-
-        <!-- Botón Generar con IA en esquina inferior derecha -->
-        <div
-          class="absolute bottom-2.5 sm:bottom-3 md:bottom-3.5 lg:bottom-2 right-5 sm:right-6 md:right-7 lg:right-5 z-10">
-          <button type="button" (click)="openGeneratePromptModal()"
-            class="ai-generate-btn flex items-center gap-1.5 3xl:gap-2 px-3 py-1 lg:px-3 xl:px-3 2xl:px-3 lg:py-1 xl:py-1 2xl:py-1 3xl:px-4 3xl:py-2 text-black text-[9px] sm:text-[10px] md:text-[11px] lg:text-[9px] 3xl:text-xs font-medium rounded-md 3xl:rounded-xl transition-colors">
-            <div class="ai-border-mask">
-              <div class="ai-border-glow"></div>
-            </div>
-            <svg class="w-3.5 h-3.5 lg:w-3 lg:h-3 3xl:w-4.5 3xl:h-4.5 relative z-10" viewBox="0 0 24 24"
-              fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7.45284 2.71266C7.8276 1.76244 9.1724 1.76245 9.54716 2.71267L10.7085 5.65732C10.8229 5.94743 11.0526 6.17707 11.3427 6.29148L14.2873 7.45284C15.2376 7.8276 15.2376 9.1724 14.2873 9.54716L11.3427 10.7085C11.0526 10.8229 10.8229 11.0526 10.7085 11.3427L9.54716 14.2873C9.1724 15.2376 7.8276 15.2376 7.45284 14.2873L6.29148 11.3427C6.17707 11.0526 5.94743 10.8229 5.65732 10.7085L2.71266 9.54716C1.76244 9.1724 1.76245 7.8276 2.71267 7.45284L5.65732 6.29148C5.94743 6.17707 6.17707 5.94743 6.29148 5.65732L7.45284 2.71266Z"
-                fill="currentColor" />
-              <path
-                d="M16.9245 13.3916C17.1305 12.8695 17.8695 12.8695 18.0755 13.3916L18.9761 15.6753C19.039 15.8348 19.1652 15.961 19.3247 16.0239L21.6084 16.9245C22.1305 17.1305 22.1305 17.8695 21.6084 18.0755L19.3247 18.9761C19.1652 19.039 19.039 19.1652 18.9761 19.3247L18.0755 21.6084C17.8695 22.1305 17.1305 22.1305 16.9245 21.6084L16.0239 19.3247C15.961 19.1652 15.8348 19.039 15.6753 18.9761L13.3916 18.0755C12.8695 17.8695 12.8695 17.1305 13.3916 16.9245L15.6753 16.0239C15.8348 15.961 15.961 15.8348 16.0239 15.6753L16.9245 13.3916Z"
-                fill="currentColor" />
-            </svg>
-            <span class="relative z-10">Generar con IA</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Botones -->
-    <div
-      class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
-      <button (click)="goBack()"
-        class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
-        style="z-index:10;">
-        <svg class="w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:-translate-x-1" viewBox="0 0 18 18"
-          fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z"
-            fill="currentColor" />
-        </svg>
-      </button>
-
-      <button
-        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
-        style="z-index: 9999;" (click)="onSubmit()">
-        Continuar
-      </button>
-
-      <!-- Botón Saltar a la derecha -->
-
-    </div>
-  </div>
-  }
-
-  @if (step === 'actions') {
-  <!-- Pantalla 5: Conexiones -->
-  <div
-    class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
-    <h2
-      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
-      Conexiones</h2>
-
-    <p
       class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-300 mb-4 sm:mb-6 md:mb-8 lg:mb-3 xl:mb-3 2xl:mb-3  sm: mx-auto px-2 sm:px-3 md:px-4 max-w-2xl">
-      Conecta tus aplicaciones favoritas para potenciar a tus agentes.
+      Conecta tus aplicaciones para potenciar a tus agentes.
     </p>
 
     <div
@@ -854,72 +755,188 @@
             Conectar
           </button>
         </div>
+      </div>
+    </div>
 
-        <!-- Make -->
-        <div class="connection-container border border-gray-200 dark:border-gray-700 rounded-xl 3xl:rounded-2xl overflow-hidden"
+    <div
+      class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
+      <button (click)="goBack()"
+        class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
+        style="z-index:10;">
+        <svg class="w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:-translate-x-1" viewBox="0 0 18 18"
+          fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z"
+            fill="currentColor" />
+        </svg>
+      </button>
+
+      <button
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        style="z-index: 9999;" (click)="onContinueFromConnectBusiness()">
+        Continuar
+      </button>
+    </div>
+  </div>
+  }
+
+  @if (step === 'instructions') {
+  <!-- Pantalla Instrucciones (con Make) -->
+  <div
+    class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+    <h2
+      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
+      Instrucciones
+    </h2>
+
+    <p
+      class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-200 mb-2 sm:mb-3 md:mb-4 lg:mb-2 xl:mb-2 2xl:mb-2 3xl:mb-2 max-w-2xl mx-auto  sm: md: px-2 sm:px-4">
+      Define las instrucciones que seguirá tu agente de IA.
+    </p>
+
+    <!-- Layout 80/20: izquierda saludo + instrucciones, derecha Make -->
+    <div class="flex-1 flex gap-2 sm:gap-3 min-h-0 min-w-0 pt-2 sm:pt-3 md:pt-4 lg:pt-2">
+      <!-- Columna izquierda 80% -->
+      <div class="w-4/5 min-w-0 flex flex-col overflow-y-auto pb-16 sm:pb-20 scrollbar-hide"
+        style="scrollbar-width: none; -ms-overflow-style: none;">
+        <!-- Define un saludo personalizado -->
+        <div class="mb-2 sm:mb-3 md:mb-4 lg:mb-2 px-0 pr-1">
+          <label
+            class="block text-[10px] sm:text-[11px] md:text-xs lg:text-[11px] 3xl:text-sm font-medium text-black dark:text-slate-200 mb-1 lg:mb-1.5 3xl:mb-2">
+            Define un saludo personalizado
+          </label>
+          <input type="text" [(ngModel)]="greeting" placeholder="Hola, gracias por llamar a..."
+            class="w-full px-2 sm:px-2.5 md:px-3 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-4 py-1.5 sm:py-2 md:py-2.5 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md sm:rounded-lg lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:ring-black dark:focus:ring-blue-500 focus:border-transparent text-[10px] sm:text-[11px] md:text-xs lg:text-[11px] 3xl:text-sm text-gray-500 dark:text-slate-300" />
+        </div>
+
+        <!-- Instrucciones del agente -->
+        <div class="mb-1.5 sm:mb-2 md:mb-2.5 lg:mb-2 w-full flex items-center justify-between">
+          <label class="block text-[10px] sm:text-[11px] md:text-xs lg:text-[11px] 3xl:text-sm font-medium text-black dark:text-slate-200">Instrucciones del agente</label>
+          <button (click)="openExpandInstructionsModal()"
+            class="p-0.5 text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
+            title="Expandir vista">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="flex flex-col relative flex-1 min-h-0">
+          <textarea [(ngModel)]="instructions" placeholder="Escribe aquí..."
+            class="w-full flex-1 min-h-[14rem] sm:min-h-[16rem] md:min-h-[18rem] px-2 sm:px-2.5 md:px-3 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-4 py-1.5 sm:py-2 md:py-2.5 lg:py-1.5 3xl:py-2 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 rounded-md sm:rounded-lg lg:rounded-lg xl:rounded-lg 2xl:rounded-lg 3xl:rounded-xl focus:outline-none focus:ring-0 dark:focus:ring-0 resize-none text-[10px] sm:text-[11px] md:text-xs lg:text-[11px] 3xl:text-sm dark:text-slate-200 instructions-scroll"></textarea>
+          <div class="absolute bottom-2 right-2 sm:right-3 z-10">
+            <button type="button" (click)="openGeneratePromptModal()"
+              class="ai-generate-btn flex items-center gap-1 3xl:gap-1.5 px-2 py-0.5 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-3 3xl:py-1.5 text-black text-[8px] sm:text-[9px] md:text-[10px] lg:text-[9px] 3xl:text-xs font-medium rounded 3xl:rounded-lg transition-colors">
+              <div class="ai-border-mask"><div class="ai-border-glow"></div></div>
+              <svg class="w-3 h-3 lg:w-3 3xl:w-4 3xl:h-4 relative z-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.45284 2.71266C7.8276 1.76244 9.1724 1.76245 9.54716 2.71267L10.7085 5.65732C10.8229 5.94743 11.0526 6.17707 11.3427 6.29148L14.2873 7.45284C15.2376 7.8276 15.2376 9.1724 14.2873 9.54716L11.3427 10.7085C11.0526 10.8229 10.8229 11.0526 10.7085 11.3427L9.54716 14.2873C9.1724 15.2376 7.8276 15.2376 7.45284 14.2873L6.29148 11.3427C6.17707 11.0526 5.94743 10.8229 5.65732 10.7085L2.71266 9.54716C1.76244 9.1724 1.76245 7.8276 2.71267 7.45284L5.65732 6.29148C5.94743 6.17707 6.17707 5.94743 6.29148 5.65732L7.45284 2.71266Z" fill="currentColor" />
+                <path d="M16.9245 13.3916C17.1305 12.8695 17.8695 12.8695 18.0755 13.3916L18.9761 15.6753C19.039 15.8348 19.1652 15.961 19.3247 16.0239L21.6084 16.9245C22.1305 17.1305 22.1305 17.8695 21.6084 18.0755L19.3247 18.9761C19.1652 19.039 19.039 19.1652 18.9761 19.3247L18.0755 21.6084C17.8695 22.1305 17.1305 22.1305 16.9245 21.6084L16.0239 19.3247C15.961 19.1652 15.8348 19.039 15.6753 18.9761L13.3916 18.0755C12.8695 17.8695 12.8695 17.1305 13.3916 16.9245L15.6753 16.0239C15.8348 15.961 15.961 15.8348 16.0239 15.6753L16.9245 13.3916Z" fill="currentColor" />
+              </svg>
+              <span class="relative z-10">Generar con IA</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha 20%: Make (título a la altura del input saludo) -->
+      <div class="w-1/5 min-w-0 flex flex-col items-stretch self-start">
+        <!-- Título "Automatiza con Make" alineado con el input de saludo -->
+        <div class="mb-2 sm:mb-3 md:mb-4 lg:mb-2 flex-shrink-0">
+          <label class="block text-[10px] sm:text-[11px] md:text-xs lg:text-[11px] 3xl:text-sm font-medium text-black dark:text-slate-200 mb-1 lg:mb-1.5 3xl:mb-2">Automatiza con Make</label>
+        </div>
+        <div class="connection-container border border-gray-200 dark:border-gray-700 rounded-lg sm:rounded-xl overflow-hidden w-full flex flex-col flex-1 min-h-0"
           [class.bg-gray-50]="showMakeConfig" [class.dark:bg-slate-800]="showMakeConfig"
           [class.expanded]="showMakeConfig">
           <div
-            class="p-4 3xl:p-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer rounded-t-xl 3xl:rounded-t-2xl"
+            class="p-2 sm:p-2.5 3xl:p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer rounded-t-lg sm:rounded-t-xl flex-shrink-0"
             (click)="selectAction('make')">
-            <div class="flex items-center gap-3 3xl:gap-4">
-              <div class="w-10 h-10 3xl:w-14 3xl:h-14 flex items-center justify-center">
-                <img src="assets/make.webp" alt="Make" class="w-8 h-8 3xl:w-12 3xl:h-12 object-contain">
-              </div>
-              <div>
-                <h3 class="text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-white">Make</h3>
-                <p class="text-xs 3xl:text-base text-gray-500 dark:text-gray-400">Automatiza tus flujos de trabajo</p>
+            <div class="flex items-center gap-1.5 sm:gap-2 min-w-0">
+              <img src="assets/make.webp" alt="Make" class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 object-contain flex-shrink-0">
+              <div class="min-w-0">
+                <h3 class="text-[10px] sm:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white leading-tight">Make</h3>
+                <p class="text-[9px] sm:text-[10px] 3xl:text-xs text-gray-500 dark:text-gray-400 truncate leading-tight">Automatiza tus flujos</p>
               </div>
             </div>
-            <button
-              class="connect-button text-xs 3xl:text-base font-semibold px-3 py-1.5 3xl:px-5 3xl:py-3 rounded-lg 3xl:rounded-xl transition-colors bg-black dark:bg-white text-white dark:text-white hover:bg-gray-800 dark:hover:bg-gray-100">
+            <button type="button"
+              class="connect-button text-[9px] sm:text-[10px] 3xl:text-xs font-semibold px-2 py-1 sm:px-2.5 sm:py-1 3xl:px-3 3xl:py-1.5 rounded-md 3xl:rounded-lg transition-colors bg-black dark:bg-white text-white dark:text-white hover:bg-gray-800 dark:hover:bg-gray-100 flex-shrink-0 self-start sm:self-center">
               {{ showMakeConfig ? 'Cerrar' : 'Conectar' }}
             </button>
           </div>
 
-          <!-- Formulario Desplegable -->
           @if (showMakeConfig) {
-          <div class="px-4 pb-3 3xl:pb-5 3xl:px-5 pt-0 slide-down">
-            <div class="space-y-3 3xl:space-y-4">
-              <!-- Nombre de la acción -->
-              <div class="space-y-1 3xl:space-y-1.5">
-                <label class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">Nombre
-                  de la acción*</label>
-                <input type="text" [(ngModel)]="makeActionData.name" placeholder="Ingresa el nombre de la acción"
-                  class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs 3xl:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 3xl:h-11">
+          <div class="px-2 pb-2 sm:px-2.5 sm:pb-2.5 3xl:px-3 3xl:pb-3 pt-0 border-t border-gray-200 dark:border-gray-600 slide-down overflow-y-auto flex-1 min-h-0">
+            <div class="space-y-1.5 3xl:space-y-2 pt-1">
+              <div>
+                <label class="text-[9px] 3xl:text-[10px] font-semibold text-gray-500 dark:text-gray-400 block mb-0.5">Nombre de la acción*</label>
+                <input type="text" [(ngModel)]="makeActionData.name" placeholder="Nombre"
+                  class="w-full px-2 py-1 3xl:px-2.5 3xl:py-1.5 border border-gray-300 dark:border-slate-600 rounded-md 3xl:rounded-lg focus:ring-1 focus:ring-blue-500 text-[10px] 3xl:text-xs text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-800 outline-none h-6 3xl:h-7">
               </div>
-
-              <!-- Descripción de la acción -->
-              <div class="space-y-1 3xl:space-y-1.5">
-                <label
-                  class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 tracking-wider ml-1">Descripción
-                  de la acción</label>
-                <textarea [(ngModel)]="makeActionData.description" placeholder="Describe qué hace esta acción" rows="2"
-                  class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 3xl:text-base border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all resize-none"></textarea>
+              <div>
+                <label class="text-[9px] 3xl:text-[10px] font-semibold text-gray-500 dark:text-gray-400 block mb-0.5">Descripción</label>
+                <textarea [(ngModel)]="makeActionData.description" placeholder="Qué hace" rows="2"
+                  class="w-full px-2 py-1 3xl:px-2.5 3xl:py-1.5 text-[10px] 3xl:text-xs border border-gray-300 dark:border-slate-600 rounded-md 3xl:rounded-lg focus:ring-1 focus:ring-blue-500 text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-800 outline-none resize-none"></textarea>
               </div>
-
-              <!-- URL del servidor -->
-              <div class="space-y-1 3xl:space-y-1.5">
-                <label class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400  tracking-wider ml-1">URL
-                  del servidor*</label>
-                <div class="relative">
-                  <input type="url" [(ngModel)]="makeActionData.serverUrl" placeholder="https://hook.eu1.make.com/..."
-                    class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 pr-10 3xl:pr-12 border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs 3xl:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 3xl:h-11">
-                  <div class="absolute inset-y-0 right-0 flex items-center pr-2 3xl:pr-3">
-                    <img src="assets/make.webp" alt="Make" class="w-4 h-4 3xl:w-5 3xl:h-5 object-contain opacity-50">
-                  </div>
-                </div>
+              <div>
+                <label class="text-[9px] 3xl:text-[10px] font-semibold text-gray-500 dark:text-gray-400 block mb-0.5">URL del servidor*</label>
+                <input type="url" [(ngModel)]="makeActionData.serverUrl" placeholder="https://hook..."
+                  class="w-full px-2 py-1 3xl:px-2.5 3xl:py-1.5 pr-6 border border-gray-300 dark:border-slate-600 rounded-md 3xl:rounded-lg focus:ring-1 focus:ring-blue-500 text-[10px] 3xl:text-xs text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-800 outline-none h-6 3xl:h-7">
               </div>
-
               <button
-                class="w-full px-4 py-1.5 3xl:px-5 3xl:py-3 3xl:text-base bg-black dark:bg-white text-white dark:text-white text-xs font-medium rounded-lg 3xl:rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 3xl:h-11 whitespace-nowrap shadow-sm">
+                class="w-full px-2.5 py-1 3xl:px-3 3xl:py-1.5 text-[10px] 3xl:text-xs bg-black dark:bg-white text-white dark:text-white font-medium rounded-md 3xl:rounded-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors">
                 Guardar
               </button>
             </div>
           </div>
           }
         </div>
+      </div>
+    </div>
 
+    <!-- Muro invisible: oculta el contenido por encima del botón Continuar al hacer scroll -->
+    <div class="absolute left-0 right-0 bottom-0 h-12 sm:h-14 bg-white dark:bg-slate-900 z-[5] pointer-events-none rounded-b-lg sm:rounded-b-2xl lg:rounded-b-xl"
+      aria-hidden="true"></div>
+
+    <!-- Botones -->
+    <div
+      class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6 z-10">
+      <button (click)="goBack()"
+        class="text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 focus:text-blue-600 dark:focus:text-blue-400 text-base sm:text-lg 3xl:text-xl flex items-center p-1 3xl:p-2 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-lg 3xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800"
+        style="z-index:10;">
+        <svg class="w-5 h-5 3xl:w-5 3xl:h-5 transition-transform duration-200 hover:-translate-x-1" viewBox="0 0 18 18"
+          fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12.0227 3.35225C12.2224 3.55195 12.2406 3.86445 12.0772 4.08466L12.0227 4.14775L7.17075 9L12.0227 13.8523C12.2224 14.052 12.2406 14.3645 12.0772 14.5847L12.0227 14.6477C11.823 14.8474 11.5105 14.8656 11.2903 14.7022L11.2273 14.6477L5.97725 9.39775C5.77755 9.19805 5.7594 8.88555 5.92279 8.66534L5.97725 8.60225L11.2273 3.35225C11.4469 3.13258 11.8031 3.13258 12.0227 3.35225Z"
+            fill="currentColor" />
+        </svg>
+      </button>
+
+      <button
+        class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3"
+        style="z-index: 9999;" (click)="onSubmit()">
+        Continuar
+      </button>
+    </div>
+  </div>
+  }
+
+  @if (step === 'connectPhone') {
+  <!-- Conecta tu número de teléfono (solo Twilio) -->
+  <div
+    class="bg-white dark:bg-slate-900 rounded-lg sm:rounded-2xl lg:rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-5 sm:p-8 md:p-10 lg:p-5 xl:p-5 2xl:p-5 min-h-[calc(100vh-12rem)] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-0 lg:h-[500px] xl:h-[500px] 2xl:h-[500px] 3xl:h-[600px] max-h-[calc(100vh-10rem)] sm:max-h-[calc(100vh-12rem)] md:max-h-[calc(100vh-14rem)] lg:max-h-none flex flex-col relative">
+    <h2
+      class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-semibold text-center text-blue-950 dark:text-white mb-0 sm:mb-0 md:mb-0 lg:mb-0 xl:mb-0 2xl:mb-0 3xl:mb-0  sm: md: lg:">
+      Conecta tu número de teléfono</h2>
+
+    <p
+      class="text-center text-xs sm:text-sm md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-black dark:text-slate-300 mb-4 sm:mb-6 md:mb-8 lg:mb-3 xl:mb-3 2xl:mb-3  sm: mx-auto px-2 sm:px-3 md:px-4 max-w-2xl">
+      Configura Twilio y tu número para recibir llamadas con tu agente.
+    </p>
+
+    <div
+      class="flex-1 flex flex-col justify-start overflow-y-auto scrollbar-hide px-2 sm:px-4 md:px-0 lg:px-3 xl:px-3 2xl:px-3"
+      style="scrollbar-width: none; -ms-overflow-style: none;">
+      <div class="space-y-4 3xl:space-y-6 max-w-2xl 3xl:max-w-3xl mx-auto w-full">
         <!-- Twilio -->
         <div class="connection-container border border-gray-200 dark:border-gray-700 rounded-xl 3xl:rounded-2xl overflow-hidden"
           [class.bg-gray-50]="showTwilioConfig" [class.dark:bg-slate-800]="showTwilioConfig"
@@ -1107,8 +1124,7 @@
           }
         </div>
 
-        <!-- Botón Continuar dentro del contenedor de conexiones (cuando Make o Twilio están abiertos) -->
-        @if (showMakeConfig || showTwilioConfig) {
+        @if (showTwilioConfig) {
         <div class="flex justify-center mt-6" style="z-index: 9999; position: relative;">
           <button [disabled]="!canContinueFromConnections" [class.opacity-50]="!canContinueFromConnections"
             [class.cursor-not-allowed]="!canContinueFromConnections"
@@ -1121,7 +1137,6 @@
       </div>
     </div>
 
-    <!-- Botones -->
     <div
       class="flex justify-between items-center w-full px-3 sm:px-4 md:px-8 lg:px-3 xl:px-3 2xl:px-3 absolute left-0 bottom-0 pb-6">
       <button (click)="goBack()"
@@ -1135,8 +1150,7 @@
         </svg>
       </button>
 
-      <!-- Botón Continuar en posición original (solo cuando Make y Twilio NO están abiertos) -->
-      @if (!showMakeConfig && !showTwilioConfig) {
+      @if (!showTwilioConfig) {
       <button [disabled]="!canContinueFromConnections" [class.opacity-50]="!canContinueFromConnections"
         [class.cursor-not-allowed]="!canContinueFromConnections"
         class="absolute left-1/2 transform -translate-x-1/2 bottom-6 px-8 sm:px-16 md:px-20 lg:px-5 xl:px-5 2xl:px-5 3xl:px-8 py-1.5 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 bg-[#0a1740] dark:bg-blue-700 text-xs sm:text-sm lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-white font-medium font-[Inter,sans-serif] rounded-lg sm:rounded-xl 3xl:rounded-xl hover:bg-gray-950 dark:hover:bg-blue-600 focus:bg-gray-950 dark:focus:bg-blue-600 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md  flex items-center gap-2 3xl:gap-3 disabled:hover:bg-[#0a1740] disabled:dark:hover:bg-blue-700 disabled:hover:shadow-md disabled:hover:-translate-y-0"

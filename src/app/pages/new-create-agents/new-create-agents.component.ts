@@ -78,8 +78,8 @@ export class NewCreateAgentsComponent
     | 'agentName'
     | 'language'
     | 'voices'
+    | 'connectBusiness'
     | 'instructions'
-    | 'actions'
     | 'knowledgeBase'
     | 'summary'
     | 'connectPhone'
@@ -153,8 +153,8 @@ export class NewCreateAgentsComponent
 
   ngOnInit() {
     const stepParam = this.route?.snapshot?.queryParams?.['step'];
-    if (stepParam === 'actions') {
-      this.step = 'actions';
+    if (stepParam === 'connectBusiness') {
+      this.step = 'connectBusiness';
       this.saveDraft();
     } else {
       this.checkForSavedDraft();
@@ -308,15 +308,14 @@ export class NewCreateAgentsComponent
 
     const stepNames: Record<string, string> = {
       agentName: 'Nombre y Tipo',
-      // 'callType': 'Tipo de llamada', // Eliminado
       language: 'Idioma',
       voices: 'Voces',
+      connectBusiness: 'Conecta tu negocio',
       instructions: 'Instrucciones',
-      actions: 'Acciones',
       knowledgeBase: 'Base de conocimientos',
       advancedSettings: 'Configuración avanzada',
-      summary: 'Resumen',
-      connectPhone: 'Conectar teléfono',
+      summary: 'Prueba de agente',
+      connectPhone: 'Conecta tu número de teléfono',
     };
 
     return stepNames[this.savedDraft.step] || this.savedDraft.step;
@@ -789,13 +788,15 @@ export class NewCreateAgentsComponent
   }
 
   goBack() {
-    if (this.step === 'summary') {
-      this.step = 'actions'; // Volver a "Conexiones" desde "Prueba Agente"
+    if (this.step === 'connectPhone') {
+      this.step = 'summary';
+    } else if (this.step === 'summary') {
+      this.step = 'knowledgeBase';
     } else if (this.step === 'knowledgeBase') {
       this.step = 'instructions';
-    } else if (this.step === 'actions') {
-      this.step = 'instructions';
     } else if (this.step === 'instructions') {
+      this.step = 'connectBusiness';
+    } else if (this.step === 'connectBusiness') {
       this.step = 'voices';
       this.loadVoices();
     } else if (this.step === 'voices') {
@@ -804,10 +805,8 @@ export class NewCreateAgentsComponent
     } else if (this.step === 'language') {
       this.step = 'agentName';
     } else if (this.step === 'agentName') {
-      // Primer paso: volver a la pantalla anterior
       this.location.back();
     }
-    // Si ya está en 'final' o 'success', no hace nada
   }
 
   onSkip() {
@@ -818,15 +817,17 @@ export class NewCreateAgentsComponent
       this.loadVoices();
     } else if (this.step === 'voices') {
       this.pauseVoice();
+      this.step = 'connectBusiness';
+    } else if (this.step === 'connectBusiness') {
       this.step = 'instructions';
     } else if (this.step === 'instructions') {
-      this.step = 'actions'; // Ir a "Añadir Acciones"
-    } else if (this.step === 'actions') {
-      this.step = 'summary';
+      this.step = 'knowledgeBase';
     } else if (this.step === 'knowledgeBase') {
       this.step = 'summary';
     } else if (this.step === 'summary') {
-      // Avanzar directamente a crear el agente
+      this.step = 'connectPhone';
+      this.saveDraft();
+    } else if (this.step === 'connectPhone') {
       this.createAgentAfterValidation();
       this.logSavedData();
     }
@@ -989,7 +990,7 @@ export class NewCreateAgentsComponent
   }
 
   onSubmit() {
-    this.step = 'actions'; // Ir a "Añadir Acciones"
+    this.step = 'knowledgeBase';
     this.saveDraft();
   }
 
@@ -1000,14 +1001,9 @@ export class NewCreateAgentsComponent
 
   selectAction(platform: string) {
     if (platform === 'shopify') {
-      // Ir al onboarding de Shopify; desde allí pueden volver a Conectar
       this.goToShopifyOnboarding();
     } else if (platform === 'make') {
-      // Toggle del desplegable de Make (ya no se usa modal)
       this.showMakeConfig = !this.showMakeConfig;
-    } else {
-      // Para otras plataformas, continuar normalmente (actualmente ninguna excepto manual/omitir)
-      this.step = 'knowledgeBase';
     }
   }
 
@@ -1114,32 +1110,23 @@ export class NewCreateAgentsComponent
     );
   }
 
-  // Getter para verificar si el botón Continuar debe estar habilitado
+  // Getter para verificar si el botón Continuar debe estar habilitado (solo usado en paso "Conecta tu número")
   get canContinueFromConnections(): boolean {
-    // Si Make está abierto, siempre se puede continuar
-    if (this.showMakeConfig) {
-      return true;
-    }
-    // Si solo Twilio está abierto, requiere validación completa
-    if (this.showTwilioConfig && !this.showMakeConfig) {
-      return this.isTwilioCompletelyValidated;
-    }
-    // Si ninguno está abierto, verificar si Twilio está validado (incluso con acordeón cerrado)
-    if (!this.showMakeConfig && !this.showTwilioConfig) {
-      return this.isTwilioCompletelyValidated;
-    }
-    return false;
+    return this.isTwilioCompletelyValidated;
   }
 
-  // Método para continuar desde la sección de conexiones
+  // Método para continuar desde "Conecta tu número de teléfono" (crear agente)
   onContinueFromConnections() {
-    // Verificar si se puede continuar usando el getter
     if (!this.canContinueFromConnections) {
       return;
     }
+    this.createAgentAfterValidation();
+    this.saveDraft();
+  }
 
-    // Avanzar al siguiente paso
-    this.step = 'summary';
+  // Continuar desde "Conecta tu negocio" a Instrucciones
+  onContinueFromConnectBusiness() {
+    this.step = 'instructions';
     this.saveDraft();
   }
 
@@ -1310,11 +1297,9 @@ export class NewCreateAgentsComponent
   }
 
   onSubmitTestCall() {
-    // Avanza directamente a crear el agente
-    this.createAgentAfterValidation();
+    // Ir a Conecta tu número de teléfono
+    this.step = 'connectPhone';
     this.saveDraft();
-    // Mostrar datos guardados cuando llegamos a esta pantalla
-    this.logSavedData();
   }
 
   // Método para mostrar datos guardados
