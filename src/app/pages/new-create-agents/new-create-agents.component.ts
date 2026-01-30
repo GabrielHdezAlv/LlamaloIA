@@ -2,6 +2,7 @@ import { Component, HostListener, OnDestroy, AfterViewChecked, ElementRef, ViewC
 import { FormsModule } from '@angular/forms';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { AgentsService } from '../../core/services/agents.service';
@@ -100,6 +101,8 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   private agentsService = inject(AgentsService);
   private twilioService = inject(TwilioService);
   private voicesLoaded = false;
+  private route = inject(ActivatedRoute, { optional: true });
+  private router = inject(Router);
 
   constructor(
     private location: Location,
@@ -120,15 +123,17 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
   }
 
   ngOnInit() {
-    // Verificar si hay un borrador guardado al iniciar
-    this.checkForSavedDraft();
-
-    // Si hay borrador (p. ej. usuario llegó desde "Recuperar" del topbar), restaurar paso y datos
-    if (this.savedDraft && this.showRecoveryPopup) {
-      this.recoverDraft();
+    const stepParam = this.route?.snapshot?.queryParams?.['step'];
+    if (stepParam === 'actions') {
+      this.step = 'actions';
+      this.saveDraft();
+    } else {
+      this.checkForSavedDraft();
+      if (this.savedDraft && this.showRecoveryPopup) {
+        this.recoverDraft();
+      }
     }
 
-    // Iniciar animación en reposo
     if (this.isBrowser) {
       this.animateIdle();
     }
@@ -393,7 +398,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
     const target = event.target as HTMLElement;
     if (!target) return;
-    
+
     // Verificar si el clic fue en un botón de idioma o dentro de él
     // Los botones de idioma están dentro del grid y tienen la clase "group"
     const isLanguageButton = target.closest('button.group') || target.closest('button[class*="flex flex-col"]');
@@ -409,9 +414,9 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       event.stopPropagation();
     }
     // Si el idioma clickeado ya está seleccionado y hay una selección pendiente, es el segundo click
-    if (this.pendingLanguageSelection && 
-        this.selectedCountry === languageCode &&
-        this.pendingLanguageSelection === languageCode) {
+    if (this.pendingLanguageSelection &&
+      this.selectedCountry === languageCode &&
+      this.pendingLanguageSelection === languageCode) {
       // Segundo click en el mismo idioma: avanzar al siguiente paso
       this.pendingLanguageSelection = null;
       this.step = 'voices';
@@ -438,7 +443,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (voice) {
       this.selectedVoiceId = (voice as any)?.voiceId || voice?.id || '';
       // Actualizar el índice también para mantener consistencia
-      const voiceIndex = this.voices.findIndex(v => 
+      const voiceIndex = this.voices.findIndex(v =>
         (v as any)?.voiceId === this.selectedVoiceId || v.id === this.selectedVoiceId
       );
       if (voiceIndex !== -1) {
@@ -801,11 +806,15 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.saveDraft();
   }
 
+  /** Navegar a la página de onboarding de Shopify (página externa, sin topbar ni navbar). */
+  goToShopifyOnboarding(): void {
+    this.router.navigate(['/shopify-onboarding']);
+  }
+
   selectAction(platform: string) {
     if (platform === 'shopify') {
-      // Avanzar directamente sin modal (el modal ha sido eliminado)
-      this.step = 'knowledgeBase';
-      this.saveDraft();
+      // Ir al onboarding de Shopify; desde allí pueden volver a Conectar
+      this.goToShopifyOnboarding();
     } else if (platform === 'make') {
       // Toggle del desplegable de Make (ya no se usa modal)
       this.showMakeConfig = !this.showMakeConfig;
@@ -865,7 +874,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         this.twilioSidValidationStatus = 'success';
         this.twilioTokenValidationStatus = 'success';
         this.isTwilioValidated = true;
-        
+
         // Si ya hay un número de teléfono ingresado, validarlo automáticamente
         if (this.phoneNumber && this.phoneNumber.trim()) {
           this.validatePhoneNumber();
@@ -877,10 +886,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         this.twilioSidValidationStatus = 'error';
         this.twilioTokenValidationStatus = 'error';
         this.isTwilioValidated = false;
-        
+
         // Extraer mensaje de error
         let errorMessage = 'Error al validar la configuración de Twilio. Por favor, verifica tus credenciales.';
-        
+
         if (error?.error?.message) {
           errorMessage = error.error.message;
         } else if (error?.message) {
@@ -890,7 +899,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         } else if (error.status === 400) {
           errorMessage = 'Datos inválidos. Por favor, verifica el formato de tus credenciales.';
         }
-        
+
         this.twilioErrorMessage = errorMessage;
         console.error('❌ Error al validar configuración de Twilio:', error);
       }
@@ -930,7 +939,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     if (!this.canContinueFromConnections) {
       return;
     }
-    
+
     // Avanzar al siguiente paso
     this.step = 'summary';
     this.saveDraft();
@@ -971,7 +980,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
 
     const countryCode = this.selectedCountryCode || '+34';
     const number = this.phoneNumber.trim();
-    
+
     // Resetear estado previo
     this.phoneValidationStatus = null;
     this.phoneErrorMessage = '';
@@ -986,10 +995,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       error: (error) => {
         this.isValidatingPhone = false;
         this.phoneValidationStatus = 'error';
-        
+
         // Extraer mensaje de error
         let errorMessage = 'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
-        
+
         if (error.status === 400) {
           errorMessage = error?.error?.message || 'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
         } else if (error.status === 401) {
@@ -999,7 +1008,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         } else if (error?.error?.message) {
           errorMessage = error.error.message;
         }
-        
+
         this.phoneErrorMessage = errorMessage;
         console.error('❌ Error al validar número:', error);
       }
@@ -1158,10 +1167,10 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       },
       error: (error) => {
         console.error('❌ Error al validar número:', error);
-        
+
         // Manejar diferentes tipos de errores
         let errorMessage = 'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
-        
+
         if (error.status === 400) {
           errorMessage = error?.error?.message || 'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
         } else if (error.status === 401) {
@@ -1171,7 +1180,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
         } else if (error?.error?.message) {
           errorMessage = error.error.message;
         }
-        
+
         this.modalService.openError({
           title: 'Error al validar número',
           message: errorMessage
@@ -1188,7 +1197,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       const currentVoice = this.getCurrentVoice();
       return (currentVoice as any)?.voiceId || currentVoice?.id || '';
     })();
-    
+
     const agentConfig: SetAgentConfigDto = {
       name: this.agentName || 'Agente',
       language: this.selectedCountry || 'es', // Usar código del país como idioma
@@ -1210,7 +1219,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
       },
       state: "Activo"
     };
-    
+
     // Navegar a pantalla de carga
     this.step = 'final';
 
@@ -1283,7 +1292,7 @@ export class NewCreateAgentsComponent implements OnDestroy, AfterViewChecked, On
     this.selectedCountry = countryCode;
     this.showCountryMenu = false;
     this.updateFlag(countryCode);
-    
+
     // Resetear validación del teléfono cuando cambia el prefijo
     if (this.phoneNumber && this.phoneNumber.trim()) {
       this.phoneValidationStatus = null;
