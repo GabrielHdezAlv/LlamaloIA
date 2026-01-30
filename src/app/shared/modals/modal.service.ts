@@ -48,10 +48,6 @@ import {
   TwilioStepsModalComponent,
   TwilioStepsModalData,
 } from './twilio-steps-modal/twilio-steps-modal.component';
-import {
-  EditAgentModalComponent,
-  EditAgentModalData,
-} from './edit-agent-modal/edit-agent-modal.component';
 
 @Injectable({
   providedIn: 'root',
@@ -142,7 +138,6 @@ export class ModalService {
     return dialogRef;
   }
 
-
   openMake(data: MakeModalData = {}) {
     return this.dialog.open(MakeModalComponent, {
       width: '1200px',
@@ -176,16 +171,6 @@ export class ModalService {
     return this.dialog.open(TwilioStepsModalComponent, {
       width: '480px',
       maxWidth: '90vw',
-      disableClose: false,
-      panelClass: 'custom-dialog-container',
-      data,
-    });
-  }
-
-  openEditAgent(data: EditAgentModalData) {
-    return this.dialog.open(EditAgentModalComponent, {
-      width: '800px',
-      maxWidth: '95vw',
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,

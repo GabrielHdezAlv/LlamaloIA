@@ -72,10 +72,17 @@ export class AgentsService {
   }
 
   // Método para actualizar un agente específico
-  updateAgent(agentId: number, config: SetAgentConfigDto): Observable<UpdateAgentResponse> {
-    return this.http.put<UpdateAgentResponse>(`${this.apiUrl}/${agentId}`, config, {
-      headers: this.getAuthHeaders(),
-    });
+  updateAgent(
+    agentId: number,
+    config: SetAgentConfigDto,
+  ): Observable<UpdateAgentResponse> {
+    return this.http.patch<UpdateAgentResponse>(
+      `${this.apiUrl}/${agentId}`,
+      config,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
   }
 
   // Método para eliminar un agente
@@ -96,6 +103,8 @@ export class AgentsService {
   setAgentConfig(voice: Voice, language: any): Observable<any> {
     console.warn('setAgentConfig está deprecado. Usa createAgent en su lugar.');
     // Por compatibilidad, retornar un observable vacío o lanzar error
-    throw new Error('setAgentConfig está deprecado. Usa createAgent en su lugar.');
+    throw new Error(
+      'setAgentConfig está deprecado. Usa createAgent en su lugar.',
+    );
   }
 }

@@ -2,33 +2,34 @@
  * Parámetros de configuración de voz
  */
 export interface VoiceParameters {
-  stability: number;      // 0-1.0
-  similarity: number;     // 0-1.0
-  style: number;          // 0-1.0
-  boost: boolean;         // true/false
-  speed: number;          // 0.25-4.0
+  stability: number; // 0-1.0
+  similarity: number; // 0-1.0
+  style: number; // 0-1.0
+  boost: boolean; // true/false
+  speed: number; // 0.25-4.0
 }
 
 /**
  * Modelo de agente
  */
 export interface Agent {
-  agentId?: number;               // ID único del agente (viene del backend en respuestas)
+  agentId?: number; // ID único del agente (viene del backend en respuestas)
   name: string;
-  type: "outbound" | "inbound";
+  type: 'outbound' | 'inbound';
   language: string;
   voiceId: string;
   firstInteraction: string;
   agentInstruction: string;
   phoneNumbers?: {
-    phoneId: number;               // Generado automáticamente
+    phoneId: number; // Generado automáticamente
     countryCode: string;
-    number: string;                // Guardado como string en BD
+    number: string; // Guardado como string en BD
   };
   label: string;
-  state: "Activo" | "Inactivo";
+  state: 'Activo' | 'Inactivo';
   parameters: VoiceParameters;
-  totalMinutes: number;           // Solo lectura - viene del backend
+  totalMinutes: number; // Solo lectura - viene del backend
+  shopifyDomain?: string | null; // Opcional - tienda Shopify asociada (ej: "mi-tienda.myshopify.com")
 }
 
 /**
@@ -36,18 +37,19 @@ export interface Agent {
  */
 export interface SetAgentConfigDto {
   name: string;
-  language: string;                // Solo código: "es", "en", etc.
-  type: "outbound" | "inbound";
+  language: string; // Solo código: "es", "en", etc.
+  type: 'outbound' | 'inbound';
   voiceId: string;
   firstInteraction: string;
   agentInstruction: string;
   phoneNumbers: {
-    countryCode: string;           // "+34"
-    number: number;                 // integer
+    countryCode: string; // "+34"
+    number: number; // integer
   };
   label: string;
   parameters: VoiceParameters;
-  state: "Activo" | "Inactivo";
+  state: 'Activo' | 'Inactivo';
+  shopifyDomain?: string | null; // Opcional - para vincular ("mi-tienda.myshopify.com"), desvincular ("", null) o mantener (no enviar en update)
 }
 
 /**

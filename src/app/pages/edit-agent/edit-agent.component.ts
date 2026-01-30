@@ -1,7 +1,21 @@
-import { Component, inject, OnInit, OnDestroy, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  Inject,
+  PLATFORM_ID,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
 import { AgentsService } from '../../core/services/agents.service';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../shared/modals/modal.service';
@@ -9,17 +23,21 @@ import { Agent, SetAgentConfigDto } from '../../shared/models/agent.model';
 import { Voice } from '../../shared/models/voice.model';
 import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
 import { TwilioService } from '../../core/services/twilio.service';
-import { debounceTime, distinctUntilChanged, switchMap, Subject, takeUntil, mergeMap, catchError, of } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  Subject,
+  takeUntil,
+  mergeMap,
+  catchError,
+  of,
+} from 'rxjs';
 
 @Component({
   selector: 'app-edit-agent',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    AiSphereComponent
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, AiSphereComponent],
   templateUrl: './edit-agent.component.html',
   styleUrls: ['./edit-agent.component.scss'],
 })
@@ -39,34 +57,44 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   languages: any[] = [];
   agent: Agent | null = null;
   agentId: number | null = null;
-  
+
   // Audio
   audioLevel = 0;
   isPlaying = false;
   currentPlayingVoice: string | null = null;
   audioActual: HTMLAudioElement | null = null;
   private animationId: any;
-  private readonly VOCES_LANG_CODES: readonly string[] = ['es', 'en', 'it', 'de', 'fr'];
+  private readonly VOCES_LANG_CODES: readonly string[] = [
+    'es',
+    'en',
+    'it',
+    'de',
+    'fr',
+  ];
   // Caché de audios para precarga y reproducción rápida
   private audioCache: Map<string, HTMLAudioElement> = new Map();
-  
+
   // Propiedades para el selector de país
   showCountryMenu = false;
   selectedCountryCode = '+34';
   selectedCountry = 'es';
-  
+
   // Propiedades para el selector de idioma
   showLanguageMenu = false;
   selectedLanguageCode = 'es';
   selectedLanguageFlag = 'es';
-  
+
   // Propiedades para validación de teléfono
   isValidatingPhone = false;
   phoneValidationMessage = '';
   phoneIsValid: boolean | null = null;
-  private phoneValidationSubject = new Subject<{ countryCode: string; number: string; timestamp: number }>();
+  private phoneValidationSubject = new Subject<{
+    countryCode: string;
+    number: string;
+    timestamp: number;
+  }>();
   private destroy$ = new Subject<void>();
-  
+
   private isBrowser: boolean;
 
   constructor() {
@@ -82,11 +110,20 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       phoneNumber: ['', Validators.required],
       label: [''],
       state: ['', Validators.required],
-      stability: [0.5, [Validators.required, Validators.min(0), Validators.max(1)]],
-      similarity: [0.75, [Validators.required, Validators.min(0), Validators.max(1)]],
+      stability: [
+        0.5,
+        [Validators.required, Validators.min(0), Validators.max(1)],
+      ],
+      similarity: [
+        0.75,
+        [Validators.required, Validators.min(0), Validators.max(1)],
+      ],
       style: [0.0, [Validators.required, Validators.min(0), Validators.max(1)]],
       boost: [false],
-      speed: [1.0, [Validators.required, Validators.min(0.25), Validators.max(4)]]
+      speed: [
+        1.0,
+        [Validators.required, Validators.min(0.25), Validators.max(4)],
+      ],
     });
   }
 
@@ -99,7 +136,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     } else {
       this.navigateToAgentsWithError(
         'Error',
-        'No se pudo identificar el agente.'
+        'No se pudo identificar el agente.',
       );
       return;
     }
@@ -113,7 +150,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error al cargar voces:', error);
-      }
+      },
     });
 
     // Precargar audio cuando cambia la voz y detener reproducción si está activa
@@ -128,9 +165,22 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.userService.getLanguages().subscribe({
       next: (languages) => {
         // Filtrar solo los idiomas que están en Crear Agente
-        const availableLanguageCodes = ['es', 'en', 'fr', 'it', 'de', 'pt', 'us', 'tr', 'se', 'nl'];
-        this.languages = languages.filter((lang: any) => availableLanguageCodes.includes(lang.code));
-        
+        const availableLanguageCodes = [
+          'es',
+          'en',
+          'fr',
+          'it',
+          'de',
+          'pt',
+          'us',
+          'tr',
+          'se',
+          'nl',
+        ];
+        this.languages = languages.filter((lang: any) =>
+          availableLanguageCodes.includes(lang.code),
+        );
+
         // Si no hay idiomas del API o faltan algunos, usar la lista completa
         if (this.languages.length === 0) {
           this.languages = [
@@ -143,11 +193,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
             { code: 'us', name: 'Inglés Americano' },
             { code: 'tr', name: 'Turco' },
             { code: 'se', name: 'Sueco' },
-            { code: 'nl', name: 'Danés' }
+            { code: 'nl', name: 'Danés' },
           ];
         } else {
           // Asegurar que todos los idiomas de Crear Agente estén presentes
-          const languageMap = new Map(this.languages.map((lang: any) => [lang.code, lang]));
+          const languageMap = new Map(
+            this.languages.map((lang: any) => [lang.code, lang]),
+          );
           const defaultLanguages = [
             { code: 'es', name: 'Español' },
             { code: 'en', name: 'Inglés Británico' },
@@ -158,12 +210,18 @@ export class EditAgentComponent implements OnInit, OnDestroy {
             { code: 'us', name: 'Inglés Americano' },
             { code: 'tr', name: 'Turco' },
             { code: 'se', name: 'Sueco' },
-            { code: 'nl', name: 'Danés' }
+            { code: 'nl', name: 'Danés' },
           ];
-          
+
           // Combinar idiomas del API con los por defecto, priorizando el API
-          this.languages = availableLanguageCodes.map(code => {
-            return languageMap.get(code) || defaultLanguages.find(d => d.code === code) || { code, name: code };
+          this.languages = availableLanguageCodes.map((code) => {
+            return (
+              languageMap.get(code) ||
+              defaultLanguages.find((d) => d.code === code) || {
+                code,
+                name: code,
+              }
+            );
           });
         }
       },
@@ -180,9 +238,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           { code: 'us', name: 'Inglés Americano' },
           { code: 'tr', name: 'Turco' },
           { code: 'se', name: 'Sueco' },
-          { code: 'nl', name: 'Danés' }
+          { code: 'nl', name: 'Danés' },
         ];
-      }
+      },
     });
 
     // Iniciar animación idle de la esfera
@@ -208,7 +266,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       audio.src = '';
     });
     this.audioCache.clear();
-    
+
     // Limpiar suscripciones
     this.destroy$.next();
     this.destroy$.complete();
@@ -219,16 +277,14 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
     this.agentsService.getAgentsList().subscribe({
       next: (response) => {
-        const agent = response.agents.find(a => 
-          (a.agentId && a.agentId === this.agentId) || 
-          (a.phoneNumbers?.phoneId === this.agentId)
+        const agent = response.agents.find(
+          (a) =>
+            (a.agentId && a.agentId === this.agentId) ||
+            a.phoneNumbers?.phoneId === this.agentId,
         );
-        
+
         if (!agent) {
-          this.navigateToAgentsWithError(
-            'Error',
-            'Agente no encontrado.'
-          );
+          this.navigateToAgentsWithError('Error', 'Agente no encontrado.');
           return;
         }
 
@@ -239,9 +295,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         console.error('Error al cargar agente:', error);
         this.navigateToAgentsWithError(
           'Error',
-          'No se pudo cargar la información del agente.'
+          'No se pudo cargar la información del agente.',
         );
-      }
+      },
     });
   }
 
@@ -250,33 +306,36 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
     this.selectedCountryCode = this.agent.phoneNumbers?.countryCode || '+34';
     this.selectedCountry = this.getCountryFromCode(this.selectedCountryCode);
-    
+
     const agentLanguage = this.agent.language || 'es';
     this.selectedLanguageCode = agentLanguage;
     this.selectedLanguageFlag = this.getLanguageFlag(agentLanguage);
-    
+
     // Resetear estado de validación al cargar el agente
     this.phoneIsValid = null;
     this.phoneValidationMessage = '';
     this.isValidatingPhone = false;
-    
-    this.editForm.patchValue({
-      name: this.agent.name || '',
-      language: agentLanguage,
-      type: this.agent.type || 'inbound',
-      voiceId: this.agent.voiceId || '',
-      firstInteraction: this.agent.firstInteraction || '',
-      agentInstruction: this.agent.agentInstruction || '',
-      countryCode: this.agent.phoneNumbers?.countryCode || '+34',
-      phoneNumber: this.agent.phoneNumbers?.number || '',
-      label: this.agent.label || '',
-      state: this.agent.state || 'Activo',
-      stability: this.agent.parameters?.stability ?? 0.5,
-      similarity: this.agent.parameters?.similarity ?? 0.75,
-      style: this.agent.parameters?.style ?? 0.0,
-      boost: this.agent.parameters?.boost ?? false,
-      speed: this.agent.parameters?.speed ?? 1.0
-    }, { emitEvent: false }); // No emitir eventos al poblar el formulario para evitar validaciones innecesarias
+
+    this.editForm.patchValue(
+      {
+        name: this.agent.name || '',
+        language: agentLanguage,
+        type: this.agent.type || 'inbound',
+        voiceId: this.agent.voiceId || '',
+        firstInteraction: this.agent.firstInteraction || '',
+        agentInstruction: this.agent.agentInstruction || '',
+        countryCode: this.agent.phoneNumbers?.countryCode || '+34',
+        phoneNumber: this.agent.phoneNumbers?.number || '',
+        label: this.agent.label || '',
+        state: this.agent.state || 'Activo',
+        stability: this.agent.parameters?.stability ?? 0.5,
+        similarity: this.agent.parameters?.similarity ?? 0.75,
+        style: this.agent.parameters?.style ?? 0.0,
+        boost: this.agent.parameters?.boost ?? false,
+        speed: this.agent.parameters?.speed ?? 1.0,
+      },
+      { emitEvent: false },
+    ); // No emitir eventos al poblar el formulario para evitar validaciones innecesarias
     // Precargar el audio después de poblar el formulario
     setTimeout(() => this.preloadAudio(), 200);
   }
@@ -286,7 +345,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       '+34': 'es',
       '+1': 'us',
       '+33': 'fr',
-      '+49': 'de'
+      '+49': 'de',
     };
     return codeMap[code] || 'es';
   }
@@ -307,22 +366,22 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   getLanguageFlag(languageCode: string): string {
     // Mapeo de códigos de idioma a códigos de país para las banderas (mismos que en Crear Agente)
     const languageToFlagMap: Record<string, string> = {
-      'es': 'es',    // Español
-      'en': 'gb',    // Inglés Británico
-      'fr': 'fr',    // Francés
-      'it': 'it',    // Italiano
-      'de': 'de',    // Alemán
-      'pt': 'pt',    // Portugués
-      'us': 'us',    // Inglés Americano
-      'tr': 'tr',    // Turco
-      'se': 'se',    // Sueco
-      'nl': 'nl'     // Holandés/Danés
+      es: 'es', // Español
+      en: 'gb', // Inglés Británico
+      fr: 'fr', // Francés
+      it: 'it', // Italiano
+      de: 'de', // Alemán
+      pt: 'pt', // Portugués
+      us: 'us', // Inglés Americano
+      tr: 'tr', // Turco
+      se: 'se', // Sueco
+      nl: 'nl', // Holandés/Danés
     };
     return languageToFlagMap[languageCode] || 'es';
   }
 
   getLanguageName(languageCode: string): string {
-    const lang = this.languages.find(l => l.code === languageCode);
+    const lang = this.languages.find((l) => l.code === languageCode);
     return lang ? lang.name : 'Español';
   }
 
@@ -348,7 +407,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLElement;
     if (!target) return;
 
-    const dropdown = target.closest('[class*="w-28"]') || target.closest('[class*="w-32"]');
+    const dropdown =
+      target.closest('[class*="w-28"]') || target.closest('[class*="w-32"]');
     const menu = target.closest('ul');
     const menuItem = target.closest('li');
     const languageDropdown = target.closest('[data-language-dropdown]');
@@ -363,13 +423,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private preloadAudio(): void {
     const voiceId = this.editForm.get('voiceId')?.value;
     const language = this.editForm.get('language')?.value;
-    
+
     if (!voiceId || !language) return;
 
     // Verificar si el idioma tiene audio disponible
     if (!this.VOCES_LANG_CODES.includes(language)) return;
 
-    const selectedVoice = this.voices.find(v => v.voiceId === voiceId);
+    const selectedVoice = this.voices.find((v) => v.voiceId === voiceId);
     if (!selectedVoice) return;
 
     const voiceName = selectedVoice.name.toLowerCase();
@@ -383,13 +443,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     // Crear y precargar el audio en segundo plano
     const audio = new Audio(path);
     audio.preload = 'auto';
-    
+
     // Cargar el audio sin reproducirlo
     audio.load();
-    
+
     // Guardar en caché
     this.audioCache.set(cacheKey, audio);
-    
+
     // Limpiar caché si hay más de 5 audios (para no consumir mucha memoria)
     if (this.audioCache.size > 5) {
       const firstKey = this.audioCache.keys().next().value;
@@ -408,11 +468,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   playTestAudio(): void {
     const voiceId = this.editForm.get('voiceId')?.value;
     const language = this.editForm.get('language')?.value;
-    
+
     if (!voiceId) {
       this.modalService.openError({
         title: 'Error',
-        message: 'Por favor, selecciona una voz primero.'
+        message: 'Por favor, selecciona una voz primero.',
       });
       return;
     }
@@ -420,23 +480,23 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (!language) {
       this.modalService.openError({
         title: 'Error',
-        message: 'Por favor, selecciona un idioma primero.'
+        message: 'Por favor, selecciona un idioma primero.',
       });
       return;
     }
 
     // Buscar la voz por voiceId para obtener su nombre
-    const selectedVoice = this.voices.find(v => v.voiceId === voiceId);
+    const selectedVoice = this.voices.find((v) => v.voiceId === voiceId);
     if (!selectedVoice) {
       this.modalService.openError({
         title: 'Error',
-        message: 'No se encontró la voz seleccionada.'
+        message: 'No se encontró la voz seleccionada.',
       });
       return;
     }
 
     const voiceName = selectedVoice.name.toLowerCase();
-    
+
     if (this.isPlaying && this.currentPlayingVoice === voiceId) {
       this.pauseTestAudio();
       return;
@@ -446,14 +506,14 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (!this.VOCES_LANG_CODES.includes(language)) {
       this.navigateToAgentsWithError(
         'Error de audio',
-        `No hay muestra de audio disponible para la voz "${selectedVoice.name}" en el idioma seleccionado.`
+        `No hay muestra de audio disponible para la voz "${selectedVoice.name}" en el idioma seleccionado.`,
       );
       return;
     }
 
     // Mapear el código de idioma al formato usado en assets/voces
     const lang = language;
-    
+
     // Construir la clave de caché y la ruta
     const cacheKey = `${voiceName}_${lang}`;
     const path = `assets/voces/${cacheKey}.mp3`;
@@ -465,7 +525,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
     // Intentar usar el audio del caché, si no existe, crear uno nuevo
     let audio = this.audioCache.get(cacheKey);
-    
+
     if (!audio) {
       // Si no está en caché, crear uno nuevo y precargarlo
       audio = new Audio(path);
@@ -484,14 +544,14 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.animateAudioPlayback();
 
     // Intentar reproducir inmediatamente (si está precargado, será instantáneo)
-    audio.play().catch(err => {
+    audio.play().catch((err) => {
       console.error('Error al reproducir audio:', err);
       this.isPlaying = false;
       this.currentPlayingVoice = null;
       this.audioLevel = 0;
       this.navigateToAgentsWithError(
         'Error de audio',
-        'No se pudo reproducir el audio de prueba.'
+        'No se pudo reproducir el audio de prueba.',
       );
     });
 
@@ -520,7 +580,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       }
       this.navigateToAgentsWithError(
         'Error de audio',
-        `No hay muestra de audio disponible para la voz "${selectedVoice.name}" en el idioma seleccionado.`
+        `No hay muestra de audio disponible para la voz "${selectedVoice.name}" en el idioma seleccionado.`,
       );
       this.animateIdle();
     };
@@ -543,7 +603,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private animateIdle(): void {
     if (!this.isBrowser) return;
     if (this.animationId) cancelAnimationFrame(this.animationId);
-    
+
     const animate = () => {
       if (this.isPlaying) return;
       // Pulso sinusoidal suave
@@ -556,7 +616,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private animateAudioPlayback(): void {
     if (!this.isBrowser) return;
     if (this.animationId) cancelAnimationFrame(this.animationId);
-    
+
     const animate = () => {
       if (!this.isPlaying) return;
       // Simular nivel de audio durante la reproducción
@@ -590,7 +650,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (this.editForm.valid && this.agentId) {
       // Verificar si el teléfono ha sido validado y es válido
       const newCountryCode = this.selectedCountryCode;
-      const newNumberDigits = this.editForm.value.phoneNumber.replace(/\D/g, '');
+      const newNumberDigits = this.editForm.value.phoneNumber.replace(
+        /\D/g,
+        '',
+      );
 
       const originalCountryCode = this.agent?.phoneNumbers?.countryCode || null;
       const originalNumberDigits =
@@ -610,7 +673,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         if (this.isValidatingPhone) {
           this.modalService.openError({
             title: 'Validando teléfono',
-            message: 'Por favor, espera a que termine la validación del número de teléfono.',
+            message:
+              'Por favor, espera a que termine la validación del número de teléfono.',
           });
           return;
         }
@@ -619,7 +683,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         if (this.phoneIsValid === false) {
           this.modalService.openError({
             title: 'Error de validación',
-            message: this.phoneValidationMessage || 'El número de teléfono no es válido. Por favor, verifica el número.',
+            message:
+              this.phoneValidationMessage ||
+              'El número de teléfono no es válido. Por favor, verifica el número.',
           });
           return;
         }
@@ -629,7 +695,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           this.validatePhoneNumber();
           this.modalService.openError({
             title: 'Validación requerida',
-            message: 'Por favor, espera a que se valide el número de teléfono antes de guardar.',
+            message:
+              'Por favor, espera a que se valide el número de teléfono antes de guardar.',
           });
           return;
         }
@@ -700,7 +767,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
           this.navigateToAgentsWithError(
             'Error al actualizar agente',
-            errorMessage
+            errorMessage,
           );
         },
       });
@@ -766,20 +833,20 @@ export class EditAgentComponent implements OnInit, OnDestroy {
    */
   private setupPhoneValidation(): void {
     // Listener para cambios en el número de teléfono
-    this.editForm.get('phoneNumber')?.valueChanges
-      .pipe(
+    this.editForm
+      .get('phoneNumber')
+      ?.valueChanges.pipe(
         debounceTime(800), // Esperar 800ms después de que el usuario deje de escribir
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe(() => {
         this.validatePhoneNumber();
       });
 
     // Listener para cambios en el código de país
-    this.editForm.get('countryCode')?.valueChanges
-      .pipe(
-        takeUntil(this.destroy$)
-      )
+    this.editForm
+      .get('countryCode')
+      ?.valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.validatePhoneNumber();
       });
@@ -798,19 +865,20 @@ export class EditAgentComponent implements OnInit, OnDestroy {
               console.error('❌ Error al validar teléfono:', error);
               this.isValidatingPhone = false;
               this.phoneIsValid = false;
-              
+
               if (error?.error?.message) {
                 this.phoneValidationMessage = error.error.message;
               } else {
-                this.phoneValidationMessage = 'No se pudo validar el número de teléfono. Por favor, verifica que sea correcto.';
+                this.phoneValidationMessage =
+                  'No se pudo validar el número de teléfono. Por favor, verifica que sea correcto.';
               }
-              
+
               // Devolver un observable vacío para que el stream continúe
               return of(null);
-            })
+            }),
           );
         }),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe({
         next: (response) => {
@@ -818,7 +886,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
             // Solo actualizar si hay una respuesta válida (no es un error)
             this.isValidatingPhone = false;
             this.phoneIsValid = true;
-            this.phoneValidationMessage = response.message || 'Número de teléfono válido';
+            this.phoneValidationMessage =
+              response.message || 'Número de teléfono válido';
           }
         },
         error: (error) => {
@@ -835,7 +904,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private validatePhoneNumber(): void {
     const phoneNumber = this.editForm.get('phoneNumber')?.value || '';
     const countryCode = this.selectedCountryCode;
-    
+
     // Solo validar si hay un número ingresado
     if (!phoneNumber || phoneNumber.trim() === '') {
       this.phoneIsValid = null;
@@ -846,7 +915,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
     // Limpiar el número (solo dígitos)
     const numberDigits = phoneNumber.replace(/\D/g, '');
-    
+
     // Solo validar si hay dígitos
     if (!numberDigits || numberDigits.length === 0) {
       this.phoneIsValid = null;
@@ -881,7 +950,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.phoneValidationSubject.next({
       countryCode,
       number: numberDigits,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   }
 }
