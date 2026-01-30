@@ -4,9 +4,9 @@ export class User {
   lastname?: string; // Opcional porque puede venir undefined del perfil
   profileImage?: string;
   enterprise?: { name: string; url: string };
-  country?: string;          // ✅ NUEVO - Opcional
+  country?: string; // ✅ NUEVO - Opcional
   marketingConsent?: boolean; // ✅ NUEVO - Opcional
-  accountStatus?: number;    // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado)
+  accountStatus?: number; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado)
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   email?: string; // Opcional porque puede venir undefined del perfil
   password?: string; // Opcional porque no viene del perfil del usuario
@@ -15,10 +15,10 @@ export class User {
   language?: any;
   // Nuevos campos opcionales
   integrations?: {
-    shopify?: {
+    shopify?: Array<{
       connected?: boolean;
       shopDomain?: string;
-    };
+    }>;
   };
   twilio?: {
     twilioSid: string;
@@ -56,7 +56,7 @@ export class User {
     country?: string,
     token?: string,
     voiceId?: string,
-    language?: any
+    language?: any,
   ) {
     this.userId = userId;
     this.name = name;

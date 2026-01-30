@@ -10,10 +10,10 @@ export interface User {
   email: string;
   createdAt: any; // Timestamp - ajustar según la librería utilizada (Firebase, etc.)
   integrations: {
-    shopify: {
+    shopify: Array<{
       connected: boolean;
       shopDomain: string;
-    };
+    }>;
   };
   twilio: {
     twilioSid: string;
@@ -26,7 +26,7 @@ export interface User {
   }>;
   agents: Array<{
     name: string;
-    type: "outbound" | "inbound";
+    type: 'outbound' | 'inbound';
     language: string;
     voiceId: string;
     firstInteraction: string;

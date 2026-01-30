@@ -11,15 +11,15 @@ export interface UserProfileResponseDto {
   profileImage?: string;
   enterprise?: { name: string; url: string };
   email?: string;
-  country?: string;          // ✅ NUEVO - Opcional
+  country?: string; // ✅ NUEVO - Opcional
   marketingConsent?: boolean; // ✅ NUEVO - Opcional
-  accountStatus?: number;    // ⬅️ NUEVO: Incluido en respuestas (0 = Inactivo, 1 = Activo, 2 = Eliminado)
+  accountStatus?: number; // ⬅️ NUEVO: Incluido en respuestas (0 = Inactivo, 1 = Activo, 2 = Eliminado)
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   createdAt?: string | null; // Fecha formateada en español (ej: "12 de octubre de 2025, 10:30:45")
   twilio?: TwilioConfig;
   agent?: {
     name?: string;
-    type?: "outbound" | "inbound";
+    type?: 'outbound' | 'inbound';
     language?: string;
     voiceId?: string;
     firstInteraction?: string;
@@ -32,21 +32,21 @@ export interface UserProfileResponseDto {
     label?: string;
   }; // Primer agente del array (compatibilidad con DTO antiguo)
   integrations?: {
-    shopify?: {
+    shopify?: Array<{
       connected?: boolean;
       shopDomain?: string;
-    };
+    }>;
   };
   phoneNumbers?: Array<{
     phoneId: number;
     countryCode: string;
     number: string;
-    state: "Activo" | "Inactivo";
+    state: 'Activo' | 'Inactivo';
     importedBy: string;
   }>;
   agents?: Array<{
     name: string;
-    type: "outbound" | "inbound";
+    type: 'outbound' | 'inbound';
     language: string;
     voiceId: string;
     firstInteraction: string;
