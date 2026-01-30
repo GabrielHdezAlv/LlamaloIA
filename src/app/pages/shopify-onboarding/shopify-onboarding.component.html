@@ -1,6 +1,11 @@
-<div class="shopify-onboarding min-h-screen flex relative overflow-hidden bg-gray-50 dark:bg-black">
+<div
+  class="shopify-onboarding min-h-screen flex relative overflow-hidden bg-gray-50 dark:bg-black"
+>
   <!-- Fondo: nubes azules oscuras grandes que se mueven por toda la pantalla -->
-  <div class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+  <div
+    class="absolute inset-0 pointer-events-none overflow-hidden"
+    aria-hidden="true"
+  >
     <div class="cloud cloud-1"></div>
     <div class="cloud cloud-2"></div>
     <div class="cloud cloud-3"></div>
@@ -10,40 +15,100 @@
   </div>
 
   <!-- Izquierda: columna más ancha y contenido más grande; en 3xl (≥1920px) solo el contenido interior más grande -->
-  <div class="w-[55%] flex flex-col items-start p-24 3xl:p-32 relative z-10 min-h-screen">
-    <div class="fade-in-up flex items-center gap-2 mb-5 3xl:mb-8" style="animation-delay: 0.1s">
-      <img src="assets/logo_azul.webp" alt="Llamalo" class="h-9 3xl:h-12 w-auto object-contain dark:hidden" />
-      <img src="assets/logo_blanco.webp" alt="Llamalo" class="h-9 3xl:h-12 w-auto object-contain hidden dark:block" />
+  <div
+    class="w-[55%] flex flex-col items-start p-24 3xl:p-32 relative z-10 min-h-screen"
+  >
+    <div
+      class="fade-in-up flex items-center gap-2 mb-5 3xl:mb-8"
+      style="animation-delay: 0.1s"
+    >
+      <img
+        src="assets/logo_azul.webp"
+        alt="Llamalo"
+        class="h-9 3xl:h-12 w-auto object-contain dark:hidden"
+      />
+      <img
+        src="assets/logo_blanco.webp"
+        alt="Llamalo"
+        class="h-9 3xl:h-12 w-auto object-contain hidden dark:block"
+      />
     </div>
-    <div class="fade-in-up flex gap-2 mb-8 w-full max-w-md 3xl:max-w-lg 3xl:mb-12" style="animation-delay: 0.2s">
-      <span class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-900 dark:bg-[#ffffff]"></span>
-      <span class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
-      <span class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
-      <span class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+    <div
+      class="fade-in-up flex gap-2 mb-8 w-full max-w-md 3xl:max-w-lg 3xl:mb-12"
+      style="animation-delay: 0.2s"
+    >
+      <span
+        class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-900 dark:bg-[#ffffff]"
+      ></span>
+      <span
+        class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-300 dark:bg-gray-600"
+      ></span>
+      <span
+        class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-300 dark:bg-gray-600"
+      ></span>
+      <span
+        class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-300 dark:bg-gray-600"
+      ></span>
     </div>
-    <h1 class="fade-in-up text-4xl md:text-5xl 3xl:text-6xl 3xl:leading-tight font-semibold text-gray-900 dark:text-white leading-tight max-w-xl 3xl:max-w-3xl mb-3 3xl:mb-5" style="animation-delay: 0.3s">
+    <h1
+      class="fade-in-up text-4xl md:text-5xl 3xl:text-6xl 3xl:leading-tight font-semibold text-gray-900 dark:text-white leading-tight max-w-xl 3xl:max-w-3xl mb-3 3xl:mb-5"
+      style="animation-delay: 0.3s"
+    >
       Conecta tu cuenta de Shopify
     </h1>
-    <p class="fade-in-up text-gray-600 dark:text-gray-400 mb-6 3xl:mb-8 max-w-xl 3xl:max-w-3xl text-base 3xl:text-xl" style="animation-delay: 0.4s">
-      Introduce los datos de tu tienda para vincularla con Llamalo y empezar a configurar tu agente.
+    <p
+      class="fade-in-up text-gray-600 dark:text-gray-400 mb-6 3xl:mb-8 max-w-xl 3xl:max-w-3xl text-base 3xl:text-xl"
+      style="animation-delay: 0.4s"
+    >
+      Introduce los datos de tu tienda para vincularla con Llamalo y empezar a
+      configurar tu agente.
     </p>
-    <div class="fade-in-up flex flex-col gap-4 3xl:gap-6 w-full max-w-xl 3xl:max-w-3xl" style="animation-delay: 0.5s">
+    <div
+      class="fade-in-up flex flex-col gap-4 3xl:gap-6 w-full max-w-xl 3xl:max-w-3xl"
+      style="animation-delay: 0.5s"
+    >
       <div class="flex flex-col gap-1.5 3xl:gap-2">
-        <label class="text-base 3xl:text-lg font-medium text-gray-900 dark:text-white">Nombre de la tienda</label>
-        <input type="text" placeholder="Ej. Mi Tienda" class="w-full px-4 py-5 3xl:px-5 3xl:py-6 3xl:text-lg rounded-2xl border-2 border-black placeholder:text-gray-700 dark:border-white dark:placeholder:text-white bg-transparent outline-none transition text-base" />
-      </div>
-      <div class="flex flex-col gap-1.5 3xl:gap-2">
-        <label class="text-base 3xl:text-lg font-medium text-gray-900 dark:text-white">Dominio de Shopify</label>
-        <input type="text" placeholder="Ej. mi-tienda.myshopify.com" class="w-full px-4 py-5 3xl:px-5 3xl:py-6 3xl:text-lg rounded-2xl border-2 border-black placeholder:text-gray-700  dark:border-white bg-transparent outline-none transition text-base" />
+        <label
+          class="text-base 3xl:text-lg font-medium text-gray-900 dark:text-white"
+          >Dominio de Shopify</label
+        >
+        <input
+          type="text"
+          [(ngModel)]="shopifyDomain"
+          placeholder="Ej. mi-tienda.myshopify.com"
+          class="w-full px-4 py-5 3xl:px-5 3xl:py-6 3xl:text-lg rounded-2xl border-2 placeholder:text-gray-700 bg-transparent outline-none transition text-base"
+          [class.border-black]="!shopifyDomain.trim() || isDomainValid"
+          [class.dark:border-white]="!shopifyDomain.trim() || isDomainValid"
+          [class.border-red-500]="shopifyDomain.trim() && !isDomainValid"
+          [class.dark:border-red-500]="shopifyDomain.trim() && !isDomainValid"
+        />
+        @if (shopifyDomain.trim() && !isDomainValid) {
+          <p class="text-sm 3xl:text-base text-red-600 dark:text-red-400">
+            El dominio debe terminar en .myshopify.com (ej.
+            mi-tienda.myshopify.com)
+          </p>
+        }
       </div>
     </div>
 
     <!-- Botones abajo del todo -->
-    <div class="fade-in-up flex gap-3 3xl:gap-4 mt-auto pt-8 3xl:pt-12 w-full max-w-xl 3xl:max-w-3xl" style="animation-delay: 0.6s">
-      <button type="button" (click)="goBack()" class="px-5 py-2.5 3xl:px-6 3xl:py-3 3xl:text-base rounded-xl bg-[#414141] text-white dark:text-gray-300 font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+    <div
+      class="fade-in-up flex gap-3 3xl:gap-4 mt-auto pt-8 3xl:pt-12 w-full max-w-xl 3xl:max-w-3xl"
+      style="animation-delay: 0.6s"
+    >
+      <button
+        type="button"
+        (click)="goBack()"
+        class="px-5 py-2.5 3xl:px-6 3xl:py-3 3xl:text-base rounded-xl bg-[#414141] text-white dark:text-gray-300 font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      >
         Volver
       </button>
-      <button type="button" (click)="goToConnectShopify()" class="btn-continuar-shopify px-5 py-2.5 3xl:px-6 3xl:py-3 3xl:text-base rounded-xl bg-[#1B2559] dark:bg-white text-white dark:text-white font-medium text-sm hover:bg-[#0a1740]  transition-colors">
+      <button
+        type="button"
+        (click)="goToConnectShopify()"
+        [disabled]="!isDomainValid"
+        class="btn-continuar-shopify px-5 py-2.5 3xl:px-6 3xl:py-3 3xl:text-base rounded-xl bg-[#1B2559] dark:bg-white text-white dark:text-white font-medium text-sm hover:bg-[#0a1740] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
         Continuar
       </button>
     </div>
@@ -51,8 +116,15 @@
 
   <!-- Derecha: recuadro con imagen (sin cambios en 3xl) -->
   <div class="w-[55%] flex flex-col min-h-screen box-border p-24 relative z-10">
-    <div class="fade-in-up w-full h-[calc(100vh-12rem)] min-h-0 rounded-2xl bg-gray-200 dark:bg-gray-700 shadow-xl overflow-hidden" style="animation-delay: 0.25s">
-      <img src="assets/foto_shopify.jpg" alt="Shopify" class="w-full h-full object-cover" />
+    <div
+      class="fade-in-up w-full h-[calc(100vh-12rem)] min-h-0 rounded-2xl bg-gray-200 dark:bg-gray-700 shadow-xl overflow-hidden"
+      style="animation-delay: 0.25s"
+    >
+      <img
+        src="assets/foto_shopify.jpg"
+        alt="Shopify"
+        class="w-full h-full object-cover"
+      />
     </div>
   </div>
 </div>
