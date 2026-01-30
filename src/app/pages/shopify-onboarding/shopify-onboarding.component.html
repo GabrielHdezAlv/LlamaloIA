@@ -1,6 +1,32 @@
 <div
   class="shopify-onboarding min-h-screen flex relative overflow-hidden bg-gray-50 dark:bg-black"
 >
+  <!-- Overlay loader mientras se obtiene authUrl y se redirige -->
+  @if (loading) {
+    <div
+      class="shopify-auth-overlay fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-gray-900/80 dark:bg-black/90"
+      aria-live="polite"
+      aria-busy="true"
+    >
+      <div class="shopify-auth-spinner" aria-hidden="true"></div>
+      <p
+        class="shopify-auth-message text-center text-white text-base 3xl:text-lg max-w-md px-4"
+      >
+        Completando el proceso de asignar tienda a tu cuenta de Llamalo AI…
+      </p>
+    </div>
+  }
+
+  <!-- Mensaje de error -->
+  @if (errorMessage) {
+    <div
+      class="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-4 py-3 rounded-xl bg-red-100 dark:bg-red-900/80 text-red-800 dark:text-red-200 text-sm 3xl:text-base shadow-lg max-w-md"
+      role="alert"
+    >
+      {{ errorMessage }}
+    </div>
+  }
+
   <!-- Fondo: nubes azules oscuras grandes que se mueven por toda la pantalla -->
   <div
     class="absolute inset-0 pointer-events-none overflow-hidden"
@@ -100,7 +126,7 @@
       <button
         type="button"
         (click)="goToConnectShopify()"
-        [disabled]="!isDomainValid"
+        [disabled]="!isDomainValid || loading"
         class="btn-continuar-shopify px-5 py-2.5 3xl:px-6 3xl:py-3 3xl:text-base rounded-xl bg-[#1B2559] dark:bg-white text-white dark:text-white font-medium text-sm hover:bg-[#0a1740] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Continuar

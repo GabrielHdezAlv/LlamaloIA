@@ -171,3 +171,27 @@ $blue-800-strong: rgba(30, 64, 175, 0.6);
   animation: fadeInUp 0.8s ease-out forwards;
   animation-fill-mode: both;
 }
+
+// Overlay y spinner durante la obtención de authUrl y redirección a Shopify
+.shopify-auth-overlay {
+  backdrop-filter: blur(4px);
+}
+
+.shopify-auth-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: shopify-spin 0.9s linear infinite;
+}
+
+.shopify-auth-message {
+  line-height: 1.5;
+}
+
+@keyframes shopify-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
