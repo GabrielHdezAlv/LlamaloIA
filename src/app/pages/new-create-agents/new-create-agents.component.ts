@@ -13,6 +13,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { AgentsService } from '../../core/services/agents.service';
@@ -129,6 +130,8 @@ export class NewCreateAgentsComponent
   private agentsService = inject(AgentsService);
   private twilioService = inject(TwilioService);
   private voicesLoaded = false;
+  private route = inject(ActivatedRoute, { optional: true });
+  private router = inject(Router);
 
   constructor(
     private location: Location,
@@ -149,10 +152,17 @@ export class NewCreateAgentsComponent
   }
 
   ngOnInit() {
-    // Verificar si hay un borrador guardado al iniciar
-    this.checkForSavedDraft();
+    const stepParam = this.route?.snapshot?.queryParams?.['step'];
+    if (stepParam === 'actions') {
+      this.step = 'actions';
+      this.saveDraft();
+    } else {
+      this.checkForSavedDraft();
+      if (this.savedDraft && this.showRecoveryPopup) {
+        this.recoverDraft();
+      }
+    }
 
-    // Iniciar animación en reposo
     if (this.isBrowser) {
       this.animateIdle();
     }
@@ -186,7 +196,7 @@ export class NewCreateAgentsComponent
     }
   }
 
-  // Recuperar el borrador guardado
+  // Recuperar el borrador guardado (paso actual y todo lo escrito)
   recoverDraft() {
     if (this.savedDraft) {
       this.step = this.savedDraft.step as any;
@@ -195,25 +205,23 @@ export class NewCreateAgentsComponent
         this.savedDraft.greeting ||
         'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
       this.template = this.savedDraft.template || '';
-      // Recuperar el tipo de llamada si existe
-      this.selectedCallType = (this.savedDraft as any).selectedCallType || null;
+      this.selectedCallType = (this.savedDraft as any).selectedCallType ?? null;
       this.instructions = this.savedDraft.instructions || '';
-      this.currentVoiceIndex = this.savedDraft.currentVoiceIndex || 0;
+      this.currentVoiceIndex = this.savedDraft.currentVoiceIndex ?? 0;
       this.selectedVoiceId = this.savedDraft.selectedVoiceId || '';
       this.selectedCountry = this.savedDraft.selectedCountry || 'es';
       this.selectedCountryCode = this.savedDraft.selectedCountryCode || '+34';
       this.phoneNumber = this.savedDraft.phoneNumber || '';
-      this.inactivityTimeout = this.savedDraft.inactivityTimeout || 0;
-      this.maxCallDuration = this.savedDraft.maxCallDuration || 0;
-      this.agentSpeed = this.savedDraft.agentSpeed || 0;
-      this.llmTemperature = this.savedDraft.llmTemperature || 0;
+      this.inactivityTimeout = this.savedDraft.inactivityTimeout ?? 0;
+      this.maxCallDuration = this.savedDraft.maxCallDuration ?? 0;
+      this.agentSpeed = this.savedDraft.agentSpeed ?? 0;
+      this.llmTemperature = this.savedDraft.llmTemperature ?? 0;
       this.isRecordingNoticeEnabled =
-        this.savedDraft.isRecordingNoticeEnabled || false;
+        this.savedDraft.isRecordingNoticeEnabled ?? false;
       this.recordingNoticeText =
         this.savedDraft.recordingNoticeText ||
         'Le informamos que esta llamada será grabada con fines de calidad y seguridad. Puede consultar más información sobre el tratamiento de sus datos en nuestra política de privacidad.';
 
-      // Recuperar parámetros de voz si existen
       if (this.savedDraft.voiceParameters) {
         this.voiceParameters = {
           ...this.voiceParameters,
@@ -221,7 +229,9 @@ export class NewCreateAgentsComponent
         };
       }
 
-      // Si el paso es 'voices', cargar las voces del backend
+      // Actualizar bandera de idioma cuando la vista esté lista
+      setTimeout(() => this.updateFlag(this.selectedCountry), 0);
+
       if (this.step === 'voices') {
         this.loadVoices();
       }
@@ -230,12 +240,8 @@ export class NewCreateAgentsComponent
         this.animateIdle();
       }
 
-      // Si el paso recuperado es 'summary', mostrar datos guardados
       if (this.step === 'summary') {
-        // Usar setTimeout para asegurar que el componente esté completamente inicializado
-        setTimeout(() => {
-          this.logSavedData();
-        }, 100);
+        setTimeout(() => this.logSavedData(), 100);
       }
     }
     this.showRecoveryPopup = false;
@@ -987,11 +993,15 @@ export class NewCreateAgentsComponent
     this.saveDraft();
   }
 
+  /** Navegar a la página de onboarding de Shopify (página externa, sin topbar ni navbar). */
+  goToShopifyOnboarding(): void {
+    this.router.navigate(['/shopify-onboarding']);
+  }
+
   selectAction(platform: string) {
     if (platform === 'shopify') {
-      // Avanzar directamente sin modal (el modal ha sido eliminado)
-      this.step = 'knowledgeBase';
-      this.saveDraft();
+      // Ir al onboarding de Shopify; desde allí pueden volver a Conectar
+      this.goToShopifyOnboarding();
     } else if (platform === 'make') {
       // Toggle del desplegable de Make (ya no se usa modal)
       this.showMakeConfig = !this.showMakeConfig;
@@ -1891,6 +1901,8 @@ export class NewCreateAgentsComponent
   }
 
   ngOnDestroy() {
+    // Guardar borrador al salir para que "Recuperar" restaure paso y datos
+    this.saveDraft();
     // Limpiar timeout de validación de teléfono si existe
     if (this.phoneValidationTimeout) {
       clearTimeout(this.phoneValidationTimeout);
@@ -1899,6 +1911,12 @@ export class NewCreateAgentsComponent
     this.stopMicrophone();
     // Limpiar Lottie
     this.destroyLottie();
+  }
+
+  /** Guardar borrador al cerrar pestaña o salir de la página (navegación externa). */
+  @HostListener('window:beforeunload')
+  onBeforeUnload() {
+    this.saveDraft();
   }
 
   // Métodos para calcular tamaños y posiciones dinámicas estilo ChatGPT
