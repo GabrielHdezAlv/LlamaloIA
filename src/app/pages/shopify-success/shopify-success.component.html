@@ -1,0 +1,105 @@
+<div
+  class="shopify-success min-h-screen flex relative overflow-hidden bg-gray-50 dark:bg-black"
+>
+  <!-- Fondo: nubes (mismo estilo que shopify-onboarding) -->
+  <div
+    class="absolute inset-0 pointer-events-none overflow-hidden"
+    aria-hidden="true"
+  >
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+    <div class="cloud cloud-4"></div>
+    <div class="cloud cloud-5"></div>
+    <div class="cloud cloud-6"></div>
+  </div>
+
+  <div
+    class="w-full flex flex-col items-start p-24 3xl:p-32 relative z-10 min-h-screen max-w-3xl"
+  >
+    <div
+      class="fade-in-up flex items-center gap-2 mb-5 3xl:mb-8"
+      style="animation-delay: 0.1s"
+    >
+      <img
+        src="assets/logo_azul.webp"
+        alt="Llamalo"
+        class="h-9 3xl:h-12 w-auto object-contain dark:hidden"
+      />
+      <img
+        src="assets/logo_blanco.webp"
+        alt="Llamalo"
+        class="h-9 3xl:h-12 w-auto object-contain hidden dark:block"
+      />
+    </div>
+    <div
+      class="fade-in-up flex gap-2 mb-8 w-full max-w-md 3xl:max-w-lg 3xl:mb-12"
+      style="animation-delay: 0.2s"
+    >
+      <span
+        class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-300 dark:bg-gray-600"
+      ></span>
+      <span
+        class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-900 dark:bg-[#ffffff]"
+      ></span>
+    </div>
+
+    @if (isError) {
+      <h1
+        class="fade-in-up text-4xl md:text-5xl 3xl:text-6xl font-semibold text-gray-900 dark:text-white leading-tight max-w-xl 3xl:max-w-3xl mb-3 3xl:mb-5"
+        style="animation-delay: 0.3s"
+      >
+        Error al conectar con Shopify
+      </h1>
+      <p
+        class="fade-in-up text-gray-600 dark:text-gray-400 mb-6 3xl:mb-8 max-w-xl 3xl:max-w-3xl text-base 3xl:text-xl"
+        style="animation-delay: 0.4s"
+      >
+        @if (errorMessage) {
+          {{ errorMessage }}
+        } @else {
+          No se pudo completar la conexión. Comprueba el dominio e inténtalo de
+          nuevo.
+        }
+      </p>
+      <div
+        class="fade-in-up mt-auto pt-8 3xl:pt-12"
+        style="animation-delay: 0.5s"
+      >
+        <button
+          type="button"
+          (click)="goBack()"
+          class="px-5 py-2.5 3xl:px-6 3xl:py-3 3xl:text-base rounded-xl bg-[#414141] text-white dark:text-gray-300 font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        >
+          Volver
+        </button>
+      </div>
+    } @else {
+      <h1
+        class="fade-in-up text-4xl md:text-5xl 3xl:text-6xl font-semibold text-gray-900 dark:text-white leading-tight max-w-xl 3xl:max-w-3xl mb-3 3xl:mb-5"
+        style="animation-delay: 0.3s"
+      >
+        Cuenta de Shopify conectada
+      </h1>
+      <p
+        class="fade-in-up text-gray-600 dark:text-gray-400 mb-6 3xl:mb-8 max-w-xl 3xl:max-w-3xl text-base 3xl:text-xl"
+        style="animation-delay: 0.4s"
+      >
+        Tu tienda{{ shop ? " " + shop : "" }} se ha vinculado correctamente con
+        Llamalo. Puedes continuar configurando tu agente.
+      </p>
+      <div
+        class="fade-in-up mt-auto pt-8 3xl:pt-12"
+        style="animation-delay: 0.5s"
+      >
+        <button
+          type="button"
+          (click)="continueConfiguringAgent()"
+          class="btn-continuar-shopify px-5 py-2.5 3xl:px-6 3xl:py-3 3xl:text-base rounded-xl bg-[#1B2559] dark:bg-white text-white dark:text-white font-medium text-sm hover:bg-[#0a1740] transition-colors"
+        >
+          Continuar configurando el agente
+        </button>
+      </div>
+    }
+  </div>
+</div>

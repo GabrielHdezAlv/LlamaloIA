@@ -91,7 +91,14 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.errorMessage = null;
 
-    const url = `${API_URL}/shopify/auth?shop=${encodeURIComponent(shop)}&redirect=false`;
+    const returnTo =
+      isPlatformBrowser(this.platformId) && typeof window !== 'undefined'
+        ? `${window.location.origin}/shopify-onboarding/success`
+        : '';
+    const returnToParam = returnTo
+      ? `&returnTo=${encodeURIComponent(returnTo)}`
+      : '';
+    const url = `${API_URL}/shopify/auth?shop=${encodeURIComponent(shop)}&redirect=false${returnToParam}`;
     firstValueFrom(
       this.http.get<ShopifyAuthResponse>(url, {
         headers: this.getAuthHeaders(),
@@ -99,8 +106,9 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     )
       .then((res) => {
         if (res?.authUrl) {
-          if (isPlatformBrowser(this.platformId) && window.open) {
-            window.open(res.authUrl, '_blank', 'noopener,noreferrer');
+          if (isPlatformBrowser(this.platformId)) {
+            window.location.href = res.authUrl;
+            return;
           }
         }
         this.loading = false;

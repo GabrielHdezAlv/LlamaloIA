@@ -54,6 +54,7 @@ interface AgentDraft {
     boost: boolean;
     speed: number;
   };
+  shopifyDomain?: string | null; // Tienda Shopify conectada (ej. "mi-tienda.myshopify.com")
   savedAt: number; // timestamp
 }
 
@@ -103,6 +104,9 @@ export class NewCreateAgentsComponent
     description: '',
     serverUrl: '',
   };
+
+  /** Dominio de Shopify conectado en este flujo (para mostrar tick + "Conectado" en lugar del botón Conectar) */
+  shopifyConnectedDomain: string | null = null;
 
   // Variables para Twilio
   twilioSid = '';
@@ -165,6 +169,57 @@ export class NewCreateAgentsComponent
 
     if (this.isBrowser) {
       this.animateIdle();
+      this.handleShopifyReturnParams();
+    }
+  }
+
+  /**
+   * Lee query params de retorno de Shopify (shopify=success|error, shop, code, message)
+   * y muestra mensaje de éxito o error; luego limpia la URL para que al recargar no se repita.
+   */
+  private handleShopifyReturnParams(): void {
+    const params = this.route?.snapshot?.queryParams;
+    if (!params || params['shopify'] === undefined) return;
+
+    const shopify = params['shopify'];
+    const shop = params['shop'] ?? '';
+    const code = params['code'] ?? '';
+    const message = params['message'] ?? '';
+
+    const cleanUrl = (): void => {
+      this.router.navigate(['/dashboard/agents/create'], {
+        replaceUrl: true,
+        queryParams: { step: 'connectBusiness' },
+        queryParamsHandling: '',
+      });
+    };
+
+    if (shopify === 'success' && shop) {
+      this.shopifyConnectedDomain = shop;
+      this.saveDraft();
+      cleanUrl();
+      return;
+    }
+
+    if (shopify === 'error') {
+      const errorTitle =
+        code === '401'
+          ? 'No autorizado'
+          : code === '400'
+            ? 'Solicitud incorrecta'
+            : 'Error al conectar con Shopify';
+      const errorMessage =
+        message ||
+        (code === '401'
+          ? 'La sesión ha expirado o no tienes permiso. Vuelve a iniciar sesión.'
+          : code === '400'
+            ? 'Los datos enviados no son válidos. Comprueba el dominio e inténtalo de nuevo.'
+            : 'No se pudo completar la conexión. Inténtalo de nuevo.');
+      this.modalService.openError({
+        title: errorTitle,
+        message: errorMessage,
+      });
+      cleanUrl();
     }
   }
 
@@ -229,6 +284,8 @@ export class NewCreateAgentsComponent
         };
       }
 
+      this.shopifyConnectedDomain = this.savedDraft.shopifyDomain ?? null;
+
       // Actualizar bandera de idioma cuando la vista esté lista
       setTimeout(() => this.updateFlag(this.selectedCountry), 0);
 
@@ -283,6 +340,7 @@ export class NewCreateAgentsComponent
           boost: this.voiceParameters.boost,
           speed: this.voiceParameters.speed,
         },
+        shopifyDomain: this.shopifyConnectedDomain ?? undefined,
         savedAt: Date.now(),
       };
 
@@ -1420,6 +1478,9 @@ export class NewCreateAgentsComponent
         speed: this.voiceParameters.speed,
       },
       state: 'Activo',
+      ...(this.shopifyConnectedDomain && {
+        shopifyDomain: this.shopifyConnectedDomain,
+      }),
     };
 
     // Navegar a pantalla de carga
@@ -1720,8 +1781,8 @@ export class NewCreateAgentsComponent
   onFinish() {
     // Limpiar el micrófono si está activo
     this.stopMicrophone();
-    // Vuelve a la página anterior (por ejemplo, /dashboard/agents)
-    this.location.back();
+    // Ir siempre a la lista de agentes (evita volver a shopify-onboarding/success si el usuario vino de ahí)
+    this.router.navigate(['/dashboard/agents']);
   }
 
   // Métodos para el micrófono

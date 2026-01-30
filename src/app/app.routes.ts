@@ -21,7 +21,7 @@ import { AdminRecordatorioComponent } from './pages/admin-recordatorio/admin-rec
 import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
 import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
 import { ShopifyOnboardingComponent } from './pages/shopify-onboarding/shopify-onboarding.component';
-
+import { ShopifySuccessComponent } from './pages/shopify-success/shopify-success.component';
 
 export const routes: Routes = [
   {
@@ -100,6 +100,11 @@ export const routes: Routes = [
   {
     path: 'shopify-onboarding',
     component: ShopifyOnboardingComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'shopify-onboarding/success',
+    component: ShopifySuccessComponent,
     canActivate: [AuthGuard],
   },
   {
