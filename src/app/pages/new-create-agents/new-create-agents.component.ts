@@ -566,7 +566,7 @@ export class NewCreateAgentsComponent
     }
     this.pauseVoice();
     this.isSidebarOpen = false;
-    this.step = 'instructions';
+    this.step = 'connectBusiness';
     this.saveDraft();
   }
 
