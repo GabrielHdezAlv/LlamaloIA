@@ -1,8 +1,8 @@
-/* Animaciones de fade in */
+/* Animaciones de fade in (como en inicio: tarda un pelín en salir) */
 .fade-in-section {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+  transition: opacity 0.45s ease-out, transform 0.45s ease-out;
 }
 
 .fade-in-section.fade-in-visible {

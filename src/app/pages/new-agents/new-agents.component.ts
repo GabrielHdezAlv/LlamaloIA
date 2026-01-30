@@ -131,11 +131,11 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    // Contenido aparece después de 100ms
+    // Contenido aparece después de un momento (como en inicio)
     setTimeout(() => {
       this.showContent = true;
       this.cdr.detectChanges();
-    }, 100);
+    }, 180);
   }
 
   // Método para cargar la lista de agentes
