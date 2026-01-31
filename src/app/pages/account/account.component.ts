@@ -83,7 +83,9 @@ export class AccountComponent implements OnInit {
   showTwilioConfig = false;
   twilioSid = '';
   twilioToken = '';
+  twilioAccountId?: number;  // ⚠️ NUEVO: para editar cuenta existente
   isLoadingTwilio = false;
+  twilioAccounts: Array<{ twilioAccountId: number; twilioSid: string; twilioToken: string }> = [];
 
   // Usuario actual
   private userStore = inject(UserStorage);
@@ -122,6 +124,10 @@ export class AccountComponent implements OnInit {
   // Método para cambiar de pestaña
   setActiveTab(tab: 'profile' | 'security' | 'billing' | 'gifts' | 'connections') {
     this.activeTab = tab;
+    // Cargar cuentas de Twilio cuando se abre la pestaña de conexiones
+    if (tab === 'connections') {
+      this.loadTwilioAccounts();
+    }
   }
 
   userProfileImage = computed(() => this.user()?.profileImage ?? '');
@@ -148,6 +154,15 @@ export class AccountComponent implements OnInit {
       // Inicializar enterprise como objeto
       this.tempEnterprise = user.enterprise || { name: '', url: '' };
       this.tempProfileImage = user.profileImage || '';
+      
+      // Cargar cuentas de Twilio si el usuario tiene
+      if (user.twilio && Array.isArray(user.twilio)) {
+        this.twilioAccounts = user.twilio.map(account => ({
+          twilioAccountId: account.twilioAccountId,
+          twilioSid: account.twilioSid,
+          twilioToken: account.twilioToken
+        }));
+      }
     }
 
     // Inicializar el slider del modal de facturación
@@ -612,6 +627,43 @@ export class AccountComponent implements OnInit {
     // Aquí implementarías la lógica para procesar el pago
   }
 
+  // Método para cargar las cuentas de Twilio del usuario
+  loadTwilioAccounts() {
+    this.userService.getUserProfile().subscribe({
+      next: (profile) => {
+        if (profile.twilio && Array.isArray(profile.twilio)) {
+          this.twilioAccounts = profile.twilio.map(account => ({
+            twilioAccountId: account.twilioAccountId,
+            twilioSid: account.twilioSid,
+            twilioToken: account.twilioToken
+          }));
+        } else {
+          this.twilioAccounts = [];
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar cuentas de Twilio:', error);
+        this.twilioAccounts = [];
+      }
+    });
+  }
+
+  // Método para editar una cuenta de Twilio existente
+  editTwilioAccount(account: { twilioAccountId: number; twilioSid: string; twilioToken: string }) {
+    this.showTwilioConfig = true;
+    this.twilioAccountId = account.twilioAccountId;
+    this.twilioSid = account.twilioSid;
+    this.twilioToken = account.twilioToken;
+  }
+
+  // Método para crear una nueva cuenta de Twilio
+  newTwilioAccount() {
+    this.showTwilioConfig = true;
+    this.twilioAccountId = undefined;
+    this.twilioSid = '';
+    this.twilioToken = '';
+  }
+
   // Método para guardar la configuración de Twilio
   saveTwilioConfig() {
     // Validar que los campos no estén vacíos
@@ -624,21 +676,29 @@ export class AccountComponent implements OnInit {
     this.isLoadingTwilio = true;
 
     // Preparar los datos para enviar
-    const config = {
+    const config: { twilioSid: string; twilioToken: string; twilioAccountId?: number } = {
       twilioSid: this.twilioSid.trim(),
       twilioToken: this.twilioToken.trim()
     };
+
+    // Si hay twilioAccountId, incluir para actualizar cuenta existente
+    if (this.twilioAccountId !== undefined) {
+      config.twilioAccountId = this.twilioAccountId;
+    }
 
     // Realizar la petición POST
     this.twilioService.setConfig(config).subscribe({
       next: (response) => {
         this.isLoadingTwilio = false;
         this.showNotification('Configuración de Twilio guardada correctamente', 'success');
+        // Recargar las cuentas de Twilio
+        this.loadTwilioAccounts();
+        // Limpiar el formulario
+        this.twilioAccountId = undefined;
+        this.twilioSid = '';
+        this.twilioToken = '';
         // Opcional: cerrar el formulario después de guardar
         // this.showTwilioConfig = false;
-        // Opcional: limpiar los campos
-        // this.twilioSid = '';
-        // this.twilioToken = '';
       },
       error: (error) => {
         this.isLoadingTwilio = false;

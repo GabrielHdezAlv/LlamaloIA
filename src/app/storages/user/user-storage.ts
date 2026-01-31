@@ -73,8 +73,14 @@ export const UserStorage = signalStore(
           patchState(store, { user: normalizedProfile });
           
           // Actualizar TwilioStorage si viene en el perfil
-          if (profile.twilio) {
-            twilioStorage.setConfig(profile.twilio);
+          // Usar la primera cuenta de Twilio para compatibilidad con el storage actual
+          if (profile.twilio && Array.isArray(profile.twilio) && profile.twilio.length > 0) {
+            const firstAccount = profile.twilio[0];
+            twilioStorage.setConfig({
+              twilioAccountId: firstAccount.twilioAccountId,
+              twilioSid: firstAccount.twilioSid,
+              twilioToken: firstAccount.twilioToken,
+            });
           }
         }
       } catch (error) {

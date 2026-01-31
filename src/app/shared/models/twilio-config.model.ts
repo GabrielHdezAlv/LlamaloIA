@@ -1,19 +1,21 @@
 /**
  * DTO para POST /twilio/config (Request)
- * Todos los campos son requeridos
+ * twilioAccountId es opcional: si no se envía, se crea una nueva cuenta
  */
 export interface TwilioConfigRequest {
+  twilioAccountId?: number;  // ⚠️ NUEVO: opcional
   twilioSid: string;
   twilioToken: string;
 }
 
 /**
- * DTO para GET /twilio/info (Response)
+ * DTO para una cuenta de Twilio individual
  */
-export interface TwilioConfig {
-  twilioSid: string;        // ✅ Siempre presente (si está configurado)
-  twilioToken: string;      // ✅ Siempre presente (si está configurado)
-  inboundMinutes: {         // ✅ Siempre presente
+export interface TwilioAccount {
+  twilioAccountId: number;
+  twilioSid: string;
+  twilioToken: string;
+  inboundMinutes: {
     minutes: string;
     unit: string;
     message?: string;
@@ -21,11 +23,27 @@ export interface TwilioConfig {
 }
 
 /**
+ * DTO para GET /twilio/info (Response)
+ * Ahora retorna un array de cuentas
+ */
+export interface TwilioConfig {
+  accounts: TwilioAccount[];
+}
+
+/**
  * Tipo extendido para el storage local que incluye campos adicionales
  * que no vienen del servidor pero se necesitan localmente
+ * Compatible con la estructura antigua (objeto único) y nueva (array)
  */
-export interface TwilioConfigLocal extends Omit<TwilioConfig, 'inboundMinutes'> {
-  inboundMinutes?: TwilioConfig['inboundMinutes']; // Opcional para storage local
+export interface TwilioConfigLocal {
+  twilioAccountId?: number;  // ⚠️ NUEVO
+  twilioSid: string;
+  twilioToken: string;
+  inboundMinutes?: {
+    minutes: string;
+    unit: string;
+    message?: string;
+  };
   countryCode?: string;
   phoneNumber?: number;
   firstInteraction?: string;

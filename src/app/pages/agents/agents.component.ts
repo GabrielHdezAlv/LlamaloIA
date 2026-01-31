@@ -165,6 +165,7 @@ export class AgentsComponent implements OnInit {
       data: {
         formEnabled: editMode,
         config: existingConfig,
+        twilioAccountId: existingConfig?.twilioAccountId,  // ⚠️ NUEVO: pasar twilioAccountId si existe
         // Valores adicionales para el storage local (TwilioConfigLocal)
         firstInteraction: this.firstInteractionMessage || existingConfig?.firstInteraction || '',
         firstInteractionUrl: existingConfig?.firstInteractionUrl || '',
@@ -181,10 +182,11 @@ export class AgentsComponent implements OnInit {
         panelClass: 'loader-dialog',
       });
 
-      // Crear TwilioConfigRequest con solo twilioSid y twilioToken
+      // Crear TwilioConfigRequest con twilioSid, twilioToken y twilioAccountId si existe
       const configRequest: TwilioConfigRequest = {
         twilioSid: result.twilioSid || '',
         twilioToken: result.twilioToken || '',
+        twilioAccountId: result.twilioAccountId,
       };
 
       this.twilioService.setConfig(configRequest).subscribe({

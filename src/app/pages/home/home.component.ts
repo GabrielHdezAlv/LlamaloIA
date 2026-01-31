@@ -432,36 +432,8 @@ export class HomeComponent implements OnInit {
     this.showLlamadasPorDia = true;
   }
 
-  // Método para verificar si el usuario tiene configuración de Twilio
-  private checkTwilioConfig(): void {
-    this.userService.getUserProfile().subscribe({
-      next: (profile) => {
-        const hasTwilioConfig = profile.twilio?.twilioSid && profile.twilio?.twilioToken;
-        
-        if (!hasTwilioConfig) {
-          // Mostrar modal indicando que debe configurar Twilio primero
-          this.modalService.openError({
-            title: 'Configuración de Twilio requerida',
-            message: 'Para crear un agente, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
-          });
-        } else {
-          // Si tiene la configuración, navegar a crear agente
-          this.router.navigateByUrl('/dashboard/agents/create');
-        }
-      },
-      error: (error) => {
-        console.error('Error al verificar configuración de Twilio:', error);
-        // En caso de error, mostrar el modal de todas formas para ser seguro
-        this.modalService.openError({
-          title: 'Configuración de Twilio requerida',
-          message: 'Para crear un agente, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
-        });
-      }
-    });
-  }
-
-  // Método para navegar a crear agente (con validación)
+  // Método para navegar a crear agente
   navigateToCreateAgent(): void {
-    this.checkTwilioConfig();
+    this.router.navigateByUrl('/dashboard/agents/create');
   }
 }

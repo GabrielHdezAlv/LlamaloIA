@@ -137,8 +137,15 @@ export class AuthFormComponent implements OnInit {
         this.userService.getUserProfile().subscribe({
           next: (data: any) => {
             this.userStorage.setUser(data);
-            if (data.twilio) {
-              this.twilioStorage.setConfig(data.twilio);
+            // Actualizar TwilioStorage si viene en el perfil
+            // Usar la primera cuenta de Twilio para compatibilidad con el storage actual
+            if (data.twilio && Array.isArray(data.twilio) && data.twilio.length > 0) {
+              const firstAccount = data.twilio[0];
+              this.twilioStorage.setConfig({
+                twilioAccountId: firstAccount.twilioAccountId,
+                twilioSid: firstAccount.twilioSid,
+                twilioToken: firstAccount.twilioToken,
+              });
             }
             console.log('data: ', data);
 
@@ -248,8 +255,15 @@ export class AuthFormComponent implements OnInit {
           next: (data) => {
             this.userStorage.setUser(data);
 
-            if (data.twilio) {
-              this.twilioStorage.setConfig(data.twilio);
+            // Actualizar TwilioStorage si viene en el perfil
+            // Usar la primera cuenta de Twilio para compatibilidad con el storage actual
+            if (data.twilio && Array.isArray(data.twilio) && data.twilio.length > 0) {
+              const firstAccount = data.twilio[0];
+              this.twilioStorage.setConfig({
+                twilioAccountId: firstAccount.twilioAccountId,
+                twilioSid: firstAccount.twilioSid,
+                twilioToken: firstAccount.twilioToken,
+              });
             }
 
             // Mostrar modal de éxito para registro

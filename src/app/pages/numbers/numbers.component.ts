@@ -157,34 +157,35 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   openImportFromTwilio(): void {
     this.showImportDropdown = false;
     this.importErrorMessage = null;
+    
+    // Intentar obtener credenciales de Twilio del perfil si existen
     this.userService.getUserProfile().subscribe({
       next: (profile) => {
-        const hasTwilioConfig = profile.twilio?.twilioSid && profile.twilio?.twilioToken;
-        if (!hasTwilioConfig) {
-          this.modalService.openError({
-            title: 'Configuración de Twilio requerida',
-            message: 'Para importar un número de teléfono, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
-          });
-          return;
+        // Si tiene cuentas de Twilio configuradas, usar la primera
+        if (profile.twilio && Array.isArray(profile.twilio) && profile.twilio.length > 0 && 
+            profile.twilio[0]?.twilioSid && profile.twilio[0]?.twilioToken) {
+          this.userTwilioSid = profile.twilio[0].twilioSid;
+          this.userTwilioToken = profile.twilio[0].twilioToken;
+        } else {
+          // Si no hay configuración, limpiar las credenciales
+          this.userTwilioSid = null;
+          this.userTwilioToken = null;
         }
-        // Guardar credenciales de Twilio del usuario para utilizarlas al importar
-        this.userTwilioSid = profile.twilio!.twilioSid;
-        this.userTwilioToken = profile.twilio!.twilioToken;
-
-        this.showImportSidebar = true;
-        // Limpiar solo el número y etiqueta; las credenciales se obtienen del perfil
-        this.importForm.reset({ phoneNumber: '' });
-        this.selectedCountryCode = '+34';
-        this.selectedCountry = 'es';
-        this.routingRegionEnabled = false;
       },
       error: () => {
-        this.modalService.openError({
-          title: 'Configuración de Twilio requerida',
-          message: 'Para importar un número de teléfono, primero debes configurar tus credenciales de Twilio. Por favor, ve a Ajustes > Conexiones > Twilio para configurar tu Account SID y Auth Token.'
-        });
+        // En caso de error, continuar sin credenciales
+        this.userTwilioSid = null;
+        this.userTwilioToken = null;
       }
     });
+
+    // Abrir el sidebar de importación
+    this.showImportSidebar = true;
+    // Limpiar solo el número y etiqueta
+    this.importForm.reset({ phoneNumber: '' });
+    this.selectedCountryCode = '+34';
+    this.selectedCountry = 'es';
+    this.routingRegionEnabled = false;
   }
 
   closeImportSidebar(): void {
@@ -224,15 +225,14 @@ export class NumbersComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    // Obtener SID y Token: si en el futuro se permite sobrescribir desde el formulario,
-    // se podrían leer de ahí; por ahora usamos los almacenados en el perfil del usuario.
-    const twilioSid = this.userTwilioSid;
-    const twilioToken = this.userTwilioToken;
+    // Obtener SID y Token: primero intentar desde el formulario, luego desde el perfil
+    const twilioSid = this.importForm.get('twilioSid')?.value?.trim() || this.userTwilioSid;
+    const twilioToken = this.importForm.get('twilioToken')?.value?.trim() || this.userTwilioToken;
 
     if (!twilioSid || !twilioToken) {
       this.modalService.openError({
-        title: 'Configuración de Twilio requerida',
-        message: 'No se han encontrado las credenciales de Twilio del usuario. Por favor, verifica tu configuración en Ajustes > Conexiones > Twilio.'
+        title: 'Credenciales de Twilio requeridas',
+        message: 'Por favor, ingresa el Account SID y Auth Token de Twilio en el formulario o configura tus credenciales en Ajustes > Conexiones > Twilio.'
       });
       return;
     }

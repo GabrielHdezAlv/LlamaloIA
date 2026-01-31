@@ -53,13 +53,19 @@ export class TwilioService {
   }
 
   // Método para validar un número de teléfono
-  validatePhone(countryCode: string, number: string): Observable<{ message: string }> {
+  validatePhone(countryCode: string, number: string, twilioAccountId?: number): Observable<{ message: string }> {
+    const body: { countryCode: string; number: string; twilioAccountId?: number } = {
+      countryCode: countryCode.startsWith('+') ? countryCode : `+${countryCode}`,
+      number: number.trim()
+    };
+    
+    if (twilioAccountId !== undefined) {
+      body.twilioAccountId = twilioAccountId;
+    }
+    
     return this.http.post<{ message: string }>(
       `${this.apiUrl}/validate-phone`,
-      { 
-        countryCode: countryCode.startsWith('+') ? countryCode : `+${countryCode}`,
-        number: number.trim()
-      },
+      body,
       {
         headers: this.getAuthHeaders(),
       }
@@ -71,16 +77,29 @@ export class TwilioService {
     countryCode: string,
     number: string,
     twilioSid: string,
-    twilioToken: string
+    twilioToken: string,
+    twilioAccountId?: number
   ): Observable<{ message: string }> {
+    const body: {
+      countryCode: string;
+      number: string;
+      twilioSid: string;
+      twilioToken: string;
+      twilioAccountId?: number;
+    } = {
+      countryCode: countryCode.startsWith('+') ? countryCode : `+${countryCode}`,
+      number: number.trim(),
+      twilioSid,
+      twilioToken,
+    };
+    
+    if (twilioAccountId !== undefined) {
+      body.twilioAccountId = twilioAccountId;
+    }
+    
     return this.http.post<{ message: string }>(
       `${this.apiUrl}/phone-number`,
-      {
-        countryCode: countryCode.startsWith('+') ? countryCode : `+${countryCode}`,
-        number: number.trim(),
-        twilioSid,
-        twilioToken,
-      },
+      body,
       {
         headers: this.getAuthHeaders(),
       }

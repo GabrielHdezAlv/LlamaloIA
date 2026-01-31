@@ -15,14 +15,18 @@ export interface User {
       shopDomain: string;
     }>;
   };
-  twilio: {
+  twilio: Array<{
+    twilioAccountId: number;
     twilioSid: string;
     twilioToken: string;
-  };
+  }>;
   phoneNumbers: Array<{
     phoneId: number;
     countryCode: string;
     number: string;
+    state?: "Activo" | "Inactivo";
+    importedBy?: string;
+    twilioAccountId?: number;  // ⚠️ NUEVO
   }>;
   agents: Array<{
     name: string;

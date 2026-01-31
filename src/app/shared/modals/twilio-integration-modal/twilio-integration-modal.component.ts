@@ -121,6 +121,8 @@ export class TwilioIntegrationModalComponent implements OnInit {
     const configRequest: TwilioConfigRequest = {
       twilioSid: this.form.get('twilioSid')?.value,
       twilioToken: this.form.get('twilioToken')?.value,
+      // Si hay twilioAccountId en el data, incluir para actualizar cuenta existente
+      twilioAccountId: this.data?.twilioAccountId,
     };
 
     // Obtener valores adicionales del data si están disponibles para el storage local
@@ -130,6 +132,7 @@ export class TwilioIntegrationModalComponent implements OnInit {
 
     // Guardar en el storage local (usar TwilioConfigLocal para storage)
     const configForStorage: TwilioConfigLocal = {
+      twilioAccountId: configRequest.twilioAccountId,
       countryCode: this.form.get('countryCode')?.value,
       phoneNumber: Number(this.form.get('phoneNumber')?.value),
       twilioSid: configRequest.twilioSid,
