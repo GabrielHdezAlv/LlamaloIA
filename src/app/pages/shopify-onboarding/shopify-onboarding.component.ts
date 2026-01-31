@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import {
   Component,
   Inject,
@@ -10,6 +10,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
+import { UserService } from '../../core/services/user.service';
+import { UserProfileResponseDto } from '../../shared/models/user-profile-response.dto';
 
 const BODY_CLASS = 'page-shopify-onboarding';
 const MYSHOPIFY_SUFFIX = '.myshopify.com';
@@ -21,10 +23,15 @@ interface ShopifyAuthResponse {
   message?: string;
 }
 
+interface ConnectedShopifyStore {
+  connected: boolean;
+  shopDomain: string;
+}
+
 @Component({
   selector: 'app-shopify-onboarding',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './shopify-onboarding.component.html',
   styleUrl: './shopify-onboarding.component.scss',
 })
@@ -33,12 +40,21 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
   shopifyDomain = '';
   /** Mientras se obtiene authUrl y se redirige al usuario */
   loading = false;
+  /** Mientras se carga el perfil del usuario */
+  loadingStores = false;
   /** Mensaje de error si falla la petición */
   errorMessage: string | null = null;
+  /** Tiendas de Shopify conectadas del usuario */
+  connectedStores: ConnectedShopifyStore[] = [];
+  /** Indica si se debe mostrar el formulario de nueva tienda */
+  showNewStoreForm = false;
+  /** Tienda seleccionada si el usuario elige usar una existente */
+  selectedStore: string | null = null;
 
   constructor(
     private router: Router,
     private http: HttpClient,
+    private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: object,
   ) {}
 
@@ -63,6 +79,40 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
       document.body.classList.add(BODY_CLASS);
       document.documentElement.classList.add(BODY_CLASS);
     }
+    this.loadConnectedStores();
+  }
+
+  /** Carga las tiendas de Shopify conectadas del usuario */
+  loadConnectedStores(): void {
+    this.loadingStores = true;
+    firstValueFrom(this.userService.getUserProfile())
+      .then((profile: UserProfileResponseDto) => {
+        if (
+          profile?.integrations?.shopify &&
+          Array.isArray(profile.integrations.shopify)
+        ) {
+          this.connectedStores = profile.integrations.shopify
+            .filter(
+              (store) => store.connected === true && store.shopDomain,
+            )
+            .map((store) => ({
+              connected: store.connected as boolean,
+              shopDomain: store.shopDomain as string,
+            }));
+        }
+        // Si no hay tiendas conectadas, mostrar directamente el formulario de nueva tienda
+        if (this.connectedStores.length === 0) {
+          this.showNewStoreForm = true;
+        }
+      })
+      .catch((error) => {
+        console.error('Error al cargar tiendas conectadas:', error);
+        // En caso de error, mostrar el formulario de nueva tienda
+        this.showNewStoreForm = true;
+      })
+      .finally(() => {
+        this.loadingStores = false;
+      });
   }
 
   ngOnDestroy(): void {
@@ -73,6 +123,15 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
+    // Si estamos en el formulario de nueva tienda y hay tiendas conectadas, volver a la vista de selección
+    if (this.showNewStoreForm && this.connectedStores.length > 0) {
+      this.showNewStoreForm = false;
+      this.selectedStore = null;
+      this.shopifyDomain = '';
+      this.errorMessage = null;
+      return;
+    }
+    // Si no hay tiendas conectadas o ya estamos en la vista de selección, navegar a la página anterior
     this.router.navigate(['/dashboard/agents/create']);
   }
 
@@ -85,9 +144,35 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     return namePart.length > 0;
   }
 
+  /** Usa una tienda ya conectada */
+  useExistingStore(shopDomain: string): void {
+    this.selectedStore = shopDomain;
+    this.shopifyDomain = shopDomain;
+    this.goToConnectShopify();
+  }
+
+  /** Muestra el formulario para conectar una nueva tienda */
+  showNewStore(): void {
+    this.showNewStoreForm = true;
+    this.selectedStore = null;
+    this.shopifyDomain = '';
+  }
+
   goToConnectShopify(): void {
-    if (!this.isDomainValid) return;
-    const shop = this.shopifyDomain.trim();
+    // Si hay una tienda seleccionada, usar esa; si no, validar el dominio ingresado
+    const shop = this.selectedStore || this.shopifyDomain.trim();
+    
+    if (!shop) {
+      this.errorMessage = 'Por favor, selecciona una tienda o ingresa un dominio válido.';
+      return;
+    }
+
+    // Validar formato si no es una tienda seleccionada
+    if (!this.selectedStore && !this.isDomainValid) {
+      this.errorMessage = 'El dominio debe terminar en .myshopify.com';
+      return;
+    }
+
     this.loading = true;
     this.errorMessage = null;
 
