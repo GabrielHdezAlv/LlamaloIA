@@ -1,10 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { AgentsService } from '../../core/services/agents.service';
+import { Voice } from '../../shared/models/voice.model';
 
 interface CompanyType {
   id: string;
@@ -29,6 +31,7 @@ export class CompanySetupComponent implements OnInit {
   private userService = inject(UserService);
   private userStore = inject(UserStorage);
   private snackBar = inject(MatSnackBar);
+  private agentsService = inject(AgentsService);
 
   // Datos del formulario
   businessName: string = 'LLAMALO S.L';
@@ -103,6 +106,10 @@ export class CompanySetupComponent implements OnInit {
   isWelcomeFading = false;
   welcomeExitTriggered = false;
 
+  // Animación "Vamos a crear tu primer agente" (tras Cómo nos conociste)
+  showAgentIntroAnimation = false;
+  agentIntroExitTriggered = false;
+
   // Paso 2: opciones de cómo nos conociste
   discoveryOptions = [
     { id: 'social', label: 'Redes sociales (Instagram / TikTok / Twitter / LinkedIn)' },
@@ -125,9 +132,47 @@ export class CompanySetupComponent implements OnInit {
 
   // Estado para controlar el paso actual
   currentStep: number = 1;
-  maxStep: number = 3;
+  maxStep: number = 6;
+
+  // Paso 3: Completa tu agente
+  agentName = '';
+  readonly agentNameMaxLength = 50;
+
+  // Paso 4: Tipo de llamada (inbound/outbound)
+  selectedCallType: 'inbound' | 'outbound' | null = null;
+
+  // Paso 5: País y voz (10 idiomas de new-create-agents)
+  countryOptions = [
+    { code: 'es', label: 'Español' },
+    { code: 'en', label: 'Inglés Británico' },
+    { code: 'fr', label: 'Francés' },
+    { code: 'it', label: 'Italiano' },
+    { code: 'de', label: 'Alemán' },
+    { code: 'pt', label: 'Portugués' },
+    { code: 'us', label: 'Inglés Americano' },
+    { code: 'tr', label: 'Turco' },
+    { code: 'se', label: 'Sueco' },
+    { code: 'nl', label: 'Holandés' }
+  ];
+  selectedCountry = 'es';
+  voices: { name: string; voiceId: string }[] = [];
+  selectedVoiceId = '';
+  currentPlayingVoice: string | null = null;
+  private audioActual: HTMLAudioElement | null = null;
+  private readonly VOCES_LANG_CODES = ['es', 'en', 'it', 'de', 'fr'];
+
+  showCountryDropdown = false;
+  showVoiceDropdown = false;
 
   constructor(private router: Router) { }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (target.closest('.country-dropdown-step5') || target.closest('.voice-dropdown-step5')) return;
+    this.showCountryDropdown = false;
+    this.showVoiceDropdown = false;
+  }
 
   ngOnInit() {
     // Aquí podrías verificar si el usuario ya completó el setup
@@ -188,6 +233,19 @@ export class CompanySetupComponent implements OnInit {
     setTimeout(() => {
       this.showWelcomeSequence = false;
     }, 200);
+  }
+
+  // Animación tras "Cómo nos conociste" -> paso 3 ya preparado mientras se anima
+  startAgentIntroAnimation() {
+    this.goToStep(3); // Paso 3 ya renderizado detrás del overlay
+    this.showAgentIntroAnimation = true;
+    this.agentIntroExitTriggered = false;
+    setTimeout(() => {
+      this.agentIntroExitTriggered = true;
+      setTimeout(() => {
+        this.showAgentIntroAnimation = false; // Overlay se quita -> paso 3 visible al instante
+      }, 1000);
+    }, 3000);
   }
 
   // Método para continuar con la configuración
@@ -265,22 +323,43 @@ export class CompanySetupComponent implements OnInit {
   // Método para saltar la configuración
   skipSetup() {
     if (this.currentStep === 1) {
-      // Si estamos en el paso 1, ir al paso 2
       this.currentStep = 2;
     } else if (this.currentStep === 2) {
-      // Si estamos en el paso 2, ir al paso 3
       this.currentStep = 3;
     } else if (this.currentStep === 3) {
-      // Si estamos en el paso 3, ir al paso 4
       this.currentStep = 4;
     } else if (this.currentStep === 4) {
-      // Si estamos en el paso 4, completar el setup
+      this.currentStep = 5;
+    } else if (this.currentStep === 5) {
+      this.currentStep = 6;
+    } else if (this.currentStep === 6) {
       this.completeSetup();
     }
   }
 
   // Método para ir hacia atrás
   goBack() {
+    // Volver del paso 5 al paso 4
+    if (this.currentStep === 5) {
+      this.pauseVoice();
+      this.goToStep(4);
+      return;
+    }
+    // Volver del paso 6 al paso 5
+    if (this.currentStep === 6) {
+      this.goToStep(5);
+      return;
+    }
+    // Volver del paso 4 al paso 3
+    if (this.currentStep === 4) {
+      this.goToStep(3);
+      return;
+    }
+    // Volver del paso 3 al paso 2
+    if (this.currentStep === 3) {
+      this.goToStep(2);
+      return;
+    }
     // Animación especial al volver del paso 2 al paso 1
     if (this.currentStep === 2) {
       const backFadeDuration = 300; // ms para desvanecer la zona 2
@@ -320,6 +399,126 @@ export class CompanySetupComponent implements OnInit {
     if ((step === 1 || step === 2) && step !== previousStep) {
       this.triggerRightImageTransition(step);
     }
+
+    // Cargar voces al entrar al paso 5
+    if (step === 5) {
+      this.loadVoices();
+    }
+  }
+
+  // Ir al paso 4 (Bienvenido) desde Completa tu agente
+  onCreateAgent() {
+    this.goToStep(4);
+  }
+
+  onSelectCallType(type: 'inbound' | 'outbound') {
+    this.selectedCallType = type;
+  }
+
+  onContinueToWelcome() {
+    this.goToStep(5);
+  }
+
+  onContinueFromVoiceStep() {
+    this.pauseVoice();
+    this.goToStep(6);
+  }
+
+  loadVoices() {
+    this.agentsService.getVoices().subscribe({
+      next: (backendVoices: Voice[]) => {
+        this.voices = backendVoices.map((v) => ({ name: v.name, voiceId: v.voiceId }));
+        if (this.voices.length > 0 && !this.selectedVoiceId) {
+          this.selectedVoiceId = this.voices[0].voiceId;
+        }
+      },
+      error: () => { this.voices = []; }
+    });
+  }
+
+  selectCountry(code: string) {
+    this.selectedCountry = code;
+    this.showCountryDropdown = false;
+  }
+
+  selectVoice(voiceId: string) {
+    this.selectedVoiceId = voiceId;
+    this.showVoiceDropdown = false;
+  }
+
+  toggleCountryDropdown(event: Event) {
+    event.stopPropagation();
+    this.showVoiceDropdown = false;
+    this.showCountryDropdown = !this.showCountryDropdown;
+  }
+
+  toggleVoiceDropdown(event: Event) {
+    event.stopPropagation();
+    this.showCountryDropdown = false;
+    this.showVoiceDropdown = !this.showVoiceDropdown;
+  }
+
+  get selectedCountryOption() {
+    return this.countryOptions.find((c) => c.code === this.selectedCountry) || this.countryOptions[0];
+  }
+
+  get selectedVoice() {
+    return this.voices.find((v) => v.voiceId === this.selectedVoiceId);
+  }
+
+  playVoicePreview(voice: { name: string; voiceId: string }, event: Event) {
+    event.stopPropagation();
+    if (this.currentPlayingVoice === voice.voiceId) {
+      this.pauseVoice();
+      return;
+    }
+    this.playVoiceInternal(voice);
+  }
+
+  playVoice() {
+    const voice = this.voices.find((v) => v.voiceId === this.selectedVoiceId);
+    if (!voice?.name) return;
+    if (this.currentPlayingVoice === voice.voiceId) {
+      this.pauseVoice();
+      return;
+    }
+    this.playVoiceInternal(voice);
+  }
+
+  private playVoiceInternal(voice: { name: string; voiceId: string }) {
+    let lang = this.selectedCountry;
+    if (lang === 'us') lang = 'en';
+    else if (!this.VOCES_LANG_CODES.includes(lang)) lang = 'es';
+    const normalized = voice.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    const path = `assets/voces/${normalized}_${lang}.mp3`;
+    if (this.audioActual) {
+      this.audioActual.pause();
+      this.audioActual.currentTime = 0;
+    }
+    const audio = new Audio(path);
+    this.audioActual = audio;
+    this.currentPlayingVoice = voice.voiceId;
+    audio.onended = () => {
+      this.currentPlayingVoice = null;
+      if (this.audioActual === audio) this.audioActual = null;
+    };
+    audio.onerror = () => {
+      this.currentPlayingVoice = null;
+      if (this.audioActual === audio) this.audioActual = null;
+    };
+    audio.play().catch(() => {
+      this.currentPlayingVoice = null;
+      if (this.audioActual === audio) this.audioActual = null;
+    });
+  }
+
+  pauseVoice() {
+    if (this.audioActual) {
+      this.audioActual.pause();
+      this.audioActual.currentTime = 0;
+      this.audioActual = null;
+    }
+    this.currentPlayingVoice = null;
   }
 
   private triggerRightImageTransition(targetStep: number) {

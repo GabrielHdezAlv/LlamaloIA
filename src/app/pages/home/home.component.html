@@ -266,9 +266,9 @@
               class="py-1.5 lg:py-3 xl:py-3 2xl:py-3 3xl:py-2.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-black font-light agentes-activos-td max-lg:py-1 max-lg:text-[9px] ">
               <span class="inline-block">
                 @if (agent.phone) {
-                  {{ agent.phone }}
+                {{ agent.phone }}
                 } @else {
-                  <span class="text-gray-400 italic">Sin número asignado</span>
+                <span class="text-gray-400 italic">Sin número asignado</span>
                 }
               </span>
             </td>
@@ -277,41 +277,8 @@
               {{ agent.type }}
             </td>
             <td
-              class="py-1.5 lg:py-3 xl:py-3 2xl:py-3 3xl:py-2.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm agentes-activos-td max-lg:py-1 max-lg:text-[9px] ">
-              <!-- Layout vertical solo para móvil pequeño (max-sm) -->
-              <div class="hidden max-sm:block">
-                <div class="flex flex-col items-center">
-                  <span class="font-normal agentes-activos-minutos text-center ">{{ agent.minutes }}</span>
-                  <span
-                    class="inline-flex items-center px-1.5 lg:px-2 xl:px-2 2xl:px-2 3xl:px-2.5 py-0.5 lg:py-1 xl:py-1 2xl:py-1 3xl:py-1.5 rounded-lg bg-gray-100 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold text-blue-900 border border-blue-100 mt-1 3xl:mt-2 agentes-activos-porcentaje ">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                      class="h-3 w-3 lg:h-4 lg:w-4 xl:h-4 xl:w-4 2xl:h-4 2xl:w-4 3xl:h-4 3xl:w-4 mr-0 text-blue-900 agentes-activos-icono"
-                      fill="none" viewBox="0 0 16 16">
-                      <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        d="M8 12V4M8 4l-3 3m3-3l3 3" />
-                    </svg>
-                    {{ agent.percent }}%
-                  </span>
-                </div>
-              </div>
-
-              <!-- Layout horizontal para tablet y desktop (sm y superior) -->
-              <div class="block max-sm:hidden">
-                <span class="font-normal agentes-activos-minutos ml-3 inline-block"
-                  style="transform: translateY(-4px);">{{
-                  agent.minutes
-                  }}</span>
-                <span
-                  class="inline-flex items-center px-1.5 lg:px-2 xl:px-2 2xl:px-2 3xl:px-2.5 py-0.5 lg:py-1 xl:py-1 2xl:py-1 3xl:py-1.5 rounded-lg bg-gray-100 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm font-semibold text-blue-900 border border-blue-100 ml-2 3xl:ml-4 agentes-activos-porcentaje ">
-                  <svg xmlns="http://www.w3.org/2000/svg"
-                    class="h-3 w-3 lg:h-4 lg:w-4 xl:h-4 xl:w-4 2xl:h-4 2xl:w-4 3xl:h-4 3xl:w-4 mr-0 text-blue-900 agentes-activos-icono"
-                    fill="none" viewBox="0 0 16 16">
-                    <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      d="M8 12V4M8 4l-3 3m3-3l3 3" />
-                  </svg>
-                  {{ agent.percent }}%
-                </span>
-              </div>
+              class="py-1.5 lg:py-3 xl:py-3 2xl:py-3 3xl:py-2.5 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-black font-light agentes-activos-td max-lg:py-1 max-lg:text-[9px] ">
+              {{ agent.minutes }} m
             </td>
             <td class="py-1.5 lg:py-3 xl:py-3 2xl:py-3 3xl:py-2.5 agentes-activos-td max-lg:py-1">
               <div class="flex items-center">
@@ -343,7 +310,8 @@
         buttonClass="bg-[#0a1741] hover:bg-gray-950 dark:!bg-[#ffffff]  dark:!text-[#000001]  text-white w-full sm:w-auto px-4 sm:px-5 lg:px-6 3xl:px-10 py-1 3xl:py-2 rounded-lg text-[10px] 3xl:text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-1 max-lg:text-[9px] max-lg:px-3 max-lg:py-0.5"
         rippleColor="rgba(255, 255, 255, 0.4)">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round"></path>
         </svg>
         {{ t.createAgentButton }}
       </app-ripple-button>

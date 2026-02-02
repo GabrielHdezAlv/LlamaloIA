@@ -604,7 +604,7 @@ export class MetricsComponent implements OnInit {
 
   // Marcadores de los huecos para simular que un lado pisa al otro
   get gapMarkerRadius(): number {
-    return Math.max(this.callTypeStrokeWidth / 1.9 - 1 );
+    return Math.max(this.callTypeStrokeWidth / 1.9 - 1);
   }
 
   private angleToPoint(angleDeg: number): { x: number; y: number } {
