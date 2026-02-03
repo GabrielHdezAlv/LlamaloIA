@@ -124,3 +124,82 @@
         color: white;
     }
 }
+
+/* Parámetros de voz: dropdown sliders compactos — modo oscuro: línea blanca, bola blanca */
+.voice-params-range {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+
+    &::-webkit-slider-runnable-track {
+        height: 4px;
+        border-radius: 2px;
+        background: #e5e7eb;
+    }
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #4b5563;
+        margin-top: -3px;
+        cursor: pointer;
+    }
+
+    &::-moz-range-track {
+        height: 4px;
+        border-radius: 2px;
+        background: #e5e7eb;
+    }
+
+    &::-moz-range-thumb {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #4b5563;
+        border: none;
+        cursor: pointer;
+    }
+}
+
+:host-context(.dark) .voice-params-range {
+    &::-webkit-slider-runnable-track {
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(to right,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 255, 255, 0.95) calc(var(--v, 0.5) * 100%),
+                rgba(255, 255, 255, 0.2) calc(var(--v, 0.5) * 100%),
+                rgba(255, 255, 255, 0.2) 100%);
+    }
+
+    &::-webkit-slider-thumb {
+        width: 10px;
+        height: 10px;
+        margin-top: -3px;
+        background: #fff;
+    }
+
+    &::-moz-range-track {
+        height: 4px;
+        border-radius: 2px;
+        background: linear-gradient(to right,
+                rgba(255, 255, 255, 0.95) 0%,
+                rgba(255, 255, 255, 0.95) calc(var(--v, 0.5) * 100%),
+                rgba(255, 255, 255, 0.2) calc(var(--v, 0.5) * 100%),
+                rgba(255, 255, 255, 0.2) 100%);
+    }
+
+    &::-moz-range-thumb {
+        width: 10px;
+        height: 10px;
+        background: #fff;
+    }
+}
+
+/* Base de conocimientos (paso 8): icono Web en blanco en modo oscuro */
+:host-context(.dark) .web-icon-wrap-step8 svg {
+    filter: brightness(0) invert(1);
+}

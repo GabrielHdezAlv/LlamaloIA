@@ -655,7 +655,7 @@
           </button>
           <button type="button" [disabled]="!agentName.trim()" [class.opacity-50]="!agentName.trim()"
             [class.cursor-not-allowed]="!agentName.trim()"
-            class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors disabled:hover:bg-[#1E3A8A] dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
+            class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors disabled:hover:bg-[#1E3A8A] dark:bg-white dark:text-[#000000] dark:hover:bg-white"
             (click)="playClick(); onCreateAgent()">
             Crear agente
           </button>
@@ -723,7 +723,7 @@
           </button>
           <button type="button" [disabled]="!selectedCallType" [class.opacity-50]="!selectedCallType"
             [class.cursor-not-allowed]="!selectedCallType"
-            class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors disabled:hover:bg-[#1E3A8A] dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
+            class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors disabled:hover:bg-[#1E3A8A] dark:bg-white dark:text-[#000000] dark:hover:bg-white"
             (click)="playClick(); onContinueToWelcome()">
             Continuar
           </button>
@@ -747,187 +747,220 @@
           <div class="relative country-dropdown-step5">
             <label class="block text-[10px] font-semibold text-[#0F172A] dark:text-white mb-1">País</label>
             <button type="button" (click)="playClick(); toggleCountryDropdown($event)"
-              class="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left text-xs border border-gray-300 dark:border-slate-500 rounded-lg bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition shadow-sm">
+              class="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left text-xs border border-gray-300 dark:border-white rounded-lg bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition shadow-sm">
               <div class="flex items-center gap-2">
                 <!-- Bandera según país -->
                 @switch (selectedCountry) {
-                  @case('es') {
-                    <!-- ESPAÑA -->
-                    <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_es_flag)">
-                        <rect width="72" height="52" rx="13" fill="#C70318"/>
-                        <path d="M65.1429 0H6.85714C3.07005 0 0 3.10416 0 6.93333V45.0667C0 48.8958 3.07005 52 6.85714 52H65.1429C68.93 52 72 48.8958 72 45.0667V6.93333C72 3.10416 68.93 0 65.1429 0Z" fill="#C70318"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 13.8667H72V38.1334H0V13.8667Z" fill="#FFC500"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M30.8577 21.5698V30.3058C30.8577 32.7324 28.5537 34.6738 25.7148 34.6738H18.8577C16.0257 34.6668 13.7148 32.7151 13.7148 30.2988V21.5628C13.7148 19.5799 15.2508 17.9228 17.3628 17.3855C18.0006 15.5828 19.9617 17.1983 22.2863 17.1983C24.6246 17.1983 26.572 15.5932 27.2097 17.389C29.3148 17.9402 30.8577 19.6007 30.8577 21.5698Z" fill="#D4AF2C"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M30.8566 24.2666H34.2852V34.6666H30.8566V24.2666ZM10.2852 24.2666H13.7137V34.6666H10.2852V24.2666Z" fill="#CBCBCB"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M30.8566 31.2002H34.2852V34.6669H30.8566V31.2002ZM10.2852 31.2002H13.7137V34.6669H10.2852V31.2002Z" fill="#1A47B8"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M30.8566 20.7998H34.2852V24.2665H30.8566V20.7998ZM10.2852 20.7998H13.7137V24.2665H10.2852V20.7998Z" fill="#D4AF2C"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1426 20.7998H20.5711V25.9998H17.1426V20.7998ZM23.9997 27.7331H27.4283V32.9331H23.9997V27.7331Z" fill="#AF010D"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1426 27.7334H20.5711V32.9334H17.1426V27.7334Z" fill="#FFC500"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M24 20.7998H27.4286V25.9998H24V20.7998Z" fill="#AE6A3E"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5711 20.8002L17.1426 17.3335H27.4283L23.9997 20.8002H20.5711Z" fill="#AF010D"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5723 13.8667H24.0008V17.3334H20.5723V13.8667Z" fill="#D4AF2C"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_es_flag">
-                          <rect width="72" height="52" rx="13" fill="white"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('en') {
-                    <!-- REINO UNIDO / UK bandera -->
-                    <svg width="23" height="16" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_en_flag)">
-                        <rect width="72" height="52" rx="13" fill="#001B69" />
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.97847 0H0V8.66667L66.9782 52L75 52V43.3333L7.97847 0Z" fill="white"/>
-                        <path d="M2.66107 0L75 46.9228V52H72.4013L0 5.0286V0H2.66107Z" fill="#C9072A"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M67.8571 0H75V8.66667C75 8.66667 28.6064 37.5373 7.14286 52H0V43.3333L67.8571 0Z" fill="white"/>
-                        <path d="M75 0H72.5777L0 46.9632V52H2.66107L75 5.06658V0Z" fill="#C9072A"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M27.2753 0H47.7871V16.0396H75V35.9498H47.7871V52H27.2753V35.9498H0V16.0396H27.2753V0Z" fill="white"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M31.5789 0H43.4211V20H75V32H43.4211V52H31.5789V32H0V20H31.5789V0Z" fill="#C9072A"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_en_flag">
-                          <rect width="75" height="52" rx="13" fill="white"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('fr') {
-                    <!-- FRANCIA (usar mismo layout que ESPAÑA: 23x16, clip, border radius, solo colores de Francia) -->
-                    <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_fr)">
-                        <rect width="72" height="52" rx="13" fill="#fff"/>
-                        <rect width="24" height="52" fill="#002153"/>
-                        <rect x="48" width="24" height="52" fill="#CF0921"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_fr">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  
-                  @case('it') {
-                    <!-- ITALIA -->
-                    <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_it)">
-                        <rect width="72" height="52" rx="13" fill="#fff"/>
-                        <rect width="24" height="52" fill="#179A43"/>
-                        <rect x="48" width="24" height="52" fill="#ED3237"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_it">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('de') {
-                    <!-- ALEMANIA -->
-                    <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_de)">
-                        <rect width="72" height="52" rx="13" fill="#fff"/>
-                        <rect width="72" height="17.3333" y="0" fill="#272727"/>
-                        <rect width="72" height="17.3333" y="17.3333" fill="#DE2227"/>
-                        <rect width="72" height="17.3333" y="34.6667" fill="#FFCE3B"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_de">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('pt') {
-                    <!-- PORTUGAL -->
-                    <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_pt)">
-                        <rect width="72" height="52" rx="13" fill="#00874B"/>
-                        <rect x="18" width="54" height="52" fill="#F32121"/>
-                        <circle cx="23" cy="26" r="9" fill="#FCD032"/>
-                        <circle cx="23" cy="26" r="5" fill="#FFF"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_pt">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('us') {
-                    <!-- ESTADOS UNIDOS -->
-                    <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_us)">
-                        <rect width="72" height="52" rx="13" fill="#fff"/>
-                        <rect width="72" height="7.42857" y="0" fill="#BF0A30"/>
-                        <rect width="72" height="7.42857" y="14.8571" fill="#BF0A30"/>
-                        <rect width="72" height="7.42857" y="29.7143" fill="#BF0A30"/>
-                        <rect width="72" height="7.42857" y="44.5714" fill="#BF0A30"/>
-                        <rect width="32" height="28.8571" fill="#002868"/>
-                        <g>
-                          <circle cx="4.5" cy="4" r="1" fill="#FFF"/>
-                          <circle cx="13" cy="4" r="1" fill="#FFF"/>
-                          <circle cx="21.5" cy="4" r="1" fill="#FFF"/>
-                          <circle cx="30" cy="4" r="1" fill="#FFF"/>
-                          <!-- Añade más estrellas si lo deseas -->
-                        </g>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_us">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('tr') {
-                    <!-- TURQUÍA -->
-                    <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_tr)">
-                        <rect width="72" height="52" rx="13" fill="#E30A17"/>
-                        <circle cx="30" cy="26" r="12" fill="#fff"/>
-                        <circle cx="33" cy="26" r="9" fill="#E30A17"/>
-                        <polygon points="41,26 46,28.18 42.5,32.09 43.82,27.45 39.82,26 43.82,24.55 42.5,19.91 46,23.82" fill="#fff"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_tr">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('se') {
-                    <!-- SUECIA -->
-                    <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_se)">
-                        <rect width="72" height="52" rx="13" fill="#006AA7"/>
-                        <rect x="20" width="8" height="52" fill="#FECC00"/>
-                        <rect y="22" width="72" height="8" fill="#FECC00"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_se">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('nl') {
-                    <!-- PAÍSES BAJOS -->
-                    <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_nl)">
-                        <rect width="72" height="52" rx="13" fill="#fff"/>
-                        <rect width="72" height="17.3333" y="0" fill="#AD1E2E"/>
-                        <rect width="72" height="17.3333" y="34.6667" fill="#21468B"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_nl">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
+                @case('es') {
+                <!-- ESPAÑA -->
+                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_es_flag)">
+                    <rect width="72" height="52" rx="13" fill="#C70318" />
+                    <path
+                      d="M65.1429 0H6.85714C3.07005 0 0 3.10416 0 6.93333V45.0667C0 48.8958 3.07005 52 6.85714 52H65.1429C68.93 52 72 48.8958 72 45.0667V6.93333C72 3.10416 68.93 0 65.1429 0Z"
+                      fill="#C70318" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 13.8667H72V38.1334H0V13.8667Z" fill="#FFC500" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M30.8577 21.5698V30.3058C30.8577 32.7324 28.5537 34.6738 25.7148 34.6738H18.8577C16.0257 34.6668 13.7148 32.7151 13.7148 30.2988V21.5628C13.7148 19.5799 15.2508 17.9228 17.3628 17.3855C18.0006 15.5828 19.9617 17.1983 22.2863 17.1983C24.6246 17.1983 26.572 15.5932 27.2097 17.389C29.3148 17.9402 30.8577 19.6007 30.8577 21.5698Z"
+                      fill="#D4AF2C" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M30.8566 24.2666H34.2852V34.6666H30.8566V24.2666ZM10.2852 24.2666H13.7137V34.6666H10.2852V24.2666Z"
+                      fill="#CBCBCB" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M30.8566 31.2002H34.2852V34.6669H30.8566V31.2002ZM10.2852 31.2002H13.7137V34.6669H10.2852V31.2002Z"
+                      fill="#1A47B8" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M30.8566 20.7998H34.2852V24.2665H30.8566V20.7998ZM10.2852 20.7998H13.7137V24.2665H10.2852V20.7998Z"
+                      fill="#D4AF2C" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M17.1426 20.7998H20.5711V25.9998H17.1426V20.7998ZM23.9997 27.7331H27.4283V32.9331H23.9997V27.7331Z"
+                      fill="#AF010D" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1426 27.7334H20.5711V32.9334H17.1426V27.7334Z"
+                      fill="#FFC500" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M24 20.7998H27.4286V25.9998H24V20.7998Z"
+                      fill="#AE6A3E" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M20.5711 20.8002L17.1426 17.3335H27.4283L23.9997 20.8002H20.5711Z" fill="#AF010D" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5723 13.8667H24.0008V17.3334H20.5723V13.8667Z"
+                      fill="#D4AF2C" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_es_flag">
+                      <rect width="72" height="52" rx="13" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('en') {
+                <!-- REINO UNIDO / UK bandera -->
+                <svg width="23" height="16" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_en_flag)">
+                    <rect width="72" height="52" rx="13" fill="#001B69" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M7.97847 0H0V8.66667L66.9782 52L75 52V43.3333L7.97847 0Z" fill="white" />
+                    <path d="M2.66107 0L75 46.9228V52H72.4013L0 5.0286V0H2.66107Z" fill="#C9072A" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M67.8571 0H75V8.66667C75 8.66667 28.6064 37.5373 7.14286 52H0V43.3333L67.8571 0Z"
+                      fill="white" />
+                    <path d="M75 0H72.5777L0 46.9632V52H2.66107L75 5.06658V0Z" fill="#C9072A" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M27.2753 0H47.7871V16.0396H75V35.9498H47.7871V52H27.2753V35.9498H0V16.0396H27.2753V0Z"
+                      fill="white" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M31.5789 0H43.4211V20H75V32H43.4211V52H31.5789V32H0V20H31.5789V0Z" fill="#C9072A" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_en_flag">
+                      <rect width="75" height="52" rx="13" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('fr') {
+                <!-- FRANCIA (usar mismo layout que ESPAÑA: 23x16, clip, border radius, solo colores de Francia) -->
+                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_fr)">
+                    <rect width="72" height="52" rx="13" fill="#fff" />
+                    <rect width="24" height="52" fill="#002153" />
+                    <rect x="48" width="24" height="52" fill="#CF0921" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_fr">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+
+                @case('it') {
+                <!-- ITALIA -->
+                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_it)">
+                    <rect width="72" height="52" rx="13" fill="#fff" />
+                    <rect width="24" height="52" fill="#179A43" />
+                    <rect x="48" width="24" height="52" fill="#ED3237" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_it">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('de') {
+                <!-- ALEMANIA -->
+                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_de)">
+                    <rect width="72" height="52" rx="13" fill="#fff" />
+                    <rect width="72" height="17.3333" y="0" fill="#272727" />
+                    <rect width="72" height="17.3333" y="17.3333" fill="#DE2227" />
+                    <rect width="72" height="17.3333" y="34.6667" fill="#FFCE3B" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_de">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('pt') {
+                <!-- PORTUGAL -->
+                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_pt)">
+                    <rect width="72" height="52" rx="13" fill="#00874B" />
+                    <rect x="18" width="54" height="52" fill="#F32121" />
+                    <circle cx="23" cy="26" r="9" fill="#FCD032" />
+                    <circle cx="23" cy="26" r="5" fill="#FFF" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_pt">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('us') {
+                <!-- ESTADOS UNIDOS -->
+                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_us)">
+                    <rect width="72" height="52" rx="13" fill="#fff" />
+                    <rect width="72" height="7.42857" y="0" fill="#BF0A30" />
+                    <rect width="72" height="7.42857" y="14.8571" fill="#BF0A30" />
+                    <rect width="72" height="7.42857" y="29.7143" fill="#BF0A30" />
+                    <rect width="72" height="7.42857" y="44.5714" fill="#BF0A30" />
+                    <rect width="32" height="28.8571" fill="#002868" />
+                    <g>
+                      <circle cx="4.5" cy="4" r="1" fill="#FFF" />
+                      <circle cx="13" cy="4" r="1" fill="#FFF" />
+                      <circle cx="21.5" cy="4" r="1" fill="#FFF" />
+                      <circle cx="30" cy="4" r="1" fill="#FFF" />
+                      <!-- Añade más estrellas si lo deseas -->
+                    </g>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_us">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('tr') {
+                <!-- TURQUÍA -->
+                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_tr)">
+                    <rect width="72" height="52" rx="13" fill="#E30A17" />
+                    <circle cx="30" cy="26" r="12" fill="#fff" />
+                    <circle cx="33" cy="26" r="9" fill="#E30A17" />
+                    <polygon points="41,26 46,28.18 42.5,32.09 43.82,27.45 39.82,26 43.82,24.55 42.5,19.91 46,23.82"
+                      fill="#fff" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_tr">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('se') {
+                <!-- SUECIA -->
+                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_se)">
+                    <rect width="72" height="52" rx="13" fill="#006AA7" />
+                    <rect x="20" width="8" height="52" fill="#FECC00" />
+                    <rect y="22" width="72" height="8" fill="#FECC00" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_se">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('nl') {
+                <!-- PAÍSES BAJOS -->
+                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_nl)">
+                    <rect width="72" height="52" rx="13" fill="#fff" />
+                    <rect width="72" height="17.3333" y="0" fill="#AD1E2E" />
+                    <rect width="72" height="17.3333" y="34.6667" fill="#21468B" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_nl">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
                 }
                 <span class="font-medium">{{ selectedCountryOption.label }}</span>
               </div>
@@ -943,181 +976,214 @@
               <button type="button" (click)="playClick(); selectCountry(c.code)"
                 class="w-full flex items-center gap-2 px-3 py-2 text-left text-xs hover:bg-gray-50 dark:hover:bg-slate-700/80 text-gray-900 dark:text-white transition-colors first:rounded-t-md last:rounded-b-md">
                 @switch (c.code) {
-                  @case('es') {
-                    <!-- ESPAÑA -->
-                    <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_es_flag_popup)">
-                        <rect width="72" height="52" rx="13" fill="#C70318"/>
-                        <path d="M65.1429 0H6.85714C3.07005 0 0 3.10416 0 6.93333V45.0667C0 48.8958 3.07005 52 6.85714 52H65.1429C68.93 52 72 48.8958 72 45.0667V6.93333C72 3.10416 68.93 0 65.1429 0Z" fill="#C70318"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 13.8667H72V38.1334H0V13.8667Z" fill="#FFC500"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M30.8577 21.5698V30.3058C30.8577 32.7324 28.5537 34.6738 25.7148 34.6738H18.8577C16.0257 34.6668 13.7148 32.7151 13.7148 30.2988V21.5628C13.7148 19.5799 15.2508 17.9228 17.3628 17.3855C18.0006 15.5828 19.9617 17.1983 22.2863 17.1983C24.6246 17.1983 26.572 15.5932 27.2097 17.389C29.3148 17.9402 30.8577 19.6007 30.8577 21.5698Z" fill="#D4AF2C"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M30.8566 24.2666H34.2852V34.6666H30.8566V24.2666ZM10.2852 24.2666H13.7137V34.6666H10.2852V24.2666Z" fill="#CBCBCB"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M30.8566 31.2002H34.2852V34.6669H30.8566V31.2002ZM10.2852 31.2002H13.7137V34.6669H10.2852V31.2002Z" fill="#1A47B8"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M30.8566 20.7998H34.2852V24.2665H30.8566V20.7998ZM10.2852 20.7998H13.7137V24.2665H10.2852V20.7998Z" fill="#D4AF2C"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1426 20.7998H20.5711V25.9998H17.1426V20.7998ZM23.9997 27.7331H27.4283V32.9331H23.9997V27.7331Z" fill="#AF010D"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1426 27.7334H20.5711V32.9334H17.1426V27.7334Z" fill="#FFC500"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M24 20.7998H27.4286V25.9998H24V20.7998Z" fill="#AE6A3E"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5711 20.8002L17.1426 17.3335H27.4283L23.9997 20.8002H20.5711Z" fill="#AF010D"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5723 13.8667H24.0008V17.3334H20.5723V13.8667Z" fill="#D4AF2C"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_es_flag_popup">
-                          <rect width="72" height="52" rx="13" fill="white"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('en') {
-                    <!-- REINO UNIDO / UK bandera -->
-                    <svg width="18" height="12" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_en_flag_popup)">
-                        <rect width="72" height="52" rx="13" fill="#001B69" />
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.97847 0H0V8.66667L66.9782 52L75 52V43.3333L7.97847 0Z" fill="white"/>
-                        <path d="M2.66107 0L75 46.9228V52H72.4013L0 5.0286V0H2.66107Z" fill="#C9072A"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M67.8571 0H75V8.66667C75 8.66667 28.6064 37.5373 7.14286 52H0V43.3333L67.8571 0Z" fill="white"/>
-                        <path d="M75 0H72.5777L0 46.9632V52H2.66107L75 5.06658V0Z" fill="#C9072A"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M27.2753 0H47.7871V16.0396H75V35.9498H47.7871V52H27.2753V35.9498H0V16.0396H27.2753V0Z" fill="white"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M31.5789 0H43.4211V20H75V32H43.4211V52H31.5789V32H0V20H31.5789V0Z" fill="#C9072A"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_en_flag_popup">
-                          <rect width="75" height="52" rx="13" fill="white"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('fr') {
-                    <!-- FRANCIA -->
-                    <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_fr_popup)">
-                        <rect width="72" height="52" rx="13" fill="#fff"/>
-                        <rect width="24" height="52" fill="#052987"/>
-                        <rect x="48" width="24" height="52" fill="#F72940"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_fr_popup">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('it') {
-                    <!-- ITALIA -->
-                    <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_it_popup)">
-                        <rect width="72" height="52" rx="13" fill="#fff"/>
-                        <rect width="24" height="52" fill="#179A43"/>
-                        <rect x="48" width="24" height="52" fill="#ED3237"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_it_popup">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('de') {
-                    <!-- ALEMANIA -->
-                    <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_de_popup)">
-                        <rect width="72" height="52" rx="13" fill="#fff"/>
-                        <rect width="72" height="17.3333" y="0" fill="#272727"/>
-                        <rect width="72" height="17.3333" y="17.3333" fill="#DE2227"/>
-                        <rect width="72" height="17.3333" y="34.6667" fill="#FFCE3B"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_de_popup">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('pt') {
-                    <!-- PORTUGAL -->
-                    <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_pt_popup)">
-                        <rect width="72" height="52" rx="13" fill="#00874B"/>
-                        <rect x="18" width="54" height="52" fill="#F32121"/>
-                        <circle cx="23" cy="26" r="9" fill="#FCD032"/>
-                        <circle cx="23" cy="26" r="5" fill="#FFF"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_pt_popup">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('us') {
-                    <!-- ESTADOS UNIDOS -->
-                    <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_us_popup)">
-                        <rect width="72" height="52" rx="13" fill="#fff"/>
-                        <rect width="72" height="7.42857" y="0" fill="#BF0A30"/>
-                        <rect width="72" height="7.42857" y="14.8571" fill="#BF0A30"/>
-                        <rect width="72" height="7.42857" y="29.7143" fill="#BF0A30"/>
-                        <rect width="72" height="7.42857" y="44.5714" fill="#BF0A30"/>
-                        <rect width="32" height="28.8571" fill="#002868"/>
-                        <g>
-                          <circle cx="4.5" cy="4" r="1" fill="#FFF"/>
-                          <circle cx="13" cy="4" r="1" fill="#FFF"/>
-                          <circle cx="21.5" cy="4" r="1" fill="#FFF"/>
-                          <circle cx="30" cy="4" r="1" fill="#FFF"/>
-                        </g>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_us_popup">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('tr') {
-                    <!-- TURQUÍA -->
-                    <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_tr_popup)">
-                        <rect width="72" height="52" rx="13" fill="#E30A17"/>
-                        <circle cx="30" cy="26" r="12" fill="#fff"/>
-                        <circle cx="33" cy="26" r="9" fill="#E30A17"/>
-                        <polygon points="41,26 46,28.18 42.5,32.09 43.82,27.45 39.82,26 43.82,24.55 42.5,19.91 46,23.82" fill="#fff"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_tr_popup">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('se') {
-                    <!-- SUECIA -->
-                    <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_se_popup)">
-                        <rect width="72" height="52" rx="13" fill="#006AA7"/>
-                        <rect x="20" width="8" height="52" fill="#FECC00"/>
-                        <rect y="22" width="72" height="8" fill="#FECC00"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_se_popup">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
-                  @case('nl') {
-                    <!-- PAÍSES BAJOS -->
-                    <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                      <g clip-path="url(#clip0_nl_popup)">
-                        <rect width="72" height="52" rx="13" fill="#fff"/>
-                        <rect width="72" height="17.3333" y="0" fill="#AD1E2E"/>
-                        <rect width="72" height="17.3333" y="34.6667" fill="#21468B"/>
-                      </g>
-                      <defs>
-                        <clipPath id="clip0_nl_popup">
-                          <rect width="72" height="52" rx="13"/>
-                        </clipPath>
-                      </defs>
-                    </svg>
-                  }
+                @case('es') {
+                <!-- ESPAÑA -->
+                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_es_flag_popup)">
+                    <rect width="72" height="52" rx="13" fill="#C70318" />
+                    <path
+                      d="M65.1429 0H6.85714C3.07005 0 0 3.10416 0 6.93333V45.0667C0 48.8958 3.07005 52 6.85714 52H65.1429C68.93 52 72 48.8958 72 45.0667V6.93333C72 3.10416 68.93 0 65.1429 0Z"
+                      fill="#C70318" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 13.8667H72V38.1334H0V13.8667Z" fill="#FFC500" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M30.8577 21.5698V30.3058C30.8577 32.7324 28.5537 34.6738 25.7148 34.6738H18.8577C16.0257 34.6668 13.7148 32.7151 13.7148 30.2988V21.5628C13.7148 19.5799 15.2508 17.9228 17.3628 17.3855C18.0006 15.5828 19.9617 17.1983 22.2863 17.1983C24.6246 17.1983 26.572 15.5932 27.2097 17.389C29.3148 17.9402 30.8577 19.6007 30.8577 21.5698Z"
+                      fill="#D4AF2C" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M30.8566 24.2666H34.2852V34.6666H30.8566V24.2666ZM10.2852 24.2666H13.7137V34.6666H10.2852V24.2666Z"
+                      fill="#CBCBCB" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M30.8566 31.2002H34.2852V34.6669H30.8566V31.2002ZM10.2852 31.2002H13.7137V34.6669H10.2852V31.2002Z"
+                      fill="#1A47B8" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M30.8566 20.7998H34.2852V24.2665H30.8566V20.7998ZM10.2852 20.7998H13.7137V24.2665H10.2852V20.7998Z"
+                      fill="#D4AF2C" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M17.1426 20.7998H20.5711V25.9998H17.1426V20.7998ZM23.9997 27.7331H27.4283V32.9331H23.9997V27.7331Z"
+                      fill="#AF010D" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1426 27.7334H20.5711V32.9334H17.1426V27.7334Z"
+                      fill="#FFC500" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M24 20.7998H27.4286V25.9998H24V20.7998Z"
+                      fill="#AE6A3E" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M20.5711 20.8002L17.1426 17.3335H27.4283L23.9997 20.8002H20.5711Z" fill="#AF010D" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5723 13.8667H24.0008V17.3334H20.5723V13.8667Z"
+                      fill="#D4AF2C" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_es_flag_popup">
+                      <rect width="72" height="52" rx="13" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('en') {
+                <!-- REINO UNIDO / UK bandera -->
+                <svg width="18" height="12" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_en_flag_popup)">
+                    <rect width="72" height="52" rx="13" fill="#001B69" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M7.97847 0H0V8.66667L66.9782 52L75 52V43.3333L7.97847 0Z" fill="white" />
+                    <path d="M2.66107 0L75 46.9228V52H72.4013L0 5.0286V0H2.66107Z" fill="#C9072A" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M67.8571 0H75V8.66667C75 8.66667 28.6064 37.5373 7.14286 52H0V43.3333L67.8571 0Z"
+                      fill="white" />
+                    <path d="M75 0H72.5777L0 46.9632V52H2.66107L75 5.06658V0Z" fill="#C9072A" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M27.2753 0H47.7871V16.0396H75V35.9498H47.7871V52H27.2753V35.9498H0V16.0396H27.2753V0Z"
+                      fill="white" />
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M31.5789 0H43.4211V20H75V32H43.4211V52H31.5789V32H0V20H31.5789V0Z" fill="#C9072A" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_en_flag_popup">
+                      <rect width="75" height="52" rx="13" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('fr') {
+                <!-- FRANCIA -->
+                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_fr_popup)">
+                    <rect width="72" height="52" rx="13" fill="#fff" />
+                    <rect width="24" height="52" fill="#052987" />
+                    <rect x="48" width="24" height="52" fill="#F72940" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_fr_popup">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('it') {
+                <!-- ITALIA -->
+                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_it_popup)">
+                    <rect width="72" height="52" rx="13" fill="#fff" />
+                    <rect width="24" height="52" fill="#179A43" />
+                    <rect x="48" width="24" height="52" fill="#ED3237" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_it_popup">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('de') {
+                <!-- ALEMANIA -->
+                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_de_popup)">
+                    <rect width="72" height="52" rx="13" fill="#fff" />
+                    <rect width="72" height="17.3333" y="0" fill="#272727" />
+                    <rect width="72" height="17.3333" y="17.3333" fill="#DE2227" />
+                    <rect width="72" height="17.3333" y="34.6667" fill="#FFCE3B" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_de_popup">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('pt') {
+                <!-- PORTUGAL -->
+                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_pt_popup)">
+                    <rect width="72" height="52" rx="13" fill="#00874B" />
+                    <rect x="18" width="54" height="52" fill="#F32121" />
+                    <circle cx="23" cy="26" r="9" fill="#FCD032" />
+                    <circle cx="23" cy="26" r="5" fill="#FFF" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_pt_popup">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('us') {
+                <!-- ESTADOS UNIDOS -->
+                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_us_popup)">
+                    <rect width="72" height="52" rx="13" fill="#fff" />
+                    <rect width="72" height="7.42857" y="0" fill="#BF0A30" />
+                    <rect width="72" height="7.42857" y="14.8571" fill="#BF0A30" />
+                    <rect width="72" height="7.42857" y="29.7143" fill="#BF0A30" />
+                    <rect width="72" height="7.42857" y="44.5714" fill="#BF0A30" />
+                    <rect width="32" height="28.8571" fill="#002868" />
+                    <g>
+                      <circle cx="4.5" cy="4" r="1" fill="#FFF" />
+                      <circle cx="13" cy="4" r="1" fill="#FFF" />
+                      <circle cx="21.5" cy="4" r="1" fill="#FFF" />
+                      <circle cx="30" cy="4" r="1" fill="#FFF" />
+                    </g>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_us_popup">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('tr') {
+                <!-- TURQUÍA -->
+                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_tr_popup)">
+                    <rect width="72" height="52" rx="13" fill="#E30A17" />
+                    <circle cx="30" cy="26" r="12" fill="#fff" />
+                    <circle cx="33" cy="26" r="9" fill="#E30A17" />
+                    <polygon points="41,26 46,28.18 42.5,32.09 43.82,27.45 39.82,26 43.82,24.55 42.5,19.91 46,23.82"
+                      fill="#fff" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_tr_popup">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('se') {
+                <!-- SUECIA -->
+                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_se_popup)">
+                    <rect width="72" height="52" rx="13" fill="#006AA7" />
+                    <rect x="20" width="8" height="52" fill="#FECC00" />
+                    <rect y="22" width="72" height="8" fill="#FECC00" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_se_popup">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
+                @case('nl') {
+                <!-- PAÍSES BAJOS -->
+                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
+                  <g clip-path="url(#clip0_nl_popup)">
+                    <rect width="72" height="52" rx="13" fill="#fff" />
+                    <rect width="72" height="17.3333" y="0" fill="#AD1E2E" />
+                    <rect width="72" height="17.3333" y="34.6667" fill="#21468B" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_nl_popup">
+                      <rect width="72" height="52" rx="13" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                }
                 }
                 <span>{{ c.label }}</span>
               </button>
@@ -1126,14 +1192,14 @@
             }
           </div>
 
-          <!-- Voz: dropdown con opciones y botón play -->
-          <div class="relative voice-dropdown-step5">
+          <!-- Voz: dropdown con opciones, play y ajustes (3 puntos) -->
+          <div class="relative voice-dropdown-step5 voice-params-dropdown-step5">
             <label class="block text-[10px] font-semibold text-[#0F172A] dark:text-white mb-1">Voz</label>
             <div class="flex gap-1.5">
               <div class="flex-1 relative">
                 <button type="button" (click)="playClick(); toggleVoiceDropdown($event)"
                   [disabled]="voices.length === 0"
-                  class="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left text-xs border border-gray-300 dark:border-slate-500 rounded-lg bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                  class="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left text-xs border border-gray-300 dark:border-white rounded-lg bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
                   <span class="font-medium truncate">{{ selectedVoice?.name || 'Selecciona una voz' }}</span>
                   <svg class="w-3.5 h-3.5 flex-shrink-0 text-gray-500 dark:text-slate-400 transition-transform"
                     [class.rotate-180]="showVoiceDropdown" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1166,7 +1232,7 @@
                 }
               </div>
               <button type="button" (click)="playClick(); playVoice()" [disabled]="!selectedVoiceId"
-                class="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-slate-500 bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                class="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-white bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                 @if (currentPlayingVoice === selectedVoiceId) {
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <rect x="6" y="4" width="4" height="16" rx="1" />
@@ -1178,6 +1244,103 @@
                 </svg>
                 }
               </button>
+              <!-- Botón 3 puntos (ajustes) -->
+              <div class="relative flex-shrink-0 flex items-center">
+                <button type="button" (click)="playClick(); toggleVoiceParamsDropdown($event)"
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-white bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-300 transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="6" r="1.5" />
+                    <circle cx="12" cy="12" r="1.5" />
+                    <circle cx="12" cy="18" r="1.5" />
+                  </svg>
+                </button>
+                @if (showVoiceParamsDropdown) {
+                <div
+                  class="absolute left-full top-1/2 -translate-y-1/2 ml-2 min-w-[140px] py-1.5 px-2 rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 voice-params-panel">
+                  <div class="flex flex-col gap-4"> <!-- Aumenta el gap para separar más -->
+
+                    <div>
+                      <div class="flex justify-between items-baseline mb-0.5">
+                        <span class="text-[10px] font-medium text-gray-600 dark:text-slate-300">Estabilidad</span>
+                        <span class="text-[10px] tabular-nums text-gray-500 dark:text-slate-400">{{
+                          voiceParameters.stability.toFixed(2) }}</span>
+                      </div>
+                      <div class="flex items-center gap-2 mt-1">
+                        <span class="text-[8px] text-gray-500 dark:text-slate-400 w-4 text-left">0</span>
+                        <input type="range" [(ngModel)]="voiceParameters.stability" name="stability" min="0" max="1"
+                          step="0.01" [style.--v]="voiceParameters.stability"
+                          class="voice-params-range flex-1 min-w-0 h-1" />
+                        <span class="text-[8px] text-gray-500 dark:text-slate-400 w-5 text-right">1</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="flex justify-between items-baseline mb-0.5">
+                        <span class="text-[10px] font-medium text-gray-600 dark:text-slate-300">Similitud</span>
+                        <span class="text-[10px] tabular-nums text-gray-500 dark:text-slate-400">{{
+                          voiceParameters.similarity.toFixed(2) }}</span>
+                      </div>
+                      <div class="flex items-center gap-2 mt-1">
+                        <span class="text-[8px] text-gray-500 dark:text-slate-400 w-4 text-left">0</span>
+                        <input type="range" [(ngModel)]="voiceParameters.similarity" name="similarity" min="0" max="1"
+                          step="0.01" [style.--v]="voiceParameters.similarity"
+                          class="voice-params-range flex-1 min-w-0 h-1" />
+                        <span class="text-[8px] text-gray-500 dark:text-slate-400 w-5 text-right">1</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="flex justify-between items-baseline mb-0.5">
+                        <span class="text-[10px] font-medium text-gray-600 dark:text-slate-300">Estilo</span>
+                        <span class="text-[10px] tabular-nums text-gray-500 dark:text-slate-400">{{
+                          voiceParameters.style.toFixed(2) }}</span>
+                      </div>
+                      <div class="flex items-center gap-2 mt-1">
+                        <span class="text-[8px] text-gray-500 dark:text-slate-400 w-4 text-left">0</span>
+                        <input type="range" [(ngModel)]="voiceParameters.style" name="style" min="0" max="1" step="0.01"
+                          [style.--v]="voiceParameters.style" class="voice-params-range flex-1 min-w-0 h-1" />
+                        <span class="text-[8px] text-gray-500 dark:text-slate-400 w-5 text-right">1</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="flex justify-between items-baseline mb-0.5">
+                        <span class="text-[10px] font-medium text-gray-600 dark:text-slate-300">Velocidad</span>
+                        <span class="text-[10px] tabular-nums text-gray-500 dark:text-slate-400">{{
+                          voiceParameters.speed.toFixed(2) }}</span>
+                      </div>
+                      <div class="flex items-center gap-2 mt-1">
+                        <span class="text-[8px] text-gray-500 dark:text-slate-400 w-4 text-left">0.25</span>
+                        <input type="range" [(ngModel)]="voiceParameters.speed" name="speed" min="0.25" max="4"
+                          step="0.01" [style.--v]="(voiceParameters.speed - 0.25) / 3.75"
+                          class="voice-params-range flex-1 min-w-0 h-1" />
+                        <span class="text-[8px] text-gray-500 dark:text-slate-400 w-5 text-right">4</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div class="flex justify-between items-baseline mb-0.5">
+                        <span class="text-[8px] font-medium text-gray-600 dark:text-slate-300">Boost</span>
+                        <span class="text-[8px] text-gray-500 dark:text-slate-400">
+                          {{ voiceParameters.boost ? 'Sí' : 'No' }}
+                        </span>
+                      </div>
+                      <!-- Interruptor básico tipo iOS reducido: pista redondeada + bola clara visible, versión más pequeña -->
+                      <button type="button" (click)="voiceParameters.boost = !voiceParameters.boost"
+                        class="relative inline-flex items-center w-7 h-4 rounded-full transition-colors duration-200 ease-out"
+                        [ngClass]="voiceParameters.boost
+                          ? 'bg-blue-500 shadow-sm'
+                          : 'bg-gray-300 dark:bg-slate-600'">
+                        <span
+                          class="absolute inline-block w-3 h-3 bg-white rounded-full shadow-md transform transition-transform duration-200 ease-out"
+                          [ngClass]="voiceParameters.boost ? 'translate-x-3' : 'translate-x-0.5'"></span>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+                }
+              </div>
             </div>
           </div>
         </div>
@@ -1191,7 +1354,7 @@
           </button>
           <button type="button" [disabled]="!selectedVoiceId" [class.opacity-50]="!selectedVoiceId"
             [class.cursor-not-allowed]="!selectedVoiceId"
-            class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors disabled:hover:bg-[#1E3A8A] dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
+            class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors disabled:hover:bg-[#1E3A8A] dark:bg-white dark:text-[#000000] dark:hover:bg-white"
             (click)="playClick(); onContinueFromVoiceStep()">
             Continuar
           </button>
@@ -1199,8 +1362,396 @@
       </div>
     </div>
 
-    <!-- Paso 6: pantalla de bienvenida ocupando TODA la pantalla -->
+    <!-- Paso 6: conectar negocio Shopify -->
     <div *ngSwitchCase="6"
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
+        <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
+          Conecta tu negocio de Shopify
+        </h1>
+        <p class="mt-0.5 text-[10px] sm:text-[10px] text-[#6d747c] font-semibold">
+          Vincula tu tienda para que tu agente pueda usar tus datos reales.
+        </p>
+
+        <div
+          class="mt-4 border border-gray-200 dark:border-white rounded-xl px-3 py-3 flex flex-col gap-3 bg-gray-50 dark:bg-slate-900/30">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-white flex items-center justify-center shadow-sm">
+              <img src="assets/shopify.webp" alt="Shopify Logo" class="w-4 h-5" />
+            </div>
+            <div class="flex-1">
+              <p class="text-[11px] font-semibold text-[#0F172A] dark:text-white">
+                Shopify
+              </p>
+              <p class="text-[10px] text-[#6d747c] dark:text-slate-400">
+                Conecta tu tienda para sincronizar productos, pedidos y clientes.
+              </p>
+            </div>
+            <button type="button"
+              class="ml-2 px-2.5 py-1 rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white dark:bg-white dark:text-[#000001] dark:hover:bg-gray-200 text-[10px] font-semibold transition-colors"
+              (click)="playClick(); connectShopify()">
+              Conectar
+            </button>
+          </div>
+        </div>
+
+        <div class="w-full flex items-center justify-between mt-5">
+          <button type="button"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+            (click)="playClick(); goBack()">
+            <span class="text-xs leading-none">‹</span>
+            <span>Atrás</span>
+          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" [disabled]="!hasConnectedShopify" [class.opacity-50]="!hasConnectedShopify"
+              [class.cursor-not-allowed]="!hasConnectedShopify"
+              class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white disabled:hover:bg-[#1E3A8A]"
+              (click)="playClick(); onContinueFromShopifyStep()">
+              Continuar
+            </button>
+            <button type="button"
+              class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white text-slate-700 dark:text-slate-100 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+              (click)="playClick(); onContinueFromShopifyStep()">
+              Saltar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 7: Instrucciones -->
+    <div *ngSwitchCase="7"
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
+        <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
+          Instrucciones
+        </h1>
+        <p class="mt-0.5 text-[10px] sm:text-[10px] text-[#6d747c] font-semibold">
+          Define las instrucciones que seguirá tu agente de IA.
+        </p>
+
+        <div class="mt-4 flex flex-col gap-3">
+          <div>
+            <label class="block text-[10px] font-semibold text-[#0F172A]dark:text-[#6d747c] mb-1">Saludo
+              personalizado</label>
+            <input type="text" [(ngModel)]="greeting" name="greeting" placeholder="Hola, gracias por llamar a..."
+              class="w-full px-3 py-1.5 text-[11px] border border-gray-300 dark:border-white dark:bg-slate-800 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-semibold text-[#0F172A] dark:text-white mb-1">Instrucciones del
+              agente</label>
+            <textarea [(ngModel)]="instructions" name="instructions" placeholder="Escribe aquí las instrucciones..."
+              rows="8"
+              class="w-full px-3 py-4 text-[11px] border border-gray-300 dark:border-white dark:bg-slate-800 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none transition-all"></textarea>
+          </div>
+        </div>
+
+        <div class="w-full flex items-center justify-between mt-5">
+          <button type="button"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+            (click)="playClick(); goBack()">
+            <span class="text-xs leading-none">‹</span>
+            <span>Atrás</span>
+          </button>
+          <button type="button"
+            class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
+            (click)="playClick(); onContinueFromInstructionsStep()">
+            Continuar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 8: Base de conocimientos (2 cuadrados PDF / Web como tipo de llamada) -->
+    <div *ngSwitchCase="8"
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
+        <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
+          Base de conocimientos
+        </h1>
+        <p class="mt-0.5 text-[10px] sm:text-[10px] text-[#6d747c] font-semibold">
+          Define la base de conocimientos para tu agente.
+        </p>
+
+        <div class="grid grid-cols-2 gap-3 mt-4">
+          <!-- PDF -->
+          <button type="button" (click)="playClick(); selectKnowledgeSource('pdf')"
+            [class.border-blue-500]="selectedKnowledgeSource === 'pdf'"
+            [class.ring-2]="selectedKnowledgeSource === 'pdf'"
+            class="w-full aspect-square max-h-[100px] rounded-lg border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all">
+            <div class="text-gray-900 dark:text-white mb-1.5" [class.text-blue-600]="selectedKnowledgeSource === 'pdf'"
+              [class.dark:text-blue-400]="selectedKnowledgeSource === 'pdf'">
+              <svg class="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M62.5 94.7917H37.5C14.875 94.7917 5.20837 85.125 5.20837 62.5V37.5C5.20837 14.875 14.875 5.20837 37.5 5.20837H58.3334C60.0417 5.20837 61.4584 6.62504 61.4584 8.33337C61.4584 10.0417 60.0417 11.4584 58.3334 11.4584H37.5C18.2917 11.4584 11.4584 18.2917 11.4584 37.5V62.5C11.4584 81.7084 18.2917 88.5417 37.5 88.5417H62.5C81.7084 88.5417 88.5417 81.7084 88.5417 62.5V41.6667C88.5417 39.9584 89.9584 38.5417 91.6667 38.5417C93.375 38.5417 94.7917 39.9584 94.7917 41.6667V62.5C94.7917 85.125 85.125 94.7917 62.5 94.7917Z"
+                  fill="currentColor" />
+                <path
+                  d="M91.6667 44.7917H75C60.75 44.7917 55.2084 39.25 55.2084 25V8.33333C55.2084 7.08333 55.9584 5.91666 57.125 5.45833C58.2917 4.95833 59.625 5.24999 60.5417 6.12499L93.875 39.4583C94.75 40.3333 95.0417 41.7083 94.5417 42.875C94.0417 44.0417 92.9167 44.7917 91.6667 44.7917ZM61.4584 15.875V25C61.4584 35.75 64.25 38.5417 75 38.5417H84.125L61.4584 15.875Z"
+                  fill="currentColor" />
+                <path
+                  d="M54.1666 57.2916H29.1666C27.4583 57.2916 26.0416 55.875 26.0416 54.1666C26.0416 52.4583 27.4583 51.0416 29.1666 51.0416H54.1666C55.875 51.0416 57.2916 52.4583 57.2916 54.1666C57.2916 55.875 55.875 57.2916 54.1666 57.2916Z"
+                  fill="currentColor" />
+                <path
+                  d="M45.8333 73.9584H29.1666C27.4583 73.9584 26.0416 72.5417 26.0416 70.8334C26.0416 69.125 27.4583 67.7084 29.1666 67.7084H45.8333C47.5416 67.7084 48.9583 69.125 48.9583 70.8334C48.9583 72.5417 47.5416 73.9584 45.8333 73.9584Z"
+                  fill="currentColor" />
+              </svg>
+            </div>
+            <span class="text-[10px] sm:text-xs font-medium text-gray-900 dark:text-white">PDF</span>
+          </button>
+
+          <!-- Web -->
+          <button type="button" (click)="playClick(); selectKnowledgeSource('web')"
+            [class.border-blue-500]="selectedKnowledgeSource === 'web'"
+            [class.ring-2]="selectedKnowledgeSource === 'web'"
+            class="w-full aspect-square max-h-[100px] rounded-lg border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all">
+            <div class="text-gray-900 dark:text-white mb-1.5 web-icon-wrap-step8"
+              [class.text-blue-600]="selectedKnowledgeSource === 'web'"
+              [class.dark:text-blue-400]="selectedKnowledgeSource === 'web'">
+              <svg class="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" fill="url(#pattern0_web_setup)" />
+                <defs>
+                  <pattern id="pattern0_web_setup" patternUnits="objectBoundingBox" width="1" height="1">
+                    <image href="assets/web.webp" width="100" height="100" preserveAspectRatio="none" />
+                  </pattern>
+                </defs>
+              </svg>
+            </div>
+            <span class="text-[10px] sm:text-xs font-medium text-gray-900 dark:text-white">Web</span>
+          </button>
+        </div>
+
+        <div class="w-full flex items-center justify-between mt-5">
+          <button type="button"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+            (click)="playClick(); goBack()">
+            <span class="text-xs leading-none">‹</span>
+            <span>Atrás</span>
+          </button>
+          <button type="button"
+            class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
+            (click)="playClick(); onContinueFromKnowledgeBaseStep()">
+            Continuar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 9: Prueba de agente (esfera + microfono como en new-create-agents) -->
+    <div *ngSwitchCase="9"
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex flex-col items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4 py-4">
+        <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight text-left w-full">
+          Prueba de agente
+        </h1>
+        <p class="mt-0.5 text-[10px] sm:text-[10px] text-[#6d747c] font-semibold text-left w-full">
+          Habla con nuestro agente de prueba para ver cómo funciona.
+        </p>
+
+        <!-- Esfera -->
+        <div class="flex flex-col items-center shrink-0 overflow-hidden h-[240px] mt-3">
+          <div class="scale-[0.7] origin-top -mt-2">
+            <app-ai-sphere [audioLevel]="audioLevel"></app-ai-sphere>
+          </div>
+        </div>
+
+        <!-- Microfono y botones subidos un poco debajo de la esfera -->
+        <div class="w-full flex flex-col items-center gap-3 -mt-3">
+          <div class="flex justify-center">
+            <button type="button" (click)="playClick(); toggleMicrophone()"
+              class="rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-slate-600 hover:border-blue-300 dark:hover:border-blue-500 w-9 h-9 bg-white dark:bg-slate-800">
+              @if (isMicrophoneActive) {
+              <svg class="text-red-500 animate-pulse w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                <path
+                  d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+              </svg>
+              } @else {
+              <svg class="text-gray-500 dark:text-slate-400 w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                <path
+                  d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                <path d="M3 3l18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" />
+              </svg>
+              }
+            </button>
+          </div>
+          <div class="w-full flex items-center justify-between">
+            <button type="button"
+              class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+              (click)="playClick(); goBack()">
+              <span class="text-xs leading-none">‹</span>
+              <span>Atrás</span>
+            </button>
+            <button type="button"
+              class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
+              (click)="playClick(); onContinueFromAgentTestStep()">
+              Continuar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 10: Conecta tu número de teléfono (Twilio) — después de Prueba de agente -->
+    <div *ngSwitchCase="10"
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4 twilio-step7">
+        <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
+          Conecta tu número de teléfono
+        </h1>
+        <p class="mt-0.5 text-[10px] sm:text-[10px] text-[#6d747c] font-semibold">
+          Configura Twilio y tu número para recibir llamadas con tu agente.
+        </p>
+
+        <div
+          class="mt-4 border border-gray-200 dark:border-slate-600 rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-900/30">
+          <div
+            class="flex items-center justify-between gap-3 px-3 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-800/50 transition-colors"
+            (click)="playClick(); toggleTwilioConfigStep7()">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-7 h-7 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm overflow-hidden">
+                <img src="assets/twilio.jpg" alt="Twilio" class="w-7 h-7 object-contain rounded" />
+              </div>
+              <div>
+                <p class="text-[11px] font-semibold text-[#0F172A] dark:text-white">Twilio</p>
+                <p class="text-[10px] text-[#6d747c] dark:text-slate-400">
+                  @if (isTwilioValidated && selectedTwilioAccount) { Cuenta conectada }
+                  @else if (isTwilioValidated) { Cuenta validada }
+                  @else { Conecta tu cuenta de Twilio }
+                </p>
+              </div>
+            </div>
+            <button type="button" (click)="playClick(); onTwilioConnectButtonClickStep7($event)"
+              class="px-2.5 py-1 rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white dark:bg-white dark:text-[#000001] dark:hover:bg-gray-200 text-[10px] font-semibold transition-colors shrink-0">
+              {{ showTwilioConfigStep7 ? 'Cerrar' : 'Conectar' }}
+            </button>
+          </div>
+
+          @if (showTwilioConfigStep7) {
+          <div class="px-3 pb-3 pt-0 border-t border-gray-200 dark:border-slate-600 space-y-2">
+            @if (loadingTwilioAccounts) {
+            <div class="flex justify-center py-3">
+              <div class="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-[#1E3A8A]"></div>
+            </div>
+            } @else if (selectedTwilioAccount && isTwilioValidated) {
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-[9px]">
+                <span class="text-gray-500 dark:text-slate-400">Cuenta ID: {{ selectedTwilioAccount.twilioAccountId
+                  }}</span>
+                <button type="button" (click)="playClick(); backToAccountSelectionStep7()"
+                  class="text-[#1E3A8A] dark:text-blue-400 font-medium">Cambiar</button>
+              </div>
+              @if (availablePhoneNumbers.length > 0) {
+              <p class="text-[9px] font-semibold text-gray-600 dark:text-slate-300">Números disponibles</p>
+              <div
+                class="max-h-20 overflow-y-auto border border-gray-200 dark:border-slate-600 rounded-lg p-1.5 space-y-0.5">
+                @for (phone of availablePhoneNumbers; track phone.phoneId) {
+                <button type="button" (click)="playClick(); selectPhoneStep7(phone)"
+                  class="w-full text-left px-2 py-1 rounded text-[10px] hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-900 dark:text-white">
+                  {{ phone.countryCode }} {{ phone.number }}
+                </button>
+                }
+              </div>
+              }
+              <div>
+                <label class="block text-[9px] font-semibold text-gray-600 dark:text-slate-400 mb-0.5">Número de
+                  teléfono *</label>
+                <div class="flex gap-0.5">
+                  <select [(ngModel)]="selectedCountryCodeStep7" (ngModelChange)="onPhoneNumberChangeStep7()"
+                    class="w-14 h-7 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-l-md px-1 text-gray-900 dark:text-white">
+                    <option value="+34">+34</option>
+                    <option value="+1">+1</option>
+                    <option value="+39">+39</option>
+                    <option value="+44">+44</option>
+                    <option value="+49">+49</option>
+                    <option value="+33">+33</option>
+                    <option value="+31">+31</option>
+                    <option value="+351">+351</option>
+                  </select>
+                  <input type="text" [(ngModel)]="phoneNumberStep7" (ngModelChange)="onPhoneNumberChangeStep7()"
+                    placeholder="612345678"
+                    class="flex-1 h-7 px-2 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-md text-gray-900 dark:text-white placeholder-gray-400" />
+                </div>
+                @if (phoneValidationStatusStep7 === 'error' && phoneErrorMessageStep7) {
+                <p class="text-[9px] text-red-500 mt-0.5">{{ phoneErrorMessageStep7 }}</p>
+                }
+              </div>
+            </div>
+            } @else if (twilioAccountsStep7.length > 0 && !showNewTwilioAccountFormStep7) {
+            <div class="space-y-1.5">
+              <p class="text-[9px] font-semibold text-gray-700 dark:text-slate-300">Cuentas conectadas</p>
+              @for (account of twilioAccountsStep7; track account.twilioAccountId) {
+              <button type="button" (click)="playClick(); useExistingTwilioAccountStep7(account)"
+                [disabled]="isValidatingTwilioStep7"
+                class="w-full px-2 py-1.5 rounded-lg border text-left text-[10px] border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-[#1E3A8A] dark:hover:border-blue-400 disabled:opacity-50">
+                Cuenta ID: {{ account.twilioAccountId }} · SID: {{ account.twilioSid.substring(0, 10) }}...
+              </button>
+              }
+              <button type="button" (click)="playClick(); showNewTwilioAccountStep7()"
+                class="w-full px-2 py-1.5 rounded-lg border border-dashed border-gray-300 dark:border-slate-500 text-[10px] text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800">
+                + Conectar nueva cuenta
+              </button>
+            </div>
+            } @else {
+            <div class="space-y-2">
+              <div>
+                <label class="block text-[9px] font-semibold text-gray-600 dark:text-slate-400 mb-0.5">Account
+                  SID</label>
+                <input type="text" [(ngModel)]="twilioSidStep7" (ngModelChange)="onTwilioSidChangeStep7()"
+                  placeholder="ACxxxxxxxx..."
+                  class="w-full h-7 px-2 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md" />
+              </div>
+              <div>
+                <label class="block text-[9px] font-semibold text-gray-600 dark:text-slate-400 mb-0.5">Auth
+                  Token</label>
+                <input type="password" [(ngModel)]="twilioTokenStep7" (ngModelChange)="onTwilioTokenChangeStep7()"
+                  placeholder="••••••••"
+                  class="w-full h-7 px-2 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md" />
+              </div>
+              <button type="button" (click)="playClick(); validateTwilioConfigStep7()"
+                [disabled]="isValidatingTwilioStep7 || !twilioSidStep7.trim() || !twilioTokenStep7.trim()"
+                class="w-full py-1.5 rounded-md bg-[#1E3A8A] hover:bg-[#1E40AF] text-white text-[10px] font-semibold disabled:opacity-50 flex items-center justify-center gap-1">
+                @if (isValidatingTwilioStep7) { Validando... }
+                @else if (twilioValidationStatusStep7 === 'success') { Validado }
+                @else if (twilioValidationStatusStep7 === 'error') { Error }
+                @else { Validar }
+              </button>
+              @if (twilioValidationStatusStep7 === 'error' && twilioErrorMessageStep7) {
+              <p class="text-[9px] text-red-500">{{ twilioErrorMessageStep7 }}</p>
+              }
+            </div>
+            }
+          </div>
+          }
+        </div>
+
+        <div class="w-full flex items-center justify-between mt-5">
+          <button type="button"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+            (click)="playClick(); goBack()">
+            <span class="text-xs leading-none">‹</span>
+            <span>Atrás</span>
+          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" [disabled]="!isTwilioPhoneCompleteStep7"
+              [class.opacity-50]="!isTwilioPhoneCompleteStep7" [class.cursor-not-allowed]="!isTwilioPhoneCompleteStep7"
+              class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white disabled:hover:bg-[#1E3A8A]"
+              (click)="playClick(); onContinueFromTwilioStep()">
+              Continuar
+            </button>
+            <button type="button"
+              class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white text-slate-700 dark:text-slate-100 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+              (click)="playClick(); onContinueFromTwilioStep()">
+              Saltar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 11: pantalla de bienvenida ocupando TODA la pantalla -->
+    <div *ngSwitchCase="11"
       class="relative w-full h-full bg-cover bg-no-repeat bg-[url('/assets/fondo_onboarding2.webp')] bg-[position:center_-140px] dark:bg-[url('/assets/fondo_modo_oscuro2.jpg')] dark:bg-center">
       <!-- Capa oscura negra y suave encima del fondo -->
       <div class="absolute inset-0 bg-black/5 ll-hero-bg-fade"></div>
