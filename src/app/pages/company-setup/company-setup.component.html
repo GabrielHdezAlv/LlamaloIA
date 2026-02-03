@@ -25,55 +25,44 @@
   </div>
 
   <ng-container [ngSwitch]="currentStep">
-    <!-- Paso 1: contenido original -->
+    <!-- Paso 1: ¿Qué quieres conseguir? (estilo unificado con el resto del onboarding) -->
     <div *ngSwitchCase="1"
-      class="w-full lg:w-1/2 min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
-      <div
-        class="w-full max-w-[480px] 3xl:max-w-[640px] h-full flex flex-col px-4 sm:px-5 md:px-6 3xl:px-10 py-4 sm:py-5 md:py-6 3xl:py-8 overflow-y-auto">
-        <!-- Logo tipo app icon + texto "Llamalo beta" -->
-        <div class="flex items-center gap-1.5 sm:gap-2 3xl:gap-3 mb-4 sm:mb-5 3xl:mb-7">
-          <div class="flex items-center justify-center">
-            <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-7 sm:h-8 3xl:h-12 w-auto dark:hidden" />
-            <img src="assets/logo_blanco.webp" alt="Llamalo Logo"
-              class="h-7 sm:h-8 3xl:h-12 w-auto hidden dark:block" />
-          </div>
-          <div class="flex flex-row items-baseline gap-1 3xl:gap-1.5 leading-none">
-            <span
-              class="font-poppins onboarding-logo-text text-xl sm:text-2xl 3xl:text-4xl font-bold text-blue-950 dark:text-white">Llamalo</span>
-            <span
-              class="font-poppins text-[8px] sm:text-[9px] 3xl:text-sm text-gray-700 dark:text-slate-300 font-bold block tracking-[-0.02em]">
-              beta
-            </span>
-          </div>
+      class="relative w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      <!-- Logo + Llamalo beta: esquina superior izquierda -->
+      <div class="absolute top-4 left-4 sm:top-5 sm:left-5 flex items-center gap-1.5 sm:gap-2 z-10">
+        <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 w-auto dark:hidden" />
+        <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 w-auto hidden dark:block" />
+        <div class="flex flex-row items-baseline gap-1 leading-none">
+          <span class="font-poppins text-lg sm:text-xl font-bold text-blue-950 dark:text-white">Llamalo</span>
+          <span
+            class="font-poppins text-[8px] sm:text-[9px] text-gray-700 dark:text-slate-300 font-bold tracking-tight">beta</span>
         </div>
+      </div>
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4 overflow-y-auto">
+        <!-- Título y descripción -->
+        <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
+          ¿Qué quieres conseguir con Llamalo?
+        </h1>
+        <p class="mt-0.5 text-[10px] sm:text-[10px] text-[#6d747c] font-semibold">
+          Puedes seleccionar varias opciones para esta pregunta.
+        </p>
 
-        <!-- Contenido animado (todo menos el logo) -->
+        <!-- Contenido animado -->
         <div class="flex flex-col flex-1 transition-all duration-500 ease-out" [ngClass]="
           isMainUsageAnimating
             ? 'opacity-0 translate-y-3 scale-[0.97]'
             : 'opacity-100 translate-y-0'
         ">
-          <!-- Título y descripción -->
-          <div class="mt-3 sm:mt-4 3xl:mt-6">
-            <h1
-              class="text-lg sm:text-xl xl:text-xl 3xl:text-3xl font-extrabold text-[#1E293B] dark:text-white leading-tight ">
-              ¿Qué quieres conseguir con<br class="hidden md:block" /> Llamalo?
-            </h1>
-            <p
-              class="mt-1.5 sm:mt-2 3xl:mt-3 text-[10px] sm:text-[11px] 3xl:text-base text-gray-500 dark:text-slate-400">
-              Puedes seleccionar varias opciones para esta pregunta.
-            </p>
-          </div>
 
           <!-- Grid de tarjetas -->
-          <div class="mt-3 sm:mt-4 3xl:mt-6 grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-2.5 3xl:gap-4">
+          <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
             <!-- Tarjeta 1 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition-all duration-500 ease-out"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition-all duration-500 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="[
             selectedMainUsages.includes('customer-service')
-              ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg',
+              ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+              : '',
             isMainUsageAnimating && mainUsageSelectedForTransition !== 'customer-service'
               ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
               : '',
@@ -98,10 +87,10 @@
                 </div>
                 <div *ngIf="selectedMainUsages.includes('customer-service')" class="ml-2 3xl:ml-3">
                   <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="3xl:w-6 3xl:h-6">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-6 3xl:h-6">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
@@ -116,11 +105,11 @@
 
             <!-- Tarjeta 2 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition-all duration-500 ease-out"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition-all duration-500 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="[
             selectedMainUsages.includes('cart-recovery')
-              ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg',
+              ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+              : '',
             isMainUsageAnimating && mainUsageSelectedForTransition !== 'cart-recovery'
               ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
               : '',
@@ -144,10 +133,11 @@
                   </svg>
                 </div>
                 <div *ngIf="selectedMainUsages.includes('cart-recovery')" class="ml-2 3xl:ml-3">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
@@ -162,11 +152,11 @@
 
             <!-- Tarjeta 3 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition-all duration-500 ease-out"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition-all duration-500 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="[
             selectedMainUsages.includes('phone-sales')
-              ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg',
+              ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+              : '',
             isMainUsageAnimating && mainUsageSelectedForTransition !== 'phone-sales'
               ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
               : '',
@@ -191,10 +181,10 @@
                 </div>
                 <div *ngIf="selectedMainUsages.includes('phone-sales')" class="ml-2 3xl:ml-3">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
@@ -209,11 +199,11 @@
 
             <!-- Tarjeta 4 (seleccionada por defecto) -->
             <div
-              class="rounded-lg bg-white px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition-all duration-500 ease-out"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition-all duration-500 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="[
             selectedMainUsages.includes('confirmations-reminders')
-              ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-              : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg',
+              ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+              : '',
             isMainUsageAnimating && mainUsageSelectedForTransition !== 'confirmations-reminders'
               ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
               : '',
@@ -239,10 +229,10 @@
                 </div>
                 <div *ngIf="selectedMainUsages.includes('confirmations-reminders')" class="ml-2 3xl:ml-3">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
@@ -257,7 +247,7 @@
 
           <!-- Opción Otro -->
           <div
-            class="mt-3 sm:mt-4 3xl:mt-6 rounded-lg border border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 px-3 sm:px-4 3xl:px-6 py-2 sm:py-2.5 3xl:py-3.5 shadow-sm hover:border-blue-600 hover:shadow-md cursor-pointer transition-all duration-500 ease-out text-[11px] sm:text-xs 3xl:text-base font-medium text-gray-900 dark:text-slate-50 flex items-center justify-between"
+            class="mt-3 rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-2.5 py-2 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md cursor-pointer transition-all duration-500 ease-out text-[11px] sm:text-xs font-medium text-gray-900 dark:text-slate-50 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
             [ngClass]="
             isMainUsageAnimating
               ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
@@ -273,77 +263,57 @@
             </div>
           </div>
 
-          <!-- Progreso y botones inferiores -->
-          <div class="mt-5 sm:mt-6 3xl:mt-8 flex items-center justify-between">
-            <!-- Dots de progreso -->
-            <div class="flex items-center gap-3 3xl:gap-4">
-              <span class="h-2.5 3xl:h-3 w-7 3xl:w-10 rounded-full bg-blue-900"></span>
-              <span class="h-2.5 3xl:h-3 w-2.5 3xl:w-3 rounded-full bg-gray-300 dark:bg-slate-700"></span>
-              <span class="h-2.5 3xl:h-3 w-2.5 3xl:w-3 rounded-full bg-gray-300 dark:bg-slate-700"></span>
-            </div>
-
-            <!-- Botones -->
-            <div class="flex items-center gap-4 sm:gap-6 3xl:gap-8 text-xs sm:text-sm 3xl:text-base font-medium">
-              <button type="button"
-                class="flex items-center gap-1 3xl:gap-1.5 text-slate-600 dark:text-slate-200 hover:text-slate-800 dark:hover:text-slate-50 transition-colors"
-                (click)="playClick(); goBack()">
-                <span class="text-base 3xl:text-xl leading-none">‹</span>
-                <span class="leading-none">Volver</span>
-              </button>
-
-            </div>
+          <!-- Botones (estilo unificado) -->
+          <div class="mt-4 flex items-center justify-between w-full">
+            <button type="button"
+              class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+              (click)="playClick(); goBack()">
+              <span class="text-xs leading-none">‹</span>
+              <span>Atrás</span>
+            </button>
+            <button type="button"
+              class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
+              (click)="playClick(); goToStep(2)">
+              Continuar
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Paso 2: "¿Cómo nos conociste?" -->
-    <!-- Misma estructura y espaciados que el paso 1 para que no se note el cambio -->
+    <!-- Paso 2: "¿Cómo nos conociste?" (estilo unificado con el resto del onboarding) -->
     <div *ngSwitchCase="2"
-      class="w-full lg:w-1/2 min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
-      <div
-        class="w-full max-w-[480px] 3xl:max-w-[640px] h-full flex flex-col px-4 sm:px-5 md:px-6 3xl:px-10 py-4 sm:py-5 md:py-6 3xl:py-8 overflow-y-auto">
-        <!-- Logo tipo app icon + texto "Llamalo beta" - SIN animación -->
-        <div class="flex items-center gap-1.5 sm:gap-2 3xl:gap-3 mb-4 sm:mb-5 3xl:mb-7">
-          <div class="flex items-center justify-center">
-            <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-7 sm:h-8 3xl:h-12 w-auto dark:hidden" />
-            <img src="assets/logo_blanco.webp" alt="Llamalo Logo"
-              class="h-7 sm:h-8 3xl:h-12 w-auto hidden dark:block" />
-          </div>
-          <div class="flex flex-row items-baseline gap-1 3xl:gap-1.5 leading-none">
-            <span
-              class="font-poppins onboarding-logo-text text-xl sm:text-2xl 3xl:text-4xl font-bold text-blue-950 dark:text-white">Llamalo</span>
-            <span
-              class="font-poppins text-[8px] sm:text-[9px] 3xl:text-sm text-gray-700 dark:text-slate-300 font-bold block tracking-[-0.02em]">
-              beta
-            </span>
-          </div>
+      class="relative w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      <!-- Logo + Llamalo beta: esquina superior izquierda -->
+      <div class="absolute top-4 left-4 sm:top-5 sm:left-5 flex items-center gap-1.5 sm:gap-2 z-10">
+        <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 w-auto dark:hidden" />
+        <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 w-auto hidden dark:block" />
+        <div class="flex flex-row items-baseline gap-1 leading-none">
+          <span class="font-poppins text-lg sm:text-xl font-bold text-blue-950 dark:text-white">Llamalo</span>
+          <span
+            class="font-poppins text-[8px] sm:text-[9px] text-gray-700 dark:text-slate-300 font-bold tracking-tight">beta</span>
         </div>
+      </div>
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4 overflow-y-auto">
+        <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
+          ¿Cómo nos conociste?
+        </h1>
+        <p class="mt-0.5 text-[10px] sm:text-[10px] text-[#6d747c] font-semibold">
+          Puedes seleccionar varias opciones para esta pregunta.
+        </p>
 
-        <!-- Contenido animado de la zona 2 (todo menos el logo) -->
-        <div class="flex flex-col flex-1 transition-all duration-700 ease-out"
+        <!-- Contenido -->
+        <div class="flex flex-col flex-1 transition-all duration-700 ease-out mt-3"
           [ngClass]="step2ContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'">
-          <!-- Título y descripción (misma separación que en paso 1: mt-8) -->
-          <div class="mt-3 sm:mt-4 3xl:mt-6">
-            <h1
-              class="text-lg sm:text-xl xl:text-xl 3xl:text-3xl font-extrabold text-[#0F172A] dark:text-white leading-tight ">
-              ¿Cómo nos conociste?
-            </h1>
-            <p
-              class="mt-1.5 sm:mt-2 3xl:mt-3 text-[10px] sm:text-[11px] 3xl:text-base text-gray-500 dark:text-slate-400">
-              Puedes seleccionar varias opciones para esta pregunta.
-            </p>
-          </div>
-
-          <!-- Lista de opciones (misma separación que en paso 1: mt-10) -->
-          <div class="mt-3 sm:mt-4 3xl:mt-6 flex flex-col gap-2 3xl:gap-3">
+          <!-- Lista de opciones -->
+          <div class="flex flex-col gap-2 mt-3">
             <!-- Opción 1: Redes sociales (con icono a la izquierda) -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="
               selectedDiscoveryChannels.includes('social')
-                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+                ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+                : ''
             " (click)="playClick(); toggleDiscoveryChannel('social')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
@@ -354,17 +324,17 @@
                       d="M16.5278 4.11288C15.6865 3.18837 15.1807 1.98289 15.1807 0.665039H14.1264M16.5278 4.11288C17.2946 4.95573 18.3328 5.56871 19.515 5.80873C19.8823 5.88535 20.2657 5.92626 20.665 5.92626V9.70605C18.6204 9.70605 16.7246 9.07785 15.1805 8.01536V15.7028C15.1805 19.544 11.9217 22.665 7.92279 22.665C5.8301 22.665 3.93979 21.8068 2.61392 20.443C1.40519 19.1967 0.665039 17.5314 0.665039 15.7028C0.665039 11.9178 3.82799 8.83264 7.74705 8.75091M16.5278 4.11288C16.5074 4.10008 16.487 4.08715 16.4666 4.07409M5.23913 17.5519C4.84511 17.0309 4.61081 16.3925 4.61081 15.6977C4.61081 13.9458 6.09643 12.5206 7.92289 12.5206C8.26366 12.5206 8.59376 12.5767 8.9026 12.6687V8.80715C8.5831 8.76624 8.25833 8.74068 7.92289 8.74068C7.86427 8.74068 7.39247 8.77076 7.33389 8.77076M14.1208 0.665039H11.2348L11.2295 15.8203C11.1656 17.5162 9.70654 18.88 7.92279 18.88C6.8152 18.88 5.84075 18.3539 5.23373 17.5571"
                       stroke="#1E3A8A" stroke-width="1.33" stroke-linejoin="round" />
                   </svg>
-                  <span class="text-[11px] sm:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-50">
+                  <span class="text-[9px] sm:text-[10px] font-semibold text-gray-900 dark:text-slate-50">
                     Redes sociales (Instagram / TikTok / Twitter / LinkedIn)
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('social')" class="ml-2 3xl:ml-3">
                   <!-- Mismo check que en zona 1 -->
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
@@ -372,11 +342,11 @@
 
             <!-- Opción 2 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="
               selectedDiscoveryChannels.includes('youtube')
-                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+                ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+                : ''
             " (click)="playClick(); toggleDiscoveryChannel('youtube')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
@@ -389,16 +359,16 @@
                     <path d="M13.933 10.0625L9.67578 12.563V7.56177L13.933 10.0625Z" stroke="#1E3A8A"
                       stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
-                  <span class="text-[11px] sm:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-50">
+                  <span class="text-[9px] sm:text-[10px] font-semibold text-gray-900 dark:text-slate-50">
                     YouTube
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('youtube')" class="ml-2 3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
@@ -406,11 +376,11 @@
 
             <!-- Opción 3 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="
               selectedDiscoveryChannels.includes('google')
-                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+                ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+                : ''
             " (click)="playClick(); toggleDiscoveryChannel('google')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
@@ -421,27 +391,28 @@
                       d="M16.8456 7.60946C16.9289 8.11646 16.9776 8.63729 16.9776 9.18587C16.9776 11.7206 16.0747 13.8595 14.5053 15.3109C13.1303 16.5817 11.2484 17.3317 8.9984 17.3317C5.74143 17.3317 2.92893 15.4567 1.56087 12.7345C0.991431 11.6095 0.665039 10.3456 0.665039 8.99837C0.665039 7.65112 0.991431 6.38726 1.56087 5.26226C2.92893 2.54004 5.74143 0.665039 8.9984 0.665039C11.2484 0.665039 13.1303 1.49143 14.5678 2.83865L12.1928 5.21366C11.3247 4.38726 10.2276 3.96365 8.9984 3.96365C6.82476 3.96365 4.98448 5.42893 4.32476 7.40812C4.1581 7.90812 4.06087 8.44279 4.06087 8.99837C4.06087 9.55396 4.15115 10.0886 4.32476 10.5886C4.98448 12.5678 6.82476 14.0331 8.9984 14.0331C10.1234 14.0331 11.0747 13.7275 11.8247 13.2275C12.6997 12.6373 13.2901 11.7692 13.4914 10.7415H8.9984V7.60946H16.8456Z"
                       stroke="#1E3A8A" stroke-width="1.33" stroke-linejoin="round" />
                   </svg>
-                  <span class="text-[11px] sm:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-50">
+                  <span class="text-[9px] sm:text-[10px] font-semibold text-gray-900 dark:text-slate-50">
                     Google / Buscando alternativas
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('google')" class="ml-2 3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
             </div>
 
             <!-- Opción 4 -->
-            <div class="rounded-lg bg-white px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition"
+            <div
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="
               selectedDiscoveryChannels.includes('communities')
-                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+                ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+                : ''
             " (click)="playClick(); toggleDiscoveryChannel('communities')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
@@ -452,27 +423,28 @@
                       d="M15.7449 3.61999C14.5983 3.09556 13.3805 2.71333 12.1095 2.5C11.9494 2.77556 11.7716 3.14888 11.6472 3.44223C10.2952 3.24666 8.95295 3.24666 7.61963 3.44223C7.49518 3.14888 7.3085 2.77556 7.15738 2.5C5.87741 2.71333 4.65963 3.09556 3.52097 3.61999C1.21875 7.01554 0.596524 10.3311 0.907634 13.6022C2.43652 14.7132 3.91208 15.3888 5.36187 15.8333C5.71742 15.3533 6.03743 14.8377 6.31298 14.2955C5.78853 14.1 5.29076 13.86 4.81076 13.5755C4.9352 13.4867 5.05965 13.3889 5.17521 13.2911C8.07298 14.6156 11.2116 14.6156 14.0739 13.2911C14.1983 13.3889 14.3139 13.4867 14.4383 13.5755C13.9583 13.86 13.4605 14.1 12.936 14.2955C13.2116 14.8377 13.5316 15.3533 13.8872 15.8333C15.336 15.3888 16.8205 14.7132 18.3414 13.6022C18.7236 9.81558 17.736 6.52668 15.7449 3.61999ZM6.71298 11.5844C5.84185 11.5844 5.13074 10.7933 5.13074 9.82442C5.13074 8.85558 5.82408 8.06442 6.71298 8.06442C7.59296 8.06442 8.31293 8.85558 8.29515 9.82442C8.29515 10.7933 7.59296 11.5844 6.71298 11.5844ZM12.5539 11.5844C11.6827 11.5844 10.9707 10.7933 10.9707 9.82442C10.9707 8.85558 11.665 8.06442 12.5539 8.06442C13.4339 8.06442 14.1539 8.85558 14.136 9.82442C14.136 10.7933 13.4428 11.5844 12.5539 11.5844Z"
                       stroke="#1E3A8A" stroke-width="1.33" stroke-linejoin="round" />
                   </svg>
-                  <span class="text-[11px] sm:text-xs 3xl:text-base font-semibold text-gray-900">
+                  <span class="text-[9px] sm:text-[10px] font-semibold text-gray-900">
                     Comunidades / Grupos (Slack, Discord, Telegram)
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('communities')" class="ml-2 3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
             </div>
 
             <!-- Opción 5 -->
-            <div class="rounded-lg bg-white px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition"
+            <div
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="
               selectedDiscoveryChannels.includes('events')
-                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+                ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+                : ''
             " (click)="playClick(); toggleDiscoveryChannel('events')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
@@ -513,27 +485,28 @@
                       d="M13.7558 11.136H14.1978C14.9559 11.136 15.5727 10.4955 15.5727 9.70826V9.24927C15.5727 8.462 14.9559 7.82153 14.1978 7.82153H13.7558C12.9976 7.82153 12.3809 8.46203 12.3809 9.24927V9.70826C12.3809 10.4955 12.9976 11.136 13.7558 11.136ZM13.3939 9.24927C13.3939 9.04208 13.5562 8.87355 13.7558 8.87355H14.1978C14.3973 8.87355 14.5596 9.04208 14.5596 9.24927V9.70826C14.5596 9.91545 14.3973 10.084 14.1978 10.084H13.7558C13.5562 10.084 13.3939 9.91545 13.3939 9.70826V9.24927Z"
                       fill="#1E3A8A" />
                   </svg>
-                  <span class="text-[11px] sm:text-xs 3xl:text-base font-semibold text-gray-900">
+                  <span class="text-[9px] sm:text-[10px] font-semibold text-gray-900">
                     Evento o webinar
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('events')" class="ml-2 3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
             </div>
 
             <!-- Opción 6 -->
-            <div class="rounded-lg bg-white px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition"
+            <div
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="
               selectedDiscoveryChannels.includes('friend')
-                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+                ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+                : ''
             " (click)="playClick(); toggleDiscoveryChannel('friend')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
@@ -547,27 +520,28 @@
                       d="M11.9167 15C11.9167 15.3222 12.1778 15.5833 12.5 15.5833C12.8222 15.5833 13.0833 15.3222 13.0833 15M11.9167 15H13.0833M11.9167 15V13.75M13.0833 15V13.75M2.75 15C2.75 15.3222 3.01117 15.5833 3.33333 15.5833C3.6555 15.5833 3.91667 15.3222 3.91667 15M2.75 15H3.91667M2.75 15V12.5M3.91667 15V12.5M3.91667 12.5C3.91667 12.1778 3.6555 11.9167 3.33333 11.9167C3.01117 11.9167 2.75 12.1778 2.75 12.5M3.91667 12.5H2.75M9 15C9 15.3222 9.26117 15.5833 9.58333 15.5833C9.9055 15.5833 10.1667 15.3222 10.1667 15M9 15H10.1667M9 15V12.5M10.1667 15V12.5M10.1667 12.5C10.1667 12.1778 9.9055 11.9167 9.58333 11.9167C9.26117 11.9167 9 12.1778 9 12.5M10.1667 12.5H9M8.53575 6.92708L8.20825 6.44442M8.20825 6.44442C8.93867 5.94883 9.41667 5.11347 9.41667 4.16667M8.20825 6.44442L8.86317 7.40983M8.20825 6.44442C7.76875 6.7425 7.23892 6.91667 6.66667 6.91667M12.2858 6.92708L11.9583 6.44442M11.9583 6.44442C12.6887 5.94883 13.1667 5.11347 13.1667 4.16667M11.9583 6.44442L12.6132 7.40983M11.9583 6.44442C11.5188 6.7425 10.9889 6.91667 10.4167 6.91667M1.41667 13.75V15H0.25V13.75M1.41667 13.75H0.25M1.41667 13.75C1.41667 11.5408 3.20753 9.75 5.41667 9.75M0.25 13.75C0.25 10.8965 2.56319 8.58333 5.41667 8.58333M5.41667 9.75H7.91667M5.41667 9.75V8.58333M7.91667 9.75V8.58333M7.91667 9.75C10.1258 9.75 11.9167 11.5408 11.9167 13.75M7.91667 9.75H11.6667M7.91667 8.58333H5.41667M7.91667 8.58333C10.7702 8.58333 13.0833 10.8965 13.0833 13.75M7.91667 8.58333H11.6667M11.9167 13.75H13.0833M11.6667 9.75V8.58333M11.6667 9.75C13.8758 9.75 15.6667 11.5408 15.6667 13.75M11.6667 8.58333C14.5202 8.58333 16.8333 10.8965 16.8333 13.75M15.6667 13.75V15H16.8333V13.75M15.6667 13.75H16.8333M6.66667 6.91667C5.14788 6.91667 3.91667 5.68546 3.91667 4.16667M6.66667 6.91667V8.08333M3.91667 4.16667H2.75M3.91667 4.16667C3.91667 2.64788 5.14788 1.41667 6.66667 1.41667M2.75 4.16667C2.75 6.32983 4.50355 8.08333 6.66667 8.08333M2.75 4.16667C2.75 2.00356 4.50355 0.25 6.66667 0.25M6.66667 8.08333C7.47975 8.08333 8.23658 7.83492 8.86317 7.40983M6.66667 1.41667V0.25M6.66667 1.41667C8.18542 1.41667 9.41667 2.64788 9.41667 4.16667M6.66667 0.25C8.82975 0.25 10.5833 2.00356 10.5833 4.16667M9.41667 4.16667H10.5833M10.5833 4.16667C10.5833 5.51644 9.90008 6.70642 8.86317 7.40983M10.4167 1.41667C11.9354 1.41667 13.1667 2.64788 13.1667 4.16667M10.4167 1.41667V0.25M10.4167 1.41667C9.76575 1.41667 9.16908 1.64208 8.69817 2.01958L7.9685 1.10928C8.63892 0.57185 9.491 0.25 10.4167 0.25M13.1667 4.16667H14.3333M14.3333 4.16667C14.3333 2.00356 12.5797 0.25 10.4167 0.25M14.3333 4.16667C14.3333 5.51644 13.6501 6.70642 12.6132 7.40983M12.6132 7.40983C11.9866 7.83492 11.2297 8.08333 10.4167 8.08333M10.4167 6.91667V8.08333M10.4167 6.91667C9.84442 6.91667 9.31458 6.7425 8.87508 6.44442L8.22017 7.40983C8.84675 7.83492 9.60358 8.08333 10.4167 8.08333"
                       stroke="#1E3A8A" stroke-width="0.5" />
                   </svg>
-                  <span class="text-[11px] sm:text-xs 3xl:text-base font-semibold text-gray-900">
+                  <span class="text-[9px] sm:text-[10px] font-semibold text-gray-900">
                     Recomendación de un amigo o colega
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('friend')" class="ml-2 3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
             </div>
 
             <!-- Opción 7 -->
-            <div class="rounded-lg bg-white px-2.5 sm:px-3 3xl:px-5 py-2.5 sm:py-3 3xl:py-4 cursor-pointer transition"
+            <div
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="
               selectedDiscoveryChannels.includes('other-source')
-                ? 'border-2 border-blue-900 shadow-[0_10px_30px_rgba(30,64,175,0.10)]'
-                : 'border-2 border-gray-200 shadow-sm hover:border-gray-300 hover:shadow-lg'
+                ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+                : ''
             " (click)="playClick(); toggleDiscoveryChannel('other-source')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
@@ -578,44 +552,35 @@
                       d="M5.31225 7.97344V3.125C5.31225 2.87636 5.21348 2.6379 5.03766 2.46209C4.86185 2.28627 4.62339 2.1875 4.37475 2.1875C4.12611 2.1875 3.88765 2.28627 3.71184 2.46209C3.53602 2.6379 3.43725 2.87636 3.43725 3.125V7.97344C2.88897 8.16734 2.41427 8.52645 2.07853 9.00131C1.74278 9.47617 1.5625 10.0434 1.5625 10.625C1.5625 11.2066 1.74278 11.7738 2.07853 12.2487C2.41427 12.7236 2.88897 13.0827 3.43725 13.2766V16.875C3.43725 17.1236 3.53602 17.3621 3.71184 17.5379C3.88765 17.7137 4.12611 17.8125 4.37475 17.8125C4.62339 17.8125 4.86185 17.7137 5.03766 17.5379C5.21348 17.3621 5.31225 17.1236 5.31225 16.875V13.2766C5.86054 13.0827 6.33523 12.7236 6.67098 12.2487C7.00672 11.7738 7.187 11.2066 7.187 10.625C7.187 10.0434 7.00672 9.47617 6.67098 9.00131C6.33523 8.52645 5.86054 8.16734 5.31225 7.97344ZM4.37475 11.5625C4.18933 11.5625 4.00808 11.5075 3.8539 11.4045C3.69973 11.3015 3.57957 11.1551 3.50861 10.9838C3.43766 10.8125 3.41909 10.624 3.45527 10.4421C3.49144 10.2602 3.58073 10.0932 3.71184 9.96209C3.84295 9.83098 4.01 9.74169 4.19185 9.70551C4.37371 9.66934 4.56221 9.68791 4.73352 9.75886C4.90482 9.82982 5.05124 9.94998 5.15425 10.1042C5.25727 10.2583 5.31225 10.4396 5.31225 10.625C5.31225 10.8736 5.21348 11.1121 5.03766 11.2879C4.86185 11.4637 4.62339 11.5625 4.37475 11.5625ZM12.8123 6.875C12.8114 6.29359 12.6308 5.72667 12.2951 5.25196C11.9594 4.77725 11.4851 4.41799 10.9373 4.22344V3.125C10.9373 2.87636 10.8385 2.6379 10.6627 2.46209C10.4868 2.28627 10.2484 2.1875 9.99975 2.1875C9.75111 2.1875 9.51265 2.28627 9.33684 2.46209C9.16102 2.6379 9.06225 2.87636 9.06225 3.125V4.22344C8.51397 4.41734 8.03927 4.77645 7.70353 5.25131C7.36778 5.72617 7.1875 6.29344 7.1875 6.875C7.1875 7.45656 7.36778 8.02383 7.70353 8.49869C8.03927 8.97355 8.51397 9.33266 9.06225 9.52656V16.875C9.06225 17.1236 9.16102 17.3621 9.33684 17.5379C9.51265 17.7137 9.75111 17.8125 9.99975 17.8125C10.2484 17.8125 10.4868 17.7137 10.6627 17.5379C10.8385 17.3621 10.9373 17.1236 10.9373 16.875V9.52656C11.4851 9.33201 11.9594 8.97275 12.2951 8.49804C12.6308 8.02333 12.8114 7.45641 12.8123 6.875ZM9.99975 7.8125C9.81433 7.8125 9.63308 7.75752 9.4789 7.6545C9.32473 7.55149 9.20457 7.40507 9.13361 7.23377C9.06266 7.06246 9.04409 6.87396 9.08027 6.6921C9.11644 6.51025 9.20573 6.3432 9.33684 6.21209C9.46795 6.08098 9.635 5.99169 9.81685 5.95551C9.99871 5.91934 10.1872 5.93791 10.3585 6.00886C10.5298 6.07982 10.6762 6.19998 10.7793 6.35415C10.8823 6.50832 10.9373 6.68958 10.9373 6.875C10.9373 7.12364 10.8385 7.3621 10.6627 7.53791C10.4868 7.71373 10.2484 7.8125 9.99975 7.8125ZM18.4373 13.125C18.4364 12.5436 18.2558 11.9767 17.9201 11.502C17.5844 11.0273 17.1101 10.668 16.5623 10.4734V3.125C16.5623 2.87636 16.4635 2.6379 16.2877 2.46209C16.1118 2.28627 15.8734 2.1875 15.6248 2.1875C15.3761 2.1875 15.1377 2.28627 14.9618 2.46209C14.786 2.6379 14.6873 2.87636 14.6873 3.125V10.4734C14.139 10.6673 13.6643 11.0264 13.3285 11.5013C12.9928 11.9762 12.8125 12.5434 12.8125 13.125C12.8125 13.7066 12.9928 14.2738 13.3285 14.7487C13.6643 15.2236 14.139 15.5827 14.6873 15.7766V16.875C14.6873 17.1236 14.786 17.3621 14.9618 17.5379C15.1377 17.7137 15.3761 17.8125 15.6248 17.8125C15.8734 17.8125 16.1118 17.7137 16.2877 17.5379C16.4635 17.3621 16.5623 17.1236 16.5623 16.875V15.7766C17.1101 15.582 17.5844 15.2227 17.9201 14.748C18.2558 14.2733 18.4364 13.7064 18.4373 13.125ZM15.6248 14.0625C15.4393 14.0625 15.2581 14.0075 15.1039 13.9045C14.9497 13.8015 14.8296 13.6551 14.7586 13.4838C14.6877 13.3125 14.6691 13.124 14.7053 12.9421C14.7414 12.7602 14.8307 12.5932 14.9618 12.4621C15.093 12.331 15.26 12.2417 15.4419 12.2055C15.6237 12.1693 15.8122 12.1879 15.9835 12.2589C16.1548 12.3298 16.3012 12.45 16.4043 12.6042C16.5073 12.7583 16.5623 12.9396 16.5623 13.125C16.5623 13.3736 16.4635 13.6121 16.2877 13.7879C16.1118 13.9637 15.8734 14.0625 15.6248 14.0625Z"
                       fill="#1E3A8A" />
                   </svg>
-                  <span class="text-[11px] sm:text-xs 3xl:text-base font-semibold text-gray-900">
+                  <span class="text-[9px] sm:text-[10px] font-semibold text-gray-900">
                     Otro
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('other-source')" class="ml-2 3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="#1E3A8A" />
+                      fill="currentColor" />
                   </svg>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Progreso y botones inferiores (misma separación que en paso 1: mt-8) -->
-          <div class="mt-5 sm:mt-6 3xl:mt-8 flex items-center justify-between">
-            <!-- Dots de progreso: segundo activo -->
-            <div class="flex items-center gap-3 3xl:gap-4">
-              <span class="h-2.5 3xl:h-3 w-2.5 3xl:w-3 rounded-full bg-gray-300"></span>
-              <span class="h-2.5 3xl:h-3 w-7 3xl:w-10 rounded-full bg-blue-900"></span>
-              <span class="h-2.5 3xl:h-3 w-2.5 3xl:w-3 rounded-full bg-gray-300"></span>
-            </div>
-
-            <!-- Botones -->
-            <div class="flex items-center gap-4 sm:gap-6 3xl:gap-8 text-xs sm:text-sm 3xl:text-base font-medium">
-              <button type="button"
-                class="flex items-center gap-1 3xl:gap-1.5 text-slate-600 dark:text-slate-200 hover:text-slate-800 dark:hover:text-slate-50 transition-colors"
-                (click)="playClick(); goBack()">
-                <span class="text-base 3xl:text-xl leading-none">‹</span>
-                <span class="leading-none">Volver</span>
-              </button>
-              <button type="button" class="text-blue-900 font-semibold hover:text-blue-900 transition-colors"
-                (click)="playClick(); startAgentIntroAnimation()">
-                Continuar
-              </button>
-            </div>
+          <!-- Botones (estilo unificado) -->
+          <div class="mt-4 flex items-center justify-between w-full">
+            <button type="button"
+              class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+              (click)="playClick(); goBack()">
+              <span class="text-xs leading-none">‹</span>
+              <span>Atrás</span>
+            </button>
+            <button type="button"
+              class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
+              (click)="playClick(); startAgentIntroAnimation()">
+              Continuar
+            </button>
           </div>
         </div>
       </div>
@@ -639,7 +604,7 @@
           <div class="relative">
             <input type="text" [(ngModel)]="agentName" [maxlength]="agentNameMaxLength"
               placeholder="Introduce el nombre del agente..."
-              class="w-full px-2.5 py-1.5 text-[10px] border border-gray-300 dark:border-white dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-1 focus:ring-black focus:border-transparent dark:focus:ring-white dark:focus:border-transparent outline-none transition" />
+              class="w-full px-2.5 py-1.5 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-1 focus:ring-black focus:border-transparent dark:focus:ring-white dark:focus:border-transparent outline-none transition" />
             <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-gray-400 dark:text-[#6d747c]">
               {{ agentName.length }}/{{ agentNameMaxLength }}
             </span>
@@ -648,7 +613,7 @@
 
         <div class="w-full flex items-center justify-between mt-4">
           <button type="button"
-            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-gray-300 dark:border-white dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent dark:bg-transparen"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-gray-300 dark:border-slate-600 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent dark:bg-transparen"
             (click)="playClick(); goBack()">
             <span class="text-xs leading-none">‹</span>
             <span>Atrás</span>
@@ -677,8 +642,8 @@
         <div class="grid grid-cols-2 gap-3 mt-4">
           <!-- Inbound -->
           <button type="button" (click)="playClick(); onSelectCallType('inbound')"
-            [class.border-blue-500]="selectedCallType === 'inbound'" [class.ring-2]="selectedCallType === 'inbound'"
-            class="w-full aspect-square max-h-[100px] rounded-lg border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-white f transition-all">
+            [ngClass]="{'ring-2 ring-blue-500 dark:ring-white border-blue-500 dark:border-white': selectedCallType === 'inbound'}"
+            class="w-full aspect-square max-h-[100px] rounded-lg border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-white transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white">
             <div class="text-gray-900 dark:text-white mb-1.5" [class.text-blue-600]="selectedCallType === 'inbound'"
               [class.dark:text-blue-400]="selectedCallType === 'inbound'">
               <svg class="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -696,8 +661,8 @@
 
           <!-- Outbound -->
           <button type="button" (click)="playClick(); onSelectCallType('outbound')"
-            [class.border-blue-500]="selectedCallType === 'outbound'" [class.ring-2]="selectedCallType === 'outbound'"
-            class="w-full aspect-square max-h-[100px] rounded-lg border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all">
+            [ngClass]="{'ring-2 ring-blue-500 dark:ring-white border-blue-500 dark:border-white': selectedCallType === 'outbound'}"
+            class="w-full aspect-square max-h-[100px] rounded-lg border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white">
             <div class="text-gray-900 dark:text-white mb-1.5" [class.text-blue-600]="selectedCallType === 'outbound'"
               [class.dark:text-blue-400]="selectedCallType === 'outbound'">
               <svg class="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -716,7 +681,7 @@
 
         <div class="w-full flex items-center justify-between mt-5">
           <button type="button"
-            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-slate-600"
             (click)="playClick(); goBack()">
             <span class="text-xs leading-none">‹</span>
             <span>Atrás</span>
@@ -747,7 +712,7 @@
           <div class="relative country-dropdown-step5">
             <label class="block text-[10px] font-semibold text-[#0F172A] dark:text-white mb-1">País</label>
             <button type="button" (click)="playClick(); toggleCountryDropdown($event)"
-              class="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left text-xs border border-gray-300 dark:border-white rounded-lg bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition shadow-sm">
+              class="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left text-xs border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition shadow-sm">
               <div class="flex items-center gap-2">
                 <!-- Bandera según país -->
                 @switch (selectedCountry) {
@@ -1199,7 +1164,7 @@
               <div class="flex-1 relative">
                 <button type="button" (click)="playClick(); toggleVoiceDropdown($event)"
                   [disabled]="voices.length === 0"
-                  class="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left text-xs border border-gray-300 dark:border-white rounded-lg bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                  class="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left text-xs border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
                   <span class="font-medium truncate">{{ selectedVoice?.name || 'Selecciona una voz' }}</span>
                   <svg class="w-3.5 h-3.5 flex-shrink-0 text-gray-500 dark:text-slate-400 transition-transform"
                     [class.rotate-180]="showVoiceDropdown" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1232,7 +1197,7 @@
                 }
               </div>
               <button type="button" (click)="playClick(); playVoice()" [disabled]="!selectedVoiceId"
-                class="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-white bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                class="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                 @if (currentPlayingVoice === selectedVoiceId) {
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <rect x="6" y="4" width="4" height="16" rx="1" />
@@ -1247,7 +1212,7 @@
               <!-- Botón 3 puntos (ajustes) -->
               <div class="relative flex-shrink-0 flex items-center">
                 <button type="button" (click)="playClick(); toggleVoiceParamsDropdown($event)"
-                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-white bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-300 transition-colors">
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-300 transition-colors">
                   <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <circle cx="12" cy="6" r="1.5" />
                     <circle cx="12" cy="12" r="1.5" />
@@ -1347,7 +1312,7 @@
 
         <div class="w-full flex items-center justify-between mt-5">
           <button type="button"
-            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-slate-600"
             (click)="playClick(); goBack()">
             <span class="text-xs leading-none">‹</span>
             <span>Atrás</span>
@@ -1374,7 +1339,7 @@
         </p>
 
         <div
-          class="mt-4 border border-gray-200 dark:border-white rounded-xl px-3 py-3 flex flex-col gap-3 bg-gray-50 dark:bg-slate-900/30">
+          class="mt-4 border border-gray-200 dark:border-slate-600 rounded-xl px-3 py-3 flex flex-col gap-3 bg-gray-50 dark:bg-slate-900/30">
           <div class="flex items-center gap-3">
             <div class="w-8 h-8 rounded-xl bg-white flex items-center justify-center shadow-sm">
               <img src="assets/shopify.webp" alt="Shopify Logo" class="w-4 h-5" />
@@ -1397,7 +1362,7 @@
 
         <div class="w-full flex items-center justify-between mt-5">
           <button type="button"
-            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-slate-600"
             (click)="playClick(); goBack()">
             <span class="text-xs leading-none">‹</span>
             <span>Atrás</span>
@@ -1435,26 +1400,79 @@
             <label class="block text-[10px] font-semibold text-[#0F172A]dark:text-[#6d747c] mb-1">Saludo
               personalizado</label>
             <input type="text" [(ngModel)]="greeting" name="greeting" placeholder="Hola, gracias por llamar a..."
-              class="w-full px-3 py-1.5 text-[11px] border border-gray-300 dark:border-white dark:bg-slate-800 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" />
+              class="w-full px-3 py-1.5 text-[11px] border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition-all" />
           </div>
           <div>
             <label class="block text-[10px] font-semibold text-[#0F172A] dark:text-white mb-1">Instrucciones del
               agente</label>
             <textarea [(ngModel)]="instructions" name="instructions" placeholder="Escribe aquí las instrucciones..."
               rows="8"
-              class="w-full px-3 py-4 text-[11px] border border-gray-300 dark:border-white dark:bg-slate-800 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none transition-all"></textarea>
+              class="w-full px-3 py-4 text-[11px] border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none resize-none transition-all"></textarea>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label class="block text-[10px] font-semibold text-[#0F172A] dark:text-white mb-1">Acciones externas
+            (Make)</label>
+          <div
+            class="border border-gray-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900/40 overflow-hidden">
+            <div class="flex items-start gap-2 px-3 py-2 hover:bg-gray-50 dark:hover:bg-slate-800/60 transition-colors">
+              <div class="flex items-center gap-2 min-w-0">
+                <img src="assets/make.webp" alt="Make" class="w-6 h-6 object-contain" />
+                <div class="min-w-0">
+                  <p class="text-[10px] font-semibold text-gray-900 dark:text-white leading-tight">
+                    Make
+                  </p>
+                  <p class="text-[9px] text-gray-500 dark:text-gray-400 leading-tight">
+                    Automatiza tus flujos
+                  </p>
+                </div>
+              </div>
+              <button type="button"
+                class="ml-auto px-2 py-1 text-[9px] rounded-md bg-black text-white dark:bg-white dark:text-[#000001] font-medium hover:bg-gray-800 dark:hover:bg-white transition-colors"
+                (click)="playClick(); toggleMakeConfigStep7()">
+                {{ showMakeConfigStep7 ? 'Cerrar' : 'Conectar' }}
+              </button>
+            </div>
+            @if (showMakeConfigStep7) {
+            <div class="px-3 pb-3 pt-2 border-t border-gray-200 dark:border-slate-700 space-y-2">
+              <div>
+                <label class="block text-[9px] font-semibold text-gray-600 dark:text-gray-300 mb-0.5">Nombre de la
+                  acción *</label>
+                <input type="text" [(ngModel)]="makeActionDataStep7.name" placeholder="Avisar equipo ventas"
+                  class="w-full h-7 px-2 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none" />
+              </div>
+              <div>
+                <label
+                  class="block text-[9px] font-semibold text-gray-600 dark:text-gray-300 mb-0.5">Descripción</label>
+                <textarea rows="2" [(ngModel)]="makeActionDataStep7.description" placeholder="Qué hace esta acción"
+                  class="w-full px-2 py-1 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none resize-none"></textarea>
+              </div>
+              <div>
+                <label class="block text-[9px] font-semibold text-gray-600 dark:text-gray-300 mb-0.5">URL del servidor
+                  *</label>
+                <input type="url" [(ngModel)]="makeActionDataStep7.serverUrl" placeholder="https://hook.make.com/..."
+                  class="w-full h-7 px-2 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none" />
+              </div>
+              <button type="button"
+                class="w-full px-2.5 py-1 text-[9px] rounded-md bg-black text-white dark:bg-white dark:text-[#000001] font-semibold hover:bg-gray-800 dark:hover:bg-white transition-colors"
+                (click)="playClick(); onSaveMakeActionStep7()">
+                Guardar acción
+              </button>
+            </div>
+            }
           </div>
         </div>
 
         <div class="w-full flex items-center justify-between mt-5">
           <button type="button"
-            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-slate-600"
             (click)="playClick(); goBack()">
             <span class="text-xs leading-none">‹</span>
             <span>Atrás</span>
           </button>
           <button type="button"
-            class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
+            class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
             (click)="playClick(); onContinueFromInstructionsStep()">
             Continuar
           </button>
@@ -1476,9 +1494,8 @@
         <div class="grid grid-cols-2 gap-3 mt-4">
           <!-- PDF -->
           <button type="button" (click)="playClick(); selectKnowledgeSource('pdf')"
-            [class.border-blue-500]="selectedKnowledgeSource === 'pdf'"
-            [class.ring-2]="selectedKnowledgeSource === 'pdf'"
-            class="w-full aspect-square max-h-[100px] rounded-lg border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all">
+            [ngClass]="{'ring-2 ring-blue-500 dark:ring-white border-blue-500 dark:border-white': selectedKnowledgeSource === 'pdf'}"
+            class="w-full aspect-square max-h-[100px] rounded-lg border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white">
             <div class="text-gray-900 dark:text-white mb-1.5" [class.text-blue-600]="selectedKnowledgeSource === 'pdf'"
               [class.dark:text-blue-400]="selectedKnowledgeSource === 'pdf'">
               <svg class="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1501,9 +1518,8 @@
 
           <!-- Web -->
           <button type="button" (click)="playClick(); selectKnowledgeSource('web')"
-            [class.border-blue-500]="selectedKnowledgeSource === 'web'"
-            [class.ring-2]="selectedKnowledgeSource === 'web'"
-            class="w-full aspect-square max-h-[100px] rounded-lg border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all">
+            [ngClass]="{'ring-2 ring-blue-500 dark:ring-white border-blue-500 dark:border-white': selectedKnowledgeSource === 'web'}"
+            class="w-full aspect-square max-h-[100px] rounded-lg border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white">
             <div class="text-gray-900 dark:text-white mb-1.5 web-icon-wrap-step8"
               [class.text-blue-600]="selectedKnowledgeSource === 'web'"
               [class.dark:text-blue-400]="selectedKnowledgeSource === 'web'">
@@ -1522,7 +1538,7 @@
 
         <div class="w-full flex items-center justify-between mt-5">
           <button type="button"
-            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-slate-600"
             (click)="playClick(); goBack()">
             <span class="text-xs leading-none">‹</span>
             <span>Atrás</span>
@@ -1577,7 +1593,7 @@
           </div>
           <div class="w-full flex items-center justify-between">
             <button type="button"
-              class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+              class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-slate-600"
               (click)="playClick(); goBack()">
               <span class="text-xs leading-none">‹</span>
               <span>Atrás</span>
@@ -1605,8 +1621,7 @@
 
         <div
           class="mt-4 border border-gray-200 dark:border-slate-600 rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-900/30">
-          <div
-            class="flex items-center justify-between gap-3 px-3 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-800/50 transition-colors"
+          <div class="flex items-center justify-between gap-3 px-3 py-3 cursor-pointer  transition-colors"
             (click)="playClick(); toggleTwilioConfigStep7()">
             <div class="flex items-center gap-3">
               <div
@@ -1623,13 +1638,13 @@
               </div>
             </div>
             <button type="button" (click)="playClick(); onTwilioConnectButtonClickStep7($event)"
-              class="px-2.5 py-1 rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white dark:bg-white dark:text-[#000001] dark:hover:bg-gray-200 text-[10px] font-semibold transition-colors shrink-0">
+              class="px-2.5 py-1 rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white dark:bg-white dark:text-[#000001] dark:hover:bg-white text-[10px] font-semibold transition-colors shrink-0">
               {{ showTwilioConfigStep7 ? 'Cerrar' : 'Conectar' }}
             </button>
           </div>
 
           @if (showTwilioConfigStep7) {
-          <div class="px-3 pb-3 pt-0 border-t border-gray-200 dark:border-slate-600 space-y-2">
+          <div class="px-3 pb-3 pt-0 space-y-2">
             @if (loadingTwilioAccounts) {
             <div class="flex justify-center py-3">
               <div class="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-[#1E3A8A]"></div>
@@ -1728,7 +1743,7 @@
 
         <div class="w-full flex items-center justify-between mt-5">
           <button type="button"
-            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+            class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-slate-600"
             (click)="playClick(); goBack()">
             <span class="text-xs leading-none">‹</span>
             <span>Atrás</span>
@@ -1740,11 +1755,7 @@
               (click)="playClick(); onContinueFromTwilioStep()">
               Continuar
             </button>
-            <button type="button"
-              class="px-2.5 py-0.5 text-[9px] sm:text-[10px] rounded-[5px] bg-transparent border border-gray-300 dark:border-white text-slate-700 dark:text-slate-100 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
-              (click)="playClick(); onContinueFromTwilioStep()">
-              Saltar
-            </button>
+
           </div>
         </div>
       </div>

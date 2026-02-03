@@ -176,6 +176,12 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   // Paso 7: Instrucciones
   greeting = '';
   instructions = '';
+  showMakeConfigStep7 = false;
+  makeActionDataStep7 = {
+    name: '',
+    description: '',
+    serverUrl: ''
+  };
 
   // Paso 8: Base de conocimientos (PDF / Web)
   selectedKnowledgeSource: 'pdf' | 'web' | null = null;
@@ -530,6 +536,25 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   // Paso 7: Instrucciones -> paso 8 Base de conocimientos
   onContinueFromInstructionsStep() {
     this.goToStep(8);
+  }
+
+  toggleMakeConfigStep7() {
+    this.showMakeConfigStep7 = !this.showMakeConfigStep7;
+  }
+
+  onSaveMakeActionStep7() {
+    const { name, description, serverUrl } = this.makeActionDataStep7;
+    if (!name.trim() || !serverUrl.trim()) {
+      this.snackBar.open('Completa nombre y URL del servidor para guardar.', 'Cerrar', {
+        duration: 2500
+      });
+      return;
+    }
+
+    this.snackBar.open('Acción de Make guardada.', 'Cerrar', {
+      duration: 2000
+    });
+    this.showMakeConfigStep7 = false;
   }
 
   // Paso 8: Base de conocimientos -> paso 9 Prueba de agente
