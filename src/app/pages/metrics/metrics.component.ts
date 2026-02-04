@@ -144,7 +144,7 @@ export class MetricsComponent implements OnInit {
   callsAreaDataLabels: ApexDataLabels = { enabled: false };
   callsAreaGrid: ApexGrid = {
     strokeDashArray: 3,
-    borderColor: '#E5E7EB',
+    borderColor: 'rgba(229, 231, 235, 0.3)',
     xaxis: { lines: { show: false } },
     yaxis: { lines: { show: true } },
     padding: {
@@ -155,8 +155,8 @@ export class MetricsComponent implements OnInit {
   };
   callsAreaXAxis: ApexXAxis = {
     categories: this.getCurrentCategories(),
-    axisBorder: { show: true },
-    axisTicks: { show: true },
+    axisBorder: { show: false },
+    axisTicks: { show: false },
     labels: {
       show: true,
       style: {
