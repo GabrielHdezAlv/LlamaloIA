@@ -16,7 +16,7 @@ import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { log } from 'console';
 import { ModalService } from '../../shared/modals/modal.service';
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
-import { AccountStatus } from '../../shared/models/account-status.enum';
+import { ACCOUNT_STATUS } from '../../shared/models/account-status.enum';
 
 @Component({
   selector: 'app-auth-form',
@@ -248,7 +248,7 @@ export class AuthFormComponent implements OnInit {
       password: this.password,
       country: this.country, // NUEVO - Requerido
       marketingConsent: this.marketingConsent, // NUEVO - Requerido
-      accountStatus: AccountStatus.UNVERIFIED, // NUEVO: Por defecto No validado (3) para nuevos usuarios hasta que verifiquen email
+      accountStatus: ACCOUNT_STATUS.UNVERIFIED, // NUEVO: Por defecto No validado (3) para nuevos usuarios hasta que verifiquen email
     };
 
     this.userService.RegisterUser(user).subscribe({

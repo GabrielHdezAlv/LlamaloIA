@@ -1,4 +1,4 @@
-import { AccountStatus } from './account-status.enum';
+import { ACCOUNT_STATUS } from './account-status.enum';
 
 export class User {
   userId?: string;
@@ -8,7 +8,7 @@ export class User {
   enterprise?: { name: string; url: string };
   country?: string; // ✅ NUEVO - Opcional
   marketingConsent?: boolean; // ✅ NUEVO - Opcional
-  accountStatus?: AccountStatus; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
+  accountStatus?: number; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   email?: string; // Opcional porque puede venir undefined del perfil
   password?: string; // Opcional porque no viene del perfil del usuario
