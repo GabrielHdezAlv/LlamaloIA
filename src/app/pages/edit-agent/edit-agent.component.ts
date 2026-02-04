@@ -23,6 +23,11 @@ import { Agent, SetAgentConfigDto } from '../../shared/models/agent.model';
 import { Voice } from '../../shared/models/voice.model';
 import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
 import { TwilioService } from '../../core/services/twilio.service';
+import type {
+  TwilioAccount,
+  TwilioConfig,
+} from '../../shared/models/twilio-config.model';
+import type { UserProfileResponseDto } from '../../shared/models/user-profile-response.dto';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -57,6 +62,23 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   languages: any[] = [];
   agent: Agent | null = null;
   agentId: number | null = null;
+
+  activeTab: 'main' | 'connections' = 'main';
+
+  twilioAccounts: TwilioAccount[] = [];
+  isLoadingTwilioInfo = false;
+
+  showTwilioModal = false;
+  twilioModalMode: 'existing' | 'new' = 'existing';
+  selectedTwilioAccountId: number | null = null;
+  twilioSid = '';
+  twilioToken = '';
+  isSavingTwilioConfig = false;
+
+  shopifyStores: string[] = [];
+  isLoadingShopifyStores = false;
+  selectedShopifyDomain = '';
+  isSavingShopifyDomain = false;
 
   // Audio
   audioLevel = 0;
@@ -140,6 +162,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       );
       return;
     }
+
+    this.loadTwilioInfo();
+
+    this.loadShopifyStores();
 
     // Cargar voces
     this.agentsService.getVoices().subscribe({
@@ -252,6 +278,204 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.setupPhoneValidation();
   }
 
+  private loadShopifyStores(): void {
+    this.isLoadingShopifyStores = true;
+    this.userService
+      .getUserProfile()
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError((error) => {
+          console.error('Error al cargar tiendas Shopify:', error);
+          return of(null as UserProfileResponseDto | null);
+        }),
+      )
+      .subscribe((profile) => {
+        this.isLoadingShopifyStores = false;
+        const stores = profile?.integrations?.shopify;
+        if (stores && Array.isArray(stores)) {
+          this.shopifyStores = stores
+            .filter((s) => s?.connected === true && !!s?.shopDomain)
+            .map((s) => String(s!.shopDomain));
+        } else {
+          this.shopifyStores = [];
+        }
+      });
+  }
+
+  setActiveTab(tab: 'main' | 'connections'): void {
+    this.activeTab = tab;
+  }
+
+  get agentShopifyDomain(): string | null {
+    return this.agent?.shopifyDomain ?? null;
+  }
+
+  get agentTwilioAccountId(): number | null {
+    if (!this.agent) return null;
+    const anyAgent = this.agent as any;
+    const direct = anyAgent?.twilioAccountId;
+    if (typeof direct === 'number') return direct;
+    const phoneLevel = anyAgent?.phoneNumbers?.twilioAccountId;
+    if (typeof phoneLevel === 'number') return phoneLevel;
+    return null;
+  }
+
+  get agentTwilioAccount(): TwilioAccount | null {
+    const id = this.agentTwilioAccountId;
+    if (id == null) return null;
+    return this.twilioAccounts.find((a) => a.twilioAccountId === id) || null;
+  }
+
+  openTwilioModal(): void {
+    this.showTwilioModal = true;
+    const existingId = this.agentTwilioAccountId;
+    this.selectedTwilioAccountId = existingId ?? null;
+    this.twilioModalMode = this.twilioAccounts.length > 0 ? 'existing' : 'new';
+    this.twilioSid = '';
+    this.twilioToken = '';
+  }
+
+  closeTwilioModal(): void {
+    this.showTwilioModal = false;
+    this.isSavingTwilioConfig = false;
+  }
+
+  setTwilioModalMode(mode: 'existing' | 'new'): void {
+    this.twilioModalMode = mode;
+  }
+
+  private assignTwilioAccountToAgent(twilioAccountId: number | null): void {
+    if (!this.agentId) return;
+    if (!this.editForm.valid) {
+      this.modalService.openError({
+        title: 'No se puede guardar',
+        message: 'Revisa los campos del agente antes de asignar Twilio.',
+      });
+      return;
+    }
+
+    const formValue = this.editForm.value;
+    const newCountryCode = this.selectedCountryCode;
+    const newNumberDigits = formValue.phoneNumber
+      ? String(formValue.phoneNumber).replace(/\D/g, '')
+      : '';
+
+    const updateData: SetAgentConfigDto = {
+      name: String(formValue.name || '').trim(),
+      language: formValue.language,
+      type: formValue.type,
+      voiceId: formValue.voiceId,
+      firstInteraction: String(formValue.firstInteraction || '').trim(),
+      agentInstruction: String(formValue.agentInstruction || '').trim(),
+      phoneNumbers: {
+        countryCode: newCountryCode,
+        number: parseInt(newNumberDigits || '0', 10),
+      },
+      label: String(formValue.label || '').trim(),
+      state: formValue.state,
+      parameters: {
+        stability: formValue.stability,
+        similarity: formValue.similarity,
+        style: formValue.style,
+        boost: formValue.boost,
+        speed: formValue.speed,
+      },
+    };
+
+    (updateData as any).twilioAccountId = twilioAccountId;
+
+    this.isSavingTwilioConfig = true;
+    this.agentsService.updateAgent(this.agentId, updateData).subscribe({
+      next: (response) => {
+        this.isSavingTwilioConfig = false;
+        this.agent = response.agent;
+        const anyAgent = this.agent as any;
+        anyAgent.twilioAccountId = twilioAccountId;
+        this.modalService.openSuccess({
+          title: 'Twilio actualizado',
+          message: 'La cuenta de Twilio del agente se actualizó correctamente.',
+        });
+        this.closeTwilioModal();
+      },
+      error: (error) => {
+        console.error('❌ Error al actualizar Twilio del agente:', error);
+        this.isSavingTwilioConfig = false;
+        const anyAgent = this.agent as any;
+        if (anyAgent) {
+          anyAgent.twilioAccountId = twilioAccountId;
+        }
+        this.modalService.openError({
+          title: 'Error',
+          message: 'No se pudo actualizar la cuenta de Twilio del agente.',
+        });
+      },
+    });
+  }
+
+  saveTwilioModal(): void {
+    if (this.twilioModalMode === 'existing') {
+      this.assignTwilioAccountToAgent(this.selectedTwilioAccountId);
+      return;
+    }
+
+    const sid = this.twilioSid.trim();
+    const token = this.twilioToken.trim();
+
+    if (!sid || !token) {
+      this.modalService.openError({
+        title: 'Error',
+        message: 'Completa el SID y el Token de Twilio.',
+      });
+      return;
+    }
+
+    this.isSavingTwilioConfig = true;
+    this.twilioService
+      .setConfig({ twilioSid: sid, twilioToken: token })
+      .subscribe({
+        next: () => {
+          this.loadTwilioInfo();
+          this.twilioService
+            .getInfo()
+            .pipe(
+              takeUntil(this.destroy$),
+              catchError(() => of(null as TwilioConfig | null)),
+            )
+            .subscribe((config) => {
+              const accounts = config?.accounts || [];
+              const match = accounts.find((a) => a.twilioSid === sid) || null;
+              this.selectedTwilioAccountId = match?.twilioAccountId ?? null;
+              this.assignTwilioAccountToAgent(this.selectedTwilioAccountId);
+            });
+        },
+        error: (error) => {
+          console.error('❌ Error al guardar configuración Twilio:', error);
+          this.isSavingTwilioConfig = false;
+          this.modalService.openError({
+            title: 'Error',
+            message: 'No se pudo guardar la configuración de Twilio.',
+          });
+        },
+      });
+  }
+
+  private loadTwilioInfo(): void {
+    this.isLoadingTwilioInfo = true;
+    this.twilioService
+      .getInfo()
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError((error) => {
+          console.error('Error al cargar Twilio info:', error);
+          return of(null as TwilioConfig | null);
+        }),
+      )
+      .subscribe((config) => {
+        this.isLoadingTwilioInfo = false;
+        this.twilioAccounts = config?.accounts || [];
+      });
+  }
+
   ngOnDestroy(): void {
     if (this.audioActual) {
       this.audioActual.pause();
@@ -289,6 +513,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         }
 
         this.agent = agent;
+        this.selectedShopifyDomain = (agent as any)?.shopifyDomain || '';
         this.populateForm();
       },
       error: (error) => {
@@ -734,6 +959,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         },
       };
 
+      const shopifyDomain = this.selectedShopifyDomain?.trim();
+      if (shopifyDomain) {
+        (updateData as any).shopifyDomain = shopifyDomain;
+      } else {
+        (updateData as any).shopifyDomain = null;
+      }
+
       this.isLoading = true;
       this.agentsService.updateAgent(this.agentId!, updateData).subscribe({
         next: (response) => {
@@ -776,6 +1008,84 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         this.editForm.get(key)?.markAsTouched();
       });
     }
+  }
+
+  saveShopifyDomain(): void {
+    if (!this.agentId) return;
+
+    if (!this.editForm.valid) {
+      this.modalService.openError({
+        title: 'No se puede guardar',
+        message: 'Revisa los campos del agente antes de guardar la tienda.',
+      });
+      return;
+    }
+
+    const formValue = this.editForm.value;
+    const newCountryCode = this.selectedCountryCode;
+    const newNumberDigits = formValue.phoneNumber
+      ? String(formValue.phoneNumber).replace(/\D/g, '')
+      : '';
+
+    const updateData: SetAgentConfigDto = {
+      name: String(formValue.name || '').trim(),
+      language: formValue.language,
+      type: formValue.type,
+      voiceId: formValue.voiceId,
+      firstInteraction: String(formValue.firstInteraction || '').trim(),
+      agentInstruction: String(formValue.agentInstruction || '').trim(),
+      phoneNumbers: {
+        countryCode: newCountryCode,
+        number: parseInt(newNumberDigits || '0', 10),
+      },
+      label: String(formValue.label || '').trim(),
+      state: formValue.state,
+      parameters: {
+        stability: formValue.stability,
+        similarity: formValue.similarity,
+        style: formValue.style,
+        boost: formValue.boost,
+        speed: formValue.speed,
+      },
+    };
+
+    const shopifyDomain = this.selectedShopifyDomain?.trim();
+    if (shopifyDomain) {
+      (updateData as any).shopifyDomain = shopifyDomain;
+    } else {
+      (updateData as any).shopifyDomain = null;
+    }
+
+    this.isSavingShopifyDomain = true;
+    this.agentsService.updateAgent(this.agentId, updateData).subscribe({
+      next: (response) => {
+        this.isSavingShopifyDomain = false;
+        this.agent = response.agent;
+        this.modalService.openSuccess({
+          title: 'Shopify actualizado',
+          message:
+            'La tienda de Shopify del agente se actualizó correctamente.',
+        });
+      },
+      error: (error) => {
+        console.error('❌ Error al actualizar Shopify del agente:', error);
+        this.isSavingShopifyDomain = false;
+        this.modalService.openError({
+          title: 'Error',
+          message: 'No se pudo actualizar la tienda de Shopify del agente.',
+        });
+      },
+    });
+  }
+
+  goToShopifyOnboarding(): void {
+    this.router.navigate(['/shopify-onboarding']);
+  }
+
+  goToTwilioConnections(): void {
+    this.router.navigate(['/dashboard/account'], {
+      queryParams: { tab: 'connections' },
+    });
   }
 
   goBack(): void {

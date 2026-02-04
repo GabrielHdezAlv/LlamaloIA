@@ -1,4 +1,10 @@
-import { Component, inject, computed, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  inject,
+  computed,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
@@ -14,7 +20,13 @@ import { TwilioService } from '../../core/services/twilio.service';
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [FormsModule, MatSnackBarModule, CommonModule, RippleButtonComponent, AnimatedCheckboxComponent],
+  imports: [
+    FormsModule,
+    MatSnackBarModule,
+    CommonModule,
+    RippleButtonComponent,
+    AnimatedCheckboxComponent,
+  ],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss', './billing-modal-blur.scss'],
 })
@@ -27,7 +39,8 @@ export class AccountComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private twilioService = inject(TwilioService);
 
-  activeTab: 'profile' | 'security' | 'billing' | 'gifts' | 'connections' = 'profile';
+  activeTab: 'profile' | 'security' | 'billing' | 'gifts' | 'connections' =
+    'profile';
   showBillingModal = false;
   showAvatarModal = false;
 
@@ -43,8 +56,6 @@ export class AccountComponent implements OnInit {
     'assets/animoji_8.webp',
     'assets/animoji_9.webp',
     'assets/animoji_10.webp',
-
-
   ];
 
   // Campos de contraseña
@@ -83,9 +94,13 @@ export class AccountComponent implements OnInit {
   showTwilioConfig = false;
   twilioSid = '';
   twilioToken = '';
-  twilioAccountId?: number;  // ⚠️ NUEVO: para editar cuenta existente
+  twilioAccountId?: number; // ⚠️ NUEVO: para editar cuenta existente
   isLoadingTwilio = false;
-  twilioAccounts: Array<{ twilioAccountId: number; twilioSid: string; twilioToken: string }> = [];
+  twilioAccounts: Array<{
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  }> = [];
 
   // Usuario actual
   private userStore = inject(UserStorage);
@@ -102,17 +117,19 @@ export class AccountComponent implements OnInit {
   email = computed(() => this.user()?.email ?? '');
 
   // Información de eliminación programada
-  scheduledDeletionDate = computed(() => this.user()?.scheduledDeletionDate ?? null);
-  
+  scheduledDeletionDate = computed(
+    () => this.user()?.scheduledDeletionDate ?? null,
+  );
+
   daysRemaining = computed(() => {
     const deletionDate = this.scheduledDeletionDate();
     if (!deletionDate) return null;
-    
+
     const now = new Date();
     const deletion = new Date(deletionDate);
     const diffTime = deletion.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     return diffDays > 0 ? diffDays : 0;
   });
 
@@ -122,7 +139,9 @@ export class AccountComponent implements OnInit {
   }
 
   // Método para cambiar de pestaña
-  setActiveTab(tab: 'profile' | 'security' | 'billing' | 'gifts' | 'connections') {
+  setActiveTab(
+    tab: 'profile' | 'security' | 'billing' | 'gifts' | 'connections',
+  ) {
     this.activeTab = tab;
     // Cargar cuentas de Twilio cuando se abre la pestaña de conexiones
     if (tab === 'connections') {
@@ -154,13 +173,13 @@ export class AccountComponent implements OnInit {
       // Inicializar enterprise como objeto
       this.tempEnterprise = user.enterprise || { name: '', url: '' };
       this.tempProfileImage = user.profileImage || '';
-      
+
       // Cargar cuentas de Twilio si el usuario tiene
       if (user.twilio && Array.isArray(user.twilio)) {
-        this.twilioAccounts = user.twilio.map(account => ({
+        this.twilioAccounts = user.twilio.map((account) => ({
           twilioAccountId: account.twilioAccountId,
           twilioSid: account.twilioSid,
-          twilioToken: account.twilioToken
+          twilioToken: account.twilioToken,
         }));
       }
     }
@@ -171,7 +190,7 @@ export class AccountComponent implements OnInit {
     }, 100);
 
     // Verificar si hay parámetros de consulta para activar una pestaña específica
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       console.log('Query params:', params); // Debug log
       if (params['tab'] === 'gifts') {
         console.log('Activating gifts tab'); // Debug log
@@ -181,7 +200,18 @@ export class AccountComponent implements OnInit {
           this.router.navigate([], {
             relativeTo: this.route,
             queryParams: {},
-            replaceUrl: true
+            replaceUrl: true,
+          });
+        }, 10);
+      }
+
+      if (params['tab'] === 'connections') {
+        this.setActiveTab('connections');
+        setTimeout(() => {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: {},
+            replaceUrl: true,
           });
         }, 10);
       }
@@ -218,36 +248,39 @@ export class AccountComponent implements OnInit {
     }
 
     // Llamar al endpoint para cambiar la contraseña
-    this.userService.changePassword(this.newPassword, this.confirmPassword).subscribe({
-      next: (response) => {
-        // Mostrar modal de éxito
-        this.modalService.openPasswordSuccess({
-          title: 'Contraseña actualizada',
-          message: 'Tu contraseña ha sido actualizada correctamente. Te recomendamos cerrar sesión y volver a iniciar sesión con tu nueva contraseña.',
-          showContinueButton: true,
-          continueButtonText: 'Entendido'
-        });
+    this.userService
+      .changePassword(this.newPassword, this.confirmPassword)
+      .subscribe({
+        next: (response) => {
+          // Mostrar modal de éxito
+          this.modalService.openPasswordSuccess({
+            title: 'Contraseña actualizada',
+            message:
+              'Tu contraseña ha sido actualizada correctamente. Te recomendamos cerrar sesión y volver a iniciar sesión con tu nueva contraseña.',
+            showContinueButton: true,
+            continueButtonText: 'Entendido',
+          });
 
-        // Limpiar los campos después del éxito
-        this.newPassword = '';
-        this.confirmPassword = '';
-      },
-      error: (error) => {
-        // Manejar errores del backend
-        let errorMessage = 'Error al actualizar la contraseña';
-        
-        if (error?.error?.message) {
-          errorMessage = error.error.message;
-        } else if (error?.message) {
-          errorMessage = error.message;
-        }
+          // Limpiar los campos después del éxito
+          this.newPassword = '';
+          this.confirmPassword = '';
+        },
+        error: (error) => {
+          // Manejar errores del backend
+          let errorMessage = 'Error al actualizar la contraseña';
 
-        this.modalService.openError({
-          title: 'Error',
-          message: errorMessage,
-        });
-      }
-    });
+          if (error?.error?.message) {
+            errorMessage = error.error.message;
+          } else if (error?.message) {
+            errorMessage = error.message;
+          }
+
+          this.modalService.openError({
+            title: 'Error',
+            message: errorMessage,
+          });
+        },
+      });
   }
 
   onAvatarClick() {
@@ -273,7 +306,7 @@ export class AccountComponent implements OnInit {
       const fullNameParts = this.tempFullName.trim().split(/\s+/);
       let name = '';
       let lastname = '';
-      
+
       if (fullNameParts.length > 0) {
         name = fullNameParts[0];
         if (fullNameParts.length > 1) {
@@ -285,7 +318,7 @@ export class AccountComponent implements OnInit {
       // Construir el objeto enterprise con los valores de los inputs
       const enterprise = {
         name: this.tempEnterprise.name || '',
-        url: this.tempEnterprise.url || ''
+        url: this.tempEnterprise.url || '',
       };
 
       // Actualizar perfil con country y marketingConsent (ahora permitidos)
@@ -330,7 +363,7 @@ export class AccountComponent implements OnInit {
     if (!file.type.startsWith('image/')) {
       this.showNotification(
         'Por favor, selecciona un archivo de imagen válido',
-        'error'
+        'error',
       );
       return;
     }
@@ -360,7 +393,7 @@ export class AccountComponent implements OnInit {
         console.error('Error al subir imagen:', error);
         this.showNotification(
           'Error al subir la imagen. Inténtalo de nuevo.',
-          'error'
+          'error',
         );
       },
     });
@@ -370,18 +403,19 @@ export class AccountComponent implements OnInit {
   deleteAccount() {
     const dialogRef = this.modalService.openDeleteAccount({
       userName: this.fullName(),
-      message: '¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.'
+      message:
+        '¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
         console.log('Usuario confirmó la eliminación de cuenta');
-        
+
         // Llamar al endpoint para programar la eliminación
         this.userService.deleteAccount().subscribe({
           next: (response) => {
             console.log('Cuenta programada para eliminación:', response);
-            
+
             // Actualizar el perfil del usuario para incluir scheduledDeletionDate
             this.userService.getUserProfile().subscribe({
               next: (profile) => {
@@ -389,7 +423,7 @@ export class AccountComponent implements OnInit {
               },
               error: (error) => {
                 console.error('Error al actualizar perfil:', error);
-              }
+              },
             });
 
             // Mostrar mensaje de éxito con la fecha programada
@@ -399,35 +433,46 @@ export class AccountComponent implements OnInit {
               month: 'long',
               day: 'numeric',
               hour: '2-digit',
-              minute: '2-digit'
+              minute: '2-digit',
             });
 
             this.modalService.openSuccess({
-              title: this.t.accountDeletionScheduled || 'Cuenta programada para eliminación',
-              message: this.t.accountDeletionScheduledMessage || 'Tu cuenta ha sido programada para eliminación en 10 días.',
-              details: `${this.t.accountDeletionScheduledDetails || 'La eliminación se realizará el'} ${formattedDate}. ${this.t.accountDeletionRecoveryInfo || 'Tienes 10 días para recuperar tus datos si cambias de opinión.'}`
+              title:
+                this.t.accountDeletionScheduled ||
+                'Cuenta programada para eliminación',
+              message:
+                this.t.accountDeletionScheduledMessage ||
+                'Tu cuenta ha sido programada para eliminación en 10 días.',
+              details: `${this.t.accountDeletionScheduledDetails || 'La eliminación se realizará el'} ${formattedDate}. ${this.t.accountDeletionRecoveryInfo || 'Tienes 10 días para recuperar tus datos si cambias de opinión.'}`,
             });
           },
           error: (error) => {
             console.error('Error al programar eliminación de cuenta:', error);
-            
-            let errorMessage = this.t.accountDeletionError || 'Error al programar la eliminación de cuenta';
-            
+
+            let errorMessage =
+              this.t.accountDeletionError ||
+              'Error al programar la eliminación de cuenta';
+
             if (error?.error?.message) {
               errorMessage = error.error.message;
             } else if (error?.status === 401) {
-              errorMessage = this.t.accountDeletionUnauthorized || 'No autorizado. Por favor, inicia sesión nuevamente.';
+              errorMessage =
+                this.t.accountDeletionUnauthorized ||
+                'No autorizado. Por favor, inicia sesión nuevamente.';
             } else if (error?.status === 404) {
-              errorMessage = this.t.accountDeletionNotFound || 'Usuario no encontrado.';
+              errorMessage =
+                this.t.accountDeletionNotFound || 'Usuario no encontrado.';
             } else if (error?.status === 400) {
-              errorMessage = this.t.accountDeletionBadRequest || 'Error al procesar la solicitud.';
+              errorMessage =
+                this.t.accountDeletionBadRequest ||
+                'Error al procesar la solicitud.';
             }
 
             this.modalService.openError({
               title: this.t.errorTitleDefault || 'Error',
-              message: errorMessage
+              message: errorMessage,
             });
-          }
+          },
         });
       } else if (result === 'support') {
         console.log('Usuario quiere contactar con soporte');
@@ -436,7 +481,7 @@ export class AccountComponent implements OnInit {
         this.modalService.openSuccess({
           title: 'Contacto con soporte',
           message: 'Te hemos redirigido a nuestro equipo de soporte.',
-          details: 'Nuestro equipo se pondrá en contacto contigo pronto.'
+          details: 'Nuestro equipo se pondrá en contacto contigo pronto.',
         });
       } else {
         console.log('Usuario canceló la eliminación');
@@ -471,7 +516,7 @@ export class AccountComponent implements OnInit {
     const fullNameParts = this.tempFullName.trim().split(/\s+/);
     let name = '';
     let lastname = '';
-    
+
     if (fullNameParts.length > 0) {
       name = fullNameParts[0];
       if (fullNameParts.length > 1) {
@@ -483,7 +528,7 @@ export class AccountComponent implements OnInit {
     // Construir el objeto enterprise con los valores de los inputs
     const enterprise = {
       name: this.tempEnterprise.name || '',
-      url: this.tempEnterprise.url || ''
+      url: this.tempEnterprise.url || '',
     };
 
     // Actualizar perfil con country y marketingConsent (ahora permitidos)
@@ -518,8 +563,8 @@ export class AccountComponent implements OnInit {
       'All analytics features',
       'Up to 250,000 tracked visits',
       'Normal support',
-      'Up to 3 team members'
-    ]
+      'Up to 3 team members',
+    ],
   };
 
   // Métodos para el modal de facturación
@@ -554,7 +599,10 @@ export class AccountComponent implements OnInit {
   private isDragging = false;
 
   getSliderThumbPosition(): string {
-    const percentage = Math.min(100, Math.max(0, ((this.selectedMinutes - 100) / (2000 - 100)) * 100));
+    const percentage = Math.min(
+      100,
+      Math.max(0, ((this.selectedMinutes - 100) / (2000 - 100)) * 100),
+    );
 
     if (this.selectedMinutes === 2000) {
       return 'calc(100% - 12px)'; // Llega al final sin espacio
@@ -583,7 +631,9 @@ export class AccountComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    const sliderContainer = (event.target as HTMLElement).closest('.relative') as HTMLElement;
+    const sliderContainer = (event.target as HTMLElement).closest(
+      '.relative',
+    ) as HTMLElement;
 
     const handleMouseMove = (e: Event) => {
       if (!this.isDragging || !sliderContainer) return;
@@ -592,7 +642,9 @@ export class AccountComponent implements OnInit {
 
       const mouseEvent = e as MouseEvent;
       const touchEvent = e as TouchEvent;
-      const clientX = touchEvent.touches ? touchEvent.touches[0].clientX : mouseEvent.clientX;
+      const clientX = touchEvent.touches
+        ? touchEvent.touches[0].clientX
+        : mouseEvent.clientX;
 
       const rect = sliderContainer.getBoundingClientRect();
       const x = clientX - rect.left;
@@ -632,10 +684,10 @@ export class AccountComponent implements OnInit {
     this.userService.getUserProfile().subscribe({
       next: (profile) => {
         if (profile.twilio && Array.isArray(profile.twilio)) {
-          this.twilioAccounts = profile.twilio.map(account => ({
+          this.twilioAccounts = profile.twilio.map((account) => ({
             twilioAccountId: account.twilioAccountId,
             twilioSid: account.twilioSid,
-            twilioToken: account.twilioToken
+            twilioToken: account.twilioToken,
           }));
         } else {
           this.twilioAccounts = [];
@@ -644,12 +696,16 @@ export class AccountComponent implements OnInit {
       error: (error) => {
         console.error('Error al cargar cuentas de Twilio:', error);
         this.twilioAccounts = [];
-      }
+      },
     });
   }
 
   // Método para editar una cuenta de Twilio existente
-  editTwilioAccount(account: { twilioAccountId: number; twilioSid: string; twilioToken: string }) {
+  editTwilioAccount(account: {
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  }) {
     this.showTwilioConfig = true;
     this.twilioAccountId = account.twilioAccountId;
     this.twilioSid = account.twilioSid;
@@ -676,9 +732,13 @@ export class AccountComponent implements OnInit {
     this.isLoadingTwilio = true;
 
     // Preparar los datos para enviar
-    const config: { twilioSid: string; twilioToken: string; twilioAccountId?: number } = {
+    const config: {
+      twilioSid: string;
+      twilioToken: string;
+      twilioAccountId?: number;
+    } = {
       twilioSid: this.twilioSid.trim(),
-      twilioToken: this.twilioToken.trim()
+      twilioToken: this.twilioToken.trim(),
     };
 
     // Si hay twilioAccountId, incluir para actualizar cuenta existente
@@ -690,7 +750,10 @@ export class AccountComponent implements OnInit {
     this.twilioService.setConfig(config).subscribe({
       next: (response) => {
         this.isLoadingTwilio = false;
-        this.showNotification('Configuración de Twilio guardada correctamente', 'success');
+        this.showNotification(
+          'Configuración de Twilio guardada correctamente',
+          'success',
+        );
         // Recargar las cuentas de Twilio
         this.loadTwilioAccounts();
         // Limpiar el formulario
@@ -703,10 +766,13 @@ export class AccountComponent implements OnInit {
       error: (error) => {
         this.isLoadingTwilio = false;
         // Mostrar mensaje de error del servidor o genérico
-        const errorMessage = error?.error?.message || error?.message || 'Error al guardar la configuración de Twilio';
+        const errorMessage =
+          error?.error?.message ||
+          error?.message ||
+          'Error al guardar la configuración de Twilio';
         this.showNotification(errorMessage, 'error');
         console.error('Error al guardar configuración de Twilio:', error);
-      }
+      },
     });
   }
 }
