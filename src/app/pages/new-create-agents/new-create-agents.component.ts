@@ -456,6 +456,23 @@ export class NewCreateAgentsComponent
   // Array vacío inicial - se llenará con datos del backend
   voices: any[] = [];
 
+  // Propiedades para dropdowns de país y voz
+  showCountryDropdown = false;
+  showVoiceDropdown = false;
+  showVoiceParamsDropdown = false;
+  countryOptions = [
+    { code: 'es', label: 'Español' },
+    { code: 'en', label: 'English' },
+    { code: 'fr', label: 'Français' },
+    { code: 'it', label: 'Italiano' },
+    { code: 'de', label: 'Deutsch' },
+    { code: 'pt', label: 'Português' },
+    { code: 'us', label: 'English (US)' },
+    { code: 'tr', label: 'Türkçe' },
+    { code: 'se', label: 'Svenska' },
+    { code: 'nl', label: 'Nederlands' },
+  ];
+
   // Datos mockeados de referencia para imágenes, descripciones y badges
   private readonly defaultVoicesData = [
     {
@@ -538,6 +555,51 @@ export class NewCreateAgentsComponent
         this.voices = [];
       },
     });
+  }
+
+  // Métodos para dropdowns de país y voz
+  toggleCountryDropdown(event: Event) {
+    event.stopPropagation();
+    this.showVoiceDropdown = false;
+    this.showVoiceParamsDropdown = false;
+    this.showCountryDropdown = !this.showCountryDropdown;
+  }
+
+  toggleVoiceDropdown(event: Event) {
+    event.stopPropagation();
+    this.showCountryDropdown = false;
+    this.showVoiceParamsDropdown = false;
+    this.showVoiceDropdown = !this.showVoiceDropdown;
+  }
+
+  toggleVoiceParamsDropdown(event: Event) {
+    event.stopPropagation();
+    this.showVoiceDropdown = false;
+    this.showVoiceParamsDropdown = !this.showVoiceParamsDropdown;
+  }
+
+  getSelectedCountryOption() {
+    return this.countryOptions.find((c) => c.code === this.selectedCountry) || this.countryOptions[0];
+  }
+
+  getSelectedVoice() {
+    if (!this.selectedVoiceId) return null;
+    return this.voices.find((v) => v.voiceId === this.selectedVoiceId);
+  }
+
+  selectVoice(voiceId: string) {
+    this.selectedVoiceId = voiceId;
+    this.showVoiceDropdown = false;
+    this.loadVoices();
+  }
+
+  playVoicePreview(voice: { name: string; voiceId: string }, event: Event) {
+    event.stopPropagation();
+    if (this.currentPlayingVoice === voice.voiceId) {
+      this.pauseVoice();
+    } else {
+      this.playVoice(voice);
+    }
   }
 
   onSelectCallType(type: 'inbound' | 'outbound') {
@@ -1798,10 +1860,32 @@ export class NewCreateAgentsComponent
 
   selectCountry(
     countryCode: string,
-    code: string,
-    flagColor1: string,
-    flagColor2: string,
+    code?: string,
+    flagColor1?: string,
+    flagColor2?: string,
   ) {
+    // Si solo se pasa el código del país, usar el mapeo
+    if (!code) {
+      const countryCodeMap: { [key: string]: string } = {
+        'es': '+34',
+        'en': '+44',
+        'fr': '+33',
+        'it': '+39',
+        'de': '+49',
+        'pt': '+351',
+        'us': '+1',
+        'tr': '+90',
+        'se': '+46',
+        'nl': '+31',
+      };
+      this.selectedCountryCode = countryCodeMap[countryCode] || '+34';
+      this.selectedCountry = countryCode;
+      this.showCountryDropdown = false;
+      this.loadVoices();
+      return;
+    }
+
+    // Comportamiento original con 4 parámetros
     this.selectedCountryCode = code;
     this.selectedCountry = countryCode;
     this.showCountryMenu = false;
