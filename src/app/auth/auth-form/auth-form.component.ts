@@ -16,6 +16,7 @@ import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { log } from 'console';
 import { ModalService } from '../../shared/modals/modal.service';
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
+import { AccountStatus } from '../../shared/models/account-status.enum';
 
 @Component({
   selector: 'app-auth-form',
@@ -48,7 +49,7 @@ export class AuthFormComponent implements OnInit {
   password: string = '';
   confirmPassword: string = '';
   fullName: string = '';
-  country: string = '';          // ✅ NUEVO - Requerido
+  country: string = ''; // ✅ NUEVO - Requerido
   marketingConsent: boolean = false; // ✅ NUEVO - Requerido
 
   // Estado para mostrar/ocultar contraseña
@@ -139,7 +140,11 @@ export class AuthFormComponent implements OnInit {
             this.userStorage.setUser(data);
             // Actualizar TwilioStorage si viene en el perfil
             // Usar la primera cuenta de Twilio para compatibilidad con el storage actual
-            if (data.twilio && Array.isArray(data.twilio) && data.twilio.length > 0) {
+            if (
+              data.twilio &&
+              Array.isArray(data.twilio) &&
+              data.twilio.length > 0
+            ) {
               const firstAccount = data.twilio[0];
               this.twilioStorage.setConfig({
                 twilioAccountId: firstAccount.twilioAccountId,
@@ -222,7 +227,8 @@ export class AuthFormComponent implements OnInit {
     const dialogRef = this.modalService.openEmailVerification({
       email: this.email,
       title: 'Verificación de correo',
-      message: 'Hemos enviado un código de verificación a tu correo electrónico. Por favor, ingresa el código para completar tu registro.',
+      message:
+        'Hemos enviado un código de verificación a tu correo electrónico. Por favor, ingresa el código para completar tu registro.',
     });
 
     // Esperar a que el usuario verifique el código
@@ -240,9 +246,9 @@ export class AuthFormComponent implements OnInit {
       lastname: this.fullName.split(' ')[1] || '',
       email: this.email,
       password: this.password,
-      country: this.country,          // ✅ NUEVO - Requerido
-      marketingConsent: this.marketingConsent, // ✅ NUEVO - Requerido
-      accountStatus: 1,              // ⬅️ NUEVO: Por defecto Activo (1) para nuevos usuarios
+      country: this.country, // NUEVO - Requerido
+      marketingConsent: this.marketingConsent, // NUEVO - Requerido
+      accountStatus: AccountStatus.UNVERIFIED, // NUEVO: Por defecto No validado (3) para nuevos usuarios hasta que verifiquen email
     };
 
     this.userService.RegisterUser(user).subscribe({
@@ -257,7 +263,11 @@ export class AuthFormComponent implements OnInit {
 
             // Actualizar TwilioStorage si viene en el perfil
             // Usar la primera cuenta de Twilio para compatibilidad con el storage actual
-            if (data.twilio && Array.isArray(data.twilio) && data.twilio.length > 0) {
+            if (
+              data.twilio &&
+              Array.isArray(data.twilio) &&
+              data.twilio.length > 0
+            ) {
               const firstAccount = data.twilio[0];
               this.twilioStorage.setConfig({
                 twilioAccountId: firstAccount.twilioAccountId,
@@ -313,7 +323,7 @@ export class AuthFormComponent implements OnInit {
     }
     // Aquí se podría llamar a un endpoint real de recuperación
     this.showSuccess(
-      'Si el correo existe, recibirás instrucciones de recuperación.'
+      'Si el correo existe, recibirás instrucciones de recuperación.',
     );
   }
 

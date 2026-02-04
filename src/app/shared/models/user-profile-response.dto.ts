@@ -1,4 +1,5 @@
 import { TwilioAccount } from './twilio-config.model';
+import { AccountStatus } from './account-status.enum';
 
 /**
  * DTO para GET /users/profile (Response)
@@ -13,10 +14,10 @@ export interface UserProfileResponseDto {
   email?: string;
   country?: string; // ✅ NUEVO - Opcional
   marketingConsent?: boolean; // ✅ NUEVO - Opcional
-  accountStatus?: number; // ⬅️ NUEVO: Incluido en respuestas (0 = Inactivo, 1 = Activo, 2 = Eliminado)
+  accountStatus?: AccountStatus; // ⬅️ NUEVO: Incluido en respuestas (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   createdAt?: string | null; // Fecha formateada en español (ej: "12 de octubre de 2025, 10:30:45")
-  twilio?: TwilioAccount[];  // ⚠️ ACTUALIZADO: ahora es un array
+  twilio?: TwilioAccount[]; // ⚠️ ACTUALIZADO: ahora es un array
   agent?: {
     name?: string;
     type?: 'outbound' | 'inbound';
@@ -43,7 +44,7 @@ export interface UserProfileResponseDto {
     number: string;
     state: 'Activo' | 'Inactivo';
     importedBy: string;
-    twilioAccountId?: number;  // ⚠️ NUEVO
+    twilioAccountId?: number; // ⚠️ NUEVO
   }>;
   agents?: Array<{
     name: string;

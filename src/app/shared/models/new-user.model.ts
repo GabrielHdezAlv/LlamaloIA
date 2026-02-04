@@ -1,3 +1,5 @@
+import { AccountStatus } from './account-status.enum';
+
 export class User {
   userId?: string;
   name?: string; // Opcional porque puede venir undefined del perfil
@@ -6,7 +8,7 @@ export class User {
   enterprise?: { name: string; url: string };
   country?: string; // ✅ NUEVO - Opcional
   marketingConsent?: boolean; // ✅ NUEVO - Opcional
-  accountStatus?: number; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado)
+  accountStatus?: AccountStatus; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   email?: string; // Opcional porque puede venir undefined del perfil
   password?: string; // Opcional porque no viene del perfil del usuario
@@ -29,9 +31,9 @@ export class User {
     phoneId: number;
     countryCode: string;
     number: string;
-    state?: "Activo" | "Inactivo";
+    state?: 'Activo' | 'Inactivo';
     importedBy?: string;
-    twilioAccountId?: number;  // ⚠️ NUEVO
+    twilioAccountId?: number; // ⚠️ NUEVO
   }>;
   agents?: Array<{
     name: string;
