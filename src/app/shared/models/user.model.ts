@@ -1,8 +1,11 @@
+import { USER_ROLE } from './user-role.enum';
+
 export interface User {
   userId: string;
   profileImage: string;
   name: string;
   lastname: string;
+  rol: USER_ROLE; // ⬅️ NUEVO: Obligatorio (owner/client_user)
   enterprise?: {
     name: string;
     url: string;
@@ -24,9 +27,9 @@ export interface User {
     phoneId: number;
     countryCode: string;
     number: string;
-    state?: "Activo" | "Inactivo";
+    state?: 'Activo' | 'Inactivo';
     importedBy?: string;
-    twilioAccountId?: number;  // ⚠️ NUEVO
+    twilioAccountId?: number; // ⚠️ NUEVO
   }>;
   agents: Array<{
     name: string;

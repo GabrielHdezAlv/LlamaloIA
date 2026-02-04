@@ -1,10 +1,19 @@
-import { Component, OnInit, inject, Inject, PLATFORM_ID, HostListener, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+  Inject,
+  PLATFORM_ID,
+  HostListener,
+  ElementRef,
+} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
 import { NgIf, NgFor, NgClass, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { I18nService, Language } from '../../core/services/i18n.service';
+import { USER_ROLE } from '../../shared/models/user-role.enum';
 
 const AGENT_DRAFT_KEY = 'llamalo_agent_draft';
 
@@ -35,13 +44,13 @@ export class TopbarComponent implements OnInit {
 
   // Modo oscuro
   isDarkMode = false;
-  
+
   // Indica si estamos en la sección de admin
   isAdminSection = false;
 
   showDropdown = false;
   showInviteModal = false;
-  
+
   // Draft recovery
   hasSavedDraft = false;
   savedDraft: AgentDraft | null = null;
@@ -59,16 +68,66 @@ export class TopbarComponent implements OnInit {
 
   // Sugerencias de contactos
   contactSuggestions: any[] = [
-    { name: 'Sebastian Graham', email: 'sebastian.graham@example.com', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Sara Cruz', email: 'sara.cruz@example.com', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Michael Johnson', email: 'michael.johnson@example.com', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Emma Wilson', email: 'emma.wilson@example.com', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=40&h=40&fit=crop&crop=face' },
-    { name: 'David Brown', email: 'david.brown@example.com', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Lisa Anderson', email: 'lisa.anderson@example.com', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face' },
-    { name: 'James Taylor', email: 'james.taylor@example.com', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Maria Garcia', email: 'maria.garcia@example.com', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Robert Martinez', email: 'robert.martinez@example.com', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face' },
-    { name: 'Jennifer Davis', email: 'jennifer.davis@example.com', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=40&h=40&fit=crop&crop=face' }
+    {
+      name: 'Sebastian Graham',
+      email: 'sebastian.graham@example.com',
+      avatar:
+        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=40&h=40&fit=crop&crop=face',
+    },
+    {
+      name: 'Sara Cruz',
+      email: 'sara.cruz@example.com',
+      avatar:
+        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face',
+    },
+    {
+      name: 'Michael Johnson',
+      email: 'michael.johnson@example.com',
+      avatar:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+    },
+    {
+      name: 'Emma Wilson',
+      email: 'emma.wilson@example.com',
+      avatar:
+        'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=40&h=40&fit=crop&crop=face',
+    },
+    {
+      name: 'David Brown',
+      email: 'david.brown@example.com',
+      avatar:
+        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face',
+    },
+    {
+      name: 'Lisa Anderson',
+      email: 'lisa.anderson@example.com',
+      avatar:
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face',
+    },
+    {
+      name: 'James Taylor',
+      email: 'james.taylor@example.com',
+      avatar:
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
+    },
+    {
+      name: 'Maria Garcia',
+      email: 'maria.garcia@example.com',
+      avatar:
+        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=40&h=40&fit=crop&crop=face',
+    },
+    {
+      name: 'Robert Martinez',
+      email: 'robert.martinez@example.com',
+      avatar:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
+    },
+    {
+      name: 'Jennifer Davis',
+      email: 'jennifer.davis@example.com',
+      avatar:
+        'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=40&h=40&fit=crop&crop=face',
+    },
   ];
 
   // Roles disponibles
@@ -76,7 +135,7 @@ export class TopbarComponent implements OnInit {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -85,13 +144,18 @@ export class TopbarComponent implements OnInit {
   onDocumentClick(event: MouseEvent) {
     // Cerrar dropdown si se hace clic fuera de él
     if (this.showDropdown) {
-      const dropdownElement = this.elementRef.nativeElement.querySelector('.topbar-dropdown');
-      const avatarElement = this.elementRef.nativeElement.querySelector('.topbar-avatar');
+      const dropdownElement =
+        this.elementRef.nativeElement.querySelector('.topbar-dropdown');
+      const avatarElement =
+        this.elementRef.nativeElement.querySelector('.topbar-avatar');
       const target = event.target as HTMLElement;
-      
-      if (dropdownElement && avatarElement && 
-          !dropdownElement.contains(target) && 
-          !avatarElement.contains(target)) {
+
+      if (
+        dropdownElement &&
+        avatarElement &&
+        !dropdownElement.contains(target) &&
+        !avatarElement.contains(target)
+      ) {
         this.showDropdown = false;
       }
     }
@@ -131,7 +195,9 @@ export class TopbarComponent implements OnInit {
       } else if (stored === 'light') {
         this.setDarkMode(false, false);
       } else {
-        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        const prefersDark = window.matchMedia?.(
+          '(prefers-color-scheme: dark)',
+        ).matches;
         this.setDarkMode(prefersDark, false);
       }
     }
@@ -150,19 +216,22 @@ export class TopbarComponent implements OnInit {
 
   checkForSavedDraft() {
     if (!this.isBrowser) return;
-    
+
     // No mostrar el banner si ya estamos en la página de crear agentes
     if (this.router.url === '/dashboard/agents/create') {
       this.hasSavedDraft = false;
       return;
     }
-    
+
     const savedData = localStorage.getItem(AGENT_DRAFT_KEY);
     if (savedData) {
       try {
         this.savedDraft = JSON.parse(savedData);
         // Solo mostrar si hay algo significativo guardado
-        if (this.savedDraft && (this.savedDraft.step !== 'agentName' || this.savedDraft.agentName)) {
+        if (
+          this.savedDraft &&
+          (this.savedDraft.step !== 'agentName' || this.savedDraft.agentName)
+        ) {
           this.hasSavedDraft = true;
         } else {
           this.hasSavedDraft = false;
@@ -190,14 +259,14 @@ export class TopbarComponent implements OnInit {
   getSavedStepText(): string {
     if (!this.savedDraft) return '';
     const stepTexts: Record<string, string> = {
-      'agentName': 'Nombre',
-      'language': 'Idioma',
-      'template': 'Plantilla',
-      'greeting': 'Saludo',
-      'instructions': 'Instrucciones',
-      'voice': 'Voz',
-      'advanced': 'Avanzado',
-      'final': 'Final'
+      agentName: 'Nombre',
+      language: 'Idioma',
+      template: 'Plantilla',
+      greeting: 'Saludo',
+      instructions: 'Instrucciones',
+      voice: 'Voz',
+      advanced: 'Avanzado',
+      final: 'Final',
     };
     return stepTexts[this.savedDraft.step] || this.savedDraft.step;
   }
@@ -226,13 +295,15 @@ export class TopbarComponent implements OnInit {
     const user = this.userStorage.user();
     if (user) {
       this.teamMembers = [
-        { 
-          name: `${user.name} ${user.lastname}`, 
-          email: user.email, 
-          role: 'Owner', 
+        {
+          name: `${user.name} ${user.lastname}`,
+          email: user.email,
+          role: user.rol === USER_ROLE.OWNER ? 'Owner' : 'Client User',
           status: 'Accepted',
-          avatar: user.profileImage || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' 
-        }
+          avatar:
+            user.profileImage ||
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
+        },
       ];
     }
   }
@@ -248,15 +319,18 @@ export class TopbarComponent implements OnInit {
     if (url.startsWith('/admin/tokens')) {
       this.pageTitle = 'Servicios Externos';
       this.welcomeText = '';
-      this.pageSubtitle = 'Gestiona y visualiza los tokens de API de los servicios integrados';
+      this.pageSubtitle =
+        'Gestiona y visualiza los tokens de API de los servicios integrados';
     } else if (url.startsWith('/admin/redes-sociales')) {
       this.pageTitle = 'Redes Sociales';
       this.welcomeText = '';
-      this.pageSubtitle = 'Gestiona y visualiza las métricas de tus redes sociales';
+      this.pageSubtitle =
+        'Gestiona y visualiza las métricas de tus redes sociales';
     } else if (url.startsWith('/admin/gasto')) {
       this.pageTitle = 'Gasto de Servicios';
       this.welcomeText = '';
-      this.pageSubtitle = 'Gestiona y visualiza el gasto de los servicios integrados';
+      this.pageSubtitle =
+        'Gestiona y visualiza el gasto de los servicios integrados';
     } else if (url.startsWith('/admin/metrics')) {
       this.pageTitle = 'Métricas';
       this.welcomeText = '';
@@ -264,7 +338,8 @@ export class TopbarComponent implements OnInit {
     } else if (url.startsWith('/admin/home') || url === '/admin') {
       this.pageTitle = 'Información General';
       this.welcomeText = '';
-      this.pageSubtitle = 'Vista general del sistema y métricas administrativas';
+      this.pageSubtitle =
+        'Vista general del sistema y métricas administrativas';
     } else if (url === '/dashboard/agents/create') {
       this.pageTitle = t.createAgent;
       this.welcomeText = '';
@@ -333,7 +408,7 @@ export class TopbarComponent implements OnInit {
   logout() {
     // Limpiar datos de usuario
     this.userStorage.clearUser();
-    
+
     this.router.navigate(['/login']);
   }
 
@@ -367,7 +442,7 @@ export class TopbarComponent implements OnInit {
   }
 
   removeEmail(name: string) {
-    this.selectedEmails = this.selectedEmails.filter(e => e !== name);
+    this.selectedEmails = this.selectedEmails.filter((e) => e !== name);
   }
 
   selectSuggestion(suggestion: any) {
@@ -381,8 +456,14 @@ export class TopbarComponent implements OnInit {
 
   toggleMemberRole(member: any) {
     // Abrir/cerrar el dropdown para este miembro específico
-    console.log('Toggling dropdown for:', member.name, 'Current open:', this.openDropdownMember);
-    this.openDropdownMember = this.openDropdownMember === member.name ? null : member.name;
+    console.log(
+      'Toggling dropdown for:',
+      member.name,
+      'Current open:',
+      this.openDropdownMember,
+    );
+    this.openDropdownMember =
+      this.openDropdownMember === member.name ? null : member.name;
     console.log('New open dropdown:', this.openDropdownMember);
   }
 
@@ -396,7 +477,7 @@ export class TopbarComponent implements OnInit {
   }
 
   cancelInvite(member: any) {
-    this.teamMembers = this.teamMembers.filter(m => m !== member);
+    this.teamMembers = this.teamMembers.filter((m) => m !== member);
   }
 
   sendInvite() {
@@ -412,30 +493,33 @@ export class TopbarComponent implements OnInit {
     // Aquí implementarías la lógica para enviar invitaciones
     console.log('Enviando invitaciones:', {
       names: this.selectedEmails,
-      role: this.selectedRole
+      role: this.selectedRole,
     });
-    
+
     // Añadir los nuevos miembros a la lista (por defecto: Pending)
-    this.selectedEmails.forEach(email => {
+    this.selectedEmails.forEach((email) => {
       const newMember = {
         name: email,
         email: email,
         role: this.selectedRole,
         status: 'Pending', // Otros posibles estados: 'Accepted', 'Rejected'
-        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' // Avatar por defecto
+        avatar:
+          'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face', // Avatar por defecto
       };
       this.teamMembers.push(newMember);
     });
-    
+
     // Limpiar el formulario después de enviar
     this.selectedEmails = [];
     this.emailInput = '';
     this.selectedRole = 'Can Edit';
     this.showSuggestions = false;
-    
+
     // Hacer scroll hacia abajo para mostrar los nuevos miembros
     setTimeout(() => {
-      const teamMembersContainer = document.querySelector('.team-members-container');
+      const teamMembersContainer = document.querySelector(
+        '.team-members-container',
+      );
       if (teamMembersContainer) {
         teamMembersContainer.scrollTop = teamMembersContainer.scrollHeight;
       }
@@ -454,7 +538,9 @@ export class TopbarComponent implements OnInit {
   shareInviteOnTwitter() {
     const inviteLink = 'https://llamalo.ai';
     if (this.isBrowser) {
-      const text = encodeURIComponent('Únete a Llamalo AI y consigue minutos extra.');
+      const text = encodeURIComponent(
+        'Únete a Llamalo AI y consigue minutos extra.',
+      );
       const url = encodeURIComponent(inviteLink);
       const shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
       window.open(shareUrl, '_blank');

@@ -17,6 +17,7 @@ import { log } from 'console';
 import { ModalService } from '../../shared/modals/modal.service';
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
 import { ACCOUNT_STATUS } from '../../shared/models/account-status.enum';
+import { USER_ROLE } from '../../shared/models/user-role.enum';
 
 @Component({
   selector: 'app-auth-form',
@@ -249,6 +250,7 @@ export class AuthFormComponent implements OnInit {
       country: this.country, // NUEVO - Requerido
       marketingConsent: this.marketingConsent, // NUEVO - Requerido
       accountStatus: ACCOUNT_STATUS.UNVERIFIED, // NUEVO: Por defecto No validado (3) para nuevos usuarios hasta que verifiquen email
+      rol: USER_ROLE.CLIENT_USER, // ⬅️ NUEVO: Por defecto client_user para nuevos registros
     };
 
     this.userService.RegisterUser(user).subscribe({

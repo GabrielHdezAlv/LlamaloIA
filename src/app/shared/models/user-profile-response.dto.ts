@@ -1,5 +1,6 @@
 import { TwilioAccount } from './twilio-config.model';
 import { ACCOUNT_STATUS } from './account-status.enum';
+import { USER_ROLE } from './user-role.enum';
 
 /**
  * DTO para GET /users/profile (Response)
@@ -15,6 +16,7 @@ export interface UserProfileResponseDto {
   country?: string; // ✅ NUEVO - Opcional
   marketingConsent?: boolean; // ✅ NUEVO - Opcional
   accountStatus?: number; // ⬅️ NUEVO: Incluido en respuestas (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
+  rol?: USER_ROLE; // ⬅️ NUEVO: Incluido en respuestas (owner/client_user)
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   createdAt?: string | null; // Fecha formateada en español (ej: "12 de octubre de 2025, 10:30:45")
   twilio?: TwilioAccount[]; // ⚠️ ACTUALIZADO: ahora es un array

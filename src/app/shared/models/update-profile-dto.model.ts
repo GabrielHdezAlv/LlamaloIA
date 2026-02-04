@@ -3,6 +3,7 @@
  * Campos opcionales para actualizar el perfil
  */
 import { ACCOUNT_STATUS } from './account-status.enum';
+import { USER_ROLE } from './user-role.enum';
 
 export interface UpdateProfileDto {
   name?: string;
@@ -12,4 +13,5 @@ export interface UpdateProfileDto {
   country?: string; // ✅ NUEVO - Opcional
   marketingConsent?: boolean; // ✅ NUEVO - Opcional
   accountStatus?: number; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
+  rol?: USER_ROLE; // ⬅️ NUEVO: Opcional (owner/client_user)
 }
