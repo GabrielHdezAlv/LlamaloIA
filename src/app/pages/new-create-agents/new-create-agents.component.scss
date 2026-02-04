@@ -679,14 +679,14 @@ div.phone-input-container-error {
 }
 
 // Cuando el contenedor tiene borde de validación, eliminar todos los bordes del dropdown y input
-:host ::ng-deep div.phone-input-container-success > div:first-child,
-div.phone-input-container-success > div:first-child {
+:host ::ng-deep div.phone-input-container-success>div:first-child,
+div.phone-input-container-success>div:first-child {
   border: none !important;
   border-radius: 0.5rem 0 0 0.5rem !important; // rounded-l-lg
 }
 
-:host ::ng-deep div.phone-input-container-error > div:first-child,
-div.phone-input-container-error > div:first-child {
+:host ::ng-deep div.phone-input-container-error>div:first-child,
+div.phone-input-container-error>div:first-child {
   border: none !important;
   border-radius: 0.5rem 0 0 0.5rem !important; // rounded-l-lg
 }
@@ -847,6 +847,42 @@ div.phone-input-container-error .phone-input-wrapper input {
   opacity: 0;
   animation: slideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
   overflow: hidden;
+}
+
+.twilio-slide-down {
+  animation: twilioSlideDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.twilio-slide-up {
+  animation: twilioSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes twilioSlideDown {
+  from {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+
+  to {
+    max-height: 1000px;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes twilioSlideUp {
+  from {
+    max-height: 1000px;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
 }
 
 /* Contenedor principal con animación de altura */
