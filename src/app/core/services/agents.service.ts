@@ -11,6 +11,27 @@ import {
   DeleteAgentResponse,
 } from '../../shared/models/agent.model';
 
+export interface GenerateAgentInstructionsRequest {
+  enterpriseName: string;
+  agentName: string;
+  callType: 'inbound' | 'outbound';
+  language: string;
+  voiceId: string;
+  voiceParameters: {
+    stability: number;
+    similarity: number;
+    style: number;
+    boost: boolean;
+    speed: number;
+  };
+  userDescription: string;
+  shopDomain?: string;
+}
+
+export interface GenerateAgentInstructionsResponse {
+  agentInstruction: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -54,6 +75,18 @@ export class AgentsService {
     return this.http.post<CreateAgentResponse>(`${this.apiUrl}`, config, {
       headers: this.getAuthHeaders(),
     });
+  }
+
+  generateAgentInstructions(
+    payload: GenerateAgentInstructionsRequest,
+  ): Observable<GenerateAgentInstructionsResponse> {
+    return this.http.post<GenerateAgentInstructionsResponse>(
+      `${this.apiUrl}/instructions/generate`,
+      payload,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
   }
 
   // Método para listar todos los agentes (con búsqueda opcional)

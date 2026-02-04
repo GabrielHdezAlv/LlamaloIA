@@ -16,9 +16,13 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
-import { AgentsService } from '../../core/services/agents.service';
+import {
+  AgentsService,
+  GenerateAgentInstructionsRequest,
+} from '../../core/services/agents.service';
 import { TwilioService } from '../../core/services/twilio.service';
 import { UserService } from '../../core/services/user.service';
+import { UserStorage } from '../../storages/user/user-storage';
 import { Voice } from '../../shared/models/voice.model';
 import {
   SetAgentConfigDto,
@@ -118,13 +122,21 @@ export class NewCreateAgentsComponent
   isTwilioValidated = false;
   twilioSidValidationStatus: 'success' | 'error' | null = null;
   twilioTokenValidationStatus: 'success' | 'error' | null = null;
-  
+
   // Variables para cuentas de Twilio existentes
-  twilioAccounts: Array<{ twilioAccountId: number; twilioSid: string; twilioToken: string }> = [];
-  selectedTwilioAccount: { twilioAccountId: number; twilioSid: string; twilioToken: string } | null = null;
+  twilioAccounts: Array<{
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  }> = [];
+  selectedTwilioAccount: {
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  } | null = null;
   showNewTwilioAccountForm = false;
   loadingTwilioAccounts = false;
-  
+
   // Variables para números de teléfono disponibles
   availablePhoneNumbers: Array<{
     phoneId: number;
@@ -152,6 +164,7 @@ export class NewCreateAgentsComponent
   private agentsService = inject(AgentsService);
   private twilioService = inject(TwilioService);
   private userService = inject(UserService);
+  private userStore = inject(UserStorage);
   private voicesLoaded = false;
   private route = inject(ActivatedRoute, { optional: true });
   private router = inject(Router);
@@ -416,6 +429,8 @@ export class NewCreateAgentsComponent
   // Modal de generar prompt con IA
   showGeneratePromptModal = false;
   promptDescription = '';
+  isGeneratingPrompt = false;
+  generatePromptError = '';
 
   audioActual: HTMLAudioElement | null = null;
   isPlaying: boolean = false;
@@ -1130,7 +1145,11 @@ export class NewCreateAgentsComponent
     this.isValidatingTwilio = true;
 
     // Preparar la configuración con twilioAccountId si hay una cuenta seleccionada
-    const config: { twilioSid: string; twilioToken: string; twilioAccountId?: number } = {
+    const config: {
+      twilioSid: string;
+      twilioToken: string;
+      twilioAccountId?: number;
+    } = {
       twilioSid: this.twilioSid.trim(),
       twilioToken: this.twilioToken.trim(),
     };
@@ -1141,78 +1160,81 @@ export class NewCreateAgentsComponent
     }
 
     // Llamar al endpoint de validación
-    this.twilioService
-      .setConfig(config)
-      .subscribe({
-        next: (response) => {
-          this.isValidatingTwilio = false;
-          this.twilioValidationStatus = 'success';
-          this.twilioSidValidationStatus = 'success';
-          this.twilioTokenValidationStatus = 'success';
-          this.isTwilioValidated = true;
+    this.twilioService.setConfig(config).subscribe({
+      next: (response) => {
+        this.isValidatingTwilio = false;
+        this.twilioValidationStatus = 'success';
+        this.twilioSidValidationStatus = 'success';
+        this.twilioTokenValidationStatus = 'success';
+        this.isTwilioValidated = true;
 
-          // Si se validó una cuenta nueva (no seleccionada previamente), buscar si existe en las cuentas del usuario
-          // y actualizar selectedTwilioAccount para poder cargar números disponibles
-          if (!this.selectedTwilioAccount) {
-            // Recargar cuentas para obtener el twilioAccountId de la cuenta recién validada
-            this.userService.getUserProfile().subscribe({
-              next: (profile) => {
-                if (profile.twilio && Array.isArray(profile.twilio)) {
-                  const matchingAccount = profile.twilio.find(
-                    acc => acc.twilioSid === this.twilioSid.trim() && acc.twilioToken === this.twilioToken.trim()
-                  );
-                  if (matchingAccount) {
-                    this.selectedTwilioAccount = {
-                      twilioAccountId: matchingAccount.twilioAccountId,
-                      twilioSid: matchingAccount.twilioSid,
-                      twilioToken: matchingAccount.twilioToken
-                    };
-                    // Cargar números disponibles para esta cuenta
-                    this.loadAvailablePhoneNumbers();
-                  }
+        // Si se validó una cuenta nueva (no seleccionada previamente), buscar si existe en las cuentas del usuario
+        // y actualizar selectedTwilioAccount para poder cargar números disponibles
+        if (!this.selectedTwilioAccount) {
+          // Recargar cuentas para obtener el twilioAccountId de la cuenta recién validada
+          this.userService.getUserProfile().subscribe({
+            next: (profile) => {
+              if (profile.twilio && Array.isArray(profile.twilio)) {
+                const matchingAccount = profile.twilio.find(
+                  (acc) =>
+                    acc.twilioSid === this.twilioSid.trim() &&
+                    acc.twilioToken === this.twilioToken.trim(),
+                );
+                if (matchingAccount) {
+                  this.selectedTwilioAccount = {
+                    twilioAccountId: matchingAccount.twilioAccountId,
+                    twilioSid: matchingAccount.twilioSid,
+                    twilioToken: matchingAccount.twilioToken,
+                  };
+                  // Cargar números disponibles para esta cuenta
+                  this.loadAvailablePhoneNumbers();
                 }
-              },
-              error: (error) => {
-                console.error('Error al obtener perfil después de validar:', error);
               }
-            });
-          } else {
-            // Si ya había una cuenta seleccionada, cargar números disponibles
-            this.loadAvailablePhoneNumbers();
-          }
+            },
+            error: (error) => {
+              console.error(
+                'Error al obtener perfil después de validar:',
+                error,
+              );
+            },
+          });
+        } else {
+          // Si ya había una cuenta seleccionada, cargar números disponibles
+          this.loadAvailablePhoneNumbers();
+        }
 
-          // Si ya hay un número de teléfono ingresado, validarlo automáticamente
-          if (this.phoneNumber && this.phoneNumber.trim()) {
-            this.validatePhoneNumber();
-          }
-        },
-        error: (error) => {
-          this.isValidatingTwilio = false;
-          this.twilioValidationStatus = 'error';
-          this.twilioSidValidationStatus = 'error';
-          this.twilioTokenValidationStatus = 'error';
-          this.isTwilioValidated = false;
+        // Si ya hay un número de teléfono ingresado, validarlo automáticamente
+        if (this.phoneNumber && this.phoneNumber.trim()) {
+          this.validatePhoneNumber();
+        }
+      },
+      error: (error) => {
+        this.isValidatingTwilio = false;
+        this.twilioValidationStatus = 'error';
+        this.twilioSidValidationStatus = 'error';
+        this.twilioTokenValidationStatus = 'error';
+        this.isTwilioValidated = false;
 
-          // Extraer mensaje de error
-          let errorMessage =
-            'Error al validar la configuración de Twilio. Por favor, verifica tus credenciales.';
+        // Extraer mensaje de error
+        let errorMessage =
+          'Error al validar la configuración de Twilio. Por favor, verifica tus credenciales.';
 
-          if (error?.error?.message) {
-            errorMessage = error.error.message;
-          } else if (error?.message) {
-            errorMessage = error.message;
-          } else if (error.status === 401) {
-            errorMessage =
-              'Credenciales inválidas. Por favor, verifica tu Account SID y Auth Token.';
-          } else if (error.status === 400) {
-            errorMessage =
-              'Datos inválidos. Por favor, verifica el formato de tus credenciales.';
-          }
+        if (error?.error?.message) {
+          errorMessage = error.error.message;
+        } else if (error?.message) {
+          errorMessage = error.message;
+        } else if (error.status === 401) {
+          errorMessage =
+            'Credenciales inválidas. Por favor, verifica tu Account SID y Auth Token.';
+        } else if (error.status === 400) {
+          errorMessage =
+            'Datos inválidos. Por favor, verifica el formato de tus credenciales.';
+        }
 
-          this.twilioErrorMessage = errorMessage;
-          console.error('❌ Error al validar configuración de Twilio:', error);
-        },
-      });
+        this.twilioErrorMessage = errorMessage;
+        console.error('❌ Error al validar configuración de Twilio:', error);
+      },
+    });
   }
 
   // Getter para verificar si Twilio está completamente validado
@@ -1290,37 +1312,39 @@ export class NewCreateAgentsComponent
     const twilioAccountId = this.selectedTwilioAccount?.twilioAccountId;
 
     // Llamar al endpoint de validación
-    this.twilioService.validatePhone(countryCode, number, twilioAccountId).subscribe({
-      next: (response) => {
-        this.isValidatingPhone = false;
-        this.phoneValidationStatus = 'success';
-      },
-      error: (error) => {
-        this.isValidatingPhone = false;
-        this.phoneValidationStatus = 'error';
+    this.twilioService
+      .validatePhone(countryCode, number, twilioAccountId)
+      .subscribe({
+        next: (response) => {
+          this.isValidatingPhone = false;
+          this.phoneValidationStatus = 'success';
+        },
+        error: (error) => {
+          this.isValidatingPhone = false;
+          this.phoneValidationStatus = 'error';
 
-        // Extraer mensaje de error
-        let errorMessage =
-          'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
+          // Extraer mensaje de error
+          let errorMessage =
+            'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
 
-        if (error.status === 400) {
-          errorMessage =
-            error?.error?.message ||
-            'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
-        } else if (error.status === 401) {
-          errorMessage =
-            'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
-        } else if (error.status === 404) {
-          errorMessage =
-            'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración.';
-        } else if (error?.error?.message) {
-          errorMessage = error.error.message;
-        }
+          if (error.status === 400) {
+            errorMessage =
+              error?.error?.message ||
+              'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
+          } else if (error.status === 401) {
+            errorMessage =
+              'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
+          } else if (error.status === 404) {
+            errorMessage =
+              'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración.';
+          } else if (error?.error?.message) {
+            errorMessage = error.error.message;
+          }
 
-        this.phoneErrorMessage = errorMessage;
-        console.error('❌ Error al validar número:', error);
-      },
-    });
+          this.phoneErrorMessage = errorMessage;
+          console.error('❌ Error al validar número:', error);
+        },
+      });
   }
 
   // Propiedades para documentos PDF
@@ -1427,11 +1451,15 @@ export class NewCreateAgentsComponent
     this.userService.getUserProfile().subscribe({
       next: (profile) => {
         this.loadingTwilioAccounts = false;
-        if (profile.twilio && Array.isArray(profile.twilio) && profile.twilio.length > 0) {
-          this.twilioAccounts = profile.twilio.map(account => ({
+        if (
+          profile.twilio &&
+          Array.isArray(profile.twilio) &&
+          profile.twilio.length > 0
+        ) {
+          this.twilioAccounts = profile.twilio.map((account) => ({
             twilioAccountId: account.twilioAccountId,
             twilioSid: account.twilioSid,
-            twilioToken: account.twilioToken
+            twilioToken: account.twilioToken,
           }));
           // Si hay cuentas, mostrar la lista (no el formulario)
           this.showNewTwilioAccountForm = false;
@@ -1446,26 +1474,30 @@ export class NewCreateAgentsComponent
         console.error('Error al cargar cuentas de Twilio:', error);
         this.twilioAccounts = [];
         this.showNewTwilioAccountForm = true;
-      }
+      },
     });
   }
 
   // Método para usar una cuenta de Twilio existente
-  useExistingTwilioAccount(account: { twilioAccountId: number; twilioSid: string; twilioToken: string }) {
+  useExistingTwilioAccount(account: {
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  }) {
     this.selectedTwilioAccount = account;
     this.twilioSid = account.twilioSid;
     this.twilioToken = account.twilioToken;
     this.showNewTwilioAccountForm = false;
-    
+
     // Resetear validaciones de teléfono pero mantener Twilio como válido si ya estaba
     this.phoneValidationStatus = null;
     this.phoneErrorMessage = '';
     this.phoneNumber = ''; // Limpiar número anterior
-    
+
     // Validar automáticamente la cuenta seleccionada
     // Esto establecerá isTwilioValidated = true cuando termine
     this.validateTwilioConfig();
-    
+
     // Cargar números de teléfono disponibles para esta cuenta
     this.loadAvailablePhoneNumbers();
   }
@@ -1528,32 +1560,34 @@ export class NewCreateAgentsComponent
     this.userService.getUserProfile().subscribe({
       next: (profile) => {
         this.loadingPhoneNumbers = false;
-        
+
         // Obtener números de teléfono del usuario
         const allPhoneNumbers = profile.phoneNumbers || [];
-        
+
         // Obtener números asociados a agentes
         const agentPhoneNumbers = new Set<string>();
         if (profile.agents && Array.isArray(profile.agents)) {
-          profile.agents.forEach(agent => {
+          profile.agents.forEach((agent) => {
             if (agent.phoneNumbers) {
               const phoneKey = `${agent.phoneNumbers.countryCode}${agent.phoneNumbers.number}`;
               agentPhoneNumbers.add(phoneKey);
             }
           });
         }
-        
+
         // Filtrar números:
         // 1. Que pertenezcan a la cuenta de Twilio seleccionada
         // 2. Que NO estén asociados a ningún agente
-        this.availablePhoneNumbers = allPhoneNumbers.filter(phone => {
+        this.availablePhoneNumbers = allPhoneNumbers.filter((phone) => {
           // Filtrar por cuenta de Twilio
-          const belongsToAccount = phone.twilioAccountId === this.selectedTwilioAccount!.twilioAccountId;
-          
+          const belongsToAccount =
+            phone.twilioAccountId ===
+            this.selectedTwilioAccount!.twilioAccountId;
+
           // Verificar que no esté asociado a ningún agente
           const phoneKey = `${phone.countryCode}${phone.number}`;
           const notInAgents = !agentPhoneNumbers.has(phoneKey);
-          
+
           return belongsToAccount && notInAgents;
         });
       },
@@ -1561,7 +1595,7 @@ export class NewCreateAgentsComponent
         this.loadingPhoneNumbers = false;
         console.error('Error al cargar números de teléfono:', error);
         this.availablePhoneNumbers = [];
-      }
+      },
     });
   }
 
@@ -1619,38 +1653,40 @@ export class NewCreateAgentsComponent
     const twilioAccountId = this.selectedTwilioAccount?.twilioAccountId;
 
     // Primero validar el número de teléfono
-    this.twilioService.validatePhone(countryCode, number, twilioAccountId).subscribe({
-      next: (response) => {
-        // Si la validación es exitosa, proceder a crear el agente
-        this.createAgentAfterValidation();
-      },
-      error: (error) => {
-        console.error('❌ Error al validar número:', error);
+    this.twilioService
+      .validatePhone(countryCode, number, twilioAccountId)
+      .subscribe({
+        next: (response) => {
+          // Si la validación es exitosa, proceder a crear el agente
+          this.createAgentAfterValidation();
+        },
+        error: (error) => {
+          console.error('❌ Error al validar número:', error);
 
-        // Manejar diferentes tipos de errores
-        let errorMessage =
-          'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
+          // Manejar diferentes tipos de errores
+          let errorMessage =
+            'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
 
-        if (error.status === 400) {
-          errorMessage =
-            error?.error?.message ||
-            'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
-        } else if (error.status === 401) {
-          errorMessage =
-            'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
-        } else if (error.status === 404) {
-          errorMessage =
-            'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración en Ajustes > Conexiones > Twilio.';
-        } else if (error?.error?.message) {
-          errorMessage = error.error.message;
-        }
+          if (error.status === 400) {
+            errorMessage =
+              error?.error?.message ||
+              'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
+          } else if (error.status === 401) {
+            errorMessage =
+              'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
+          } else if (error.status === 404) {
+            errorMessage =
+              'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración en Ajustes > Conexiones > Twilio.';
+          } else if (error?.error?.message) {
+            errorMessage = error.error.message;
+          }
 
-        this.modalService.openError({
-          title: 'Error al validar número',
-          message: errorMessage,
-        });
-      },
-    });
+          this.modalService.openError({
+            title: 'Error al validar número',
+            message: errorMessage,
+          });
+        },
+      });
   }
 
   // Método para crear el agente después de validar el número
@@ -2340,18 +2376,91 @@ export class NewCreateAgentsComponent
   openGeneratePromptModal() {
     this.showGeneratePromptModal = true;
     this.promptDescription = '';
+    this.isGeneratingPrompt = false;
+    this.generatePromptError = '';
   }
 
   closeGeneratePromptModal() {
+    if (this.isGeneratingPrompt) return;
     this.showGeneratePromptModal = false;
     this.promptDescription = '';
+    this.isGeneratingPrompt = false;
+    this.generatePromptError = '';
+  }
+
+  private normalizeLanguageCode(code: string): string {
+    const normalized = (code || '').trim().toLowerCase();
+    if (normalized === 'us') return 'en';
+    if (normalized === 'se') return 'sv';
+    if (normalized.length === 2) return normalized;
+    return 'es';
   }
 
   generatePrompt() {
-    // Aquí iría la lógica para generar el prompt con IA
-    // Por ahora, simplemente cerramos el modal
-    // TODO: Implementar la llamada a la API de IA
-    this.closeGeneratePromptModal();
+    if (this.isGeneratingPrompt) return;
+
+    const userDescription = (this.promptDescription || '').trim();
+    if (!userDescription) {
+      this.generatePromptError =
+        'Escribe una descripción para generar el prompt.';
+      return;
+    }
+
+    const voiceId =
+      this.selectedVoiceId ||
+      this.voices?.[this.currentVoiceIndex]?.voiceId ||
+      this.voices?.[this.currentVoiceIndex]?.id ||
+      '';
+
+    const enterpriseName =
+      (this.userStore.user()?.enterprise?.name || '').trim() || 'Mi Empresa';
+
+    const payload: GenerateAgentInstructionsRequest = {
+      enterpriseName,
+      agentName: (this.agentName || '').trim() || 'Agente',
+      callType: this.selectedCallType || 'inbound',
+      language: this.normalizeLanguageCode(this.selectedCountry || 'es'),
+      voiceId,
+      voiceParameters: {
+        stability: this.voiceParameters.stability,
+        similarity: this.voiceParameters.similarity,
+        style: this.voiceParameters.style,
+        boost: this.voiceParameters.boost,
+        speed: this.voiceParameters.speed,
+      },
+      userDescription,
+      ...(this.shopifyConnectedDomain
+        ? { shopDomain: this.shopifyConnectedDomain }
+        : {}),
+    };
+
+    this.isGeneratingPrompt = true;
+    this.generatePromptError = '';
+    console.log('[generatePrompt] request payload:', payload);
+
+    this.agentsService.generateAgentInstructions(payload).subscribe({
+      next: (res) => {
+        console.log('[generatePrompt] response:', res);
+        const instruction = (res?.agentInstruction || '').trim();
+        if (!instruction) {
+          this.generatePromptError =
+            'No se pudo generar el prompt. Inténtalo de nuevo.';
+          this.isGeneratingPrompt = false;
+          return;
+        }
+        this.instructions = instruction;
+        this.isGeneratingPrompt = false;
+        this.closeGeneratePromptModal();
+      },
+      error: (err) => {
+        console.log('[generatePrompt] error:', err);
+        this.isGeneratingPrompt = false;
+        this.generatePromptError =
+          err?.error?.message ||
+          err?.message ||
+          'Error al generar el prompt. Inténtalo de nuevo.';
+      },
+    });
   }
 
   onSkipConnectPhone() {

@@ -1557,7 +1557,7 @@
                 type="button"
                 (click)="openGeneratePromptModal()"
                 class="ai-generate-btn flex items-center gap-1.5 3xl:gap-1.5 px-2.5 py-1 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-3 3xl:py-1.5 text-black text-[9px] sm:text-[10px] md:text-[11px] lg:text-[10px] 3xl:text-sm font-medium rounded-lg 3xl:rounded-lg transition-colors"
-                style="margin-bottom: 0.15rem; margin-right: 0.15rem;"
+                style="margin-bottom: 0.15rem; margin-right: 0.15rem"
               >
                 <div class="ai-border-mask">
                   <div class="ai-border-glow"></div>
@@ -1806,13 +1806,17 @@
                   @if (loadingTwilioAccounts) {
                     <!-- Loader mientras se cargan las cuentas -->
                     <div class="flex items-center justify-center py-4">
-                      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 dark:border-white"></div>
+                      <div
+                        class="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 dark:border-white"
+                      ></div>
                     </div>
                   } @else if (selectedTwilioAccount && isTwilioValidated) {
                     <!-- Mostrar números de teléfono cuando hay cuenta seleccionada y validada -->
                     <div class="space-y-3 3xl:space-y-4">
                       <!-- Botón para volver a selección de cuentas -->
-                      <div class="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700">
+                      <div
+                        class="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-700"
+                      >
                         <div class="flex items-center gap-2">
                           <svg
                             class="w-4 h-4 3xl:w-5 3xl:h-5 text-gray-500 dark:text-gray-400"
@@ -1827,13 +1831,18 @@
                               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                             ></path>
                           </svg>
-                          <span class="text-xs 3xl:text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Cuenta ID: {{ selectedTwilioAccount.twilioAccountId }}
+                          <span
+                            class="text-xs 3xl:text-sm font-medium text-gray-700 dark:text-gray-300"
+                          >
+                            Cuenta ID:
+                            {{ selectedTwilioAccount.twilioAccountId }}
                           </span>
                         </div>
                         <button
                           type="button"
-                          (click)="backToAccountSelection(); showTwilioConfig = true"
+                          (click)="
+                            backToAccountSelection(); showTwilioConfig = true
+                          "
                           class="text-xs 3xl:text-sm text-[#1B2559] dark:text-blue-400 hover:text-[#0a1740] dark:hover:text-blue-300 font-medium transition-colors flex items-center gap-1"
                         >
                           <svg
@@ -1852,26 +1861,43 @@
                           Cambiar cuenta
                         </button>
                       </div>
-                      
+
                       <!-- Números de teléfono disponibles (si hay cuenta seleccionada) -->
                       @if (availablePhoneNumbers.length > 0) {
                         <div class="space-y-2 3xl:space-y-3">
-                          <label class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1">
+                          <label
+                            class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1"
+                          >
                             Números disponibles de esta cuenta
                           </label>
                           @if (loadingPhoneNumbers) {
                             <div class="flex items-center justify-center py-2">
-                              <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900 dark:border-white"></div>
+                              <div
+                                class="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900 dark:border-white"
+                              ></div>
                             </div>
                           } @else {
-                            <div class="max-h-32 3xl:max-h-40 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-lg 3xl:rounded-xl p-2 3xl:p-3 space-y-1 3xl:space-y-2">
-                              @for (phone of availablePhoneNumbers; track phone.phoneId) {
+                            <div
+                              class="max-h-32 3xl:max-h-40 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-lg 3xl:rounded-xl p-2 3xl:p-3 space-y-1 3xl:space-y-2"
+                            >
+                              @for (
+                                phone of availablePhoneNumbers;
+                                track phone.phoneId
+                              ) {
                                 <button
                                   type="button"
-                                  (click)="phoneNumber = phone.number; selectedCountryCode = phone.countryCode; validatePhoneNumber()"
+                                  (click)="
+                                    phoneNumber = phone.number;
+                                    selectedCountryCode = phone.countryCode;
+                                    validatePhoneNumber()
+                                  "
                                   class="w-full text-left px-2 py-1.5 3xl:px-3 3xl:py-2 rounded-md 3xl:rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-xs 3xl:text-sm"
                                 >
-                                  <span class="text-gray-900 dark:text-white font-medium">{{ phone.countryCode }} {{ phone.number }}</span>
+                                  <span
+                                    class="text-gray-900 dark:text-white font-medium"
+                                    >{{ phone.countryCode }}
+                                    {{ phone.number }}</span
+                                  >
                                 </button>
                               }
                             </div>
@@ -1900,9 +1926,15 @@
                             <div
                               #countryDropdown
                               (click)="onCountryDropdownClick($event)"
-                              [class.cursor-pointer]="isTwilioValidated && !isValidatingTwilio"
-                              [class.cursor-not-allowed]="!isTwilioValidated || isValidatingTwilio"
-                              [class.opacity-50]="!isTwilioValidated || isValidatingTwilio"
+                              [class.cursor-pointer]="
+                                isTwilioValidated && !isValidatingTwilio
+                              "
+                              [class.cursor-not-allowed]="
+                                !isTwilioValidated || isValidatingTwilio
+                              "
+                              [class.opacity-50]="
+                                !isTwilioValidated || isValidatingTwilio
+                              "
                               class="w-24 h-8 3xl:w-28 3xl:h-11 bg-white dark:bg-slate-800 border border-r-0 border-gray-300 dark:border-slate-600 rounded-l-lg 3xl:rounded-l-xl px-2 3xl:px-3 flex items-center justify-between gap-1.5 hover:bg-gray-50 dark:hover:bg-slate-700 transition-all shadow-sm relative z-10"
                             >
                               <div class="flex items-center gap-1">
@@ -1954,7 +1986,9 @@
                                 [(ngModel)]="phoneNumber"
                                 (ngModelChange)="onPhoneNumberChange()"
                                 placeholder="630 00 00 00"
-                                [disabled]="!isTwilioValidated || isValidatingTwilio"
+                                [disabled]="
+                                  !isTwilioValidated || isValidatingTwilio
+                                "
                                 class="w-full h-8 3xl:h-11 px-2.5 3xl:px-3 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-lg 3xl:rounded-r-xl rounded-l-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-xs text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-slate-400 transition-all shadow-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed relative z-0"
                                 [class.border-l-0]="
                                   phoneValidationStatus === 'success' ||
@@ -2014,32 +2048,53 @@
                         </div>
                       </div>
                     </div>
-                  } @else if (twilioAccounts.length > 0 && !showNewTwilioAccountForm) {
+                  } @else if (
+                    twilioAccounts.length > 0 && !showNewTwilioAccountForm
+                  ) {
                     <!-- Lista de cuentas de Twilio conectadas -->
                     <div class="flex flex-col gap-2 3xl:gap-3">
-                      <h4 class="text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white">
+                      <h4
+                        class="text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-white"
+                      >
                         Cuentas de Twilio conectadas
                       </h4>
                       <div class="flex flex-col gap-2 3xl:gap-3">
-                        @for (account of twilioAccounts; track account.twilioAccountId) {
+                        @for (
+                          account of twilioAccounts;
+                          track account.twilioAccountId
+                        ) {
                           <button
                             type="button"
                             (click)="useExistingTwilioAccount(account)"
                             [disabled]="isValidatingTwilio"
                             class="w-full px-3 py-2.5 3xl:px-4 3xl:py-3 rounded-lg 3xl:rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 hover:border-[#1B2559] dark:hover:border-white hover:bg-gray-50 dark:hover:bg-gray-700 transition-all text-left disabled:opacity-50 disabled:cursor-not-allowed"
-                            [class.border-[#1B2559]]="selectedTwilioAccount?.twilioAccountId === account.twilioAccountId"
-                            [class.dark:border-white]="selectedTwilioAccount?.twilioAccountId === account.twilioAccountId"
+                            [class.border-[#1B2559]]="
+                              selectedTwilioAccount?.twilioAccountId ===
+                              account.twilioAccountId
+                            "
+                            [class.dark:border-white]="
+                              selectedTwilioAccount?.twilioAccountId ===
+                              account.twilioAccountId
+                            "
                           >
                             <div class="flex items-center justify-between">
                               <div class="flex flex-col gap-0.5">
-                                <span class="text-xs 3xl:text-sm font-medium text-gray-900 dark:text-white">
+                                <span
+                                  class="text-xs 3xl:text-sm font-medium text-gray-900 dark:text-white"
+                                >
                                   Cuenta ID: {{ account.twilioAccountId }}
                                 </span>
-                                <span class="text-[10px] 3xl:text-xs text-gray-500 dark:text-gray-400">
-                                  SID: {{ account.twilioSid.substring(0, 12) }}...
+                                <span
+                                  class="text-[10px] 3xl:text-xs text-gray-500 dark:text-gray-400"
+                                >
+                                  SID:
+                                  {{ account.twilioSid.substring(0, 12) }}...
                                 </span>
                               </div>
-                              @if (selectedTwilioAccount?.twilioAccountId === account.twilioAccountId && isTwilioValidated) {
+                              @if (
+                                selectedTwilioAccount?.twilioAccountId ===
+                                  account.twilioAccountId && isTwilioValidated
+                              ) {
                                 <svg
                                   class="w-4 h-4 3xl:w-5 3xl:h-5 text-green-500"
                                   fill="none"
@@ -2072,7 +2127,7 @@
                           </button>
                         }
                       </div>
-                      
+
                       <!-- Botón para conectar nueva cuenta -->
                       <div class="pt-1 3xl:pt-2">
                         <button
@@ -2080,7 +2135,9 @@
                           (click)="showNewTwilioAccount()"
                           class="w-full px-3 py-2 3xl:px-4 3xl:py-3 rounded-lg 3xl:rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-transparent hover:border-[#1B2559] dark:hover:border-white hover:bg-gray-50 dark:hover:bg-gray-800 transition-all text-center"
                         >
-                          <span class="text-xs 3xl:text-sm font-medium text-gray-700 dark:text-gray-300">
+                          <span
+                            class="text-xs 3xl:text-sm font-medium text-gray-700 dark:text-gray-300"
+                          >
                             + Conectar nueva cuenta
                           </span>
                         </button>
@@ -2089,173 +2146,171 @@
                   } @else {
                     <!-- Formulario de nueva cuenta -->
                     <!-- Account SID y Auth Token en una línea -->
-                  <div class="flex items-end gap-3 3xl:gap-4">
-                    <div class="flex-1 space-y-1 3xl:space-y-1.5">
-                      <label
-                        class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1"
-                        >Account SID</label
-                      >
-                      <div
-                        class="relative phone-input-wrapper"
-                        [class.validating]="isValidatingTwilio"
-                      >
-                        <input
-                          type="text"
-                          [(ngModel)]="twilioSid"
-                          (ngModelChange)="onTwilioSidChange()"
-                          placeholder="ACxxxxxxxx..."
-                          [disabled]="isValidatingTwilio"
-                          [class.phone-input-border-success]="
-                            twilioSidValidationStatus === 'success'
-                          "
-                          [class.phone-input-border-error]="
-                            twilioSidValidationStatus === 'error'
-                          "
-                          class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-0 focus:border-gray-300 dark:focus:border-slate-600 text-xs 3xl:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 3xl:h-11 disabled:opacity-50 disabled:cursor-not-allowed relative z-0"
-                        />
-
-                        <!-- Animación del borde cuando está validando -->
-                        @if (isValidatingTwilio) {
-                          <div class="phone-input-border-mask">
-                            <div class="phone-input-border-glow"></div>
-                          </div>
-                        }
-                      </div>
-                    </div>
-
-                    <div class="flex-1 space-y-1 3xl:space-y-1.5">
-                      <label
-                        class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1"
-                        >Auth Token</label
-                      >
-                      <div
-                        class="relative phone-input-wrapper"
-                        [class.validating]="isValidatingTwilio"
-                      >
-                        <input
-                          type="password"
-                          [(ngModel)]="twilioToken"
-                          (ngModelChange)="onTwilioTokenChange()"
-                          placeholder="••••••••••••••••"
-                          [disabled]="isValidatingTwilio"
-                          [class.phone-input-border-success]="
-                            twilioTokenValidationStatus === 'success'
-                          "
-                          [class.phone-input-border-error]="
-                            twilioTokenValidationStatus === 'error'
-                          "
-                          class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-0 focus:border-gray-300 dark:focus:border-slate-600 text-xs 3xl:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 3xl:h-11 disabled:opacity-50 disabled:cursor-not-allowed relative z-0"
-                        />
-
-                        <!-- Animación del borde cuando está validando -->
-                        @if (isValidatingTwilio) {
-                          <div class="phone-input-border-mask">
-                            <div class="phone-input-border-glow"></div>
-                          </div>
-                        }
-                      </div>
-                    </div>
-
-                    <div class="relative group">
-                      <button
-                        (click)="validateTwilioConfig()"
-                        [disabled]="
-                          isValidatingTwilio ||
-                          !twilioSid ||
-                          !twilioToken ||
-                          !twilioSid.trim() ||
-                          !twilioToken.trim()
-                        "
-                        class="px-4 py-1.5 3xl:px-5 3xl:py-3 3xl:text-base bg-black dark:bg-white text-white dark:text-white text-xs font-medium rounded-lg 3xl:rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 3xl:h-11 mb-[1px] whitespace-nowrap shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[90px] 3xl:min-w-[110px] justify-center"
-                      >
-                        @if (isValidatingTwilio) {
-                          <!-- Loader -->
-                          <svg
-                            class="animate-spin h-3.5 w-3.5 text-white dark:text-gray-900"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              class="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              stroke-width="4"
-                            ></circle>
-                            <path
-                              class="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                          <span>Validando...</span>
-                        } @else if (twilioValidationStatus === "success") {
-                          <!-- Tick verde -->
-                          <svg
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2.5"
-                              stroke="#10b981"
-                              d="M5 13l4 4L19 7"
-                            ></path>
-                          </svg>
-                          <span style="color: #111827 !important"
-                            >Validado</span
-                          >
-                        } @else if (twilioValidationStatus === "error") {
-                          <!-- X roja -->
-                          <svg
-                            class="h-4 w-4"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2.5"
-                              stroke="#ef4444"
-                              d="M6 18L18 6M6 6l12 12"
-                            ></path>
-                          </svg>
-                          <span style="color: #111827 !important">Error</span>
-                        } @else {
-                          <span>Validar</span>
-                        }
-                      </button>
-                      <!-- Tooltip con mensaje de error (solo visible cuando hay error) -->
-                      @if (twilioValidationStatus === "error") {
-                        <div
-                          class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-normal max-w-xs w-max"
-                          style="z-index: 9999"
+                    <div class="flex items-end gap-3 3xl:gap-4">
+                      <div class="flex-1 space-y-1 3xl:space-y-1.5">
+                        <label
+                          class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1"
+                          >Account SID</label
                         >
-                          {{ twilioErrorMessage }}
-                          <div
-                            class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1"
-                          >
-                            <div
-                              class="border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"
-                            ></div>
-                          </div>
+                        <div
+                          class="relative phone-input-wrapper"
+                          [class.validating]="isValidatingTwilio"
+                        >
+                          <input
+                            type="text"
+                            [(ngModel)]="twilioSid"
+                            (ngModelChange)="onTwilioSidChange()"
+                            placeholder="ACxxxxxxxx..."
+                            [disabled]="isValidatingTwilio"
+                            [class.phone-input-border-success]="
+                              twilioSidValidationStatus === 'success'
+                            "
+                            [class.phone-input-border-error]="
+                              twilioSidValidationStatus === 'error'
+                            "
+                            class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-0 focus:border-gray-300 dark:focus:border-slate-600 text-xs 3xl:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 3xl:h-11 disabled:opacity-50 disabled:cursor-not-allowed relative z-0"
+                          />
+
+                          <!-- Animación del borde cuando está validando -->
+                          @if (isValidatingTwilio) {
+                            <div class="phone-input-border-mask">
+                              <div class="phone-input-border-glow"></div>
+                            </div>
+                          }
                         </div>
-                      }
+                      </div>
+
+                      <div class="flex-1 space-y-1 3xl:space-y-1.5">
+                        <label
+                          class="text-[10px] 3xl:text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ml-1"
+                          >Auth Token</label
+                        >
+                        <div
+                          class="relative phone-input-wrapper"
+                          [class.validating]="isValidatingTwilio"
+                        >
+                          <input
+                            type="password"
+                            [(ngModel)]="twilioToken"
+                            (ngModelChange)="onTwilioTokenChange()"
+                            placeholder="••••••••••••••••"
+                            [disabled]="isValidatingTwilio"
+                            [class.phone-input-border-success]="
+                              twilioTokenValidationStatus === 'success'
+                            "
+                            [class.phone-input-border-error]="
+                              twilioTokenValidationStatus === 'error'
+                            "
+                            class="w-full px-3 py-1.5 3xl:px-4 3xl:py-3 border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl focus:ring-0 focus:border-gray-300 dark:focus:border-slate-600 text-xs 3xl:text-base text-gray-900 dark:text-gray-100 placeholder-gray-400 bg-white dark:bg-slate-800 outline-none transition-all h-8 3xl:h-11 disabled:opacity-50 disabled:cursor-not-allowed relative z-0"
+                          />
+
+                          <!-- Animación del borde cuando está validando -->
+                          @if (isValidatingTwilio) {
+                            <div class="phone-input-border-mask">
+                              <div class="phone-input-border-glow"></div>
+                            </div>
+                          }
+                        </div>
+                      </div>
+
+                      <div class="relative group">
+                        <button
+                          (click)="validateTwilioConfig()"
+                          [disabled]="
+                            isValidatingTwilio ||
+                            !twilioSid ||
+                            !twilioToken ||
+                            !twilioSid.trim() ||
+                            !twilioToken.trim()
+                          "
+                          class="px-4 py-1.5 3xl:px-5 3xl:py-3 3xl:text-base bg-black dark:bg-white text-white dark:text-white text-xs font-medium rounded-lg 3xl:rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors h-8 3xl:h-11 mb-[1px] whitespace-nowrap shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 min-w-[90px] 3xl:min-w-[110px] justify-center"
+                        >
+                          @if (isValidatingTwilio) {
+                            <!-- Loader -->
+                            <svg
+                              class="animate-spin h-3.5 w-3.5 text-white dark:text-gray-900"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                class="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                stroke-width="4"
+                              ></circle>
+                              <path
+                                class="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              ></path>
+                            </svg>
+                            <span>Validando...</span>
+                          } @else if (twilioValidationStatus === "success") {
+                            <!-- Tick verde -->
+                            <svg
+                              class="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2.5"
+                                stroke="#10b981"
+                                d="M5 13l4 4L19 7"
+                              ></path>
+                            </svg>
+                            <span style="color: #111827 !important"
+                              >Validado</span
+                            >
+                          } @else if (twilioValidationStatus === "error") {
+                            <!-- X roja -->
+                            <svg
+                              class="h-4 w-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2.5"
+                                stroke="#ef4444"
+                                d="M6 18L18 6M6 6l12 12"
+                              ></path>
+                            </svg>
+                            <span style="color: #111827 !important">Error</span>
+                          } @else {
+                            <span>Validar</span>
+                          }
+                        </button>
+                        <!-- Tooltip con mensaje de error (solo visible cuando hay error) -->
+                        @if (twilioValidationStatus === "error") {
+                          <div
+                            class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-normal max-w-xs w-max"
+                            style="z-index: 9999"
+                          >
+                            {{ twilioErrorMessage }}
+                            <div
+                              class="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1"
+                            >
+                              <div
+                                class="border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"
+                              ></div>
+                            </div>
+                          </div>
+                        }
+                      </div>
                     </div>
-                  </div>
                   }
                 </div>
               </div>
             }
-
           </div>
-
         </div>
       </div>
 
@@ -2718,8 +2773,15 @@
             [(ngModel)]="promptDescription"
             placeholder="Ejemplo: Un agente que ayude a los usuarios a encontrar restaurantes..."
             class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs sm:text-sm text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-slate-400 resize-none"
+            [disabled]="isGeneratingPrompt"
             rows="3"
           ></textarea>
+
+          @if (generatePromptError) {
+            <p class="mt-2 text-xs sm:text-sm text-red-600 dark:text-red-400">
+              {{ generatePromptError }}
+            </p>
+          }
         </div>
 
         <!-- Footer con botones -->
@@ -2728,25 +2790,44 @@
         >
           <button
             (click)="closeGeneratePromptModal()"
-            class="px-4 py-2 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors text-xs sm:text-sm font-medium"
+            [disabled]="isGeneratingPrompt"
+            class="px-4 py-2 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-slate-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors text-xs sm:text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancelar
           </button>
           <button
             (click)="generatePrompt()"
-            class="px-4 py-2 bg-[#1E3A8AE6] hover:bg-blue-700 text-white rounded-lg transition-colors text-xs sm:text-sm font-medium flex items-center gap-2"
+            [disabled]="isGeneratingPrompt"
+            class="px-4 py-2 bg-[#1E3A8AE6] hover:bg-blue-700 text-white rounded-lg transition-colors text-xs sm:text-sm font-medium flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <svg
-              class="w-3.5 h-3.5"
-              viewBox="0 0 56 56"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M 26.6875 12.6602 C 26.9687 12.6602 27.1094 12.4961 27.1797 12.2383 C 27.9062 8.3242 27.8594 8.2305 31.9375 7.4570 C 32.2187 7.4102 32.3828 7.2461 32.3828 6.9648 C 32.3828 6.6836 32.2187 6.5195 31.9375 6.4726 C 27.8828 5.6524 28.0000 5.5586 27.1797 1.6914 C 27.1094 1.4336 26.9687 1.2695 26.6875 1.2695 C 26.4062 1.2695 26.2656 1.4336 26.1953 1.6914 C 25.3750 5.5586 25.5156 5.6524 21.4375 6.4726 C 21.1797 6.5195 20.9922 6.6836 20.9922 6.9648 C 20.9922 7.2461 21.1797 7.4102 21.4375 7.4570 C 25.5156 8.2774 25.4687 8.3242 26.1953 12.2383 C 26.2656 12.4961 26.4062 12.6602 26.6875 12.6602 Z M 15.3438 28.7852 C 15.7891 28.7852 16.0938 28.5039 16.1406 28.0821 C 16.9844 21.8242 17.1953 21.8242 23.6641 20.5821 C 24.0860 20.5117 24.3906 20.2305 24.3906 19.7852 C 24.3906 19.3633 24.0860 19.0586 23.6641 18.9883 C 17.1953 18.0977 16.9609 17.8867 16.1406 11.5117 C 16.0938 11.0899 15.7891 10.7852 15.3438 10.7852 C 14.9219 10.7852 14.6172 11.0899 14.5703 11.5352 C 13.7969 17.8164 13.4687 17.7930 7.0469 18.9883 C 6.6250 19.0821 6.3203 19.3633 6.3203 19.7852 C 6.3203 20.2539 6.6250 20.5117 7.1406 20.5821 C 13.5156 21.6133 13.7969 21.7774 14.5703 28.0352 C 14.6172 28.5039 14.9219 28.7852 15.3438 28.7852 Z M 31.2344 54.7305 C 31.8438 54.7305 32.2891 54.2852 32.4062 53.6524 C 34.0703 40.8086 35.8750 38.8633 48.5781 37.4570 C 49.2344 37.3867 49.6797 36.8945 49.6797 36.2852 C 49.6797 35.6758 49.2344 35.2070 48.5781 35.1133 C 35.8750 33.7070 34.0703 31.7617 32.4062 18.9180 C 32.2891 18.2852 31.8438 17.8633 31.2344 17.8633 C 30.6250 17.8633 30.1797 18.2852 30.0860 18.9180 C 28.4219 31.7617 26.5938 33.7070 13.9140 35.1133 C 13.2344 35.2070 12.7891 35.6758 12.7891 36.2852 C 12.7891 36.8945 13.2344 37.3867 13.9140 37.4570 C 26.5703 39.1211 28.3281 40.8321 30.0860 53.6524 C 30.1797 54.2852 30.6250 54.7305 31.2344 54.7305 Z"
-              />
-            </svg>
-            Generar prompt
+            @if (isGeneratingPrompt) {
+              <svg
+                class="w-3.5 h-3.5 animate-spin"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 2a10 10 0 1 0 10 10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+              Generando...
+            } @else {
+              <svg
+                class="w-3.5 h-3.5"
+                viewBox="0 0 56 56"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M 26.6875 12.6602 C 26.9687 12.6602 27.1094 12.4961 27.1797 12.2383 C 27.9062 8.3242 27.8594 8.2305 31.9375 7.4570 C 32.2187 7.4102 32.3828 7.2461 32.3828 6.9648 C 32.3828 6.6836 32.2187 6.5195 31.9375 6.4726 C 27.8828 5.6524 28.0000 5.5586 27.1797 1.6914 C 27.1094 1.4336 26.9687 1.2695 26.6875 1.2695 C 26.4062 1.2695 26.2656 1.4336 26.1953 1.6914 C 25.3750 5.5586 25.5156 5.6524 21.4375 6.4726 C 21.1797 6.5195 20.9922 6.6836 20.9922 6.9648 C 20.9922 7.2461 21.1797 7.4102 21.4375 7.4570 C 25.5156 8.2774 25.4687 8.3242 26.1953 12.2383 C 26.2656 12.4961 26.4062 12.6602 26.6875 12.6602 Z M 15.3438 28.7852 C 15.7891 28.7852 16.0938 28.5039 16.1406 28.0821 C 16.9844 21.8242 17.1953 21.8242 23.6641 20.5821 C 24.0860 20.5117 24.3906 20.2305 24.3906 19.7852 C 24.3906 19.3633 24.0860 19.0586 23.6641 18.9883 C 17.1953 18.0977 16.9609 17.8867 16.1406 11.5117 C 16.0938 11.0899 15.7891 10.7852 15.3438 10.7852 C 14.9219 10.7852 14.6172 11.0899 14.5703 11.5352 C 13.7969 17.8164 13.4687 17.7930 7.0469 18.9883 C 6.6250 19.0821 6.3203 19.3633 6.3203 19.7852 C 6.3203 20.2539 6.6250 20.5117 7.1406 20.5821 C 13.5156 21.6133 13.7969 21.7774 14.5703 28.0352 C 14.6172 28.5039 14.9219 28.7852 15.3438 28.7852 Z M 31.2344 54.7305 C 31.8438 54.7305 32.2891 54.2852 32.4062 53.6524 C 34.0703 40.8086 35.8750 38.8633 48.5781 37.4570 C 49.2344 37.3867 49.6797 36.8945 49.6797 36.2852 C 49.6797 35.6758 49.2344 35.2070 48.5781 35.1133 C 35.8750 33.7070 34.0703 31.7617 32.4062 18.9180 C 32.2891 18.2852 31.8438 17.8633 31.2344 17.8633 C 30.6250 17.8633 30.1797 18.2852 30.0860 18.9180 C 28.4219 31.7617 26.5938 33.7070 13.9140 35.1133 C 13.2344 35.2070 12.7891 35.6758 12.7891 36.2852 C 12.7891 36.8945 13.2344 37.3867 13.9140 37.4570 C 26.5703 39.1211 28.3281 40.8321 30.0860 53.6524 C 30.1797 54.2852 30.6250 54.7305 31.2344 54.7305 Z"
+                />
+              </svg>
+              Generar prompt
+            }
           </button>
         </div>
       </div>
