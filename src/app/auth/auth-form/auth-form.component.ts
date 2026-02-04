@@ -255,61 +255,34 @@ export class AuthFormComponent implements OnInit {
 
     this.userService.RegisterUser(user).subscribe({
       next: (response) => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-          localStorage.setItem('token', response.token);
-        }
-
-        this.userService.getUserProfile().subscribe({
-          next: (data) => {
-            this.userStorage.setUser(data);
-
-            // Actualizar TwilioStorage si viene en el perfil
-            // Usar la primera cuenta de Twilio para compatibilidad con el storage actual
-            if (
-              data.twilio &&
-              Array.isArray(data.twilio) &&
-              data.twilio.length > 0
-            ) {
-              const firstAccount = data.twilio[0];
-              this.twilioStorage.setConfig({
-                twilioAccountId: firstAccount.twilioAccountId,
-                twilioSid: firstAccount.twilioSid,
-                twilioToken: firstAccount.twilioToken,
-              });
-            }
-
-            // Mostrar modal de éxito para registro
-            this.modalService.openLoginSuccess({
-              title: '¡Bienvenido!',
-              message: `Hola ${
-                data.name || ''
-              }, tu cuenta ha sido creada exitosamente.`,
-              userName: data.name,
-              showContinueButton: true,
-              continueButtonText: 'Comenzar',
-            });
-
-            // Redirigir después de un breve delay
-            setTimeout(() => {
-              this.router.navigate(['/dashboard']);
-            }, 2000);
+        // Mostrar notificación de validación de correo
+        this.snackBar.open(
+          'Ahora debe ir a su correo electrónico y validarlo para poder acceder a su cuenta.',
+          'Cerrar',
+          {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-info'],
           },
-          error: (err) => {
-            this.modalService.openError({
-              title: 'Perfil de usuario',
-              message: 'Error al obtener perfil de usuario',
-              details: String(err?.message || err),
-            });
-          },
-        });
+        );
+
+        // Redirigir a login después de un breve delay
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
       },
       error: (err) => {
-        this.modalService.openError({
-          title: 'Registro',
-          message:
-            err?.error?.message || 'Error en registro. Verifica los datos',
-          details: String(err?.message || err),
-        });
+        this.snackBar.open(
+          'Error al registrar usuario. Por favor, inténtelo de nuevo.',
+          'Cerrar',
+          {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error'],
+          },
+        );
       },
     });
   }
