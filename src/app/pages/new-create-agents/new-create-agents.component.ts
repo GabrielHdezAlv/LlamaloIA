@@ -2122,6 +2122,11 @@ export class NewCreateAgentsComponent
     this.router.navigate(['/dashboard/agents']);
   }
 
+  // Método para ir a la página de agentes desde el paso de éxito
+  goToAgents() {
+    this.router.navigate(['/dashboard/agents']);
+  }
+
   // Métodos para el micrófono
   async toggleMicrophone() {
     if (this.isMicrophoneActive) {
