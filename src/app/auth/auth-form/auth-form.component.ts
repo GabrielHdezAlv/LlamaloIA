@@ -206,7 +206,7 @@ export class AuthFormComponent implements OnInit {
 
     event.preventDefault();
 
-    // Validar campos antes de abrir el modal
+    // Validar campos antes de registrar
     if (!this.fullName || !this.email || !this.password || !this.country) {
       this.modalService.openError({
         title: 'Campos requeridos',
@@ -224,21 +224,8 @@ export class AuthFormComponent implements OnInit {
       return;
     }
 
-    // Abrir modal de verificación de email
-    const dialogRef = this.modalService.openEmailVerification({
-      email: this.email,
-      title: 'Verificación de correo',
-      message:
-        'Hemos enviado un código de verificación a tu correo electrónico. Por favor, ingresa el código para completar tu registro.',
-    });
-
-    // Esperar a que el usuario verifique el código
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result && result.verified) {
-        // Solo proceder con el registro si el código fue verificado
-        this.completeRegistration();
-      }
-    });
+    // Realizar registro directamente
+    this.completeRegistration();
   }
 
   private completeRegistration() {
