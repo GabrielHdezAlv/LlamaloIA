@@ -1,0 +1,51 @@
+<div class="verify-email-container">
+  <div class="verification-card">
+    <!-- Loading State -->
+    <div *ngIf="verificationState === 'loading'" class="state-content loading-state">
+      <div class="spinner">
+        <div class="spinner-circle"></div>
+      </div>
+      <h2 class="state-title">Verificando tu email...</h2>
+      <p class="state-message">Por favor, espera un momento mientras verificamos tu correo electrónico.</p>
+    </div>
+
+    <!-- Success State -->
+    <div *ngIf="verificationState === 'success'" class="state-content success-state">
+      <div class="success-icon">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="#10b981" stroke-width="2"/>
+          <path d="M9 12l2 2 4-4" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="state-title">¡Email verificado!</h2>
+      <p class="state-message">Redirigiendo al login...</p>
+      <div class="countdown">
+        <div class="countdown-bar"></div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="verificationState === 'error'" class="state-content error-state">
+      <div class="error-icon">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="#ef4444" stroke-width="2"/>
+          <path d="M15 9l-6 6M9 9l6 6" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2 class="state-title">Error de verificación</h2>
+      <p class="state-message">{{ message }}</p>
+      <div class="error-actions">
+        <button class="btn btn-primary" (click)="navigateToRegister()">
+          Ir al registro
+        </button>
+        <button class="btn btn-secondary" (click)="navigateToLogin()">
+          Ir al login
+        </button>
+      </div>
+      <div class="countdown">
+        <p class="countdown-text">Redirigiendo automáticamente en {{ countdown }} segundos...</p>
+        <div class="countdown-bar"></div>
+      </div>
+    </div>
+  </div>
+</div>

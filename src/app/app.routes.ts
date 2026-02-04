@@ -22,6 +22,7 @@ import { EditAgentComponent } from './pages/edit-agent/edit-agent.component';
 import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.component';
 import { ShopifyOnboardingComponent } from './pages/shopify-onboarding/shopify-onboarding.component';
 import { ShopifySuccessComponent } from './pages/shopify-success/shopify-success.component';
+import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
 
 export const routes: Routes = [
   {
@@ -58,6 +59,10 @@ export const routes: Routes = [
       bottomLinkText: 'Iniciar sesión',
       bottomLinkRoute: '/login',
     },
+  },
+  {
+    path: 'verify-email',
+    component: VerifyEmailComponent,
   },
   // Rutas deshabilitadas temporalmente
   // {

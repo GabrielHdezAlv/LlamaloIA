@@ -68,9 +68,7 @@ export class UserService {
    *   }>
    * }
    */
-  getUserPhoneNumbers(
-    q?: string
-  ): Observable<{
+  getUserPhoneNumbers(q?: string): Observable<{
     phoneNumbers: Array<{
       phoneId: number;
       countryCode: string;
@@ -107,9 +105,12 @@ export class UserService {
   }
 
   getUserProfile(): Observable<UserProfileResponseDto> {
-    return this.http.get<UserProfileResponseDto>(`${this.apiUrl}/users/profile`, {
-      headers: this.getAuthHeaders(),
-    });
+    return this.http.get<UserProfileResponseDto>(
+      `${this.apiUrl}/users/profile`,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
   }
 
   RegisterUser(newUser: CreateUserDto): Observable<any> {
@@ -141,7 +142,10 @@ export class UserService {
   }
 
   // Cambiar contraseña
-  changePassword(newPassword: string, confirmPassword: string): Observable<any> {
+  changePassword(
+    newPassword: string,
+    confirmPassword: string,
+  ): Observable<any> {
     return this.http.post<any>(
       `${this.apiUrl}/auth/change-password`,
       {
@@ -150,17 +154,33 @@ export class UserService {
       },
       {
         headers: this.getAuthHeaders(),
-      }
+      },
     );
   }
 
   // Eliminar cuenta (programada)
-  deleteAccount(): Observable<{ message: string; scheduledDeletionDate: string }> {
+  deleteAccount(): Observable<{
+    message: string;
+    scheduledDeletionDate: string;
+  }> {
     return this.http.delete<{ message: string; scheduledDeletionDate: string }>(
       `${this.apiUrl}/users/account`,
       {
         headers: this.getAuthHeaders(),
-      }
+      },
+    );
+  }
+
+  // Verificar email
+  verifyEmail(
+    token: string,
+  ): Observable<{ message: string; accountStatus: number }> {
+    return this.http.post<{ message: string; accountStatus: number }>(
+      `${this.apiUrl}/auth/verify-email`,
+      { token },
+      {
+        headers: this.getAuthHeaders(),
+      },
     );
   }
 }
