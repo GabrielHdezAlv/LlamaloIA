@@ -17,6 +17,7 @@ export interface Agent {
   name: string;
   type: 'outbound' | 'inbound';
   language: string;
+  twilioAccountId?: number | null;
   voiceId: string;
   firstInteraction: string;
   agentInstruction: string;
@@ -39,6 +40,7 @@ export interface SetAgentConfigDto {
   name: string;
   language: string; // Solo código: "es", "en", etc.
   type: 'outbound' | 'inbound';
+  twilioAccountId: number;
   voiceId: string;
   firstInteraction: string;
   agentInstruction: string;

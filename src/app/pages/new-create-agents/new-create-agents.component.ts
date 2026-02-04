@@ -1704,6 +1704,7 @@ export class NewCreateAgentsComponent
       name: this.agentName || 'Agente',
       language: this.selectedCountry || 'es', // Usar código del país como idioma
       type: this.selectedCallType || 'inbound',
+      twilioAccountId: Number(this.selectedTwilioAccount?.twilioAccountId ?? 0),
       voiceId: voiceId,
       firstInteraction: this.greeting || '',
       agentInstruction: this.instructions || '',

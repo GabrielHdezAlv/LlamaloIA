@@ -8,7 +8,11 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TwilioIntegrationModalComponent } from '../../shared/modals/twilio-integration-modal/twilio-integration-modal.component';
 import { TwilioSuccessModalComponent } from '../../shared/modals/twilio-success-modal/twilio-success-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { TwilioConfig, TwilioConfigRequest, TwilioConfigLocal } from '../../shared/models/twilio-config.model';
+import {
+  TwilioConfig,
+  TwilioConfigRequest,
+  TwilioConfigLocal,
+} from '../../shared/models/twilio-config.model';
 import { TwilioService } from '../../core/services/twilio.service';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
@@ -107,7 +111,8 @@ export class AgentsComponent implements OnInit {
         // Si hay una voz guardada en el usuario, intentar encontrarla
         const userVoiceId = this.userStorage.user()?.voiceId;
         if (userVoiceId && voices.length > 0) {
-          this.selectedVoice = voices.find((voice) => voice.voiceId === userVoiceId) || voices[0];
+          this.selectedVoice =
+            voices.find((voice) => voice.voiceId === userVoiceId) || voices[0];
         } else {
           this.selectedVoice = voices[0] || null;
         }
@@ -124,8 +129,7 @@ export class AgentsComponent implements OnInit {
 
     // Listar agentes del usuario
     this.agentsService.getAgentsList().subscribe({
-      next: (response) => {
-      },
+      next: (response) => {},
       error: (error) => {
         console.error('❌ Error al obtener agentes:', error);
       },
@@ -165,9 +169,12 @@ export class AgentsComponent implements OnInit {
       data: {
         formEnabled: editMode,
         config: existingConfig,
-        twilioAccountId: existingConfig?.twilioAccountId,  // ⚠️ NUEVO: pasar twilioAccountId si existe
+        twilioAccountId: existingConfig?.twilioAccountId, // ⚠️ NUEVO: pasar twilioAccountId si existe
         // Valores adicionales para el storage local (TwilioConfigLocal)
-        firstInteraction: this.firstInteractionMessage || existingConfig?.firstInteraction || '',
+        firstInteraction:
+          this.firstInteractionMessage ||
+          existingConfig?.firstInteraction ||
+          '',
         firstInteractionUrl: existingConfig?.firstInteractionUrl || '',
         agentInstruction: existingConfig?.agentInstruction || '',
       },
@@ -200,7 +207,7 @@ export class AgentsComponent implements OnInit {
           this.modalService.openError({
             title: 'Error de configuración',
             message: 'No se pudo guardar la configuración de Twilio.',
-            details: String(err)
+            details: String(err),
           });
         },
       });
@@ -252,26 +259,29 @@ export class AgentsComponent implements OnInit {
 
     // Obtener configuración de Twilio
     const twilioConfig = this.twilioStorage.config();
-    
+
     // Validar que tenemos los datos necesarios
     if (!twilioConfig?.countryCode || !twilioConfig?.phoneNumber) {
       loaderRef.close();
       this.modalService.openError({
         title: 'Validación',
-        message: 'Por favor, configura primero la integración con Twilio (número de teléfono).',
+        message:
+          'Por favor, configura primero la integración con Twilio (número de teléfono).',
       });
       return;
     }
 
     // Construir el DTO para crear el agente
-    const languageCode = typeof this.selectedLanguage === 'string' 
-      ? this.selectedLanguage 
-      : this.selectedLanguage?.code || 'es';
+    const languageCode =
+      typeof this.selectedLanguage === 'string'
+        ? this.selectedLanguage
+        : this.selectedLanguage?.code || 'es';
 
     const agentConfig: SetAgentConfigDto = {
       name: this.selectedVoice.name || 'Agente',
       language: languageCode,
       type: 'inbound', // Por defecto inbound, puede ser configurable en el futuro
+      twilioAccountId: Number(twilioConfig.twilioAccountId ?? 0),
       voiceId: this.selectedVoice.voiceId,
       firstInteraction: this.firstInteractionMessage,
       agentInstruction: twilioConfig.agentInstruction || '',
@@ -285,9 +295,9 @@ export class AgentsComponent implements OnInit {
         similarity: 0.8,
         style: 0.5,
         boost: true,
-        speed: 0.98
+        speed: 0.98,
       },
-      state: "Activo"
+      state: 'Activo',
     };
 
     // Crear el agente
@@ -310,7 +320,7 @@ export class AgentsComponent implements OnInit {
         this.modalService.openError({
           title: 'Error',
           message: 'No se pudo crear el agente.',
-          details: String(error)
+          details: String(error),
         });
       },
     });
@@ -335,12 +345,12 @@ export class AgentsComponent implements OnInit {
   private startFadeInAnimation(): void {
     // Verificar si estamos en el navegador de manera más robusta
     const isInBrowser = typeof window !== 'undefined' && window.localStorage;
-    
+
     if (!isInBrowser) {
       this.showContent = true;
       return;
     }
-    
+
     // Contenido aparece después de 100ms
     setTimeout(() => {
       this.showContent = true;

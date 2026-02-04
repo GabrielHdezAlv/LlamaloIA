@@ -364,6 +364,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       name: String(formValue.name || '').trim(),
       language: formValue.language,
       type: formValue.type,
+      twilioAccountId: Number(twilioAccountId ?? 0),
       voiceId: formValue.voiceId,
       firstInteraction: String(formValue.firstInteraction || '').trim(),
       agentInstruction: String(formValue.agentInstruction || '').trim(),
@@ -382,15 +383,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       },
     };
 
-    (updateData as any).twilioAccountId = twilioAccountId;
-
     this.isSavingTwilioConfig = true;
     this.agentsService.updateAgent(this.agentId, updateData).subscribe({
       next: (response) => {
         this.isSavingTwilioConfig = false;
         this.agent = response.agent;
         const anyAgent = this.agent as any;
-        anyAgent.twilioAccountId = twilioAccountId;
+        anyAgent.twilioAccountId = Number(twilioAccountId ?? 0);
         this.modalService.openSuccess({
           title: 'Twilio actualizado',
           message: 'La cuenta de Twilio del agente se actualizó correctamente.',
@@ -402,7 +401,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         this.isSavingTwilioConfig = false;
         const anyAgent = this.agent as any;
         if (anyAgent) {
-          anyAgent.twilioAccountId = twilioAccountId;
+          anyAgent.twilioAccountId = Number(twilioAccountId ?? 0);
         }
         this.modalService.openError({
           title: 'Error',
@@ -941,6 +940,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         name: formValue.name.trim(),
         language: formValue.language,
         type: formValue.type,
+        twilioAccountId: Number((this.agent as any)?.twilioAccountId ?? 0),
         voiceId: formValue.voiceId,
         firstInteraction: formValue.firstInteraction.trim(),
         agentInstruction: formValue.agentInstruction?.trim() || '',
@@ -1031,6 +1031,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       name: String(formValue.name || '').trim(),
       language: formValue.language,
       type: formValue.type,
+      twilioAccountId: Number((this.agent as any)?.twilioAccountId ?? 0),
       voiceId: formValue.voiceId,
       firstInteraction: String(formValue.firstInteraction || '').trim(),
       agentInstruction: String(formValue.agentInstruction || '').trim(),
