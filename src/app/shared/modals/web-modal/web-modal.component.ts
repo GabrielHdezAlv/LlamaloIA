@@ -17,12 +17,7 @@ export interface WebModalData {
 @Component({
   selector: 'app-web-modal',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatDialogModule,
-    MatIconModule,
-  ],
+  imports: [CommonModule, FormsModule, MatDialogModule, MatIconModule],
   templateUrl: './web-modal.component.html',
   styleUrls: ['./web-modal.component.scss'],
 })
@@ -48,11 +43,17 @@ export class WebModalComponent {
   }
 
   get allSelected(): boolean {
-    return this.displayedLinks.length > 0 && this.displayedLinks.every(link => this.selectedLinks.has(link));
+    return (
+      this.displayedLinks.length > 0 &&
+      this.displayedLinks.every((link) => this.selectedLinks.has(link))
+    );
   }
 
   get someSelected(): boolean {
-    return this.displayedLinks.some(link => this.selectedLinks.has(link)) && !this.allSelected;
+    return (
+      this.displayedLinks.some((link) => this.selectedLinks.has(link)) &&
+      !this.allSelected
+    );
   }
 
   onSearchChange(): void {
@@ -60,20 +61,20 @@ export class WebModalComponent {
       this.filteredLinks = [];
       return;
     }
-    
+
     const query = this.searchQuery.toLowerCase();
-    this.filteredLinks = this.links.filter(link => 
-      link.toLowerCase().includes(query)
+    this.filteredLinks = this.links.filter((link) =>
+      link.toLowerCase().includes(query),
     );
   }
 
   toggleSelectAll(): void {
     if (this.allSelected) {
       // Deseleccionar todos los links visibles
-      this.displayedLinks.forEach(link => this.selectedLinks.delete(link));
+      this.displayedLinks.forEach((link) => this.selectedLinks.delete(link));
     } else {
       // Seleccionar todos los links visibles
-      this.displayedLinks.forEach(link => this.selectedLinks.add(link));
+      this.displayedLinks.forEach((link) => this.selectedLinks.add(link));
     }
   }
 
@@ -95,14 +96,15 @@ export class WebModalComponent {
 
   onDelete(): void {
     // Eliminar los links seleccionados
-    this.links = this.links.filter(link => !this.selectedLinks.has(link));
+    this.links = this.links.filter((link) => !this.selectedLinks.has(link));
     this.selectedLinks.clear();
     // También limpiar filteredLinks si es necesario
     if (this.filteredLinks.length > 0) {
-      this.filteredLinks = this.filteredLinks.filter(link => !this.selectedLinks.has(link));
+      this.filteredLinks = this.filteredLinks.filter(
+        (link) => !this.selectedLinks.has(link),
+      );
     }
   }
-
 
   toggleExpand(): void {
     this.isExpanded = !this.isExpanded;
@@ -118,7 +120,7 @@ export class WebModalComponent {
     const baseUrl = `${this.urlProtocol}${this.url.trim()}`;
     this.links = [];
     this.selectedLinks.clear(); // Limpiar selección al generar nuevos links
-    
+
     for (let i = 1; i <= 40; i++) {
       const link = `${baseUrl}/page-${i}`;
       this.links.push(link);
@@ -130,8 +132,6 @@ export class WebModalComponent {
   }
 
   onFetchLinks(): void {
-    console.log('Fetch links clicked');
     this.generateMockLinks();
   }
 }
-

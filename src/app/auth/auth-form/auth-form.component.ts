@@ -86,7 +86,6 @@ export class AuthFormComponent implements OnInit {
     // Detecta el tipo desde la ruta
     this.route.data.subscribe((data) => {
       if (this.type && this.type !== data['type']) {
-        console.log(`Cambio de tipo: ${this.type} -> ${data['type']}`);
       }
       this.type = data['type'];
       this.title = data['title'];
@@ -131,8 +130,6 @@ export class AuthFormComponent implements OnInit {
 
     this.userService.LoginUser(user).subscribe({
       next: (response) => {
-        console.log('✅ Inicio de sesión exitoso:', response);
-
         if (typeof window !== 'undefined' && window.localStorage) {
           localStorage.setItem('token', response.token);
         }
@@ -153,7 +150,6 @@ export class AuthFormComponent implements OnInit {
                 twilioToken: firstAccount.twilioToken,
               });
             }
-            console.log('data: ', data);
 
             // Mostrar modal de éxito en lugar de notificación básica
             this.modalService.openLoginSuccess({
@@ -202,8 +198,6 @@ export class AuthFormComponent implements OnInit {
   }
 
   register(event: Event) {
-    console.log('register');
-
     event.preventDefault();
 
     // Validar campos antes de registrar

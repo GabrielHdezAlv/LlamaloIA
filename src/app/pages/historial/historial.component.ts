@@ -1,4 +1,12 @@
-import { Component, inject, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  AfterViewInit,
+  Inject,
+  PLATFORM_ID,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { I18nService } from '../../core/services/i18n.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
@@ -23,7 +31,7 @@ export interface Message {
   selector: 'app-historial',
   standalone: true,
   templateUrl: './historial.component.html',
-  styleUrls: ['./historial.component.scss']
+  styleUrls: ['./historial.component.scss'],
 })
 export class HistorialComponent implements OnInit, AfterViewInit {
   // Variable para controlar la animación de fade in
@@ -35,7 +43,7 @@ export class HistorialComponent implements OnInit, AfterViewInit {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    cdr: ChangeDetectorRef
+    cdr: ChangeDetectorRef,
   ) {
     this.i18nService.initializeLanguage();
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -60,14 +68,14 @@ export class HistorialComponent implements OnInit, AfterViewInit {
         {
           sender: 'user',
           text: 'When do you release the code for the Fleet - Travel kit?\nhttps://ui8.net/product-link',
-          timestamp: '13:59'
+          timestamp: '13:59',
         },
         {
           sender: 'agent',
-          text: 'Hi @orval, thanks for contacting.\nYes, I\'m working on it. It would be released next 2 weeks. You could check the progress here:\nhttps://ui8.net/progress',
-          timestamp: '14:02'
-        }
-      ]
+          text: "Hi @orval, thanks for contacting.\nYes, I'm working on it. It would be released next 2 weeks. You could check the progress here:\nhttps://ui8.net/progress",
+          timestamp: '14:02',
+        },
+      ],
     },
     {
       id: 2,
@@ -81,14 +89,14 @@ export class HistorialComponent implements OnInit, AfterViewInit {
         {
           sender: 'user',
           text: 'Hola, no recibí mi pedido. ¿Pueden ayudarme?',
-          timestamp: '10:23'
+          timestamp: '10:23',
         },
         {
           sender: 'agent',
           text: 'Claro, vamos a revisarlo. ¿Podrías darme tu número de pedido?',
-          timestamp: '10:25'
-        }
-      ]
+          timestamp: '10:25',
+        },
+      ],
     },
     {
       id: 3,
@@ -102,15 +110,15 @@ export class HistorialComponent implements OnInit, AfterViewInit {
         {
           sender: 'user',
           text: 'El producto llegó roto. Necesito un reembolso.',
-          timestamp: '16:45'
+          timestamp: '16:45',
         },
         {
           sender: 'agent',
           text: 'Lamentamos mucho eso. Ya estamos procesando tu reembolso. Te llegará en 3-5 días hábiles.',
-          timestamp: '16:48'
-        }
-      ]
-    }
+          timestamp: '16:48',
+        },
+      ],
+    },
   ];
 
   selectedContact: Contact | null = null; // null por defecto para móviles
@@ -124,7 +132,8 @@ export class HistorialComponent implements OnInit, AfterViewInit {
     this.selectedContact = contact;
     // Aquí puedes simular carga de audio o duración real
     this.currentAudioTime = '0:00';
-    this.audioDuration = contact.id === 1 ? '1:23' : contact.id === 2 ? '2:10' : '0:45';
+    this.audioDuration =
+      contact.id === 1 ? '1:23' : contact.id === 2 ? '2:10' : '0:45';
     this.audioProgress = 0; // Reiniciar progreso
     this.isPlaying = false;
     this.showChat = true; // Mostrar chat en móviles
@@ -161,24 +170,17 @@ export class HistorialComponent implements OnInit, AfterViewInit {
   }
 
   private startFadeInAnimation(): void {
-    console.log('HistorialComponent startFadeInAnimation - isBrowser:', this.isBrowser);
-
     // Verificar si estamos en el navegador de manera más robusta
     const isInBrowser = typeof window !== 'undefined' && window.localStorage;
-    console.log('Verificación robusta del navegador:', isInBrowser);
 
     if (!isInBrowser) {
-      console.log('No es navegador, mostrando contenido inmediatamente');
       this.showContent = true;
       this.cdr.detectChanges();
       return;
     }
 
-    console.log('Ejecutando animación con delay...');
-
     // Contenido aparece después de 100ms
     setTimeout(() => {
-      console.log('Mostrando contenido de historial');
       this.showContent = true;
       this.cdr.detectChanges();
     }, 100);

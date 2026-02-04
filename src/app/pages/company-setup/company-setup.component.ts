@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, inject, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  inject,
+  HostListener,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -25,10 +31,9 @@ interface EmployeeRange {
   standalone: true,
   imports: [CommonModule, FormsModule, MatSnackBarModule, AiSphereComponent],
   templateUrl: './company-setup.component.html',
-  styleUrl: './company-setup.component.scss'
+  styleUrl: './company-setup.component.scss',
 })
 export class CompanySetupComponent implements OnInit, OnDestroy {
-
   // Servicios inyectados
   private userService = inject(UserService);
   private userStore = inject(UserStorage);
@@ -49,7 +54,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     { id: 'large-corporation', name: 'Gran corporación' },
     { id: 'freelancer', name: 'Freelancer/Autónomo' },
     { id: 'non-profit', name: 'Organización sin ánimo de lucro' },
-    { id: 'other', name: 'Otro' }
+    { id: 'other', name: 'Otro' },
   ];
 
   employeeRanges: EmployeeRange[] = [
@@ -59,27 +64,27 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     { id: '11-50', range: '11-50 empleados' },
     { id: '51-200', range: '51-200 empleados' },
     { id: '201-500', range: '201-500 empleados' },
-    { id: '500+', range: 'Más de 500 empleados' }
+    { id: '500+', range: 'Más de 500 empleados' },
   ];
 
   // Opciones de uso principal
   mainUsageOptions = [
     {
       id: 'customer-service',
-      name: 'Atención al cliente'
+      name: 'Atención al cliente',
     },
     {
       id: 'appointments',
-      name: 'Agendar citas'
+      name: 'Agendar citas',
     },
     {
       id: 'cart-recovery',
-      name: 'Recuperación de carritos'
+      name: 'Recuperación de carritos',
     },
     {
       id: 'phone-sales',
-      name: 'Ventas telefónicas'
-    }
+      name: 'Ventas telefónicas',
+    },
   ];
 
   // Opciones seleccionadas (se pueden elegir varias)
@@ -115,13 +120,19 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
   // Paso 2: opciones de cómo nos conociste
   discoveryOptions = [
-    { id: 'social', label: 'Redes sociales (Instagram / TikTok / Twitter / LinkedIn)' },
+    {
+      id: 'social',
+      label: 'Redes sociales (Instagram / TikTok / Twitter / LinkedIn)',
+    },
     { id: 'youtube', label: 'YouTube' },
     { id: 'google', label: 'Google / Buscando alternativas' },
-    { id: 'communities', label: 'Comunidades / Grupos (Slack, Discord, Telegram)' },
+    {
+      id: 'communities',
+      label: 'Comunidades / Grupos (Slack, Discord, Telegram)',
+    },
     { id: 'events', label: 'Evento o webinar' },
     { id: 'friend', label: 'Recomendación de un amigo o colega' },
-    { id: 'other-source', label: 'Otro' }
+    { id: 'other-source', label: 'Otro' },
   ];
 
   selectedDiscoveryChannels: string[] = [];
@@ -155,7 +166,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     { code: 'us', label: 'Inglés Americano' },
     { code: 'tr', label: 'Turco' },
     { code: 'se', label: 'Sueco' },
-    { code: 'nl', label: 'Holandés' }
+    { code: 'nl', label: 'Holandés' },
   ];
   selectedCountry = 'es';
   voices: { name: string; voiceId: string }[] = [];
@@ -170,7 +181,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     similarity: 0.8,
     style: 0.5,
     speed: 1,
-    boost: true
+    boost: true,
   };
 
   // Paso 7: Instrucciones
@@ -180,7 +191,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   makeActionDataStep7 = {
     name: '',
     description: '',
-    serverUrl: ''
+    serverUrl: '',
   };
 
   // Paso 8: Base de conocimientos (PDF / Web)
@@ -200,17 +211,31 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   twilioValidationStatusStep7: 'success' | 'error' | null = null;
   twilioErrorMessageStep7 = '';
   isTwilioValidated = false;
-  twilioAccountsStep7: Array<{ twilioAccountId: number; twilioSid: string; twilioToken: string }> = [];
-  selectedTwilioAccount: { twilioAccountId: number; twilioSid: string; twilioToken: string } | null = null;
+  twilioAccountsStep7: Array<{
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  }> = [];
+  selectedTwilioAccount: {
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  } | null = null;
   showNewTwilioAccountFormStep7 = false;
   loadingTwilioAccounts = false;
-  availablePhoneNumbers: Array<{ phoneId: number; number: string; countryCode: string; twilioAccountId?: number }> = [];
+  availablePhoneNumbers: Array<{
+    phoneId: number;
+    number: string;
+    countryCode: string;
+    twilioAccountId?: number;
+  }> = [];
   loadingPhoneNumbers = false;
   phoneNumberStep7 = '';
   selectedCountryCodeStep7 = '+34';
   phoneValidationStatusStep7: 'success' | 'error' | null = null;
   phoneErrorMessageStep7 = '';
-  private phoneValidationTimeoutStep7: ReturnType<typeof setTimeout> | null = null;
+  private phoneValidationTimeoutStep7: ReturnType<typeof setTimeout> | null =
+    null;
 
   // Paso 10: Prueba de agente — micrófono y esfera
   isMicrophoneActive = false;
@@ -220,12 +245,17 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   private microphone: MediaStreamAudioSourceNode | null = null;
   private animationFrame: number | null = null;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (target.closest('.country-dropdown-step5') || target.closest('.voice-params-dropdown-step5') || target.closest('.twilio-step7')) return;
+    if (
+      target.closest('.country-dropdown-step5') ||
+      target.closest('.voice-params-dropdown-step5') ||
+      target.closest('.twilio-step7')
+    )
+      return;
     this.showCountryDropdown = false;
     this.showVoiceDropdown = false;
     this.showVoiceParamsDropdown = false;
@@ -316,9 +346,6 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
   // Método para seleccionar una opción de uso principal
   selectMainUsage(usageId: string) {
-    console.log('selectMainUsage called with:', usageId);
-    console.log('Current selectedMainUsages:', this.selectedMainUsages);
-
     const index = this.selectedMainUsages.indexOf(usageId);
     if (index > -1) {
       // Si ya está seleccionada, la deselecciona
@@ -327,8 +354,6 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       // Si no está seleccionada, la añade a la lista
       this.selectedMainUsages.push(usageId);
     }
-
-    console.log('New selectedMainUsages:', this.selectedMainUsages);
   }
 
   // Maneja el click en una tarjeta de la zona 1 con animación y cambio suave a la zona 2
@@ -545,14 +570,18 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   onSaveMakeActionStep7() {
     const { name, description, serverUrl } = this.makeActionDataStep7;
     if (!name.trim() || !serverUrl.trim()) {
-      this.snackBar.open('Completa nombre y URL del servidor para guardar.', 'Cerrar', {
-        duration: 2500
-      });
+      this.snackBar.open(
+        'Completa nombre y URL del servidor para guardar.',
+        'Cerrar',
+        {
+          duration: 2500,
+        },
+      );
       return;
     }
 
     this.snackBar.open('Acción de Make guardada.', 'Cerrar', {
-      duration: 2000
+      duration: 2000,
     });
     this.showMakeConfigStep7 = false;
   }
@@ -579,7 +608,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
   // Paso 7: Twilio — getter y métodos
   get isTwilioPhoneCompleteStep7(): boolean {
-    return this.isTwilioValidated && this.phoneValidationStatusStep7 === 'success' && !!this.phoneNumberStep7?.trim();
+    return (
+      this.isTwilioValidated &&
+      this.phoneValidationStatusStep7 === 'success' &&
+      !!this.phoneNumberStep7?.trim()
+    );
   }
 
   toggleTwilioConfigStep7() {
@@ -600,11 +633,15 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     this.userService.getUserProfile().subscribe({
       next: (profile) => {
         this.loadingTwilioAccounts = false;
-        if (profile.twilio && Array.isArray(profile.twilio) && profile.twilio.length > 0) {
-          this.twilioAccountsStep7 = profile.twilio.map(acc => ({
+        if (
+          profile.twilio &&
+          Array.isArray(profile.twilio) &&
+          profile.twilio.length > 0
+        ) {
+          this.twilioAccountsStep7 = profile.twilio.map((acc) => ({
             twilioAccountId: acc.twilioAccountId,
             twilioSid: acc.twilioSid,
-            twilioToken: acc.twilioToken
+            twilioToken: acc.twilioToken,
           }));
           this.showNewTwilioAccountFormStep7 = false;
         } else {
@@ -616,11 +653,15 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
         this.loadingTwilioAccounts = false;
         this.twilioAccountsStep7 = [];
         this.showNewTwilioAccountFormStep7 = true;
-      }
+      },
     });
   }
 
-  useExistingTwilioAccountStep7(account: { twilioAccountId: number; twilioSid: string; twilioToken: string }) {
+  useExistingTwilioAccountStep7(account: {
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  }) {
     this.selectedTwilioAccount = account;
     this.twilioSidStep7 = account.twilioSid;
     this.twilioTokenStep7 = account.twilioToken;
@@ -657,7 +698,9 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
   selectPhoneStep7(phone: { number: string; countryCode: string }) {
     this.phoneNumberStep7 = phone.number;
-    this.selectedCountryCodeStep7 = phone.countryCode.startsWith('+') ? phone.countryCode : `+${phone.countryCode}`;
+    this.selectedCountryCodeStep7 = phone.countryCode.startsWith('+')
+      ? phone.countryCode
+      : `+${phone.countryCode}`;
     this.validatePhoneNumberStep7();
   }
 
@@ -674,29 +717,40 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   }
 
   onPhoneNumberChangeStep7() {
-    if (this.phoneValidationTimeoutStep7) clearTimeout(this.phoneValidationTimeoutStep7);
+    if (this.phoneValidationTimeoutStep7)
+      clearTimeout(this.phoneValidationTimeoutStep7);
     if (!this.phoneNumberStep7?.trim()) {
       this.phoneValidationStatusStep7 = null;
       this.phoneErrorMessageStep7 = '';
       return;
     }
     if (!this.isTwilioValidated) return;
-    this.phoneValidationTimeoutStep7 = setTimeout(() => this.validatePhoneNumberStep7(), 500);
+    this.phoneValidationTimeoutStep7 = setTimeout(
+      () => this.validatePhoneNumberStep7(),
+      500,
+    );
   }
 
   validateTwilioConfigStep7() {
     if (!this.twilioSidStep7?.trim() || !this.twilioTokenStep7?.trim()) {
-      this.snackBar.open('Completa Account SID y Auth Token.', undefined, { duration: 3000 });
+      this.snackBar.open('Completa Account SID y Auth Token.', undefined, {
+        duration: 3000,
+      });
       return;
     }
     this.twilioValidationStatusStep7 = null;
     this.twilioErrorMessageStep7 = '';
     this.isValidatingTwilioStep7 = true;
-    const config: { twilioSid: string; twilioToken: string; twilioAccountId?: number } = {
+    const config: {
+      twilioSid: string;
+      twilioToken: string;
+      twilioAccountId?: number;
+    } = {
       twilioSid: this.twilioSidStep7.trim(),
-      twilioToken: this.twilioTokenStep7.trim()
+      twilioToken: this.twilioTokenStep7.trim(),
     };
-    if (this.selectedTwilioAccount) config.twilioAccountId = this.selectedTwilioAccount.twilioAccountId;
+    if (this.selectedTwilioAccount)
+      config.twilioAccountId = this.selectedTwilioAccount.twilioAccountId;
     this.twilioService.setConfig(config).subscribe({
       next: () => {
         this.isValidatingTwilioStep7 = false;
@@ -707,18 +761,20 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
             next: (profile) => {
               if (profile.twilio && Array.isArray(profile.twilio)) {
                 const match = profile.twilio.find(
-                  acc => acc.twilioSid === this.twilioSidStep7.trim() && acc.twilioToken === this.twilioTokenStep7.trim()
+                  (acc) =>
+                    acc.twilioSid === this.twilioSidStep7.trim() &&
+                    acc.twilioToken === this.twilioTokenStep7.trim(),
                 );
                 if (match) {
                   this.selectedTwilioAccount = {
                     twilioAccountId: match.twilioAccountId,
                     twilioSid: match.twilioSid,
-                    twilioToken: match.twilioToken
+                    twilioToken: match.twilioToken,
                   };
                   this.loadAvailablePhoneNumbersStep7();
                 }
               }
-            }
+            },
           });
         } else {
           this.loadAvailablePhoneNumbersStep7();
@@ -729,8 +785,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
         this.isValidatingTwilioStep7 = false;
         this.twilioValidationStatusStep7 = 'error';
         this.isTwilioValidated = false;
-        this.twilioErrorMessageStep7 = err?.error?.message || err?.message || 'Error al validar Twilio. Revisa tus credenciales.';
-      }
+        this.twilioErrorMessageStep7 =
+          err?.error?.message ||
+          err?.message ||
+          'Error al validar Twilio. Revisa tus credenciales.';
+      },
     });
   }
 
@@ -746,18 +805,23 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
         const allPhones = profile.phoneNumbers || [];
         const agentPhones = new Set<string>();
         if (profile.agents && Array.isArray(profile.agents)) {
-          profile.agents.forEach(a => {
-            if (a.phoneNumbers) agentPhones.add(`${a.phoneNumbers.countryCode}${a.phoneNumbers.number}`);
+          profile.agents.forEach((a) => {
+            if (a.phoneNumbers)
+              agentPhones.add(
+                `${a.phoneNumbers.countryCode}${a.phoneNumbers.number}`,
+              );
           });
         }
         this.availablePhoneNumbers = allPhones.filter(
-          p => p.twilioAccountId === this.selectedTwilioAccount!.twilioAccountId && !agentPhones.has(`${p.countryCode}${p.number}`)
+          (p) =>
+            p.twilioAccountId === this.selectedTwilioAccount!.twilioAccountId &&
+            !agentPhones.has(`${p.countryCode}${p.number}`),
         );
       },
       error: () => {
         this.loadingPhoneNumbers = false;
         this.availablePhoneNumbers = [];
-      }
+      },
     });
   }
 
@@ -767,15 +831,19 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     const number = this.phoneNumberStep7.trim();
     this.phoneValidationStatusStep7 = null;
     this.phoneErrorMessageStep7 = '';
-    this.twilioService.validatePhone(code, number, this.selectedTwilioAccount?.twilioAccountId).subscribe({
-      next: () => {
-        this.phoneValidationStatusStep7 = 'success';
-      },
-      error: (err) => {
-        this.phoneValidationStatusStep7 = 'error';
-        this.phoneErrorMessageStep7 = err?.error?.message || 'Número no disponible. Verifica que esté en Twilio.';
-      }
-    });
+    this.twilioService
+      .validatePhone(code, number, this.selectedTwilioAccount?.twilioAccountId)
+      .subscribe({
+        next: () => {
+          this.phoneValidationStatusStep7 = 'success';
+        },
+        error: (err) => {
+          this.phoneValidationStatusStep7 = 'error';
+          this.phoneErrorMessageStep7 =
+            err?.error?.message ||
+            'Número no disponible. Verifica que esté en Twilio.';
+        },
+      });
   }
 
   // Micrófono para Prueba de agente (paso 10) — esfera reacciona al audio
@@ -788,15 +856,29 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   }
 
   async startMicrophone() {
-    if (typeof navigator === 'undefined' || !navigator.mediaDevices?.getUserMedia) {
-      this.snackBar.open('El micrófono no está disponible en este navegador.', undefined, { duration: 3000 });
+    if (
+      typeof navigator === 'undefined' ||
+      !navigator.mediaDevices?.getUserMedia
+    ) {
+      this.snackBar.open(
+        'El micrófono no está disponible en este navegador.',
+        undefined,
+        { duration: 3000 },
+      );
       return;
     }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+        audio: {
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false,
+        },
       });
-      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioContextClass =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext })
+          .webkitAudioContext;
       this.audioContext = new AudioContextClass();
       this.analyser = this.audioContext.createAnalyser();
       this.microphone = this.audioContext.createMediaStreamSource(stream);
@@ -809,7 +891,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       this.animateAudioLevel();
     } catch (err) {
       console.error('Error al acceder al micrófono:', err);
-      this.snackBar.open('No se pudo acceder al micrófono. Revisa los permisos.', undefined, { duration: 4000 });
+      this.snackBar.open(
+        'No se pudo acceder al micrófono. Revisa los permisos.',
+        undefined,
+        { duration: 4000 },
+      );
     }
   }
 
@@ -862,12 +948,17 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   loadVoices() {
     this.agentsService.getVoices().subscribe({
       next: (backendVoices: Voice[]) => {
-        this.voices = backendVoices.map((v) => ({ name: v.name, voiceId: v.voiceId }));
+        this.voices = backendVoices.map((v) => ({
+          name: v.name,
+          voiceId: v.voiceId,
+        }));
         if (this.voices.length > 0 && !this.selectedVoiceId) {
           this.selectedVoiceId = this.voices[0].voiceId;
         }
       },
-      error: () => { this.voices = []; }
+      error: () => {
+        this.voices = [];
+      },
     });
   }
 
@@ -901,7 +992,10 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   }
 
   get selectedCountryOption() {
-    return this.countryOptions.find((c) => c.code === this.selectedCountry) || this.countryOptions[0];
+    return (
+      this.countryOptions.find((c) => c.code === this.selectedCountry) ||
+      this.countryOptions[0]
+    );
   }
 
   get selectedVoice() {
@@ -931,7 +1025,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     let lang = this.selectedCountry;
     if (lang === 'us') lang = 'en';
     else if (!this.VOCES_LANG_CODES.includes(lang)) lang = 'es';
-    const normalized = voice.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    const normalized = voice.name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
     const path = `assets/voces/${normalized}_${lang}.mp3`;
     if (this.audioActual) {
       this.audioActual.pause();
@@ -964,7 +1062,10 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   }
 
   private triggerRightImageTransition(targetStep: number) {
-    if (targetStep === this.rightImageStep || (targetStep !== 1 && targetStep !== 2)) {
+    if (
+      targetStep === this.rightImageStep ||
+      (targetStep !== 1 && targetStep !== 2)
+    ) {
       return;
     }
 
@@ -985,7 +1086,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       if (!file.type.startsWith('image/')) {
         this.showNotification(
           'Por favor, selecciona un archivo de imagen válido',
-          'error'
+          'error',
         );
         return;
       }
@@ -996,18 +1097,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
         return;
       }
 
-      console.log('Archivo seleccionado:', {
-        name: file.name,
-        size: file.size,
-        type: file.type
-      });
-
       // Mostrar preview inmediatamente
       this.selectedLogo = file;
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.logoPreview = e.target.result;
-        console.log('Preview generado correctamente');
       };
       reader.readAsDataURL(file);
 
@@ -1016,7 +1110,10 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
       // TEMPORAL: Mantener la imagen local sin subir al backend por ahora
       setTimeout(() => {
-        this.showNotification('Imagen cargada correctamente (modo local)', 'success');
+        this.showNotification(
+          'Imagen cargada correctamente (modo local)',
+          'success',
+        );
       }, 1000);
 
       return; // Salir aquí temporalmente para evitar la subida al backend
@@ -1024,8 +1121,6 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       // Subir al backend
       this.userService.uploadProfileImage(file).subscribe({
         next: (response: any) => {
-          console.log('Respuesta del backend:', response);
-
           // Verificar que la respuesta tenga la URL de la imagen
           if (response && response.imageUrl) {
             // Actualizar el usuario en el storage con la nueva imagen
@@ -1033,7 +1128,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
             if (currentUser) {
               const updatedUser = {
                 ...currentUser,
-                profileImage: response.imageUrl
+                profileImage: response.imageUrl,
               };
               this.userStore.setUser(updatedUser);
             }
@@ -1045,7 +1140,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
             console.error('Respuesta del backend sin imageUrl:', response);
             this.showNotification(
               'Error: No se recibió la URL de la imagen del servidor',
-              'error'
+              'error',
             );
           }
         },
@@ -1053,7 +1148,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
           console.error('Error completo al subir imagen:', error);
           this.showNotification(
             `Error al subir la imagen: ${error.message || 'Error desconocido'}`,
-            'error'
+            'error',
           );
           // NO limpiar el preview en caso de error - mantener la imagen local
           // this.logoPreview = null;
@@ -1090,9 +1185,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
   // Validar si el formulario es válido
   private isFormValid(): boolean {
-    return this.businessName.trim() !== '' &&
+    return (
+      this.businessName.trim() !== '' &&
       this.selectedCompanyType !== '' &&
-      this.selectedEmployeeRange !== '';
+      this.selectedEmployeeRange !== ''
+    );
   }
 
   // Getter para verificar si el formulario es válido
@@ -1102,13 +1199,17 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
   // Getter para obtener el nombre del tipo de empresa seleccionado
   get selectedCompanyTypeName(): string {
-    const type = this.companyTypes.find(t => t.id === this.selectedCompanyType);
+    const type = this.companyTypes.find(
+      (t) => t.id === this.selectedCompanyType,
+    );
     return type ? type.name : '';
   }
 
   // Getter para obtener el rango de empleados seleccionado
   get selectedEmployeeRangeName(): string {
-    const range = this.employeeRanges.find(r => r.id === this.selectedEmployeeRange);
+    const range = this.employeeRanges.find(
+      (r) => r.id === this.selectedEmployeeRange,
+    );
     return range ? range.range : '';
   }
 }

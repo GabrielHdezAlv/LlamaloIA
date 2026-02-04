@@ -10,7 +10,7 @@ import { PasswordSuccessModalData } from './password-success-modal.component';
     <button (click)="showPasswordSuccessModal()">
       Mostrar Modal de Éxito de Contraseña
     </button>
-  `
+  `,
 })
 export class ExampleComponent {
   private modalService = inject(ModalService);
@@ -18,13 +18,11 @@ export class ExampleComponent {
   showPasswordSuccessModal() {
     // Uso básico con datos por defecto
     const dialogRef = this.modalService.openPasswordSuccess();
-    
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'continue') {
-        console.log('Usuario hizo clic en continuar');
         // Aquí puedes redirigir o realizar otras acciones
       } else {
-        console.log('Usuario cerró el modal');
       }
     });
   }
@@ -33,17 +31,17 @@ export class ExampleComponent {
     // Uso con datos personalizados
     const customData: PasswordSuccessModalData = {
       title: '¡Contraseña actualizada!',
-      message: 'Tu nueva contraseña ha sido configurada correctamente y ya está activa.',
+      message:
+        'Tu nueva contraseña ha sido configurada correctamente y ya está activa.',
       showContinueButton: true,
-      continueButtonText: 'Ir al Dashboard'
+      continueButtonText: 'Ir al Dashboard',
     };
 
     const dialogRef = this.modalService.openPasswordSuccess(customData);
-    
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'continue') {
         // Redirigir al dashboard o realizar acción específica
-        console.log('Redirigiendo al dashboard...');
       }
     });
   }
@@ -53,7 +51,7 @@ export class ExampleComponent {
     const minimalData: PasswordSuccessModalData = {
       title: 'Contraseña cambiada',
       message: 'Tu contraseña ha sido actualizada exitosamente.',
-      showContinueButton: false
+      showContinueButton: false,
     };
 
     this.modalService.openPasswordSuccess(minimalData);
@@ -69,15 +67,15 @@ export class AuthService {
     try {
       // Lógica para actualizar la contraseña
       // await this.apiService.updatePassword(newPassword);
-      
+
       // Mostrar modal de éxito
       this.modalService.openPasswordSuccess({
         title: 'Contraseña actualizada',
-        message: 'Tu contraseña ha sido cambiada correctamente. Te recomendamos cerrar sesión y volver a iniciar sesión.',
+        message:
+          'Tu contraseña ha sido cambiada correctamente. Te recomendamos cerrar sesión y volver a iniciar sesión.',
         showContinueButton: true,
-        continueButtonText: 'Entendido'
+        continueButtonText: 'Entendido',
       });
-      
     } catch (error) {
       // Manejar error
       console.error('Error al actualizar contraseña:', error);

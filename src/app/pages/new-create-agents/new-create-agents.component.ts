@@ -579,7 +579,10 @@ export class NewCreateAgentsComponent
   }
 
   getSelectedCountryOption() {
-    return this.countryOptions.find((c) => c.code === this.selectedCountry) || this.countryOptions[0];
+    return (
+      this.countryOptions.find((c) => c.code === this.selectedCountry) ||
+      this.countryOptions[0]
+    );
   }
 
   getSelectedVoice() {
@@ -1059,15 +1062,6 @@ export class NewCreateAgentsComponent
     // Normalizar el nombre de la voz: eliminar acentos y caracteres especiales
     const normalizedVoiceName = this.normalizeVoiceName(voiceName);
     const path = `assets/voces/${normalizedVoiceName}_${lang}.mp3`;
-
-    console.log('Intentando reproducir audio:', {
-      voiceName,
-      normalizedVoiceName,
-      lang,
-      path,
-      selectedCountry: this.selectedCountry,
-      selectedCountryCode: this.selectedCountryCode,
-    });
 
     if (this.audioActual) {
       this.audioActual.pause();
@@ -1867,16 +1861,16 @@ export class NewCreateAgentsComponent
     // Si solo se pasa el código del país, usar el mapeo
     if (!code) {
       const countryCodeMap: { [key: string]: string } = {
-        'es': '+34',
-        'en': '+44',
-        'fr': '+33',
-        'it': '+39',
-        'de': '+49',
-        'pt': '+351',
-        'us': '+1',
-        'tr': '+90',
-        'se': '+46',
-        'nl': '+31',
+        es: '+34',
+        en: '+44',
+        fr: '+33',
+        it: '+39',
+        de: '+49',
+        pt: '+351',
+        us: '+1',
+        tr: '+90',
+        se: '+46',
+        nl: '+31',
       };
       this.selectedCountryCode = countryCodeMap[countryCode] || '+34';
       this.selectedCountry = countryCode;
@@ -2526,11 +2520,9 @@ export class NewCreateAgentsComponent
 
     this.isGeneratingPrompt = true;
     this.generatePromptError = '';
-    console.log('[generatePrompt] request payload:', payload);
 
     this.agentsService.generateAgentInstructions(payload).subscribe({
       next: (res) => {
-        console.log('[generatePrompt] response:', res);
         const instruction = (res?.agentInstruction || '').trim();
         if (!instruction) {
           this.generatePromptError =
@@ -2543,7 +2535,6 @@ export class NewCreateAgentsComponent
         this.closeGeneratePromptModal();
       },
       error: (err) => {
-        console.log('[generatePrompt] error:', err);
         this.isGeneratingPrompt = false;
         this.generatePromptError =
           err?.error?.message ||

@@ -24,7 +24,12 @@ import {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NgApexchartsModule, RouterModule, RippleButtonComponent],
+  imports: [
+    CommonModule,
+    NgApexchartsModule,
+    RouterModule,
+    RippleButtonComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -95,10 +100,6 @@ export class HomeComponent implements OnInit {
 
     this.metricsService.getDashboardMetrics().subscribe({
       next: (data: DashboardMetrics) => {
-        console.log(
-          '✅ Métricas recibidas del backend (últimos 7 días):',
-          data
-        );
         this.dashboardMetrics = data;
         this.isLoadingMetrics = false;
 
@@ -117,20 +118,20 @@ export class HomeComponent implements OnInit {
           // Si el error es 401 (token inválido o expirado)
           if (error.status === 401) {
             console.error(
-              '🔒 Token inválido o expirado. Verifica que estés autenticado.'
+              '🔒 Token inválido o expirado. Verifica que estés autenticado.',
             );
 
             // Verificar si hay token en localStorage
             const token = localStorage.getItem('token');
             if (!token) {
               console.error(
-                '❌ No hay token en localStorage. Redirigiendo al login...'
+                '❌ No hay token en localStorage. Redirigiendo al login...',
               );
               // Opcional: redirigir al login si no hay token
               // window.location.href = '/login';
             } else {
               console.warn(
-                '⚠️ Token existe pero está expirado o es inválido. Considera refrescar el token.'
+                '⚠️ Token existe pero está expirado o es inválido. Considera refrescar el token.',
               );
             }
           }
@@ -155,7 +156,7 @@ export class HomeComponent implements OnInit {
       // Calcular porcentajes basados en el máximo
       const maxCalls = Math.max(...this.callsByDayCounts, 1);
       this.callsByDayPercentages = this.callsByDayCounts.map((count) =>
-        Math.round((count / maxCalls) * 100)
+        Math.round((count / maxCalls) * 100),
       );
 
       // Actualizar datos de los gráficos sparkline
@@ -169,7 +170,7 @@ export class HomeComponent implements OnInit {
     // if (data.llamadas_ultimos_7_dias && data.llamadas_ultimos_7_dias.length > 0) {
     //   const last7Days = data.llamadas_ultimos_7_dias.slice(-7);
     //   const callsData = last7Days.map((item) => item.total);
-    //   
+    //
     //   // Si todos los datos son 0, usar datos de ejemplo para que se vea el gráfico
     //   const allZeros = callsData.every(val => val === 0);
     //   if (allZeros) {
@@ -179,13 +180,13 @@ export class HomeComponent implements OnInit {
     //   } else {
     //     // Gráfico de llamadas exitosas
     //     this.callsSparklineSeries = [{ name: 'Llamadas', data: callsData }];
-    //     
+    //
     //     // Para tiempo ahorrado y minutos usados, usar datos proporcionales
     //     // (el backend no proporciona estos datos específicos, así que usamos datos derivados)
     //     const maxValue = Math.max(...callsData, 1);
     //     const timeSavedData = callsData.map(val => Math.round((val / maxValue) * 100));
     //     const minutesData = callsData.map(val => Math.round((val / maxValue) * 80));
-    //     
+    //
     //     this.timeSavedSparklineSeries = [{ name: 'Tiempo', data: timeSavedData }];
     //     this.minutesSparklineSeries = [{ name: 'Minutos', data: minutesData }];
     //   }
@@ -231,9 +232,15 @@ export class HomeComponent implements OnInit {
   callsByDayCounts: number[] = [0, 0, 0, 0, 0, 0, 0];
 
   // Configuraciones de gráficos sparkline
-  callsSparklineSeries: ApexAxisChartSeries = [{ name: 'Llamadas', data: [250, 0, 25, 120, 30, 40, 35] }];
-  timeSavedSparklineSeries: ApexAxisChartSeries = [{ name: 'Tiempo', data: [15, 30, 20, 40, 25, 35, 30] }];
-  minutesSparklineSeries: ApexAxisChartSeries = [{ name: 'Minutos', data: [0, 0, 0, 0, 0, 0, 0] }];
+  callsSparklineSeries: ApexAxisChartSeries = [
+    { name: 'Llamadas', data: [250, 0, 25, 120, 30, 40, 35] },
+  ];
+  timeSavedSparklineSeries: ApexAxisChartSeries = [
+    { name: 'Tiempo', data: [15, 30, 20, 40, 25, 35, 30] },
+  ];
+  minutesSparklineSeries: ApexAxisChartSeries = [
+    { name: 'Minutos', data: [0, 0, 0, 0, 0, 0, 0] },
+  ];
 
   // Configuración común para todos los sparklines
   sparklineChart: ApexChart = {
@@ -245,8 +252,8 @@ export class HomeComponent implements OnInit {
     animations: { enabled: false },
     zoom: { enabled: false },
     events: {
-      dataPointSelection: () => { },
-      markerClick: () => { },
+      dataPointSelection: () => {},
+      markerClick: () => {},
     },
   };
 
@@ -300,7 +307,7 @@ export class HomeComponent implements OnInit {
   // Calcular alturas basadas en porcentajes
   get callsByDayHeights(): number[] {
     return this.callsByDayPercentages.map((percentage) =>
-      Math.round((percentage / 100) * this.maxBarHeight)
+      Math.round((percentage / 100) * this.maxBarHeight),
     );
   }
 
@@ -333,7 +340,7 @@ export class HomeComponent implements OnInit {
     if (this.userAgents && this.userAgents.length > 0) {
       const totalMinutes = this.userAgents.reduce(
         (sum, agent) => sum + (agent.totalMinutes || 0),
-        0
+        0,
       );
 
       return this.userAgents.map((agent) => {
@@ -377,9 +384,15 @@ export class HomeComponent implements OnInit {
     } else {
       // Si no estamos en el navegador, asegurar que los gráficos tengan datos por defecto
       // (ya están inicializados arriba, pero esto asegura que se muestren)
-      this.callsSparklineSeries = [{ name: 'Llamadas', data: [20, 35, 25, 45, 30, 40, 35] }];
-      this.timeSavedSparklineSeries = [{ name: 'Tiempo', data: [15, 30, 20, 40, 25, 35, 30] }];
-      this.minutesSparklineSeries = [{ name: 'Minutos', data: [10, 25, 15, 35, 20, 30, 25] }];
+      this.callsSparklineSeries = [
+        { name: 'Llamadas', data: [20, 35, 25, 45, 30, 40, 35] },
+      ];
+      this.timeSavedSparklineSeries = [
+        { name: 'Tiempo', data: [15, 30, 20, 40, 25, 35, 30] },
+      ];
+      this.minutesSparklineSeries = [
+        { name: 'Minutos', data: [10, 25, 15, 35, 20, 30, 25] },
+      ];
     }
 
     // Ejecutar animaciones siempre
@@ -390,7 +403,6 @@ export class HomeComponent implements OnInit {
   private loadUserAgents(): void {
     this.agentsService.getAgentsList().subscribe({
       next: (response) => {
-        console.log('✅ Agentes del usuario cargados en dashboard:', response);
         this.userAgents = response.agents || [];
       },
       error: (error) => {

@@ -1,23 +1,44 @@
-import { Component, ViewChild, AfterViewInit, OnInit, ChangeDetectorRef, Inject, PLATFORM_ID, computed, inject } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  AfterViewInit,
+  OnInit,
+  ChangeDetectorRef,
+  Inject,
+  PLATFORM_ID,
+  computed,
+  inject,
+} from '@angular/core';
 import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavComponent } from '../../layout/nav/nav.component';
 import { TopbarComponent } from '../../layout/topbar/topbar.component';
 import { CompanySetupComponent } from '../company-setup/company-setup.component';
 import { UserStorage } from '../../storages/user/user-storage';
-import { ReminderService, ReminderData } from '../../core/services/reminder.service';
+import {
+  ReminderService,
+  ReminderData,
+} from '../../core/services/reminder.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { NavigationService } from '../../core/services/navigation.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, CommonModule, TopbarComponent, NavComponent, CompanySetupComponent],
+  imports: [
+    RouterOutlet,
+    RouterModule,
+    CommonModule,
+    TopbarComponent,
+    NavComponent,
+    CompanySetupComponent,
+  ],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-  @ViewChild(CompanySetupComponent) companySetupComponent!: CompanySetupComponent;
+  @ViewChild(CompanySetupComponent)
+  companySetupComponent!: CompanySetupComponent;
   @ViewChild(NavComponent) navComponent!: NavComponent;
   private _isNavCollapsed: boolean = true;
 
@@ -25,11 +46,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   showMobileSidebar = false;
   showInactiveReminderModal = false;
   uploadedImage: string | null = null;
-  
+
   // Lista de recordatorios
   reminders: ReminderData[] = [];
   currentReminderIndex = 0;
-  
+
   // Datos del recordatorio actual
   reminderData: ReminderData = {
     id: '',
@@ -37,7 +58,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     title: '',
     description: '',
     learnMoreUrl: '',
-    showNewTag: true
+    showNewTag: true,
   };
 
   // Variables para swipe/drag
@@ -46,7 +67,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   touchEndX = 0;
   touchEndY = 0;
   isDragging = false;
-  
+
   // Variables para animación
   isTransitioning = false;
   slideDirection: 'left' | 'right' | null = null;
@@ -57,17 +78,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   private router = inject(Router);
   public i18nService = inject(I18nService);
   private navigationService = inject(NavigationService);
-  
+
   // Dropdown del perfil
   showDropdown = false;
-  
+
   // Barras del progreso del onboarding
   progressBars = Array.from({ length: 32 });
   onboardingProgress = 35;
 
   constructor(
     private cdr: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
   async ngOnInit() {
@@ -76,13 +97,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       window.addEventListener('openMobileSidebar', () => {
         this.openMobileSidebar();
       });
-      
+
       // Escuchar evento para abrir el modal de recordatorios desde el sidebar
       window.addEventListener('openReminderModal', () => {
         this.openInactiveReminderModal();
       });
     }
-    
+
     // Cargar datos del recordatorio
     await this.loadReminderData();
   }
@@ -90,11 +111,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   async loadReminderData(): Promise<void> {
     const list = await this.reminderService.getRemindersList();
     this.reminders = list.reminders;
-    
+
     if (this.reminders.length > 0) {
       // Si hay recordatorios, mostrar el primero o el activo
       if (list.activeId) {
-        const activeIndex = this.reminders.findIndex(r => r.id === list.activeId);
+        const activeIndex = this.reminders.findIndex(
+          (r) => r.id === list.activeId,
+        );
         this.currentReminderIndex = activeIndex !== -1 ? activeIndex : 0;
       } else {
         this.currentReminderIndex = 0;
@@ -102,7 +125,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.reminderData = { ...this.reminders[this.currentReminderIndex] };
     } else {
       // Si no hay recordatorios, usar valores por defecto
-      const defaults = await this.reminderService.getActiveReminderWithDefaults();
+      const defaults =
+        await this.reminderService.getActiveReminderWithDefaults();
       this.reminderData = { ...defaults };
     }
   }
@@ -111,14 +135,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (this.reminders.length > 0 && !this.isTransitioning) {
       this.isTransitioning = true;
       this.slideDirection = 'left';
-      
+
       // Esperar a que termine la animación de salida
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
       // Cambiar el contenido
-      this.currentReminderIndex = (this.currentReminderIndex + 1) % this.reminders.length;
+      this.currentReminderIndex =
+        (this.currentReminderIndex + 1) % this.reminders.length;
       this.reminderData = { ...this.reminders[this.currentReminderIndex] };
-      
+
       // Resetear para la animación de entrada
       setTimeout(() => {
         this.isTransitioning = false;
@@ -131,16 +156,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (this.reminders.length > 0 && !this.isTransitioning) {
       this.isTransitioning = true;
       this.slideDirection = 'right';
-      
+
       // Esperar a que termine la animación de salida
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
       // Cambiar el contenido
-      this.currentReminderIndex = this.currentReminderIndex === 0 
-        ? this.reminders.length - 1 
-        : this.currentReminderIndex - 1;
+      this.currentReminderIndex =
+        this.currentReminderIndex === 0
+          ? this.reminders.length - 1
+          : this.currentReminderIndex - 1;
       this.reminderData = { ...this.reminders[this.currentReminderIndex] };
-      
+
       // Resetear para la animación de entrada
       setTimeout(() => {
         this.isTransitioning = false;
@@ -150,18 +176,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   async selectReminder(index: number): Promise<void> {
-    if (index >= 0 && index < this.reminders.length && !this.isTransitioning && index !== this.currentReminderIndex) {
+    if (
+      index >= 0 &&
+      index < this.reminders.length &&
+      !this.isTransitioning &&
+      index !== this.currentReminderIndex
+    ) {
       const direction = index > this.currentReminderIndex ? 'left' : 'right';
       this.isTransitioning = true;
       this.slideDirection = direction;
-      
+
       // Esperar a que termine la animación de salida
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
       // Cambiar el contenido
       this.currentReminderIndex = index;
       this.reminderData = { ...this.reminders[this.currentReminderIndex] };
-      
+
       // Resetear para la animación de entrada
       setTimeout(() => {
         this.isTransitioning = false;
@@ -217,7 +248,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const minSwipeDistance = 50; // Distancia mínima para considerar un swipe
 
     // Solo procesar si el movimiento horizontal es mayor que el vertical
-    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+    if (
+      Math.abs(deltaX) > Math.abs(deltaY) &&
+      Math.abs(deltaX) > minSwipeDistance
+    ) {
       if (deltaX > 0) {
         // Swipe hacia la derecha - ir al anterior
         this.previousReminder();
@@ -258,7 +292,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   saveInactiveReminderSettings() {
     // Aquí se implementará la lógica para guardar la configuración
-    console.log('Guardar configuración de recordatorios para usuarios inactivos');
     this.closeInactiveReminderModal();
   }
 
@@ -267,13 +300,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (input.files && input.files[0]) {
       const file = input.files[0];
       const reader = new FileReader();
-      
+
       reader.onload = (e: ProgressEvent<FileReader>) => {
         if (e.target?.result) {
           this.uploadedImage = e.target.result as string;
         }
       };
-      
+
       reader.readAsDataURL(file);
     }
   }
@@ -376,7 +409,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // Gradiente de azul intenso a casi negro en las barras llenas
     const lightStart = 48;
     const lightEnd = 14;
-    const lightness = lightStart + ((index / Math.max(total - 1, 1)) * (lightEnd - lightStart));
+    const lightness =
+      lightStart + (index / Math.max(total - 1, 1)) * (lightEnd - lightStart);
 
     return { background: `hsl(220, 90%, ${lightness}%)` };
   }

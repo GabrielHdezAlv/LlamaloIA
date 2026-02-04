@@ -17,7 +17,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TwilioConfig, TwilioConfigRequest, TwilioConfigLocal } from '../../../shared/models/twilio-config.model';
+import {
+  TwilioConfig,
+  TwilioConfigRequest,
+  TwilioConfigLocal,
+} from '../../../shared/models/twilio-config.model';
 import { TwilioStorage } from '../../../storages/twilio/twilio-storage';
 import { TwilioService } from '../../../core/services/twilio.service';
 import { I18nService } from '../../../core/services/i18n.service';
@@ -66,8 +70,6 @@ export class TwilioIntegrationModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('data: ', this.data);
-
     this.formEnabled = this.data?.formEnabled ?? false;
     this.initForm();
 

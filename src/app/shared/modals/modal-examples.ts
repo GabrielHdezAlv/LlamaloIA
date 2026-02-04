@@ -6,7 +6,7 @@ import { ModalService } from './modal.service';
  * Este archivo muestra cómo usar cada modal en tu aplicación
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ModalExamples {
   private modalService = inject(ModalService);
@@ -15,8 +15,10 @@ export class ModalExamples {
   showErrorExample() {
     this.modalService.openError({
       title: 'Error de conexión',
-      message: 'No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet.',
-      details: 'Error 500: Internal Server Error\nTimestamp: 2024-01-15T10:30:00Z'
+      message:
+        'No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet.',
+      details:
+        'Error 500: Internal Server Error\nTimestamp: 2024-01-15T10:30:00Z',
     });
   }
 
@@ -24,15 +26,14 @@ export class ModalExamples {
   showDeleteAccountExample() {
     const dialogRef = this.modalService.openDeleteAccount({
       userName: 'Juan Pérez',
-      message: '¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.'
+      message:
+        '¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Usuario confirmó la eliminación de cuenta');
         // Aquí iría la lógica para eliminar la cuenta
       } else {
-        console.log('Usuario canceló la eliminación');
       }
     });
   }
@@ -51,16 +52,14 @@ export class ModalExamples {
         'Llamadas sin límite',
         'Soporte prioritario',
         'Integraciones avanzadas',
-        'Analytics detallados'
-      ]
+        'Analytics detallados',
+      ],
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Usuario confirmó la compra');
         // Aquí iría la lógica para procesar el pago
       } else {
-        console.log('Usuario canceló la compra');
       }
     });
   }
@@ -69,10 +68,11 @@ export class ModalExamples {
   showSuccessExample() {
     this.modalService.openSuccess({
       title: '¡Agente creado exitosamente!',
-      message: 'Tu agente "Carlos" ha sido creado y está listo para recibir llamadas.',
+      message:
+        'Tu agente "Carlos" ha sido creado y está listo para recibir llamadas.',
       details: 'ID del agente: AGT-12345\nFecha de creación: 15/01/2024',
       showActionButton: true,
-      actionButtonText: 'Configurar Agente'
+      actionButtonText: 'Configurar Agente',
     });
   }
 
@@ -80,18 +80,18 @@ export class ModalExamples {
   showWarningExample() {
     const dialogRef = this.modalService.openWarning({
       title: 'Cambios no guardados',
-      message: 'Tienes cambios sin guardar. ¿Estás seguro de que quieres salir sin guardar?',
-      details: 'Se perderán todos los cambios realizados en el formulario actual.',
+      message:
+        'Tienes cambios sin guardar. ¿Estás seguro de que quieres salir sin guardar?',
+      details:
+        'Se perderán todos los cambios realizados en el formulario actual.',
       confirmText: 'Salir sin guardar',
-      cancelText: 'Seguir editando'
+      cancelText: 'Seguir editando',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Usuario confirmó salir sin guardar');
         // Aquí iría la lógica para salir sin guardar
       } else {
-        console.log('Usuario decidió seguir editando');
       }
     });
   }
@@ -101,17 +101,16 @@ export class ModalExamples {
     const dialogRef = this.modalService.openWarning({
       title: 'Eliminar Agente',
       message: '¿Estás seguro de que quieres eliminar este agente?',
-      details: 'Esta acción eliminará permanentemente el agente y todas sus configuraciones. Las llamadas en curso se interrumpirán.',
+      details:
+        'Esta acción eliminará permanentemente el agente y todas sus configuraciones. Las llamadas en curso se interrumpirán.',
       confirmText: 'Eliminar',
-      cancelText: 'Cancelar'
+      cancelText: 'Cancelar',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Usuario confirmó la eliminación del agente');
         // Aquí iría la lógica para eliminar el agente
       }
     });
   }
 }
-
