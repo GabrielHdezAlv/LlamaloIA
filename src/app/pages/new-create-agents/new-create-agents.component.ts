@@ -591,6 +591,7 @@ export class NewCreateAgentsComponent
   }
 
   selectVoice(voiceId: string) {
+    this.pauseVoice();
     this.selectedVoiceId = voiceId;
     this.showVoiceDropdown = false;
     this.loadVoices();
@@ -678,6 +679,7 @@ export class NewCreateAgentsComponent
     // Si es un idioma diferente al seleccionado, reiniciar la selección pendiente
     if (this.selectedCountry !== languageCode) {
       this.pendingLanguageSelection = null;
+      this.pauseVoice(); // Detener audio cuando cambia de idioma
     }
 
     // Primer click: seleccionar idioma pero no avanzar
@@ -1872,6 +1874,7 @@ export class NewCreateAgentsComponent
         se: '+46',
         nl: '+31',
       };
+      this.pauseVoice(); // Detener audio cuando cambia de país/idioma
       this.selectedCountryCode = countryCodeMap[countryCode] || '+34';
       this.selectedCountry = countryCode;
       this.showCountryDropdown = false;

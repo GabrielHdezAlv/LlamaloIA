@@ -9,7 +9,6 @@ import { UserStorage } from '../../storages/user/user-storage';
 import { ModalService } from '../../shared/modals/modal.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 import { Agent } from '../../shared/models/agent.model';
-import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 import {
   NgApexchartsModule,
   ApexAxisChartSeries,
@@ -25,12 +24,7 @@ import {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    NgApexchartsModule,
-    RouterModule,
-    RippleButtonComponent,
-  ],
+  imports: [CommonModule, NgApexchartsModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
@@ -271,8 +265,8 @@ export class HomeComponent implements OnInit {
     animations: { enabled: false },
     zoom: { enabled: false },
     events: {
-      dataPointSelection: () => { },
-      markerClick: () => { },
+      dataPointSelection: () => {},
+      markerClick: () => {},
     },
   };
 
@@ -322,7 +316,6 @@ export class HomeComponent implements OnInit {
   };
 
   sparklineColors: string[] = ['#1E3A8A'];
-
 
   // Serie mini área para "Total de llamadas exitosas"
   callsAreaSeries: ApexAxisChartSeries = [
@@ -380,7 +373,7 @@ export class HomeComponent implements OnInit {
       const random = (Math.random() - 0.5) * 80; // Variación aleatoria
       const value = Math.max(
         50,
-        Math.min(400, baseValue + trend + weeklyPattern + random)
+        Math.min(400, baseValue + trend + weeklyPattern + random),
       );
       data.push(Math.round(value));
     }
