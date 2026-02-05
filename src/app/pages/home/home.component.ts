@@ -5,6 +5,7 @@ import { I18nService } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
 import { AgentsService } from '../../core/services/agents.service';
 import { UserService } from '../../core/services/user.service';
+import { UserStorage } from '../../storages/user/user-storage';
 import { ModalService } from '../../shared/modals/modal.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 import { Agent } from '../../shared/models/agent.model';
@@ -38,8 +39,12 @@ export class HomeComponent implements OnInit {
   private metricsService = inject(MetricsService);
   private agentsService = inject(AgentsService);
   private userService = inject(UserService);
+  private userStorage = inject(UserStorage);
   private modalService = inject(ModalService);
   private router = inject(Router);
+
+  // Obtener usuario actual
+  user = this.userStorage.user;
 
   dashboardMetrics: DashboardMetrics | null = null;
   isLoadingMetrics: boolean = false;
@@ -224,7 +229,21 @@ export class HomeComponent implements OnInit {
   }
 
   // Altura máxima de las barras en píxeles
-  maxBarHeight: number = 200;
+  get maxBarHeight(): number {
+    // Detectar si estamos en pantalla 3xl usando window.innerWidth
+    if (typeof window !== 'undefined' && window.innerWidth >= 1920) {
+      return 280; // Más alto en 3xl
+    }
+    return 200; // Altura normal
+  }
+
+  // Método para obtener el estilo de las barras según el tamaño de pantalla
+  getBarStyle(): { width: string; maxWidth: string } {
+    if (typeof window !== 'undefined' && window.innerWidth >= 1920) {
+      return { width: '56px', maxWidth: '64px' }; // Más ancho en 3xl
+    }
+    return { width: '36px', maxWidth: '42px' }; // Ancho normal
+  }
 
   // Porcentajes de llamadas por día (0-100%) - inicializados vacíos para evitar mostrar datos ficticios
   callsByDayPercentages: number[] = [0, 0, 0, 0, 0, 0, 0];
@@ -252,8 +271,8 @@ export class HomeComponent implements OnInit {
     animations: { enabled: false },
     zoom: { enabled: false },
     events: {
-      dataPointSelection: () => {},
-      markerClick: () => {},
+      dataPointSelection: () => { },
+      markerClick: () => { },
     },
   };
 
@@ -304,11 +323,253 @@ export class HomeComponent implements OnInit {
 
   sparklineColors: string[] = ['#1E3A8A'];
 
+
+  // Serie mini área para "Total de llamadas exitosas"
+  callsAreaSeries: ApexAxisChartSeries = [
+    { name: 'Llamadas', data: this.getCurrentData() },
+  ];
+
+  // Generar fechas de los últimos 7 días
+  getLast7Days(): string[] {
+    const dates: string[] = [];
+    const today = new Date();
+
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+
+      const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      const dayName = dayNames[date.getDay()];
+      const dayNumber = date.getDate();
+
+      dates.push(`${dayName} ${dayNumber}`);
+    }
+
+    return dates;
+  }
+
+  // Generar fechas de los últimos 30 días
+  getLast30Days(): string[] {
+    const dates: string[] = [];
+    const today = new Date();
+
+    for (let i = 29; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(date.getDate() - i);
+
+      const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      const dayName = dayNames[date.getDay()];
+      const dayNumber = date.getDate();
+
+      // Mostrar todos los días
+      dates.push(`${dayName} ${dayNumber}`);
+    }
+
+    return dates;
+  }
+
+  // Generar datos aleatorios para los últimos 30 días
+  getLast30DaysData(): number[] {
+    const data: number[] = [];
+    const baseValue = 200;
+
+    for (let i = 0; i < 30; i++) {
+      // Simular tendencia más realista con picos y valles
+      const trend = Math.sin(i * 0.15) * 60; // Onda suave
+      const weeklyPattern = Math.sin(i * 0.9) * 40; // Patrón semanal
+      const random = (Math.random() - 0.5) * 80; // Variación aleatoria
+      const value = Math.max(
+        50,
+        Math.min(400, baseValue + trend + weeklyPattern + random)
+      );
+      data.push(Math.round(value));
+    }
+
+    return data;
+  }
+
+  callsAreaChart: ApexChart = {
+    type: 'area',
+    height: 280,
+    width: '100%',
+    toolbar: { show: false },
+    offsetX: 5,
+    offsetY: -8,
+    animations: {
+      enabled: true,
+      speed: 300,
+      animateGradually: { enabled: false },
+      dynamicAnimation: { enabled: false },
+    },
+    redrawOnWindowResize: true,
+    redrawOnParentResize: true,
+    zoom: {
+      enabled: false,
+    },
+  };
+
+  callsAreaStroke: ApexStroke = {
+    curve: 'smooth',
+    width: 3,
+    colors: ['#FFFFFF'],
+  };
+
+  callsAreaDataLabels: ApexDataLabels = { enabled: false };
+
+  callsAreaGrid: ApexGrid = {
+    strokeDashArray: 3,
+    borderColor: 'rgba(229, 231, 235, 0.3)',
+    xaxis: { lines: { show: false } },
+    yaxis: { lines: { show: false } },
+    padding: {
+      bottom: 0,
+      left: 20,
+      right: 10,
+      top: 10,
+    },
+  };
+
+  // Obtener categorías según el período seleccionado
+  getCurrentCategories(): string[] {
+    return this.getLast7Days();
+  }
+
+  // Obtener datos según el período seleccionado
+  getCurrentData(): number[] {
+    return [120, 280, 180, 350, 160, 320, 250];
+  }
+
+  // Calcular el mínimo del eje Y: si el mínimo de datos es >= 100, usar la centena inferior, si no, usar 0
+  getMinDataValue(): number {
+    const data = this.getCurrentData();
+    const minData = Math.min(...data);
+
+    if (minData >= 100) {
+      // Redondear hacia abajo a la centena más cercana
+      return Math.floor(minData / 100) * 100;
+    } else {
+      // Si es menor a 100, empezar desde 0
+      return 0;
+    }
+  }
+
+  callsAreaXAxis: ApexXAxis = {
+    categories: this.getCurrentCategories(),
+    axisBorder: { show: false },
+    axisTicks: { show: false },
+    labels: {
+      show: true,
+      style: {
+        colors: '#FFFFFF',
+        fontSize: '11px',
+        fontWeight: 600,
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      },
+      offsetY: 2,
+      rotate: 0,
+      trim: false,
+      hideOverlappingLabels: false,
+    },
+    crosshairs: {
+      show: true,
+      stroke: {
+        color: 'rgba(255, 255, 255, 0.3)',
+        width: 1,
+        dashArray: 0,
+      },
+    },
+    floating: false,
+    position: 'bottom',
+    tooltip: {
+      enabled: false,
+    },
+  };
+
+  callsAreaYAxis: any = {
+    min: this.getMinDataValue(),
+    max: 400,
+    tickAmount: 4,
+    labels: {
+      style: {
+        colors: '#FFFFFF',
+        fontSize: '11px',
+        fontWeight: 600,
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      },
+      formatter: (value: number) => value.toString(),
+      offsetX: 0,
+    },
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    forceNiceScale: false,
+  };
+
+  callsAreaFill: ApexFill = {
+    type: 'gradient',
+    gradient: {
+      shadeIntensity: 1,
+      opacityFrom: 0.1,
+      opacityTo: 0,
+      stops: [0, 100],
+      colorStops: [
+        { offset: 0, color: '#FFFFFF', opacity: 0.1 },
+        { offset: 100, color: '#FFFFFF', opacity: 0 },
+      ],
+    },
+  };
+
+  callsAreaColors: string[] = ['#FFFFFF'];
+
+  // Configuración del tooltip personalizado
+  callsAreaTooltip: any = {
+    enabled: true,
+    custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+      const value = series[seriesIndex][dataPointIndex];
+      return `
+        <div style="
+          background: #18181A;
+          color: white;
+          padding: 10px 16px;
+          border-radius: 4px;
+          font-weight: 600;
+          font-size: 14px;
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+          border: none;
+        ">
+          ${value}
+        </div>
+      `;
+    },
+  };
+
   // Calcular alturas basadas en porcentajes
   get callsByDayHeights(): number[] {
     return this.callsByDayPercentages.map((percentage) =>
       Math.round((percentage / 100) * this.maxBarHeight),
     );
+  }
+
+  // Método para obtener la altura del gráfico según el tamaño de pantalla
+  getChartHeight(): number {
+    if (typeof window !== 'undefined' && window.innerWidth >= 1920) {
+      return 380; // Más alto en 3xl
+    }
+    return 280; // Altura normal
+  }
+
+  // Método para actualizar la altura del gráfico cuando cambia el tamaño de ventana
+  updateChartHeight(): void {
+    if (this.callsAreaChart) {
+      this.callsAreaChart = {
+        ...this.callsAreaChart,
+        height: this.getChartHeight(),
+      };
+    }
   }
 
   // NUEVO: Helper para mostrar el número de llamadas por día solo si es distinto de 0
@@ -381,6 +642,10 @@ export class HomeComponent implements OnInit {
     if (this.isBrowser) {
       this.loadMetrics();
       this.loadUserAgents();
+      // Actualizar altura del gráfico según el tamaño de pantalla
+      this.updateChartHeight();
+      // Escuchar cambios de tamaño de ventana
+      window.addEventListener('resize', () => this.updateChartHeight());
     } else {
       // Si no estamos en el navegador, asegurar que los gráficos tengan datos por defecto
       // (ya están inicializados arriba, pero esto asegura que se muestren)
@@ -412,6 +677,15 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  // Propiedades para controlar la animación de cada panel
+  showWelcomePanel: boolean = false;
+  showTotalCallsPanel: boolean = false;
+  showMinutesPanel: boolean = false;
+  showChartPanel: boolean = false;
+  showAdPanel: boolean = false;
+  showEmptyPanel: boolean = false;
+  showCallsByDayPanel: boolean = false;
+
   private startFadeInAnimations(): void {
     // Verificar si estamos en el navegador de manera más robusta
     const isInBrowser = typeof window !== 'undefined' && window.localStorage;
@@ -421,24 +695,53 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    // Resumen aparece primero (sin delay)
+    // Primera fila: de izquierda a derecha
+    // Panel Bienvenido (izquierda)
     setTimeout(() => {
-      this.showResumen = true;
+      this.showWelcomePanel = true;
     }, 100);
 
-    // Agentes Activos aparece después de 500ms
+    // Panel Total de llamadas (derecha, primera columna)
     setTimeout(() => {
-      this.showAgentesActivos = true;
+      this.showTotalCallsPanel = true;
+    }, 200);
+
+    // Panel Minutos (derecha, segunda columna)
+    setTimeout(() => {
+      this.showMinutesPanel = true;
+    }, 300);
+
+    // Segunda fila: de izquierda a derecha
+    // Panel Gráfico (izquierda)
+    setTimeout(() => {
+      this.showChartPanel = true;
+    }, 400);
+
+    // Panel Anuncio (derecha, superior)
+    setTimeout(() => {
+      this.showAdPanel = true;
+    }, 500);
+
+    // Panel Vacío (derecha, inferior)
+    setTimeout(() => {
+      this.showEmptyPanel = true;
     }, 600);
 
-    // Llamadas por día aparece después de 1000ms
+    // Tercera fila: Panel Llamadas por día
     setTimeout(() => {
-      this.showLlamadasPorDia = true;
-    }, 1100);
+      this.showCallsByDayPanel = true;
+    }, 700);
   }
 
   private showAllSectionsImmediately(): void {
     // Mostrar todas las secciones inmediatamente sin animación
+    this.showWelcomePanel = true;
+    this.showTotalCallsPanel = true;
+    this.showMinutesPanel = true;
+    this.showChartPanel = true;
+    this.showAdPanel = true;
+    this.showEmptyPanel = true;
+    this.showCallsByDayPanel = true;
     this.showResumen = true;
     this.showAgentesActivos = true;
     this.showLlamadasPorDia = true;

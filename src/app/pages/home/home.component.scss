@@ -141,8 +141,8 @@
   transform: translateY(0);
 }
 
-/* Estilos para gráficos sparkline */
-::ng-deep apx-chart {
+/* Estilos para gráficos sparkline - solo para los sparklines, no para el gráfico principal */
+::ng-deep .sparkline-chart apx-chart {
   width: 100% !important;
   height: 100% !important;
 
@@ -158,7 +158,7 @@
 
   .apexcharts-series path {
     stroke-width: 2px !important;
-    stroke: #1E3A8A !important;
+    stroke: #ffffff !important;
   }
 
   .apexcharts-plot-area {
@@ -171,8 +171,14 @@
     display: none !important;
   }
 
+  // Línea del gráfico sparkline blanca
+  .apexcharts-series path {
+    stroke: #ffffff !important;
+    stroke-width: 2px !important;
+  }
+
   // Ocultar cualquier punto visible en los extremos
-  circle[stroke="#1E3A8A"],
+  circle[stroke="#ffffff"],
   circle[fill="#1E3A8A"] {
     display: none !important;
   }
@@ -192,4 +198,57 @@
 
   // Deshabilitar interacción con el gráfico
   pointer-events: none;
+}
+
+.chart-container {
+  width: 100% !important;
+  position: relative !important;
+  overflow: visible !important;
+}
+
+// Estilos específicos para el gráfico principal de área (no sparklines)
+.chart-container ::ng-deep apx-chart {
+  .apexcharts-series path {
+    stroke: #FFFFFF !important;
+
+  }
+
+  .apexcharts-area-series path {
+    stroke: #FFFFFF !important;
+  }
+
+  path[stroke="#1E3A8A"],
+  path[stroke='#1E3A8A'],
+  path[stroke*="#1E3A8A"],
+  path[stroke*='#1E3A8A'] {
+    stroke: #FFFFFF !important;
+  }
+
+  // Sobrescribir estilos globales de modo oscuro
+  svg path[stroke],
+  svg .apexcharts-line-series path,
+  svg .apexcharts-area-series path[stroke] {
+    stroke: #FFFFFF !important;
+  }
+}
+
+// Sobrescribir estilos globales específicamente para el gráfico de home en modo oscuro
+html.dark .chart-container ::ng-deep apx-chart {
+
+  .apexcharts-line-series path,
+  .apexcharts-area-series path[stroke] {
+    stroke: #FFFFFF !important;
+  }
+
+  svg path[stroke="#1E3A8A"],
+  svg path[stroke='#1E3A8A'],
+  svg path[stroke*="#1E3A8A"],
+  svg path[stroke*='#1E3A8A'] {
+    stroke: #FFFFFF !important;
+  }
+}
+
+apx-chart {
+  width: 100% !important;
+  height: 100% !important;
 }
