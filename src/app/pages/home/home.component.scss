@@ -207,44 +207,58 @@
 }
 
 // Estilos específicos para el gráfico principal de área (no sparklines)
+// MODO CLARO: todo en negro
 .chart-container ::ng-deep apx-chart {
-  .apexcharts-series path {
-    stroke: #FFFFFF !important;
 
+  // Línea y área principales en negro
+  .apexcharts-line-series path,
+  .apexcharts-area-series path[stroke] {
+    stroke: #000000 !important;
   }
 
-  .apexcharts-area-series path {
-    stroke: #FFFFFF !important;
+  // Marcadores/bolas en negro
+  .apexcharts-series-markers .apexcharts-marker,
+  .apexcharts-marker {
+    fill: #000000 !important;
+    stroke: #000000 !important;
   }
 
-  path[stroke="#1E3A8A"],
-  path[stroke='#1E3A8A'],
-  path[stroke*="#1E3A8A"],
-  path[stroke*='#1E3A8A'] {
-    stroke: #FFFFFF !important;
-  }
-
-  // Sobrescribir estilos globales de modo oscuro
-  svg path[stroke],
-  svg .apexcharts-line-series path,
-  svg .apexcharts-area-series path[stroke] {
-    stroke: #FFFFFF !important;
+  // Ejes y textos en negro
+  svg text {
+    fill: #000000 !important;
   }
 }
 
-// Sobrescribir estilos globales específicamente para el gráfico de home en modo oscuro
-html.dark .chart-container ::ng-deep apx-chart {
+// MODO OSCURO: sobrescribir a blanco (cuando algún ancestro tenga la clase .dark)
+:host-context(.dark) .chart-container ::ng-deep apx-chart {
 
   .apexcharts-line-series path,
   .apexcharts-area-series path[stroke] {
     stroke: #FFFFFF !important;
   }
 
-  svg path[stroke="#1E3A8A"],
-  svg path[stroke='#1E3A8A'],
-  svg path[stroke*="#1E3A8A"],
-  svg path[stroke*='#1E3A8A'] {
+  // Cualquier trazo heredado se fuerza a blanco
+  svg path[stroke],
+  svg .apexcharts-line-series path,
+  svg .apexcharts-area-series path[stroke] {
     stroke: #FFFFFF !important;
+  }
+
+  // Área: invertir el degradado negro definido en TS para que se vea blanco en modo oscuro
+  .apexcharts-area-series path[fill^="url("] {
+    filter: invert(1);
+  }
+
+  // Marcadores/bolas en blanco
+  .apexcharts-series-markers .apexcharts-marker,
+  .apexcharts-marker {
+    fill: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+  }
+
+  // Textos (labels de ejes, etc.) en blanco
+  svg text {
+    fill: #FFFFFF !important;
   }
 }
 

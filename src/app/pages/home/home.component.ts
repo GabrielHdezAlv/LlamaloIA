@@ -265,8 +265,8 @@ export class HomeComponent implements OnInit {
     animations: { enabled: false },
     zoom: { enabled: false },
     events: {
-      dataPointSelection: () => {},
-      markerClick: () => {},
+      dataPointSelection: () => { },
+      markerClick: () => { },
     },
   };
 
@@ -404,7 +404,8 @@ export class HomeComponent implements OnInit {
   callsAreaStroke: ApexStroke = {
     curve: 'smooth',
     width: 3,
-    colors: ['#FFFFFF'],
+    // Negro por defecto (modo claro); en modo oscuro se sobreescribe vía CSS a blanco
+    colors: ['#000000'],
   };
 
   callsAreaDataLabels: ApexDataLabels = { enabled: false };
@@ -453,7 +454,8 @@ export class HomeComponent implements OnInit {
     labels: {
       show: true,
       style: {
-        colors: '#FFFFFF',
+        // Negro por defecto (modo claro); en modo oscuro se sobreescribe vía CSS
+        colors: '#000000',
         fontSize: '11px',
         fontWeight: 600,
         fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
@@ -484,7 +486,8 @@ export class HomeComponent implements OnInit {
     tickAmount: 4,
     labels: {
       style: {
-        colors: '#FFFFFF',
+        // Negro por defecto (modo claro); en modo oscuro se sobreescribe vía CSS
+        colors: '#000000',
         fontSize: '11px',
         fontWeight: 600,
         fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
@@ -501,21 +504,23 @@ export class HomeComponent implements OnInit {
     forceNiceScale: false,
   };
 
+  // Degradado del área: negro por defecto (modo claro). En modo oscuro se invierte por CSS.
   callsAreaFill: ApexFill = {
     type: 'gradient',
     gradient: {
       shadeIntensity: 1,
-      opacityFrom: 0.1,
+      opacityFrom: 0.3,
       opacityTo: 0,
       stops: [0, 100],
       colorStops: [
-        { offset: 0, color: '#FFFFFF', opacity: 0.1 },
-        { offset: 100, color: '#FFFFFF', opacity: 0 },
+        { offset: 0, color: '#000000', opacity: 0.3 },
+        { offset: 100, color: '#000000', opacity: 0 },
       ],
     },
   };
 
-  callsAreaColors: string[] = ['#FFFFFF'];
+  // Color base de la serie (negro en modo claro); en modo oscuro se fuerza a blanco por CSS
+  callsAreaColors: string[] = ['#000000'];
 
   // Configuración del tooltip personalizado
   callsAreaTooltip: any = {
