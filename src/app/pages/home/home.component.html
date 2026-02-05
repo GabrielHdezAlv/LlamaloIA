@@ -149,26 +149,49 @@
           </div>
           <div class="absolute bottom-0 left-0 right-0 h-1 bg-green-500 opacity-70"></div>
         </div>
-        <!-- Panel inferior -->
+        <!-- Panel inferior - Tarjeta de crédito -->
         <div
-          class="credits-card-light bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[7.5rem] lg:min-h-[8.75rem] 3xl:min-h-[11.25rem] fade-in-section"
+          class="credits-card-light relative overflow-hidden bg-gradient-to-br  to-[#18181a]  rounded-2xl shadow-lg p-4 lg:p-5 xl:p-5 2xl:p-6 3xl:p-8 min-h-[7.5rem] lg:min-h-[8.75rem] 3xl:min-h-[11.25rem] fade-in-section"
           [class.fade-in-visible]="showEmptyPanel">
-          <div class="flex items-center justify-between mb-3 3xl:mb-4">
-            <h3 class="text-xs lg:text-base 3xl:text-xl font-semibold text-gray-800 dark:text-slate-50">
-              Creditos
-            </h3>
-            <span class="text-lg lg:text-xl 3xl:text-2xl font-bold text-gray-900 dark:text-white">
-              300.00
-            </span>
+          <!-- Patrón decorativo de fondo -->
+          <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -mr-16 -mt-16"></div>
+            <div class="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full -ml-12 -mb-12"></div>
           </div>
-          <div class="flex flex-col gap-4 3xl:gap-6">
-            <div class="flex justify-end">
-              <span class="text-xs lg:text-sm 3xl:text-lg font-medium text-gray-700 dark:text-slate-300">
-                Créditos
-              </span>
+
+          <!-- Contenido -->
+          <div class="relative z-10 flex flex-col h-full">
+            <div class="flex items-center justify-between mb-4 3xl:mb-6">
+              <div class="flex flex-col">
+                <h3 class="text-xs lg:text-sm 3xl:text-lg font-medium text-white/80">
+                  Creditos
+                </h3>
+                <span
+                  class="text-[9px] lg:text-[10px] 3xl:text-xs font-medium text-white/60 uppercase tracking-wider mt-0.5">
+                  Plan Starter
+                </span>
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="assets/logo_blanco.webp" alt="Logo" class="w-8 h-8 3xl:w-10 3xl:h-10 object-contain" />
+              </div>
             </div>
-            <div class="h-3 mt-2 3xl:h-4 bg-gray-200 dark:bg-slate-800 rounded-full w-full overflow-hidden">
-              <div class="bg-[#1B2559] dark:bg-[#FFFFFF] h-full rounded-full transition-all duration-300" style="width: 60%;"></div>
+
+            <div class="flex-1 flex flex-col justify-between">
+              <div class="mb-4 3xl:mb-6">
+                <span class="text-2xl lg:text-3xl 3xl:text-4xl font-bold text-white tracking-tight">
+                  300.00
+                </span>
+                <div class="mt-1">
+                  <span class="text-xs lg:text-sm 3xl:text-base font-medium text-white/70">
+                    Créditos
+                  </span>
+                </div>
+              </div>
+
+              <!-- Barra de progreso estilo tarjeta -->
+              <div class="h-2 3xl:h-3 bg-white/20 rounded-full w-full overflow-hidden">
+                <div class="bg-[#1B2559] dark:bg-white h-full rounded-full transition-all duration-300" style="width: 60%;"></div>
+              </div>
             </div>
           </div>
         </div>
