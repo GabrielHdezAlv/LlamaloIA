@@ -16,7 +16,10 @@ import {
   ReactiveFormsModule,
   FormsModule,
 } from '@angular/forms';
-import { AgentsService } from '../../core/services/agents.service';
+import {
+  AgentsService,
+  GenerateAgentInstructionsRequest,
+} from '../../core/services/agents.service';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../shared/modals/modal.service';
 import { Agent, SetAgentConfigDto } from '../../shared/models/agent.model';
@@ -38,6 +41,7 @@ import {
   catchError,
   of,
 } from 'rxjs';
+import { UserStorage } from '../../storages/user/user-storage';
 
 @Component({
   selector: 'app-edit-agent',
@@ -55,6 +59,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private modalService = inject(ModalService);
   private platformId = inject(PLATFORM_ID);
   private twilioService = inject(TwilioService);
+  private userStore = inject(UserStorage);
 
   editForm!: FormGroup;
   isLoading = false;
@@ -118,6 +123,12 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   private isBrowser: boolean;
+
+  // Modal de generar prompt con IA
+  showGeneratePromptModal = false;
+  promptDescription = '';
+  isGeneratingPrompt = false;
+  generatePromptError = '';
 
   constructor() {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -1262,6 +1273,105 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       countryCode,
       number: numberDigits,
       timestamp: Date.now(),
+    });
+  }
+
+  // Métodos para el modal de generar prompt
+  openGeneratePromptModal() {
+    this.showGeneratePromptModal = true;
+    this.promptDescription = '';
+    this.isGeneratingPrompt = false;
+    this.generatePromptError = '';
+  }
+
+  closeGeneratePromptModal() {
+    if (this.isGeneratingPrompt) return;
+    this.showGeneratePromptModal = false;
+    this.promptDescription = '';
+    this.isGeneratingPrompt = false;
+    this.generatePromptError = '';
+  }
+
+  private normalizeLanguageCode(code: string): string {
+    // Mapeo de códigos de idioma del frontend al formato esperado por el backend
+    const codeMap: Record<string, string> = {
+      es: 'es',
+      en: 'en',
+      fr: 'fr',
+      it: 'it',
+      de: 'de',
+      pt: 'pt',
+      us: 'en', // Inglés Americano -> 'en'
+      tr: 'tr',
+      se: 'sv', // Sueco -> 'sv'
+      nl: 'nl', // Danés/Holandés -> 'nl'
+    };
+    return codeMap[code] || 'es';
+  }
+
+  generatePrompt() {
+    if (this.isGeneratingPrompt) return;
+
+    const userDescription = (this.promptDescription || '').trim();
+    if (!userDescription) {
+      this.generatePromptError =
+        'Escribe una descripción para generar el prompt.';
+      return;
+    }
+
+    // Obtener información del formulario
+    const agentName = this.editForm.get('name')?.value || '';
+    const language = this.editForm.get('language')?.value || 'es';
+    const callType = this.editForm.get('type')?.value || 'inbound';
+    const voiceId = this.editForm.get('voiceId')?.value || '';
+
+    // Obtener parámetros de voz del formulario
+    const voiceParameters = {
+      stability: this.editForm.get('stability')?.value ?? 0.5,
+      similarity: this.editForm.get('similarity')?.value ?? 0.75,
+      style: this.editForm.get('style')?.value ?? 0.0,
+      boost: this.editForm.get('boost')?.value ?? false,
+      speed: this.editForm.get('speed')?.value ?? 1.0,
+    };
+
+    // Obtener nombre de la empresa
+    const enterpriseName =
+      (this.userStore.user()?.enterprise?.name || '').trim() || 'Mi Empresa';
+
+    const payload: GenerateAgentInstructionsRequest = {
+      enterpriseName,
+      agentName: agentName.trim() || 'Agente',
+      callType: callType || 'inbound',
+      language: this.normalizeLanguageCode(language),
+      voiceId: voiceId || 'default', // Proporcionar un valor por defecto si no hay voz seleccionada
+      voiceParameters,
+      userDescription: userDescription,
+    };
+
+    this.isGeneratingPrompt = true;
+    this.generatePromptError = '';
+
+    this.agentsService.generateAgentInstructions(payload).subscribe({
+      next: (res) => {
+        const instruction = (res?.agentInstruction || '').trim();
+        if (!instruction) {
+          this.generatePromptError =
+            'No se pudo generar el prompt. Inténtalo de nuevo.';
+          this.isGeneratingPrompt = false;
+          return;
+        }
+        // Actualizar el campo agentInstruction del formulario
+        this.editForm.patchValue({ agentInstruction: instruction });
+        this.isGeneratingPrompt = false;
+        this.closeGeneratePromptModal();
+      },
+      error: (err) => {
+        this.isGeneratingPrompt = false;
+        this.generatePromptError =
+          err?.error?.message ||
+          err?.message ||
+          'Error al generar el prompt. Inténtalo de nuevo.';
+      },
     });
   }
 }

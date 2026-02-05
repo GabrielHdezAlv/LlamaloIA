@@ -120,6 +120,51 @@
                   />
                 </svg>
               </label>
+              <button
+                type="button"
+                (click)="openGeneratePromptModal()"
+                class="group relative flex items-center gap-2 p-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors border border-gray-300 dark:border-slate-600 rounded hover:border-gray-400 dark:hover:border-slate-500"
+              >
+                <svg
+                  class="w-4 h-4 3xl:w-5 3xl:h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="url(#chipGradient)"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient
+                      id="chipGradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
+                      <stop
+                        offset="0%"
+                        style="stop-color: #1e3a8a; stop-opacity: 1"
+                      />
+                      <stop
+                        offset="70%"
+                        style="stop-color: #1e40af; stop-opacity: 1"
+                      />
+                      <stop
+                        offset="100%"
+                        style="stop-color: #2563eb; stop-opacity: 1"
+                      />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
+                  />
+                </svg>
+                <span class="text-xs 3xl:text-sm font-medium text-white"
+                  >Generar con IA</span
+                >
+              </button>
             </div>
             <textarea
               formControlName="agentInstruction"
@@ -1495,6 +1540,104 @@
           class="px-6 py-2.5 bg-[#1B2559] dark:bg-blue-700 text-white font-semibold rounded-lg hover:bg-[#0a1740] dark:hover:bg-blue-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
         >
           {{ isSavingTwilioConfig ? "Guardando..." : "Guardar" }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Modal para Generar con IA -->
+@if (showGeneratePromptModal) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+  >
+    <div
+      class="relative w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-600 shadow-xl p-6"
+    >
+      <!-- Header del modal -->
+      <div class="flex items-start justify-between gap-4 mb-5">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Generar instrucciones con IA
+          </h3>
+          <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
+            Describe cómo debería ser tu agente y generaremos las instrucciones
+            automáticamente.
+          </p>
+        </div>
+        <button
+          type="button"
+          (click)="closeGeneratePromptModal()"
+          class="w-8 h-8 rounded-lg border border-gray-200 dark:border-slate-600 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
+        >
+          <span class="text-lg leading-none">×</span>
+        </button>
+      </div>
+
+      <!-- Contenido del modal -->
+      <div class="space-y-4">
+        <div>
+          <label
+            class="block text-sm font-medium text-gray-900 dark:text-white mb-2"
+          >
+            Describe tu agente
+          </label>
+          <textarea
+            [(ngModel)]="promptDescription"
+            placeholder="Ej: Un agente amigable que atiende clientes de un restaurante, toma reservas y responde preguntas sobre el menú..."
+            rows="4"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:focus:border-transparent outline-none resize-none transition-all text-sm"
+          ></textarea>
+        </div>
+
+        <!-- Error message -->
+        @if (generatePromptError) {
+          <div
+            class="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
+          >
+            <p class="text-sm text-red-600 dark:text-red-400">
+              {{ generatePromptError }}
+            </p>
+          </div>
+        }
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="flex justify-end gap-3 mt-6">
+        <button
+          type="button"
+          (click)="closeGeneratePromptModal()"
+          [disabled]="isGeneratingPrompt"
+          class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          (click)="generatePrompt()"
+          [disabled]="isGeneratingPrompt || !promptDescription.trim()"
+          class="px-4 py-2 text-sm font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] border border-transparent rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+        >
+          @if (isGeneratingPrompt) {
+            <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            Generando...
+          } @else {
+            Generar instrucciones
+          }
         </button>
       </div>
     </div>
