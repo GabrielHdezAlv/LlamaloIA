@@ -213,14 +213,14 @@
   // Línea y área principales en negro
   .apexcharts-line-series path,
   .apexcharts-area-series path[stroke] {
-    stroke: #000000 !important;
+    stroke: #1B2559 !important;
   }
 
   // Marcadores/bolas en negro
   .apexcharts-series-markers .apexcharts-marker,
   .apexcharts-marker {
-    fill: #000000 !important;
-    stroke: #000000 !important;
+    fill: #1B2559 !important;
+    stroke: #1B2559 !important;
   }
 
   // Ejes y textos en negro
@@ -244,9 +244,11 @@
     stroke: #FFFFFF !important;
   }
 
-  // Área: invertir el degradado negro definido en TS para que se vea blanco en modo oscuro
+  // Área: convertir el degradado azul a blanco en modo oscuro
   .apexcharts-area-series path[fill^="url("] {
-    filter: invert(1);
+    // Usar un filtro que convierta el azul (#1B2559) a blanco
+    // brightness(0) convierte todo a negro, luego invert(1) a blanco, luego saturate para ajustar
+    filter: brightness(0) saturate(100%) invert(1) brightness(1.2);
   }
 
   // Marcadores/bolas en blanco
@@ -265,4 +267,40 @@
 apx-chart {
   width: 100% !important;
   height: 100% !important;
+}
+
+/* Efecto de luz interior en la tarjeta de créditos */
+.credits-card-light {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.08) 30%,
+        transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  // En modo oscuro también blanco
+  :host-context(html.dark) &::before,
+  html.dark &::before {
+    background: radial-gradient(circle at center,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.08) 30%,
+        transparent 70%);
+  }
+
+  // Asegurar que el contenido esté por encima del efecto de luz
+  >* {
+    position: relative;
+    z-index: 1;
+  }
 }

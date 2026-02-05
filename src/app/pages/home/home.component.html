@@ -1,174 +1,202 @@
-<!-- Primera fila: Panel grande izquierda + 4 paneles pequeños derecha -->
-<div
-  class="max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto mt-3 2xl:mt-2 3xl:mt-5 max-lg:mr-4 max-lg:ml-4">
-  <div class="grid grid-cols-12 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-6 max-lg:gap-2">
+<!-- Primera fila: 4 paneles de extremo a extremo -->
+<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8">
+  <div class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto mt-3 2xl:mt-2 3xl:mt-5">
+    <div class="grid grid-cols-12 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-6 max-lg:gap-2">
 
-    <!-- Panel grande izquierda (Bienvenido/Tokens) - 6 columnas con imagen de fondo -->
-    <div
-      class="col-span-12 lg:col-span-6 rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[11rem] lg:min-h-[12.5rem] 3xl:min-h-[15rem] relative fade-in-section"
-      [class.fade-in-visible]="showWelcomePanel"
-      style="background-image: url('assets/fondo_ruido.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-      <div class="absolute top-5 left-5 flex flex-col">
-        <span class="text-white text-2xl 3xl:text-4xl font-normal drop-shadow-md">
-          Bienvenido, {{ user()?.name || user()?.email || 'Usuario' }}
-        </span>
-        <span class="text-white text-xs 3xl:text-base font-normal drop-shadow mt-1 opacity-80">
-          Estamos encantados de volver a tenerte por aquí
-        </span>
-      </div>
-      <!-- Recuadro vacío -->
-    </div>
-
-    <!-- Dos paneles derecha - 6 columnas divididas en 2 columnas -->
-    <div class="col-span-12 lg:col-span-6 grid grid-cols-2 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-6 max-lg:gap-2">
-      <!-- Panel izquierdo (combinado) -->
-      <div
-        class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[11rem] lg:min-h-[12.5rem] 3xl:min-h-[15rem] flex flex-col justify-center gap-6 lg:gap-8 3xl:gap-10 fade-in-section"
-        [class.fade-in-visible]="showTotalCallsPanel">
-        <!-- Primer elemento: Título y Número -->
-        <div class="flex flex-col">
-          <span class="text-xs lg:text-sm 3xl:text-lg text-gray-600 dark:text-slate-400 font-medium">
+      <!-- 4 paneles - 12 columnas divididas en 4 columnas -->
+      <div class="col-span-12 grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-6 max-lg:gap-2">
+        <!-- Panel 1: Total de llamadas -->
+        <div
+          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-3 pb-2 px-3 lg:pt-4 lg:pb-2.5 lg:px-4 xl:pt-4 xl:pb-2.5 xl:px-4 2xl:pt-4 2xl:pb-2.5 2xl:px-4 3xl:pt-8 3xl:pb-3 3xl:px-8 border border-gray-100 dark:border-slate-800 min-h-[6rem] lg:min-h-[7rem] 3xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
+          [class.fade-in-visible]="showTotalCallsPanel">
+          <span class="text-xs lg:text-sm 3xl:text-lg text-black font-medium -mt-1">
             Total de llamadas
           </span>
-          <span class="text-2xl lg:text-3xl 3xl:text-5xl font-bold text-gray-900 dark:text-slate-50 mt-1">
-            123
-          </span>
+          <div class="flex flex-col">
+            <span class="text-2xl lg:text-3xl 3xl:text-5xl font-bold text-black">
+              123
+            </span>
+            <div class="flex items-center gap-1 mt-0.5">
+              <span class="text-[10px] lg:text-xs 3xl:text-sm font-semibold text-green-600 dark:text-green-400">
+                +23%
+              </span>
+              <span class="text-[10px] lg:text-xs 3xl:text-sm text-gray-500 dark:text-slate-500">
+                vs semana pasada
+              </span>
+            </div>
+          </div>
         </div>
 
-        <!-- Segundo elemento: Título y Número -->
-        <div class="flex flex-col">
-          <span class="text-xs lg:text-sm 3xl:text-lg text-gray-600 dark:text-slate-400 font-medium">
+        <!-- Panel 2: Llamadas exitosas -->
+        <div
+          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-3 pb-2 px-3 lg:pt-4 lg:pb-2.5 lg:px-4 xl:pt-4 xl:pb-2.5 xl:px-4 2xl:pt-4 2xl:pb-2.5 2xl:px-4 3xl:pt-8 3xl:pb-3 3xl:px-8 border border-gray-100 dark:border-slate-800 min-h-[6rem] lg:min-h-[7rem] 3xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
+          [class.fade-in-visible]="showTotalCallsPanel">
+          <span class="text-xs lg:text-sm 3xl:text-lg text-black font-medium -mt-1">
             Llamadas exitosas
           </span>
-          <span class="text-2xl lg:text-3xl 3xl:text-5xl font-bold text-gray-900 dark:text-slate-50 mt-1">
-            87
-          </span>
+          <div class="flex flex-col">
+            <span class="text-2xl lg:text-3xl 3xl:text-5xl font-bold text-black">
+              87
+            </span>
+            <div class="flex items-center gap-1 mt-0.5">
+              <span class="text-[10px] lg:text-xs 3xl:text-sm font-semibold text-red-600 dark:text-red-400">
+                -4%
+              </span>
+              <span class="text-[10px] lg:text-xs 3xl:text-sm text-gray-500 dark:text-slate-500">
+                vs semana pasada
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
-      <!-- Panel derecho (combinado) -->
-      <div
-        class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[11rem] lg:min-h-[12.5rem] 3xl:min-h-[15rem] flex flex-col justify-center gap-6 lg:gap-8 3xl:gap-10 fade-in-section"
-        [class.fade-in-visible]="showMinutesPanel">
-        <!-- Primer elemento: Título y Número -->
-        <div class="flex flex-col">
-          <span class="text-xs lg:text-sm 3xl:text-lg text-gray-600 dark:text-slate-400 font-medium">
+
+        <!-- Panel 3: Minutos Totales -->
+        <div
+          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-3 pb-2 px-3 lg:pt-4 lg:pb-2.5 lg:px-4 xl:pt-4 xl:pb-2.5 xl:px-4 2xl:pt-4 2xl:pb-2.5 2xl:px-4 3xl:pt-8 3xl:pb-3 3xl:px-8 border border-gray-100 dark:border-slate-800 min-h-[6rem] lg:min-h-[7rem] 3xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
+          [class.fade-in-visible]="showMinutesPanel">
+          <span class="text-xs lg:text-sm 3xl:text-lg text-black font-medium -mt-1">
             Minutos Totales
           </span>
-          <span class="text-2xl lg:text-3xl 3xl:text-5xl font-bold text-gray-900 dark:text-slate-50 mt-1">
-            768 m
-          </span>
+          <div class="flex flex-col">
+            <span class="text-2xl lg:text-3xl 3xl:text-5xl font-bold text-black">
+              768 m
+            </span>
+            <div class="flex items-center gap-1 mt-0.5">
+              <span class="text-[10px] lg:text-xs 3xl:text-sm font-semibold text-green-600 dark:text-green-400">
+                +15%
+              </span>
+              <span class="text-[10px] lg:text-xs 3xl:text-sm text-gray-500 dark:text-slate-500">
+                vs semana pasada
+              </span>
+            </div>
+          </div>
         </div>
 
-        <!-- Segundo elemento: Título y Número -->
-        <div class="flex flex-col">
-          <span class="text-xs lg:text-sm 3xl:text-lg text-gray-600 dark:text-slate-400 font-medium">
+        <!-- Panel 4: Tiempo Ahorrado -->
+        <div
+          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-3 pb-2 px-3 lg:pt-4 lg:pb-2.5 lg:px-4 xl:pt-4 xl:pb-2.5 xl:px-4 2xl:pt-4 2xl:pb-2.5 2xl:px-4 3xl:pt-8 3xl:pb-3 3xl:px-8 border border-gray-100 dark:border-slate-800 min-h-[6rem] lg:min-h-[7rem] 3xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
+          [class.fade-in-visible]="showMinutesPanel">
+          <span class="text-xs lg:text-sm 3xl:text-lg text-black font-medium -mt-1">
             Tiempo Ahorrado
           </span>
-          <span class="text-2xl lg:text-3xl 3xl:text-5xl font-bold text-gray-900 dark:text-slate-50 mt-1">
-            40 m
-          </span>
+          <div class="flex flex-col">
+            <span class="text-2xl lg:text-3xl 3xl:text-5xl font-bold text-black">
+              40 m
+            </span>
+            <div class="flex items-center gap-1 mt-0.5">
+              <span class="text-[10px] lg:text-xs 3xl:text-sm font-semibold text-red-600 dark:text-red-400">
+                -8%
+              </span>
+              <span class="text-[10px] lg:text-xs 3xl:text-sm text-gray-500 dark:text-slate-500">
+                vs semana pasada
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
 </div>
 
 <!-- Segunda fila: Panel grande izquierda (70%) + Panel derecho (30%) -->
-<div
-  class="max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto mt-3 2xl:mt-2 3xl:mt-5 max-lg:mr-4 max-lg:ml-4">
-  <div class="grid grid-cols-12 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-6 max-lg:gap-2">
+<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8">
+  <div class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto mt-3 2xl:mt-2 3xl:mt-5">
+    <div class="grid grid-cols-12 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-6 max-lg:gap-2">
 
-    <!-- Panel grande izquierda (70% - 8.4 columnas de 12, redondeado a 8) -->
-    <div
-      class="col-span-12 lg:col-span-8 bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 min-h-[16.5rem] lg:min-h-[19rem] 3xl:min-h-[24rem] overflow-visible fade-in-section"
-      [class.fade-in-visible]="showChartPanel">
-      <!-- Título -->
-      <h3 class="text-sm lg:text-base 3xl:text-xl font-semibold text-gray-800 dark:text-slate-50 mb-3 3xl:mb-4">
-        Total de llamadas exitosas
-      </h3>
-
-      <!-- Desktop -->
-      <div class="hidden sm:block relative h-50 sm:h-58 lg:h-62 chart-container -mx-1"
-        style="overflow: visible; touch-action: none;">
-        <apx-chart [series]="callsAreaSeries" [chart]="callsAreaChart" [dataLabels]="callsAreaDataLabels"
-          [stroke]="callsAreaStroke" [grid]="callsAreaGrid" [xaxis]="callsAreaXAxis" [yaxis]="callsAreaYAxis"
-          [colors]="callsAreaColors" [fill]="callsAreaFill" [tooltip]="callsAreaTooltip"
-          style="pointer-events: auto;"></apx-chart>
-      </div>
-    </div>
-
-    <!-- Panel derecho (30% - 3.6 columnas de 12, redondeado a 4) -->
-    <div class="col-span-12 lg:col-span-4 grid grid-cols-1 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-6 max-lg:gap-2">
-      <!-- Panel superior -->
+      <!-- Panel grande izquierda (70% - 8.4 columnas de 12, redondeado a 8) -->
       <div
-        class="relative overflow-hidden bg-gray-900 rounded-2xl shadow-sm p-0 border border-gray-100 dark:border-slate-800 min-h-[8.75rem] lg:min-h-[10.25rem] 3xl:min-h-[13rem] flex items-stretch fade-in-section"
-        [class.fade-in-visible]="showAdPanel">
+        class="col-span-12 lg:col-span-8 bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 min-h-[16.5rem] lg:min-h-[19rem] 3xl:min-h-[24rem] overflow-visible fade-in-section"
+        [class.fade-in-visible]="showChartPanel">
+        <!-- Título -->
+        <h3 class="text-sm lg:text-base 3xl:text-xl font-semibold text-black dark:text-slate-50 mb-3 3xl:mb-4">
+          Total de llamadas exitosas
+        </h3>
 
-        <!-- Imagen de fondo llamada.png -->
-        <img src="assets/llamada.png" alt="Automatización"
-          class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none opacity-100" />
-
-
-
-        <!-- Contenido -->
-        <div class="relative z-10 flex flex-col justify-between h-full w-full p-4 2xl:p-6 3xl:p-8">
-          <div>
-            <p class="text-white font-bold text-lg lg:text-xl 3xl:text-3xl leading-tight drop-shadow-sm">
-              Lleva tu<br />Automatización<br />al Siguiente<br />Nivel
-            </p>
-          </div>
-          <div class="mt-4">
-            <button
-              class="bg-white dark:bg-white text-[#000001] font-semibold rounded-full shadow px-5 py-2 text-base 3xl:text-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors">
-              Mejorar Plan
-            </button>
-          </div>
+        <!-- Desktop -->
+        <div class="hidden sm:block relative h-50 sm:h-58 lg:h-62 chart-container -mx-1"
+          style="overflow: visible; touch-action: none;">
+          <apx-chart [series]="callsAreaSeries" [chart]="callsAreaChart" [dataLabels]="callsAreaDataLabels"
+            [stroke]="callsAreaStroke" [grid]="callsAreaGrid" [xaxis]="callsAreaXAxis" [yaxis]="callsAreaYAxis"
+            [colors]="callsAreaColors" [fill]="callsAreaFill" [tooltip]="callsAreaTooltip"
+            style="pointer-events: auto;"></apx-chart>
         </div>
       </div>
-      <!-- Panel inferior -->
-      <div
-        class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[7.5rem] lg:min-h-[8.75rem] 3xl:min-h-[11.25rem] fade-in-section"
-        [class.fade-in-visible]="showEmptyPanel">
-        <h3 class="text-xs lg:text-base 3xl:text-xl font-semibold text-gray-800 dark:text-slate-50 mb-3 3xl:mb-4">
-          No se que poner :D
-        </h3>
-      </div>
-    </div>
 
-  </div>
-</div>
+      <!-- Panel derecho (30% - 3.6 columnas de 12, redondeado a 4) -->
+      <div class="col-span-12 lg:col-span-4 grid grid-cols-1 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-6 max-lg:gap-2">
+        <!-- Panel superior - Tasa de éxito -->
+        <div
+          class="relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[8.75rem] lg:min-h-[10.25rem] 3xl:min-h-[13rem] flex flex-col justify-between fade-in-section"
+          [class.fade-in-visible]="showAdPanel">
+          <!-- Título -->
+          <span class="text-xs lg:text-sm 3xl:text-lg text-black font-medium">
+            Tasa de éxito de las llamadas
+          </span>
 
-<!-- Llamadas por día abajo (un poco menos alto pero sigue más grande que el original) -->
-<div
-  class="max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto mt-3 2xl:mt-2 3xl:mt-5 max-lg:mr-4 max-lg:ml-4">
-  <div
-    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3 3xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[17rem] lg:min-h-[21rem] 3xl:min-h-[25rem] flex flex-col justify-between fade-in-section"
-    [class.fade-in-visible]="showCallsByDayPanel">
-    <h2
-      class="brand-font text-sm 3xl:text-2xl font-semibold text-gray-800 dark:text-slate-50 mb-3 3xl:mb-6 llamadas-por-dia-titulo max-lg:text-xs max-lg:mb-2">
-      {{ t.callsPerDay }}
-    </h2>
-
-    <div class="flex flex-col flex-1 justify-end w-full px-0.5 lg:px-2 3xl:px-4">
-      <div class="grid grid-cols-7 gap-2 3xl:gap-4 items-end w-full mb-2 3xl:mb-4 flex-1">
-        <div class="flex flex-col items-center" *ngFor="let h of callsByDayHeights; let i = index">
-          <div [style.height.px]="h === 0 ? 5 : h * 1.45"
-            class="llamadas-barra w-full rounded-xl 3xl:rounded-2xl transition-all duration-300 relative flex justify-center items-start pt-1.5 3xl:pt-2"
-            [ngStyle]="getBarStyle()" [ngClass]="isToday(i) ? 'llamadas-barra-hoy' : ''">
-            <span *ngIf="showCallsByDayNumber(i)"
-              class="text-[10px] lg:text-[15px] 3xl:text-2xl font-bold dark:text-white" [class.text-white]="isToday(i)"
-              [class.text-black]="!isToday(i)">
-              {{ callsByDayCounts[i] }}
+          <!-- Porcentaje grande en el centro -->
+          <div class="flex items-center justify-center flex-1">
+            <span class="text-4xl lg:text-6xl 3xl:text-6xl font-bold text-black">
+              79%
             </span>
           </div>
+
+          <!-- Luz verde en el borde inferior que se extiende hacia dentro -->
+          <div
+            class="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-green-500 via-green-400 to-transparent opacity-40 blur-md">
+          </div>
+          <div
+            class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-green-500 via-green-300 to-transparent opacity-50 blur-sm">
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-1 bg-green-500 opacity-70"></div>
+        </div>
+        <!-- Panel inferior -->
+        <div
+          class="credits-card-light bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[7.5rem] lg:min-h-[8.75rem] 3xl:min-h-[11.25rem] fade-in-section"
+          [class.fade-in-visible]="showEmptyPanel">
+          <div class="flex items-center justify-between mb-3 3xl:mb-4">
+            <h3 class="text-xs lg:text-base 3xl:text-xl font-semibold text-gray-800 dark:text-slate-50">
+              Creditos
+            </h3>
+            <span class="text-lg lg:text-xl 3xl:text-2xl font-bold text-gray-900 dark:text-white">
+              300.00
+            </span>
+          </div>
+          <div class="flex flex-col gap-4 3xl:gap-6">
+            <div class="flex justify-end">
+              <span class="text-xs lg:text-sm 3xl:text-lg font-medium text-gray-700 dark:text-slate-300">
+                Créditos
+              </span>
+            </div>
+            <div class="h-3 mt-2 3xl:h-4 bg-gray-200 dark:bg-slate-800 rounded-full w-full overflow-hidden">
+              <div class="bg-[#1B2559] dark:bg-[#FFFFFF] h-full rounded-full transition-all duration-300" style="width: 60%;"></div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="grid grid-cols-7 gap-2 3xl:gap-4 w-full">
-        <span class="text-[10px] lg:text-sm 3xl:text-xl text-center truncate dark:text-slate-400"
-          [class.text-blue-900]="isToday(i)" [class.font-bold]="isToday(i)" *ngFor="let d of days; let i = index">{{ d
-          }}</span>
+
+    </div>
+  </div>
+</div>
+<!-- Panel: Maximiza tu Eficiencia -->
+<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8">
+  <div class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto mt-3 2xl:mt-2 3xl:mt-5">
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-3 lg:p-4 3xl:p-5 border border-gray-100 dark:border-slate-800 min-h-[4rem] lg:min-h-[4.5rem] 3xl:min-h-[5rem] flex items-center justify-between fade-in-section"
+      [class.fade-in-visible]="showAdPanel">
+      <!-- Texto a la izquierda -->
+      <div class="flex flex-col">
+        <h2 class="text-black dark:text-white font-bold text-sm lg:text-base 3xl:text-lg mb-0.5">
+          Maximiza tu Eficiencia
+        </h2>
+        <p class="text-gray-400 dark:text-gray-400 text-xs lg:text-sm 3xl:text-base">
+          Desbloquea funciones avanzadas de automatización
+        </p>
       </div>
+      <!-- Botón a la derecha -->
+      <button
+        class="bg-[#1B2559] dark:bg-white hover:bg-gray-900 text-white dark:text-[#000001] font-semibold rounded-lg px-4 py-1.5 lg:px-5 lg:py-2 3xl:px-6 3xl:py-2.5 text-xs lg:text-sm 3xl:text-base transition-colors whitespace-nowrap">
+        Mejorar Plan
+      </button>
     </div>
   </div>
 </div>

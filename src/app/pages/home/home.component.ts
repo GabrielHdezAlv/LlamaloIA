@@ -513,8 +513,8 @@ export class HomeComponent implements OnInit {
       opacityTo: 0,
       stops: [0, 100],
       colorStops: [
-        { offset: 0, color: '#000000', opacity: 0.3 },
-        { offset: 100, color: '#000000', opacity: 0 },
+        { offset: 0, color: '#1B2559', opacity: 0.3 },
+        { offset: 100, color: '#1B2559', opacity: 0 },
       ],
     },
   };
