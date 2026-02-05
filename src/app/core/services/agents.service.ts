@@ -109,7 +109,7 @@ export class AgentsService {
     agentId: number,
     config: SetAgentConfigDto,
   ): Observable<UpdateAgentResponse> {
-    return this.http.patch<UpdateAgentResponse>(
+    return this.http.put<UpdateAgentResponse>(
       `${this.apiUrl}/${agentId}`,
       config,
       {
