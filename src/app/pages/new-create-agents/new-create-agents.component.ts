@@ -288,9 +288,7 @@ export class NewCreateAgentsComponent
     if (this.savedDraft) {
       this.step = this.savedDraft.step as any;
       this.agentName = this.savedDraft.agentName || '';
-      this.greeting =
-        this.savedDraft.greeting ||
-        'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
+      this.greeting = this.getGreetingWithCompanyName();
       this.template = this.savedDraft.template || '';
       this.selectedCallType = (this.savedDraft as any).selectedCallType ?? null;
       this.instructions = this.savedDraft.instructions || '';
@@ -411,8 +409,7 @@ export class NewCreateAgentsComponent
     return stepNames[this.savedDraft.step] || this.savedDraft.step;
   }
 
-  greeting =
-    'Hola, gracias por llamar a [Nombre del Negocio]. ¿En qué puedo ayudarte?';
+  greeting = this.getGreetingWithCompanyName();
   template = '';
   instructions = '';
   showExpandInstructionsModal = false;
@@ -423,6 +420,17 @@ export class NewCreateAgentsComponent
 
   closeExpandInstructionsModal() {
     this.showExpandInstructionsModal = false;
+  }
+
+  getGreetingWithCompanyName(): string {
+    const companyName = this.userStore.user()?.enterprise?.name;
+
+    // Verificar si el nombre de empresa existe, no es null/undefined, no está vacío y no son solo espacios
+    if (companyName && companyName.trim() !== '') {
+      return `Hola, gracias por llamar a ${companyName.trim()}. ¿En qué puedo ayudarte?`;
+    } else {
+      return 'Hola, gracias por llamar. ¿En qué puedo ayudarte?';
+    }
   }
   agentName: string = '';
 
