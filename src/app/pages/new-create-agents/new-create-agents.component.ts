@@ -104,6 +104,7 @@ export class NewCreateAgentsComponent
   selectedVoiceId: string = ''; // voiceId de la voz seleccionada
   showTwilioConfig = false;
   showMakeConfig = false;
+  isMakeConfigClosing = false;
   makeActionData = {
     name: '',
     description: '',
@@ -413,13 +414,19 @@ export class NewCreateAgentsComponent
   template = '';
   instructions = '';
   showExpandInstructionsModal = false;
+  isInstructionsModalClosing = false;
 
   openExpandInstructionsModal() {
     this.showExpandInstructionsModal = true;
+    this.isInstructionsModalClosing = false;
   }
 
   closeExpandInstructionsModal() {
-    this.showExpandInstructionsModal = false;
+    this.isInstructionsModalClosing = true;
+    setTimeout(() => {
+      this.showExpandInstructionsModal = false;
+      this.isInstructionsModalClosing = false;
+    }, 150); // Duración de la animación de salida
   }
 
   getGreetingWithCompanyName(): string {
@@ -1163,6 +1170,38 @@ export class NewCreateAgentsComponent
     } else if (platform === 'make') {
       this.showMakeConfig = !this.showMakeConfig;
     }
+  }
+
+  toggleMakeConfig() {
+    if (this.showMakeConfig) {
+      // Iniciar animación de salida
+      this.isMakeConfigClosing = true;
+      setTimeout(() => {
+        this.showMakeConfig = false;
+        this.isMakeConfigClosing = false;
+      }, 200); // Duración de la animación de salida
+    } else {
+      this.showMakeConfig = true;
+      this.isMakeConfigClosing = false;
+    }
+  }
+
+  onSaveMakeAction() {
+    const { name, description, serverUrl } = this.makeActionData;
+    if (!name.trim() || !serverUrl.trim()) {
+      // Mostrar mensaje de error si no hay snackbar
+      console.warn('Completa nombre y URL del servidor para guardar.');
+      return;
+    }
+
+    // Guardar la acción de Make
+    console.log('Acción de Make guardada:', this.makeActionData);
+    // Iniciar animación de salida
+    this.isMakeConfigClosing = true;
+    setTimeout(() => {
+      this.showMakeConfig = false;
+      this.isMakeConfigClosing = false;
+    }, 200); // Duración de la animación de salida
   }
 
   toggleTwilioConfig() {
