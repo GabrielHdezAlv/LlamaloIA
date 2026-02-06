@@ -446,6 +446,7 @@ export class NewCreateAgentsComponent
   promptDescription = '';
   isGeneratingPrompt = false;
   generatePromptError = '';
+  isGeneratePromptDropdownClosing = false;
 
   audioActual: HTMLAudioElement | null = null;
   isPlaying: boolean = false;
@@ -525,7 +526,7 @@ export class NewCreateAgentsComponent
     },
     {
       name: 'María',
-      image: 'assets/maria_prueba.webp',
+      image: 'assets/maria_prueba1.png',
       description:
         'Agente de atención al cliente con gran empatía y paciencia.',
       badgeText: 'Destacada',
@@ -2507,19 +2508,29 @@ export class NewCreateAgentsComponent
   }
 
   // Métodos para el modal de generar prompt
+  toggleGeneratePromptDropdown() {
+    if (this.showGeneratePromptModal || this.isGeneratePromptDropdownClosing) {
+      this.closeGeneratePromptModal();
+    } else {
+      this.openGeneratePromptModal();
+    }
+  }
+
   openGeneratePromptModal() {
+    this.isGeneratePromptDropdownClosing = false;
     this.showGeneratePromptModal = true;
-    this.promptDescription = '';
-    this.isGeneratingPrompt = false;
-    this.generatePromptError = '';
   }
 
   closeGeneratePromptModal() {
     if (this.isGeneratingPrompt) return;
-    this.showGeneratePromptModal = false;
-    this.promptDescription = '';
-    this.isGeneratingPrompt = false;
-    this.generatePromptError = '';
+    this.isGeneratePromptDropdownClosing = true;
+    setTimeout(() => {
+      this.showGeneratePromptModal = false;
+      this.isGeneratePromptDropdownClosing = false;
+      this.promptDescription = '';
+      this.isGeneratingPrompt = false;
+      this.generatePromptError = '';
+    }, 160);
   }
 
   private normalizeLanguageCode(code: string): string {

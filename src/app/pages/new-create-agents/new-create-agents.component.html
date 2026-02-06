@@ -586,13 +586,19 @@
           <div class="relative voice-dropdown-step5 voice-params-dropdown-step5">
             <label
               class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-2">Voz</label>
-            <div class="flex gap-1.5 3xl:gap-3">
+            <div class="flex items-center gap-1.5 3xl:gap-3">
               <div class="flex-1 relative">
                 <button type="button" (click)="toggleVoiceDropdown($event)" [disabled]="voices.length === 0"
                   class="w-full flex items-center justify-between gap-2 3xl:gap-4 px-3 3xl:px-6 py-2.5 3xl:py-4 text-left text-xs 3xl:text-xl border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
-                  <span class="font-medium truncate 3xl:text-xl">{{
-                    getSelectedVoice()?.name || "Selecciona una voz"
-                    }}</span>
+                  <div class="flex items-center gap-2 3xl:gap-3 min-w-0">
+                    @if (getSelectedVoice()?.image) {
+                    <img [src]="getSelectedVoice()!.image" [alt]="getSelectedVoice()!.name"
+                      class="w-7 h-7 3xl:w-10 3xl:h-10 rounded-full object-cover flex-shrink-0 border border-white/40 dark:border-slate-700" />
+                    }
+                    <span class="font-medium truncate 3xl:text-xl">{{
+                      getSelectedVoice()?.name || "Selecciona una voz"
+                      }}</span>
+                  </div>
                   <svg
                     class="w-3.5 h-3.5 3xl:w-6 3xl:h-6 flex-shrink-0 text-gray-500 dark:text-slate-400 transition-transform"
                     [class.rotate-180]="showVoiceDropdown" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -605,9 +611,15 @@
                   @for (v of voices; track v.voiceId) {
                   <div (click)="selectVoice(v.voiceId)"
                     class="w-full flex items-center justify-between gap-2 3xl:gap-4 px-3 3xl:px-6 py-2 3xl:py-3 text-left text-xs 3xl:text-xl hover:bg-gray-50 dark:hover:bg-slate-700/80 text-gray-900 dark:text-white transition-colors first:rounded-t-md last:rounded-b-md cursor-pointer">
-                    <span class="font-medium truncate 3xl:text-xl">{{
-                      v.name
-                      }}</span>
+                    <div class="flex items-center gap-2 3xl:gap-3 min-w-0">
+                      @if (v.image) {
+                      <img [src]="v.image" [alt]="v.name"
+                        class="w-6 h-6 3xl:w-9 3xl:h-9 rounded-full object-cover flex-shrink-0 border border-white/40 dark:border-slate-700" />
+                      }
+                      <span class="font-medium truncate 3xl:text-xl">
+                        {{ v.name }}
+                      </span>
+                    </div>
                     <button type="button" (click)="playVoicePreview(v, $event)"
                       class="flex-shrink-0 w-6 h-6 3xl:w-10 3xl:h-10 flex items-center justify-center rounded-md 3xl:rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-600 dark:text-slate-300 transition-colors">
                       @if (currentPlayingVoice === v.voiceId) {
@@ -802,7 +814,7 @@
               [ngClass]="{
                 'bg-green-600 hover:bg-green-700 text-white border-green-600':
                   shopifyConnectedDomain,
-                'bg-[#1E3A8A] hover:bg-[#1E40AF] text-white border-[#1E3A8A] dark:bg-white dark:text-[#000001] dark:hover:bg-gray-200 dark:border-white':
+                'bg-[#1E3A8A] hover:bg-[#1E40AF] text-white border-[#1E3A8A] dark:bg-white dark:text-[#000001] dark:hover:bg-white dark:border-white':
                   !shopifyConnectedDomain,
               }" (click)="goToShopifyOnboarding()">
               {{ shopifyConnectedDomain ? "Conectado" : "Conectar" }}
@@ -849,52 +861,64 @@
               class="w-full px-3 3xl:px-6 py-1.5 3xl:py-3 text-[11px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition-all" />
           </div>
           <div>
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between relative">
               <label
                 class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-1">Instrucciones
                 del agente</label>
-              <button type="button" (click)="openGeneratePromptModal()"
-                class="group relative flex items-center gap-1 px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 ease-in-out border border-gray-300 dark:border-slate-600 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 hover:scale-105 hover:shadow-md hover:shadow-purple-500/20">
-                <!-- <svg
-                  class="w-4 h-4 3xl:w-5 3xl:h-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="url(#chipGradient)"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <defs>
-                    <linearGradient
-                      id="chipGradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="100%"
-                    >
-                      <stop
-                        offset="0%"
-                        style="stop-color: #1e3a8a; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="70%"
-                        style="stop-color: #1e40af; stop-opacity: 1"
-                      />
-                      <stop
-                        offset="100%"
-                        style="stop-color: #2563eb; stop-opacity: 1"
-                      />
-                    </linearGradient>
-                  </defs>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
-                  />
-                </svg> -->
-                <span
-                  class="text-[10px] 3xl:text-xs font-medium bg-gradient-to-r from-violet-500 via-purple-500 via-fuchsia-500 via-indigo-500 to-blue-600 bg-clip-text text-transparent">Generar
-                  con IA</span>
-              </button>
+              <div class="relative">
+                <button type="button" (click)="toggleGeneratePromptDropdown()"
+                  class="group relative flex items-center gap-1 px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 ease-in-out border border-gray-300 dark:border-slate-600 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 hover:scale-105 hover:shadow-md hover:shadow-purple-500/20">
+                  <span
+                    class="text-[10px] 3xl:text-xs font-medium bg-gradient-to-r from-violet-500 via-purple-500 via-fuchsia-500 via-indigo-500 to-blue-600 bg-clip-text text-transparent">Generar
+                    con IA</span>
+                </button>
+                @if (showGeneratePromptModal || isGeneratePromptDropdownClosing) {
+                <div
+                  class="absolute right-0 mt-2 w-72 3xl:w-96 rounded-xl 3xl:rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 shadow-xl z-50 p-3 3xl:p-4 space-y-3 ia-generate-dropdown"
+                  [class.closing]="isGeneratePromptDropdownClosing">
+                  <div>
+                    <p class="text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-white">
+                      Generar instrucciones con IA
+                    </p>
+                    <p class="mt-0.5 text-[9px] 3xl:text-xs text-gray-500 dark:text-gray-400">
+                      Describe brevemente cómo debe comportarse el agente.
+                    </p>
+                  </div>
+                  <div>
+                    <textarea [(ngModel)]="promptDescription"
+                      placeholder="Ej: Agente amable que atiende reservas y dudas de un restaurante..." rows="3"
+                      class="w-full px-2.5 3xl:px-3 py-1.5 3xl:py-2 text-[10px] 3xl:text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none resize-none transition-all"></textarea>
+                  </div>
+                  @if (generatePromptError) {
+                  <p class="text-[9px] 3xl:text-xs text-red-500 dark:text-red-400">
+                    {{ generatePromptError }}
+                  </p>
+                  }
+                  <div class="flex justify-end gap-2">
+                    <button type="button" (click)="closeGeneratePromptModal()"
+                      class="px-2.5 3xl:px-3 py-1 text-[9px] 3xl:text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                      Cancelar
+                    </button>
+                    <button type="button" (click)="generatePrompt()"
+                      [disabled]="isGeneratingPrompt || !promptDescription.trim()"
+                      class="px-2.5 3xl:px-3 py-1 text-[9px] 3xl:text-xs font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
+                      @if (isGeneratingPrompt) {
+                      <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                      </svg>
+                      Generando...
+                      } @else {
+                      Generar
+                      }
+                    </button>
+                  </div>
+                </div>
+                }
+              </div>
             </div>
             <div class="relative mt-2">
               <textarea [(ngModel)]="instructions" name="instructions" placeholder="Escribe aquí las instrucciones..."
@@ -1366,75 +1390,6 @@
       </div>
     </div>
   </ng-container>
-
-  <!-- Modal para Generar con IA -->
-  @if (showGeneratePromptModal) {
-  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-    <div
-      class="relative w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-600 shadow-xl p-6">
-      <!-- Header del modal -->
-      <div class="flex items-start justify-between gap-4 mb-5">
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            Generar instrucciones con IA
-          </h3>
-          <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
-            Describe cómo debería ser tu agente y generaremos las
-            instrucciones automáticamente.
-          </p>
-        </div>
-        <button type="button" (click)="closeGeneratePromptModal()"
-          class="w-8 h-8 rounded-lg border border-gray-200 dark:border-slate-600 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
-          <span class="text-lg leading-none">×</span>
-        </button>
-      </div>
-
-      <!-- Contenido del modal -->
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-            Describe tu agente
-          </label>
-          <textarea [(ngModel)]="promptDescription"
-            placeholder="Ej: Un agente amigable que atiende clientes de un restaurante, toma reservas y responde preguntas sobre el menú..."
-            rows="4"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:focus:border-transparent outline-none resize-none transition-all text-sm"></textarea>
-        </div>
-
-        <!-- Error message -->
-        @if (generatePromptError) {
-        <div class="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-          <p class="text-sm text-red-600 dark:text-red-400">
-            {{ generatePromptError }}
-          </p>
-        </div>
-        }
-      </div>
-
-      <!-- Botones de acción -->
-      <div class="flex justify-end gap-3 mt-6">
-        <button type="button" (click)="closeGeneratePromptModal()" [disabled]="isGeneratingPrompt"
-          class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-          Cancelar
-        </button>
-        <button type="button" (click)="generatePrompt()" [disabled]="isGeneratingPrompt || !promptDescription.trim()"
-          class="px-4 py-2 text-sm font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] border border-transparent rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-          @if (isGeneratingPrompt) {
-          <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-            </path>
-          </svg>
-          Generando...
-          } @else {
-          Generar instrucciones
-          }
-        </button>
-      </div>
-    </div>
-  </div>
-  }
 
   <!-- Modal para ver instrucciones ampliadas -->
   @if (showExpandInstructionsModal || isInstructionsModalClosing) {

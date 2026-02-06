@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { AgentsService } from '../../core/services/agents.service';
+import {
+  AgentsService,
+  GenerateAgentInstructionsRequest,
+} from '../../core/services/agents.service';
 import { Voice } from '../../shared/models/voice.model';
 import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
 import { TwilioService } from '../../core/services/twilio.service';
@@ -236,6 +239,17 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   phoneErrorMessageStep7 = '';
   private phoneValidationTimeoutStep7: ReturnType<typeof setTimeout> | null =
     null;
+
+  // Paso 7: Generar instrucciones con IA (dropdown)
+  showGeneratePromptModal = false;
+  promptDescription = '';
+  isGeneratingPrompt = false;
+  generatePromptError = '';
+  isGeneratePromptDropdownClosing = false;
+
+  // Paso 7: ver instrucciones ampliadas
+  showExpandInstructionsModal = false;
+  isInstructionsModalClosing = false;
 
   // Paso 10: Prueba de agente — micrófono y esfera
   isMicrophoneActive = false;
@@ -844,6 +858,111 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
             'Número no disponible. Verifica que esté en Twilio.';
         },
       });
+  }
+
+  // --- Generar instrucciones con IA (similar a new-create-agents) ---
+  toggleGeneratePromptDropdown() {
+    if (this.showGeneratePromptModal || this.isGeneratePromptDropdownClosing) {
+      this.closeGeneratePromptModal();
+    } else {
+      this.openGeneratePromptModal();
+    }
+  }
+
+  openGeneratePromptModal() {
+    this.isGeneratePromptDropdownClosing = false;
+    this.showGeneratePromptModal = true;
+  }
+
+  closeGeneratePromptModal() {
+    if (this.isGeneratingPrompt) return;
+    this.isGeneratePromptDropdownClosing = true;
+    setTimeout(() => {
+      this.showGeneratePromptModal = false;
+      this.isGeneratePromptDropdownClosing = false;
+      this.promptDescription = '';
+      this.isGeneratingPrompt = false;
+      this.generatePromptError = '';
+    }, 160);
+  }
+
+  private normalizeLanguageCode(code: string): string {
+    const normalized = (code || '').trim().toLowerCase();
+    if (normalized === 'us') return 'en';
+    if (normalized === 'se') return 'sv';
+    if (normalized.length === 2) return normalized;
+    return 'es';
+  }
+
+  generatePrompt() {
+    if (this.isGeneratingPrompt) return;
+
+    const userDescription = (this.promptDescription || '').trim();
+    if (!userDescription) {
+      this.generatePromptError =
+        'Escribe una descripción para generar el prompt.';
+      return;
+    }
+
+    const voiceId = this.selectedVoiceId || this.selectedVoice?.voiceId || '';
+
+    const enterpriseName =
+      (this.userStore.user()?.enterprise?.name || '').trim() || 'Mi Empresa';
+
+    const payload: GenerateAgentInstructionsRequest = {
+      enterpriseName,
+      agentName: (this.agentName || '').trim() || 'Agente',
+      callType: this.selectedCallType || 'inbound',
+      language: this.normalizeLanguageCode(this.selectedCountry || 'es'),
+      voiceId,
+      voiceParameters: {
+        stability: this.voiceParameters.stability,
+        similarity: this.voiceParameters.similarity,
+        style: this.voiceParameters.style,
+        boost: this.voiceParameters.boost,
+        speed: this.voiceParameters.speed,
+      },
+      userDescription,
+    };
+
+    this.isGeneratingPrompt = true;
+    this.generatePromptError = '';
+
+    this.agentsService.generateAgentInstructions(payload).subscribe({
+      next: (res) => {
+        const instruction = (res?.agentInstruction || '').trim();
+        if (!instruction) {
+          this.generatePromptError =
+            'No se pudo generar el prompt. Inténtalo de nuevo.';
+          this.isGeneratingPrompt = false;
+          return;
+        }
+        this.instructions = instruction;
+        this.isGeneratingPrompt = false;
+        this.closeGeneratePromptModal();
+      },
+      error: (err) => {
+        this.isGeneratingPrompt = false;
+        this.generatePromptError =
+          err?.error?.message ||
+          err?.message ||
+          'Error al generar el prompt. Inténtalo de nuevo.';
+      },
+    });
+  }
+
+  // --- Ver instrucciones ampliadas (textarea grande) ---
+  openExpandInstructionsModal() {
+    this.showExpandInstructionsModal = true;
+    this.isInstructionsModalClosing = false;
+  }
+
+  closeExpandInstructionsModal() {
+    this.isInstructionsModalClosing = true;
+    setTimeout(() => {
+      this.showExpandInstructionsModal = false;
+      this.isInstructionsModalClosing = false;
+    }, 150);
   }
 
   // Micrófono para Prueba de agente (paso 10) — esfera reacciona al audio

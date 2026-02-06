@@ -39,6 +39,39 @@
   transform-origin: left center;
 }
 
+/* Animaciones para el dropdown de "Generar con IA" */
+@keyframes iaDropdownIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes iaDropdownOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+}
+
+.ia-generate-dropdown {
+  animation: iaDropdownIn 0.18s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: top right;
+}
+
+.ia-generate-dropdown.closing {
+  animation: iaDropdownOut 0.14s ease-in forwards;
+  transform-origin: top right;
+}
+
 /* Animaciones para el modal de instrucciones ampliadas */
 @keyframes instructionsModalFadeIn {
   from {

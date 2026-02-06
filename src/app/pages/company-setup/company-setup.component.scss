@@ -111,6 +111,74 @@
     }
 }
 
+/* Animaciones para dropdown de "Generar con IA" (Paso 7) */
+@keyframes iaDropdownIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes iaDropdownOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.96);
+    }
+}
+
+.ia-generate-dropdown {
+    animation: iaDropdownIn 0.18s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    transform-origin: top right;
+}
+
+.ia-generate-dropdown.closing {
+    animation: iaDropdownOut 0.14s ease-in forwards;
+    transform-origin: top right;
+}
+
+/* Animaciones para modal de instrucciones ampliadas (Paso 7) */
+@keyframes instructionsModalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes instructionsModalFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+.instructions-modal-enter {
+    animation: instructionsModalFadeIn 0.2s ease-out forwards;
+}
+
+.instructions-modal-exit {
+    animation: instructionsModalFadeOut 0.15s ease-in forwards;
+}
+
 .exit-animation {
     animation: welcome-exit 1s cubic-bezier(0.85, 0, 0.15, 1) forwards !important;
 }
