@@ -17,11 +17,18 @@
 
 .welcome-text-container {
     text-align: center;
+    padding: 1rem;
+    overflow: visible;
+    width: 100%;
+    max-width: 100vw;
 
     .brand-name {
         animation: welcome-fade-up 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards,
             rainbow-flow 8s ease infinite;
         opacity: 0;
+        display: inline-block;
+        padding: 0.5rem;
+        overflow: visible;
     }
 
     .agent-intro-subtitle {
@@ -50,7 +57,7 @@
     font-size: 3.5rem;
     font-weight: 700;
     letter-spacing: -0.08em;
-    line-height: 0.9;
+    line-height: 1.1;
     background: linear-gradient(45deg,
             #16abd8,
             #06005a,
@@ -63,6 +70,9 @@
     background-clip: text;
     color: transparent;
     animation: rainbow-flow 8s ease infinite;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
 
     @media (min-width: 640px) {
         font-size: 5.5rem;

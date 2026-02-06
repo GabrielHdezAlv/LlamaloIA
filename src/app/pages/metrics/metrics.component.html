@@ -1,11 +1,11 @@
 <div
-  class="min-h-screen p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-8 mt-3 2xl:mt-2 3xl:mt-5 max-lg:p-3 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 max-w-[74rem] 3xl:max-w-[84rem] mx-auto">
+  class="min-h-screen p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-6 mt-3 2xl:mt-2 3xl:mt-5 max-lg:p-2.5 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 max-w-[74rem] 3xl:max-w-[84rem] mx-auto">
   <!-- Encabezado -->
   <div
     class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 3xl:gap-4 max-lg:gap-1.5 mb-3 3xl:mb-4 max-lg:mb-2">
     <div class="relative w-full sm:w-auto sm:min-w-[120px] lg:min-w-[130px] xl:min-w-[130px] 2xl:min-w-[130px]">
       <select
-        class="appearance-none bg-white rounded-2xl w-full px-2.5 sm:px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 pr-8 md:pr-10 3xl:pr-12 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-[9px] border border-gray-100 history-border focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]"
+        class="appearance-none bg-white rounded-2xl w-full px-2 sm:px-2.5 lg:px-3 xl:px-3 2xl:px-3 3xl:px-3.5 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2 pr-7 md:pr-9 3xl:pr-10 text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs max-lg:text-[8px] border border-gray-100 history-border focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]"
         [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
         <option *ngFor="let p of periods">{{ p }}</option>
       </select>
@@ -18,7 +18,7 @@
 
     <div class="relative w-full sm:w-auto">
       <select
-        class="appearance-none bg-white rounded-2xl w-full px-2.5 sm:px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 pr-8 md:pr-10 3xl:pr-12 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-[9px] border border-gray-100 history-border focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]"
+        class="appearance-none bg-white rounded-2xl w-full px-2 sm:px-2.5 lg:px-3 xl:px-3 2xl:px-3 3xl:px-3.5 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2 pr-7 md:pr-9 3xl:pr-10 text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs max-lg:text-[8px] border border-gray-100 history-border focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]"
         [(ngModel)]="selectedAgent">
         <option *ngFor="let a of agents">{{ a }}</option>
       </select>
@@ -35,12 +35,12 @@
     <div class="flex-1">
       <!-- Total llamadas exitosas (solo tablets: full width) -->
       <div
-        class="hidden md:block lg:hidden bg-white rounded-2xl px-3 3xl:px-4 pt-3 3xl:pt-4 pb-1 3xl:pb-2 fade-in-section border border-gray-100 history-border mb-4 3xl:mb-5 min-h-[280px] dark:bg-slate-900 dark:border-slate-800"
+        class="hidden md:block lg:hidden bg-white rounded-2xl px-2.5 3xl:px-3 pt-2.5 3xl:pt-3 pb-1 3xl:pb-1.5 fade-in-section border border-gray-100 history-border mb-3 3xl:mb-4 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
         [class.fade-in-visible]="showGraficoLlamadas">
         <div class="flex justify-between items-center mb-1 max-lg:mb-1">
-          <h3 class="font-semibold text-sm max-lg:text-xs text-gray-800 tracking-[-0.7px] dark:text-slate-50">{{
+          <h3 class="font-semibold text-xs max-lg:text-[10px] text-gray-800 tracking-[-0.7px] dark:text-slate-50">{{
             t.totalSuccessfulCalls }}</h3>
-          <span class="text-[9px] max-lg:text-[8px] text-green-600 font-medium dark:text-green-300 tracking-[-0.7px]">↑
+          <span class="text-[8px] max-lg:text-[7px] text-green-600 font-medium dark:text-green-300 tracking-[-0.7px]">↑
             44.2%</span>
         </div>
         <!-- Vista móvil -->
@@ -131,7 +131,7 @@
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 3xl:gap-4 max-lg:gap-1.5 mb-4 3xl:mb-5 max-lg:mb-3 md:mb-3">
         <!-- Gráfico de llamadas exitosas (desktop y móvil; oculto en tablet) -->
         <div
-          class="block md:hidden lg:block bg-white rounded-2xl px-3 3xl:px-4 pt-3 3xl:pt-4 pb-1 3xl:pb-2 lg:col-span-2 fade-in-section border border-gray-100 history-border min-h-[280px] dark:bg-slate-900 dark:border-slate-800"
+          class="block md:hidden lg:block bg-white rounded-2xl px-2.5 3xl:px-3 pt-2.5 3xl:pt-3 pb-1 3xl:pb-1.5 lg:col-span-2 fade-in-section border border-gray-100 history-border min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showGraficoLlamadas">
           <div class="flex justify-between items-center mb-1 max-lg:mb-1">
             <h3 class="font-semibold text-sm max-lg:text-xs text-gray-800 tracking-[-0.7px] dark:text-slate-50">{{
@@ -314,11 +314,11 @@
 
         <!-- Total Minutos -->
         <div
-          class="bg-white rounded-2xl px-3 pt-3 max-lg:px-2 max-lg:pt-2 pb-2 max-lg:pb-2 border border-gray-100 history-border flex flex-col justify-between h-full min-h-[180px] max-lg:min-h-[160px] fade-in-section md:col-span-1 lg:col-span-1 dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-3xl px-4 pt-4 max-lg:px-3 max-lg:pt-3 pb-3 max-lg:pb-2 border border-gray-100 history-border flex flex-col justify-between h-full min-h-[185px] max-lg:min-h-[155px] fade-in-section md:col-span-1 lg:col-span-1 dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTotalMinutos">
           <div>
             <p
-              class="text-sm max-lg:text-xs font-semibold text-gray-600 mb-0.5 max-lg:mb-0.5 tracking-[-0.7px] dark:text-slate-400">
+              class="text-sm max-lg:text-xs font-semibold text-gray-600 mb-1 max-lg:mb-1 tracking-[-0.7px] dark:text-slate-400">
               {{ t.totalMinutes }}
             </p>
             <p
@@ -326,7 +326,7 @@
               {{ totalMinutesUsed }}/{{ minutesLimit }}
             </p>
             <p
-              class="text-sm max-lg:text-xs font-semibold text-gray-600 mb-0.5 max-lg:mb-0.5 tracking-[-0.7px] dark:text-slate-400">
+              class="text-sm max-lg:text-xs font-semibold text-gray-600 mb-1 max-lg:mb-1 tracking-[-0.7px] dark:text-slate-400">
               Coste por minuto
             </p>
             <p
@@ -334,7 +334,7 @@
               {{ costPerMinuteLabel }}
             </p>
             <p
-              class="text-sm max-lg:text-xs font-semibold text-gray-600 mb-0.5 max-lg:mb-0.5 tracking-[-0.7px] dark:text-slate-400">
+              class="text-sm max-lg:text-xs font-semibold text-gray-600 mb-1 max-lg:mb-1 tracking-[-0.7px] dark:text-slate-400">
               {{ t.extraMinutes }}
             </p>
             <p
@@ -342,7 +342,7 @@
               {{ extraMinutes }}
             </p>
             <p
-              class="text-sm max-lg:text-xs font-semibold text-gray-600 mb-0.5 max-lg:mb-0.5 tracking-[-0.7px] dark:text-slate-400">
+              class="text-sm max-lg:text-xs font-semibold text-gray-600 mb-1 max-lg:mb-1 tracking-[-0.7px] dark:text-slate-400">
               Suscripción
             </p>
             <p
@@ -357,7 +357,7 @@
           class="hidden md:block lg:hidden bg-white rounded-2xl px-3 pt-3 pb-3 fade-in-section border border-gray-100 history-border dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas">
           <h3
-            class="font-semibold text-sm max-lg:text-xs text-gray-800 mb-2 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-50">
+            class="font-semibold text-xs max-lg:text-[10px] text-gray-800 mb-1.5 max-lg:mb-1 tracking-[-0.7px] dark:text-slate-50">
             Tipo de llamadas</h3>
 
           <div class="flex flex-col items-center justify-center mb-2 max-lg:mb-1.5 mt-2 max-lg:mt-1.5">
@@ -365,8 +365,8 @@
               <svg width="224" height="224" viewBox="0 0 224 224" class="absolute inset-0 w-full h-full">
                 <defs>
                   <linearGradient id="callBlueGradTablet" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="rgba(0, 81, 255, 1)" />
-                    <stop offset="93%" stop-color="rgba(10, 0, 120, 1)" />
+                    <stop offset="0%" stop-color="#1B2559" />
+                    <stop offset="100%" stop-color="#1B2559" />
                   </linearGradient>
                 </defs>
                 <circle cx="112" cy="112" r="90" stroke="#f3f4f4" [attr.stroke-width]="callTypeStrokeWidth"
@@ -393,7 +393,7 @@
             <div class="flex flex-col items-center">
               <div class="flex items-center">
                 <div class="w-4 h-4 max-lg:w-3.5 max-lg:h-3.5 rounded-md mr-1.5 max-lg:mr-1 metrics-call-legend-inbound"
-                  style="background: linear-gradient(90deg, rgba(0, 81, 255, 1) 0%, rgba(10, 0, 120, 1) 93%);"></div>
+                  style="background-color: #1B2559;"></div>
                 <span class="tracking-[-0.7px] dark:text-slate-400 text-xs max-lg:text-[10px]">Inbound</span>
               </div>
               <span
@@ -419,22 +419,21 @@
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1.5 3xl:gap-3 max-lg:gap-1 lg:gap-2.5 3xl:lg:gap-4 mb-4 3xl:mb-5 max-lg:mb-3 md:mb-3">
         <!-- Latencia -->
         <div
-          class="bg-white rounded-2xl px-3 pt-3 lg:px-3 lg:pt-3 pb-2 lg:pb-2.5 mb-4 max-lg:mb-3 md:mb-3 lg:mb-6 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 history-border flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-[calc(100%-0.5rem)] lg:w-[calc(100%-0.75rem)]"
+          class="bg-white rounded-2xl px-2.5 pt-2.5 lg:px-2.5 lg:pt-2.5 pb-1.5 lg:pb-2 mb-3 max-lg:mb-2.5 md:mb-2.5 lg:mb-5 md:h-[320px] lg:h-auto fade-in-section border border-gray-100 history-border flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-[calc(100%-0.5rem)] lg:w-[calc(100%-0.75rem)]"
           [class.fade-in-visible]="showLatencia">
           <div class="flex justify-between items-start mb-2 lg:mb-2">
             <div>
-              <h3 class="font-semibold text-sm lg:text-sm text-gray-800 tracking-[-0.7px] dark:text-slate-50">{{
+              <h3 class="font-semibold text-xs lg:text-xs text-gray-800 tracking-[-0.7px] dark:text-slate-50">{{
                 t.latency }}</h3>
-              <div class="mt-2 lg:mt-2 flex items-baseline gap-0.5">
+              <div class="mt-1.5 lg:mt-1.5 flex items-baseline gap-0.5">
                 <span
-                  class="text-lg lg:text-xl font-bold text-gray-900 leading-none dark:text-slate-50 tracking-[-0.7px]">{{
+                  class="text-base lg:text-lg font-bold text-gray-900 leading-none dark:text-slate-50 tracking-[-0.7px]">{{
                   latencyMs }}</span>
                 <span
-                  class="text-[9px] lg:text-[9px] text-gray-500 font-bold leading-none dark:text-slate-400 tracking-[-0.7px]">MS</span>
+                  class="text-[8px] lg:text-[8px] text-gray-500 font-bold leading-none dark:text-slate-400 tracking-[-0.7px]">MS</span>
               </div>
             </div>
-            <span
-              [class]="latencyBadgeClasses + ' text-[9px] lg:text-[9px] px-1.5 lg:px-1.5 py-0.5 tracking-[-0.7px]'">{{
+            <span [class]="latencyBadgeClasses + ' text-[8px] lg:text-[8px] px-1 lg:px-1 py-0.5 tracking-[-0.7px]'">{{
               latencyLabel }}</span>
           </div>
 
@@ -485,18 +484,17 @@
           [class.fade-in-visible]="showDuracionMedia">
           <div class="flex justify-between items-start mb-2 lg:mb-2">
             <div>
-              <h3 class="font-semibold text-sm lg:text-sm text-gray-800 tracking-[-0.7px] dark:text-slate-50">{{
+              <h3 class="font-semibold text-xs lg:text-xs text-gray-800 tracking-[-0.7px] dark:text-slate-50">{{
                 t.averageCallDuration }}</h3>
-              <div class="mt-2 lg:mt-2 flex items-baseline gap-0.5">
+              <div class="mt-1.5 lg:mt-1.5 flex items-baseline gap-0.5">
                 <span
-                  class="text-lg lg:text-xl font-bold text-gray-900 leading-none dark:text-slate-50 tracking-[-0.7px]">{{
+                  class="text-base lg:text-lg font-bold text-gray-900 leading-none dark:text-slate-50 tracking-[-0.7px]">{{
                   averageCallDurationLabel }}</span>
                 <span
-                  class="text-[9px] lg:text-[9px] text-gray-500 font-medium leading-none dark:text-slate-400 tracking-[-0.7px]">MS</span>
+                  class="text-[8px] lg:text-[8px] text-gray-500 font-medium leading-none dark:text-slate-400 tracking-[-0.7px]">MS</span>
               </div>
             </div>
-            <span
-              [class]="durationBadgeClasses + ' text-[9px] lg:text-[9px] px-1.5 lg:px-1.5 py-0.5 tracking-[-0.7px]'">{{
+            <span [class]="durationBadgeClasses + ' text-[8px] lg:text-[8px] px-1 lg:px-1 py-0.5 tracking-[-0.7px]'">{{
               durationLabel }}</span>
           </div>
 
@@ -541,10 +539,10 @@
 
         <!-- Tipo de llamadas (desktop y móvil, oculto en tablet) -->
         <div
-          class="block md:hidden lg:block bg-white rounded-2xl px-3 pt-3 max-lg:px-2 max-lg:pt-2 pb-2.5 max-lg:pb-2 lg:-ml-5 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 history-border dark:bg-slate-900 dark:border-slate-800"
+          class="block md:hidden lg:block bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-2 max-lg:pt-2 pb-2 max-lg:pb-1.5 lg:-ml-5 md:h-[320px] lg:h-auto fade-in-section border border-gray-100 history-border dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas">
           <h3
-            class="font-semibold text-sm max-lg:text-xs text-gray-800 mb-2 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-50">
+            class="font-semibold text-xs max-lg:text-[10px] text-gray-800 mb-1.5 max-lg:mb-1 tracking-[-0.7px] dark:text-slate-50">
             Tipo de llamadas</h3>
 
           <!-- Gráfico circular completo -->
@@ -553,8 +551,8 @@
               <svg width="224" height="224" viewBox="0 0 224 224" class="absolute inset-0 w-full h-full">
                 <defs>
                   <linearGradient id="callBlueGradDesk" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="rgba(0, 81, 255, 1)" />
-                    <stop offset="93%" stop-color="rgba(10, 0, 120, 1)" />
+                    <stop offset="0%" stop-color="#1B2559" />
+                    <stop offset="100%" stop-color="#1B2559" />
                   </linearGradient>
                 </defs>
                 <!-- Círculo de fondo -->
@@ -589,7 +587,7 @@
               <div class="flex items-center">
                 <div
                   class="w-4 h-4 max-lg:w-3.5 max-lg:h-3.5 lg:w-5 lg:h-5 rounded-md mr-1.5 max-lg:mr-1 lg:mr-2 metrics-call-legend-inbound"
-                  style="background: linear-gradient(90deg, rgba(0, 81, 255, 1) 0%, rgba(10, 0, 120, 1) 93%);"></div>
+                  style="background-color: #1B2559;"></div>
                 <span class="tracking-[-0.7px] dark:text-slate-400 text-xs max-lg:text-[10px] lg:text-sm">Inbound</span>
               </div>
               <span
@@ -616,10 +614,10 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 3xl:gap-4 max-lg:gap-1.5">
         <!-- Países -->
         <div
-          class="bg-white rounded-2xl p-2.5 max-lg:p-2 lg:p-3 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 history-border max-h-[335px] lg:max-h-[354px] xl:max-h-[354px] 2xl:max-h-[354px] 3xl:lg:max-h-[372px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)]"
+          class="bg-white rounded-2xl p-2 max-lg:p-1.5 lg:p-2.5 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 history-border max-h-[300px] lg:max-h-[349px] xl:max-h-[349px] 2xl:max-h-[349px] 3xl:lg:max-h-[369px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)]"
           [class.fade-in-visible]="showPaises">
           <h3
-            class="font-semibold text-gray-800 mb-2 max-lg:mb-1.5 lg:mb-3 text-sm max-lg:text-xs lg:text-base tracking-[-0.7px] dark:text-slate-50">
+            class="font-semibold text-gray-800 mb-1.5 max-lg:mb-1 lg:mb-2 text-xs max-lg:text-[10px] lg:text-sm tracking-[-0.7px] dark:text-slate-50">
             {{ t.countries }}</h3>
           <div class="overflow-y-auto">
             <div class="mb-3 max-lg:mb-2 lg:mb-4" *ngFor="let c of countries; let i = index">
@@ -637,7 +635,7 @@
               </div>
               <div
                 class="w-full h-1.5 max-lg:h-1 lg:h-2 bg-gray-100 -mt-1.5 max-lg:-mt-1 lg:-mt-2 ml-6 max-lg:ml-5 lg:ml-7 overflow-hidden country-track rounded-full dark:bg-slate-800">
-                <div class="h-1.5 max-lg:h-1 lg:h-2 bg-blue-950 country-bar rounded-full shadow-sm"
+                <div class="h-1.5 max-lg:h-1 lg:h-2 bg-blue-950 dark:bg-white country-bar rounded-full shadow-sm"
                   [style.width.%]="showPaises ? c.percent : 0"
                   [style.transition]="'width 1s ease-out ' + getCountryBarDelay(i) + 'ms'">
                 </div>
@@ -648,19 +646,20 @@
 
         <!-- Estado de ánimo (copia) -->
         <div
-          class="bg-white rounded-2xl px-3 pt-3 max-lg:px-2 max-lg:pt-2 pb-2.5 max-lg:pb-2 mb-4 max-lg:mb-3 md:mb-3 lg:mb-6 lg:-ml-5 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 history-border flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-2 max-lg:pt-2 pb-2 max-lg:pb-1.5 mb-3 max-lg:mb-2.5 md:mb-2.5 lg:mb-5 lg:-ml-5 md:h-[320px] lg:h-auto fade-in-section border border-gray-100 history-border flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showEstadoAnimo">
           <div class="flex justify-between items-start mb-2 max-lg:mb-1.5">
             <div>
-              <h3 class="font-semibold text-sm max-lg:text-xs text-gray-800 tracking-[-0.7px] dark:text-slate-50">Estado
+              <h3 class="font-semibold text-xs max-lg:text-[10px] text-gray-800 tracking-[-0.7px] dark:text-slate-50">
+                Estado
                 de ánimo</h3>
-              <div class="mt-2 max-lg:mt-1 flex items-baseline gap-0.5">
+              <div class="mt-1.5 max-lg:mt-1 flex items-baseline gap-0.5">
                 <span
-                  class="text-lg sm:text-xl max-lg:text-base font-bold text-gray-900 leading-none dark:text-slate-50 tracking-[-0.7px]">{{
+                  class="text-base sm:text-lg max-lg:text-sm font-bold text-gray-900 leading-none dark:text-slate-50 tracking-[-0.7px]">{{
                   moodText }}</span>
               </div>
             </div>
-            <span [class]="moodBadgeClasses + ' text-[9px] lg:text-[9px] px-1.5 lg:px-1.5 py-0.5 tracking-[-0.7px]'">{{
+            <span [class]="moodBadgeClasses + ' text-[8px] lg:text-[8px] px-1 lg:px-1 py-0.5 tracking-[-0.7px]'">{{
               moodLabel }}</span>
           </div>
 
@@ -709,10 +708,10 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-2 3xl:gap-4 max-lg:gap-1.5 mt-0 sm:mt-0 md:mt-0 lg:-mt-3">
         <!-- Evaluación de éxito -->
         <div
-          class="bg-white rounded-2xl p-2.5 max-lg:p-2 lg:p-3 fade-in-section border border-gray-100 history-border max-h-[360px] lg:max-h-[400px] dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-2xl p-2 max-lg:p-1.5 lg:p-2.5 fade-in-section border border-gray-100 history-border max-h-[320px] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showEvaluacionExito">
           <h3
-            class="font-semibold text-gray-800 mb-3 max-lg:mb-2 text-sm max-lg:text-xs tracking-[-0.7px] dark:text-slate-50">
+            class="font-semibold text-gray-800 mb-2 max-lg:mb-1.5 text-xs max-lg:text-[10px] tracking-[-0.7px] dark:text-slate-50">
             Evaluación de éxito</h3>
           <div class="overflow-y-auto space-y-2.5 max-lg:space-y-2">
             <div *ngFor="let item of successEvaluation; let i = index" class="group">
@@ -727,7 +726,7 @@
               <div
                 class="relative w-full h-2 max-lg:h-1.5 lg:h-2 bg-gray-100 rounded-full overflow-hidden shadow-inner dark:bg-slate-800">
                 <div
-                  class="h-2 max-lg:h-1.5 lg:h-2 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950"
+                  class="h-2 max-lg:h-1.5 lg:h-2 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950 dark:bg-white"
                   [style.width.%]="showEvaluacionExito ? item.percent : 0"
                   [style.transition-delay]="getCountryBarDelay(i) + 'ms'">
                 </div>
@@ -738,10 +737,10 @@
 
         <!-- Razón de finalización de la llamada -->
         <div
-          class="bg-white rounded-2xl p-2.5 max-lg:p-2 lg:p-3 fade-in-section border border-gray-100 history-border max-h-[360px] lg:max-h-[400px] dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-2xl p-2 max-lg:p-1.5 lg:p-2.5 fade-in-section border border-gray-100 history-border max-h-[320px] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showRazonFinalizacion">
           <h3
-            class="font-semibold text-gray-800 mb-3 max-lg:mb-2 text-sm max-lg:text-xs tracking-[-0.7px] dark:text-slate-50">
+            class="font-semibold text-gray-800 mb-2 max-lg:mb-1.5 text-xs max-lg:text-[10px] tracking-[-0.7px] dark:text-slate-50">
             Razón de finalización de la llamada</h3>
           <div class="overflow-y-auto space-y-2.5 max-lg:space-y-2">
             <div *ngFor="let item of callCompletionReasons; let i = index" class="group">
@@ -756,7 +755,7 @@
               <div
                 class="relative w-full h-2 max-lg:h-1.5 lg:h-2 bg-gray-100 rounded-full overflow-hidden shadow-inner dark:bg-slate-800">
                 <div
-                  class="h-2 max-lg:h-1.5 lg:h-2 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950"
+                  class="h-2 max-lg:h-1.5 lg:h-2 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950 dark:bg-white"
                   [style.width.%]="showRazonFinalizacion ? item.percent : 0"
                   [style.transition-delay]="getCountryBarDelay(i) + 'ms'">
                 </div>
