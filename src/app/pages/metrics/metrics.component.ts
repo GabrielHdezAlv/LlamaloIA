@@ -1,4 +1,11 @@
-import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  OnDestroy,
+  Inject,
+  PLATFORM_ID,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -12,6 +19,9 @@ import {
   ApexFill,
 } from 'ng-apexcharts';
 import { I18nService } from '../../core/services/i18n.service';
+import { MetricsService } from '../../core/services/metrics.service';
+import { TwilioDetailedMetrics } from '../../shared/models/twilio-detailed-metrics.model';
+import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 
 @Component({
   selector: 'app-metrics',
@@ -20,8 +30,9 @@ import { I18nService } from '../../core/services/i18n.service';
   templateUrl: './metrics.component.html',
   styleUrl: './metrics.component.scss',
 })
-export class MetricsComponent implements OnInit {
+export class MetricsComponent implements OnInit, OnDestroy {
   private i18nService = inject(I18nService);
+  private metricsService = inject(MetricsService);
 
   // Obtener traducciones
   get t() {
@@ -39,6 +50,115 @@ export class MetricsComponent implements OnInit {
   showEstadoAnimo: boolean = false;
   showEvaluacionExito: boolean = false;
   showRazonFinalizacion: boolean = false;
+
+  // Propiedades para métricas detalladas
+  isLoadingDetailedMetrics: boolean = false;
+  detailedMetricsError: string = '';
+  detailedMetrics: TwilioDetailedMetrics | null = null;
+  hasLoadedDetailedMetrics: boolean = false; // Flag para prevenir múltiples llamadas
+
+  // Propiedades para métricas del dashboard
+  isLoadingDashboardMetrics: boolean = false;
+  dashboardMetricsError: string = '';
+  dashboardMetrics: DashboardMetrics | null = null;
+  hasLoadedDashboardMetrics: boolean = false; // Flag para prevenir múltiples llamadas
+
+  // Propiedades cacheadas para evitar cálculos repetidos
+  private cachedWeeklyComparison: number = 44.2;
+  private cachedCountries: any[] = [];
+  private cachedSuccessEvaluation: any[] = [];
+  private cachedCallCompletionReasons: any[] = [];
+  private hasCachedData: boolean = false;
+
+  // Getter para obtener el porcentaje de comparación semanal
+  get weeklyComparisonPercentage(): number {
+    return this.cachedWeeklyComparison;
+  }
+
+  // Getters para obtener las métricas del dashboard de forma segura
+  get totalLlamadas(): number {
+    return this.dashboardMetrics?.resumen?.total_llamadas?.actual || 0;
+  }
+
+  get totalLlamadasVariacion(): number {
+    return (
+      this.dashboardMetrics?.resumen?.total_llamadas?.variacionPorcentual || 0
+    );
+  }
+
+  get totalLlamadasExitosas(): number {
+    return this.dashboardMetrics?.resumen?.total_llamadas_exitosas?.actual || 0;
+  }
+
+  get totalLlamadasExitosasVariacion(): number {
+    return (
+      this.dashboardMetrics?.resumen?.total_llamadas_exitosas
+        ?.variacionPorcentual || 0
+    );
+  }
+
+  get minutosUltimoMes(): number {
+    return this.dashboardMetrics?.resumen?.minutos_ultimo_mes?.actual || 0;
+  }
+
+  get minutosUltimoMesVariacion(): number {
+    return (
+      this.dashboardMetrics?.resumen?.minutos_ultimo_mes?.variacionPorcentual ||
+      0
+    );
+  }
+
+  get tiempoAhorrado(): number {
+    return this.dashboardMetrics?.resumen?.tiempo_ahorrado?.actual || 0;
+  }
+
+  get tiempoAhorradoVariacion(): number {
+    return (
+      this.dashboardMetrics?.resumen?.tiempo_ahorrado?.variacionPorcentual || 0
+    );
+  }
+
+  get tasaExito(): number {
+    return this.dashboardMetrics?.resumen?.tasa_exito || 0;
+  }
+
+  // Método para determinar si una variación es positiva
+  isVariationPositive(variation: number): boolean {
+    return variation >= 0;
+  }
+
+  // Método para formatear variación porcentual
+  formatVariation(variation: number): string {
+    const sign = variation >= 0 ? '+' : '';
+    return `${sign}${variation.toFixed(1)}%`;
+  }
+
+  // Método para obtener clases CSS para variaciones
+  getVariationClasses(variation: number): string {
+    const isPositive = this.isVariationPositive(variation);
+    if (isPositive) {
+      return 'text-green-600 bg-green-50';
+    } else {
+      return 'text-red-600 bg-red-50';
+    }
+  }
+
+  // Método para formatear tiempo ahorrado en horas y minutos
+  formatTimeSaved(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const mins = Math.round(minutes % 60);
+    return `${hours}h ${mins}m`;
+  }
+
+  // Método para obtener horas del tiempo ahorrado
+  getTimeSavedHours(minutes: number): number {
+    return Math.floor(minutes / 60);
+  }
+
+  // Método para obtener minutos del tiempo ahorrado
+  getTimeSavedMinutes(minutes: number): number {
+    return Math.round(minutes % 60);
+  }
 
   // Propiedades para el gráfico móvil compacto
   mobileChartData: any[] = [];
@@ -108,7 +228,7 @@ export class MetricsComponent implements OnInit {
       const random = (Math.random() - 0.5) * 80; // Variación aleatoria
       const value = Math.max(
         50,
-        Math.min(400, baseValue + trend + weeklyPattern + random)
+        Math.min(400, baseValue + trend + weeklyPattern + random),
       );
       data.push(Math.round(value));
     }
@@ -193,8 +313,8 @@ export class MetricsComponent implements OnInit {
   }
   callsAreaYAxis: any = {
     min: 0,
-    max: 400,
-    tickAmount: 4,
+    max: 25,
+    tickAmount: 5,
     labels: {
       style: { colors: '#6B7280', fontSize: '11px' },
       formatter: (value: number) => value.toString(),
@@ -370,21 +490,9 @@ export class MetricsComponent implements OnInit {
     this.averageCallDurationSeconds = newDurationSeconds;
   }
 
-  // Simulación de latencia en tiempo real
-  startLatencySimulation(): void {
-    setInterval(() => {
-      // Simular variaciones realistas de latencia
-      const baseLatency = 1200;
-      const variation = Math.random() * 800 - 400; // ±400ms de variación
-      const newLatency = Math.max(200, Math.min(3000, baseLatency + variation));
-
-      this.latencyMs = Math.round(newLatency);
-    }, 2000); // Actualizar cada 2 segundos
-  }
-
   // Duración media (texto mostrado)
   averageCallDurationSeconds = 184; // 4 minutos y 10 segundos en segundos
-  maxCallDurationSeconds = 300; // 5 minutos máximo
+  maxCallDurationSeconds = 120; // 2 minutos máximo
 
   get averageCallDurationLabel(): string {
     const minutes = Math.floor(this.averageCallDurationSeconds / 60);
@@ -511,7 +619,6 @@ export class MetricsComponent implements OnInit {
     return 320 - 260 * Math.sin(angle);
   }
 
-
   // Agentes creados (tabla resumen)
   get createdAgents() {
     return [
@@ -534,36 +641,17 @@ export class MetricsComponent implements OnInit {
 
   // Países (porcentaje y barra) - ordenados de mayor a menor
   get countries() {
-    return [
-      { name: this.t.unitedStates, img: 'assets/eeuu.webp', percent: 65.5 },
-      { name: this.t.france, img: 'assets/france.webp', percent: 57.5 },
-      { name: this.t.spain, img: 'assets/spain.webp', percent: 45.2 },
-      {
-        name: this.t.unitedKingdom,
-        img: 'assets/united-kingdom.webp',
-        percent: 33.2,
-      },
-      { name: this.t.brazil, img: 'assets/brasil.webp', percent: 25.8 },
-    ].sort((a, b) => b.percent - a.percent);
+    return this.cachedCountries;
   }
 
   // Evaluación de éxito - ordenados de mayor a menor
   get successEvaluation() {
-    return [
-      { name: 'Exitoso', percent: 78.5, color: 'bg-green-500' },
-      { name: 'Parcial', percent: 15.2, color: 'bg-yellow-500' },
-      { name: 'Fallido', percent: 6.3, color: 'bg-red-500' },
-    ].sort((a, b) => b.percent - a.percent);
+    return this.cachedSuccessEvaluation;
   }
 
   // Razón de finalización de la llamada - ordenados de mayor a menor
   get callCompletionReasons() {
-    return [
-      { name: 'Completada exitosamente', percent: 72.4, color: 'bg-blue-500' },
-      { name: 'Cliente colgó', percent: 18.6, color: 'bg-orange-500' },
-      { name: 'Error técnico', percent: 5.8, color: 'bg-red-500' },
-      { name: 'Tiempo agotado', percent: 3.2, color: 'bg-gray-500' },
-    ].sort((a, b) => b.percent - a.percent);
+    return this.cachedCallCompletionReasons;
   }
 
   // Tipo de llamadas - porcentajes dinámicos
@@ -685,6 +773,364 @@ export class MetricsComponent implements OnInit {
     };
   }
 
+  // Método para cargar métricas del dashboard
+  loadDashboardMetrics(): void {
+    // Prevenir múltiples llamadas
+    if (this.hasLoadedDashboardMetrics || this.isLoadingDashboardMetrics) {
+      return;
+    }
+
+    this.isLoadingDashboardMetrics = true;
+    this.dashboardMetricsError = '';
+    this.hasLoadedDashboardMetrics = true;
+
+    this.metricsService.getDashboardMetrics().subscribe({
+      next: (data: DashboardMetrics) => {
+        this.dashboardMetrics = data;
+        this.updateComponentWithDashboardData();
+        this.isLoadingDashboardMetrics = false;
+      },
+      error: (error) => {
+        console.error('Error loading dashboard metrics:', error);
+        this.dashboardMetricsError =
+          'Error al cargar las métricas del dashboard';
+        this.isLoadingDashboardMetrics = false;
+        this.hasLoadedDashboardMetrics = false; // Permitir reintentar en caso de error
+      },
+    });
+  }
+
+  // Método para actualizar el componente con los datos del dashboard
+  private updateComponentWithDashboardData(): void {
+    if (!this.dashboardMetrics) return;
+
+    // Actualizar datos del gráfico con llamadas exitosas
+    this.callsAreaSeries = [
+      {
+        name: 'Llamadas Exitosas',
+        data: this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.map(
+          (item) => item.total,
+        ),
+      },
+    ];
+
+    // Actualizar categorías del gráfico
+    this.callsAreaXAxis = {
+      ...this.callsAreaXAxis,
+      categories: this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.map(
+        (item) => {
+          const date = new Date(item.fecha);
+          const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+          return `${dayNames[date.getDay()]} ${date.getDate()}`;
+        },
+      ),
+    };
+
+    // Actualizar totales con datos del dashboard
+    this.totalMinutesUsed =
+      this.dashboardMetrics.resumen.minutos_ultimo_mes.actual;
+
+    // Calcular tiempo ahorrado (minutos * 2.5)
+    const timeSavedMinutes =
+      this.dashboardMetrics.resumen.tiempo_ahorrado.actual;
+    this.timeSavedHours = Math.round((timeSavedMinutes / 60) * 10) / 10;
+
+    // Actualizar datos móviles
+    this.updateMobileChartData();
+  }
+
+  // Método para cargar métricas detalladas de Twilio
+  loadDetailedMetrics(): void {
+    // Prevenir múltiples llamadas
+    if (this.hasLoadedDetailedMetrics || this.isLoadingDetailedMetrics) {
+      return;
+    }
+
+    this.isLoadingDetailedMetrics = true;
+    this.detailedMetricsError = '';
+    this.hasLoadedDetailedMetrics = true;
+
+    this.metricsService.getTwilioDetailedMetrics().subscribe({
+      next: (data: TwilioDetailedMetrics) => {
+        this.detailedMetrics = data;
+        this.updateComponentWithDetailedData();
+        this.isLoadingDetailedMetrics = false;
+      },
+      error: (error) => {
+        console.error('Error loading detailed metrics:', error);
+        this.detailedMetricsError = 'Error al cargar las métricas detalladas';
+        this.isLoadingDetailedMetrics = false;
+        this.hasLoadedDetailedMetrics = false; // Permitir reintentar en caso de error
+      },
+    });
+  }
+
+  // Método para actualizar el componente con los datos detallados
+  private updateComponentWithDetailedData(): void {
+    if (!this.detailedMetrics) return;
+
+    // Actualizar datos del gráfico de llamadas exitosas
+    this.callsAreaSeries = [
+      {
+        name: 'Llamadas',
+        data: this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
+          (item) => item.total,
+        ),
+      },
+    ];
+
+    // Actualizar categorías del gráfico
+    this.callsAreaXAxis = {
+      ...this.callsAreaXAxis,
+      categories: this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
+        (item) => {
+          const date = new Date(item.fecha);
+          const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+          return `${dayNames[date.getDay()]} ${date.getDate()}`;
+        },
+      ),
+    };
+
+    // Actualizar totales
+    this.totalMinutesUsed = this.detailedMetrics.totalMinutosUltimoMes;
+    this.averageCallDurationSeconds = Math.round(
+      this.detailedMetrics.duracionMediaLlamadas * 60,
+    );
+
+    // Actualizar porcentajes de tipo de llamadas
+    const totalCalls =
+      this.detailedMetrics.tiposLlamadas.inbound +
+      this.detailedMetrics.tiposLlamadas.outbound;
+    if (totalCalls > 0) {
+      this.inboundPercentage =
+        (this.detailedMetrics.tiposLlamadas.inbound / totalCalls) * 100;
+      this.outboundPercentage =
+        (this.detailedMetrics.tiposLlamadas.outbound / totalCalls) * 100;
+    }
+
+    // Calcular y cachear todos los valores
+    this.calculateCachedValues();
+
+    // Actualizar datos móviles
+    this.updateMobileChartData();
+  }
+
+  // Método para calcular y cachear todos los valores de métricas
+  private calculateCachedValues(): void {
+    if (!this.detailedMetrics) return;
+
+    // Calcular comparación semanal
+    if (this.detailedMetrics.resumenComparativoSemanal) {
+      this.cachedWeeklyComparison =
+        this.detailedMetrics.resumenComparativoSemanal.variacionPorcentual;
+    }
+
+    // Actualizar latencia con valor real del backend
+    this.latencyMs = this.detailedMetrics.latenciaMedia;
+
+    // Calcular países
+    this.cachedCountries = this.detailedMetrics.paisesOrigen
+      .map((pais) => {
+        let countryName = '';
+        let countryFlag = '';
+
+        // Mapeo de prefijos a nombres y banderas
+        const countryMapping: {
+          [key: string]: { name: string; flag: string };
+        } = {
+          '1': { name: 'Estados Unidos', flag: 'assets/eeuu.webp' },
+          '34': { name: 'España', flag: 'assets/spain.webp' },
+          '33': { name: 'Francia', flag: 'assets/france.webp' },
+          '44': { name: 'Reino Unido', flag: 'assets/united-kingdom.webp' },
+          '55': { name: 'Brasil', flag: 'assets/brasil.webp' },
+          '52': { name: 'México', flag: 'assets/mexico.webp' },
+          '39': { name: 'Italia', flag: 'assets/italy.webp' },
+          '49': { name: 'Alemania', flag: 'assets/germany.webp' },
+          '351': { name: 'Portugal', flag: 'assets/portugal.webp' },
+          '31': { name: 'Países Bajos', flag: 'assets/netherlands.webp' },
+          '41': { name: 'Suiza', flag: 'assets/switzerland.webp' },
+          '43': { name: 'Austria', flag: 'assets/austria.webp' },
+          '32': { name: 'Bélgica', flag: 'assets/belgium.webp' },
+          '46': { name: 'Suecia', flag: 'assets/sweden.webp' },
+          '47': { name: 'Noruega', flag: 'assets/norway.webp' },
+          '45': { name: 'Dinamarca', flag: 'assets/denmark.webp' },
+          '358': { name: 'Finlandia', flag: 'assets/finland.webp' },
+          '48': { name: 'Polonia', flag: 'assets/poland.webp' },
+          '420': { name: 'República Checa', flag: 'assets/czech.webp' },
+          '36': { name: 'Hungría', flag: 'assets/hungary.webp' },
+          '40': { name: 'Rumanía', flag: 'assets/romania.webp' },
+          '30': { name: 'Grecia', flag: 'assets/greece.webp' },
+          '90': { name: 'Turquía', flag: 'assets/turkey.webp' },
+          '7': { name: 'Rusia', flag: 'assets/russia.webp' },
+          '81': { name: 'Japón', flag: 'assets/japan.webp' },
+          '82': { name: 'Corea del Sur', flag: 'assets/korea.webp' },
+          '86': { name: 'China', flag: 'assets/china.webp' },
+          '91': { name: 'India', flag: 'assets/india.webp' },
+          '61': { name: 'Australia', flag: 'assets/australia.webp' },
+          '64': { name: 'Nueva Zelanda', flag: 'assets/newzealand.webp' },
+          '27': { name: 'Sudáfrica', flag: 'assets/southafrica.webp' },
+          '54': { name: 'Argentina', flag: 'assets/argentina.webp' },
+          '56': { name: 'Chile', flag: 'assets/chile.webp' },
+          '57': { name: 'Colombia', flag: 'assets/colombia.webp' },
+          '58': { name: 'Venezuela', flag: 'assets/venezuela.webp' },
+          '51': { name: 'Perú', flag: 'assets/peru.webp' },
+          '598': { name: 'Uruguay', flag: 'assets/uruguay.webp' },
+          '593': { name: 'Ecuador', flag: 'assets/ecuador.webp' },
+          '507': { name: 'Panamá', flag: 'assets/panama.webp' },
+          '506': { name: 'Costa Rica', flag: 'assets/costarica.webp' },
+          '503': { name: 'El Salvador', flag: 'assets/elsalvador.webp' },
+          '502': { name: 'Guatemala', flag: 'assets/guatemala.webp' },
+          '501': { name: 'Belice', flag: 'assets/belize.webp' },
+          '53': { name: 'Cuba', flag: 'assets/cuba.webp' },
+          '1-809': {
+            name: 'República Dominicana',
+            flag: 'assets/dominican.webp',
+          },
+          '1-787': { name: 'Puerto Rico', flag: 'assets/puertorico.webp' },
+          '1-876': { name: 'Jamaica', flag: 'assets/jamaica.webp' },
+          '1-868': { name: 'Trinidad y Tobago', flag: 'assets/trinidad.webp' },
+          'SIN IDENTIFICAR': {
+            name: 'Número oculto',
+            flag: 'assets/hidden.webp',
+          },
+        };
+
+        const mappedCountry = countryMapping[pais.pais];
+
+        if (mappedCountry) {
+          countryName = mappedCountry.name;
+          countryFlag = mappedCountry.flag;
+        } else {
+          // Para prefijos no mapeados, mostrar el prefijo
+          countryName = `País +${pais.pais}`;
+          countryFlag = 'assets/default.webp';
+        }
+
+        return {
+          name: countryName,
+          img: countryFlag,
+          percent: Math.round(pais.porcentaje * 10) / 10, // Redondear a 1 decimal
+        };
+      })
+      .sort((a, b) => b.percent - a.percent);
+
+    // Calcular evaluación de éxito
+    const totalSuccess =
+      this.detailedMetrics.evaluacionExito.exitosas +
+      this.detailedMetrics.evaluacionExito.parciales +
+      this.detailedMetrics.evaluacionExito.fallidas;
+
+    if (totalSuccess > 0) {
+      this.cachedSuccessEvaluation = [
+        {
+          name: 'Exitoso',
+          percent:
+            Math.round(
+              (this.detailedMetrics.evaluacionExito.exitosas / totalSuccess) *
+                100 *
+                10,
+            ) / 10,
+          color: 'bg-green-500',
+        },
+        {
+          name: 'Parcial',
+          percent:
+            Math.round(
+              (this.detailedMetrics.evaluacionExito.parciales / totalSuccess) *
+                100 *
+                10,
+            ) / 10,
+          color: 'bg-yellow-500',
+        },
+        {
+          name: 'Fallido',
+          percent:
+            Math.round(
+              (this.detailedMetrics.evaluacionExito.fallidas / totalSuccess) *
+                100 *
+                10,
+            ) / 10,
+          color: 'bg-red-500',
+        },
+      ].sort((a, b) => b.percent - a.percent);
+    } else {
+      this.cachedSuccessEvaluation = [
+        { name: 'Exitoso', percent: 78.5, color: 'bg-green-500' },
+        { name: 'Parcial', percent: 15.2, color: 'bg-yellow-500' },
+        { name: 'Fallido', percent: 6.3, color: 'bg-red-500' },
+      ].sort((a, b) => b.percent - a.percent);
+    }
+
+    // Calcular razones de finalización
+    const totalReasons =
+      this.detailedMetrics.razonesFinalizacion.completada +
+      this.detailedMetrics.razonesFinalizacion.clienteColgo +
+      this.detailedMetrics.razonesFinalizacion.errorTecnico +
+      this.detailedMetrics.razonesFinalizacion.tiempoAgotado;
+
+    if (totalReasons > 0) {
+      this.cachedCallCompletionReasons = [
+        {
+          name: 'Completada exitosamente',
+          percent:
+            Math.round(
+              (this.detailedMetrics.razonesFinalizacion.completada /
+                totalReasons) *
+                100 *
+                10,
+            ) / 10,
+          color: 'bg-blue-500',
+        },
+        {
+          name: 'Cliente colgó',
+          percent:
+            Math.round(
+              (this.detailedMetrics.razonesFinalizacion.clienteColgo /
+                totalReasons) *
+                100 *
+                10,
+            ) / 10,
+          color: 'bg-orange-500',
+        },
+        {
+          name: 'Error técnico',
+          percent:
+            Math.round(
+              (this.detailedMetrics.razonesFinalizacion.errorTecnico /
+                totalReasons) *
+                100 *
+                10,
+            ) / 10,
+          color: 'bg-red-500',
+        },
+        {
+          name: 'Tiempo agotado',
+          percent:
+            Math.round(
+              (this.detailedMetrics.razonesFinalizacion.tiempoAgotado /
+                totalReasons) *
+                100 *
+                10,
+            ) / 10,
+          color: 'bg-gray-500',
+        },
+      ].sort((a, b) => b.percent - a.percent);
+    } else {
+      this.cachedCallCompletionReasons = [
+        {
+          name: 'Completada exitosamente',
+          percent: 72.4,
+          color: 'bg-blue-500',
+        },
+        { name: 'Cliente colgó', percent: 18.6, color: 'bg-orange-500' },
+        { name: 'Error técnico', percent: 5.8, color: 'bg-red-500' },
+        { name: 'Tiempo agotado', percent: 3.2, color: 'bg-gray-500' },
+      ].sort((a, b) => b.percent - a.percent);
+    }
+
+    this.hasCachedData = true;
+  }
+
   // Método para crear animación escalonada en las barras de países
   getCountryBarDelay(index: number): number {
     return index * 200; // 200ms de delay entre cada barra
@@ -720,6 +1166,10 @@ export class MetricsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Cargar métricas del dashboard y detalladas al entrar en la pantalla
+    this.loadDashboardMetrics();
+    this.loadDetailedMetrics();
+
     // Inicializar datos del gráfico móvil
     this.updateMobileChartData();
 
@@ -731,6 +1181,18 @@ export class MetricsComponent implements OnInit {
 
     // Ejecutar animaciones escalonadas
     this.startFadeInAnimations();
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar event listeners y prevenir memory leaks
+    if (this.isBrowser && window.removeEventListener) {
+      window.removeEventListener('resize', this.updateChartForScreenSize);
+    }
+    // Resetear flags para permitir nuevas cargas si el componente se vuelve a crear
+    this.hasLoadedDetailedMetrics = false;
+    this.isLoadingDetailedMetrics = false;
+    this.hasLoadedDashboardMetrics = false;
+    this.isLoadingDashboardMetrics = false;
   }
 
   private updateChartForScreenSize(): void {
@@ -754,7 +1216,6 @@ export class MetricsComponent implements OnInit {
       },
     };
   }
-
 
   private startFadeInAnimations(): void {
     // Solo ejecutar en el navegador

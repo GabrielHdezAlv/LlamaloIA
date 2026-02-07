@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
+import { TwilioDetailedMetrics } from '../../shared/models/twilio-detailed-metrics.model';
 
 @Injectable({
   providedIn: 'root',
@@ -43,5 +44,22 @@ export class MetricsService {
       headers: this.getAuthHeaders(),
     });
   }
-}
 
+  /**
+   * Obtiene métricas detalladas de Twilio
+   * @param twilioAccountId Opcional: ID de la cuenta Twilio específica
+   * @returns Observable con las métricas detalladas de Twilio
+   */
+  getTwilioDetailedMetrics(
+    twilioAccountId?: string,
+  ): Observable<TwilioDetailedMetrics> {
+    let url = `${this.apiUrl}/twilio-detailed`;
+    if (twilioAccountId) {
+      url += `?twilioAccountId=${twilioAccountId}`;
+    }
+
+    return this.http.get<TwilioDetailedMetrics>(url, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+}

@@ -12,6 +12,8 @@ import {
   ApexFill,
 } from 'ng-apexcharts';
 import { I18nService } from '../../core/services/i18n.service';
+import { MetricsService } from '../../core/services/metrics.service';
+import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 
 @Component({
   selector: 'app-admin-metrics',
@@ -22,6 +24,7 @@ import { I18nService } from '../../core/services/i18n.service';
 })
 export class AdminMetricsComponent implements OnInit {
   private i18nService = inject(I18nService);
+  private metricsService = inject(MetricsService);
 
   // Obtener traducciones
   get t() {
@@ -36,6 +39,12 @@ export class AdminMetricsComponent implements OnInit {
   showTipoLlamadas: boolean = false;
   showAgentesCreados: boolean = false;
   showPaises: boolean = false;
+
+  // Propiedades para métricas del dashboard
+  isLoadingDashboardMetrics: boolean = false;
+  dashboardMetricsError: string = '';
+  dashboardMetrics: DashboardMetrics | null = null;
+  hasLoadedDashboardMetrics: boolean = false; // Flag para prevenir múltiples llamadas
 
   // Propiedades para el gráfico móvil compacto
   mobileChartData: any[] = [];
@@ -105,7 +114,7 @@ export class AdminMetricsComponent implements OnInit {
       const random = (Math.random() - 0.5) * 80; // Variación aleatoria
       const value = Math.max(
         50,
-        Math.min(400, baseValue + trend + weeklyPattern + random)
+        Math.min(400, baseValue + trend + weeklyPattern + random),
       );
       data.push(Math.round(value));
     }
@@ -259,6 +268,91 @@ export class AdminMetricsComponent implements OnInit {
   get costPerMinuteLabel(): string {
     // Formateamos con dos decimales y coma para estilo español: 0,12 €/min
     return `${this.costPerMinute.toFixed(2).replace('.', ',')} €/min`;
+  }
+
+  // Getters para obtener las métricas del dashboard de forma segura
+  get totalLlamadas(): number {
+    return this.dashboardMetrics?.resumen?.total_llamadas?.actual || 0;
+  }
+
+  get totalLlamadasVariacion(): number {
+    return (
+      this.dashboardMetrics?.resumen?.total_llamadas?.variacionPorcentual || 0
+    );
+  }
+
+  get totalLlamadasExitosas(): number {
+    return this.dashboardMetrics?.resumen?.total_llamadas_exitosas?.actual || 0;
+  }
+
+  get totalLlamadasExitosasVariacion(): number {
+    return (
+      this.dashboardMetrics?.resumen?.total_llamadas_exitosas
+        ?.variacionPorcentual || 0
+    );
+  }
+
+  get minutosUltimoMes(): number {
+    return this.dashboardMetrics?.resumen?.minutos_ultimo_mes?.actual || 0;
+  }
+
+  get minutosUltimoMesVariacion(): number {
+    return (
+      this.dashboardMetrics?.resumen?.minutos_ultimo_mes?.variacionPorcentual ||
+      0
+    );
+  }
+
+  get tiempoAhorrado(): number {
+    return this.dashboardMetrics?.resumen?.tiempo_ahorrado?.actual || 0;
+  }
+
+  get tiempoAhorradoVariacion(): number {
+    return (
+      this.dashboardMetrics?.resumen?.tiempo_ahorrado?.variacionPorcentual || 0
+    );
+  }
+
+  get tasaExito(): number {
+    return this.dashboardMetrics?.resumen?.tasa_exito || 0;
+  }
+
+  // Método para determinar si una variación es positiva
+  isVariationPositive(variation: number): boolean {
+    return variation >= 0;
+  }
+
+  // Método para formatear variación porcentual
+  formatVariation(variation: number): string {
+    const sign = variation >= 0 ? '+' : '';
+    return `${sign}${variation.toFixed(1)}%`;
+  }
+
+  // Método para obtener clases CSS para variaciones
+  getVariationClasses(variation: number): string {
+    const isPositive = this.isVariationPositive(variation);
+    if (isPositive) {
+      return 'text-green-600 bg-green-50';
+    } else {
+      return 'text-red-600 bg-red-50';
+    }
+  }
+
+  // Método para formatear tiempo ahorrado en horas y minutos
+  formatTimeSaved(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const mins = Math.round(minutes % 60);
+    return `${hours}h ${mins}m`;
+  }
+
+  // Método para obtener horas del tiempo ahorrado
+  getTimeSavedHours(minutes: number): number {
+    return Math.floor(minutes / 60);
+  }
+
+  // Método para obtener minutos del tiempo ahorrado
+  getTimeSavedMinutes(minutes: number): number {
+    return Math.round(minutes % 60);
   }
 
   // Latencia
@@ -434,7 +528,6 @@ export class AdminMetricsComponent implements OnInit {
     return 320 - 260 * Math.sin(angle);
   }
 
-
   // Agentes creados (tabla resumen)
   get createdAgents() {
     return [
@@ -508,7 +601,7 @@ export class AdminMetricsComponent implements OnInit {
 
   // Marcadores de los huecos para simular que un lado pisa al otro
   get gapMarkerRadius(): number {
-    return Math.max(this.callTypeStrokeWidth / 1.9 - 1 );
+    return Math.max(this.callTypeStrokeWidth / 1.9 - 1);
   }
 
   private angleToPoint(angleDeg: number): { x: number; y: number } {
@@ -623,7 +716,76 @@ export class AdminMetricsComponent implements OnInit {
     }));
   }
 
+  // Método para cargar métricas del dashboard
+  loadDashboardMetrics(): void {
+    // Prevenir múltiples llamadas
+    if (this.hasLoadedDashboardMetrics || this.isLoadingDashboardMetrics) {
+      return;
+    }
+
+    this.isLoadingDashboardMetrics = true;
+    this.dashboardMetricsError = '';
+    this.hasLoadedDashboardMetrics = true;
+
+    this.metricsService.getDashboardMetrics().subscribe({
+      next: (data: DashboardMetrics) => {
+        this.dashboardMetrics = data;
+        this.updateComponentWithDashboardData();
+        this.isLoadingDashboardMetrics = false;
+      },
+      error: (error) => {
+        console.error('Error loading dashboard metrics:', error);
+        this.dashboardMetricsError =
+          'Error al cargar las métricas del dashboard';
+        this.isLoadingDashboardMetrics = false;
+        this.hasLoadedDashboardMetrics = false; // Permitir reintentar en caso de error
+      },
+    });
+  }
+
+  // Método para actualizar el componente con los datos del dashboard
+  private updateComponentWithDashboardData(): void {
+    if (!this.dashboardMetrics) return;
+
+    // Actualizar datos del gráfico con llamadas exitosas
+    this.callsAreaSeries = [
+      {
+        name: 'Llamadas Exitosas',
+        data: this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.map(
+          (item) => item.total,
+        ),
+      },
+    ];
+
+    // Actualizar categorías del gráfico
+    this.callsAreaXAxis = {
+      ...this.callsAreaXAxis,
+      categories: this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.map(
+        (item) => {
+          const date = new Date(item.fecha);
+          const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+          return `${dayNames[date.getDay()]} ${date.getDate()}`;
+        },
+      ),
+    };
+
+    // Actualizar totales con datos del dashboard
+    this.totalMinutesUsed =
+      this.dashboardMetrics.resumen.minutos_ultimo_mes.actual;
+
+    // Calcular tiempo ahorrado (minutos * 2.5)
+    const timeSavedMinutes =
+      this.dashboardMetrics.resumen.tiempo_ahorrado.actual;
+    this.timeSavedHours = Math.round((timeSavedMinutes / 60) * 10) / 10;
+
+    // Actualizar datos móviles
+    this.updateMobileChartData();
+  }
+
   ngOnInit(): void {
+    // Cargar métricas del dashboard
+    this.loadDashboardMetrics();
+
     // Inicializar datos del gráfico móvil
     this.updateMobileChartData();
 
@@ -673,7 +835,7 @@ export class AdminMetricsComponent implements OnInit {
             e.preventDefault();
             e.stopPropagation();
           },
-          { passive: false }
+          { passive: false },
         );
       }
     }, 100);
@@ -733,4 +895,3 @@ export class AdminMetricsComponent implements OnInit {
     this.showPaises = true;
   }
 }
-

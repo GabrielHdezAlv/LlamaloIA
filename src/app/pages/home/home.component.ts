@@ -69,12 +69,15 @@ export class HomeComponent implements OnInit {
     // Si hay datos del backend, usarlos
     if (this.dashboardMetrics) {
       return {
-        totalCalls: this.dashboardMetrics.resumen.total_llamadas,
-        callsDeltaPct: 0, // El backend no proporciona este dato
-        timeSavedHours: this.dashboardMetrics.resumen.tiempo_ahorrado,
-        timeSavedDeltaPct: 0, // El backend no proporciona este dato
-        minutesUsed: this.dashboardMetrics.resumen.minutos_utilizados,
-        minutesDeltaPct: 0, // El backend no proporciona este dato
+        totalCalls: this.dashboardMetrics.resumen.total_llamadas.actual,
+        callsDeltaPct:
+          this.dashboardMetrics.resumen.total_llamadas.variacionPorcentual,
+        timeSavedHours: this.dashboardMetrics.resumen.tiempo_ahorrado.actual,
+        timeSavedDeltaPct:
+          this.dashboardMetrics.resumen.tiempo_ahorrado.variacionPorcentual,
+        minutesUsed: this.dashboardMetrics.resumen.minutos_ultimo_mes.actual,
+        minutesDeltaPct:
+          this.dashboardMetrics.resumen.minutos_ultimo_mes.variacionPorcentual,
       };
     }
     // Si no hay datos, devolver valores en cero para evitar mostrar datos ficticios
@@ -86,6 +89,20 @@ export class HomeComponent implements OnInit {
       minutesUsed: 0,
       minutesDeltaPct: 0,
     };
+  }
+
+  // Calcular total de llamadas exitosas de los últimos 7 días
+  get totalCallsFromLast7Days(): number {
+    if (
+      this.dashboardMetrics?.llamadas_exitosas_ultimos_7_dias &&
+      this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.length > 0
+    ) {
+      return this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.reduce(
+        (total, day) => total + day.total,
+        0,
+      );
+    }
+    return 0;
   }
 
   // Cargar métricas del backend (últimos 7 días)
@@ -107,6 +124,9 @@ export class HomeComponent implements OnInit {
 
         // Actualizar agentes activos
         this.updateActiveAgents(data);
+
+        // Actualizar datos del gráfico principal
+        this.updateMainChart(data);
       },
       error: (error) => {
         this.isLoadingMetrics = false;
@@ -143,11 +163,11 @@ export class HomeComponent implements OnInit {
   // Actualizar datos de llamadas por día desde el backend
   private updateCallsByDay(data: DashboardMetrics): void {
     if (
-      data.llamadas_ultimos_7_dias &&
-      data.llamadas_ultimos_7_dias.length > 0
+      data.llamadas_exitosas_ultimos_7_dias &&
+      data.llamadas_exitosas_ultimos_7_dias.length > 0
     ) {
       // Obtener los últimos 7 días
-      const last7Days = data.llamadas_ultimos_7_dias.slice(-7);
+      const last7Days = data.llamadas_exitosas_ultimos_7_dias.slice(-7);
 
       // Mapear a arrays de conteos
       this.callsByDayCounts = last7Days.map((item) => item.total);
@@ -196,6 +216,28 @@ export class HomeComponent implements OnInit {
   private updateActiveAgents(data: DashboardMetrics): void {
     // Los datos de agentes se actualizarán automáticamente a través del getter
     // que ahora usará dashboardMetrics.agentes
+  }
+
+  // Actualizar gráfico principal con datos reales
+  private updateMainChart(data: DashboardMetrics): void {
+    // Actualizar la serie del gráfico principal con los datos de los últimos 7 días
+    if (
+      data.llamadas_exitosas_ultimos_7_dias &&
+      data.llamadas_exitosas_ultimos_7_dias.length > 0
+    ) {
+      const last7Days = data.llamadas_exitosas_ultimos_7_dias.slice(-7);
+      this.callsAreaSeries = [
+        { name: 'Llamadas', data: last7Days.map((item) => item.total) },
+      ];
+
+      // Actualizar el eje Y con nuevos valores dinámicos
+      this.callsAreaYAxis = {
+        ...this.callsAreaYAxis,
+        min: 0,
+        max: this.getMaxDataValue(),
+        tickAmount: 5,
+      };
+    }
   }
 
   currentWeekdayIndex: number = this.computeWeekdayIndex();
@@ -265,8 +307,8 @@ export class HomeComponent implements OnInit {
     animations: { enabled: false },
     zoom: { enabled: false },
     events: {
-      dataPointSelection: () => { },
-      markerClick: () => { },
+      dataPointSelection: () => {},
+      markerClick: () => {},
     },
   };
 
@@ -430,6 +472,17 @@ export class HomeComponent implements OnInit {
 
   // Obtener datos según el período seleccionado
   getCurrentData(): number[] {
+    // Si hay datos del backend, usarlos
+    if (
+      this.dashboardMetrics?.llamadas_exitosas_ultimos_7_dias &&
+      this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.length > 0
+    ) {
+      // Obtener los últimos 7 días
+      const last7Days =
+        this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.slice(-7);
+      return last7Days.map((item) => item.total);
+    }
+    // Si no hay datos, devolver datos por defecto
     return [120, 280, 180, 350, 160, 320, 250];
   }
 
@@ -445,6 +498,18 @@ export class HomeComponent implements OnInit {
       // Si es menor a 100, empezar desde 0
       return 0;
     }
+  }
+
+  // Calcular el máximo del eje Y de forma dinámica para que sea más realista
+  getMaxDataValue(): number {
+    const data = this.getCurrentData();
+    const maxData = Math.max(...data);
+
+    // Añadir un 20% de margen sobre el valor máximo para mejor visualización
+    const maxValue = Math.ceil(maxData * 1.2);
+
+    // Redondear hacia arriba a la siguiente decena más cercana para números más limpios
+    return Math.ceil(maxValue / 10) * 10;
   }
 
   callsAreaXAxis: ApexXAxis = {
@@ -481,9 +546,9 @@ export class HomeComponent implements OnInit {
   };
 
   callsAreaYAxis: any = {
-    min: this.getMinDataValue(),
-    max: 400,
-    tickAmount: 4,
+    min: 0,
+    max: this.getMaxDataValue(),
+    tickAmount: 5,
     labels: {
       style: {
         // Negro por defecto (modo claro); en modo oscuro se sobreescribe vía CSS
