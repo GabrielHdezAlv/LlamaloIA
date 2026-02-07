@@ -52,6 +52,7 @@ export interface SetAgentConfigDto {
   parameters: VoiceParameters;
   state: 'Activo' | 'Inactivo';
   shopifyDomain?: string | null; // Opcional - para vincular ("mi-tienda.myshopify.com"), desvincular ("", null) o mantener (no enviar en update)
+  knowledgeSourceIds?: string[]; // Nuevo campo opcional - IDs de fuentes de conocimiento
 }
 
 /**

@@ -3,5 +3,10 @@
     "target": "https://llamaloiabackend.onrender.com",
     "secure": false,
     "changeOrigin": true
+  },
+  "/knowledge-base": {
+    "target": "https://llamaloiabackend.onrender.com",
+    "secure": false,
+    "changeOrigin": true
   }
 }

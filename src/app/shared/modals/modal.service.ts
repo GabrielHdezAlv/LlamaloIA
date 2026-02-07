@@ -48,6 +48,10 @@ import {
   TwilioStepsModalComponent,
   TwilioStepsModalData,
 } from './twilio-steps-modal/twilio-steps-modal.component';
+import {
+  TextModalComponent,
+  TextModalData,
+} from './text-modal/text-modal.component';
 
 @Injectable({
   providedIn: 'root',
@@ -171,6 +175,16 @@ export class ModalService {
     return this.dialog.open(TwilioStepsModalComponent, {
       width: '480px',
       maxWidth: '90vw',
+      disableClose: false,
+      panelClass: 'custom-dialog-container',
+      data,
+    });
+  }
+
+  openText(data: TextModalData = {}) {
+    return this.dialog.open(TextModalComponent, {
+      width: '600px',
+      maxWidth: '95vw',
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
