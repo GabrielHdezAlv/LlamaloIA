@@ -1,6 +1,6 @@
-<div class="topbar-container w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8">
+<div class="topbar-container w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-10">
   <div
-    class="flex items-start justify-between w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-7xl mx-auto">
+    class="flex items-start justify-between w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] mx-auto">
     <div class="flex flex-col gap-0">
       <div class="flex items-center gap-2">
         <!-- Botón hamburguesa para móvil -->
@@ -14,7 +14,7 @@
         </button>
 
         <h1
-          class="text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-3xl font-bold xl:ml-0 dark:text-slate-50 leading-tight"
+          class="text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-bold xl:ml-0 dark:text-slate-50 leading-tight"
           style="letter-spacing: -2.1px">
           @if (pageTitle === t.home) {
           Panel de control
@@ -26,7 +26,7 @@
 
       <!-- Mensaje de bienvenida o subtítulo debajo del saludo (solo si existe texto) -->
       <p *ngIf="welcomeText || pageSubtitle"
-        class="text-sm sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-lg font-medium text-black xl:ml-0 dark:text-slate-200 flex items-center">
+        class="text-sm sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-xl font-medium text-black xl:ml-0 dark:text-slate-200 flex items-center">
         {{ welcomeText || pageSubtitle }}
       </p>
     </div>
@@ -63,7 +63,8 @@
     </div>
 
     <!-- Controles de la derecha: modo oscuro + avatar -->
-    <div class="relative flex items-center gap-2 sm:gap-2 md:gap-2 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-4 mt-0.5">
+    <div
+      class="relative flex items-center gap-2 sm:gap-2 md:gap-2 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-5 mt-0.5 3xl:mt-1">
       <!-- Botón de modo oscuro/claro (solo en admin) -->
       <button *ngIf="isAdminSection" type="button" (click)="toggleDarkMode()"
         class="mr-1 relative inline-flex items-center justify-center w-10 h-10 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-10 xl:h-10 2xl:w-10 2xl:h-10 3xl:w-12 3xl:h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn"
