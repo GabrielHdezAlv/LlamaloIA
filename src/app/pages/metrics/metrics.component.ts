@@ -640,6 +640,67 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   // Países (porcentaje y barra) - ordenados de mayor a menor
+  // Datos para el gráfico de horas punta (24 horas con patrón de curva de campana)
+  // Las barras empiezan desde las 4am (índice 0) hasta las 3am (índice 23)
+  get popularTimesData(): Array<{ label: string; busyness: number; isLive: boolean; hour: number }> {
+    const hours = [];
+    // La hora actual del sistema
+    const currentHour = new Date().getHours();
+
+    for (let i = 0; i < 24; i++) {
+      // Mapear el índice de la barra a la hora real del día
+      // Índice 0 = 4am, índice 1 = 5am, ..., índice 20 = 0am (medianoche), índice 21 = 1am, índice 22 = 2am, índice 23 = 3am
+      const actualHour = (i + 4) % 24;
+
+      // Crear una curva de campana centrada alrededor de las 15 horas (3 PM)
+      const center = 15;
+      const width = 8;
+      const peak = 100;
+      // Calcular la distancia desde el centro, considerando el ciclo circular de 24 horas
+      let distanceFromCenter = actualHour - center;
+      // Ajustar la distancia para considerar el ciclo circular (la distancia mínima)
+      if (distanceFromCenter > 12) {
+        distanceFromCenter = distanceFromCenter - 24;
+      } else if (distanceFromCenter <= -12) {
+        distanceFromCenter = distanceFromCenter + 24;
+      }
+      const busyness = Math.max(5, peak * Math.exp(-Math.pow(distanceFromCenter / width, 2)));
+
+      // La hora actual es la hora "Live"
+      const isLive = actualHour === currentHour;
+
+      // Mostrar etiquetas: empezar en la tercera barra (índice 2, hora 6 = 6a) y terminar en la última (índice 23, hora 3 = 3a)
+      let label = '';
+      // La tercera barra (índice 2) corresponde a la hora 6 (6a)
+      // Luego cada 3 barras: 9a (índice 5), 12p (índice 8), 3p (índice 11), 6p (índice 14), 9p (índice 17), 12a (índice 20), 3a (índice 23)
+      if (i === 2) label = '6a';
+      else if (i === 5) label = '9a';
+      else if (i === 8) label = '12p';
+      else if (i === 11) label = '3p';
+      else if (i === 14) label = '6p';
+      else if (i === 17) label = '9p';
+      else if (i === 20) label = '12a';
+      else if (i === 23) label = '3a';
+
+      hours.push({
+        label,
+        busyness: Math.round(busyness),
+        isLive,
+        hour: actualHour,
+      });
+    }
+    return hours;
+  }
+
+  // Obtener el texto de ocupación según el nivel de busyness
+  getBusynessLabel(busyness: number): string {
+    if (busyness >= 80) return 'Muy solicitado';
+    if (busyness >= 60) return 'Ocupado';
+    if (busyness >= 40) return 'Moderado';
+    if (busyness >= 20) return 'Poco ocupado';
+    return 'Muy poco ocupado';
+  }
+
   get countries() {
     return this.cachedCountries;
   }
@@ -991,7 +1052,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
           '1-868': { name: 'Trinidad y Tobago', flag: 'assets/trinidad.webp' },
           'SIN IDENTIFICAR': {
             name: 'Número oculto',
-            flag: 'assets/hidden.webp',
+            flag: 'assets/oculto.png',
           },
         };
 
@@ -1027,8 +1088,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.exitosas / totalSuccess) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-green-500',
         },
@@ -1037,8 +1098,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.parciales / totalSuccess) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-yellow-500',
         },
@@ -1047,8 +1108,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.fallidas / totalSuccess) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-red-500',
         },
@@ -1076,8 +1137,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.completada /
                 totalReasons) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-blue-500',
         },
@@ -1087,8 +1148,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.clienteColgo /
                 totalReasons) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-orange-500',
         },
@@ -1098,8 +1159,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.errorTecnico /
                 totalReasons) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-red-500',
         },
@@ -1109,8 +1170,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.tiempoAgotado /
                 totalReasons) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-gray-500',
         },
