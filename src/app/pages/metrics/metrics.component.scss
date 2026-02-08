@@ -179,6 +179,26 @@
   stroke-width: 3;
 }
 
+/* Animación para que los marcadores aparezcan después de 2 segundos */
+.latency-marker {
+  opacity: 0;
+  animation: fadeInMarker 0.3s ease-out 1.5s forwards;
+}
+
+.duration-marker {
+  opacity: 0;
+  animation: fadeInMarker 0.3s ease-out 1.5s forwards;
+}
+
+@keyframes fadeInMarker {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Animaciones de fade in */
 .fade-in-section {
   opacity: 0;
