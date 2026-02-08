@@ -22,6 +22,7 @@ import { I18nService } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
 import { TwilioDetailedMetrics } from '../../shared/models/twilio-detailed-metrics.model';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
+import { UserStorage } from '../../storages/user/user-storage';
 
 @Component({
   selector: 'app-metrics',
@@ -33,6 +34,7 @@ import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 export class MetricsComponent implements OnInit, OnDestroy {
   private i18nService = inject(I18nService);
   private metricsService = inject(MetricsService);
+  public userStorage = inject(UserStorage);
 
   // Obtener traducciones
   get t() {
@@ -64,11 +66,32 @@ export class MetricsComponent implements OnInit, OnDestroy {
   hasLoadedDashboardMetrics: boolean = false; // Flag para prevenir múltiples llamadas
 
   // Propiedades cacheadas para evitar cálculos repetidos
-  private cachedWeeklyComparison: number = 44.2;
+  private cachedWeeklyComparison: number = 0;
   private cachedCountries: any[] = [];
   private cachedSuccessEvaluation: any[] = [];
   private cachedCallCompletionReasons: any[] = [];
   private hasCachedData: boolean = false;
+
+  // Getters para verificar el estado de las conexiones
+  get isShopifyConnected(): boolean {
+    const user = this.userStorage.user();
+    return !!(
+      user?.integrations?.shopify &&
+      user.integrations.shopify.length > 0 &&
+      user.integrations.shopify.some((shop) => shop.connected)
+    );
+  }
+
+  get isMakeConnected(): boolean {
+    // Make no está en el modelo actual, por ahora retornamos false
+    // TODO: Agregar verificación de Make cuando esté disponible en el modelo
+    return false;
+  }
+
+  get isTwilioConnected(): boolean {
+    const user = this.userStorage.user();
+    return !!(user?.twilio && user.twilio.length > 0);
+  }
 
   // Getter para obtener el porcentaje de comparación semanal
   get weeklyComparisonPercentage(): number {
@@ -174,7 +197,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   // Serie mini área para "Total de llamadas exitosas"
   callsAreaSeries: ApexAxisChartSeries = [
-    { name: 'Llamadas', data: this.getCurrentData() },
+    { name: 'Llamadas', data: [] },
   ];
 
   // Generar fechas de los últimos 7 días
@@ -216,25 +239,6 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return dates;
   }
 
-  // Generar datos aleatorios para los últimos 30 días
-  getLast30DaysData(): number[] {
-    const data: number[] = [];
-    const baseValue = 200;
-
-    for (let i = 0; i < 30; i++) {
-      // Simular tendencia más realista con picos y valles
-      const trend = Math.sin(i * 0.15) * 60; // Onda suave
-      const weeklyPattern = Math.sin(i * 0.9) * 40; // Patrón semanal
-      const random = (Math.random() - 0.5) * 80; // Variación aleatoria
-      const value = Math.max(
-        50,
-        Math.min(400, baseValue + trend + weeklyPattern + random),
-      );
-      data.push(Math.round(value));
-    }
-
-    return data;
-  }
 
   callsAreaChart: ApexChart = {
     type: 'area',
@@ -304,16 +308,26 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return this.getLast7Days();
   }
 
-  // Obtener datos según el período seleccionado
+  // Obtener datos según el período seleccionado (solo datos reales)
   getCurrentData(): number[] {
-    if (this.selectedPeriod === 'Últimos 30 días') {
-      return this.getLast30DaysData();
+    // Si hay datos del dashboard, usarlos
+    if (this.dashboardMetrics?.llamadas_exitosas_ultimos_7_dias) {
+      return this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.map(
+        (item) => item.total,
+      );
     }
-    return [120, 280, 180, 350, 160, 320, 250];
+    // Si hay datos detallados, usarlos
+    if (this.detailedMetrics?.llamadasExitosasUltimos7Dias) {
+      return this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
+        (item) => item.total,
+      );
+    }
+    // Si no hay datos, retornar array vacío
+    return [];
   }
   callsAreaYAxis: any = {
     min: 0,
-    max: 25,
+    max: undefined, // Se calculará dinámicamente desde los datos
     tickAmount: 5,
     labels: {
       style: { colors: '#6B7280', fontSize: '11px' },
@@ -326,7 +340,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     axisTicks: {
       show: false,
     },
-    forceNiceScale: false,
+    forceNiceScale: true, // Permitir que se ajuste automáticamente
   };
   callsAreaFill: ApexFill = {
     type: 'gradient',
@@ -388,19 +402,22 @@ export class MetricsComponent implements OnInit, OnDestroy {
   selectedAgent = this.agents[0];
 
   // Totales
-  totalMinutesUsed = 714;
-  minutesLimit = 1000;
+  totalMinutesUsed = 0;
+  minutesLimit = 0;
   extraMinutes = 0;
-  timeSavedHours = 49;
-  costPerMinute = 0.12; // coste medio por minuto en euros
+  timeSavedHours = 0;
+  costPerMinute = 0; // coste medio por minuto en euros
 
   get costPerMinuteLabel(): string {
-    // Formateamos con dos decimales y coma para estilo español: 0,12 €/min
+    // Formateamos con dos decimales y coma para estilo español: 0,00 €/min
+    if (this.costPerMinute === 0) {
+      return '0,00 €/min';
+    }
     return `${this.costPerMinute.toFixed(2).replace('.', ',')} €/min`;
   }
 
   // Latencia
-  latencyMs = 1999;
+  latencyMs = 0;
   latencyMaxMs = 3000;
 
   get latencyPercent(): number {
@@ -491,7 +508,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   // Duración media (texto mostrado)
-  averageCallDurationSeconds = 184; // 4 minutos y 10 segundos en segundos
+  averageCallDurationSeconds = 0;
   maxCallDurationSeconds = 120; // 2 minutos máximo
 
   get averageCallDurationLabel(): string {
@@ -716,8 +733,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   // Tipo de llamadas - porcentajes dinámicos
-  inboundPercentage = 57.2;
-  outboundPercentage = 42.8;
+  inboundPercentage = 0;
+  outboundPercentage = 0;
   callTypeStrokeWidth = 30; // grosor de la barra
   callTypeGapDeg = 6; // hueco angular entre segmentos
   callTypeRadius = 90;
@@ -797,7 +814,23 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   // Método para cambiar el período y actualizar el gráfico
   onPeriodChange(): void {
-    this.callsAreaSeries = [{ name: 'Llamadas', data: this.getCurrentData() }];
+    // Solo actualizar si hay datos reales cargados
+    if (this.dashboardMetrics || this.detailedMetrics) {
+      const data = this.getCurrentData();
+      this.callsAreaSeries = [{ name: 'Llamadas', data: data }];
+      
+      // Actualizar YAxis dinámicamente basado en los datos
+      if (data.length > 0) {
+        const maxValue = Math.max(...data);
+        this.callsAreaYAxis = {
+          ...this.callsAreaYAxis,
+          max: Math.ceil(maxValue * 1.1), // 10% más para espacio visual
+        };
+      }
+    } else {
+      // Si no hay datos, mantener vacío
+      this.callsAreaSeries = [{ name: 'Llamadas', data: [] }];
+    }
 
     // Actualizar datos del gráfico móvil
     this.updateMobileChartData();
@@ -844,19 +877,28 @@ export class MetricsComponent implements OnInit, OnDestroy {
     this.isLoadingDashboardMetrics = true;
     this.dashboardMetricsError = '';
     this.hasLoadedDashboardMetrics = true;
+    this.metricsService.setLoading(true);
 
     this.metricsService.getDashboardMetrics().subscribe({
       next: (data: DashboardMetrics) => {
         this.dashboardMetrics = data;
         this.updateComponentWithDashboardData();
         this.isLoadingDashboardMetrics = false;
+        this.metricsService.setLoading(false);
       },
       error: (error) => {
         console.error('Error loading dashboard metrics:', error);
         this.dashboardMetricsError =
           'Error al cargar las métricas del dashboard';
         this.isLoadingDashboardMetrics = false;
+        this.metricsService.setLoading(false);
         this.hasLoadedDashboardMetrics = false; // Permitir reintentar en caso de error
+        
+        // Limpiar datos del gráfico en caso de error
+        this.callsAreaSeries = [{ name: 'Llamadas', data: [] }];
+        this.totalMinutesUsed = 0;
+        this.timeSavedHours = 0;
+        this.updateMobileChartData();
       },
     });
   }
@@ -866,14 +908,24 @@ export class MetricsComponent implements OnInit, OnDestroy {
     if (!this.dashboardMetrics) return;
 
     // Actualizar datos del gráfico con llamadas exitosas
+    const data = this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.map(
+      (item) => item.total,
+    );
     this.callsAreaSeries = [
       {
         name: 'Llamadas Exitosas',
-        data: this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.map(
-          (item) => item.total,
-        ),
+        data: data,
       },
     ];
+
+    // Actualizar YAxis dinámicamente basado en los datos
+    if (data.length > 0) {
+      const maxValue = Math.max(...data);
+      this.callsAreaYAxis = {
+        ...this.callsAreaYAxis,
+        max: Math.ceil(maxValue * 1.1), // 10% más para espacio visual
+      };
+    }
 
     // Actualizar categorías del gráfico
     this.callsAreaXAxis = {
@@ -910,18 +962,34 @@ export class MetricsComponent implements OnInit, OnDestroy {
     this.isLoadingDetailedMetrics = true;
     this.detailedMetricsError = '';
     this.hasLoadedDetailedMetrics = true;
+    this.metricsService.setLoading(true);
 
     this.metricsService.getTwilioDetailedMetrics().subscribe({
       next: (data: TwilioDetailedMetrics) => {
         this.detailedMetrics = data;
         this.updateComponentWithDetailedData();
         this.isLoadingDetailedMetrics = false;
+        this.metricsService.setLoading(false);
       },
       error: (error) => {
         console.error('Error loading detailed metrics:', error);
         this.detailedMetricsError = 'Error al cargar las métricas detalladas';
         this.isLoadingDetailedMetrics = false;
+        this.metricsService.setLoading(false);
         this.hasLoadedDetailedMetrics = false; // Permitir reintentar en caso de error
+        
+        // Limpiar datos del gráfico en caso de error
+        this.callsAreaSeries = [{ name: 'Llamadas', data: [] }];
+        this.totalMinutesUsed = 0;
+        this.timeSavedHours = 0;
+        this.latencyMs = 0;
+        this.averageCallDurationSeconds = 0;
+        this.inboundPercentage = 0;
+        this.outboundPercentage = 0;
+        this.cachedCountries = [];
+        this.cachedSuccessEvaluation = [];
+        this.cachedCallCompletionReasons = [];
+        this.updateMobileChartData();
       },
     });
   }
@@ -931,14 +999,24 @@ export class MetricsComponent implements OnInit, OnDestroy {
     if (!this.detailedMetrics) return;
 
     // Actualizar datos del gráfico de llamadas exitosas
+    const data = this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
+      (item) => item.total,
+    );
     this.callsAreaSeries = [
       {
         name: 'Llamadas',
-        data: this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
-          (item) => item.total,
-        ),
+        data: data,
       },
     ];
+
+    // Actualizar YAxis dinámicamente basado en los datos
+    if (data.length > 0) {
+      const maxValue = Math.max(...data);
+      this.callsAreaYAxis = {
+        ...this.callsAreaYAxis,
+        max: Math.ceil(maxValue * 1.1), // 10% más para espacio visual
+      };
+    }
 
     // Actualizar categorías del gráfico
     this.callsAreaXAxis = {
@@ -1115,11 +1193,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
         },
       ].sort((a, b) => b.percent - a.percent);
     } else {
-      this.cachedSuccessEvaluation = [
-        { name: 'Exitoso', percent: 78.5, color: 'bg-green-500' },
-        { name: 'Parcial', percent: 15.2, color: 'bg-yellow-500' },
-        { name: 'Fallido', percent: 6.3, color: 'bg-red-500' },
-      ].sort((a, b) => b.percent - a.percent);
+      // Si no hay datos, dejar vacío
+      this.cachedSuccessEvaluation = [];
     }
 
     // Calcular razones de finalización
@@ -1177,16 +1252,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
         },
       ].sort((a, b) => b.percent - a.percent);
     } else {
-      this.cachedCallCompletionReasons = [
-        {
-          name: 'Completada exitosamente',
-          percent: 72.4,
-          color: 'bg-blue-500',
-        },
-        { name: 'Cliente colgó', percent: 18.6, color: 'bg-orange-500' },
-        { name: 'Error técnico', percent: 5.8, color: 'bg-red-500' },
-        { name: 'Tiempo agotado', percent: 3.2, color: 'bg-gray-500' },
-      ].sort((a, b) => b.percent - a.percent);
+      // Si no hay datos, dejar vacío
+      this.cachedCallCompletionReasons = [];
     }
 
     this.hasCachedData = true;
@@ -1212,6 +1279,15 @@ export class MetricsComponent implements OnInit, OnDestroy {
   updateMobileChartData(): void {
     const data = this.getCurrentData();
     const categories = this.getCurrentCategories();
+    
+    // Si no hay datos, dejar todo en 0
+    if (data.length === 0) {
+      this.totalCalls = 0;
+      this.averageCalls = 0;
+      this.mobileChartData = [];
+      return;
+    }
+    
     const maxValue = Math.max(...data);
 
     // Calcular totales y promedios

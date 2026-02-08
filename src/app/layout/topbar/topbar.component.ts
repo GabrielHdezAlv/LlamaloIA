@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   inject,
   Inject,
   PLATFORM_ID,
@@ -13,7 +14,9 @@ import { UserStorage } from '../../storages/user/user-storage';
 import { NgIf, NgFor, NgClass, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { I18nService, Language } from '../../core/services/i18n.service';
+import { MetricsService } from '../../core/services/metrics.service';
 import { USER_ROLE } from '../../shared/models/user-role.enum';
+import { Subscription } from 'rxjs';
 
 const AGENT_DRAFT_KEY = 'llamalo_agent_draft';
 
@@ -30,17 +33,27 @@ interface AgentDraft {
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent implements OnInit, OnDestroy {
   pageTitle: string = 'Inicio';
   // Texto de bienvenida que se mostrará solo en la Home
   welcomeText: string = '';
   // Subtítulo/descripción de la página
   pageSubtitle: string = '';
 
-  private router = inject(Router);
+  public router = inject(Router);
   public userStorage = inject(UserStorage);
   private isBrowser: boolean;
   private i18nService = inject(I18nService);
+  private metricsService = inject(MetricsService);
+  
+  // Estado de loading para métricas
+  isMetricsLoading: boolean = false;
+  private metricsLoadingSubscription?: Subscription;
+  
+  // Getter para la URL actual
+  get currentUrl(): string {
+    return this.router.url;
+  }
 
   // Modo oscuro
   isDarkMode = false;
@@ -212,6 +225,19 @@ export class TopbarComponent implements OnInit {
     this.updateHeader();
     this.initializeTeamMembers();
     this.checkForSavedDraft();
+    
+    // Suscribirse al estado de loading de métricas
+    this.metricsLoadingSubscription = this.metricsService.loading$.subscribe(
+      (loading) => {
+        this.isMetricsLoading = loading;
+      }
+    );
+  }
+  
+  ngOnDestroy() {
+    if (this.metricsLoadingSubscription) {
+      this.metricsLoadingSubscription.unsubscribe();
+    }
   }
 
   checkForSavedDraft() {

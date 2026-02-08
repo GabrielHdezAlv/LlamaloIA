@@ -1,7 +1,7 @@
 import { inject, Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 import { TwilioDetailedMetrics } from '../../shared/models/twilio-detailed-metrics.model';
 
@@ -12,6 +12,14 @@ export class MetricsService {
   private http = inject(HttpClient);
   private apiUrl = 'https://llamaloiabackend-5294.onrender.com/metrics';
   private isBrowser: boolean;
+  
+  // Observable para el estado de loading compartido
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public loading$ = this.loadingSubject.asObservable();
+  
+  setLoading(loading: boolean) {
+    this.loadingSubject.next(loading);
+  }
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);

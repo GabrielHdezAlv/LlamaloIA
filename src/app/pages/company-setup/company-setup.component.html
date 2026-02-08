@@ -26,7 +26,7 @@
   <ng-container [ngSwitch]="currentStep">
     <!-- Paso 1: ¿Qué quieres conseguir? (estilo unificado con el resto del onboarding) -->
     <div *ngSwitchCase="1"
-      class="relative w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      class="relative w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-32 lg:pt-40">
       <!-- Logo + Llamalo beta: esquina superior izquierda -->
       <div class="absolute top-4 left-4 sm:top-5 sm:left-5 flex items-center gap-1.5 sm:gap-2 z-10">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 w-auto dark:hidden" />
@@ -37,7 +37,7 @@
             class="font-poppins text-[8px] sm:text-[9px] text-gray-700 dark:text-slate-300 font-bold tracking-tight">beta</span>
         </div>
       </div>
-      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4 overflow-y-auto">
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
         <!-- Título y descripción -->
         <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
           ¿Qué quieres conseguir con Llamalo?
@@ -282,7 +282,7 @@
 
     <!-- Paso 2: "¿Cómo nos conociste?" (estilo unificado con el resto del onboarding) -->
     <div *ngSwitchCase="2"
-      class="relative w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      class="relative w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-32 lg:pt-40">
       <!-- Logo + Llamalo beta: esquina superior izquierda -->
       <div class="absolute top-4 left-4 sm:top-5 sm:left-5 flex items-center gap-1.5 sm:gap-2 z-10">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 w-auto dark:hidden" />
@@ -293,7 +293,7 @@
             class="font-poppins text-[8px] sm:text-[9px] text-gray-700 dark:text-slate-300 font-bold tracking-tight">beta</span>
         </div>
       </div>
-      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4 overflow-y-auto">
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
         <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
           ¿Cómo nos conociste?
         </h1>
@@ -587,8 +587,8 @@
 
     <!-- Paso 3: Completa tu agente -->
     <div *ngSwitchCase="3"
-      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
-      <div class="w-full max-w-[380px] sm:max-w-[400px] flex flex-col px-3 sm:px-4">
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-48 lg:pt-56">
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
         <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
           Completa tu agente
         </h1>
@@ -629,7 +629,7 @@
 
     <!-- Paso 4: Tipo de llamada (Inbound / Outbound) -->
     <div *ngSwitchCase="4"
-      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-48 lg:pt-56">
       <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
         <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
           Tipo de llamada
@@ -697,7 +697,7 @@
 
     <!-- Paso 5: País y voz (texto, sin fotos) -->
     <div *ngSwitchCase="5"
-      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-48 lg:pt-56">
       <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
         <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
           País y voz
@@ -1328,7 +1328,7 @@
 
     <!-- Paso 6: conectar negocio Shopify -->
     <div *ngSwitchCase="6"
-      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-48 lg:pt-56">
       <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
         <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
           Conecta tu negocio de Shopify
@@ -1385,7 +1385,7 @@
 
     <!-- Paso 7: Instrucciones -->
     <div *ngSwitchCase="7"
-      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-48 lg:pt-56">
       <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
         <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
           Instrucciones
@@ -1426,8 +1426,7 @@
                   </div>
                   <div>
                     <textarea [(ngModel)]="promptDescription"
-                      placeholder="Ej: Agente amable que atiende reservas y dudas de un restaurante..."
-                      rows="3"
+                      placeholder="Ej: Agente amable que atiende reservas y dudas de un restaurante..." rows="3"
                       class="w-full px-2.5 py-1.5 text-[10px] border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none resize-none transition-all"></textarea>
                   </div>
                   @if (generatePromptError) {
@@ -1445,8 +1444,8 @@
                       class="px-2.5 py-1 text-[9px] font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
                       @if (isGeneratingPrompt) {
                       <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                          stroke-width="4"></circle>
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
                         <path class="opacity-75" fill="currentColor"
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                         </path>
@@ -1553,7 +1552,7 @@
 
     <!-- Paso 8: Base de conocimientos (2 cuadrados PDF / Web como tipo de llamada) -->
     <div *ngSwitchCase="8"
-      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-48 lg:pt-56">
       <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
         <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
           Base de conocimientos
@@ -1625,12 +1624,12 @@
 
     <!-- Paso 9: Prueba de agente (esfera + microfono como en new-create-agents) -->
     <div *ngSwitchCase="9"
-      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex flex-col items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
-      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4 py-4">
-        <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight text-left w-full">
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-48 lg:pt-56">
+      <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4">
+        <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
           Prueba de agente
         </h1>
-        <p class="mt-0.5 text-[10px] sm:text-[10px] text-[#6d747c] font-semibold text-left w-full">
+        <p class="mt-0.5 text-[10px] sm:text-[10px] text-[#6d747c] font-semibold">
           Habla con nuestro agente de prueba para ver cómo funciona.
         </p>
 
@@ -1681,7 +1680,7 @@
 
     <!-- Paso 10: Conecta tu número de teléfono (Twilio) — después de Prueba de agente -->
     <div *ngSwitchCase="10"
-      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-center justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0">
+      class="w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-48 lg:pt-56">
       <div class="w-full max-w-[320px] sm:max-w-[360px] flex flex-col px-3 sm:px-4 twilio-step7">
         <h1 class="text-sm font-bold text-[#0F172A] dark:text-white leading-tight">
           Conecta tu número de teléfono

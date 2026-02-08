@@ -493,34 +493,34 @@ export class NewCreateAgentsComponent
   private readonly defaultVoicesData = [
     {
       name: 'Carla',
-      image: 'assets/carla_prueba.webp',
+      image: 'assets/carla_prueba1.png',
       description:
         'Diseñadora de Producto enfocada en simplicidad y usabilidad.',
       badgeText: 'Top 1% Voz',
     },
     {
       name: 'Carlos',
-      image: 'assets/carlos_prueba.webp',
+      image: 'assets/carlos_prueba1.png',
       description:
         'Especialista en Soporte Técnico con tono calmado y resolutivo.',
       badgeText: 'Top 5% Voz',
     },
     {
       name: 'David',
-      image: 'assets/david_prueba.webp',
+      image: 'assets/david_prueba1.png',
       description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.',
       badgeText: 'Top Ventas',
     },
     {
       name: 'Jesús',
-      image: 'assets/jesus_prueba.webp',
+      image: 'assets/jesus_prueba1.png',
       description:
         'Asistente Virtual amigable ideal para recepción de llamadas.',
       badgeText: 'Popular',
     },
     {
       name: 'Claudia',
-      image: 'assets/claudia_prueba.webp',
+      image: 'assets/claudia_prueba1.png',
       description: 'Narradora profesional perfecta para contenido educativo.',
       badgeText: 'Nueva',
     },
@@ -2608,5 +2608,25 @@ export class NewCreateAgentsComponent
   onSkipConnectPhone() {
     this.step = 'final';
     this.saveDraft();
+  }
+
+  // Método para obtener el número de paso actual
+  getCurrentStepNumber(): number {
+    const stepOrder: Record<string, number> = {
+      'agentName': 1,
+      'language': 2,
+      'voices': 3,
+      'connectBusiness': 4,
+      'instructions': 5,
+      'knowledgeBase': 6,
+      'summary': 7,
+      'connectPhone': 8,
+    };
+    return stepOrder[this.step] || 0;
+  }
+
+  // Método para obtener el total de pasos
+  getTotalSteps(): number {
+    return 8;
   }
 }

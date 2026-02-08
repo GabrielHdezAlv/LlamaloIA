@@ -30,12 +30,7 @@
     </div>
   </div>
 
-  <!-- Loading y Error states para métricas detalladas -->
-  <div *ngIf="isLoadingDetailedMetrics" class="flex justify-center items-center py-8">
-    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-    <span class="ml-3 text-gray-600 dark:text-gray-300">Cargando métricas detalladas...</span>
-  </div>
-
+  <!-- Error states para métricas detalladas -->
   <div *ngIf="detailedMetricsError"
     class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 dark:bg-red-900/20 dark:border-red-800">
     <div class="flex items-center">
@@ -50,12 +45,7 @@
     </div>
   </div>
 
-  <!-- Loading y Error states para métricas del dashboard -->
-  <div *ngIf="isLoadingDashboardMetrics" class="flex justify-center items-center py-8">
-    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-    <span class="ml-3 text-gray-600 dark:text-gray-300">Cargando métricas del dashboard...</span>
-  </div>
-
+  <!-- Error states para métricas del dashboard -->
   <div *ngIf="dashboardMetricsError"
     class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 dark:bg-red-900/20 dark:border-red-800">
     <div class="flex items-center">
@@ -407,67 +397,59 @@
           </div>
         </div>
 
-        <!-- Tipo de llamadas solo en tablets (md) -->
+        <!-- Conexiones establecidas solo en tablets (md) -->
         <div
           class="hidden md:block lg:hidden bg-white rounded-2xl px-3 pt-3 pb-3 fade-in-section border border-gray-100 history-border dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas">
           <h3
-            class="font-semibold text-xs max-lg:text-[10px] text-gray-800 mb-1.5 max-lg:mb-1 tracking-[-0.7px] dark:text-slate-50">
-            Tipo de llamadas
+            class="font-semibold text-xs max-lg:text-[10px] text-gray-800 mb-3 max-lg:mb-2 tracking-[-0.7px] dark:text-slate-50">
+            Conexiones establecidas
           </h3>
 
-          <div class="flex flex-col items-center justify-center mb-2 max-lg:mb-1.5 mt-2 max-lg:mt-1.5">
-            <div class="relative w-36 h-36 max-lg:w-32 max-lg:h-32 mb-2 max-lg:mb-1.5">
-              <svg width="224" height="224" viewBox="0 0 224 224" class="absolute inset-0 w-full h-full">
-                <defs>
-                  <linearGradient id="callBlueGradTablet" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#1B2559" />
-                    <stop offset="100%" stop-color="#1B2559" />
-                  </linearGradient>
-                </defs>
-                <circle cx="112" cy="112" r="90" stroke="#f3f4f4" [attr.stroke-width]="callTypeStrokeWidth"
-                  fill="none" />
-                <circle cx="112" cy="112" r="90" stroke="#D1D5DB" [attr.stroke-width]="callTypeStrokeWidth" fill="none"
-                  [style.stroke-dasharray]="outboundStrokeDasharray"
-                  [style.stroke-dashoffset]="outboundStrokeDashoffset"
-                  class="call-type-arc transition-all duration-1000 ease-out" transform="rotate(-90 112 112)"
-                  stroke-linecap="round" />
-                <circle cx="112" cy="112" r="90" stroke="url(#callBlueGradTablet)"
-                  [attr.stroke-width]="inboundStrokeWidth" fill="none" [style.stroke-dasharray]="inboundStrokeDasharray"
-                  [style.stroke-dashoffset]="inboundStrokeDashoffset"
-                  class="call-type-arc transition-all duration-1000 ease-out" [style.transform]="
-                    'rotate(' +
-                    (-90 + (outboundPercentage / 100) * 360) +
-                    'deg)'
-                  " [style.transform-origin]="'112px 112px'" stroke-linecap="round" />
-                <!-- Marcador de solape -->
-                <circle [attr.cx]="gapMarkerBetween.x" [attr.cy]="gapMarkerBetween.y" [attr.r]="gapMarkerRadius"
-                  fill="#f3f4f6" />
-              </svg>
+          <div class="space-y-3 max-lg:space-y-2.5 flex flex-col items-center px-2">
+            <!-- Shopify -->
+            <div class="flex items-center justify-center gap-3 max-lg:gap-2 w-full">
+              <div
+                class="flex items-center justify-center p-1.5 max-lg:p-1 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
+                <img src="assets/shopify.webp" alt="Shopify" class="w-5 h-5 max-lg:w-4 max-lg:h-4 object-contain" />
+              </div>
+              <span
+                class="text-xs max-lg:text-[10px] font-medium text-gray-800 dark:text-slate-50 tracking-[-0.7px] flex-1">Shopify</span>
+              <span
+                [class]="isShopifyConnected ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                class="text-xs max-lg:text-[10px] font-medium tracking-[-0.7px]">
+                {{ isShopifyConnected ? 'Conectado' : 'No conectado' }}
+              </span>
             </div>
-          </div>
 
-          <div class="flex justify-center space-x-4 max-lg:space-x-3 text-xs max-lg:text-[10px]">
-            <div class="flex flex-col items-center">
-              <div class="flex items-center">
-                <div class="w-4 h-4 max-lg:w-3.5 max-lg:h-3.5 rounded-md mr-1.5 max-lg:mr-1 metrics-call-legend-inbound"
-                  style="background-color: #1b2559"></div>
-                <span class="tracking-[-0.7px] dark:text-slate-400 text-xs max-lg:text-[10px]">Inbound</span>
+            <!-- Twilio -->
+            <div class="flex items-center justify-center gap-3 max-lg:gap-2 w-full">
+              <div
+                class="flex items-center justify-center p-1.5 max-lg:p-1 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
+                <img src="assets/twilio.jpg" alt="Twilio"
+                  class="w-5 h-5 max-lg:w-4 max-lg:h-4 object-contain rounded" />
               </div>
               <span
-                class="font-semibold mt-0.5 ml-5 max-lg:ml-4 text-xs max-lg:text-[10px] dark:text-slate-50 tracking-[-0.7px]">{{
-                inboundPercentage | number: "1.1-1" }}%</span>
+                class="text-xs max-lg:text-[10px] font-medium text-gray-800 dark:text-slate-50 tracking-[-0.7px] flex-1">Twilio</span>
+              <span
+                [class]="isTwilioConnected ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                class="text-xs max-lg:text-[10px] font-medium tracking-[-0.7px]">
+                {{ isTwilioConnected ? 'Conectado' : 'No conectado' }}
+              </span>
             </div>
-            <div class="flex flex-col items-center">
-              <div class="flex items-center">
-                <div
-                  class="w-4 h-4 max-lg:w-3.5 max-lg:h-3.5 rounded-md mr-1.5 max-lg:mr-1 metrics-call-legend-outbound"
-                  style="background-color: #d1d5db"></div>
-                <span class="tracking-[-0.7px] dark:text-slate-400 text-xs max-lg:text-[10px]">Outbound</span>
+
+            <!-- Próximamente más -->
+            <div class="flex items-center justify-center gap-3 max-lg:gap-2 w-full">
+              <div
+                class="flex items-center justify-center p-1.5 max-lg:p-1 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
+                <div class="w-5 h-5 max-lg:w-4 max-lg:h-4"></div>
               </div>
               <span
-                class="font-semibold mt-0.5 ml-5 max-lg:ml-4 text-xs max-lg:text-[10px] dark:text-slate-50 tracking-[-0.7px]">{{
-                outboundPercentage | number: "1.1-1" }}%</span>
+                class="text-xs max-lg:text-[10px] font-medium text-gray-500 dark:text-slate-400 tracking-[-0.7px] flex-1">Próximamente
+                más</span>
+              <span class="text-xs max-lg:text-[10px] font-medium text-gray-400 dark:text-slate-500 tracking-[-0.7px]">
+                -
+              </span>
             </div>
           </div>
         </div>
@@ -600,74 +582,61 @@
           </div>
         </div>
 
-        <!-- Tipo de llamadas (desktop y móvil, oculto en tablet) -->
+        <!-- Conexiones establecidas (desktop y móvil, oculto en tablet) -->
         <div
           class="block md:hidden lg:block bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-2 max-lg:pt-2 pb-2 max-lg:pb-1.5 lg:-ml-5 md:h-[320px] lg:h-auto fade-in-section border border-gray-100 history-border dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas">
           <h3
-            class="font-semibold text-xs max-lg:text-[10px] text-gray-800 mb-1.5 max-lg:mb-1 tracking-[-0.7px] dark:text-slate-50">
-            Tipo de llamadas
+            class="font-semibold text-xs max-lg:text-[10px] text-gray-800 mb-3 max-lg:mb-2 tracking-[-0.7px] dark:text-slate-50">
+            Conexiones establecidas
           </h3>
 
-          <!-- Gráfico circular completo -->
-          <div class="flex flex-col items-center justify-center mb-2 max-lg:mb-1.5 mt-2 max-lg:mt-1.5 lg:mt-3">
-            <div class="relative w-36 h-36 max-lg:w-32 max-lg:h-32 lg:w-44 lg:h-44 mb-2 max-lg:mb-1.5">
-              <svg width="224" height="224" viewBox="0 0 224 224" class="absolute inset-0 w-full h-full">
-                <defs>
-                  <linearGradient id="callBlueGradDesk" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#1B2559" />
-                    <stop offset="100%" stop-color="#1B2559" />
-                  </linearGradient>
-                </defs>
-                
-
-                <!-- Arco de Outbound (gris claro) - se dibuja primero -->
-                <circle cx="112" cy="112" r="90" stroke="#D1D5DB" [attr.stroke-width]="callTypeStrokeWidth" fill="none"
-                  [style.stroke-dasharray]="outboundStrokeDasharray"
-                  [style.stroke-dashoffset]="outboundStrokeDashoffset"
-                  class="call-type-arc transition-all duration-1000 ease-out" transform="rotate(-90 112 112)"
-                  stroke-linecap="round" />
-
-                <!-- Arco de Inbound (gris medio) - se dibuja después, comenzando donde termina Outbound -->
-                <circle cx="112" cy="112" r="90" stroke="url(#callBlueGradDesk)"
-                  [attr.stroke-width]="inboundStrokeWidth" fill="none" [style.stroke-dasharray]="inboundStrokeDasharray"
-                  [style.stroke-dashoffset]="inboundStrokeDashoffset"
-                  class="call-type-arc transition-all duration-1000 ease-out" [style.transform]="
-                    'rotate(' +
-                    (-90 + (outboundPercentage / 100) * 360) +
-                    'deg)'
-                  " [style.transform-origin]="'112px 112px'" stroke-linecap="round" />
-
-                <!-- Marcador para solape en un solo lado -->
-                
-              </svg>
-            </div>
-          </div>
-
-          <div
-            class="flex justify-center space-x-4 max-lg:space-x-3 lg:space-x-5 text-xs max-lg:text-[10px] lg:text-sm">
-            <div class="flex flex-col items-center">
-              <div class="flex items-center">
-                <div
-                  class="w-4 h-4 max-lg:w-3.5 max-lg:h-3.5 lg:w-5 lg:h-5 rounded-md mr-1.5 max-lg:mr-1 lg:mr-2 metrics-call-legend-inbound"
-                  style="background-color: #1b2559"></div>
-                <span class="tracking-[-0.7px] dark:text-slate-400 text-xs max-lg:text-[10px] lg:text-sm">Inbound</span>
+          <div class="space-y-3 max-lg:space-y-2.5 flex flex-col items-center px-2 max-lg:px-1.5 lg:px-3">
+            <!-- Shopify -->
+            <div class="flex items-center justify-center gap-3 max-lg:gap-2 lg:gap-3 w-full">
+              <div
+                class="flex items-center justify-center p-1.5 max-lg:p-1 lg:p-2 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
+                <img src="assets/shopify.webp" alt="Shopify"
+                  class="w-5 h-5 max-lg:w-4 max-lg:h-4 lg:w-6 lg:h-6 object-contain" />
               </div>
               <span
-                class="font-semibold mt-0.5 ml-5 max-lg:ml-4 lg:ml-6 text-xs max-lg:text-[10px] lg:text-sm dark:text-slate-50 tracking-[-0.7px]">{{
-                inboundPercentage | number: "1.1-1" }}%</span>
+                class="text-xs max-lg:text-[10px] lg:text-sm font-medium text-gray-800 dark:text-slate-50 tracking-[-0.7px] flex-1">Shopify</span>
+              <span
+                [class]="isShopifyConnected ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                class="text-xs max-lg:text-[10px] lg:text-sm font-medium tracking-[-0.7px]">
+                {{ isShopifyConnected ? 'Conectado' : 'No conectado' }}
+              </span>
             </div>
-            <div class="flex flex-col items-center">
-              <div class="flex items-center">
-                <div
-                  class="w-4 h-4 max-lg:w-3.5 max-lg:h-3.5 lg:w-5 lg:h-5 rounded-md mr-1.5 max-lg:mr-1 lg:mr-2 metrics-call-legend-outbound"
-                  style="background-color: #d1d5db"></div>
-                <span
-                  class="tracking-[-0.7px] dark:text-slate-400 text-xs max-lg:text-[10px] lg:text-sm">Outbound</span>
+
+            <!-- Twilio -->
+            <div class="flex items-center justify-center gap-3 max-lg:gap-2 lg:gap-3 w-full">
+              <div
+                class="flex items-center justify-center p-1.5 max-lg:p-1 lg:p-2 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
+                <img src="assets/twilio.jpg" alt="Twilio"
+                  class="w-5 h-5 max-lg:w-4 max-lg:h-4 lg:w-6 lg:h-6 object-contain rounded" />
               </div>
               <span
-                class="font-semibold mt-0.5 ml-5 max-lg:ml-4 lg:ml-6 text-xs max-lg:text-[10px] lg:text-sm dark:text-slate-50 tracking-[-0.7px]">{{
-                outboundPercentage | number: "1.1-1" }}%</span>
+                class="text-xs max-lg:text-[10px] lg:text-sm font-medium text-gray-800 dark:text-slate-50 tracking-[-0.7px] flex-1">Twilio</span>
+              <span
+                [class]="isTwilioConnected ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                class="text-xs max-lg:text-[10px] lg:text-sm font-medium tracking-[-0.7px]">
+                {{ isTwilioConnected ? 'Conectado' : 'No conectado' }}
+              </span>
+            </div>
+
+            <!-- Próximamente más -->
+            <div class="flex items-center justify-center gap-3 max-lg:gap-2 lg:gap-3 w-full">
+              <div
+                class="flex items-center justify-center p-1.5 max-lg:p-1 lg:p-2 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
+                <div class="w-5 h-5 max-lg:w-4 max-lg:h-4 lg:w-6 lg:h-6"></div>
+              </div>
+              <span
+                class="text-xs max-lg:text-[10px] lg:text-sm font-medium text-gray-500 dark:text-slate-400 tracking-[-0.7px] flex-1">Próximamente
+                más</span>
+              <span
+                class="text-xs max-lg:text-[10px] lg:text-sm font-medium text-gray-400 dark:text-slate-500 tracking-[-0.7px]">
+                -
+              </span>
             </div>
           </div>
         </div>
