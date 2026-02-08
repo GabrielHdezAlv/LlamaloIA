@@ -1,6 +1,22 @@
 .modal-container {
   padding: 24px;
   max-width: 600px;
+  background-color: #fff; /* Fondo en modo claro */
+  border-radius: 8px;
+}
+
+/* Modo oscuro para el contenedor */
+@media (prefers-color-scheme: dark) {
+  .modal-container {
+    background-color: #1f2937; /* Fondo en modo oscuro */
+    color: #fff;
+  }
+}
+
+/* Soporte para clases de modo oscuro de Tailwind */
+.dark .modal-container {
+  background-color: #1f2937 !important;
+  color: #fff !important;
 }
 
 .modal-header {
@@ -14,7 +30,18 @@
   margin: 0;
   font-size: 20px;
   font-weight: 600;
-  color: #333;
+  color: #333; /* Color en modo claro */
+}
+
+/* Modo oscuro para el título */
+@media (prefers-color-scheme: dark) {
+  .modal-title {
+    color: #fff;
+  }
+}
+
+.dark .modal-title {
+  color: #fff !important;
 }
 
 .close-button {
@@ -34,7 +61,18 @@
   display: block;
   margin-bottom: 6px;
   font-weight: 500;
-  color: #555;
+  color: #555; /* Color en modo claro */
+}
+
+/* Modo oscuro para las etiquetas */
+@media (prefers-color-scheme: dark) {
+  .form-group label {
+    color: #e5e7eb;
+  }
+}
+
+.dark .form-group label {
+  color: #e5e7eb !important;
 }
 
 .form-input,
@@ -45,6 +83,37 @@
   border-radius: 6px;
   font-size: 14px;
   font-family: inherit;
+  color: #333; /* Color de texto en modo claro */
+  background-color: #fff; /* Fondo en modo claro */
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .form-input,
+  .form-textarea {
+    color: #fff; /* Color de texto en modo oscuro */
+    background-color: #2d2d2d; /* Fondo en modo oscuro */
+    border-color: #555;
+  }
+}
+
+/* Soporte para clases de modo oscuro de Tailwind */
+.dark .form-input,
+.dark .form-textarea {
+  color: #fff !important;
+  background-color: #1f2937 !important;
+  border-color: #4b5563 !important;
+}
+
+/* Color del placeholder */
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #999; /* Placeholder en modo claro */
+}
+
+.dark .form-input::placeholder,
+.dark .form-textarea::placeholder {
+  color: #9ca3af !important; /* Placeholder en modo oscuro */
 }
 
 .form-input:focus,

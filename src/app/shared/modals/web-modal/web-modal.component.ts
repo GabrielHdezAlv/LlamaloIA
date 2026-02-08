@@ -131,6 +131,16 @@ export class WebModalComponent {
     this.dialogRef.close();
   }
 
+  onConfirm(): void {
+    if (this.url.trim()) {
+      const fullUrl = `${this.urlProtocol}${this.url.trim()}`;
+      this.dialogRef.close({
+        url: fullUrl,
+        name: `Web source - ${this.url}`,
+      });
+    }
+  }
+
   onFetchLinks(): void {
     this.generateMockLinks();
   }

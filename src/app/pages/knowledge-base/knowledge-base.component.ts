@@ -44,6 +44,68 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
   isLoading = false;
   error: string | null = null;
 
+  clearError(): void {
+    this.error = null;
+  }
+
+  // Métodos para validación y UX
+  getValidationLimits() {
+    return {
+      pdf: { maxSize: 10 * 1024 * 1024, maxSizeText: '10MB' },
+      web: { maxLength: 2048, maxLengthText: '2,048 caracteres' },
+      text: {
+        maxLength: 50000,
+        maxLengthText: '50,000 caracteres (~20 páginas)',
+      },
+    };
+  }
+
+  formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  // Método seguro para agregar fuentes de conocimiento
+  private addKnowledgeSource(source: any): void {
+    console.log('Attempting to add source:', source);
+
+    if (!source) {
+      console.error('Attempted to add undefined source');
+      return;
+    }
+
+    if (!source.id) {
+      console.error('Source missing id:', source);
+      return;
+    }
+
+    // Validar que la fuente tenga los campos requeridos
+    const validSource: KnowledgeSource = {
+      id: source.id,
+      userId: source.userId || '',
+      name: source.name || 'Sin nombre',
+      type: source.type || 'unknown',
+      status: source.status || 'processing',
+      createdAt: source.createdAt ? new Date(source.createdAt) : new Date(),
+      updatedAt: source.updatedAt ? new Date(source.updatedAt) : new Date(),
+      metadata: source.metadata || { chunkCount: 0 },
+      tags: Array.isArray(source.tags) ? source.tags : [],
+      isPublic: source.isPublic === 'true' || source.isPublic === true,
+      originalUrl: source.originalUrl,
+      fileName: source.fileName,
+    };
+
+    if (!this.knowledgeSources) {
+      this.knowledgeSources = [];
+    }
+
+    this.knowledgeSources.push(validSource);
+    console.log('Successfully added knowledge source:', validSource);
+  }
+
   @ViewChild('fileInput', { static: false })
   fileInput!: ElementRef<HTMLInputElement>;
 
@@ -84,17 +146,43 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
 
     this.knowledgeBaseService.getKnowledgeSources().subscribe({
       next: (response) => {
-        this.knowledgeSources = response.knowledgeSources;
+        console.log('Response from backend:', response);
+
+        // El backend puede devolver el array directamente o dentro de un objeto
+        const sources = Array.isArray(response)
+          ? response
+          : response?.knowledgeSources || [];
+
+        console.log('Processed sources:', sources);
+
+        // Filtrar elementos undefined y mapear datos
+        this.knowledgeSources = sources
+          .filter((source) => source && source.id) // Eliminar elementos undefined o sin id
+          .map((source) => ({
+            ...source,
+            createdAt: new Date(source.createdAt),
+            updatedAt: new Date(source.updatedAt),
+            isPublic: source.isPublic === 'true' || source.isPublic === true,
+          }));
+
+        console.log('Final knowledgeSources:', this.knowledgeSources);
+
         this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error loading knowledge sources:', err);
-        this.error = 'Error al cargar las fuentes de conocimiento';
+        this.error = 'No se encontraron documentos';
         this.isLoading = false;
         this.cdr.detectChanges();
       },
     });
+  }
+
+  refreshKnowledgeSources(): void {
+    // Limpiar errores y recargar
+    this.clearError();
+    this.loadKnowledgeSources();
   }
 
   selectKnowledgeSource(type: 'pdf' | 'web' | 'text'): void {
@@ -120,6 +208,12 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
   handleFileSelection(event: any): void {
     const files = event.target.files as FileList;
     if (files.length > 0) {
+      // Validar tamaño del archivo PDF
+      const file = files[0];
+      if (file.size > 10 * 1024 * 1024) {
+        this.error = 'El PDF no puede exceder los 10MB';
+        return;
+      }
       this.uploadPdfFiles(Array.from(files));
     }
   }
@@ -138,13 +232,32 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
           )
           .subscribe({
             next: (response) => {
-              this.knowledgeSources.push(response.knowledgeSource);
+              console.log('PDF upload response:', response);
+
+              // Validar diferentes estructuras de respuesta posibles
+              const sourceToAdd = response?.knowledgeSource || response;
+
+              if (sourceToAdd) {
+                this.addKnowledgeSource(sourceToAdd);
+              } else {
+                console.error('No valid source found in response:', response);
+                this.error =
+                  'Error: No se recibió información del archivo subido';
+              }
+
               this.isLoading = false;
               this.cdr.detectChanges();
             },
             error: (err) => {
               console.error('Error uploading PDF:', err);
-              this.error = `Error al subir el archivo ${file.name}`;
+              // Mostrar mensaje específico del backend si existe
+              if (err.error?.message) {
+                this.error = err.error.message;
+              } else if (err.status === 413) {
+                this.error = 'El archivo es demasiado grande (máximo 10MB)';
+              } else {
+                this.error = `Error al subir el archivo ${file.name}`;
+              }
               this.isLoading = false;
               this.cdr.detectChanges();
             },
@@ -178,31 +291,53 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
   }
 
   createWebSource(url: string, name: string): void {
-    const request: CreateKnowledgeSourceRequest = {
-      name,
-      type: 'web',
-      url,
-      tags: [],
-      isPublic: false,
-    };
+    // Validar longitud de URL
+    if (url.length > 2048) {
+      this.error = 'La URL no puede exceder los 2048 caracteres';
+      return;
+    }
 
     this.isLoading = true;
-    this.knowledgeBaseService.createKnowledgeSource(request).subscribe({
-      next: (response) => {
-        this.knowledgeSources.push(response.knowledgeSource);
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error('Error creating web source:', err);
-        this.error = 'Error al crear la fuente web';
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      },
-    });
+    this.knowledgeBaseService
+      .createWebKnowledgeSource(url, name, [], true)
+      .subscribe({
+        next: (response: any) => {
+          // El backend devuelve directamente el objeto KnowledgeSource
+          if (response?.id) {
+            this.addKnowledgeSource(response);
+          } else {
+            console.error('Invalid response structure:', response);
+            this.error = 'Error en la respuesta del servidor';
+          }
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error creating web source:', err);
+          // Mostrar mensaje específico del backend si existe
+          if (err.error?.message) {
+            this.error = err.error.message;
+          } else if (err.status === 413) {
+            this.error = 'La URL es demasiado larga (máximo 2048 caracteres)';
+          } else if (err.status === 400) {
+            this.error = 'URL inválida o no accesible';
+          } else {
+            this.error = 'Error al crear la fuente web';
+          }
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   createTextSource(content: string, name: string): void {
+    // Validar longitud de texto
+    if (content.length > 50000) {
+      this.error =
+        'El texto no puede exceder los 50,000 caracteres (~20 páginas)';
+      return;
+    }
+
     const request: CreateKnowledgeSourceRequest = {
       name,
       type: 'text',
@@ -214,13 +349,30 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
     this.isLoading = true;
     this.knowledgeBaseService.createKnowledgeSource(request).subscribe({
       next: (response) => {
-        this.knowledgeSources.push(response.knowledgeSource);
+        console.log('Text source response:', response);
+
+        // El backend devuelve el objeto directamente para fuentes de texto
+        const sourceToAdd = response?.knowledgeSource || response;
+
+        if (sourceToAdd?.id) {
+          this.addKnowledgeSource(sourceToAdd);
+        } else {
+          console.error('Invalid response structure:', response);
+          this.error = 'Error en la respuesta del servidor';
+        }
         this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error creating text source:', err);
-        this.error = 'Error al crear la fuente de texto';
+        // Mostrar mensaje específico del backend si existe
+        if (err.error?.message) {
+          this.error = err.error.message;
+        } else if (err.status === 413) {
+          this.error = 'El texto es demasiado largo (máximo 50,000 caracteres)';
+        } else {
+          this.error = 'Error al crear la fuente de texto';
+        }
         this.isLoading = false;
         this.cdr.detectChanges();
       },
@@ -247,12 +399,17 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
       return [];
     }
 
+    // Filtrar elementos undefined y válidos
+    const validSources = this.knowledgeSources.filter(
+      (source) => source && source.id && source.name && source.type,
+    );
+
     if (!this.searchTerm) {
-      return this.knowledgeSources;
+      return validSources;
     }
 
     const term = this.searchTerm.toLowerCase();
-    return this.knowledgeSources.filter(
+    return validSources.filter(
       (source) =>
         source.name.toLowerCase().includes(term) ||
         source.type.toLowerCase().includes(term) ||
@@ -262,6 +419,20 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
 
   get hasKnowledgeSources(): boolean {
     return this.filteredKnowledgeSources.length > 0;
+  }
+
+  // Método para obtener las clases CSS según el estado
+  getStatusClasses(status: string): string {
+    switch (status) {
+      case 'processing':
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+      case 'completed':
+        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+      case 'failed':
+        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+      default:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+    }
   }
 
   get t() {

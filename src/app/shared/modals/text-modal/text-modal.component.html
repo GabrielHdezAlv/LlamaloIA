@@ -1,6 +1,6 @@
-<div class="modal-container">
+<div class="modal-container" [class.dark]="isDarkMode()">
   <div class="modal-header">
-    <h2 class="modal-title">{{ data.title || 'Añadir texto manual' }}</h2>
+    <h2 class="modal-title">{{ data.title || "Añadir texto manual" }}</h2>
     <button mat-icon-button (click)="onCancel()" class="close-button">
       <mat-icon>close</mat-icon>
     </button>
@@ -9,10 +9,10 @@
   <div class="modal-content">
     <div class="form-group">
       <label for="name">Nombre (opcional)</label>
-      <input 
-        id="name" 
-        type="text" 
-        [(ngModel)]="name" 
+      <input
+        id="name"
+        type="text"
+        [(ngModel)]="name"
         placeholder="Nombre de la fuente"
         class="form-input"
       />
@@ -20,9 +20,9 @@
 
     <div class="form-group">
       <label for="content">Contenido</label>
-      <textarea 
-        id="content" 
-        [(ngModel)]="textContent" 
+      <textarea
+        id="content"
+        [(ngModel)]="textContent"
         placeholder="Escribe o pega tu texto aquí..."
         class="form-textarea"
         rows="8"
@@ -34,9 +34,9 @@
     <button mat-button (click)="onCancel()" class="cancel-button">
       Cancelar
     </button>
-    <button 
-      mat-raised-button 
-      (click)="onConfirm()" 
+    <button
+      mat-raised-button
+      (click)="onConfirm()"
       class="confirm-button"
       [disabled]="!textContent.trim()"
     >

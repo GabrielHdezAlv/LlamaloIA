@@ -18,7 +18,7 @@ export interface KnowledgeSource {
     chunkCount: number;
   };
   tags: string[];
-  isPublic: boolean;
+  isPublic: boolean | string; // Puede venir como string del backend
 }
 
 /**

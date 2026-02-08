@@ -33,6 +33,14 @@ export class TextModalComponent {
     return this.i18nService.getTranslations();
   }
 
+  isDarkMode(): boolean {
+    // Verificar si el modo oscuro está activado
+    return (
+      document.documentElement.classList.contains('dark') ||
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    );
+  }
+
   onCancel(): void {
     this.dialogRef.close();
   }
@@ -40,7 +48,7 @@ export class TextModalComponent {
   onConfirm(): void {
     this.dialogRef.close({
       content: this.textContent,
-      name: this.name || 'Texto manual'
+      name: this.name || 'Texto manual',
     });
   }
 }

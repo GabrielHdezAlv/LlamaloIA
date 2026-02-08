@@ -5,7 +5,7 @@
     "changeOrigin": true
   },
   "/knowledge-base": {
-    "target": "https://llamaloiabackend.onrender.com",
+    "target": "https://llamaloiabackend-5294.onrender.com",
     "secure": false,
     "changeOrigin": true
   }
