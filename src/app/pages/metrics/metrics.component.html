@@ -397,58 +397,21 @@
           </div>
         </div>
 
-        <!-- Conexiones establecidas solo en tablets (md) -->
+        <!-- Estado del sistema solo en tablets (md) -->
         <div
           class="hidden md:block lg:hidden bg-white rounded-2xl px-3 pt-3 pb-3 fade-in-section border border-gray-100 history-border dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas">
           <h3
             class="font-semibold text-xs max-lg:text-[10px] text-gray-800 mb-3 max-lg:mb-2 tracking-[-0.7px] dark:text-slate-50">
-            Conexiones establecidas
+            Estado del sistema
           </h3>
 
-          <div class="space-y-3 max-lg:space-y-2.5 flex flex-col items-center px-2">
-            <!-- Shopify -->
-            <div class="flex items-center justify-center gap-3 max-lg:gap-2 w-full">
-              <div
-                class="flex items-center justify-center p-1.5 max-lg:p-1 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
-                <img src="assets/shopify.webp" alt="Shopify" class="w-5 h-5 max-lg:w-4 max-lg:h-4 object-contain" />
-              </div>
-              <span
-                class="text-xs max-lg:text-[10px] font-medium text-gray-800 dark:text-slate-50 tracking-[-0.7px] flex-1">Shopify</span>
-              <span
-                [class]="isShopifyConnected ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
-                class="text-xs max-lg:text-[10px] font-medium tracking-[-0.7px]">
-                {{ isShopifyConnected ? 'Conectado' : 'No conectado' }}
-              </span>
-            </div>
-
-            <!-- Twilio -->
-            <div class="flex items-center justify-center gap-3 max-lg:gap-2 w-full">
-              <div
-                class="flex items-center justify-center p-1.5 max-lg:p-1 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
-                <img src="assets/twilio.jpg" alt="Twilio"
-                  class="w-5 h-5 max-lg:w-4 max-lg:h-4 object-contain rounded" />
-              </div>
-              <span
-                class="text-xs max-lg:text-[10px] font-medium text-gray-800 dark:text-slate-50 tracking-[-0.7px] flex-1">Twilio</span>
-              <span
-                [class]="isTwilioConnected ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
-                class="text-xs max-lg:text-[10px] font-medium tracking-[-0.7px]">
-                {{ isTwilioConnected ? 'Conectado' : 'No conectado' }}
-              </span>
-            </div>
-
-            <!-- Próximamente más -->
-            <div class="flex items-center justify-center gap-3 max-lg:gap-2 w-full">
-              <div
-                class="flex items-center justify-center p-1.5 max-lg:p-1 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
-                <div class="w-5 h-5 max-lg:w-4 max-lg:h-4"></div>
-              </div>
-              <span
-                class="text-xs max-lg:text-[10px] font-medium text-gray-500 dark:text-slate-400 tracking-[-0.7px] flex-1">Próximamente
-                más</span>
-              <span class="text-xs max-lg:text-[10px] font-medium text-gray-400 dark:text-slate-500 tracking-[-0.7px]">
-                -
+          <div class="space-y-4 max-lg:space-y-3 flex flex-col items-center px-2">
+            <div *ngFor="let status of systemStatuses"
+              class="flex items-center justify-center gap-3 max-lg:gap-2.5 w-full">
+              <div [class]="'w-3.5 h-3.5 max-lg:w-3 max-lg:h-3 rounded-full ' + status.circleColor"></div>
+              <span [class]="'text-sm max-lg:text-xs font-medium tracking-[-0.7px] flex-1 ' + status.textColor">
+                {{ status.message }}
               </span>
             </div>
           </div>
@@ -582,60 +545,22 @@
           </div>
         </div>
 
-        <!-- Conexiones establecidas (desktop y móvil, oculto en tablet) -->
+        <!-- Estado del sistema (desktop y móvil, oculto en tablet) -->
         <div
           class="block md:hidden lg:block bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-2 max-lg:pt-2 pb-2 max-lg:pb-1.5 lg:-ml-5 md:h-[320px] lg:h-auto fade-in-section border border-gray-100 history-border dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas">
           <h3
             class="font-semibold text-xs max-lg:text-[10px] text-gray-800 mb-3 max-lg:mb-2 tracking-[-0.7px] dark:text-slate-50">
-            Conexiones establecidas
+            Estado del sistema
           </h3>
 
-          <div class="space-y-3 max-lg:space-y-2.5 flex flex-col items-center px-2 max-lg:px-1.5 lg:px-3">
-            <!-- Shopify -->
-            <div class="flex items-center justify-center gap-3 max-lg:gap-2 lg:gap-3 w-full">
-              <div
-                class="flex items-center justify-center p-1.5 max-lg:p-1 lg:p-2 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
-                <img src="assets/shopify.webp" alt="Shopify"
-                  class="w-5 h-5 max-lg:w-4 max-lg:h-4 lg:w-6 lg:h-6 object-contain" />
-              </div>
+          <div class="space-y-4 max-lg:space-y-3 flex flex-col items-center px-2 max-lg:px-1.5 lg:px-3 mt-8">
+            <div *ngFor="let status of systemStatuses"
+              class="flex items-center justify-center gap-3 max-lg:gap-2.5 lg:gap-4 w-full">
+              <div [class]="'w-3.5 h-3.5 max-lg:w-3 max-lg:h-3 lg:w-4 lg:h-4 rounded-full ' + status.circleColor"></div>
               <span
-                class="text-xs max-lg:text-[10px] lg:text-sm font-medium text-gray-800 dark:text-slate-50 tracking-[-0.7px] flex-1">Shopify</span>
-              <span
-                [class]="isShopifyConnected ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
-                class="text-xs max-lg:text-[10px] lg:text-sm font-medium tracking-[-0.7px]">
-                {{ isShopifyConnected ? 'Conectado' : 'No conectado' }}
-              </span>
-            </div>
-
-            <!-- Twilio -->
-            <div class="flex items-center justify-center gap-3 max-lg:gap-2 lg:gap-3 w-full">
-              <div
-                class="flex items-center justify-center p-1.5 max-lg:p-1 lg:p-2 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
-                <img src="assets/twilio.jpg" alt="Twilio"
-                  class="w-5 h-5 max-lg:w-4 max-lg:h-4 lg:w-6 lg:h-6 object-contain rounded" />
-              </div>
-              <span
-                class="text-xs max-lg:text-[10px] lg:text-sm font-medium text-gray-800 dark:text-slate-50 tracking-[-0.7px] flex-1">Twilio</span>
-              <span
-                [class]="isTwilioConnected ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
-                class="text-xs max-lg:text-[10px] lg:text-sm font-medium tracking-[-0.7px]">
-                {{ isTwilioConnected ? 'Conectado' : 'No conectado' }}
-              </span>
-            </div>
-
-            <!-- Próximamente más -->
-            <div class="flex items-center justify-center gap-3 max-lg:gap-2 lg:gap-3 w-full">
-              <div
-                class="flex items-center justify-center p-1.5 max-lg:p-1 lg:p-2 border border-gray-200 dark:border-slate-700 rounded-lg bg-gray-50 dark:bg-slate-800">
-                <div class="w-5 h-5 max-lg:w-4 max-lg:h-4 lg:w-6 lg:h-6"></div>
-              </div>
-              <span
-                class="text-xs max-lg:text-[10px] lg:text-sm font-medium text-gray-500 dark:text-slate-400 tracking-[-0.7px] flex-1">Próximamente
-                más</span>
-              <span
-                class="text-xs max-lg:text-[10px] lg:text-sm font-medium text-gray-400 dark:text-slate-500 tracking-[-0.7px]">
-                -
+                [class]="'text-sm max-lg:text-xs lg:text-base font-medium tracking-[-0.7px] flex-1 ' + status.textColor">
+                {{ status.message }}
               </span>
             </div>
           </div>

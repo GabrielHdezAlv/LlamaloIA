@@ -93,6 +93,123 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return !!(user?.twilio && user.twilio.length > 0);
   }
 
+  // Estados del sistema
+  get systemStatuses(): Array<{ circleColor: string; message: string; textColor: string }> {
+    const statuses = [];
+    
+    // Sistema OK (siempre visible)
+    statuses.push({
+      circleColor: 'bg-green-500',
+      message: 'Sistema OK',
+      textColor: 'text-green-600 dark:text-green-400'
+    });
+
+    // Estado de latencia (siempre visible, cambia según valor)
+    if (this.latencyMs > 0) {
+      if (this.latencyMs > 2000) {
+        statuses.push({
+          circleColor: 'bg-orange-500',
+          message: 'Latencia alta en España',
+          textColor: 'text-orange-600 dark:text-orange-400'
+        });
+      } else if (this.latencyMs > 1000) {
+        statuses.push({
+          circleColor: 'bg-yellow-500',
+          message: 'Latencia normal',
+          textColor: 'text-yellow-600 dark:text-yellow-400'
+        });
+      } else {
+        statuses.push({
+          circleColor: 'bg-green-500',
+          message: 'Latencia óptima',
+          textColor: 'text-green-600 dark:text-green-400'
+        });
+      }
+    } else {
+      statuses.push({
+        circleColor: 'bg-gray-400',
+        message: 'Latencia no disponible',
+        textColor: 'text-gray-500 dark:text-gray-400'
+      });
+    }
+
+    // Estado de Twilio (siempre visible, cambia según conexión)
+    if (this.isTwilioConnected && !this.detailedMetricsError) {
+      statuses.push({
+        circleColor: 'bg-green-500',
+        message: 'Twilio conectado',
+        textColor: 'text-green-600 dark:text-green-400'
+      });
+    } else if (this.detailedMetricsError) {
+      statuses.push({
+        circleColor: 'bg-red-500',
+        message: 'Fallos Twilio detectados',
+        textColor: 'text-red-600 dark:text-red-400'
+      });
+    } else {
+      statuses.push({
+        circleColor: 'bg-red-500',
+        message: 'Twilio no conectado',
+        textColor: 'text-red-600 dark:text-red-400'
+      });
+    }
+
+    // Estado de uso del plan (siempre visible, cambia según porcentaje)
+    // Si no hay límite configurado, usar un límite por defecto de 1000 minutos para mostrar el porcentaje
+    const planLimit = this.minutesLimit > 0 ? this.minutesLimit : 1000;
+    const usagePercent = (this.totalMinutesUsed / planLimit) * 100;
+    
+    // Mostrar porcentaje con diferentes estados según el nivel
+    if (usagePercent >= 90) {
+      statuses.push({
+        circleColor: 'bg-red-500',
+        message: `Usado ${Math.round(usagePercent)}% del plan`,
+        textColor: 'text-red-600 dark:text-red-400'
+      });
+    } else if (usagePercent >= 85) {
+      statuses.push({
+        circleColor: 'bg-yellow-500',
+        message: `Usado ${Math.round(usagePercent)}% del plan`,
+        textColor: 'text-yellow-600 dark:text-yellow-400'
+      });
+    } else if (usagePercent >= 70) {
+      statuses.push({
+        circleColor: 'bg-orange-500',
+        message: `Usado ${Math.round(usagePercent)}% del plan`,
+        textColor: 'text-orange-600 dark:text-orange-400'
+      });
+    } else if (usagePercent >= 50) {
+      statuses.push({
+        circleColor: 'bg-yellow-500',
+        message: `Usado ${Math.round(usagePercent)}% del plan`,
+        textColor: 'text-yellow-600 dark:text-yellow-400'
+      });
+    } else {
+      statuses.push({
+        circleColor: 'bg-green-500',
+        message: `Usado ${Math.round(usagePercent)}% del plan`,
+        textColor: 'text-green-600 dark:text-green-400'
+      });
+    }
+
+    // Estado de Shopify (siempre visible)
+    if (this.isShopifyConnected) {
+      statuses.push({
+        circleColor: 'bg-green-500',
+        message: 'Shopify conectado',
+        textColor: 'text-green-600 dark:text-green-400'
+      });
+    } else {
+      statuses.push({
+        circleColor: 'bg-gray-400',
+        message: 'Shopify no conectado',
+        textColor: 'text-gray-500 dark:text-gray-400'
+      });
+    }
+
+    return statuses;
+  }
+
   // Getter para obtener el porcentaje de comparación semanal
   get weeklyComparisonPercentage(): number {
     return this.cachedWeeklyComparison;
