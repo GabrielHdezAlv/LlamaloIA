@@ -58,7 +58,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   // Variable para controlar el día seleccionado en horas punta (0 = LUN, 1 = MAR, ..., 6 = DOM)
   selectedDayIndex: number = 5; // Por defecto SAB (Sábado)
-  
+
   // Días de la semana para horas punta
   weekDays: string[] = ['LUN', 'MAR', 'MIE', 'JUE', 'VIE', 'SAB', 'DOM'];
 
@@ -103,14 +103,18 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   // Estados del sistema
-  get systemStatuses(): Array<{ circleColor: string; message: string; textColor: string }> {
+  get systemStatuses(): Array<{
+    circleColor: string;
+    message: string;
+    textColor: string;
+  }> {
     const statuses = [];
-    
+
     // Sistema OK (siempre visible)
     statuses.push({
       circleColor: 'bg-green-500',
       message: 'Sistema OK',
-      textColor: 'text-gray-800 dark:text-slate-200'
+      textColor: 'text-gray-800 dark:text-slate-200',
     });
 
     // Estado de latencia (siempre visible, cambia según valor)
@@ -119,26 +123,26 @@ export class MetricsComponent implements OnInit, OnDestroy {
         statuses.push({
           circleColor: 'bg-orange-500',
           message: 'Latencia alta en España',
-          textColor: 'text-gray-800 dark:text-slate-200'
+          textColor: 'text-gray-800 dark:text-slate-200',
         });
       } else if (this.latencyMs > 1000) {
         statuses.push({
           circleColor: 'bg-yellow-500',
           message: 'Latencia normal',
-          textColor: 'text-gray-800 dark:text-slate-200'
+          textColor: 'text-gray-800 dark:text-slate-200',
         });
       } else {
         statuses.push({
           circleColor: 'bg-green-500',
           message: 'Latencia óptima',
-          textColor: 'text-gray-800 dark:text-slate-200'
+          textColor: 'text-gray-800 dark:text-slate-200',
         });
       }
     } else {
       statuses.push({
         circleColor: 'bg-gray-400',
         message: 'Latencia no disponible',
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     }
 
@@ -147,19 +151,19 @@ export class MetricsComponent implements OnInit, OnDestroy {
       statuses.push({
         circleColor: 'bg-green-500',
         message: 'Twilio conectado',
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else if (this.detailedMetricsError) {
       statuses.push({
         circleColor: 'bg-red-500',
         message: 'Fallos Twilio detectados',
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else {
       statuses.push({
         circleColor: 'bg-red-500',
         message: 'Twilio no conectado',
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     }
 
@@ -167,37 +171,37 @@ export class MetricsComponent implements OnInit, OnDestroy {
     // Si no hay límite configurado, usar un límite por defecto de 1000 minutos para mostrar el porcentaje
     const planLimit = this.minutesLimit > 0 ? this.minutesLimit : 1000;
     const usagePercent = (this.totalMinutesUsed / planLimit) * 100;
-    
+
     // Mostrar porcentaje con diferentes estados según el nivel
     if (usagePercent >= 90) {
       statuses.push({
         circleColor: 'bg-red-500',
         message: `Usado ${Math.round(usagePercent)}% del plan`,
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else if (usagePercent >= 85) {
       statuses.push({
         circleColor: 'bg-yellow-500',
         message: `Usado ${Math.round(usagePercent)}% del plan`,
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else if (usagePercent >= 70) {
       statuses.push({
         circleColor: 'bg-orange-500',
         message: `Usado ${Math.round(usagePercent)}% del plan`,
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else if (usagePercent >= 50) {
       statuses.push({
         circleColor: 'bg-yellow-500',
         message: `Usado ${Math.round(usagePercent)}% del plan`,
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else {
       statuses.push({
         circleColor: 'bg-green-500',
         message: `Usado ${Math.round(usagePercent)}% del plan`,
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     }
 
@@ -206,13 +210,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
       statuses.push({
         circleColor: 'bg-green-500',
         message: 'Shopify conectado',
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else {
       statuses.push({
         circleColor: 'bg-gray-400',
         message: 'Shopify no conectado',
-        textColor: 'text-gray-800 dark:text-slate-200'
+        textColor: 'text-gray-800 dark:text-slate-200',
       });
     }
 
@@ -322,9 +326,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   // Serie mini área para "Total de llamadas exitosas"
-  callsAreaSeries: ApexAxisChartSeries = [
-    { name: 'Llamadas', data: [] },
-  ];
+  callsAreaSeries: ApexAxisChartSeries = [{ name: 'Llamadas', data: [] }];
 
   // Generar fechas de los últimos 7 días
   getLast7Days(): string[] {
@@ -364,7 +366,6 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
     return dates;
   }
-
 
   callsAreaChart: ApexChart = {
     type: 'area',
@@ -529,7 +530,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   // Totales
   totalMinutesUsed = 0;
-  minutesLimit = 0;
+  minutesLimit = 100;
   extraMinutes = 0;
   timeSavedHours = 0;
   costPerMinute = 0; // coste medio por minuto en euros
@@ -785,7 +786,12 @@ export class MetricsComponent implements OnInit, OnDestroy {
   // Países (porcentaje y barra) - ordenados de mayor a menor
   // Datos para el gráfico de horas punta (24 horas con patrón de curva de campana)
   // Las barras empiezan desde las 4am (índice 0) hasta las 3am (índice 23)
-  get popularTimesData(): Array<{ label: string; busyness: number; isLive: boolean; hour: number }> {
+  get popularTimesData(): Array<{
+    label: string;
+    busyness: number;
+    isLive: boolean;
+    hour: number;
+  }> {
     const hours = [];
     // La hora actual del sistema
     const currentHour = new Date().getHours();
@@ -807,7 +813,10 @@ export class MetricsComponent implements OnInit, OnDestroy {
       } else if (distanceFromCenter <= -12) {
         distanceFromCenter = distanceFromCenter + 24;
       }
-      const busyness = Math.max(5, peak * Math.exp(-Math.pow(distanceFromCenter / width, 2)));
+      const busyness = Math.max(
+        5,
+        peak * Math.exp(-Math.pow(distanceFromCenter / width, 2)),
+      );
 
       // La hora actual es la hora "Live"
       const isLive = actualHour === currentHour;
@@ -944,7 +953,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     if (this.dashboardMetrics || this.detailedMetrics) {
       const data = this.getCurrentData();
       this.callsAreaSeries = [{ name: 'Llamadas', data: data }];
-      
+
       // Actualizar YAxis dinámicamente basado en los datos
       if (data.length > 0) {
         const maxValue = Math.max(...data);
@@ -1019,7 +1028,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.isLoadingDashboardMetrics = false;
         this.metricsService.setLoading(false);
         this.hasLoadedDashboardMetrics = false; // Permitir reintentar en caso de error
-        
+
         // Limpiar datos del gráfico en caso de error
         this.callsAreaSeries = [{ name: 'Llamadas', data: [] }];
         this.totalMinutesUsed = 0;
@@ -1103,7 +1112,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.isLoadingDetailedMetrics = false;
         this.metricsService.setLoading(false);
         this.hasLoadedDetailedMetrics = false; // Permitir reintentar en caso de error
-        
+
         // Limpiar datos del gráfico en caso de error
         this.callsAreaSeries = [{ name: 'Llamadas', data: [] }];
         this.totalMinutesUsed = 0;
@@ -1292,8 +1301,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.exitosas / totalSuccess) *
-              100 *
-              10,
+                100 *
+                10,
             ) / 10,
           color: 'bg-green-500',
         },
@@ -1302,8 +1311,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.parciales / totalSuccess) *
-              100 *
-              10,
+                100 *
+                10,
             ) / 10,
           color: 'bg-yellow-500',
         },
@@ -1312,8 +1321,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.fallidas / totalSuccess) *
-              100 *
-              10,
+                100 *
+                10,
             ) / 10,
           color: 'bg-red-500',
         },
@@ -1338,8 +1347,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.completada /
                 totalReasons) *
-              100 *
-              10,
+                100 *
+                10,
             ) / 10,
           color: 'bg-blue-500',
         },
@@ -1349,8 +1358,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.clienteColgo /
                 totalReasons) *
-              100 *
-              10,
+                100 *
+                10,
             ) / 10,
           color: 'bg-orange-500',
         },
@@ -1360,8 +1369,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.errorTecnico /
                 totalReasons) *
-              100 *
-              10,
+                100 *
+                10,
             ) / 10,
           color: 'bg-red-500',
         },
@@ -1371,8 +1380,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.tiempoAgotado /
                 totalReasons) *
-              100 *
-              10,
+                100 *
+                10,
             ) / 10,
           color: 'bg-gray-500',
         },
@@ -1405,7 +1414,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
   updateMobileChartData(): void {
     const data = this.getCurrentData();
     const categories = this.getCurrentCategories();
-    
+
     // Si no hay datos, dejar todo en 0
     if (data.length === 0) {
       this.totalCalls = 0;
@@ -1413,7 +1422,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
       this.mobileChartData = [];
       return;
     }
-    
+
     const maxValue = Math.max(...data);
 
     // Calcular totales y promedios
