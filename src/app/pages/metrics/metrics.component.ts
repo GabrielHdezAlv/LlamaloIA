@@ -53,6 +53,15 @@ export class MetricsComponent implements OnInit, OnDestroy {
   showEvaluacionExito: boolean = false;
   showRazonFinalizacion: boolean = false;
 
+  // Variable para controlar el tooltip de horas punta
+  hoveredHourIndex: number | null = null;
+
+  // Variable para controlar el día seleccionado en horas punta (0 = LUN, 1 = MAR, ..., 6 = DOM)
+  selectedDayIndex: number = 5; // Por defecto SAB (Sábado)
+  
+  // Días de la semana para horas punta
+  weekDays: string[] = ['LUN', 'MAR', 'MIE', 'JUE', 'VIE', 'SAB', 'DOM'];
+
   // Propiedades para métricas detalladas
   isLoadingDetailedMetrics: boolean = false;
   detailedMetricsError: string = '';
@@ -101,7 +110,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     statuses.push({
       circleColor: 'bg-green-500',
       message: 'Sistema OK',
-      textColor: 'text-green-600 dark:text-green-400'
+      textColor: 'text-gray-800 dark:text-slate-200'
     });
 
     // Estado de latencia (siempre visible, cambia según valor)
@@ -110,26 +119,26 @@ export class MetricsComponent implements OnInit, OnDestroy {
         statuses.push({
           circleColor: 'bg-orange-500',
           message: 'Latencia alta en España',
-          textColor: 'text-orange-600 dark:text-orange-400'
+          textColor: 'text-gray-800 dark:text-slate-200'
         });
       } else if (this.latencyMs > 1000) {
         statuses.push({
           circleColor: 'bg-yellow-500',
           message: 'Latencia normal',
-          textColor: 'text-yellow-600 dark:text-yellow-400'
+          textColor: 'text-gray-800 dark:text-slate-200'
         });
       } else {
         statuses.push({
           circleColor: 'bg-green-500',
           message: 'Latencia óptima',
-          textColor: 'text-green-600 dark:text-green-400'
+          textColor: 'text-gray-800 dark:text-slate-200'
         });
       }
     } else {
       statuses.push({
         circleColor: 'bg-gray-400',
         message: 'Latencia no disponible',
-        textColor: 'text-gray-500 dark:text-gray-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     }
 
@@ -138,19 +147,19 @@ export class MetricsComponent implements OnInit, OnDestroy {
       statuses.push({
         circleColor: 'bg-green-500',
         message: 'Twilio conectado',
-        textColor: 'text-green-600 dark:text-green-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     } else if (this.detailedMetricsError) {
       statuses.push({
         circleColor: 'bg-red-500',
         message: 'Fallos Twilio detectados',
-        textColor: 'text-red-600 dark:text-red-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     } else {
       statuses.push({
         circleColor: 'bg-red-500',
         message: 'Twilio no conectado',
-        textColor: 'text-red-600 dark:text-red-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     }
 
@@ -164,31 +173,31 @@ export class MetricsComponent implements OnInit, OnDestroy {
       statuses.push({
         circleColor: 'bg-red-500',
         message: `Usado ${Math.round(usagePercent)}% del plan`,
-        textColor: 'text-red-600 dark:text-red-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     } else if (usagePercent >= 85) {
       statuses.push({
         circleColor: 'bg-yellow-500',
         message: `Usado ${Math.round(usagePercent)}% del plan`,
-        textColor: 'text-yellow-600 dark:text-yellow-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     } else if (usagePercent >= 70) {
       statuses.push({
         circleColor: 'bg-orange-500',
         message: `Usado ${Math.round(usagePercent)}% del plan`,
-        textColor: 'text-orange-600 dark:text-orange-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     } else if (usagePercent >= 50) {
       statuses.push({
         circleColor: 'bg-yellow-500',
         message: `Usado ${Math.round(usagePercent)}% del plan`,
-        textColor: 'text-yellow-600 dark:text-yellow-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     } else {
       statuses.push({
         circleColor: 'bg-green-500',
         message: `Usado ${Math.round(usagePercent)}% del plan`,
-        textColor: 'text-green-600 dark:text-green-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     }
 
@@ -197,13 +206,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
       statuses.push({
         circleColor: 'bg-green-500',
         message: 'Shopify conectado',
-        textColor: 'text-green-600 dark:text-green-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     } else {
       statuses.push({
         circleColor: 'bg-gray-400',
         message: 'Shopify no conectado',
-        textColor: 'text-gray-500 dark:text-gray-400'
+        textColor: 'text-gray-800 dark:text-slate-200'
       });
     }
 
@@ -1541,5 +1550,14 @@ export class MetricsComponent implements OnInit, OnDestroy {
     this.showEvaluacionExito = true;
     this.showRazonFinalizacion = true;
     this.showAgentesCreados = true;
+  }
+
+  // Métodos para controlar el tooltip de horas punta
+  showTooltip(index: number): void {
+    this.hoveredHourIndex = index;
+  }
+
+  hideTooltip(): void {
+    this.hoveredHourIndex = null;
   }
 }

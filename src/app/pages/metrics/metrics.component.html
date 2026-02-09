@@ -30,36 +30,6 @@
     </div>
   </div>
 
-  <!-- Error states para métricas detalladas -->
-  <div *ngIf="detailedMetricsError"
-    class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 dark:bg-red-900/20 dark:border-red-800">
-    <div class="flex items-center">
-      <svg class="h-5 w-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-        <path fill-rule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-          clip-rule="evenodd" />
-      </svg>
-      <span class="text-red-700 dark:text-red-300">{{
-        detailedMetricsError
-        }}</span>
-    </div>
-  </div>
-
-  <!-- Error states para métricas del dashboard -->
-  <div *ngIf="dashboardMetricsError"
-    class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4 dark:bg-red-900/20 dark:border-red-800">
-    <div class="flex items-center">
-      <svg class="h-5 w-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-        <path fill-rule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-          clip-rule="evenodd" />
-      </svg>
-      <span class="text-red-700 dark:text-red-300">{{
-        dashboardMetricsError
-        }}</span>
-    </div>
-  </div>
-
   <!-- Contenido principal con scroll -->
   <div class="rounded-2xl h-auto flex flex-col">
     <div class="flex-1">
@@ -571,7 +541,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 3xl:gap-6 max-lg:gap-1.5">
         <!-- Horas punta (Popular times) -->
         <div
-          class="bg-white rounded-2xl p-3 max-lg:p-2 lg:p-4 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 history-border max-h-[300px] lg:max-h-[344px] xl:max-h-[344px] 2xl:max-h-[344px] 3xl:lg:max-h-[344px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)]"
+          class="bg-white rounded-2xl p-3 max-lg:p-2 lg:p-4 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 history-border max-h-[300px] lg:max-h-[344px] xl:max-h-[344px] 2xl:max-h-[344px] 3xl:lg:max-h-[344px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)] overflow-visible"
           [class.fade-in-visible]="showPaises">
           <!-- Título -->
           <div class="flex items-center gap-2 mb-4 max-lg:mb-3">
@@ -584,25 +554,49 @@
 
           <!-- Días de la semana -->
           <div class="flex gap-1 max-lg:gap-0.5 mb-4 max-lg:mb-3 w-full">
-            <button *ngFor="let day of ['LUN', 'MAR', 'MIE', 'JUE', 'VIE', 'SAB', 'DOM']; let i = index"
-              class="flex-1 text-[10px] max-lg:text-[9px] lg:text-xs font-medium text-gray-600 dark:text-slate-400 pb-1 transition-colors text-center"
-              [class.text-blue-600]="i === 5" [class.dark:text-blue-400]="i === 5" [class.border-b-2]="i === 5"
-              [class.border-blue-600]="i === 5" [class.dark:border-blue-400]="i === 5">
+            <button *ngFor="let day of weekDays; let i = index"
+              (click)="selectedDayIndex = i"
+              class="flex-1 text-[10px] max-lg:text-[9px] lg:text-xs font-medium text-gray-600 dark:text-slate-400 pb-1 transition-colors text-center cursor-pointer hover:text-blue-600 dark:hover:text-blue-400"
+              [class.text-blue-600]="selectedDayIndex === i" 
+              [class.dark:text-blue-400]="selectedDayIndex === i" 
+              [class.border-b-2]="selectedDayIndex === i"
+              [class.border-blue-600]="selectedDayIndex === i" 
+              [class.dark:border-blue-400]="selectedDayIndex === i">
               {{ day }}
             </button>
           </div>
 
           <!-- Gráfico de barras con indicador Live -->
-          <div class="relative mt-20 max-lg:mt-6">
+          <div class="relative mt-20 max-lg:mt-6 overflow-visible" (mouseleave)="hideTooltip()" (click)="hideTooltip()">
             <!-- Barras de horas -->
-            <div class="flex items-end justify-between gap-0.5 max-lg:gap-0 h-32 max-lg:h-24 lg:h-36 relative">
+            <div
+              class="flex items-end justify-between gap-0.5 max-lg:gap-0 h-32 max-lg:h-24 lg:h-36 relative overflow-visible">
               <div *ngFor="let hour of popularTimesData; let i = index"
-                class="flex flex-col items-center flex-1 h-full justify-end relative group">
+                class="flex flex-col items-center flex-1 h-full justify-end relative group"
+                (mouseenter)="showTooltip(i)" (mouseleave)="hideTooltip()" (click)="hideTooltip()">
+                <!-- Tooltip hover mejorado - fuera de la barra para mejor detección -->
+                <div *ngIf="hoveredHourIndex === i"
+                  class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 z-[100] pointer-events-none whitespace-nowrap">
+                  <div
+                    class="bg-gray-900 dark:bg-slate-800 text-white text-xs max-lg:text-[10px] px-3 max-lg:px-2.5 py-1.5 max-lg:py-1 rounded-lg shadow-xl font-medium">
+                    <div class="text-center">
+                      <div class="font-semibold">{{ getBusynessLabel(hour.busyness) }}</div>
+                      <div class="text-[10px] max-lg:text-[9px] text-gray-300 dark:text-slate-400 mt-0.5">
+                        {{ hour.hour }}:00
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Flecha del tooltip -->
+                  <div
+                    class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-transparent border-t-gray-900 dark:border-t-slate-800">
+                  </div>
+                </div>
+
                 <!-- Indicador Live (solo para la barra correspondiente) -->
                 <div *ngIf="hour.isLive" class="absolute -top-8 max-lg:-top-6 left-1/2 transform -translate-x-1/2 z-10">
                   <div class="flex items-center gap-1.5 max-lg:gap-1 mb-1">
                     <div class="relative">
-                      <div class="w-2.5 h-2.5 max-lg:w-2 max-lg:h-2 rounded-full bg-blue-500 dark:bg-blue-400"></div>
+                      <div class="w-2.5 h-2.5 max-lg:w-2 max-lg:h-2 rounded-full bg-blue-950 dark:bg-blue-950"></div>
                       <div
                         class="absolute inset-0 w-2.5 h-2.5 max-lg:w-2 max-lg:h-2 rounded-full bg-blue-500 dark:bg-blue-400 animate-ping opacity-60">
                       </div>
@@ -620,21 +614,9 @@
 
                 <div class="w-3/4 max-lg:w-2/3 rounded-lg transition-all duration-300 cursor-pointer relative"
                   [ngStyle]="hour.isLive ? {'background-color': '#1B2559'} : null" [class.bg-gray-300]="!hour.isLive"
-                  [class.dark:bg-[#262626]]="!hour.isLive" [class.bg-[#1B2559]]="hour.isLive"
+                  [class.dark:bg-white]="!hour.isLive" [class.bg-[#1B2559]]="hour.isLive"
                   [class.dark:bg-[#1B2559]]="hour.isLive" [style.height.%]="hour.busyness"
                   [style.min-height.px]="hour.busyness > 0 ? 2 : 0">
-                  <!-- Tooltip hover -->
-                  <div
-                    class="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50 pointer-events-none whitespace-nowrap">
-                    <div
-                      class="bg-gray-900 dark:bg-slate-800 text-white text-[10px] max-lg:text-[9px] px-2 py-1 rounded shadow-lg">
-                      {{ getBusynessLabel(hour.busyness) }}
-                    </div>
-                    <!-- Flecha del tooltip -->
-                    <div
-                      class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-slate-800">
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

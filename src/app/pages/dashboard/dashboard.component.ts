@@ -19,7 +19,7 @@ import {
   ReminderService,
   ReminderData,
 } from '../../core/services/reminder.service';
-import { I18nService } from '../../core/services/i18n.service';
+import { I18nService, Language } from '../../core/services/i18n.service';
 import { NavigationService } from '../../core/services/navigation.service';
 
 @Component({
@@ -394,6 +394,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // Limpiar datos de usuario
     this.userStorage.clearUser();
     this.router.navigate(['/login']);
+  }
+
+  // Seleccionar idioma
+  selectLanguage(lang: Language) {
+    this.i18nService.setLanguage(lang);
   }
 
   // Estilo dinámico para cada barra según el progreso
