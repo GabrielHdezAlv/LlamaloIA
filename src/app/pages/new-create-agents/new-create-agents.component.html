@@ -4,8 +4,9 @@
   <ng-container [ngSwitch]="step">
     <!-- Paso 1: Nombre del agente -->
     <div *ngSwitchCase="'agentName'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-32 3xl:pt-40">
-      <div class="w-full max-w-[380px] sm:max-w-[400px] 3xl:max-w-[600px] flex flex-col px-3 sm:px-4 3xl:px-6">
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+      <div
+        class="w-full max-w-[400px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
         <div class="flex items-center justify-between w-full">
           <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
             Completa tu agente
@@ -15,25 +16,25 @@
             {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
           </span>
         </div>
-        <p class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
+        <p class="mt-1 3xl:mt-1 text-[11px] sm:text-xs 3xl:text-lg text-[#6d747c] font-semibold">
           Elige un nombre que refleje el propósito de tu agente
         </p>
 
-        <div class="w-full flex flex-col mt-2 3xl:mt-4">
-          <label class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-2">
+        <div class="w-full flex flex-col mt-3 3xl:mt-4">
+          <label class="block text-[11px] sm:text-xs 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1.5 3xl:mb-2">
             Nombre del Agente *
           </label>
           <div class="relative">
             <input type="text" [(ngModel)]="agentName" [maxlength]="50" placeholder="Introduce el nombre del agente..."
-              class="w-full px-2.5 3xl:px-4 py-1.5 3xl:py-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-1 focus:ring-black focus:border-transparent dark:focus:ring-white dark:focus:border-transparent outline-none transition" />
+              class="w-full px-3 sm:px-3.5 3xl:px-4 py-2 sm:py-2 3xl:py-3 text-[11px] sm:text-xs 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-1 focus:ring-black focus:border-transparent dark:focus:ring-white dark:focus:border-transparent outline-none transition" />
             <span
-              class="absolute right-2 3xl:right-4 top-1/2 -translate-y-1/2 text-[9px] 3xl:text-sm text-gray-400 dark:text-[#6d747c]">
+              class="absolute right-2 3xl:right-4 top-1/2 -translate-y-1/2 text-[10px] sm:text-[11px] 3xl:text-sm text-gray-400 dark:text-[#6d747c]">
               {{ agentName.length }}/50
             </span>
           </div>
         </div>
 
-        <div class="w-full flex items-center justify-between mt-3 3xl:mt-5">
+        <div class="w-full flex items-center justify-between mt-4 3xl:mt-5">
           <button type="button"
             class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-gray-300 dark:border-slate-600 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent dark:bg-transparen"
             (click)="goBack()">
@@ -52,8 +53,9 @@
 
     <!-- Paso 2: Tipo de llamada (Inbound / Outbound) -->
     <div *ngSwitchCase="'language'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-32 3xl:pt-40">
-      <div class="w-full max-w-[320px] sm:max-w-[360px] 3xl:max-w-[600px] flex flex-col px-3 sm:px-4 3xl:px-6">
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+      <div
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
         <div class="flex items-center justify-between w-full">
           <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
             Tipo de llamada
@@ -134,9 +136,9 @@
 
     <!-- Paso 3: País y voz -->
     <div *ngSwitchCase="'voices'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-32 3xl:pt-40">
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
       <div
-        class="w-full max-w-[320px] sm:max-w-[360px] 3xl:max-w-[600px] flex flex-col px-3 sm:px-4 3xl:px-6 overflow-visible">
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6 overflow-visible">
         <div class="flex items-center justify-between w-full">
           <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
             Lenguaje y voz
@@ -803,8 +805,9 @@
 
     <!-- Paso 4: Conecta tu negocio -->
     <div *ngSwitchCase="'connectBusiness'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-32 3xl:pt-40">
-      <div class="w-full max-w-[320px] sm:max-w-[360px] 3xl:max-w-[600px] flex flex-col px-3 sm:px-4 3xl:px-6">
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+      <div
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
         <div class="flex items-center justify-between w-full">
           <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
             Conecta tu negocio de Shopify
@@ -867,9 +870,9 @@
 
     <!-- Paso 5: Instrucciones -->
     <div *ngSwitchCase="'instructions'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-32 3xl:pt-40">
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
       <div
-        class="w-full max-w-[320px] sm:max-w-[360px] 3xl:max-w-[600px] flex flex-col px-3 sm:px-4 3xl:px-8 overflow-visible">
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[580px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-8 overflow-visible">
         <div class="flex items-center justify-between w-full">
           <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
             Instrucciones
@@ -997,7 +1000,7 @@
                 </button>
                 @if (showMakeConfig || isMakeConfigClosing) {
                 <div
-                  class="absolute left-full top-[-11.5rem] 3xl:top-[-13rem] ml-2 w-80 3xl:w-96 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl shadow-lg z-[9999] px-3 3xl:px-4 pb-3 3xl:pb-4 pt-2 3xl:pt-3 space-y-2 3xl:space-y-3 make-modal-dropdown"
+                  class="absolute right-full top-0 mr-2 w-72 sm:w-80 3xl:w-96 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl shadow-lg z-[9999] px-3 3xl:px-4 pb-3 3xl:pb-4 pt-2 3xl:pt-3 space-y-2 3xl:space-y-3 make-modal-dropdown lg:left-full lg:right-auto lg:top-[-11.5rem] 3xl:lg:top-[-13rem] lg:ml-2 lg:mr-0"
                   [class.closing]="isMakeConfigClosing">
                   <div>
                     <label
@@ -1049,8 +1052,9 @@
 
     <!-- Paso 6: Base de conocimientos -->
     <div *ngSwitchCase="'knowledgeBase'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-32 3xl:pt-40">
-      <div class="w-full max-w-[320px] sm:max-w-[360px] 3xl:max-w-[600px] flex flex-col px-3 sm:px-4 3xl:px-6">
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+      <div
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
         <div class="flex items-center justify-between w-full">
           <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
             Base de conocimientos
@@ -1124,8 +1128,9 @@
 
     <!-- Paso 7: Prueba de agente -->
     <div *ngSwitchCase="'summary'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-32 3xl:pt-40">
-      <div class="w-full max-w-[320px] sm:max-w-[360px] 3xl:max-w-[600px] flex flex-col px-3 sm:px-4 3xl:px-6">
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+      <div
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
         <div class="flex items-center justify-between w-full">
           <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
             Prueba de agente
@@ -1187,8 +1192,9 @@
 
     <!-- Paso 8: Conecta tu número de teléfono (Twilio) -->
     <div *ngSwitchCase="'connectPhone'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-32 3xl:pt-40">
-      <div class="w-full max-w-[320px] sm:max-w-[360px] 3xl:max-w-[600px] flex flex-col px-3 sm:px-4 3xl:px-6">
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+      <div
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
         <div class="flex items-center justify-between w-full">
           <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
             Conecta tu número de teléfono
@@ -1408,9 +1414,9 @@
 
     <!-- Paso 9: Agente creado correctamente -->
     <div *ngSwitchCase="'success'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-32 3xl:pt-40">
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
       <div
-        class="w-full max-w-[320px] sm:max-w-[360px] 3xl:max-w-[600px] flex flex-col px-3 sm:px-4 3xl:px-8 items-center text-center">
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-8 items-center text-center">
         <!-- Icono de éxito -->
         <div
           class="w-16 h-16 sm:w-20 sm:h-20 3xl:w-32 3xl:h-32 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 3xl:mb-8">

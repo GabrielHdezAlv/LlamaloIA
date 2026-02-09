@@ -17,15 +17,16 @@
     </div>
 
     @if (agents.length > 0) {
-    <app-ripple-button (buttonClick)="navigateToCreateAgent()"
-      buttonClass="create-agent-btn-white-dark bg-[#0a1740] text-white dark:!bg-[#ffffff] dark:!text-white  w-auto px-3 sm:px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-12 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 rounded-lg text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 hover:shadow-lg hover:-translate-y-0.5 shadow-md hover:bg-gray-950 flex items-center justify-center gap-1 whitespace-nowrap max-lg:text-[9px] max-lg:px-2 max-lg:py-0.5"
-      rippleColor="rgba(255, 255, 255, 0.4)">
-      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round"></path>
-      </svg>
-      {{ t.createAgent }}
-    </app-ripple-button>
+    <div class="flex-1 max-lg:w-full lg:flex-none lg:w-auto">
+      <app-ripple-button (buttonClick)="navigateToCreateAgent()"
+        buttonClass="create-agent-btn-white-dark bg-[#0a1740] text-white dark:!bg-[#ffffff] dark:!text-white w-full lg:w-auto px-4 sm:px-5 lg:px-6 xl:px-6 2xl:px-6 3xl:px-12 py-2 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 rounded-lg text-[11px] sm:text-[11px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 hover:shadow-lg hover:-translate-y-0.5 shadow-md hover:bg-gray-950 flex items-center justify-center gap-1 whitespace-nowrap max-lg:text-[10px]">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+        {{ t.createAgent }}
+      </app-ripple-button>
+    </div>
     }
   </div>
 
@@ -164,50 +165,66 @@
   </div>
 
   <!-- Tarjetas Móviles/Tablet (ocultas en desktop) -->
-  <div *ngIf="agents.length > 0" class="lg:hidden space-y-0">
+  <div *ngIf="agents.length > 0" class="lg:hidden space-y-3 sm:space-y-3.5">
     <div *ngFor="let agent of agents; let i = index; let last = last"
-      class="bg-white hover:bg-gray-50 px-3 py-2 transition-colors duration-200 max-lg:px-3 max-lg:py-1.5 dark:bg-slate-900 dark:hover:bg-slate-800">
-      <div class="flex justify-between items-start mb-1.5 max-lg:mb-1">
-        <div class="flex flex-col justify-center mt-1.5">
-          <p class="font-semibold text-gray-900 text-[10px] max-lg:text-[9px] dark:text-slate-50">
+      class="bg-white hover:bg-gray-50 px-4 py-3 sm:px-5 sm:py-4 md:px-5 md:py-4 rounded-2xl border border-gray-200 shadow-sm transition-colors duration-200 max-lg:px-4 max-lg:py-3 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-700">
+      <div class="flex items-start justify-between mb-1.5 max-lg:mb-1 gap-1.5">
+        <div class="flex flex-col justify-center mt-1">
+          <p class="font-semibold text-gray-900 text-xs max-lg:text-[11px] dark:text-slate-50">
             {{ agent.name }}
           </p>
           @if (agent.shopifyDomain) {
-          <span class="text-[9px] text-green-600 dark:text-green-400 mt-0.5">Shopify: {{ agent.shopifyDomain }}</span>
+          <span class="text-[11px] max-lg:text-[10px] text-green-600 dark:text-green-400 mt-0.5">Shopify:
+            {{ agent.shopifyDomain }}</span>
+          }
+        </div>
+        <!-- Menú de 3 puntos (igual comportamiento que en desktop) -->
+        <div class="relative ml-2">
+          <button type="button" (click)="toggleMenu(i)" class="p-1.5 -mr-1 transition-colors duration-200"
+            [attr.aria-expanded]="openMenuIndex === i" aria-label="Menú de opciones">
+            <svg class="w-4 h-4 text-black dark:text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+            </svg>
+          </button>
+
+          @if (openMenuIndex === i) {
+          <div
+            class="absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 z-20 py-1 text-[11px]">
+            <button (click)="editAgent(i)"
+              class="w-full text-left px-3 py-1.5 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+              {{ t.edit }}
+            </button>
+            <button (click)="deleteAgent(agent)"
+              class="w-full text-left px-3 py-1.5 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              {{ t.delete }}
+            </button>
+            <button (click)="stopPublishing(i)"
+              class="w-full text-left px-3 py-1.5 text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+              </svg>
+              {{ t.stopPublishing }}
+            </button>
+          </div>
           }
         </div>
       </div>
-      <div class="flex gap-1.5 text-[9px] text-gray-400 mb-1.5 max-lg:gap-1 max-lg:mb-1 dark:text-slate-400">
-        <button class="flex items-center gap-1 hover:text-indigo-600 font-semibold max-lg:text-[10px]">
-          <svg width="12" height="12" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M6.76984 4.52324L6.25117 4.00458C6.18308 4.0727 6.12908 4.15356 6.09225 4.24256C6.05542 4.33155 6.03647 4.42693 6.03651 4.52324H6.77051H6.76984ZM6.76984 6.47991H6.03584C6.03575 6.57632 6.05468 6.67181 6.09153 6.7609C6.12839 6.85 6.18245 6.93095 6.25063 6.99912C6.3188 7.0673 6.39975 7.12136 6.48885 7.15822C6.57794 7.19507 6.67342 7.214 6.76984 7.21391V6.47991ZM8.72651 6.47991V7.21391C8.82282 7.21394 8.9182 7.195 9.00719 7.15817C9.09619 7.12133 9.17705 7.06733 9.24517 6.99924L8.72651 6.47991ZM5.79117 2.32258C5.98575 2.32258 6.17236 2.24528 6.30995 2.10769C6.44754 1.9701 6.52484 1.78349 6.52484 1.58891C6.52484 1.39433 6.44754 1.20772 6.30995 1.07013C6.17236 0.932539 5.98575 0.855242 5.79117 0.855242V2.32258ZM12.3945 7.45858C12.3945 7.264 12.3172 7.07738 12.1796 6.9398C12.042 6.80221 11.8554 6.72491 11.6608 6.72491C11.4663 6.72491 11.2796 6.80221 11.1421 6.9398C11.0045 7.07738 10.9272 7.264 10.9272 7.45858H12.3945ZM6.03651 4.52324V6.47991H7.50384V4.52324H6.03651ZM6.77051 7.21324H8.72717V5.74591H6.77051V7.21324ZM7.28917 5.04191L10.2792 2.05124L9.24251 1.01391L6.25184 4.00458L7.28917 5.04191ZM11.0872 2.05124L11.1985 2.16324L12.2365 1.12591L12.1238 1.01391L11.0872 2.05124ZM11.1992 2.96991L8.20851 5.96058L9.24584 6.99791L12.2365 4.00724L11.1992 2.96991ZM11.1992 2.16258C11.4218 2.38524 11.4218 2.74658 11.1992 2.96991L12.2365 4.00724C12.6182 3.62479 12.8325 3.10655 12.8325 2.56624C12.8325 2.02593 12.6182 1.50836 12.2365 1.12591L11.1985 2.16324L11.1992 2.16258ZM10.2798 2.05058C10.5025 1.82791 10.8638 1.82858 11.0872 2.05124L12.1245 1.01324C11.7421 0.631583 11.2238 0.417236 10.6835 0.417236C10.1432 0.417236 9.62496 0.63225 9.24251 1.01391L10.2798 2.05058ZM9.57451 11.6152H2.98717V13.0832H9.57451V11.6152ZM1.63384 10.2619V3.67524H0.166506V10.2626L1.63384 10.2619ZM2.98717 2.32124H5.79184V0.854576H2.98717V2.32124ZM10.9278 7.45724V10.2619H12.3952V7.45724H10.9278ZM2.98717 11.6152C2.60984 11.6152 2.37117 11.6152 2.19051 11.6006C2.01851 11.5866 1.96451 11.5626 1.94584 11.5532L1.27984 12.8612C1.53984 12.9939 1.80851 13.0419 2.07117 13.0632C2.32517 13.0839 2.63384 13.0832 2.98717 13.0832L2.98784 11.6159L2.98717 11.6152ZM0.166506 10.2626L0.186506 11.1792C0.20784 11.4419 0.25584 11.7106 0.388506 11.9706L1.69584 11.3046C1.68651 11.2859 1.66317 11.2319 1.64917 11.0599C1.63451 10.8792 1.63384 10.6406 1.63384 10.2632H0.166506V10.2626ZM1.94584 11.5532C1.83851 11.4986 1.75051 11.4119 1.69584 11.3046L0.389173 11.9706C0.584506 12.3539 0.896506 12.6659 1.27984 12.8612L1.94584 11.5532ZM9.57451 13.0832L10.4912 13.0632C10.7538 13.0419 11.0225 12.9939 11.2825 12.8612L10.6165 11.5539C10.5978 11.5632 10.5438 11.5866 10.3718 11.6006C10.1912 11.6152 9.95251 11.6159 9.57517 11.6159V13.0832H9.57451ZM10.9278 10.2619L10.9125 11.0592C10.8985 11.2312 10.8745 11.2852 10.8652 11.3039L12.1732 11.9699C12.3058 11.7099 12.3538 11.4412 12.3752 11.1786C12.3958 10.9239 12.3952 10.6152 12.3952 10.2619H10.9278ZM11.2825 12.8612C11.6658 12.6659 11.9778 12.3532 12.1732 11.9699L10.8658 11.3046C10.8112 11.4119 10.7238 11.4992 10.6165 11.5539L11.2825 12.8612ZM1.63384 3.67524L1.64917 2.87858C1.66317 2.70658 1.68651 2.65258 1.69584 2.63391L0.388506 1.96724C0.25584 2.22724 0.20784 2.49658 0.186506 2.75924C0.16584 3.01324 0.166506 3.32258 0.166506 3.67591H1.63384V3.67524ZM2.98717 0.854576C2.63384 0.854576 2.32517 0.853909 2.07051 0.874576C1.80784 0.895909 1.53917 0.943909 1.27917 1.07658L1.94517 2.38391C1.96384 2.37458 2.01784 2.35124 2.18984 2.33724C2.37051 2.32258 2.60917 2.32191 2.98651 2.32191L2.98717 0.854576ZM1.69584 2.63391C1.75051 2.52658 1.83784 2.43858 1.94517 2.38391L1.27917 1.07658C0.89584 1.27191 0.58384 1.58391 0.388506 1.96724L1.69584 2.63324V2.63391Z"
-              fill="#727272" />
-          </svg>
-          {{ t.edit }}
-        </button>
-        <button class="flex items-center gap-1 hover:text-red-400 font-semibold max-lg:text-[10px]"
-          (click)="deleteAgent(agent)">
-          <svg width="12" height="12" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M1.25933 2.024C1.058 2.02418 0.864963 2.10423 0.722599 2.2466C0.580234 2.38896 0.500177 2.582 0.5 2.78333C0.500177 2.98467 0.580234 3.1777 0.722599 3.32007C0.864963 3.46243 1.058 3.54249 1.25933 3.54267V2.024ZM13.7413 3.542C13.9424 3.54165 14.1352 3.4616 14.2774 3.3194C14.4196 3.1772 14.4996 2.98444 14.5 2.78333C14.4998 2.582 14.4198 2.38896 14.2774 2.2466C14.135 2.10423 13.942 2.02418 13.7407 2.024L13.7413 3.542ZM6.74133 6.15667C6.74116 5.95533 6.6611 5.7623 6.51873 5.61993C6.37637 5.47757 6.18333 5.39751 5.982 5.39733C5.78067 5.39751 5.58763 5.47757 5.44527 5.61993C5.3029 5.7623 5.22284 5.95533 5.22267 6.15667H6.74067H6.74133ZM5.22333 9.86733C5.22351 10.0687 5.30357 10.2617 5.44593 10.4041C5.5883 10.5464 5.78133 10.6265 5.98267 10.6267C6.184 10.6265 6.37704 10.5464 6.5194 10.4041C6.66177 10.2617 6.74182 10.0687 6.742 9.86733H5.22267H5.22333ZM9.77733 6.15667C9.77716 5.95533 9.6971 5.7623 9.55474 5.61993C9.41237 5.47757 9.21933 5.39751 9.018 5.39733C8.81667 5.39751 8.62363 5.47757 8.48127 5.61993C8.3389 5.7623 8.25884 5.95533 8.25867 6.15667H9.77667H9.77733ZM8.25933 9.86733C8.25951 10.0687 8.33957 10.2617 8.48193 10.4041C8.6243 10.5464 8.81733 10.6265 9.01867 10.6267C9.22 10.6265 9.41304 10.5464 9.5554 10.4041C9.69777 10.2617 9.77782 10.0687 9.778 9.86733H8.26H8.25933ZM9.37933 2.972C9.42972 3.16678 9.55527 3.33363 9.72848 3.43598C9.90169 3.53833 10.1084 3.56783 10.3033 3.518C10.4981 3.46762 10.665 3.34206 10.7673 3.16885C10.8697 2.99564 10.8992 2.78892 10.8493 2.594L9.37933 2.972ZM1.85133 2.832L2.44467 12.0273L3.95933 11.9293L3.366 2.734L1.85133 2.832ZM4.548 14H10.4513V12.482H4.548V14ZM12.5553 12.0273L13.1487 2.832L11.634 2.734L11.0407 11.9293L12.5553 12.0273ZM12.3913 2.024H2.60867V3.542H12.392L12.3913 2.024ZM1.25933 3.54267L2.60867 3.542V2.024H1.25933V3.54267ZM12.392 3.542H13.7413L13.7407 2.024H12.3913L12.392 3.542ZM10.4513 14C11.5633 14 12.484 13.1367 12.5553 12.0273L11.0407 11.9293C11.0207 12.24 10.7627 12.482 10.4513 12.482V14ZM2.44467 12.0273C2.516 13.1367 3.436 14 4.548 14V12.482C4.23667 12.482 3.97933 12.24 3.95933 11.9293L2.44467 12.0273ZM5.22267 6.15667V9.86733H6.74067V6.15667H5.22267ZM8.25867 6.15667V9.86733H9.77667V6.15667H8.25867ZM7.5 1.518C7.93 1.51788 8.34786 1.66063 8.68791 1.92382C9.02797 2.187 9.27094 2.55571 9.37867 2.972L10.8487 2.59333C10.6566 1.85118 10.2236 1.1938 9.6175 0.724419C9.01141 0.255037 8.2666 0.000228914 7.5 0V1.518ZM5.62133 2.972C5.72906 2.55571 5.97203 2.187 6.31209 1.92382C6.65214 1.66063 7.07 1.51788 7.5 1.518V0C6.73332 0.000267148 5.98843 0.255171 5.38233 0.724683C4.77622 1.19419 4.34323 1.85172 4.15133 2.594L5.62133 2.972Z"
-              fill="#727272" />
-          </svg>
-          {{ t.delete }}
-        </button>
-        <button class="flex items-center gap-1 hover:text-gray-400 whitespace-nowrap font-semibold max-lg:text-[10px]">
-          <svg width="12" height="12" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M1.25933 2.024C1.058 2.02418 0.864963 2.10423 0.722599 2.2466C0.580234 2.38896 0.500177 2.582 0.5 2.78333C0.500177 2.98467 0.580234 3.1777 0.722599 3.32007C0.864963 3.46243 1.058 3.54249 1.25933 3.54267V2.024ZM13.7413 3.542C13.9424 3.54165 14.1352 3.4616 14.2774 3.3194C14.4196 3.1772 14.4996 2.98444 14.5 2.78333C14.4998 2.582 14.4198 2.38896 14.2774 2.2466C14.135 2.10423 13.942 2.02418 13.7407 2.024L13.7413 3.542ZM6.74133 6.15667C6.74116 5.95533 6.6611 5.7623 6.51873 5.61993C6.37637 5.47757 6.18333 5.39751 5.982 5.39733C5.78067 5.39751 5.58763 5.47757 5.44527 5.61993C5.3029 5.7623 5.22284 5.95533 5.22267 6.15667H6.74067H6.74133ZM5.22333 9.86733C5.22351 10.0687 5.30357 10.2617 5.44593 10.4041C5.5883 10.5464 5.78133 10.6265 5.98267 10.6267C6.184 10.6265 6.37704 10.5464 6.5194 10.4041C6.66177 10.2617 6.74182 10.0687 6.742 9.86733H5.22267H5.22333ZM9.77733 6.15667C9.77716 5.95533 9.6971 5.7623 9.55474 5.61993C9.41237 5.47757 9.21933 5.39751 9.018 5.39733C8.81667 5.39751 8.62363 5.47757 8.48127 5.61993C8.3389 5.7623 8.25884 5.95533 8.25867 6.15667H9.77667H9.77733ZM8.25933 9.86733C8.25951 10.0687 8.33957 10.2617 8.48193 10.4041C8.6243 10.5464 8.81733 10.6265 9.01867 10.6267C9.22 10.6265 9.41304 10.5464 9.5554 10.4041C9.69777 10.2617 9.77782 10.0687 9.778 9.86733H8.26H8.25933ZM9.37933 2.972C9.42972 3.16678 9.55527 3.33363 9.72848 3.43598C9.90169 3.53833 10.1084 3.56783 10.3033 3.518C10.4981 3.46762 10.665 3.34206 10.7673 3.16885C10.8697 2.99564 10.8992 2.78892 10.8493 2.594L9.37933 2.972ZM1.85133 2.832L2.44467 12.0273L3.95933 11.9293L3.366 2.734L1.85133 2.832ZM4.548 14H10.4513V12.482H4.548V14ZM12.5553 12.0273L13.1487 2.832L11.634 2.734L11.0407 11.9293L12.5553 12.0273ZM12.3913 2.024H2.60867V3.542H12.392L12.3913 2.024ZM1.25933 3.54267L2.60867 3.542V2.024H1.25933V3.54267ZM12.392 3.542H13.7413L13.7407 2.024H12.3913L12.392 3.542ZM10.4513 14C11.5633 14 12.484 13.1367 12.5553 12.0273L11.0407 11.9293C11.0207 12.24 10.7627 12.482 10.4513 12.482V14ZM2.44467 12.0273C2.516 13.1367 3.436 14 4.548 14V12.482C4.23667 12.482 3.97933 12.24 3.95933 11.9293L2.44467 12.0273ZM5.22267 6.15667V9.86733H6.74067V6.15667H5.22267ZM8.25867 6.15667V9.86733H9.77667V6.15667H8.25867ZM7.5 1.518C7.93 1.51788 8.34786 1.66063 8.68791 1.92382C9.02797 2.187 9.27094 2.55571 9.37867 2.972L10.8487 2.59333C10.6566 1.85118 10.2236 1.1938 9.6175 0.724419C9.01141 0.255037 8.2666 0.000228914 7.5 0V1.518ZM5.62133 2.972C5.72906 2.55571 5.97203 2.187 6.31209 1.92382C6.65214 1.66063 7.07 1.51788 7.5 1.518V0C6.73332 0.000267148 5.98843 0.255171 5.38233 0.724683C4.77622 1.19419 4.34323 1.85172 4.15133 2.594L5.62133 2.972Z"
-              fill="#727272" />
-          </svg>
-          {{ t.stopPublishing }}
-        </button>
-      </div>
-      <div class="grid grid-cols-2 gap-1.5 text-[10px] max-lg:gap-1 max-lg:text-[9px]">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-[11px] max-lg:gap-2 max-lg:text-[10px]">
         <div>
-          <span class="text-gray-500 text-[9px] max-lg:text-[8px] dark:text-slate-400">{{ t.status }}:</span>
-          <p class="font-medium text-[9px] max-lg:text-[8px] mt-0.5 max-lg:mt-0 text-gray-900 dark:text-slate-50">
+          <span class="text-gray-500 text-[11px] max-lg:text-[10px] dark:text-slate-400">{{ t.status }}:</span>
+          <p class="font-medium text-[11px] max-lg:text-[10px] mt-0.5 max-lg:mt-0 text-gray-900 dark:text-slate-50">
             {{
             agent.state === "Activo"
             ? t.active
@@ -218,16 +235,16 @@
           </p>
         </div>
         <div>
-          <span class="text-gray-500 text-[9px] max-lg:text-[8px] dark:text-slate-400">{{ t.totalMinutesSpent }}:</span>
-          <div class="flex items-center gap-1.5 mt-0.5 max-lg:gap-1 max-lg:mt-0">
-            <p class="font-medium text-[9px] max-lg:text-[8px] dark:text-slate-50">
+          <span class="text-gray-500 text-[11px] max-lg:text-[10px] dark:text-slate-400">{{ t.totalMinutesSpent }}:</span>
+          <div class="flex items-center gap-1.5 mt-0.5 max-lg:gap-1.5 max-lg:mt-0">
+            <p class="font-medium text-[11px] max-lg:text-[10px] dark:text-slate-50">
               {{ agent.totalMinutes }} m
             </p>
           </div>
         </div>
         <div>
-          <span class="text-gray-500 text-[9px] max-lg:text-[8px] dark:text-slate-400">{{ t.type }}:</span>
-          <p class="text-gray-800 mt-0.5 max-lg:mt-0 text-[9px] max-lg:text-[8px] dark:text-slate-50">
+          <span class="text-gray-500 text-[11px] max-lg:text-[10px] dark:text-slate-400">{{ t.type }}:</span>
+          <p class="text-gray-800 mt-0.5 max-lg:mt-0 text-[11px] max-lg:text-[10px] dark:text-slate-50">
             {{ agent.type === "inbound" ? t.inbound : t.outbound }}
           </p>
         </div>

@@ -424,23 +424,4 @@
     }
 }
 
-// Responsive
-@media (max-width: 480px) {
-    .support-widget {
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        padding: 0;
-
-        .widget-container {
-            width: 100%;
-            height: 100vh;
-            border-radius: 0;
-            bottom: 0;
-        }
-
-        .launcher {
-            display: none;
-        }
-    }
-}
+// Responsive (sin overrides especiales para móvil, se muestra como en desktop)

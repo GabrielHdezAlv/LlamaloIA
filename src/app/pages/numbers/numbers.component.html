@@ -20,9 +20,9 @@
             </div>
 
             @if (phoneNumbers.length > 0) {
-            <div class="import-dropdown-wrap relative">
+            <div class="flex-1 max-lg:w-full lg:flex-none lg:w-auto import-dropdown-wrap relative">
                 <app-ripple-button (buttonClick)="toggleImportDropdown()"
-                    buttonClass="import-number-btn-white-dark bg-[#0a1740] hover:bg-gray-950 text-white dark:!bg-[#ffffff] dark:!text-gray-900 w-auto px-3 sm:px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-12 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 rounded-lg text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 hover:shadow-lg hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-1 whitespace-nowrap max-lg:text-[9px] max-lg:px-2 max-lg:py-0.5"
+                    buttonClass="import-number-btn-white-dark bg-[#0a1740] hover:bg-gray-950 text-white dark:!bg-[#ffffff] dark:!text-gray-900 w-full lg:w-auto px-4 sm:px-5 lg:px-6 xl:px-6 2xl:px-6 3xl:px-12 py-2 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 rounded-lg text-[11px] sm:text-[11px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 hover:shadow-lg hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-1 whitespace-nowrap max-lg:text-[10px]"
                     rippleColor="rgba(255, 255, 255, 0.4)">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -137,50 +137,60 @@
         </div>
 
         <!-- Tarjetas Móviles/Tablet (ocultas en desktop) -->
-        <div class="lg:hidden space-y-0">
-            @for (phone of phoneNumbers; track phone.phoneId) {
+        <div class="lg:hidden space-y-3 sm:space-y-3.5">
+            @for (phone of phoneNumbers; track phone.phoneId; let i = $index) {
             <!-- Tarjeta -->
             <div
-                class="bg-white hover:bg-gray-50 px-3 py-2 3xl:px-5 3xl:py-4 transition-colors duration-200 max-lg:px-3 max-lg:py-1.5 dark:bg-slate-900 dark:hover:bg-slate-800">
-                <div class="flex items-start gap-2 mb-1.5 3xl:mb-2 max-lg:gap-1.5 max-lg:mb-1">
-                    <div class="flex-1">
-                        <p
-                            class="font-semibold text-gray-900 text-[10px] 3xl:text-base max-lg:text-[9px] dark:text-slate-50 ">
+                class="bg-white hover:bg-gray-50 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl border border-gray-200 shadow-sm transition-colors duration-200 max-lg:px-4 max-lg:py-3 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-700">
+                <div class="flex items-start justify-between mb-1.5 max-lg:mb-1 gap-1.5">
+                    <div class="flex flex-col justify-center mt-1">
+                        <p class="font-semibold text-gray-900 text-xs max-lg:text-[11px] dark:text-slate-50">
                             {{ phone.label || t.clientNumber }}</p>
-                        <p
-                            class="text-[9px] 3xl:text-sm text-gray-400 max-lg:text-[8px] dark:text-slate-400 mb-1.5 3xl:mb-2.5 max-lg:mb-1 ">
+                        <p class="text-[11px] max-lg:text-[10px] text-gray-400 dark:text-slate-400 mt-0.5">
                             {{ phone.countryCode }} {{ phone.number }}</p>
-                        <div class="flex gap-1.5 3xl:gap-2.5 text-[9px] 3xl:text-sm max-lg:gap-1 dark:text-slate-400">
-                            <button (click)="deleteNumber($index, phone.label || t.clientNumber)"
-                                class="flex items-center gap-0.5 hover:text-red-400 font-semibold max-lg:text-[10px] ">
+                    </div>
+                    <!-- Menú de 3 puntos (como en new-agents) -->
+                    <div class="relative ml-2">
+                        <button type="button" (click)="toggleMenu(i)"
+                            class="p-1.5 -mr-1 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors duration-200"
+                            [attr.aria-expanded]="openMenuIndex === i" aria-label="Menú de opciones">
+                            <svg class="w-4 h-4 text-gray-400 dark:text-slate-500" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path
+                                    d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                            </svg>
+                        </button>
+                        @if (openMenuIndex === i) {
+                        <div
+                            class="absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 z-20 py-1 text-[11px]">
+                            <button (click)="deleteNumber(i, phone.label || t.clientNumber)"
+                                class="w-full text-left px-3 py-1.5 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-2">
                                 <svg width="12" height="12" viewBox="0 0 15 14" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
-                                        d="M1.25933 2.024C1.058 2.02418 0.864963 2.10423 0.722599 2.2466C0.580234 2.38896 0.500177 2.582 0.5 2.78333C0.500177 2.98467 0.580234 3.1777 0.722599 3.32007C0.864963 3.46243 1.058 3.54249 1.25933 3.54267V2.024ZM13.7413 3.542C13.9424 3.54165 14.1352 3.4616 14.2774 3.3194C14.4196 3.1772 14.4996 2.98444 14.5 2.78333C14.4998 2.582 14.4198 2.38896 14.2774 2.2466C14.135 2.10423 13.942 2.02418 13.7407 2.024L13.7413 3.542ZM6.74133 6.15667C6.74116 5.95533 6.6611 5.7623 6.51873 5.61993C6.37637 5.47757 6.18333 5.39751 5.982 5.39733C5.78067 5.39751 5.58763 5.47757 5.44527 5.61993C5.3029 5.7623 5.22284 5.95533 5.22267 6.15667H6.74067H6.74133ZM5.22333 9.86733C5.22351 10.0687 5.30357 10.2617 5.44593 10.4041C5.5883 10.5464 5.78133 10.6265 5.98267 10.6267C6.184 10.6265 6.37704 10.5464 6.5194 10.4041C6.66177 10.2617 6.74182 10.0687 6.742 9.86733H5.22267H5.22333ZM9.77733 6.15667C9.77716 5.95533 9.6971 5.7623 9.55474 5.61993C9.41237 5.47757 9.21933 5.39751 9.018 5.39733C8.81667 5.39751 8.62363 5.47757 8.48127 5.61993C8.3389 5.7623 8.25884 5.95533 8.25867 6.15667H9.77667H9.77733ZM8.25933 9.86733C8.25951 10.0687 8.33957 10.2617 8.48193 10.4041C8.6243 10.5464 8.81733 10.6265 9.01867 10.6267C9.22 10.6265 9.41304 10.5464 9.5554 10.4041C9.69777 10.2617 9.77782 10.0687 9.778 9.86733H8.26H8.25933ZM9.37933 2.972C9.42972 3.16678 9.55527 3.33363 9.72848 3.43598C9.90169 3.53833 10.1084 3.56783 10.3033 3.518C10.4981 3.46762 10.665 3.34206 10.7673 3.16885C10.8697 2.99564 10.8992 2.78892 10.8493 2.594L9.37933 2.972ZM1.85133 2.832L2.44467 12.0273L3.95933 11.9293L3.366 2.734L1.85133 2.832ZM4.548 14H10.4513V12.482H4.548V14ZM12.5553 12.0273L13.1487 2.832L11.634 2.734L11.0407 11.9293L12.5553 12.0273ZM12.3913 2.024H2.60867V3.542H12.392L12.3913 2.024ZM1.25933 3.54267L2.60867 3.542V2.024H1.25933V3.54267ZM12.392 3.542H13.7413L13.7407 2.024H12.3913L12.392 3.542ZM10.4513 14C11.5633 14 12.484 13.1367 12.5553 12.0273L11.0407 11.9293C11.0207 12.24 10.7627 12.482 10.4513 12.482V14ZM2.44467 12.0273C2.516 13.1367 3.436 14 4.548 14V12.482C4.23667 12.482 3.97933 12.24 3.95933 11.9293L2.44467 12.0273ZM5.22267 6.15667V9.86733H6.74067V6.15667H5.22267ZM8.25867 6.15667V9.86733H9.77667V6.15667H8.25867ZM7.5 1.518C7.93 1.51788 8.34786 1.66063 8.68791 1.92382C9.02797 2.187 9.27094 2.55571 9.37867 2.972L10.8487 2.59333C10.6566 1.85118 10.2236 1.1938 9.6175 0.724419C9.01141 0.255037 8.2666 0.000228914 7.5 0V1.518ZM5.62133 2.972C5.72906 2.55571 5.97203 2.187 6.31209 1.92382C6.65214 1.66063 7.07 1.51788 7.5 1.518V0C6.73332 0.000267148 5.98843 0.255171 5.38233 0.724683C4.77622 1.19419 4.34323 1.85172 4.15133 2.594L5.62133 2.972Z"
+                                        d="M1.25933 2.024C1.058 2.02418 0.864963 2.10423 0.722599 2.2466C0.580234 2.38896 0.500177 2.582 0.5 2.78333C0.500177 2.98467 0.580234 3.1777 0.722599 3.32007C0.864963 3.46243 1.058 3.54249 1.25933 3.54267V2.024ZM13.7413 3.542C13.9424 3.54165 14.1352 3.4616 14.2774 3.3194C14.4196 3.1772 14.4996 2.98444 14.5 2.78333C14.4998 2.582 14.4198 2.38896 14.2774 2.2466C14.135 2.10423 13.942 2.02418 13.7407 2.024L13.7413 3.542ZM6.74133 6.15667C6.74116 5.95533 6.6611 5.7623 6.51873 5.61993C6.37637 5.47757 6.18333 5.39751 5.982 5.39733C5.78067 5.39751 5.58763 5.47757 5.44527 5.61993C5.3029 5.7623 5.22284 5.95533 5.22267 6.15667H6.74067H6.74133ZM5.22333 9.86733C5.22351 10.0687 5.30357 10.2617 5.44593 10.4041C5.5883 10.5464 5.78133 10.6265 5.98267 10.6267C6.184 10.6265 6.37704 10.5464 6.5194 10.4041C6.66177 10.2617 6.74182 10.0687 6.742 9.86733H5.22267H5.22333ZM9.77733 6.15667C9.77716 5.95533 9.6971 5.7623 9.55474 5.61993C9.41237 5.47757 9.21933 5.39751 9.018 5.39733C8.81667 5.39751 8.62363 5.47757 8.48127 5.61993C8.3389 5.7623 8.25884 5.95533 8.25867 6.15667H9.77667H9.77733ZM8.25933 9.86733C8.25951 10.0687 8.33957 10.2617 8.48193 10.4041C8.6243 10.5464 8.81733 10.6265 9.01867 10.6267C9.22 10.6265 9.41304 10.5464 9.5554 10.4041C9.69777 10.2617 9.77782 10.0687 9.778 9.86733H8.26H8.25933ZM9.37933 2.972C9.42972 3.16678 9.55527 3.33363 9.72848 3.43598C9.90169 3.53833 10.1084 3.56783 10.3033 3.518C10.4981 3.46762 10.665 3.34206 10.7673 3.16885C10.8697 2.99564 10.8992 2.78892 10.8493 2.594L9.37933 2.972ZM1.85133 2.832L2.44467 12.0273L3.95933 11.9293L3.366 2.734L1.85133 2.832ZM4.548 14H10.4513V12.482H4.548V14ZM12.5553 12.0273L13.1487 2.832L11.634 2.734L11.0407 11.9293L12.5553 12.0273ZM12.3913 2.024H2.60867V3.542H12.392L12.3913 2.024ZM1.25933 3.54267L2.60867 3.542V2.024H1.25933V3.54267ZM12.392 3.542H13.7413L13.7407 2.024H12.3913L12.392 3.542ZM10.4513 14C11.5633 14 12.484 13.1367 12.5553 12.0273L11.0407 11.9293C11.0207 12.24 10.7627 12.482 10.4513 12.482V14ZM2.44467 12.0273C2.516 13.1367 3.436 14 4.548 14V12.482C4.23667 12.482 3.97933 12.24 3.95933 11.9293L2.44467 12.0273Z"
                                         fill="#727272" />
                                 </svg>
                                 {{ t.delete }}
                             </button>
                         </div>
+                        }
                     </div>
                 </div>
-                <div
-                    class="grid grid-cols-2 gap-1.5 3xl:gap-2.5 text-[10px] 3xl:text-base max-lg:gap-1 max-lg:text-[9px]">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] 3xl:text-base max-lg:gap-2 max-lg:text-[10px]">
                     <div>
-                        <span class="text-gray-500 text-[9px] 3xl:text-sm max-lg:text-[8px] dark:text-slate-400 ">{{
+                        <span class="text-gray-500 text-[11px] 3xl:text-sm max-lg:text-[10px] dark:text-slate-400 ">{{
                             t.importedFrom }}:</span>
                         <p
-                            class="text-gray-800 mt-0.5 3xl:mt-1.5 max-lg:mt-0 text-[9px] 3xl:text-sm max-lg:text-[8px] dark:text-slate-50 ">
+                            class="text-gray-800 mt-0.5 3xl:mt-1.5 max-lg:mt-0 text-[11px] 3xl:text-sm max-lg:text-[10px] dark:text-slate-50 ">
                             {{ phone.importedBy }}</p>
                     </div>
-                    <div class="text-right">
-                        <span class="text-gray-500 text-[9px] 3xl:text-sm max-lg:text-[8px] dark:text-slate-400 ">{{
+                    <div class="sm:text-right">
+                        <span class="text-gray-500 text-[11px] 3xl:text-sm max-lg:text-[10px] dark:text-slate-400 ">{{
                             t.status }}:</span>
                         <div class="mt-0.5 3xl:mt-1 max-lg:mt-0">
                             <span
-                                [class]="phone.state === 'Inactivo'
-                                ? 'inline-block px-1.5 py-0.5 3xl:px-3 3xl:py-2 text-[9px] 3xl:text-sm font-semibold bg-orange-100 border-orange-300 border text-orange-600 rounded-lg numbers-status-badge max-lg:text-[8px] max-lg:px-1 max-lg:py-0.5 dark:bg-orange-900 dark:border-orange-800 dark:text-orange-400'
-                                : 'inline-block px-1.5 py-0.5 3xl:px-3 3xl:py-2 text-[9px] 3xl:text-sm font-semibold bg-green-100 border-green-200 border text-green-600 rounded-lg numbers-status-badge max-lg:text-[8px] max-lg:px-1 max-lg:py-0.5 dark:bg-green-900 dark:border-green-800 dark:text-green-300'">{{
+                                class="font-semibold text-[11px] 3xl:text-sm max-lg:text-[10px] text-gray-900 dark:text-slate-50">{{
                                 phone.state || t.active }}</span>
                         </div>
                     </div>
