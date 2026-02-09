@@ -233,6 +233,7 @@ export class KnowledgeBaseService {
     return this.http.post<LinkKnowledgeSourcesToAgentResponse>(
       `${this.baseUrl}/agents/${agentId}/sources`,
       request,
+      { headers: this.getAuthHeaders() },
     );
   }
 
@@ -244,6 +245,7 @@ export class KnowledgeBaseService {
   ): Observable<GetAgentKnowledgeSourcesResponse> {
     return this.http.get<GetAgentKnowledgeSourcesResponse>(
       `${this.baseUrl}/agents/${agentId}/sources`,
+      { headers: this.getAuthHeaders() },
     );
   }
 

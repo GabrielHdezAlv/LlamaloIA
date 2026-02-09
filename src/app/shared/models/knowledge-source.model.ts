@@ -90,7 +90,7 @@ export interface SearchKnowledgeBaseResponse {
  * Request to link knowledge sources to an agent
  */
 export interface LinkKnowledgeSourcesToAgentRequest {
-  knowledgeSourceIds: string[];
+  sourceIds: string[];
 }
 
 /**

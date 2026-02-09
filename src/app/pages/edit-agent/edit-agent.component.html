@@ -38,6 +38,18 @@
       >
         Conexiones
       </button>
+      <button
+        type="button"
+        (click)="setActiveTab('knowledge')"
+        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors"
+        [ngClass]="
+          activeTab === 'knowledge'
+            ? 'bg-white dark:bg-[#252525] text-gray-900 dark:text-white border-gray-200 dark:border-gray-800/50'
+            : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-white dark:hover:bg-[#252525]'
+        "
+      >
+        Base de Conocimiento
+      </button>
     </div>
 
     <!-- Contenido principal - Dos columnas -->
@@ -1322,6 +1334,460 @@
           {{ isLoading ? "Guardando..." : "Guardar cambios" }}
         </button>
       </div>
+    } @else if (activeTab === "knowledge") {
+      <div class="space-y-6">
+        <div
+          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
+        >
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Fuentes de Conocimiento
+          </h2>
+
+          @if (isLoadingKnowledgeSources) {
+            <div class="flex items-center justify-center py-8">
+              <svg
+                class="animate-spin h-6 w-6 text-blue-600"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              <span class="ml-2 text-gray-600 dark:text-gray-300"
+                >Cargando fuentes de conocimiento...</span
+              >
+            </div>
+          } @else if (agentKnowledgeSources.length === 0) {
+            <div class="text-center py-8">
+              <div class="text-gray-500 dark:text-gray-400 mb-4">
+                <svg
+                  class="w-12 h-12 mx-auto mb-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  />
+                </svg>
+              </div>
+              <p class="text-gray-600 dark:text-gray-300">
+                Este agente no tiene fuentes de conocimiento configuradas.
+              </p>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Las fuentes de conocimiento ayudan al agente a proporcionar
+                respuestas más precisas.
+              </p>
+            </div>
+          } @else {
+            <div class="space-y-4">
+              @for (source of agentKnowledgeSources; track source.id) {
+                <div
+                  class="flex items-center justify-between p-4 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg"
+                >
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center"
+                    >
+                      @switch (source.type) {
+                        @case ("pdf") {
+                          <svg
+                            class="w-5 h-5 text-blue-600 dark:text-blue-400"
+                            viewBox="0 0 52 52"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z"
+                            />
+                            <path
+                              d="m49.83 32.45a1.43 1.43 0 0 0 -1.39-1.45h-12a1.43 1.43 0 0 0 -1.44 1.44v1.44a1.43 1.43 0 0 0 1.4 1.44h6.14l-11 11a1.42 1.42 0 0 0 0 2l1 1a1.54 1.54 0 0 0 1.09.45 1.32 1.32 0 0 0 .94-.38l11-11v6a1.43 1.43 0 0 0 1.43 1.44h1.53a1.43 1.43 0 0 0 1.47-1.4z"
+                            />
+                            <path
+                              d="m18.35 20.68h-1.46v4.93h1.46a1.56 1.56 0 0 0 1.56-1.1 3.93 3.93 0 0 0 .24-1.44 3.61 3.61 0 0 0 -.36-1.77 1.53 1.53 0 0 0 -1.44-.62z"
+                            />
+                            <path
+                              d="m11.29 20.93a1.27 1.27 0 0 0 -.84-.25h-1.45v2.23h1.46a1.18 1.18 0 0 0 .84-.28 1.09 1.09 0 0 0 .3-.86 1 1 0 0 0 -.33-.84z"
+                            />
+                            <path
+                              d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z"
+                            />
+                          </svg>
+                        }
+                        @case ("web") {
+                          <svg
+                            class="w-5 h-5 text-blue-600 dark:text-blue-400"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <circle cx="12" cy="12" r="10" />
+                            <path
+                              d="M2 12h20M12 2a15.3 15.3 0 104 10.5a15.3 15.3 0 0013 0z"
+                            />
+                          </svg>
+                        }
+                        @case ("text") {
+                          <svg
+                            class="w-5 h-5 text-blue-600 dark:text-blue-400"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
+                            />
+                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+                          </svg>
+                        }
+                        @default {
+                          <svg
+                            class="w-5 h-5 text-blue-600 dark:text-blue-400"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+                            />
+                            <polyline points="13 2 13 9 20 9" />
+                          </svg>
+                        }
+                      }
+                    </div>
+                    <div>
+                      <div class="font-medium text-gray-900 dark:text-white">
+                        {{ source.name || "Sin nombre" }}
+                      </div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">
+                        {{ source.type.toUpperCase() }}
+                        @if (source.originalUrl) {
+                          <span class="ml-2">• {{ source.originalUrl }}</span>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span
+                      class="text-xs px-2 py-1 rounded-full"
+                      [ngClass]="
+                        source.status === 'completed'
+                          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-200'
+                          : source.status === 'processing'
+                            ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-200'
+                            : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-200'
+                      "
+                    >
+                      @switch (source.status) {
+                        @case ("completed") {
+                          Completada
+                        }
+                        @case ("processing") {
+                          Procesando
+                        }
+                        @case ("failed") {
+                          Fallida
+                        }
+                      }
+                    </span>
+                    <button
+                      type="button"
+                      (click)="removeKnowledgeSourceFromAgent(source.id)"
+                      [disabled]="isLoadingKnowledgeSources"
+                      class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors disabled:opacity-50"
+                      title="Eliminar fuente de conocimiento"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Add Knowledge Sources Section -->
+      <div class="space-y-6 mt-5">
+        <div
+          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
+        >
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            Añadir Fuentes de Conocimiento
+          </h2>
+
+          <!-- Error Display -->
+          @if (knowledgeSourceError) {
+            <div
+              class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
+            >
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-red-700 dark:text-red-300">
+                  {{ knowledgeSourceError }}
+                </p>
+                <button
+                  type="button"
+                  (click)="clearKnowledgeSourceError()"
+                  class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                >
+                  <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          }
+
+          <!-- Add New Sources -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <button
+              type="button"
+              (click)="selectKnowledgeSource('pdf')"
+              [disabled]="isLoadingKnowledgeSources"
+              class="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <svg
+                class="w-8 h-8 text-gray-400 dark:text-gray-500"
+                viewBox="0 0 52 52"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z"
+                />
+                <path
+                  d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z"
+                />
+              </svg>
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Subir PDF</span
+              >
+              <span class="text-xs text-gray-500 dark:text-gray-400"
+                >Máx. 10MB</span
+              >
+            </button>
+
+            <button
+              type="button"
+              (click)="selectKnowledgeSource('web')"
+              [disabled]="isLoadingKnowledgeSources"
+              class="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <svg
+                class="w-8 h-8 text-gray-400 dark:text-gray-500"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path
+                  d="M2 12h20M12 2a15.3 15.3 0 104 10.5a15.3 15.3 0 0013 0z"
+                />
+              </svg>
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Añadir URL</span
+              >
+              <span class="text-xs text-gray-500 dark:text-gray-400"
+                >Página web</span
+              >
+            </button>
+
+            <button
+              type="button"
+              (click)="selectKnowledgeSource('text')"
+              [disabled]="isLoadingKnowledgeSources"
+              class="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <svg
+                class="w-8 h-8 text-gray-400 dark:text-gray-500"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
+                />
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+              </svg>
+              <span class="text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Añadir Texto</span
+              >
+              <span class="text-xs text-gray-500 dark:text-gray-400"
+                >Manual</span
+              >
+            </button>
+          </div>
+
+          <!-- Available Sources -->
+          @if (isLoadingAvailableSources) {
+            <div class="flex items-center justify-center py-8">
+              <svg
+                class="animate-spin h-6 w-6 text-blue-600"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              <span class="ml-2 text-gray-600 dark:text-gray-300"
+                >Cargando fuentes disponibles...</span
+              >
+            </div>
+          } @else if (availableKnowledgeSources.length > 0) {
+            <div>
+              <h3
+                class="text-sm font-semibold text-gray-900 dark:text-white mb-3"
+              >
+                Fuentes Disponibles
+              </h3>
+              <div class="space-y-2 max-h-60 overflow-y-auto">
+                @for (source of availableKnowledgeSources; track source.id) {
+                  <div
+                    class="flex items-center justify-between p-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg"
+                  >
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center"
+                      >
+                        @switch (source.type) {
+                          @case ("pdf") {
+                            <svg
+                              class="w-4 h-4 text-blue-600 dark:text-blue-400"
+                              viewBox="0 0 52 52"
+                              fill="currentColor"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z"
+                              />
+                            </svg>
+                          }
+                          @case ("web") {
+                            <svg
+                              class="w-4 h-4 text-blue-600 dark:text-blue-400"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <circle cx="12" cy="12" r="10" />
+                              <path
+                                d="M2 12h20M12 2a15.3 15.3 0 104 10.5a15.3 15.3 0 0013 0z"
+                              />
+                            </svg>
+                          }
+                          @case ("text") {
+                            <svg
+                              class="w-4 h-4 text-blue-600 dark:text-blue-400"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
+                              />
+                              <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+                            </svg>
+                          }
+                        }
+                      </div>
+                      <div>
+                        <div
+                          class="font-medium text-gray-900 dark:text-white text-sm"
+                        >
+                          {{ source.name }}
+                        </div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                          {{ source.type.toUpperCase() }}
+                          @if (source.originalUrl) {
+                            <span class="ml-1">• {{ source.originalUrl }}</span>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      (click)="addKnowledgeSourceToAgent(source)"
+                      [disabled]="isLoadingKnowledgeSources"
+                      class="px-3 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors disabled:opacity-50"
+                    >
+                      Añadir
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          } @else {
+            <div
+              class="text-center py-4 text-sm text-gray-500 dark:text-gray-400"
+            >
+              No hay fuentes disponibles para añadir
+            </div>
+          }
+        </div>
+      </div>
     } @else {
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div
@@ -1409,6 +1875,15 @@
     }
   </div>
 </div>
+
+<!-- Hidden file input for PDF uploads -->
+<input
+  #fileInput
+  type="file"
+  accept=".pdf"
+  (change)="handleFileSelection($event)"
+  style="display: none"
+/>
 
 @if (showTwilioModal) {
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4">

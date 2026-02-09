@@ -20,6 +20,7 @@ import {
   AgentsService,
   GenerateAgentInstructionsRequest,
 } from '../../core/services/agents.service';
+import { KnowledgeBaseService } from '../../core/services/knowledge-base.service';
 import { TwilioService } from '../../core/services/twilio.service';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
@@ -64,11 +65,17 @@ interface AgentDraft {
 }
 
 import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
+import { KnowledgeBaseStepComponent } from './steps/knowledge-base-step/knowledge-base-step.component';
 
 @Component({
   selector: 'app-new-create-agents',
   standalone: true,
-  imports: [FormsModule, CommonModule, AiSphereComponent],
+  imports: [
+    FormsModule,
+    CommonModule,
+    AiSphereComponent,
+    KnowledgeBaseStepComponent,
+  ],
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss',
 })
@@ -113,6 +120,9 @@ export class NewCreateAgentsComponent
 
   /** Dominio de Shopify conectado en este flujo (para mostrar tick + "Conectado" en lugar del botón Conectar) */
   shopifyConnectedDomain: string | null = null;
+
+  /** IDs de las fuentes de conocimiento seleccionadas por el usuario */
+  selectedKnowledgeSourceIds: string[] = [];
 
   // Variables para Twilio
   twilioSid = '';
@@ -163,6 +173,7 @@ export class NewCreateAgentsComponent
   isSidebarOpen: boolean = false;
 
   private agentsService = inject(AgentsService);
+  private knowledgeBaseService = inject(KnowledgeBaseService);
   private twilioService = inject(TwilioService);
   private userService = inject(UserService);
   private userStore = inject(UserStorage);
@@ -1459,7 +1470,7 @@ export class NewCreateAgentsComponent
   fileInput!: ElementRef<HTMLInputElement>;
 
   // ✅ Nuevos métodos para la pantalla de Base de Conocimientos
-  selectKnowledgeSource(source: 'pdf' | 'web') {
+  selectKnowledgeSource(source: 'pdf' | 'web' | 'text') {
     if (source === 'web') {
       // Abrir modal de Web
       const dialogRef = this.modalService.openWeb({
@@ -1470,10 +1481,29 @@ export class NewCreateAgentsComponent
     } else if (source === 'pdf') {
       // Abrir selector de archivos para PDF
       this.openFileSelector();
+    } else if (source === 'text') {
+      // Abrir modal de Texto
+      const dialogRef = this.modalService.openText({
+        title: 'Texto',
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {});
     } else {
       // Para otros casos, avanzar automáticamente a resumen
       this.step = 'summary';
     }
+  }
+
+  // Wrapper method for the component event
+  onSourceSelected(source: string) {
+    this.selectKnowledgeSource(source as 'pdf' | 'web' | 'text');
+  }
+
+  // Method to handle knowledge base continue with selected sources
+  onKnowledgeBaseContinue(selectedSourceIds: string[]) {
+    this.selectedKnowledgeSourceIds = selectedSourceIds;
+    this.step = 'summary';
+    this.saveDraft();
   }
 
   openFileSelector() {
@@ -1829,6 +1859,10 @@ export class NewCreateAgentsComponent
         speed: this.voiceParameters.speed,
       },
       state: 'Activo',
+      knowledgeSourceIds:
+        this.selectedKnowledgeSourceIds.length > 0
+          ? this.selectedKnowledgeSourceIds
+          : undefined,
       ...(this.shopifyConnectedDomain && {
         shopifyDomain: this.shopifyConnectedDomain,
       }),
@@ -1840,6 +1874,28 @@ export class NewCreateAgentsComponent
     // Enviar petición al backend
     this.agentsService.createAgent(agentConfig).subscribe({
       next: (response) => {
+        // Si hay fuentes de conocimiento seleccionadas, vincularlas al agente
+        if (this.selectedKnowledgeSourceIds.length > 0 && response?.agentId) {
+          this.knowledgeBaseService
+            .linkKnowledgeSourcesToAgent(response.agentId, {
+              sourceIds: this.selectedKnowledgeSourceIds,
+            })
+            .subscribe({
+              next: () => {
+                console.log(
+                  '✅ Fuentes de conocimiento vinculadas exitosamente',
+                );
+              },
+              error: (error) => {
+                console.error(
+                  '❌ Error al vincular fuentes de conocimiento:',
+                  error,
+                );
+                // No mostramos error al usuario ya que el agente se creó correctamente
+              },
+            });
+        }
+
         // Cambiar a pantalla de éxito
         this.step = 'success';
         // Limpiar el borrador cuando el agente se crea con éxito
@@ -2613,14 +2669,14 @@ export class NewCreateAgentsComponent
   // Método para obtener el número de paso actual
   getCurrentStepNumber(): number {
     const stepOrder: Record<string, number> = {
-      'agentName': 1,
-      'language': 2,
-      'voices': 3,
-      'connectBusiness': 4,
-      'instructions': 5,
-      'knowledgeBase': 6,
-      'summary': 7,
-      'connectPhone': 8,
+      agentName: 1,
+      language: 2,
+      voices: 3,
+      connectBusiness: 4,
+      instructions: 5,
+      knowledgeBase: 6,
+      summary: 7,
+      connectPhone: 8,
     };
     return stepOrder[this.step] || 0;
   }

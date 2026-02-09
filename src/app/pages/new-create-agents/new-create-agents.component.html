@@ -1,50 +1,74 @@
 <!-- Contenedor principal del formulario de creación de agentes -->
 <div
-  class="w-full  flex flex-col bg-gray-100 dark:bg-[#111113] text-black dark:text-slate-50 transition-colors duration-300 overflow-visible">
+  class="w-full flex flex-col bg-gray-100 dark:bg-[#111113] text-black dark:text-slate-50 transition-colors duration-300 overflow-visible"
+>
   <ng-container [ngSwitch]="step">
     <!-- Paso 1: Nombre del agente -->
-    <div *ngSwitchCase="'agentName'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+    <div
+      *ngSwitchCase="'agentName'"
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40"
+    >
       <div
-        class="w-full max-w-[400px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
+        class="w-full max-w-[400px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6"
+      >
         <div class="flex items-center justify-between w-full">
-          <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
+          <h1
+            class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight"
+          >
             Completa tu agente
           </h1>
-          <span class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
-            *ngIf="getCurrentStepNumber() > 0">
+          <span
+            class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
+            *ngIf="getCurrentStepNumber() > 0"
+          >
             {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
           </span>
         </div>
-        <p class="mt-1 3xl:mt-1 text-[11px] sm:text-xs 3xl:text-lg text-[#6d747c] font-semibold">
+        <p
+          class="mt-1 3xl:mt-1 text-[11px] sm:text-xs 3xl:text-lg text-[#6d747c] font-semibold"
+        >
           Elige un nombre que refleje el propósito de tu agente
         </p>
 
         <div class="w-full flex flex-col mt-3 3xl:mt-4">
-          <label class="block text-[11px] sm:text-xs 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1.5 3xl:mb-2">
+          <label
+            class="block text-[11px] sm:text-xs 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1.5 3xl:mb-2"
+          >
             Nombre del Agente *
           </label>
           <div class="relative">
-            <input type="text" [(ngModel)]="agentName" [maxlength]="50" placeholder="Introduce el nombre del agente..."
-              class="w-full px-3 sm:px-3.5 3xl:px-4 py-2 sm:py-2 3xl:py-3 text-[11px] sm:text-xs 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-1 focus:ring-black focus:border-transparent dark:focus:ring-white dark:focus:border-transparent outline-none transition" />
+            <input
+              type="text"
+              [(ngModel)]="agentName"
+              [maxlength]="50"
+              placeholder="Introduce el nombre del agente..."
+              class="w-full px-3 sm:px-3.5 3xl:px-4 py-2 sm:py-2 3xl:py-3 text-[11px] sm:text-xs 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-1 focus:ring-black focus:border-transparent dark:focus:ring-white dark:focus:border-transparent outline-none transition"
+            />
             <span
-              class="absolute right-2 3xl:right-4 top-1/2 -translate-y-1/2 text-[10px] sm:text-[11px] 3xl:text-sm text-gray-400 dark:text-[#6d747c]">
+              class="absolute right-2 3xl:right-4 top-1/2 -translate-y-1/2 text-[10px] sm:text-[11px] 3xl:text-sm text-gray-400 dark:text-[#6d747c]"
+            >
               {{ agentName.length }}/50
             </span>
           </div>
         </div>
 
         <div class="w-full flex items-center justify-between mt-4 3xl:mt-5">
-          <button type="button"
+          <button
+            type="button"
             class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-gray-300 dark:border-slate-600 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent dark:bg-transparen"
-            (click)="goBack()">
+            (click)="goBack()"
+          >
             <span class="text-xs 3xl:text-xl leading-none">‹</span>
             <span>Atrás</span>
           </button>
-          <button type="button" [disabled]="!agentName.trim()" [class.opacity-50]="!agentName.trim()"
+          <button
+            type="button"
+            [disabled]="!agentName.trim()"
+            [class.opacity-50]="!agentName.trim()"
             [class.cursor-not-allowed]="!agentName.trim()"
             class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors disabled:hover:bg-[#1E3A8A] dark:bg-white dark:text-[#000000] dark:hover:bg-white"
-            (click)="onSubmitAgentName()">
+            (click)="onSubmitAgentName()"
+          >
             Continuar
           </button>
         </div>
@@ -52,82 +76,149 @@
     </div>
 
     <!-- Paso 2: Tipo de llamada (Inbound / Outbound) -->
-    <div *ngSwitchCase="'language'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+    <div
+      *ngSwitchCase="'language'"
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40"
+    >
       <div
-        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6"
+      >
         <div class="flex items-center justify-between w-full">
-          <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
+          <h1
+            class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight"
+          >
             Tipo de llamada
           </h1>
-          <span class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
-            *ngIf="getCurrentStepNumber() > 0">
+          <span
+            class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
+            *ngIf="getCurrentStepNumber() > 0"
+          >
             {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
           </span>
         </div>
-        <p class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
+        <p
+          class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold"
+        >
           ¿Qué tipo de llamadas atenderá tu agente?
         </p>
 
         <div class="grid grid-cols-2 gap-3 3xl:gap-6 mt-3 3xl:mt-5">
           <!-- Inbound -->
-          <button type="button" (click)="onSelectCallType('inbound')" [ngClass]="{
+          <button
+            type="button"
+            (click)="onSelectCallType('inbound')"
+            [ngClass]="{
               'ring-2 ring-blue-500 dark:ring-white border-blue-500 dark:border-white':
                 selectedCallType === 'inbound',
             }"
-            class="w-full aspect-square max-h-[100px] 3xl:max-h-[180px] rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-white transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white">
-            <div class="text-gray-900 dark:text-white mb-1.5 3xl:mb-3"
+            class="w-full aspect-square max-h-[100px] 3xl:max-h-[180px] rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-white transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white"
+          >
+            <div
+              class="text-gray-900 dark:text-white mb-1.5 3xl:mb-3"
               [class.text-blue-600]="selectedCallType === 'inbound'"
-              [class.dark:text-blue-400]="selectedCallType === 'inbound'">
-              <svg class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-16 3xl:h-16" viewBox="0 0 100 100" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
+              [class.dark:text-blue-400]="selectedCallType === 'inbound'"
+            >
+              <svg
+                class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-16 3xl:h-16"
+                viewBox="0 0 100 100"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M32.0306 20.4041C33.5444 20.4041 34.939 21.2249 35.6735 22.5483L40.7704 31.7293C41.4377 32.9314 41.469 34.3852 40.8542 35.6149L35.9442 45.4352C35.9442 45.4352 37.3671 52.7506 43.3221 58.7056C49.2771 64.6608 56.5681 66.0591 56.5681 66.0591L66.3867 61.1497C67.6173 60.5345 69.0723 60.5664 70.2748 61.2349L79.4817 66.3537C80.8038 67.0887 81.6238 68.4827 81.6238 69.9954V80.5652C81.6238 85.9477 76.624 89.8354 71.5238 88.1145C61.049 84.5799 44.7892 77.8504 34.4833 67.5445C24.1773 57.2385 17.4477 40.9789 13.9133 30.5039C12.1924 25.4039 16.0801 20.4041 21.4627 20.4041H32.0306Z"
-                  stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
-                <path d="M60.4165 41.6665L87.4998 15.6249" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-                <path d="M87.4998 41.6665H60.4165V14.5833" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-                  stroke-linejoin="round" />
+                  stroke="currentColor"
+                  stroke-width="5"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M60.4165 41.6665L87.4998 15.6249"
+                  stroke="currentColor"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M87.4998 41.6665H60.4165V14.5833"
+                  stroke="currentColor"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
-            <span class="text-[10px] sm:text-xs 3xl:text-xl font-medium text-gray-900 dark:text-white">Inbound</span>
+            <span
+              class="text-[10px] sm:text-xs 3xl:text-xl font-medium text-gray-900 dark:text-white"
+              >Inbound</span
+            >
           </button>
 
           <!-- Outbound -->
-          <button type="button" (click)="onSelectCallType('outbound')" [ngClass]="{
+          <button
+            type="button"
+            (click)="onSelectCallType('outbound')"
+            [ngClass]="{
               'ring-2 ring-blue-500 dark:ring-white border-blue-500 dark:border-white':
                 selectedCallType === 'outbound',
             }"
-            class="w-full aspect-square max-h-[100px] 3xl:max-h-[180px] rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white">
-            <div class="text-gray-900 dark:text-white mb-1.5 3xl:mb-3"
+            class="w-full aspect-square max-h-[100px] 3xl:max-h-[180px] rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white"
+          >
+            <div
+              class="text-gray-900 dark:text-white mb-1.5 3xl:mb-3"
               [class.text-blue-600]="selectedCallType === 'outbound'"
-              [class.dark:text-blue-400]="selectedCallType === 'outbound'">
-              <svg class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-16 3xl:h-16" viewBox="0 0 100 100" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path d="M58.333 41.6667L85.4163 15.625" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-                  stroke-linejoin="round" />
-                <path d="M58.333 14.5835H85.4163V41.6668" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-                  stroke-linejoin="round" />
+              [class.dark:text-blue-400]="selectedCallType === 'outbound'"
+            >
+              <svg
+                class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-16 3xl:h-16"
+                viewBox="0 0 100 100"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M58.333 41.6667L85.4163 15.625"
+                  stroke="currentColor"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M58.333 14.5835H85.4163V41.6668"
+                  stroke="currentColor"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
                 <path
                   d="M29.9476 20.4053C31.4614 20.4053 32.856 21.2263 33.5905 22.5496L38.6874 31.7304C39.3547 32.9325 39.386 34.3865 38.7712 35.6163L33.8612 45.4365C33.8612 45.4365 35.2841 52.7519 41.2391 58.7069C47.1941 64.6619 54.4851 66.0602 54.4851 66.0602L64.3037 61.151C65.5343 60.5356 66.9893 60.5675 68.1918 61.236L77.3987 66.3548C78.7208 67.09 79.5408 68.4837 79.5408 69.9965V80.5662C79.5408 85.949 74.541 89.8367 69.4408 88.1156C58.966 84.5812 42.7062 77.8517 32.4003 67.5456C22.0943 57.2398 15.3647 40.98 11.8303 30.5052C10.1094 25.405 13.9971 20.4053 19.3796 20.4053H29.9476Z"
-                  stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
+                  stroke="currentColor"
+                  stroke-width="5"
+                  stroke-linejoin="round"
+                />
               </svg>
             </div>
-            <span class="text-[10px] sm:text-xs font-medium text-gray-900 dark:text-white">Outbound</span>
+            <span
+              class="text-[10px] sm:text-xs font-medium text-gray-900 dark:text-white"
+              >Outbound</span
+            >
           </button>
         </div>
 
         <div class="w-full flex items-center justify-between mt-5 3xl:mt-10">
-          <button type="button"
+          <button
+            type="button"
             class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
-            (click)="goBack()">
+            (click)="goBack()"
+          >
             <span class="text-xs 3xl:text-xl leading-none">‹</span>
             <span>Atrás</span>
           </button>
-          <button type="button" [disabled]="!selectedCallType" [class.opacity-50]="!selectedCallType"
+          <button
+            type="button"
+            [disabled]="!selectedCallType"
+            [class.opacity-50]="!selectedCallType"
             [class.cursor-not-allowed]="!selectedCallType"
             class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors disabled:hover:bg-[#1E3A8A] dark:bg-white dark:text-[#000000] dark:hover:bg-white"
-            (click)="onSkip()">
+            (click)="onSkip()"
+          >
             Continuar
           </button>
         </div>
@@ -135,651 +226,1212 @@
     </div>
 
     <!-- Paso 3: País y voz -->
-    <div *ngSwitchCase="'voices'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+    <div
+      *ngSwitchCase="'voices'"
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40"
+    >
       <div
-        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6 overflow-visible">
+        class="w-full max-w-[320px] sm:max-w-[360px] 3xl:max-w-[600px] flex flex-col px-3 sm:px-4 3xl:px-6 overflow-visible"
+      >
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px]
+        3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6
+        overflow-visible">
         <div class="flex items-center justify-between w-full">
-          <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
+          <h1
+            class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight"
+          >
             Lenguaje y voz
           </h1>
-          <span class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
-            *ngIf="getCurrentStepNumber() > 0">
+          <span
+            class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
+            *ngIf="getCurrentStepNumber() > 0"
+          >
             {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
           </span>
         </div>
-        <p class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
+        <p
+          class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold"
+        >
           Elige el país y la voz de tu agente
         </p>
 
-        <div class="flex flex-col gap-3 3xl:gap-6 mt-3 3xl:mt-5 overflow-visible">
+        <div
+          class="flex flex-col gap-3 3xl:gap-6 mt-3 3xl:mt-5 overflow-visible"
+        >
           <!-- País: dropdown con banderas -->
           <div class="relative country-dropdown-step5">
             <label
-              class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-2">País</label>
-            <button type="button" (click)="toggleCountryDropdown($event)"
-              class="w-full flex items-center justify-between gap-2 3xl:gap-4 px-3 3xl:px-6 py-2.5 3xl:py-4 text-left text-xs 3xl:text-xl border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition shadow-sm">
+              class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-2"
+              >País</label
+            >
+            <button
+              type="button"
+              (click)="toggleCountryDropdown($event)"
+              class="w-full flex items-center justify-between gap-2 3xl:gap-4 px-3 3xl:px-6 py-2.5 3xl:py-4 text-left text-xs 3xl:text-xl border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition shadow-sm"
+            >
               <div class="flex items-center gap-2">
                 <!-- Bandera según país -->
                 @switch (selectedCountry) {
-                @case ("es") {
-                <!-- ESPAÑA -->
-                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_es_flag_new)">
-                    <rect width="72" height="52" rx="13" fill="#C70318" />
-                    <path
-                      d="M65.1429 0H6.85714C3.07005 0 0 3.10416 0 6.93333V45.0667C0 48.8958 3.07005 52 6.85714 52H65.1429C68.93 52 72 48.8958 72 45.0667V6.93333C72 3.10416 68.93 0 65.1429 0Z"
-                      fill="#C70318" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 13.8667H72V38.1334H0V13.8667Z" fill="#FFC500" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M30.8577 21.5698V30.3058C30.8577 32.7324 28.5537 34.6738 25.7148 34.6738H18.8577C16.0257 34.6668 13.7148 32.7151 13.7148 30.2988V21.5628C13.7148 19.5799 15.2508 17.9228 17.3628 17.3855C18.0006 15.5828 19.9617 17.1983 22.2863 17.1983C24.6246 17.1983 26.572 15.5932 27.2097 17.389C29.3148 17.9402 30.8577 19.6007 30.8577 21.5698Z"
-                      fill="#D4AF2C" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M30.8566 24.2666H34.2852V34.6666H30.8566V24.2666ZM10.2852 24.2666H13.7137V34.6666H10.2852V24.2666Z"
-                      fill="#CBCBCB" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M30.8566 31.2002H34.2852V34.6669H30.8566V31.2002ZM10.2852 31.2002H13.7137V34.6669H10.2852V31.2002Z"
-                      fill="#1A47B8" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M30.8566 20.7998H34.2852V24.2665H30.8566V20.7998ZM10.2852 20.7998H13.7137V24.2665H10.2852V20.7998Z"
-                      fill="#D4AF2C" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M17.1426 20.7998H20.5711V25.9998H17.1426V20.7998ZM23.9997 27.7331H27.4283V32.9331H23.9997V27.7331Z"
-                      fill="#AF010D" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1426 27.7334H20.5711V32.9334H17.1426V27.7334Z"
-                      fill="#FFC500" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M24 20.7998H27.4286V25.9998H24V20.7998Z"
-                      fill="#AE6A3E" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M20.5711 20.8002L17.1426 17.3335H27.4283L23.9997 20.8002H20.5711Z" fill="#AF010D" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5723 13.8667H24.0008V17.3334H20.5723V13.8667Z"
-                      fill="#D4AF2C" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_es_flag_new">
-                      <rect width="72" height="52" rx="13" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("en") {
-                <!-- REINO UNIDO / UK bandera -->
-                <svg width="23" height="16" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_en_flag_new)">
-                    <rect width="72" height="52" rx="13" fill="#001B69" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M7.97847 0H0V8.66667L66.9782 52L75 52V43.3333L7.97847 0Z" fill="white" />
-                    <path d="M2.66107 0L75 46.9228V52H72.4013L0 5.0286V0H2.66107Z" fill="#C9072A" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M67.8571 0H75V8.66667C75 8.66667 28.6064 37.5373 7.14286 52H0V43.3333L67.8571 0Z"
-                      fill="white" />
-                    <path d="M75 0H72.5777L0 46.9632V52H2.66107L75 5.06658V0Z" fill="#C9072A" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M27.2753 0H47.7871V16.0396H75V35.9498H47.7871V52H27.2753V35.9498H0V16.0396H27.2753V0Z"
-                      fill="white" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M31.5789 0H43.4211V20H75V32H43.4211V52H31.5789V32H0V20H31.5789V0Z" fill="#C9072A" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_en_flag_new">
-                      <rect width="75" height="52" rx="13" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("fr") {
-                <!-- FRANCIA -->
-                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_fr_new)">
-                    <rect width="72" height="52" rx="13" fill="#fff" />
-                    <rect width="24" height="52" fill="#002153" />
-                    <rect x="48" width="24" height="52" fill="#CF0921" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_fr_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("it") {
-                <!-- ITALIA -->
-                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_it_new)">
-                    <rect width="72" height="52" rx="13" fill="#fff" />
-                    <rect width="24" height="52" fill="#179A43" />
-                    <rect x="48" width="24" height="52" fill="#ED3237" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_it_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("de") {
-                <!-- ALEMANIA -->
-                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_de_new)">
-                    <rect width="72" height="52" rx="13" fill="#fff" />
-                    <rect width="72" height="17.3333" y="0" fill="#272727" />
-                    <rect width="72" height="17.3333" y="17.3333" fill="#DE2227" />
-                    <rect width="72" height="17.3333" y="34.6667" fill="#FFCE3B" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_de_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("pt") {
-                <!-- PORTUGAL -->
-                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_pt_new)">
-                    <rect width="72" height="52" rx="13" fill="#00874B" />
-                    <rect x="18" width="54" height="52" fill="#F32121" />
-                    <circle cx="23" cy="26" r="9" fill="#FCD032" />
-                    <circle cx="23" cy="26" r="5" fill="#FFF" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_pt_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("us") {
-                <!-- ESTADOS UNIDOS -->
-                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_us_new)">
-                    <rect width="72" height="52" rx="13" fill="#fff" />
-                    <rect width="72" height="7.42857" y="0" fill="#BF0A30" />
-                    <rect width="72" height="7.42857" y="14.8571" fill="#BF0A30" />
-                    <rect width="72" height="7.42857" y="29.7143" fill="#BF0A30" />
-                    <rect width="72" height="7.42857" y="44.5714" fill="#BF0A30" />
-                    <rect width="32" height="28.8571" fill="#002868" />
-                    <g>
-                      <circle cx="4.5" cy="4" r="1" fill="#FFF" />
-                      <circle cx="13" cy="4" r="1" fill="#FFF" />
-                      <circle cx="21.5" cy="4" r="1" fill="#FFF" />
-                      <circle cx="30" cy="4" r="1" fill="#FFF" />
-                    </g>
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_us_new">
-                      <rect width="72" height="52" rx="13" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("tr") {
-                <!-- TURQUÍA -->
-                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_tr_new)">
-                    <rect width="72" height="52" rx="13" fill="#E30A17" />
-                    <circle cx="30" cy="26" r="12" fill="#fff" />
-                    <circle cx="33" cy="26" r="9" fill="#E30A17" />
-                    <polygon points="41,26 46,28.18 42.5,32.09 43.82,27.45 39.82,26 43.82,24.55 42.5,19.91 46,23.82"
-                      fill="#fff" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_tr_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("se") {
-                <!-- SUECIA -->
-                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_se_new)">
-                    <rect width="72" height="52" rx="13" fill="#006AA7" />
-                    <rect x="20" width="8" height="52" fill="#FECC00" />
-                    <rect y="22" width="72" height="8" fill="#FECC00" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_se_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("nl") {
-                <!-- PAÍSES BAJOS -->
-                <svg width="23" height="16" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_nl_new)">
-                    <rect width="72" height="52" rx="13" fill="#fff" />
-                    <rect width="72" height="17.3333" y="0" fill="#AD1E2E" />
-                    <rect width="72" height="17.3333" y="34.6667" fill="#21468B" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_nl_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
+                  @case ("es") {
+                    <!-- ESPAÑA -->
+                    <svg
+                      width="23"
+                      height="16"
+                      viewBox="0 0 72 52"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden"
+                    >
+                      <g clip-path="url(#clip0_es_flag_new)">
+                        <rect width="72" height="52" rx="13" fill="#C70318" />
+                        <path
+                          d="M65.1429 0H6.85714C3.07005 0 0 3.10416 0 6.93333V45.0667C0 48.8958 3.07005 52 6.85714 52H65.1429C68.93 52 72 48.8958 72 45.0667V6.93333C72 3.10416 68.93 0 65.1429 0Z"
+                          fill="#C70318"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M0 13.8667H72V38.1334H0V13.8667Z"
+                          fill="#FFC500"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M30.8577 21.5698V30.3058C30.8577 32.7324 28.5537 34.6738 25.7148 34.6738H18.8577C16.0257 34.6668 13.7148 32.7151 13.7148 30.2988V21.5628C13.7148 19.5799 15.2508 17.9228 17.3628 17.3855C18.0006 15.5828 19.9617 17.1983 22.2863 17.1983C24.6246 17.1983 26.572 15.5932 27.2097 17.389C29.3148 17.9402 30.8577 19.6007 30.8577 21.5698Z"
+                          fill="#D4AF2C"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M30.8566 24.2666H34.2852V34.6666H30.8566V24.2666ZM10.2852 24.2666H13.7137V34.6666H10.2852V24.2666Z"
+                          fill="#CBCBCB"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M30.8566 31.2002H34.2852V34.6669H30.8566V31.2002ZM10.2852 31.2002H13.7137V34.6669H10.2852V31.2002Z"
+                          fill="#1A47B8"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M30.8566 20.7998H34.2852V24.2665H30.8566V20.7998ZM10.2852 20.7998H13.7137V24.2665H10.2852V20.7998Z"
+                          fill="#D4AF2C"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M17.1426 20.7998H20.5711V25.9998H17.1426V20.7998ZM23.9997 27.7331H27.4283V32.9331H23.9997V27.7331Z"
+                          fill="#AF010D"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M17.1426 27.7334H20.5711V32.9334H17.1426V27.7334Z"
+                          fill="#FFC500"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M24 20.7998H27.4286V25.9998H24V20.7998Z"
+                          fill="#AE6A3E"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M20.5711 20.8002L17.1426 17.3335H27.4283L23.9997 20.8002H20.5711Z"
+                          fill="#AF010D"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M20.5723 13.8667H24.0008V17.3334H20.5723V13.8667Z"
+                          fill="#D4AF2C"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_es_flag_new">
+                          <rect width="72" height="52" rx="13" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
+                  @case ("en") {
+                    <!-- REINO UNIDO / UK bandera -->
+                    <svg
+                      width="23"
+                      height="16"
+                      viewBox="0 0 75 52"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-3.5 shrink-0 rounded-sm overflow-hidden"
+                    >
+                      <g clip-path="url(#clip0_en_flag_new)">
+                        <rect width="72" height="52" rx="13" fill="#001B69" />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M7.97847 0H0V8.66667L66.9782 52L75 52V43.3333L7.97847 0Z"
+                          fill="white"
+                        />
+                        <path
+                          d="M2.66107 0L75 46.9228V52H72.4013L0 5.0286V0H2.66107Z"
+                          fill="#C9072A"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M67.8571 0H75V8.66667C75 8.66667 28.6064 37.5373 7.14286 52H0V43.3333L67.8571 0Z"
+                          fill="white"
+                        />
+                        <path
+                          d="M75 0H72.5777L0 46.9632V52H2.66107L75 5.06658V0Z"
+                          fill="#C9072A"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M27.2753 0H47.7871V16.0396H75V35.9498H47.7871V52H27.2753V35.9498H0V16.0396H27.2753V0Z"
+                          fill="white"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M31.5789 0H43.4211V20H75V32H43.4211V52H31.5789V32H0V20H31.5789V0Z"
+                          fill="#C9072A"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_en_flag_new">
+                          <rect width="75" height="52" rx="13" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
+                  @case ("fr") {
+                    <!-- FRANCIA -->
+                    <svg
+                      width="23"
+                      height="16"
+                      viewBox="0 0 72 52"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden"
+                    >
+                      <g clip-path="url(#clip0_fr_new)">
+                        <rect width="72" height="52" rx="13" fill="#fff" />
+                        <rect width="24" height="52" fill="#002153" />
+                        <rect x="48" width="24" height="52" fill="#CF0921" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_fr_new">
+                          <rect width="72" height="52" rx="13" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
+                  @case ("it") {
+                    <!-- ITALIA -->
+                    <svg
+                      width="23"
+                      height="16"
+                      viewBox="0 0 72 52"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden"
+                    >
+                      <g clip-path="url(#clip0_it_new)">
+                        <rect width="72" height="52" rx="13" fill="#fff" />
+                        <rect width="24" height="52" fill="#179A43" />
+                        <rect x="48" width="24" height="52" fill="#ED3237" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_it_new">
+                          <rect width="72" height="52" rx="13" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
+                  @case ("de") {
+                    <!-- ALEMANIA -->
+                    <svg
+                      width="23"
+                      height="16"
+                      viewBox="0 0 72 52"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden"
+                    >
+                      <g clip-path="url(#clip0_de_new)">
+                        <rect width="72" height="52" rx="13" fill="#fff" />
+                        <rect
+                          width="72"
+                          height="17.3333"
+                          y="0"
+                          fill="#272727"
+                        />
+                        <rect
+                          width="72"
+                          height="17.3333"
+                          y="17.3333"
+                          fill="#DE2227"
+                        />
+                        <rect
+                          width="72"
+                          height="17.3333"
+                          y="34.6667"
+                          fill="#FFCE3B"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_de_new">
+                          <rect width="72" height="52" rx="13" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
+                  @case ("pt") {
+                    <!-- PORTUGAL -->
+                    <svg
+                      width="23"
+                      height="16"
+                      viewBox="0 0 72 52"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden"
+                    >
+                      <g clip-path="url(#clip0_pt_new)">
+                        <rect width="72" height="52" rx="13" fill="#00874B" />
+                        <rect x="18" width="54" height="52" fill="#F32121" />
+                        <circle cx="23" cy="26" r="9" fill="#FCD032" />
+                        <circle cx="23" cy="26" r="5" fill="#FFF" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_pt_new">
+                          <rect width="72" height="52" rx="13" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
+                  @case ("us") {
+                    <!-- ESTADOS UNIDOS -->
+                    <svg
+                      width="23"
+                      height="16"
+                      viewBox="0 0 72 52"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden"
+                    >
+                      <g clip-path="url(#clip0_us_new)">
+                        <rect width="72" height="52" rx="13" fill="#fff" />
+                        <rect
+                          width="72"
+                          height="7.42857"
+                          y="0"
+                          fill="#BF0A30"
+                        />
+                        <rect
+                          width="72"
+                          height="7.42857"
+                          y="14.8571"
+                          fill="#BF0A30"
+                        />
+                        <rect
+                          width="72"
+                          height="7.42857"
+                          y="29.7143"
+                          fill="#BF0A30"
+                        />
+                        <rect
+                          width="72"
+                          height="7.42857"
+                          y="44.5714"
+                          fill="#BF0A30"
+                        />
+                        <rect width="32" height="28.8571" fill="#002868" />
+                        <g>
+                          <circle cx="4.5" cy="4" r="1" fill="#FFF" />
+                          <circle cx="13" cy="4" r="1" fill="#FFF" />
+                          <circle cx="21.5" cy="4" r="1" fill="#FFF" />
+                          <circle cx="30" cy="4" r="1" fill="#FFF" />
+                        </g>
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_us_new">
+                          <rect width="72" height="52" rx="13" fill="white" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
+                  @case ("tr") {
+                    <!-- TURQUÍA -->
+                    <svg
+                      width="23"
+                      height="16"
+                      viewBox="0 0 72 52"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden"
+                    >
+                      <g clip-path="url(#clip0_tr_new)">
+                        <rect width="72" height="52" rx="13" fill="#E30A17" />
+                        <circle cx="30" cy="26" r="12" fill="#fff" />
+                        <circle cx="33" cy="26" r="9" fill="#E30A17" />
+                        <polygon
+                          points="41,26 46,28.18 42.5,32.09 43.82,27.45 39.82,26 43.82,24.55 42.5,19.91 46,23.82"
+                          fill="#fff"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_tr_new">
+                          <rect width="72" height="52" rx="13" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
+                  @case ("se") {
+                    <!-- SUECIA -->
+                    <svg
+                      width="23"
+                      height="16"
+                      viewBox="0 0 72 52"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden"
+                    >
+                      <g clip-path="url(#clip0_se_new)">
+                        <rect width="72" height="52" rx="13" fill="#006AA7" />
+                        <rect x="20" width="8" height="52" fill="#FECC00" />
+                        <rect y="22" width="72" height="8" fill="#FECC00" />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_se_new">
+                          <rect width="72" height="52" rx="13" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
+                  @case ("nl") {
+                    <!-- PAÍSES BAJOS -->
+                    <svg
+                      width="23"
+                      height="16"
+                      viewBox="0 0 72 52"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-5 h-3.5 3xl:w-10 3xl:h-7 shrink-0 rounded-sm overflow-hidden"
+                    >
+                      <g clip-path="url(#clip0_nl_new)">
+                        <rect width="72" height="52" rx="13" fill="#fff" />
+                        <rect
+                          width="72"
+                          height="17.3333"
+                          y="0"
+                          fill="#AD1E2E"
+                        />
+                        <rect
+                          width="72"
+                          height="17.3333"
+                          y="34.6667"
+                          fill="#21468B"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_nl_new">
+                          <rect width="72" height="52" rx="13" />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  }
                 }
                 <span class="font-medium 3xl:text-xl">{{
                   getSelectedCountryOption().label
-                  }}</span>
+                }}</span>
               </div>
-              <svg class="w-3.5 h-3.5 3xl:w-6 3xl:h-6 text-gray-500 dark:text-slate-400 transition-transform"
-                [class.rotate-180]="showCountryDropdown" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              <svg
+                class="w-3.5 h-3.5 3xl:w-6 3xl:h-6 text-gray-500 dark:text-slate-400 transition-transform"
+                [class.rotate-180]="showCountryDropdown"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </button>
             @if (showCountryDropdown) {
-            <div
-              class="absolute top-full left-0 right-0 mt-1 3xl:mt-2 py-1 3xl:py-2 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 max-h-48 3xl:max-h-72 overflow-y-auto">
-              @for (c of countryOptions; track c.code) {
-              <button type="button" (click)="selectCountry(c.code)"
-                class="w-full flex items-center gap-2 3xl:gap-4 px-3 3xl:px-6 py-2 3xl:py-3 text-left text-xs 3xl:text-xl hover:bg-gray-50 dark:hover:bg-slate-700/80 text-gray-900 dark:text-white transition-colors first:rounded-t-md last:rounded-b-md">
-                @switch (c.code) {
-                @case ("es") {
-                <!-- ESPAÑA -->
-                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_es_flag_popup_new)">
-                    <rect width="72" height="52" rx="13" fill="#C70318" />
-                    <path
-                      d="M65.1429 0H6.85714C3.07005 0 0 3.10416 0 6.93333V45.0667C0 48.8958 3.07005 52 6.85714 52H65.1429C68.93 52 72 48.8958 72 45.0667V6.93333C72 3.10416 68.93 0 65.1429 0Z"
-                      fill="#C70318" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 13.8667H72V38.1334H0V13.8667Z" fill="#FFC500" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M30.8577 21.5698V30.3058C30.8577 32.7324 28.5537 34.6738 25.7148 34.6738H18.8577C16.0257 34.6668 13.7148 32.7151 13.7148 30.2988V21.5628C13.7148 19.5799 15.2508 17.9228 17.3628 17.3855C18.0006 15.5828 19.9617 17.1983 22.2863 17.1983C24.6246 17.1983 26.572 15.5932 27.2097 17.389C29.3148 17.9402 30.8577 19.6007 30.8577 21.5698Z"
-                      fill="#D4AF2C" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M30.8566 24.2666H34.2852V34.6666H30.8566V24.2666ZM10.2852 24.2666H13.7137V34.6666H10.2852V24.2666Z"
-                      fill="#CBCBCB" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M30.8566 31.2002H34.2852V34.6669H30.8566V31.2002ZM10.2852 31.2002H13.7137V34.6669H10.2852V31.2002Z"
-                      fill="#1A47B8" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M30.8566 20.7998H34.2852V24.2665H30.8566V20.7998ZM10.2852 20.7998H13.7137V24.2665H10.2852V20.7998Z"
-                      fill="#D4AF2C" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M17.1426 20.7998H20.5711V25.9998H17.1426V20.7998ZM23.9997 27.7331H27.4283V32.9331H23.9997V27.7331Z"
-                      fill="#AF010D" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M17.1426 27.7334H20.5711V32.9334H17.1426V27.7334Z"
-                      fill="#FFC500" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M24 20.7998H27.4286V25.9998H24V20.7998Z"
-                      fill="#AE6A3E" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M20.5711 20.8002L17.1426 17.3335H27.4283L23.9997 20.8002H20.5711Z" fill="#AF010D" />
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.5723 13.8667H24.0008V17.3334H20.5723V13.8667Z"
-                      fill="#D4AF2C" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_es_flag_popup_new">
-                      <rect width="72" height="52" rx="13" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
+              <div
+                class="absolute top-full left-0 right-0 mt-1 3xl:mt-2 py-1 3xl:py-2 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 max-h-48 3xl:max-h-72 overflow-y-auto"
+              >
+                @for (c of countryOptions; track c.code) {
+                  <button
+                    type="button"
+                    (click)="selectCountry(c.code)"
+                    class="w-full flex items-center gap-2 3xl:gap-4 px-3 3xl:px-6 py-2 3xl:py-3 text-left text-xs 3xl:text-xl hover:bg-gray-50 dark:hover:bg-slate-700/80 text-gray-900 dark:text-white transition-colors first:rounded-t-md last:rounded-b-md"
+                  >
+                    @switch (c.code) {
+                      @case ("es") {
+                        <!-- ESPAÑA -->
+                        <svg
+                          width="18"
+                          height="12"
+                          viewBox="0 0 72 52"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden"
+                        >
+                          <g clip-path="url(#clip0_es_flag_popup_new)">
+                            <rect
+                              width="72"
+                              height="52"
+                              rx="13"
+                              fill="#C70318"
+                            />
+                            <path
+                              d="M65.1429 0H6.85714C3.07005 0 0 3.10416 0 6.93333V45.0667C0 48.8958 3.07005 52 6.85714 52H65.1429C68.93 52 72 48.8958 72 45.0667V6.93333C72 3.10416 68.93 0 65.1429 0Z"
+                              fill="#C70318"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M0 13.8667H72V38.1334H0V13.8667Z"
+                              fill="#FFC500"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M30.8577 21.5698V30.3058C30.8577 32.7324 28.5537 34.6738 25.7148 34.6738H18.8577C16.0257 34.6668 13.7148 32.7151 13.7148 30.2988V21.5628C13.7148 19.5799 15.2508 17.9228 17.3628 17.3855C18.0006 15.5828 19.9617 17.1983 22.2863 17.1983C24.6246 17.1983 26.572 15.5932 27.2097 17.389C29.3148 17.9402 30.8577 19.6007 30.8577 21.5698Z"
+                              fill="#D4AF2C"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M30.8566 24.2666H34.2852V34.6666H30.8566V24.2666ZM10.2852 24.2666H13.7137V34.6666H10.2852V24.2666Z"
+                              fill="#CBCBCB"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M30.8566 31.2002H34.2852V34.6669H30.8566V31.2002ZM10.2852 31.2002H13.7137V34.6669H10.2852V31.2002Z"
+                              fill="#1A47B8"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M30.8566 20.7998H34.2852V24.2665H30.8566V20.7998ZM10.2852 20.7998H13.7137V24.2665H10.2852V20.7998Z"
+                              fill="#D4AF2C"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M17.1426 20.7998H20.5711V25.9998H17.1426V20.7998ZM23.9997 27.7331H27.4283V32.9331H23.9997V27.7331Z"
+                              fill="#AF010D"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M17.1426 27.7334H20.5711V32.9334H17.1426V27.7334Z"
+                              fill="#FFC500"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M24 20.7998H27.4286V25.9998H24V20.7998Z"
+                              fill="#AE6A3E"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M20.5711 20.8002L17.1426 17.3335H27.4283L23.9997 20.8002H20.5711Z"
+                              fill="#AF010D"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M20.5723 13.8667H24.0008V17.3334H20.5723V13.8667Z"
+                              fill="#D4AF2C"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_es_flag_popup_new">
+                              <rect
+                                width="72"
+                                height="52"
+                                rx="13"
+                                fill="white"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      }
+                      @case ("en") {
+                        <!-- REINO UNIDO / UK bandera -->
+                        <svg
+                          width="18"
+                          height="12"
+                          viewBox="0 0 75 52"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden"
+                        >
+                          <g clip-path="url(#clip0_en_flag_popup_new)">
+                            <rect
+                              width="72"
+                              height="52"
+                              rx="13"
+                              fill="#001B69"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M7.97847 0H0V8.66667L66.9782 52L75 52V43.3333L7.97847 0Z"
+                              fill="white"
+                            />
+                            <path
+                              d="M2.66107 0L75 46.9228V52H72.4013L0 5.0286V0H2.66107Z"
+                              fill="#C9072A"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M67.8571 0H75V8.66667C75 8.66667 28.6064 37.5373 7.14286 52H0V43.3333L67.8571 0Z"
+                              fill="white"
+                            />
+                            <path
+                              d="M75 0H72.5777L0 46.9632V52H2.66107L75 5.06658V0Z"
+                              fill="#C9072A"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M27.2753 0H47.7871V16.0396H75V35.9498H47.7871V52H27.2753V35.9498H0V16.0396H27.2753V0Z"
+                              fill="white"
+                            />
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M31.5789 0H43.4211V20H75V32H43.4211V52H31.5789V32H0V20H31.5789V0Z"
+                              fill="#C9072A"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_en_flag_popup_new">
+                              <rect
+                                width="75"
+                                height="52"
+                                rx="13"
+                                fill="white"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      }
+                      @case ("fr") {
+                        <!-- FRANCIA -->
+                        <svg
+                          width="18"
+                          height="12"
+                          viewBox="0 0 72 52"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden"
+                        >
+                          <g clip-path="url(#clip0_fr_popup_new)">
+                            <rect width="72" height="52" rx="13" fill="#fff" />
+                            <rect width="24" height="52" fill="#052987" />
+                            <rect
+                              x="48"
+                              width="24"
+                              height="52"
+                              fill="#F72940"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_fr_popup_new">
+                              <rect width="72" height="52" rx="13" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      }
+                      @case ("it") {
+                        <!-- ITALIA -->
+                        <svg
+                          width="18"
+                          height="12"
+                          viewBox="0 0 72 52"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden"
+                        >
+                          <g clip-path="url(#clip0_it_popup_new)">
+                            <rect width="72" height="52" rx="13" fill="#fff" />
+                            <rect width="24" height="52" fill="#179A43" />
+                            <rect
+                              x="48"
+                              width="24"
+                              height="52"
+                              fill="#ED3237"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_it_popup_new">
+                              <rect width="72" height="52" rx="13" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      }
+                      @case ("de") {
+                        <!-- ALEMANIA -->
+                        <svg
+                          width="18"
+                          height="12"
+                          viewBox="0 0 72 52"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden"
+                        >
+                          <g clip-path="url(#clip0_de_popup_new)">
+                            <rect width="72" height="52" rx="13" fill="#fff" />
+                            <rect
+                              width="72"
+                              height="17.3333"
+                              y="0"
+                              fill="#272727"
+                            />
+                            <rect
+                              width="72"
+                              height="17.3333"
+                              y="17.3333"
+                              fill="#DE2227"
+                            />
+                            <rect
+                              width="72"
+                              height="17.3333"
+                              y="34.6667"
+                              fill="#FFCE3B"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_de_popup_new">
+                              <rect width="72" height="52" rx="13" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      }
+                      @case ("pt") {
+                        <!-- PORTUGAL -->
+                        <svg
+                          width="18"
+                          height="12"
+                          viewBox="0 0 72 52"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden"
+                        >
+                          <g clip-path="url(#clip0_pt_popup_new)">
+                            <rect
+                              width="72"
+                              height="52"
+                              rx="13"
+                              fill="#00874B"
+                            />
+                            <rect
+                              x="18"
+                              width="54"
+                              height="52"
+                              fill="#F32121"
+                            />
+                            <circle cx="23" cy="26" r="9" fill="#FCD032" />
+                            <circle cx="23" cy="26" r="5" fill="#FFF" />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_pt_popup_new">
+                              <rect width="72" height="52" rx="13" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      }
+                      @case ("us") {
+                        <!-- ESTADOS UNIDOS -->
+                        <svg
+                          width="18"
+                          height="12"
+                          viewBox="0 0 72 52"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden"
+                        >
+                          <g clip-path="url(#clip0_us_popup_new)">
+                            <rect width="72" height="52" rx="13" fill="#fff" />
+                            <rect
+                              width="72"
+                              height="7.42857"
+                              y="0"
+                              fill="#BF0A30"
+                            />
+                            <rect
+                              width="72"
+                              height="7.42857"
+                              y="14.8571"
+                              fill="#BF0A30"
+                            />
+                            <rect
+                              width="72"
+                              height="7.42857"
+                              y="29.7143"
+                              fill="#BF0A30"
+                            />
+                            <rect
+                              width="72"
+                              height="7.42857"
+                              y="44.5714"
+                              fill="#BF0A30"
+                            />
+                            <rect width="32" height="28.8571" fill="#002868" />
+                            <g>
+                              <circle cx="4.5" cy="4" r="1" fill="#FFF" />
+                              <circle cx="13" cy="4" r="1" fill="#FFF" />
+                              <circle cx="21.5" cy="4" r="1" fill="#FFF" />
+                              <circle cx="30" cy="4" r="1" fill="#FFF" />
+                            </g>
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_us_popup_new">
+                              <rect
+                                width="72"
+                                height="52"
+                                rx="13"
+                                fill="white"
+                              />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      }
+                      @case ("tr") {
+                        <!-- TURQUÍA -->
+                        <svg
+                          width="18"
+                          height="12"
+                          viewBox="0 0 72 52"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden"
+                        >
+                          <g clip-path="url(#clip0_tr_popup_new)">
+                            <rect
+                              width="72"
+                              height="52"
+                              rx="13"
+                              fill="#E30A17"
+                            />
+                            <circle cx="30" cy="26" r="12" fill="#fff" />
+                            <circle cx="33" cy="26" r="9" fill="#E30A17" />
+                            <polygon
+                              points="41,26 46,28.18 42.5,32.09 43.82,27.45 39.82,26 43.82,24.55 42.5,19.91 46,23.82"
+                              fill="#fff"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_tr_popup_new">
+                              <rect width="72" height="52" rx="13" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      }
+                      @case ("se") {
+                        <!-- SUECIA -->
+                        <svg
+                          width="18"
+                          height="12"
+                          viewBox="0 0 72 52"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden"
+                        >
+                          <g clip-path="url(#clip0_se_popup_new)">
+                            <rect
+                              width="72"
+                              height="52"
+                              rx="13"
+                              fill="#006AA7"
+                            />
+                            <rect x="20" width="8" height="52" fill="#FECC00" />
+                            <rect y="22" width="72" height="8" fill="#FECC00" />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_se_popup_new">
+                              <rect width="72" height="52" rx="13" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      }
+                      @case ("nl") {
+                        <!-- PAÍSES BAJOS -->
+                        <svg
+                          width="18"
+                          height="12"
+                          viewBox="0 0 72 52"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden"
+                        >
+                          <g clip-path="url(#clip0_nl_popup_new)">
+                            <rect width="72" height="52" rx="13" fill="#fff" />
+                            <rect
+                              width="72"
+                              height="17.3333"
+                              y="0"
+                              fill="#AD1E2E"
+                            />
+                            <rect
+                              width="72"
+                              height="17.3333"
+                              y="34.6667"
+                              fill="#21468B"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_nl_popup_new">
+                              <rect width="72" height="52" rx="13" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      }
+                    }
+                    <span>{{ c.label }}</span>
+                  </button>
                 }
-                @case ("en") {
-                <!-- REINO UNIDO / UK bandera -->
-                <svg width="18" height="12" viewBox="0 0 75 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4.5 h-3 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_en_flag_popup_new)">
-                    <rect width="72" height="52" rx="13" fill="#001B69" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M7.97847 0H0V8.66667L66.9782 52L75 52V43.3333L7.97847 0Z" fill="white" />
-                    <path d="M2.66107 0L75 46.9228V52H72.4013L0 5.0286V0H2.66107Z" fill="#C9072A" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M67.8571 0H75V8.66667C75 8.66667 28.6064 37.5373 7.14286 52H0V43.3333L67.8571 0Z"
-                      fill="white" />
-                    <path d="M75 0H72.5777L0 46.9632V52H2.66107L75 5.06658V0Z" fill="#C9072A" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M27.2753 0H47.7871V16.0396H75V35.9498H47.7871V52H27.2753V35.9498H0V16.0396H27.2753V0Z"
-                      fill="white" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                      d="M31.5789 0H43.4211V20H75V32H43.4211V52H31.5789V32H0V20H31.5789V0Z" fill="#C9072A" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_en_flag_popup_new">
-                      <rect width="75" height="52" rx="13" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("fr") {
-                <!-- FRANCIA -->
-                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_fr_popup_new)">
-                    <rect width="72" height="52" rx="13" fill="#fff" />
-                    <rect width="24" height="52" fill="#052987" />
-                    <rect x="48" width="24" height="52" fill="#F72940" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_fr_popup_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("it") {
-                <!-- ITALIA -->
-                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_it_popup_new)">
-                    <rect width="72" height="52" rx="13" fill="#fff" />
-                    <rect width="24" height="52" fill="#179A43" />
-                    <rect x="48" width="24" height="52" fill="#ED3237" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_it_popup_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("de") {
-                <!-- ALEMANIA -->
-                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_de_popup_new)">
-                    <rect width="72" height="52" rx="13" fill="#fff" />
-                    <rect width="72" height="17.3333" y="0" fill="#272727" />
-                    <rect width="72" height="17.3333" y="17.3333" fill="#DE2227" />
-                    <rect width="72" height="17.3333" y="34.6667" fill="#FFCE3B" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_de_popup_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("pt") {
-                <!-- PORTUGAL -->
-                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_pt_popup_new)">
-                    <rect width="72" height="52" rx="13" fill="#00874B" />
-                    <rect x="18" width="54" height="52" fill="#F32121" />
-                    <circle cx="23" cy="26" r="9" fill="#FCD032" />
-                    <circle cx="23" cy="26" r="5" fill="#FFF" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_pt_popup_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("us") {
-                <!-- ESTADOS UNIDOS -->
-                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_us_popup_new)">
-                    <rect width="72" height="52" rx="13" fill="#fff" />
-                    <rect width="72" height="7.42857" y="0" fill="#BF0A30" />
-                    <rect width="72" height="7.42857" y="14.8571" fill="#BF0A30" />
-                    <rect width="72" height="7.42857" y="29.7143" fill="#BF0A30" />
-                    <rect width="72" height="7.42857" y="44.5714" fill="#BF0A30" />
-                    <rect width="32" height="28.8571" fill="#002868" />
-                    <g>
-                      <circle cx="4.5" cy="4" r="1" fill="#FFF" />
-                      <circle cx="13" cy="4" r="1" fill="#FFF" />
-                      <circle cx="21.5" cy="4" r="1" fill="#FFF" />
-                      <circle cx="30" cy="4" r="1" fill="#FFF" />
-                    </g>
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_us_popup_new">
-                      <rect width="72" height="52" rx="13" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("tr") {
-                <!-- TURQUÍA -->
-                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_tr_popup_new)">
-                    <rect width="72" height="52" rx="13" fill="#E30A17" />
-                    <circle cx="30" cy="26" r="12" fill="#fff" />
-                    <circle cx="33" cy="26" r="9" fill="#E30A17" />
-                    <polygon points="41,26 46,28.18 42.5,32.09 43.82,27.45 39.82,26 43.82,24.55 42.5,19.91 46,23.82"
-                      fill="#fff" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_tr_popup_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("se") {
-                <!-- SUECIA -->
-                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_se_popup_new)">
-                    <rect width="72" height="52" rx="13" fill="#006AA7" />
-                    <rect x="20" width="8" height="52" fill="#FECC00" />
-                    <rect y="22" width="72" height="8" fill="#FECC00" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_se_popup_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                @case ("nl") {
-                <!-- PAÍSES BAJOS -->
-                <svg width="18" height="12" viewBox="0 0 72 52" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4.5 h-3 3xl:w-8 3xl:h-5 shrink-0 rounded-sm overflow-hidden">
-                  <g clip-path="url(#clip0_nl_popup_new)">
-                    <rect width="72" height="52" rx="13" fill="#fff" />
-                    <rect width="72" height="17.3333" y="0" fill="#AD1E2E" />
-                    <rect width="72" height="17.3333" y="34.6667" fill="#21468B" />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_nl_popup_new">
-                      <rect width="72" height="52" rx="13" />
-                    </clipPath>
-                  </defs>
-                </svg>
-                }
-                }
-                <span>{{ c.label }}</span>
-              </button>
-              }
-            </div>
+              </div>
             }
           </div>
 
           <!-- Voz: dropdown con opciones, play y ajustes (3 puntos) -->
-          <div class="relative voice-dropdown-step5 voice-params-dropdown-step5">
+          <div
+            class="relative voice-dropdown-step5 voice-params-dropdown-step5"
+          >
             <label
-              class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-2">Voz</label>
+              class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-2"
+              >Voz</label
+            >
             <div class="flex items-center gap-1.5 3xl:gap-3">
               <div class="flex-1 relative">
-                <button type="button" (click)="toggleVoiceDropdown($event)" [disabled]="voices.length === 0"
-                  class="w-full flex items-center justify-between gap-2 3xl:gap-4 px-3 3xl:px-6 py-2.5 3xl:py-4 text-left text-xs 3xl:text-xl border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                <button
+                  type="button"
+                  (click)="toggleVoiceDropdown($event)"
+                  [disabled]="voices.length === 0"
+                  class="w-full flex items-center justify-between gap-2 3xl:gap-4 px-3 3xl:px-6 py-2.5 3xl:py-4 text-left text-xs 3xl:text-xl border border-gray-300 dark:border-slate-600 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800/80 text-gray-900 dark:text-white hover:border-gray-400 dark:hover:border-slate-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <div class="flex items-center gap-2 3xl:gap-3 min-w-0">
                     @if (getSelectedVoice()?.image) {
-                    <img [src]="getSelectedVoice()!.image" [alt]="getSelectedVoice()!.name"
-                      class="w-7 h-7 3xl:w-10 3xl:h-10 rounded-full object-cover flex-shrink-0 border border-white/40 dark:border-slate-700" />
+                      <img
+                        [src]="getSelectedVoice()!.image"
+                        [alt]="getSelectedVoice()!.name"
+                        class="w-7 h-7 3xl:w-10 3xl:h-10 rounded-full object-cover flex-shrink-0 border border-white/40 dark:border-slate-700"
+                      />
                     }
                     <span class="font-medium truncate 3xl:text-xl">{{
                       getSelectedVoice()?.name || "Selecciona una voz"
-                      }}</span>
+                    }}</span>
                   </div>
                   <svg
                     class="w-3.5 h-3.5 3xl:w-6 3xl:h-6 flex-shrink-0 text-gray-500 dark:text-slate-400 transition-transform"
-                    [class.rotate-180]="showVoiceDropdown" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    [class.rotate-180]="showVoiceDropdown"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </button>
                 @if (showVoiceDropdown) {
-                <div
-                  class="absolute top-full left-0 right-0 mt-1 3xl:mt-2 py-1 3xl:py-2 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 max-h-44 3xl:max-h-72 overflow-y-auto">
-                  @for (v of voices; track v.voiceId) {
-                  <div (click)="selectVoice(v.voiceId)"
-                    class="w-full flex items-center justify-between gap-2 3xl:gap-4 px-3 3xl:px-6 py-2 3xl:py-3 text-left text-xs 3xl:text-xl hover:bg-gray-50 dark:hover:bg-slate-700/80 text-gray-900 dark:text-white transition-colors first:rounded-t-md last:rounded-b-md cursor-pointer">
-                    <div class="flex items-center gap-2 3xl:gap-3 min-w-0">
-                      @if (v.image) {
-                      <img [src]="v.image" [alt]="v.name"
-                        class="w-6 h-6 3xl:w-9 3xl:h-9 rounded-full object-cover flex-shrink-0 border border-white/40 dark:border-slate-700" />
-                      }
-                      <span class="font-medium truncate 3xl:text-xl">
-                        {{ v.name }}
-                      </span>
-                    </div>
-                    <button type="button" (click)="playVoicePreview(v, $event)"
-                      class="flex-shrink-0 w-6 h-6 3xl:w-10 3xl:h-10 flex items-center justify-center rounded-md 3xl:rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-600 dark:text-slate-300 transition-colors">
-                      @if (currentPlayingVoice === v.voiceId) {
-                      <svg class="w-3 h-3 3xl:w-5 3xl:h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <rect x="6" y="4" width="4" height="16" rx="1" />
-                        <rect x="14" y="4" width="4" height="16" rx="1" />
-                      </svg>
-                      } @else {
-                      <svg class="w-3 h-3 3xl:w-5 3xl:h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                      }
-                    </button>
+                  <div
+                    class="absolute top-full left-0 right-0 mt-1 3xl:mt-2 py-1 3xl:py-2 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 max-h-44 3xl:max-h-72 overflow-y-auto"
+                  >
+                    @for (v of voices; track v.voiceId) {
+                      <div
+                        (click)="selectVoice(v.voiceId)"
+                        class="w-full flex items-center justify-between gap-2 3xl:gap-4 px-3 3xl:px-6 py-2 3xl:py-3 text-left text-xs 3xl:text-xl hover:bg-gray-50 dark:hover:bg-slate-700/80 text-gray-900 dark:text-white transition-colors first:rounded-t-md last:rounded-b-md cursor-pointer"
+                      >
+                        <div class="flex items-center gap-2 3xl:gap-3 min-w-0">
+                          @if (v.image) {
+                            <img
+                              [src]="v.image"
+                              [alt]="v.name"
+                              class="w-6 h-6 3xl:w-9 3xl:h-9 rounded-full object-cover flex-shrink-0 border border-white/40 dark:border-slate-700"
+                            />
+                          }
+                          <span class="font-medium truncate 3xl:text-xl">
+                            {{ v.name }}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          (click)="playVoicePreview(v, $event)"
+                          class="flex-shrink-0 w-6 h-6 3xl:w-10 3xl:h-10 flex items-center justify-center rounded-md 3xl:rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-600 dark:text-slate-300 transition-colors"
+                        >
+                          @if (currentPlayingVoice === v.voiceId) {
+                            <svg
+                              class="w-3 h-3 3xl:w-5 3xl:h-5"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <rect x="6" y="4" width="4" height="16" rx="1" />
+                              <rect x="14" y="4" width="4" height="16" rx="1" />
+                            </svg>
+                          } @else {
+                            <svg
+                              class="w-3 h-3 3xl:w-5 3xl:h-5"
+                              fill="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          }
+                        </button>
+                      </div>
+                    }
                   </div>
-                  }
-                </div>
                 }
               </div>
-              <button type="button" (click)="playVoice(getSelectedVoice())" [disabled]="!selectedVoiceId"
-                class="flex-shrink-0 w-9 h-9 3xl:w-14 3xl:h-14 flex items-center justify-center rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+              <button
+                type="button"
+                (click)="playVoice(getSelectedVoice())"
+                [disabled]="!selectedVoiceId"
+                class="flex-shrink-0 w-9 h-9 3xl:w-14 3xl:h-14 flex items-center justify-center rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 @if (currentPlayingVoice === selectedVoiceId) {
-                <svg class="w-4 h-4 3xl:w-6 3xl:h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <rect x="6" y="4" width="4" height="16" rx="1" />
-                  <rect x="14" y="4" width="4" height="16" rx="1" />
-                </svg>
+                  <svg
+                    class="w-4 h-4 3xl:w-6 3xl:h-6"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <rect x="6" y="4" width="4" height="16" rx="1" />
+                    <rect x="14" y="4" width="4" height="16" rx="1" />
+                  </svg>
                 } @else {
-                <svg class="w-4 h-4 3xl:w-6 3xl:h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
+                  <svg
+                    class="w-4 h-4 3xl:w-6 3xl:h-6"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
                 }
               </button>
               <!-- Botón 3 puntos (ajustes) -->
               <div class="relative flex-shrink-0 flex items-center">
-                <button type="button" (click)="toggleVoiceParamsDropdown($event)"
-                  class="w-9 h-9 3xl:w-14 3xl:h-14 flex items-center justify-center rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-300 transition-colors">
-                  <svg class="w-4 h-4 3xl:w-6 3xl:h-6" fill="currentColor" viewBox="0 0 24 24">
+                <button
+                  type="button"
+                  (click)="toggleVoiceParamsDropdown($event)"
+                  class="w-9 h-9 3xl:w-14 3xl:h-14 flex items-center justify-center rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800/80 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-300 transition-colors"
+                >
+                  <svg
+                    class="w-4 h-4 3xl:w-6 3xl:h-6"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <circle cx="12" cy="6" r="1.5" />
                     <circle cx="12" cy="12" r="1.5" />
                     <circle cx="12" cy="18" r="1.5" />
                   </svg>
                 </button>
                 @if (showVoiceParamsDropdown) {
-                <div
-                  class="absolute left-full top-1/2 -translate-y-1/2 ml-2 3xl:ml-4 min-w-[140px] 3xl:min-w-[200px] py-1.5 3xl:py-3 px-2 3xl:px-4 rounded-xl 3xl:rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 voice-params-panel">
-                  <div class="flex flex-col gap-4 3xl:gap-6">
-                    <div>
-                      <div class="flex justify-between items-baseline mb-0.5 3xl:mb-1">
-                        <span
-                          class="text-[10px] 3xl:text-base font-medium text-gray-600 dark:text-slate-300">Estabilidad</span>
-                        <span class="text-[10px] 3xl:text-base tabular-nums text-gray-500 dark:text-slate-400">{{
-                          voiceParameters.stability.toFixed(2) }}</span>
+                  <div
+                    class="absolute left-full top-1/2 -translate-y-1/2 ml-2 3xl:ml-4 min-w-[140px] 3xl:min-w-[200px] py-1.5 3xl:py-3 px-2 3xl:px-4 rounded-xl 3xl:rounded-2xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 voice-params-panel"
+                  >
+                    <div class="flex flex-col gap-4 3xl:gap-6">
+                      <div>
+                        <div
+                          class="flex justify-between items-baseline mb-0.5 3xl:mb-1"
+                        >
+                          <span
+                            class="text-[10px] 3xl:text-base font-medium text-gray-600 dark:text-slate-300"
+                            >Estabilidad</span
+                          >
+                          <span
+                            class="text-[10px] 3xl:text-base tabular-nums text-gray-500 dark:text-slate-400"
+                            >{{ voiceParameters.stability.toFixed(2) }}</span
+                          >
+                        </div>
+                        <div
+                          class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2"
+                        >
+                          <span
+                            class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left"
+                            >0</span
+                          >
+                          <input
+                            type="range"
+                            [(ngModel)]="voiceParameters.stability"
+                            name="stability"
+                            min="0"
+                            max="1"
+                            step="0.01"
+                            [style.--v]="voiceParameters.stability"
+                            class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2"
+                          />
+                          <span
+                            class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right"
+                            >1</span
+                          >
+                        </div>
                       </div>
-                      <div class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2">
-                        <span
-                          class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left">0</span>
-                        <input type="range" [(ngModel)]="voiceParameters.stability" name="stability" min="0" max="1"
-                          step="0.01" [style.--v]="voiceParameters.stability"
-                          class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
-                        <span
-                          class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right">1</span>
+                      <div>
+                        <div
+                          class="flex justify-between items-baseline mb-0.5 3xl:mb-1"
+                        >
+                          <span
+                            class="text-[10px] 3xl:text-base font-medium text-gray-600 dark:text-slate-300"
+                            >Similitud</span
+                          >
+                          <span
+                            class="text-[10px] 3xl:text-base tabular-nums text-gray-500 dark:text-slate-400"
+                            >{{ voiceParameters.similarity.toFixed(2) }}</span
+                          >
+                        </div>
+                        <div
+                          class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2"
+                        >
+                          <span
+                            class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left"
+                            >0</span
+                          >
+                          <input
+                            type="range"
+                            [(ngModel)]="voiceParameters.similarity"
+                            name="similarity"
+                            min="0"
+                            max="1"
+                            step="0.01"
+                            [style.--v]="voiceParameters.similarity"
+                            class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2"
+                          />
+                          <span
+                            class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right"
+                            >1</span
+                          >
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <div class="flex justify-between items-baseline mb-0.5 3xl:mb-1">
-                        <span
-                          class="text-[10px] 3xl:text-base font-medium text-gray-600 dark:text-slate-300">Similitud</span>
-                        <span class="text-[10px] 3xl:text-base tabular-nums text-gray-500 dark:text-slate-400">{{
-                          voiceParameters.similarity.toFixed(2) }}</span>
+                      <div>
+                        <div
+                          class="flex justify-between items-baseline mb-0.5 3xl:mb-1"
+                        >
+                          <span
+                            class="text-[10px] 3xl:text-base font-medium text-gray-600 dark:text-slate-300"
+                            >Estilo</span
+                          >
+                          <span
+                            class="text-[10px] 3xl:text-base tabular-nums text-gray-500 dark:text-slate-400"
+                            >{{ voiceParameters.style.toFixed(2) }}</span
+                          >
+                        </div>
+                        <div
+                          class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2"
+                        >
+                          <span
+                            class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left"
+                            >0</span
+                          >
+                          <input
+                            type="range"
+                            [(ngModel)]="voiceParameters.style"
+                            name="style"
+                            min="0"
+                            max="1"
+                            step="0.01"
+                            [style.--v]="voiceParameters.style"
+                            class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2"
+                          />
+                          <span
+                            class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right"
+                            >1</span
+                          >
+                        </div>
                       </div>
-                      <div class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2">
-                        <span
-                          class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left">0</span>
-                        <input type="range" [(ngModel)]="voiceParameters.similarity" name="similarity" min="0" max="1"
-                          step="0.01" [style.--v]="voiceParameters.similarity"
-                          class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
-                        <span
-                          class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right">1</span>
+                      <div>
+                        <div
+                          class="flex justify-between items-baseline mb-0.5 3xl:mb-1"
+                        >
+                          <span
+                            class="text-[10px] 3xl:text-base font-medium text-gray-600 dark:text-slate-300"
+                            >Velocidad</span
+                          >
+                          <span
+                            class="text-[10px] 3xl:text-base tabular-nums text-gray-500 dark:text-slate-400"
+                            >{{ voiceParameters.speed.toFixed(2) }}</span
+                          >
+                        </div>
+                        <div
+                          class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2"
+                        >
+                          <span
+                            class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left"
+                            >0.25</span
+                          >
+                          <input
+                            type="range"
+                            [(ngModel)]="voiceParameters.speed"
+                            name="speed"
+                            min="0.25"
+                            max="4"
+                            step="0.01"
+                            [style.--v]="(voiceParameters.speed - 0.25) / 3.75"
+                            class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2"
+                          />
+                          <span
+                            class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right"
+                            >4</span
+                          >
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <div class="flex justify-between items-baseline mb-0.5 3xl:mb-1">
-                        <span
-                          class="text-[10px] 3xl:text-base font-medium text-gray-600 dark:text-slate-300">Estilo</span>
-                        <span class="text-[10px] 3xl:text-base tabular-nums text-gray-500 dark:text-slate-400">{{
-                          voiceParameters.style.toFixed(2) }}</span>
-                      </div>
-                      <div class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2">
-                        <span
-                          class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left">0</span>
-                        <input type="range" [(ngModel)]="voiceParameters.style" name="style" min="0" max="1" step="0.01"
-                          [style.--v]="voiceParameters.style" class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
-                        <span
-                          class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right">1</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="flex justify-between items-baseline mb-0.5 3xl:mb-1">
-                        <span
-                          class="text-[10px] 3xl:text-base font-medium text-gray-600 dark:text-slate-300">Velocidad</span>
-                        <span class="text-[10px] 3xl:text-base tabular-nums text-gray-500 dark:text-slate-400">{{
-                          voiceParameters.speed.toFixed(2) }}</span>
-                      </div>
-                      <div class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2">
-                        <span
-                          class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left">0.25</span>
-                        <input type="range" [(ngModel)]="voiceParameters.speed" name="speed" min="0.25" max="4"
-                          step="0.01" [style.--v]="(voiceParameters.speed - 0.25) / 3.75"
-                          class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
-                        <span
-                          class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right">4</span>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="flex justify-between items-baseline mb-0.5 3xl:mb-1">
-                        <span class="text-[8px] 3xl:text-sm font-medium text-gray-600 dark:text-slate-300">Boost</span>
-                        <span class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400">
-                          {{ voiceParameters.boost ? "Sí" : "No" }}
-                        </span>
-                      </div>
-                      <button type="button" (click)="
+                      <div>
+                        <div
+                          class="flex justify-between items-baseline mb-0.5 3xl:mb-1"
+                        >
+                          <span
+                            class="text-[8px] 3xl:text-sm font-medium text-gray-600 dark:text-slate-300"
+                            >Boost</span
+                          >
+                          <span
+                            class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400"
+                          >
+                            {{ voiceParameters.boost ? "Sí" : "No" }}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          (click)="
                             voiceParameters.boost = !voiceParameters.boost
                           "
-                        class="relative inline-flex items-center w-7 h-4 3xl:w-12 3xl:h-6 rounded-full transition-colors duration-200 ease-out"
-                        [ngClass]="
+                          class="relative inline-flex items-center w-7 h-4 3xl:w-12 3xl:h-6 rounded-full transition-colors duration-200 ease-out"
+                          [ngClass]="
                             voiceParameters.boost
                               ? 'bg-blue-500 shadow-sm'
                               : 'bg-gray-300 dark:bg-slate-600'
-                          ">
-                        <span
-                          class="absolute inline-block w-3 h-3 3xl:w-5 3xl:h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 ease-out"
-                          [ngClass]="
+                          "
+                        >
+                          <span
+                            class="absolute inline-block w-3 h-3 3xl:w-5 3xl:h-5 bg-white rounded-full shadow-md transform transition-transform duration-200 ease-out"
+                            [ngClass]="
                               voiceParameters.boost
                                 ? 'translate-x-3 3xl:translate-x-6'
                                 : 'translate-x-0.5 3xl:translate-x-1'
-                            "></span>
-                      </button>
+                            "
+                          ></span>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
                 }
               </div>
             </div>
@@ -787,16 +1439,22 @@
         </div>
 
         <div class="w-full flex items-center justify-between mt-5 3xl:mt-10">
-          <button type="button"
+          <button
+            type="button"
             class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
-            (click)="goBack()">
+            (click)="goBack()"
+          >
             <span class="text-xs 3xl:text-xl leading-none">‹</span>
             <span>Atrás</span>
           </button>
-          <button type="button" [disabled]="!selectedVoiceId" [class.opacity-50]="!selectedVoiceId"
+          <button
+            type="button"
+            [disabled]="!selectedVoiceId"
+            [class.opacity-50]="!selectedVoiceId"
             [class.cursor-not-allowed]="!selectedVoiceId"
             class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors disabled:hover:bg-[#1E3A8A] dark:bg-white dark:text-[#000000] dark:hover:bg-white"
-            (click)="onSkip()">
+            (click)="onSkip()"
+          >
             Continuar
           </button>
         </div>
@@ -804,63 +1462,89 @@
     </div>
 
     <!-- Paso 4: Conecta tu negocio -->
-    <div *ngSwitchCase="'connectBusiness'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+    <div
+      *ngSwitchCase="'connectBusiness'"
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40"
+    >
       <div
-        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6"
+      >
         <div class="flex items-center justify-between w-full">
-          <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
+          <h1
+            class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight"
+          >
             Conecta tu negocio de Shopify
           </h1>
-          <span class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
-            *ngIf="getCurrentStepNumber() > 0">
+          <span
+            class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
+            *ngIf="getCurrentStepNumber() > 0"
+          >
             {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
           </span>
         </div>
-        <p class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
+        <p
+          class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold"
+        >
           Vincula tu tienda para que tu agente pueda usar tus datos reales.
         </p>
 
         <div
-          class="mt-3 3xl:mt-5 border border-gray-200 dark:border-slate-600 rounded-xl 3xl:rounded-2xl px-3 3xl:px-6 py-3 3xl:py-5 flex flex-col gap-3 3xl:gap-6 bg-gray-50 dark:bg-slate-900/30">
+          class="mt-3 3xl:mt-5 border border-gray-200 dark:border-slate-600 rounded-xl 3xl:rounded-2xl px-3 3xl:px-6 py-3 3xl:py-5 flex flex-col gap-3 3xl:gap-6 bg-gray-50 dark:bg-slate-900/30"
+        >
           <div class="flex items-center gap-3 3xl:gap-5">
             <div
-              class="w-8 h-8 3xl:w-14 3xl:h-14 rounded-xl 3xl:rounded-2xl bg-white flex items-center justify-center shadow-sm">
-              <img src="assets/shopify.webp" alt="Shopify Logo" class="w-4 h-5 3xl:w-8 3xl:h-10" />
+              class="w-8 h-8 3xl:w-14 3xl:h-14 rounded-xl 3xl:rounded-2xl bg-white flex items-center justify-center shadow-sm"
+            >
+              <img
+                src="assets/shopify.webp"
+                alt="Shopify Logo"
+                class="w-4 h-5 3xl:w-8 3xl:h-10"
+              />
             </div>
             <div class="flex-1">
-              <p class="text-[11px] 3xl:text-xl font-semibold text-[#0F172A] dark:text-white">
+              <p
+                class="text-[11px] 3xl:text-xl font-semibold text-[#0F172A] dark:text-white"
+              >
                 Shopify
               </p>
-              <p class="text-[10px] 3xl:text-lg text-[#6d747c] dark:text-slate-400">
+              <p
+                class="text-[10px] 3xl:text-lg text-[#6d747c] dark:text-slate-400"
+              >
                 Conecta tu tienda para sincronizar productos, pedidos y
                 clientes.
               </p>
             </div>
-            <button type="button"
+            <button
+              type="button"
               class="ml-2 3xl:ml-4 px-2.5 3xl:px-6 py-1 3xl:py-2 rounded-[5px] 3xl:rounded-lg text-[10px] 3xl:text-lg font-semibold transition-colors border"
               [ngClass]="{
                 'bg-green-600 hover:bg-green-700 text-white border-green-600':
                   shopifyConnectedDomain,
                 'bg-[#1E3A8A] hover:bg-[#1E40AF] text-white border-[#1E3A8A] dark:bg-white dark:text-[#000001] dark:hover:bg-white dark:border-white':
                   !shopifyConnectedDomain,
-              }" (click)="goToShopifyOnboarding()">
+              }"
+              (click)="goToShopifyOnboarding()"
+            >
               {{ shopifyConnectedDomain ? "Conectado" : "Conectar" }}
             </button>
           </div>
         </div>
 
         <div class="w-full flex items-center justify-between mt-5 3xl:mt-10">
-          <button type="button"
+          <button
+            type="button"
             class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
-            (click)="goBack()">
+            (click)="goBack()"
+          >
             <span class="text-xs 3xl:text-xl leading-none">‹</span>
             <span>Atrás</span>
           </button>
           <div class="flex items-center gap-2 3xl:gap-4">
-            <button type="button"
+            <button
+              type="button"
               class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
-              (click)="onContinueFromConnectBusiness()">
+              (click)="onContinueFromConnectBusiness()"
+            >
               Continuar
             </button>
           </div>
@@ -869,105 +1553,170 @@
     </div>
 
     <!-- Paso 5: Instrucciones -->
-    <div *ngSwitchCase="'instructions'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+    <div
+      *ngSwitchCase="'instructions'"
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40"
+    >
       <div
-        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[580px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-8 overflow-visible">
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[580px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-8 overflow-visible"
+      >
         <div class="flex items-center justify-between w-full">
-          <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
+          <h1
+            class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight"
+          >
             Instrucciones
           </h1>
-          <span class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
-            *ngIf="getCurrentStepNumber() > 0">
+          <span
+            class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
+            *ngIf="getCurrentStepNumber() > 0"
+          >
             {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
           </span>
         </div>
-        <p class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
+        <p
+          class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold"
+        >
           Define las instrucciones que seguirá tu agente de IA.
         </p>
 
         <div class="mt-3 3xl:mt-5 flex flex-col gap-3 3xl:gap-6">
           <div>
             <label
-              class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-2">Saludo
-              personalizado</label>
-            <input type="text" [(ngModel)]="greeting" name="greeting" placeholder="Hola, gracias por llamar a..."
-              class="w-full px-3 3xl:px-6 py-1.5 3xl:py-3 text-[11px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition-all" />
+              class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-2"
+              >Saludo personalizado</label
+            >
+            <input
+              type="text"
+              [(ngModel)]="greeting"
+              name="greeting"
+              placeholder="Hola, gracias por llamar a..."
+              class="w-full px-3 3xl:px-6 py-1.5 3xl:py-3 text-[11px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition-all"
+            />
           </div>
           <div>
             <div class="flex items-center justify-between relative">
               <label
-                class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-1">Instrucciones
-                del agente</label>
+                class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-1"
+                >Instrucciones del agente</label
+              >
               <div class="relative">
-                <button type="button" (click)="toggleGeneratePromptDropdown()"
-                  class="group relative flex items-center gap-1 px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 ease-in-out border border-gray-300 dark:border-slate-600 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 hover:scale-105 hover:shadow-md hover:shadow-purple-500/20">
+                <button
+                  type="button"
+                  (click)="toggleGeneratePromptDropdown()"
+                  class="group relative flex items-center gap-1 px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 ease-in-out border border-gray-300 dark:border-slate-600 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 hover:scale-105 hover:shadow-md hover:shadow-purple-500/20"
+                >
                   <span
-                    class="text-[10px] 3xl:text-xs font-medium bg-gradient-to-r from-violet-500 via-purple-500 via-fuchsia-500 via-indigo-500 to-blue-600 bg-clip-text text-transparent">Generar
-                    con IA</span>
+                    class="text-[10px] 3xl:text-xs font-medium bg-gradient-to-r from-violet-500 via-purple-500 via-fuchsia-500 via-indigo-500 to-blue-600 bg-clip-text text-transparent"
+                    >Generar con IA</span
+                  >
                 </button>
                 @if (
-                showGeneratePromptModal || isGeneratePromptDropdownClosing
+                  showGeneratePromptModal || isGeneratePromptDropdownClosing
                 ) {
-                <div
-                  class="absolute right-0 mt-2 w-72 3xl:w-96 rounded-xl 3xl:rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 shadow-xl z-50 p-3 3xl:p-4 space-y-3 ia-generate-dropdown"
-                  [class.closing]="isGeneratePromptDropdownClosing">
-                  <div>
-                    <p class="text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-white">
-                      Generar instrucciones con IA
-                    </p>
-                    <p class="mt-0.5 text-[9px] 3xl:text-xs text-gray-500 dark:text-gray-400">
-                      Describe brevemente cómo debe comportarse el agente.
-                    </p>
-                  </div>
-                  <div>
-                    <textarea [(ngModel)]="promptDescription"
-                      placeholder="Ej: Agente amable que atiende reservas y dudas de un restaurante..." rows="3"
-                      class="w-full px-2.5 3xl:px-3 py-1.5 3xl:py-2 text-[10px] 3xl:text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none resize-none transition-all"></textarea>
-                  </div>
-                  @if (generatePromptError) {
-                  <p class="text-[9px] 3xl:text-xs text-red-500 dark:text-red-400">
-                    {{ generatePromptError }}
-                  </p>
-                  }
-                  <div class="flex justify-end gap-2">
-                    <button type="button" (click)="closeGeneratePromptModal()"
-                      class="px-2.5 3xl:px-3 py-1 text-[9px] 3xl:text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
-                      Cancelar
-                    </button>
-                    <button type="button" (click)="generatePrompt()" [disabled]="
+                  <div
+                    class="absolute right-0 mt-2 w-72 3xl:w-96 rounded-xl 3xl:rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 shadow-xl z-50 p-3 3xl:p-4 space-y-3 ia-generate-dropdown"
+                    [class.closing]="isGeneratePromptDropdownClosing"
+                  >
+                    <div>
+                      <p
+                        class="text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-white"
+                      >
+                        Generar instrucciones con IA
+                      </p>
+                      <p
+                        class="mt-0.5 text-[9px] 3xl:text-xs text-gray-500 dark:text-gray-400"
+                      >
+                        Describe brevemente cómo debe comportarse el agente.
+                      </p>
+                    </div>
+                    <div>
+                      <textarea
+                        [(ngModel)]="promptDescription"
+                        placeholder="Ej: Agente amable que atiende reservas y dudas de un restaurante..."
+                        rows="3"
+                        class="w-full px-2.5 3xl:px-3 py-1.5 3xl:py-2 text-[10px] 3xl:text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none resize-none transition-all"
+                      ></textarea>
+                    </div>
+                    @if (generatePromptError) {
+                      <p
+                        class="text-[9px] 3xl:text-xs text-red-500 dark:text-red-400"
+                      >
+                        {{ generatePromptError }}
+                      </p>
+                    }
+                    <div class="flex justify-end gap-2">
+                      <button
+                        type="button"
+                        (click)="closeGeneratePromptModal()"
+                        class="px-2.5 3xl:px-3 py-1 text-[9px] 3xl:text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        type="button"
+                        (click)="generatePrompt()"
+                        [disabled]="
                           isGeneratingPrompt || !promptDescription.trim()
                         "
-                      class="px-2.5 3xl:px-3 py-1 text-[9px] 3xl:text-xs font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
-                      @if (isGeneratingPrompt) {
-                      <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-                        </circle>
-                        <path class="opacity-75" fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                        </path>
-                      </svg>
-                      Generando...
-                      } @else {
-                      Generar
-                      }
-                    </button>
+                        class="px-2.5 3xl:px-3 py-1 text-[9px] 3xl:text-xs font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+                      >
+                        @if (isGeneratingPrompt) {
+                          <svg
+                            class="animate-spin h-3 w-3"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              class="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              stroke-width="4"
+                            ></circle>
+                            <path
+                              class="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Generando...
+                        } @else {
+                          Generar
+                        }
+                      </button>
+                    </div>
                   </div>
-                </div>
                 }
               </div>
             </div>
             <div class="relative mt-2">
-              <textarea [(ngModel)]="instructions" name="instructions" placeholder="Escribe aquí las instrucciones..."
+              <textarea
+                [(ngModel)]="instructions"
+                name="instructions"
+                placeholder="Escribe aquí las instrucciones..."
                 rows="8"
-                class="w-full px-3 3xl:px-6 py-4 3xl:py-6 text-[11px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none resize-none transition-all"></textarea>
+                class="w-full px-3 3xl:px-6 py-4 3xl:py-6 text-[11px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none resize-none transition-all"
+              ></textarea>
               <!-- Botón para ver texto ampliado -->
-              <button type="button" (click)="openExpandInstructionsModal()"
+              <button
+                type="button"
+                (click)="openExpandInstructionsModal()"
                 class="absolute bottom-2 right-2 p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                title="Ver texto completo ampliado">
-                <svg class="w-4 h-4 3xl:w-5 3xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                title="Ver texto completo ampliado"
+              >
+                <svg
+                  class="w-4 h-4 3xl:w-5 3xl:h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"
+                  />
                 </svg>
               </button>
             </div>
@@ -976,58 +1725,91 @@
 
         <div class="mt-4 3xl:mt-6 relative z-10 overflow-visible">
           <label
-            class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-2">Acciones
-            externas (Make)</label>
+            class="block text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-2"
+            >Acciones externas (Make)</label
+          >
           <div
-            class="border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-900/40 overflow-visible">
-            <div class="flex items-start gap-2 px-3 3xl:px-4 py-2 3xl:py-3 transition-colors">
+            class="border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-900/40 overflow-visible"
+          >
+            <div
+              class="flex items-start gap-2 px-3 3xl:px-4 py-2 3xl:py-3 transition-colors"
+            >
               <div class="flex items-center gap-2 min-w-0">
-                <img src="assets/make.webp" alt="Make" class="w-6 h-6 3xl:w-8 3xl:h-8 object-contain" />
+                <img
+                  src="assets/make.webp"
+                  alt="Make"
+                  class="w-6 h-6 3xl:w-8 3xl:h-8 object-contain"
+                />
                 <div class="min-w-0">
-                  <p class="text-[10px] 3xl:text-lg font-semibold text-gray-900 dark:text-white leading-tight">
+                  <p
+                    class="text-[10px] 3xl:text-lg font-semibold text-gray-900 dark:text-white leading-tight"
+                  >
                     Make
                   </p>
-                  <p class="text-[9px] 3xl:text-sm text-gray-500 dark:text-gray-400 leading-tight">
+                  <p
+                    class="text-[9px] 3xl:text-sm text-gray-500 dark:text-gray-400 leading-tight"
+                  >
                     Automatiza tus flujos
                   </p>
                 </div>
               </div>
               <div class="ml-auto relative z-[10000]">
-                <button type="button"
+                <button
+                  type="button"
                   class="px-2 3xl:px-3 py-1 3xl:py-1.5 text-[9px] 3xl:text-sm rounded-md 3xl:rounded-lg bg-black text-white dark:bg-white dark:text-[#000001] font-medium hover:bg-gray-800 dark:hover:bg-white transition-colors"
-                  (click)="toggleMakeConfig()">
+                  (click)="toggleMakeConfig()"
+                >
                   {{ showMakeConfig ? "Cerrar" : "Conectar" }}
                 </button>
                 @if (showMakeConfig || isMakeConfigClosing) {
-                <div
-                  class="absolute right-full top-0 mr-2 w-72 sm:w-80 3xl:w-96 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl shadow-lg z-[9999] px-3 3xl:px-4 pb-3 3xl:pb-4 pt-2 3xl:pt-3 space-y-2 3xl:space-y-3 make-modal-dropdown lg:left-full lg:right-auto lg:top-[-11.5rem] 3xl:lg:top-[-13rem] lg:ml-2 lg:mr-0"
-                  [class.closing]="isMakeConfigClosing">
-                  <div>
-                    <label
-                      class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-0.5 3xl:mb-1">Nombre
-                      de la acción *</label>
-                    <input type="text" [(ngModel)]="makeActionData.name" placeholder="Avisar equipo ventas"
-                      class="w-full h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none" />
+                  <div
+                    class="absolute right-full top-0 mr-2 w-72 sm:w-80 3xl:w-96 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl shadow-lg z-[9999] px-3 3xl:px-4 pb-3 3xl:pb-4 pt-2 3xl:pt-3 space-y-2 3xl:space-y-3 make-modal-dropdown lg:left-full lg:right-auto lg:top-[-11.5rem] 3xl:lg:top-[-13rem] lg:ml-2 lg:mr-0"
+                    [class.closing]="isMakeConfigClosing"
+                  >
+                    <div>
+                      <label
+                        class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-0.5 3xl:mb-1"
+                        >Nombre de la acción *</label
+                      >
+                      <input
+                        type="text"
+                        [(ngModel)]="makeActionData.name"
+                        placeholder="Avisar equipo ventas"
+                        class="w-full h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-0.5 3xl:mb-1"
+                        >Descripción</label
+                      >
+                      <textarea
+                        rows="2"
+                        [(ngModel)]="makeActionData.description"
+                        placeholder="Qué hace esta acción"
+                        class="w-full px-2 3xl:px-3 py-1 3xl:py-2 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none resize-none"
+                      ></textarea>
+                    </div>
+                    <div>
+                      <label
+                        class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-0.5 3xl:mb-1"
+                        >URL del servidor *</label
+                      >
+                      <input
+                        type="url"
+                        [(ngModel)]="makeActionData.serverUrl"
+                        placeholder="https://hook.make.com/..."
+                        class="w-full h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      class="w-full px-2.5 3xl:px-4 py-1 3xl:py-2 text-[9px] 3xl:text-sm rounded-md 3xl:rounded-lg bg-black text-white dark:bg-white dark:text-[#000001] font-semibold hover:bg-gray-800 dark:hover:bg-white transition-colors"
+                      (click)="onSaveMakeAction()"
+                    >
+                      Guardar acción
+                    </button>
                   </div>
-                  <div>
-                    <label
-                      class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-0.5 3xl:mb-1">Descripción</label>
-                    <textarea rows="2" [(ngModel)]="makeActionData.description" placeholder="Qué hace esta acción"
-                      class="w-full px-2 3xl:px-3 py-1 3xl:py-2 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none resize-none"></textarea>
-                  </div>
-                  <div>
-                    <label
-                      class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-0.5 3xl:mb-1">URL
-                      del servidor *</label>
-                    <input type="url" [(ngModel)]="makeActionData.serverUrl" placeholder="https://hook.make.com/..."
-                      class="w-full h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none" />
-                  </div>
-                  <button type="button"
-                    class="w-full px-2.5 3xl:px-4 py-1 3xl:py-2 text-[9px] 3xl:text-sm rounded-md 3xl:rounded-lg bg-black text-white dark:bg-white dark:text-[#000001] font-semibold hover:bg-gray-800 dark:hover:bg-white transition-colors"
-                    (click)="onSaveMakeAction()">
-                    Guardar acción
-                  </button>
-                </div>
                 }
               </div>
             </div>
@@ -1035,15 +1817,19 @@
         </div>
 
         <div class="w-full flex items-center justify-between mt-5 3xl:mt-10">
-          <button type="button"
+          <button
+            type="button"
             class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
-            (click)="goBack()">
+            (click)="goBack()"
+          >
             <span class="text-xs 3xl:text-xl leading-none">‹</span>
             <span>Atrás</span>
           </button>
-          <button type="button"
+          <button
+            type="button"
             class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
-            (click)="onSubmit()">
+            (click)="onSubmit()"
+          >
             Continuar
           </button>
         </div>
@@ -1051,138 +1837,112 @@
     </div>
 
     <!-- Paso 6: Base de conocimientos -->
-    <div *ngSwitchCase="'knowledgeBase'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
-      <div
-        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
-        <div class="flex items-center justify-between w-full">
-          <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
-            Base de conocimientos
-          </h1>
-          <span class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
-            *ngIf="getCurrentStepNumber() > 0">
-            {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
-          </span>
-        </div>
-        <p class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
-          Define la base de conocimientos para tu agente.
-        </p>
-
-        <div class="grid grid-cols-2 gap-3 3xl:gap-6 mt-3 3xl:mt-5">
-          <!-- PDF -->
-          <button type="button" (click)="selectKnowledgeSource('pdf')"
-            class="w-full aspect-square max-h-[100px] 3xl:max-h-[180px] rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-slate-600 bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white">
-            <div class="text-gray-900 dark:text-white mb-1.5 3xl:mb-3">
-              <svg class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-16 3xl:h-16" viewBox="0 0 100 100" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M62.5 94.7917H37.5C14.875 94.7917 5.20837 85.125 5.20837 62.5V37.5C5.20837 14.875 14.875 5.20837 37.5 5.20837H58.3334C60.0417 5.20837 61.4584 6.62504 61.4584 8.33337C61.4584 10.0417 60.0417 11.4584 58.3334 11.4584H37.5C18.2917 11.4584 11.4584 18.2917 11.4584 37.5V62.5C11.4584 81.7084 18.2917 88.5417 37.5 88.5417H62.5C81.7084 88.5417 88.5417 81.7084 88.5417 62.5V41.6667C88.5417 39.9584 89.9584 38.5417 91.6667 38.5417C93.375 38.5417 94.7917 39.9584 94.7917 41.6667V62.5C94.7917 85.125 85.125 94.7917 62.5 94.7917Z"
-                  fill="currentColor" />
-                <path
-                  d="M91.6667 44.7917H75C60.75 44.7917 55.2084 39.25 55.2084 25V8.33333C55.2084 7.08333 55.9584 5.91666 57.125 5.45833C58.2917 4.95833 59.625 5.24999 60.5417 6.12499L93.875 39.4583C94.75 40.3333 95.0417 41.7083 94.5417 42.875C94.0417 44.0417 92.9167 44.7917 91.6667 44.7917ZM61.4584 15.875V25C61.4584 35.75 64.25 38.5417 75 38.5417H84.125L61.4584 15.875Z"
-                  fill="currentColor" />
-                <path
-                  d="M54.1666 57.2916H29.1666C27.4583 57.2916 26.0416 55.875 26.0416 54.1666C26.0416 52.4583 27.4583 51.0416 29.1666 51.0416H54.1666C55.875 51.0416 57.2916 52.4583 57.2916 54.1666C57.2916 55.875 55.875 57.2916 54.1666 57.2916Z"
-                  fill="currentColor" />
-                <path
-                  d="M45.8333 73.9584H29.1666C27.4583 73.9584 26.0416 72.5417 26.0416 70.8334C26.0416 69.125 27.4583 67.7084 29.1666 67.7084H45.8333C47.5416 67.7084 48.9583 69.125 48.9583 70.8334C48.9583 72.5417 47.5416 73.9584 45.8333 73.9584Z"
-                  fill="currentColor" />
-              </svg>
-            </div>
-            <span class="text-[10px] sm:text-xs 3xl:text-xl font-medium text-gray-900 dark:text-white">PDF</span>
-          </button>
-
-          <!-- Web -->
-          <button type="button" (click)="selectKnowledgeSource('web')"
-            class="w-full aspect-square max-h-[100px] 3xl:max-h-[180px] rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-slate-600 bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-slate-400 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white">
-            <div class="text-gray-900 dark:text-white mb-1.5 3xl:mb-3">
-              <svg class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-16 3xl:h-16 dark:brightness-0 dark:invert" viewBox="0 0 100 100"
-                xmlns="http://www.w3.org/2000/svg">
-                <rect width="100" height="100" fill="url(#pattern0_web_setup)" />
-                <defs>
-                  <pattern id="pattern0_web_setup" patternUnits="objectBoundingBox" width="1" height="1">
-                    <image href="assets/web.webp" width="100" height="100" preserveAspectRatio="none" />
-                  </pattern>
-                </defs>
-              </svg>
-            </div>
-            <span class="text-[10px] sm:text-xs 3xl:text-xl font-medium text-gray-900 dark:text-white">Web</span>
-          </button>
-        </div>
-
-        <div class="w-full flex items-center justify-between mt-5 3xl:mt-10">
-          <button type="button"
-            class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
-            (click)="goBack()">
-            <span class="text-xs 3xl:text-xl leading-none">‹</span>
-            <span>Atrás</span>
-          </button>
-          <button type="button"
-            class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
-            (click)="onSkip()">
-            Continuar
-          </button>
-        </div>
-      </div>
+    <div *ngSwitchCase="'knowledgeBase'">
+      <app-knowledge-base-step
+        [currentStepNumber]="getCurrentStepNumber()"
+        [totalSteps]="getTotalSteps()"
+        (sourceSelected)="onSourceSelected($event)"
+        (backClicked)="goBack()"
+        (continueClicked)="onKnowledgeBaseContinue($event)"
+      ></app-knowledge-base-step>
     </div>
 
     <!-- Paso 7: Prueba de agente -->
-    <div *ngSwitchCase="'summary'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+    <div
+      *ngSwitchCase="'summary'"
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40"
+    >
       <div
-        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6"
+      >
         <div class="flex items-center justify-between w-full">
-          <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
+          <h1
+            class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight"
+          >
             Prueba de agente
           </h1>
-          <span class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
-            *ngIf="getCurrentStepNumber() > 0">
+          <span
+            class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
+            *ngIf="getCurrentStepNumber() > 0"
+          >
             {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
           </span>
         </div>
-        <p class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
+        <p
+          class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold"
+        >
           Habla con nuestro agente de prueba para ver cómo funciona.
         </p>
 
         <!-- Esfera -->
-        <div class="flex flex-col items-center shrink-0 overflow-hidden h-[240px] 3xl:h-[400px] mt-3 3xl:mt-6">
+        <div
+          class="flex flex-col items-center shrink-0 overflow-hidden h-[240px] 3xl:h-[400px] mt-3 3xl:mt-6"
+        >
           <div class="scale-[0.7] 3xl:scale-100 origin-top -mt-2 3xl:-mt-0">
             <app-ai-sphere [audioLevel]="audioLevel"></app-ai-sphere>
           </div>
         </div>
 
         <!-- Microfono y botones -->
-        <div class="w-full flex flex-col items-center gap-3 3xl:gap-6 -mt-3 3xl:-mt-6">
+        <div
+          class="w-full flex flex-col items-center gap-3 3xl:gap-6 -mt-3 3xl:-mt-6"
+        >
           <div class="flex justify-center">
-            <button type="button" (click)="toggleMicrophone()"
-              class="rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-slate-600 hover:border-blue-300 dark:hover:border-blue-500 w-9 h-9 3xl:w-16 3xl:h-16 bg-white dark:bg-slate-800">
+            <button
+              type="button"
+              (click)="toggleMicrophone()"
+              class="rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-slate-600 hover:border-blue-300 dark:hover:border-blue-500 w-9 h-9 3xl:w-16 3xl:h-16 bg-white dark:bg-slate-800"
+            >
               @if (isMicrophoneActive) {
-              <svg class="text-red-500 animate-pulse w-5 h-5 3xl:w-10 3xl:h-10" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
-                <path
-                  d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
-              </svg>
+                <svg
+                  class="text-red-500 animate-pulse w-5 h-5 3xl:w-10 3xl:h-10"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"
+                  />
+                  <path
+                    d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"
+                  />
+                </svg>
               } @else {
-              <svg class="text-gray-500 dark:text-slate-400 w-5 h-5 3xl:w-10 3xl:h-10" viewBox="0 0 24 24"
-                fill="currentColor">
-                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
-                <path
-                  d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
-                <path d="M3 3l18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" />
-              </svg>
+                <svg
+                  class="text-gray-500 dark:text-slate-400 w-5 h-5 3xl:w-10 3xl:h-10"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"
+                  />
+                  <path
+                    d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"
+                  />
+                  <path
+                    d="M3 3l18 18"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    fill="none"
+                  />
+                </svg>
               }
             </button>
           </div>
           <div class="w-full flex items-center justify-between">
-            <button type="button"
+            <button
+              type="button"
               class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
-              (click)="goBack()">
+              (click)="goBack()"
+            >
               <span class="text-xs 3xl:text-xl leading-none">‹</span>
               <span>Atrás</span>
             </button>
-            <button type="button"
+            <button
+              type="button"
               class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
-              (click)="onSubmitTestCall()">
+              (click)="onSubmitTestCall()"
+            >
               Continuar
             </button>
           </div>
@@ -1191,86 +1951,126 @@
     </div>
 
     <!-- Paso 8: Conecta tu número de teléfono (Twilio) -->
-    <div *ngSwitchCase="'connectPhone'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+    <div
+      *ngSwitchCase="'connectPhone'"
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40"
+    >
       <div
-        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6">
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-6"
+      >
         <div class="flex items-center justify-between w-full">
-          <h1 class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
+          <h1
+            class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight"
+          >
             Conecta tu número de teléfono
           </h1>
-          <span class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
-            *ngIf="getCurrentStepNumber() > 0">
+          <span
+            class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
+            *ngIf="getCurrentStepNumber() > 0"
+          >
             {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
           </span>
         </div>
-        <p class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
+        <p
+          class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold"
+        >
           Configura Twilio y tu número para recibir llamadas con tu agente.
         </p>
 
         <div
-          class="mt-3 3xl:mt-5 border border-gray-200 dark:border-slate-600 rounded-xl 3xl:rounded-2xl overflow-hidden bg-gray-50 dark:bg-slate-900/30">
+          class="mt-3 3xl:mt-5 border border-gray-200 dark:border-slate-600 rounded-xl 3xl:rounded-2xl overflow-hidden bg-gray-50 dark:bg-slate-900/30"
+        >
           <div
             class="flex items-center justify-between gap-3 3xl:gap-5 px-3 3xl:px-6 py-3 3xl:py-5 cursor-pointer transition-colors"
-            (click)="toggleTwilioConfig()">
+            (click)="toggleTwilioConfig()"
+          >
             <div class="flex items-center gap-3 3xl:gap-5">
               <div
-                class="w-7 h-7 3xl:w-14 3xl:h-14 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm overflow-hidden">
-                <img src="assets/twilio.jpg" alt="Twilio" class="w-7 h-7 3xl:w-14 3xl:h-14 object-contain rounded" />
+                class="w-7 h-7 3xl:w-14 3xl:h-14 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm overflow-hidden"
+              >
+                <img
+                  src="assets/twilio.jpg"
+                  alt="Twilio"
+                  class="w-7 h-7 3xl:w-14 3xl:h-14 object-contain rounded"
+                />
               </div>
               <div>
-                <p class="text-[11px] 3xl:text-xl font-semibold text-[#0F172A] dark:text-white">
+                <p
+                  class="text-[11px] 3xl:text-xl font-semibold text-[#0F172A] dark:text-white"
+                >
                   Twilio
                 </p>
-                <p class="text-[10px] 3xl:text-lg text-[#6d747c] dark:text-slate-400">
+                <p
+                  class="text-[10px] 3xl:text-lg text-[#6d747c] dark:text-slate-400"
+                >
                   @if (isTwilioValidated && selectedTwilioAccount) {
-                  Cuenta conectada
+                    Cuenta conectada
                   } @else if (isTwilioValidated) {
-                  Cuenta validada
+                    Cuenta validada
                   } @else {
-                  Conecta tu cuenta de Twilio
+                    Conecta tu cuenta de Twilio
                   }
                 </p>
               </div>
             </div>
-            <button type="button" (click)="toggleTwilioConfig(); $event.stopPropagation()"
-              class="px-2.5 3xl:px-6 py-1 3xl:py-2 rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white dark:bg-white dark:text-[#000001] dark:hover:bg-white text-[10px] 3xl:text-lg font-semibold transition-colors shrink-0">
+            <button
+              type="button"
+              (click)="toggleTwilioConfig(); $event.stopPropagation()"
+              class="px-2.5 3xl:px-6 py-1 3xl:py-2 rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white dark:bg-white dark:text-[#000001] dark:hover:bg-white text-[10px] 3xl:text-lg font-semibold transition-colors shrink-0"
+            >
               {{ showTwilioConfig ? "Cerrar" : "Conectar" }}
             </button>
           </div>
 
-          <div [class.twilio-slide-down]="showTwilioConfig" [class.twilio-slide-up]="!showTwilioConfig"
-            class="overflow-hidden">
-            <div class="px-3 3xl:px-6 pb-3 3xl:pb-5 pt-0 space-y-2 3xl:space-y-4">
+          <div
+            [class.twilio-slide-down]="showTwilioConfig"
+            [class.twilio-slide-up]="!showTwilioConfig"
+            class="overflow-hidden"
+          >
+            <div
+              class="px-3 3xl:px-6 pb-3 3xl:pb-5 pt-0 space-y-2 3xl:space-y-4"
+            >
               @if (loadingTwilioAccounts) {
-              <div class="flex justify-center py-3 3xl:py-5">
-                <div
-                  class="animate-spin rounded-full h-5 w-5 3xl:h-8 3xl:w-8 border-2 border-gray-300 border-t-[#1E3A8A]">
+                <div class="flex justify-center py-3 3xl:py-5">
+                  <div
+                    class="animate-spin rounded-full h-5 w-5 3xl:h-8 3xl:w-8 border-2 border-gray-300 border-t-[#1E3A8A]"
+                  ></div>
                 </div>
-              </div>
               } @else if (selectedTwilioAccount && isTwilioValidated) {
-              <div class="space-y-2 3xl:space-y-4">
-                <div class="flex items-center justify-between text-[9px] 3xl:text-base">
-                  <span class="text-gray-500 dark:text-slate-400">Cuenta ID:
-                    {{ selectedTwilioAccount.twilioAccountId }}</span>
-                  <button type="button" (click)="backToAccountSelection()"
-                    class="text-[#1E3A8A] dark:text-blue-400 font-medium 3xl:text-lg">
-                    Cambiar
-                  </button>
-                </div>
-                @if (
-                availablePhoneNumbers && availablePhoneNumbers.length > 0
-                ) {
-                <p class="text-[9px] 3xl:text-base font-semibold text-gray-600 dark:text-slate-300">
-                  Números disponibles
-                </p>
-                <div
-                  class="max-h-20 3xl:max-h-32 overflow-y-auto border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl p-1.5 3xl:p-3 space-y-0.5 3xl:space-y-1">
-                  @for (
-                  phone of availablePhoneNumbers;
-                  track phone.phoneId
+                <div class="space-y-2 3xl:space-y-4">
+                  <div
+                    class="flex items-center justify-between text-[9px] 3xl:text-base"
+                  >
+                    <span class="text-gray-500 dark:text-slate-400"
+                      >Cuenta ID:
+                      {{ selectedTwilioAccount.twilioAccountId }}</span
+                    >
+                    <button
+                      type="button"
+                      (click)="backToAccountSelection()"
+                      class="text-[#1E3A8A] dark:text-blue-400 font-medium 3xl:text-lg"
+                    >
+                      Cambiar
+                    </button>
+                  </div>
+                  @if (
+                    availablePhoneNumbers && availablePhoneNumbers.length > 0
                   ) {
-                  <button type="button" (click)="
+                    <p
+                      class="text-[9px] 3xl:text-base font-semibold text-gray-600 dark:text-slate-300"
+                    >
+                      Números disponibles
+                    </p>
+                    <div
+                      class="max-h-20 3xl:max-h-32 overflow-y-auto border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl p-1.5 3xl:p-3 space-y-0.5 3xl:space-y-1"
+                    >
+                      @for (
+                        phone of availablePhoneNumbers;
+                        track phone.phoneId
+                      ) {
+                        <button
+                          type="button"
+                          (click)="
                             phoneNumber = phone.number;
                             selectedCountryCode = phone.countryCode.startsWith(
                               '+'
@@ -1279,132 +2079,172 @@
                               : '+' + phone.countryCode;
                             validatePhoneNumber()
                           "
-                    class="w-full text-left px-2 3xl:px-4 py-1 3xl:py-2 rounded 3xl:rounded-lg text-[10px] 3xl:text-lg hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-900 dark:text-white">
-                    {{ phone.countryCode }} {{ phone.number }}
-                  </button>
+                          class="w-full text-left px-2 3xl:px-4 py-1 3xl:py-2 rounded 3xl:rounded-lg text-[10px] 3xl:text-lg hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-900 dark:text-white"
+                        >
+                          {{ phone.countryCode }} {{ phone.number }}
+                        </button>
+                      }
+                    </div>
                   }
-                </div>
-                }
-                <div>
-                  <label
-                    class="block text-[9px] 3xl:text-base font-semibold text-gray-600 dark:text-slate-400 mb-0.5 3xl:mb-1">Número
-                    de teléfono *</label>
-                  <div class="flex gap-0.5 3xl:gap-1">
-                    <select [(ngModel)]="selectedCountryCode" (ngModelChange)="onPhoneNumberChange()"
-                      class="w-14 3xl:w-20 h-7 3xl:h-12 text-[10px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-l-md 3xl:rounded-l-lg px-1 3xl:px-2 text-gray-900 dark:text-white">
-                      <option value="+34">+34</option>
-                      <option value="+1">+1</option>
-                      <option value="+39">+39</option>
-                      <option value="+44">+44</option>
-                      <option value="+49">+49</option>
-                      <option value="+33">+33</option>
-                      <option value="+31">+31</option>
-                      <option value="+351">+351</option>
-                    </select>
-                    <input type="text" [(ngModel)]="phoneNumber" (ngModelChange)="onPhoneNumberChange()"
-                      placeholder="612345678"
-                      class="flex-1 h-7 3xl:h-12 px-2 3xl:px-4 text-[10px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-md 3xl:rounded-r-lg text-gray-900 dark:text-white placeholder-gray-400" />
+                  <div>
+                    <label
+                      class="block text-[9px] 3xl:text-base font-semibold text-gray-600 dark:text-slate-400 mb-0.5 3xl:mb-1"
+                      >Número de teléfono *</label
+                    >
+                    <div class="flex gap-0.5 3xl:gap-1">
+                      <select
+                        [(ngModel)]="selectedCountryCode"
+                        (ngModelChange)="onPhoneNumberChange()"
+                        class="w-14 3xl:w-20 h-7 3xl:h-12 text-[10px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-l-md 3xl:rounded-l-lg px-1 3xl:px-2 text-gray-900 dark:text-white"
+                      >
+                        <option value="+34">+34</option>
+                        <option value="+1">+1</option>
+                        <option value="+39">+39</option>
+                        <option value="+44">+44</option>
+                        <option value="+49">+49</option>
+                        <option value="+33">+33</option>
+                        <option value="+31">+31</option>
+                        <option value="+351">+351</option>
+                      </select>
+                      <input
+                        type="text"
+                        [(ngModel)]="phoneNumber"
+                        (ngModelChange)="onPhoneNumberChange()"
+                        placeholder="612345678"
+                        class="flex-1 h-7 3xl:h-12 px-2 3xl:px-4 text-[10px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-md 3xl:rounded-r-lg text-gray-900 dark:text-white placeholder-gray-400"
+                      />
+                    </div>
+                    @if (
+                      phoneValidationStatus === "error" && phoneErrorMessage
+                    ) {
+                      <p
+                        class="text-[9px] 3xl:text-base text-red-500 mt-0.5 3xl:mt-1"
+                      >
+                        {{ phoneErrorMessage }}
+                      </p>
+                    }
                   </div>
-                  @if (
-                  phoneValidationStatus === "error" && phoneErrorMessage
-                  ) {
-                  <p class="text-[9px] 3xl:text-base text-red-500 mt-0.5 3xl:mt-1">
-                    {{ phoneErrorMessage }}
-                  </p>
-                  }
                 </div>
-              </div>
               } @else if (
-              twilioAccounts &&
-              twilioAccounts.length > 0 &&
-              !showNewTwilioAccountForm
+                twilioAccounts &&
+                twilioAccounts.length > 0 &&
+                !showNewTwilioAccountForm
               ) {
-              <div class="space-y-1.5 3xl:space-y-3">
-                <p class="text-[9px] 3xl:text-base font-semibold text-gray-700 dark:text-slate-300">
-                  Cuentas conectadas
-                </p>
-                @for (
-                account of twilioAccounts;
-                track account.twilioAccountId
-                ) {
-                <button type="button" (click)="useExistingTwilioAccount(account)" [disabled]="isValidatingTwilio"
-                  class="w-full px-2 3xl:px-4 py-1.5 3xl:py-3 rounded-lg 3xl:rounded-xl border text-left text-[10px] 3xl:text-lg border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-[#1E3A8A] dark:hover:border-blue-400 disabled:opacity-50">
-                  Cuenta ID: {{ account.twilioAccountId }} · SID:
-                  {{ account.twilioSid.substring(0, 10) }}...
-                </button>
-                }
-                <button type="button" (click)="showNewTwilioAccount()"
-                  class="w-full px-2 3xl:px-4 py-1.5 3xl:py-3 rounded-lg 3xl:rounded-xl border border-dashed border-gray-300 dark:border-slate-500 text-[10px] 3xl:text-lg text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800">
-                  + Conectar nueva cuenta
-                </button>
-              </div>
+                <div class="space-y-1.5 3xl:space-y-3">
+                  <p
+                    class="text-[9px] 3xl:text-base font-semibold text-gray-700 dark:text-slate-300"
+                  >
+                    Cuentas conectadas
+                  </p>
+                  @for (
+                    account of twilioAccounts;
+                    track account.twilioAccountId
+                  ) {
+                    <button
+                      type="button"
+                      (click)="useExistingTwilioAccount(account)"
+                      [disabled]="isValidatingTwilio"
+                      class="w-full px-2 3xl:px-4 py-1.5 3xl:py-3 rounded-lg 3xl:rounded-xl border text-left text-[10px] 3xl:text-lg border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-[#1E3A8A] dark:hover:border-blue-400 disabled:opacity-50"
+                    >
+                      Cuenta ID: {{ account.twilioAccountId }} · SID:
+                      {{ account.twilioSid.substring(0, 10) }}...
+                    </button>
+                  }
+                  <button
+                    type="button"
+                    (click)="showNewTwilioAccount()"
+                    class="w-full px-2 3xl:px-4 py-1.5 3xl:py-3 rounded-lg 3xl:rounded-xl border border-dashed border-gray-300 dark:border-slate-500 text-[10px] 3xl:text-lg text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800"
+                  >
+                    + Conectar nueva cuenta
+                  </button>
+                </div>
               } @else {
-              <div class="space-y-2 3xl:space-y-4">
-                <div>
-                  <label
-                    class="block text-[9px] 3xl:text-base font-semibold text-gray-600 dark:text-slate-400 mb-0.5 3xl:mb-1">Account
-                    SID</label>
-                  <input type="text" [(ngModel)]="twilioSid" (ngModelChange)="onTwilioSidChange()"
-                    placeholder="ACxxxxxxxx..."
-                    class="w-full h-7 3xl:h-12 px-2 3xl:px-4 text-[10px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md 3xl:rounded-lg text-gray-900 dark:text-white" />
-                </div>
-                <div>
-                  <label
-                    class="block text-[9px] 3xl:text-base font-semibold text-gray-600 dark:text-slate-400 mb-0.5 3xl:mb-1">Auth
-                    Token</label>
-                  <input type="password" [(ngModel)]="twilioToken" (ngModelChange)="onTwilioTokenChange()"
-                    placeholder="••••••••"
-                    class="w-full h-7 3xl:h-12 px-2 3xl:px-4 text-[10px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md 3xl:rounded-lg text-gray-900 dark:text-white" />
-                </div>
-                <button type="button" (click)="validateTwilioConfig()" [disabled]="
+                <div class="space-y-2 3xl:space-y-4">
+                  <div>
+                    <label
+                      class="block text-[9px] 3xl:text-base font-semibold text-gray-600 dark:text-slate-400 mb-0.5 3xl:mb-1"
+                      >Account SID</label
+                    >
+                    <input
+                      type="text"
+                      [(ngModel)]="twilioSid"
+                      (ngModelChange)="onTwilioSidChange()"
+                      placeholder="ACxxxxxxxx..."
+                      class="w-full h-7 3xl:h-12 px-2 3xl:px-4 text-[10px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md 3xl:rounded-lg text-gray-900 dark:text-white"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="block text-[9px] 3xl:text-base font-semibold text-gray-600 dark:text-slate-400 mb-0.5 3xl:mb-1"
+                      >Auth Token</label
+                    >
+                    <input
+                      type="password"
+                      [(ngModel)]="twilioToken"
+                      (ngModelChange)="onTwilioTokenChange()"
+                      placeholder="••••••••"
+                      class="w-full h-7 3xl:h-12 px-2 3xl:px-4 text-[10px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md 3xl:rounded-lg text-gray-900 dark:text-white"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    (click)="validateTwilioConfig()"
+                    [disabled]="
                       isValidatingTwilio ||
                       !twilioSid.trim() ||
                       !twilioToken.trim()
                     "
-                  class="w-full py-1.5 3xl:py-3 rounded-md 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white text-[10px] 3xl:text-lg font-semibold disabled:opacity-50 flex items-center justify-center gap-1 3xl:gap-2">
-                  @if (isValidatingTwilio) {
-                  Validando...
-                  } @else if (
-                  twilioSidValidationStatus === "success" &&
-                  twilioTokenValidationStatus === "success"
+                    class="w-full py-1.5 3xl:py-3 rounded-md 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white text-[10px] 3xl:text-lg font-semibold disabled:opacity-50 flex items-center justify-center gap-1 3xl:gap-2"
+                  >
+                    @if (isValidatingTwilio) {
+                      Validando...
+                    } @else if (
+                      twilioSidValidationStatus === "success" &&
+                      twilioTokenValidationStatus === "success"
+                    ) {
+                      Validado
+                    } @else if (
+                      twilioSidValidationStatus === "error" ||
+                      twilioTokenValidationStatus === "error"
+                    ) {
+                      Error
+                    } @else {
+                      Validar
+                    }
+                  </button>
+                  @if (
+                    (twilioSidValidationStatus === "error" ||
+                      twilioTokenValidationStatus === "error") &&
+                    twilioErrorMessage
                   ) {
-                  Validado
-                  } @else if (
-                  twilioSidValidationStatus === "error" ||
-                  twilioTokenValidationStatus === "error"
-                  ) {
-                  Error
-                  } @else {
-                  Validar
+                    <p class="text-[9px] 3xl:text-base text-red-500">
+                      {{ twilioErrorMessage }}
+                    </p>
                   }
-                </button>
-                @if (
-                (twilioSidValidationStatus === "error" ||
-                twilioTokenValidationStatus === "error") &&
-                twilioErrorMessage
-                ) {
-                <p class="text-[9px] 3xl:text-base text-red-500">
-                  {{ twilioErrorMessage }}
-                </p>
-                }
-              </div>
+                </div>
               }
             </div>
           </div>
         </div>
 
         <div class="w-full flex items-center justify-between mt-5 3xl:mt-10">
-          <button type="button"
+          <button
+            type="button"
             class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
-            (click)="goBack()">
+            (click)="goBack()"
+          >
             <span class="text-xs 3xl:text-xl leading-none">‹</span>
             <span>Atrás</span>
           </button>
           <div class="flex items-center gap-2 3xl:gap-4">
-            <button type="button" [disabled]="!canContinueFromConnections"
-              [class.opacity-50]="!canContinueFromConnections" [class.cursor-not-allowed]="!canContinueFromConnections"
+            <button
+              type="button"
+              [disabled]="!canContinueFromConnections"
+              [class.opacity-50]="!canContinueFromConnections"
+              [class.cursor-not-allowed]="!canContinueFromConnections"
               class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white disabled:hover:bg-[#1E3A8A]"
-              (click)="onContinueFromConnections()">
+              (click)="onContinueFromConnections()"
+            >
               Continuar
             </button>
           </div>
@@ -1413,31 +2253,49 @@
     </div>
 
     <!-- Paso 9: Agente creado correctamente -->
-    <div *ngSwitchCase="'success'"
-      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40">
+    <div
+      *ngSwitchCase="'success'"
+      class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-28 sm:pt-32 3xl:pt-40"
+    >
       <div
-        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-8 items-center text-center">
+        class="w-full max-w-[380px] sm:max-w-[460px] md:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 md:px-6 3xl:px-8 items-center text-center"
+      >
         <!-- Icono de éxito -->
         <div
-          class="w-16 h-16 sm:w-20 sm:h-20 3xl:w-32 3xl:h-32 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 3xl:mb-8">
-          <svg class="w-10 h-10 sm:w-12 sm:h-12 3xl:w-20 3xl:h-20 text-green-600 dark:text-green-400" fill="none"
-            stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          class="w-16 h-16 sm:w-20 sm:h-20 3xl:w-32 3xl:h-32 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4 3xl:mb-8"
+        >
+          <svg
+            class="w-10 h-10 sm:w-12 sm:h-12 3xl:w-20 3xl:h-20 text-green-600 dark:text-green-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            />
           </svg>
         </div>
 
         <h1
-          class="text-lg sm:text-xl 3xl:text-4xl font-bold text-[#0F172A] dark:text-white leading-tight mb-2 3xl:mb-4">
+          class="text-lg sm:text-xl 3xl:text-4xl font-bold text-[#0F172A] dark:text-white leading-tight mb-2 3xl:mb-4"
+        >
           ¡Agente creado correctamente!
         </h1>
-        <p class="text-xs sm:text-sm 3xl:text-2xl text-[#6d747c] dark:text-slate-400 font-medium mb-6 3xl:mb-10">
+        <p
+          class="text-xs sm:text-sm 3xl:text-2xl text-[#6d747c] dark:text-slate-400 font-medium mb-6 3xl:mb-10"
+        >
           Tu agente está listo para recibir llamadas. Ya puedes volver atrás y
           gestionarlo desde la página de agentes.
         </p>
 
-        <button type="button"
+        <button
+          type="button"
           class="w-full px-4 3xl:px-8 py-2.5 3xl:py-4 text-sm 3xl:text-2xl font-semibold rounded-lg 3xl:rounded-xl bg-[#1E3A8A] hover:bg-[#1E40AF] text-white transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
-          (click)="goToAgents()">
+          (click)="goToAgents()"
+        >
           Volver a Agentes
         </button>
       </div>
@@ -1446,13 +2304,23 @@
 
   <!-- Modal para ver instrucciones ampliadas -->
   @if (showExpandInstructionsModal || isInstructionsModalClosing) {
-  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
-    (click)="closeExpandInstructionsModal()" [class.instructions-modal-exit]="isInstructionsModalClosing">
-    <div class="w-full max-w-4xl 3xl:max-w-6xl max-h-[90vh] overflow-y-auto instructions-modal-enter"
-      (click)="$event.stopPropagation()" [class.instructions-modal-exit]="isInstructionsModalClosing">
-      <textarea [(ngModel)]="instructions" name="instructionsExpanded" placeholder="Escribe aquí las instrucciones..."
-        class="w-full px-3 3xl:px-6 py-4 3xl:py-6 text-[11px] 3xl:text-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#111113] rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:outline-none focus:border-gray-300 dark:focus:border-slate-600 resize-none min-h-[400px] 3xl:min-h-[500px]"></textarea>
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+      (click)="closeExpandInstructionsModal()"
+      [class.instructions-modal-exit]="isInstructionsModalClosing"
+    >
+      <div
+        class="w-full max-w-4xl 3xl:max-w-6xl max-h-[90vh] overflow-y-auto instructions-modal-enter"
+        (click)="$event.stopPropagation()"
+        [class.instructions-modal-exit]="isInstructionsModalClosing"
+      >
+        <textarea
+          [(ngModel)]="instructions"
+          name="instructionsExpanded"
+          placeholder="Escribe aquí las instrucciones..."
+          class="w-full px-3 3xl:px-6 py-4 3xl:py-6 text-[11px] 3xl:text-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#111113] rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:outline-none focus:border-gray-300 dark:focus:border-slate-600 resize-none min-h-[400px] 3xl:min-h-[500px]"
+        ></textarea>
+      </div>
     </div>
-  </div>
   }
 </div>

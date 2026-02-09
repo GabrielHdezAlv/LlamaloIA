@@ -6,6 +6,9 @@ import {
   HostListener,
   Inject,
   PLATFORM_ID,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,10 +23,16 @@ import {
   AgentsService,
   GenerateAgentInstructionsRequest,
 } from '../../core/services/agents.service';
+import { KnowledgeBaseService } from '../../core/services/knowledge-base.service';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../shared/modals/modal.service';
 import { Agent, SetAgentConfigDto } from '../../shared/models/agent.model';
 import { Voice } from '../../shared/models/voice.model';
+import {
+  KnowledgeSource,
+  CreateKnowledgeSourceRequest,
+  LinkKnowledgeSourcesToAgentRequest,
+} from '../../shared/models/knowledge-source.model';
 import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
 import { TwilioService } from '../../core/services/twilio.service';
 import type {
@@ -55,11 +64,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private agentsService = inject(AgentsService);
+  private knowledgeBaseService = inject(KnowledgeBaseService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
   private platformId = inject(PLATFORM_ID);
   private twilioService = inject(TwilioService);
   private userStore = inject(UserStorage);
+  private cdr = inject(ChangeDetectorRef);
 
   editForm!: FormGroup;
   isLoading = false;
@@ -68,7 +79,16 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   agent: Agent | null = null;
   agentId: number | null = null;
 
-  activeTab: 'main' | 'connections' = 'main';
+  activeTab: 'main' | 'connections' | 'knowledge' = 'main';
+
+  agentKnowledgeSources: KnowledgeSource[] = [];
+  isLoadingKnowledgeSources = false;
+  availableKnowledgeSources: KnowledgeSource[] = [];
+  isLoadingAvailableSources = false;
+  knowledgeSourceError: string | null = null;
+
+  @ViewChild('fileInput', { static: false })
+  fileInput!: ElementRef<HTMLInputElement>;
 
   twilioAccounts: TwilioAccount[] = [];
   isLoadingTwilioInfo = false;
@@ -313,8 +333,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       });
   }
 
-  setActiveTab(tab: 'main' | 'connections'): void {
+  setActiveTab(tab: 'main' | 'connections' | 'knowledge'): void {
     this.activeTab = tab;
+
+    // Load available knowledge sources when switching to knowledge tab
+    if (tab === 'knowledge') {
+      this.loadAvailableKnowledgeSources();
+    }
   }
 
   get agentShopifyDomain(): string | null {
@@ -525,6 +550,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         this.agent = agent;
         this.selectedShopifyDomain = (agent as any)?.shopifyDomain || '';
         this.populateForm();
+
+        // Cargar fuentes de conocimiento del agente
+        this.loadAgentKnowledgeSources();
       },
       error: (error) => {
         console.error('Error al cargar agente:', error);
@@ -536,25 +564,47 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     });
   }
 
+  private loadAgentKnowledgeSources(): void {
+    if (!this.agentId) return;
+
+    this.isLoadingKnowledgeSources = true;
+
+    this.knowledgeBaseService.getAgentKnowledgeSources(this.agentId).subscribe({
+      next: (response) => {
+        // La respuesta puede venir directamente como array o como objeto con propiedad knowledgeSources
+        const knowledgeSources = Array.isArray(response)
+          ? response
+          : response?.knowledgeSources || [];
+        const sourceIds = knowledgeSources.map((source) => source.id);
+
+        // Almacenar las fuentes de conocimiento
+        this.agentKnowledgeSources = knowledgeSources;
+
+        console.log('📚 Fuentes de conocimiento del agente:', {
+          agentId: this.agentId,
+          totalSources: knowledgeSources.length,
+          sourceIds: sourceIds,
+          sources: knowledgeSources,
+        });
+      },
+      error: (error) => {
+        console.error(
+          '❌ Error al cargar fuentes de conocimiento del agente:',
+          error,
+        );
+        this.agentKnowledgeSources = [];
+      },
+      complete: () => {
+        this.isLoadingKnowledgeSources = false;
+      },
+    });
+  }
+
   private populateForm(): void {
     if (!this.agent) return;
 
-    this.selectedCountryCode = this.agent.phoneNumbers?.countryCode || '+34';
-    this.selectedCountry = this.getCountryFromCode(this.selectedCountryCode);
-
-    const agentLanguage = this.agent.language || 'es';
-    this.selectedLanguageCode = agentLanguage;
-    this.selectedLanguageFlag = this.getLanguageFlag(agentLanguage);
-
-    // Resetear estado de validación al cargar el agente
-    this.phoneIsValid = null;
-    this.phoneValidationMessage = '';
-    this.isValidatingPhone = false;
-
     this.editForm.patchValue(
       {
-        name: this.agent.name || '',
-        language: agentLanguage,
         type: this.agent.type || 'inbound',
         voiceId: this.agent.voiceId || '',
         firstInteraction: this.agent.firstInteraction || '',
@@ -1373,5 +1423,282 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           'Error al generar el prompt. Inténtalo de nuevo.';
       },
     });
+  }
+
+  // Knowledge Source Management Methods
+  loadAvailableKnowledgeSources(): void {
+    this.isLoadingAvailableSources = true;
+    this.knowledgeSourceError = null;
+
+    this.knowledgeBaseService.getKnowledgeSources().subscribe({
+      next: (response) => {
+        const sources = Array.isArray(response)
+          ? response
+          : response?.knowledgeSources || [];
+
+        // Filter out sources that are already linked to this agent
+        const agentSourceIds = this.agentKnowledgeSources.map((s) => s.id);
+        this.availableKnowledgeSources = sources.filter(
+          (source) => !agentSourceIds.includes(source.id),
+        );
+
+        this.isLoadingAvailableSources = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        console.error('Error loading available knowledge sources:', error);
+        this.knowledgeSourceError =
+          'No se pudieron cargar las fuentes disponibles';
+        this.isLoadingAvailableSources = false;
+        this.availableKnowledgeSources = [];
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  selectKnowledgeSource(type: 'pdf' | 'web' | 'text'): void {
+    switch (type) {
+      case 'pdf':
+        this.openFileSelector();
+        break;
+      case 'web':
+        this.openWebModal();
+        break;
+      case 'text':
+        this.openTextModal();
+        break;
+    }
+  }
+
+  openFileSelector(): void {
+    if (this.fileInput && this.fileInput.nativeElement) {
+      this.fileInput.nativeElement.click();
+    }
+  }
+
+  handleFileSelection(event: any): void {
+    const files = event.target.files as FileList;
+    if (files.length > 0) {
+      const file = files[0];
+      if (file.size > 10 * 1024 * 1024) {
+        this.knowledgeSourceError = 'El PDF no puede exceder los 10MB';
+        return;
+      }
+      this.uploadPdfFiles(Array.from(files));
+    }
+  }
+
+  uploadPdfFiles(files: File[]): void {
+    files.forEach((file) => {
+      if (file.type === 'application/pdf') {
+        this.isLoadingKnowledgeSources = true;
+
+        this.knowledgeBaseService
+          .uploadPdfKnowledgeSource(
+            file,
+            file.name.replace('.pdf', ''),
+            [],
+            false,
+          )
+          .subscribe({
+            next: (response) => {
+              const sourceToAdd = response?.knowledgeSource || response;
+
+              if (sourceToAdd) {
+                this.addKnowledgeSourceToAgent(sourceToAdd);
+              } else {
+                this.knowledgeSourceError =
+                  'Error: No se recibió información del archivo subido';
+              }
+
+              this.isLoadingKnowledgeSources = false;
+              this.cdr.detectChanges();
+            },
+            error: (err) => {
+              console.error('Error uploading PDF:', err);
+              if (err.error?.message) {
+                this.knowledgeSourceError = err.error.message;
+              } else if (err.status === 413) {
+                this.knowledgeSourceError =
+                  'El archivo es demasiado grande (máximo 10MB)';
+              } else {
+                this.knowledgeSourceError = `Error al subir el archivo ${file.name}`;
+              }
+              this.isLoadingKnowledgeSources = false;
+              this.cdr.detectChanges();
+            },
+          });
+      }
+    });
+  }
+
+  openWebModal(): void {
+    const dialogRef = this.modalService.openWeb({
+      title: 'Añadir fuente web',
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result && result.url) {
+        this.createWebSource(result.url, result.name || result.url);
+      }
+    });
+  }
+
+  openTextModal(): void {
+    const dialogRef = this.modalService.openText({
+      title: 'Añadir texto manual',
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result && result.content) {
+        this.createTextSource(result.content, result.name || 'Texto manual');
+      }
+    });
+  }
+
+  createWebSource(url: string, name: string): void {
+    if (url.length > 2048) {
+      this.knowledgeSourceError = 'La URL no puede exceder los 2048 caracteres';
+      return;
+    }
+
+    this.isLoadingKnowledgeSources = true;
+    this.knowledgeBaseService
+      .createWebKnowledgeSource(url, name, [], true)
+      .subscribe({
+        next: (response: any) => {
+          if (response?.id) {
+            this.addKnowledgeSourceToAgent(response);
+          } else {
+            this.knowledgeSourceError = 'Error en la respuesta del servidor';
+          }
+          this.isLoadingKnowledgeSources = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error creating web source:', err);
+          if (err.error?.message) {
+            this.knowledgeSourceError = err.error.message;
+          } else if (err.status === 413) {
+            this.knowledgeSourceError =
+              'La URL es demasiado larga (máximo 2048 caracteres)';
+          } else if (err.status === 400) {
+            this.knowledgeSourceError = 'URL inválida o no accesible';
+          } else {
+            this.knowledgeSourceError = 'Error al crear la fuente web';
+          }
+          this.isLoadingKnowledgeSources = false;
+          this.cdr.detectChanges();
+        },
+      });
+  }
+
+  createTextSource(content: string, name: string): void {
+    if (content.length > 50000) {
+      this.knowledgeSourceError =
+        'El texto no puede exceder los 50,000 caracteres (~20 páginas)';
+      return;
+    }
+
+    const request: CreateKnowledgeSourceRequest = {
+      name,
+      type: 'text',
+      content,
+      tags: [],
+      isPublic: false,
+    };
+
+    this.isLoadingKnowledgeSources = true;
+    this.knowledgeBaseService.createKnowledgeSource(request).subscribe({
+      next: (response) => {
+        const sourceToAdd = response?.knowledgeSource || response;
+
+        if (sourceToAdd?.id) {
+          this.addKnowledgeSourceToAgent(sourceToAdd);
+        } else {
+          this.knowledgeSourceError = 'Error en la respuesta del servidor';
+        }
+        this.isLoadingKnowledgeSources = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error creating text source:', err);
+        if (err.error?.message) {
+          this.knowledgeSourceError = err.error.message;
+        } else if (err.status === 413) {
+          this.knowledgeSourceError =
+            'El texto es demasiado largo (máximo 50,000 caracteres)';
+        } else {
+          this.knowledgeSourceError = 'Error al crear la fuente de texto';
+        }
+        this.isLoadingKnowledgeSources = false;
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  addKnowledgeSourceToAgent(source: KnowledgeSource): void {
+    if (!this.agentId) return;
+
+    const request: LinkKnowledgeSourcesToAgentRequest = {
+      sourceIds: [source.id],
+    };
+
+    this.knowledgeBaseService
+      .linkKnowledgeSourcesToAgent(this.agentId, request)
+      .subscribe({
+        next: () => {
+          // Add to agent's knowledge sources
+          this.agentKnowledgeSources.push(source);
+
+          // Remove from available sources if it exists there
+          this.availableKnowledgeSources =
+            this.availableKnowledgeSources.filter(
+              (availableSource) => availableSource.id !== source.id,
+            );
+
+          this.knowledgeSourceError = null;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error linking knowledge source to agent:', err);
+          this.knowledgeSourceError =
+            'Error al vincular la fuente de conocimiento al agente';
+        },
+      });
+  }
+
+  removeKnowledgeSourceFromAgent(sourceId: string): void {
+    if (!this.agentId) return;
+
+    this.knowledgeBaseService
+      .unlinkKnowledgeSourcesFromAgent(this.agentId, [sourceId])
+      .subscribe({
+        next: () => {
+          // Remove from agent's knowledge sources
+          const removedSource = this.agentKnowledgeSources.find(
+            (s) => s.id === sourceId,
+          );
+          this.agentKnowledgeSources = this.agentKnowledgeSources.filter(
+            (source) => source.id !== sourceId,
+          );
+
+          // Add back to available sources if it was removed
+          if (removedSource) {
+            this.availableKnowledgeSources.push(removedSource);
+          }
+
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error unlinking knowledge source from agent:', err);
+          this.knowledgeSourceError =
+            'Error al desvincular la fuente de conocimiento del agente';
+        },
+      });
+  }
+
+  clearKnowledgeSourceError(): void {
+    this.knowledgeSourceError = null;
   }
 }
