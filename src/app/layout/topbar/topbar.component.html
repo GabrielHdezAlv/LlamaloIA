@@ -1,20 +1,20 @@
-<div class="topbar-container w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-10">
+<div class="topbar-container w-full flex items-start justify-center px-2 sm:px-3 md:px-5 3xl:px-10">
   <div
     class="flex items-start justify-between w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] mx-auto">
     <div class="flex flex-col gap-0">
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 md:gap-2.5">
         <!-- Botón hamburguesa para móvil -->
         <button (click)="openMobileSidebar()"
-          class="xl:hidden p-1.5 text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
+          class="xl:hidden p-1.5 md:p-2 text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
           <span class="sr-only">Abrir menú</span>
-          <svg class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5"
+          <svg class="w-5 h-5 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5"
             fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
 
         <h1
-          class="text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-bold xl:ml-0 dark:text-slate-50 leading-tight"
+          class="text-lg sm:text-lg md:text-2xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-bold xl:ml-0 dark:text-slate-50 leading-tight"
           style="letter-spacing: -2.1px">
           @if (pageTitle === t.home) {
           Panel de control
@@ -23,14 +23,14 @@
           }
         </h1>
         <!-- Loader para métricas -->
-        <div *ngIf="isMetricsLoading && currentUrl.includes('/metrics')" class="ml-3 flex items-center">
-          <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+        <div *ngIf="isMetricsLoading && currentUrl.includes('/metrics')" class="ml-3 md:ml-4 flex items-center">
+          <div class="animate-spin rounded-full h-4 w-4 md:h-5 md:w-5 border-b-2 border-blue-500"></div>
         </div>
       </div>
 
       <!-- Mensaje de bienvenida o subtítulo debajo del saludo (solo si existe texto) -->
       <p *ngIf="welcomeText || pageSubtitle"
-        class="text-sm sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-xl font-medium text-black xl:ml-0 dark:text-slate-200 flex items-center">
+        class="text-sm sm:text-sm md:text-base lg:text-base xl:text-base 2xl:text-base 3xl:text-xl font-medium text-black xl:ml-0 dark:text-slate-200 flex items-center">
         {{ welcomeText || pageSubtitle }}
       </p>
     </div>
@@ -68,15 +68,15 @@
 
     <!-- Controles de la derecha: modo oscuro + avatar -->
     <div
-      class="relative flex items-center gap-2 sm:gap-2 md:gap-2 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-5 mt-0.5 3xl:mt-1">
+      class="relative flex items-center gap-2 sm:gap-2 md:gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-5 mt-0.5 3xl:mt-1">
       <!-- Botón de modo oscuro/claro (solo en admin) -->
       <button *ngIf="isAdminSection" type="button" (click)="toggleDarkMode()"
-        class="mr-1 relative inline-flex items-center justify-center w-10 h-10 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-10 xl:h-10 2xl:w-10 2xl:h-10 3xl:w-12 3xl:h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn"
+        class="mr-1 relative inline-flex items-center justify-center w-10 h-10 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-10 lg:h-10 xl:w-10 xl:h-10 2xl:w-10 2xl:h-10 3xl:w-12 3xl:h-12 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn"
         [attr.aria-checked]="isDarkMode" [attr.aria-label]="
           isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro'
         ">
         <svg
-          class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6 theme-icon"
+          class="w-5 h-5 sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6 theme-icon"
           [class.dark]="isDarkMode" [class.light]="!isDarkMode" viewBox="0 0 24 24" fill="none"
           xmlns="http://www.w3.org/2000/svg">
           <!-- Luna (creciente) -->
@@ -121,7 +121,7 @@
 
       <!-- Avatar -->
       <img [src]="getUserProfileImage()"
-        class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-8 md:w-8 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border-2 border-blue-900 history-border cursor-pointer"
+        class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border-2 md:border-[3px] border-blue-900 history-border cursor-pointer"
         alt="Perfil" (click)="toggleDropdown()" />
 
       <!-- Dropdown Menu -->

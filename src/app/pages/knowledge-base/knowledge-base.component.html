@@ -1,5 +1,5 @@
 <div
-  class="p-5 sm:p-6 lg:p-8 xl:p-8 2xl:p-8 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-5 max-lg:mt-2 max-lg:mr-4 max-lg:ml-4 max-w-[76rem] 3xl:max-w-[95rem] mx-auto fade-in-section"
+  class="p-5 sm:p-6 lg:p-8 xl:p-8 2xl:p-8 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-w-[76rem] 3xl:max-w-[95rem] mx-auto max-lg:max-w-full max-lg:w-full fade-in-section"
   [class.fade-in-visible]="showContent"
 >
   <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 3xl:gap-8 items-start">
@@ -11,10 +11,10 @@
       <div class="relative w-full flex flex-col sm:flex-row gap-2">
         <div class="relative flex-1">
           <span
-            class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+            class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 max-lg:pl-4 max-lg:sm:pl-4.5 max-lg:md:pl-5"
           >
             <svg
-              class="w-4 h-4 3xl:w-5 3xl:h-5 text-gray-400 dark:text-slate-500"
+              class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-5 max-lg:sm:h-5 max-lg:md:w-6 max-lg:md:h-6 text-gray-400 dark:text-slate-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -31,7 +31,7 @@
             type="text"
             [(ngModel)]="searchTerm"
             [placeholder]="t.knowledgeBaseSearchPlaceholder"
-            class="w-full pl-9 3xl:pl-11 pr-3 3xl:pr-4 py-2 3xl:py-2.5 text-sm 3xl:text-base border border-gray-300 dark:border-slate-800 rounded-lg bg-white dark:bg-[#111113] text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-600 focus:border-gray-400 dark:focus:border-slate-600 transition-colors"
+            class="w-full pl-9 3xl:pl-11 max-lg:pl-10 max-lg:sm:pl-11 max-lg:md:pl-12 pr-3 3xl:pr-4 max-lg:pr-4 max-lg:sm:pr-4 max-lg:md:pr-4 py-2 3xl:py-2.5 max-lg:py-2.5 max-lg:sm:py-3 max-lg:md:py-3.5 text-sm 3xl:text-base max-lg:text-base max-lg:sm:text-base max-lg:md:text-lg border border-gray-300 dark:border-slate-800 rounded-lg bg-white dark:bg-[#111113] text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-600 focus:border-gray-400 dark:focus:border-slate-600 transition-colors"
           />
         </div>
 
@@ -39,12 +39,12 @@
         <button
           (click)="refreshKnowledgeSources()"
           [disabled]="isLoading"
-          class="p-2 3xl:p-2.5 border border-blue-300 dark:border-blue-600 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:text-blue-700 dark:hover:text-blue-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex-shrink-0 w-full sm:w-auto sm:self-auto self-stretch"
+          class="p-2 3xl:p-2.5 max-lg:p-2.5 max-lg:sm:p-3 max-lg:md:p-3.5 border border-blue-300 dark:border-blue-600 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:text-blue-700 dark:hover:text-blue-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex-shrink-0 w-full sm:w-auto sm:self-auto self-stretch"
           title="Actualizar documentos"
         >
           <svg
             [class]="isLoading ? 'animate-spin' : ''"
-            class="w-4 h-4 3xl:w-5 3xl:h-5"
+            class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-5 max-lg:sm:h-5 max-lg:md:w-6 max-lg:md:h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -66,15 +66,15 @@
           <button
             type="button"
             (click)="selectKnowledgeSource(item.type)"
-            class="flex flex-col items-center justify-center gap-1 3xl:gap-2 w-[5rem] h-[5rem] aspect-square shrink-0 overflow-hidden rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-400 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-slate-700 transition-all cursor-pointer text-gray-700 dark:text-slate-200 p-2 3xl:p-3"
+            class="flex flex-col items-center justify-center gap-1 3xl:gap-2 w-[5rem] h-[5rem] max-lg:w-[6rem] max-lg:h-[6rem] max-lg:sm:w-[7rem] max-lg:sm:h-[7rem] max-lg:md:w-[8rem] max-lg:md:h-[8rem] aspect-square shrink-0 overflow-hidden rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-400 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-slate-700 transition-all cursor-pointer text-gray-700 dark:text-slate-200 p-2 3xl:p-3 max-lg:p-2.5 max-lg:sm:p-3 max-lg:md:p-3.5"
           >
             <span
-              class="flex items-center justify-center w-6 h-6 3xl:w-8 3xl:h-8 shrink-0"
+              class="flex items-center justify-center w-6 h-6 3xl:w-8 3xl:h-8 max-lg:w-7 max-lg:h-7 max-lg:sm:w-8 max-lg:sm:h-8 max-lg:md:w-9 max-lg:md:h-9 shrink-0"
             >
               @switch (item.type) {
                 @case ("pdf") {
                   <svg
-                    class="w-5 h-5 3xl:w-7 3xl:h-7 shrink-0"
+                    class="w-5 h-5 3xl:w-7 3xl:h-7 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8 shrink-0"
                     viewBox="0 0 52 52"
                     fill="currentColor"
                     xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +98,7 @@
                 }
                 @case ("web") {
                   <svg
-                    class="w-5 h-5 3xl:w-7 3xl:h-7 shrink-0"
+                    class="w-5 h-5 3xl:w-7 3xl:h-7 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8 shrink-0"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -115,7 +115,7 @@
                 }
                 @case ("text") {
                   <svg
-                    class="w-5 h-5 3xl:w-7 3xl:h-7 shrink-0"
+                    class="w-5 h-5 3xl:w-7 3xl:h-7 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8 shrink-0"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -130,7 +130,7 @@
                 }
                 @default {
                   <svg
-                    class="w-5 h-5 3xl:w-7 3xl:h-7 shrink-0"
+                    class="w-5 h-5 3xl:w-7 3xl:h-7 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8 shrink-0"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -146,7 +146,7 @@
               }
             </span>
             <span
-              class="text-[10px] sm:text-xs 3xl:text-sm font-medium text-gray-700 dark:text-slate-200 text-center leading-tight whitespace-nowrap truncate max-w-full"
+              class="text-[10px] sm:text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium text-gray-700 dark:text-slate-200 text-center leading-tight whitespace-nowrap truncate max-w-full"
             >
               {{ getAddLabel(item.type) }}
             </span>
@@ -163,7 +163,7 @@
             class="animate-spin w-8 h-8 3xl:w-10 3xl:h-10 border-2 border-gray-300 border-t-blue-500 rounded-full mb-4 3xl:mb-5"
           ></div>
           <p
-            class="text-base 3xl:text-lg font-semibold text-gray-900 dark:text-white text-center"
+            class="text-base 3xl:text-lg max-lg:text-lg max-lg:sm:text-xl max-lg:md:text-xl font-semibold text-gray-900 dark:text-white text-center"
           >
             Cargando fuentes de conocimiento...
           </p>
@@ -172,18 +172,18 @@
         <div class="flex-1 min-w-0 space-y-3 3xl:space-y-4">
           @for (source of filteredKnowledgeSources; track source.id) {
             <div
-              class="bg-white dark:bg-[#111113] border border-gray-200 dark:border-gray-400 rounded-lg p-4 3xl:p-6 shadow-sm hover:shadow-md transition-all"
+              class="bg-white dark:bg-[#111113] border border-gray-200 dark:border-gray-400 rounded-lg p-4 3xl:p-6 max-lg:p-5 max-lg:sm:p-6 max-lg:md:p-7 shadow-sm hover:shadow-md transition-all"
             >
               <div class="flex items-start justify-between">
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center gap-3 3xl:gap-4 mb-2">
                     <div
-                      class="flex items-center justify-center w-8 h-8 3xl:w-10 3xl:h-10 rounded-lg border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent"
+                      class="flex items-center justify-center w-8 h-8 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-lg border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent"
                     >
                       @switch (source.type) {
                         @case ("pdf") {
                           <svg
-                            class="w-5 h-5 3xl:w-6 3xl:h-6"
+                            class="w-5 h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8"
                             viewBox="0 0 24 24"
                             fill="currentColor"
                           >
@@ -227,18 +227,18 @@
                     </div>
                     <div class="flex-1 min-w-0">
                       <h3
-                        class="text-sm 3xl:text-base font-semibold text-gray-900 dark:text-white truncate"
+                        class="text-sm 3xl:text-base max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg font-semibold text-gray-900 dark:text-white truncate"
                       >
                         {{ source.name }}
                       </h3>
-                      <div class="flex items-center gap-2 3xl:gap-3 mt-1">
+                      <div class="flex items-center gap-2 3xl:gap-3 max-lg:gap-2.5 max-lg:sm:gap-3 max-lg:md:gap-3.5 mt-1 max-lg:mt-1.5">
                         <span
-                          class="inline-flex items-center px-2 3xl:px-2.5 py-0.5 3xl:py-1 rounded-full text-xs 3xl:text-sm font-medium border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent"
+                          class="inline-flex items-center px-2 3xl:px-2.5 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3.5 py-0.5 3xl:py-1 max-lg:py-1 max-lg:sm:py-1.5 max-lg:md:py-1.5 rounded-full text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent"
                         >
                           {{ source.type.toUpperCase() }}
                         </span>
                         <span
-                          class="inline-flex items-center px-2 3xl:px-2.5 py-0.5 3xl:py-1 rounded-full text-xs 3xl:text-sm font-medium border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent"
+                          class="inline-flex items-center px-2 3xl:px-2.5 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3.5 py-0.5 3xl:py-1 max-lg:py-1 max-lg:sm:py-1.5 max-lg:md:py-1.5 rounded-full text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent"
                         >
                           @switch (source.status) {
                             @case ("processing") {
@@ -257,7 +257,7 @@
                   </div>
                   @if (source.metadata.chunkCount > 0) {
                     <p
-                      class="text-xs 3xl:text-sm text-gray-500 dark:text-gray-400 mt-2"
+                      class="text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-500 dark:text-gray-400 mt-2 max-lg:mt-2.5"
                     >
                       {{ source.metadata.chunkCount }} fragmentos
                       @if (source.metadata.wordCount) {
@@ -269,10 +269,10 @@
                     </p>
                   }
                   @if (source.tags.length > 0) {
-                    <div class="flex flex-wrap gap-1 3xl:gap-2 mt-2">
+                    <div class="flex flex-wrap gap-1 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2.5 mt-2 max-lg:mt-2.5">
                       @for (tag of source.tags; track tag) {
                         <span
-                          class="inline-flex items-center px-1.5 3xl:px-2 py-0.5 3xl:py-1 rounded text-xs 3xl:text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300"
+                          class="inline-flex items-center px-1.5 3xl:px-2 max-lg:px-2 max-lg:sm:px-2.5 max-lg:md:px-3 py-0.5 3xl:py-1 max-lg:py-1 max-lg:sm:py-1 max-lg:md:py-1.5 rounded text-xs 3xl:text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300"
                         >
                           {{ tag }}
                         </span>
@@ -280,13 +280,13 @@
                     </div>
                   }
                 </div>
-                <div class="flex items-center gap-2 3xl:gap-3 ml-4">
+                <div class="flex items-center gap-2 3xl:gap-3 max-lg:gap-2.5 max-lg:sm:gap-3 max-lg:md:gap-3.5 ml-4 max-lg:ml-3">
                   <button
-                    class="p-1.5 3xl:p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                    class="p-1.5 3xl:p-2 max-lg:p-2 max-lg:sm:p-2.5 max-lg:md:p-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                     title="Ver vista previa"
                   >
                     <svg
-                      class="w-4 h-4 3xl:w-5 3xl:h-5"
+                      class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-6 max-lg:sm:h-6 max-lg:md:w-6 max-lg:md:h-6"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -298,11 +298,11 @@
                   </button>
                   <button
                     (click)="deleteKnowledgeSource(source.id)"
-                    class="p-1.5 3xl:p-2 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                    class="p-1.5 3xl:p-2 max-lg:p-2 max-lg:sm:p-2.5 max-lg:md:p-3 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                     title="Eliminar"
                   >
                     <svg
-                      class="w-4 h-4 3xl:w-5 3xl:h-5"
+                      class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-6 max-lg:sm:h-6 max-lg:md:w-6 max-lg:md:h-6"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -343,7 +343,7 @@
             </svg>
           </div>
           <p
-            class="text-base 3xl:text-lg font-semibold text-gray-900 dark:text-white text-center"
+            class="text-base 3xl:text-lg max-lg:text-lg max-lg:sm:text-xl max-lg:md:text-xl font-semibold text-gray-900 dark:text-white text-center"
           >
             {{ t.knowledgeBaseNoDocuments }}
           </p>
@@ -353,12 +353,12 @@
             class="mt-6 p-4 3xl:p-5 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm max-w-sm mx-auto"
           >
             <h4
-              class="text-xs 3xl:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 3xl:mb-4 text-center"
+              class="text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-700 dark:text-gray-300 mb-3 3xl:mb-4 max-lg:mb-3.5 max-lg:sm:mb-4 max-lg:md:mb-4.5 text-center"
             >
               Límites de subida
             </h4>
             <div
-              class="text-xs 3xl:text-sm text-gray-600 dark:text-slate-400 space-y-2"
+              class="text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-600 dark:text-slate-400 space-y-2 max-lg:space-y-2.5"
             >
               <div class="flex items-center justify-center gap-2">
                 <span>📄</span>

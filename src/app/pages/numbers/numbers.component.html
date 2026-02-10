@@ -1,5 +1,5 @@
-<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-10">
-    <div class="w-full rounded-2xl  p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-3 max-lg:mt-2 agentes-activos-recuadro fade-in-section max-w-[74rem] 3xl:max-w-[95rem] mx-auto"
+<div class="w-full flex items-start justify-center px-0 sm:px-1 md:px-1 3xl:px-10">
+    <div class="w-full rounded-2xl p-3 sm:p-4 md:p-5 lg:p-4 xl:p-4 2xl:p-4 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 agentes-activos-recuadro fade-in-section max-w-[74rem] 3xl:max-w-[95rem] mx-auto max-lg:max-w-full max-lg:w-full"
         [class.fade-in-visible]="showContent">
         <div
             class="flex justify-between items-center gap-3 mb-3 3xl:mb-6 max-lg:flex-col max-lg:items-start max-lg:gap-1.5">
@@ -15,16 +15,16 @@
                     </div>
                     <input type="text" placeholder="Números de búsqueda..." [(ngModel)]="searchTerm"
                         (ngModelChange)="onSearchChange()"
-                        class="w-full pl-9 pr-3 py-1.5 text-sm lg:text-sm border border-gray-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-500 focus:border-gray-400 dark:focus:border-slate-500 transition-colors duration-200" />
+                        class="w-full pl-10 sm:pl-11 md:pl-12 pr-4 sm:pr-4 md:pr-4 py-2 sm:py-2.5 md:py-3 text-sm sm:text-base md:text-base lg:text-sm border border-gray-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-500 focus:border-gray-400 dark:focus:border-slate-500 transition-colors duration-200" />
                 </div>
             </div>
 
             @if (phoneNumbers.length > 0) {
             <div class="flex-1 max-lg:w-full lg:flex-none lg:w-auto import-dropdown-wrap relative">
                 <app-ripple-button (buttonClick)="toggleImportDropdown()"
-                    buttonClass="import-number-btn-white-dark bg-[#0a1740] hover:bg-gray-950 text-white dark:!bg-[#ffffff] dark:!text-gray-900 w-full lg:w-auto px-4 sm:px-5 lg:px-6 xl:px-6 2xl:px-6 3xl:px-12 py-2 sm:py-2 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 rounded-lg text-[11px] sm:text-[11px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 hover:shadow-lg hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-1 whitespace-nowrap max-lg:text-[10px]"
+                    buttonClass="import-number-btn-white-dark bg-[#0a1740] hover:bg-gray-950 text-white dark:!bg-[#ffffff] dark:!text-gray-900 w-full lg:w-auto px-5 sm:px-6 md:px-7 lg:px-6 xl:px-6 2xl:px-6 3xl:px-12 py-2.5 sm:py-3 md:py-3.5 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 rounded-lg text-sm sm:text-base md:text-base lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 hover:shadow-lg hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-1.5 sm:gap-2 whitespace-nowrap"
                     rippleColor="rgba(255, 255, 255, 0.4)">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"></path>
                     </svg>
@@ -137,24 +137,24 @@
         </div>
 
         <!-- Tarjetas Móviles/Tablet (ocultas en desktop) -->
-        <div class="lg:hidden space-y-3 sm:space-y-3.5">
+        <div class="lg:hidden space-y-4 sm:space-y-5 md:space-y-5">
             @for (phone of phoneNumbers; track phone.phoneId; let i = $index) {
             <!-- Tarjeta -->
             <div
-                class="bg-white hover:bg-gray-50 px-4 py-3 sm:px-5 sm:py-4 rounded-2xl border border-gray-200 shadow-sm transition-colors duration-200 max-lg:px-4 max-lg:py-3 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-700">
-                <div class="flex items-start justify-between mb-1.5 max-lg:mb-1 gap-1.5">
+                class="bg-white hover:bg-gray-50 px-5 py-4 sm:px-6 sm:py-5 md:px-7 md:py-6 rounded-2xl border border-gray-200 shadow-sm transition-colors duration-200 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-700">
+                <div class="flex items-start justify-between mb-3 sm:mb-3.5 md:mb-4 gap-2 sm:gap-2.5">
                     <div class="flex flex-col justify-center mt-1">
-                        <p class="font-semibold text-gray-900 text-xs max-lg:text-[11px] dark:text-slate-50">
+                        <p class="font-semibold text-gray-900 text-base sm:text-lg md:text-lg dark:text-slate-50">
                             {{ phone.label || t.clientNumber }}</p>
-                        <p class="text-[11px] max-lg:text-[10px] text-gray-400 dark:text-slate-400 mt-0.5">
+                        <p class="text-sm sm:text-base md:text-base text-gray-400 dark:text-slate-400 mt-1">
                             {{ phone.countryCode }} {{ phone.number }}</p>
                     </div>
                     <!-- Menú de 3 puntos (como en new-agents) -->
                     <div class="relative ml-2">
                         <button type="button" (click)="toggleMenu(i)"
-                            class="p-1.5 -mr-1 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors duration-200"
+                            class="p-2 sm:p-2.5 md:p-2.5 -mr-1 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors duration-200"
                             [attr.aria-expanded]="openMenuIndex === i" aria-label="Menú de opciones">
-                            <svg class="w-4 h-4 text-gray-400 dark:text-slate-500" fill="currentColor"
+                            <svg class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-400 dark:text-slate-500" fill="currentColor"
                                 viewBox="0 0 20 20">
                                 <path
                                     d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
@@ -162,10 +162,10 @@
                         </button>
                         @if (openMenuIndex === i) {
                         <div
-                            class="absolute right-0 mt-1 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 z-20 py-1 text-[11px]">
+                            class="absolute right-0 mt-1 w-44 sm:w-48 md:w-52 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 z-20 py-1.5 sm:py-2 text-sm sm:text-base">
                             <button (click)="deleteNumber(i, phone.label || t.clientNumber)"
-                                class="w-full text-left px-3 py-1.5 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-2">
-                                <svg width="12" height="12" viewBox="0 0 15 14" fill="none"
+                                class="w-full text-left px-4 sm:px-5 md:px-5 py-2 sm:py-2.5 md:py-2.5 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-2.5 sm:gap-3">
+                                <svg width="15" height="14" viewBox="0 0 15 14" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M1.25933 2.024C1.058 2.02418 0.864963 2.10423 0.722599 2.2466C0.580234 2.38896 0.500177 2.582 0.5 2.78333C0.500177 2.98467 0.580234 3.1777 0.722599 3.32007C0.864963 3.46243 1.058 3.54249 1.25933 3.54267V2.024ZM13.7413 3.542C13.9424 3.54165 14.1352 3.4616 14.2774 3.3194C14.4196 3.1772 14.4996 2.98444 14.5 2.78333C14.4998 2.582 14.4198 2.38896 14.2774 2.2466C14.135 2.10423 13.942 2.02418 13.7407 2.024L13.7413 3.542ZM6.74133 6.15667C6.74116 5.95533 6.6611 5.7623 6.51873 5.61993C6.37637 5.47757 6.18333 5.39751 5.982 5.39733C5.78067 5.39751 5.58763 5.47757 5.44527 5.61993C5.3029 5.7623 5.22284 5.95533 5.22267 6.15667H6.74067H6.74133ZM5.22333 9.86733C5.22351 10.0687 5.30357 10.2617 5.44593 10.4041C5.5883 10.5464 5.78133 10.6265 5.98267 10.6267C6.184 10.6265 6.37704 10.5464 6.5194 10.4041C6.66177 10.2617 6.74182 10.0687 6.742 9.86733H5.22267H5.22333ZM9.77733 6.15667C9.77716 5.95533 9.6971 5.7623 9.55474 5.61993C9.41237 5.47757 9.21933 5.39751 9.018 5.39733C8.81667 5.39751 8.62363 5.47757 8.48127 5.61993C8.3389 5.7623 8.25884 5.95533 8.25867 6.15667H9.77667H9.77733ZM8.25933 9.86733C8.25951 10.0687 8.33957 10.2617 8.48193 10.4041C8.6243 10.5464 8.81733 10.6265 9.01867 10.6267C9.22 10.6265 9.41304 10.5464 9.5554 10.4041C9.69777 10.2617 9.77782 10.0687 9.778 9.86733H8.26H8.25933ZM9.37933 2.972C9.42972 3.16678 9.55527 3.33363 9.72848 3.43598C9.90169 3.53833 10.1084 3.56783 10.3033 3.518C10.4981 3.46762 10.665 3.34206 10.7673 3.16885C10.8697 2.99564 10.8992 2.78892 10.8493 2.594L9.37933 2.972ZM1.85133 2.832L2.44467 12.0273L3.95933 11.9293L3.366 2.734L1.85133 2.832ZM4.548 14H10.4513V12.482H4.548V14ZM12.5553 12.0273L13.1487 2.832L11.634 2.734L11.0407 11.9293L12.5553 12.0273ZM12.3913 2.024H2.60867V3.542H12.392L12.3913 2.024ZM1.25933 3.54267L2.60867 3.542V2.024H1.25933V3.54267ZM12.392 3.542H13.7413L13.7407 2.024H12.3913L12.392 3.542ZM10.4513 14C11.5633 14 12.484 13.1367 12.5553 12.0273L11.0407 11.9293C11.0207 12.24 10.7627 12.482 10.4513 12.482V14ZM2.44467 12.0273C2.516 13.1367 3.436 14 4.548 14V12.482C4.23667 12.482 3.97933 12.24 3.95933 11.9293L2.44467 12.0273Z"
@@ -177,20 +177,20 @@
                         }
                     </div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] 3xl:text-base max-lg:gap-2 max-lg:text-[10px]">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
                     <div>
-                        <span class="text-gray-500 text-[11px] 3xl:text-sm max-lg:text-[10px] dark:text-slate-400 ">{{
+                        <span class="text-gray-500 text-sm sm:text-base md:text-base dark:text-slate-400 ">{{
                             t.importedFrom }}:</span>
                         <p
-                            class="text-gray-800 mt-0.5 3xl:mt-1.5 max-lg:mt-0 text-[11px] 3xl:text-sm max-lg:text-[10px] dark:text-slate-50 ">
+                            class="text-gray-800 mt-1 sm:mt-1.5 text-sm sm:text-base md:text-base dark:text-slate-50 ">
                             {{ phone.importedBy }}</p>
                     </div>
                     <div class="sm:text-right">
-                        <span class="text-gray-500 text-[11px] 3xl:text-sm max-lg:text-[10px] dark:text-slate-400 ">{{
+                        <span class="text-gray-500 text-sm sm:text-base md:text-base dark:text-slate-400 ">{{
                             t.status }}:</span>
-                        <div class="mt-0.5 3xl:mt-1 max-lg:mt-0">
+                        <div class="mt-1 sm:mt-1.5">
                             <span
-                                class="font-semibold text-[11px] 3xl:text-sm max-lg:text-[10px] text-gray-900 dark:text-slate-50">{{
+                                class="font-semibold text-sm sm:text-base md:text-base text-gray-900 dark:text-slate-50">{{
                                 phone.state || t.active }}</span>
                         </div>
                     </div>
@@ -203,18 +203,18 @@
         <!-- Estado vacío -->
         @if (phoneNumbers.length === 0) {
         <div
-            class="flex flex-col items-center justify-center text-center text-gray-600 py-8 max-lg:py-6 dark:text-slate-400">
-            <p class="text-sm lg:text-base text-gray-500 max-lg:text-xs dark:text-slate-400 font-medium">
+            class="flex flex-col items-center justify-center text-center text-gray-600 py-10 sm:py-12 md:py-14 lg:py-8 dark:text-slate-400">
+            <p class="text-base sm:text-lg md:text-xl lg:text-base text-gray-500 dark:text-slate-400 font-medium">
                 Aún no tiene números de teléfono importados
             </p>
             <p
-                class="text-[10px] 3xl:text-base text-gray-400 mb-2 3xl:mb-5 max-lg:text-[9px] max-lg:mb-1.5 dark:text-slate-400 ">
+                class="text-sm sm:text-base md:text-base 3xl:text-base text-gray-400 mb-4 sm:mb-5 md:mb-6 3xl:mb-5 dark:text-slate-400 ">
                 Importa tu primer número ahora</p>
             <div class="import-dropdown-wrap relative">
                 <app-ripple-button (buttonClick)="toggleImportDropdown()"
-                    buttonClass="import-number-btn-white-dark bg-[#0a1740] hover:bg-gray-950 text-white dark:!bg-[#ffffff] dark:hover:!bg-gray-100 dark:!text-gray-900 dark:border dark:border-gray-200 w-full sm:w-auto px-4 sm:px-5 lg:px-6 3xl:px-12 py-1 3xl:py-2.5 rounded-lg text-[10px] 3xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-1 max-lg:text-[9px] max-lg:px-3 max-lg:py-0.5"
+                    buttonClass="import-number-btn-white-dark bg-[#0a1740] hover:bg-gray-950 text-white dark:!bg-[#ffffff] dark:hover:!bg-gray-100 dark:!text-gray-900 dark:border dark:border-gray-200 w-full sm:w-auto px-5 sm:px-6 md:px-7 lg:px-6 3xl:px-12 py-2.5 sm:py-3 md:py-3.5 3xl:py-2.5 rounded-lg text-sm sm:text-base md:text-base 3xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-1.5 sm:gap-2"
                     rippleColor="rgba(255, 255, 255, 0.4)">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4 12H20M12 4V20" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round"></path>
                     </svg>

@@ -226,7 +226,7 @@
 
             <!-- Dropdown Menu -->
             <div *ngIf="showDropdown"
-              class="absolute top-full left-0 ml-0 mt-2 w-44 bg-white rounded-lg shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-100 dark:bg-slate-900 dark:border-slate-700">
+              class="absolute top-full left-0 ml-0 mt-2 max-lg:left-5 max-lg:-top-32 max-lg:ml-2 max-lg:mt-0 w-44 bg-white rounded-lg shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-100 dark:bg-slate-900 dark:border-slate-700">
               <!-- {{ t.settings }} -->
               <button (click)="navigateTo('/dashboard/account'); closeMobileSidebar()"
                 class="w-full flex items-center gap-2 px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-lg dark:text-white dark:hover:bg-slate-800">

@@ -3,6 +3,11 @@
   padding-bottom: 8px;
 
   // Responsive adjustments
+  @media (min-width: 768px) and (max-width: 1023px) {
+    padding-top: 14px;
+    padding-bottom: 10px;
+  }
+
   @media (max-width: 640px) {
     padding-top: 10px;
     padding-bottom: 6px;

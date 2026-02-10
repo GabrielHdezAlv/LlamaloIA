@@ -3,7 +3,7 @@
   [class.fade-in-visible]="showContent"
 >
   <!-- Header with title and step number -->
-  <div class="flex items-center justify-between w-full mb-6 3xl:mb-8">
+  <div class="flex items-center justify-between w-full">
     <h1
       class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight"
     >
@@ -17,27 +17,27 @@
     </span>
   </div>
   <p
-    class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold mb-6 3xl:mb-8"
+    class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold"
   >
     Define la base de conocimientos para tu agente.
   </p>
 
   <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 3xl:gap-8 items-start">
-    <!-- Izquierda: 3 cuadrados uno debajo de otro -->
-    <div class="flex flex-col gap-2 3xl:gap-3 shrink-0">
+    <!-- Izquierda: 3 cuadrados uno debajo de otro en desktop/tablet, en 3 columnas en móvil -->
+    <div class="flex flex-col sm:flex-col md:flex-col lg:flex-col max-sm:grid max-sm:grid-cols-3 max-sm:w-full gap-2 3xl:gap-3 max-sm:gap-2.5 max-sm:mb-4 shrink-0">
       @for (item of items; track item.id) {
         <button
           type="button"
           (click)="selectKnowledgeSource(item.type)"
-          class="flex flex-col items-center justify-center gap-1 3xl:gap-2 w-[5rem] h-[5rem] sm:w-24 sm:h-24 3xl:w-28 3xl:h-28 aspect-square shrink-0 overflow-hidden rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-400 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-slate-700 transition-all cursor-pointer text-gray-700 dark:text-slate-200 p-2 3xl:p-3"
+          class="flex flex-col items-center justify-center gap-1 3xl:gap-2 w-[5rem] h-[5rem] sm:w-24 sm:h-24 3xl:w-28 3xl:h-28 max-sm:w-full max-sm:h-auto max-sm:aspect-square max-sm:min-h-[5rem] aspect-square shrink-0 overflow-hidden rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-400 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-slate-700 transition-all cursor-pointer text-gray-700 dark:text-slate-200 p-2 3xl:p-3 max-sm:p-2.5"
         >
           <span
-            class="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 3xl:w-8 3xl:h-8 shrink-0"
+            class="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 3xl:w-8 3xl:h-8 max-sm:w-7 max-sm:h-7 shrink-0"
           >
             @switch (item.type) {
               @case ("pdf") {
                 <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0"
+                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 max-sm:w-6 max-sm:h-6 shrink-0"
                   viewBox="0 0 52 52"
                   fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg"
@@ -61,22 +61,24 @@
               }
               @case ("web") {
                 <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0"
+                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 max-sm:w-6 max-sm:h-6 shrink-0"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
                   xmlns="http://www.w3.org/2000/svg"
+                  preserveAspectRatio="xMidYMid meet"
                 >
                   <circle cx="12" cy="12" r="10" />
-                  <path
-                    d="M2 12h20M12 2a15.3 15.3 0 104 10.5a15.3 15.3 0 0013 0z"
-                  />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                 </svg>
               }
               @case ("text") {
                 <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0"
+                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 max-sm:w-6 max-sm:h-6 shrink-0"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -91,7 +93,7 @@
               }
               @default {
                 <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0"
+                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 max-sm:w-6 max-sm:h-6 shrink-0"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -107,7 +109,7 @@
             }
           </span>
           <span
-            class="text-[10px] sm:text-xs 3xl:text-sm font-medium text-gray-700 dark:text-slate-200 text-center leading-tight whitespace-nowrap truncate max-w-full"
+            class="text-[10px] sm:text-xs 3xl:text-sm max-sm:text-sm font-medium text-gray-700 dark:text-slate-200 text-center leading-tight whitespace-nowrap truncate max-w-full"
           >
             {{ getAddLabel(item.type) }}
           </span>
@@ -231,7 +233,7 @@
                       (change)="toggleSelectAll($event)"
                       [checked]="allSelected"
                       [indeterminate]="someSelected"
-                      class="w-4 h-4 3xl:w-5 3xl:h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                      class="w-[18px] h-[18px] 3xl:w-5 3xl:h-5"
                     />
                   </th>
                   <th
@@ -271,7 +273,7 @@
                         type="checkbox"
                         [(ngModel)]="source.selected"
                         (change)="updateSelectionState()"
-                        class="w-4 h-4 3xl:w-5 3xl:h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        class="w-[18px] h-[18px] 3xl:w-5 3xl:h-5"
                       />
                     </td>
                     <td
