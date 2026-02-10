@@ -425,3 +425,10 @@
 }
 
 // Responsive (sin overrides especiales para móvil, se muestra como en desktop)
+
+// Ocultar asistente en móvil/tablet cuando el sidebar móvil está abierto
+@media (max-width: 1279px) {
+    :host-context(.mobile-sidebar-open) {
+        display: none;
+    }
+}

@@ -86,6 +86,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   progressBars = Array.from({ length: 32 });
   onboardingProgress = 35;
 
+  // Modo oscuro desde el sidebar móvil
+  isDarkMode = false;
+  isMobileSidebarClosing = false;
+
   constructor(
     private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -94,6 +98,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   async ngOnInit() {
     // Lógica que depende de window / documento (solo en navegador)
     if (isPlatformBrowser(this.platformId)) {
+      // Inicializar modo oscuro desde localStorage / preferencia del sistema
+      const storedTheme = localStorage.getItem('llamalo-theme');
+      if (storedTheme === 'dark') {
+        this.setDarkMode(true, false);
+      } else if (storedTheme === 'light') {
+        this.setDarkMode(false, false);
+      } else {
+        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        this.setDarkMode(prefersDark, false);
+      }
+
       window.addEventListener('openMobileSidebar', () => {
         this.openMobileSidebar();
       });
@@ -312,11 +327,50 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   openMobileSidebar() {
+    this.isMobileSidebarClosing = false;
     this.showMobileSidebar = true;
+
+    // Añadir clase global para indicar que el sidebar móvil está abierto (solo navegador)
+    if (isPlatformBrowser(this.platformId)) {
+      document.documentElement.classList.add('mobile-sidebar-open');
+    }
   }
 
   closeMobileSidebar() {
-    this.showMobileSidebar = false;
+    if (this.isMobileSidebarClosing) return;
+    this.isMobileSidebarClosing = true;
+
+    // Quitar clase global cuando el sidebar móvil se cierra
+    if (isPlatformBrowser(this.platformId)) {
+      document.documentElement.classList.remove('mobile-sidebar-open');
+    }
+
+    // Esperar a que termine la animación de cortina antes de ocultar el sidebar
+    setTimeout(() => {
+      this.showMobileSidebar = false;
+      this.isMobileSidebarClosing = false;
+    }, 400);
+  }
+
+  // Toggle modo oscuro desde el sidebar móvil
+  toggleDarkMode() {
+    this.setDarkMode(!this.isDarkMode, true);
+  }
+
+  private setDarkMode(enabled: boolean, persist: boolean) {
+    this.isDarkMode = enabled;
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const root = document.documentElement;
+    if (enabled) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+
+    if (persist) {
+      localStorage.setItem('llamalo-theme', enabled ? 'dark' : 'light');
+    }
   }
 
   // Método para obtener el nombre del usuario

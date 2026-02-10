@@ -157,17 +157,20 @@ export class TopbarComponent implements OnInit, OnDestroy {
   onDocumentClick(event: MouseEvent) {
     // Cerrar dropdown si se hace clic fuera de él
     if (this.showDropdown) {
-      const dropdownElement =
-        this.elementRef.nativeElement.querySelector('.topbar-dropdown');
-      const avatarElement =
-        this.elementRef.nativeElement.querySelector('.topbar-avatar');
+      const host = this.elementRef.nativeElement as HTMLElement;
+      const desktopDropdown = host.querySelector('.topbar-dropdown') as HTMLElement | null;
+      const desktopAvatar = host.querySelector('.topbar-avatar') as HTMLElement | null;
+      const mobileDropdown = host.querySelector('.mobile-topbar-dropdown') as HTMLElement | null;
+      const mobileAvatar = host.querySelector('.mobile-topbar-avatar') as HTMLElement | null;
       const target = event.target as HTMLElement;
 
       if (
-        dropdownElement &&
-        avatarElement &&
-        !dropdownElement.contains(target) &&
-        !avatarElement.contains(target)
+        !(
+          (desktopDropdown && desktopDropdown.contains(target)) ||
+          (desktopAvatar && desktopAvatar.contains(target)) ||
+          (mobileDropdown && mobileDropdown.contains(target)) ||
+          (mobileAvatar && mobileAvatar.contains(target))
+        )
       ) {
         this.showDropdown = false;
       }
@@ -436,6 +439,13 @@ export class TopbarComponent implements OnInit, OnDestroy {
     this.userStorage.clearUser();
 
     this.router.navigate(['/login']);
+  }
+
+  goToGifts() {
+    this.router.navigate(['/dashboard/account'], {
+      queryParams: { tab: 'gifts' },
+    });
+    this.showDropdown = false;
   }
 
   openInviteModal() {
