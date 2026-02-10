@@ -20,8 +20,13 @@ import {
 } from 'ng-apexcharts';
 import { I18nService } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
+import { CallMetricsService } from '../../core/services/call-metrics.service';
 import { TwilioDetailedMetrics } from '../../shared/models/twilio-detailed-metrics.model';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
+import {
+  CallMetricsDto,
+  DailyPeakHour,
+} from '../../shared/models/call-metrics.model';
 import { UserStorage } from '../../storages/user/user-storage';
 
 @Component({
@@ -34,6 +39,7 @@ import { UserStorage } from '../../storages/user/user-storage';
 export class MetricsComponent implements OnInit, OnDestroy {
   private i18nService = inject(I18nService);
   private metricsService = inject(MetricsService);
+  private callMetricsService = inject(CallMetricsService);
   public userStorage = inject(UserStorage);
 
   // Obtener traducciones
@@ -52,6 +58,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
   showEstadoAnimo: boolean = false;
   showEvaluacionExito: boolean = false;
   showRazonFinalizacion: boolean = false;
+  showHorasPico: boolean = false; // Nueva animación para horas pico
 
   // Variable para controlar el tooltip de horas punta
   hoveredHourIndex: number | null = null;
@@ -67,6 +74,16 @@ export class MetricsComponent implements OnInit, OnDestroy {
   detailedMetricsError: string = '';
   detailedMetrics: TwilioDetailedMetrics | null = null;
   hasLoadedDetailedMetrics: boolean = false; // Flag para prevenir múltiples llamadas
+
+  // Propiedades para métricas de horas pico
+  callMetricsByHour: CallMetricsDto | null = null;
+  selectedPeakDay: DailyPeakHour | null = null;
+  peakHourStats: {
+    averageCallsPerDay: number;
+    busiestDay: DailyPeakHour | null;
+    quietestDay: DailyPeakHour | null;
+    mostCommonPeakHour: number;
+  } | null = null; // Estadísticas adicionales de horas pico
 
   // Propiedades para métricas del dashboard
   isLoadingDashboardMetrics: boolean = false;
@@ -1133,6 +1150,11 @@ export class MetricsComponent implements OnInit, OnDestroy {
   private updateComponentWithDetailedData(): void {
     if (!this.detailedMetrics) return;
 
+    console.log(
+      '📥 Datos completos recibidos de GET /metrics/twilio-detailed:',
+      this.detailedMetrics,
+    );
+
     // Actualizar datos del gráfico de llamadas exitosas
     const data = this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
       (item) => item.total,
@@ -1184,6 +1206,25 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
     // Calcular y cachear todos los valores
     this.calculateCachedValues();
+
+    // Procesar métricas de horas pico si están disponibles
+    if (this.detailedMetrics.callMetricsByHour) {
+      console.log(
+        '🕐 callMetricsByHour recibido del endpoint:',
+        this.detailedMetrics.callMetricsByHour,
+      );
+      this.callMetricsByHour = this.detailedMetrics.callMetricsByHour;
+      this.selectedPeakDay =
+        this.callMetricsByHour.dailyPeakHours[this.selectedDayIndex] || null;
+      this.peakHourStats = this.callMetricsService.calculateAdditionalMetrics(
+        this.callMetricsByHour,
+      );
+      console.log('📊 Estadísticas calculadas:', this.peakHourStats);
+    } else {
+      console.log(
+        '⚠️ callMetricsByHour no disponible en los datos del endpoint',
+      );
+    }
 
     // Actualizar datos móviles
     this.updateMobileChartData();
@@ -1541,10 +1582,15 @@ export class MetricsComponent implements OnInit, OnDestroy {
       this.showRazonFinalizacion = true;
     }, 1700);
 
+    // 10. Horas pico (1900ms)
+    setTimeout(() => {
+      this.showHorasPico = true;
+    }, 1900);
+
     // Agentes Creados (opcional, si existe)
     setTimeout(() => {
       this.showAgentesCreados = true;
-    }, 1900);
+    }, 2100);
   }
 
   private showAllSectionsImmediately(): void {
@@ -1558,6 +1604,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     this.showEstadoAnimo = true;
     this.showEvaluacionExito = true;
     this.showRazonFinalizacion = true;
+    this.showHorasPico = true;
     this.showAgentesCreados = true;
   }
 
@@ -1568,5 +1615,49 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   hideTooltip(): void {
     this.hoveredHourIndex = null;
+  }
+
+  // Métodos para manejar las métricas de horas pico
+  onDayChange(dayIndex: number): void {
+    this.selectedDayIndex = dayIndex;
+    if (this.callMetricsByHour) {
+      this.selectedPeakDay =
+        this.callMetricsByHour.dailyPeakHours[dayIndex] || null;
+    }
+  }
+
+  formatPeakHour(hour: number): string {
+    return this.callMetricsService.formatHour(hour);
+  }
+
+  getDayName(dateString: string): string {
+    return this.callMetricsService.getDayName(dateString);
+  }
+
+  // Obtener datos de horas pico para el día seleccionado
+  getPeakHoursData(): Array<{
+    hour: number;
+    label: string;
+    calls: number;
+    percentage: number;
+  }> {
+    if (!this.selectedPeakDay) return [];
+
+    const maxCalls = Math.max(...this.selectedPeakDay.hourlyCalls);
+    return this.selectedPeakDay.hourlyCalls.map((calls, hour) => ({
+      hour,
+      label: this.formatPeakHour(hour),
+      calls,
+      percentage: maxCalls > 0 ? (calls / maxCalls) * 100 : 0,
+    }));
+  }
+
+  // Obtener el color según la intensidad de llamadas
+  getPeakHourColor(percentage: number): string {
+    if (percentage >= 80) return 'bg-red-500';
+    if (percentage >= 60) return 'bg-orange-500';
+    if (percentage >= 40) return 'bg-yellow-500';
+    if (percentage >= 20) return 'bg-green-500';
+    return 'bg-gray-300';
   }
 }

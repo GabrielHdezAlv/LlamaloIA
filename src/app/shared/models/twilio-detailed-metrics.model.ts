@@ -1,3 +1,5 @@
+import { CallMetricsDto } from './call-metrics.model';
+
 /**
  * DTO para GET /metrics/twilio-detailed
  */
@@ -38,4 +40,5 @@ export interface TwilioDetailedMetrics {
     tiempoAgotado: number;
   };
   latenciaMedia: number; // latencia media en milisegundos
+  callMetricsByHour?: CallMetricsDto; // Nueva propiedad para métricas por hora
 }
