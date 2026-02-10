@@ -5,19 +5,19 @@
   <!-- Header with title and step number -->
   <div class="flex items-center justify-between w-full">
     <h1
-      class="text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight"
+      class="text-lg xl:text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight"
     >
       Base de conocimientos
     </h1>
     <span
-      class="text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
+      class="text-xs xl:text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
       *ngIf="getCurrentStepNumber() > 0"
     >
       {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
     </span>
   </div>
   <p
-    class="mt-0.5 3xl:mt-1 text-[10px] sm:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold"
+    class="mt-0.5 3xl:mt-1 text-sm xl:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold"
   >
     Define la base de conocimientos para tu agente.
   </p>
@@ -378,7 +378,7 @@
   </div>
 
   <!-- Navigation buttons -->
-  <div class="w-full flex items-center justify-between mt-8 3xl:mt-12">
+  <div class="w-full flex items-center justify-between mt-8 3xl:mt-12 nav-buttons-mobile">
     <button
       type="button"
       (click)="goBack()"

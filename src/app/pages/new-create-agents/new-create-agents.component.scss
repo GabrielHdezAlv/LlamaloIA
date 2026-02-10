@@ -1079,3 +1079,77 @@ aside {
     fill: #1B2559 !important;
   }
 }
+
+/* Espacio inferior para que los botones fijos no tapen el contenido en móvil/tablet */
+@media (max-width: 1279px) {
+  :host {
+    padding-bottom: 6rem;
+  }
+}
+
+/* Botones de navegación fijos en la parte inferior para móvil y tablet */
+@media (max-width: 1279px) {
+  .nav-buttons-mobile {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    background: white;
+    border-top: none;
+    padding: 1rem 1.25rem;
+    margin-top: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    box-shadow: none;
+
+    // Botón de Atrás
+    > button:first-child {
+      flex: 1;
+      justify-content: center;
+      padding: 0.85rem 1.25rem !important;
+      font-size: 0.9375rem !important;
+      border-radius: 0.75rem !important;
+
+      span {
+        font-size: 0.9375rem !important;
+      }
+    }
+
+    // Botón de Continuar directo (sin wrapper div)
+    > button:last-child:not(:first-child) {
+      flex: 1;
+      padding: 0.85rem 1.25rem !important;
+      font-size: 0.9375rem !important;
+      border-radius: 0.75rem !important;
+      text-align: center;
+    }
+
+    // Wrapper div de Continuar (con div intermedio)
+    > div:last-child {
+      flex: 1;
+      display: flex;
+
+      button {
+        flex: 1;
+        padding: 0.85rem 1.25rem !important;
+        font-size: 0.9375rem !important;
+        border-radius: 0.75rem !important;
+        text-align: center;
+      }
+    }
+  }
+}
+
+// Modo oscuro para botones de navegación móvil
+:host-context(html.dark) {
+  @media (max-width: 1279px) {
+    .nav-buttons-mobile {
+      background: #111113;
+      border-top: none;
+      box-shadow: none;
+    }
+  }
+}
