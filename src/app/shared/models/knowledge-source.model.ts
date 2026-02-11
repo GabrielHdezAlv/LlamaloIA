@@ -107,3 +107,10 @@ export interface LinkKnowledgeSourcesToAgentResponse {
 export interface GetAgentKnowledgeSourcesResponse {
   knowledgeSources: KnowledgeSource[];
 }
+
+/**
+ * Response when unlinking a source from an agent
+ */
+export interface UnlinkSourceFromAgentResponse {
+  message: string;
+}

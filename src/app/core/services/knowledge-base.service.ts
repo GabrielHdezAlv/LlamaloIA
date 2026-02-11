@@ -15,6 +15,7 @@ import {
   LinkKnowledgeSourcesToAgentRequest,
   LinkKnowledgeSourcesToAgentResponse,
   GetAgentKnowledgeSourcesResponse,
+  UnlinkSourceFromAgentResponse,
 } from '../../shared/models/knowledge-source.model';
 
 @Injectable({
@@ -272,6 +273,20 @@ export class KnowledgeBaseService {
       {
         body: { knowledgeSourceIds },
       },
+    );
+  }
+
+  /**
+   * Unlink a specific source from an agent
+   * DELETE /knowledge-base/agents/{agentId}/sources/{sourceId}
+   */
+  unlinkSourceFromAgent(
+    agentId: number,
+    sourceId: string,
+  ): Observable<UnlinkSourceFromAgentResponse> {
+    return this.http.delete<UnlinkSourceFromAgentResponse>(
+      `${this.baseUrl}/agents/${agentId}/sources/${sourceId}`,
+      { headers: this.getAuthHeaders() },
     );
   }
 }

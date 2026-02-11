@@ -605,6 +605,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
     this.editForm.patchValue(
       {
+        name: this.agent.name || '',
         type: this.agent.type || 'inbound',
         voiceId: this.agent.voiceId || '',
         firstInteraction: this.agent.firstInteraction || '',
@@ -1672,9 +1673,14 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (!this.agentId) return;
 
     this.knowledgeBaseService
-      .unlinkKnowledgeSourcesFromAgent(this.agentId, [sourceId])
+      .unlinkSourceFromAgent(this.agentId, sourceId)
       .subscribe({
-        next: () => {
+        next: (response) => {
+          // Handle both cases: response with message or empty response
+          const message =
+            response?.message || 'Fuente desvinculada exitosamente';
+          console.log('Fuente desvinculada:', message);
+
           // Remove from agent's knowledge sources
           const removedSource = this.agentKnowledgeSources.find(
             (s) => s.id === sourceId,
@@ -1692,8 +1698,18 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.error('Error unlinking knowledge source from agent:', err);
-          this.knowledgeSourceError =
-            'Error al desvincular la fuente de conocimiento del agente';
+
+          // Handle specific error cases
+          if (err.status === 404) {
+            this.knowledgeSourceError =
+              'La fuente de conocimiento no estaba vinculada a este agente';
+          } else if (err.status === 400) {
+            this.knowledgeSourceError =
+              'Error al desvincular la fuente de conocimiento del agente';
+          } else {
+            this.knowledgeSourceError =
+              'Error de conexión al desvincular la fuente de conocimiento';
+          }
         },
       });
   }
