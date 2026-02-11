@@ -28,8 +28,26 @@ export class LocalStorageRepository implements StorageRepository {
       return;
     }
     if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.setItem(`${store}.${key}`, JSON.stringify(value));
+      // Limpiar blob URLs antes de guardar para evitar errores de seguridad
+      const cleanValue = this.cleanBlobUrls(value);
+      localStorage.setItem(`${store}.${key}`, JSON.stringify(cleanValue));
     }
+  }
+
+  private cleanBlobUrls<T>(value: T): T {
+    if (!value || typeof value !== 'object') {
+      return value;
+    }
+
+    // Si es un objeto User, limpiar profileImage
+    if ('profileImage' in value && typeof value.profileImage === 'string') {
+      const user = value as any;
+      if (user.profileImage && user.profileImage.startsWith('blob:')) {
+        return { ...user, profileImage: '' };
+      }
+    }
+
+    return value;
   }
 
   async clearKey(store: string, key: string): Promise<void> {

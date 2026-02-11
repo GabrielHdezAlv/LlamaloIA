@@ -1,7 +1,7 @@
 import { inject, Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { LoginUser } from '../../shared/models/login-user.model';
 import { CreateUserDto } from '../../shared/models/create-user-dto.model';
 import { UpdateProfileDto } from '../../shared/models/update-profile-dto.model';
@@ -141,9 +141,23 @@ export class UserService {
 
       formData.append('image', imageFile);
 
-      return this.http.put<any>(`${this.apiUrl}/users/profile`, formData, {
-        headers: this.getFileUploadHeaders(),
-      });
+      return this.http
+        .put<any>(`${this.apiUrl}/users/profile`, formData, {
+          headers: this.getFileUploadHeaders(),
+        })
+        .pipe(
+          map((response) => {
+            // Agregar timestamp para evitar caché si hay una nueva imagen
+            if (
+              response &&
+              response.profileImage &&
+              response.profileImage.startsWith('http')
+            ) {
+              response.profileImage = `${response.profileImage}?t=${Date.now()}`;
+            }
+            return response;
+          }),
+        );
     } else {
       // Usar JSON para actualización de perfil sin imagen
       return this.http.put<any>(`${this.apiUrl}/users/profile`, userData, {

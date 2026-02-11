@@ -45,11 +45,11 @@ export class TopbarComponent implements OnInit, OnDestroy {
   private isBrowser: boolean;
   private i18nService = inject(I18nService);
   private metricsService = inject(MetricsService);
-  
+
   // Estado de loading para métricas
   isMetricsLoading: boolean = false;
   private metricsLoadingSubscription?: Subscription;
-  
+
   // Getter para la URL actual
   get currentUrl(): string {
     return this.router.url;
@@ -158,10 +158,18 @@ export class TopbarComponent implements OnInit, OnDestroy {
     // Cerrar dropdown si se hace clic fuera de él
     if (this.showDropdown) {
       const host = this.elementRef.nativeElement as HTMLElement;
-      const desktopDropdown = host.querySelector('.topbar-dropdown') as HTMLElement | null;
-      const desktopAvatar = host.querySelector('.topbar-avatar') as HTMLElement | null;
-      const mobileDropdown = host.querySelector('.mobile-topbar-dropdown') as HTMLElement | null;
-      const mobileAvatar = host.querySelector('.mobile-topbar-avatar') as HTMLElement | null;
+      const desktopDropdown = host.querySelector(
+        '.topbar-dropdown',
+      ) as HTMLElement | null;
+      const desktopAvatar = host.querySelector(
+        '.topbar-avatar',
+      ) as HTMLElement | null;
+      const mobileDropdown = host.querySelector(
+        '.mobile-topbar-dropdown',
+      ) as HTMLElement | null;
+      const mobileAvatar = host.querySelector(
+        '.mobile-topbar-avatar',
+      ) as HTMLElement | null;
       const target = event.target as HTMLElement;
 
       if (
@@ -228,15 +236,15 @@ export class TopbarComponent implements OnInit, OnDestroy {
     this.updateHeader();
     this.initializeTeamMembers();
     this.checkForSavedDraft();
-    
+
     // Suscribirse al estado de loading de métricas
     this.metricsLoadingSubscription = this.metricsService.loading$.subscribe(
       (loading) => {
         this.isMetricsLoading = loading;
-      }
+      },
     );
   }
-  
+
   ngOnDestroy() {
     if (this.metricsLoadingSubscription) {
       this.metricsLoadingSubscription.unsubscribe();

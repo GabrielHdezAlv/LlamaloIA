@@ -4,6 +4,7 @@ import {
   computed,
   OnInit,
   PLATFORM_ID,
+  OnDestroy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -30,7 +31,15 @@ import { TwilioService } from '../../core/services/twilio.service';
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss', './billing-modal-blur.scss'],
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent implements OnInit, OnDestroy {
+  // Enum para tipos de imagen
+  private readonly ImageType = {
+    NONE: 'none',
+    DEFAULT: 'default',
+    UPLOADED: 'uploaded',
+    BLOB: 'blob',
+  } as const;
+
   private userService = inject(UserService);
   private snackBar = inject(MatSnackBar);
   private i18nService = inject(I18nService);
@@ -73,6 +82,10 @@ export class AccountComponent implements OnInit {
   tempEnterprise: { name: string; url: string } = { name: '', url: '' };
   tempProfileImage = '';
   pendingImageFile: File | undefined;
+  private blobUrl: string | undefined;
+  private imageTimestamp: number = Date.now();
+  isImageLoading: boolean = false;
+  imageLoadError: boolean = false;
 
   // Lista de países con códigos ISO
   countries = [
@@ -151,6 +164,19 @@ export class AccountComponent implements OnInit {
   }
 
   userProfileImage = computed(() => this.user()?.profileImage ?? '');
+
+  // Computed property para determinar si mostrar imagen
+  shouldShowAvatar = computed(() => {
+    const tempImage = this.tempProfileImage;
+    const userImage = this.userProfileImage();
+
+    // Solo mostrar si hay una imagen válida que no sea blob URL
+    const hasValidTempImage = tempImage && !tempImage.startsWith('blob:');
+    const hasValidUserImage = userImage && !userImage.startsWith('blob:');
+
+    // Mostrar avatar si hay imagen válida y no hay error de carga
+    return !!(hasValidTempImage || hasValidUserImage) && !this.imageLoadError;
+  });
   enterprise = computed(() => {
     const ent = this.user()?.enterprise;
     return ent?.name || '';
@@ -173,7 +199,21 @@ export class AccountComponent implements OnInit {
       this.tempMarketingConsent = user.marketingConsent || false;
       // Inicializar enterprise como objeto
       this.tempEnterprise = user.enterprise || { name: '', url: '' };
-      this.tempProfileImage = user.profileImage || '';
+      // Limpiar URL de imagen de timestamps existentes para inicialización correcta
+      const imageUrl = user.profileImage || '';
+      // Solo usar URLs del servidor, nunca blob URLs
+      if (imageUrl.startsWith('blob:')) {
+        // Si por alguna razón hay una blob URL, limpiarla y usar la del usuario
+        this.tempProfileImage = '';
+        // Limpiar cualquier blob URL residual
+        this.revokeBlobUrl();
+      } else {
+        this.tempProfileImage = imageUrl; // Mantener URL completa del servidor
+        // Iniciar carga de la imagen si existe
+        if (imageUrl && !imageUrl.startsWith('blob:')) {
+          this.isImageLoading = true;
+        }
+      }
 
       // Cargar cuentas de Twilio si el usuario tiene
       if (user.twilio && Array.isArray(user.twilio)) {
@@ -346,6 +386,11 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  getUserProfileImage = () => {
+    const user = this.userStore.user();
+    return user?.profileImage || 'assets/predeterminada.webp';
+  };
+
   onUploadPhotoClick() {
     // Crear input file oculto
     const input = document.createElement('input');
@@ -379,9 +424,17 @@ export class AccountComponent implements OnInit {
       return;
     }
 
+    // Liberar blob URL anterior para evitar fugas de memoria
+    this.revokeBlobUrl();
+
+    // NO asignar blob URL a tempProfileImage para evitar errores de seguridad
+    // En su lugar, mantener tempProfileImage vacío y solo usar el archivo pendiente
+    this.tempProfileImage = '';
+    this.blobUrl = URL.createObjectURL(file);
+
     // Almacenar archivo para subida con datos del perfil
     this.pendingImageFile = file;
-    this.tempProfileImage = URL.createObjectURL(file); // Vista previa
+
     this.showNotification(
       'Imagen lista para subir. Guarda los cambios para subir.',
       'success',
@@ -481,6 +534,73 @@ export class AccountComponent implements OnInit {
     });
   }
 
+  // Método para obtener URL de imagen con cache-busting
+  getImageUrl(): string {
+    const tempImage = this.tempProfileImage;
+    const userImage = this.userProfileImage();
+
+    // Si hay un archivo pendiente con blob URL, mostrar la vista previa
+    if (this.pendingImageFile && this.blobUrl) {
+      return this.blobUrl; // Mostrar vista previa temporal
+    }
+
+    // Priorizar imagen del usuario sobre blob URLs
+    if (userImage && !userImage.startsWith('blob:')) {
+      // Usar imagen del usuario si existe y no es blob URL
+      if (userImage.includes('?t=')) {
+        return userImage; // Ya tiene timestamp
+      }
+      const separator = userImage.includes('?') ? '&' : '?';
+      return `${userImage}${separator}t=${this.imageTimestamp}`;
+    }
+
+    // Si no hay imagen de usuario, usar tempImage (solo si no es blob URL)
+    if (tempImage && !tempImage.startsWith('blob:')) {
+      if (tempImage.startsWith('http')) {
+        if (tempImage.includes('?t=')) {
+          return tempImage; // Ya tiene timestamp
+        }
+        const separator = tempImage.includes('?') ? '&' : '?';
+        return `${tempImage}${separator}t=${this.imageTimestamp}`;
+      }
+      return tempImage; // URL relativa (avatar por defecto)
+    }
+
+    // Si todo falla, no devolver nada
+    return '';
+  }
+
+  // Método para iniciar la carga de imagen
+  onImageLoadStart(): void {
+    this.isImageLoading = true;
+    this.imageLoadError = false;
+  }
+
+  // Método llamado cuando la imagen se carga correctamente
+  onImageLoad(): void {
+    this.isImageLoading = false;
+    this.imageLoadError = false;
+  }
+
+  // Método llamado cuando la imagen falla al cargar
+  onImageError(): void {
+    this.isImageLoading = false;
+    this.imageLoadError = true;
+  }
+
+  // Método para limpiar blob URL
+  private revokeBlobUrl(): void {
+    if (this.blobUrl) {
+      URL.revokeObjectURL(this.blobUrl);
+      this.blobUrl = undefined;
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar blob URL al destruir componente para evitar fugas de memoria
+    this.revokeBlobUrl();
+  }
+
   // Método para canjear recompensa
   redeemReward(rewardType: string) {
     console.log(`Canjeando recompensa: ${rewardType}`);
@@ -541,6 +661,12 @@ export class AccountComponent implements OnInit {
           this.userStore.setUser(response);
           this.showNotification(this.t.profileUpdated, 'success');
           this.pendingImageFile = undefined; // Limpiar archivo pendiente
+
+          // Limpiar blob URL y actualizar timestamp para nueva imagen
+          if (this.blobUrl) {
+            this.revokeBlobUrl();
+            this.imageTimestamp = Date.now(); // Nuevo timestamp para evitar caché
+          }
         },
         error: (error: any) => {
           this.showNotification(this.t.errorUpdatingProfile, 'error');
