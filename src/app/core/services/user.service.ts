@@ -119,10 +119,37 @@ export class UserService {
     });
   }
 
-  updateUserProfile(userData: UpdateProfileDto): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/users/profile`, userData, {
-      headers: this.getAuthHeaders(),
-    });
+  updateUserProfile(
+    userData: UpdateProfileDto,
+    imageFile?: File,
+  ): Observable<any> {
+    if (imageFile) {
+      // Usar FormData para actualización completa con imagen
+      const formData = new FormData();
+      formData.append('name', userData.name || '');
+      formData.append('lastname', userData.lastname || '');
+      formData.append('country', userData.country || '');
+      formData.append(
+        'marketingConsent',
+        String(userData.marketingConsent || false),
+      );
+
+      if (userData.enterprise) {
+        formData.append('enterprise[name]', userData.enterprise.name || '');
+        formData.append('enterprise[url]', userData.enterprise.url || '');
+      }
+
+      formData.append('image', imageFile);
+
+      return this.http.put<any>(`${this.apiUrl}/users/profile`, formData, {
+        headers: this.getFileUploadHeaders(),
+      });
+    } else {
+      // Usar JSON para actualización de perfil sin imagen
+      return this.http.put<any>(`${this.apiUrl}/users/profile`, userData, {
+        headers: this.getAuthHeaders(),
+      });
+    }
   }
 
   uploadProfileImage(file: File): Observable<any> {

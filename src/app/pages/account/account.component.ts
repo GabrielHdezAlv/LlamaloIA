@@ -72,6 +72,7 @@ export class AccountComponent implements OnInit {
   tempMarketingConsent: boolean = false;
   tempEnterprise: { name: string; url: string } = { name: '', url: '' };
   tempProfileImage = '';
+  pendingImageFile: File | undefined;
 
   // Lista de países con códigos ISO
   countries = [
@@ -299,6 +300,8 @@ export class AccountComponent implements OnInit {
   selectDefaultAvatar(avatarUrl: string) {
     this.tempProfileImage = avatarUrl;
     this.showAvatarModal = false;
+    // Limpiar cualquier archivo de imagen pendiente al seleccionar avatar por defecto
+    this.pendingImageFile = undefined;
     // Actualizar el perfil inmediatamente
     const currentUser = this.user();
     if (currentUser) {
@@ -360,9 +363,11 @@ export class AccountComponent implements OnInit {
 
   uploadProfileImage(file: File) {
     // Validar tipo de archivo
-    if (!file.type.startsWith('image/')) {
+    const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
+
+    if (!allowedTypes.includes(file.type)) {
       this.showNotification(
-        'Por favor, selecciona un archivo de imagen válido',
+        'Formato no soportado. Usa PNG, JPG, JPEG o WebP',
         'error',
       );
       return;
@@ -374,29 +379,16 @@ export class AccountComponent implements OnInit {
       return;
     }
 
-    // Mostrar notificación de carga
-    this.showNotification('Subiendo imagen...', 'success');
+    // Almacenar archivo para subida con datos del perfil
+    this.pendingImageFile = file;
+    this.tempProfileImage = URL.createObjectURL(file); // Vista previa
+    this.showNotification(
+      'Imagen lista para subir. Guarda los cambios para subir.',
+      'success',
+    );
 
-    console.log('this.user()?.userId: ', this.user()?.userId);
-
-    // Llamar al endpoint para subir la imagen
-    this.userService.uploadProfileImage(file).subscribe({
-      next: (response: any) => {
-        this.tempProfileImage = response.imageUrl;
-        this.showNotification('Imagen subida correctamente', 'success');
-        // Recargar la página para actualizar el perfil desde el backend
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      },
-      error: (error: any) => {
-        console.error('Error al subir imagen:', error);
-        this.showNotification(
-          'Error al subir la imagen. Inténtalo de nuevo.',
-          'error',
-        );
-      },
-    });
+    // Guardar perfil automáticamente con nueva imagen
+    this.saveUserInfo();
   }
 
   // Método para eliminar cuenta
@@ -541,15 +533,19 @@ export class AccountComponent implements OnInit {
       marketingConsent: this.tempMarketingConsent,
     };
 
-    this.userService.updateUserProfile(updatedUserData).subscribe({
-      next: (response: any) => {
-        this.userStore.setUser(response);
-        this.showNotification(this.t.profileUpdated, 'success');
-      },
-      error: (error: any) => {
-        this.showNotification(this.t.errorUpdatingProfile, 'error');
-      },
-    });
+    // Usar método unificado con posible archivo de imagen
+    this.userService
+      .updateUserProfile(updatedUserData, this.pendingImageFile)
+      .subscribe({
+        next: (response: any) => {
+          this.userStore.setUser(response);
+          this.showNotification(this.t.profileUpdated, 'success');
+          this.pendingImageFile = undefined; // Limpiar archivo pendiente
+        },
+        error: (error: any) => {
+          this.showNotification(this.t.errorUpdatingProfile, 'error');
+        },
+      });
   }
 
   // Propiedades para el modal de facturación
