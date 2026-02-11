@@ -1,11 +1,21 @@
 import { Component, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  FormsModule,
+} from '@angular/forms';
 import { TwilioService } from '../../../core/services/twilio.service';
 import { ModalService } from '../modal.service';
 
@@ -25,7 +35,7 @@ export interface ImportNumberModalData {
     MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './import-number-modal.component.html',
   styleUrls: ['./import-number-modal.component.scss'],
@@ -48,7 +58,7 @@ export class ImportNumberModalComponent {
   constructor() {
     this.importForm = this.fb.group({
       phoneNumber: ['', Validators.required],
-      label: ['']
+      label: [''],
     });
   }
 
@@ -72,7 +82,8 @@ export class ImportNumberModalComponent {
     if (!target) return;
 
     // Buscar si el click fue dentro del dropdown o del menú
-    const dropdown = target.closest('[class*="w-28"]') || target.closest('[class*="w-36"]');
+    const dropdown =
+      target.closest('[class*="w-28"]') || target.closest('[class*="w-36"]');
     const menu = target.closest('ul');
     const menuItem = target.closest('li');
 
@@ -85,20 +96,18 @@ export class ImportNumberModalComponent {
   onSubmit(): void {
     if (this.importForm.valid) {
       const phoneNumber = this.importForm.get('phoneNumber')?.value?.trim();
-      
+
       if (!phoneNumber) {
         this.modalService.openError({
           title: 'Número de teléfono requerido',
-          message: 'Por favor, ingresa un número de teléfono válido.'
+          message: 'Por favor, ingresa un número de teléfono válido.',
         });
         return;
       }
 
       const countryCode = this.selectedCountryCode;
       const number = phoneNumber;
-      
-      console.log('🔍 Validando número de teléfono:', { countryCode, number });
-      
+
       this.isLoading = true;
 
       // Primero validar el número de teléfono
@@ -106,36 +115,41 @@ export class ImportNumberModalComponent {
         next: (response) => {
           console.log('✅ Número validado correctamente:', response);
           this.isLoading = false;
-          
+
           // Si la validación es exitosa, cerrar el modal con los datos
           this.dialogRef.close({
             ...this.importForm.value,
             countryCode: this.selectedCountryCode,
-            country: this.selectedCountry
+            country: this.selectedCountry,
           });
         },
         error: (error) => {
           console.error('❌ Error al validar número:', error);
           this.isLoading = false;
-          
+
           // Manejar diferentes tipos de errores
-          let errorMessage = 'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
-          
+          let errorMessage =
+            'Error al validar el número de teléfono. Por favor, intenta nuevamente.';
+
           if (error.status === 400) {
-            errorMessage = error?.error?.message || 'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
+            errorMessage =
+              error?.error?.message ||
+              'Número no disponible. Por favor, verifica que el número sea correcto y esté disponible en Twilio.';
           } else if (error.status === 401) {
-            errorMessage = 'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
+            errorMessage =
+              'Token inválido o expirado. Por favor, inicia sesión nuevamente.';
           } else if (error.status === 404) {
-            errorMessage = 'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración en Ajustes > Conexiones > Twilio.';
+            errorMessage =
+              'Usuario no encontrado o configuración de Twilio no encontrada. Por favor, verifica tu configuración en Ajustes > Conexiones > Twilio.';
           } else if (error?.error?.message) {
             errorMessage = error.error.message;
           }
-          
+
           this.modalService.openError({
             title: 'Error al validar número',
-            message: errorMessage
+            message: errorMessage,
           });
-        }
+        },
       });
     }
   }
@@ -148,4 +162,3 @@ export class ImportNumberModalComponent {
     return '';
   }
 }
-

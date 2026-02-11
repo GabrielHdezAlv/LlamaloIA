@@ -10,7 +10,7 @@ import { LoginSuccessModalData } from './login-success-modal.component';
     <button (click)="showLoginSuccessModal()">
       Mostrar Modal de Éxito de Inicio de Sesión
     </button>
-  `
+  `,
 })
 export class ExampleComponent {
   private modalService = inject(ModalService);
@@ -18,13 +18,13 @@ export class ExampleComponent {
   showLoginSuccessModal() {
     // Uso básico con datos por defecto
     const dialogRef = this.modalService.openLoginSuccess();
-    
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'continue') {
-        console.log('Usuario hizo clic en continuar');
+        console.info('Usuario hizo clic en continuar');
         // Aquí puedes redirigir o realizar otras acciones
       } else {
-        console.log('Usuario cerró el modal');
+        console.info('Usuario cerró el modal');
       }
     });
   }
@@ -36,15 +36,15 @@ export class ExampleComponent {
       message: 'Hola Juan, has iniciado sesión correctamente.',
       userName: 'Juan',
       showContinueButton: true,
-      continueButtonText: 'Ir al Dashboard'
+      continueButtonText: 'Ir al Dashboard',
     };
 
     const dialogRef = this.modalService.openLoginSuccess(customData);
-    
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 'continue') {
         // Redirigir al dashboard
-        console.log('Redirigiendo al dashboard...');
+        console.info('Redirigiendo al dashboard...');
       }
     });
   }
@@ -56,7 +56,7 @@ export class ExampleComponent {
       message: 'Hola María, tu cuenta ha sido creada exitosamente.',
       userName: 'María',
       showContinueButton: true,
-      continueButtonText: 'Comenzar'
+      continueButtonText: 'Comenzar',
     };
 
     this.modalService.openLoginSuccess(newUserData);
@@ -72,17 +72,16 @@ export class AuthService {
     try {
       // Lógica para iniciar sesión
       // const response = await this.apiService.login(email, password);
-      
+
       // Mostrar modal de éxito
       this.modalService.openLoginSuccess({
         title: '¡Bienvenido de vuelta!',
         message: 'Has iniciado sesión correctamente.',
         showContinueButton: true,
-        continueButtonText: 'Ir al Dashboard'
+        continueButtonText: 'Ir al Dashboard',
       });
-      
+
       // return response;
-      
     } catch (error) {
       // Manejar error
       console.error('Error al iniciar sesión:', error);

@@ -68,7 +68,9 @@ interface EmployeeRange {
   templateUrl: './company-setup.component.html',
   styleUrl: './company-setup.component.scss',
 })
-export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class CompanySetupComponent
+  implements OnInit, OnDestroy, AfterViewChecked
+{
   // Servicios inyectados
   private userService = inject(UserService);
   private userStore = inject(UserStorage);
@@ -230,14 +232,54 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
     speed: 0.98,
   };
   private readonly defaultVoicesData = [
-    { name: 'Carla', image: 'assets/carla_prueba1.png', description: 'Diseñadora de Producto enfocada en simplicidad y usabilidad.', badgeText: 'Top 1% Voz' },
-    { name: 'Carlos', image: 'assets/carlos_prueba1.png', description: 'Especialista en Soporte Técnico con tono calmado y resolutivo.', badgeText: 'Top 5% Voz' },
-    { name: 'David', image: 'assets/david_prueba1.png', description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.', badgeText: 'Top Ventas' },
-    { name: 'Jesús', image: 'assets/jesus_prueba1.png', description: 'Asistente Virtual amigable ideal para recepción de llamadas.', badgeText: 'Popular' },
-    { name: 'Claudia', image: 'assets/claudia_prueba1.png', description: 'Narradora profesional perfecta para contenido educativo.', badgeText: 'Nueva' },
-    { name: 'María', image: 'assets/maria_prueba1.png', description: 'Agente de atención al cliente con gran empatía y paciencia.', badgeText: 'Destacada' },
+    {
+      name: 'Carla',
+      image: 'assets/carla_prueba1.png',
+      description:
+        'Diseñadora de Producto enfocada en simplicidad y usabilidad.',
+      badgeText: 'Top 1% Voz',
+    },
+    {
+      name: 'Carlos',
+      image: 'assets/carlos_prueba1.png',
+      description:
+        'Especialista en Soporte Técnico con tono calmado y resolutivo.',
+      badgeText: 'Top 5% Voz',
+    },
+    {
+      name: 'David',
+      image: 'assets/david_prueba1.png',
+      description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.',
+      badgeText: 'Top Ventas',
+    },
+    {
+      name: 'Jesús',
+      image: 'assets/jesus_prueba1.png',
+      description:
+        'Asistente Virtual amigable ideal para recepción de llamadas.',
+      badgeText: 'Popular',
+    },
+    {
+      name: 'Claudia',
+      image: 'assets/claudia_prueba1.png',
+      description: 'Narradora profesional perfecta para contenido educativo.',
+      badgeText: 'Nueva',
+    },
+    {
+      name: 'María',
+      image: 'assets/maria_prueba1.png',
+      description:
+        'Agente de atención al cliente con gran empatía y paciencia.',
+      badgeText: 'Destacada',
+    },
   ];
-  private readonly VOCES_LANG_CODES: readonly string[] = ['es', 'en', 'it', 'de', 'fr'];
+  private readonly VOCES_LANG_CODES: readonly string[] = [
+    'es',
+    'en',
+    'it',
+    'de',
+    'fr',
+  ];
 
   // Paso 6: Conecta tu negocio (Shopify)
   shopifyConnectedDomain: string | null = null;
@@ -278,11 +320,26 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
   isTwilioValidated = false;
   twilioSidValidationStatus: 'success' | 'error' | null = null;
   twilioTokenValidationStatus: 'success' | 'error' | null = null;
-  twilioAccounts: Array<{ twilioAccountId: number; twilioSid: string; twilioToken: string }> = [];
-  selectedTwilioAccount: { twilioAccountId: number; twilioSid: string; twilioToken: string } | null = null;
+  twilioAccounts: Array<{
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  }> = [];
+  selectedTwilioAccount: {
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  } | null = null;
   showNewTwilioAccountForm = false;
   loadingTwilioAccounts = false;
-  availablePhoneNumbers: Array<{ phoneId: number; countryCode: string; number: string; state?: 'Activo' | 'Inactivo'; importedBy?: string; twilioAccountId?: number }> = [];
+  availablePhoneNumbers: Array<{
+    phoneId: number;
+    countryCode: string;
+    number: string;
+    state?: 'Activo' | 'Inactivo';
+    importedBy?: string;
+    twilioAccountId?: number;
+  }> = [];
   loadingPhoneNumbers = false;
   isValidatingPhone = false;
   phoneValidationStatus: 'success' | 'error' | null = null;
@@ -292,14 +349,12 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
   // Estado de paso "final" (creando agente)
   isCreatingAgent = false;
 
-
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
-
 
   ngOnInit() {
     // Aquí podrías verificar si el usuario ya completó el setup
@@ -329,7 +384,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
   }
 
   ngAfterViewChecked() {
-    if (this.isCreatingAgent && this.lottieContainer && !this.lottieInitialized) {
+    if (
+      this.isCreatingAgent &&
+      this.lottieContainer &&
+      !this.lottieInitialized
+    ) {
       this.initLottie();
     } else if (!this.isCreatingAgent && this.lottieInitialized) {
       this.destroyLottie();
@@ -337,7 +396,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
   }
 
   private initLottie() {
-    if (this.lottieContainer && this.lottieContainer.nativeElement && !this.lottieInstance) {
+    if (
+      this.lottieContainer &&
+      this.lottieContainer.nativeElement &&
+      !this.lottieInstance
+    ) {
       this.lottieInstance = lottie.loadAnimation({
         container: this.lottieContainer.nativeElement,
         renderer: 'svg',
@@ -589,7 +652,6 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
     }
   }
 
-
   private triggerRightImageTransition(targetStep: number) {
     if (
       targetStep === this.rightImageStep ||
@@ -770,8 +832,16 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
 
   selectCountry(countryCode: string) {
     const countryCodeMap: { [key: string]: string } = {
-      es: '+34', en: '+44', fr: '+33', it: '+39', de: '+49',
-      pt: '+351', us: '+1', tr: '+90', se: '+46', nl: '+31',
+      es: '+34',
+      en: '+44',
+      fr: '+33',
+      it: '+39',
+      de: '+49',
+      pt: '+351',
+      us: '+1',
+      tr: '+90',
+      se: '+46',
+      nl: '+31',
     };
     this.pauseVoice();
     this.selectedCountryCode = countryCodeMap[countryCode] || '+34';
@@ -799,7 +869,10 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
     if (lang === 'us') lang = 'en';
     else if (!this.VOCES_LANG_CODES.includes(lang)) lang = 'es';
 
-    const normalizedVoiceName = voiceName.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    const normalizedVoiceName = voiceName
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
     const path = `assets/voces/${normalizedVoiceName}_${lang}.mp3`;
 
     if (this.audioActual) {
@@ -920,7 +993,8 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
 
   generatePrompt() {
     if (!this.promptDescription.trim()) {
-      this.generatePromptError = 'Por favor, describe el comportamiento del agente.';
+      this.generatePromptError =
+        'Por favor, describe el comportamiento del agente.';
       return;
     }
     this.isGeneratingPrompt = true;
@@ -941,14 +1015,20 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
         speed: this.voiceParameters.speed,
       },
       userDescription: this.promptDescription,
-      ...(this.shopifyConnectedDomain && { shopDomain: this.shopifyConnectedDomain }),
+      ...(this.shopifyConnectedDomain && {
+        shopDomain: this.shopifyConnectedDomain,
+      }),
     };
 
     this.agentsService.generateAgentInstructions(request).subscribe({
       next: (res) => {
-        const instruction = typeof res === 'string' ? res : (res as any)?.instruction || (res as any)?.instructions || '';
+        const instruction =
+          typeof res === 'string'
+            ? res
+            : (res as any)?.instruction || (res as any)?.instructions || '';
         if (!instruction) {
-          this.generatePromptError = 'No se pudo generar el prompt. Inténtalo de nuevo.';
+          this.generatePromptError =
+            'No se pudo generar el prompt. Inténtalo de nuevo.';
           this.isGeneratingPrompt = false;
           return;
         }
@@ -958,7 +1038,10 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
       },
       error: (err) => {
         this.isGeneratingPrompt = false;
-        this.generatePromptError = err?.error?.message || err?.message || 'Error al generar el prompt. Inténtalo de nuevo.';
+        this.generatePromptError =
+          err?.error?.message ||
+          err?.message ||
+          'Error al generar el prompt. Inténtalo de nuevo.';
       },
     });
   }
@@ -1003,9 +1086,16 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
   private async startMicrophone() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false, sampleRate: 44100 },
+        audio: {
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false,
+          sampleRate: 44100,
+        },
       });
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      this.audioContext = new (
+        window.AudioContext || (window as any).webkitAudioContext
+      )();
       this.analyser = this.audioContext.createAnalyser();
       this.microphone = this.audioContext.createMediaStreamSource(stream);
       this.analyser.fftSize = 256;
@@ -1019,7 +1109,8 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
       console.error('Error al acceder al micrófono:', error);
       this.modalService.openError({
         title: 'Error de micrófono',
-        message: 'No se pudo acceder al micrófono. Por favor, verifica los permisos.',
+        message:
+          'No se pudo acceder al micrófono. Por favor, verifica los permisos.',
       });
     }
   }
@@ -1044,7 +1135,8 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
 
   private animateIdle() {
     const animate = () => {
-      if (!this.isBrowser || this.isMicrophoneActive || this.currentStep !== 9) return;
+      if (!this.isBrowser || this.isMicrophoneActive || this.currentStep !== 9)
+        return;
       this.audioLevel = Math.sin(Date.now() / 1000) * 0.2 + 0.1;
       this.animationFrame = requestAnimationFrame(animate);
     };
@@ -1081,7 +1173,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
     this.userService.getUserProfile().subscribe({
       next: (profile) => {
         this.loadingTwilioAccounts = false;
-        if (profile.twilio && Array.isArray(profile.twilio) && profile.twilio.length > 0) {
+        if (
+          profile.twilio &&
+          Array.isArray(profile.twilio) &&
+          profile.twilio.length > 0
+        ) {
           this.twilioAccounts = profile.twilio.map((account) => ({
             twilioAccountId: account.twilioAccountId,
             twilioSid: account.twilioSid,
@@ -1126,7 +1222,8 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
     if (!this.twilioSid?.trim() || !this.twilioToken?.trim()) {
       this.modalService.openError({
         title: 'Campos requeridos',
-        message: 'Por favor, completa tanto el Account SID como el Auth Token antes de validar.',
+        message:
+          'Por favor, completa tanto el Account SID como el Auth Token antes de validar.',
       });
       return;
     }
@@ -1137,7 +1234,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
     this.twilioTokenValidationStatus = null;
     this.isValidatingTwilio = true;
 
-    const config: { twilioSid: string; twilioToken: string; twilioAccountId?: number } = {
+    const config: {
+      twilioSid: string;
+      twilioToken: string;
+      twilioAccountId?: number;
+    } = {
       twilioSid: this.twilioSid.trim(),
       twilioToken: this.twilioToken.trim(),
     };
@@ -1158,7 +1259,9 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
             next: (profile) => {
               if (profile.twilio && Array.isArray(profile.twilio)) {
                 const matchingAccount = profile.twilio.find(
-                  (acc) => acc.twilioSid === this.twilioSid.trim() && acc.twilioToken === this.twilioToken.trim(),
+                  (acc) =>
+                    acc.twilioSid === this.twilioSid.trim() &&
+                    acc.twilioToken === this.twilioToken.trim(),
                 );
                 if (matchingAccount) {
                   this.selectedTwilioAccount = {
@@ -1170,7 +1273,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
                 }
               }
             },
-            error: (error) => console.error('Error al obtener perfil después de validar:', error),
+            error: (error) =>
+              console.error(
+                'Error al obtener perfil después de validar:',
+                error,
+              ),
           });
         } else {
           this.loadAvailablePhoneNumbers();
@@ -1186,20 +1293,32 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
         this.twilioSidValidationStatus = 'error';
         this.twilioTokenValidationStatus = 'error';
         this.isTwilioValidated = false;
-        this.twilioErrorMessage = error?.error?.message || error?.message || 'Error al validar la configuración de Twilio.';
+        this.twilioErrorMessage =
+          error?.error?.message ||
+          error?.message ||
+          'Error al validar la configuración de Twilio.';
       },
     });
   }
 
   get isTwilioCompletelyValidated(): boolean {
-    return this.twilioSidValidationStatus === 'success' && this.twilioTokenValidationStatus === 'success' && this.phoneValidationStatus === 'success' && this.isTwilioValidated;
+    return (
+      this.twilioSidValidationStatus === 'success' &&
+      this.twilioTokenValidationStatus === 'success' &&
+      this.phoneValidationStatus === 'success' &&
+      this.isTwilioValidated
+    );
   }
 
   get canContinueFromConnections(): boolean {
     return this.isTwilioCompletelyValidated;
   }
 
-  useExistingTwilioAccount(account: { twilioAccountId: number; twilioSid: string; twilioToken: string }) {
+  useExistingTwilioAccount(account: {
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  }) {
     this.selectedTwilioAccount = account;
     this.twilioSid = account.twilioSid;
     this.twilioToken = account.twilioToken;
@@ -1256,13 +1375,19 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
         if (profile.agents && Array.isArray(profile.agents)) {
           profile.agents.forEach((agent) => {
             if (agent.phoneNumbers) {
-              agentPhoneNumbers.add(`${agent.phoneNumbers.countryCode}${agent.phoneNumbers.number}`);
+              agentPhoneNumbers.add(
+                `${agent.phoneNumbers.countryCode}${agent.phoneNumbers.number}`,
+              );
             }
           });
         }
         this.availablePhoneNumbers = allPhoneNumbers.filter((phone) => {
-          const belongsToAccount = phone.twilioAccountId === this.selectedTwilioAccount!.twilioAccountId;
-          const notInAgents = !agentPhoneNumbers.has(`${phone.countryCode}${phone.number}`);
+          const belongsToAccount =
+            phone.twilioAccountId ===
+            this.selectedTwilioAccount!.twilioAccountId;
+          const notInAgents = !agentPhoneNumbers.has(
+            `${phone.countryCode}${phone.number}`,
+          );
           return belongsToAccount && notInAgents;
         });
       },
@@ -1276,7 +1401,9 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
 
   onPhoneNumberSelected(event: { countryCode: string; number: string }) {
     this.phoneNumber = event.number;
-    this.selectedCountryCode = event.countryCode.startsWith('+') ? event.countryCode : '+' + event.countryCode;
+    this.selectedCountryCode = event.countryCode.startsWith('+')
+      ? event.countryCode
+      : '+' + event.countryCode;
     this.validatePhoneNumber();
   }
 
@@ -1292,7 +1419,10 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
       this.phoneValidationStatus = null;
       return;
     }
-    this.phoneValidationTimeout = setTimeout(() => this.validatePhoneNumber(), 500);
+    this.phoneValidationTimeout = setTimeout(
+      () => this.validatePhoneNumber(),
+      500,
+    );
   }
 
   validatePhoneNumber() {
@@ -1304,17 +1434,22 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
     this.isValidatingPhone = true;
     const twilioAccountId = this.selectedTwilioAccount?.twilioAccountId;
 
-    this.twilioService.validatePhone(countryCode, number, twilioAccountId).subscribe({
-      next: () => {
-        this.isValidatingPhone = false;
-        this.phoneValidationStatus = 'success';
-      },
-      error: (error) => {
-        this.isValidatingPhone = false;
-        this.phoneValidationStatus = 'error';
-        this.phoneErrorMessage = error?.error?.message || error?.message || 'Error al validar el número de teléfono.';
-      },
-    });
+    this.twilioService
+      .validatePhone(countryCode, number, twilioAccountId)
+      .subscribe({
+        next: () => {
+          this.isValidatingPhone = false;
+          this.phoneValidationStatus = 'success';
+        },
+        error: (error) => {
+          this.isValidatingPhone = false;
+          this.phoneValidationStatus = 'error';
+          this.phoneErrorMessage =
+            error?.error?.message ||
+            error?.message ||
+            'Error al validar el número de teléfono.';
+        },
+      });
   }
 
   onContinueFromConnections() {
@@ -1347,8 +1482,13 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
         speed: this.voiceParameters.speed,
       },
       state: 'Activo',
-      knowledgeSourceIds: this.selectedKnowledgeSourceIds.length > 0 ? this.selectedKnowledgeSourceIds : undefined,
-      ...(this.shopifyConnectedDomain && { shopifyDomain: this.shopifyConnectedDomain }),
+      knowledgeSourceIds:
+        this.selectedKnowledgeSourceIds.length > 0
+          ? this.selectedKnowledgeSourceIds
+          : undefined,
+      ...(this.shopifyConnectedDomain && {
+        shopifyDomain: this.shopifyConnectedDomain,
+      }),
     };
 
     this.isCreatingAgent = true;
@@ -1356,12 +1496,21 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
     this.agentsService.createAgent(agentConfig).subscribe({
       next: (response) => {
         if (this.selectedKnowledgeSourceIds.length > 0 && response?.agentId) {
-          this.knowledgeBaseService.linkKnowledgeSourcesToAgent(response.agentId, {
-            sourceIds: this.selectedKnowledgeSourceIds,
-          }).subscribe({
-            next: () => console.log('✅ Fuentes de conocimiento vinculadas exitosamente'),
-            error: (error) => console.error('❌ Error al vincular fuentes de conocimiento:', error),
-          });
+          this.knowledgeBaseService
+            .linkKnowledgeSourcesToAgent(response.agentId, {
+              sourceIds: this.selectedKnowledgeSourceIds,
+            })
+            .subscribe({
+              next: () =>
+                console.info(
+                  '✅ Fuentes de conocimiento vinculadas exitosamente',
+                ),
+              error: (error) =>
+                console.error(
+                  '❌ Error al vincular fuentes de conocimiento:',
+                  error,
+                ),
+            });
         }
         this.isCreatingAgent = false;
         this.goToStep(11); // Ir a pantalla de bienvenida
@@ -1372,7 +1521,10 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
         this.goToStep(9); // Volver a prueba de agente
         this.modalService.openError({
           title: 'Error al crear agente',
-          message: error?.error?.message || error?.message || 'Error al crear el agente. Por favor, intenta nuevamente.',
+          message:
+            error?.error?.message ||
+            error?.message ||
+            'Error al crear el agente. Por favor, intenta nuevamente.',
         });
       },
     });

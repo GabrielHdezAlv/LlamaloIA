@@ -579,13 +579,6 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
         // Almacenar las fuentes de conocimiento
         this.agentKnowledgeSources = knowledgeSources;
-
-        console.log('📚 Fuentes de conocimiento del agente:', {
-          agentId: this.agentId,
-          totalSources: knowledgeSources.length,
-          sourceIds: sourceIds,
-          sources: knowledgeSources,
-        });
       },
       error: (error) => {
         console.error(
@@ -1679,7 +1672,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           // Handle both cases: response with message or empty response
           const message =
             response?.message || 'Fuente desvinculada exitosamente';
-          console.log('Fuente desvinculada:', message);
+          console.info('Fuente desvinculada:', message);
 
           // Remove from agent's knowledge sources
           const removedSource = this.agentKnowledgeSources.find(

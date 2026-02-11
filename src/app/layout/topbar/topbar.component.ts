@@ -500,15 +500,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   toggleMemberRole(member: any) {
     // Abrir/cerrar el dropdown para este miembro específico
-    console.log(
-      'Toggling dropdown for:',
-      member.name,
-      'Current open:',
-      this.openDropdownMember,
-    );
     this.openDropdownMember =
       this.openDropdownMember === member.name ? null : member.name;
-    console.log('New open dropdown:', this.openDropdownMember);
   }
 
   updateMemberRole(member: any, newRole: string) {
@@ -533,12 +526,6 @@ export class TopbarComponent implements OnInit, OnDestroy {
     if (this.selectedEmails.length === 0) {
       return;
     }
-
-    // Aquí implementarías la lógica para enviar invitaciones
-    console.log('Enviando invitaciones:', {
-      names: this.selectedEmails,
-      role: this.selectedRole,
-    });
 
     // Añadir los nuevos miembros a la lista (por defecto: Pending)
     this.selectedEmails.forEach((email) => {

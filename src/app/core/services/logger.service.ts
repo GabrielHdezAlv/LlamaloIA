@@ -15,7 +15,7 @@ export class LoggerService {
    */
   log(message: string, ...args: any[]): void {
     if (this.isDev) {
-      console.log(message, ...args);
+      console.info(message, ...args);
     }
   }
 
@@ -43,7 +43,7 @@ export class LoggerService {
    */
   debug(message: string, ...args: any[]): void {
     if (this.isDev) {
-      console.log(`[DEBUG] ${message}`, ...args);
+      console.info(`[DEBUG] ${message}`, ...args);
     }
   }
 }

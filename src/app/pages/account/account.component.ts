@@ -232,9 +232,7 @@ export class AccountComponent implements OnInit, OnDestroy {
 
     // Verificar si hay parámetros de consulta para activar una pestaña específica
     this.route.queryParams.subscribe((params) => {
-      console.log('Query params:', params); // Debug log
       if (params['tab'] === 'gifts') {
-        console.log('Activating gifts tab'); // Debug log
         this.setActiveTab('gifts');
         // Limpiar el parámetro de consulta después de un pequeño delay
         setTimeout(() => {
@@ -454,13 +452,9 @@ export class AccountComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
-        console.log('Usuario confirmó la eliminación de cuenta');
-
         // Llamar al endpoint para programar la eliminación
         this.userService.deleteAccount().subscribe({
           next: (response) => {
-            console.log('Cuenta programada para eliminación:', response);
-
             // Actualizar el perfil del usuario para incluir scheduledDeletionDate
             this.userService.getUserProfile().subscribe({
               next: (profile) => {
@@ -520,7 +514,6 @@ export class AccountComponent implements OnInit, OnDestroy {
           },
         });
       } else if (result === 'support') {
-        console.log('Usuario quiere contactar con soporte');
         // Aquí puedes agregar la lógica para contactar con soporte
         // Por ejemplo: abrir un enlace, mostrar información de contacto, etc.
         this.modalService.openSuccess({
@@ -603,7 +596,6 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   // Método para canjear recompensa
   redeemReward(rewardType: string) {
-    console.log(`Canjeando recompensa: ${rewardType}`);
     // Aquí puedes implementar la lógica para canjear la recompensa
     alert(`¡Recompensa ${rewardType} canjeada! Te contactaremos pronto.`);
   }
@@ -793,12 +785,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('touchmove', handleMouseMove);
     document.addEventListener('touchend', handleMouseUp);
-  }
-
-  getStarted() {
-    console.log('Plan seleccionado:', this.selectedPlan);
-    console.log('Minutos seleccionados:', this.selectedMinutes);
-    // Aquí implementarías la lógica para procesar el pago
   }
 
   // Método para cargar las cuentas de Twilio del usuario

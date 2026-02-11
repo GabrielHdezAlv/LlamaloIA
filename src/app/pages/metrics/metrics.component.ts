@@ -534,9 +534,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     },
   };
   // Filtros
-  periods = [
-    this.t.last7Days,
-  ];
+  periods = [this.t.last7Days];
   selectedPeriod = this.periods[0];
 
   agents = [this.t.all, this.t.agent1, this.t.agent2];
@@ -1206,19 +1204,14 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
     // Procesar métricas de horas pico si están disponibles
     if (this.detailedMetrics.callMetricsByHour) {
-      console.log(
-        '🕐 callMetricsByHour recibido del endpoint:',
-        this.detailedMetrics.callMetricsByHour,
-      );
       this.callMetricsByHour = this.detailedMetrics.callMetricsByHour;
       this.selectedPeakDay =
         this.callMetricsByHour.dailyPeakHours[this.selectedDayIndex] || null;
       this.peakHourStats = this.callMetricsService.calculateAdditionalMetrics(
         this.callMetricsByHour,
       );
-      console.log('📊 Estadísticas calculadas:', this.peakHourStats);
     } else {
-      console.log(
+      console.error(
         '⚠️ callMetricsByHour no disponible en los datos del endpoint',
       );
     }

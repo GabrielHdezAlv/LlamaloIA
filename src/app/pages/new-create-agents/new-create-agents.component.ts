@@ -1221,8 +1221,6 @@ export class NewCreateAgentsComponent
       return;
     }
 
-    // Guardar la acción de Make
-    console.log('Acción de Make guardada:', this.makeActionData);
     // Iniciar animación de salida
     this.isMakeConfigClosing = true;
     setTimeout(() => {
@@ -1906,7 +1904,7 @@ export class NewCreateAgentsComponent
             })
             .subscribe({
               next: () => {
-                console.log(
+                console.info(
                   '✅ Fuentes de conocimiento vinculadas exitosamente',
                 );
               },

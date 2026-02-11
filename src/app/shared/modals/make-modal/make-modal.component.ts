@@ -25,12 +25,7 @@ interface ActionData {
 @Component({
   selector: 'app-make-modal',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatDialogModule,
-    MatIconModule,
-  ],
+  imports: [CommonModule, FormsModule, MatDialogModule, MatIconModule],
   templateUrl: './make-modal.component.html',
   styleUrls: ['./make-modal.component.scss'],
 })
@@ -42,7 +37,7 @@ export class MakeModalComponent implements OnInit {
   actionData: ActionData = {
     name: '',
     description: '',
-    serverUrl: ''
+    serverUrl: '',
   };
 
   get t() {
@@ -50,8 +45,6 @@ export class MakeModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Make modal data: ', this.data);
-
     // Si hay configuración existente, cargar los datos de la acción
     if (this.data?.config?.actionData) {
       this.actionData = { ...this.data.config.actionData };

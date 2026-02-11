@@ -70,8 +70,6 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
 
   // Método seguro para agregar fuentes de conocimiento
   private addKnowledgeSource(source: any): void {
-    console.log('Attempting to add source:', source);
-
     if (!source) {
       console.error('Attempted to add undefined source');
       return;
@@ -103,7 +101,6 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
     }
 
     this.knowledgeSources.push(validSource);
-    console.log('Successfully added knowledge source:', validSource);
   }
 
   @ViewChild('fileInput', { static: false })
@@ -146,14 +143,10 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
 
     this.knowledgeBaseService.getKnowledgeSources().subscribe({
       next: (response) => {
-        console.log('Response from backend:', response);
-
         // El backend puede devolver el array directamente o dentro de un objeto
         const sources = Array.isArray(response)
           ? response
           : response?.knowledgeSources || [];
-
-        console.log('Processed sources:', sources);
 
         // Filtrar elementos undefined y mapear datos
         this.knowledgeSources = sources
@@ -164,8 +157,6 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
             updatedAt: new Date(source.updatedAt),
             isPublic: source.isPublic === 'true' || source.isPublic === true,
           }));
-
-        console.log('Final knowledgeSources:', this.knowledgeSources);
 
         this.isLoading = false;
         this.cdr.detectChanges();
@@ -232,8 +223,6 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
           )
           .subscribe({
             next: (response) => {
-              console.log('PDF upload response:', response);
-
               // Validar diferentes estructuras de respuesta posibles
               const sourceToAdd = response?.knowledgeSource || response;
 
@@ -349,8 +338,6 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
     this.isLoading = true;
     this.knowledgeBaseService.createKnowledgeSource(request).subscribe({
       next: (response) => {
-        console.log('Text source response:', response);
-
         // El backend devuelve el objeto directamente para fuentes de texto
         const sourceToAdd = response?.knowledgeSource || response;
 
