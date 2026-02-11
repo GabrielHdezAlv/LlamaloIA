@@ -1,0 +1,194 @@
+<div
+  class="w-full h-full bg-transparent flex items-center justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-16">
+  <div
+    class="w-full max-w-[440px] sm:max-w-[520px] md:max-w-[620px] xl:max-w-[580px] 3xl:max-w-[600px] flex flex-col px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8 overflow-visible">
+    <div class="flex items-center justify-between w-full">
+      <h1 class="text-lg xl:text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
+        Instrucciones
+      </h1>
+      <span class="text-xs xl:text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
+        *ngIf="getCurrentStepNumber() > 0">
+        {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
+      </span>
+    </div>
+    <p class="mt-0.5 3xl:mt-1 text-sm xl:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
+      Define las instrucciones que seguirá tu agente de IA.
+    </p>
+
+    <div class="mt-4 xl:mt-3 3xl:mt-5 flex flex-col gap-4 xl:gap-3 3xl:gap-6">
+      <div>
+        <label
+          class="block text-sm xl:text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1.5 xl:mb-1 3xl:mb-2">Saludo
+          personalizado</label>
+        <input type="text" [ngModel]="greeting" (ngModelChange)="onGreetingInput($event)" name="greeting" placeholder="Hola, gracias por llamar a..."
+          class="w-full px-4 xl:px-3 3xl:px-6 py-2.5 xl:py-1.5 3xl:py-3 text-sm xl:text-[11px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition-all" />
+      </div>
+      <div>
+        <div class="flex items-center justify-between relative">
+          <label
+            class="block text-sm xl:text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-1">Instrucciones
+            del agente</label>
+          <div class="relative">
+            <button type="button" (click)="toggleGeneratePromptClicked.emit()"
+              class="group relative flex items-center gap-1 px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 ease-in-out border border-gray-300 dark:border-slate-600 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 hover:scale-105 hover:shadow-md hover:shadow-purple-500/20">
+              <span
+                class="text-[10px] 3xl:text-xs font-medium bg-gradient-to-r from-violet-500 via-purple-500 via-fuchsia-500 via-indigo-500 to-blue-600 bg-clip-text text-transparent">Generar
+                con IA</span>
+            </button>
+            @if (
+            showGeneratePromptModal || isGeneratePromptDropdownClosing
+            ) {
+            <div
+              class="absolute right-0 mt-2 w-72 3xl:w-96 rounded-xl 3xl:rounded-2xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 shadow-xl z-50 p-3 3xl:p-4 space-y-3 ia-generate-dropdown"
+              [class.closing]="isGeneratePromptDropdownClosing">
+              <div>
+                <p class="text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-white">
+                  Generar instrucciones con IA
+                </p>
+                <p class="mt-0.5 text-[9px] 3xl:text-xs text-gray-500 dark:text-gray-400">
+                  Describe brevemente cómo debe comportarse el agente.
+                </p>
+              </div>
+              <div>
+                <textarea [ngModel]="promptDescription" (ngModelChange)="onPromptDescriptionInput($event)"
+                  placeholder="Ej: Agente amable que atiende reservas y dudas de un restaurante..." rows="3"
+                  class="w-full px-2.5 3xl:px-3 py-1.5 3xl:py-2 text-[10px] 3xl:text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none resize-none transition-all"></textarea>
+              </div>
+              @if (generatePromptError) {
+              <p class="text-[9px] 3xl:text-xs text-red-500 dark:text-red-400">
+                {{ generatePromptError }}
+              </p>
+              }
+              <div class="flex justify-end gap-2">
+                <button type="button" (click)="closeGeneratePromptClicked.emit()"
+                  class="px-2.5 3xl:px-3 py-1 text-[9px] 3xl:text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+                  Cancelar
+                </button>
+                <button type="button" (click)="generatePromptClicked.emit()" [disabled]="
+                      isGeneratingPrompt || !promptDescription.trim()
+                    "
+                  class="px-2.5 3xl:px-3 py-1 text-[9px] 3xl:text-xs font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
+                  @if (isGeneratingPrompt) {
+                  <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                    </circle>
+                    <path class="opacity-75" fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                  </svg>
+                  Generando...
+                  } @else {
+                  Generar
+                  }
+                </button>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+        <div class="relative mt-2">
+          <textarea [ngModel]="instructions" (ngModelChange)="onInstructionsInput($event)" name="instructions" placeholder="Escribe aquí las instrucciones..."
+            rows="8"
+            class="w-full px-4 xl:px-3 3xl:px-6 py-4 3xl:py-6 text-sm xl:text-[11px] 3xl:text-lg border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none resize-none transition-all"></textarea>
+          <!-- Botón para ver texto ampliado -->
+          <button type="button" (click)="openExpandInstructionsClicked.emit()"
+            class="absolute bottom-2 right-2 p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            title="Ver texto completo ampliado">
+            <svg class="w-4 h-4 3xl:w-5 3xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5 xl:mt-4 3xl:mt-6 relative z-10 overflow-visible">
+      <label
+        class="block text-sm xl:text-[10px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white mb-1.5 xl:mb-1 3xl:mb-2">Acciones
+        externas (Make)</label>
+      <div
+        class="border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-900/40 overflow-visible">
+        <div class="flex items-start gap-2 px-3 3xl:px-4 py-2 3xl:py-3 transition-colors">
+          <div class="flex items-center gap-2 min-w-0">
+            <img src="assets/make.webp" alt="Make" class="w-6 h-6 3xl:w-8 3xl:h-8 object-contain" />
+            <div class="min-w-0">
+              <p
+                class="text-sm xl:text-[10px] 3xl:text-lg font-semibold text-gray-900 dark:text-white leading-tight">
+                Make
+              </p>
+              <p class="text-xs xl:text-[9px] 3xl:text-sm text-gray-500 dark:text-gray-400 leading-tight">
+                Automatiza tus flujos
+              </p>
+            </div>
+          </div>
+          <div class="ml-auto relative z-[10000]">
+            <button type="button"
+              class="px-2 3xl:px-3 py-1 3xl:py-1.5 text-[9px] 3xl:text-sm rounded-md 3xl:rounded-lg bg-black text-white dark:bg-white dark:text-[#000001] font-medium hover:bg-gray-800 dark:hover:bg-white transition-colors"
+              (click)="toggleMakeConfigClicked.emit()">
+              {{ showMakeConfig ? "Cerrar" : "Conectar" }}
+            </button>
+            @if (showMakeConfig || isMakeConfigClosing) {
+            <div
+              class="absolute right-full top-0 mr-2 w-72 sm:w-80 3xl:w-96 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl shadow-lg z-[9999] px-3 3xl:px-4 pb-3 3xl:pb-4 pt-2 3xl:pt-3 space-y-2 3xl:space-y-3 make-modal-dropdown lg:left-full lg:right-auto lg:top-[-11.5rem] 3xl:lg:top-[-13rem] lg:ml-2 lg:mr-0"
+              [class.closing]="isMakeConfigClosing">
+              <div>
+                <label
+                  class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-0.5 3xl:mb-1">Nombre
+                  de la acción *</label>
+                <input type="text" [ngModel]="makeActionData.name" (ngModelChange)="onMakeActionNameInput($event)" placeholder="Avisar equipo ventas"
+                  class="w-full h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none" />
+              </div>
+              <div>
+                <label
+                  class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-0.5 3xl:mb-1">Descripción</label>
+                <textarea rows="2" [ngModel]="makeActionData.description" (ngModelChange)="onMakeActionDescriptionInput($event)" placeholder="Qué hace esta acción"
+                  class="w-full px-2 3xl:px-3 py-1 3xl:py-2 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none resize-none"></textarea>
+              </div>
+              <div>
+                <label
+                  class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-0.5 3xl:mb-1">URL
+                  del servidor *</label>
+                <input type="url" [ngModel]="makeActionData.serverUrl" (ngModelChange)="onMakeActionServerUrlInput($event)" placeholder="https://hook.make.com/..."
+                  class="w-full h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md 3xl:rounded-lg text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none" />
+              </div>
+              <button type="button"
+                class="w-full px-2.5 3xl:px-4 py-1 3xl:py-2 text-[9px] 3xl:text-sm rounded-md 3xl:rounded-lg bg-black text-white dark:bg-white dark:text-[#000001] font-semibold hover:bg-gray-800 dark:hover:bg-white transition-colors"
+                (click)="saveMakeActionClicked.emit()">
+                Guardar acción
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full flex items-center justify-between mt-5 3xl:mt-10 nav-buttons-mobile">
+      <button type="button"
+        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
+        (click)="backClicked.emit()">
+        <span class="text-xs 3xl:text-xl leading-none">‹</span>
+        <span>Atrás</span>
+      </button>
+      <button type="button"
+        class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
+        (click)="continueClicked.emit()">
+        Continuar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para ver instrucciones ampliadas -->
+@if (showExpandInstructionsModal || isInstructionsModalClosing) {
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+  (click)="closeExpandInstructionsClicked.emit()" [class.instructions-modal-exit]="isInstructionsModalClosing">
+  <div class="w-full max-w-4xl 3xl:max-w-6xl max-h-[90vh] overflow-y-auto instructions-modal-enter"
+    (click)="$event.stopPropagation()" [class.instructions-modal-exit]="isInstructionsModalClosing">
+    <textarea [ngModel]="instructions" (ngModelChange)="onInstructionsInput($event)" name="instructionsExpanded" placeholder="Escribe aquí las instrucciones..."
+      class="w-full px-3 3xl:px-6 py-4 3xl:py-6 text-[11px] 3xl:text-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#111113] rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:outline-none focus:border-gray-300 dark:focus:border-slate-600 resize-none min-h-[400px] 3xl:min-h-[500px]"></textarea>
+  </div>
+</div>
+}
+

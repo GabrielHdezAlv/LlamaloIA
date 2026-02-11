@@ -1,0 +1,161 @@
+/* Animación limpia para el dropdown del modal de Make */
+@keyframes makeModalSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes makeModalSlideOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+}
+
+.make-modal-dropdown {
+  animation: makeModalSlideIn 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: top right;
+}
+
+.make-modal-dropdown.closing {
+  animation: makeModalSlideOut 0.15s ease-in forwards;
+  transform-origin: top right;
+}
+
+/* Animaciones para el dropdown de "Generar con IA" */
+@keyframes iaDropdownIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes iaDropdownOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+}
+
+.ia-generate-dropdown {
+  animation: iaDropdownIn 0.18s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: top right;
+}
+
+.ia-generate-dropdown.closing {
+  animation: iaDropdownOut 0.14s ease-in forwards;
+  transform-origin: top right;
+}
+
+/* Animaciones para el modal de instrucciones ampliadas */
+@keyframes instructionsModalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes instructionsModalFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.instructions-modal-enter {
+  animation: instructionsModalFadeIn 0.2s ease-out forwards;
+}
+
+.instructions-modal-exit {
+  animation: instructionsModalFadeOut 0.15s ease-in forwards;
+}
+
+/* Botones de navegación fijos en la parte inferior para móvil y tablet */
+@media (max-width: 1279px) {
+  .nav-buttons-mobile {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    background: white;
+    border-top: none;
+    padding: 1rem 1.25rem;
+    margin-top: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    box-shadow: none;
+
+    > button:first-child {
+      flex: 1;
+      justify-content: center;
+      padding: 0.85rem 1.25rem !important;
+      font-size: 0.9375rem !important;
+      border-radius: 0.75rem !important;
+
+      span {
+        font-size: 0.9375rem !important;
+      }
+    }
+
+    > button:last-child:not(:first-child) {
+      flex: 1;
+      padding: 0.85rem 1.25rem !important;
+      font-size: 0.9375rem !important;
+      border-radius: 0.75rem !important;
+      text-align: center;
+    }
+
+    > div:last-child {
+      flex: 1;
+      display: flex;
+
+      button {
+        flex: 1;
+        padding: 0.85rem 1.25rem !important;
+        font-size: 0.9375rem !important;
+        border-radius: 0.75rem !important;
+        text-align: center;
+      }
+    }
+  }
+}
+
+// Modo oscuro para botones de navegación móvil
+:host-context(html.dark) {
+  @media (max-width: 1279px) {
+    .nav-buttons-mobile {
+      background: #111113;
+      border-top: none;
+      box-shadow: none;
+    }
+  }
+}
+

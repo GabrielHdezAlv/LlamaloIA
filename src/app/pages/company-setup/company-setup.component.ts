@@ -3,11 +3,15 @@ import {
   OnInit,
   OnDestroy,
   inject,
-  HostListener,
+  Inject,
+  PLATFORM_ID,
+  ViewChild,
+  ElementRef,
+  AfterViewChecked,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -15,9 +19,25 @@ import {
   AgentsService,
   GenerateAgentInstructionsRequest,
 } from '../../core/services/agents.service';
-import { Voice } from '../../shared/models/voice.model';
-import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
+import { KnowledgeBaseService } from '../../core/services/knowledge-base.service';
 import { TwilioService } from '../../core/services/twilio.service';
+import { Voice } from '../../shared/models/voice.model';
+import {
+  SetAgentConfigDto,
+  VoiceParameters,
+} from '../../shared/models/agent.model';
+import { ModalService } from '../../shared/modals/modal.service';
+import lottie from 'lottie-web';
+
+// Step components
+import { AgentNameStepComponent } from '../new-create-agents/steps/agent-name-step/agent-name-step.component';
+import { CallTypeStepComponent } from '../new-create-agents/steps/call-type-step/call-type-step.component';
+import { VoicesStepComponent } from '../new-create-agents/steps/voices-step/voices-step.component';
+import { ConnectBusinessStepComponent } from '../new-create-agents/steps/connect-business-step/connect-business-step.component';
+import { InstructionsStepComponent } from '../new-create-agents/steps/instructions-step/instructions-step.component';
+import { KnowledgeBaseStepComponent } from '../new-create-agents/steps/knowledge-base-step/knowledge-base-step.component';
+import { TestAgentStepComponent } from '../new-create-agents/steps/test-agent-step/test-agent-step.component';
+import { ConnectPhoneStepComponent } from '../new-create-agents/steps/connect-phone-step/connect-phone-step.component';
 
 interface CompanyType {
   id: string;
@@ -32,17 +52,39 @@ interface EmployeeRange {
 @Component({
   selector: 'app-company-setup',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSnackBarModule, AiSphereComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatSnackBarModule,
+    AgentNameStepComponent,
+    CallTypeStepComponent,
+    VoicesStepComponent,
+    ConnectBusinessStepComponent,
+    InstructionsStepComponent,
+    KnowledgeBaseStepComponent,
+    TestAgentStepComponent,
+    ConnectPhoneStepComponent,
+  ],
   templateUrl: './company-setup.component.html',
   styleUrl: './company-setup.component.scss',
 })
-export class CompanySetupComponent implements OnInit, OnDestroy {
+export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecked {
   // Servicios inyectados
   private userService = inject(UserService);
   private userStore = inject(UserStorage);
   private snackBar = inject(MatSnackBar);
   private agentsService = inject(AgentsService);
+  private knowledgeBaseService = inject(KnowledgeBaseService);
   private twilioService = inject(TwilioService);
+  private modalService = inject(ModalService);
+  private route = inject(ActivatedRoute, { optional: true });
+
+  @ViewChild('lottieContainer', { static: false })
+  lottieContainer!: ElementRef<HTMLDivElement>;
+
+  private isBrowser: boolean = false;
+  private lottieInstance: any = null;
+  private lottieInitialized = false;
 
   // Datos del formulario
   businessName: string = 'LLAMALO S.L';
@@ -151,129 +193,113 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   currentStep: number = 1;
   maxStep: number = 11;
 
-  // Paso 3: Completa tu agente
-  agentName = '';
-  readonly agentNameMaxLength = 50;
+  // ===== Propiedades para pasos de creación de agente (3-10) =====
 
-  // Paso 4: Tipo de llamada (inbound/outbound)
+  // Paso 3: Nombre del agente
+  agentName = '';
+
+  // Paso 4: Tipo de llamada
   selectedCallType: 'inbound' | 'outbound' | null = null;
 
-  // Paso 5: País y voz (10 idiomas de new-create-agents)
+  // Paso 5: País y voz
   countryOptions = [
     { code: 'es', label: 'Español' },
-    { code: 'en', label: 'Inglés Británico' },
-    { code: 'fr', label: 'Francés' },
+    { code: 'en', label: 'English' },
+    { code: 'fr', label: 'Français' },
     { code: 'it', label: 'Italiano' },
-    { code: 'de', label: 'Alemán' },
-    { code: 'pt', label: 'Portugués' },
-    { code: 'us', label: 'Inglés Americano' },
-    { code: 'tr', label: 'Turco' },
-    { code: 'se', label: 'Sueco' },
-    { code: 'nl', label: 'Holandés' },
+    { code: 'de', label: 'Deutsch' },
+    { code: 'pt', label: 'Português' },
+    { code: 'us', label: 'English (US)' },
+    { code: 'tr', label: 'Türkçe' },
+    { code: 'se', label: 'Svenska' },
+    { code: 'nl', label: 'Nederlands' },
   ];
   selectedCountry = 'es';
-  voices: { name: string; voiceId: string }[] = [];
+  selectedCountryCode = '+34';
+  voices: any[] = [];
   selectedVoiceId = '';
   currentPlayingVoice: string | null = null;
   private audioActual: HTMLAudioElement | null = null;
-  private readonly VOCES_LANG_CODES = ['es', 'en', 'it', 'de', 'fr'];
-
-  // Paso 5: Parámetros de voz (configuración del agente)
-  voiceParameters = {
+  private isPlaying = false;
+  private voicesLoaded = false;
+  voiceParameters: VoiceParameters = {
     stability: 0.72,
     similarity: 0.8,
     style: 0.5,
-    speed: 1,
     boost: true,
+    speed: 0.98,
   };
+  private readonly defaultVoicesData = [
+    { name: 'Carla', image: 'assets/carla_prueba1.png', description: 'Diseñadora de Producto enfocada en simplicidad y usabilidad.', badgeText: 'Top 1% Voz' },
+    { name: 'Carlos', image: 'assets/carlos_prueba1.png', description: 'Especialista en Soporte Técnico con tono calmado y resolutivo.', badgeText: 'Top 5% Voz' },
+    { name: 'David', image: 'assets/david_prueba1.png', description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.', badgeText: 'Top Ventas' },
+    { name: 'Jesús', image: 'assets/jesus_prueba1.png', description: 'Asistente Virtual amigable ideal para recepción de llamadas.', badgeText: 'Popular' },
+    { name: 'Claudia', image: 'assets/claudia_prueba1.png', description: 'Narradora profesional perfecta para contenido educativo.', badgeText: 'Nueva' },
+    { name: 'María', image: 'assets/maria_prueba1.png', description: 'Agente de atención al cliente con gran empatía y paciencia.', badgeText: 'Destacada' },
+  ];
+  private readonly VOCES_LANG_CODES: readonly string[] = ['es', 'en', 'it', 'de', 'fr'];
+
+  // Paso 6: Conecta tu negocio (Shopify)
+  shopifyConnectedDomain: string | null = null;
 
   // Paso 7: Instrucciones
   greeting = '';
   instructions = '';
-  showMakeConfigStep7 = false;
-  makeActionDataStep7 = {
-    name: '',
-    description: '',
-    serverUrl: '',
-  };
-
-  // Paso 8: Base de conocimientos (PDF / Web)
-  selectedKnowledgeSource: 'pdf' | 'web' | null = null;
-  knowledgeBaseNote = '';
-
-  showCountryDropdown = false;
-  showVoiceDropdown = false;
-  showVoiceParamsDropdown = false;
-  hasConnectedShopify = false;
-
-  // Paso 7: Twilio (conectar número de teléfono)
-  showTwilioConfigStep7 = false;
-  twilioSidStep7 = '';
-  twilioTokenStep7 = '';
-  isValidatingTwilioStep7 = false;
-  twilioValidationStatusStep7: 'success' | 'error' | null = null;
-  twilioErrorMessageStep7 = '';
-  isTwilioValidated = false;
-  twilioAccountsStep7: Array<{
-    twilioAccountId: number;
-    twilioSid: string;
-    twilioToken: string;
-  }> = [];
-  selectedTwilioAccount: {
-    twilioAccountId: number;
-    twilioSid: string;
-    twilioToken: string;
-  } | null = null;
-  showNewTwilioAccountFormStep7 = false;
-  loadingTwilioAccounts = false;
-  availablePhoneNumbers: Array<{
-    phoneId: number;
-    number: string;
-    countryCode: string;
-    twilioAccountId?: number;
-  }> = [];
-  loadingPhoneNumbers = false;
-  phoneNumberStep7 = '';
-  selectedCountryCodeStep7 = '+34';
-  phoneValidationStatusStep7: 'success' | 'error' | null = null;
-  phoneErrorMessageStep7 = '';
-  private phoneValidationTimeoutStep7: ReturnType<typeof setTimeout> | null =
-    null;
-
-  // Paso 7: Generar instrucciones con IA (dropdown)
+  showMakeConfig = false;
+  isMakeConfigClosing = false;
+  makeActionData = { name: '', description: '', serverUrl: '' };
   showGeneratePromptModal = false;
+  isGeneratePromptDropdownClosing = false;
   promptDescription = '';
   isGeneratingPrompt = false;
   generatePromptError = '';
-  isGeneratePromptDropdownClosing = false;
-
-  // Paso 7: ver instrucciones ampliadas
   showExpandInstructionsModal = false;
   isInstructionsModalClosing = false;
 
-  // Paso 10: Prueba de agente — micrófono y esfera
+  // Paso 8: Base de conocimientos
+  selectedKnowledgeSourceIds: string[] = [];
+
+  // Paso 9: Prueba de agente
   isMicrophoneActive = false;
   audioLevel = 0;
-  private audioContext: AudioContext | null = null;
-  private analyser: AnalyserNode | null = null;
-  private microphone: MediaStreamAudioSourceNode | null = null;
-  private animationFrame: number | null = null;
+  audioContext: AudioContext | null = null;
+  analyser: AnalyserNode | null = null;
+  microphone: MediaStreamAudioSourceNode | null = null;
+  animationFrame: number | null = null;
 
-  constructor(private router: Router) {}
+  // Paso 10: Conecta tu número de teléfono (Twilio)
+  phoneNumber = '';
+  showTwilioConfig = false;
+  twilioSid = '';
+  twilioToken = '';
+  isValidatingTwilio = false;
+  twilioValidationStatus: 'success' | 'error' | null = null;
+  twilioErrorMessage = '';
+  isTwilioValidated = false;
+  twilioSidValidationStatus: 'success' | 'error' | null = null;
+  twilioTokenValidationStatus: 'success' | 'error' | null = null;
+  twilioAccounts: Array<{ twilioAccountId: number; twilioSid: string; twilioToken: string }> = [];
+  selectedTwilioAccount: { twilioAccountId: number; twilioSid: string; twilioToken: string } | null = null;
+  showNewTwilioAccountForm = false;
+  loadingTwilioAccounts = false;
+  availablePhoneNumbers: Array<{ phoneId: number; countryCode: string; number: string; state?: 'Activo' | 'Inactivo'; importedBy?: string; twilioAccountId?: number }> = [];
+  loadingPhoneNumbers = false;
+  isValidatingPhone = false;
+  phoneValidationStatus: 'success' | 'error' | null = null;
+  phoneErrorMessage = '';
+  private phoneValidationTimeout: any = null;
 
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (
-      target.closest('.country-dropdown-step5') ||
-      target.closest('.voice-params-dropdown-step5') ||
-      target.closest('.twilio-step7')
-    )
-      return;
-    this.showCountryDropdown = false;
-    this.showVoiceDropdown = false;
-    this.showVoiceParamsDropdown = false;
+  // Estado de paso "final" (creando agente)
+  isCreatingAgent = false;
+
+
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object,
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
   }
+
 
   ngOnInit() {
     // Aquí podrías verificar si el usuario ya completó el setup
@@ -291,10 +317,52 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     if (currentUser?.profileImage) {
       this.logoPreview = currentUser.profileImage;
     }
+
+    // Inicializar greeting con nombre de empresa
+    this.greeting = this.getGreetingWithCompanyName();
+
+    // Manejar retorno de Shopify si aplica
+    if (this.isBrowser) {
+      this.handleShopifyReturnParams();
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (this.isCreatingAgent && this.lottieContainer && !this.lottieInitialized) {
+      this.initLottie();
+    } else if (!this.isCreatingAgent && this.lottieInitialized) {
+      this.destroyLottie();
+    }
+  }
+
+  private initLottie() {
+    if (this.lottieContainer && this.lottieContainer.nativeElement && !this.lottieInstance) {
+      this.lottieInstance = lottie.loadAnimation({
+        container: this.lottieContainer.nativeElement,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: 'assets/Loading.json',
+      });
+      this.lottieInitialized = true;
+    }
+  }
+
+  private destroyLottie() {
+    if (this.lottieInstance) {
+      this.lottieInstance.destroy();
+      this.lottieInstance = null;
+      this.lottieInitialized = false;
+    }
   }
 
   ngOnDestroy() {
     this.stopMicrophone();
+    this.pauseVoice();
+    this.destroyLottie();
+    if (this.phoneValidationTimeout) {
+      clearTimeout(this.phoneValidationTimeout);
+    }
   }
 
   // Método para activar/desactivar el setup (para testing)
@@ -340,7 +408,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     }, 200);
   }
 
-  // Animación tras "Cómo nos conociste" -> paso 3 ya preparado mientras se anima
+  // Animación tras "Cómo nos conociste" -> paso 3 (nombre agente) ya preparado mientras se anima
   startAgentIntroAnimation() {
     this.goToStep(3); // Paso 3 ya renderizado detrás del overlay
     this.showAgentIntroAnimation = true;
@@ -425,23 +493,10 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     if (this.currentStep === 1) {
       this.currentStep = 2;
     } else if (this.currentStep === 2) {
-      this.currentStep = 3;
-    } else if (this.currentStep === 3) {
-      this.currentStep = 4;
-    } else if (this.currentStep === 4) {
-      this.currentStep = 5;
-    } else if (this.currentStep === 5) {
-      this.currentStep = 6;
-    } else if (this.currentStep === 6) {
-      this.currentStep = 7;
-    } else if (this.currentStep === 7) {
-      this.currentStep = 8;
-    } else if (this.currentStep === 8) {
-      this.currentStep = 9;
-    } else if (this.currentStep === 9) {
-      this.currentStep = 10;
-    } else if (this.currentStep === 10) {
-      this.currentStep = 11;
+      this.startAgentIntroAnimation();
+    } else if (this.currentStep >= 3 && this.currentStep <= 10) {
+      // Avanzar al siguiente paso de creación de agente
+      this.goToStep(this.currentStep + 1);
     } else if (this.currentStep === 11) {
       this.completeSetup();
     }
@@ -449,64 +504,35 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
   // Método para ir hacia atrás
   goBack() {
-    // Volver del paso 5 al paso 4
-    if (this.currentStep === 5) {
-      this.pauseVoice();
-      this.goToStep(4);
+    // Animación especial al volver del paso 2 al paso 1
+    if (this.currentStep === 2) {
+      const backFadeDuration = 300;
+      this.step2ContentVisible = false;
+      setTimeout(() => {
+        this.goToStep(1);
+      }, backFadeDuration);
       return;
     }
-    // Volver del paso 6 al paso 5
-    if (this.currentStep === 6) {
-      this.goToStep(5);
-      return;
-    }
-    // Volver del paso 8 al paso 7
-    if (this.currentStep === 8) {
-      this.goToStep(7);
-      return;
-    }
-    // Volver del paso 7 al paso 6
-    if (this.currentStep === 7) {
-      this.goToStep(6);
-      return;
-    }
-    // Volver del paso 9 al paso 8
-    if (this.currentStep === 9) {
-      this.goToStep(8);
-      return;
-    }
-    // Volver del paso 11 al paso 10
-    if (this.currentStep === 11) {
-      this.goToStep(10);
-      return;
-    }
-    // Volver del paso 10 al paso 9 (detener micrófono)
-    if (this.currentStep === 10) {
-      this.stopMicrophone();
-      this.goToStep(9);
-      return;
-    }
-    // Volver del paso 4 al paso 3
-    if (this.currentStep === 4) {
-      this.goToStep(3);
-      return;
-    }
+
     // Volver del paso 3 al paso 2
     if (this.currentStep === 3) {
       this.goToStep(2);
       return;
     }
-    // Animación especial al volver del paso 2 al paso 1
-    if (this.currentStep === 2) {
-      const backFadeDuration = 300; // ms para desvanecer la zona 2
 
-      // Iniciar fade-out del contenido de la zona 2
-      this.step2ContentVisible = false;
-
-      setTimeout(() => {
-        this.goToStep(1);
-      }, backFadeDuration);
-
+    // Pasos de creación de agente: retroceder con lógica especial
+    if (this.currentStep === 5) {
+      this.pauseVoice();
+      this.goToStep(4);
+      return;
+    }
+    if (this.currentStep === 9) {
+      this.stopMicrophone();
+      this.goToStep(8);
+      return;
+    }
+    if (this.currentStep === 11) {
+      this.goToStep(10);
       return;
     }
 
@@ -523,9 +549,12 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     }
 
     const previousStep = this.currentStep;
+
+    // Detener micrófono si salimos del paso 9
     if (previousStep === 9 && step !== 9) {
       this.stopMicrophone();
     }
+
     this.currentStep = step;
 
     // Si se navega a la zona 2 sin venir de la animación de la zona 1,
@@ -543,642 +572,18 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     if (step === 5) {
       this.loadVoices();
     }
-    // Cargar cuentas Twilio al entrar al paso 7
-    if (step === 7) {
-      this.loadTwilioAccountsStep7();
+
+    // Animar idle al entrar al paso 9 (prueba de agente)
+    if (step === 9 && this.isBrowser) {
+      this.animateIdle();
+    }
+
+    // Cargar cuentas Twilio al entrar al paso 10
+    if (step === 10) {
+      this.loadTwilioAccounts();
     }
   }
 
-  // Ir al paso 4 (Bienvenido) desde Completa tu agente
-  onCreateAgent() {
-    this.goToStep(4);
-  }
-
-  onSelectCallType(type: 'inbound' | 'outbound') {
-    this.selectedCallType = type;
-  }
-
-  onContinueToWelcome() {
-    this.goToStep(5);
-  }
-
-  onContinueFromVoiceStep() {
-    this.pauseVoice();
-    this.goToStep(6);
-  }
-
-  // Paso 6: Shopify -> paso 7 Twilio
-  onContinueFromShopifyStep() {
-    this.goToStep(7);
-  }
-
-  // Paso 7: Instrucciones -> paso 8 Base de conocimientos
-  onContinueFromInstructionsStep() {
-    this.goToStep(8);
-  }
-
-  toggleMakeConfigStep7() {
-    this.showMakeConfigStep7 = !this.showMakeConfigStep7;
-  }
-
-  onSaveMakeActionStep7() {
-    const { name, description, serverUrl } = this.makeActionDataStep7;
-    if (!name.trim() || !serverUrl.trim()) {
-      this.snackBar.open(
-        'Completa nombre y URL del servidor para guardar.',
-        'Cerrar',
-        {
-          duration: 2500,
-        },
-      );
-      return;
-    }
-
-    this.snackBar.open('Acción de Make guardada.', 'Cerrar', {
-      duration: 2000,
-    });
-    this.showMakeConfigStep7 = false;
-  }
-
-  // Paso 8: Base de conocimientos -> paso 9 Prueba de agente
-  onContinueFromKnowledgeBaseStep() {
-    this.goToStep(9);
-  }
-
-  // Paso 9: Prueba de agente -> paso 10 Twilio
-  onContinueFromAgentTestStep() {
-    this.stopMicrophone();
-    this.goToStep(10);
-  }
-
-  // Paso 10: Twilio -> paso 11 Bienvenido
-  onContinueFromTwilioStep() {
-    this.goToStep(11);
-  }
-
-  selectKnowledgeSource(source: 'pdf' | 'web') {
-    this.selectedKnowledgeSource = source;
-  }
-
-  // Paso 7: Twilio — getter y métodos
-  get isTwilioPhoneCompleteStep7(): boolean {
-    return (
-      this.isTwilioValidated &&
-      this.phoneValidationStatusStep7 === 'success' &&
-      !!this.phoneNumberStep7?.trim()
-    );
-  }
-
-  toggleTwilioConfigStep7() {
-    this.showTwilioConfigStep7 = !this.showTwilioConfigStep7;
-  }
-
-  onTwilioConnectButtonClickStep7(event: Event) {
-    event.stopPropagation();
-    if (this.showNewTwilioAccountFormStep7) {
-      this.showNewTwilioAccountFormStep7 = false;
-      return;
-    }
-    this.showTwilioConfigStep7 = !this.showTwilioConfigStep7;
-  }
-
-  loadTwilioAccountsStep7() {
-    this.loadingTwilioAccounts = true;
-    this.userService.getUserProfile().subscribe({
-      next: (profile) => {
-        this.loadingTwilioAccounts = false;
-        if (
-          profile.twilio &&
-          Array.isArray(profile.twilio) &&
-          profile.twilio.length > 0
-        ) {
-          this.twilioAccountsStep7 = profile.twilio.map((acc) => ({
-            twilioAccountId: acc.twilioAccountId,
-            twilioSid: acc.twilioSid,
-            twilioToken: acc.twilioToken,
-          }));
-          this.showNewTwilioAccountFormStep7 = false;
-        } else {
-          this.twilioAccountsStep7 = [];
-          this.showNewTwilioAccountFormStep7 = true;
-        }
-      },
-      error: () => {
-        this.loadingTwilioAccounts = false;
-        this.twilioAccountsStep7 = [];
-        this.showNewTwilioAccountFormStep7 = true;
-      },
-    });
-  }
-
-  useExistingTwilioAccountStep7(account: {
-    twilioAccountId: number;
-    twilioSid: string;
-    twilioToken: string;
-  }) {
-    this.selectedTwilioAccount = account;
-    this.twilioSidStep7 = account.twilioSid;
-    this.twilioTokenStep7 = account.twilioToken;
-    this.showNewTwilioAccountFormStep7 = false;
-    this.phoneValidationStatusStep7 = null;
-    this.phoneErrorMessageStep7 = '';
-    this.phoneNumberStep7 = '';
-    this.validateTwilioConfigStep7();
-    this.loadAvailablePhoneNumbersStep7();
-  }
-
-  showNewTwilioAccountStep7() {
-    this.selectedTwilioAccount = null;
-    this.twilioSidStep7 = '';
-    this.twilioTokenStep7 = '';
-    this.showNewTwilioAccountFormStep7 = true;
-    this.twilioValidationStatusStep7 = null;
-    this.isTwilioValidated = false;
-    this.phoneValidationStatusStep7 = null;
-    this.phoneNumberStep7 = '';
-    this.availablePhoneNumbers = [];
-  }
-
-  backToAccountSelectionStep7() {
-    this.showNewTwilioAccountFormStep7 = false;
-    this.selectedTwilioAccount = null;
-    this.twilioSidStep7 = '';
-    this.twilioTokenStep7 = '';
-    this.isTwilioValidated = false;
-    this.phoneValidationStatusStep7 = null;
-    this.phoneNumberStep7 = '';
-    this.availablePhoneNumbers = [];
-  }
-
-  selectPhoneStep7(phone: { number: string; countryCode: string }) {
-    this.phoneNumberStep7 = phone.number;
-    this.selectedCountryCodeStep7 = phone.countryCode.startsWith('+')
-      ? phone.countryCode
-      : `+${phone.countryCode}`;
-    this.validatePhoneNumberStep7();
-  }
-
-  onTwilioSidChangeStep7() {
-    this.twilioValidationStatusStep7 = null;
-    this.twilioErrorMessageStep7 = '';
-    this.isTwilioValidated = false;
-  }
-
-  onTwilioTokenChangeStep7() {
-    this.twilioValidationStatusStep7 = null;
-    this.twilioErrorMessageStep7 = '';
-    this.isTwilioValidated = false;
-  }
-
-  onPhoneNumberChangeStep7() {
-    if (this.phoneValidationTimeoutStep7)
-      clearTimeout(this.phoneValidationTimeoutStep7);
-    if (!this.phoneNumberStep7?.trim()) {
-      this.phoneValidationStatusStep7 = null;
-      this.phoneErrorMessageStep7 = '';
-      return;
-    }
-    if (!this.isTwilioValidated) return;
-    this.phoneValidationTimeoutStep7 = setTimeout(
-      () => this.validatePhoneNumberStep7(),
-      500,
-    );
-  }
-
-  validateTwilioConfigStep7() {
-    if (!this.twilioSidStep7?.trim() || !this.twilioTokenStep7?.trim()) {
-      this.snackBar.open('Completa Account SID y Auth Token.', undefined, {
-        duration: 3000,
-      });
-      return;
-    }
-    this.twilioValidationStatusStep7 = null;
-    this.twilioErrorMessageStep7 = '';
-    this.isValidatingTwilioStep7 = true;
-    const config: {
-      twilioSid: string;
-      twilioToken: string;
-      twilioAccountId?: number;
-    } = {
-      twilioSid: this.twilioSidStep7.trim(),
-      twilioToken: this.twilioTokenStep7.trim(),
-    };
-    if (this.selectedTwilioAccount)
-      config.twilioAccountId = this.selectedTwilioAccount.twilioAccountId;
-    this.twilioService.setConfig(config).subscribe({
-      next: () => {
-        this.isValidatingTwilioStep7 = false;
-        this.twilioValidationStatusStep7 = 'success';
-        this.isTwilioValidated = true;
-        if (!this.selectedTwilioAccount) {
-          this.userService.getUserProfile().subscribe({
-            next: (profile) => {
-              if (profile.twilio && Array.isArray(profile.twilio)) {
-                const match = profile.twilio.find(
-                  (acc) =>
-                    acc.twilioSid === this.twilioSidStep7.trim() &&
-                    acc.twilioToken === this.twilioTokenStep7.trim(),
-                );
-                if (match) {
-                  this.selectedTwilioAccount = {
-                    twilioAccountId: match.twilioAccountId,
-                    twilioSid: match.twilioSid,
-                    twilioToken: match.twilioToken,
-                  };
-                  this.loadAvailablePhoneNumbersStep7();
-                }
-              }
-            },
-          });
-        } else {
-          this.loadAvailablePhoneNumbersStep7();
-        }
-        if (this.phoneNumberStep7?.trim()) this.validatePhoneNumberStep7();
-      },
-      error: (err) => {
-        this.isValidatingTwilioStep7 = false;
-        this.twilioValidationStatusStep7 = 'error';
-        this.isTwilioValidated = false;
-        this.twilioErrorMessageStep7 =
-          err?.error?.message ||
-          err?.message ||
-          'Error al validar Twilio. Revisa tus credenciales.';
-      },
-    });
-  }
-
-  loadAvailablePhoneNumbersStep7() {
-    if (!this.selectedTwilioAccount) {
-      this.availablePhoneNumbers = [];
-      return;
-    }
-    this.loadingPhoneNumbers = true;
-    this.userService.getUserProfile().subscribe({
-      next: (profile) => {
-        this.loadingPhoneNumbers = false;
-        const allPhones = profile.phoneNumbers || [];
-        const agentPhones = new Set<string>();
-        if (profile.agents && Array.isArray(profile.agents)) {
-          profile.agents.forEach((a) => {
-            if (a.phoneNumbers)
-              agentPhones.add(
-                `${a.phoneNumbers.countryCode}${a.phoneNumbers.number}`,
-              );
-          });
-        }
-        this.availablePhoneNumbers = allPhones.filter(
-          (p) =>
-            p.twilioAccountId === this.selectedTwilioAccount!.twilioAccountId &&
-            !agentPhones.has(`${p.countryCode}${p.number}`),
-        );
-      },
-      error: () => {
-        this.loadingPhoneNumbers = false;
-        this.availablePhoneNumbers = [];
-      },
-    });
-  }
-
-  validatePhoneNumberStep7() {
-    if (!this.phoneNumberStep7?.trim()) return;
-    const code = this.selectedCountryCodeStep7 || '+34';
-    const number = this.phoneNumberStep7.trim();
-    this.phoneValidationStatusStep7 = null;
-    this.phoneErrorMessageStep7 = '';
-    this.twilioService
-      .validatePhone(code, number, this.selectedTwilioAccount?.twilioAccountId)
-      .subscribe({
-        next: () => {
-          this.phoneValidationStatusStep7 = 'success';
-        },
-        error: (err) => {
-          this.phoneValidationStatusStep7 = 'error';
-          this.phoneErrorMessageStep7 =
-            err?.error?.message ||
-            'Número no disponible. Verifica que esté en Twilio.';
-        },
-      });
-  }
-
-  // --- Generar instrucciones con IA (similar a new-create-agents) ---
-  toggleGeneratePromptDropdown() {
-    if (this.showGeneratePromptModal || this.isGeneratePromptDropdownClosing) {
-      this.closeGeneratePromptModal();
-    } else {
-      this.openGeneratePromptModal();
-    }
-  }
-
-  openGeneratePromptModal() {
-    this.isGeneratePromptDropdownClosing = false;
-    this.showGeneratePromptModal = true;
-  }
-
-  closeGeneratePromptModal() {
-    if (this.isGeneratingPrompt) return;
-    this.isGeneratePromptDropdownClosing = true;
-    setTimeout(() => {
-      this.showGeneratePromptModal = false;
-      this.isGeneratePromptDropdownClosing = false;
-      this.promptDescription = '';
-      this.isGeneratingPrompt = false;
-      this.generatePromptError = '';
-    }, 160);
-  }
-
-  private normalizeLanguageCode(code: string): string {
-    const normalized = (code || '').trim().toLowerCase();
-    if (normalized === 'us') return 'en';
-    if (normalized === 'se') return 'sv';
-    if (normalized.length === 2) return normalized;
-    return 'es';
-  }
-
-  generatePrompt() {
-    if (this.isGeneratingPrompt) return;
-
-    const userDescription = (this.promptDescription || '').trim();
-    if (!userDescription) {
-      this.generatePromptError =
-        'Escribe una descripción para generar el prompt.';
-      return;
-    }
-
-    const voiceId = this.selectedVoiceId || this.selectedVoice?.voiceId || '';
-
-    const enterpriseName =
-      (this.userStore.user()?.enterprise?.name || '').trim() || 'Mi Empresa';
-
-    const payload: GenerateAgentInstructionsRequest = {
-      enterpriseName,
-      agentName: (this.agentName || '').trim() || 'Agente',
-      callType: this.selectedCallType || 'inbound',
-      language: this.normalizeLanguageCode(this.selectedCountry || 'es'),
-      voiceId,
-      voiceParameters: {
-        stability: this.voiceParameters.stability,
-        similarity: this.voiceParameters.similarity,
-        style: this.voiceParameters.style,
-        boost: this.voiceParameters.boost,
-        speed: this.voiceParameters.speed,
-      },
-      userDescription,
-    };
-
-    this.isGeneratingPrompt = true;
-    this.generatePromptError = '';
-
-    this.agentsService.generateAgentInstructions(payload).subscribe({
-      next: (res) => {
-        const instruction = (res?.agentInstruction || '').trim();
-        if (!instruction) {
-          this.generatePromptError =
-            'No se pudo generar el prompt. Inténtalo de nuevo.';
-          this.isGeneratingPrompt = false;
-          return;
-        }
-        this.instructions = instruction;
-        this.isGeneratingPrompt = false;
-        this.closeGeneratePromptModal();
-      },
-      error: (err) => {
-        this.isGeneratingPrompt = false;
-        this.generatePromptError =
-          err?.error?.message ||
-          err?.message ||
-          'Error al generar el prompt. Inténtalo de nuevo.';
-      },
-    });
-  }
-
-  // --- Ver instrucciones ampliadas (textarea grande) ---
-  openExpandInstructionsModal() {
-    this.showExpandInstructionsModal = true;
-    this.isInstructionsModalClosing = false;
-  }
-
-  closeExpandInstructionsModal() {
-    this.isInstructionsModalClosing = true;
-    setTimeout(() => {
-      this.showExpandInstructionsModal = false;
-      this.isInstructionsModalClosing = false;
-    }, 150);
-  }
-
-  // Micrófono para Prueba de agente (paso 10) — esfera reacciona al audio
-  async toggleMicrophone() {
-    if (this.isMicrophoneActive) {
-      this.stopMicrophone();
-    } else {
-      await this.startMicrophone();
-    }
-  }
-
-  async startMicrophone() {
-    if (
-      typeof navigator === 'undefined' ||
-      !navigator.mediaDevices?.getUserMedia
-    ) {
-      this.snackBar.open(
-        'El micrófono no está disponible en este navegador.',
-        undefined,
-        { duration: 3000 },
-      );
-      return;
-    }
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-          echoCancellation: false,
-          noiseSuppression: false,
-          autoGainControl: false,
-        },
-      });
-      const AudioContextClass =
-        window.AudioContext ||
-        (window as unknown as { webkitAudioContext: typeof AudioContext })
-          .webkitAudioContext;
-      this.audioContext = new AudioContextClass();
-      this.analyser = this.audioContext.createAnalyser();
-      this.microphone = this.audioContext.createMediaStreamSource(stream);
-      this.analyser.fftSize = 256;
-      this.analyser.smoothingTimeConstant = 0.4;
-      this.analyser.minDecibels = -60;
-      this.analyser.maxDecibels = -10;
-      this.microphone.connect(this.analyser);
-      this.isMicrophoneActive = true;
-      this.animateAudioLevel();
-    } catch (err) {
-      console.error('Error al acceder al micrófono:', err);
-      this.snackBar.open(
-        'No se pudo acceder al micrófono. Revisa los permisos.',
-        undefined,
-        { duration: 4000 },
-      );
-    }
-  }
-
-  stopMicrophone() {
-    if (this.animationFrame != null) {
-      cancelAnimationFrame(this.animationFrame);
-      this.animationFrame = null;
-    }
-    if (this.microphone) {
-      this.microphone.disconnect();
-      this.microphone = null;
-    }
-    if (this.audioContext) {
-      this.audioContext.close();
-      this.audioContext = null;
-    }
-    this.analyser = null;
-    this.isMicrophoneActive = false;
-    this.audioLevel = 0;
-  }
-
-  private animateAudioLevel() {
-    if (!this.isMicrophoneActive || !this.analyser) return;
-    const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
-
-    const updateLevel = () => {
-      this.analyser!.getByteFrequencyData(dataArray);
-      let max = 0;
-      for (let i = 0; i < dataArray.length; i++) {
-        max = Math.max(max, dataArray[i]);
-      }
-      let normalizedLevel = max / 255;
-      normalizedLevel = Math.min(normalizedLevel, 1.0);
-      const targetLevel = normalizedLevel * 1.8;
-      this.audioLevel = this.audioLevel * 0.75 + targetLevel * 0.25;
-      this.audioLevel = Math.min(this.audioLevel, 3.5);
-      if (this.isMicrophoneActive) {
-        this.animationFrame = requestAnimationFrame(updateLevel);
-      }
-    };
-    updateLevel();
-  }
-
-  // Botón principal para ir al onboarding específico de Shopify
-  connectShopify() {
-    this.hasConnectedShopify = true;
-    this.router.navigate(['/shopify-onboarding']);
-  }
-
-  loadVoices() {
-    this.agentsService.getVoices().subscribe({
-      next: (backendVoices: Voice[]) => {
-        this.voices = backendVoices.map((v) => ({
-          name: v.name,
-          voiceId: v.voiceId,
-        }));
-        if (this.voices.length > 0 && !this.selectedVoiceId) {
-          this.selectedVoiceId = this.voices[0].voiceId;
-        }
-      },
-      error: () => {
-        this.voices = [];
-      },
-    });
-  }
-
-  selectCountry(code: string) {
-    this.selectedCountry = code;
-    this.showCountryDropdown = false;
-  }
-
-  selectVoice(voiceId: string) {
-    this.selectedVoiceId = voiceId;
-    this.showVoiceDropdown = false;
-  }
-
-  toggleCountryDropdown(event: Event) {
-    event.stopPropagation();
-    this.showVoiceDropdown = false;
-    this.showCountryDropdown = !this.showCountryDropdown;
-  }
-
-  toggleVoiceDropdown(event: Event) {
-    event.stopPropagation();
-    this.showCountryDropdown = false;
-    this.showVoiceParamsDropdown = false;
-    this.showVoiceDropdown = !this.showVoiceDropdown;
-  }
-
-  toggleVoiceParamsDropdown(event: Event) {
-    event.stopPropagation();
-    this.showVoiceDropdown = false;
-    this.showVoiceParamsDropdown = !this.showVoiceParamsDropdown;
-  }
-
-  get selectedCountryOption() {
-    return (
-      this.countryOptions.find((c) => c.code === this.selectedCountry) ||
-      this.countryOptions[0]
-    );
-  }
-
-  get selectedVoice() {
-    return this.voices.find((v) => v.voiceId === this.selectedVoiceId);
-  }
-
-  playVoicePreview(voice: { name: string; voiceId: string }, event: Event) {
-    event.stopPropagation();
-    if (this.currentPlayingVoice === voice.voiceId) {
-      this.pauseVoice();
-      return;
-    }
-    this.playVoiceInternal(voice);
-  }
-
-  playVoice() {
-    const voice = this.voices.find((v) => v.voiceId === this.selectedVoiceId);
-    if (!voice?.name) return;
-    if (this.currentPlayingVoice === voice.voiceId) {
-      this.pauseVoice();
-      return;
-    }
-    this.playVoiceInternal(voice);
-  }
-
-  private playVoiceInternal(voice: { name: string; voiceId: string }) {
-    let lang = this.selectedCountry;
-    if (lang === 'us') lang = 'en';
-    else if (!this.VOCES_LANG_CODES.includes(lang)) lang = 'es';
-    const normalized = voice.name
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .trim();
-    const path = `assets/voces/${normalized}_${lang}.mp3`;
-    if (this.audioActual) {
-      this.audioActual.pause();
-      this.audioActual.currentTime = 0;
-    }
-    const audio = new Audio(path);
-    this.audioActual = audio;
-    this.currentPlayingVoice = voice.voiceId;
-    audio.onended = () => {
-      this.currentPlayingVoice = null;
-      if (this.audioActual === audio) this.audioActual = null;
-    };
-    audio.onerror = () => {
-      this.currentPlayingVoice = null;
-      if (this.audioActual === audio) this.audioActual = null;
-    };
-    audio.play().catch(() => {
-      this.currentPlayingVoice = null;
-      if (this.audioActual === audio) this.audioActual = null;
-    });
-  }
-
-  pauseVoice() {
-    if (this.audioActual) {
-      this.audioActual.pause();
-      this.audioActual.currentTime = 0;
-      this.audioActual = null;
-    }
-    this.currentPlayingVoice = null;
-  }
 
   private triggerRightImageTransition(targetStep: number) {
     if (
@@ -1290,6 +695,682 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     // Aquí marcarías en el backend que el usuario completó el setup
     this.isSetupActive = false;
     this.router.navigate(['/dashboard/home']);
+  }
+
+  // ===== Métodos de pasos de creación de agente =====
+
+  // Helpers para step number del flujo de agente (pasos 3-10 → step 1-8)
+  getAgentStepNumber(): number {
+    return this.currentStep - 2; // Step 3 → 1, Step 4 → 2, etc.
+  }
+
+  getAgentTotalSteps(): number {
+    return 8;
+  }
+
+  getGreetingWithCompanyName(): string {
+    const companyName = this.userStore.user()?.enterprise?.name;
+    if (companyName && companyName.trim() !== '') {
+      return `Hola, gracias por llamar a ${companyName.trim()}. ¿En qué puedo ayudarte?`;
+    } else {
+      return 'Hola, gracias por llamar. ¿En qué puedo ayudarte?';
+    }
+  }
+
+  // Paso 3: Nombre del agente
+  onSubmitAgentName() {
+    const name = this.agentName?.trim();
+    if (!name) {
+      this.modalService.openError({
+        title: 'Nombre requerido',
+        message: 'Por favor, ingresa un nombre para el agente.',
+      });
+      return;
+    }
+    this.goToStep(4);
+  }
+
+  // Paso 4: Tipo de llamada
+  onContinueFromCallType() {
+    this.goToStep(5);
+  }
+
+  // Paso 5: Voces
+  private loadVoices() {
+    if (this.voicesLoaded) return;
+    this.agentsService.getVoices().subscribe({
+      next: (backendVoices: Voice[]) => {
+        this.voices = backendVoices.map((voice: Voice) => {
+          const defaultVoice = this.defaultVoicesData.find(
+            (v) => v.name.toLowerCase() === voice.name.toLowerCase(),
+          );
+          return {
+            id: voice.voiceId,
+            voiceId: voice.voiceId,
+            name: voice.name,
+            image: defaultVoice?.image || '',
+            isCustom: false,
+            description: defaultVoice?.description || `Voz ${voice.name}`,
+            badgeText: defaultVoice?.badgeText || '',
+          };
+        });
+        this.voicesLoaded = true;
+      },
+      error: (error) => {
+        console.error('Error al cargar las voces:', error);
+        this.voices = [];
+      },
+    });
+  }
+
+  selectCountry(countryCode: string) {
+    const countryCodeMap: { [key: string]: string } = {
+      es: '+34', en: '+44', fr: '+33', it: '+39', de: '+49',
+      pt: '+351', us: '+1', tr: '+90', se: '+46', nl: '+31',
+    };
+    this.pauseVoice();
+    this.selectedCountryCode = countryCodeMap[countryCode] || '+34';
+    this.selectedCountry = countryCode;
+    this.loadVoices();
+  }
+
+  selectVoice(voiceId: string) {
+    this.pauseVoice();
+    this.selectedVoiceId = voiceId;
+  }
+
+  playVoice(voice: { id?: string; name?: string; voiceId?: string }) {
+    const voiceName = voice?.name?.toLowerCase() || '';
+    if (!voiceName) return;
+    const voiceIdentifier = voice?.id || voice?.voiceId || '';
+    if (!voiceIdentifier) return;
+
+    if (this.isPlaying && this.currentPlayingVoice === voiceIdentifier) {
+      this.pauseVoice();
+      return;
+    }
+
+    let lang = this.selectedCountry;
+    if (lang === 'us') lang = 'en';
+    else if (!this.VOCES_LANG_CODES.includes(lang)) lang = 'es';
+
+    const normalizedVoiceName = voiceName.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    const path = `assets/voces/${normalizedVoiceName}_${lang}.mp3`;
+
+    if (this.audioActual) {
+      this.audioActual.pause();
+      this.audioActual.currentTime = 0;
+    }
+
+    const audio = new Audio(path);
+    this.audioActual = audio;
+    this.isPlaying = true;
+    this.currentPlayingVoice = voiceIdentifier;
+
+    audio.onerror = () => {
+      this.isPlaying = false;
+      this.currentPlayingVoice = null;
+      if (this.audioActual === audio) this.audioActual = null;
+    };
+    audio.onended = () => {
+      this.isPlaying = false;
+      this.currentPlayingVoice = null;
+      if (this.audioActual === audio) this.audioActual = null;
+    };
+    audio.play().catch(() => {
+      this.isPlaying = false;
+      this.currentPlayingVoice = null;
+    });
+  }
+
+  playVoicePreview(voice: any, event: Event) {
+    event.stopPropagation();
+    if (this.currentPlayingVoice === voice.voiceId) {
+      this.pauseVoice();
+    } else {
+      this.playVoice(voice);
+    }
+  }
+
+  pauseVoice() {
+    if (this.audioActual) {
+      this.audioActual.pause();
+      this.audioActual.currentTime = 0;
+    }
+    this.isPlaying = false;
+    this.currentPlayingVoice = null;
+    this.audioActual = null;
+  }
+
+  onContinueFromVoices() {
+    this.pauseVoice();
+    this.goToStep(6);
+  }
+
+  // Paso 6: Conecta tu negocio
+  goToShopifyOnboarding(): void {
+    this.router.navigate(['/shopify-onboarding']);
+  }
+
+  onContinueFromConnectBusiness() {
+    this.goToStep(7);
+  }
+
+  private handleShopifyReturnParams(): void {
+    const params = this.route?.snapshot?.queryParams;
+    if (!params || params['shopify'] === undefined) return;
+
+    const shopify = params['shopify'];
+    const shop = params['shop'] ?? '';
+
+    if (shopify === 'success' && shop) {
+      this.shopifyConnectedDomain = shop;
+    }
+  }
+
+  // Paso 7: Instrucciones
+  toggleMakeConfig() {
+    if (this.showMakeConfig) {
+      this.isMakeConfigClosing = true;
+      setTimeout(() => {
+        this.showMakeConfig = false;
+        this.isMakeConfigClosing = false;
+      }, 200);
+    } else {
+      this.showMakeConfig = true;
+      this.isMakeConfigClosing = false;
+    }
+  }
+
+  onSaveMakeAction() {
+    const { name, serverUrl } = this.makeActionData;
+    if (!name.trim() || !serverUrl.trim()) {
+      console.warn('Completa nombre y URL del servidor para guardar.');
+      return;
+    }
+    this.isMakeConfigClosing = true;
+    setTimeout(() => {
+      this.showMakeConfig = false;
+      this.isMakeConfigClosing = false;
+    }, 200);
+  }
+
+  toggleGeneratePromptDropdown() {
+    if (this.showGeneratePromptModal) {
+      this.closeGeneratePromptModal();
+    } else {
+      this.showGeneratePromptModal = true;
+      this.isGeneratePromptDropdownClosing = false;
+      this.generatePromptError = '';
+    }
+  }
+
+  closeGeneratePromptModal() {
+    this.isGeneratePromptDropdownClosing = true;
+    setTimeout(() => {
+      this.showGeneratePromptModal = false;
+      this.isGeneratePromptDropdownClosing = false;
+    }, 150);
+  }
+
+  generatePrompt() {
+    if (!this.promptDescription.trim()) {
+      this.generatePromptError = 'Por favor, describe el comportamiento del agente.';
+      return;
+    }
+    this.isGeneratingPrompt = true;
+    this.generatePromptError = '';
+
+    const companyName = this.userStore.user()?.enterprise?.name || '';
+    const request: GenerateAgentInstructionsRequest = {
+      enterpriseName: companyName,
+      agentName: this.agentName || 'Agente',
+      callType: this.selectedCallType || 'inbound',
+      language: this.selectedCountry || 'es',
+      voiceId: this.selectedVoiceId || '',
+      voiceParameters: {
+        stability: this.voiceParameters.stability,
+        similarity: this.voiceParameters.similarity,
+        style: this.voiceParameters.style,
+        boost: this.voiceParameters.boost,
+        speed: this.voiceParameters.speed,
+      },
+      userDescription: this.promptDescription,
+      ...(this.shopifyConnectedDomain && { shopDomain: this.shopifyConnectedDomain }),
+    };
+
+    this.agentsService.generateAgentInstructions(request).subscribe({
+      next: (res) => {
+        const instruction = typeof res === 'string' ? res : (res as any)?.instruction || (res as any)?.instructions || '';
+        if (!instruction) {
+          this.generatePromptError = 'No se pudo generar el prompt. Inténtalo de nuevo.';
+          this.isGeneratingPrompt = false;
+          return;
+        }
+        this.instructions = instruction;
+        this.isGeneratingPrompt = false;
+        this.closeGeneratePromptModal();
+      },
+      error: (err) => {
+        this.isGeneratingPrompt = false;
+        this.generatePromptError = err?.error?.message || err?.message || 'Error al generar el prompt. Inténtalo de nuevo.';
+      },
+    });
+  }
+
+  openExpandInstructionsModal() {
+    this.showExpandInstructionsModal = true;
+    this.isInstructionsModalClosing = false;
+  }
+
+  closeExpandInstructionsModal() {
+    this.isInstructionsModalClosing = true;
+    setTimeout(() => {
+      this.showExpandInstructionsModal = false;
+      this.isInstructionsModalClosing = false;
+    }, 150);
+  }
+
+  onContinueFromInstructions() {
+    this.goToStep(8);
+  }
+
+  // Paso 8: Base de conocimientos
+  onSourceSelected(source: string) {
+    // Delegado al componente hijo
+  }
+
+  onKnowledgeBaseContinue(selectedSourceIds: string[]) {
+    this.selectedKnowledgeSourceIds = selectedSourceIds;
+    this.goToStep(9);
+  }
+
+  // Paso 9: Prueba de agente
+  async toggleMicrophone() {
+    if (this.isMicrophoneActive) {
+      this.stopMicrophone();
+      this.animateIdle();
+    } else {
+      await this.startMicrophone();
+    }
+  }
+
+  private async startMicrophone() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false, sampleRate: 44100 },
+      });
+      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      this.analyser = this.audioContext.createAnalyser();
+      this.microphone = this.audioContext.createMediaStreamSource(stream);
+      this.analyser.fftSize = 256;
+      this.analyser.smoothingTimeConstant = 0.4;
+      this.analyser.minDecibels = -60;
+      this.analyser.maxDecibels = -10;
+      this.microphone.connect(this.analyser);
+      this.isMicrophoneActive = true;
+      this.animateAudioLevel();
+    } catch (error) {
+      console.error('Error al acceder al micrófono:', error);
+      this.modalService.openError({
+        title: 'Error de micrófono',
+        message: 'No se pudo acceder al micrófono. Por favor, verifica los permisos.',
+      });
+    }
+  }
+
+  stopMicrophone() {
+    if (this.animationFrame) {
+      cancelAnimationFrame(this.animationFrame);
+      this.animationFrame = null;
+    }
+    if (this.microphone) {
+      this.microphone.disconnect();
+      this.microphone = null;
+    }
+    if (this.audioContext) {
+      this.audioContext.close();
+      this.audioContext = null;
+    }
+    this.analyser = null;
+    this.isMicrophoneActive = false;
+    this.audioLevel = 0;
+  }
+
+  private animateIdle() {
+    const animate = () => {
+      if (!this.isBrowser || this.isMicrophoneActive || this.currentStep !== 9) return;
+      this.audioLevel = Math.sin(Date.now() / 1000) * 0.2 + 0.1;
+      this.animationFrame = requestAnimationFrame(animate);
+    };
+    animate();
+  }
+
+  private animateAudioLevel() {
+    if (!this.isMicrophoneActive || !this.analyser) return;
+    const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+    const updateLevel = () => {
+      this.analyser!.getByteFrequencyData(dataArray);
+      let max = 0;
+      for (let i = 0; i < dataArray.length; i++) {
+        max = Math.max(max, dataArray[i]);
+      }
+      let normalizedLevel = Math.min(max / 255, 1.0);
+      const targetLevel = normalizedLevel * 1.8;
+      this.audioLevel = this.audioLevel * 0.75 + targetLevel * 0.25;
+      this.audioLevel = Math.min(this.audioLevel, 3.5);
+      if (this.isMicrophoneActive) {
+        this.animationFrame = requestAnimationFrame(updateLevel);
+      }
+    };
+    updateLevel();
+  }
+
+  onSubmitTestCall() {
+    this.goToStep(10);
+  }
+
+  // Paso 10: Twilio
+  loadTwilioAccounts() {
+    this.loadingTwilioAccounts = true;
+    this.userService.getUserProfile().subscribe({
+      next: (profile) => {
+        this.loadingTwilioAccounts = false;
+        if (profile.twilio && Array.isArray(profile.twilio) && profile.twilio.length > 0) {
+          this.twilioAccounts = profile.twilio.map((account) => ({
+            twilioAccountId: account.twilioAccountId,
+            twilioSid: account.twilioSid,
+            twilioToken: account.twilioToken,
+          }));
+          this.showNewTwilioAccountForm = false;
+        } else {
+          this.twilioAccounts = [];
+          this.showNewTwilioAccountForm = true;
+        }
+      },
+      error: (error) => {
+        this.loadingTwilioAccounts = false;
+        console.error('Error al cargar cuentas de Twilio:', error);
+        this.twilioAccounts = [];
+        this.showNewTwilioAccountForm = true;
+      },
+    });
+  }
+
+  toggleTwilioConfig() {
+    this.showTwilioConfig = !this.showTwilioConfig;
+  }
+
+  onTwilioSidChange() {
+    this.twilioValidationStatus = null;
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.twilioErrorMessage = '';
+    this.isTwilioValidated = false;
+  }
+
+  onTwilioTokenChange() {
+    this.twilioValidationStatus = null;
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.twilioErrorMessage = '';
+    this.isTwilioValidated = false;
+  }
+
+  validateTwilioConfig() {
+    if (!this.twilioSid?.trim() || !this.twilioToken?.trim()) {
+      this.modalService.openError({
+        title: 'Campos requeridos',
+        message: 'Por favor, completa tanto el Account SID como el Auth Token antes de validar.',
+      });
+      return;
+    }
+
+    this.twilioValidationStatus = null;
+    this.twilioErrorMessage = '';
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.isValidatingTwilio = true;
+
+    const config: { twilioSid: string; twilioToken: string; twilioAccountId?: number } = {
+      twilioSid: this.twilioSid.trim(),
+      twilioToken: this.twilioToken.trim(),
+    };
+    if (this.selectedTwilioAccount) {
+      config.twilioAccountId = this.selectedTwilioAccount.twilioAccountId;
+    }
+
+    this.twilioService.setConfig(config).subscribe({
+      next: () => {
+        this.isValidatingTwilio = false;
+        this.twilioValidationStatus = 'success';
+        this.twilioSidValidationStatus = 'success';
+        this.twilioTokenValidationStatus = 'success';
+        this.isTwilioValidated = true;
+
+        if (!this.selectedTwilioAccount) {
+          this.userService.getUserProfile().subscribe({
+            next: (profile) => {
+              if (profile.twilio && Array.isArray(profile.twilio)) {
+                const matchingAccount = profile.twilio.find(
+                  (acc) => acc.twilioSid === this.twilioSid.trim() && acc.twilioToken === this.twilioToken.trim(),
+                );
+                if (matchingAccount) {
+                  this.selectedTwilioAccount = {
+                    twilioAccountId: matchingAccount.twilioAccountId,
+                    twilioSid: matchingAccount.twilioSid,
+                    twilioToken: matchingAccount.twilioToken,
+                  };
+                  this.loadAvailablePhoneNumbers();
+                }
+              }
+            },
+            error: (error) => console.error('Error al obtener perfil después de validar:', error),
+          });
+        } else {
+          this.loadAvailablePhoneNumbers();
+        }
+
+        if (this.phoneNumber?.trim()) {
+          this.validatePhoneNumber();
+        }
+      },
+      error: (error) => {
+        this.isValidatingTwilio = false;
+        this.twilioValidationStatus = 'error';
+        this.twilioSidValidationStatus = 'error';
+        this.twilioTokenValidationStatus = 'error';
+        this.isTwilioValidated = false;
+        this.twilioErrorMessage = error?.error?.message || error?.message || 'Error al validar la configuración de Twilio.';
+      },
+    });
+  }
+
+  get isTwilioCompletelyValidated(): boolean {
+    return this.twilioSidValidationStatus === 'success' && this.twilioTokenValidationStatus === 'success' && this.phoneValidationStatus === 'success' && this.isTwilioValidated;
+  }
+
+  get canContinueFromConnections(): boolean {
+    return this.isTwilioCompletelyValidated;
+  }
+
+  useExistingTwilioAccount(account: { twilioAccountId: number; twilioSid: string; twilioToken: string }) {
+    this.selectedTwilioAccount = account;
+    this.twilioSid = account.twilioSid;
+    this.twilioToken = account.twilioToken;
+    this.showNewTwilioAccountForm = false;
+    this.phoneValidationStatus = null;
+    this.phoneErrorMessage = '';
+    this.phoneNumber = '';
+    this.validateTwilioConfig();
+    this.loadAvailablePhoneNumbers();
+  }
+
+  showNewTwilioAccount() {
+    this.selectedTwilioAccount = null;
+    this.twilioSid = '';
+    this.twilioToken = '';
+    this.showNewTwilioAccountForm = true;
+    this.showTwilioConfig = true;
+    this.twilioValidationStatus = null;
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.isTwilioValidated = false;
+    this.phoneValidationStatus = null;
+    this.phoneErrorMessage = '';
+    this.phoneNumber = '';
+    this.availablePhoneNumbers = [];
+  }
+
+  backToAccountSelection() {
+    this.showNewTwilioAccountForm = false;
+    this.selectedTwilioAccount = null;
+    this.twilioSid = '';
+    this.twilioToken = '';
+    this.twilioValidationStatus = null;
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.isTwilioValidated = false;
+    this.phoneValidationStatus = null;
+    this.phoneErrorMessage = '';
+    this.phoneNumber = '';
+    this.availablePhoneNumbers = [];
+  }
+
+  loadAvailablePhoneNumbers() {
+    if (!this.selectedTwilioAccount) {
+      this.availablePhoneNumbers = [];
+      return;
+    }
+    this.loadingPhoneNumbers = true;
+    this.userService.getUserProfile().subscribe({
+      next: (profile) => {
+        this.loadingPhoneNumbers = false;
+        const allPhoneNumbers = profile.phoneNumbers || [];
+        const agentPhoneNumbers = new Set<string>();
+        if (profile.agents && Array.isArray(profile.agents)) {
+          profile.agents.forEach((agent) => {
+            if (agent.phoneNumbers) {
+              agentPhoneNumbers.add(`${agent.phoneNumbers.countryCode}${agent.phoneNumbers.number}`);
+            }
+          });
+        }
+        this.availablePhoneNumbers = allPhoneNumbers.filter((phone) => {
+          const belongsToAccount = phone.twilioAccountId === this.selectedTwilioAccount!.twilioAccountId;
+          const notInAgents = !agentPhoneNumbers.has(`${phone.countryCode}${phone.number}`);
+          return belongsToAccount && notInAgents;
+        });
+      },
+      error: (error) => {
+        this.loadingPhoneNumbers = false;
+        console.error('Error al cargar números de teléfono:', error);
+        this.availablePhoneNumbers = [];
+      },
+    });
+  }
+
+  onPhoneNumberSelected(event: { countryCode: string; number: string }) {
+    this.phoneNumber = event.number;
+    this.selectedCountryCode = event.countryCode.startsWith('+') ? event.countryCode : '+' + event.countryCode;
+    this.validatePhoneNumber();
+  }
+
+  onPhoneNumberChange() {
+    if (this.phoneValidationTimeout) clearTimeout(this.phoneValidationTimeout);
+    if (!this.phoneNumber?.trim()) {
+      this.phoneValidationStatus = null;
+      this.phoneErrorMessage = '';
+      this.isValidatingPhone = false;
+      return;
+    }
+    if (!this.isTwilioValidated) {
+      this.phoneValidationStatus = null;
+      return;
+    }
+    this.phoneValidationTimeout = setTimeout(() => this.validatePhoneNumber(), 500);
+  }
+
+  validatePhoneNumber() {
+    if (!this.phoneNumber?.trim()) return;
+    const countryCode = this.selectedCountryCode || '+34';
+    const number = this.phoneNumber.trim();
+    this.phoneValidationStatus = null;
+    this.phoneErrorMessage = '';
+    this.isValidatingPhone = true;
+    const twilioAccountId = this.selectedTwilioAccount?.twilioAccountId;
+
+    this.twilioService.validatePhone(countryCode, number, twilioAccountId).subscribe({
+      next: () => {
+        this.isValidatingPhone = false;
+        this.phoneValidationStatus = 'success';
+      },
+      error: (error) => {
+        this.isValidatingPhone = false;
+        this.phoneValidationStatus = 'error';
+        this.phoneErrorMessage = error?.error?.message || error?.message || 'Error al validar el número de teléfono.';
+      },
+    });
+  }
+
+  onContinueFromConnections() {
+    if (!this.canContinueFromConnections) return;
+    this.createAgentAfterValidation();
+  }
+
+  // Crear agente
+  private createAgentAfterValidation() {
+    const voiceId = this.selectedVoiceId || '';
+
+    const agentConfig: SetAgentConfigDto = {
+      name: this.agentName || 'Agente',
+      language: this.selectedCountry || 'es',
+      type: this.selectedCallType || 'inbound',
+      twilioAccountId: Number(this.selectedTwilioAccount?.twilioAccountId ?? 0),
+      voiceId: voiceId,
+      firstInteraction: this.greeting || '',
+      agentInstruction: this.instructions || '',
+      phoneNumbers: {
+        countryCode: this.selectedCountryCode || '+34',
+        number: Number(this.phoneNumber) || 0,
+      },
+      label: `${this.agentName || 'Agente'} - ${this.selectedCountry || 'es'}`,
+      parameters: {
+        stability: this.voiceParameters.stability,
+        similarity: this.voiceParameters.similarity,
+        style: this.voiceParameters.style,
+        boost: this.voiceParameters.boost,
+        speed: this.voiceParameters.speed,
+      },
+      state: 'Activo',
+      knowledgeSourceIds: this.selectedKnowledgeSourceIds.length > 0 ? this.selectedKnowledgeSourceIds : undefined,
+      ...(this.shopifyConnectedDomain && { shopifyDomain: this.shopifyConnectedDomain }),
+    };
+
+    this.isCreatingAgent = true;
+
+    this.agentsService.createAgent(agentConfig).subscribe({
+      next: (response) => {
+        if (this.selectedKnowledgeSourceIds.length > 0 && response?.agentId) {
+          this.knowledgeBaseService.linkKnowledgeSourcesToAgent(response.agentId, {
+            sourceIds: this.selectedKnowledgeSourceIds,
+          }).subscribe({
+            next: () => console.log('✅ Fuentes de conocimiento vinculadas exitosamente'),
+            error: (error) => console.error('❌ Error al vincular fuentes de conocimiento:', error),
+          });
+        }
+        this.isCreatingAgent = false;
+        this.goToStep(11); // Ir a pantalla de bienvenida
+      },
+      error: (error) => {
+        console.error('❌ Error al crear agente:', error);
+        this.isCreatingAgent = false;
+        this.goToStep(9); // Volver a prueba de agente
+        this.modalService.openError({
+          title: 'Error al crear agente',
+          message: error?.error?.message || error?.message || 'Error al crear el agente. Por favor, intenta nuevamente.',
+        });
+      },
+    });
   }
 
   // Método para mostrar notificaciones

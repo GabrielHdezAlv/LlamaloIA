@@ -64,8 +64,15 @@ interface AgentDraft {
   savedAt: number; // timestamp
 }
 
-import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
 import { KnowledgeBaseStepComponent } from './steps/knowledge-base-step/knowledge-base-step.component';
+import { AgentNameStepComponent } from './steps/agent-name-step/agent-name-step.component';
+import { CallTypeStepComponent } from './steps/call-type-step/call-type-step.component';
+import { VoicesStepComponent } from './steps/voices-step/voices-step.component';
+import { ConnectBusinessStepComponent } from './steps/connect-business-step/connect-business-step.component';
+import { InstructionsStepComponent } from './steps/instructions-step/instructions-step.component';
+import { TestAgentStepComponent } from './steps/test-agent-step/test-agent-step.component';
+import { ConnectPhoneStepComponent } from './steps/connect-phone-step/connect-phone-step.component';
+import { SuccessStepComponent } from './steps/success-step/success-step.component';
 
 @Component({
   selector: 'app-new-create-agents',
@@ -73,8 +80,15 @@ import { KnowledgeBaseStepComponent } from './steps/knowledge-base-step/knowledg
   imports: [
     FormsModule,
     CommonModule,
-    AiSphereComponent,
     KnowledgeBaseStepComponent,
+    AgentNameStepComponent,
+    CallTypeStepComponent,
+    VoicesStepComponent,
+    ConnectBusinessStepComponent,
+    InstructionsStepComponent,
+    TestAgentStepComponent,
+    ConnectPhoneStepComponent,
+    SuccessStepComponent,
   ],
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss',
@@ -1367,6 +1381,15 @@ export class NewCreateAgentsComponent
   // Getter para verificar si el botón Continuar debe estar habilitado (solo usado en paso "Conecta tu número")
   get canContinueFromConnections(): boolean {
     return this.isTwilioCompletelyValidated;
+  }
+
+  // Método para manejar selección de un número de teléfono disponible (desde connect-phone-step)
+  onPhoneNumberSelected(event: { countryCode: string; number: string }) {
+    this.phoneNumber = event.number;
+    this.selectedCountryCode = event.countryCode.startsWith('+')
+      ? event.countryCode
+      : '+' + event.countryCode;
+    this.validatePhoneNumber();
   }
 
   // Método para continuar desde "Conecta tu número de teléfono" (crear agente)
