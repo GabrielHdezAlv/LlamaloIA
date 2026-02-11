@@ -432,3 +432,10 @@
         display: none;
     }
 }
+
+// Subir el widget en móvil/tablet cuando se está en creación de agentes (los botones fijos lo tapan)
+@media (max-width: 1279px) {
+    :host-context(.creating-agent) .support-widget {
+        bottom: 100px;
+    }
+}

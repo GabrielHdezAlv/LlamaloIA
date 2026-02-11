@@ -324,6 +324,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
     // Manejar retorno de Shopify si aplica
     if (this.isBrowser) {
       this.handleShopifyReturnParams();
+      document.body.classList.add('creating-agent');
     }
   }
 
@@ -362,6 +363,10 @@ export class CompanySetupComponent implements OnInit, OnDestroy, AfterViewChecke
     this.destroyLottie();
     if (this.phoneValidationTimeout) {
       clearTimeout(this.phoneValidationTimeout);
+    }
+    // Quitar clase del body para el widget de soporte
+    if (this.isBrowser) {
+      document.body.classList.remove('creating-agent');
     }
   }
 

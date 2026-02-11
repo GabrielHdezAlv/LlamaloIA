@@ -228,6 +228,7 @@ export class NewCreateAgentsComponent
     if (this.isBrowser) {
       this.animateIdle();
       this.handleShopifyReturnParams();
+      document.body.classList.add('creating-agent');
     }
   }
 
@@ -2423,6 +2424,10 @@ export class NewCreateAgentsComponent
     this.stopMicrophone();
     // Limpiar Lottie
     this.destroyLottie();
+    // Quitar clase del body para el widget de soporte
+    if (this.isBrowser) {
+      document.body.classList.remove('creating-agent');
+    }
   }
 
   /** Guardar borrador al cerrar pestaña o salir de la página (navegación externa). */
