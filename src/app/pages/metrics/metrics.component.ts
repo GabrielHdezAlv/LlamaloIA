@@ -536,9 +536,6 @@ export class MetricsComponent implements OnInit, OnDestroy {
   // Filtros
   periods = [
     this.t.last7Days,
-    this.t.last30Days,
-    this.t.thisMonth,
-    this.t.lastYear,
   ];
   selectedPeriod = this.periods[0];
 
