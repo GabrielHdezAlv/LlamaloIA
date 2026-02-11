@@ -114,15 +114,11 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
   }
 
   private addKnowledgeSource(source: any): void {
-    console.log('Attempting to add source:', source);
-
     if (!source) {
-      console.error('Attempted to add undefined source');
       return;
     }
 
     if (!source.id) {
-      console.error('Source missing id:', source);
       return;
     }
 
@@ -146,7 +142,6 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
     }
 
     this.knowledgeSources.push(validSource);
-    console.log('Successfully added knowledge source:', validSource);
   }
 
   loadKnowledgeSources(): void {
@@ -155,13 +150,9 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
 
     this.knowledgeBaseService.getKnowledgeSources().subscribe({
       next: (response) => {
-        console.log('Response from backend:', response);
-
         const sources = Array.isArray(response)
           ? response
           : response?.knowledgeSources || [];
-
-        console.log('Processed sources:', sources);
 
         // Initialize selected property for each source
         this.knowledgeSources = sources.map((source) => ({
@@ -234,8 +225,6 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
           )
           .subscribe({
             next: (response) => {
-              console.log('PDF upload response:', response);
-
               const sourceToAdd = response?.knowledgeSource || response;
 
               if (sourceToAdd) {
@@ -345,8 +334,6 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
     this.isLoading = true;
     this.knowledgeBaseService.createKnowledgeSource(request).subscribe({
       next: (response) => {
-        console.log('Text source response:', response);
-
         const sourceToAdd = response?.knowledgeSource || response;
 
         if (sourceToAdd?.id) {

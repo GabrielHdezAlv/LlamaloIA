@@ -1145,11 +1145,6 @@ export class MetricsComponent implements OnInit, OnDestroy {
   private updateComponentWithDetailedData(): void {
     if (!this.detailedMetrics) return;
 
-    console.log(
-      '📥 Datos completos recibidos de GET /metrics/twilio-detailed:',
-      this.detailedMetrics,
-    );
-
     // Actualizar datos del gráfico de llamadas exitosas
     const data = this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
       (item) => item.total,

@@ -113,7 +113,6 @@ export class ImportNumberModalComponent {
       // Primero validar el número de teléfono
       this.twilioService.validatePhone(countryCode, number).subscribe({
         next: (response) => {
-          console.log('✅ Número validado correctamente:', response);
           this.isLoading = false;
 
           // Si la validación es exitosa, cerrar el modal con los datos

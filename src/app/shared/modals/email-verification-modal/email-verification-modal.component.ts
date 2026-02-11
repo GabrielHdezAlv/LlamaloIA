@@ -1,7 +1,11 @@
 import { Component, inject, AfterViewInit } from '@angular/core';
 import { I18nService } from '../../../core/services/i18n.service';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 
@@ -36,10 +40,10 @@ export class EmailVerificationModalComponent implements AfterViewInit {
 
   onCodeInput(index: number, event: any): void {
     const value = event.target.value;
-    
+
     // Solo permitir números
     const numericValue = value.replace(/[^0-9]/g, '');
-    
+
     // Solo permitir un dígito
     if (numericValue.length > 1) {
       this.codeDigits[index] = numericValue.slice(-1);
@@ -81,10 +85,13 @@ export class EmailVerificationModalComponent implements AfterViewInit {
   onCodePaste(event: ClipboardEvent): void {
     event.preventDefault();
     const pastedData = event.clipboardData?.getData('text').trim() || '';
-    
+
     // Solo tomar los primeros 4 dígitos numéricos
-    const digits = pastedData.replace(/[^0-9]/g, '').slice(0, 4).split('');
-    
+    const digits = pastedData
+      .replace(/[^0-9]/g, '')
+      .slice(0, 4)
+      .split('');
+
     digits.forEach((digit, index) => {
       if (index < 4) {
         this.codeDigits[index] = digit;
@@ -92,10 +99,10 @@ export class EmailVerificationModalComponent implements AfterViewInit {
     });
 
     // Enfocar el último campo lleno o el primero vacío
-    const firstEmptyIndex = this.codeDigits.findIndex(d => !d);
+    const firstEmptyIndex = this.codeDigits.findIndex((d) => !d);
     const focusIndex = firstEmptyIndex >= 0 ? firstEmptyIndex : 3;
     this.focusedIndex = focusIndex;
-    
+
     setTimeout(() => {
       const nextInput = document.getElementById(`code-${focusIndex}`);
       if (nextInput) {
@@ -107,7 +114,7 @@ export class EmailVerificationModalComponent implements AfterViewInit {
   }
 
   checkComplete(): void {
-    const isComplete = this.codeDigits.every(digit => digit !== '');
+    const isComplete = this.codeDigits.every((digit) => digit !== '');
     if (isComplete) {
       // Auto-verificar cuando esté completo (opcional)
       // this.verify();
@@ -115,7 +122,7 @@ export class EmailVerificationModalComponent implements AfterViewInit {
   }
 
   get isCodeIncomplete(): boolean {
-    return this.codeDigits.some(digit => !digit);
+    return this.codeDigits.some((digit) => !digit);
   }
 
   verify(): void {
@@ -138,6 +145,6 @@ export class EmailVerificationModalComponent implements AfterViewInit {
 
   resendCode(): void {
     // Función para reenviar el código (a implementar)
-    console.log('Reenviar código a:', this.data.email);
+    console.info('Reenviar código a:', this.data.email);
   }
 }

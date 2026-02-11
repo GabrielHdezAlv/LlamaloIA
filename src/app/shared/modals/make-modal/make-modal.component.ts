@@ -58,10 +58,9 @@ export class MakeModalComponent implements OnInit {
   onContinue(): void {
     if (this.isFormValid()) {
       // Solo cerrar el modal sin retornar resultado
-      console.log('Make modal closing without result');
       this.dialogRef.close();
     } else {
-      console.log('Form is not valid, cannot continue');
+      console.info('Form is not valid, cannot continue');
     }
   }
 }

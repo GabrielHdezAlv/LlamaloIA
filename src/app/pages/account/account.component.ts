@@ -522,7 +522,7 @@ export class AccountComponent implements OnInit, OnDestroy {
           details: 'Nuestro equipo se pondrá en contacto contigo pronto.',
         });
       } else {
-        console.log('Usuario canceló la eliminación');
+        console.info('Usuario canceló la eliminación');
       }
     });
   }
