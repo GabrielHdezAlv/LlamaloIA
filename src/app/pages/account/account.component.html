@@ -236,6 +236,7 @@
               [src]="getUserProfileImage()"
               class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border md:border-[2px] dark:border-2 dark:md:border-[3px] border-blue-900 history-border cursor-pointer"
               alt="Perfil"
+              (click)="onAvatarClick()"
             />
             <div class="flex flex-col mt-2.5">
               <span
