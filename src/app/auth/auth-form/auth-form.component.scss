@@ -1,3 +1,12 @@
+/* --- Auth Input Focus Styles --- */
+.auth-input:focus {
+  outline: none;
+  border-color: black;
+}
+
+:host-context(.dark) .auth-input:focus {
+  border-color: white !important;
+}
 
 /* --- Checkbox personalizado (opcional: puedes reforzar el color) --- */
 .custom-checkbox {
@@ -82,10 +91,10 @@
 
 /* --- Gradient Background --- */
 .gradient-bg {
-  background: linear-gradient(90deg, 
-    rgba(147, 197, 253, 0.3) 0%, 
-    rgba(196, 181, 253, 0.2) 50%, 
-    rgba(251, 207, 232, 0.3) 100%);
+  background: linear-gradient(90deg,
+      rgba(147, 197, 253, 0.3) 0%,
+      rgba(196, 181, 253, 0.2) 50%,
+      rgba(251, 207, 232, 0.3) 100%);
   backdrop-filter: blur(10px);
 }
 
@@ -95,76 +104,76 @@
     font-size: 2rem;
     line-height: 2.25rem;
   }
-  
+
   .login-subtitle {
     font-size: 1rem;
     line-height: 1.5rem;
   }
-  
+
   .input-label {
     font-size: 0.875rem;
   }
-  
+
   .remember-label {
     font-size: 0.875rem;
   }
-  
+
   .forgot-password-link {
     font-size: 0.875rem;
   }
-  
+
   .register-text {
     font-size: 1rem;
   }
-  
+
   .divider-text {
     font-size: 0.875rem;
   }
-  
+
   /* Mejor espaciado para tablets */
   .form-container {
     max-width: 28rem;
     margin: 0 auto;
   }
-  
+
   /* Ajustar padding del contenedor principal */
   .form-container .space-y-3 {
     gap: 1.5rem;
   }
-  
+
   /* Botones más grandes para tablets */
   .login-button,
   .google-button {
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
   }
-  
+
   /* Inputs más grandes para tablets */
   .form-container input {
     padding: 1rem 1.25rem;
     font-size: 1rem;
   }
-  
+
   /* Logo más grande para tablets */
   .form-container img {
     height: 3rem;
   }
-  
+
   /* Mejorar el espaciado del contenedor principal para tablets */
   .form-container {
     padding: 2rem 0;
   }
-  
+
   /* Ajustar el padding del formulario para tablets */
   .form-container form {
     padding: 0 0.5rem;
   }
-  
+
   /* Mejorar la altura mínima del contenedor para tablets */
   .form-container {
     min-height: 60vh;
   }
-  
+
   /* Posicionar el formulario más abajo en tablets */
   .form-container {
     margin-top: 5rem;
@@ -177,32 +186,32 @@
     font-size: 1.5rem;
     line-height: 1.75rem;
   }
-  
+
   .login-subtitle {
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
-  
+
   .input-label {
     font-size: 0.75rem;
   }
-  
+
   .remember-label {
     font-size: 0.75rem;
   }
-  
+
   .forgot-password-link {
     font-size: 0.75rem;
   }
-  
+
   .register-text {
     font-size: 0.875rem;
   }
-  
+
   .divider-text {
     font-size: 0.75rem;
   }
-  
+
   /* Ensure form content is above gradient */
   .form-container {
     position: relative;
@@ -216,20 +225,16 @@
   max-width: 100%;
   overflow: hidden;
   z-index: 5;
-  -webkit-mask: linear-gradient(
-    90deg,
-    transparent,
-    white 20%,
-    white 80%,
-    transparent
-  );
-  mask: linear-gradient(
-    90deg,
-    transparent,
-    white 20%,
-    white 80%,
-    transparent
-  );
+  -webkit-mask: linear-gradient(90deg,
+      transparent,
+      white 20%,
+      white 80%,
+      transparent);
+  mask: linear-gradient(90deg,
+      transparent,
+      white 20%,
+      white 80%,
+      transparent);
 }
 
 .scroller__inner {

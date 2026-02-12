@@ -807,13 +807,54 @@ html.dark [class*="dark:border-black"] {
   border-color: #111827 !important;
 }
 
-/* Botón Continuar del onboarding Shopify: blanco con texto negro en modo oscuro (por si algún override lo pisa) */
-html.dark .btn-continuar-shopify {
-  background-color: #ffffff !important;
-  color: #111827 !important;
+/* ===================================================================
+   GLOBAL INPUT FOCUS STYLES - Remove blue focus, use black/white border
+   =================================================================== */
+
+/* Remove all blue focus rings and borders globally */
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: none !important;
 }
 
-html.dark .btn-continuar-shopify:hover {
-  background-color: #f3f4f6 !important;
-  color: #111827 !important;
+/* Light mode: black border on focus */
+input:focus:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+textarea:focus,
+select:focus {
+  border-color: #000000 !important;
+  box-shadow: none !important;
+}
+
+/* Dark mode: white border on focus */
+html.dark input:focus:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+html.dark textarea:focus,
+html.dark select:focus {
+  border-color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+/* Remove Tailwind focus ring utilities globally */
+.focus\:ring-blue-500:focus,
+.focus\:ring-blue-400:focus,
+.focus\:ring-blue-900:focus,
+.focus\:ring-2:focus,
+.focus\:ring-1:focus {
+  --tw-ring-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Override focus:border-blue-* utilities */
+.focus\:border-blue-500:focus,
+.focus\:border-blue-400:focus,
+.focus\:border-blue-900:focus {
+  border-color: #000000 !important;
+}
+
+html.dark .focus\:border-blue-500:focus,
+html.dark .focus\:border-blue-400:focus,
+html.dark .focus\:border-blue-900:focus,
+html.dark .dark\:focus\:border-blue-400:focus {
+  border-color: #ffffff !important;
 }

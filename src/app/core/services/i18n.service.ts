@@ -357,7 +357,7 @@ export class I18nService {
     es: {
       // Home page translations
       summary: 'Resumen',
-      totalSuccessfulCalls: 'Total de llamadas exitosas',
+      totalSuccessfulCalls: 'Total de llamadas',
       timeSaved: 'Tiempo ahorrado',
       minutesUsed: 'Minutos utilizados',
       activeAgents: 'Tus agentes',
@@ -693,7 +693,7 @@ export class I18nService {
     en: {
       // Home page translations
       summary: 'Summary',
-      totalSuccessfulCalls: 'Total successful calls',
+      totalSuccessfulCalls: 'Total calls',
       timeSaved: 'Time saved',
       minutesUsed: 'Minutes used',
       activeAgents: 'Active agents',
