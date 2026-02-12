@@ -5,139 +5,94 @@
       <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
         Editor de agente
       </h1>
-      <button
-        (click)="goBack()"
-        class="px-4 py-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
-      >
+      <button (click)="goBack()"
+        class="px-4 py-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
         Volver
       </button>
     </div>
 
     <div class="flex items-center gap-2 mb-6">
-      <button
-        type="button"
-        (click)="setActiveTab('main')"
-        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors"
-        [ngClass]="
+      <button type="button" (click)="setActiveTab('main')"
+        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
           activeTab === 'main'
             ? 'bg-white dark:bg-[#252525] text-gray-900 dark:text-white border-gray-200 dark:border-gray-800/50'
             : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-white dark:hover:bg-[#252525]'
-        "
-      >
+        ">
         Principal
       </button>
-      <button
-        type="button"
-        (click)="setActiveTab('connections')"
-        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors"
-        [ngClass]="
+      <button type="button" (click)="setActiveTab('connections')"
+        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
           activeTab === 'connections'
             ? 'bg-white dark:bg-[#252525] text-gray-900 dark:text-white border-gray-200 dark:border-gray-800/50'
             : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-white dark:hover:bg-[#252525]'
-        "
-      >
+        ">
         Conexiones
       </button>
-      <button
-        type="button"
-        (click)="setActiveTab('knowledge')"
-        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors"
-        [ngClass]="
+      <button type="button" (click)="setActiveTab('knowledge')"
+        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
           activeTab === 'knowledge'
             ? 'bg-white dark:bg-[#252525] text-gray-900 dark:text-white border-gray-200 dark:border-gray-800/50'
             : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-white dark:hover:bg-[#252525]'
-        "
-      >
+        ">
         Base de Conocimiento
       </button>
     </div>
 
     <!-- Contenido principal - Dos columnas -->
     @if (activeTab === "main") {
-      <form
-        [formGroup]="editForm"
-        class="grid grid-cols-1 lg:grid-cols-3 gap-6"
-      >
-        <!-- COLUMNA IZQUIERDA (2/3) -->
-        <div class="lg:col-span-2 space-y-6">
-          <!-- Nombre del agente -->
-          <div
-            class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
-          >
-            <label
-              class="block text-sm font-semibold text-gray-900 dark:text-white mb-3"
-            >
-              Nombre del agente
-            </label>
-            <input
-              type="text"
-              formControlName="name"
-              placeholder="Ej: Marta"
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
-            />
-            @if (
-              editForm.get("name")?.invalid && editForm.get("name")?.touched
-            ) {
-              <p class="text-xs text-red-500 dark:text-red-400 mt-2">
-                {{ getErrorMessage("name") }}
-              </p>
-            }
-          </div>
+    <form [formGroup]="editForm" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- COLUMNA IZQUIERDA (2/3) -->
+      <div class="lg:col-span-2 space-y-6">
+        <!-- Nombre del agente -->
+        <div
+          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+          <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
+            Nombre del agente
+          </label>
+          <input type="text" formControlName="name" placeholder="Ej: Marta"
+            class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm" />
+          @if (
+          editForm.get("name")?.invalid && editForm.get("name")?.touched
+          ) {
+          <p class="text-xs text-red-500 dark:text-red-400 mt-2">
+            {{ getErrorMessage("name") }}
+          </p>
+          }
+        </div>
 
-          <!-- Primer mensaje -->
-          <div
-            class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
-          >
-            <label
-              class="block text-sm font-semibold text-gray-900 dark:text-white mb-3"
-            >
-              Primer mensaje
-            </label>
-            <textarea
-              formControlName="firstInteraction"
-              rows="5"
-              placeholder="¡Hola! ¿Cómo puedo ayudarte hoy?"
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none text-sm"
-            ></textarea>
-            @if (
-              editForm.get("firstInteraction")?.invalid &&
-              editForm.get("firstInteraction")?.touched
-            ) {
-              <p class="text-xs text-red-500 dark:text-red-400 mt-2">
-                {{ getErrorMessage("firstInteraction") }}
-              </p>
-            }
-          </div>
+        <!-- Primer mensaje -->
+        <div
+          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+          <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
+            Primer mensaje
+          </label>
+          <textarea formControlName="firstInteraction" rows="5" placeholder="¡Hola! ¿Cómo puedo ayudarte hoy?"
+            class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none text-sm"></textarea>
+          @if (
+          editForm.get("firstInteraction")?.invalid &&
+          editForm.get("firstInteraction")?.touched
+          ) {
+          <p class="text-xs text-red-500 dark:text-red-400 mt-2">
+            {{ getErrorMessage("firstInteraction") }}
+          </p>
+          }
+        </div>
 
-          <!-- Mensaje del sistema -->
-          <div
-            class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
-          >
-            <div class="flex items-center justify-between mb-4">
-              <label
-                class="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2"
-              >
-                Mensaje del sistema
-                <svg
-                  class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </label>
-              <button
-                type="button"
-                (click)="openGeneratePromptModal()"
-                class="group relative flex items-center gap-2 p-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 ease-in-out border border-gray-300 dark:border-slate-600 rounded hover:border-gray-400 dark:hover:border-slate-500 hover:scale-105 hover:shadow-md hover:shadow-purple-500/20"
-              >
-                <!-- <svg
+        <!-- Mensaje del sistema -->
+        <div
+          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+          <div class="flex items-center justify-between mb-4">
+            <label class="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+              Mensaje del sistema
+              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </label>
+            <button type="button" (click)="openGeneratePromptModal()"
+              class="group relative flex items-center gap-2 p-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 ease-in-out border border-gray-300 dark:border-slate-600 rounded hover:border-gray-400 dark:hover:border-slate-500 hover:scale-105 hover:shadow-md hover:shadow-purple-500/20">
+              <!-- <svg
                   class="w-4 h-4 3xl:w-5 3xl:h-5"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -173,1949 +128,1065 @@
                     d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z"
                   />
                 </svg> -->
-                <span
-                  class="text-xs 3xl:text-sm font-medium bg-gradient-to-r from-violet-500 via-purple-500 via-fuchsia-500 via-indigo-500 to-blue-600 bg-clip-text text-transparent"
-                  >Generar con IA</span
-                >
-              </button>
-            </div>
-            <textarea
-              formControlName="agentInstruction"
-              rows="8"
-              placeholder="Eres un asistente útil."
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none text-sm"
-            ></textarea>
-            @if (
-              editForm.get("agentInstruction")?.invalid &&
-              editForm.get("agentInstruction")?.touched
-            ) {
-              <p class="text-xs text-red-500 dark:text-red-400 mt-2">
-                {{ getErrorMessage("agentInstruction") }}
-              </p>
-            }
+              <span
+                class="text-xs 3xl:text-sm font-medium bg-gradient-to-r from-violet-500 via-purple-500 via-fuchsia-500 via-indigo-500 to-blue-600 bg-clip-text text-transparent">Generar
+                con IA</span>
+            </button>
           </div>
+          <textarea formControlName="agentInstruction" rows="8" placeholder="Eres un asistente útil."
+            class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none text-sm"></textarea>
+          @if (
+          editForm.get("agentInstruction")?.invalid &&
+          editForm.get("agentInstruction")?.touched
+          ) {
+          <p class="text-xs text-red-500 dark:text-red-400 mt-2">
+            {{ getErrorMessage("agentInstruction") }}
+          </p>
+          }
+        </div>
 
-          <!-- Número de teléfono y Etiqueta (lado a lado) -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Número de teléfono -->
-            <div
-              class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
-            >
-              <label
-                class="block text-sm font-semibold text-gray-900 dark:text-white mb-3"
-              >
-                Número de teléfono
-              </label>
-              <div class="flex items-center relative">
-                <div
-                  (click)="toggleCountryMenu()"
-                  class="w-28 h-11 bg-gray-50 dark:bg-[#1A1A1A] border border-r-0 border-gray-300 dark:border-gray-700/50 rounded-l-lg px-3 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#222222] transition-all"
-                >
-                  <div class="flex items-center gap-2">
-                    <ng-container [ngSwitch]="selectedCountry">
-                      <svg
-                        *ngSwitchCase="'es'"
-                        width="20"
-                        height="12"
-                        viewBox="0 0 20 12"
-                        class="rounded-sm"
-                      >
-                        <rect width="20" height="12" fill="#C60B1E" />
-                        <rect y="3" width="20" height="6" fill="#FFC400" />
-                      </svg>
-                      <svg
-                        *ngSwitchCase="'us'"
-                        width="20"
-                        height="12"
-                        viewBox="0 0 20 12"
-                        class="rounded-sm"
-                      >
-                        <rect width="20" height="12" fill="#B22234" />
-                        <rect y="1" width="20" height="2" fill="#FFFFFF" />
-                        <rect y="3" width="20" height="2" fill="#B22234" />
-                        <rect y="5" width="20" height="2" fill="#FFFFFF" />
-                        <rect y="7" width="20" height="2" fill="#B22234" />
-                        <rect y="9" width="20" height="2" fill="#FFFFFF" />
-                        <rect width="9" height="7" fill="#3C3B6E" />
-                      </svg>
-                      <svg
-                        *ngSwitchCase="'fr'"
-                        width="20"
-                        height="12"
-                        viewBox="0 0 20 12"
-                        class="rounded-sm"
-                      >
-                        <rect width="20" height="12" fill="#fff" />
-                        <rect width="6.66" height="12" fill="#0055A4" />
-                        <rect
-                          x="13.33"
-                          width="6.67"
-                          height="12"
-                          fill="#EF4135"
-                        />
-                      </svg>
-                      <svg
-                        *ngSwitchCase="'de'"
-                        width="20"
-                        height="12"
-                        viewBox="0 0 20 12"
-                        class="rounded-sm"
-                      >
-                        <rect width="20" height="12" fill="#000000" />
-                        <rect y="4" width="20" height="8" fill="#DD0000" />
-                        <rect y="8" width="20" height="4" fill="#FFCE00" />
-                      </svg>
-                    </ng-container>
-                    <span
-                      class="text-xs font-medium text-gray-900 dark:text-white"
-                      >{{ selectedCountryCode }}</span
-                    >
-                  </div>
-                  <svg
-                    class="w-3 h-3 text-gray-500 dark:text-gray-400 transition-transform"
-                    [class.rotate-180]="showCountryMenu"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
-
-                <ul
-                  [class.hidden]="!showCountryMenu"
-                  class="absolute top-full left-0 mt-1.5 w-36 bg-white dark:bg-[#252525] border border-gray-200 dark:border-gray-700/50 rounded-lg shadow-xl z-20 overflow-hidden"
-                >
-                  <li
-                    (click)="selectCountry('es', '+34')"
-                    class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs border-b border-gray-200 dark:border-gray-700/50 transition-colors"
-                  >
-                    <svg width="20" height="12" class="mr-2 rounded-sm">
+        <!-- Número de teléfono y Etiqueta (lado a lado) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Número de teléfono -->
+          <div
+            class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+            <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
+              Número de teléfono
+            </label>
+            <div class="flex items-center relative">
+              <div (click)="toggleCountryMenu()"
+                class="w-28 h-11 bg-gray-50 dark:bg-[#1A1A1A] border border-r-0 border-gray-300 dark:border-gray-700/50 rounded-l-lg px-3 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#222222] transition-all">
+                <div class="flex items-center gap-2">
+                  <ng-container [ngSwitch]="selectedCountry">
+                    <svg *ngSwitchCase="'es'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
                       <rect width="20" height="12" fill="#C60B1E" />
                       <rect y="3" width="20" height="6" fill="#FFC400" />
                     </svg>
-                    <span class="font-medium text-gray-900 dark:text-white"
-                      >+34</span
-                    >
-                  </li>
-                  <li
-                    (click)="selectCountry('us', '+1')"
-                    class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs border-b border-gray-200 dark:border-gray-700/50 transition-colors"
-                  >
-                    <svg width="20" height="12" class="mr-2 rounded-sm">
-                      <rect width="20" height="12" fill="#00247D" />
-                      <path
-                        d="M0 0L20 12M20 0L0 12"
-                        stroke="#FFF"
-                        stroke-width="2"
-                      />
+                    <svg *ngSwitchCase="'us'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
+                      <rect width="20" height="12" fill="#B22234" />
+                      <rect y="1" width="20" height="2" fill="#FFFFFF" />
+                      <rect y="3" width="20" height="2" fill="#B22234" />
+                      <rect y="5" width="20" height="2" fill="#FFFFFF" />
+                      <rect y="7" width="20" height="2" fill="#B22234" />
+                      <rect y="9" width="20" height="2" fill="#FFFFFF" />
+                      <rect width="9" height="7" fill="#3C3B6E" />
                     </svg>
-                    <span class="font-medium text-gray-900 dark:text-white"
-                      >+1</span
-                    >
-                  </li>
-                  <li
-                    (click)="selectCountry('fr', '+33')"
-                    class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs border-b border-gray-200 dark:border-gray-700/50 transition-colors"
-                  >
-                    <svg width="20" height="12" class="mr-2 rounded-sm">
-                      <rect width="20" height="12" fill="#0055A4" />
-                      <rect x="6.66" width="6.66" height="12" fill="#fff" />
+                    <svg *ngSwitchCase="'fr'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
+                      <rect width="20" height="12" fill="#fff" />
+                      <rect width="6.66" height="12" fill="#0055A4" />
                       <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
                     </svg>
-                    <span class="font-medium text-gray-900 dark:text-white"
-                      >+33</span
-                    >
-                  </li>
-                  <li
-                    (click)="selectCountry('de', '+49')"
-                    class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs transition-colors"
-                  >
-                    <svg width="20" height="12" class="mr-2 rounded-sm">
-                      <rect width="20" height="12" fill="#FFCE00" />
-                      <rect y="6" width="20" height="6" fill="#DD0000" />
-                      <rect y="4" width="20" height="4" fill="#000" />
+                    <svg *ngSwitchCase="'de'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
+                      <rect width="20" height="12" fill="#000000" />
+                      <rect y="4" width="20" height="8" fill="#DD0000" />
+                      <rect y="8" width="20" height="4" fill="#FFCE00" />
                     </svg>
-                    <span class="font-medium text-gray-900 dark:text-white"
-                      >+49</span
-                    >
-                  </li>
-                </ul>
-
-                <input
-                  type="tel"
-                  formControlName="phoneNumber"
-                  placeholder="630 00 00 00"
-                  [class.border-green-500]="phoneIsValid === true"
-                  [class.border-red-500]="phoneIsValid === false"
-                  class="flex-1 h-11 px-4 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-r-lg rounded-l-none text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
-                />
+                  </ng-container>
+                  <span class="text-xs font-medium text-gray-900 dark:text-white">{{ selectedCountryCode }}</span>
+                </div>
+                <svg class="w-3 h-3 text-gray-500 dark:text-gray-400 transition-transform"
+                  [class.rotate-180]="showCountryMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
               </div>
-              @if (
-                editForm.get("phoneNumber")?.invalid &&
-                editForm.get("phoneNumber")?.touched
-              ) {
-                <p class="text-xs text-red-500 dark:text-red-400 mt-2">
-                  {{ getErrorMessage("phoneNumber") }}
-                </p>
-              }
-              @if (isValidatingPhone) {
-                <p
-                  class="text-xs text-blue-500 dark:text-blue-400 mt-2 flex items-center gap-1"
-                >
-                  <svg
-                    class="animate-spin h-3 w-3"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      class="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      stroke-width="4"
-                    ></circle>
-                    <path
-                      class="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
+
+              <ul [class.hidden]="!showCountryMenu"
+                class="absolute top-full left-0 mt-1.5 w-36 bg-white dark:bg-[#252525] border border-gray-200 dark:border-gray-700/50 rounded-lg shadow-xl z-20 overflow-hidden">
+                <li (click)="selectCountry('es', '+34')"
+                  class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs border-b border-gray-200 dark:border-gray-700/50 transition-colors">
+                  <svg width="20" height="12" class="mr-2 rounded-sm">
+                    <rect width="20" height="12" fill="#C60B1E" />
+                    <rect y="3" width="20" height="6" fill="#FFC400" />
                   </svg>
-                  Validando número de teléfono...
-                </p>
-              }
-              @if (
-                phoneIsValid === true &&
-                !isValidatingPhone &&
-                phoneValidationMessage
-              ) {
-                <p class="text-xs text-green-500 dark:text-green-400 mt-2">
-                  {{ phoneValidationMessage }}
-                </p>
-              }
-              @if (
-                phoneIsValid === false &&
-                !isValidatingPhone &&
-                phoneValidationMessage
-              ) {
-                <p class="text-xs text-red-500 dark:text-red-400 mt-2">
-                  {{ phoneValidationMessage }}
-                </p>
-              }
+                  <span class="font-medium text-gray-900 dark:text-white">+34</span>
+                </li>
+                <li (click)="selectCountry('us', '+1')"
+                  class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs border-b border-gray-200 dark:border-gray-700/50 transition-colors">
+                  <svg width="20" height="12" class="mr-2 rounded-sm">
+                    <rect width="20" height="12" fill="#00247D" />
+                    <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
+                  </svg>
+                  <span class="font-medium text-gray-900 dark:text-white">+1</span>
+                </li>
+                <li (click)="selectCountry('fr', '+33')"
+                  class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs border-b border-gray-200 dark:border-gray-700/50 transition-colors">
+                  <svg width="20" height="12" class="mr-2 rounded-sm">
+                    <rect width="20" height="12" fill="#0055A4" />
+                    <rect x="6.66" width="6.66" height="12" fill="#fff" />
+                    <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
+                  </svg>
+                  <span class="font-medium text-gray-900 dark:text-white">+33</span>
+                </li>
+                <li (click)="selectCountry('de', '+49')"
+                  class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs transition-colors">
+                  <svg width="20" height="12" class="mr-2 rounded-sm">
+                    <rect width="20" height="12" fill="#FFCE00" />
+                    <rect y="6" width="20" height="6" fill="#DD0000" />
+                    <rect y="4" width="20" height="4" fill="#000" />
+                  </svg>
+                  <span class="font-medium text-gray-900 dark:text-white">+49</span>
+                </li>
+              </ul>
+
+              <input type="tel" formControlName="phoneNumber" placeholder="630 00 00 00"
+                [class.border-green-500]="phoneIsValid === true" [class.border-red-500]="phoneIsValid === false"
+                class="flex-1 h-11 px-4 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-r-lg rounded-l-none text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm" />
             </div>
-
-            <!-- Etiqueta -->
-            <div
-              class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
-            >
-              <label
-                class="block text-sm font-semibold text-gray-900 dark:text-white mb-3"
-              >
-                Etiqueta
-                <span
-                  class="text-gray-500 dark:text-gray-400 text-xs font-normal ml-1"
-                  >(opcional)</span
-                >
-              </label>
-              <input
-                type="text"
-                formControlName="label"
-                placeholder="Ej: Agente principal"
-                class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- COLUMNA DERECHA (1/3) -->
-        <div class="space-y-6">
-          <!-- Esfera AI con botón de play -->
-          <div
-            class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
-          >
-            <div
-              class="flex flex-col items-center justify-center min-h-[500px] relative overflow-visible"
-            >
-              <!-- Esfera AI -->
-              <div
-                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                style="pointer-events: none"
-              >
-                <app-ai-sphere [audioLevel]="audioLevel"></app-ai-sphere>
-              </div>
-
-              <!-- Botón de play -->
-              <div
-                class="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-10"
-              >
-                <button
-                  type="button"
-                  (click)="playTestAudio()"
-                  [class.active]="isPlaying"
-                  class="play-button w-16 h-16 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 border-2 border-gray-200 hover:!border-blue-500 active:!border-blue-500"
-                  style="background-color: #ffffff !important"
-                >
-                  @if (isPlaying) {
-                    <!-- Icono de pausa -->
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                    >
-                      <rect
-                        x="8"
-                        y="6"
-                        width="3"
-                        height="12"
-                        fill="black"
-                        rx="0.5"
-                      />
-                      <rect
-                        x="13"
-                        y="6"
-                        width="3"
-                        height="12"
-                        fill="black"
-                        rx="0.5"
-                      />
-                    </svg>
-                  } @else {
-                    <!-- Icono de play -->
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                    >
-                      <path d="M8 5V19L19 12L8 5Z" fill="black" />
-                    </svg>
-                  }
-                </button>
-              </div>
-
-              <!-- Selecciones de Idioma y Voz debajo del botón de play -->
-              <div class="absolute bottom-4 left-0 right-0 z-10 px-4">
-                <div class="grid grid-cols-2 gap-4">
-                  <!-- Idioma (izquierda) -->
-                  <div class="relative" data-language-dropdown>
-                    <label
-                      class="block text-xs text-gray-600 dark:text-gray-400 mb-2"
-                      >Idioma</label
-                    >
-                    <div
-                      (click)="toggleLanguageMenu()"
-                      class="h-11 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg px-3 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#222222] transition-all"
-                    >
-                      <div class="flex items-center gap-2 flex-1">
-                        <ng-container [ngSwitch]="selectedLanguageFlag">
-                          <svg
-                            *ngSwitchCase="'es'"
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#C60B1E" />
-                            <rect y="3" width="20" height="6" fill="#FFC400" />
-                          </svg>
-                          <svg
-                            *ngSwitchCase="'gb'"
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#00247D" />
-                            <path
-                              d="M0 0L20 12M20 0L0 12"
-                              stroke="#FFF"
-                              stroke-width="2"
-                            />
-                            <path
-                              d="M0 0L20 12M20 0L0 12"
-                              stroke="#CF142B"
-                              stroke-width="1"
-                            />
-                            <!-- Borde blanco vertical (arriba y abajo) -->
-                            <rect x="7" width="6" height="3" fill="#FFF" />
-                            <rect
-                              x="7"
-                              y="9"
-                              width="6"
-                              height="3"
-                              fill="#FFF"
-                            />
-                            <!-- Cruz roja vertical -->
-                            <rect x="8" width="4" height="12" fill="#CF142B" />
-                            <!-- Borde blanco horizontal (izquierda y derecha, sin pasar por el centro) -->
-                            <rect y="3" width="7" height="6" fill="#FFF" />
-                            <rect
-                              x="13"
-                              y="3"
-                              width="7"
-                              height="6"
-                              fill="#FFF"
-                            />
-                            <!-- Cruz roja horizontal -->
-                            <rect y="4" width="20" height="4" fill="#CF142B" />
-                          </svg>
-                          <svg
-                            *ngSwitchCase="'us'"
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#B22234" />
-                            <rect y="1" width="20" height="2" fill="#FFFFFF" />
-                            <rect y="3" width="20" height="2" fill="#B22234" />
-                            <rect y="5" width="20" height="2" fill="#FFFFFF" />
-                            <rect y="7" width="20" height="2" fill="#B22234" />
-                            <rect y="9" width="20" height="2" fill="#FFFFFF" />
-                            <rect width="9" height="7" fill="#3C3B6E" />
-                          </svg>
-                          <svg
-                            *ngSwitchCase="'fr'"
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#fff" />
-                            <rect width="6.66" height="12" fill="#0055A4" />
-                            <rect
-                              x="13.33"
-                              width="6.67"
-                              height="12"
-                              fill="#EF4135"
-                            />
-                          </svg>
-                          <svg
-                            *ngSwitchCase="'de'"
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#000000" />
-                            <rect y="4" width="20" height="4" fill="#DD0000" />
-                            <rect y="8" width="20" height="4" fill="#FFCE00" />
-                          </svg>
-                          <svg
-                            *ngSwitchCase="'it'"
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#009246" />
-                            <rect
-                              x="6.66"
-                              width="6.67"
-                              height="12"
-                              fill="#FFF"
-                            />
-                            <rect
-                              x="13.33"
-                              width="6.67"
-                              height="12"
-                              fill="#CE2B37"
-                            />
-                          </svg>
-                          <svg
-                            *ngSwitchCase="'pt'"
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#006600" />
-                            <rect
-                              x="6.66"
-                              width="13.34"
-                              height="12"
-                              fill="#FF0000"
-                            />
-                            <circle cx="8.33" cy="6" r="3" fill="#FFD700" />
-                          </svg>
-                          <svg
-                            *ngSwitchCase="'tr'"
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#E30A17" />
-                            <circle cx="10" cy="6" r="3" fill="white" />
-                            <circle cx="10" cy="6" r="2" fill="#E30A17" />
-                          </svg>
-                          <svg
-                            *ngSwitchCase="'se'"
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#006AA7" />
-                            <rect
-                              x="6"
-                              y="0"
-                              width="2"
-                              height="12"
-                              fill="#FECC00"
-                            />
-                            <rect
-                              x="0"
-                              y="5"
-                              width="20"
-                              height="2"
-                              fill="#FECC00"
-                            />
-                          </svg>
-                          <svg
-                            *ngSwitchCase="'nl'"
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#AE1C28" />
-                            <rect y="4" width="20" height="4" fill="white" />
-                            <rect y="0" width="20" height="4" fill="#21468B" />
-                          </svg>
-                          <svg
-                            *ngSwitchDefault
-                            width="20"
-                            height="12"
-                            viewBox="0 0 20 12"
-                            class="rounded-sm flex-shrink-0"
-                          >
-                            <rect width="20" height="12" fill="#C60B1E" />
-                            <rect y="3" width="20" height="6" fill="#FFC400" />
-                          </svg>
-                        </ng-container>
-                        <span
-                          class="text-xs font-medium text-gray-900 dark:text-white truncate"
-                          >{{ getLanguageName(selectedLanguageCode) }}</span
-                        >
-                      </div>
-                      <svg
-                        class="w-3 h-3 text-gray-500 dark:text-gray-400 transition-transform flex-shrink-0"
-                        [class.rotate-180]="showLanguageMenu"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
-
-                    <!-- Menú desplegable de idiomas -->
-                    <ul
-                      [class.hidden]="!showLanguageMenu"
-                      class="absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-[#252525] border border-gray-200 dark:border-gray-700/50 rounded-lg shadow-xl z-50 overflow-hidden max-h-48 overflow-y-auto"
-                    >
-                      @for (lang of languages; track lang.code) {
-                        <li
-                          (click)="selectLanguage(lang.code)"
-                          class="flex items-center px-3 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs transition-colors border-b border-gray-200 dark:border-gray-700/50 last:border-b-0"
-                        >
-                          <ng-container [ngSwitch]="getLanguageFlag(lang.code)">
-                            <svg
-                              *ngSwitchCase="'es'"
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#C60B1E" />
-                              <rect
-                                y="3"
-                                width="20"
-                                height="6"
-                                fill="#FFC400"
-                              />
-                            </svg>
-                            <svg
-                              *ngSwitchCase="'us'"
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#B22234" />
-                              <rect
-                                y="1"
-                                width="20"
-                                height="2"
-                                fill="#FFFFFF"
-                              />
-                              <rect
-                                y="3"
-                                width="20"
-                                height="2"
-                                fill="#B22234"
-                              />
-                              <rect
-                                y="5"
-                                width="20"
-                                height="2"
-                                fill="#FFFFFF"
-                              />
-                              <rect
-                                y="7"
-                                width="20"
-                                height="2"
-                                fill="#B22234"
-                              />
-                              <rect
-                                y="9"
-                                width="20"
-                                height="2"
-                                fill="#FFFFFF"
-                              />
-                              <rect width="9" height="7" fill="#3C3B6E" />
-                            </svg>
-                            <svg
-                              *ngSwitchCase="'fr'"
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#fff" />
-                              <rect width="6.66" height="12" fill="#0055A4" />
-                              <rect
-                                x="13.33"
-                                width="6.67"
-                                height="12"
-                                fill="#EF4135"
-                              />
-                            </svg>
-                            <svg
-                              *ngSwitchCase="'de'"
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#000000" />
-                              <rect
-                                y="4"
-                                width="20"
-                                height="4"
-                                fill="#DD0000"
-                              />
-                              <rect
-                                y="8"
-                                width="20"
-                                height="4"
-                                fill="#FFCE00"
-                              />
-                            </svg>
-                            <svg
-                              *ngSwitchCase="'it'"
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#009246" />
-                              <rect
-                                x="6.66"
-                                width="6.67"
-                                height="12"
-                                fill="#FFF"
-                              />
-                              <rect
-                                x="13.33"
-                                width="6.67"
-                                height="12"
-                                fill="#CE2B37"
-                              />
-                            </svg>
-                            <svg
-                              *ngSwitchCase="'pt'"
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#006600" />
-                              <rect
-                                x="6.66"
-                                width="13.34"
-                                height="12"
-                                fill="#FF0000"
-                              />
-                              <circle cx="8.33" cy="6" r="3" fill="#FFD700" />
-                            </svg>
-                            <svg
-                              *ngSwitchCase="'tr'"
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#E30A17" />
-                              <circle cx="10" cy="6" r="3" fill="white" />
-                              <circle cx="10" cy="6" r="2" fill="#E30A17" />
-                            </svg>
-                            <svg
-                              *ngSwitchCase="'se'"
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#006AA7" />
-                              <rect
-                                x="6"
-                                y="0"
-                                width="2"
-                                height="12"
-                                fill="#FECC00"
-                              />
-                              <rect
-                                x="0"
-                                y="5"
-                                width="20"
-                                height="2"
-                                fill="#FECC00"
-                              />
-                            </svg>
-                            <svg
-                              *ngSwitchCase="'nl'"
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#AE1C28" />
-                              <rect y="4" width="20" height="4" fill="white" />
-                              <rect
-                                y="0"
-                                width="20"
-                                height="4"
-                                fill="#21468B"
-                              />
-                            </svg>
-                            <svg
-                              *ngSwitchCase="'gb'"
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#00247D" />
-                              <path
-                                d="M0 0L20 12M20 0L0 12"
-                                stroke="#FFF"
-                                stroke-width="2"
-                              />
-                              <path
-                                d="M0 0L20 12M20 0L0 12"
-                                stroke="#CF142B"
-                                stroke-width="1"
-                              />
-                              <!-- Borde blanco vertical (arriba y abajo) -->
-                              <rect x="7" width="6" height="3" fill="#FFF" />
-                              <rect
-                                x="7"
-                                y="9"
-                                width="6"
-                                height="3"
-                                fill="#FFF"
-                              />
-                              <!-- Cruz roja vertical -->
-                              <rect
-                                x="8"
-                                width="4"
-                                height="12"
-                                fill="#CF142B"
-                              />
-                              <!-- Borde blanco horizontal (izquierda y derecha, sin pasar por el centro) -->
-                              <rect y="3" width="7" height="6" fill="#FFF" />
-                              <rect
-                                x="13"
-                                y="3"
-                                width="7"
-                                height="6"
-                                fill="#FFF"
-                              />
-                              <!-- Cruz roja horizontal -->
-                              <rect
-                                y="4"
-                                width="20"
-                                height="4"
-                                fill="#CF142B"
-                              />
-                            </svg>
-                            <svg
-                              *ngSwitchDefault
-                              width="20"
-                              height="12"
-                              viewBox="0 0 20 12"
-                              class="mr-2 rounded-sm flex-shrink-0"
-                            >
-                              <rect width="20" height="12" fill="#C60B1E" />
-                              <rect
-                                y="3"
-                                width="20"
-                                height="6"
-                                fill="#FFC400"
-                              />
-                            </svg>
-                          </ng-container>
-                          <span
-                            class="font-medium text-gray-900 dark:text-white"
-                            >{{ lang.name }}</span
-                          >
-                        </li>
-                      }
-                    </ul>
-
-                    @if (
-                      editForm.get("language")?.invalid &&
-                      editForm.get("language")?.touched
-                    ) {
-                      <p class="text-xs text-red-500 dark:text-red-400 mt-1">
-                        {{ getErrorMessage("language") }}
-                      </p>
-                    }
-                  </div>
-
-                  <!-- Voz (derecha) -->
-                  <div>
-                    <label
-                      class="block text-xs text-gray-600 dark:text-gray-400 mb-2"
-                      >Voz</label
-                    >
-                    <div
-                      class="bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg p-2"
-                    >
-                      <select
-                        formControlName="voiceId"
-                        class="w-full bg-transparent text-gray-900 dark:text-white text-xs focus:outline-none cursor-pointer"
-                      >
-                        @for (voice of voices; track voice.voiceId) {
-                          <option
-                            [value]="voice.voiceId"
-                            class="bg-white dark:bg-[#1A1A1A]"
-                          >
-                            {{ voice.name }}
-                          </option>
-                        }
-                      </select>
-                    </div>
-                    @if (
-                      editForm.get("voiceId")?.invalid &&
-                      editForm.get("voiceId")?.touched
-                    ) {
-                      <p class="text-xs text-red-500 dark:text-red-400 mt-1">
-                        {{ getErrorMessage("voiceId") }}
-                      </p>
-                    }
-                  </div>
-                </div>
-              </div>
-            </div>
+            @if (
+            editForm.get("phoneNumber")?.invalid &&
+            editForm.get("phoneNumber")?.touched
+            ) {
+            <p class="text-xs text-red-500 dark:text-red-400 mt-2">
+              {{ getErrorMessage("phoneNumber") }}
+            </p>
+            }
+            @if (isValidatingPhone) {
+            <p class="text-xs text-blue-500 dark:text-blue-400 mt-2 flex items-center gap-1">
+              <svg class="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+              Validando número de teléfono...
+            </p>
+            }
+            @if (
+            phoneIsValid === true &&
+            !isValidatingPhone &&
+            phoneValidationMessage
+            ) {
+            <p class="text-xs text-green-500 dark:text-green-400 mt-2">
+              {{ phoneValidationMessage }}
+            </p>
+            }
+            @if (
+            phoneIsValid === false &&
+            !isValidatingPhone &&
+            phoneValidationMessage
+            ) {
+            <p class="text-xs text-red-500 dark:text-red-400 mt-2">
+              {{ phoneValidationMessage }}
+            </p>
+            }
           </div>
 
-          <!-- Parámetros de voz (debajo del recuadro esfera + voz) -->
+          <!-- Etiqueta -->
           <div
-            class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
-          >
-            <h3
-              class="text-sm font-semibold text-gray-900 dark:text-white mb-4"
-            >
-              Parámetros de voz
-            </h3>
-
-            <div class="grid grid-cols-2 gap-4 mb-4">
-              <div class="space-y-2">
-                <label class="block text-xs text-gray-600 dark:text-gray-400"
-                  >Estabilidad</label
-                >
-                <div class="relative">
-                  <input
-                    type="number"
-                    formControlName="stability"
-                    step="0.01"
-                    min="0"
-                    max="1"
-                    class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50"
-                  />
-                  <div
-                    class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5"
-                  >
-                    <button
-                      type="button"
-                      (click)="incrementValue('stability', 0.01, 1)"
-                      class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors"
-                    >
-                      <svg
-                        class="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 15l7-7 7 7"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      type="button"
-                      (click)="decrementValue('stability', 0.01, 0)"
-                      class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors"
-                    >
-                      <svg
-                        class="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="space-y-2">
-                <label class="block text-xs text-gray-600 dark:text-gray-400"
-                  >Similitud</label
-                >
-                <div class="relative">
-                  <input
-                    type="number"
-                    formControlName="similarity"
-                    step="0.01"
-                    min="0"
-                    max="1"
-                    class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50"
-                  />
-                  <div
-                    class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5"
-                  >
-                    <button
-                      type="button"
-                      (click)="incrementValue('similarity', 0.01, 1)"
-                      class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors"
-                    >
-                      <svg
-                        class="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 15l7-7 7 7"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      type="button"
-                      (click)="decrementValue('similarity', 0.01, 0)"
-                      class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors"
-                    >
-                      <svg
-                        class="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="space-y-2">
-                <label class="block text-xs text-gray-600 dark:text-gray-400"
-                  >Estilo</label
-                >
-                <div class="relative">
-                  <input
-                    type="number"
-                    formControlName="style"
-                    step="0.01"
-                    min="0"
-                    max="1"
-                    class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50"
-                  />
-                  <div
-                    class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5"
-                  >
-                    <button
-                      type="button"
-                      (click)="incrementValue('style', 0.01, 1)"
-                      class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors"
-                    >
-                      <svg
-                        class="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 15l7-7 7 7"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      type="button"
-                      (click)="decrementValue('style', 0.01, 0)"
-                      class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors"
-                    >
-                      <svg
-                        class="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div class="space-y-2">
-                <label class="block text-xs text-gray-600 dark:text-gray-400"
-                  >Velocidad</label
-                >
-                <div class="relative">
-                  <input
-                    type="number"
-                    formControlName="speed"
-                    step="0.01"
-                    min="0.25"
-                    max="4"
-                    class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50"
-                  />
-                  <div
-                    class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5"
-                  >
-                    <button
-                      type="button"
-                      (click)="incrementValue('speed', 0.01, 4)"
-                      class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors"
-                    >
-                      <svg
-                        class="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 15l7-7 7 7"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      type="button"
-                      (click)="decrementValue('speed', 0.01, 0.25)"
-                      class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors"
-                    >
-                      <svg
-                        class="w-3 h-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                formControlName="boost"
-                class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-[#1A1A1A] text-blue-600 focus:ring-blue-500/50"
-              />
-              <span class="text-sm text-gray-900 dark:text-white">Boost</span>
+            class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+            <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
+              Etiqueta
+              <span class="text-gray-500 dark:text-gray-400 text-xs font-normal ml-1">(opcional)</span>
             </label>
+            <input type="text" formControlName="label" placeholder="Ej: Agente principal"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm" />
           </div>
         </div>
-      </form>
+      </div>
 
-      <!-- Botones de acción -->
-      <div class="flex justify-end gap-3 mt-8">
-        <button
-          type="button"
-          (click)="goBack()"
-          class="px-6 py-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          (click)="onSubmit()"
-          [disabled]="
+      <!-- COLUMNA DERECHA (1/3) -->
+      <div class="space-y-6">
+        <!-- Esfera AI con botón de play -->
+        <div
+          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+          <div class="flex flex-col items-center justify-center min-h-[500px] relative overflow-visible">
+            <!-- Esfera AI -->
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              style="pointer-events: none">
+              <app-ai-sphere [audioLevel]="audioLevel"></app-ai-sphere>
+            </div>
+
+            <!-- Botón de play -->
+            <div class="absolute bottom-24 left-1/2 transform -translate-x-1/2 z-10">
+              <button type="button" (click)="playTestAudio()" [class.active]="isPlaying"
+                class="play-button w-16 h-16 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 border-2 border-gray-200 hover:!border-blue-500 active:!border-blue-500"
+                style="background-color: #ffffff !important">
+                @if (isPlaying) {
+                <!-- Icono de pausa -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                  <rect x="8" y="6" width="3" height="12" fill="black" rx="0.5" />
+                  <rect x="13" y="6" width="3" height="12" fill="black" rx="0.5" />
+                </svg>
+                } @else {
+                <!-- Icono de play -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                  <path d="M8 5V19L19 12L8 5Z" fill="black" />
+                </svg>
+                }
+              </button>
+            </div>
+
+            <!-- Selecciones de Idioma y Voz debajo del botón de play -->
+            <div class="absolute bottom-4 left-0 right-0 z-10 px-4">
+              <div class="grid grid-cols-2 gap-4">
+                <!-- Idioma (izquierda) -->
+                <div class="relative" data-language-dropdown>
+                  <label class="block text-xs text-gray-600 dark:text-gray-400 mb-2">Idioma</label>
+                  <div (click)="toggleLanguageMenu()"
+                    class="h-11 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg px-3 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#222222] transition-all">
+                    <div class="flex items-center gap-2 flex-1">
+                      <ng-container [ngSwitch]="selectedLanguageFlag">
+                        <svg *ngSwitchCase="'es'" width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#C60B1E" />
+                          <rect y="3" width="20" height="6" fill="#FFC400" />
+                        </svg>
+                        <svg *ngSwitchCase="'gb'" width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#00247D" />
+                          <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
+                          <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1" />
+                          <!-- Borde blanco vertical (arriba y abajo) -->
+                          <rect x="7" width="6" height="3" fill="#FFF" />
+                          <rect x="7" y="9" width="6" height="3" fill="#FFF" />
+                          <!-- Cruz roja vertical -->
+                          <rect x="8" width="4" height="12" fill="#CF142B" />
+                          <!-- Borde blanco horizontal (izquierda y derecha, sin pasar por el centro) -->
+                          <rect y="3" width="7" height="6" fill="#FFF" />
+                          <rect x="13" y="3" width="7" height="6" fill="#FFF" />
+                          <!-- Cruz roja horizontal -->
+                          <rect y="4" width="20" height="4" fill="#CF142B" />
+                        </svg>
+                        <svg *ngSwitchCase="'us'" width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#B22234" />
+                          <rect y="1" width="20" height="2" fill="#FFFFFF" />
+                          <rect y="3" width="20" height="2" fill="#B22234" />
+                          <rect y="5" width="20" height="2" fill="#FFFFFF" />
+                          <rect y="7" width="20" height="2" fill="#B22234" />
+                          <rect y="9" width="20" height="2" fill="#FFFFFF" />
+                          <rect width="9" height="7" fill="#3C3B6E" />
+                        </svg>
+                        <svg *ngSwitchCase="'fr'" width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#fff" />
+                          <rect width="6.66" height="12" fill="#0055A4" />
+                          <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
+                        </svg>
+                        <svg *ngSwitchCase="'de'" width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#000000" />
+                          <rect y="4" width="20" height="4" fill="#DD0000" />
+                          <rect y="8" width="20" height="4" fill="#FFCE00" />
+                        </svg>
+                        <svg *ngSwitchCase="'it'" width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#009246" />
+                          <rect x="6.66" width="6.67" height="12" fill="#FFF" />
+                          <rect x="13.33" width="6.67" height="12" fill="#CE2B37" />
+                        </svg>
+                        <svg *ngSwitchCase="'pt'" width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#006600" />
+                          <rect x="6.66" width="13.34" height="12" fill="#FF0000" />
+                          <circle cx="8.33" cy="6" r="3" fill="#FFD700" />
+                        </svg>
+                        <svg *ngSwitchCase="'tr'" width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#E30A17" />
+                          <circle cx="10" cy="6" r="3" fill="white" />
+                          <circle cx="10" cy="6" r="2" fill="#E30A17" />
+                        </svg>
+                        <svg *ngSwitchCase="'se'" width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#006AA7" />
+                          <rect x="6" y="0" width="2" height="12" fill="#FECC00" />
+                          <rect x="0" y="5" width="20" height="2" fill="#FECC00" />
+                        </svg>
+                        <svg *ngSwitchCase="'nl'" width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#AE1C28" />
+                          <rect y="4" width="20" height="4" fill="white" />
+                          <rect y="0" width="20" height="4" fill="#21468B" />
+                        </svg>
+                        <svg *ngSwitchDefault width="20" height="12" viewBox="0 0 20 12"
+                          class="rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#C60B1E" />
+                          <rect y="3" width="20" height="6" fill="#FFC400" />
+                        </svg>
+                      </ng-container>
+                      <span class="text-xs font-medium text-gray-900 dark:text-white truncate">{{
+                        getLanguageName(selectedLanguageCode) }}</span>
+                    </div>
+                    <svg class="w-3 h-3 text-gray-500 dark:text-gray-400 transition-transform flex-shrink-0"
+                      [class.rotate-180]="showLanguageMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+
+                  <!-- Menú desplegable de idiomas -->
+                  <ul [class.hidden]="!showLanguageMenu"
+                    class="absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-[#252525] border border-gray-200 dark:border-gray-700/50 rounded-lg shadow-xl z-50 overflow-hidden max-h-48 overflow-y-auto">
+                    @for (lang of languages; track lang.code) {
+                    <li (click)="selectLanguage(lang.code)"
+                      class="flex items-center px-3 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs transition-colors border-b border-gray-200 dark:border-gray-700/50 last:border-b-0">
+                      <ng-container [ngSwitch]="getLanguageFlag(lang.code)">
+                        <svg *ngSwitchCase="'es'" width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#C60B1E" />
+                          <rect y="3" width="20" height="6" fill="#FFC400" />
+                        </svg>
+                        <svg *ngSwitchCase="'us'" width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#B22234" />
+                          <rect y="1" width="20" height="2" fill="#FFFFFF" />
+                          <rect y="3" width="20" height="2" fill="#B22234" />
+                          <rect y="5" width="20" height="2" fill="#FFFFFF" />
+                          <rect y="7" width="20" height="2" fill="#B22234" />
+                          <rect y="9" width="20" height="2" fill="#FFFFFF" />
+                          <rect width="9" height="7" fill="#3C3B6E" />
+                        </svg>
+                        <svg *ngSwitchCase="'fr'" width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#fff" />
+                          <rect width="6.66" height="12" fill="#0055A4" />
+                          <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
+                        </svg>
+                        <svg *ngSwitchCase="'de'" width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#000000" />
+                          <rect y="4" width="20" height="4" fill="#DD0000" />
+                          <rect y="8" width="20" height="4" fill="#FFCE00" />
+                        </svg>
+                        <svg *ngSwitchCase="'it'" width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#009246" />
+                          <rect x="6.66" width="6.67" height="12" fill="#FFF" />
+                          <rect x="13.33" width="6.67" height="12" fill="#CE2B37" />
+                        </svg>
+                        <svg *ngSwitchCase="'pt'" width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#006600" />
+                          <rect x="6.66" width="13.34" height="12" fill="#FF0000" />
+                          <circle cx="8.33" cy="6" r="3" fill="#FFD700" />
+                        </svg>
+                        <svg *ngSwitchCase="'tr'" width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#E30A17" />
+                          <circle cx="10" cy="6" r="3" fill="white" />
+                          <circle cx="10" cy="6" r="2" fill="#E30A17" />
+                        </svg>
+                        <svg *ngSwitchCase="'se'" width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#006AA7" />
+                          <rect x="6" y="0" width="2" height="12" fill="#FECC00" />
+                          <rect x="0" y="5" width="20" height="2" fill="#FECC00" />
+                        </svg>
+                        <svg *ngSwitchCase="'nl'" width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#AE1C28" />
+                          <rect y="4" width="20" height="4" fill="white" />
+                          <rect y="0" width="20" height="4" fill="#21468B" />
+                        </svg>
+                        <svg *ngSwitchCase="'gb'" width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#00247D" />
+                          <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
+                          <path d="M0 0L20 12M20 0L0 12" stroke="#CF142B" stroke-width="1" />
+                          <!-- Borde blanco vertical (arriba y abajo) -->
+                          <rect x="7" width="6" height="3" fill="#FFF" />
+                          <rect x="7" y="9" width="6" height="3" fill="#FFF" />
+                          <!-- Cruz roja vertical -->
+                          <rect x="8" width="4" height="12" fill="#CF142B" />
+                          <!-- Borde blanco horizontal (izquierda y derecha, sin pasar por el centro) -->
+                          <rect y="3" width="7" height="6" fill="#FFF" />
+                          <rect x="13" y="3" width="7" height="6" fill="#FFF" />
+                          <!-- Cruz roja horizontal -->
+                          <rect y="4" width="20" height="4" fill="#CF142B" />
+                        </svg>
+                        <svg *ngSwitchDefault width="20" height="12" viewBox="0 0 20 12"
+                          class="mr-2 rounded-sm flex-shrink-0">
+                          <rect width="20" height="12" fill="#C60B1E" />
+                          <rect y="3" width="20" height="6" fill="#FFC400" />
+                        </svg>
+                      </ng-container>
+                      <span class="font-medium text-gray-900 dark:text-white">{{ lang.name }}</span>
+                    </li>
+                    }
+                  </ul>
+
+                  @if (
+                  editForm.get("language")?.invalid &&
+                  editForm.get("language")?.touched
+                  ) {
+                  <p class="text-xs text-red-500 dark:text-red-400 mt-1">
+                    {{ getErrorMessage("language") }}
+                  </p>
+                  }
+                </div>
+
+                <!-- Voz (derecha) -->
+                <div>
+                  <label class="block text-xs text-gray-600 dark:text-gray-400 mb-2">Voz</label>
+                  <div
+                    class="bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg p-2">
+                    <select formControlName="voiceId"
+                      class="w-full bg-transparent text-gray-900 dark:text-white text-xs focus:outline-none cursor-pointer">
+                      @for (voice of voices; track voice.voiceId) {
+                      <option [value]="voice.voiceId" class="bg-white dark:bg-[#1A1A1A]">
+                        {{ voice.name }}
+                      </option>
+                      }
+                    </select>
+                  </div>
+                  @if (
+                  editForm.get("voiceId")?.invalid &&
+                  editForm.get("voiceId")?.touched
+                  ) {
+                  <p class="text-xs text-red-500 dark:text-red-400 mt-1">
+                    {{ getErrorMessage("voiceId") }}
+                  </p>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parámetros de voz (debajo del recuadro esfera + voz) -->
+        <div
+          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+          <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+            Parámetros de voz
+          </h3>
+
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="space-y-2">
+              <label class="block text-xs text-gray-600 dark:text-gray-400">Estabilidad</label>
+              <div class="relative">
+                <input type="number" formControlName="stability" step="0.01" min="0" max="1"
+                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
+                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
+                  <button type="button" (click)="incrementValue('stability', 0.01, 1)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                  </button>
+                  <button type="button" (click)="decrementValue('stability', 0.01, 0)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="block text-xs text-gray-600 dark:text-gray-400">Similitud</label>
+              <div class="relative">
+                <input type="number" formControlName="similarity" step="0.01" min="0" max="1"
+                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
+                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
+                  <button type="button" (click)="incrementValue('similarity', 0.01, 1)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                  </button>
+                  <button type="button" (click)="decrementValue('similarity', 0.01, 0)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="block text-xs text-gray-600 dark:text-gray-400">Estilo</label>
+              <div class="relative">
+                <input type="number" formControlName="style" step="0.01" min="0" max="1"
+                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
+                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
+                  <button type="button" (click)="incrementValue('style', 0.01, 1)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                  </button>
+                  <button type="button" (click)="decrementValue('style', 0.01, 0)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="block text-xs text-gray-600 dark:text-gray-400">Velocidad</label>
+              <div class="relative">
+                <input type="number" formControlName="speed" step="0.01" min="0.25" max="4"
+                  class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
+                <div class="absolute right-1 top-1/2 transform -translate-y-1/2 flex flex-col gap-0.5">
+                  <button type="button" (click)="incrementValue('speed', 0.01, 4)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-t text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                  </button>
+                  <button type="button" (click)="decrementValue('speed', 0.01, 0.25)"
+                    class="w-7 h-3.5 flex items-center justify-center bg-gray-200 dark:bg-[#374151] border border-gray-300 dark:border-gray-600 rounded-b text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-[#4b5563] transition-colors">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" formControlName="boost"
+              class="w-4 h-4 rounded border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-[#1A1A1A] text-blue-600 focus:ring-blue-500/50" />
+            <span class="text-sm text-gray-900 dark:text-white">Boost</span>
+          </label>
+        </div>
+      </div>
+    </form>
+
+    <!-- Botones de acción -->
+    <div class="flex justify-end gap-3 mt-8">
+      <button type="button" (click)="goBack()"
+        class="px-6 py-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm">
+        Cancelar
+      </button>
+      <button type="button" (click)="onSubmit()" [disabled]="
             editForm.invalid ||
             isLoading ||
             (phoneChanged && (isValidatingPhone || phoneIsValid !== true))
           "
-          class="px-6 py-2.5 bg-[#1B2559] dark:bg-blue-700 text-white font-semibold rounded-lg hover:bg-[#0a1740] dark:hover:bg-blue-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-white disabled:dark:bg-[#252525] disabled:text-gray-900 disabled:dark:text-white disabled:border disabled:border-gray-200 disabled:dark:border-gray-700 disabled:hover:bg-gray-50 disabled:dark:hover:bg-[#2A2A2A] flex items-center gap-2 text-sm"
-        >
-          @if (isLoading) {
-            <svg
-              class="animate-spin h-4 w-4 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-          }
-          {{ isLoading ? "Guardando..." : "Guardar cambios" }}
-        </button>
-      </div>
+        class="px-6 py-2.5 bg-[#1B2559] dark:bg-blue-700 text-white font-semibold rounded-lg hover:bg-[#0a1740] dark:hover:bg-blue-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-white disabled:dark:bg-[#252525] disabled:text-gray-900 disabled:dark:text-white disabled:border disabled:border-gray-200 disabled:dark:border-gray-700 disabled:hover:bg-gray-50 disabled:dark:hover:bg-[#2A2A2A] flex items-center gap-2 text-sm">
+        @if (isLoading) {
+        <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          </path>
+        </svg>
+        }
+        {{ isLoading ? "Guardando..." : "Guardar cambios" }}
+      </button>
+    </div>
     } @else if (activeTab === "knowledge") {
-      <div class="space-y-6">
-        <div
-          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
-        >
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            Fuentes de Conocimiento
-          </h2>
+    <div class="space-y-6">
+      <div
+        class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          Fuentes de Conocimiento
+        </h2>
 
-          @if (isLoadingKnowledgeSources) {
-            <div class="flex items-center justify-center py-8">
-              <svg
-                class="animate-spin h-6 w-6 text-blue-600"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              <span class="ml-2 text-gray-600 dark:text-gray-300"
-                >Cargando fuentes de conocimiento...</span
-              >
-            </div>
-          } @else if (agentKnowledgeSources.length === 0) {
-            <div class="text-center py-8">
-              <div class="text-gray-500 dark:text-gray-400 mb-4">
-                <svg
-                  class="w-12 h-12 mx-auto mb-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+        @if (isLoadingKnowledgeSources) {
+        <div class="flex items-center justify-center py-8">
+          <svg class="animate-spin h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+          </svg>
+          <span class="ml-2 text-gray-600 dark:text-gray-300">Cargando fuentes de conocimiento...</span>
+        </div>
+        } @else if (agentKnowledgeSources.length === 0) {
+        <div class="text-center py-8">
+          <div class="text-gray-500 dark:text-gray-400 mb-4">
+            <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <p class="text-gray-600 dark:text-gray-300">
+            Este agente no tiene fuentes de conocimiento configuradas.
+          </p>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            Las fuentes de conocimiento ayudan al agente a proporcionar
+            respuestas más precisas.
+          </p>
+        </div>
+        } @else {
+        <div class="space-y-4">
+          @for (source of agentKnowledgeSources; track source.id) {
+          <div
+            class="flex items-center justify-between p-4 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                @switch (source.type) {
+                @case ("pdf") {
+                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" viewBox="0 0 52 52" fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                  />
+                    d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z" />
+                  <path
+                    d="m49.83 32.45a1.43 1.43 0 0 0 -1.39-1.45h-12a1.43 1.43 0 0 0 -1.44 1.44v1.44a1.43 1.43 0 0 0 1.4 1.44h6.14l-11 11a1.42 1.42 0 0 0 0 2l1 1a1.54 1.54 0 0 0 1.09.45 1.32 1.32 0 0 0 .94-.38l11-11v6a1.43 1.43 0 0 0 1.43 1.44h1.53a1.43 1.43 0 0 0 1.47-1.4z" />
+                  <path
+                    d="m18.35 20.68h-1.46v4.93h1.46a1.56 1.56 0 0 0 1.56-1.1 3.93 3.93 0 0 0 .24-1.44 3.61 3.61 0 0 0 -.36-1.77 1.53 1.53 0 0 0 -1.44-.62z" />
+                  <path
+                    d="m11.29 20.93a1.27 1.27 0 0 0 -.84-.25h-1.45v2.23h1.46a1.18 1.18 0 0 0 .84-.28 1.09 1.09 0 0 0 .3-.86 1 1 0 0 0 -.33-.84z" />
+                  <path
+                    d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z" />
                 </svg>
+                }
+                @case ("web") {
+                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path
+                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+                }
+                @case ("text") {
+                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+                  <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+                </svg>
+                }
+                @default {
+                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                  <polyline points="13 2 13 9 20 9" />
+                </svg>
+                }
+                }
               </div>
-              <p class="text-gray-600 dark:text-gray-300">
-                Este agente no tiene fuentes de conocimiento configuradas.
-              </p>
-              <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Las fuentes de conocimiento ayudan al agente a proporcionar
-                respuestas más precisas.
-              </p>
+              <div>
+                <div class="font-medium text-gray-900 dark:text-white">
+                  {{ source.name || "Sin nombre" }}
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ source.type.toUpperCase() }}
+                  @if (source.originalUrl) {
+                  <span class="ml-2">• {{ source.originalUrl }}</span>
+                  }
+                </div>
+              </div>
             </div>
-          } @else {
-            <div class="space-y-4">
-              @for (source of agentKnowledgeSources; track source.id) {
-                <div
-                  class="flex items-center justify-between p-4 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg"
-                >
-                  <div class="flex items-center gap-3">
-                    <div
-                      class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center"
-                    >
-                      @switch (source.type) {
-                        @case ("pdf") {
-                          <svg
-                            class="w-5 h-5 text-blue-600 dark:text-blue-400"
-                            viewBox="0 0 52 52"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z"
-                            />
-                            <path
-                              d="m49.83 32.45a1.43 1.43 0 0 0 -1.39-1.45h-12a1.43 1.43 0 0 0 -1.44 1.44v1.44a1.43 1.43 0 0 0 1.4 1.44h6.14l-11 11a1.42 1.42 0 0 0 0 2l1 1a1.54 1.54 0 0 0 1.09.45 1.32 1.32 0 0 0 .94-.38l11-11v6a1.43 1.43 0 0 0 1.43 1.44h1.53a1.43 1.43 0 0 0 1.47-1.4z"
-                            />
-                            <path
-                              d="m18.35 20.68h-1.46v4.93h1.46a1.56 1.56 0 0 0 1.56-1.1 3.93 3.93 0 0 0 .24-1.44 3.61 3.61 0 0 0 -.36-1.77 1.53 1.53 0 0 0 -1.44-.62z"
-                            />
-                            <path
-                              d="m11.29 20.93a1.27 1.27 0 0 0 -.84-.25h-1.45v2.23h1.46a1.18 1.18 0 0 0 .84-.28 1.09 1.09 0 0 0 .3-.86 1 1 0 0 0 -.33-.84z"
-                            />
-                            <path
-                              d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z"
-                            />
-                          </svg>
-                        }
-                        @case ("web") {
-                          <svg
-                            class="w-5 h-5 text-blue-600 dark:text-blue-400"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <path
-                              d="M2 12h20M12 2a15.3 15.3 0 104 10.5a15.3 15.3 0 0013 0z"
-                            />
-                          </svg>
-                        }
-                        @case ("text") {
-                          <svg
-                            class="w-5 h-5 text-blue-600 dark:text-blue-400"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-                            />
-                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-                          </svg>
-                        }
-                        @default {
-                          <svg
-                            class="w-5 h-5 text-blue-600 dark:text-blue-400"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
-                            />
-                            <polyline points="13 2 13 9 20 9" />
-                          </svg>
-                        }
-                      }
-                    </div>
-                    <div>
-                      <div class="font-medium text-gray-900 dark:text-white">
-                        {{ source.name || "Sin nombre" }}
-                      </div>
-                      <div class="text-sm text-gray-500 dark:text-gray-400">
-                        {{ source.type.toUpperCase() }}
-                        @if (source.originalUrl) {
-                          <span class="ml-2">• {{ source.originalUrl }}</span>
-                        }
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <span
-                      class="text-xs px-2 py-1 rounded-full"
-                      [ngClass]="
+            <div class="flex items-center gap-2">
+              <span class="text-xs px-2 py-1 rounded-full" [ngClass]="
                         source.status === 'completed'
                           ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-200'
                           : source.status === 'processing'
                             ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-200'
                             : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-200'
-                      "
-                    >
-                      @switch (source.status) {
-                        @case ("completed") {
-                          Completada
-                        }
-                        @case ("processing") {
-                          Procesando
-                        }
-                        @case ("failed") {
-                          Fallida
-                        }
-                      }
-                    </span>
-                    <button
-                      type="button"
-                      (click)="removeKnowledgeSourceFromAgent(source.id)"
-                      [disabled]="isLoadingKnowledgeSources"
-                      class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors disabled:opacity-50"
-                      title="Eliminar fuente de conocimiento"
-                    >
-                      <svg
-                        class="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        ></path>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              }
+                      ">
+                @switch (source.status) {
+                @case ("completed") {
+                Completada
+                }
+                @case ("processing") {
+                Procesando
+                }
+                @case ("failed") {
+                Fallida
+                }
+                }
+              </span>
+              <button type="button" (click)="removeKnowledgeSourceFromAgent(source.id)"
+                [disabled]="isLoadingKnowledgeSources"
+                class="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors disabled:opacity-50"
+                title="Eliminar fuente de conocimiento">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                  </path>
+                </svg>
+              </button>
             </div>
+          </div>
           }
         </div>
+        }
       </div>
+    </div>
 
-      <!-- Add Knowledge Sources Section -->
-      <div class="space-y-6 mt-5">
-        <div
-          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none"
-        >
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            Añadir Fuentes de Conocimiento
-          </h2>
+    <!-- Add Knowledge Sources Section -->
+    <div class="space-y-6 mt-5">
+      <div
+        class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          Añadir Fuentes de Conocimiento
+        </h2>
 
-          <!-- Error Display -->
-          @if (knowledgeSourceError) {
-            <div
-              class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
-            >
-              <div class="flex items-center justify-between">
-                <p class="text-sm text-red-700 dark:text-red-300">
-                  {{ knowledgeSourceError }}
-                </p>
-                <button
-                  type="button"
-                  (click)="clearKnowledgeSourceError()"
-                  class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
-                >
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          }
-
-          <!-- Add New Sources -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <button
-              type="button"
-              (click)="selectKnowledgeSource('pdf')"
-              [disabled]="isLoadingKnowledgeSources"
-              class="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <svg
-                class="w-8 h-8 text-gray-400 dark:text-gray-500"
-                viewBox="0 0 52 52"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z"
-                />
-                <path
-                  d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z"
-                />
+        <!-- Error Display -->
+        @if (knowledgeSourceError) {
+        <div class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          <div class="flex items-center justify-between">
+            <p class="text-sm text-red-700 dark:text-red-300">
+              {{ knowledgeSourceError }}
+            </p>
+            <button type="button" (click)="clearKnowledgeSourceError()"
+              class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
               </svg>
-              <span class="text-sm font-medium text-gray-700 dark:text-gray-300"
-                >Subir PDF</span
-              >
-              <span class="text-xs text-gray-500 dark:text-gray-400"
-                >Máx. 10MB</span
-              >
-            </button>
-
-            <button
-              type="button"
-              (click)="selectKnowledgeSource('web')"
-              [disabled]="isLoadingKnowledgeSources"
-              class="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <svg
-                class="w-8 h-8 text-gray-400 dark:text-gray-500"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path
-                  d="M2 12h20M12 2a15.3 15.3 0 104 10.5a15.3 15.3 0 0013 0z"
-                />
-              </svg>
-              <span class="text-sm font-medium text-gray-700 dark:text-gray-300"
-                >Añadir URL</span
-              >
-              <span class="text-xs text-gray-500 dark:text-gray-400"
-                >Página web</span
-              >
-            </button>
-
-            <button
-              type="button"
-              (click)="selectKnowledgeSource('text')"
-              [disabled]="isLoadingKnowledgeSources"
-              class="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <svg
-                class="w-8 h-8 text-gray-400 dark:text-gray-500"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-                />
-                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-              </svg>
-              <span class="text-sm font-medium text-gray-700 dark:text-gray-300"
-                >Añadir Texto</span
-              >
-              <span class="text-xs text-gray-500 dark:text-gray-400"
-                >Manual</span
-              >
             </button>
           </div>
-
-          <!-- Available Sources -->
-          @if (isLoadingAvailableSources) {
-            <div class="flex items-center justify-center py-8">
-              <svg
-                class="animate-spin h-6 w-6 text-blue-600"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              <span class="ml-2 text-gray-600 dark:text-gray-300"
-                >Cargando fuentes disponibles...</span
-              >
-            </div>
-          } @else if (availableKnowledgeSources.length > 0) {
-            <div>
-              <h3
-                class="text-sm font-semibold text-gray-900 dark:text-white mb-3"
-              >
-                Fuentes Disponibles
-              </h3>
-              <div class="space-y-2 max-h-60 overflow-y-auto">
-                @for (source of availableKnowledgeSources; track source.id) {
-                  <div
-                    class="flex items-center justify-between p-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg"
-                  >
-                    <div class="flex items-center gap-3">
-                      <div
-                        class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center"
-                      >
-                        @switch (source.type) {
-                          @case ("pdf") {
-                            <svg
-                              class="w-4 h-4 text-blue-600 dark:text-blue-400"
-                              viewBox="0 0 52 52"
-                              fill="currentColor"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z"
-                              />
-                            </svg>
-                          }
-                          @case ("web") {
-                            <svg
-                              class="w-4 h-4 text-blue-600 dark:text-blue-400"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <circle cx="12" cy="12" r="10" />
-                              <path
-                                d="M2 12h20M12 2a15.3 15.3 0 104 10.5a15.3 15.3 0 0013 0z"
-                              />
-                            </svg>
-                          }
-                          @case ("text") {
-                            <svg
-                              class="w-4 h-4 text-blue-600 dark:text-blue-400"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-                              />
-                              <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-                            </svg>
-                          }
-                        }
-                      </div>
-                      <div>
-                        <div
-                          class="font-medium text-gray-900 dark:text-white text-sm"
-                        >
-                          {{ source.name }}
-                        </div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">
-                          {{ source.type.toUpperCase() }}
-                          @if (source.originalUrl) {
-                            <span class="ml-1">• {{ source.originalUrl }}</span>
-                          }
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      (click)="addKnowledgeSourceToAgent(source)"
-                      [disabled]="isLoadingKnowledgeSources"
-                      class="px-3 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors disabled:opacity-50"
-                    >
-                      Añadir
-                    </button>
-                  </div>
-                }
-              </div>
-            </div>
-          } @else {
-            <div
-              class="text-center py-4 text-sm text-gray-500 dark:text-gray-400"
-            >
-              No hay fuentes disponibles para añadir
-            </div>
-          }
         </div>
+        }
+
+        <!-- Add New Sources -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <button type="button" (click)="selectKnowledgeSource('pdf')" [disabled]="isLoadingKnowledgeSources"
+            class="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            <svg class="w-8 h-8 text-gray-400 dark:text-gray-500" viewBox="0 0 52 52" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z" />
+              <path
+                d="m49.83 32.45a1.43 1.43 0 0 0 -1.39-1.45h-12a1.43 1.43 0 0 0 -1.44 1.44v1.44a1.43 1.43 0 0 0 1.4 1.44h6.14l-11 11a1.42 1.42 0 0 0 0 2l1 1a1.54 1.54 0 0 0 1.09.45 1.32 1.32 0 0 0 .94-.38l11-11v6a1.43 1.43 0 0 0 1.43 1.44h1.53a1.43 1.43 0 0 0 1.47-1.4z" />
+              <path
+                d="m18.35 20.68h-1.46v4.93h1.46a1.56 1.56 0 0 0 1.56-1.1 3.93 3.93 0 0 0 .24-1.44 3.61 3.61 0 0 0 -.36-1.77 1.53 1.53 0 0 0 -1.44-.62z" />
+              <path
+                d="m11.29 20.93a1.27 1.27 0 0 0 -.84-.25h-1.45v2.23h1.46a1.18 1.18 0 0 0 .84-.28 1.09 1.09 0 0 0 .3-.86 1 1 0 0 0 -.33-.84z" />
+              <path
+                d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z" />
+            </svg>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Subir PDF</span>
+            <span class="text-xs text-gray-500 dark:text-gray-400">Máx. 10MB</span>
+          </button>
+
+          <button type="button" (click)="selectKnowledgeSource('web')" [disabled]="isLoadingKnowledgeSources"
+            class="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            <svg class="w-8 h-8 text-gray-400 dark:text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Añadir URL</span>
+            <span class="text-xs text-gray-500 dark:text-gray-400">Página web</span>
+          </button>
+
+          <button type="button" (click)="selectKnowledgeSource('text')" [disabled]="isLoadingKnowledgeSources"
+            class="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            <svg class="w-8 h-8 text-gray-400 dark:text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+              <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+            </svg>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Añadir Texto</span>
+            <span class="text-xs text-gray-500 dark:text-gray-400">Manual</span>
+          </button>
+        </div>
+
+        <!-- Available Sources -->
+        @if (isLoadingAvailableSources) {
+        <div class="flex items-center justify-center py-8">
+          <svg class="animate-spin h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+          </svg>
+          <span class="ml-2 text-gray-600 dark:text-gray-300">Cargando fuentes disponibles...</span>
+        </div>
+        } @else if (availableKnowledgeSources.length > 0) {
+        <div>
+          <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+            Fuentes Disponibles
+          </h3>
+          <div class="space-y-2 max-h-60 overflow-y-auto">
+            @for (source of availableKnowledgeSources; track source.id) {
+            <div
+              class="flex items-center justify-between p-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                  @switch (source.type) {
+                  @case ("pdf") {
+                  <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" viewBox="0 0 52 52" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z" />
+                  </svg>
+                  }
+                  @case ("web") {
+                  <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path
+                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                  }
+                  @case ("text") {
+                  <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+                    <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+                  </svg>
+                  }
+                  }
+                </div>
+                <div>
+                  <div class="font-medium text-gray-900 dark:text-white text-sm">
+                    {{ source.name }}
+                  </div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">
+                    {{ source.type.toUpperCase() }}
+                    @if (source.originalUrl) {
+                    <span class="ml-1">• {{ source.originalUrl }}</span>
+                    }
+                  </div>
+                </div>
+              </div>
+              <button type="button" (click)="addKnowledgeSourceToAgent(source)" [disabled]="isLoadingKnowledgeSources"
+                class="px-3 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors disabled:opacity-50">
+                Añadir
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+        } @else {
+        <div class="text-center py-4 text-sm text-gray-500 dark:text-gray-400">
+          No hay fuentes disponibles para añadir
+        </div>
+        }
       </div>
+    </div>
     } @else {
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div
-          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col"
-        >
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Shopify
-            </h2>
-            <span
-              class="text-xs font-semibold px-2 py-1 rounded-full"
-              [ngClass]="
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div
+        class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Shopify
+          </h2>
+          <span class="text-xs font-semibold px-2 py-1 rounded-full" [ngClass]="
                 agentShopifyDomain
                   ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-200'
                   : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'
-              "
-            >
-              {{ agentShopifyDomain ? "Conectado" : "No conectado" }}
-            </span>
+              ">
+            {{ agentShopifyDomain ? "Conectado" : "No conectado" }}
+          </span>
+        </div>
+        <div class="mb-5 text-sm text-gray-700 dark:text-gray-200">
+          <div class="font-semibold mb-1">Tienda</div>
+          <div class="bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg px-4 py-3">
+            {{ agentShopifyDomain || "—" }}
           </div>
-          <div class="mb-5 text-sm text-gray-700 dark:text-gray-200">
-            <div class="font-semibold mb-1">Tienda</div>
-            <div
-              class="bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg px-4 py-3"
-            >
-              {{ agentShopifyDomain || "—" }}
-            </div>
-          </div>
-
-          <button
-            type="button"
-            (click)="goToShopifyOnboarding()"
-            class="mt-auto w-full px-4 pt-2.5 pb-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm"
-          >
-            Añadir nueva
-          </button>
         </div>
 
-        <div
-          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col"
-        >
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Twilio
-            </h2>
-            <span
-              class="text-xs font-semibold px-2 py-1 rounded-full"
-              [ngClass]="
+        <button type="button" (click)="goToShopifyOnboarding()"
+          class="mt-auto w-full px-4 pt-2.5 pb-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm">
+          Añadir nueva
+        </button>
+      </div>
+
+      <div
+        class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Twilio
+          </h2>
+          <span class="text-xs font-semibold px-2 py-1 rounded-full" [ngClass]="
                 agentTwilioAccount
                   ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-200'
                   : 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-200'
-              "
-            >
-              {{ agentTwilioAccount ? "Asignada" : "Sin asignar" }}
-            </span>
-          </div>
+              ">
+            {{ agentTwilioAccount ? "Asignada" : "Sin asignar" }}
+          </span>
+        </div>
 
-          <div class="mb-5 text-sm text-gray-700 dark:text-gray-200">
-            <div class="font-semibold mb-1">Cuenta del agente</div>
-            <div
-              class="bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg px-4 py-3"
-            >
-              <div class="flex flex-col gap-1">
-                <div>
-                  <span class="font-semibold">ID:</span>
-                  {{ agentTwilioAccount?.twilioAccountId ?? "-" }}
-                </div>
-                <div>
-                  <span class="font-semibold">SID:</span>
-                  {{ agentTwilioAccount?.twilioSid ?? "-" }}
-                </div>
+        <div class="mb-5 text-sm text-gray-700 dark:text-gray-200">
+          <div class="font-semibold mb-1">Cuenta del agente</div>
+          <div class="bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg px-4 py-3">
+            <div class="flex flex-col gap-1">
+              <div>
+                <span class="font-semibold">ID:</span>
+                {{ agentTwilioAccount?.twilioAccountId ?? "-" }}
+              </div>
+              <div>
+                <span class="font-semibold">SID:</span>
+                {{ agentTwilioAccount?.twilioSid ?? "-" }}
               </div>
             </div>
           </div>
-
-          <button
-            type="button"
-            (click)="openTwilioModal()"
-            class="mt-auto w-full px-4 pt-2.5 pb-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm"
-          >
-            Añadir nueva
-          </button>
         </div>
+
+        <button type="button" (click)="openTwilioModal()"
+          class="mt-auto w-full px-4 pt-2.5 pb-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm">
+          Añadir nueva
+        </button>
       </div>
+    </div>
     }
   </div>
 </div>
 
 <!-- Hidden file input for PDF uploads -->
-<input
-  #fileInput
-  type="file"
-  accept=".pdf"
-  (change)="handleFileSelection($event)"
-  style="display: none"
-/>
+<input #fileInput type="file" accept=".pdf" (change)="handleFileSelection($event)" style="display: none" />
 
 @if (showTwilioModal) {
-  <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div
-      class="absolute inset-0 bg-black/40"
-      (click)="closeTwilioModal()"
-    ></div>
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+  <div class="absolute inset-0 bg-black/40" (click)="closeTwilioModal()"></div>
 
-    <div
-      class="relative w-full max-w-xl bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-gray-800/50 shadow-xl p-6"
-    >
-      <div class="flex items-start justify-between gap-4 mb-5">
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            Conectar Twilio
-          </h3>
-          <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
-            Selecciona una cuenta existente o añade una nueva.
-          </p>
-        </div>
-        <button
-          type="button"
-          (click)="closeTwilioModal()"
-          class="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2A2A2A]"
-        >
-          <span class="text-lg leading-none">×</span>
-        </button>
+  <div
+    class="relative w-full max-w-xl bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-gray-800/50 shadow-xl p-6">
+    <div class="flex items-start justify-between gap-4 mb-5">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+          Conectar Twilio
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
+          Selecciona una cuenta existente o añade una nueva.
+        </p>
       </div>
+      <button type="button" (click)="closeTwilioModal()"
+        class="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2A2A2A]">
+        <span class="text-lg leading-none">×</span>
+      </button>
+    </div>
 
-      <div class="flex items-center gap-2 mb-5">
-        <button
-          type="button"
-          (click)="setTwilioModalMode('existing')"
-          class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors"
-          [ngClass]="
+    <div class="flex items-center gap-2 mb-5">
+      <button type="button" (click)="setTwilioModalMode('existing')"
+        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
             twilioModalMode === 'existing'
               ? 'bg-white dark:bg-[#1A1A1A] text-gray-900 dark:text-white border-gray-200 dark:border-gray-700/50'
               : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-gray-50 dark:hover:bg-[#2A2A2A]'
-          "
-        >
-          Usar existente
-        </button>
-        <button
-          type="button"
-          (click)="setTwilioModalMode('new')"
-          class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors"
-          [ngClass]="
+          ">
+        Usar existente
+      </button>
+      <button type="button" (click)="setTwilioModalMode('new')"
+        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
             twilioModalMode === 'new'
               ? 'bg-white dark:bg-[#1A1A1A] text-gray-900 dark:text-white border-gray-200 dark:border-gray-700/50'
               : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-gray-50 dark:hover:bg-[#2A2A2A]'
-          "
-        >
-          Añadir nueva
-        </button>
+          ">
+        Añadir nueva
+      </button>
+    </div>
+
+    @if (twilioModalMode === "existing") {
+    <div class="space-y-2">
+      <label class="block text-sm font-semibold text-gray-900 dark:text-white">
+        Cuenta
+      </label>
+      <select
+        class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
+        [(ngModel)]="selectedTwilioAccountId" [ngModelOptions]="{ standalone: true }"
+        [disabled]="twilioAccounts.length === 0">
+        <option [ngValue]="null">—</option>
+        @for (acc of twilioAccounts; track acc.twilioAccountId) {
+        <option [ngValue]="acc.twilioAccountId">
+          {{ acc.twilioSid }} (ID: {{ acc.twilioAccountId }})
+        </option>
+        }
+      </select>
+
+      @if (twilioAccounts.length === 0) {
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        No tienes cuentas de Twilio guardadas. Usa "Añadir nueva".
+      </p>
+      }
+    </div>
+    } @else {
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+          Twilio SID
+        </label>
+        <input type="text" [(ngModel)]="twilioSid" [ngModelOptions]="{ standalone: true }"
+          class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
+          placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
       </div>
 
-      @if (twilioModalMode === "existing") {
-        <div class="space-y-2">
-          <label
-            class="block text-sm font-semibold text-gray-900 dark:text-white"
-          >
-            Cuenta
-          </label>
-          <select
-            class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
-            [(ngModel)]="selectedTwilioAccountId"
-            [ngModelOptions]="{ standalone: true }"
-            [disabled]="twilioAccounts.length === 0"
-          >
-            <option [ngValue]="null">—</option>
-            @for (acc of twilioAccounts; track acc.twilioAccountId) {
-              <option [ngValue]="acc.twilioAccountId">
-                {{ acc.twilioSid }} (ID: {{ acc.twilioAccountId }})
-              </option>
-            }
-          </select>
-
-          @if (twilioAccounts.length === 0) {
-            <p class="text-sm text-gray-600 dark:text-gray-300">
-              No tienes cuentas de Twilio guardadas. Usa "Añadir nueva".
-            </p>
-          }
-        </div>
-      } @else {
-        <div class="space-y-4">
-          <div>
-            <label
-              class="block text-sm font-semibold text-gray-900 dark:text-white mb-2"
-            >
-              Twilio SID
-            </label>
-            <input
-              type="text"
-              [(ngModel)]="twilioSid"
-              [ngModelOptions]="{ standalone: true }"
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
-              placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            />
-          </div>
-
-          <div>
-            <label
-              class="block text-sm font-semibold text-gray-900 dark:text-white mb-2"
-            >
-              Twilio Token
-            </label>
-            <input
-              type="password"
-              [(ngModel)]="twilioToken"
-              [ngModelOptions]="{ standalone: true }"
-              class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
-              placeholder="••••••••••••••••••••••••••••••••"
-            />
-          </div>
-        </div>
-      }
-
-      <div class="flex justify-end gap-3 mt-7">
-        <button
-          type="button"
-          (click)="closeTwilioModal()"
-          class="px-6 py-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          (click)="saveTwilioModal()"
-          [disabled]="isSavingTwilioConfig"
-          class="px-6 py-2.5 bg-[#1B2559] dark:bg-blue-700 text-white font-semibold rounded-lg hover:bg-[#0a1740] dark:hover:bg-blue-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-        >
-          {{ isSavingTwilioConfig ? "Guardando..." : "Guardar" }}
-        </button>
+      <div>
+        <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+          Twilio Token
+        </label>
+        <input type="password" [(ngModel)]="twilioToken" [ngModelOptions]="{ standalone: true }"
+          class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
+          placeholder="••••••••••••••••••••••••••••••••" />
       </div>
     </div>
+    }
+
+    <div class="flex justify-end gap-3 mt-7">
+      <button type="button" (click)="closeTwilioModal()"
+        class="px-6 py-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm">
+        Cancelar
+      </button>
+      <button type="button" (click)="saveTwilioModal()" [disabled]="isSavingTwilioConfig"
+        class="px-6 py-2.5 bg-[#1B2559] dark:bg-blue-700 text-white font-semibold rounded-lg hover:bg-[#0a1740] dark:hover:bg-blue-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm">
+        {{ isSavingTwilioConfig ? "Guardando..." : "Guardar" }}
+      </button>
+    </div>
   </div>
+</div>
 }
 
 <!-- Modal para Generar con IA -->
 @if (showGeneratePromptModal) {
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
   <div
-    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
-  >
-    <div
-      class="relative w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-600 shadow-xl p-6"
-    >
-      <!-- Header del modal -->
-      <div class="flex items-start justify-between gap-4 mb-5">
-        <div>
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-            Generar instrucciones con IA
-          </h3>
-          <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
-            Describe cómo debería ser tu agente y generaremos las instrucciones
-            automáticamente.
-          </p>
-        </div>
-        <button
-          type="button"
-          (click)="closeGeneratePromptModal()"
-          class="w-8 h-8 rounded-lg border border-gray-200 dark:border-slate-600 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
-        >
-          <span class="text-lg leading-none">×</span>
-        </button>
+    class="relative w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-600 shadow-xl p-6">
+    <!-- Header del modal -->
+    <div class="flex items-start justify-between gap-4 mb-5">
+      <div>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+          Generar instrucciones con IA
+        </h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
+          Describe cómo debería ser tu agente y generaremos las instrucciones
+          automáticamente.
+        </p>
+      </div>
+      <button type="button" (click)="closeGeneratePromptModal()"
+        class="w-8 h-8 rounded-lg border border-gray-200 dark:border-slate-600 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+        <span class="text-lg leading-none">×</span>
+      </button>
+    </div>
+
+    <!-- Contenido del modal -->
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-900 dark:text-white mb-2">
+          Describe tu agente
+        </label>
+        <textarea [(ngModel)]="promptDescription"
+          placeholder="Ej: Un agente amigable que atiende clientes de un restaurante, toma reservas y responde preguntas sobre el menú..."
+          rows="4"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:focus:border-transparent outline-none resize-none transition-all text-sm"></textarea>
       </div>
 
-      <!-- Contenido del modal -->
-      <div class="space-y-4">
-        <div>
-          <label
-            class="block text-sm font-medium text-gray-900 dark:text-white mb-2"
-          >
-            Describe tu agente
-          </label>
-          <textarea
-            [(ngModel)]="promptDescription"
-            placeholder="Ej: Un agente amigable que atiende clientes de un restaurante, toma reservas y responde preguntas sobre el menú..."
-            rows="4"
-            class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:focus:border-transparent outline-none resize-none transition-all text-sm"
-          ></textarea>
-        </div>
+      <!-- Error message -->
+      @if (generatePromptError) {
+      <div class="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+        <p class="text-sm text-red-600 dark:text-red-400">
+          {{ generatePromptError }}
+        </p>
+      </div>
+      }
+    </div>
 
-        <!-- Error message -->
-        @if (generatePromptError) {
-          <div
-            class="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
-          >
-            <p class="text-sm text-red-600 dark:text-red-400">
-              {{ generatePromptError }}
-            </p>
-          </div>
+    <!-- Botones de acción -->
+    <div class="flex justify-end gap-3 mt-6">
+      <button type="button" (click)="closeGeneratePromptModal()" [disabled]="isGeneratingPrompt"
+        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        Cancelar
+      </button>
+      <button type="button" (click)="generatePrompt()" [disabled]="isGeneratingPrompt || !promptDescription.trim()"
+        class="px-4 py-2 text-sm font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] border border-transparent rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+        @if (isGeneratingPrompt) {
+        <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          </path>
+        </svg>
+        Generando...
+        } @else {
+        Generar instrucciones
         }
-      </div>
-
-      <!-- Botones de acción -->
-      <div class="flex justify-end gap-3 mt-6">
-        <button
-          type="button"
-          (click)="closeGeneratePromptModal()"
-          [disabled]="isGeneratingPrompt"
-          class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          (click)="generatePrompt()"
-          [disabled]="isGeneratingPrompt || !promptDescription.trim()"
-          class="px-4 py-2 text-sm font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] border border-transparent rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-        >
-          @if (isGeneratingPrompt) {
-            <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
-            </svg>
-            Generando...
-          } @else {
-            Generar instrucciones
-          }
-        </button>
-      </div>
+      </button>
     </div>
   </div>
+</div>
 }

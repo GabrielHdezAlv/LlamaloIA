@@ -424,18 +424,82 @@
     }
 }
 
-// Responsive (sin overrides especiales para móvil, se muestra como en desktop)
-
-// Ocultar asistente en móvil/tablet cuando el sidebar móvil está abierto
+// Responsive - Side panel for mobile and tablet
 @media (max-width: 1279px) {
+    .support-widget {
+
+        .widget-container {
+            // Keep the floating box positioned near the button
+            position: fixed;
+            right: 70px; // Position it next to the button
+            bottom: 20px; // Align with button area
+            top: auto;
+            transform: none;
+            left: auto;
+            width: 300px;
+            height: 480px;
+            border-radius: 16px;
+            animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+
+            .widget-content {
+                padding: 24px;
+            }
+        }
+
+        .launcher {
+            // Keep circular button but on the right edge, positioned lower
+            position: fixed;
+            bottom: 80px; // Lower position
+            right: 0; // Flush with right edge
+            top: auto;
+            left: auto;
+            transform: translateX(50%); // Half outside the screen
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            z-index: 10001;
+
+            &:hover {
+                transform: translateX(50%) scale(1.05);
+            }
+
+            &.active {
+                transform: translateX(50%);
+            }
+
+            svg {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    }
+
+    // Hide widget when mobile sidebar is open
     :host-context(.mobile-sidebar-open) {
         display: none;
     }
+
+    // Adjust position when creating agent (avoid overlap with fixed buttons)
+    :host-context(.creating-agent) .support-widget .launcher {
+        bottom: 110px; // Just above the mobile nav buttons
+        top: auto;
+    }
+
+    :host-context(.creating-agent) .support-widget .widget-container {
+        bottom: 180px; // Open above the launcher
+        top: auto;
+    }
 }
 
-// Subir el widget en móvil/tablet cuando se está en creación de agentes (los botones fijos lo tapan)
-@media (max-width: 1279px) {
-    :host-context(.creating-agent) .support-widget {
-        bottom: 100px;
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
     }
 }

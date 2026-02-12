@@ -1,5 +1,4 @@
-<div
-  class="shopify-onboarding min-h-screen flex flex-col lg:flex-row relative overflow-hidden bg-black">
+<div class="shopify-onboarding min-h-screen flex flex-col lg:flex-row relative overflow-hidden bg-black">
   <!-- Overlay loader mientras se obtiene authUrl y se redirige -->
   @if (loading) {
   <div class="shopify-auth-overlay fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-black/90"
@@ -34,16 +33,14 @@
   <div
     class="w-full lg:w-[55%] flex flex-col items-center lg:items-start px-6 sm:px-10 lg:px-24 3xl:px-32 pt-20 sm:pt-24 lg:pt-24 pb-10 lg:pb-24 3xl:pb-32 relative z-10 min-h-[60vh] lg:min-h-screen">
     <div
-      class="fade-in-up flex items-center gap-3 mb-5 3xl:mb-8 self-center justify-center"
+      class="fade-in-up flex items-center gap-3 mb-5 3xl:mb-8 self-center lg:self-start justify-center lg:justify-start"
       style="animation-delay: 0.1s">
-      <img src="assets/logo_blanco.webp" alt="Llamalo"
-        class="h-7 sm:h-8 3xl:h-11 w-auto object-contain" />
+      <img src="assets/logo_blanco.webp" alt="Llamalo" class="h-7 sm:h-8 3xl:h-11 w-auto object-contain" />
       <span class="text-2xl 3xl:text-3xl font-light text-gray-500">×</span>
       <img src="assets/shopify_onboarding.png" alt="Shopify"
         class="h-16 sm:h-20 lg:h-24 3xl:h-36 w-auto object-contain" />
     </div>
-    <div
-      class="fade-in-up flex gap-2 mb-6 w-full max-w-md 3xl:max-w-lg 3xl:mb-10 max-sm:mx-auto"
+    <div class="fade-in-up flex gap-2 mb-6 w-full max-w-md 3xl:max-w-lg 3xl:mb-10 max-sm:mx-auto"
       style="animation-delay: 0.2s">
       <span class="h-1 3xl:h-1.5 flex-1 rounded-full bg-white dark:bg-white"></span>
       <span class="h-1 3xl:h-1.5 flex-1 rounded-full bg-gray-600"></span>
@@ -53,8 +50,7 @@
       style="animation-delay: 0.3s">
       Conecta tu cuenta de Shopify
     </h1>
-    <p
-      class="fade-in-up text-gray-400 mb-5 3xl:mb-6 max-w-xl 3xl:max-w-3xl text-xs sm:text-sm 3xl:text-base text-center lg:text-left"
+    <p class="fade-in-up text-gray-400 mb-5 3xl:mb-6 max-w-xl 3xl:max-w-3xl text-xs sm:text-sm 3xl:text-base text-center lg:text-left"
       style="animation-delay: 0.4s">
       @if (loadingStores) {
       Cargando tus tiendas conectadas...
@@ -67,9 +63,7 @@
     </p>
 
     <!-- Contenido principal: tiendas conectadas o formulario de nueva tienda -->
-    <div
-      class="fade-in-up flex flex-col gap-3 3xl:gap-5 w-full max-w-xl 3xl:max-w-3xl"
-      style="animation-delay: 0.5s">
+    <div class="fade-in-up flex flex-col gap-3 3xl:gap-5 w-full max-w-xl 3xl:max-w-3xl" style="animation-delay: 0.5s">
       @if (loadingStores) {
       <!-- Loader mientras se cargan las tiendas -->
       <div class="flex items-center justify-center py-8">
