@@ -41,7 +41,7 @@ import { CommonModule } from '@angular/common';
 
     /* Modo oscuro: recuadro gris oscuro en lugar de blanco */
     :host-context(html.dark) .checkbox {
-      border-color: #4b5563;
+      border-color: #262626;
       background: #18181a;
     }
 

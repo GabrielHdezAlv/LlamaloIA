@@ -13,6 +13,7 @@ import { UserService } from '../../core/services/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
+import { NotificationService } from '../../core/services/notification.service';
 import { log } from 'console';
 import { ModalService } from '../../shared/modals/modal.service';
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
@@ -74,13 +75,13 @@ export class AuthFormComponent implements OnInit {
   ];
 
   private userService = inject(UserService);
-  private snackBar = inject(MatSnackBar);
+  private notificationService = inject(NotificationService);
   private userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
   private router = inject(Router);
   private modalService = inject(ModalService);
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     // Detecta el tipo desde la ruta
@@ -119,10 +120,7 @@ export class AuthFormComponent implements OnInit {
     event.preventDefault();
 
     if (!this.email || !this.password) {
-      this.modalService.openError({
-        title: 'Campos requeridos',
-        message: 'Por favor, ingrese email y contraseña',
-      });
+      this.notificationService.error('Por favor, ingrese email y contraseña');
       return;
     }
 
@@ -151,16 +149,10 @@ export class AuthFormComponent implements OnInit {
               });
             }
 
-            // Mostrar modal de éxito en lugar de notificación básica
-            this.modalService.openLoginSuccess({
-              title: '¡Bienvenido de vuelta!',
-              message: `Hola ${
-                data.name || ''
-              }, has iniciado sesión correctamente.`,
-              userName: data.name,
-              showContinueButton: true,
-              continueButtonText: 'Ir al Dashboard',
-            });
+            // Mostrar notificación pill de éxito
+            this.notificationService.success(
+              `¡Bienvenido de vuelta! Has iniciado sesión correctamente.`
+            );
 
             // Redirigir después de un breve delay para que el usuario vea el modal
             setTimeout(() => {
@@ -169,52 +161,30 @@ export class AuthFormComponent implements OnInit {
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);
-            this.modalService.openError({
-              title: 'Perfil de usuario',
-              message: 'Error al obtener perfil de usuario',
-              details: String(err?.message || err),
-            });
+            this.notificationService.error('Error al obtener perfil de usuario');
           },
         });
       },
       error: (err) => {
         console.error('❌ Error en inicio de sesión:', err);
-        this.modalService.openError({
-          title: 'Inicio de sesión',
-          message: 'Error en inicio de sesión',
-          details: String(err?.error?.message || err?.message || err),
-        });
+        this.notificationService.error('Error en inicio de sesión. Por favor, revisa tus credenciales.');
       },
     });
   }
 
-  private showSuccess(message: string) {
-    this.snackBar.open(message, 'Cerrar', {
-      duration: 3000,
-      panelClass: 'snackbar-success',
-      horizontalPosition: 'center',
-      verticalPosition: 'top',
-    });
-  }
 
   register(event: Event) {
     event.preventDefault();
 
     // Validar campos antes de registrar
     if (!this.fullName || !this.email || !this.password || !this.country) {
-      this.modalService.openError({
-        title: 'Campos requeridos',
-        message: 'Por favor, completa todos los campos incluyendo el país',
-      });
+      this.notificationService.error('Por favor, completa todos los campos');
       return;
     }
 
     // Validar consentimiento de marketing
     if (!this.marketingConsent) {
-      this.modalService.openError({
-        title: 'Consentimiento requerido',
-        message: 'Debes aceptar el consentimiento de marketing para continuar',
-      });
+      this.notificationService.error('Debes aceptar el consentimiento de marketing para continuar');
       return;
     }
 
@@ -237,15 +207,8 @@ export class AuthFormComponent implements OnInit {
     this.userService.RegisterUser(user).subscribe({
       next: (response) => {
         // Mostrar notificación de validación de correo
-        this.snackBar.open(
-          'Ahora debe ir a su correo electrónico y validarlo para poder acceder a su cuenta.',
-          'Cerrar',
-          {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: ['snackbar-info'],
-          },
+        this.notificationService.info(
+          'Ahora debe ir a su correo electrónico y validarlo para poder acceder a su cuenta.'
         );
 
         // Redirigir a login después de un breve delay
@@ -254,15 +217,8 @@ export class AuthFormComponent implements OnInit {
         }, 2000);
       },
       error: (err) => {
-        this.snackBar.open(
-          'Error al registrar usuario. Por favor, inténtelo de nuevo.',
-          'Cerrar',
-          {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: ['snackbar-error'],
-          },
+        this.notificationService.error(
+          'Error al registrar usuario. Por favor, inténtelo de nuevo.'
         );
       },
     });
@@ -271,15 +227,12 @@ export class AuthFormComponent implements OnInit {
   recover(event: Event) {
     event.preventDefault();
     if (!this.email) {
-      this.modalService.openError({
-        title: 'Correo requerido',
-        message: 'Ingresa tu correo para recuperar la contraseña',
-      });
+      this.notificationService.error('Ingresa tu correo para recuperar la contraseña');
       return;
     }
     // Aquí se podría llamar a un endpoint real de recuperación
-    this.showSuccess(
-      'Si el correo existe, recibirás instrucciones de recuperación.',
+    this.notificationService.success(
+      'Si el correo existe, recibirás instrucciones de recuperación.'
     );
   }
 

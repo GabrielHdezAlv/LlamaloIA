@@ -858,3 +858,35 @@ html.dark .focus\:border-blue-900:focus,
 html.dark .dark\:focus\:border-blue-400:focus {
   border-color: #ffffff !important;
 }
+
+/* Estilos para las notificaciones minimalistas (pill) */
+.simple-pill-snackbar {
+  background: transparent !important;
+  box-shadow: none !important;
+
+  --mdc-snackbar-container-color: transparent !important;
+  --mdc-snackbar-container-elevation-shadow: none !important;
+
+  .mat-mdc-snack-bar-container {
+    padding: 0 !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .mat-mdc-snack-bar-surface,
+  .mdc-snackbar__surface {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+
+  .mdc-snackbar__label {
+    padding: 0 !important;
+  }
+}

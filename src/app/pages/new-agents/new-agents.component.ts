@@ -5,6 +5,7 @@ import { AgentsService } from '../../core/services/agents.service';
 import { Agent } from '../../shared/models/agent.model';
 import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
+import { NotificationService } from '../../core/services/notification.service';
 import { ModalService } from '../../shared/modals/modal.service';
 import { UserService } from '../../core/services/user.service';
 import { Subject } from 'rxjs';
@@ -21,6 +22,7 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   private i18nService = inject(I18nService);
   private modalService = inject(ModalService);
   private userService = inject(UserService);
+  private notificationService = inject(NotificationService);
   router = inject(Router);
   private route = inject(ActivatedRoute);
   private cdr: ChangeDetectorRef;
@@ -86,23 +88,18 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     // Hacerlo en ngAfterViewInit para asegurar que el componente esté completamente renderizado
     if (!this.errorModalShown && typeof window !== 'undefined') {
       const historyState = window.history?.state as { errorModal?: { title: string; message: string } } | undefined;
-      
+
       if (historyState?.errorModal) {
         this.errorModalShown = true;
         // Usar setTimeout para asegurar que el modal se abra después de que el componente esté completamente inicializado
         setTimeout(() => {
-          const dialogRef = this.modalService.openError({
-            title: historyState.errorModal!.title,
-            message: historyState.errorModal!.message,
-          });
-          
+          this.notificationService.error(historyState.errorModal!.message);
+
           // Limpiar el estado después de que el modal se cierre
-          dialogRef.afterClosed().subscribe(() => {
-            if (window.history.replaceState) {
-              const currentState = window.history.state || {};
-              window.history.replaceState({ ...currentState, errorModal: undefined }, '');
-            }
-          });
+          if (window.history.replaceState) {
+            const currentState = window.history.state || {};
+            window.history.replaceState({ ...currentState, errorModal: undefined }, '');
+          }
         }, 300);
       }
     }
@@ -154,18 +151,15 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   // Método para eliminar un agente
   deleteAgent(agent: Agent): void {
     this.openMenuIndex = null;
-    
+
     // Obtener el agentId (usar agentId o phoneId como fallback)
     const agentId = agent.agentId || agent.phoneNumbers?.phoneId;
-    
+
     if (!agentId) {
-      this.modalService.openError({
-        title: 'Error',
-        message: 'No se pudo identificar el agente. Por favor, recarga la página e intenta nuevamente.'
-      });
+      this.notificationService.error('No se pudo identificar el agente. Por favor, recarga la página.');
       return;
     }
-    
+
     // Confirmar eliminación
     const confirmed = confirm(`¿Está seguro de que desea eliminar el agente "${agent.name}"?`);
 
@@ -176,20 +170,14 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     // Realizar petición DELETE
     this.agentsService.deleteAgent(agentId).subscribe({
       next: (response) => {
-        this.modalService.openSuccess({
-          title: 'Agente eliminado',
-          message: response.message || 'El agente ha sido eliminado correctamente.'
-        });
+        this.notificationService.success(response.message || 'El agente ha sido eliminado correctamente.');
         // Recargar la lista de agentes
         this.loadAgents();
       },
       error: (error) => {
         console.error('❌ Error al eliminar agente:', error);
         const errorMessage = error?.error?.message || error?.message || 'Error al eliminar el agente. Por favor, intenta nuevamente.';
-        this.modalService.openError({
-          title: 'Error al eliminar agente',
-          message: errorMessage
-        });
+        this.notificationService.error(errorMessage);
       }
     });
   }
@@ -211,7 +199,7 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   // Método para editar agente
   editAgent(index: number): void {
     this.openMenuIndex = null;
-    
+
     const agent = this.agents[index];
     if (!agent) {
       console.error('Agente no encontrado en el índice:', index);
@@ -220,12 +208,9 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
 
     // Obtener el ID del agente (agentId o phoneId como fallback)
     const agentId = agent.agentId || agent.phoneNumbers?.phoneId;
-    
+
     if (!agentId) {
-      this.modalService.openError({
-        title: 'Error',
-        message: 'No se pudo identificar el agente. Por favor, recarga la página e intenta nuevamente.'
-      });
+      this.notificationService.error('No se pudo identificar el agente. Por favor, recarga la página.');
       return;
     }
 

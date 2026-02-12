@@ -14,7 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NotificationService } from '../../core/services/notification.service';
 import {
   AgentsService,
   GenerateAgentInstructionsRequest,
@@ -69,12 +70,11 @@ interface EmployeeRange {
   styleUrl: './company-setup.component.scss',
 })
 export class CompanySetupComponent
-  implements OnInit, OnDestroy, AfterViewChecked
-{
+  implements OnInit, OnDestroy, AfterViewChecked {
   // Servicios inyectados
   private userService = inject(UserService);
   private userStore = inject(UserStorage);
-  private snackBar = inject(MatSnackBar);
+  private notificationService = inject(NotificationService);
   private agentsService = inject(AgentsService);
   private knowledgeBaseService = inject(KnowledgeBaseService);
   private twilioService = inject(TwilioService);
@@ -675,16 +675,15 @@ export class CompanySetupComponent
     if (file) {
       // Validar tipo de archivo
       if (!file.type.startsWith('image/')) {
-        this.showNotification(
-          'Por favor, selecciona un archivo de imagen válido',
-          'error',
+        this.notificationService.error(
+          'Por favor, selecciona un archivo de imagen válido'
         );
         return;
       }
 
       // Validar tamaño (máximo 10MB - más permisivo)
       if (file.size > 10 * 1024 * 1024) {
-        this.showNotification('La imagen debe ser menor a 10MB', 'error');
+        this.notificationService.error('La imagen debe ser menor a 10MB');
         return;
       }
 
@@ -697,13 +696,12 @@ export class CompanySetupComponent
       reader.readAsDataURL(file);
 
       // Mostrar notificación de carga
-      this.showNotification('Subiendo imagen...', 'success');
+      this.notificationService.success('Subiendo imagen...');
 
       // TEMPORAL: Mantener la imagen local sin subir al backend por ahora
       setTimeout(() => {
-        this.showNotification(
-          'Imagen cargada correctamente (modo local)',
-          'success',
+        this.notificationService.success(
+          'Imagen cargada correctamente (modo local)'
         );
       }, 1000);
 
@@ -726,20 +724,18 @@ export class CompanySetupComponent
 
             // Actualizar el preview con la URL del backend
             this.logoPreview = response.imageUrl;
-            this.showNotification('Logo subido correctamente', 'success');
+            this.notificationService.success('Logo subido correctamente');
           } else {
             console.error('Respuesta del backend sin imageUrl:', response);
-            this.showNotification(
-              'Error: No se recibió la URL de la imagen del servidor',
-              'error',
+            this.notificationService.error(
+              'Error: No se recibió la URL de la imagen del servidor'
             );
           }
         },
         error: (error: any) => {
           console.error('Error completo al subir imagen:', error);
-          this.showNotification(
-            `Error al subir la imagen: ${error.message || 'Error desconocido'}`,
-            'error',
+          this.notificationService.error(
+            `Error al subir la imagen: ${error.message || 'Error desconocido'}`
           );
           // NO limpiar el preview en caso de error - mantener la imagen local
           // this.logoPreview = null;
@@ -1530,15 +1526,6 @@ export class CompanySetupComponent
     });
   }
 
-  // Método para mostrar notificaciones
-  private showNotification(message: string, type: 'success' | 'error') {
-    this.snackBar.open(message, 'Cerrar', {
-      duration: 3000,
-      panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-    });
-  }
 
   // Validar si el formulario es válido
   private isFormValid(): boolean {

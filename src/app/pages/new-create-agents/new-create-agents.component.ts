@@ -15,6 +15,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '../../shared/modals/modal.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { I18nService } from '../../core/services/i18n.service';
 import {
   AgentsService,
@@ -94,8 +95,7 @@ import { SuccessStepComponent } from './steps/success-step/success-step.componen
   styleUrl: './new-create-agents.component.scss',
 })
 export class NewCreateAgentsComponent
-  implements OnDestroy, AfterViewChecked, OnInit
-{
+  implements OnDestroy, AfterViewChecked, OnInit {
   @ViewChild('lottieContainer', { static: false })
   lottieContainer!: ElementRef<HTMLDivElement>;
   @ViewChild('countryDropdown', { static: false })
@@ -194,6 +194,7 @@ export class NewCreateAgentsComponent
   private voicesLoaded = false;
   private route = inject(ActivatedRoute, { optional: true });
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
 
   constructor(
     private location: Location,
@@ -274,10 +275,7 @@ export class NewCreateAgentsComponent
           : code === '400'
             ? 'Los datos enviados no son válidos. Comprueba el dominio e inténtalo de nuevo.'
             : 'No se pudo completar la conexión. Inténtalo de nuevo.');
-      this.modalService.openError({
-        title: errorTitle,
-        message: errorMessage,
-      });
+      this.notificationService.error(errorMessage);
       cleanUrl();
     }
   }
@@ -1499,7 +1497,7 @@ export class NewCreateAgentsComponent
         title: 'Web',
       });
 
-      dialogRef.afterClosed().subscribe((result) => {});
+      dialogRef.afterClosed().subscribe((result) => { });
     } else if (source === 'pdf') {
       // Abrir selector de archivos para PDF
       this.openFileSelector();
@@ -1509,7 +1507,7 @@ export class NewCreateAgentsComponent
         title: 'Texto',
       });
 
-      dialogRef.afterClosed().subscribe((result) => {});
+      dialogRef.afterClosed().subscribe((result) => { });
     } else {
       // Para otros casos, avanzar automáticamente a resumen
       this.step = 'summary';
@@ -1770,9 +1768,9 @@ export class NewCreateAgentsComponent
       language: this.selectedCountry, // Código del país como idioma
       voice: currentVoice
         ? {
-            name: currentVoice.name,
-            voiceId: voiceId,
-          }
+          name: currentVoice.name,
+          voiceId: voiceId,
+        }
         : null,
       greeting: this.greeting,
       instructions: this.instructions,
@@ -1786,20 +1784,14 @@ export class NewCreateAgentsComponent
   onConnectPhone() {
     // Validar datos requeridos
     if (!this.phoneNumber || !this.phoneNumber.trim()) {
-      this.modalService.openError({
-        title: 'Número de teléfono requerido',
-        message: 'Por favor, ingresa un número de teléfono válido.',
-      });
+      this.notificationService.error('Por favor, ingresa un número de teléfono válido.');
       return;
     }
 
     if (!this.selectedVoiceId) {
       const currentVoice = this.getCurrentVoice();
       if (!currentVoice) {
-        this.modalService.openError({
-          title: 'Voz no seleccionada',
-          message: 'Por favor, selecciona una voz para el agente.',
-        });
+        this.notificationService.error('Por favor, selecciona una voz para el agente.');
         return;
       }
     }
@@ -1839,10 +1831,7 @@ export class NewCreateAgentsComponent
             errorMessage = error.error.message;
           }
 
-          this.modalService.openError({
-            title: 'Error al validar número',
-            message: errorMessage,
-          });
+          this.notificationService.error(errorMessage);
         },
       });
   }
@@ -1932,10 +1921,7 @@ export class NewCreateAgentsComponent
           error?.error?.message ||
           error?.message ||
           'Error al crear el agente. Por favor, intenta nuevamente.';
-        this.modalService.openError({
-          title: 'Error al crear agente',
-          message: errorMessage,
-        });
+        this.notificationService.error(errorMessage);
       },
     });
   }
@@ -2154,13 +2140,7 @@ export class NewCreateAgentsComponent
 
   // Método para abrir el modal de información sobre el aviso de grabación
   openRecordingNoticeInfoModal() {
-    this.modalService.openWarning({
-      title: 'Información sobre el mensaje de aviso de grabación',
-      message:
-        'El mensaje de aviso de grabación es una notificación que se reproduce al inicio de las llamadas para informar a los interlocutores que la conversación será grabada. Este mensaje cumple con los requisitos legales de protección de datos y privacidad.',
-      confirmText: 'Entendido',
-      showCancelButton: false,
-    });
+    this.notificationService.info('El mensaje de aviso de grabación es una notificación que se reproduce al inicio de las llamadas para informar a los interlocutores que la conversación será grabada.');
   }
 
   // Método para formatear el tiempo en formato legible
@@ -2203,18 +2183,12 @@ export class NewCreateAgentsComponent
   // Método para validar la configuración avanzada
   validateAdvancedSettings(): boolean {
     if (this.inactivityTimeout < 0 || this.inactivityTimeout > 300) {
-      this.modalService.openError({
-        title: 'Valor inválido',
-        message: 'El tiempo de inactividad debe estar entre 0 y 300 segundos',
-      });
+      this.notificationService.error('El tiempo de inactividad debe estar entre 0 y 300 segundos');
       return false;
     }
 
     if (this.maxCallDuration < 60 || this.maxCallDuration > 3600) {
-      this.modalService.openError({
-        title: 'Valor inválido',
-        message: 'La duración máxima debe estar entre 60 y 3600 segundos',
-      });
+      this.notificationService.error('La duración máxima debe estar entre 60 y 3600 segundos');
       return false;
     }
 
@@ -2290,11 +2264,7 @@ export class NewCreateAgentsComponent
       this.animateAudioLevel();
     } catch (error) {
       console.error('Error al acceder al micrófono:', error);
-      this.modalService.openError({
-        title: 'Error de micrófono',
-        message:
-          'No se pudo acceder al micrófono. Por favor, verifica los permisos.',
-      });
+      this.notificationService.error('No se pudo acceder al micrófono. Verifica los permisos.');
     }
   }
 
@@ -2544,7 +2514,7 @@ export class NewCreateAgentsComponent
     // Puedes agregar lógica si necesitas más adelante
   }
 
-  onMaxCallDurationChange() {}
+  onMaxCallDurationChange() { }
 
   // Métodos para efectos del video del mar
   getVideoFilter(): string {

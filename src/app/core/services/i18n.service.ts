@@ -173,6 +173,7 @@ export interface Translations {
   trustpilot: string;
   trustpilotBonus: string;
   trustpilotDescription: string;
+  giftRedeemedSuccess: string;
 
   // Modals common
   close: string;
@@ -521,6 +522,7 @@ export class I18nService {
       trustpilot: 'Trustpilot',
       trustpilotBonus: '+10 min',
       trustpilotDescription: 'Gana 10 minutos adicionales dejando una reseña sobre Llamalo en Trustpilot. Una vez publicada, envíanos una captura de pantalla en el chat junto con el email de tu cuenta y añadiremos los minutos extra automáticamente.',
+      giftRedeemedSuccess: '¡Recompensa canjeada! Te contactaremos pronto.',
 
       // Modals common
       close: 'Cerrar',
@@ -856,7 +858,8 @@ export class I18nService {
       redeem: 'Redeem',
       trustpilot: 'Trustpilot',
       trustpilotBonus: '+10 min',
-      trustpilotDescription: 'Earn 10 additional minutes by leaving a review about Llamalo on Trustpilot. Once published, send us a screenshot in the chat along with your account\'s email and we\'ll add the extra minutes automatically.',
+      trustpilotDescription: 'Earn 10 extra minutes by leaving a review about Llamalo on Trustpilot. Once published, send us a screenshot in the chat along with your account email and we will add the extra minutes automatically.',
+      giftRedeemedSuccess: 'Reward redeemed! We will contact you soon.',
 
       // Modals common
       close: 'Close',

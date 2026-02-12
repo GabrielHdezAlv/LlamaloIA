@@ -1,27 +1,21 @@
 <div
-  class="account-settings bg-white rounded-xl sm:rounded-2xl shadow-sm pb-0 sm:pb-0 lg:pb-0 h-auto mt-3 2xl:mt-2 3xl:mt-14 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[82rem] mx-auto max-lg:max-w-full max-lg:w-full border border-gray-200 history-border 3xl:scale-[1.1] 3xl:origin-center"
->
+  class="account-settings bg-white rounded-xl sm:rounded-2xl shadow-sm pb-0 sm:pb-0 lg:pb-0 h-auto mt-3 2xl:mt-2 3xl:mt-14 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[82rem] mx-auto max-lg:max-w-full max-lg:w-full border border-gray-200 history-border 3xl:scale-[1.1] 3xl:origin-center">
   <div class="max-w-6xl 2xl:max-w-none flex flex-col lg:flex-row min-h-0">
     <!-- Sidebar -->
     <div
-      class="w-full lg:w-[23%] 3xl:w-[450px] bg-gray-100 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none lg:rounded-br-none rounded-b-none p-3 lg:p-3 xl:p-3 2xl:p-3 3xl:p-4 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-5 shadow-sm h-auto"
-    >
+      class="w-full lg:w-[23%] 3xl:w-[450px] bg-gray-100 rounded-t-xl lg:rounded-l-xl lg:rounded-tr-none lg:rounded-br-none rounded-b-none p-3 lg:p-3 xl:p-3 2xl:p-3 3xl:p-4 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-5 shadow-sm h-auto">
       <!-- Header -->
       <div class="flex items-center gap-2 mb-3 mt-2 ml-2">
-        <img
-          [src]="getUserProfileImage()"
+        <img [src]="getUserProfileImage()"
           class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border md:border-[2px] dark:border-2 dark:md:border-[3px] border-blue-900 history-border cursor-pointer"
-          alt="Perfil"
-        />
+          alt="Perfil" />
         <div>
           <h3
-            class="font-semibold text-gray-900 text-sm lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
-          >
+            class="font-semibold text-gray-900 text-sm lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base">
             {{ fullName() }}
           </h3>
           <p
-            class="text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500"
-          >
+            class="text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500">
             {{ email() }}
           </p>
         </div>
@@ -29,182 +23,133 @@
 
       <!-- Menu -->
       <nav
-        class="space-y-0 lg:space-y-2 3xl:space-y-3 mx-auto sm:ml-1 flex flex-row lg:flex-col overflow-x-visible gap-1.5 sm:gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 pb-2 lg:pb-0 max-w-fit sm:max-w-none"
-      >
+        class="space-y-0 lg:space-y-2 3xl:space-y-3 mx-auto sm:ml-1 flex flex-row lg:flex-col overflow-x-visible gap-1.5 sm:gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 pb-2 lg:pb-0 max-w-fit sm:max-w-none">
         <!-- Perfil -->
-        <button
-          (click)="setActiveTab('profile')"
-          [class]="
+        <button (click)="setActiveTab('profile')" [class]="
             activeTab === 'profile'
               ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
               : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
-          "
-        >
+          ">
           <span
-            class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
-          >
-            <svg
-              width="10"
-              height="13"
-              viewBox="0 0 12 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-6 max-lg:w-6 max-lg:h-7 max-lg:sm:w-7 max-lg:sm:h-8 max-lg:md:w-8 max-lg:md:h-9"
-            >
-              <path
-                opacity="0.5"
+            class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0">
+            <svg width="10" height="13" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-6 max-lg:w-6 max-lg:h-7 max-lg:sm:w-7 max-lg:sm:h-8 max-lg:md:w-8 max-lg:md:h-9">
+              <path opacity="0.5"
                 d="M8.96143 3C8.96143 3.39397 8.88383 3.78407 8.73306 4.14805C8.5823 4.51203 8.36132 4.84274 8.08275 5.12132C7.80417 5.3999 7.47345 5.62087 7.10948 5.77164C6.7455 5.9224 6.35539 6 5.96143 6C5.56746 6 5.17735 5.9224 4.81338 5.77164C4.4494 5.62087 4.11868 5.3999 3.84011 5.12132C3.56153 4.84274 3.34055 4.51203 3.18979 4.14805C3.03902 3.78407 2.96143 3.39397 2.96143 3C2.96143 2.20435 3.2775 1.44129 3.84011 0.87868C4.40271 0.316071 5.16578 0 5.96143 0C6.75708 0 7.52014 0.316071 8.08275 0.87868C8.64536 1.44129 8.96143 2.20435 8.96143 3Z"
-                fill="black"
-              />
-              <path
-                opacity="0.5"
+                fill="black" />
+              <path opacity="0.5"
                 d="M0.576605 14.4282C0.380541 14.306 0.223062 14.1309 0.122372 13.9229C0.0216819 13.715 -0.0181069 13.4828 0.00760484 13.2532C0.191961 11.8043 0.898355 10.4723 1.99442 9.50686C3.09048 8.54141 4.50098 8.00879 5.96161 8.00879C7.42223 8.00879 8.83273 8.54141 9.92879 9.50686C11.0249 10.4723 11.7312 11.8043 11.9156 13.2532C11.9736 13.7202 11.7436 14.1732 11.3456 14.4272C9.73885 15.4569 7.86996 16.0029 5.96161 16.0002C4.05301 16.0034 2.18375 15.4577 0.576605 14.4282Z"
-                fill="black"
-              />
+                fill="black" />
             </svg>
           </span>
           <div class="hidden sm:flex sm:flex-col min-w-0">
             <span
-              class="font-semibold text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm truncate"
-              >{{ t.profile }}</span
-            >
+              class="font-semibold text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm truncate">{{
+              t.profile }}</span>
             <span
-              class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 truncate"
-              >{{ t.profileInfo }}</span
-            >
+              class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 truncate">{{
+              t.profileInfo }}</span>
           </div>
         </button>
 
         <!-- Seguridad -->
-        <button
-          (click)="setActiveTab('security')"
-          [class]="
+        <button (click)="setActiveTab('security')" [class]="
             activeTab === 'security'
               ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
               : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
-          "
-        >
+          ">
           <span
-            class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
-          >
-            <svg
-              width="15"
-              height="17"
-              viewBox="0 0 18 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-7 max-lg:w-6 max-lg:h-7 max-lg:sm:w-7 max-lg:sm:h-8 max-lg:md:w-8 max-lg:md:h-9"
-            >
+            class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-7 max-lg:w-6 max-lg:h-7 max-lg:sm:w-7 max-lg:sm:h-8 max-lg:md:w-8 max-lg:md:h-9">
               <path
-                d="M10 0.75C10.9946 0.75 11.9484 1.14509 12.6517 1.84835C13.3549 2.55161 13.75 3.50544 13.75 4.5V5.75H14C14.9946 5.75 15.9484 6.14509 16.6517 6.84835C17.3549 7.55161 17.75 8.50544 17.75 9.5V14.5C17.75 15.1238 17.6271 15.7415 17.3884 16.3177C17.1497 16.894 16.7998 17.4177 16.3588 17.8588C15.9177 18.2998 15.394 18.6497 14.8177 18.8884C14.2415 19.1271 13.6238 19.25 13 19.25H5C3.74022 19.25 2.53204 18.7496 1.64124 17.8588C0.750445 16.968 0.25 15.7598 0.25 14.5V9.5C0.25 8.50544 0.645088 7.55161 1.34835 6.84835C2.05161 6.14509 3.00544 5.75 4 5.75H4.25V4.5C4.25 3.50544 4.64509 2.55161 5.34835 1.84835C6.05161 1.14509 7.00544 0.75 8 0.75H10ZM14 7.25H4C3.40326 7.25 2.83097 7.48705 2.40901 7.90901C1.98705 8.33097 1.75 8.90326 1.75 9.5V14.5C1.75 15.362 2.09241 16.1886 2.7019 16.7981C3.3114 17.4076 4.13805 17.75 5 17.75H13C13.862 17.75 14.6886 17.4076 15.2981 16.7981C15.9076 16.1886 16.25 15.362 16.25 14.5V9.5C16.25 8.90326 16.0129 8.33097 15.591 7.90901C15.169 7.48705 14.5967 7.25 14 7.25ZM9 11.25C9.19891 11.25 9.38968 11.329 9.53033 11.4697C9.67098 11.6103 9.75 11.8011 9.75 12V14C9.75 14.1989 9.67098 14.3897 9.53033 14.5303C9.38968 14.671 9.19891 14.75 9 14.75C8.80109 14.75 8.61032 14.671 8.46967 14.5303C8.32902 14.3897 8.25 14.1989 8.25 14V12C8.25 11.8011 8.32902 11.6103 8.46967 11.4697C8.61032 11.329 8.80109 11.25 9 11.25ZM10 2.25H8C7.40326 2.25 6.83097 2.48705 6.40901 2.90901C5.98705 3.33097 5.75 3.90326 5.75 4.5V5.75H12.25V4.5C12.25 3.90326 12.0129 3.33097 11.591 2.90901C11.169 2.48705 10.5967 2.25 10 2.25Z"
-                fill="#727272"
-              />
+                d="M20.9098 11.1203V6.73031C20.9098 5.91031 20.2898 4.98031 19.5198 4.67031L13.9498 2.39031C12.6998 1.88031 11.2898 1.88031 10.0398 2.39031L4.46984 4.67031C3.70984 4.98031 3.08984 5.91031 3.08984 6.73031V11.1203C3.08984 16.0103 6.63984 20.5903 11.4898 21.9303C11.8198 22.0203 12.1798 22.0203 12.5098 21.9303C17.3598 20.5903 20.9098 16.0103 20.9098 11.1203ZM12.7498 12.8703V15.5003C12.7498 15.9103 12.4098 16.2503 11.9998 16.2503C11.5898 16.2503 11.2498 15.9103 11.2498 15.5003V12.8703C10.2398 12.5503 9.49984 11.6103 9.49984 10.5003C9.49984 9.12031 10.6198 8.00031 11.9998 8.00031C13.3798 8.00031 14.4998 9.12031 14.4998 10.5003C14.4998 11.6203 13.7598 12.5503 12.7498 12.8703Z"
+                fill="#727272" />
             </svg>
           </span>
           <div class="hidden sm:flex sm:flex-col min-w-0">
             <span
-              class="font-semibold text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm truncate"
-              >{{ t.security }}</span
-            >
+              class="font-semibold text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm truncate">{{
+              t.security }}</span>
             <span
-              class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 truncate"
-              >{{ t.updatePassword }}</span
-            >
+              class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 truncate">{{
+              t.updatePassword }}</span>
           </div>
         </button>
 
         <!-- Facturación y Regalos (sin funcionalidad por ahora) -->
-        <button
-          (click)="setActiveTab('billing')"
-          [class]="
+        <button (click)="setActiveTab('billing')" [class]="
             activeTab === 'billing'
               ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
               : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
-          "
-        >
+          ">
           <span
-            class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8"
-            >
+            class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8">
               <path
-                d="M19.935 7.58916L20.773 10.8212C20.919 11.2552 21 11.7202 21 12.2042V15.7172C21 16.2753 20.8901 16.8279 20.6765 17.3436C20.4629 17.8592 20.1499 18.3277 19.7552 18.7224C19.3606 19.117 18.892 19.4301 18.3764 19.6436C17.8608 19.8572 17.3081 19.9672 16.75 19.9672H7.25C6.12283 19.9672 5.04183 19.5194 4.2448 18.7224C3.44777 17.9253 3 16.8443 3 15.7172V12.2042C3 11.9482 3.023 11.6982 3.066 11.4552H3.01V10.1372C3.01 9.31829 3.27803 8.52193 3.77315 7.86971C4.26827 7.21749 4.96327 6.74527 5.752 6.52516L14.06 4.20516C14.6679 4.03547 15.3036 3.98864 15.9298 4.06741C16.5561 4.14619 17.1604 4.34898 17.7073 4.66395C18.2543 4.97891 18.733 5.39973 19.1155 5.90181C19.498 6.4039 19.7766 6.97718 19.935 7.58816V7.58916ZM16.75 9.45516H7.25C6.52065 9.45516 5.82118 9.74489 5.30546 10.2606C4.78973 10.7763 4.5 11.4758 4.5 12.2052V15.7182C4.5 16.4475 4.78973 17.147 5.30546 17.6627C5.82118 18.1784 6.52065 18.4682 7.25 18.4682H16.75C17.4793 18.4682 18.1788 18.1784 18.6945 17.6627C19.2103 17.147 19.5 16.4475 19.5 15.7182V12.2052C19.5 11.4758 19.2103 10.7763 18.6945 10.2606C18.1788 9.74489 17.4793 9.45516 16.75 9.45516ZM14.463 5.65116L6.155 7.97116C5.829 8.06216 5.537 8.22216 5.292 8.43316C5.89648 8.11801 6.56831 7.954 7.25 7.95516H16.75C17.409 7.95516 18.033 8.10516 18.59 8.37316L18.483 7.96616C18.3747 7.54806 18.1841 7.15576 17.9223 6.81217C17.6606 6.46858 17.3331 6.1806 16.9588 5.96507C16.5845 5.74953 16.171 5.61076 15.7425 5.55686C15.314 5.50296 14.879 5.53502 14.463 5.65116Z"
-                fill="#727272"
-              />
+                d="M11.9392 2.21178L9.52922 7.82178H7.11922C6.71922 7.82178 6.32922 7.85178 5.94922 7.93178L6.94922 5.53178L6.98922 5.44178L7.04922 5.28178C7.07922 5.21178 7.09922 5.15178 7.12922 5.10178C8.28922 2.41178 9.58922 1.57178 11.9392 2.21178Z"
+                fill="#727272"></path>
+              <path
+                d="M18.7311 8.08953L18.7111 8.07953C18.1111 7.90953 17.5011 7.81953 16.8811 7.81953H10.6211L12.8711 2.58953L12.9011 2.51953C13.0411 2.56953 13.1911 2.63953 13.3411 2.68953L15.5511 3.61953C16.7811 4.12953 17.6411 4.65953 18.1711 5.29953C18.2611 5.41953 18.3411 5.52953 18.4211 5.65953C18.5111 5.79953 18.5811 5.93953 18.6211 6.08953C18.6611 6.17953 18.6911 6.25953 18.7111 6.34953C18.8611 6.85953 18.8711 7.43953 18.7311 8.08953Z"
+                fill="#727272"></path>
+              <path
+                d="M12.5195 17.6581H12.7695C13.0695 17.6581 13.3195 17.3881 13.3195 17.0581C13.3195 16.6381 13.1995 16.5781 12.9395 16.4781L12.5195 16.3281V17.6581Z"
+                fill="#727272"></path>
+              <path
+                d="M18.2883 9.52031C17.8383 9.39031 17.3683 9.32031 16.8783 9.32031H7.11828C6.43828 9.32031 5.79828 9.45031 5.19828 9.71031C3.45828 10.4603 2.23828 12.1903 2.23828 14.2003V16.1503C2.23828 16.3903 2.25828 16.6203 2.28828 16.8603C2.50828 20.0403 4.20828 21.7403 7.38828 21.9503C7.61828 21.9803 7.84828 22.0003 8.09828 22.0003H15.8983C19.5983 22.0003 21.5483 20.2403 21.7383 16.7403C21.7483 16.5503 21.7583 16.3503 21.7583 16.1503V14.2003C21.7583 11.9903 20.2883 10.1303 18.2883 9.52031ZM13.2783 15.5003C13.7383 15.6603 14.3583 16.0003 14.3583 17.0603C14.3583 17.9703 13.6483 18.7003 12.7683 18.7003H12.5183V18.9203C12.5183 19.2103 12.2883 19.4403 11.9983 19.4403C11.7083 19.4403 11.4783 19.2103 11.4783 18.9203V18.7003H11.3883C10.4283 18.7003 9.63828 17.8903 9.63828 16.8903C9.63828 16.6003 9.86828 16.3703 10.1583 16.3703C10.4483 16.3703 10.6783 16.6003 10.6783 16.8903C10.6783 17.3103 10.9983 17.6603 11.3883 17.6603H11.4783V15.9703L10.7183 15.7003C10.2583 15.5403 9.63828 15.2003 9.63828 14.1403C9.63828 13.2303 10.3483 12.5003 11.2283 12.5003H11.4783V12.2803C11.4783 11.9903 11.7083 11.7603 11.9983 11.7603C12.2883 11.7603 12.5183 11.9903 12.5183 12.2803V12.5003H12.6083C13.5683 12.5003 14.3583 13.3103 14.3583 14.3103C14.3583 14.6003 14.1283 14.8303 13.8383 14.8303C13.5483 14.8303 13.3183 14.6003 13.3183 14.3103C13.3183 13.8903 12.9983 13.5403 12.6083 13.5403H12.5183V15.2303L13.2783 15.5003Z"
+                fill="#727272"></path>
+              <path
+                d="M10.6797 14.1391C10.6797 14.5591 10.7997 14.6191 11.0597 14.7191L11.4797 14.8691V13.5391H11.2297C10.9197 13.5391 10.6797 13.8091 10.6797 14.1391Z"
+                fill="#727272"></path>
             </svg>
           </span>
           <div class="hidden sm:flex sm:flex-col min-w-0">
             <span
-              class="font-semibold text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm truncate"
-              >{{ t.billing }}</span
-            >
+              class="font-semibold text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm truncate">{{
+              t.billing }}</span>
             <span
-              class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 truncate"
-              >{{ t.editPaymentMethod }}</span
-            >
+              class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 truncate">{{
+              t.editPaymentMethod }}</span>
           </div>
         </button>
 
-        <button
-          (click)="setActiveTab('gifts')"
-          [class]="
+        <button (click)="setActiveTab('gifts')" [class]="
             activeTab === 'gifts'
               ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
               : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
-          "
-        >
+          ">
           <span
-            class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8"
-            >
+            class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8">
               <path
                 d="M11.2498 2C7.03145 2.00411 4.84888 2.07958 3.46423 3.46423C2.07958 4.84888 2.00411 7.03145 2 11.2498H6.91352C6.56255 10.8114 6.30031 10.2943 6.15731 9.72228C5.61906 7.56926 7.56926 5.61906 9.72228 6.15731C10.2943 6.30031 10.8114 6.56255 11.2498 6.91352V2Z"
-                fill="#727272"
-              ></path>
+                fill="#727272"></path>
               <path
                 d="M2 12.7498C2.00411 16.9681 2.07958 19.1506 3.46423 20.5353C4.84888 21.9199 7.03145 21.9954 11.2498 21.9995V14.1234C10.4701 15.6807 8.8598 16.7498 6.99976 16.7498C6.58555 16.7498 6.24976 16.414 6.24976 15.9998C6.24976 15.5856 6.58555 15.2498 6.99976 15.2498C8.53655 15.2498 9.82422 14.1831 10.1628 12.7498H2Z"
-                fill="#727272"
-              ></path>
+                fill="#727272"></path>
               <path
                 d="M12.7498 21.9995C16.9681 21.9954 19.1506 21.9199 20.5353 20.5353C21.9199 19.1506 21.9954 16.9681 21.9995 12.7498H13.8367C14.1753 14.1831 15.463 15.2498 16.9998 15.2498C17.414 15.2498 17.7498 15.5856 17.7498 15.9998C17.7498 16.414 17.414 16.7498 16.9998 16.7498C15.1397 16.7498 13.5294 15.6807 12.7498 14.1234V21.9995Z"
-                fill="#727272"
-              ></path>
+                fill="#727272"></path>
               <path
                 d="M21.9995 11.2498C21.9954 7.03145 21.9199 4.84888 20.5353 3.46423C19.1506 2.07958 16.9681 2.00411 12.7498 2V6.91352C13.1882 6.56255 13.7053 6.30031 14.2772 6.15731C16.4303 5.61906 18.3805 7.56926 17.8422 9.72228C17.6992 10.2943 17.437 10.8114 17.086 11.2498H21.9995Z"
-                fill="#727272"
-              ></path>
+                fill="#727272"></path>
               <path
                 d="M9.35847 7.61252C10.47 7.8904 11.2498 8.88911 11.2498 10.0348V11.2498H10.0348C8.88911 11.2498 7.8904 10.47 7.61252 9.35847C7.34891 8.30403 8.30403 7.34891 9.35847 7.61252Z"
-                fill="#727272"
-              ></path>
+                fill="#727272"></path>
               <path
                 d="M12.7498 10.0348V11.2498H13.9647C15.1104 11.2498 16.1091 10.47 16.387 9.35847C16.6506 8.30403 15.6955 7.34891 14.6411 7.61252C13.5295 7.8904 12.7498 8.88911 12.7498 10.0348Z"
-                fill="#727272"
-              ></path>
+                fill="#727272"></path>
             </svg>
           </span>
           <div class="hidden sm:flex sm:flex-col min-w-0">
             <span
-              class="font-semibold text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm truncate"
-              >{{ t.gifts }}</span
-            >
+              class="font-semibold text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm truncate">{{
+              t.gifts }}</span>
             <span
-              class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 truncate"
-              >{{ t.giftsSubtitle }}</span
-            >
+              class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 truncate">{{
+              t.giftsSubtitle }}</span>
           </div>
         </button>
       </nav>
@@ -212,519 +157,379 @@
 
     <!-- Main Content -->
     <div
-      class="w-full lg:w-[80%] 3xl:flex-1 bg-white rounded-b-xl lg:rounded-l-3xl lg:rounded-tl-3xl lg:rounded-r-2xl lg:rounded-b-2xl shadow-sm p-3 lg:p-3 xl:p-3 2xl:p-3 3xl:p-5 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-5 lg:-ml-6 xl:-ml-6 2xl:-ml-6 3xl:-ml-36 min-h-[460px] max-lg:min-h-[calc(100vh-16rem)] flex flex-col"
-    >
+      class="w-full lg:w-[80%] 3xl:flex-1 bg-white rounded-b-xl lg:rounded-l-3xl lg:rounded-tl-3xl lg:rounded-r-2xl lg:rounded-b-2xl shadow-sm p-3 lg:p-3 xl:p-3 2xl:p-3 3xl:p-5 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-5 lg:-ml-6 xl:-ml-6 2xl:-ml-6 3xl:-ml-36 min-h-[460px] max-lg:min-h-[calc(100vh-16rem)] flex flex-col">
       @if (activeTab === "profile") {
-        <!-- === SECCIÓN PERFIL === -->
-        <div
-          class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
-          style="
+      <!-- === SECCIÓN PERFIL === -->
+      <div
+        class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
+        style="
             transform: scale(0.95);
             transform-origin: top left;
             width: calc(105.26% - 2rem);
-          "
-        >
-          <h2
-            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 mb-3 max-lg:mb-3"
-          >
-            {{ t.profileInfo }}
-          </h2>
+          ">
+        <h2
+          class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 mb-3 max-lg:mb-3">
+          {{ t.profileInfo }}
+        </h2>
 
-          <!-- Avatar & Text -->
-          <div class="flex items-start gap-3 mb-2.5 3xl:mb-3">
-            <img
-              [src]="getUserProfileImage()"
-              class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border md:border-[2px] dark:border-2 dark:md:border-[3px] border-blue-900 history-border cursor-pointer"
-              alt="Perfil"
-              (click)="onAvatarClick()"
-            />
-            <div class="flex flex-col mt-2.5">
-              <span
-                class="text-[10px] sm:text-[11px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500"
-                >{{ t.profileInfoHint1 }}</span
-              >
-              <span
-                class="text-[10px] sm:text-[11px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500"
-                >{{ t.profileInfoHint2 }}</span
-              >
-            </div>
-          </div>
-
-          <!-- Formulario -->
-          <div
-            class="space-y-2 sm:space-y-2 lg:space-y-2.5 xl:space-y-2.5 2xl:space-y-2.5 3xl:space-y-5"
-          >
-            <!-- Nombre Completo -->
-            <div>
-              <label
-                class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-black mb-1 3xl:mb-1.5 max-lg:mb-1"
-                >{{ t.fullName }}</label
-              >
-              <div class="relative">
-                <input
-                  type="text"
-                  [(ngModel)]="tempFullName"
-                  class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base"
-                />
-                <svg
-                  class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-green-500"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            <!-- Email -->
-            <div>
-              <label
-                class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-black mb-1 3xl:mb-1.5 max-lg:mb-1"
-                >{{ t.email }}</label
-              >
-              <div class="relative">
-                <input
-                  type="email"
-                  [value]="email()"
-                  readonly
-                  class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 text-gray-600 cursor-not-allowed text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base"
-                />
-                <svg
-                  class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-              <p
-                class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 mt-0.5 3xl:mt-1 max-lg:mt-0.5"
-              >
-                {{ t.emailNotEditable }}
-              </p>
-            </div>
-
-            <!-- País -->
-            <div class="relative">
-              <label
-                class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-black mb-1 3xl:mb-1.5 max-lg:mb-1"
-                >{{ t.country }}</label
-              >
-              <select
-                [(ngModel)]="tempCountry"
-                class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base appearance-none pr-10"
-              >
-                <option value="">{{ t.selectCountry }}</option>
-                @for (countryOption of countries; track countryOption.code) {
-                  <option [value]="countryOption.code">
-                    {{ countryOption.name }}
-                  </option>
-                }
-              </select>
-              <span
-                class="pointer-events-none absolute inset-y-0 right-2 sm:right-4 top-7 sm:top-8 flex items-center"
-              >
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.21984 0.21984C0.28949 0.150145 0.372191 0.0948576 0.463216 0.0571365C0.554242 0.0194154 0.651808 0 0.75034 0C0.848871 0 0.946438 0.0194154 1.03746 0.0571365C1.12849 0.0948576 1.21119 0.150145 1.28084 0.21984L3.86684 2.80584C3.98292 2.92195 4.12073 3.01405 4.27241 3.07689C4.42409 3.13973 4.58666 3.17207 4.75084 3.17207C4.91502 3.17207 5.07759 3.13973 5.22927 3.07689C5.38095 3.01405 5.51876 2.92195 5.63484 2.80584L8.21984 0.21984C8.28951 0.150174 8.37221 0.0949112 8.46323 0.0572081C8.55426 0.019505 8.65182 9.91821e-05 8.75034 9.91821e-05C8.84886 9.91821e-05 8.94642 0.019505 9.03745 0.0572081C9.12847 0.0949112 9.21117 0.150174 9.28084 0.21984C9.35051 0.289506 9.40577 0.372212 9.44347 0.463236C9.48118 0.554259 9.50058 0.651817 9.50058 0.75034C9.50058 0.848862 9.48118 0.946421 9.44347 1.03744C9.40577 1.12847 9.35051 1.21117 9.28084 1.28084L6.69484 3.86684C6.17912 4.38254 5.47966 4.67225 4.75034 4.67225C4.02102 4.67225 3.32156 4.38254 2.80584 3.86684L0.21984 1.27984C0.150145 1.21019 0.0948571 1.12749 0.0571361 1.03646C0.019415 0.945438 0 0.847872 0 0.74934C0 0.650808 0.019415 0.553242 0.0571361 0.462216C0.0948571 0.371191 0.150145 0.28849 0.21984 0.21884V0.21984Z"
-                    fill="#727272"
-                  />
-                </svg>
-              </span>
-            </div>
-
-            <!-- Consentimiento de Marketing / Pedidos (mismo checkbox animado que en auth) -->
-            <div class="flex items-start">
-              <app-animated-checkbox
-                [checked]="tempMarketingConsent"
-                (checkedChange)="tempMarketingConsent = $event"
-              ></app-animated-checkbox>
-              <label
-                class="pt-1 ml-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-700 cursor-pointer"
-                (click)="tempMarketingConsent = !tempMarketingConsent"
-              >
-                Acepto recibir comunicaciones de marketing y promociones
-              </label>
-            </div>
-
-            <!-- Nombre del Negocio y Web del Negocio -->
-            <div
-              class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-3"
-            >
-              <div>
-                <label
-                  class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-gray-700 mb-1 3xl:mb-1.5 max-lg:mb-1"
-                  >{{ t.businessName }}</label
-                >
-                <div class="relative">
-                  <input
-                    type="text"
-                    [(ngModel)]="tempEnterprise.name"
-                    placeholder="TuTienda"
-                    class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base"
-                  />
-                  <svg
-                    class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-green-500"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div>
-                <label
-                  class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-gray-700 mb-1 3xl:mb-1.5 max-lg:mb-1"
-                  >{{ t.businessWebsite }}</label
-                >
-                <div class="relative">
-                  <input
-                    type="url"
-                    [(ngModel)]="tempEnterprise.url"
-                    placeholder="https://tutienda.com"
-                    class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base"
-                  />
-                  <svg
-                    class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-green-500"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            <!-- Botón de Guardar -->
-            <div class="flex justify-end mt-4">
-              <app-ripple-button
-                (buttonClick)="saveUserInfo()"
-                buttonClass="w-full sm:w-auto px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 bg-[#0a1740] text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
-                rippleColor="rgba(255, 255, 255, 0.4)"
-              >
-                {{ t.saveChanges }}
-              </app-ripple-button>
-            </div>
+        <!-- Avatar & Text -->
+        <div class="flex items-start gap-3 mb-2.5 3xl:mb-3">
+          <img [src]="getUserProfileImage()"
+            class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border md:border-[2px] dark:border-2 dark:md:border-[3px] border-blue-900 history-border cursor-pointer"
+            alt="Perfil" (click)="onAvatarClick()" />
+          <div class="flex flex-col mt-2.5">
+            <span
+              class="text-[10px] sm:text-[11px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500">{{
+              t.profileInfoHint1 }}</span>
+            <span
+              class="text-[10px] sm:text-[11px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500">{{
+              t.profileInfoHint2 }}</span>
           </div>
         </div>
+
+        <!-- Formulario -->
+        <div class="space-y-2 sm:space-y-2 lg:space-y-2.5 xl:space-y-2.5 2xl:space-y-2.5 3xl:space-y-5">
+          <!-- Nombre Completo -->
+          <div>
+            <label
+              class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-black mb-1 3xl:mb-1.5 max-lg:mb-1">{{
+              t.fullName }}</label>
+            <div class="relative">
+              <input type="text" [(ngModel)]="tempFullName"
+                class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base" />
+              <svg class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-green-500"
+                viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label
+              class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-black mb-1 3xl:mb-1.5 max-lg:mb-1">{{
+              t.email }}</label>
+            <div class="relative">
+              <input type="email" [value]="email()" readonly
+                class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 text-gray-600 cursor-not-allowed text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base" />
+              <svg class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                  clip-rule="evenodd" />
+              </svg>
+            </div>
+            <p
+              class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 mt-0.5 3xl:mt-1 max-lg:mt-0.5">
+              {{ t.emailNotEditable }}
+            </p>
+          </div>
+
+          <!-- País -->
+          <div class="relative">
+            <label
+              class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-black mb-1 3xl:mb-1.5 max-lg:mb-1">{{
+              t.country }}</label>
+            <select [(ngModel)]="tempCountry"
+              class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base appearance-none pr-10">
+              <option value="">{{ t.selectCountry }}</option>
+              @for (countryOption of countries; track countryOption.code) {
+              <option [value]="countryOption.code">
+                {{ countryOption.name }}
+              </option>
+              }
+            </select>
+            <span class="pointer-events-none absolute inset-y-0 right-2 sm:right-4 top-7 sm:top-8 flex items-center">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M0.21984 0.21984C0.28949 0.150145 0.372191 0.0948576 0.463216 0.0571365C0.554242 0.0194154 0.651808 0 0.75034 0C0.848871 0 0.946438 0.0194154 1.03746 0.0571365C1.12849 0.0948576 1.21119 0.150145 1.28084 0.21984L3.86684 2.80584C3.98292 2.92195 4.12073 3.01405 4.27241 3.07689C4.42409 3.13973 4.58666 3.17207 4.75084 3.17207C4.91502 3.17207 5.07759 3.13973 5.22927 3.07689C5.38095 3.01405 5.51876 2.92195 5.63484 2.80584L8.21984 0.21984C8.28951 0.150174 8.37221 0.0949112 8.46323 0.0572081C8.55426 0.019505 8.65182 9.91821e-05 8.75034 9.91821e-05C8.84886 9.91821e-05 8.94642 0.019505 9.03745 0.0572081C9.12847 0.0949112 9.21117 0.150174 9.28084 0.21984C9.35051 0.289506 9.40577 0.372212 9.44347 0.463236C9.48118 0.554259 9.50058 0.651817 9.50058 0.75034C9.50058 0.848862 9.48118 0.946421 9.44347 1.03744C9.40577 1.12847 9.35051 1.21117 9.28084 1.28084L6.69484 3.86684C6.17912 4.38254 5.47966 4.67225 4.75034 4.67225C4.02102 4.67225 3.32156 4.38254 2.80584 3.86684L0.21984 1.27984C0.150145 1.21019 0.0948571 1.12749 0.0571361 1.03646C0.019415 0.945438 0 0.847872 0 0.74934C0 0.650808 0.019415 0.553242 0.0571361 0.462216C0.0948571 0.371191 0.150145 0.28849 0.21984 0.21884V0.21984Z"
+                  fill="#727272" />
+              </svg>
+            </span>
+          </div>
+
+
+          <!-- Nombre del Negocio y Web del Negocio -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-3">
+            <div>
+              <label
+                class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-gray-700 mb-1 3xl:mb-1.5 max-lg:mb-1">{{
+                t.businessName }}</label>
+              <div class="relative">
+                <input type="text" [(ngModel)]="tempEnterprise.name" placeholder="TuTienda"
+                  class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base" />
+                <svg class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-green-500"
+                  viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd" />
+                </svg>
+              </div>
+
+              <!-- Consentimiento de Marketing / Pedidos -->
+              <div class="flex items-center mt-2">
+                <app-animated-checkbox [checked]="tempMarketingConsent"
+                  (checkedChange)="tempMarketingConsent = $event"></app-animated-checkbox>
+                <label class="ml-2 text-xs 2xl:text-sm text-gray-600 cursor-pointer leading-tight"
+                  (click)="tempMarketingConsent = !tempMarketingConsent">
+                  Acepto recibir comunicaciones de marketing y promociones
+                </label>
+              </div>
+            </div>
+            <div>
+              <label
+                class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-gray-700 mb-1 3xl:mb-1.5 max-lg:mb-1">{{
+                t.businessWebsite }}</label>
+              <div class="relative">
+                <input type="url" [(ngModel)]="tempEnterprise.url" placeholder="https://tutienda.com"
+                  class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base" />
+                <svg class="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-green-500"
+                  viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clip-rule="evenodd" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón de Guardar -->
+          <div class="flex justify-end mt-4">
+            <app-ripple-button (buttonClick)="saveUserInfo()"
+              buttonClass="w-full sm:w-auto px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 bg-[#0a1740] text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
+              rippleColor="rgba(255, 255, 255, 0.4)">
+              {{ t.saveChanges }}
+            </app-ripple-button>
+          </div>
+        </div>
+      </div>
       }
       @if (activeTab === "security") {
-        <!-- === SECCIÓN SEGURIDAD === -->
-        <div
-          class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6"
-          style="
+      <!-- === SECCIÓN SEGURIDAD === -->
+      <div class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6" style="
             transform: scale(0.95);
             transform-origin: top left;
             width: calc(105.26% - 2rem);
-          "
-        >
-          <div class="flex flex-col flex-1 min-h-0 overflow-y-auto pb-4">
-            <!-- Encabezado -->
-            <h2
-              class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 mb-3 max-lg:mb-3"
-            >
-              {{ t.security }}
-            </h2>
-
-            <!-- Cambiar Contraseña -->
-            <div class="space-y-6 sm:space-y-8">
-              <!-- Nueva y Confirmar Contraseña -->
-              <div
-                class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-3"
-              >
-                <div class="relative">
-                  <label
-                    class="absolute left-4 sm:left-8 max-lg:left-4 max-lg:sm:left-5 max-lg:md:left-6 top-1 text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-black pointer-events-none bg-white px-1"
-                    >{{ t.newPassword }}</label
-                  >
-                  <input
-                    type="password"
-                    [(ngModel)]="newPassword"
-                    placeholder="1234567"
-                    class="w-full mt-3 px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base bg-white text-black placeholder-gray-400 outline-none"
-                    style="box-shadow: none"
-                  />
-                </div>
-                <div class="relative">
-                  <label
-                    class="absolute left-4 sm:left-8 max-lg:left-4 max-lg:sm:left-5 max-lg:md:left-6 top-1 text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-black pointer-events-none bg-white px-1"
-                    >{{ t.confirmNewPassword }}</label
-                  >
-                  <input
-                    type="password"
-                    [(ngModel)]="confirmPassword"
-                    placeholder="1234567"
-                    class="w-full mt-3 px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base bg-white text-black placeholder-gray-400 outline-none"
-                    style="box-shadow: none"
-                  />
-                </div>
-              </div>
-
-              <!-- Botón Actualizar -->
-              <app-ripple-button
-                (buttonClick)="updatePassword()"
-                buttonClass="w-full sm:w-auto px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-2 mt-3 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
-                rippleColor="rgba(255, 255, 255, 0.4)"
-                [rippleScale]="8"
-              >
-                {{ t.updatePassword }}
-              </app-ripple-button>
-            </div>
-          </div>
-
-          <!-- Eliminar Cuenta - abajo del todo del recuadro -->
-          <div
-            class="mt-auto pt-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-4 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-4"
-          >
-            <!-- Alerta de eliminación programada -->
-            @if (
-              scheduledDeletionDate() &&
-              daysRemaining() !== null &&
-              daysRemaining()! > 0
-            ) {
-              <div
-                class="mb-4 max-lg:mb-3 max-lg:sm:mb-3.5 max-lg:md:mb-4 p-4 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-4.5 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl"
-              >
-                <div
-                  class="flex items-start gap-3 max-lg:gap-2.5 max-lg:sm:gap-3 max-lg:md:gap-3.5"
-                >
-                  <svg
-                    class="w-5 h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-6 max-lg:sm:h-6 max-lg:md:w-6 max-lg:md:h-6 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                    />
-                  </svg>
-                  <div class="flex-1">
-                    <h4
-                      class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-yellow-800 dark:text-yellow-200 mb-1 3xl:mb-1.5 max-lg:mb-1 max-lg:sm:mb-1.5"
-                    >
-                      {{ t.accountDeletionScheduledWarning }}
-                    </h4>
-                    <p
-                      class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-yellow-700 dark:text-yellow-300 mb-2 3xl:mb-2.5 max-lg:mb-1.5 max-lg:sm:mb-2"
-                    >
-                      {{ daysRemaining() }} {{ t.daysRemaining }} hasta la
-                      eliminación permanente de tu cuenta.
-                    </p>
-                    <p
-                      class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-yellow-600 dark:text-yellow-400"
-                    >
-                      {{ t.accountDeletionCancelInfo }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            }
-
-            <div
-              class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-lg:gap-3 max-lg:sm:gap-3.5 max-lg:md:gap-4"
-            >
-              <div class="flex-1">
-                <h3
-                  class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 dark:text-gray-100 mb-1 3xl:mb-1.5 max-lg:mb-1 max-lg:sm:mb-1.5"
-                >
-                  {{ t.deleteAccount }}
-                </h3>
-                <p
-                  class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-600 dark:text-gray-400"
-                >
-                  @if (
-                    scheduledDeletionDate() &&
-                    daysRemaining() !== null &&
-                    daysRemaining()! > 0
-                  ) {
-                    Tu cuenta está programada para eliminación. Tienes
-                    {{ daysRemaining() }} {{ t.daysRemaining }}.
-                  } @else {
-                    {{ t.deleteAccountDescription }}
-                  }
-                </p>
-              </div>
-              <app-ripple-button
-                (buttonClick)="deleteAccount()"
-                buttonClass="w-full sm:w-auto sm:mt-0 px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2.5 max-lg:sm:py-3 max-lg:md:py-3.5 bg-red-600 text-white font-medium font-sans rounded-xl hover:bg-red-700 focus:bg-red-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-2 whitespace-nowrap text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
-                rippleColor="rgba(255, 255, 255, 0.4)"
-                [rippleScale]="8"
-              >
-                {{ t.deleteAccountBtn }}
-              </app-ripple-button>
-            </div>
-          </div>
-        </div>
-      }
-      @if (activeTab === "billing") {
-        <!-- === SECCIÓN FACTURACIÓN === -->
-        <div
-          class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
-          style="
-            transform: scale(0.95);
-            transform-origin: top left;
-            width: calc(105.26% - 2rem);
-          "
-        >
+          ">
+        <div class="flex flex-col flex-1 min-h-0 overflow-y-auto pb-4">
+          <!-- Encabezado -->
           <h2
-            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-800 mb-3"
-          >
-            {{ t.billing }}
+            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 mb-3 max-lg:mb-3">
+            {{ t.security }}
           </h2>
 
-          <div class="space-y-3">
-            <!-- Suscripción Actual -->
-            <div>
+          <!-- Cambiar Contraseña -->
+          <div class="space-y-6 sm:space-y-8">
+            <!-- Nueva y Confirmar Contraseña -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-3">
+              <div class="relative">
+                <label
+                  class="absolute left-4 sm:left-8 max-lg:left-4 max-lg:sm:left-5 max-lg:md:left-6 top-1 text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-black pointer-events-none bg-white px-1">{{
+                  t.newPassword }}</label>
+                <input type="password" [(ngModel)]="newPassword" placeholder="1234567"
+                  class="w-full mt-3 px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base bg-white text-black placeholder-gray-400 outline-none"
+                  style="box-shadow: none" />
+              </div>
+              <div class="relative">
+                <label
+                  class="absolute left-4 sm:left-8 max-lg:left-4 max-lg:sm:left-5 max-lg:md:left-6 top-1 text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-black pointer-events-none bg-white px-1">{{
+                  t.confirmNewPassword }}</label>
+                <input type="password" [(ngModel)]="confirmPassword" placeholder="1234567"
+                  class="w-full mt-3 px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base bg-white text-black placeholder-gray-400 outline-none"
+                  style="box-shadow: none" />
+              </div>
+            </div>
+
+            <!-- Botón Actualizar -->
+            <app-ripple-button (buttonClick)="updatePassword()"
+              buttonClass="w-full sm:w-auto px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-2 mt-3 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
+              rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
+              {{ t.updatePassword }}
+            </app-ripple-button>
+          </div>
+        </div>
+
+        <!-- Eliminar Cuenta - abajo del todo del recuadro -->
+        <div
+          class="mt-auto pt-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-4 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-4">
+          <!-- Alerta de eliminación programada -->
+          @if (
+          scheduledDeletionDate() &&
+          daysRemaining() !== null &&
+          daysRemaining()! > 0
+          ) {
+          <div
+            class="mb-4 max-lg:mb-3 max-lg:sm:mb-3.5 max-lg:md:mb-4 p-4 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-4.5 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl">
+            <div class="flex items-start gap-3 max-lg:gap-2.5 max-lg:sm:gap-3 max-lg:md:gap-3.5">
+              <svg
+                class="w-5 h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-6 max-lg:sm:h-6 max-lg:md:w-6 max-lg:md:h-6 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0"
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <div class="flex-1">
+                <h4
+                  class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-yellow-800 dark:text-yellow-200 mb-1 3xl:mb-1.5 max-lg:mb-1 max-lg:sm:mb-1.5">
+                  {{ t.accountDeletionScheduledWarning }}
+                </h4>
+                <p
+                  class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-yellow-700 dark:text-yellow-300 mb-2 3xl:mb-2.5 max-lg:mb-1.5 max-lg:sm:mb-2">
+                  {{ daysRemaining() }} {{ t.daysRemaining }} hasta la
+                  eliminación permanente de tu cuenta.
+                </p>
+                <p
+                  class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-yellow-600 dark:text-yellow-400">
+                  {{ t.accountDeletionCancelInfo }}
+                </p>
+              </div>
+            </div>
+          </div>
+          }
+
+          <div
+            class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-lg:gap-3 max-lg:sm:gap-3.5 max-lg:md:gap-4">
+            <div class="flex-1">
               <h3
-                class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm font-semibold text-gray-800 mb-1.5 3xl:mb-2"
-              >
-                {{ t.currentSubscription }}
+                class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 dark:text-gray-100 mb-1 3xl:mb-1.5 max-lg:mb-1 max-lg:sm:mb-1.5">
+                {{ t.deleteAccount }}
               </h3>
               <p
-                class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-800"
-              >
-                {{ currentPlanMinutes ?? "---" }} {{ t.minutesWord }}
-                {{ t.withPlan }} <strong>{{ t.basicPlan }}</strong>
+                class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-600 dark:text-gray-400">
+                @if (
+                scheduledDeletionDate() &&
+                daysRemaining() !== null &&
+                daysRemaining()! > 0
+                ) {
+                Tu cuenta está programada para eliminación. Tienes
+                {{ daysRemaining() }} {{ t.daysRemaining }}.
+                } @else {
+                {{ t.deleteAccountDescription }}
+                }
               </p>
             </div>
-
-            <!-- Botones de Acción -->
-            <div
-              class="flex flex-col sm:flex-row gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2"
-            >
-              <app-ripple-button
-                buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
-                rippleColor="rgba(255, 255, 255, 0.4)"
-                [rippleScale]="8"
-              >
-                {{ t.cancelSubscription }}
-              </app-ripple-button>
-              <app-ripple-button
-                buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
-                rippleColor="rgba(255, 255, 255, 0.4)"
-                [rippleScale]="8"
-              >
-                {{ t.editPaymentMethod }}
-              </app-ripple-button>
-              <app-ripple-button
-                buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
-                rippleColor="rgba(255, 255, 255, 0.4)"
-                [rippleScale]="8"
-              >
-                {{ t.invoicesHistory }}
-              </app-ripple-button>
-            </div>
-
-            <!-- Mejorar/Cambiar Plan -->
-            <app-ripple-button
-              (buttonClick)="openBillingModal()"
-              buttonClass="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-full hover:from-blue-800 hover:to-blue-700 transition-all duration-200  mt-3 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm"
-              rippleColor="rgba(255, 255, 255, 0.4)"
-              [rippleScale]="8"
-            >
-              {{ t.upgradePlan }}
+            <app-ripple-button (buttonClick)="deleteAccount()"
+              buttonClass="w-full sm:w-auto sm:mt-0 px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2.5 max-lg:sm:py-3 max-lg:md:py-3.5 bg-red-600 text-white font-medium font-sans rounded-xl hover:bg-red-700 focus:bg-red-700 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-2 whitespace-nowrap text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
+              rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
+              {{ t.deleteAccountBtn }}
             </app-ripple-button>
-
-            <!-- Protegido por Stripe -->
-            <div class="flex items-center mt-3">
-              <img src="assets/stripe.webp" alt="Stripe" class="h-4 w-auto" />
-              <span
-                class="ml-2 mt-1 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-800"
-                >{{ t.protectedByStripe }}</span
-              >
-            </div>
           </div>
-          <div class="flex-1"></div>
         </div>
+      </div>
       }
-      @if (activeTab === "gifts") {
-        <!-- === SECCIÓN REGALOS === -->
-        <div
-          class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
-          style="
+      @if (activeTab === "billing") {
+      <!-- === SECCIÓN FACTURACIÓN === -->
+      <div
+        class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
+        style="
             transform: scale(0.95);
             transform-origin: top left;
             width: calc(105.26% - 2rem);
-          "
-        >
-          <h2
-            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-900 mb-2"
-          >
-            {{ t.gifts }}
-          </h2>
-          <div
-            class="space-y-2 lg:space-y-2 xl:space-y-2 2xl:space-y-2 3xl:space-y-2"
-          >
-            <!-- Descripción -->
-            <p
-              class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-gray-600 font-medium mb-1 3xl:mb-1.5"
-            >
-              {{ t.giftsDescription }}
+          ">
+        <h2 class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-800 mb-3">
+          {{ t.billing }}
+        </h2>
+
+        <div class="space-y-3">
+          <!-- Suscripción Actual -->
+          <div>
+            <h3
+              class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm font-semibold text-gray-800 mb-1.5 3xl:mb-2">
+              {{ t.currentSubscription }}
+            </h3>
+            <p class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-800">
+              {{ currentPlanMinutes ?? "---" }} {{ t.minutesWord }}
+              {{ t.withPlan }} <strong>{{ t.basicPlan }}</strong>
             </p>
+          </div>
 
-            <!-- Tarjeta de Recompensa Trustpilot -->
-            <div class="bg-gray-100 rounded-xl p-3 mx-auto gift-card">
-              <div class="space-y-2">
-                <!-- Título de la recompensa -->
-                <h3
-                  class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold"
-                >
-                  <span class="text-gray-900 trustpilot-title">{{
-                    t.trustpilot
+          <!-- Botones de Acción -->
+          <div class="flex flex-col sm:flex-row gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2">
+            <app-ripple-button
+              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
+              rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
+              {{ t.cancelSubscription }}
+            </app-ripple-button>
+            <app-ripple-button
+              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
+              rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
+              {{ t.editPaymentMethod }}
+            </app-ripple-button>
+            <app-ripple-button
+              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
+              rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
+              {{ t.invoicesHistory }}
+            </app-ripple-button>
+          </div>
+
+          <!-- Mejorar/Cambiar Plan -->
+          <app-ripple-button (buttonClick)="openBillingModal()"
+            buttonClass="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-full hover:from-blue-800 hover:to-blue-700 transition-all duration-200  mt-3 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm"
+            rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
+            {{ t.upgradePlan }}
+          </app-ripple-button>
+
+          <!-- Protegido por Stripe -->
+          <div class="flex items-center mt-3">
+            <img src="assets/stripe.webp" alt="Stripe" class="h-4 w-auto" />
+            <span class="ml-2 mt-1 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-800">{{
+              t.protectedByStripe }}</span>
+          </div>
+        </div>
+        <div class="flex-1"></div>
+      </div>
+      }
+      @if (activeTab === "gifts") {
+      <!-- === SECCIÓN REGALOS === -->
+      <div
+        class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
+        style="
+            transform: scale(0.95);
+            transform-origin: top left;
+            width: calc(105.26% - 2rem);
+          ">
+        <h2 class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-900 mb-2">
+          {{ t.gifts }}
+        </h2>
+        <div class="space-y-2 lg:space-y-2 xl:space-y-2 2xl:space-y-2 3xl:space-y-2">
+          <!-- Descripción -->
+          <p
+            class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-gray-600 font-medium mb-1 3xl:mb-1.5">
+            {{ t.giftsDescription }}
+          </p>
+
+          <!-- Tarjeta de Recompensa Trustpilot -->
+          <div class="bg-gray-100 rounded-xl p-3 mx-auto gift-card">
+            <div class="space-y-2">
+              <!-- Título de la recompensa -->
+              <h3 class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-xs font-semibold">
+                <span class="text-gray-900 trustpilot-title">{{
+                  t.trustpilot
                   }}</span>
-                  <span class="text-blue-600 trustpilot-bonus">
-                    {{ t.trustpilotBonus }}</span
-                  >
-                </h3>
+                <span class="text-blue-600 trustpilot-bonus">
+                  {{ t.trustpilotBonus }}</span>
+              </h3>
 
-                <!-- Descripción -->
-                <p
-                  class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-900 leading-relaxed mb-1 3xl:mb-1.5"
-                >
-                  {{ t.trustpilotDescription }}
-                </p>
+              <!-- Descripción -->
+              <p
+                class="text-[10px] lg:text-[11px] xl:text-[11px] 2xl:text-[11px] 3xl:text-xs text-gray-900 leading-relaxed mb-1 3xl:mb-1.5">
+                {{ t.trustpilotDescription }}
+              </p>
 
-                <!-- Botón Canjear - ancho completo del recuadro -->
-                <div class="w-full mt-1">
-                  <app-ripple-button
-                    (buttonClick)="redeemReward('Trustpilot')"
-                    buttonClass="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm"
-                    rippleColor="rgba(255, 255, 255, 0.4)"
-                    [rippleScale]="8"
-                  >
-                    {{ t.redeem }}
-                  </app-ripple-button>
-                </div>
+              <!-- Botón Canjear - ancho completo del recuadro -->
+              <div class="w-full mt-1">
+                <app-ripple-button (buttonClick)="redeemReward('Trustpilot')"
+                  buttonClass="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-medium font-sans rounded-xl hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 shadow-md  flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm"
+                  rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
+                  {{ t.redeem }}
+                </app-ripple-button>
               </div>
             </div>
           </div>
-          <div class="flex-1"></div>
         </div>
+        <div class="flex-1"></div>
+      </div>
       }
     </div>
   </div>
@@ -732,259 +537,159 @@
 
 <!-- Modal de Facturación -->
 @if (showBillingModal) {
+<div
+  class="fixed inset-0 bg-purple-100 bg-opacity-80 flex items-center justify-center p-2 sm:p-4 lg:p-6 z-50 billing-modal-overlay"
+  (click)="closeBillingModal($event)">
+  <!-- Modal content -->
   <div
-    class="fixed inset-0 bg-purple-100 bg-opacity-80 flex items-center justify-center p-2 sm:p-4 lg:p-6 z-50 billing-modal-overlay"
-    (click)="closeBillingModal($event)"
-  >
-    <!-- Modal content -->
-    <div
-      class="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[3rem] p-3 sm:p-6 lg:p-10 max-w-[95vw] sm:max-w-[85vw] lg:max-w-[55rem] w-full mx-auto max-h-[90vh] overflow-y-auto relative"
-      (click)="$event.stopPropagation()"
-    >
-      <!-- Botón de cerrar -->
-      <button
-        (click)="closeBillingModal()"
-        class="absolute top-2 right-2 sm:top-3 sm:right-3 lg:top-4 lg:right-4 w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 flex items-center justify-center transition-colors duration-200 z-10"
-        aria-label="Cerrar modal"
-      >
-        <svg
-          class="w-4 h-4 sm:w-5 sm:h-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M18 6L6 18M6 6L18 18"
-            stroke="#1E3A8A"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </button>
+    class="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[3rem] p-3 sm:p-6 lg:p-10 max-w-[95vw] sm:max-w-[85vw] lg:max-w-[55rem] w-full mx-auto max-h-[90vh] overflow-y-auto relative"
+    (click)="$event.stopPropagation()">
+    <!-- Botón de cerrar -->
+    <button (click)="closeBillingModal()"
+      class="absolute top-2 right-2 sm:top-3 sm:right-3 lg:top-4 lg:right-4 w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 flex items-center justify-center transition-colors duration-200 z-10"
+      aria-label="Cerrar modal">
+      <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18M6 6L18 18" stroke="#1E3A8A" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </button>
 
-      <!-- Selector de minutos -->
-      <div class="mb-4 sm:mb-6 max-w-2xl mx-auto">
-        <div class="flex flex-wrap items-center gap-1.5 mb-2 sm:mb-3">
-          <h2 class="text-xs sm:text-sm lg:text-base font-bold text-gray-800">
-            ¿Cuántos minutos necesitarías al mes? Unos
-          </h2>
-          <div
-            class="bg-blue-900 text-white px-1.5 sm:px-2 py-0.5 rounded-full sm:rounded-[2rem] font-normal text-xs sm:text-sm whitespace-nowrap"
-          >
-            {{ selectedMinutes }}
-          </div>
-          <span class="text-gray-700 font-bold text-xs sm:text-sm"
-            >Minutos</span
-          >
+    <!-- Selector de minutos -->
+    <div class="mb-4 sm:mb-6 max-w-2xl mx-auto">
+      <div class="flex flex-wrap items-center gap-1.5 mb-2 sm:mb-3">
+        <h2 class="text-xs sm:text-sm lg:text-base font-bold text-gray-800">
+          ¿Cuántos minutos necesitarías al mes? Unos
+        </h2>
+        <div
+          class="bg-blue-900 text-white px-1.5 sm:px-2 py-0.5 rounded-full sm:rounded-[2rem] font-normal text-xs sm:text-sm whitespace-nowrap">
+          {{ selectedMinutes }}
         </div>
+        <span class="text-gray-700 font-bold text-xs sm:text-sm">Minutos</span>
+      </div>
 
-        <!-- Slider Personalizado -->
-        <div class="relative">
+      <!-- Slider Personalizado -->
+      <div class="relative">
+        <div class="relative h-1.5 sm:h-2 bg-gray-200 rounded-lg cursor-pointer" (click)="onSliderTrackClick($event)">
+          <!-- Barra de progreso -->
+          <div class="absolute top-0 left-0 h-1.5 sm:h-2 bg-blue-900 rounded-lg transition-all duration-300 ease-out"
+            [style.width.%]="((selectedMinutes - 100) / (2000 - 100)) * 100"></div>
+
+          <!-- Thumb personalizado -->
           <div
-            class="relative h-1.5 sm:h-2 bg-gray-200 rounded-lg cursor-pointer"
-            (click)="onSliderTrackClick($event)"
-          >
-            <!-- Barra de progreso -->
-            <div
-              class="absolute top-0 left-0 h-1.5 sm:h-2 bg-blue-900 rounded-lg transition-all duration-300 ease-out"
-              [style.width.%]="((selectedMinutes - 100) / (2000 - 100)) * 100"
-            ></div>
+            class="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 bg-white border-2 border-blue-900 rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-out hover:shadow-xl hover:scale-110"
+            [style.left]="getSliderThumbPosition()" (mousedown)="startDragging($event)"
+            (touchstart)="startDragging($event)"></div>
+        </div>
+      </div>
+    </div>
 
-            <!-- Thumb personalizado -->
-            <div
-              class="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 bg-white border-2 border-blue-900 rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-out hover:shadow-xl hover:scale-110"
-              [style.left]="getSliderThumbPosition()"
-              (mousedown)="startDragging($event)"
-              (touchstart)="startDragging($event)"
-            ></div>
+    <!-- Contenido principal -->
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-2xl mx-auto bg-white rounded-xl sm:rounded-2xl overflow-hidden">
+      <!-- Sección izquierda - Recuadro del plan (blanco) -->
+      <div class="bg-white p-3 sm:p-5 lg:p-7 2xl:p-9 font-dm-sans">
+        <div class="space-y-2.5 sm:space-y-3.5">
+          <div>
+            <span class="text-xs sm:text-sm lg:text-base text-gray-500 font-normal font-dm-sans">{{
+              selectedPlan?.targetAudience }}</span>
+            <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-blue-950 font-dm-sans">
+              {{ selectedPlan?.name }}
+            </h3>
+            <p class="text-gray-500 mt-3 sm:mt-5 lg:mt-7 text-xs sm:text-sm lg:text-base leading-relaxed font-dm-sans">
+              {{ selectedPlan?.description }}
+            </p>
           </div>
+
+          <div class="flex items-baseline gap-2 sm:gap-3">
+            <span class="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-blue-950 font-dm-sans">${{
+              selectedPlan?.price }}</span>
+            <span class="text-gray-500 text-xs sm:text-sm lg:text-base font-dm-sans">/monthly</span>
+          </div>
+
+          <button
+            class="w-full bg-blue-900 text-white font-medium py-2.5 sm:py-3.5 lg:py-5 px-5 sm:px-7 rounded-full transition-colors duration-200 text-xs sm:text-sm lg:text-base font-dm-sans">
+            Get started
+          </button>
         </div>
       </div>
 
-      <!-- Contenido principal -->
-      <div
-        class="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-2xl mx-auto bg-white rounded-xl sm:rounded-2xl overflow-hidden"
-      >
-        <!-- Sección izquierda - Recuadro del plan (blanco) -->
-        <div class="bg-white p-3 sm:p-5 lg:p-7 2xl:p-9 font-dm-sans">
-          <div class="space-y-2.5 sm:space-y-3.5">
-            <div>
-              <span
-                class="text-xs sm:text-sm lg:text-base text-gray-500 font-normal font-dm-sans"
-                >{{ selectedPlan?.targetAudience }}</span
-              >
-              <h3
-                class="text-lg sm:text-xl lg:text-2xl font-bold text-blue-950 font-dm-sans"
-              >
-                {{ selectedPlan?.name }}
-              </h3>
-              <p
-                class="text-gray-500 mt-3 sm:mt-5 lg:mt-7 text-xs sm:text-sm lg:text-base leading-relaxed font-dm-sans"
-              >
-                {{ selectedPlan?.description }}
-              </p>
+      <!-- Sección derecha - Características incluidas (gris muy claro) -->
+      <div class="bg-gray-50 p-3 sm:p-5 lg:p-7 2xl:p-9 font-dm-sans">
+        <h4 class="text-base sm:text-lg lg:text-xl font-bold text-blue-950 mb-3 sm:mb-5 lg:mt-7 font-dm-sans">
+          What's included
+        </h4>
+
+        <div class="space-y-2.5 sm:space-y-3.5">
+          <div *ngFor="let feature of selectedPlan?.features" class="flex items-center gap-2.5 sm:gap-3">
+            <div class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 bg-blue-700 rounded-full flex items-center justify-center">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_1126_212)">
+                  <path
+                    d="M13.8711 26.1522C21.051 26.1522 26.8711 20.3321 26.8711 13.1522C26.8711 5.97232 21.051 0.152222 13.8711 0.152222C6.69119 0.152222 0.871094 5.97232 0.871094 13.1522C0.871094 20.3321 6.69119 26.1522 13.8711 26.1522Z"
+                    fill="#1E3A8A" />
+                  <path d="M7.98828 13.9927L11.3501 17.3545L19.7546 8.94995" stroke="white" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1126_212">
+                    <rect width="26" height="26" fill="white" transform="translate(0.871094 0.152222)" />
+                  </clipPath>
+                </defs>
+              </svg>
             </div>
-
-            <div class="flex items-baseline gap-2 sm:gap-3">
-              <span
-                class="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-blue-950 font-dm-sans"
-                >${{ selectedPlan?.price }}</span
-              >
-              <span
-                class="text-gray-500 text-xs sm:text-sm lg:text-base font-dm-sans"
-                >/monthly</span
-              >
-            </div>
-
-            <button
-              class="w-full bg-blue-900 text-white font-medium py-2.5 sm:py-3.5 lg:py-5 px-5 sm:px-7 rounded-full transition-colors duration-200 text-xs sm:text-sm lg:text-base font-dm-sans"
-            >
-              Get started
-            </button>
-          </div>
-        </div>
-
-        <!-- Sección derecha - Características incluidas (gris muy claro) -->
-        <div class="bg-gray-50 p-3 sm:p-5 lg:p-7 2xl:p-9 font-dm-sans">
-          <h4
-            class="text-base sm:text-lg lg:text-xl font-bold text-blue-950 mb-3 sm:mb-5 lg:mt-7 font-dm-sans"
-          >
-            What's included
-          </h4>
-
-          <div class="space-y-2.5 sm:space-y-3.5">
-            <div
-              *ngFor="let feature of selectedPlan?.features"
-              class="flex items-center gap-2.5 sm:gap-3"
-            >
-              <div
-                class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 bg-blue-700 rounded-full flex items-center justify-center"
-              >
-                <svg
-                  class="w-4 h-4 sm:w-5 sm:h-5"
-                  viewBox="0 0 27 27"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g clip-path="url(#clip0_1126_212)">
-                    <path
-                      d="M13.8711 26.1522C21.051 26.1522 26.8711 20.3321 26.8711 13.1522C26.8711 5.97232 21.051 0.152222 13.8711 0.152222C6.69119 0.152222 0.871094 5.97232 0.871094 13.1522C0.871094 20.3321 6.69119 26.1522 13.8711 26.1522Z"
-                      fill="#1E3A8A"
-                    />
-                    <path
-                      d="M7.98828 13.9927L11.3501 17.3545L19.7546 8.94995"
-                      stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_1126_212">
-                      <rect
-                        width="26"
-                        height="26"
-                        fill="white"
-                        transform="translate(0.871094 0.152222)"
-                      />
-                    </clipPath>
-                  </defs>
-                </svg>
-              </div>
-              <span
-                class="text-gray-700 text-xs sm:text-sm lg:text-base font-dm-sans"
-                >{{ feature }}</span
-              >
-            </div>
+            <span class="text-gray-700 text-xs sm:text-sm lg:text-base font-dm-sans">{{ feature }}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 }
 
 <!-- Modal de Selección de Avatar -->
 @if (showAvatarModal) {
+<div
+  class="avatar-modal-overlay fixed inset-0 bg-black/40 backdrop-blur-md z-[9999] flex items-center justify-center p-3 sm:p-4"
+  (click)="closeAvatarModal()">
   <div
-    class="avatar-modal-overlay fixed inset-0 bg-black/40 backdrop-blur-md z-[9999] flex items-center justify-center p-3 sm:p-4"
-    (click)="closeAvatarModal()"
-  >
-    <div
-      class="avatar-modal-content bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 max-w-2xl w-full mx-auto max-h-[90vh] overflow-y-auto relative"
-      (click)="$event.stopPropagation()"
-    >
-      <!-- Botón de cerrar -->
-      <button
-        (click)="closeAvatarModal()"
-        class="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
-        aria-label="Cerrar modal"
-      >
-        <svg
-          class="w-5 h-5 sm:w-6 sm:h-6"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M18 6L6 18M6 6L18 18"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+    class="avatar-modal-content bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 max-w-2xl w-full mx-auto max-h-[90vh] overflow-y-auto relative"
+    (click)="$event.stopPropagation()">
+    <!-- Botón de cerrar -->
+    <button (click)="closeAvatarModal()"
+      class="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
+      aria-label="Cerrar modal">
+      <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </button>
+
+    <!-- Título -->
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 pr-8">
+      Selecciona un avatar
+    </h2>
+
+    <!-- Grid de avatares predeterminados -->
+    <div class="grid grid-cols-5 gap-4 sm:gap-5 mb-6 sm:mb-8">
+      @for (avatar of defaultAvatars; track avatar) {
+      <button (click)="selectDefaultAvatar(avatar)"
+        class="w-full aspect-square rounded-full overflow-hidden border-2 border-gray-200 hover:border-blue-500 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        <img [src]="avatar" alt="Avatar" class="w-full h-full object-cover" />
       </button>
-
-      <!-- Título -->
-      <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 pr-8">
-        Selecciona un avatar
-      </h2>
-
-      <!-- Grid de avatares predeterminados -->
-      <div class="grid grid-cols-5 gap-4 sm:gap-5 mb-6 sm:mb-8">
-        @for (avatar of defaultAvatars; track avatar) {
-          <button
-            (click)="selectDefaultAvatar(avatar)"
-            class="w-full aspect-square rounded-full overflow-hidden border-2 border-gray-200 hover:border-blue-500 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            <img
-              [src]="avatar"
-              alt="Avatar"
-              class="w-full h-full object-cover"
-            />
-          </button>
-        }
-      </div>
-
-      <!-- Botón para subir foto propia -->
-      <button
-        (click)="onUploadPhotoClick()"
-        class="w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-xl transition-colors duration-200 flex items-center justify-center gap-2"
-      >
-        <svg
-          class="w-5 h-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M12 15V3M12 3L8 7M12 3L16 7"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M2 17L2 19C2 20.1046 2.89543 21 4 21L20 21C21.1046 21 22 20.1046 22 19L22 17"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-        <span>Subir mi propia foto</span>
-      </button>
+      }
     </div>
+
+    <!-- Botón para subir foto propia -->
+    <button (click)="onUploadPhotoClick()"
+      class="w-full px-4 sm:px-6 py-3 sm:py-4 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-xl transition-colors duration-200 flex items-center justify-center gap-2">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 15V3M12 3L8 7M12 3L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+        <path d="M2 17L2 19C2 20.1046 2.89543 21 4 21L20 21C21.1046 21 22 20.1046 22 19L22 17" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span>Subir mi propia foto</span>
+    </button>
   </div>
+</div>
 }

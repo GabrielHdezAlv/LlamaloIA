@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationService } from '../../core/services/notification.service';
 import {
   FormBuilder,
   FormGroup,
@@ -71,6 +72,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private twilioService = inject(TwilioService);
   private userStore = inject(UserStorage);
   private cdr = inject(ChangeDetectorRef);
+  private notificationService = inject(NotificationService);
 
   editForm!: FormGroup;
   isLoading = false;
@@ -383,10 +385,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private assignTwilioAccountToAgent(twilioAccountId: number | null): void {
     if (!this.agentId) return;
     if (!this.editForm.valid) {
-      this.modalService.openError({
-        title: 'No se puede guardar',
-        message: 'Revisa los campos del agente antes de asignar Twilio.',
-      });
+      this.notificationService.error('Revisa los campos del agente antes de asignar Twilio.');
       return;
     }
 
@@ -426,10 +425,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         this.agent = response.agent;
         const anyAgent = this.agent as any;
         anyAgent.twilioAccountId = Number(twilioAccountId ?? 0);
-        this.modalService.openSuccess({
-          title: 'Twilio actualizado',
-          message: 'La cuenta de Twilio del agente se actualizó correctamente.',
-        });
+        this.notificationService.success('La cuenta de Twilio del agente se actualizó correctamente.');
         this.closeTwilioModal();
       },
       error: (error) => {
@@ -439,10 +435,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         if (anyAgent) {
           anyAgent.twilioAccountId = Number(twilioAccountId ?? 0);
         }
-        this.modalService.openError({
-          title: 'Error',
-          message: 'No se pudo actualizar la cuenta de Twilio del agente.',
-        });
+        this.notificationService.error('No se pudo actualizar la cuenta de Twilio del agente.');
       },
     });
   }
@@ -457,10 +450,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     const token = this.twilioToken.trim();
 
     if (!sid || !token) {
-      this.modalService.openError({
-        title: 'Error',
-        message: 'Completa el SID y el Token de Twilio.',
-      });
+      this.notificationService.error('Completa el SID y el Token de Twilio.');
       return;
     }
 
@@ -486,10 +476,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         error: (error) => {
           console.error('❌ Error al guardar configuración Twilio:', error);
           this.isSavingTwilioConfig = false;
-          this.modalService.openError({
-            title: 'Error',
-            message: 'No se pudo guardar la configuración de Twilio.',
-          });
+          this.notificationService.error('No se pudo guardar la configuración de Twilio.');
         },
       });
   }
@@ -749,28 +736,19 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     const language = this.editForm.get('language')?.value;
 
     if (!voiceId) {
-      this.modalService.openError({
-        title: 'Error',
-        message: 'Por favor, selecciona una voz primero.',
-      });
+      this.notificationService.error('Por favor, selecciona una voz primero.');
       return;
     }
 
     if (!language) {
-      this.modalService.openError({
-        title: 'Error',
-        message: 'Por favor, selecciona un idioma primero.',
-      });
+      this.notificationService.error('Por favor, selecciona un idioma primero.');
       return;
     }
 
     // Buscar la voz por voiceId para obtener su nombre
     const selectedVoice = this.voices.find((v) => v.voiceId === voiceId);
     if (!selectedVoice) {
-      this.modalService.openError({
-        title: 'Error',
-        message: 'No se encontró la voz seleccionada.',
-      });
+      this.notificationService.error('No se encontró la voz seleccionada.');
       return;
     }
 
@@ -950,42 +928,26 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       if (phoneChanged) {
         // Si aún se está validando, no permitir guardar
         if (this.isValidatingPhone) {
-          this.modalService.openError({
-            title: 'Validando teléfono',
-            message:
-              'Por favor, espera a que termine la validación del número de teléfono.',
-          });
+          this.notificationService.error('Por favor, espera a que termine la validación del número de teléfono.');
           return;
         }
 
         // Si no es válido, no permitir guardar
         if (this.phoneIsValid === false) {
-          this.modalService.openError({
-            title: 'Error de validación',
-            message:
-              this.phoneValidationMessage ||
-              'El número de teléfono no es válido. Por favor, verifica el número.',
-          });
+          this.notificationService.error(this.phoneValidationMessage || 'El número de teléfono no es válido.');
           return;
         }
 
         // Si no se ha validado aún (es null), forzar validación antes de guardar
         if (this.phoneIsValid === null) {
           this.validatePhoneNumber();
-          this.modalService.openError({
-            title: 'Validación requerida',
-            message:
-              'Por favor, espera a que se valide el número de teléfono antes de guardar.',
-          });
+          this.notificationService.error('Espera a que se valide el número de teléfono.');
           return;
         }
 
         // Solo permitir guardar si es válido
         if (this.phoneIsValid !== true) {
-          this.modalService.openError({
-            title: 'Error de validación',
-            message: 'El número de teléfono debe ser válido antes de guardar.',
-          });
+          this.notificationService.error('El número de teléfono debe ser válido antes de guardar.');
           return;
         }
       }
@@ -1025,12 +987,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       this.agentsService.updateAgent(this.agentId!, updateData).subscribe({
         next: (response) => {
           this.isLoading = false;
-          this.modalService.openSuccess({
-            title: 'Agente actualizado',
-            message:
-              response.message ||
-              'El agente ha sido actualizado correctamente.',
-          });
+          this.notificationService.success('El agente ha sido actualizado correctamente.');
           this.router.navigate(['/dashboard/agents']);
         },
         error: (error) => {
@@ -1069,10 +1026,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (!this.agentId) return;
 
     if (!this.editForm.valid) {
-      this.modalService.openError({
-        title: 'No se puede guardar',
-        message: 'Revisa los campos del agente antes de guardar la tienda.',
-      });
+      this.notificationService.error('Revisa los campos del agente antes de guardar la tienda.');
       return;
     }
 
@@ -1117,19 +1071,12 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       next: (response) => {
         this.isSavingShopifyDomain = false;
         this.agent = response.agent;
-        this.modalService.openSuccess({
-          title: 'Shopify actualizado',
-          message:
-            'La tienda de Shopify del agente se actualizó correctamente.',
-        });
+        this.notificationService.success('La tienda de Shopify del agente se actualizó correctamente.');
       },
       error: (error) => {
         console.error('❌ Error al actualizar Shopify del agente:', error);
         this.isSavingShopifyDomain = false;
-        this.modalService.openError({
-          title: 'Error',
-          message: 'No se pudo actualizar la tienda de Shopify del agente.',
-        });
+        this.notificationService.error('No se pudo actualizar la tienda de Shopify del agente.');
       },
     });
   }

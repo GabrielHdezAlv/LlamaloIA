@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReminderService, ReminderData } from '../../core/services/reminder.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-admin-recordatorio',
@@ -12,11 +13,12 @@ import { ReminderService, ReminderData } from '../../core/services/reminder.serv
 })
 export class AdminRecordatorioComponent implements OnInit {
   private reminderService = inject(ReminderService);
-  
+  private notificationService = inject(NotificationService);
+
   // Lista de recordatorios
   reminders: ReminderData[] = [];
   activeReminderId: string | null = null;
-  
+
   // Datos del recordatorio actual
   reminderData: ReminderData = {
     id: '',
@@ -30,14 +32,13 @@ export class AdminRecordatorioComponent implements OnInit {
   // Vista previa de imagen subida
   imagePreview: string | ArrayBuffer | null = null;
   isSaving = false;
-  showSuccessModal = false;
   showDeleteConfirm = false;
   reminderToDelete: string | null = null;
 
   async ngOnInit(): Promise<void> {
     // Cargar lista de recordatorios
     await this.loadReminders();
-    
+
     // Si no hay recordatorios, crear uno por defecto
     if (this.reminders.length === 0) {
       await this.createNewReminder();
@@ -48,7 +49,7 @@ export class AdminRecordatorioComponent implements OnInit {
     const list = await this.reminderService.getRemindersList();
     this.reminders = list.reminders;
     this.activeReminderId = list.activeId;
-    
+
     if (this.activeReminderId) {
       const active = this.reminders.find(r => r.id === this.activeReminderId);
       if (active) {
@@ -78,7 +79,7 @@ export class AdminRecordatorioComponent implements OnInit {
   async deleteReminder(id: string): Promise<void> {
     await this.reminderService.deleteReminder(id);
     await this.loadReminders();
-    
+
     // Si quedan recordatorios, seleccionar el primero
     if (this.reminders.length > 0) {
       await this.selectReminder(this.reminders[0].id);
@@ -86,7 +87,7 @@ export class AdminRecordatorioComponent implements OnInit {
       // Si no quedan, crear uno nuevo por defecto
       await this.createNewReminder();
     }
-    
+
     this.showDeleteConfirm = false;
     this.reminderToDelete = null;
   }
@@ -122,16 +123,13 @@ export class AdminRecordatorioComponent implements OnInit {
       await this.createNewReminder();
       return;
     }
-    
+
     this.isSaving = true;
-    
+
     try {
       await this.reminderService.updateReminder(this.reminderData);
       await this.loadReminders(); // Recargar para actualizar la lista
-      this.showSuccessModal = true;
-      setTimeout(() => {
-        this.showSuccessModal = false;
-      }, 3000);
+      this.notificationService.success('Recordatorio guardado correctamente');
     } catch (error) {
       console.error('Error al guardar:', error);
     } finally {
@@ -139,9 +137,6 @@ export class AdminRecordatorioComponent implements OnInit {
     }
   }
 
-  closeSuccessModal(): void {
-    this.showSuccessModal = false;
-  }
 
   async resetForm(): Promise<void> {
     if (this.reminderData.id) {

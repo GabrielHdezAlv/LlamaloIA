@@ -31,7 +31,7 @@
       </div>
 
       <!-- Desktop Logo -->
-      <div class="hidden lg:block absolute top-14 right-14 z-10">
+      <div class="hidden lg:block absolute top-4 right-14 z-10">
         <!-- Logo normal en claro / blanco en modo oscuro -->
         <img src="../../../assets/logo_azul.webp" alt="Logo" class="h-10 w-auto dark:hidden" />
         <img src="../../../assets/logo_blanco.webp" alt="Logo" class="h-10 w-auto hidden dark:block" />
@@ -123,10 +123,10 @@
 
         <!-- Marketing Consent Checkbox solo para registro -->
         @if (type === "register") {
-        <div class="flex items-start">
+        <div class="flex items-center">
           <app-animated-checkbox [checked]="marketingConsent" (checkedChange)="marketingConsent = $event"
             class=""></app-animated-checkbox>
-          <label class="pt-1 ml-2 text-xs text-gray-600 dark:text-slate-300 cursor-pointer"
+          <label class="ml-2 text-sm text-gray-600 dark:text-slate-300 cursor-pointer"
             (click)="marketingConsent = !marketingConsent">
             Acepto recibir comunicaciones de marketing y promociones de
             Llamalo AI

@@ -10,9 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
@@ -41,7 +42,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   } as const;
 
   private userService = inject(UserService);
-  private snackBar = inject(MatSnackBar);
+  private notificationService = inject(NotificationService);
   private i18nService = inject(I18nService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -261,28 +262,19 @@ export class AccountComponent implements OnInit, OnDestroy {
   updatePassword() {
     // Validar que las contraseñas no estén vacías
     if (!this.newPassword || !this.confirmPassword) {
-      this.modalService.openError({
-        title: this.t.invalidPassword || 'Error',
-        message: 'Por favor, completa ambos campos de contraseña',
-      });
+      this.notificationService.error('Por favor, completa ambos campos de contraseña');
       return;
     }
 
     // Validar longitud mínima de 8 caracteres
     if (this.newPassword.length < 8) {
-      this.modalService.openError({
-        title: this.t.invalidPassword || 'Error',
-        message: 'La contraseña debe tener al menos 8 caracteres',
-      });
+      this.notificationService.error('La contraseña debe tener al menos 8 caracteres');
       return;
     }
 
     // Validar que las contraseñas coincidan
     if (this.newPassword !== this.confirmPassword) {
-      this.modalService.openError({
-        title: this.t.invalidPassword || 'Error',
-        message: this.t.passwordsDoNotMatch || 'Las contraseñas no coinciden',
-      });
+      this.notificationService.error(this.t.passwordsDoNotMatch || 'Las contraseñas no coinciden');
       return;
     }
 
@@ -292,13 +284,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {
           // Mostrar modal de éxito
-          this.modalService.openPasswordSuccess({
-            title: 'Contraseña actualizada',
-            message:
-              'Tu contraseña ha sido actualizada correctamente. Te recomendamos cerrar sesión y volver a iniciar sesión con tu nueva contraseña.',
-            showContinueButton: true,
-            continueButtonText: 'Entendido',
-          });
+          this.notificationService.success('Contraseña actualizada correctamente');
 
           // Limpiar los campos después del éxito
           this.newPassword = '';
@@ -314,10 +300,7 @@ export class AccountComponent implements OnInit, OnDestroy {
             errorMessage = error.message;
           }
 
-          this.modalService.openError({
-            title: 'Error',
-            message: errorMessage,
-          });
+          this.notificationService.error(errorMessage);
         },
       });
   }
@@ -375,10 +358,10 @@ export class AccountComponent implements OnInit, OnDestroy {
       this.userService.updateUserProfile(updatedUserData).subscribe({
         next: (response: any) => {
           this.userStore.setUser(response);
-          this.showNotification('Avatar actualizado correctamente', 'success');
+          this.notificationService.success('Avatar actualizado correctamente');
         },
         error: (error: any) => {
-          this.showNotification('Error al actualizar el avatar', 'error');
+          this.notificationService.error('Error al actualizar el avatar');
         },
       });
     }
@@ -409,16 +392,15 @@ export class AccountComponent implements OnInit, OnDestroy {
     const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
 
     if (!allowedTypes.includes(file.type)) {
-      this.showNotification(
-        'Formato no soportado. Usa PNG, JPG, JPEG o WebP',
-        'error',
+      this.notificationService.error(
+        'Formato no soportado. Usa PNG, JPG, JPEG o WebP'
       );
       return;
     }
 
     // Validar tamaño (máximo 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      this.showNotification('La imagen debe ser menor a 5MB', 'error');
+      this.notificationService.error('La imagen debe ser menor a 5MB');
       return;
     }
 
@@ -433,9 +415,8 @@ export class AccountComponent implements OnInit, OnDestroy {
     // Almacenar archivo para subida con datos del perfil
     this.pendingImageFile = file;
 
-    this.showNotification(
-      'Imagen lista para subir. Guarda los cambios para subir.',
-      'success',
+    this.notificationService.success(
+      'Imagen lista para subir. Guarda los cambios para subir.'
     );
 
     // Guardar perfil automáticamente con nueva imagen
@@ -475,15 +456,7 @@ export class AccountComponent implements OnInit, OnDestroy {
               minute: '2-digit',
             });
 
-            this.modalService.openSuccess({
-              title:
-                this.t.accountDeletionScheduled ||
-                'Cuenta programada para eliminación',
-              message:
-                this.t.accountDeletionScheduledMessage ||
-                'Tu cuenta ha sido programada para eliminación en 10 días.',
-              details: `${this.t.accountDeletionScheduledDetails || 'La eliminación se realizará el'} ${formattedDate}. ${this.t.accountDeletionRecoveryInfo || 'Tienes 10 días para recuperar tus datos si cambias de opinión.'}`,
-            });
+            this.notificationService.success('Cuenta programada para eliminación en 10 días.');
           },
           error: (error) => {
             console.error('Error al programar eliminación de cuenta:', error);
@@ -507,20 +480,13 @@ export class AccountComponent implements OnInit, OnDestroy {
                 'Error al procesar la solicitud.';
             }
 
-            this.modalService.openError({
-              title: this.t.errorTitleDefault || 'Error',
-              message: errorMessage,
-            });
+            this.notificationService.error(errorMessage);
           },
         });
       } else if (result === 'support') {
         // Aquí puedes agregar la lógica para contactar con soporte
         // Por ejemplo: abrir un enlace, mostrar información de contacto, etc.
-        this.modalService.openSuccess({
-          title: 'Contacto con soporte',
-          message: 'Te hemos redirigido a nuestro equipo de soporte.',
-          details: 'Nuestro equipo se pondrá en contacto contigo pronto.',
-        });
+        this.notificationService.success('Te hemos redirigido a nuestro equipo de soporte.');
       } else {
         console.info('Usuario canceló la eliminación');
       }
@@ -597,17 +563,9 @@ export class AccountComponent implements OnInit, OnDestroy {
   // Método para canjear recompensa
   redeemReward(rewardType: string) {
     // Aquí puedes implementar la lógica para canjear la recompensa
-    alert(`¡Recompensa ${rewardType} canjeada! Te contactaremos pronto.`);
+    this.notificationService.success(this.t.giftRedeemedSuccess);
   }
 
-  private showNotification(message: string, type: 'success' | 'error') {
-    this.snackBar.open(message, 'Cerrar', {
-      duration: 3000,
-      panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
-      horizontalPosition: 'right',
-      verticalPosition: 'top',
-    });
-  }
 
   saveUserInfo() {
     const currentUser = this.user();
@@ -651,7 +609,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response: any) => {
           this.userStore.setUser(response);
-          this.showNotification(this.t.profileUpdated, 'success');
+          this.notificationService.success(this.t.profileUpdated);
           this.pendingImageFile = undefined; // Limpiar archivo pendiente
 
           // Limpiar blob URL y actualizar timestamp para nueva imagen
@@ -661,7 +619,7 @@ export class AccountComponent implements OnInit, OnDestroy {
           }
         },
         error: (error: any) => {
-          this.showNotification(this.t.errorUpdatingProfile, 'error');
+          this.notificationService.error(this.t.errorUpdatingProfile);
         },
       });
   }
@@ -832,7 +790,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   saveTwilioConfig() {
     // Validar que los campos no estén vacíos
     if (!this.twilioSid || !this.twilioToken) {
-      this.showNotification('Por favor, completa todos los campos', 'error');
+      this.notificationService.error('Por favor, completa todos los campos');
       return;
     }
 
@@ -858,9 +816,8 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.twilioService.setConfig(config).subscribe({
       next: (response) => {
         this.isLoadingTwilio = false;
-        this.showNotification(
-          'Configuración de Twilio guardada correctamente',
-          'success',
+        this.notificationService.success(
+          'Configuración de Twilio guardada correctamente'
         );
         // Recargar las cuentas de Twilio
         this.loadTwilioAccounts();
@@ -878,7 +835,7 @@ export class AccountComponent implements OnInit, OnDestroy {
           error?.error?.message ||
           error?.message ||
           'Error al guardar la configuración de Twilio';
-        this.showNotification(errorMessage, 'error');
+        this.notificationService.error(errorMessage);
         console.error('Error al guardar configuración de Twilio:', error);
       },
     });
