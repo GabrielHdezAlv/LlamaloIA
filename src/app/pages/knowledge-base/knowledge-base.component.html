@@ -1,494 +1,264 @@
 <div
   class="p-5 sm:p-6 lg:p-8 xl:p-8 2xl:p-8 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-w-[76rem] 3xl:max-w-[95rem] mx-auto max-lg:max-w-full max-lg:w-full fade-in-section"
-  [class.fade-in-visible]="showContent"
->
-  <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 3xl:gap-8 items-start">
-    <!-- Contenido principal: barra de búsqueda + lista / estado vacío -->
-    <div
-      class="flex-1 min-w-0 w-full sm:w-auto flex flex-col gap-3 sm:gap-4 3xl:gap-6 order-1 sm:order-2"
-    >
-      <!-- Barra de búsqueda -->
-      <div class="relative w-full flex flex-col sm:flex-row gap-2">
-        <div class="relative flex-1">
-          <span
-            class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 max-lg:pl-4 max-lg:sm:pl-4.5 max-lg:md:pl-5"
-          >
-            <svg
-              class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-5 max-lg:sm:h-5 max-lg:md:w-6 max-lg:md:h-6 text-gray-400 dark:text-slate-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-4.35-4.35M17 10.5A6.5 6.5 0 104 10.5a6.5 6.5 0 0013 0z"
-              />
-            </svg>
-          </span>
-          <input
-            type="text"
-            [(ngModel)]="searchTerm"
-            [placeholder]="t.knowledgeBaseSearchPlaceholder"
-            class="w-full pl-9 3xl:pl-11 max-lg:pl-10 max-lg:sm:pl-11 max-lg:md:pl-12 pr-3 3xl:pr-4 max-lg:pr-4 max-lg:sm:pr-4 max-lg:md:pr-4 py-2 3xl:py-2.5 max-lg:py-2.5 max-lg:sm:py-3 max-lg:md:py-3.5 text-sm 3xl:text-base max-lg:text-base max-lg:sm:text-base max-lg:md:text-lg border border-gray-300 dark:border-slate-800 rounded-lg bg-white dark:bg-[#111113] text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-600 focus:border-gray-400 dark:focus:border-slate-600 transition-colors"
-          />
-        </div>
-
-        <!-- Botón de actualizar -->
-        <button
-          (click)="refreshKnowledgeSources()"
-          [disabled]="isLoading"
-          class="p-2 3xl:p-2.5 max-lg:p-2.5 max-lg:sm:p-3 max-lg:md:p-3.5 border border-blue-300 dark:border-blue-600 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:text-blue-700 dark:hover:text-blue-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex-shrink-0 w-full sm:w-auto sm:self-auto self-stretch"
-          title="Actualizar documentos"
-        >
-          <svg
-            [class]="isLoading ? 'animate-spin' : ''"
-            class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-5 max-lg:sm:h-5 max-lg:md:w-6 max-lg:md:h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-            />
-          </svg>
-        </button>
-      </div>
-      <!-- Botones de tipo de conocimiento (solo móvil, encima de la lista/estado vacío) -->
-      <div
-        class="flex sm:hidden flex-row flex-wrap gap-2 3xl:gap-3 w-full justify-between"
-      >
-        @for (item of items; track item.id) {
-          <button
-            type="button"
-            (click)="selectKnowledgeSource(item.type)"
-            class="flex flex-col items-center justify-center gap-1 3xl:gap-2 w-[5rem] h-[5rem] max-lg:w-[6rem] max-lg:h-[6rem] max-lg:sm:w-[7rem] max-lg:sm:h-[7rem] max-lg:md:w-[8rem] max-lg:md:h-[8rem] aspect-square shrink-0 overflow-hidden rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-400 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-slate-700 transition-all cursor-pointer text-gray-700 dark:text-slate-200 p-2 3xl:p-3 max-lg:p-2.5 max-lg:sm:p-3 max-lg:md:p-3.5"
-          >
-            <span
-              class="flex items-center justify-center w-6 h-6 3xl:w-8 3xl:h-8 max-lg:w-7 max-lg:h-7 max-lg:sm:w-8 max-lg:sm:h-8 max-lg:md:w-9 max-lg:md:h-9 shrink-0"
-            >
-              @switch (item.type) {
-                @case ("pdf") {
-                  <svg
-                    class="w-5 h-5 3xl:w-7 3xl:h-7 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8 shrink-0"
-                    viewBox="0 0 52 52"
-                    fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z"
-                    />
-                    <path
-                      d="m49.83 32.45a1.43 1.43 0 0 0 -1.39-1.45h-12a1.43 1.43 0 0 0 -1.44 1.44v1.44a1.43 1.43 0 0 0 1.4 1.44h6.14l-11 11a1.42 1.42 0 0 0 0 2l1 1a1.54 1.54 0 0 0 1.09.45 1.32 1.32 0 0 0 .94-.38l11-11v6a1.43 1.43 0 0 0 1.43 1.44h1.53a1.43 1.43 0 0 0 1.47-1.4z"
-                    />
-                    <path
-                      d="m18.35 20.68h-1.46v4.93h1.46a1.56 1.56 0 0 0 1.56-1.1 3.93 3.93 0 0 0 .24-1.44 3.61 3.61 0 0 0 -.36-1.77 1.53 1.53 0 0 0 -1.44-.62z"
-                    />
-                    <path
-                      d="m11.29 20.93a1.27 1.27 0 0 0 -.84-.25h-1.45v2.23h1.46a1.18 1.18 0 0 0 .84-.28 1.09 1.09 0 0 0 .3-.86 1 1 0 0 0 -.33-.84z"
-                    />
-                    <path
-                      d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z"
-                    />
-                  </svg>
-                }
-                @case ("web") {
-                  <svg
-                    class="w-5 h-5 3xl:w-7 3xl:h-7 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8 shrink-0"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    xmlns="http://www.w3.org/2000/svg"
-                    preserveAspectRatio="xMidYMid meet"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="2" y1="12" x2="22" y2="12" />
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10.5 15.3 15.3 0 0 1-4 10.5 15.3 15.3 0 0 1-4-10.5 15.3 15.3 0 0 1 4-10.5z" />
-                  </svg>
-                }
-                @case ("text") {
-                  <svg
-                    class="w-5 h-5 3xl:w-7 3xl:h-7 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8 shrink-0"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-                    />
-                    <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-                  </svg>
-                }
-                @default {
-                  <svg
-                    class="w-5 h-5 3xl:w-7 3xl:h-7 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8 shrink-0"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-                    />
-                    <path d="M14 2v6h6M12 18v-6M9 15h6" />
-                  </svg>
-                }
-              }
-            </span>
-            <span
-              class="text-[10px] sm:text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium text-gray-700 dark:text-slate-200 text-center leading-tight whitespace-nowrap truncate max-w-full"
-            >
-              {{ getAddLabel(item.type) }}
-            </span>
-          </button>
-        }
-      </div>
-
-      <!-- Knowledge Sources List or Empty State -->
-      @if (isLoading) {
-        <div
-          class="flex-1 min-w-0 rounded-xl bg-gray-100 dark:bg-[#111113] border border-gray-200 dark:border-gray-400 flex flex-col items-center justify-center py-12 sm:py-16 3xl:py-20 px-6 3xl:px-8"
-        >
-          <div
-            class="animate-spin w-8 h-8 3xl:w-10 3xl:h-10 border-2 border-gray-300 border-t-blue-500 rounded-full mb-4 3xl:mb-5"
-          ></div>
-          <p
-            class="text-base 3xl:text-lg max-lg:text-lg max-lg:sm:text-xl max-lg:md:text-xl font-semibold text-gray-900 dark:text-white text-center"
-          >
-            Cargando fuentes de conocimiento...
-          </p>
-        </div>
-      } @else if (hasKnowledgeSources) {
-        <div class="flex-1 min-w-0 space-y-3 3xl:space-y-4">
-          @for (source of filteredKnowledgeSources; track source.id) {
-            <div
-              class="bg-white dark:bg-[#111113] border border-gray-200 dark:border-gray-400 rounded-lg p-4 3xl:p-6 max-lg:p-5 max-lg:sm:p-6 max-lg:md:p-7 shadow-sm hover:shadow-md transition-all"
-            >
-              <div class="flex items-start justify-between">
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-3 3xl:gap-4 mb-2">
-                    <div
-                      class="flex items-center justify-center w-8 h-8 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-lg border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent"
-                    >
-                      @switch (source.type) {
-                        @case ("pdf") {
-                          <svg
-                            class="w-5 h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                          >
-                            <path
-                              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-                            />
-                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-                          </svg>
-                        }
-                        @case ("web") {
-                          <svg
-                            class="w-5 h-5 3xl:w-6 3xl:h-6"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            preserveAspectRatio="xMidYMid meet"
-                          >
-                            <circle cx="12" cy="12" r="10" />
-                            <line x1="2" y1="12" x2="22" y2="12" />
-                            <path d="M12 2a15.3 15.3 0 0 1 4 10.5 15.3 15.3 0 0 1-4 10.5 15.3 15.3 0 0 1-4-10.5 15.3 15.3 0 0 1 4-10.5z" />
-                          </svg>
-                        }
-                        @case ("text") {
-                          <svg
-                            class="w-5 h-5 3xl:w-6 3xl:h-6"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                          >
-                            <path
-                              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-                            />
-                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-                          </svg>
-                        }
-                      }
-                    </div>
-                    <div class="flex-1 min-w-0">
-                      <h3
-                        class="text-sm 3xl:text-base max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg font-semibold text-gray-900 dark:text-white truncate"
-                      >
-                        {{ source.name }}
-                      </h3>
-                      <div class="flex items-center gap-2 3xl:gap-3 max-lg:gap-2.5 max-lg:sm:gap-3 max-lg:md:gap-3.5 mt-1 max-lg:mt-1.5">
-                        <span
-                          class="inline-flex items-center px-2 3xl:px-2.5 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3.5 py-0.5 3xl:py-1 max-lg:py-1 max-lg:sm:py-1.5 max-lg:md:py-1.5 rounded-full text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent"
-                        >
-                          {{ source.type.toUpperCase() }}
-                        </span>
-                        <span
-                          class="inline-flex items-center px-2 3xl:px-2.5 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3.5 py-0.5 3xl:py-1 max-lg:py-1 max-lg:sm:py-1.5 max-lg:md:py-1.5 rounded-full text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent"
-                        >
-                          @switch (source.status) {
-                            @case ("processing") {
-                              Procesando
-                            }
-                            @case ("completed") {
-                              Completado
-                            }
-                            @case ("failed") {
-                              Fallido
-                            }
-                          }
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  @if (source.metadata.chunkCount > 0) {
-                    <p
-                      class="text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-500 dark:text-gray-400 mt-2 max-lg:mt-2.5"
-                    >
-                      {{ source.metadata.chunkCount }} fragmentos
-                      @if (source.metadata.wordCount) {
-                        • {{ source.metadata.wordCount }} palabras
-                      }
-                      @if (source.metadata.pageCount) {
-                        • {{ source.metadata.pageCount }} páginas
-                      }
-                    </p>
-                  }
-                  @if (source.tags.length > 0) {
-                    <div class="flex flex-wrap gap-1 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2.5 mt-2 max-lg:mt-2.5">
-                      @for (tag of source.tags; track tag) {
-                        <span
-                          class="inline-flex items-center px-1.5 3xl:px-2 max-lg:px-2 max-lg:sm:px-2.5 max-lg:md:px-3 py-0.5 3xl:py-1 max-lg:py-1 max-lg:sm:py-1 max-lg:md:py-1.5 rounded text-xs 3xl:text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300"
-                        >
-                          {{ tag }}
-                        </span>
-                      }
-                    </div>
-                  }
-                </div>
-                <div class="flex items-center gap-2 3xl:gap-3 max-lg:gap-2.5 max-lg:sm:gap-3 max-lg:md:gap-3.5 ml-4 max-lg:ml-3">
-                  <button
-                    class="p-1.5 3xl:p-2 max-lg:p-2 max-lg:sm:p-2.5 max-lg:md:p-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                    title="Ver vista previa"
-                  >
-                    <svg
-                      class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-6 max-lg:sm:h-6 max-lg:md:w-6 max-lg:md:h-6"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  </button>
-                  <button
-                    (click)="deleteKnowledgeSource(source.id)"
-                    class="p-1.5 3xl:p-2 max-lg:p-2 max-lg:sm:p-2.5 max-lg:md:p-3 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                    title="Eliminar"
-                  >
-                    <svg
-                      class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-6 max-lg:sm:h-6 max-lg:md:w-6 max-lg:md:h-6"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <polyline points="3,6 5,6 21,6" />
-                      <path
-                        d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          }
-        </div>
-      } @else {
-        <!-- Empty State -->
-        <div
-          class="flex-1 min-w-0 rounded-xl bg-gray-100 dark:bg-[#111113] border border-gray-200 dark:border-gray-400 flex flex-col items-center justify-center py-12 sm:py-16 3xl:py-20 px-6 3xl:px-8"
-        >
-          <div
-            class="w-14 h-14 3xl:w-16 3xl:h-16 rounded-lg bg-white dark:bg-[#111113] dark:border dark:border-gray-200 flex items-center justify-center shadow-sm mb-4 3xl:mb-5"
-          >
-            <svg
-              class="w-8 h-8 3xl:w-10 3xl:h-10 text-gray-600 dark:text-slate-300 shrink-0"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M13 3H8.2C7.0799 3 6.51984 3 6.09202 3.21799C5.71569 3.40973 5.40973 3.71569 5.21799 4.09202C5 4.51984 5 5.0799 5 6.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.0799 21 8.2 21H12M13 3L19 9M13 3V7.4C13 7.96005 13 8.24008 13.109 8.45399C13.2049 8.64215 13.3578 8.79513 13.546 8.89101C13.7599 9 14.0399 9 14.6 9H19M19 9V11M9 17H11M9 13H13M9 9H10M19.2686 19.2686L21 21M20 17.5C20 18.8807 18.8807 20 17.5 20C16.1193 20 15 18.8807 15 17.5C15 16.1193 16.1193 15 17.5 15C18.8807 15 20 16.1193 20 17.5Z"
-              />
-            </svg>
-          </div>
-          <p
-            class="text-base 3xl:text-lg max-lg:text-lg max-lg:sm:text-xl max-lg:md:text-xl font-semibold text-gray-900 dark:text-white text-center"
-          >
-            {{ t.knowledgeBaseNoDocuments }}
-          </p>
-
-          <!-- Límites de validación en cuadrito con sombreado -->
-          <div
-            class="mt-6 p-4 3xl:p-5 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm max-w-sm mx-auto"
-          >
-            <h4
-              class="text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-700 dark:text-gray-300 mb-3 3xl:mb-4 max-lg:mb-3.5 max-lg:sm:mb-4 max-lg:md:mb-4.5 text-center"
-            >
-              Límites de subida
-            </h4>
-            <div
-              class="text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-600 dark:text-slate-400 space-y-2 max-lg:space-y-2.5"
-            >
-              <div class="flex items-center justify-center gap-2">
-                <span>📄</span>
-                <span
-                  >PDF: Máximo {{ getValidationLimits().pdf.maxSizeText }}</span
-                >
-              </div>
-              <div class="flex items-center justify-center gap-2">
-                <span>🔗</span>
-                <span
-                  >URL: Máximo
-                  {{ getValidationLimits().web.maxLengthText }}</span
-                >
-              </div>
-              <div class="flex items-center justify-center gap-2">
-                <span>📝</span>
-                <span
-                  >Texto: Máximo
-                  {{ getValidationLimits().text.maxLengthText }}</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      }
+  [class.fade-in-visible]="showContent">
+  <!-- Barra de búsqueda -->
+  <div class="relative w-full flex flex-col sm:flex-row gap-2 mb-3 sm:mb-4 3xl:mb-6">
+    <div class="relative flex-1">
+      <span
+        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 max-lg:pl-4 max-lg:sm:pl-4.5 max-lg:md:pl-5">
+        <svg
+          class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-5 max-lg:sm:h-5 max-lg:md:w-6 max-lg:md:h-6 text-gray-400 dark:text-slate-500"
+          fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-4.35-4.35M17 10.5A6.5 6.5 0 104 10.5a6.5 6.5 0 0013 0z" />
+        </svg>
+      </span>
+      <input type="text" [(ngModel)]="searchTerm" [placeholder]="t.knowledgeBaseSearchPlaceholder"
+        class="w-full pl-9 3xl:pl-11 max-lg:pl-10 max-lg:sm:pl-11 max-lg:md:pl-12 pr-3 3xl:pr-4 max-lg:pr-4 max-lg:sm:pr-4 max-lg:md:pr-4 py-2 3xl:py-2.5 max-lg:py-2.5 max-lg:sm:py-3 max-lg:md:py-3.5 text-sm 3xl:text-base max-lg:text-base max-lg:sm:text-base max-lg:md:text-lg border border-gray-300 dark:border-slate-800 rounded-lg bg-white dark:bg-[#111113] text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-600 focus:border-gray-400 dark:focus:border-slate-600 transition-colors" />
     </div>
-    <!-- Izquierda: botones de tipo de conocimiento (solo tablet/desktop) -->
+
+    <!-- Botón de actualizar -->
+    <button (click)="refreshKnowledgeSources()" [disabled]="isLoading"
+      class="p-2 3xl:p-2.5 max-lg:p-2.5 max-lg:sm:p-3 max-lg:md:p-3.5 border border-blue-300 dark:border-blue-600 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 hover:text-blue-700 dark:hover:text-blue-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex-shrink-0 w-full sm:w-auto sm:self-auto self-stretch"
+      title="Actualizar documentos">
+      <svg [class]="isLoading ? 'animate-spin' : ''"
+        class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-5 max-lg:sm:h-5 max-lg:md:w-6 max-lg:md:h-6"
+        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Botones de tipo de conocimiento (debajo de la barra de búsqueda, de extremo a extremo) -->
+  <div class="flex flex-row gap-3 w-full mb-3 sm:mb-4 3xl:mb-6">
+    @for (item of items; track item.id) {
+    <button type="button" (click)="selectKnowledgeSource(item.type)"
+      class="flex flex-col items-center justify-center gap-1 3xl:gap-2 flex-1 h-16 sm:h-20 3xl:h-24 overflow-hidden rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-400 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-slate-700 transition-all cursor-pointer text-gray-700 dark:text-slate-200 p-2 3xl:p-3">
+      <span class="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 3xl:w-8 3xl:h-8 shrink-0">
+        @switch (item.type) {
+        @case ("pdf") {
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0" viewBox="0 0 52 52" fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z" />
+          <path
+            d="m49.83 32.45a1.43 1.43 0 0 0 -1.39-1.45h-12a1.43 1.43 0 0 0 -1.44 1.44v1.44a1.43 1.43 0 0 0 1.4 1.44h6.14l-11 11a1.42 1.42 0 0 0 0 2l1 1a1.54 1.54 0 0 0 1.09.45 1.32 1.32 0 0 0 .94-.38l11-11v6a1.43 1.43 0 0 0 1.43 1.44h1.53a1.43 1.43 0 0 0 1.47-1.4z" />
+          <path
+            d="m18.35 20.68h-1.46v4.93h1.46a1.56 1.56 0 0 0 1.56-1.1 3.93 3.93 0 0 0 .24-1.44 3.61 3.61 0 0 0 -.36-1.77 1.53 1.53 0 0 0 -1.44-.62z" />
+          <path
+            d="m11.29 20.93a1.27 1.27 0 0 0 -.84-.25h-1.45v2.23h1.46a1.18 1.18 0 0 0 .84-.28 1.09 1.09 0 0 0 .3-.86 1 1 0 0 0 -.33-.84z" />
+          <path
+            d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z" />
+        </svg>
+        }
+        @case ("web") {
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+          <path
+            d="M12 2a15.3 15.3 0 0 1 4 10.5 15.3 15.3 0 0 1-4 10.5 15.3 15.3 0 0 1-4-10.5 15.3 15.3 0 0 1 4-10.5z" />
+        </svg>
+        }
+        @case ("text") {
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+          <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+        </svg>
+        }
+        @default {
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+          <path d="M14 2v6h6M12 18v-6M9 15h6" />
+        </svg>
+        }
+        }
+      </span>
+      <span
+        class="text-[10px] sm:text-xs 3xl:text-sm font-medium text-gray-700 dark:text-slate-200 text-center leading-tight whitespace-nowrap truncate max-w-full">
+        {{ getAddLabel(item.type) }}
+      </span>
+    </button>
+    }
+  </div>
+
+  <!-- Knowledge Sources List or Empty State (de extremo a extremo) -->
+  <div class="w-full">
+    @if (isLoading) {
     <div
-      class="hidden sm:flex flex-col flex-wrap gap-2 3xl:gap-3 shrink-0 w-full sm:w-auto justify-start order-2 sm:order-1"
-    >
-      @for (item of items; track item.id) {
-        <button
-          type="button"
-          (click)="selectKnowledgeSource(item.type)"
-          class="flex flex-col items-center justify-center gap-1 3xl:gap-2 w-[5rem] h-[5rem] sm:w-24 sm:h-24 3xl:w-28 3xl:h-28 aspect-square shrink-0 overflow-hidden rounded-lg bg-white dark:bg-black border border-gray-200 dark:border-gray-400 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-slate-700 transition-all cursor-pointer text-gray-700 dark:text-slate-200 p-2 3xl:p-3"
-        >
-          <span
-            class="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 3xl:w-8 3xl:h-8 shrink-0"
-          >
-            @switch (item.type) {
-              @case ("pdf") {
+      class="rounded-xl bg-gray-100 dark:bg-[#111113] border border-gray-200 dark:border-gray-400 flex flex-col items-center justify-center py-12 sm:py-16 3xl:py-20 px-6 3xl:px-8">
+      <div
+        class="animate-spin w-8 h-8 3xl:w-10 3xl:h-10 border-2 border-gray-300 border-t-blue-500 rounded-full mb-4 3xl:mb-5">
+      </div>
+      <p
+        class="text-base 3xl:text-lg max-lg:text-lg max-lg:sm:text-xl max-lg:md:text-xl font-semibold text-gray-900 dark:text-white text-center">
+        Cargando fuentes de conocimiento...
+      </p>
+    </div>
+    } @else if (hasKnowledgeSources) {
+    <div class="space-y-3 3xl:space-y-4">
+      @for (source of filteredKnowledgeSources; track source.id) {
+      <div
+        class="bg-white dark:bg-[#111113] border border-gray-200 dark:border-gray-400 rounded-lg p-4 3xl:p-6 max-lg:p-5 max-lg:sm:p-6 max-lg:md:p-7 shadow-sm hover:shadow-md transition-all">
+        <div class="flex items-start justify-between">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-3 3xl:gap-4 mb-2">
+              <div
+                class="flex items-center justify-center w-8 h-8 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-lg border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent">
+                @switch (source.type) {
+                @case ("pdf") {
                 <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0"
-                  viewBox="0 0 52 52"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z"
-                  />
-                  <path
-                    d="m49.83 32.45a1.43 1.43 0 0 0 -1.39-1.45h-12a1.43 1.43 0 0 0 -1.44 1.44v1.44a1.43 1.43 0 0 0 1.4 1.44h6.14l-11 11a1.42 1.42 0 0 0 0 2l1 1a1.54 1.54 0 0 0 1.09.45 1.32 1.32 0 0 0 .94-.38l11-11v6a1.43 1.43 0 0 0 1.43 1.44h1.53a1.43 1.43 0 0 0 1.47-1.4z"
-                  />
-                  <path
-                    d="m18.35 20.68h-1.46v4.93h1.46a1.56 1.56 0 0 0 1.56-1.1 3.93 3.93 0 0 0 .24-1.44 3.61 3.61 0 0 0 -.36-1.77 1.53 1.53 0 0 0 -1.44-.62z"
-                  />
-                  <path
-                    d="m11.29 20.93a1.27 1.27 0 0 0 -.84-.25h-1.45v2.23h1.46a1.18 1.18 0 0 0 .84-.28 1.09 1.09 0 0 0 .3-.86 1 1 0 0 0 -.33-.84z"
-                  />
-                  <path
-                    d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z"
-                  />
-                </svg>
-              }
-              @case ("web") {
-                <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  xmlns="http://www.w3.org/2000/svg"
-                  preserveAspectRatio="xMidYMid meet"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="2" y1="12" x2="22" y2="12" />
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10.5 15.3 15.3 0 0 1-4 10.5 15.3 15.3 0 0 1-4-10.5 15.3 15.3 0 0 1 4-10.5z" />
-                </svg>
-              }
-              @case ("text") {
-                <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-                  />
+                  class="w-5 h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8"
+                  viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
                   <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
                 </svg>
-              }
-              @default {
-                <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 3xl:w-7 3xl:h-7 shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                }
+                @case ("web") {
+                <svg class="w-5 h-5 3xl:w-6 3xl:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" preserveAspectRatio="xMidYMid meet">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
                   <path
-                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
-                  />
-                  <path d="M14 2v6h6M12 18v-6M9 15h6" />
+                    d="M12 2a15.3 15.3 0 0 1 4 10.5 15.3 15.3 0 0 1-4 10.5 15.3 15.3 0 0 1-4-10.5 15.3 15.3 0 0 1 4-10.5z" />
                 </svg>
+                }
+                @case ("text") {
+                <svg class="w-5 h-5 3xl:w-6 3xl:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+                  <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+                </svg>
+                }
+                }
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3
+                  class="text-sm 3xl:text-base max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg font-semibold text-gray-900 dark:text-white truncate">
+                  {{ source.name }}
+                </h3>
+                <div
+                  class="flex items-center gap-2 3xl:gap-3 max-lg:gap-2.5 max-lg:sm:gap-3 max-lg:md:gap-3.5 mt-1 max-lg:mt-1.5">
+                  <span
+                    class="inline-flex items-center px-2 3xl:px-2.5 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3.5 py-0.5 3xl:py-1 max-lg:py-1 max-lg:sm:py-1.5 max-lg:md:py-1.5 rounded-full text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent">
+                    {{ source.type.toUpperCase() }}
+                  </span>
+                  <span
+                    class="inline-flex items-center px-2 3xl:px-2.5 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3.5 py-0.5 3xl:py-1 max-lg:py-1 max-lg:sm:py-1.5 max-lg:md:py-1.5 rounded-full text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent">
+                    @switch (source.status) {
+                    @case ("processing") {
+                    Procesando
+                    }
+                    @case ("completed") {
+                    Completado
+                    }
+                    @case ("failed") {
+                    Fallido
+                    }
+                    }
+                  </span>
+                </div>
+              </div>
+            </div>
+            @if (source.metadata.chunkCount > 0) {
+            <p
+              class="text-xs 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-500 dark:text-gray-400 mt-2 max-lg:mt-2.5">
+              {{ source.metadata.chunkCount }} fragmentos
+              @if (source.metadata.wordCount) {
+              • {{ source.metadata.wordCount }} palabras
               }
+              @if (source.metadata.pageCount) {
+              • {{ source.metadata.pageCount }} páginas
+              }
+            </p>
             }
-          </span>
-          <span
-            class="text-[10px] sm:text-xs 3xl:text-sm font-medium text-gray-700 dark:text-slate-200 text-center leading-tight whitespace-nowrap truncate max-w-full"
-          >
-            {{ getAddLabel(item.type) }}
-          </span>
-        </button>
+            @if (source.tags.length > 0) {
+            <div
+              class="flex flex-wrap gap-1 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2.5 mt-2 max-lg:mt-2.5">
+              @for (tag of source.tags; track tag) {
+              <span
+                class="inline-flex items-center px-1.5 3xl:px-2 max-lg:px-2 max-lg:sm:px-2.5 max-lg:md:px-3 py-0.5 3xl:py-1 max-lg:py-1 max-lg:sm:py-1 max-lg:md:py-1.5 rounded text-xs 3xl:text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                {{ tag }}
+              </span>
+              }
+            </div>
+            }
+          </div>
+          <div
+            class="flex items-center gap-2 3xl:gap-3 max-lg:gap-2.5 max-lg:sm:gap-3 max-lg:md:gap-3.5 ml-4 max-lg:ml-3">
+            <button
+              class="p-1.5 3xl:p-2 max-lg:p-2 max-lg:sm:p-2.5 max-lg:md:p-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+              title="Ver vista previa">
+              <svg
+                class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-6 max-lg:sm:h-6 max-lg:md:w-6 max-lg:md:h-6"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+            <button (click)="deleteKnowledgeSource(source.id)"
+              class="p-1.5 3xl:p-2 max-lg:p-2 max-lg:sm:p-2.5 max-lg:md:p-3 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+              title="Eliminar">
+              <svg
+                class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-6 max-lg:sm:h-6 max-lg:md:w-6 max-lg:md:h-6"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3,6 5,6 21,6" />
+                <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
       }
     </div>
+    } @else {
+    <!-- Empty State -->
+    <div
+      class="rounded-xl bg-gray-100 dark:bg-[#111113] border border-gray-200 dark:border-gray-400 flex flex-col items-center justify-center py-8 sm:py-10 px-6 3xl:px-8">
+      <div
+        class="w-10 h-10 rounded-lg bg-white dark:bg-[#111113] dark:border dark:border-gray-200 flex items-center justify-center shadow-sm mb-3">
+        <svg class="w-6 h-6 text-gray-600 dark:text-slate-300 shrink-0" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M13 3H8.2C7.0799 3 6.51984 3 6.09202 3.21799C5.71569 3.40973 5.40973 3.71569 5.21799 4.09202C5 4.51984 5 5.0799 5 6.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.0799 21 8.2 21H12M13 3L19 9M13 3V7.4C13 7.96005 13 8.24008 13.109 8.45399C13.2049 8.64215 13.3578 8.79513 13.546 8.89101C13.7599 9 14.0399 9 14.6 9H19M19 9V11M9 17H11M9 13H13M9 9H10M19.2686 19.2686L21 21M20 17.5C20 18.8807 18.8807 20 17.5 20C16.1193 20 15 18.8807 15 17.5C15 16.1193 16.1193 15 17.5 15C18.8807 15 20 16.1193 20 17.5Z" />
+        </svg>
+      </div>
+      <p class="text-sm font-semibold text-gray-900 dark:text-white text-center">
+        {{ t.knowledgeBaseNoDocuments }}
+      </p>
+
+      <!-- Límites de validación en cuadrito con sombreado -->
+      <div
+        class="mt-4 p-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm max-w-sm mx-auto">
+        <h4 class="text-[11px] font-semibold text-gray-700 dark:text-gray-300 mb-2 text-center">
+          Límites de subida
+        </h4>
+        <div class="text-[10px] text-gray-600 dark:text-slate-400 space-y-1">
+          <div class="flex items-center justify-center gap-2">
+            <span>PDF: Máximo {{ getValidationLimits().pdf.maxSizeText }}</span>
+          </div>
+          <div class="flex items-center justify-center gap-2">
+            <span>URL: Máximo
+              {{ getValidationLimits().web.maxLengthText }}</span>
+          </div>
+          <div class="flex items-center justify-center gap-2">
+            <span>Texto: Máximo
+              {{ getValidationLimits().text.maxLengthText }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    @if (!isLoading && !hasKnowledgeSources) {
+    <!-- Empty State adicional? No, ya está arriba. -->
+    }
+    }
   </div>
 </div>
 
 <!-- Hidden file input for PDF uploads -->
-<input
-  #fileInput
-  type="file"
-  accept=".pdf"
-  multiple
-  (change)="handleFileSelection($event)"
-  style="display: none"
-/>
+<input #fileInput type="file" accept=".pdf" multiple (change)="handleFileSelection($event)" style="display: none" />

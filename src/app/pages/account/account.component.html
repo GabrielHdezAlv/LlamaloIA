@@ -464,7 +464,7 @@
           </div>
 
           <!-- Mejorar/Cambiar Plan -->
-          <app-ripple-button (buttonClick)="openBillingModal()"
+          <app-ripple-button (buttonClick)="navigateToUpgradePlan()"
             buttonClass="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-full hover:from-blue-800 hover:to-blue-700 transition-all duration-200  mt-3 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm"
             rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
             {{ t.upgradePlan }}
@@ -534,117 +534,6 @@
     </div>
   </div>
 </div>
-
-<!-- Modal de Facturación -->
-@if (showBillingModal) {
-<div
-  class="fixed inset-0 bg-purple-100 bg-opacity-80 flex items-center justify-center p-2 sm:p-4 lg:p-6 z-50 billing-modal-overlay"
-  (click)="closeBillingModal($event)">
-  <!-- Modal content -->
-  <div
-    class="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[3rem] p-3 sm:p-6 lg:p-10 max-w-[95vw] sm:max-w-[85vw] lg:max-w-[55rem] w-full mx-auto max-h-[90vh] overflow-y-auto relative"
-    (click)="$event.stopPropagation()">
-    <!-- Botón de cerrar -->
-    <button (click)="closeBillingModal()"
-      class="absolute top-2 right-2 sm:top-3 sm:right-3 lg:top-4 lg:right-4 w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 flex items-center justify-center transition-colors duration-200 z-10"
-      aria-label="Cerrar modal">
-      <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M18 6L6 18M6 6L18 18" stroke="#1E3A8A" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round" />
-      </svg>
-    </button>
-
-    <!-- Selector de minutos -->
-    <div class="mb-4 sm:mb-6 max-w-2xl mx-auto">
-      <div class="flex flex-wrap items-center gap-1.5 mb-2 sm:mb-3">
-        <h2 class="text-xs sm:text-sm lg:text-base font-bold text-gray-800">
-          ¿Cuántos minutos necesitarías al mes? Unos
-        </h2>
-        <div
-          class="bg-blue-900 text-white px-1.5 sm:px-2 py-0.5 rounded-full sm:rounded-[2rem] font-normal text-xs sm:text-sm whitespace-nowrap">
-          {{ selectedMinutes }}
-        </div>
-        <span class="text-gray-700 font-bold text-xs sm:text-sm">Minutos</span>
-      </div>
-
-      <!-- Slider Personalizado -->
-      <div class="relative">
-        <div class="relative h-1.5 sm:h-2 bg-gray-200 rounded-lg cursor-pointer" (click)="onSliderTrackClick($event)">
-          <!-- Barra de progreso -->
-          <div class="absolute top-0 left-0 h-1.5 sm:h-2 bg-blue-900 rounded-lg transition-all duration-300 ease-out"
-            [style.width.%]="((selectedMinutes - 100) / (2000 - 100)) * 100"></div>
-
-          <!-- Thumb personalizado -->
-          <div
-            class="absolute top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 bg-white border-2 border-blue-900 rounded-full shadow-lg cursor-pointer transition-all duration-300 ease-out hover:shadow-xl hover:scale-110"
-            [style.left]="getSliderThumbPosition()" (mousedown)="startDragging($event)"
-            (touchstart)="startDragging($event)"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contenido principal -->
-    <div
-      class="grid grid-cols-1 lg:grid-cols-2 gap-0 max-w-2xl mx-auto bg-white rounded-xl sm:rounded-2xl overflow-hidden">
-      <!-- Sección izquierda - Recuadro del plan (blanco) -->
-      <div class="bg-white p-3 sm:p-5 lg:p-7 2xl:p-9 font-dm-sans">
-        <div class="space-y-2.5 sm:space-y-3.5">
-          <div>
-            <span class="text-xs sm:text-sm lg:text-base text-gray-500 font-normal font-dm-sans">{{
-              selectedPlan?.targetAudience }}</span>
-            <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-blue-950 font-dm-sans">
-              {{ selectedPlan?.name }}
-            </h3>
-            <p class="text-gray-500 mt-3 sm:mt-5 lg:mt-7 text-xs sm:text-sm lg:text-base leading-relaxed font-dm-sans">
-              {{ selectedPlan?.description }}
-            </p>
-          </div>
-
-          <div class="flex items-baseline gap-2 sm:gap-3">
-            <span class="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-blue-950 font-dm-sans">${{
-              selectedPlan?.price }}</span>
-            <span class="text-gray-500 text-xs sm:text-sm lg:text-base font-dm-sans">/monthly</span>
-          </div>
-
-          <button
-            class="w-full bg-blue-900 text-white font-medium py-2.5 sm:py-3.5 lg:py-5 px-5 sm:px-7 rounded-full transition-colors duration-200 text-xs sm:text-sm lg:text-base font-dm-sans">
-            Get started
-          </button>
-        </div>
-      </div>
-
-      <!-- Sección derecha - Características incluidas (gris muy claro) -->
-      <div class="bg-gray-50 p-3 sm:p-5 lg:p-7 2xl:p-9 font-dm-sans">
-        <h4 class="text-base sm:text-lg lg:text-xl font-bold text-blue-950 mb-3 sm:mb-5 lg:mt-7 font-dm-sans">
-          What's included
-        </h4>
-
-        <div class="space-y-2.5 sm:space-y-3.5">
-          <div *ngFor="let feature of selectedPlan?.features" class="flex items-center gap-2.5 sm:gap-3">
-            <div class="flex-shrink-0 w-4 h-4 sm:w-5 sm:h-5 bg-blue-700 rounded-full flex items-center justify-center">
-              <svg class="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_1126_212)">
-                  <path
-                    d="M13.8711 26.1522C21.051 26.1522 26.8711 20.3321 26.8711 13.1522C26.8711 5.97232 21.051 0.152222 13.8711 0.152222C6.69119 0.152222 0.871094 5.97232 0.871094 13.1522C0.871094 20.3321 6.69119 26.1522 13.8711 26.1522Z"
-                    fill="#1E3A8A" />
-                  <path d="M7.98828 13.9927L11.3501 17.3545L19.7546 8.94995" stroke="white" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" />
-                </g>
-                <defs>
-                  <clipPath id="clip0_1126_212">
-                    <rect width="26" height="26" fill="white" transform="translate(0.871094 0.152222)" />
-                  </clipPath>
-                </defs>
-              </svg>
-            </div>
-            <span class="text-gray-700 text-xs sm:text-sm lg:text-base font-dm-sans">{{ feature }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-}
 
 <!-- Modal de Selección de Avatar -->
 @if (showAvatarModal) {

@@ -651,14 +651,22 @@ export class MetricsComponent implements OnInit, OnDestroy {
   maxCallDurationSeconds = 120; // 2 minutos máximo
 
   get averageCallDurationLabel(): string {
-    const minutes = Math.floor(this.averageCallDurationSeconds / 60);
-    const seconds = this.averageCallDurationSeconds % 60;
+    const minutes = this.averageCallDurationMinutes;
+    const seconds = this.averageCallDurationSecondsOnly;
 
     if (minutes === 0) {
       return `${seconds}s`;
     }
 
     return `${minutes}m ${seconds}s`;
+  }
+
+  get averageCallDurationMinutes(): number {
+    return Math.floor(this.averageCallDurationSeconds / 60);
+  }
+
+  get averageCallDurationSecondsOnly(): number {
+    return Math.floor(this.averageCallDurationSeconds % 60);
   }
 
   get durationLabel(): string {
@@ -1327,8 +1335,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.exitosas / totalSuccess) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-green-500',
         },
@@ -1337,8 +1345,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.parciales / totalSuccess) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-yellow-500',
         },
@@ -1347,8 +1355,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.fallidas / totalSuccess) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-red-500',
         },
@@ -1373,8 +1381,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.completada /
                 totalReasons) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-blue-500',
         },
@@ -1384,8 +1392,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.clienteColgo /
                 totalReasons) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-orange-500',
         },
@@ -1395,8 +1403,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.errorTecnico /
                 totalReasons) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-red-500',
         },
@@ -1406,8 +1414,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
             Math.round(
               (this.detailedMetrics.razonesFinalizacion.tiempoAgotado /
                 totalReasons) *
-                100 *
-                10,
+              100 *
+              10,
             ) / 10,
           color: 'bg-gray-500',
         },

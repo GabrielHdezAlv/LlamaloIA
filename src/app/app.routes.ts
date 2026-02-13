@@ -23,6 +23,7 @@ import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.co
 import { ShopifyOnboardingComponent } from './pages/shopify-onboarding/shopify-onboarding.component';
 import { ShopifySuccessComponent } from './pages/shopify-success/shopify-success.component';
 import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
+import { UpgradePlanComponent } from './pages/upgrade-plan/upgrade-plan.component';
 
 export const routes: Routes = [
   {
@@ -100,6 +101,7 @@ export const routes: Routes = [
 
       // 🔽 Nuevas rutas del dropdown
       { path: 'account', component: AccountComponent },
+      { path: 'upgrade-plan', component: UpgradePlanComponent },
     ],
   },
   {

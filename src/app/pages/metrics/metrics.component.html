@@ -481,8 +481,14 @@
               </h3>
               <div class="mt-1.5 lg:mt-1.5 max-lg:mt-2 max-lg:sm:mt-2.5 max-lg:md:mt-3 flex items-baseline gap-0.5">
                 <span
-                  class="text-base lg:text-lg 3xl:text-xl max-lg:text-xl max-lg:sm:text-2xl max-lg:md:text-2xl font-bold text-gray-900 leading-none dark:text-slate-50 tracking-[-0.7px]">{{
-                  averageCallDurationLabel }}</span>
+                  class="text-base lg:text-lg 3xl:text-xl max-lg:text-xl max-lg:sm:text-2xl max-lg:md:text-2xl font-bold text-gray-900 leading-none dark:text-slate-50 tracking-[-0.7px]">
+                  @if (averageCallDurationMinutes > 0) {
+                  {{ averageCallDurationMinutes }}<span
+                    class="text-[8px] lg:text-[8px] max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 font-bold leading-none dark:text-slate-400 tracking-[-0.7px] ml-0.5">M</span>
+                  }
+                  {{ averageCallDurationSecondsOnly }}<span
+                    class="text-[8px] lg:text-[8px] max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 font-bold leading-none dark:text-slate-400 tracking-[-0.7px] ml-0.5">S</span>
+                </span>
                 <!-- <span
                   class="text-[8px] lg:text-[8px] text-gray-500 font-medium leading-none dark:text-slate-400 tracking-[-0.7px]"
                   >MS</span

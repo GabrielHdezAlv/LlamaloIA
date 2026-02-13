@@ -1,0 +1,57 @@
+.upgrade-plan-wrapper {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    transform: scale(0.82);
+    transform-origin: top center;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+
+    .pricing-card {
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+
+        &:hover {
+            transform: translateY(-8px) scale(0.95);
+
+            &[class*="bg-[#1a1a1a]"] {
+                transform: translateY(-8px) scale(1.02);
+            }
+        }
+    }
+
+    .trust-badge {
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .comparison-table-container {
+        &::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+    }
+
+    table {
+        th {
+            border-bottom: none;
+        }
+
+        td {
+            transition: background-color 0.2s ease;
+        }
+    }
+
+    /* Ajustes para que no se vea cortado por el transform scale */
+    padding-bottom: 200px;
+}

@@ -414,6 +414,10 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.pageTitle = t.settings;
       this.welcomeText = '';
       this.pageSubtitle = '';
+    } else if (url === '/dashboard/upgrade-plan') {
+      this.pageTitle = 'Actualizar plan';
+      this.welcomeText = '';
+      this.pageSubtitle = '';
     } else {
       // Home
       this.pageTitle = t.home;

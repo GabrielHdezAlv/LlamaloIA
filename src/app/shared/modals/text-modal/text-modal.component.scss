@@ -1,149 +1,58 @@
-.modal-container {
-  padding: 24px;
-  max-width: 600px;
-  background-color: #fff; /* Fondo en modo claro */
-  border-radius: 8px;
-}
+// Eliminar bordes del contenedor de Material Dialog
+::ng-deep {
+  .mat-mdc-dialog-container {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 1.5rem !important;
+    overflow: hidden !important;
+  }
 
-/* Modo oscuro para el contenedor */
-@media (prefers-color-scheme: dark) {
-  .modal-container {
-    background-color: #1f2937; /* Fondo en modo oscuro */
-    color: #fff;
+  .mat-mdc-dialog-surface {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    border-radius: 1.5rem !important;
+    overflow: hidden !important;
+  }
+
+  .mdc-dialog__surface {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 1.5rem !important;
+    overflow: hidden !important;
+  }
+
+  .cdk-overlay-pane {
+    border: none !important;
+    outline: none !important;
   }
 }
 
-/* Soporte para clases de modo oscuro de Tailwind */
-.dark .modal-container {
-  background-color: #1f2937 !important;
-  color: #fff !important;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.modal-title {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #333; /* Color en modo claro */
-}
-
-/* Modo oscuro para el título */
-@media (prefers-color-scheme: dark) {
-  .modal-title {
-    color: #fff;
+::ng-deep html.dark {
+  .mat-mdc-dialog-container {
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
   }
-}
 
-.dark .modal-title {
-  color: #fff !important;
-}
-
-.close-button {
-  width: 32px;
-  height: 32px;
-}
-
-.modal-content {
-  margin-bottom: 24px;
-}
-
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: #555; /* Color en modo claro */
-}
-
-/* Modo oscuro para las etiquetas */
-@media (prefers-color-scheme: dark) {
-  .form-group label {
-    color: #e5e7eb;
+  .mat-mdc-dialog-surface {
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
   }
-}
 
-.dark .form-group label {
-  color: #e5e7eb !important;
-}
-
-.form-input,
-.form-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  font-family: inherit;
-  color: #333; /* Color de texto en modo claro */
-  background-color: #fff; /* Fondo en modo claro */
-}
-
-/* Modo oscuro */
-@media (prefers-color-scheme: dark) {
-  .form-input,
-  .form-textarea {
-    color: #fff; /* Color de texto en modo oscuro */
-    background-color: #2d2d2d; /* Fondo en modo oscuro */
-    border-color: #555;
+  .mdc-dialog__surface {
+    border: none !important;
+    outline: none !important;
+    background-color: transparent !important;
   }
-}
 
-/* Soporte para clases de modo oscuro de Tailwind */
-.dark .form-input,
-.dark .form-textarea {
-  color: #fff !important;
-  background-color: #1f2937 !important;
-  border-color: #4b5563 !important;
-}
-
-/* Color del placeholder */
-.form-input::placeholder,
-.form-textarea::placeholder {
-  color: #999; /* Placeholder en modo claro */
-}
-
-.dark .form-input::placeholder,
-.dark .form-textarea::placeholder {
-  color: #9ca3af !important; /* Placeholder en modo oscuro */
-}
-
-.form-input:focus,
-.form-textarea:focus {
-  outline: none;
-  border-color: #1976d2;
-  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-}
-
-.cancel-button {
-  color: #666;
-}
-
-.confirm-button {
-  background-color: #1976d2;
-  color: white;
-}
-
-.confirm-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+  .cdk-overlay-pane {
+    border: none !important;
+    outline: none !important;
+  }
 }

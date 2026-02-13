@@ -1,0 +1,204 @@
+<div class="upgrade-plan-wrapper py-6 px-4 sm:px-6 lg:px-8 min-h-screen">
+    <!-- Header Section -->
+    <div class="text-center max-w-2xl mx-auto mb-10">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+            Precios que crecen contigo
+        </h1>
+        <p class="text-base text-gray-500 dark:text-slate-400">
+            Escucha lo que dicen nuestros clientes sobre cómo LlamaloIA ha transformado su comunicación.
+        </p>
+    </div>
+
+    <!-- Pricing Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-14">
+        @for (plan of pricingPlans; track plan.name) {
+        <div
+            [class]="'pricing-card relative p-6 rounded-[2rem] transition-all duration-300 ' + (plan.highlighted ? 'bg-[#1a1a1a] text-white shadow-2xl scale-100 z-10' : 'bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white border border-gray-100 dark:border-slate-700 shadow-md hover:shadow-lg')">
+
+            <div class="mb-6">
+                <h3
+                    [class]="'text-xl font-bold mb-1.5 ' + (plan.highlighted ? 'text-white' : 'text-gray-900 dark:text-white')">
+                    {{ plan.name }}
+                </h3>
+                <p
+                    [class]="'text-xs leading-relaxed ' + (plan.highlighted ? 'text-gray-400' : 'text-gray-500 dark:text-slate-400')">
+                    {{ plan.description }}
+                </p>
+            </div>
+
+            <div class="flex items-baseline gap-1 mb-6">
+                <span class="text-4xl font-extrabold tracking-tight">${{ plan.price }}</span>
+                <span [class]="'text-xs ' + (plan.highlighted ? 'text-gray-500' : 'text-gray-400')">/ Mes</span>
+            </div>
+
+            <button
+                [class]="'w-full py-3 px-6 rounded-xl font-bold text-base transition-all duration-200 mb-8 ' + (plan.highlighted ? 'bg-white text-black hover:bg-gray-100' : 'bg-[#1a1a1a] text-white hover:bg-black')">
+                {{ plan.buttonText }}
+                @if(plan.highlighted) {
+                <span class="ml-2">→</span>
+                }
+            </button>
+
+            <div>
+                <h4
+                    [class]="'text-[10px] font-bold uppercase tracking-widest mb-4 ' + (plan.highlighted ? 'text-gray-500' : 'text-gray-400')">
+                    {{ plan.name === 'Gratis' ? "LO QUE INCLUYE:" : (plan.name === 'Pro' ? "TODO EN GRATIS, MÁS:" :
+                    "TODO EN PRO, MÁS:") }}
+                </h4>
+                <ul class="space-y-3">
+                    @for (feature of plan.features; track feature) {
+                    <li class="flex items-center gap-2.5">
+                        <span class="feature-icon text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </span>
+                        <span
+                            [class]="'text-xs font-medium ' + (plan.highlighted ? 'text-gray-300' : 'text-gray-600 dark:text-slate-300')">
+                            {{ feature }}
+                        </span>
+                    </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        }
+    </div>
+
+    <!-- Trust Badges -->
+    <div
+        class="flex flex-wrap justify-center items-center gap-6 md:gap-12 max-w-4xl mx-auto mb-20 py-6 border-y border-gray-100 dark:border-slate-800">
+        <div class="trust-badge flex items-center gap-2">
+            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
+                <path
+                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32 2.33-4.67 2.34-4.67.32-.19.42-.61.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
+            </svg>
+            <div class="text-center px-1">
+                <p class="text-[9px] font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">Top Rated</p>
+                <p class="text-[9px] font-bold text-gray-700 dark:text-slate-300">Finance App</p>
+            </div>
+            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
+                <path
+                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
+            </svg>
+        </div>
+
+        <div class="trust-badge flex items-center gap-2">
+            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
+                <path
+                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
+            </svg>
+            <div class="text-center px-1">
+                <p class="text-[9px] font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">Best Personal
+                </p>
+                <p class="text-[9px] font-bold text-gray-700 dark:text-slate-300">Finance App</p>
+            </div>
+            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
+                <path
+                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
+            </svg>
+        </div>
+
+        <div class="trust-badge flex items-center gap-2">
+            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
+                <path
+                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
+            </svg>
+            <div class="text-center px-1">
+                <p class="text-[9px] font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">Loved by</p>
+                <p class="text-[9px] font-bold text-gray-700 dark:text-slate-300">2,500+ users</p>
+            </div>
+            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
+                <path
+                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Feature Comparison Table -->
+    <div class="max-w-6xl mx-auto mb-16 text-center">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-4">
+            Comparación de funciones
+        </h2>
+        <p class="text-base text-gray-500 dark:text-slate-400 mb-10 max-w-xl mx-auto">
+            Llamalo es el socio perfecto para empresas que buscan excelencia en comunicación.
+        </p>
+
+        <div class="comparison-table-container overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr>
+                        <th class="py-6 px-4 min-w-[200px]"></th>
+                        @for (plan of pricingPlans; track plan.name) {
+                        <th class="py-6 px-4 text-left min-w-[150px]">
+                            <div
+                                [class]="plan.highlighted ? 'bg-[#1a1a1a] text-white p-4 rounded-2xl shadow-lg' : 'bg-white dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm'">
+                                <p class="text-base font-bold mb-1">{{ plan.name }}</p>
+                                <p class="text-xl font-extrabold mb-3">${{ plan.price }} <span
+                                        class="text-[10px] opacity-50 font-normal">/ Mes</span></p>
+                                <button
+                                    [class]="'w-full py-1.5 px-3 rounded-lg text-xs font-bold text-center ' + (plan.highlighted ? 'bg-white text-black' : 'bg-[#1a1a1a] text-white')">
+                                    Elegir
+                                </button>
+                            </div>
+                        </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+                    @for (feat of comparisonFeatures; track feat.name) {
+                    <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
+                        <td class="py-4 px-4">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xl opacity-90 w-10 flex-shrink-0 flex items-center justify-center">
+                                    {{ feat.icon }}
+                                </span>
+                                <span class="text-sm font-bold text-gray-700 dark:text-slate-300">
+                                    {{ feat.name }}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="py-4 px-4 text-center">
+                            @if (feat.free) {
+                            <span
+                                class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 dark:bg-slate-700 text-white text-[10px]">✓</span>
+                            } @else {
+                            <span class="text-gray-300 dark:text-slate-600 text-lg">✕</span>
+                            }
+                        </td>
+                        <td class="py-4 px-4 text-center">
+                            @if (feat.pro) {
+                            <span
+                                class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 dark:bg-slate-700 text-white text-[10px]">✓</span>
+                            } @else {
+                            <span class="text-gray-300 dark:text-slate-600 text-lg">✕</span>
+                            }
+                        </td>
+                        <td class="py-4 px-4 text-center">
+                            @if (feat.premium) {
+                            <span
+                                class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 dark:bg-slate-700 text-white text-[10px]">✓</span>
+                            } @else {
+                            <span class="text-gray-300 dark:text-slate-600 text-lg">✕</span>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
