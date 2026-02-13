@@ -385,7 +385,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private assignTwilioAccountToAgent(twilioAccountId: number | null): void {
     if (!this.agentId) return;
     if (!this.editForm.valid) {
-      this.notificationService.error('Revisa los campos del agente antes de asignar Twilio.');
+      this.notificationService.error(
+        'Revisa los campos del agente antes de asignar Twilio.',
+      );
       return;
     }
 
@@ -425,7 +427,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         this.agent = response.agent;
         const anyAgent = this.agent as any;
         anyAgent.twilioAccountId = Number(twilioAccountId ?? 0);
-        this.notificationService.success('La cuenta de Twilio del agente se actualizó correctamente.');
+        this.notificationService.success(
+          'La cuenta de Twilio del agente se actualizó correctamente.',
+        );
         this.closeTwilioModal();
       },
       error: (error) => {
@@ -435,7 +439,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         if (anyAgent) {
           anyAgent.twilioAccountId = Number(twilioAccountId ?? 0);
         }
-        this.notificationService.error('No se pudo actualizar la cuenta de Twilio del agente.');
+        this.notificationService.error(
+          'No se pudo actualizar la cuenta de Twilio del agente.',
+        );
       },
     });
   }
@@ -476,7 +482,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         error: (error) => {
           console.error('❌ Error al guardar configuración Twilio:', error);
           this.isSavingTwilioConfig = false;
-          this.notificationService.error('No se pudo guardar la configuración de Twilio.');
+          this.notificationService.error(
+            'No se pudo guardar la configuración de Twilio.',
+          );
         },
       });
   }
@@ -741,7 +749,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     }
 
     if (!language) {
-      this.notificationService.error('Por favor, selecciona un idioma primero.');
+      this.notificationService.error(
+        'Por favor, selecciona un idioma primero.',
+      );
       return;
     }
 
@@ -895,9 +905,12 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         ? String(this.agent.phoneNumbers.number)
         : null;
 
+    // Si no hay teléfono original, solo considerar que ha cambiado si se ha ingresado uno nuevo
+    if (!originalCountryCode && !originalNumberDigits) {
+      return newNumberDigits.length > 0;
+    }
+
     return (
-      !originalCountryCode ||
-      !originalNumberDigits ||
       originalCountryCode !== newCountryCode ||
       originalNumberDigits !== newNumberDigits
     );
@@ -918,36 +931,51 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           ? String(this.agent.phoneNumbers.number)
           : null;
 
-      const phoneChanged =
-        !originalCountryCode ||
-        !originalNumberDigits ||
-        originalCountryCode !== newCountryCode ||
-        originalNumberDigits !== newNumberDigits;
+      // Usar la misma lógica que el getter phoneChanged
+      let phoneChanged = false;
+
+      // Si no hay teléfono original, solo considerar que ha cambiado si se ha ingresado uno nuevo
+      if (!originalCountryCode && !originalNumberDigits) {
+        phoneChanged = newNumberDigits.length > 0;
+      } else {
+        phoneChanged =
+          originalCountryCode !== newCountryCode ||
+          originalNumberDigits !== newNumberDigits;
+      }
 
       // Si el teléfono cambió, debe estar validado y ser válido
       if (phoneChanged) {
         // Si aún se está validando, no permitir guardar
         if (this.isValidatingPhone) {
-          this.notificationService.error('Por favor, espera a que termine la validación del número de teléfono.');
+          this.notificationService.error(
+            'Por favor, espera a que termine la validación del número de teléfono.',
+          );
           return;
         }
 
         // Si no es válido, no permitir guardar
         if (this.phoneIsValid === false) {
-          this.notificationService.error(this.phoneValidationMessage || 'El número de teléfono no es válido.');
+          this.notificationService.error(
+            this.phoneValidationMessage ||
+              'El número de teléfono no es válido.',
+          );
           return;
         }
 
         // Si no se ha validado aún (es null), forzar validación antes de guardar
         if (this.phoneIsValid === null) {
           this.validatePhoneNumber();
-          this.notificationService.error('Espera a que se valide el número de teléfono.');
+          this.notificationService.error(
+            'Espera a que se valide el número de teléfono.',
+          );
           return;
         }
 
         // Solo permitir guardar si es válido
         if (this.phoneIsValid !== true) {
-          this.notificationService.error('El número de teléfono debe ser válido antes de guardar.');
+          this.notificationService.error(
+            'El número de teléfono debe ser válido antes de guardar.',
+          );
           return;
         }
       }
@@ -987,7 +1015,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       this.agentsService.updateAgent(this.agentId!, updateData).subscribe({
         next: (response) => {
           this.isLoading = false;
-          this.notificationService.success('El agente ha sido actualizado correctamente.');
+          this.notificationService.success(
+            'El agente ha sido actualizado correctamente.',
+          );
           this.router.navigate(['/dashboard/agents']);
         },
         error: (error) => {
@@ -1026,7 +1056,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (!this.agentId) return;
 
     if (!this.editForm.valid) {
-      this.notificationService.error('Revisa los campos del agente antes de guardar la tienda.');
+      this.notificationService.error(
+        'Revisa los campos del agente antes de guardar la tienda.',
+      );
       return;
     }
 
@@ -1071,12 +1103,16 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       next: (response) => {
         this.isSavingShopifyDomain = false;
         this.agent = response.agent;
-        this.notificationService.success('La tienda de Shopify del agente se actualizó correctamente.');
+        this.notificationService.success(
+          'La tienda de Shopify del agente se actualizó correctamente.',
+        );
       },
       error: (error) => {
         console.error('❌ Error al actualizar Shopify del agente:', error);
         this.isSavingShopifyDomain = false;
-        this.notificationService.error('No se pudo actualizar la tienda de Shopify del agente.');
+        this.notificationService.error(
+          'No se pudo actualizar la tienda de Shopify del agente.',
+        );
       },
     });
   }
@@ -1243,6 +1279,17 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       this.agent?.phoneNumbers?.number != null
         ? String(this.agent.phoneNumbers.number)
         : null;
+
+    // Si no hay teléfono original, validar el nuevo número
+    if (!originalCountryCode && !originalNumberDigits) {
+      // Enviar al Subject para validación con debounce
+      this.phoneValidationSubject.next({
+        countryCode,
+        number: numberDigits,
+        timestamp: Date.now(),
+      });
+      return;
+    }
 
     // Si el número es igual al original, marcarlo como válido sin hacer petición
     if (
