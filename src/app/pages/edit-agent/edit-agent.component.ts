@@ -591,9 +591,12 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private populateForm(): void {
     if (!this.agent) return;
 
+    const agentLanguage = this.agent.language || 'es';
+
     this.editForm.patchValue(
       {
         name: this.agent.name || '',
+        language: agentLanguage, // Agregar campo language con valor por defecto
         type: this.agent.type || 'inbound',
         voiceId: this.agent.voiceId || '',
         firstInteraction: this.agent.firstInteraction || '',
@@ -610,6 +613,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       },
       { emitEvent: false },
     ); // No emitir eventos al poblar el formulario para evitar validaciones innecesarias
+
+    // Establecer las variables de idioma seleccionado
+    this.selectedLanguageCode = agentLanguage;
+    this.selectedLanguageFlag = this.getLanguageFlag(agentLanguage);
+
     // Precargar el audio después de poblar el formulario
     setTimeout(() => this.preloadAudio(), 200);
   }
@@ -914,6 +922,33 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       originalCountryCode !== newCountryCode ||
       originalNumberDigits !== newNumberDigits
     );
+  }
+
+  // Debug method to check form validation status
+  getFormValidationStatus(): void {
+    console.log('=== FORM VALIDATION DEBUG ===');
+    console.log('editForm.valid:', this.editForm.valid);
+    console.log('editForm.invalid:', this.editForm.invalid);
+    console.log('editForm.errors:', this.editForm.errors);
+
+    // Check each field
+    Object.keys(this.editForm.controls).forEach((key) => {
+      const control = this.editForm.get(key);
+      console.log(`${key}:`, {
+        value: control?.value,
+        valid: control?.valid,
+        invalid: control?.invalid,
+        errors: control?.errors,
+        touched: control?.touched,
+        dirty: control?.dirty,
+      });
+    });
+
+    console.log('phoneChanged:', this.phoneChanged);
+    console.log('isValidatingPhone:', this.isValidatingPhone);
+    console.log('phoneIsValid:', this.phoneIsValid);
+    console.log('isLoading:', this.isLoading);
+    console.log('==============================');
   }
 
   onSubmit(): void {
