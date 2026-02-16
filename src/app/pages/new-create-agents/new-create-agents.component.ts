@@ -2395,6 +2395,7 @@ export class NewCreateAgentsComponent
     // Quitar clase del body para el widget de soporte
     if (this.isBrowser) {
       document.body.classList.remove('creating-agent');
+      document.body.style.overflow = '';
     }
   }
 

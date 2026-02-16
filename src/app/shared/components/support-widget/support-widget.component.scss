@@ -37,16 +37,31 @@
                 align-items: center;
                 position: relative;
 
-                .widget-title {
-                    margin: 0;
-                    font-size: 16px;
-                    font-weight: 500;
-                    color: #ffffff;
-                    text-align: center;
-                    opacity: 0.9;
-                    letter-spacing: -0.5px;
+                .header-text {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
                     flex: 1;
                     padding-left: 34px; // Balance the gear icon
+
+                    .widget-title {
+                        margin: 0;
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: #ffffff;
+                        text-align: center;
+                        opacity: 0.9;
+                        letter-spacing: -0.5px;
+                        width: 100%;
+                    }
+
+                    .widget-subtitle {
+                        font-size: 10px;
+                        color: rgba(255, 255, 255, 0.5);
+                        font-weight: 400;
+                        margin-top: -2px;
+                    }
                 }
 
                 .settings-container {

@@ -307,8 +307,8 @@ export class HomeComponent implements OnInit {
     animations: { enabled: false },
     zoom: { enabled: false },
     events: {
-      dataPointSelection: () => {},
-      markerClick: () => {},
+      dataPointSelection: () => { },
+      markerClick: () => { },
     },
   };
 

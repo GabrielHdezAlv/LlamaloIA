@@ -1,7 +1,8 @@
 // src/app/components/sidebar/sidebar.component.ts
-import { Component, HostListener, computed, inject, OnInit, Inject, PLATFORM_ID, OnDestroy } from '@angular/core';
+import { Component, HostListener, computed, inject, OnInit, Inject, PLATFORM_ID, OnDestroy, ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
 import { NavigationService } from '../../core/services/navigation.service';
 import { I18nService, Language } from '../../core/services/i18n.service';
@@ -13,7 +14,7 @@ import { I18nService, Language } from '../../core/services/i18n.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.scss'],
 })
-export class NavComponent implements OnDestroy, OnInit {
+export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
   isOpen: boolean = false;
   isClosing: boolean = false;
   isCollapsed: boolean = true;
@@ -36,6 +37,12 @@ export class NavComponent implements OnDestroy, OnInit {
 
   // Modo oscuro
   isDarkMode = false;
+
+  // Sliding indicator properties
+  @ViewChildren('navItem') navItems!: QueryList<ElementRef>;
+  indicatorTop = 0;
+  indicatorHeight = 0;
+  showIndicator = false;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -85,6 +92,43 @@ export class NavComponent implements OnDestroy, OnInit {
         const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
         this.setDarkMode(prefersDark, false);
       }
+    }
+    // Escuchar cambios de ruta para actualizar el indicador
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      // Pequeño delay para asegurar que el DOM se ha actualizado si es necesario
+      setTimeout(() => this.updateIndicator(), 50);
+    });
+  }
+
+  ngAfterViewInit() {
+    // Inicializar indicador
+    setTimeout(() => this.updateIndicator(), 100);
+
+    // Suscribirse a cambios en los elementos (por si cambian dinámicamente)
+    this.navItems.changes.subscribe(() => {
+      setTimeout(() => this.updateIndicator(), 0);
+    });
+  }
+
+  updateIndicator() {
+    if (!this.navItems || this.navItems.length === 0) return;
+
+    // Encontrar el elemento activo
+    const activeItem = this.navItems.find(item => {
+      const route = item.nativeElement.getAttribute('data-route');
+      return route ? this.isRouteActive(route) : false;
+    });
+
+    if (activeItem) {
+      const element = activeItem.nativeElement;
+      // Usar offsetTop y offsetHeight relativos al contenedor padre (nav)
+      this.indicatorTop = element.offsetTop;
+      this.indicatorHeight = element.offsetHeight;
+      this.showIndicator = true;
+    } else {
+      this.showIndicator = false;
     }
   }
 
@@ -136,6 +180,8 @@ export class NavComponent implements OnDestroy, OnInit {
       this.isCollapsed = true;
       this.triggerResizeAfterTransition();
     }
+    // Actualizar indicador después de la transición
+    setTimeout(() => this.updateIndicator(), 300);
   }
 
   // Expandir al pasar el ratón por encima
@@ -148,6 +194,8 @@ export class NavComponent implements OnDestroy, OnInit {
     this.startHoverTimer();
     // Forzar recalculo de layout para componentes que dependen del ancho (gráficos)
     this.triggerResizeAfterTransition();
+    // Actualizar indicador
+    setTimeout(() => this.updateIndicator(), 300);
   }
 
   // Colapsar al salir del ratón
@@ -160,6 +208,8 @@ export class NavComponent implements OnDestroy, OnInit {
     this.clearHoverTimer();
     // Forzar recalculo de layout para componentes que dependen del ancho (gráficos)
     this.triggerResizeAfterTransition();
+    // Actualizar indicador
+    setTimeout(() => this.updateIndicator(), 300);
   }
 
   // Iniciar timer para que la imagen vuelva a aparecer
@@ -207,6 +257,7 @@ export class NavComponent implements OnDestroy, OnInit {
       this.windowWidth = window.innerWidth;
       // En pantallas grandes, el sidebar está siempre abierto
       this.isOpen = this.windowWidth >= 1280;
+      this.updateIndicator();
     }
   }
 
