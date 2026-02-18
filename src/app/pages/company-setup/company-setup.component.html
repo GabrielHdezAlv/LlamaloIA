@@ -652,8 +652,11 @@
     <!-- Paso 9: Prueba de agente -->
     <div *ngSwitchCase="9" class="w-full h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
       <app-test-agent-step [currentStepNumber]="getAgentStepNumber()" [totalSteps]="getAgentTotalSteps()"
-        [audioLevel]="audioLevel" [isMicrophoneActive]="isMicrophoneActive" (backClicked)="goBack()"
-        (continueClicked)="onSubmitTestCall()" (toggleMicrophoneClicked)="toggleMicrophone()">
+        [agentInstruction]="instructions" [firstInteraction]="greeting" [language]="selectedCountry"
+        [agentName]="agentName" [voiceId]="selectedVoiceId" [voiceParameters]="voiceParameters"
+        [shopifyDomain]="shopifyConnectedDomain ?? undefined"
+        (backClicked)="goBack()"
+        (continueClicked)="onSubmitTestCall()">
       </app-test-agent-step>
     </div>
 
