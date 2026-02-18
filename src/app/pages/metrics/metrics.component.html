@@ -1,5 +1,5 @@
 <div
-  class="min-h-screen p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-lg:max-w-full max-lg:w-full max-w-[74rem] 3xl:max-w-[95rem] mx-auto">
+  class="min-h-screen p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-lg:max-w-full max-lg:w-full max-w-[74rem] 3xl:max-w-[95rem] 4xl:max-w-[115rem] mx-auto">
   <!-- Encabezado -->
   <div
     class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 3xl:gap-5 max-lg:gap-1.5 mb-3 3xl:mb-5 max-lg:mb-2">
@@ -149,7 +149,7 @@
           [class.fade-in-visible]="showGraficoLlamadas">
           <div class="flex justify-between items-center mb-1 max-lg:mb-1">
             <h3
-              class="font-semibold text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-800 tracking-[-0.7px] dark:text-slate-50">
+              class="font-semibold text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm 4xl:text-lg text-gray-800 tracking-[-0.7px] dark:text-slate-50">
               {{ t.totalSuccessfulCalls }}
             </h3>
             <span
@@ -342,7 +342,7 @@
           [class.fade-in-visible]="showTotalMinutos">
           <div>
             <p
-              class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg font-semibold text-gray-600 mb-1 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-400">
+              class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg 4xl:text-base font-semibold text-gray-600 mb-1 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-400">
               {{ t.totalMinutes }}
             </p>
             <p
@@ -350,7 +350,7 @@
               {{ totalMinutesUsed }}/{{ minutesLimit }}
             </p>
             <p
-              class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg font-semibold text-gray-600 mb-1 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-400">
+              class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg 4xl:text-base font-semibold text-gray-600 mb-1 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-400">
               Coste por minuto
             </p>
             <p
@@ -358,7 +358,7 @@
               {{ costPerMinuteLabel }}
             </p>
             <p
-              class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg font-semibold text-gray-600 mb-1 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-400">
+              class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg 4xl:text-base font-semibold text-gray-600 mb-1 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-400">
               {{ t.extraMinutes }}
             </p>
             <p
@@ -366,7 +366,7 @@
               {{ extraMinutes }}
             </p>
             <p
-              class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg font-semibold text-gray-600 mb-1 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-400">
+              class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg 4xl:text-base font-semibold text-gray-600 mb-1 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-400">
               Suscripción
             </p>
             <p
@@ -413,7 +413,7 @@
           <div class="flex justify-between items-start mb-2 lg:mb-2">
             <div>
               <h3
-                class="font-semibold text-xs lg:text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-800 tracking-[-0.7px] dark:text-slate-50">
+                class="font-semibold text-xs lg:text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 4xl:text-lg text-gray-800 tracking-[-0.7px] dark:text-slate-50">
                 {{ t.latency }}
               </h3>
               <div class="mt-1.5 lg:mt-1.5 max-lg:mt-2 max-lg:sm:mt-2.5 max-lg:md:mt-3 flex items-baseline gap-0.5">
@@ -476,7 +476,7 @@
           <div class="flex justify-between items-start mb-2 lg:mb-2">
             <div>
               <h3
-                class="font-semibold text-xs lg:text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-800 tracking-[-0.7px] dark:text-slate-50">
+                class="font-semibold text-xs lg:text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 4xl:text-lg text-gray-800 tracking-[-0.7px] dark:text-slate-50">
                 {{ t.averageCallDuration }}
               </h3>
               <div class="mt-1.5 lg:mt-1.5 max-lg:mt-2 max-lg:sm:mt-2.5 max-lg:md:mt-3 flex items-baseline gap-0.5">
@@ -544,7 +544,7 @@
           class="block md:hidden lg:block bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:-ml-5 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 history-border dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas">
           <h3
-            class="font-semibold text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-800 mb-3 max-lg:mb-3 max-lg:sm:mb-4 max-lg:md:mb-4 tracking-[-0.7px] dark:text-slate-50">
+            class="font-semibold text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 4xl:text-lg text-gray-800 mb-3 max-lg:mb-3 max-lg:sm:mb-4 max-lg:md:mb-4 tracking-[-0.7px] dark:text-slate-50">
             Estado del sistema
           </h3>
 
@@ -577,7 +577,7 @@
           <!-- Título -->
           <div class="flex items-center justify-between mb-3 max-lg:mb-2">
             <h3
-              class="font-semibold text-gray-800 text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50">
+              class="font-semibold text-gray-800 text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm 4xl:text-lg tracking-[-0.7px] dark:text-slate-50">
               Horas punta
             </h3>
 
@@ -668,7 +668,7 @@
           class="bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 mb-3 max-lg:mb-2.5 md:mb-2.5 lg:mb-5 lg:-ml-5 md:h-[320px] lg:h-[320px] fade-in-section border border-gray-100 history-border flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showPaises">
           <h3
-            class="font-semibold text-gray-800 mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-3 lg:mb-2 text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50">
+            class="font-semibold text-gray-800 mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-3 lg:mb-2 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50">
             {{ t.countries }}
           </h3>
           <div class="overflow-y-auto">
@@ -706,7 +706,7 @@
           class="bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 history-border max-h-[320px] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showEvaluacionExito">
           <h3
-            class="font-semibold text-gray-800 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3 text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50">
+            class="font-semibold text-gray-800 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50">
             Evaluación de éxito
           </h3>
           <div class="overflow-y-auto space-y-2.5 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4">
@@ -735,7 +735,7 @@
           class="bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 history-border max-h-[320px] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showRazonFinalizacion">
           <h3
-            class="font-semibold text-gray-800 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3 text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50">
+            class="font-semibold text-gray-800 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50">
             Razón de finalización de la llamada
           </h3>
           <div class="overflow-y-auto space-y-2.5 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4">

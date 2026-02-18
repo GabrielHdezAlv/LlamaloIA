@@ -242,6 +242,12 @@
         position: relative;
         overflow: hidden;
 
+        svg {
+            // Mover 1 pixel a la derecha para centrado visual fino
+            transform: translateX(1px);
+            transition: transform 0.3s ease;
+        }
+
         &:hover {
             transform: scale(1.05);
             background: #25337a;
@@ -249,6 +255,31 @@
 
         &.active {
             background: #1b2559;
+
+            svg {
+                // Prevenir que el icono de cerrar se mueva a la derecha (opcional, pero suele verse mejor centrado)
+                transform: translateX(0);
+            }
+        }
+
+        // Modo oscuro: círculo blanco con icono negro
+        :host-context(.dark) & {
+            background: #ffffff;
+            color: #000000;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+
+            &:hover {
+                background: #f0f0f0;
+            }
+
+            &.active {
+                background: #ffffff;
+            }
+
+            // Aseguramos que el icono de cerrar también sea oscuro en dark mode si el botón es blanco
+            svg {
+                color: #000000;
+            }
         }
     }
 }

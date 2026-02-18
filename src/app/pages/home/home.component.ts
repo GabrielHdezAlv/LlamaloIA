@@ -58,7 +58,10 @@ export class HomeComponent implements OnInit {
   showResumen: boolean = false;
   showAgentesActivos: boolean = false;
   showLlamadasPorDia: boolean = false;
+  currentChartHeight: number = 280;
 
+  // Guardar el último breakpoint para evitar re-renders innecesarios durante el resize
+  private lastBreakpoint: string = '';
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
@@ -125,8 +128,9 @@ export class HomeComponent implements OnInit {
         // Actualizar agentes activos
         this.updateActiveAgents(data);
 
-        // Actualizar datos del gráfico principal
+        // Actualizar datos del gráfico principal y forzar recálculo de opciones
         this.updateMainChart(data);
+        this.updateChartOptions();
       },
       error: (error) => {
         this.isLoadingMetrics = false;
@@ -458,7 +462,7 @@ export class HomeComponent implements OnInit {
     xaxis: { lines: { show: false } },
     yaxis: { lines: { show: false } },
     padding: {
-      bottom: 0,
+      bottom: 20,
       left: 20,
       right: 10,
       top: 10,
@@ -619,18 +623,99 @@ export class HomeComponent implements OnInit {
 
   // Método para obtener la altura del gráfico según el tamaño de pantalla
   getChartHeight(): number {
-    if (typeof window !== 'undefined' && window.innerWidth >= 1920) {
-      return 380; // Más alto en 3xl
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      if (width >= 2500) return 440;
+      if (width >= 1920) return 350;
     }
-    return 280; // Altura normal
+    return 280;
   }
 
-  // Método para actualizar la altura del gráfico cuando cambia el tamaño de ventana
-  updateChartHeight(): void {
+  // Método para actualizar las opciones del gráfico según el tamaño de ventana
+  updateChartOptions(): void {
+    if (typeof window === 'undefined') return;
+
+    const width = window.innerWidth;
+
+    // Determinar el breakpoint actual
+    let currentBreakpoint = 'normal';
+    let fontSize = '11px';
+    let fontWeight = 600;
+    let bottomPadding = 0;
+    let chartHeight = 280;
+
+    if (width >= 2500) {
+      currentBreakpoint = '4xl';
+      fontSize = '16px';
+      fontWeight = 700;
+      bottomPadding = 5;
+      chartHeight = 440;
+    } else if (width >= 1920) {
+      currentBreakpoint = '3xl';
+      fontSize = '14px';
+      fontWeight = 700;
+      bottomPadding = 10;
+      chartHeight = 350;
+    }
+
+    // SI EL BREAKPOINT NO HA CAMBIADO, NO HACEMOS NADA (evita parpadeos y bugs)
+    if (this.lastBreakpoint === currentBreakpoint) return;
+    this.lastBreakpoint = currentBreakpoint;
+    this.currentChartHeight = chartHeight;
+
+    // Actualizar configuración del gráfico
     if (this.callsAreaChart) {
       this.callsAreaChart = {
         ...this.callsAreaChart,
-        height: this.getChartHeight(),
+        height: chartHeight
+      };
+    }
+
+    // Forzar a ApexCharts a recalcular su tamaño disparando un resize global
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('resize'));
+      }
+    }, 100);
+
+    // Actualizar XAxis (fuentes)
+    if (this.callsAreaXAxis) {
+      this.callsAreaXAxis = {
+        ...this.callsAreaXAxis,
+        labels: {
+          ...this.callsAreaXAxis.labels,
+          style: {
+            ...this.callsAreaXAxis.labels?.style,
+            fontSize: fontSize,
+            fontWeight: fontWeight
+          }
+        }
+      };
+    }
+
+    // Actualizar Grid (padding para que no se corten las letras)
+    if (this.callsAreaGrid) {
+      this.callsAreaGrid = {
+        ...this.callsAreaGrid,
+        padding: {
+          ...this.callsAreaGrid.padding,
+          bottom: bottomPadding
+        }
+      };
+    }
+
+    // Actualizar YAxis (fuentes)
+    if (this.callsAreaYAxis) {
+      this.callsAreaYAxis = {
+        ...this.callsAreaYAxis,
+        labels: {
+          ...this.callsAreaYAxis.labels,
+          style: {
+            ...this.callsAreaYAxis.labels?.style,
+            fontSize: fontSize,
+            fontWeight: fontWeight
+          }
+        }
       };
     }
   }
@@ -705,10 +790,10 @@ export class HomeComponent implements OnInit {
     if (this.isBrowser) {
       this.loadMetrics();
       this.loadUserAgents();
-      // Actualizar altura del gráfico según el tamaño de pantalla
-      this.updateChartHeight();
+      // Actualizar opciones del gráfico según el tamaño de pantalla (altura, fuentes, etc)
+      this.updateChartOptions();
       // Escuchar cambios de tamaño de ventana
-      window.addEventListener('resize', () => this.updateChartHeight());
+      window.addEventListener('resize', () => this.updateChartOptions());
     } else {
       // Si no estamos en el navegador, asegurar que los gráficos tengan datos por defecto
       // (ya están inicializados arriba, pero esto asegura que se muestren)

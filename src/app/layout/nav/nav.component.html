@@ -52,7 +52,7 @@
 
   <!-- Sidebar móvil con estilo de escritorio -->
   <div [class]="
-      'relative w-72 bg-white shadow-xl flex flex-col h-full mobile-sidebar dark:bg-slate-900 dark:border-slate-800 border-r border-gray-200' +
+      'relative w-72 bg-white shadow-xl flex flex-col h-full mobile-sidebar dark:bg-slate-900 dark:border-slate-800 border-r-[0.5px] border-gray-200' +
       (isClosing ? ' leaving' : '')
     ">
     <div class="flex flex-col h-full w-full">
@@ -361,7 +361,7 @@
 
 <!-- Sidebar en escritorio -->
 <div *ngIf="windowWidth >= 1280" [class]="
-    'hidden xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r border-gray-200 dark:border-neutral-800 transition-all duration-500 ease-in-out group ' +
+    'hidden xl:flex xl:flex-col xl:h-full xl:fixed xl:inset-y-0 bg-white border-r-[0.5px] border-gray-200 dark:border-neutral-800 transition-all duration-500 ease-in-out group ' +
     (isCollapsed
       ? 'xl:w-12 3xl:w-20'
       : 'xl:w-[12rem] 2xl:w-[12rem] 3xl:w-[16rem]')
@@ -422,7 +422,7 @@
       class="flex-1 font-semibold text-sm overflow-y-auto flex flex-col pt-5 3xl:pt-7 pb-2 3xl:pb-4 space-y-3 3xl:space-y-5 pl-3 3xl:pl-6 relative">
       <!-- Indicador deslizante -->
       <div
-        class="absolute right-0 top-0 w-1 rounded-l-md bg-[#1B2559] dark:bg-white transition-all duration-300 ease-in-out z-10 shadow-[0_0_15px_1px_rgba(27,37,89,0.6)] dark:shadow-[0_0_15px_1px_rgba(255,255,255,0.6)]"
+        class="absolute right-0 top-0 w-[2.5px] rounded-l-md bg-[#1B2559] dark:bg-white transition-all duration-300 ease-in-out z-10 shadow-[0_0_15px_1px_rgba(27,37,89,0.6)] dark:shadow-[0_0_15px_1px_rgba(255,255,255,0.6)]"
         [style.transform]="'translateY(' + indicatorTop + 'px)'" [style.height.px]="indicatorHeight"
         [style.opacity]="showIndicator ? 1 : 0"></div>
 

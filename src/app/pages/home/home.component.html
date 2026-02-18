@@ -1,23 +1,22 @@
-<!-- Primera fila: 4 paneles de extremo a extremo -->
-<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8">
+<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8 4xl:px-12">
   <div
-    class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] mx-auto mt-3 2xl:mt-2 3xl:mt-5">
+    class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] 4xl:max-w-[110rem] mx-auto mt-3 2xl:mt-2 3xl:mt-5 4xl:mt-8">
     <div class="grid grid-cols-12 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-5 max-lg:gap-2">
       <!-- 4 paneles - 12 columnas divididas en 4 columnas -->
       <div class="col-span-12 grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-5 max-lg:gap-2">
         <!-- Panel 1: Total de llamadas -->
         <div
-          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] flex flex-col justify-between fade-in-section relative"
+          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
           [class.fade-in-visible]="showTotalCallsPanel">
-          <span class="text-xs lg:text-xs 3xl:text-base text-black font-medium -mt-1">
+          <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black font-medium -mt-1">
             Total de llamadas
           </span>
           <div class="flex flex-col">
-            <span class="text-2xl lg:text-2xl 3xl:text-4xl font-bold text-black">
+            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black">
               {{ totalCallsFromLast7Days }}
             </span>
             <div class="flex items-center gap-1 mt-0.5">
-              <span class="text-[10px] lg:text-[10px] 3xl:text-xs font-semibold" [ngClass]="
+              <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold" [ngClass]="
                   (dashboardMetrics?.resumen?.total_llamadas
                     ?.variacionPorcentual ?? 0) >= 0
                     ? 'text-green-600 dark:text-green-400'
@@ -33,7 +32,7 @@
                 ?.variacionPorcentual ?? 0
                 }}%
               </span>
-              <span class="text-[10px] lg:text-[10px] 3xl:text-xs text-gray-500 dark:text-slate-500">
+              <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base text-gray-500 dark:text-slate-500">
                 vs semana pasada
               </span>
             </div>
@@ -42,19 +41,19 @@
 
         <!-- Panel 2: Llamadas exitosas -->
         <div
-          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] flex flex-col justify-between fade-in-section relative"
+          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
           [class.fade-in-visible]="showTotalCallsPanel">
-          <span class="text-xs lg:text-xs 3xl:text-base text-black font-medium -mt-1">
+          <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black font-medium -mt-1">
             Llamadas exitosas
           </span>
           <div class="flex flex-col">
-            <span class="text-2xl lg:text-2xl 3xl:text-4xl font-bold text-black">
+            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black">
               {{
               dashboardMetrics?.resumen?.total_llamadas_exitosas?.actual || 0
               }}
             </span>
             <div class="flex items-center gap-1 mt-0.5">
-              <span class="text-[10px] lg:text-[10px] 3xl:text-xs font-semibold" [ngClass]="
+              <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold" [ngClass]="
                   (dashboardMetrics?.resumen?.total_llamadas_exitosas
                     ?.variacionPorcentual ?? 0) >= 0
                     ? 'text-green-600 dark:text-green-400'
@@ -70,7 +69,7 @@
                 ?.variacionPorcentual ?? 0
                 }}%
               </span>
-              <span class="text-[10px] lg:text-[10px] 3xl:text-xs text-gray-500 dark:text-slate-500">
+              <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base text-gray-500 dark:text-slate-500">
                 vs semana pasada
               </span>
             </div>
@@ -79,17 +78,17 @@
 
         <!-- Panel 3: Minutos Totales -->
         <div
-          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] flex flex-col justify-between fade-in-section relative"
+          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
           [class.fade-in-visible]="showMinutesPanel">
-          <span class="text-xs lg:text-xs 3xl:text-base text-black font-medium -mt-1">
+          <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black font-medium -mt-1">
             Minutos Totales
           </span>
           <div class="flex flex-col">
-            <span class="text-2xl lg:text-2xl 3xl:text-4xl font-bold text-black">
+            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black">
               {{ dashboardMetrics?.resumen?.minutos_ultimo_mes?.actual || 0 }} m
             </span>
             <div class="flex items-center gap-1 mt-0.5">
-              <span class="text-[10px] lg:text-[10px] 3xl:text-sm font-semibold" [ngClass]="
+              <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold" [ngClass]="
                   (dashboardMetrics?.resumen?.minutos_ultimo_mes
                     ?.variacionPorcentual ?? 0) >= 0
                     ? 'text-green-600 dark:text-green-400'
@@ -105,7 +104,7 @@
                 ?.variacionPorcentual ?? 0
                 }}%
               </span>
-              <span class="text-[10px] lg:text-[10px] 3xl:text-xs text-gray-500 dark:text-slate-500">
+              <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base text-gray-500 dark:text-slate-500">
                 vs semana pasada
               </span>
             </div>
@@ -114,17 +113,17 @@
 
         <!-- Panel 4: Tiempo Ahorrado -->
         <div
-          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] flex flex-col justify-between fade-in-section relative"
+          class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
           [class.fade-in-visible]="showMinutesPanel">
-          <span class="text-xs lg:text-xs 3xl:text-base text-black font-medium -mt-1">
+          <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black font-medium -mt-1">
             Tiempo Ahorrado
           </span>
           <div class="flex flex-col">
-            <span class="text-2xl lg:text-2xl 3xl:text-4xl font-bold text-black">
+            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black">
               {{ dashboardMetrics?.resumen?.tiempo_ahorrado?.actual || 0 }} m
             </span>
             <div class="flex items-center gap-1 mt-0.5">
-              <span class="text-[10px] lg:text-[10px] 3xl:text-xs font-semibold" [ngClass]="
+              <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold" [ngClass]="
                   (dashboardMetrics?.resumen?.tiempo_ahorrado
                     ?.variacionPorcentual ?? 0) >= 0
                     ? 'text-green-600 dark:text-green-400'
@@ -140,7 +139,7 @@
                 ?.variacionPorcentual ?? 0
                 }}%
               </span>
-              <span class="text-[10px] lg:text-[10px] 3xl:text-xs text-gray-500 dark:text-slate-500">
+              <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base text-gray-500 dark:text-slate-500">
                 vs semana pasada
               </span>
             </div>
@@ -152,21 +151,22 @@
 </div>
 
 <!-- Segunda fila: Panel grande izquierda (70%) + Panel derecho (30%) -->
-<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8">
+<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8 4xl:px-12">
   <div
-    class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] mx-auto mt-3 2xl:mt-2 3xl:mt-5">
-    <div class="grid grid-cols-12 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-5 max-lg:gap-2">
+    class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] 4xl:max-w-[110rem] mx-auto mt-3 2xl:mt-2 3xl:mt-5 4xl:mt-8">
+    <div class="grid grid-cols-12 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-5 4xl:gap-7 max-lg:gap-2">
       <!-- Panel grande izquierda (70% - 8.4 columnas de 12, redondeado a 8) -->
       <div
-        class="col-span-12 lg:col-span-8 bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-6 min-h-[15rem] lg:min-h-[17rem] 3xl:min-h-[22rem] overflow-visible fade-in-section border border-gray-100 dark:border-slate-800"
+        class="col-span-12 lg:col-span-8 bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-6 4xl:p-8 min-h-[15rem] lg:min-h-[17rem] 3xl:min-h-[26rem] 4xl:min-h-[30rem] flex flex-col overflow-visible fade-in-section border border-gray-100 dark:border-slate-800"
         [class.fade-in-visible]="showChartPanel">
         <!-- Título -->
-        <h3 class="text-sm lg:text-base 3xl:text-lg font-semibold text-black dark:text-slate-50 mb-2 3xl:mb-3">
+        <h3
+          class="text-sm lg:text-base 3xl:text-lg 4xl:text-2xl font-semibold text-black dark:text-slate-50 mb-2 3xl:mb-3 4xl:mb-4">
           Total de llamadas
         </h3>
 
         <!-- Desktop -->
-        <div class="block relative h-50 sm:h-58 lg:h-62 chart-container -mx-1"
+        <div class="block relative flex-1 min-h-[280px] 3xl:h-[320px] 4xl:h-[420px] chart-container -mx-1"
           style="overflow: visible; touch-action: none">
           <apx-chart [series]="callsAreaSeries" [chart]="callsAreaChart" [dataLabels]="callsAreaDataLabels"
             [stroke]="callsAreaStroke" [grid]="callsAreaGrid" [xaxis]="callsAreaXAxis" [yaxis]="callsAreaYAxis"
@@ -176,19 +176,20 @@
       </div>
 
       <!-- Panel derecho (30% - 3.6 columnas de 12, redondeado a 4) -->
-      <div class="col-span-12 lg:col-span-4 grid grid-cols-1 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-5 max-lg:gap-2">
+      <div
+        class="col-span-12 lg:col-span-4 grid grid-cols-1 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-5 4xl:gap-7 max-lg:gap-2">
         <!-- Panel superior - Tasa de éxito -->
         <div
-          class="relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-6 border border-gray-100 dark:border-slate-800 min-h-[7.5rem] lg:min-h-[9rem] 3xl:min-h-[12rem] flex flex-col justify-between fade-in-section"
+          class="relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-6 4xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[7.5rem] lg:min-h-[9rem] 3xl:min-h-[16rem] 4xl:min-h-[20rem] flex flex-col justify-between fade-in-section"
           [class.fade-in-visible]="showAdPanel">
           <!-- Título -->
-          <span class="text-xs lg:text-xs 3xl:text-base text-black font-medium">
+          <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black font-medium">
             Tasa de éxito de las llamadas
           </span>
 
           <!-- Porcentaje grande en el centro -->
           <div class="flex items-center justify-center flex-1">
-            <span class="text-4xl lg:text-5xl 3xl:text-5xl font-bold text-black">
+            <span class="text-4xl lg:text-5xl 3xl:text-5xl 4xl:text-6xl font-bold text-black">
               {{ dashboardMetrics?.resumen?.tasa_exito || 0 }}%
             </span>
           </div>
@@ -204,44 +205,47 @@
         </div>
         <!-- Panel inferior - Tarjeta de crédito -->
         <div
-          class="credits-card-light relative overflow-hidden bg-gradient-to-br to-[#18181a] rounded-2xl shadow-lg p-3 lg:p-4 xl:p-4 2xl:p-5 3xl:p-6 min-h-[6.5rem] lg:min-h-[7.5rem] 3xl:min-h-[10rem] fade-in-section border border-gray-100 dark:border-slate-800"
+          class="credits-card-light relative overflow-hidden bg-gradient-to-br to-[#18181a] rounded-2xl shadow-lg p-3 lg:p-4 xl:p-4 2xl:p-5 3xl:p-6 4xl:p-8 min-h-[6.5rem] lg:min-h-[7.5rem] 3xl:min-h-[13rem] 4xl:min-h-[14.5rem] fade-in-section border border-gray-100 dark:border-slate-800"
           [class.fade-in-visible]="showEmptyPanel">
           <!-- Contenido -->
           <div class="relative z-10 flex flex-col h-full">
             <div class="flex items-center justify-between mb-3 3xl:mb-3">
               <div class="flex flex-col">
-                <h3 class="text-xs lg:text-xs 3xl:text-base font-medium text-black/80 dark:text-white/80">
+                <h3 class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl font-medium text-black/80 dark:text-white/80">
                   Minutos
                 </h3>
                 <span
-                  class="text-[10px] lg:text-[9px] 3xl:text-xs font-medium text-black/60 dark:text-white/60 uppercase tracking-wider mt-0.5">
+                  class="text-[10px] lg:text-[9px] 3xl:text-xs 4xl:text-sm font-medium text-black/60 dark:text-white/60 uppercase tracking-wider mt-0.5">
                   Plan Starter
                 </span>
               </div>
               <div class="flex items-center gap-2">
                 <img src="assets/logo_azul.webp" alt="Logo"
-                  class="w-7 h-7 3xl:w-8 3xl:h-8 object-contain dark:hidden" />
+                  class="w-7 h-7 3xl:w-8 3xl:h-8 4xl:w-12 4xl:h-12 object-contain dark:hidden" />
                 <img src="assets/logo_blanco.webp" alt="Logo"
-                  class="w-7 h-7 3xl:w-8 3xl:h-8 object-contain hidden dark:block" />
+                  class="w-7 h-7 3xl:w-8 3xl:h-8 4xl:w-12 4xl:h-12 object-contain hidden dark:block" />
               </div>
             </div>
 
             <div class="flex-1 flex flex-col">
               <div class="mb-auto">
-                <span class="text-2xl lg:text-2xl 3xl:text-3xl font-bold text-black dark:text-white tracking-tight">
-                  300<span class="text-[10px] lg:text-xs 3xl:text-sm ml-0.5 opacity-70 font-semibold">M</span> 12<span
-                    class="text-[10px] lg:text-xs 3xl:text-sm ml-0.5 opacity-70 font-semibold">S</span>
+                <span
+                  class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black dark:text-white tracking-tight">
+                  300<span
+                    class="text-[10px] lg:text-xs 3xl:text-base 4xl:text-lg ml-0.5 opacity-70 font-semibold">M</span>
+                  12<span
+                    class="text-[10px] lg:text-xs 3xl:text-base 4xl:text-lg ml-0.5 opacity-70 font-semibold">S</span>
                 </span>
               </div>
 
-              <div class="mb-2 3xl:mb-2.5">
-                <span class="text-xs lg:text-xs 3xl:text-base font-medium text-black/70 dark:text-white/70">
+              <div class="mb-2 3xl:mb-2.5 4xl:mb-4">
+                <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl font-medium text-black/70 dark:text-white/70">
                   Minutos disponibles
                 </span>
               </div>
 
               <!-- Barra de progreso estilo tarjeta -->
-              <div class="h-2 3xl:h-3 bg-white/20 rounded-full w-full overflow-hidden">
+              <div class="h-2 3xl:h-3 4xl:h-4 bg-white/20 rounded-full w-full overflow-hidden">
                 <div class="bg-[#1B2559] dark:bg-white h-full rounded-full transition-all duration-300"
                   style="width: 60%"></div>
               </div>
@@ -253,24 +257,24 @@
   </div>
 </div>
 <!-- Panel: Maximiza tu Eficiencia -->
-<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8">
+<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-4 3xl:px-8 4xl:px-12">
   <div
-    class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] mx-auto mt-3 2xl:mt-2 3xl:mt-5">
+    class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] 4xl:max-w-[110rem] mx-auto mt-3 2xl:mt-2 3xl:mt-5 4xl:mt-8">
     <div
-      class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-2.5 lg:p-3 3xl:p-5 border border-gray-100 dark:border-slate-800 min-h-[3.5rem] lg:min-h-[4rem] 3xl:min-h-[5rem] flex items-center justify-between fade-in-section"
+      class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-2.5 lg:p-3 3xl:p-4 4xl:p-6 border border-gray-100 dark:border-slate-800 min-h-[3.5rem] lg:min-h-[4rem] 3xl:min-h-[4rem] 4xl:min-h-[5rem] flex items-center justify-between fade-in-section"
       [class.fade-in-visible]="showAdPanel">
       <!-- Texto a la izquierda -->
       <div class="flex flex-col">
-        <h2 class="text-black dark:text-white font-bold text-sm lg:text-sm 3xl:text-base mb-0.5">
+        <h2 class="text-black dark:text-white font-bold text-sm lg:text-sm 3xl:text-base 4xl:text-xl mb-0.5">
           Maximiza tu Eficiencia
         </h2>
-        <p class="text-gray-400 dark:text-gray-400 text-xs lg:text-xs 3xl:text-base">
+        <p class="text-gray-400 dark:text-gray-400 text-xs lg:text-xs 3xl:text-base 4xl:text-lg">
           Desbloquea funciones avanzadas de automatización
         </p>
       </div>
       <!-- Botón a la derecha -->
       <button
-        class="bg-[#1B2559] dark:bg-white hover:bg-gray-900 text-white dark:text-[#000001] font-semibold rounded-lg px-3 py-1 lg:px-4 lg:py-1.5 3xl:px-5 3xl:py-2 text-[10px] lg:text-xs 3xl:text-sm transition-colors whitespace-nowrap">
+        class="bg-[#1B2559] dark:bg-white hover:bg-gray-900 text-white dark:text-[#000001] font-semibold rounded-lg px-3 py-1 lg:px-4 lg:py-1.5 3xl:px-5 3xl:py-2 4xl:px-7 4xl:py-3 text-[10px] lg:text-xs 3xl:text-sm 4xl:text-base transition-colors whitespace-nowrap">
         Mejorar Plan
       </button>
     </div>

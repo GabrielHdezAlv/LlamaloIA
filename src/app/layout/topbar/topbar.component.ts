@@ -11,7 +11,7 @@ import {
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
-import { NgIf, NgFor, NgClass, isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { I18nService, Language } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
@@ -29,7 +29,7 @@ interface AgentDraft {
 @Component({
   selector: 'topbar',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
 })
@@ -63,6 +63,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   showDropdown = false;
   showInviteModal = false;
+  showNewsDropdown = false;
+  hasNewNotifications = true;
 
   // Draft recovery
   hasSavedDraft = false;
@@ -181,6 +183,26 @@ export class TopbarComponent implements OnInit, OnDestroy {
         )
       ) {
         this.showDropdown = false;
+      }
+    }
+
+    // Cerrar dropdown de noticias si se hace clic fuera
+    if (this.showNewsDropdown) {
+      const host = this.elementRef.nativeElement as HTMLElement;
+      const newsButtons = host.querySelectorAll('.news-bell-btn');
+      const newsDropdowns = host.querySelectorAll('.news-dropdown');
+      const target = event.target as HTMLElement;
+
+      let clickedInside = false;
+      newsButtons.forEach((btn) => {
+        if (btn.contains(target)) clickedInside = true;
+      });
+      newsDropdowns.forEach((dropdown) => {
+        if (dropdown.contains(target)) clickedInside = true;
+      });
+
+      if (!clickedInside) {
+        this.showNewsDropdown = false;
       }
     }
   }
@@ -586,6 +608,24 @@ export class TopbarComponent implements OnInit, OnDestroy {
     if (event.target === event.currentTarget) {
       this.closeInviteModal();
     }
+  }
+
+  // Abrir dropdown de noticias
+  toggleNewsDropdown() {
+    this.showNewsDropdown = !this.showNewsDropdown;
+    if (this.showNewsDropdown) {
+      this.hasNewNotifications = false;
+      this.showDropdown = false; // Cerrar el otro dropdown
+    }
+  }
+
+  closeNewsDropdown() {
+    this.showNewsDropdown = false;
+  }
+
+  // Compatibilidad con referencias antiguas si las hubiera
+  openNewsModal() {
+    this.toggleNewsDropdown();
   }
 
   // Abrir sidebar móvil
