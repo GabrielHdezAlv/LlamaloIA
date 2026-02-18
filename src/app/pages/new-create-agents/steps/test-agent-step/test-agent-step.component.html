@@ -12,7 +12,7 @@
       </span>
     </div>
     <p class="mt-0.5 3xl:mt-1 text-sm xl:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
-      Habla con nuestro agente de prueba para ver cómo funciona.
+      Habla con tu agente para verificar su voz, idioma e instrucciones antes de crear.
     </p>
 
     <!-- Esfera -->
@@ -22,9 +22,19 @@
       </div>
     </div>
 
-    <!-- Microfono y botones -->
+    <!-- Botón de probar llamada y microfono -->
     <div class="w-full flex flex-col items-center gap-3 3xl:gap-6 -mt-3 3xl:-mt-6">
-      <div class="flex justify-center">
+      <div class="flex items-center gap-3">
+        <!-- Botón Probar llamada -->
+        <button type="button" (click)="openVoiceTest()"
+          class="flex items-center gap-2 px-4 3xl:px-6 py-2 3xl:py-3 text-xs 3xl:text-base font-medium rounded-full bg-[#1E3A8A] hover:bg-[#1E40AF] text-white transition-all duration-200 shadow-lg hover:shadow-xl dark:bg-white dark:text-black dark:hover:bg-gray-100">
+          <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/>
+          </svg>
+          Probar llamada
+        </button>
+
+        <!-- Botón micrófono (toggle preview local) -->
         <button type="button" (click)="toggleMicrophoneClicked.emit()"
           class="rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-slate-600 hover:border-blue-300 dark:hover:border-blue-500 w-9 h-9 3xl:w-16 3xl:h-16 bg-white dark:bg-slate-800">
           @if (isMicrophoneActive) {
@@ -44,6 +54,7 @@
           }
         </button>
       </div>
+
       <div class="w-full flex items-center justify-between nav-buttons-mobile">
         <button type="button"
           class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
@@ -61,3 +72,16 @@
   </div>
 </div>
 
+<!-- Voice Test Call Overlay -->
+@if (showVoiceTest) {
+  <app-voice-test-call
+    [agentInstruction]="agentInstruction"
+    [firstInteraction]="firstInteraction"
+    [language]="language"
+    [agentName]="agentName"
+    [voiceId]="voiceId"
+    [parameters]="voiceParameters"
+    [shopifyDomain]="shopifyDomain"
+    (closed)="closeVoiceTest()">
+  </app-voice-test-call>
+}

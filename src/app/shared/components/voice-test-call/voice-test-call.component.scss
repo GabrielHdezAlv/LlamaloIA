@@ -1,0 +1,7 @@
+:host {
+  display: contents;
+}
+
+:host ::ng-deep app-ai-sphere {
+  pointer-events: none;
+}
