@@ -35,6 +35,11 @@ import {
   LinkKnowledgeSourcesToAgentRequest,
 } from '../../shared/models/knowledge-source.model';
 import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
+import {
+  VoiceTestService,
+  VoiceTestConfig,
+  TranscriptMessage,
+} from '../../core/services/voice-test.service';
 import { TwilioService } from '../../core/services/twilio.service';
 import type {
   TwilioAccount,
@@ -73,6 +78,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private userStore = inject(UserStorage);
   private cdr = inject(ChangeDetectorRef);
   private notificationService = inject(NotificationService);
+  readonly voiceTest = inject(VoiceTestService);
 
   editForm!: FormGroup;
   isLoading = false;
@@ -92,6 +98,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput', { static: false })
   fileInput!: ElementRef<HTMLInputElement>;
 
+  @ViewChild('transcriptContainer')
+  transcriptContainer!: ElementRef<HTMLDivElement>;
+
   twilioAccounts: TwilioAccount[] = [];
   isLoadingTwilioInfo = false;
 
@@ -110,6 +119,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   // Audio
   audioLevel = 0;
   isPlaying = false;
+  private voiceTestAnimationFrame: number | null = null;
   currentPlayingVoice: string | null = null;
   audioActual: HTMLAudioElement | null = null;
   private animationId: any;
@@ -521,6 +531,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     });
     this.audioCache.clear();
 
+    // Limpiar voice test
+    this.voiceTest.reset();
+
     // Limpiar suscripciones
     this.destroy$.next();
     this.destroy$.complete();
@@ -881,8 +894,22 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
     const animate = () => {
       if (this.isPlaying) return;
-      // Pulso sinusoidal suave
-      this.audioLevel = Math.sin(Date.now() / 1000) * 0.2 + 0.1;
+
+      // Si hay una llamada de prueba activa, animar según estado del agente
+      const connState = this.voiceTest.connectionState();
+      if (connState === 'connecting' || connState === 'connected') {
+        const agentState = this.voiceTest.agentState();
+        if (agentState === 'speaking') {
+          this.audioLevel = 0.3 + Math.sin(Date.now() / 150) * 0.25 + Math.sin(Date.now() / 80) * 0.15;
+        } else if (agentState === 'thinking') {
+          this.audioLevel = 0.15 + Math.sin(Date.now() / 600) * 0.1;
+        } else {
+          this.audioLevel = Math.sin(Date.now() / 1000) * 0.15 + 0.08;
+        }
+      } else {
+        // Pulso sinusoidal suave (idle normal)
+        this.audioLevel = Math.sin(Date.now() / 1000) * 0.2 + 0.1;
+      }
       this.animationId = requestAnimationFrame(animate);
     };
     animate();
@@ -899,6 +926,110 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       this.animationId = requestAnimationFrame(animate);
     };
     animate();
+  }
+
+  // ──────── Voice Test Call ────────
+
+  startVoiceTestCall(): void {
+    const formValue = this.editForm.value;
+    const config: VoiceTestConfig = {
+      agentInstruction: formValue.agentInstruction || '',
+      firstInteraction: formValue.firstInteraction || '',
+      language: formValue.language || 'es',
+      name: formValue.name || 'Agente',
+      voiceId: formValue.voiceId || '',
+      parameters: {
+        stability: formValue.stability ?? 0.5,
+        similarity: formValue.similarity ?? 0.75,
+        style: formValue.style ?? 0.0,
+        boost: formValue.boost ?? false,
+        speed: formValue.speed ?? 1.0,
+      },
+      ...(this.selectedShopifyDomain ? { shopifyDomain: this.selectedShopifyDomain } : {}),
+    };
+
+    // Pausar audio preview si está sonando
+    if (this.isPlaying) {
+      this.pauseTestAudio();
+    }
+
+    this.voiceTest.startSession(config);
+  }
+
+  endVoiceTestCall(): void {
+    this.voiceTest.endSession();
+  }
+
+  toggleVoiceTestMute(): void {
+    this.voiceTest.toggleMute();
+  }
+
+  restartVoiceTestCall(): void {
+    this.voiceTest.reset();
+    this.startVoiceTestCall();
+  }
+
+  get isVoiceTestCallActive(): boolean {
+    const state = this.voiceTest.connectionState();
+    return state === 'connecting' || state === 'connected';
+  }
+
+  get isVoiceTestCallEnded(): boolean {
+    const state = this.voiceTest.connectionState();
+    return state === 'ended' || state === 'error';
+  }
+
+  get isVoiceTestIdle(): boolean {
+    return this.voiceTest.connectionState() === 'idle';
+  }
+
+  formatVoiceTestTime(seconds: number): string {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  }
+
+  getVoiceTestAgentStateText(): string {
+    switch (this.voiceTest.agentState()) {
+      case 'thinking': return 'Pensando...';
+      case 'speaking': return 'Hablando...';
+      case 'done': return 'Listo';
+      default: return 'Esperando...';
+    }
+  }
+
+  getVoiceTestConnectionStateText(): string {
+    switch (this.voiceTest.connectionState()) {
+      case 'connecting': return 'Conectando...';
+      case 'connected': return 'Conectado';
+      case 'error': return 'Error';
+      case 'ended': return 'Finalizado';
+      default: return '';
+    }
+  }
+
+  getVoiceTestEndReasonText(): string {
+    switch (this.voiceTest.sessionEndReason()) {
+      case 'timeout': return 'La prueba ha finalizado porque se alcanzó el tiempo máximo de 2 minutos.';
+      case 'user': return 'Has finalizado la prueba.';
+      case 'disconnect': return 'La conexión se ha perdido.';
+      case 'replaced': return 'La sesión fue reemplazada por otra prueba.';
+      case 'error': return 'La sesión finalizó debido a un error.';
+      default: return 'La prueba ha finalizado.';
+    }
+  }
+
+  scrollVoiceTestToBottom(): void {
+    try {
+      if (this.transcriptContainer?.nativeElement) {
+        const el = this.transcriptContainer.nativeElement;
+        el.scrollTop = el.scrollHeight;
+      }
+    } catch {}
+  }
+
+  trackByTimestamp(_index: number, msg: TranscriptMessage): number {
+    return msg.timestamp;
   }
 
   get phoneChanged(): boolean {
