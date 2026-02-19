@@ -229,56 +229,100 @@
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        background: #1b2559;
+        background: transparent;
         border: none;
         color: white;
-        font-size: 24px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 15px rgba(27, 37, 89, 0.4);
+        box-shadow: none;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
-        overflow: hidden;
+        overflow: visible;
 
-        svg {
-            // Mover 1 pixel a la derecha para centrado visual fino
-            transform: translateX(1px);
-            transition: transform 0.3s ease;
+        .launcher-tooltip {
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%) translateX(20px) scale(0.5);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            z-index: -1;
+        }
+
+        &:hover .launcher-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(-8px) scale(1);
+        }
+
+        .launcher-sphere-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+
+            app-ai-sphere {
+                transform: scale(0.4);
+                /* Significantly increased scale to fill the button entirely */
+                transform-origin: center;
+                margin: 0 !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        .close-icon {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+            animation: fadeInScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         &:hover {
             transform: scale(1.05);
-            background: #25337a;
         }
 
         &.active {
-            background: #1b2559;
+            background: transparent;
 
-            svg {
-                // Prevenir que el icono de cerrar se mueva a la derecha (opcional, pero suele verse mejor centrado)
-                transform: translateX(0);
+            .launcher-sphere-wrapper {
+                opacity: 0.5;
+                filter: blur(1px);
+                transition: all 0.3s ease;
             }
         }
 
-        // Modo oscuro: círculo blanco con icono negro
+        // Modo oscuro
         :host-context(.dark) & {
-            background: #ffffff;
-            color: #000000;
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+            background: transparent;
+            border: none;
+            box-shadow: none;
 
             &:hover {
-                background: #f0f0f0;
+                background: transparent;
             }
 
             &.active {
-                background: #ffffff;
-            }
-
-            // Aseguramos que el icono de cerrar también sea oscuro en dark mode si el botón es blanco
-            svg {
-                color: #000000;
+                border-color: transparent;
             }
         }
     }
@@ -505,6 +549,9 @@
             height: 60px;
             border-radius: 50%;
             z-index: 10001;
+            background: transparent;
+            border: none;
+            overflow: visible;
 
             &:hover {
                 transform: translateX(50%) scale(1.05);
@@ -514,9 +561,12 @@
                 transform: translateX(50%);
             }
 
-            svg {
-                width: 28px;
-                height: 28px;
+            .launcher-sphere-wrapper {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
     }
@@ -547,5 +597,17 @@
     to {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.5) rotate(-90deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
     }
 }

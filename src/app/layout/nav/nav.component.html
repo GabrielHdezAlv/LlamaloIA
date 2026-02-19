@@ -651,7 +651,7 @@
         ">
         <!-- Botón de modo oscuro/claro cuando el sidebar está cerrado -->
         <button *ngIf="isCollapsed" type="button" (click)="toggleDarkMode()"
-          class="mb-7 relative inline-flex items-center justify-center focus:outline-none transition-all duration-300 theme-toggle-btn translate-x-[1px]"
+          class="mb-4 relative inline-flex items-center justify-center focus:outline-none transition-all duration-300 theme-toggle-btn translate-x-[1px]"
           [attr.aria-checked]="isDarkMode" [attr.aria-label]="
             isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro'
           ">
@@ -696,7 +696,7 @@
 
         <!-- Icono de regalos cuando el sidebar está cerrado -->
         <button *ngIf="isCollapsed" (click)="goToGifts()"
-          class="mb-7 inline-flex items-center justify-center focus:outline-none transition-colors translate-x-[1px]"
+          class="mb-4 inline-flex items-center justify-center focus:outline-none transition-colors translate-x-[1px]"
           aria-label="Ver regalos">
           <svg class="w-[14px] h-[14px] 3xl:w-[18px] 3xl:h-[18px] text-[#1B2559] dark:text-blue-400" viewBox="0 0 24 24"
             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
