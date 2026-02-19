@@ -1,7 +1,7 @@
 <div
   class="w-full h-full bg-transparent flex items-center justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-16">
   <div
-    class="w-full max-w-[400px] sm:max-w-[440px] xl:max-w-[360px] 3xl:max-w-[600px] flex flex-col px-4 sm:px-5 xl:px-4 3xl:px-6 overflow-visible">
+    class="w-full max-w-[500px] sm:max-w-[600px] md:max-w-[720px] xl:max-w-[700px] 3xl:max-w-[800px] flex flex-col px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8 overflow-visible">
     <div class="flex items-center justify-between w-full">
       <h1 class="text-lg xl:text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
         Lenguaje y voz
@@ -538,9 +538,9 @@
                   <div class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2">
                     <span
                       class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left">0</span>
-                    <input type="range" [(ngModel)]="voiceParameters.stability" (ngModelChange)="onVoiceParametersChange()" name="stability" min="0" max="1"
-                      step="0.01" [style.--v]="voiceParameters.stability"
-                      class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
+                    <input type="range" [(ngModel)]="voiceParameters.stability"
+                      (ngModelChange)="onVoiceParametersChange()" name="stability" min="0" max="1" step="0.01"
+                      [style.--v]="voiceParameters.stability" class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
                     <span
                       class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right">1</span>
                   </div>
@@ -555,25 +555,25 @@
                   <div class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2">
                     <span
                       class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left">0</span>
-                    <input type="range" [(ngModel)]="voiceParameters.similarity" (ngModelChange)="onVoiceParametersChange()" name="similarity" min="0" max="1"
-                      step="0.01" [style.--v]="voiceParameters.similarity"
-                      class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
+                    <input type="range" [(ngModel)]="voiceParameters.similarity"
+                      (ngModelChange)="onVoiceParametersChange()" name="similarity" min="0" max="1" step="0.01"
+                      [style.--v]="voiceParameters.similarity" class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
                     <span
                       class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right">1</span>
                   </div>
                 </div>
                 <div>
                   <div class="flex justify-between items-baseline mb-0.5 3xl:mb-1">
-                    <span
-                      class="text-[10px] 3xl:text-base font-medium text-gray-600 dark:text-slate-300">Estilo</span>
+                    <span class="text-[10px] 3xl:text-base font-medium text-gray-600 dark:text-slate-300">Estilo</span>
                     <span class="text-[10px] 3xl:text-base tabular-nums text-gray-500 dark:text-slate-400">{{
                       voiceParameters.style.toFixed(2) }}</span>
                   </div>
                   <div class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2">
                     <span
                       class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left">0</span>
-                    <input type="range" [(ngModel)]="voiceParameters.style" (ngModelChange)="onVoiceParametersChange()" name="style" min="0" max="1" step="0.01"
-                      [style.--v]="voiceParameters.style" class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
+                    <input type="range" [(ngModel)]="voiceParameters.style" (ngModelChange)="onVoiceParametersChange()"
+                      name="style" min="0" max="1" step="0.01" [style.--v]="voiceParameters.style"
+                      class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
                     <span
                       class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right">1</span>
                   </div>
@@ -588,8 +588,8 @@
                   <div class="flex items-center gap-2 3xl:gap-3 mt-1 3xl:mt-2">
                     <span
                       class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-4 3xl:w-6 text-left">0.25</span>
-                    <input type="range" [(ngModel)]="voiceParameters.speed" (ngModelChange)="onVoiceParametersChange()" name="speed" min="0.25" max="4"
-                      step="0.01" [style.--v]="(voiceParameters.speed - 0.25) / 3.75"
+                    <input type="range" [(ngModel)]="voiceParameters.speed" (ngModelChange)="onVoiceParametersChange()"
+                      name="speed" min="0.25" max="4" step="0.01" [style.--v]="(voiceParameters.speed - 0.25) / 3.75"
                       class="voice-params-range flex-1 min-w-0 h-1 3xl:h-2" />
                     <span
                       class="text-[8px] 3xl:text-sm text-gray-500 dark:text-slate-400 w-5 3xl:w-8 text-right">4</span>
@@ -645,4 +645,3 @@
     </div>
   </div>
 </div>
-

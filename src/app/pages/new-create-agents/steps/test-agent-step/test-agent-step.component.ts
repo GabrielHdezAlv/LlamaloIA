@@ -147,7 +147,7 @@ export class TestAgentStepComponent implements OnInit, OnDestroy {
         const el = this.transcriptContainer.nativeElement;
         el.scrollTop = el.scrollHeight;
       }
-    } catch {}
+    } catch { }
   }
 
   trackByTimestamp(_index: number, msg: TranscriptMessage): number {

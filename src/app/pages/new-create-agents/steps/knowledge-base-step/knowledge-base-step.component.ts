@@ -47,7 +47,7 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
   private modalService = inject(ModalService);
   private cdr = inject(ChangeDetectorRef);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: object) { }
 
   @Input() currentStepNumber: number = 0;
   @Input() totalSteps: number = 0;
@@ -421,13 +421,13 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
   getAddLabel(type: KnowledgeBaseType): string {
     switch (type) {
       case 'pdf':
-        return this.t.knowledgeBaseAddPdf || 'PDF';
+        return 'Añadir PDF';
       case 'web':
-        return this.t.knowledgeBaseAddWeb || 'Web';
+        return 'Añadir Web';
       case 'text':
-        return this.t.knowledgeBaseAddText || 'Texto';
+        return 'Añadir Texto';
       default:
-        return this.t.knowledgeBaseAddPdf || 'PDF';
+        return 'Añadir PDF';
     }
   }
 

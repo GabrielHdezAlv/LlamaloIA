@@ -1,7 +1,7 @@
 <div
   class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-16">
   <div
-    class="w-full max-w-[440px] sm:max-w-[520px] md:max-w-[620px] xl:max-w-[560px] 3xl:max-w-[600px] flex flex-col px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-6">
+    class="w-full max-w-[500px] sm:max-w-[600px] md:max-w-[720px] xl:max-w-[700px] 3xl:max-w-[800px] flex flex-col px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8">
     <div class="flex items-center justify-between w-full">
       <h1 class="text-lg xl:text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
         Conecta tu número de teléfono
@@ -52,8 +52,7 @@
         <div class="px-3 3xl:px-6 pb-3 3xl:pb-5 pt-0 space-y-2 3xl:space-y-4">
           @if (loadingTwilioAccounts) {
           <div class="flex justify-center py-3 3xl:py-5">
-            <div
-              class="animate-spin rounded-full h-5 w-5 3xl:h-8 3xl:w-8 border-2 border-gray-300 border-t-[#1E3A8A]">
+            <div class="animate-spin rounded-full h-5 w-5 3xl:h-8 3xl:w-8 border-2 border-gray-300 border-t-[#1E3A8A]">
             </div>
           </div>
           } @else if (selectedTwilioAccount && isTwilioValidated) {
@@ -201,8 +200,8 @@
         <span class="text-xs 3xl:text-xl leading-none">‹</span>
         <span>Atrás</span>
       </button>
-      <button type="button" [disabled]="!canContinueFromConnections"
-        [class.opacity-50]="!canContinueFromConnections" [class.cursor-not-allowed]="!canContinueFromConnections"
+      <button type="button" [disabled]="!canContinueFromConnections" [class.opacity-50]="!canContinueFromConnections"
+        [class.cursor-not-allowed]="!canContinueFromConnections"
         class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white disabled:hover:bg-[#1E3A8A]"
         (click)="continueClicked.emit()">
         Continuar
@@ -210,4 +209,3 @@
     </div>
   </div>
 </div>
-
