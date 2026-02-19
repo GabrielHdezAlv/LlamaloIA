@@ -11,7 +11,8 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../../core/services/notification.service';
 import {
   FormBuilder,
@@ -31,7 +32,6 @@ import { Agent, SetAgentConfigDto } from '../../shared/models/agent.model';
 import { Voice } from '../../shared/models/voice.model';
 import {
   KnowledgeSource,
-  CreateKnowledgeSourceRequest,
   LinkKnowledgeSourcesToAgentRequest,
 } from '../../shared/models/knowledge-source.model';
 import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
@@ -46,6 +46,11 @@ import type {
   TwilioConfig,
 } from '../../shared/models/twilio-config.model';
 import type { UserProfileResponseDto } from '../../shared/models/user-profile-response.dto';
+import type {
+  SupportAgentConfigDto,
+  SetSupportAgentConfigDto,
+  SupportAgentConfigResponseDto,
+} from '../../shared/models/support-agent-config.dto';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -55,6 +60,7 @@ import {
   mergeMap,
   catchError,
   of,
+  filter,
 } from 'rxjs';
 import { UserStorage } from '../../storages/user/user-storage';
 
@@ -78,7 +84,10 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   private userStore = inject(UserStorage);
   private cdr = inject(ChangeDetectorRef);
   private notificationService = inject(NotificationService);
+  private http = inject(HttpClient);
   readonly voiceTest = inject(VoiceTestService);
+
+  private readonly supportAgentApiUrl = 'https://llamaloiabackend-5294.onrender.com/support-agent';
 
   editForm!: FormGroup;
   isLoading = false;
@@ -94,6 +103,13 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   availableKnowledgeSources: KnowledgeSource[] = [];
   isLoadingAvailableSources = false;
   knowledgeSourceError: string | null = null;
+
+  /** Lista de ficheros/fuentes del agente de soporte (GET /support-agent/sources) en admin */
+  supportAgentSources: unknown[] = [];
+  isLoadingSupportAgentSources = false;
+
+  /** Evita disparar GET /support-agent/config varias veces a la vez */
+  private isLoadingSupportConfig = false;
 
   @ViewChild('fileInput', { static: false })
   fileInput!: ElementRef<HTMLInputElement>;
@@ -171,8 +187,8 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
       voiceId: ['', Validators.required],
       firstInteraction: ['', Validators.required],
       agentInstruction: [''], // Opcional, puede estar vacío
-      countryCode: ['', Validators.required],
-      phoneNumber: ['', Validators.required],
+      countryCode: ['+34'],
+      phoneNumber: [''],
       label: [''],
       state: ['', Validators.required],
       stability: [
@@ -193,21 +209,28 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Obtener agentId de la ruta
+    // agentId de la ruta (para pestaña Base de Conocimiento y posibles usos)
     const agentIdParam = this.route.snapshot.paramMap.get('agentId');
     if (agentIdParam) {
       this.agentId = parseInt(agentIdParam, 10);
-      this.loadAgent();
-    } else {
-      console.warn('No se pudo identificar el agente.');
-      return;
     }
 
-    this.loadTwilioInfo();
+    // GET /support-agent/config: una sola vez al montar (diferido al siguiente tick)
+    setTimeout(() => this.loadSupportAgentConfig(), 0);
 
-    this.loadShopifyStores();
+    // Cuando se navega de vuelta a esta ruta (salir y volver a entrar)
+    this.router.events
+      .pipe(
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((event) => {
+        if (event.urlAfterRedirects?.startsWith('/admin/agents/edit/')) {
+          this.loadSupportAgentConfig();
+        }
+      });
 
-    // Cargar voces
+    // Cargar voces (necesario para el desplegable de voz en Principal)
     this.agentsService.getVoices().subscribe({
       next: (voices) => {
         this.voices = voices;
@@ -345,10 +368,106 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   setActiveTab(tab: 'main' | 'knowledge'): void {
     this.activeTab = tab;
 
-    // Load available knowledge sources when switching to knowledge tab
     if (tab === 'knowledge') {
-      this.loadAvailableKnowledgeSources();
+      this.loadSupportAgentSources();
     }
+  }
+
+  /**
+   * POST /support-agent/sources: subir PDF al agente de soporte (Configuración Xenon).
+   */
+  private postSupportAgentSourcePdf(file: File, name: string): void {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('name', name);
+    formData.append('type', 'pdf');
+    this.http.post<unknown>(`${this.supportAgentApiUrl}/sources`, formData).subscribe({
+      next: () => {
+        this.knowledgeSourceError = null;
+        this.loadSupportAgentSources();
+        this.isLoadingKnowledgeSources = false;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        this.isLoadingKnowledgeSources = false;
+        this.knowledgeSourceError = err?.error?.message ?? 'Error al subir el PDF';
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
+  /**
+   * POST /support-agent/sources: añadir fuente web (URL) al agente de soporte.
+   */
+  private postSupportAgentSourceWeb(url: string, name: string): void {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('type', 'web');
+    formData.append('url', url);
+    formData.append('content', '');
+    this.http.post<unknown>(`${this.supportAgentApiUrl}/sources`, formData).subscribe({
+      next: () => {
+        this.knowledgeSourceError = null;
+        this.loadSupportAgentSources();
+        this.isLoadingKnowledgeSources = false;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        this.isLoadingKnowledgeSources = false;
+        this.knowledgeSourceError = err?.error?.message ?? 'Error al añadir la URL';
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
+  /**
+   * POST /support-agent/sources: añadir fuente de texto al agente de soporte.
+   */
+  private postSupportAgentSourceText(content: string, name: string): void {
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('type', 'text');
+    formData.append('content', content);
+    this.http.post<unknown>(`${this.supportAgentApiUrl}/sources`, formData).subscribe({
+      next: () => {
+        this.knowledgeSourceError = null;
+        this.loadSupportAgentSources();
+        this.isLoadingKnowledgeSources = false;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        this.isLoadingKnowledgeSources = false;
+        this.knowledgeSourceError = err?.error?.message ?? 'Error al añadir el texto';
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
+  /**
+   * Carga la lista de ficheros subidos del agente de soporte (admin).
+   * GET /support-agent/sources
+   */
+  private loadSupportAgentSources(): void {
+    this.isLoadingSupportAgentSources = true;
+    this.supportAgentSources = [];
+    this.http
+      .get<unknown>(`${this.supportAgentApiUrl}/sources`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          const list = Array.isArray(data) ? data : (data as { sources?: unknown[] })?.sources ?? [];
+          this.supportAgentSources = list;
+          this.agentKnowledgeSources = (list as KnowledgeSource[]) ?? [];
+          this.isLoadingSupportAgentSources = false;
+          console.log('[Configuración Xenon] GET /support-agent/sources →', this.supportAgentSources);
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('[Configuración Xenon] Error GET /support-agent/sources:', err);
+          this.isLoadingSupportAgentSources = false;
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   get agentShopifyDomain(): string | null {
@@ -638,6 +757,77 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
     return codeMap[code] || 'es';
   }
 
+  /**
+   * Rellena el formulario Principal (pestaña main) con los datos de GET /support-agent/config.
+   * Solo se usan campos que existen en el HTML de Configuración Xenon.
+   */
+  /**
+   * GET /support-agent/config: carga la configuración Xenon y rellena el formulario Principal.
+   * Se ejecuta al entrar en la ruta y cada vez que se vuelve a ella (salir y entrar).
+   */
+  loadSupportAgentConfig(): void {
+    if (this.isLoadingSupportConfig) return;
+    // Query param evita caché y hace que la petición sea visible en la pestaña Red
+    const url = `${this.supportAgentApiUrl}/config?_=${Date.now()}`;
+    this.isLoadingSupportConfig = true;
+    console.log('[Configuración Xenon] GET', url);
+    this.http
+      .get<SupportAgentConfigDto>(url, { observe: 'response' })
+      .subscribe({
+        next: (response) => {
+          this.isLoadingSupportConfig = false;
+          console.log('[Configuración Xenon] GET /support-agent/config →', response.status, response.body);
+          if (response.body) {
+            this.applySupportAgentConfig(response.body);
+            this.cdr.markForCheck();
+          }
+        },
+        error: (err) => {
+          this.isLoadingSupportConfig = false;
+          console.error('[Configuración Xenon] Error GET /support-agent/config:', err);
+        },
+      });
+  }
+
+  private applySupportAgentConfig(
+    config: SupportAgentConfigDto | SupportAgentConfigResponseDto,
+  ): void {
+    const countryCode = config.phoneNumbers?.countryCode ?? '+34';
+    const num = config.phoneNumbers?.number;
+    const phoneNumberValue =
+      num === undefined || num === null || num === 0 ? '' : String(num);
+
+    this.editForm.patchValue(
+      {
+        name: config.name ?? '',
+        firstInteraction: config.firstInteraction ?? '',
+        agentInstruction: config.agentInstruction ?? '',
+        label: config.label ?? '',
+        language: config.language ?? 'es',
+        voiceId: config.voiceId ?? '',
+        stability: config.parameters?.stability ?? 0.5,
+        similarity: config.parameters?.similarity ?? 0.75,
+        style: config.parameters?.style ?? 0,
+        speed: config.parameters?.speed ?? 1,
+        boost: config.parameters?.boost ?? false,
+        countryCode,
+        phoneNumber: phoneNumberValue,
+        type: config.type ?? 'inbound',
+        state: config.state ?? 'Activo',
+      },
+      { emitEvent: false },
+    );
+
+    this.selectedCountryCode = countryCode;
+    this.selectedCountry = this.getCountryFromCode(countryCode);
+
+    const lang = config.language ?? 'es';
+    this.selectedLanguageCode = lang;
+    this.selectedLanguageFlag = this.getLanguageFlag(lang);
+
+    this.cdr.markForCheck();
+  }
+
   toggleCountryMenu() {
     this.showCountryMenu = !this.showCountryMenu;
   }
@@ -925,6 +1115,7 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   startVoiceTestCall(): void {
     const formValue = this.editForm.value;
     const config: VoiceTestConfig = {
+      useSupportChat: true,
       agentInstruction: formValue.agentInstruction || '',
       firstInteraction: formValue.firstInteraction || '',
       language: formValue.language || 'es',
@@ -940,7 +1131,6 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
       ...(this.selectedShopifyDomain ? { shopifyDomain: this.selectedShopifyDomain } : {}),
     };
 
-    // Pausar audio preview si está sonando
     if (this.isPlaying) {
       this.pauseTestAudio();
     }
@@ -1066,139 +1256,69 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.editForm.valid && this.agentId) {
-      // Verificar si el teléfono ha sido validado y es válido
-      const newCountryCode = this.selectedCountryCode;
-      const newNumberDigits = this.editForm.value.phoneNumber.replace(
-        /\D/g,
-        '',
-      );
-
-      const originalCountryCode = this.agent?.phoneNumbers?.countryCode || null;
-      const originalNumberDigits =
-        this.agent?.phoneNumbers?.number != null
-          ? String(this.agent.phoneNumbers.number)
-          : null;
-
-      // Usar la misma lógica que el getter phoneChanged
-      let phoneChanged = false;
-
-      // Si no hay teléfono original, solo considerar que ha cambiado si se ha ingresado uno nuevo
-      if (!originalCountryCode && !originalNumberDigits) {
-        phoneChanged = newNumberDigits.length > 0;
-      } else {
-        phoneChanged =
-          originalCountryCode !== newCountryCode ||
-          originalNumberDigits !== newNumberDigits;
-      }
-
-      // Si el teléfono cambió, debe estar validado y ser válido
-      if (phoneChanged) {
-        // Si aún se está validando, no permitir guardar
-        if (this.isValidatingPhone) {
-          this.notificationService.error(
-            'Por favor, espera a que termine la validación del número de teléfono.',
-          );
-          return;
-        }
-
-        // Si no es válido, no permitir guardar
-        if (this.phoneIsValid === false) {
-          this.notificationService.error(
-            this.phoneValidationMessage ||
-            'El número de teléfono no es válido.',
-          );
-          return;
-        }
-
-        // Si no se ha validado aún (es null), forzar validación antes de guardar
-        if (this.phoneIsValid === null) {
-          this.validatePhoneNumber();
-          this.notificationService.error(
-            'Espera a que se valide el número de teléfono.',
-          );
-          return;
-        }
-
-        // Solo permitir guardar si es válido
-        if (this.phoneIsValid !== true) {
-          this.notificationService.error(
-            'El número de teléfono debe ser válido antes de guardar.',
-          );
-          return;
-        }
-      }
-
-      const formValue = this.editForm.value;
-      const updateData: SetAgentConfigDto = {
-        name: formValue.name.trim(),
-        language: formValue.language,
-        type: formValue.type,
-        twilioAccountId: Number((this.agent as any)?.twilioAccountId ?? 0),
-        voiceId: formValue.voiceId,
-        firstInteraction: formValue.firstInteraction.trim(),
-        agentInstruction: formValue.agentInstruction?.trim() || '',
-        phoneNumbers: {
-          countryCode: newCountryCode,
-          number: parseInt(newNumberDigits, 10),
-        },
-        label: formValue.label.trim(),
-        state: formValue.state,
-        parameters: {
-          stability: formValue.stability,
-          similarity: formValue.similarity,
-          style: formValue.style,
-          boost: formValue.boost,
-          speed: formValue.speed,
-        },
-      };
-
-      const shopifyDomain = this.selectedShopifyDomain?.trim();
-      if (shopifyDomain) {
-        (updateData as any).shopifyDomain = shopifyDomain;
-      } else {
-        (updateData as any).shopifyDomain = null;
-      }
-
-      this.isLoading = true;
-      this.agentsService.updateAgent(this.agentId!, updateData).subscribe({
-        next: (response) => {
-          this.isLoading = false;
-          this.notificationService.success(
-            'El agente ha sido actualizado correctamente.',
-          );
-          this.router.navigate(['/admin']);
-        },
-        error: (error) => {
-          console.error('❌ Error al actualizar agente:', error);
-          this.isLoading = false;
-
-          let errorMessage =
-            'Error al actualizar el agente. Por favor, intenta nuevamente.';
-
-          if (error?.error?.message) {
-            errorMessage = error.error.message;
-          } else if (error?.status === 401) {
-            errorMessage =
-              'No autorizado. Por favor, inicia sesión nuevamente.';
-          } else if (error?.status === 404) {
-            errorMessage = 'Agente no encontrado.';
-          } else if (error?.status === 400) {
-            errorMessage =
-              'Error en los datos enviados. Por favor, verifica todos los campos.';
-          }
-
-          this.navigateToAgentsWithError(
-            'Error al actualizar agente',
-            errorMessage,
-          );
-        },
-      });
-    } else {
+    if (!this.editForm.valid) {
       Object.keys(this.editForm.controls).forEach((key) => {
         this.editForm.get(key)?.markAsTouched();
       });
+      return;
     }
+
+    const formValue = this.editForm.value;
+    const countryCode = this.selectedCountryCode;
+    const numberDigits = String(formValue.phoneNumber ?? '').replace(/\D/g, '');
+    const phoneNumber = numberDigits ? parseInt(numberDigits, 10) : 0;
+
+    const payload: SetSupportAgentConfigDto = {
+      name: String(formValue.name ?? '').trim(),
+      language: formValue.language ?? 'es',
+      type: formValue.type ?? 'inbound',
+      voiceId: formValue.voiceId ?? '',
+      firstInteraction: String(formValue.firstInteraction ?? '').trim(),
+      agentInstruction: String(formValue.agentInstruction ?? '').trim(),
+      phoneNumbers: { countryCode: countryCode || '+34', number: phoneNumber },
+      label: String(formValue.label ?? '').trim(),
+      state: formValue.state ?? 'Activo',
+      parameters: {
+        stability: formValue.stability ?? 0.5,
+        similarity: formValue.similarity ?? 0.75,
+        style: formValue.style ?? 0,
+        speed: formValue.speed ?? 1,
+        boost: formValue.boost ?? false,
+      },
+    };
+
+    if (this.agentTwilioAccountId != null) {
+      payload.twilioAccountId = this.agentTwilioAccountId;
+    }
+    const shopifyDomain = this.selectedShopifyDomain?.trim();
+    if (shopifyDomain) {
+      payload.shopifyDomain = shopifyDomain;
+    }
+
+    this.isLoading = true;
+    this.http
+      .put<SupportAgentConfigResponseDto>(
+        `${this.supportAgentApiUrl}/config`,
+        payload,
+      )
+      .subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          this.applySupportAgentConfig(response);
+          this.notificationService.success(
+            'Configuración Xenon actualizada correctamente.',
+          );
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          console.error('❌ Error al actualizar configuración Xenon:', error);
+          this.isLoading = false;
+          const errorMessage =
+            error?.error?.message ??
+            'Error al actualizar la configuración. Por favor, intenta nuevamente.';
+          this.notificationService.error(errorMessage);
+        },
+      });
   }
 
   saveShopifyDomain(): void {
@@ -1622,42 +1742,8 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
     files.forEach((file) => {
       if (file.type === 'application/pdf') {
         this.isLoadingKnowledgeSources = true;
-
-        this.knowledgeBaseService
-          .uploadPdfKnowledgeSource(
-            file,
-            file.name.replace('.pdf', ''),
-            [],
-            false,
-          )
-          .subscribe({
-            next: (response) => {
-              const sourceToAdd = response?.knowledgeSource || response;
-
-              if (sourceToAdd) {
-                this.addKnowledgeSourceToAgent(sourceToAdd);
-              } else {
-                this.knowledgeSourceError =
-                  'Error: No se recibió información del archivo subido';
-              }
-
-              this.isLoadingKnowledgeSources = false;
-              this.cdr.detectChanges();
-            },
-            error: (err) => {
-              console.error('Error uploading PDF:', err);
-              if (err.error?.message) {
-                this.knowledgeSourceError = err.error.message;
-              } else if (err.status === 413) {
-                this.knowledgeSourceError =
-                  'El archivo es demasiado grande (máximo 10MB)';
-              } else {
-                this.knowledgeSourceError = `Error al subir el archivo ${file.name}`;
-              }
-              this.isLoadingKnowledgeSources = false;
-              this.cdr.detectChanges();
-            },
-          });
+        this.knowledgeSourceError = null;
+        this.postSupportAgentSourcePdf(file, file.name.replace('.pdf', ''));
       }
     });
   }
@@ -1691,36 +1777,9 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
       this.knowledgeSourceError = 'La URL no puede exceder los 2048 caracteres';
       return;
     }
-
     this.isLoadingKnowledgeSources = true;
-    this.knowledgeBaseService
-      .createWebKnowledgeSource(url, name, [], true)
-      .subscribe({
-        next: (response: any) => {
-          if (response?.id) {
-            this.addKnowledgeSourceToAgent(response);
-          } else {
-            this.knowledgeSourceError = 'Error en la respuesta del servidor';
-          }
-          this.isLoadingKnowledgeSources = false;
-          this.cdr.detectChanges();
-        },
-        error: (err) => {
-          console.error('Error creating web source:', err);
-          if (err.error?.message) {
-            this.knowledgeSourceError = err.error.message;
-          } else if (err.status === 413) {
-            this.knowledgeSourceError =
-              'La URL es demasiado larga (máximo 2048 caracteres)';
-          } else if (err.status === 400) {
-            this.knowledgeSourceError = 'URL inválida o no accesible';
-          } else {
-            this.knowledgeSourceError = 'Error al crear la fuente web';
-          }
-          this.isLoadingKnowledgeSources = false;
-          this.cdr.detectChanges();
-        },
-      });
+    this.knowledgeSourceError = null;
+    this.postSupportAgentSourceWeb(url, name);
   }
 
   createTextSource(content: string, name: string): void {
@@ -1729,42 +1788,9 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
         'El texto no puede exceder los 50,000 caracteres (~20 páginas)';
       return;
     }
-
-    const request: CreateKnowledgeSourceRequest = {
-      name,
-      type: 'text',
-      content,
-      tags: [],
-      isPublic: false,
-    };
-
     this.isLoadingKnowledgeSources = true;
-    this.knowledgeBaseService.createKnowledgeSource(request).subscribe({
-      next: (response) => {
-        const sourceToAdd = response?.knowledgeSource || response;
-
-        if (sourceToAdd?.id) {
-          this.addKnowledgeSourceToAgent(sourceToAdd);
-        } else {
-          this.knowledgeSourceError = 'Error en la respuesta del servidor';
-        }
-        this.isLoadingKnowledgeSources = false;
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error('Error creating text source:', err);
-        if (err.error?.message) {
-          this.knowledgeSourceError = err.error.message;
-        } else if (err.status === 413) {
-          this.knowledgeSourceError =
-            'El texto es demasiado largo (máximo 50,000 caracteres)';
-        } else {
-          this.knowledgeSourceError = 'Error al crear la fuente de texto';
-        }
-        this.isLoadingKnowledgeSources = false;
-        this.cdr.detectChanges();
-      },
-    });
+    this.knowledgeSourceError = null;
+    this.postSupportAgentSourceText(content, name);
   }
 
   addKnowledgeSourceToAgent(source: KnowledgeSource): void {
@@ -1799,48 +1825,35 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   }
 
   removeKnowledgeSourceFromAgent(sourceId: string): void {
-    if (!this.agentId) return;
+    this.agentKnowledgeSources = this.agentKnowledgeSources.filter(
+      (s) => s.id !== sourceId,
+    );
+    this.supportAgentSources = this.supportAgentSources.filter(
+      (s: any) => s?.id !== sourceId,
+    );
+    this.cdr.markForCheck();
 
-    this.knowledgeBaseService
-      .unlinkSourceFromAgent(this.agentId, sourceId)
+    this.http
+      .delete<void>(`${this.supportAgentApiUrl}/sources/${sourceId}`)
       .subscribe({
-        next: (response) => {
-          // Handle both cases: response with message or empty response
-          const message =
-            response?.message || 'Fuente desvinculada exitosamente';
-          console.info('Fuente desvinculada:', message);
-
-          // Remove from agent's knowledge sources
-          const removedSource = this.agentKnowledgeSources.find(
-            (s) => s.id === sourceId,
-          );
-          this.agentKnowledgeSources = this.agentKnowledgeSources.filter(
-            (source) => source.id !== sourceId,
-          );
-
-          // Add back to available sources if it was removed
-          if (removedSource) {
-            this.availableKnowledgeSources.push(removedSource);
-          }
-
-          this.cdr.detectChanges();
-        },
-        error: (err) => {
-          console.error('Error unlinking knowledge source from agent:', err);
-
-          // Handle specific error cases
-          if (err.status === 404) {
-            this.knowledgeSourceError =
-              'La fuente de conocimiento no estaba vinculada a este agente';
-          } else if (err.status === 400) {
-            this.knowledgeSourceError =
-              'Error al desvincular la fuente de conocimiento del agente';
-          } else {
-            this.knowledgeSourceError =
-              'Error de conexión al desvincular la fuente de conocimiento';
-          }
-        },
+        next: () => {},
+        error: () => {},
       });
+  }
+
+  /** Clase CSS para el badge de estado de una fuente (soporta valores del API support-agent). */
+  getSourceStatusClass(status: string | undefined): string {
+    const s = status ?? '';
+    if (s === 'completed' || s === 'ready') {
+      return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-200';
+    }
+    if (s === 'processing' || s === 'pending') {
+      return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-200';
+    }
+    if (s === 'failed' || s === 'error') {
+      return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-200';
+    }
+    return 'bg-gray-100 text-gray-700 dark:bg-gray-700/50 dark:text-gray-300';
   }
 
   clearKnowledgeSourceError(): void {

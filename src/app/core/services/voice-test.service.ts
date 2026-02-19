@@ -16,6 +16,8 @@ export interface VoiceTestConfig {
     speed: number;
   };
   shopifyDomain?: string;
+  /** Si true, usa /support/chat y session.start solo con token (backend usa config guardada). */
+  useSupportChat?: boolean;
 }
 
 export interface TranscriptMessage {
@@ -55,6 +57,8 @@ export class VoiceTestService {
 
   private readonly WS_URL =
     'wss://llamaloiabackend-5294.onrender.com/voice/test-stream';
+  private readonly WS_SUPPORT_CHAT_URL =
+    'wss://llamaloiabackend-5294.onrender.com/support/chat';
   private readonly MAX_DURATION = 120;
 
   constructor() {
@@ -149,26 +153,32 @@ export class VoiceTestService {
   // ──────── WebSocket ────────
 
   private connectWebSocket(token: string, config: VoiceTestConfig): void {
-    this.ws = new WebSocket(this.WS_URL);
+    const useSupportChat = config.useSupportChat === true;
+    const url = useSupportChat ? this.WS_SUPPORT_CHAT_URL : this.WS_URL;
+    this.ws = new WebSocket(url);
     this.ws.binaryType = 'arraybuffer';
 
     this.ws.onopen = () => {
-      const startMsg = {
-        type: 'session.start',
-        token,
-        config: {
-          agentInstruction: config.agentInstruction,
-          firstInteraction: config.firstInteraction,
-          language: config.language,
-          name: config.name,
-          voiceId: config.voiceId,
-          parameters: config.parameters,
-          ...(config.shopifyDomain
-            ? { shopifyDomain: config.shopifyDomain }
-            : {}),
-        },
-      };
-      this.ws!.send(JSON.stringify(startMsg));
+      if (useSupportChat) {
+        this.ws!.send(JSON.stringify({ type: 'session.start', token }));
+      } else {
+        const startMsg = {
+          type: 'session.start',
+          token,
+          config: {
+            agentInstruction: config.agentInstruction,
+            firstInteraction: config.firstInteraction,
+            language: config.language,
+            name: config.name,
+            voiceId: config.voiceId,
+            parameters: config.parameters,
+            ...(config.shopifyDomain
+              ? { shopifyDomain: config.shopifyDomain }
+              : {}),
+          },
+        };
+        this.ws!.send(JSON.stringify(startMsg));
+      }
     };
 
     this.ws.onmessage = (event: MessageEvent) => {
