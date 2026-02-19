@@ -10,14 +10,6 @@
         ">
         Principal
       </button>
-      <button type="button" (click)="setActiveTab('connections')"
-        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
-          activeTab === 'connections'
-            ? 'bg-white dark:bg-[#252525] text-gray-900 dark:text-white border-gray-200 dark:border-gray-800/50'
-            : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-white dark:hover:bg-[#252525]'
-        ">
-        Conexiones
-      </button>
       <button type="button" (click)="setActiveTab('knowledge')"
         class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
           activeTab === 'knowledge'

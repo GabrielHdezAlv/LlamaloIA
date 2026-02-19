@@ -73,6 +73,20 @@
   background: linear-gradient(90deg, #ffffff, #0052ff);
 }
 
+// Degradado para "Xenon" en título Configuración Xenon
+.xenon-gradient {
+  background: linear-gradient(90deg, #19f4ff, #436aee, #91e0fd, #dbbbf6, #2c3c94);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dark .xenon-gradient {
+  background: linear-gradient(90deg, #19f4ff, #436aee, #91e0fd, #dbbbf6, #2c3c94);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 // Custom Scrollbar for News Modal
 .custom-scrollbar {
   &::-webkit-scrollbar {

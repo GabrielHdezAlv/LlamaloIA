@@ -154,9 +154,10 @@ export class AuthFormComponent implements OnInit {
               `¡Bienvenido de vuelta! Has iniciado sesión correctamente.`
             );
 
-            // Redirigir después de un breve delay para que el usuario vea el modal
+            // Redirigir según rol: owner → /admin, resto → /dashboard
+            const redirectUrl = data.rol === USER_ROLE.OWNER ? '/admin' : '/dashboard';
             setTimeout(() => {
-              this.router.navigate(['/dashboard']);
+              this.router.navigate([redirectUrl]);
             }, 2000);
           },
           error: (err) => {

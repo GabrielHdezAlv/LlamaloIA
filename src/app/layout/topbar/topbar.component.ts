@@ -399,6 +399,10 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.welcomeText = '';
       this.pageSubtitle =
         'Vista general del sistema y métricas administrativas';
+    } else if (url.startsWith('/admin/agents/edit/')) {
+      this.pageTitle = 'Configuración Xenon';
+      this.welcomeText = '';
+      this.pageSubtitle = '';
     } else if (url === '/dashboard/agents/create') {
       this.pageTitle = t.createAgent;
       this.welcomeText = '';
