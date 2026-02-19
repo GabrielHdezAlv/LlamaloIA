@@ -1008,16 +1008,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     }
   }
 
-  getVoiceTestEndReasonText(): string {
-    switch (this.voiceTest.sessionEndReason()) {
-      case 'timeout': return 'La prueba ha finalizado porque se alcanzó el tiempo máximo de 2 minutos.';
-      case 'user': return 'Has finalizado la prueba.';
-      case 'disconnect': return 'La conexión se ha perdido.';
-      case 'replaced': return 'La sesión fue reemplazada por otra prueba.';
-      case 'error': return 'La sesión finalizó debido a un error.';
-      default: return 'La prueba ha finalizado.';
-    }
-  }
+
 
   scrollVoiceTestToBottom(): void {
     try {
@@ -1025,7 +1016,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         const el = this.transcriptContainer.nativeElement;
         el.scrollTop = el.scrollHeight;
       }
-    } catch {}
+    } catch { }
   }
 
   trackByTimestamp(_index: number, msg: TranscriptMessage): number {
@@ -1123,7 +1114,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         if (this.phoneIsValid === false) {
           this.notificationService.error(
             this.phoneValidationMessage ||
-              'El número de teléfono no es válido.',
+            'El número de teléfono no es válido.',
           );
           return;
         }

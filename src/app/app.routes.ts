@@ -24,6 +24,7 @@ import { ShopifyOnboardingComponent } from './pages/shopify-onboarding/shopify-o
 import { ShopifySuccessComponent } from './pages/shopify-success/shopify-success.component';
 import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
 import { UpgradePlanComponent } from './pages/upgrade-plan/upgrade-plan.component';
+import { AdminEditAgentComponent } from './pages/admin-edit-agent/admin-edit-agent.component';
 
 export const routes: Routes = [
   {
@@ -130,6 +131,7 @@ export const routes: Routes = [
       { path: 'tokens', component: AdminTokensComponent },
       { path: 'redes-sociales', component: AdminRedesSocialesComponent },
       { path: 'recordatorio', component: AdminRecordatorioComponent },
+      { path: 'agents/edit/:agentId', component: AdminEditAgentComponent },
       // Aquí puedes agregar más rutas de admin en el futuro
       // { path: 'users', component: AdminUsersComponent },
       // { path: 'analytics', component: AdminAnalyticsComponent },

@@ -8,6 +8,7 @@ import {
   ElementRef,
   ViewChild,
   inject,
+  effect,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AiSphereComponent } from '../../../../shared/components/ai-sphere/ai-sphere.component';
@@ -52,6 +53,15 @@ export class TestAgentStepComponent implements OnInit, OnDestroy {
 
   audioLevel = 0;
   private animationFrame: number | null = null;
+
+  constructor() {
+    effect(() => {
+      const transcripts = this.voiceTest.transcripts();
+      if (transcripts.length > 0) {
+        setTimeout(() => this.scrollToBottom(), 100);
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.animateIdlePulse();
@@ -124,30 +134,16 @@ export class TestAgentStepComponent implements OnInit, OnDestroy {
     }
   }
 
-  getEndReasonText(): string {
-    switch (this.voiceTest.sessionEndReason()) {
-      case 'timeout':
-        return 'La prueba ha finalizado porque se alcanzó el tiempo máximo de 2 minutos.';
-      case 'user':
-        return 'Has finalizado la prueba.';
-      case 'disconnect':
-        return 'La conexión se ha perdido.';
-      case 'replaced':
-        return 'La sesión fue reemplazada por otra prueba.';
-      case 'error':
-        return 'La sesión finalizó debido a un error.';
-      default:
-        return 'La prueba ha finalizado.';
-    }
-  }
+
 
   scrollToBottom(): void {
-    try {
-      if (this.transcriptContainer?.nativeElement) {
-        const el = this.transcriptContainer.nativeElement;
-        el.scrollTop = el.scrollHeight;
-      }
-    } catch { }
+    if (this.transcriptContainer?.nativeElement) {
+      const el = this.transcriptContainer.nativeElement;
+      el.scrollTo({
+        top: el.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }
 
   trackByTimestamp(_index: number, msg: TranscriptMessage): number {

@@ -1,5 +1,6 @@
-import { Injectable, signal, inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, signal, inject, PLATFORM_ID, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { NotificationService } from './notification.service';
 
 export interface VoiceTestConfig {
   agentInstruction: string;
@@ -29,6 +30,7 @@ type AgentState = 'idle' | 'thinking' | 'speaking' | 'done';
 @Injectable({ providedIn: 'root' })
 export class VoiceTestService {
   private platformId = inject(PLATFORM_ID);
+  private notificationService = inject(NotificationService);
 
   readonly connectionState = signal<ConnectionState>('idle');
   readonly agentState = signal<AgentState>('idle');
@@ -54,6 +56,37 @@ export class VoiceTestService {
   private readonly WS_URL =
     'wss://llamaloiabackend-5294.onrender.com/voice/test-stream';
   private readonly MAX_DURATION = 120;
+
+  constructor() {
+    effect(() => {
+      const state = this.connectionState();
+      const reason = this.sessionEndReason();
+      const error = this.errorMessage();
+
+      if (state === 'ended' && reason) {
+        this.notificationService.info(this.getEndReasonText(reason));
+      } else if (state === 'error' && error) {
+        this.notificationService.error(error);
+      }
+    });
+  }
+
+  private getEndReasonText(reason: string): string {
+    switch (reason) {
+      case 'timeout':
+        return 'La prueba ha finalizado porque se alcanzó el tiempo máximo de 2 minutos.';
+      case 'user':
+        return 'Has finalizado la prueba.';
+      case 'disconnect':
+        return 'La conexión se ha perdido.';
+      case 'replaced':
+        return 'La sesión fue reemplazada por otra prueba.';
+      case 'error':
+        return 'La sesión finalizó debido a un error.';
+      default:
+        return 'La prueba ha finalizado.';
+    }
+  }
 
   async startSession(config: VoiceTestConfig): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -85,7 +118,7 @@ export class VoiceTestService {
       } else {
         this.errorMessage.set(
           'Error al iniciar la prueba de voz: ' +
-            (err.message || 'Error desconocido'),
+          (err.message || 'Error desconocido'),
         );
       }
       this.cleanup();
@@ -229,9 +262,9 @@ export class VoiceTestService {
         .join(' ');
       console.log(
         `[VoiceTest] Binary frame #${this.debugFrameCount}: ` +
-          `${buffer.byteLength} bytes, ` +
-          `playbackRate=${this.playbackSampleRate}Hz, ` +
-          `header=[${header}]`,
+        `${buffer.byteLength} bytes, ` +
+        `playbackRate=${this.playbackSampleRate}Hz, ` +
+        `header=[${header}]`,
       );
     }
   }
@@ -474,7 +507,7 @@ export class VoiceTestService {
       this.captureProcessor = null;
     }
     if (this.captureContext && this.captureContext.state !== 'closed') {
-      this.captureContext.close().catch(() => {});
+      this.captureContext.close().catch(() => { });
       this.captureContext = null;
     }
 
@@ -484,7 +517,7 @@ export class VoiceTestService {
       this.playbackWorklet = null;
     }
     if (this.playbackContext && this.playbackContext.state !== 'closed') {
-      this.playbackContext.close().catch(() => {});
+      this.playbackContext.close().catch(() => { });
       this.playbackContext = null;
     }
   }

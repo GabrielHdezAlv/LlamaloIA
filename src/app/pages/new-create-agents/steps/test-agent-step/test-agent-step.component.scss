@@ -66,13 +66,13 @@
 .transcript-right-panel {
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 60px; // Spacing from header (Finalizado 7/8)
+  bottom: 80px; // Spacing from footer (Continuar button)
   width: 180px;
-  height: 320px;
 
   @media (min-width: 1920px) {
     width: 220px;
-    height: 400px;
+    top: 100px;
+    bottom: 120px;
   }
 }

@@ -78,7 +78,7 @@
     @if (isCallActive || (isCallEnded && voiceTest.transcripts().length > 0)) {
     <div class="transcript-right-panel">
       <div #transcriptContainer
-        class="overflow-y-auto px-3 py-2 space-y-2 h-full scroll-smooth rounded-xl bg-gray-50 dark:bg-[#1a1a1d]"
+        class="overflow-y-auto px-3 py-2 space-y-2 h-full rounded-xl bg-gray-50 dark:bg-[#1a1a1d]"
         [class.flex]="voiceTest.transcripts().length === 0" [class.items-center]="voiceTest.transcripts().length === 0"
         [class.justify-center]="voiceTest.transcripts().length === 0">
 
@@ -112,31 +112,12 @@
           <div class="max-w-[85%] px-2.5 py-1.5 rounded-xl text-xs 3xl:text-sm leading-relaxed" [ngClass]="{
                 'bg-[#1E3A8A] text-white rounded-br-sm': msg.role === 'user',
                 'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-200 rounded-bl-sm': msg.role === 'assistant'
-              }">
+               }">
             {{ msg.text }}
           </div>
         </div>
-        <span class="invisible" [attr.data-scroll]="scrollToBottom()"></span>
         }
       </div>
-    </div>
-    }
-
-    <!-- Error message -->
-    @if (voiceTest.errorMessage()) {
-    <div class="px-3 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg mb-3">
-      <p class="text-[10px] 3xl:text-xs text-red-600 dark:text-red-400">
-        {{ voiceTest.errorMessage() }}
-      </p>
-    </div>
-    }
-
-    <!-- Session ended message (no mostrar si ya hay un error visible) -->
-    @if (voiceTest.connectionState() === 'ended' && voiceTest.sessionEndReason() && !voiceTest.errorMessage()) {
-    <div class="px-3 py-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg mb-3">
-      <p class="text-[10px] 3xl:text-xs text-blue-600 dark:text-blue-400">
-        {{ getEndReasonText() }}
-      </p>
     </div>
     }
 

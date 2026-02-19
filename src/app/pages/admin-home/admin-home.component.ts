@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import {
   NgApexchartsModule,
   ApexAxisChartSeries,
@@ -11,6 +12,8 @@ import {
   ApexGrid,
   ApexFill
 } from 'ng-apexcharts';
+import { AgentsService } from '../../core/services/agents.service';
+import { Agent } from '../../shared/models/agent.model';
 
 @Component({
   selector: 'app-admin-home',
@@ -20,6 +23,8 @@ import {
   styleUrls: ['./admin-home.component.scss']
 })
 export class AdminHomeComponent implements OnInit {
+  private router = inject(Router);
+  private agentsService = inject(AgentsService);
   selectedRange: '1D' | '7D' | '1M' | '6M' | '1A' = '1A';
   showResumen = false;
   showContent: boolean = false;
@@ -27,12 +32,12 @@ export class AdminHomeComponent implements OnInit {
 
   // Períodos para el gráfico de llamadas
   selectedPeriod: '7d' | '30d' | 'month' = '7d';
-  
+
   // Selección de mes y año
   selectedMonth: number = new Date().getMonth(); // 0-11
   selectedYear: number = new Date().getFullYear();
   showMonthYearPicker: boolean = false;
-  
+
   // Meses en español (completos)
   months: string[] = [
     'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -44,7 +49,7 @@ export class AdminHomeComponent implements OnInit {
     'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
     'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
   ];
-  
+
   // Años disponibles (últimos 5 años y próximos 2)
   get availableYears(): number[] {
     const currentYear = new Date().getFullYear();
@@ -54,7 +59,7 @@ export class AdminHomeComponent implements OnInit {
     }
     return years;
   }
-  
+
   // Cache de datos para evitar regeneración en cada verificación
   private cachedData30d: number[] | null = null;
   private cachedDataMonth: Map<string, number[]> = new Map();
@@ -324,47 +329,47 @@ export class AdminHomeComponent implements OnInit {
   };
 
   topUsers = [
-    { 
-      name: 'Juan Pérez', 
+    {
+      name: 'Juan Pérez',
       empresa: 'TechCorp Solutions',
-      calls: 530, 
-      minutes: 1240, 
+      calls: 530,
+      minutes: 1240,
       status: 'Activo',
       profileImage: 'assets/predeterminada.webp',
       rank: 1
     },
-    { 
-      name: 'María García', 
+    {
+      name: 'María García',
       empresa: 'Innovate Digital',
-      calls: 450, 
-      minutes: 980, 
+      calls: 450,
+      minutes: 980,
       status: 'Activo',
       profileImage: 'assets/predeterminada.webp',
       rank: 2
     },
-    { 
-      name: 'Carlos López', 
+    {
+      name: 'Carlos López',
       empresa: 'Global Services',
-      calls: 320, 
-      minutes: 750, 
+      calls: 320,
+      minutes: 750,
       status: 'Activo',
       profileImage: 'assets/predeterminada.webp',
       rank: 3
     },
-    { 
-      name: 'Ana Martínez', 
+    {
+      name: 'Ana Martínez',
       empresa: 'Smart Business',
-      calls: 280, 
-      minutes: 620, 
+      calls: 280,
+      minutes: 620,
       status: 'Activo',
       profileImage: 'assets/predeterminada.webp',
       rank: 4
     },
-    { 
-      name: 'Pedro Sánchez', 
+    {
+      name: 'Pedro Sánchez',
       empresa: 'Future Tech',
-      calls: 245, 
-      minutes: 580, 
+      calls: 245,
+      minutes: 580,
       status: 'Activo',
       profileImage: 'assets/predeterminada.webp',
       rank: 5
@@ -384,7 +389,7 @@ export class AdminHomeComponent implements OnInit {
       this.showContent = true;
       return;
     }
-    
+
     setTimeout(() => {
       this.showContent = true;
     }, 100);
@@ -442,6 +447,7 @@ export class AdminHomeComponent implements OnInit {
 
   // Actualizar el gráfico con los datos del período seleccionado
   updateChart() {
+    this.loadAgents();
     // Generar o obtener datos según el período
     if (this.selectedPeriod === '7d') {
       this.currentChartData = this.callsPerDay.map(day => day.calls);
@@ -452,8 +458,8 @@ export class AdminHomeComponent implements OnInit {
     }
 
     // Actualizar la serie del gráfico
-    this.callsAreaSeries = [{ 
-      name: 'Llamadas', 
+    this.callsAreaSeries = [{
+      name: 'Llamadas',
       data: [...this.currentChartData] // Crear copia para evitar referencias
     }];
 
@@ -499,6 +505,28 @@ export class AdminHomeComponent implements OnInit {
   // Método para calcular el porcentaje de llamadas
   getCallPercentage(userCalls: number, maxCalls: number): number {
     return Math.round((userCalls / maxCalls) * 100);
+  }
+
+  editAgent(agentId: number): void {
+    this.router.navigate(['/admin/agents/edit', agentId]);
+  }
+
+  // Lista de agentes para mostrar
+  agentsList: Agent[] = [];
+  isLoadingAgents = false;
+
+  private loadAgents(): void {
+    this.isLoadingAgents = true;
+    this.agentsService.getAgentsList().subscribe({
+      next: (response) => {
+        this.agentsList = response.agents.slice(0, 5);
+        this.isLoadingAgents = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar agentes:', error);
+        this.isLoadingAgents = false;
+      }
+    });
   }
 }
 
