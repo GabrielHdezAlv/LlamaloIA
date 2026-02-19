@@ -111,7 +111,7 @@
         <div class="flex" [class.justify-end]="msg.role === 'user'" [class.justify-start]="msg.role === 'assistant'">
           <div class="max-w-[85%] px-2.5 py-1.5 rounded-xl text-xs 3xl:text-sm leading-relaxed" [ngClass]="{
                 'bg-[#1E3A8A] text-white rounded-br-sm': msg.role === 'user',
-                'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-200 rounded-bl-sm': msg.role === 'assistant'
+                'bg-gray-200  text-black dark:text-white rounded-bl-sm': msg.role === 'assistant'
                }">
             {{ msg.text }}
           </div>
