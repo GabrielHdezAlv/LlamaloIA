@@ -9,6 +9,8 @@
           style="letter-spacing: -1.5px">
           @if (pageTitle === t.home) {
           Panel de control
+          } @else if (pageTitle === 'Configuración Xenon') {
+          Configuración <span class="xenon-gradient">Xenon</span>
           } @else {
           {{ pageTitle }}
           }
@@ -264,6 +266,8 @@
           style="letter-spacing: -2.1px">
           @if (pageTitle === t.home) {
           Panel de control
+          } @else if (pageTitle === 'Configuración Xenon') {
+          Configuración <span class="xenon-gradient">Xenon</span>
           } @else {
           {{ pageTitle }}
           }

@@ -87,7 +87,7 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   agent: Agent | null = null;
   agentId: number | null = null;
 
-  activeTab: 'main' | 'connections' | 'knowledge' = 'main';
+  activeTab: 'main' | 'knowledge' = 'main';
 
   agentKnowledgeSources: KnowledgeSource[] = [];
   isLoadingKnowledgeSources = false;
@@ -342,7 +342,7 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
       });
   }
 
-  setActiveTab(tab: 'main' | 'connections' | 'knowledge'): void {
+  setActiveTab(tab: 'main' | 'knowledge'): void {
     this.activeTab = tab;
 
     // Load available knowledge sources when switching to knowledge tab
