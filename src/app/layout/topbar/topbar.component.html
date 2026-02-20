@@ -47,7 +47,7 @@
       <!-- Campana de notificaciones móvil -->
       <div class="relative">
         <button type="button" (click)="toggleNewsDropdown()"
-          class="news-bell-btn relative p-1.5 md:p-2 text-black hover:bg-gray-100 rounded-full focus:outline-none transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
+          class="news-bell-btn relative p-1.5 md:p-2 text-black rounded-full focus:outline-none transition-colors dark:text-slate-100">
           <svg class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path
@@ -69,86 +69,27 @@
           <div class="flex flex-col max-h-[225px] overflow-hidden">
             <!-- Content -->
             <div class="p-1.5 overflow-y-auto custom-scrollbar space-y-1">
-              <!-- Item 1 -->
-              <div
+              <div *ngFor="let news of newsList()"
                 class="p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-                <div class="flex gap-2 items-center">
+                <div class="flex gap-2 items-center text-left">
                   <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem]">
                     <div>
-                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight">Motor de Voz
-                        Ultra-Rápido</h3>
-                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">Latencia reducida en
-                        un 40%.</p>
+                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight uppercase">{{
+                        news.title }}</h3>
+                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">{{ news.description }}
+                      </p>
                     </div>
-                    <span class="text-[8px] text-gray-400 mt-1">Hoy</span>
+                    <span class="text-[8px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1">{{ news.date
+                      }}</span>
                   </div>
                   <div
                     class="w-24 h-14 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
-                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=160&h=100&fit=crop"
-                      class="w-full h-full object-cover" alt="AI Voice">
+                    <img [src]="news.imageUrl" class="w-full h-full object-cover" alt="Image">
                   </div>
                 </div>
               </div>
-              <!-- Item 2 -->
-              <div
-                class="p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-                <div class="flex gap-2 items-center">
-                  <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem]">
-                    <div>
-                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight">Comunidad Discord
-                      </h3>
-                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">Únete a miles de
-                        desarrolladores y bla bla bla bla bla bla bla bla y un poco mas de bla bla bla</p>
-                    </div>
-                    <span class="text-[8px] text-gray-400 mt-1">Ayer</span>
-                  </div>
-                  <div
-                    class="w-24 h-14 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
-                    <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=160&h=100&fit=crop"
-                      class="w-full h-full object-cover" alt="Discord">
-                  </div>
-                </div>
-              </div>
-              <!-- Item 3 -->
-              <div
-                class="p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-                <div class="flex gap-2 items-center">
-                  <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem]">
-                    <div>
-                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight">Nueva Integración
-                      </h3>
-                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">Conecta Llamalo IA con
-                        Slack y Telegram de forma nativa.</p>
-                    </div>
-                    <span class="text-[8px] text-gray-400 mt-1">Hace 3 días</span>
-                  </div>
-                  <div
-                    class="w-24 h-14 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=160&h=100&fit=crop"
-                      class="w-full h-full object-cover" alt="Integration">
-                  </div>
-                </div>
-              </div>
-              <!-- Item 4 -->
-              <div
-                class="p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-                <div class="flex gap-2 items-center">
-                  <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem]">
-                    <div>
-                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight">Mejoras de Velocidad
-                      </h3>
-                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">Hemos optimizado
-                        nuestros servidores para una latencia mínima.</p>
-                    </div>
-                    <span class="text-[8px] text-gray-400 mt-1">Hace 1 semana</span>
-                  </div>
-                  <div
-                    class="w-24 h-14 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
-                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=160&h=100&fit=crop"
-                      class="w-full h-full object-cover" alt="Performance">
-                  </div>
-                </div>
-              </div>
+              <div *ngIf="newsList().length === 0" class="py-10 text-center text-xs text-gray-400 italic">No hay
+                noticias</div>
             </div>
           </div>
         </div>
@@ -156,7 +97,7 @@
 
       <!-- Botón hamburguesa para abrir sidebar móvil -->
       <button (click)="openMobileSidebar()"
-        class="p-1.5 md:p-2 text-black hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
+        class="p-1.5 md:p-2 text-black rounded-full focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors dark:text-slate-100">
         <span class="sr-only">Abrir menú</span>
         <svg class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -327,7 +268,7 @@
       <!-- Campana de notificaciones escritorio -->
       <div class="relative">
         <button type="button" (click)="toggleNewsDropdown()"
-          class="news-bell-btn relative h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 4xl:h-14 4xl:w-14 flex items-center justify-center text-black hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-slate-800 rounded-full transition-all duration-300">
+          class="news-bell-btn relative h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 4xl:h-14 4xl:w-14 flex items-center justify-center text-black dark:text-slate-200 rounded-full transition-all duration-300">
           <svg
             class="w-5 h-5 sm:w-4 sm:h-4 md:w-5.5 md:h-5.5 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6"
             viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -350,92 +291,27 @@
           <div class="flex flex-col max-h-[225px] overflow-hidden">
             <!-- Content -->
             <div class="p-1.5 overflow-y-auto custom-scrollbar space-y-1">
-              <!-- Item 1 -->
-              <div
+              <div *ngFor="let news of newsList()"
                 class="p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-                <div class="flex gap-2 items-center">
-                  <div class="flex-1 min-w-0 pr-1 text-left flex flex-col justify-between min-h-[3.5rem]">
+                <div class="flex gap-2 items-center text-left">
+                  <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem]">
                     <div>
-                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight">Motor de Voz
-                        Ultra-Rápido</h3>
-                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">Latencia reducida
-                        en
-                        un 40%.</p>
+                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight uppercase">{{
+                        news.title }}</h3>
+                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">{{ news.description }}
+                      </p>
                     </div>
-                    <span class="text-[8px] text-gray-400 mt-1">Hoy</span>
+                    <span class="text-[8px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1">{{ news.date
+                      }}</span>
                   </div>
                   <div
                     class="w-24 h-14 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
-                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=160&h=100&fit=crop"
-                      class="w-full h-full object-cover" alt="AI Voice">
+                    <img [src]="news.imageUrl" class="w-full h-full object-cover" alt="Image">
                   </div>
                 </div>
               </div>
-              <!-- Item 2 -->
-              <div
-                class="p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-                <div class="flex gap-2 items-center">
-                  <div class="flex-1 min-w-0 pr-1 text-left flex flex-col justify-between min-h-[3.5rem]">
-                    <div>
-                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight">Comunidad
-                        Discord
-                      </h3>
-                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">Únete a miles de
-                        desarrolladores y bla bla bla bla bla bla bla bla y un poco mas de bla bla bla</p>
-                    </div>
-                    <span class="text-[8px] text-gray-400 mt-1">Ayer</span>
-                  </div>
-                  <div
-                    class="w-24 h-14 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
-                    <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=160&h=100&fit=crop"
-                      class="w-full h-full object-cover" alt="Discord">
-                  </div>
-                </div>
-              </div>
-              <!-- Item 3 -->
-              <!-- Item 3 -->
-              <div
-                class="p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-                <div class="flex gap-2 items-center">
-                  <div class="flex-1 min-w-0 pr-1 text-left flex flex-col justify-between min-h-[3.5rem]">
-                    <div>
-                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight">Nueva
-                        Integración
-                      </h3>
-                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">Conecta Llamalo IA
-                        con
-                        Slack y Telegram de forma nativa.</p>
-                    </div>
-                    <span class="text-[8px] text-gray-400 mt-1">Hace 3 días</span>
-                  </div>
-                  <div
-                    class="w-24 h-14 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=160&h=100&fit=crop"
-                      class="w-full h-full object-cover" alt="Integration">
-                  </div>
-                </div>
-              </div>
-              <!-- Item 4 -->
-              <div
-                class="p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-                <div class="flex gap-2 items-center">
-                  <div class="flex-1 min-w-0 pr-1 text-left flex flex-col justify-between min-h-[3.5rem]">
-                    <div>
-                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight">Mejoras de
-                        Velocidad
-                      </h3>
-                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">Hemos optimizado
-                        nuestros servidores para una latencia mínima.</p>
-                    </div>
-                    <span class="text-[8px] text-gray-400 mt-1">Hace 1 semana</span>
-                  </div>
-                  <div
-                    class="w-24 h-14 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
-                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=160&h=100&fit=crop"
-                      class="w-full h-full object-cover" alt="Performance">
-                  </div>
-                </div>
-              </div>
+              <div *ngIf="newsList().length === 0" class="py-10 text-center text-xs text-gray-400 italic">No hay
+                noticias</div>
             </div>
           </div>
         </div>

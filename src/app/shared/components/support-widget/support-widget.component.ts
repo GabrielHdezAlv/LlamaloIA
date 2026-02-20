@@ -1,5 +1,7 @@
-import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID, effect, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID, effect, inject, computed } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { ModalService } from '../../modals/modal.service';
 import { AiSphereComponent } from '../ai-sphere/ai-sphere.component';
 import {
@@ -21,8 +23,10 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     isSettingsOpen = false;
     volume = 80; // Default volume
     isPlaying = false;
+    currentUrl = '';
 
     readonly voiceTest = inject(VoiceTestService);
+    private router = inject(Router);
 
     private animationId: any;
     private isBrowser: boolean;
@@ -49,7 +53,18 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (this.isBrowser) {
             this.animateIdle();
+            this.currentUrl = this.router.url;
+            this.router.events.pipe(
+                filter(event => event instanceof NavigationEnd)
+            ).subscribe((event: any) => {
+                this.currentUrl = event.url;
+            });
         }
+    }
+
+    get shouldShow(): boolean {
+        const authRoutes = ['/login', '/register', '/verify-email'];
+        return !authRoutes.some(route => this.currentUrl.includes(route));
     }
 
     ngOnDestroy() {

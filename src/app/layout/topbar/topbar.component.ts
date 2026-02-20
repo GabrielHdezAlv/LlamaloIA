@@ -15,6 +15,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { I18nService, Language } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
+import { NewsService } from '../../core/services/news.service';
 import { USER_ROLE } from '../../shared/models/user-role.enum';
 import { Subscription } from 'rxjs';
 
@@ -45,6 +46,9 @@ export class TopbarComponent implements OnInit, OnDestroy {
   private isBrowser: boolean;
   private i18nService = inject(I18nService);
   private metricsService = inject(MetricsService);
+  private newsService = inject(NewsService);
+
+  newsList = this.newsService.newsSignal;
 
   // Estado de loading para métricas
   isMetricsLoading: boolean = false;
@@ -403,6 +407,10 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.pageTitle = 'Configuración Xenon';
       this.welcomeText = '';
       this.pageSubtitle = '';
+    } else if (url === '/admin/news') {
+      this.pageTitle = 'Gestionar Noticias';
+      this.welcomeText = '';
+      this.pageSubtitle = 'Crea y edita las noticias que aparecen en el panel superior';
     } else if (url === '/dashboard/agents/create') {
       this.pageTitle = t.createAgent;
       this.welcomeText = '';

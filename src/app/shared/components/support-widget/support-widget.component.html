@@ -1,4 +1,4 @@
-<div class="support-widget" [class.open]="isOpen">
+<div class="support-widget" [class.open]="isOpen" *ngIf="shouldShow">
     <!-- Widget Content Box -->
     <div class="widget-container" *ngIf="isOpen">
         <div class="widget-content">
