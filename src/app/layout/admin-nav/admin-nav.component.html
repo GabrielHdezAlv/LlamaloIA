@@ -38,16 +38,6 @@
         <span *ngIf="!isCollapsed" class="transition-opacity duration-300">Dashboard</span>
       </a>
 
-      <a routerLink="/admin/metrics" routerLinkActive="bg-blue-50 text-blue-950 dark:bg-blue-900/20 dark:text-blue-300"
-        [class]="'flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium text-sm ' + (isCollapsed ? 'justify-center' : '') + ' text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800'"
-        [title]="isCollapsed ? 'Métricas' : ''">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19ZM7 10H9V17H7V10ZM11 7H13V17H11V7ZM15 13H17V17H15V13Z" />
-        </svg>
-        <span *ngIf="!isCollapsed" class="transition-opacity duration-300">Métricas</span>
-      </a>
-
       <a routerLink="/admin/tokens" routerLinkActive="bg-blue-50 text-blue-950 dark:bg-blue-900/20 dark:text-blue-300"
         [class]="'flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium text-sm ' + (isCollapsed ? 'justify-center' : '') + ' text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800'"
         [title]="isCollapsed ? 'Servicios Externos' : ''">
@@ -69,27 +59,6 @@
         <span *ngIf="!isCollapsed" class="transition-opacity duration-300">Redes Sociales</span>
       </a>
 
-      <a routerLink="/admin/recordatorio"
-        routerLinkActive="bg-blue-50 text-blue-950 dark:bg-blue-900/20 dark:text-blue-300"
-        [class]="'flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium text-sm ' + (isCollapsed ? 'justify-center' : '') + ' text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800'"
-        [title]="isCollapsed ? 'Recordatorio' : ''">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-        </svg>
-        <span *ngIf="!isCollapsed" class="transition-opacity duration-300">Recordatorio</span>
-      </a>
-
-      <a routerLink="/admin/users" routerLinkActive="bg-blue-50 text-blue-950 dark:bg-blue-900/20 dark:text-blue-300"
-        [class]="'flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium text-sm ' + (isCollapsed ? 'justify-center' : '') + ' text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800'"
-        [title]="isCollapsed ? 'Usuarios' : ''">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" />
-        </svg>
-        <span *ngIf="!isCollapsed" class="transition-opacity duration-300">Usuarios</span>
-      </a>
-
       <a routerLink="/admin/agents/edit/1"
         routerLinkActive="bg-blue-50 text-blue-950 dark:bg-blue-900/20 dark:text-blue-300"
         [class]="'flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium text-sm ' + (isCollapsed ? 'justify-center' : '') + ' text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800'"
@@ -99,27 +68,6 @@
             d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20ZM11 11.41V7H13V11L16 13L15.3 14.2L11 11.41Z" />
         </svg>
         <span *ngIf="!isCollapsed" class="transition-opacity duration-300">Editor Agente</span>
-      </a>
-
-      <a routerLink="/admin/analytics"
-        routerLinkActive="bg-blue-50 text-blue-950 dark:bg-blue-900/20 dark:text-blue-300"
-        [class]="'flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium text-sm ' + (isCollapsed ? 'justify-center' : '') + ' text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800'"
-        [title]="isCollapsed ? 'Analíticas' : ''">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V5H19V19ZM7 10H9V17H7V10ZM11 7H13V17H11V7ZM15 13H17V17H15V13Z" />
-        </svg>
-        <span *ngIf="!isCollapsed" class="transition-opacity duration-300">Analíticas</span>
-      </a>
-
-      <a routerLink="/admin/settings" routerLinkActive="bg-blue-50 text-blue-950 dark:bg-blue-900/20 dark:text-blue-300"
-        [class]="'flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 font-medium text-sm ' + (isCollapsed ? 'justify-center' : '') + ' text-gray-700 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800'"
-        [title]="isCollapsed ? 'Configuración' : ''">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path
-            d="M19.14 12.94C19.18 12.64 19.2 12.33 19.2 12C19.2 11.67 19.18 11.36 19.14 11.06L21.16 9.48C21.34 9.33 21.4 9.08 21.3 8.87L19.3 5.33C19.2 5.12 18.97 5.02 18.75 5.08L16.26 5.84C15.87 5.5 15.43 5.22 14.96 5.02L14.64 2.42C14.61 2.19 14.43 2 14.2 2H9.8C9.57 2 9.39 2.19 9.36 2.42L9.04 5.02C8.57 5.22 8.13 5.5 7.74 5.84L5.25 5.08C5.03 5.02 4.8 5.12 4.7 5.33L2.7 8.87C2.6 9.08 2.66 9.33 2.84 9.48L4.86 11.06C4.82 11.36 4.8 11.67 4.8 12C4.8 12.33 4.82 12.64 4.86 12.94L2.84 14.52C2.66 14.67 2.6 14.92 2.7 15.13L4.7 18.67C4.8 18.88 5.03 18.98 5.25 18.92L7.74 18.16C8.13 18.5 8.57 18.78 9.04 18.98L9.36 21.58C9.39 21.81 9.57 22 9.8 22H14.2C14.43 22 14.61 21.81 14.64 21.58L14.96 18.98C15.43 18.78 15.87 18.5 16.26 18.16L18.75 18.92C18.97 18.98 19.2 18.88 19.3 18.67L21.3 15.13C21.4 14.92 21.34 14.67 21.16 14.52L19.14 12.94ZM12 15.6C10.02 15.6 8.4 13.98 8.4 12C8.4 10.02 10.02 8.4 12 8.4C13.98 8.4 15.6 10.02 15.6 12C15.6 13.98 13.98 15.6 12 15.6Z" />
-        </svg>
-        <span *ngIf="!isCollapsed" class="transition-opacity duration-300">Configuración</span>
       </a>
     </nav>
 
