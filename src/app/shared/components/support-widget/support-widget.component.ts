@@ -1,7 +1,11 @@
-import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID, effect, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../modals/modal.service';
 import { AiSphereComponent } from '../ai-sphere/ai-sphere.component';
+import {
+    VoiceTestService,
+    VoiceTestConfig,
+} from '../../../core/services/voice-test.service';
 
 @Component({
     selector: 'app-support-widget',
@@ -18,6 +22,8 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     volume = 80; // Default volume
     isPlaying = false;
 
+    readonly voiceTest = inject(VoiceTestService);
+
     private animationId: any;
     private isBrowser: boolean;
     private audioContext: AudioContext | null = null;
@@ -29,6 +35,15 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
         private modalService: ModalService
     ) {
         this.isBrowser = isPlatformBrowser(platformId);
+
+        effect(() => {
+            const state = this.voiceTest.connectionState();
+            if (state === 'ended' || state === 'error') {
+                this.isPlaying = false;
+                this.isMicrophoneActive = false;
+                this.animateIdle();
+            }
+        });
     }
 
     ngOnInit() {
@@ -62,16 +77,65 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     }
 
     togglePlayback() {
-        this.isPlaying = !this.isPlaying;
+        if (this.isPlaying) {
+            this.voiceTest.endSession();
+            this.isPlaying = false;
+            this.isMicrophoneActive = false;
+            this.animateIdle();
+        } else {
+            if (this.isMicrophoneActive) {
+                this.stopMicrophone();
+            }
+            this.isMicrophoneActive = true;
+            const config: VoiceTestConfig = {
+                useSupportChat: true,
+                agentInstruction: '',
+                firstInteraction: '',
+                language: 'es',
+                name: 'Xenon',
+                voiceId: '',
+                parameters: {
+                    stability: 0.5,
+                    similarity: 0.75,
+                    style: 0,
+                    boost: false,
+                    speed: 1,
+                },
+            };
+            this.voiceTest.startSession(config);
+            this.isPlaying = true;
+            if (this.animationId) cancelAnimationFrame(this.animationId);
+            this.animateVoiceCall();
+        }
     }
 
     async toggleMicrophone() {
-        if (this.isMicrophoneActive) {
-            this.stopMicrophone();
-            this.animateIdle();
+        if (this.isPlaying) {
+            this.voiceTest.toggleMute();
+            this.isMicrophoneActive = !this.voiceTest.isMuted();
         } else {
-            await this.startMicrophone();
+            if (this.isMicrophoneActive) {
+                this.stopMicrophone();
+                this.animateIdle();
+            } else {
+                await this.startMicrophone();
+            }
         }
+    }
+
+    private animateVoiceCall() {
+        if (!this.isBrowser || !this.isPlaying) return;
+        const state = this.voiceTest.agentState();
+        const connState = this.voiceTest.connectionState();
+        if (connState === 'ended' || connState === 'error') return;
+
+        let target = 0.1;
+        if (state === 'speaking') target = 0.6 + Math.sin(Date.now() / 200) * 0.2;
+        else if (state === 'thinking') target = 0.3 + Math.sin(Date.now() / 400) * 0.15;
+        else if (connState === 'connected') target = 0.2 + Math.sin(Date.now() / 800) * 0.1;
+
+        this.audioLevel = this.audioLevel * 0.8 + target * 0.2;
+        this.animationId = requestAnimationFrame(() => this.animateVoiceCall());
     }
 
     private async startMicrophone() {
