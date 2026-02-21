@@ -1,62 +1,84 @@
 <div class="upgrade-plan-wrapper py-6 px-4 sm:px-6 lg:px-8 min-h-screen">
     <!-- Header Section -->
-    <div class="text-center max-w-2xl mx-auto mb-10">
-        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+    <div class="text-center max-w-3xl 3xl:max-w-6xl mx-auto mb-8 3xl:mb-20 px-4">
+        <h1
+            class="text-2xl md:text-4xl 3xl:text-6xl font-extrabold text-gray-900 dark:text-white mb-3 3xl:mb-8 tracking-tight">
             Precios que crecen contigo
         </h1>
-        <p class="text-base text-gray-500 dark:text-slate-400">
+        <p
+            class="text-sm 3xl:text-2xl text-gray-500 dark:text-slate-400 max-w-xl 3xl:max-w-4xl mx-auto leading-relaxed">
             Escucha lo que dicen nuestros clientes sobre cómo LlamaloIA ha transformado su comunicación.
         </p>
     </div>
 
     <!-- Pricing Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-14">
+    <div
+        class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl 3xl:max-w-[1400px] mx-auto mb-10 3xl:mb-14 px-4">
         @for (plan of pricingPlans; track plan.name) {
-        <div
-            [class]="'pricing-card relative p-6 rounded-[2rem] transition-all duration-300 ' + (plan.highlighted ? 'bg-[#1a1a1a] text-white shadow-2xl scale-100 z-10' : 'bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white border border-gray-100 dark:border-slate-700 shadow-md hover:shadow-lg')">
+        <div [class]="'flex flex-col h-full rounded-[2rem] p-1.5 3xl:p-3 border shadow-xl transition-transform duration-300 hover:scale-[1.02] ' + 
+            (plan.name === 'Pro' 
+                ? 'bg-[#151515] dark:bg-white border-transparent dark:border-gray-200' 
+                : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')">
 
-            <div class="mb-6">
-                <h3
-                    [class]="'text-xl font-bold mb-1.5 ' + (plan.highlighted ? 'text-white' : 'text-gray-900 dark:text-white')">
-                    {{ plan.name }}
-                </h3>
-                <p
-                    [class]="'text-xs leading-relaxed ' + (plan.highlighted ? 'text-gray-400' : 'text-gray-500 dark:text-slate-400')">
-                    {{ plan.description }}
-                </p>
+            <!-- Top Section Container -->
+            <div [class]="'rounded-[1.5rem] 3xl:rounded-[2rem] p-6 sm:p-8 3xl:p-10 flex flex-col h-fit transition-colors ' + 
+                (plan.name === 'Pro' 
+                    ? 'bg-[#222222] dark:bg-[#dddddd]' 
+                    : 'bg-gray-50 dark:bg-[#222222]')">
+                <div class="mb-6 3xl:mb-8">
+                    <h3
+                        [class]="'text-xl 3xl:text-3xl font-bold mb-2 3xl:mb-3 ' + (plan.name === 'Pro' ? 'text-white dark:text-[#000001]' : 'text-black dark:text-white')">
+                        {{ plan.name }}
+                    </h3>
+                    <p
+                        [class]="'text-xs 3xl:text-base leading-relaxed font-medium ' + (plan.name === 'Pro' ? 'text-gray-400 dark:text-[#000001]/70' : 'text-gray-500 dark:text-gray-400')">
+                        {{ plan.description }}
+                    </p>
+                </div>
+
+                <div class="flex items-baseline gap-1.5 3xl:gap-2 mb-8 3xl:mb-10">
+                    <span
+                        [class]="'text-4xl 3xl:text-6xl font-extrabold tracking-tight ' + (plan.name === 'Pro' ? 'text-white dark:text-[#000001]' : 'text-black dark:text-white')">${{
+                        plan.price }}</span>
+                    <span
+                        [class]="'text-xs 3xl:text-lg font-medium ' + (plan.name === 'Pro' ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">/
+                        Mes</span>
+                </div>
+
+                <button [class]="'w-full py-3 3xl:py-5 px-5 3xl:px-6 rounded-full font-bold text-sm 3xl:text-lg transition-all duration-300 flex items-center justify-center group shadow-md 3xl:shadow-lg ' + 
+                    (plan.name === 'Pro' 
+                        ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90' 
+                        : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
+                    <span>{{ plan.buttonText }}</span>
+                    <svg class="w-4 h-4 3xl:w-5 3xl:h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </button>
             </div>
 
-            <div class="flex items-baseline gap-1 mb-6">
-                <span class="text-4xl font-extrabold tracking-tight">${{ plan.price }}</span>
-                <span [class]="'text-xs ' + (plan.highlighted ? 'text-gray-500' : 'text-gray-400')">/ Mes</span>
-            </div>
-
-            <button
-                [class]="'w-full py-3 px-6 rounded-xl font-bold text-base transition-all duration-200 mb-8 ' + (plan.highlighted ? 'bg-white text-black hover:bg-gray-100' : 'bg-[#1a1a1a] text-white hover:bg-black')">
-                {{ plan.buttonText }}
-                @if(plan.highlighted) {
-                <span class="ml-2">→</span>
-                }
-            </button>
-
-            <div>
+            <!-- Bottom Section (Features List) -->
+            <div class="p-6 sm:p-8 3xl:p-10 flex-1 flex flex-col">
                 <h4
-                    [class]="'text-[10px] font-bold uppercase tracking-widest mb-4 ' + (plan.highlighted ? 'text-gray-500' : 'text-gray-400')">
+                    [class]="'text-[9px] 3xl:text-xs font-bold uppercase tracking-[0.15em] mb-4 3xl:mb-6 ' + (plan.name === 'Pro' ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">
                     {{ plan.name === 'Gratis' ? "LO QUE INCLUYE:" : (plan.name === 'Pro' ? "TODO EN GRATIS, MÁS:" :
                     "TODO EN PRO, MÁS:") }}
                 </h4>
-                <ul class="space-y-3">
-                    @for (feature of plan.features; track feature) {
-                    <li class="flex items-center gap-2.5">
-                        <span class="feature-icon text-gray-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7"></path>
+
+                <ul class="space-y-3 3xl:space-y-5">
+                    @for (feature of plan.features; track feature.text) {
+                    <li class="flex items-start gap-4 group">
+                        <span
+                            [class]="'mt-0.5 transition-colors flex-shrink-0 ' + (plan.name === 'Pro' ? 'text-white dark:text-[#000001] group-hover:text-blue-500' : 'text-gray-400 dark:text-gray-500 group-hover:text-white')">
+                            <svg class="w-4 h-4 3xl:w-6 3xl:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="feature.icon"></path>
                             </svg>
                         </span>
                         <span
-                            [class]="'text-xs font-medium ' + (plan.highlighted ? 'text-gray-300' : 'text-gray-600 dark:text-slate-300')">
-                            {{ feature }}
+                            [class]="'text-xs 3xl:text-base font-medium leading-tight ' + (plan.name === 'Pro' ? 'text-gray-300 dark:text-[#000001]/70' : 'text-gray-700 dark:text-gray-300')">
+                            {{ feature.text }}
                         </span>
                     </li>
                     }
@@ -68,72 +90,47 @@
 
     <!-- Trust Badges -->
     <div
-        class="flex flex-wrap justify-center items-center gap-6 md:gap-12 max-w-4xl mx-auto mb-20 py-6 border-y border-gray-100 dark:border-slate-800">
+        class="flex flex-wrap justify-center items-center gap-4 md:gap-10 3xl:gap-16 max-w-5xl 3xl:max-w-[1400px] mx-auto mb-16 3xl:mb-32 py-8 3xl:py-10 px-4">
         <div class="trust-badge flex items-center gap-2">
-            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
-                <path
-                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32 2.33-4.67 2.34-4.67.32-.19.42-.61.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
-            </svg>
+            <img src="assets/hoja_izquierda.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
             <div class="text-center px-1">
-                <p class="text-[9px] font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">Top Rated</p>
-                <p class="text-[9px] font-bold text-gray-700 dark:text-slate-300">Finance App</p>
+                <p class="text-[9px] 3xl:text-xs font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">
+                    Top Rated</p>
+                <p class="text-[9px] 3xl:text-xs font-bold text-gray-700 dark:text-slate-300">Finance App</p>
             </div>
-            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
-                <path
-                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
-            </svg>
+            <img src="assets/hoja_derecha.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
         </div>
 
         <div class="trust-badge flex items-center gap-2">
-            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
-                <path
-                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
-            </svg>
+            <img src="assets/hoja_izquierda.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
             <div class="text-center px-1">
-                <p class="text-[9px] font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">Best Personal
+                <p class="text-[9px] 3xl:text-xs font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">
+                    Best Personal
                 </p>
-                <p class="text-[9px] font-bold text-gray-700 dark:text-slate-300">Finance App</p>
+                <p class="text-[9px] 3xl:text-xs font-bold text-gray-700 dark:text-slate-300">Finance App</p>
             </div>
-            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
-                <path
-                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
-            </svg>
+            <img src="assets/hoja_derecha.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
         </div>
 
         <div class="trust-badge flex items-center gap-2">
-            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
-                <path
-                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
-            </svg>
+            <img src="assets/hoja_izquierda.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
             <div class="text-center px-1">
-                <p class="text-[9px] font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">Loved by</p>
-                <p class="text-[9px] font-bold text-gray-700 dark:text-slate-300">2,500+ users</p>
+                <p class="text-[9px] 3xl:text-xs font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">
+                    Loved by</p>
+                <p class="text-[9px] 3xl:text-xs font-bold text-gray-700 dark:text-slate-300">2,500+ users</p>
             </div>
-            <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                    d="M11 20c-3.15 0-5.75-2.03-6.66-4.82-.12-.34.05-.71.39-.83.34-.12.71.05.83.39.75 2.29 2.89 3.96 5.44 3.96h0c.37 0 .67.3.67.67 0 .37-.3.67-.67.67zM3.46 13.92c-.22 0-.44-.11-.57-.31-.56-.84-.94-1.84-1.12-2.91-.06-.36.19-.7.55-.76s.7.19.76.55c.14.88.46 1.7.92 2.39.2.3.11.71-.19.92-.1-.08-.23-.12-.35-.12zM3.86 8.35c-.32 0-.61-.22-.66-.54-.25-1.63-.16-3.23.27-4.66.1-.35.48-.56.83-.46s.56.48.46.83c-.36 1.18-.43 2.51-.23 3.86.05.37-.2.7-.56.76-.04.01-.07.01-.11.01zM11 5.33c-.37 0-.67-.3-.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s.61-.42.93-.23c.12.07 3 1.73 3 5.83 0 .37-.3.67-.67.67z" />
-                <path
-                    d="M13 20c3.15 0 5.75-2.03 6.66-4.82.12-.34-.05-.71-.39-.83-.34-.12-.71.05-.83.39-.75 2.29-2.89 3.96-5.44 3.96h0c-.37 0-.67.3-.67.67 0 .37.3.67.67.67zM20.54 13.92c.22 0 .44-.11.57-.31.56-.84.94-1.84 1.12-2.91.06-.36-.19-.7-.55-.76s-.7.19-.76.55c-.14.88-.46 1.7-.92 2.39-.2.3-.11.71.19.92.1-.08.23-.12.35-.12zM20.14 8.35c.32 0 .61-.22.66-.54.25-1.63.16-3.23-.27-4.66-.1-.35-.48-.56-.83-.46s-.56.48-.46.83c.36 1.18.43 2.51.23 3.86-.05.37.2.7.56.76.04.01.07.01.11.01zM13 5.33c.37 0 .67-.3.67-.67 0-3.32-2.33-4.67-2.34-4.67-.32-.19-.42-.61-.23-.93s-.61-.42-.93-.23l-.06.03c-.11.06-2.94 1.7-2.94 5.8 0 .37.3.67.67.67z" />
-            </svg>
+            <img src="assets/hoja_derecha.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
         </div>
     </div>
 
     <!-- Feature Comparison Table -->
-    <div class="max-w-6xl mx-auto mb-16 text-center">
-        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-4">
+    <div class="max-w-5xl 3xl:max-w-[1400px] mx-auto mb-12 3xl:mb-16 px-4 text-center">
+        <h2
+            class="text-xl md:text-3xl 3xl:text-6xl font-extrabold text-gray-900 dark:text-white mb-3 3xl:mb-8 tracking-tight">
             Comparación de funciones
         </h2>
-        <p class="text-base text-gray-500 dark:text-slate-400 mb-10 max-w-xl mx-auto">
+        <p
+            class="text-sm 3xl:text-xl text-gray-500 dark:text-slate-400 mb-8 3xl:mb-16 max-w-lg 3xl:max-w-3xl mx-auto leading-relaxed">
             Llamalo es el socio perfecto para empresas que buscan excelencia en comunicación.
         </p>
 
@@ -143,56 +140,119 @@
                     <tr>
                         <th class="py-6 px-4 min-w-[200px]"></th>
                         @for (plan of pricingPlans; track plan.name) {
-                        <th class="py-6 px-4 text-left min-w-[150px]">
+                        <th
+                            class="py-4 3xl:py-6 px-2 sm:px-3 3xl:px-4 text-left min-w-[140px] 3xl:min-w-[170px] align-top">
                             <div
-                                [class]="plan.highlighted ? 'bg-[#1a1a1a] text-white p-4 rounded-2xl shadow-lg' : 'bg-white dark:bg-slate-800 p-4 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm'">
-                                <p class="text-base font-bold mb-1">{{ plan.name }}</p>
-                                <p class="text-xl font-extrabold mb-3">${{ plan.price }} <span
-                                        class="text-[10px] opacity-50 font-normal">/ Mes</span></p>
+                                [class]="plan.highlighted ? 'bg-[#1a1a1a] dark:bg-white text-white dark:text-[#1a1a1a] p-5 lg:p-6 3xl:p-8 rounded-[1.25rem] 3xl:rounded-[1.75rem] shadow-lg 3xl:shadow-xl' : 'bg-white dark:bg-[#1a1a1a] text-black dark:text-white p-5 lg:p-6 3xl:p-8 rounded-[1.25rem] 3xl:rounded-[1.75rem] border border-gray-100 dark:border-gray-800 shadow-sm'">
+                                <p class="text-xs lg:text-sm 3xl:text-lg font-bold mb-6 3xl:mb-8">{{ plan.name }}</p>
+                                <div class="flex items-baseline gap-1 mb-5 3xl:mb-7">
+                                    <span class="text-2xl lg:text-3xl 3xl:text-5xl font-medium tracking-tight">${{
+                                        plan.price
+                                        }}</span>
+                                    <span class="text-[9px] lg:text-[10px] 3xl:text-sm opacity-60 font-medium">/
+                                        Mes</span>
+                                </div>
                                 <button
-                                    [class]="'w-full py-1.5 px-3 rounded-lg text-xs font-bold text-center ' + (plan.highlighted ? 'bg-white text-black' : 'bg-[#1a1a1a] text-white')">
-                                    Elegir
+                                    [class]="'w-full py-2 3xl:py-3 px-3 3xl:px-4 rounded-full text-[11px] 3xl:text-sm font-bold flex items-center justify-center transition-opacity ' + (plan.highlighted ? 'bg-white text-black dark:bg-[#1a1a1a] dark:text-white hover:opacity-90' : 'bg-[#1a1a1a] text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
+                                    Elegir Plan
+                                    <svg class="w-3.5 h-3.5 ml-1.5" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="m9 18 6-6-6-6" />
+                                    </svg>
                                 </button>
                             </div>
                         </th>
                         }
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+                <tbody class="">
                     @for (feat of comparisonFeatures; track feat.name) {
                     <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
-                        <td class="py-4 px-4">
-                            <div class="flex items-center gap-4">
-                                <span class="text-xl opacity-90 w-10 flex-shrink-0 flex items-center justify-center">
+                        <td class="py-3 3xl:py-5 px-3 3xl:px-5">
+                            <div class="flex items-center gap-3 3xl:gap-5">
+                                <span
+                                    class="text-lg 3xl:text-2xl opacity-90 w-8 3xl:w-10 flex-shrink-0 flex items-center justify-center">
                                     {{ feat.icon }}
                                 </span>
-                                <span class="text-sm font-bold text-gray-700 dark:text-slate-300">
+                                <span class="text-xs 3xl:text-base font-bold text-gray-700 dark:text-slate-300">
                                     {{ feat.name }}
                                 </span>
                             </div>
                         </td>
-                        <td class="py-4 px-4 text-center">
+                        <td class="py-3 px-3 text-center">
                             @if (feat.free) {
-                            <span
-                                class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 dark:bg-slate-700 text-white text-[10px]">✓</span>
+                            <svg class="w-7 h-7 mx-auto text-[#1F2937] dark:text-white" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM16.78 9.7L11.11 15.37C10.97 15.51 10.78 15.59 10.58 15.59C10.38 15.59 10.19 15.51 10.05 15.37L7.22 12.54C6.93 12.25 6.93 11.77 7.22 11.48C7.51 11.19 7.99 11.19 8.28 11.48L10.58 13.78L15.72 8.64C16.01 8.35 16.49 8.35 16.78 8.64C17.07 8.93 17.07 9.4 16.78 9.7Z"
+                                        fill="currentColor"></path>
+                                </g>
+                            </svg>
                             } @else {
-                            <span class="text-gray-300 dark:text-slate-600 text-lg">✕</span>
+                            <svg class="w-5 h-5 mx-auto text-gray-300  dark:text-[#545454]" viewBox="0 0 24 24"
+                                id="cross" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path id="primary" d="M19,19,5,5M19,5,5,19"
+                                        style="fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                                    </path>
+                                </g>
+                            </svg>
                             }
                         </td>
-                        <td class="py-4 px-4 text-center">
+                        <td class="py-3 px-3 text-center">
                             @if (feat.pro) {
-                            <span
-                                class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 dark:bg-slate-700 text-white text-[10px]">✓</span>
+                            <svg class="w-7 h-7 mx-auto text-[#1F2937] dark:text-white" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM16.78 9.7L11.11 15.37C10.97 15.51 10.78 15.59 10.58 15.59C10.38 15.59 10.19 15.51 10.05 15.37L7.22 12.54C6.93 12.25 6.93 11.77 7.22 11.48C7.51 11.19 7.99 11.19 8.28 11.48L10.58 13.78L15.72 8.64C16.01 8.35 16.49 8.35 16.78 8.64C17.07 8.93 17.07 9.4 16.78 9.7Z"
+                                        fill="currentColor"></path>
+                                </g>
+                            </svg>
                             } @else {
-                            <span class="text-gray-300 dark:text-slate-600 text-lg">✕</span>
+                            <svg class="w-5 h-5 mx-auto text-gray-300 dark:text-[#545454]" viewBox="0 0 24 24"
+                                id="cross" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path id="primary" d="M19,19,5,5M19,5,5,19"
+                                        style="fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                                    </path>
+                                </g>
+                            </svg>
                             }
                         </td>
-                        <td class="py-4 px-4 text-center">
+                        <td class="py-3 px-3 text-center">
                             @if (feat.premium) {
-                            <span
-                                class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-gray-900 dark:bg-slate-700 text-white text-[10px]">✓</span>
+                            <svg class="w-7 h-7 mx-auto text-[#1F2937] dark:text-white" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M12 2C6.49 2 2 6.49 2 12C2 17.51 6.49 22 12 22C17.51 22 22 17.51 22 12C22 6.49 17.51 2 12 2ZM16.78 9.7L11.11 15.37C10.97 15.51 10.78 15.59 10.58 15.59C10.38 15.59 10.19 15.51 10.05 15.37L7.22 12.54C6.93 12.25 6.93 11.77 7.22 11.48C7.51 11.19 7.99 11.19 8.28 11.48L10.58 13.78L15.72 8.64C16.01 8.35 16.49 8.35 16.78 8.64C17.07 8.93 17.07 9.4 16.78 9.7Z"
+                                        fill="currentColor"></path>
+                                </g>
+                            </svg>
                             } @else {
-                            <span class="text-gray-300 dark:text-slate-600 text-lg">✕</span>
+                            <svg class="w-5 h-5 mx-auto text-gray-300 dark:text-slate-600" viewBox="0 0 24 24"
+                                id="cross" data-name="Flat Line" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path id="primary" d="M19,19,5,5M19,5,5,19"
+                                        style="fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;">
+                                    </path>
+                                </g>
+                            </svg>
                             }
                         </td>
                     </tr>

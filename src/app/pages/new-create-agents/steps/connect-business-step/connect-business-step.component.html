@@ -1,38 +1,38 @@
 <div
-  class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-16">
+  class="w-full h-full bg-transparent flex items-center justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14">
   <div
     class="w-full max-w-[500px] sm:max-w-[600px] md:max-w-[720px] xl:max-w-[700px] 3xl:max-w-[800px] flex flex-col px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8">
     <div class="flex items-center justify-between w-full">
-      <h1 class="text-lg xl:text-sm 3xl:text-3xl font-bold text-[#0F172A] dark:text-white leading-tight">
+      <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
         Conecta tu negocio de Shopify
       </h1>
-      <span class="text-xs xl:text-[10px] 3xl:text-base font-normal text-[#0F172A] dark:text-white leading-tight"
+      <span class="text-xs xl:text-[10px] 3xl:text-sm font-normal text-[#0F172A] dark:text-white leading-tight"
         *ngIf="getCurrentStepNumber() > 0">
         {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
       </span>
     </div>
-    <p class="mt-0.5 3xl:mt-1 text-sm xl:text-[10px] 3xl:text-lg text-[#6d747c] font-semibold">
+    <p class="mt-0.5 3xl:mt-0.5 text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] font-semibold">
       Vincula tu tienda para que tu agente pueda usar tus datos reales.
     </p>
 
     <div
-      class="mt-4 xl:mt-3 3xl:mt-5 border border-gray-200 dark:border-slate-600 rounded-xl 3xl:rounded-2xl px-4 xl:px-3 3xl:px-6 py-4 xl:py-3 3xl:py-5 flex flex-col gap-4 xl:gap-3 3xl:gap-6 bg-gray-50 dark:bg-slate-900/30">
-      <div class="flex items-center gap-4 xl:gap-3 3xl:gap-5">
+      class="mt-4 xl:mt-3 3xl:mt-4 border border-gray-200 dark:border-slate-600 rounded-xl 3xl:rounded-2xl px-4 xl:px-3 3xl:px-5 py-4 xl:py-3 3xl:py-4 flex flex-col gap-4 xl:gap-3 3xl:gap-5 bg-gray-50 dark:bg-slate-900/30">
+      <div class="flex items-center gap-4 xl:gap-2.5 3xl:gap-4">
         <div
-          class="w-10 h-10 xl:w-8 xl:h-8 3xl:w-14 3xl:h-14 rounded-xl 3xl:rounded-2xl bg-white flex items-center justify-center shadow-sm">
-          <img src="assets/shopify.webp" alt="Shopify Logo" class="w-5 h-6 xl:w-4 xl:h-5 3xl:w-8 3xl:h-10" />
+          class="w-10 h-10 xl:w-8 xl:h-8 3xl:w-12 3xl:h-12 rounded-xl 3xl:rounded-xl bg-white flex items-center justify-center shadow-sm">
+          <img src="assets/shopify.webp" alt="Shopify Logo" class="w-5 h-6 xl:w-4 xl:h-5 3xl:w-7 3xl:h-9" />
         </div>
         <div class="flex-1">
-          <p class="text-sm xl:text-[11px] 3xl:text-xl font-semibold text-[#0F172A] dark:text-white">
+          <p class="text-sm xl:text-[11px] 3xl:text-lg font-semibold text-[#0F172A] dark:text-white">
             Shopify
           </p>
-          <p class="text-sm xl:text-[10px] 3xl:text-lg text-[#6d747c] dark:text-slate-400">
+          <p class="text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] dark:text-slate-400">
             Conecta tu tienda para sincronizar productos, pedidos y
             clientes.
           </p>
         </div>
         <button type="button"
-          class="ml-2 3xl:ml-4 px-3 xl:px-2.5 3xl:px-6 py-1.5 xl:py-1 3xl:py-2 rounded-lg xl:rounded-[5px] 3xl:rounded-lg text-xs xl:text-[10px] 3xl:text-lg font-semibold transition-colors border"
+          class="ml-2 3xl:ml-3 px-3 xl:px-2.5 3xl:px-5 py-1.5 xl:py-1 3xl:py-1.5 rounded-lg xl:rounded-[5px] 3xl:rounded-lg text-xs xl:text-[10px] 3xl:text-base font-semibold transition-colors border"
           [ngClass]="{
             'bg-green-600 hover:bg-green-700 text-white border-green-600':
               shopifyConnectedDomain,
@@ -44,15 +44,15 @@
       </div>
     </div>
 
-    <div class="w-full flex items-center justify-between mt-5 3xl:mt-10 nav-buttons-mobile">
+    <div class="w-full flex items-center justify-between mt-5 3xl:mt-8 nav-buttons-mobile">
       <button type="button"
-        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
+        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-base rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
         (click)="backClicked.emit()">
-        <span class="text-xs 3xl:text-xl leading-none">‹</span>
+        <span class="text-xs 3xl:text-lg leading-none">‹</span>
         <span>Atrás</span>
       </button>
       <button type="button"
-        class="px-2.5 3xl:px-6 py-0.5 3xl:py-2 text-[9px] sm:text-[10px] 3xl:text-lg rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
+        class="px-2.5 3xl:px-5 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-base rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
         (click)="continueClicked.emit()">
         Continuar
       </button>

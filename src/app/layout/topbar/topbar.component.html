@@ -287,30 +287,37 @@
 
         <!-- Dropdown de noticias escritorio -->
         <div *ngIf="showNewsDropdown"
-          class="news-dropdown absolute right-0 mt-3 w-[300px] bg-white rounded-2xl shadow-xl z-[9999] border border-gray-100 dark:bg-slate-900 dark:border-slate-800 transform origin-top-right transition-all duration-300">
-          <div class="flex flex-col max-h-[225px] overflow-hidden">
+          class="news-dropdown absolute right-0 mt-3 w-[300px] 3xl:w-[450px] bg-white rounded-2xl shadow-xl z-[9999] border border-gray-100 dark:bg-slate-900 dark:border-slate-800 transform origin-top-right transition-all duration-300">
+          <div class="flex flex-col max-h-[225px] 3xl:max-h-[400px] overflow-hidden">
             <!-- Content -->
-            <div class="p-1.5 overflow-y-auto custom-scrollbar space-y-1">
+            <div class="p-1.5 3xl:p-3 overflow-y-auto custom-scrollbar space-y-1 3xl:space-y-2">
               <div *ngFor="let news of newsList()"
-                class="p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-                <div class="flex gap-2 items-center text-left">
-                  <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem]">
+                class="p-2 3xl:p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
+                <div class="flex gap-2 3xl:gap-4 items-center text-left">
+                  <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem] 3xl:min-h-[5.5rem]">
                     <div>
-                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight uppercase">{{
+                      <h3
+                        class="text-[10px] 3xl:text-base font-bold text-gray-900 dark:text-white leading-tight uppercase">
+                        {{
                         news.title }}</h3>
-                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">{{ news.description }}
+                      <p
+                        class="text-[9px] 3xl:text-sm text-gray-500 dark:text-gray-400 mt-0.5 3xl:mt-1.5 leading-tight">
+                        {{ news.description }}
                       </p>
                     </div>
-                    <span class="text-[8px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1">{{ news.date
+                    <span
+                      class="text-[8px] 3xl:text-xs text-blue-600 dark:text-blue-400 font-bold uppercase mt-1 3xl:mt-2">{{
+                      news.date
                       }}</span>
                   </div>
                   <div
-                    class="w-24 h-14 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
+                    class="w-24 h-14 3xl:w-36 3xl:h-24 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
                     <img [src]="news.imageUrl" class="w-full h-full object-cover" alt="Image">
                   </div>
                 </div>
               </div>
-              <div *ngIf="newsList().length === 0" class="py-10 text-center text-xs text-gray-400 italic">No hay
+              <div *ngIf="newsList().length === 0" class="py-10 text-center text-xs 3xl:text-base text-gray-400 italic">
+                No hay
                 noticias</div>
             </div>
           </div>
