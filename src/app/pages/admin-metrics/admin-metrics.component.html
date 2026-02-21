@@ -1,118 +1,70 @@
 <div class="min-h-screen p-4 sm:p-6 mt-4 sm:mt-8 mx-4 lg:ml-28 lg:mr-[5.5rem]">
   <div class="max-w-7xl mx-auto">
     <!-- Encabezado -->
-    <div
-      class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6"
-    >
+    <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
       <div class="relative w-full sm:w-auto">
         <select
           class="appearance-none bg-white rounded-[2rem] w-full px-3 sm:px-4 py-2 pr-10 md:pr-12 text-sm sm:text-base border border-gray-200 history-border focus:outline-none focus:ring-2 focus:ring-blue-500"
-          [(ngModel)]="selectedPeriod"
-          (change)="onPeriodChange()"
-        >
+          [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
           <option *ngFor="let p of periods">{{ p }}</option>
         </select>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 absolute right-3 md:right-4 top-2.5 sm:top-2.5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 9l-7 7-7-7"
-          />
+        <svg xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 absolute right-3 md:right-4 top-2.5 sm:top-2.5" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
       </div>
 
       <div class="relative w-full sm:w-auto">
         <select
           class="appearance-none bg-white rounded-[2rem] w-full px-3 sm:px-4 py-2 pr-10 md:pr-12 text-sm sm:text-base border border-gray-200 history-border focus:outline-none focus:ring-2 focus:ring-blue-500"
-          [(ngModel)]="selectedAgent"
-        >
+          [(ngModel)]="selectedAgent">
           <option *ngFor="let a of agents">{{ a }}</option>
         </select>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 absolute right-3 md:right-4 top-2.5 sm:top-2.5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 9l-7 7-7-7"
-          />
+        <svg xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 absolute right-3 md:right-4 top-2.5 sm:top-2.5" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
       </div>
     </div>
 
     <!-- Loading y Error states para métricas del dashboard -->
-    <div
-      *ngIf="isLoadingDashboardMetrics"
-      class="flex justify-center items-center py-8"
-    >
-      <div
-        class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"
-      ></div>
+    <div *ngIf="isLoadingDashboardMetrics" class="flex justify-center items-center py-8">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
       <span class="ml-3 text-gray-600">Cargando métricas del dashboard...</span>
     </div>
 
-    <div
-      *ngIf="dashboardMetricsError"
-      class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4"
-    >
+    <div *ngIf="dashboardMetricsError" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
       <div class="flex items-center">
-        <svg
-          class="h-5 w-5 text-red-500 mr-2"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fill-rule="evenodd"
+        <svg class="h-5 w-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
             d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-            clip-rule="evenodd"
-          />
+            clip-rule="evenodd" />
         </svg>
         <span class="text-red-700">{{ dashboardMetricsError }}</span>
       </div>
     </div>
 
     <!-- Main Dashboard KPIs -->
-    <div
-      *ngIf="dashboardMetrics && !isLoadingDashboardMetrics"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
-    >
+    <div *ngIf="dashboardMetrics && !isLoadingDashboardMetrics"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       <!-- Total Llamadas -->
       <div class="bg-white rounded-xl p-4 border border-gray-200">
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-sm font-semibold text-gray-600">Total Llamadas</h3>
-          <div
-            class="flex items-center"
-            [ngClass]="getVariationClasses(totalLlamadasVariacion)"
-          >
+          <div class="flex items-center" [ngClass]="getVariationClasses(totalLlamadasVariacion)">
             <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                *ngIf="isVariationPositive(totalLlamadasVariacion)"
-                fill-rule="evenodd"
+              <path *ngIf="isVariationPositive(totalLlamadasVariacion)" fill-rule="evenodd"
                 d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"
-              />
-              <path
-                *ngIf="!isVariationPositive(totalLlamadasVariacion)"
-                fill-rule="evenodd"
+                clip-rule="evenodd" />
+              <path *ngIf="!isVariationPositive(totalLlamadasVariacion)" fill-rule="evenodd"
                 d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
-              />
+                clip-rule="evenodd" />
             </svg>
             <span class="text-xs font-medium">{{
               formatVariation(totalLlamadasVariacion)
-            }}</span>
+              }}</span>
           </div>
         </div>
         <p class="text-2xl font-bold text-gray-800">{{ totalLlamadas }}</p>
@@ -123,27 +75,18 @@
       <div class="bg-white rounded-xl p-4 border border-gray-200">
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-sm font-semibold text-gray-600">Llamadas Exitosas</h3>
-          <div
-            class="flex items-center"
-            [ngClass]="getVariationClasses(totalLlamadasExitosasVariacion)"
-          >
+          <div class="flex items-center" [ngClass]="getVariationClasses(totalLlamadasExitosasVariacion)">
             <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                *ngIf="isVariationPositive(totalLlamadasExitosasVariacion)"
-                fill-rule="evenodd"
+              <path *ngIf="isVariationPositive(totalLlamadasExitosasVariacion)" fill-rule="evenodd"
                 d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"
-              />
-              <path
-                *ngIf="!isVariationPositive(totalLlamadasExitosasVariacion)"
-                fill-rule="evenodd"
+                clip-rule="evenodd" />
+              <path *ngIf="!isVariationPositive(totalLlamadasExitosasVariacion)" fill-rule="evenodd"
                 d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
-              />
+                clip-rule="evenodd" />
             </svg>
             <span class="text-xs font-medium">{{
               formatVariation(totalLlamadasExitosasVariacion)
-            }}</span>
+              }}</span>
           </div>
         </div>
         <p class="text-2xl font-bold text-gray-800">
@@ -156,27 +99,18 @@
       <div class="bg-white rounded-xl p-4 border border-gray-200">
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-sm font-semibold text-gray-600">Minutos del Mes</h3>
-          <div
-            class="flex items-center"
-            [ngClass]="getVariationClasses(minutosUltimoMesVariacion)"
-          >
+          <div class="flex items-center" [ngClass]="getVariationClasses(minutosUltimoMesVariacion)">
             <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                *ngIf="isVariationPositive(minutosUltimoMesVariacion)"
-                fill-rule="evenodd"
+              <path *ngIf="isVariationPositive(minutosUltimoMesVariacion)" fill-rule="evenodd"
                 d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"
-              />
-              <path
-                *ngIf="!isVariationPositive(minutosUltimoMesVariacion)"
-                fill-rule="evenodd"
+                clip-rule="evenodd" />
+              <path *ngIf="!isVariationPositive(minutosUltimoMesVariacion)" fill-rule="evenodd"
                 d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
-              />
+                clip-rule="evenodd" />
             </svg>
             <span class="text-xs font-medium">{{
               formatVariation(minutosUltimoMesVariacion)
-            }}</span>
+              }}</span>
           </div>
         </div>
         <p class="text-2xl font-bold text-gray-800">{{ minutosUltimoMes }}</p>
@@ -187,9 +121,7 @@
       <div class="bg-white rounded-xl p-4 border border-gray-200">
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-sm font-semibold text-gray-600">Tasa de Éxito</h3>
-          <div
-            class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium"
-          >
+          <div class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
             {{ tasaExito | number: "1.1-1" }}%
           </div>
         </div>
@@ -201,10 +133,8 @@
     </div>
 
     <!-- Tiempo Ahorrado -->
-    <div
-      *ngIf="dashboardMetrics && !isLoadingDashboardMetrics"
-      class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 border border-blue-100"
-    >
+    <div *ngIf="dashboardMetrics && !isLoadingDashboardMetrics"
+      class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 mb-6 border border-blue-100">
       <div class="flex items-center justify-between">
         <div>
           <h3 class="text-sm font-semibold text-gray-600 mb-1">
@@ -218,28 +148,19 @@
             Equivalente a {{ tiempoAhorrado }} minutos de trabajo manual
           </p>
         </div>
-        <div
-          class="flex items-center"
-          [ngClass]="getVariationClasses(tiempoAhorradoVariacion)"
-        >
+        <div class="flex items-center" [ngClass]="getVariationClasses(tiempoAhorradoVariacion)">
           <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              *ngIf="isVariationPositive(tiempoAhorradoVariacion)"
-              fill-rule="evenodd"
+            <path *ngIf="isVariationPositive(tiempoAhorradoVariacion)" fill-rule="evenodd"
               d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"
-            />
-            <path
-              *ngIf="!isVariationPositive(tiempoAhorradoVariacion)"
-              fill-rule="evenodd"
+              clip-rule="evenodd" />
+            <path *ngIf="!isVariationPositive(tiempoAhorradoVariacion)" fill-rule="evenodd"
               d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
-              clip-rule="evenodd"
-            />
+              clip-rule="evenodd" />
           </svg>
           <div>
             <span class="text-sm font-medium">{{
               formatVariation(tiempoAhorradoVariacion)
-            }}</span>
+              }}</span>
             <p class="text-xs text-gray-500">vs semana anterior</p>
           </div>
         </div>
@@ -247,64 +168,39 @@
     </div>
 
     <!-- Contenido principal con scroll -->
-    <div
-      class="rounded-[2rem] h-auto lg:h-[calc(100vh-250px)] lg:overflow-y-auto flex flex-col"
-    >
+    <div class="rounded-[2rem] h-auto lg:h-[calc(100vh-250px)] lg:overflow-y-auto flex flex-col">
       <div class="flex-1">
         <!-- Total llamadas exitosas (solo tablets: full width) -->
         <div
           class="hidden md:block lg:hidden bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 fade-in-section border border-gray-200 history-border mb-6 sm:mb-8"
-          [class.fade-in-visible]="showGraficoLlamadas"
-        >
+          [class.fade-in-visible]="showGraficoLlamadas">
           <div class="flex justify-between items-center mb-3 sm:mb-4">
-            <h3
-              class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]"
-            >
+            <h3 class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]">
               {{ t.totalSuccessfulCalls }}
             </h3>
-            <span
-              class="text-xs sm:text-sm font-medium"
-              [ngClass]="getVariationClasses(totalLlamadasExitosasVariacion)"
-            >
-              <svg
-                class="w-3 h-3 mr-1 inline"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  *ngIf="isVariationPositive(totalLlamadasExitosasVariacion)"
-                  fill-rule="evenodd"
+            <span class="text-xs sm:text-sm font-medium"
+              [ngClass]="getVariationClasses(totalLlamadasExitosasVariacion)">
+              <svg class="w-3 h-3 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
+                <path *ngIf="isVariationPositive(totalLlamadasExitosasVariacion)" fill-rule="evenodd"
                   d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
-                  clip-rule="evenodd"
-                />
-                <path
-                  *ngIf="!isVariationPositive(totalLlamadasExitosasVariacion)"
-                  fill-rule="evenodd"
+                  clip-rule="evenodd" />
+                <path *ngIf="!isVariationPositive(totalLlamadasExitosasVariacion)" fill-rule="evenodd"
                   d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
-                  clip-rule="evenodd"
-                />
+                  clip-rule="evenodd" />
               </svg>
               {{ formatVariation(totalLlamadasExitosasVariacion) }}
             </span>
           </div>
           <!-- Vista móvil -->
           <div class="block sm:hidden">
-            <div
-              *ngIf="selectedPeriod === 'Últimos 30 días'"
-              class="overflow-y-auto max-h-80 pb-2 scrollbar-hide"
-            >
+            <div *ngIf="selectedPeriod === 'Últimos 30 días'" class="overflow-y-auto max-h-80 pb-2 scrollbar-hide">
               <div class="space-y-3">
-                <div
-                  *ngFor="let data of mobileChartData; let i = index"
-                  class="flex items-center justify-between"
-                >
+                <div *ngFor="let data of mobileChartData; let i = index" class="flex items-center justify-between">
                   <div class="flex items-center space-x-3">
-                    <div
-                      class="w-8 h-8 bg-blue-950 rounded-full flex items-center justify-center"
-                    >
+                    <div class="w-8 h-8 bg-blue-950 rounded-full flex items-center justify-center">
                       <span class="text-xs font-semibold text-white">{{
                         i + 1
-                      }}</span>
+                        }}</span>
                     </div>
                     <div>
                       <div class="text-sm font-medium text-gray-900">
@@ -316,35 +212,22 @@
                     </div>
                   </div>
                   <div class="flex items-center space-x-2">
-                    <div
-                      class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden"
-                    >
-                      <div
-                        class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mobile-bar"
-                        [style.width.%]="data.percentage"
-                        [style.animation-delay]="i * 200 + 'ms'"
-                      ></div>
+                    <div class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mobile-bar"
+                        [style.width.%]="data.percentage" [style.animation-delay]="i * 200 + 'ms'"></div>
                     </div>
-                    <div
-                      class="w-3 h-3 rounded-full"
-                      [ngClass]="getStatusColor(data.value)"
-                    ></div>
+                    <div class="w-3 h-3 rounded-full" [ngClass]="getStatusColor(data.value)"></div>
                   </div>
                 </div>
               </div>
             </div>
             <div *ngIf="selectedPeriod !== 'Últimos 30 días'" class="space-y-3">
-              <div
-                *ngFor="let data of mobileChartData; let i = index"
-                class="flex items-center justify-between"
-              >
+              <div *ngFor="let data of mobileChartData; let i = index" class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                  <div
-                    class="w-8 h-8 bg-blue-950 rounded-full flex items-center justify-center"
-                  >
+                  <div class="w-8 h-8 bg-blue-950 rounded-full flex items-center justify-center">
                     <span class="text-xs font-semibold text-white">{{
                       i + 1
-                    }}</span>
+                      }}</span>
                   </div>
                   <div>
                     <div class="text-sm font-medium text-gray-900">
@@ -356,19 +239,11 @@
                   </div>
                 </div>
                 <div class="flex items-center space-x-2">
-                  <div
-                    class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden"
-                  >
-                    <div
-                      class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mobile-bar"
-                      [style.width.%]="data.percentage"
-                      [style.animation-delay]="i * 200 + 'ms'"
-                    ></div>
+                  <div class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mobile-bar"
+                      [style.width.%]="data.percentage" [style.animation-delay]="i * 200 + 'ms'"></div>
                   </div>
-                  <div
-                    class="w-3 h-3 rounded-full"
-                    [ngClass]="getStatusColor(data.value)"
-                  ></div>
+                  <div class="w-3 h-3 rounded-full" [ngClass]="getStatusColor(data.value)"></div>
                 </div>
               </div>
             </div>
@@ -390,62 +265,34 @@
             </div>
           </div>
           <!-- Desktop -->
-          <div
-            class="hidden sm:block relative h-64 sm:h-80 lg:h-80 chart-container"
-            style="overflow: hidden; touch-action: pan-x pan-y"
-          >
-            <apx-chart
-              [series]="callsAreaSeries"
-              [chart]="callsAreaChart"
-              [dataLabels]="callsAreaDataLabels"
-              [stroke]="callsAreaStroke"
-              [grid]="callsAreaGrid"
-              [xaxis]="callsAreaXAxis"
-              [yaxis]="callsAreaYAxis"
-              [colors]="callsAreaColors"
-              [fill]="callsAreaFill"
-              [tooltip]="callsAreaTooltip"
-              style="pointer-events: auto"
-            ></apx-chart>
+          <div class="hidden sm:block relative h-64 sm:h-80 lg:h-80 chart-container"
+            style="overflow: hidden; touch-action: pan-x pan-y">
+            <apx-chart [series]="callsAreaSeries" [chart]="callsAreaChart" [dataLabels]="callsAreaDataLabels"
+              [stroke]="callsAreaStroke" [grid]="callsAreaGrid" [xaxis]="callsAreaXAxis" [yaxis]="callsAreaYAxis"
+              [colors]="callsAreaColors" [fill]="callsAreaFill" [tooltip]="callsAreaTooltip"
+              style="pointer-events: auto"></apx-chart>
           </div>
         </div>
 
         <!-- Row 1 -->
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-4"
-        >
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-4">
           <!-- Gráfico de llamadas exitosas (desktop y móvil; oculto en tablet) -->
           <div
             class="block md:hidden lg:block bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 lg:col-span-2 fade-in-section border border-gray-200 history-border"
-            [class.fade-in-visible]="showGraficoLlamadas"
-          >
+            [class.fade-in-visible]="showGraficoLlamadas">
             <div class="flex justify-between items-center mb-3 sm:mb-4">
-              <h3
-                class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]"
-              >
+              <h3 class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]">
                 {{ t.totalSuccessfulCalls }}
               </h3>
-              <span
-                class="text-xs sm:text-sm font-medium"
-                [ngClass]="getVariationClasses(totalLlamadasExitosasVariacion)"
-              >
-                <svg
-                  class="w-3 h-3 mr-1 inline"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    *ngIf="isVariationPositive(totalLlamadasExitosasVariacion)"
-                    fill-rule="evenodd"
+              <span class="text-xs sm:text-sm font-medium"
+                [ngClass]="getVariationClasses(totalLlamadasExitosasVariacion)">
+                <svg class="w-3 h-3 mr-1 inline" fill="currentColor" viewBox="0 0 20 20">
+                  <path *ngIf="isVariationPositive(totalLlamadasExitosasVariacion)" fill-rule="evenodd"
                     d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z"
-                    clip-rule="evenodd"
-                  />
-                  <path
-                    *ngIf="!isVariationPositive(totalLlamadasExitosasVariacion)"
-                    fill-rule="evenodd"
+                    clip-rule="evenodd" />
+                  <path *ngIf="!isVariationPositive(totalLlamadasExitosasVariacion)" fill-rule="evenodd"
                     d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  />
+                    clip-rule="evenodd" />
                 </svg>
                 {{ formatVariation(totalLlamadasExitosasVariacion) }}
               </span>
@@ -454,22 +301,14 @@
             <!-- Vista móvil: Gráfico de barras horizontales compacto -->
             <div class="block sm:hidden">
               <!-- Para 30 días: Scroll vertical con altura limitada -->
-              <div
-                *ngIf="selectedPeriod === 'Últimos 30 días'"
-                class="overflow-y-auto max-h-80 pb-2 scrollbar-hide"
-              >
+              <div *ngIf="selectedPeriod === 'Últimos 30 días'" class="overflow-y-auto max-h-80 pb-2 scrollbar-hide">
                 <div class="space-y-3">
-                  <div
-                    *ngFor="let data of mobileChartData; let i = index"
-                    class="flex items-center justify-between"
-                  >
+                  <div *ngFor="let data of mobileChartData; let i = index" class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
-                      <div
-                        class="w-8 h-8 bg-blue-950 rounded-full flex items-center justify-center"
-                      >
+                      <div class="w-8 h-8 bg-blue-950 rounded-full flex items-center justify-center">
                         <span class="text-xs font-semibold text-white">{{
                           i + 1
-                        }}</span>
+                          }}</span>
                       </div>
                       <div>
                         <div class="text-sm font-medium text-gray-900">
@@ -481,41 +320,25 @@
                       </div>
                     </div>
                     <div class="flex items-center space-x-2">
-                      <div
-                        class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden"
-                      >
-                        <div
-                          class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mobile-bar"
-                          [style.width.%]="data.percentage"
-                          [style.animation-delay]="i * 200 + 'ms'"
-                        ></div>
+                      <div class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mobile-bar"
+                          [style.width.%]="data.percentage" [style.animation-delay]="i * 200 + 'ms'"></div>
                       </div>
                       <!-- Indicador de estado -->
-                      <div
-                        class="w-3 h-3 rounded-full"
-                        [ngClass]="getStatusColor(data.value)"
-                      ></div>
+                      <div class="w-3 h-3 rounded-full" [ngClass]="getStatusColor(data.value)"></div>
                     </div>
                   </div>
                 </div>
               </div>
 
               <!-- Para 7 días: Lista vertical normal -->
-              <div
-                *ngIf="selectedPeriod !== 'Últimos 30 días'"
-                class="space-y-3"
-              >
-                <div
-                  *ngFor="let data of mobileChartData; let i = index"
-                  class="flex items-center justify-between"
-                >
+              <div *ngIf="selectedPeriod !== 'Últimos 30 días'" class="space-y-3">
+                <div *ngFor="let data of mobileChartData; let i = index" class="flex items-center justify-between">
                   <div class="flex items-center space-x-3">
-                    <div
-                      class="w-8 h-8 bg-blue-950 rounded-full flex items-center justify-center"
-                    >
+                    <div class="w-8 h-8 bg-blue-950 rounded-full flex items-center justify-center">
                       <span class="text-xs font-semibold text-white">{{
                         i + 1
-                      }}</span>
+                        }}</span>
                     </div>
                     <div>
                       <div class="text-sm font-medium text-gray-900">
@@ -527,20 +350,12 @@
                     </div>
                   </div>
                   <div class="flex items-center space-x-2">
-                    <div
-                      class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden"
-                    >
-                      <div
-                        class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mobile-bar"
-                        [style.width.%]="data.percentage"
-                        [style.animation-delay]="i * 200 + 'ms'"
-                      ></div>
+                    <div class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mobile-bar"
+                        [style.width.%]="data.percentage" [style.animation-delay]="i * 200 + 'ms'"></div>
                     </div>
                     <!-- Indicador de estado -->
-                    <div
-                      class="w-3 h-3 rounded-full"
-                      [ngClass]="getStatusColor(data.value)"
-                    ></div>
+                    <div class="w-3 h-3 rounded-full" [ngClass]="getStatusColor(data.value)"></div>
                   </div>
                 </div>
               </div>
@@ -565,70 +380,47 @@
             </div>
 
             <!-- Vista desktop: Gráfico de área original -->
-            <div
-              class="hidden sm:block relative h-64 sm:h-80 lg:h-80 chart-container"
-              style="overflow: hidden; touch-action: pan-x pan-y"
-            >
-              <apx-chart
-                [series]="callsAreaSeries"
-                [chart]="callsAreaChart"
-                [dataLabels]="callsAreaDataLabels"
-                [stroke]="callsAreaStroke"
-                [grid]="callsAreaGrid"
-                [xaxis]="callsAreaXAxis"
-                [yaxis]="callsAreaYAxis"
-                [colors]="callsAreaColors"
-                [fill]="callsAreaFill"
-                [tooltip]="callsAreaTooltip"
-                style="pointer-events: auto"
-              ></apx-chart>
+            <div class="hidden sm:block relative h-64 sm:h-80 lg:h-80 chart-container"
+              style="overflow: hidden; touch-action: pan-x pan-y">
+              <apx-chart [series]="callsAreaSeries" [chart]="callsAreaChart" [dataLabels]="callsAreaDataLabels"
+                [stroke]="callsAreaStroke" [grid]="callsAreaGrid" [xaxis]="callsAreaXAxis" [yaxis]="callsAreaYAxis"
+                [colors]="callsAreaColors" [fill]="callsAreaFill" [tooltip]="callsAreaTooltip"
+                style="pointer-events: auto"></apx-chart>
             </div>
           </div>
 
           <!-- Total Minutos -->
           <div
             class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 border border-gray-200 history-border flex flex-col justify-between h-full min-h-[200px] sm:min-h-[220px] fade-in-section md:col-span-1 lg:col-span-1"
-            [class.fade-in-visible]="showTotalMinutos"
-          >
+            [class.fade-in-visible]="showTotalMinutos">
             <div>
               <p
-                class="text-xs sm:text-sm lg:text-[15px] font-semibold text-gray-600 mb-1 sm:mb-2 mt-1 tracking-[-0.3px]"
-              >
+                class="text-xs sm:text-sm lg:text-[15px] font-semibold text-gray-600 mb-1 sm:mb-2 mt-1 tracking-[-0.3px]">
                 {{ t.totalMinutes }}
               </p>
               <p
-                class="text-2xl sm:text-3xl lg:text-[33px] font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-8 leading-tight"
-              >
+                class="text-2xl sm:text-3xl lg:text-[33px] font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-8 leading-tight">
                 {{ totalMinutesUsed }}/{{ minutesLimit }}
               </p>
-              <p
-                class="text-xs sm:text-sm lg:text-[15px] font-semibold text-gray-600 mb-1 sm:mb-2 tracking-[-0.3px]"
-              >
+              <p class="text-xs sm:text-sm lg:text-[15px] font-semibold text-gray-600 mb-1 sm:mb-2 tracking-[-0.3px]">
                 Coste por minuto
               </p>
               <p
-                class="text-2xl sm:text-3xl lg:text-[33px] font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-8 leading-tight"
-              >
+                class="text-2xl sm:text-3xl lg:text-[33px] font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-8 leading-tight">
                 {{ costPerMinuteLabel }}
               </p>
-              <p
-                class="text-xs sm:text-sm lg:text-[15px] font-semibold text-gray-600 mb-1 sm:mb-2 tracking-[-0.3px]"
-              >
+              <p class="text-xs sm:text-sm lg:text-[15px] font-semibold text-gray-600 mb-1 sm:mb-2 tracking-[-0.3px]">
                 {{ t.extraMinutes }}
               </p>
               <p
-                class="text-2xl sm:text-3xl lg:text-[33px] font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-8 leading-tight"
-              >
+                class="text-2xl sm:text-3xl lg:text-[33px] font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-8 leading-tight">
                 {{ extraMinutes }}
               </p>
-              <p
-                class="text-xs sm:text-sm lg:text-[15px] font-semibold text-gray-600 mb-1 sm:mb-2 tracking-[-0.3px]"
-              >
+              <p class="text-xs sm:text-sm lg:text-[15px] font-semibold text-gray-600 mb-1 sm:mb-2 tracking-[-0.3px]">
                 Suscripción
               </p>
               <p
-                class="text-2xl sm:text-3xl lg:text-[33px] font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-8 leading-tight"
-              >
+                class="text-2xl sm:text-3xl lg:text-[33px] font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-8 leading-tight">
                 Starter
               </p>
             </div>
@@ -637,82 +429,39 @@
           <!-- Tipo de llamadas solo en tablets (md) -->
           <div
             class="hidden md:block lg:hidden bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 fade-in-section border border-gray-200 history-border"
-            [class.fade-in-visible]="showTipoLlamadas"
-          >
-            <h3
-              class="font-semibold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 tracking-[-0.3px]"
-            >
+            [class.fade-in-visible]="showTipoLlamadas">
+            <h3 class="font-semibold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 tracking-[-0.3px]">
               Tipo de llamadas
             </h3>
 
-            <div
-              class="flex flex-col items-center justify-center mb-4 sm:mb-6 mt-4 sm:mt-6"
-            >
+            <div class="flex flex-col items-center justify-center mb-4 sm:mb-6 mt-4 sm:mt-6">
               <div class="relative w-48 h-48 sm:w-56 sm:h-56 mb-3 sm:mb-4">
-                <svg
-                  width="224"
-                  height="224"
-                  viewBox="0 0 224 224"
-                  class="absolute inset-0 w-full h-full"
-                >
+                <svg width="224" height="224" viewBox="0 0 224 224" class="absolute inset-0 w-full h-full">
                   <defs>
-                    <linearGradient
-                      id="callBlueGradTablet"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="0%"
-                    >
+                    <linearGradient id="callBlueGradTablet" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" stop-color="rgba(0, 81, 255, 1)" />
                       <stop offset="93%" stop-color="rgba(10, 0, 120, 1)" />
                     </linearGradient>
                   </defs>
-                  <circle
-                    cx="112"
-                    cy="112"
-                    r="90"
-                    stroke="#f3f4f4"
-                    [attr.stroke-width]="callTypeStrokeWidth"
-                    fill="none"
-                  />
-                  <circle
-                    cx="112"
-                    cy="112"
-                    r="90"
-                    stroke="#D1D5DB"
-                    [attr.stroke-width]="callTypeStrokeWidth"
-                    fill="none"
-                    [style.stroke-dasharray]="outboundStrokeDasharray"
+                  <circle cx="112" cy="112" r="90" stroke="#f3f4f4" [attr.stroke-width]="callTypeStrokeWidth"
+                    fill="none" />
+                  <circle cx="112" cy="112" r="90" stroke="#D1D5DB" [attr.stroke-width]="callTypeStrokeWidth"
+                    fill="none" [style.stroke-dasharray]="outboundStrokeDasharray"
                     [style.stroke-dashoffset]="outboundStrokeDashoffset"
-                    class="call-type-arc transition-all duration-1000 ease-out"
-                    transform="rotate(-90 112 112)"
-                    stroke-linecap="round"
-                  />
-                  <circle
-                    cx="112"
-                    cy="112"
-                    r="90"
-                    stroke="url(#callBlueGradTablet)"
-                    [attr.stroke-width]="inboundStrokeWidth"
-                    fill="none"
+                    class="call-type-arc transition-all duration-1000 ease-out" transform="rotate(-90 112 112)"
+                    stroke-linecap="round" />
+                  <circle cx="112" cy="112" r="90" stroke="url(#callBlueGradTablet)"
+                    [attr.stroke-width]="inboundStrokeWidth" fill="none"
                     [style.stroke-dasharray]="inboundStrokeDasharray"
                     [style.stroke-dashoffset]="inboundStrokeDashoffset"
-                    class="call-type-arc transition-all duration-1000 ease-out"
-                    [style.transform]="
+                    class="call-type-arc transition-all duration-1000 ease-out" [style.transform]="
                       'rotate(' +
                       (-90 + (outboundPercentage / 100) * 360) +
                       'deg)'
-                    "
-                    [style.transform-origin]="'112px 112px'"
-                    stroke-linecap="round"
-                  />
+                    " [style.transform-origin]="'112px 112px'" stroke-linecap="round" />
                   <!-- Marcador de solape -->
-                  <circle
-                    [attr.cx]="gapMarkerBetween.x"
-                    [attr.cy]="gapMarkerBetween.y"
-                    [attr.r]="gapMarkerRadius"
-                    fill="#f3f4f6"
-                  />
+                  <circle [attr.cx]="gapMarkerBetween.x" [attr.cy]="gapMarkerBetween.y" [attr.r]="gapMarkerRadius"
+                    fill="#f3f4f6" />
                 </svg>
               </div>
             </div>
@@ -720,56 +469,39 @@
             <div class="flex justify-center space-x-6 text-xs sm:text-sm">
               <div class="flex flex-col items-center">
                 <div class="flex items-center">
-                  <div
-                    class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-300 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-outbound"
-                  ></div>
+                  <div class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-300 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-outbound">
+                  </div>
                   <span>Outbound</span>
                 </div>
-                <span
-                  class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base"
-                  >{{ outboundPercentage | number: "1.1-1" }}%</span
-                >
+                <span class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base">{{ outboundPercentage | number:
+                  "1.1-1" }}%</span>
               </div>
               <div class="flex flex-col items-center">
                 <div class="flex items-center">
-                  <div
-                    class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-400 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-inbound"
-                  ></div>
+                  <div class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-400 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-inbound">
+                  </div>
                   <span>Inbound</span>
                 </div>
-                <span
-                  class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base"
-                  >{{ inboundPercentage | number: "1.1-1" }}%</span
-                >
+                <span class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base">{{ inboundPercentage | number:
+                  "1.1-1" }}%</span>
               </div>
             </div>
           </div>
         </div>
         <!-- Row 2 -->
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-4"
-        >
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-4">
           <!-- Latencia -->
           <div
             class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 mb-6 sm:mb-12 md:mb-8 lg:mb-20 md:h-[430px] lg:h-auto fade-in-section border border-gray-200 history-border flex flex-col overflow-hidden"
-            [class.fade-in-visible]="showLatencia"
-          >
+            [class.fade-in-visible]="showLatencia">
             <div class="flex justify-between items-start mb-3 sm:mb-4">
               <div>
-                <h3
-                  class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]"
-                >
+                <h3 class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]">
                   {{ t.latency }}
                 </h3>
                 <div class="mt-4 flex items-baseline gap-1">
-                  <span
-                    class="text-2xl sm:text-4xl font-bold text-gray-900 leading-none"
-                    >{{ latencyMs }}</span
-                  >
-                  <span
-                    class="text-xs sm:text-sm text-gray-500 font-bold leading-none"
-                    >MS</span
-                  >
+                  <span class="text-2xl sm:text-4xl font-bold text-gray-900 leading-none">{{ latencyMs }}</span>
+                  <span class="text-xs sm:text-sm text-gray-500 font-bold leading-none">MS</span>
                 </div>
               </div>
               <span [class]="latencyBadgeClasses">{{ latencyLabel }}</span>
@@ -777,140 +509,49 @@
 
             <!-- Medidor semicircular dinámico -->
             <div
-              class="mt-auto w-[calc(100%+10rem)] sm:w-[calc(100%+11rem)] lg:w-[calc(100%+17rem)] -mx-[4.5rem] sm:-mx-[5.5rem] lg:-mx-[8.5rem] -mb-16 sm:-mb-18 flex items-end justify-center"
-            >
+              class="mt-auto w-[calc(100%+10rem)] sm:w-[calc(100%+11rem)] lg:w-[calc(100%+17rem)] -mx-[4.5rem] sm:-mx-[5.5rem] lg:-mx-[8.5rem] -mb-16 sm:-mb-18 flex items-end justify-center">
               <!-- Medidor semicircular gigante, pegado abajo y estirado hasta los bordes -->
               <div class="relative w-full max-w-none aspect-[2/1]">
-                <svg
-                  viewBox="0 0 520 360"
-                  class="absolute inset-0 w-full h-full"
-                >
+                <svg viewBox="0 0 520 360" class="absolute inset-0 w-full h-full">
                   <!-- Fondo del semicírculo -->
-                  <path
-                    d="M 0 320 A 260 260 0 0 1 520 320"
-                    stroke="url(#latencyPattern)"
-                    stroke-width="58"
-                    fill="none"
-                    class="metrics-progress-bg"
-                  />
+                  <path d="M 0 320 A 260 260 0 0 1 520 320" stroke="url(#latencyPattern)" stroke-width="58" fill="none"
+                    class="metrics-progress-bg" />
 
                   <!-- Arco de progreso dinámico -->
-                  <path
-                    d="M 0 320 A 260 260 0 0 1 520 320"
-                    stroke="url(#latencyGradient)"
-                    stroke-width="58"
-                    fill="none"
-                    [style.stroke-dasharray]="'817'"
-                    [style.stroke-dashoffset]="817 - 817 * latencyPercent"
-                    class="latency-arc transition-all duration-1000 ease-out"
-                  />
+                  <path d="M 0 320 A 260 260 0 0 1 520 320" stroke="url(#latencyGradient)" stroke-width="58" fill="none"
+                    [style.stroke-dasharray]="'817'" [style.stroke-dashoffset]="817 - 817 * latencyPercent"
+                    class="latency-arc transition-all duration-1000 ease-out" />
 
                   <!-- Efecto shimmer sobre el arco -->
-                  <path
-                    d="M 0 320 A 260 260 0 0 1 520 320"
-                    stroke="url(#latencyShimmer)"
-                    stroke-width="58"
-                    fill="none"
-                    [style.stroke-dasharray]="'817'"
-                    [style.stroke-dashoffset]="817 - 817 * latencyPercent"
-                    class="latency-arc-shimmer transition-all duration-1000 ease-out"
-                    style="opacity: 0.6"
-                  />
+                  <path d="M 0 320 A 260 260 0 0 1 520 320" stroke="url(#latencyShimmer)" stroke-width="58" fill="none"
+                    [style.stroke-dasharray]="'817'" [style.stroke-dashoffset]="817 - 817 * latencyPercent"
+                    class="latency-arc-shimmer transition-all duration-1000 ease-out" style="opacity: 0.6" />
 
                   <!-- Marcador al final del progreso -->
-                  <circle
-                    [attr.cx]="latencyMarkerX"
-                    [attr.cy]="latencyMarkerY"
-                    r="29"
-                    stroke="url(#latencyGradient)"
-                    stroke-width="12"
-                    fill="url(#latencyGradient)"
-                    class="latency-marker"
-                  />
-                  <circle
-                    [attr.cx]="latencyMarkerX"
-                    [attr.cy]="latencyMarkerY"
-                    r="12"
-                    fill="#ffffff"
-                    stroke-width="3"
-                    class="latency-marker"
-                  />
+                  <circle [attr.cx]="latencyMarkerX" [attr.cy]="latencyMarkerY" r="29" stroke="url(#latencyGradient)"
+                    stroke-width="12" fill="url(#latencyGradient)" class="latency-marker" />
+                  <circle [attr.cx]="latencyMarkerX" [attr.cy]="latencyMarkerY" r="12" fill="#ffffff" stroke-width="3"
+                    class="latency-marker" />
 
                   <!-- Definición del gradiente -->
                   <defs>
                     <!-- Rayado simple: banda llena y banda vacía -->
-                    <pattern
-                      id="latencyPattern"
-                      width="8"
-                      height="8"
-                      patternUnits="userSpaceOnUse"
-                      patternTransform="rotate(-35)"
-                    >
+                    <pattern id="latencyPattern" width="8" height="8" patternUnits="userSpaceOnUse"
+                      patternTransform="rotate(-35)">
                       <rect width="8" height="8" fill="transparent" />
-                      <rect
-                        x="-12"
-                        y="0"
-                        width="32"
-                        height="3"
-                        fill="currentColor"
-                        opacity="0.18"
-                      />
+                      <rect x="-12" y="0" width="32" height="3" fill="currentColor" opacity="0.18" />
                     </pattern>
-                    <linearGradient
-                      id="latencyGradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="0%"
-                    >
-                      <stop
-                        offset="0%"
-                        [attr.stop-color]="latencyGradientStart"
-                      />
-                      <stop
-                        offset="100%"
-                        [attr.stop-color]="latencyGradientEnd"
-                      />
+                    <linearGradient id="latencyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" [attr.stop-color]="latencyGradientStart" />
+                      <stop offset="100%" [attr.stop-color]="latencyGradientEnd" />
                     </linearGradient>
-                    <linearGradient
-                      id="latencyShimmer"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="0%"
-                    >
-                      <stop
-                        offset="0%"
-                        stop-color="transparent"
-                        stop-opacity="0"
-                      />
-                      <stop
-                        offset="30%"
-                        stop-color="white"
-                        stop-opacity="0.5"
-                      />
-                      <stop
-                        offset="70%"
-                        stop-color="white"
-                        stop-opacity="0.5"
-                      />
-                      <stop
-                        offset="100%"
-                        stop-color="transparent"
-                        stop-opacity="0"
-                      />
-                      <animate
-                        attributeName="x1"
-                        values="-100%;200%"
-                        dur="4s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="x2"
-                        values="0%;300%"
-                        dur="4s"
-                        repeatCount="indefinite"
-                      />
+                    <linearGradient id="latencyShimmer" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="transparent" stop-opacity="0" />
+                      <stop offset="30%" stop-color="white" stop-opacity="0.5" />
+                      <stop offset="70%" stop-color="white" stop-opacity="0.5" />
+                      <stop offset="100%" stop-color="transparent" stop-opacity="0" />
+                      <animate attributeName="x1" values="-100%;200%" dur="4s" repeatCount="indefinite" />
+                      <animate attributeName="x2" values="0%;300%" dur="4s" repeatCount="indefinite" />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -921,24 +562,16 @@
           <!-- Duración media -->
           <div
             class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 mb-6 sm:mb-12 md:mb-8 lg:mb-20 lg:mr-6 lg:-ml-3 md:h-[430px] lg:h-auto fade-in-section border border-gray-200 history-border flex flex-col overflow-hidden"
-            [class.fade-in-visible]="showDuracionMedia"
-          >
+            [class.fade-in-visible]="showDuracionMedia">
             <div class="flex justify-between items-start mb-3 sm:mb-4">
               <div>
-                <h3
-                  class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]"
-                >
+                <h3 class="font-semibold text-sm sm:text-base text-gray-800 tracking-[-0.3px]">
                   {{ t.averageCallDuration }}
                 </h3>
                 <div class="mt-4 flex items-baseline gap-1">
-                  <span
-                    class="text-2xl sm:text-4xl font-bold text-gray-900 leading-none"
-                    >{{ averageCallDurationLabel }}</span
-                  >
-                  <span
-                    class="text-xs sm:text-sm text-gray-500 font-medium leading-none"
-                    >MS</span
-                  >
+                  <span class="text-2xl sm:text-4xl font-bold text-gray-900 leading-none">{{ averageCallDurationLabel
+                    }}</span>
+                  <span class="text-xs sm:text-sm text-gray-500 font-medium leading-none">MS</span>
                 </div>
               </div>
               <span [class]="durationBadgeClasses">{{ durationLabel }}</span>
@@ -946,139 +579,48 @@
 
             <!-- Medidor semicircular dinámico -->
             <div
-              class="mt-auto w-[calc(100%+10rem)] sm:w-[calc(100%+11rem)] lg:w-[calc(100%+17rem)] -mx-[4.5rem] sm:-mx-[5.5rem] lg:-mx-[8.5rem] -mb-16 sm:-mb-18 flex items-end justify-center"
-            >
+              class="mt-auto w-[calc(100%+10rem)] sm:w-[calc(100%+11rem)] lg:w-[calc(100%+17rem)] -mx-[4.5rem] sm:-mx-[5.5rem] lg:-mx-[8.5rem] -mb-16 sm:-mb-18 flex items-end justify-center">
               <div class="relative w-full max-w-none aspect-[2/1]">
-                <svg
-                  viewBox="0 0 520 360"
-                  class="absolute inset-0 w-full h-full"
-                >
+                <svg viewBox="0 0 520 360" class="absolute inset-0 w-full h-full">
                   <!-- Fondo del semicírculo -->
-                  <path
-                    d="M 0 320 A 260 260 0 0 1 520 320"
-                    stroke="url(#durationPattern)"
-                    stroke-width="58"
-                    fill="none"
-                    class="metrics-progress-bg"
-                  />
+                  <path d="M 0 320 A 260 260 0 0 1 520 320" stroke="url(#durationPattern)" stroke-width="58" fill="none"
+                    class="metrics-progress-bg" />
 
                   <!-- Arco de progreso dinámico -->
-                  <path
-                    d="M 0 320 A 260 260 0 0 1 520 320"
-                    stroke="url(#durationGradient)"
-                    stroke-width="58"
-                    fill="none"
-                    [style.stroke-dasharray]="'817'"
-                    [style.stroke-dashoffset]="817 - 817 * durationPercent"
-                    class="duration-arc transition-all duration-1000 ease-out"
-                  />
+                  <path d="M 0 320 A 260 260 0 0 1 520 320" stroke="url(#durationGradient)" stroke-width="58"
+                    fill="none" [style.stroke-dasharray]="'817'" [style.stroke-dashoffset]="817 - 817 * durationPercent"
+                    class="duration-arc transition-all duration-1000 ease-out" />
 
                   <!-- Efecto shimmer sobre el arco -->
-                  <path
-                    d="M 0 320 A 260 260 0 0 1 520 320"
-                    stroke="url(#durationShimmer)"
-                    stroke-width="58"
-                    fill="none"
-                    [style.stroke-dasharray]="'817'"
-                    [style.stroke-dashoffset]="817 - 817 * durationPercent"
-                    class="duration-arc-shimmer transition-all duration-1000 ease-out"
-                    style="opacity: 0.6"
-                  />
+                  <path d="M 0 320 A 260 260 0 0 1 520 320" stroke="url(#durationShimmer)" stroke-width="58" fill="none"
+                    [style.stroke-dasharray]="'817'" [style.stroke-dashoffset]="817 - 817 * durationPercent"
+                    class="duration-arc-shimmer transition-all duration-1000 ease-out" style="opacity: 0.6" />
 
                   <!-- Marcador al final del progreso -->
-                  <circle
-                    [attr.cx]="durationMarkerX"
-                    [attr.cy]="durationMarkerY"
-                    r="29"
-                    stroke="url(#durationGradient)"
-                    stroke-width="12"
-                    fill="url(#durationGradient)"
-                    class="duration-marker"
-                  />
-                  <circle
-                    [attr.cx]="durationMarkerX"
-                    [attr.cy]="durationMarkerY"
-                    r="12"
-                    fill="#ffffff"
-                    stroke-width="3"
-                    class="duration-marker"
-                  />
+                  <circle [attr.cx]="durationMarkerX" [attr.cy]="durationMarkerY" r="29" stroke="url(#durationGradient)"
+                    stroke-width="12" fill="url(#durationGradient)" class="duration-marker" />
+                  <circle [attr.cx]="durationMarkerX" [attr.cy]="durationMarkerY" r="12" fill="#ffffff" stroke-width="3"
+                    class="duration-marker" />
 
                   <!-- Definición del gradiente -->
                   <defs>
                     <!-- Rayado simple: banda llena y banda vacía -->
-                    <pattern
-                      id="durationPattern"
-                      width="8"
-                      height="8"
-                      patternUnits="userSpaceOnUse"
-                      patternTransform="rotate(-35)"
-                    >
+                    <pattern id="durationPattern" width="8" height="8" patternUnits="userSpaceOnUse"
+                      patternTransform="rotate(-35)">
                       <rect width="8" height="8" fill="transparent" />
-                      <rect
-                        x="-12"
-                        y="0"
-                        width="32"
-                        height="3"
-                        fill="currentColor"
-                        opacity="0.18"
-                      />
+                      <rect x="-12" y="0" width="32" height="3" fill="currentColor" opacity="0.18" />
                     </pattern>
-                    <linearGradient
-                      id="durationGradient"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="0%"
-                    >
-                      <stop
-                        offset="0%"
-                        [attr.stop-color]="durationGradientStart"
-                      />
-                      <stop
-                        offset="100%"
-                        [attr.stop-color]="durationGradientEnd"
-                      />
+                    <linearGradient id="durationGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" [attr.stop-color]="durationGradientStart" />
+                      <stop offset="100%" [attr.stop-color]="durationGradientEnd" />
                     </linearGradient>
-                    <linearGradient
-                      id="durationShimmer"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="0%"
-                    >
-                      <stop
-                        offset="0%"
-                        stop-color="transparent"
-                        stop-opacity="0"
-                      />
-                      <stop
-                        offset="30%"
-                        stop-color="white"
-                        stop-opacity="0.5"
-                      />
-                      <stop
-                        offset="70%"
-                        stop-color="white"
-                        stop-opacity="0.5"
-                      />
-                      <stop
-                        offset="100%"
-                        stop-color="transparent"
-                        stop-opacity="0"
-                      />
-                      <animate
-                        attributeName="x1"
-                        values="-100%;200%"
-                        dur="4s"
-                        repeatCount="indefinite"
-                      />
-                      <animate
-                        attributeName="x2"
-                        values="0%;300%"
-                        dur="4s"
-                        repeatCount="indefinite"
-                      />
+                    <linearGradient id="durationShimmer" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="transparent" stop-opacity="0" />
+                      <stop offset="30%" stop-color="white" stop-opacity="0.5" />
+                      <stop offset="70%" stop-color="white" stop-opacity="0.5" />
+                      <stop offset="100%" stop-color="transparent" stop-opacity="0" />
+                      <animate attributeName="x1" values="-100%;200%" dur="4s" repeatCount="indefinite" />
+                      <animate attributeName="x2" values="0%;300%" dur="4s" repeatCount="indefinite" />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -1089,119 +631,68 @@
           <!-- Tipo de llamadas (desktop y móvil, oculto en tablet) -->
           <div
             class="block md:hidden lg:block bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 lg:-ml-7 md:h-[430px] lg:h-auto fade-in-section border border-gray-200 history-border"
-            [class.fade-in-visible]="showTipoLlamadas"
-          >
-            <h3
-              class="font-semibold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 tracking-[-0.3px]"
-            >
+            [class.fade-in-visible]="showTipoLlamadas">
+            <h3 class="font-semibold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 tracking-[-0.3px]">
               Tipo de llamadas
             </h3>
 
             <!-- Gráfico circular completo -->
-            <div
-              class="flex flex-col items-center justify-center mb-4 sm:mb-6 mt-4 sm:mt-6 lg:mt-8"
-            >
+            <div class="flex flex-col items-center justify-center mb-4 sm:mb-6 mt-4 sm:mt-6 lg:mt-8">
               <div class="relative w-48 h-48 sm:w-56 sm:h-56 mb-3 sm:mb-4">
-                <svg
-                  width="224"
-                  height="224"
-                  viewBox="0 0 224 224"
-                  class="absolute inset-0 w-full h-full"
-                >
+                <svg width="224" height="224" viewBox="0 0 224 224" class="absolute inset-0 w-full h-full">
                   <defs>
-                    <linearGradient
-                      id="callBlueGradDesk"
-                      x1="0%"
-                      y1="0%"
-                      x2="100%"
-                      y2="0%"
-                    >
+                    <linearGradient id="callBlueGradDesk" x1="0%" y1="0%" x2="100%" y2="0%">
                       <stop offset="0%" stop-color="rgba(0, 81, 255, 1)" />
                       <stop offset="93%" stop-color="rgba(10, 0, 120, 1)" />
                     </linearGradient>
                   </defs>
                   <!-- Círculo de fondo -->
-                  <circle
-                    cx="112"
-                    cy="112"
-                    r="90"
-                    stroke="#f3f4f4"
-                    [attr.stroke-width]="callTypeStrokeWidth"
-                    fill="none"
-                  />
+                  <circle cx="112" cy="112" r="90" stroke="#f3f4f4" [attr.stroke-width]="callTypeStrokeWidth"
+                    fill="none" />
 
                   <!-- Arco de Outbound (gris claro) - se dibuja primero -->
-                  <circle
-                    cx="112"
-                    cy="112"
-                    r="90"
-                    stroke="#D1D5DB"
-                    [attr.stroke-width]="callTypeStrokeWidth"
-                    fill="none"
-                    [style.stroke-dasharray]="outboundStrokeDasharray"
+                  <circle cx="112" cy="112" r="90" stroke="#D1D5DB" [attr.stroke-width]="callTypeStrokeWidth"
+                    fill="none" [style.stroke-dasharray]="outboundStrokeDasharray"
                     [style.stroke-dashoffset]="outboundStrokeDashoffset"
-                    class="call-type-arc transition-all duration-1000 ease-out"
-                    transform="rotate(-90 112 112)"
-                    stroke-linecap="round"
-                  />
+                    class="call-type-arc transition-all duration-1000 ease-out" transform="rotate(-90 112 112)"
+                    stroke-linecap="round" />
 
                   <!-- Arco de Inbound (gris medio) - se dibuja después, comenzando donde termina Outbound -->
-                  <circle
-                    cx="112"
-                    cy="112"
-                    r="90"
-                    stroke="url(#callBlueGradDesk)"
-                    [attr.stroke-width]="inboundStrokeWidth"
-                    fill="none"
+                  <circle cx="112" cy="112" r="90" stroke="url(#callBlueGradDesk)"
+                    [attr.stroke-width]="inboundStrokeWidth" fill="none"
                     [style.stroke-dasharray]="inboundStrokeDasharray"
                     [style.stroke-dashoffset]="inboundStrokeDashoffset"
-                    class="call-type-arc transition-all duration-1000 ease-out"
-                    [style.transform]="
+                    class="call-type-arc transition-all duration-1000 ease-out" [style.transform]="
                       'rotate(' +
                       (-90 + (outboundPercentage / 100) * 360) +
                       'deg)'
-                    "
-                    [style.transform-origin]="'112px 112px'"
-                    stroke-linecap="round"
-                  />
+                    " [style.transform-origin]="'112px 112px'" stroke-linecap="round" />
 
                   <!-- Marcador para solape en un solo lado -->
-                  <circle
-                    [attr.cx]="gapMarkerBetween.x"
-                    [attr.cy]="gapMarkerBetween.y"
-                    [attr.r]="gapMarkerRadius"
-                    fill="#f3f4f6"
-                  />
+                  <circle [attr.cx]="gapMarkerBetween.x" [attr.cy]="gapMarkerBetween.y" [attr.r]="gapMarkerRadius"
+                    fill="#f3f4f6" />
                 </svg>
               </div>
             </div>
 
-            <div
-              class="flex justify-center space-x-4 sm:space-x-6 text-xs sm:text-sm"
-            >
+            <div class="flex justify-center space-x-4 sm:space-x-6 text-xs sm:text-sm">
               <div class="flex flex-col items-center">
                 <div class="flex items-center">
-                  <div
-                    class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-300 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-outbound"
-                  ></div>
+                  <div class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-300 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-outbound">
+                  </div>
                   <span>Outbound</span>
                 </div>
-                <span
-                  class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base"
-                  >{{ outboundPercentage | number: "1.1-1" }}%</span
-                >
+                <span class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base">{{ outboundPercentage | number:
+                  "1.1-1" }}%</span>
               </div>
               <div class="flex flex-col items-center">
                 <div class="flex items-center">
-                  <div
-                    class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-400 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-inbound"
-                  ></div>
+                  <div class="w-4 h-4 sm:w-5 sm:h-5 bg-gray-400 rounded-md mr-1.5 sm:mr-2 metrics-call-legend-inbound">
+                  </div>
                   <span>Inbound</span>
                 </div>
-                <span
-                  class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base"
-                  >{{ inboundPercentage | number: "1.1-1" }}%</span
-                >
+                <span class="font-semibold mt-1 ml-5 sm:ml-6 text-sm sm:text-base">{{ inboundPercentage | number:
+                  "1.1-1" }}%</span>
               </div>
             </div>
           </div>
@@ -1212,22 +703,16 @@
           <!-- Agentes Creados -->
           <div
             class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-6 lg:p-8 col-span-1 lg:col-span-2 lg:mr-6 lg:-mt-20 shadow-none fade-in-section border border-gray-200 history-border"
-            [class.fade-in-visible]="showAgentesCreados"
-          >
-            <h3
-              class="font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-7 text-base sm:text-lg tracking-[-0.3px]"
-            >
+            [class.fade-in-visible]="showAgentesCreados">
+            <h3 class="font-semibold text-gray-800 mb-4 sm:mb-6 lg:mb-7 text-base sm:text-lg tracking-[-0.3px]">
               {{ t.createdAgents }}
             </h3>
 
             <!-- Vista móvil: Cards -->
             <div class="sm:hidden space-y-0 mt-4">
-              <div
-                *ngFor="let row of createdAgents; let last = last"
-                class="bg-white hover:bg-gray-50 px-4 py-5 transition-colors duration-200"
-                [class.border-b]="!last"
-                [class.border-gray-200]="!last"
-              >
+              <div *ngFor="let row of createdAgents; let last = last"
+                class="bg-white hover:bg-gray-50 px-4 py-5 transition-colors duration-200" [class.border-b]="!last"
+                [class.border-gray-200]="!last">
                 <!-- Nombre y Tipo -->
                 <div class="mb-3">
                   <p class="font-semibold text-gray-900 text-sm mb-1">
@@ -1241,29 +726,14 @@
 
                 <!-- Minutos y Porcentaje -->
                 <div class="flex items-center gap-1.5 mb-2">
-                  <span class="text-gray-600 text-xs whitespace-nowrap"
-                    >{{ t.totalMinutesSpent }}:</span
-                  >
+                  <span class="text-gray-600 text-xs whitespace-nowrap">{{ t.totalMinutesSpent }}:</span>
+                  <span class="font-semibold text-gray-900 text-xs whitespace-nowrap">{{ row.totalMin }} min</span>
                   <span
-                    class="font-semibold text-gray-900 text-xs whitespace-nowrap"
-                    >{{ row.totalMin }} min</span
-                  >
-                  <span
-                    class="inline-flex items-center px-1.5 py-0.5 rounded bg-blue-50 text-[10px] font-semibold text-blue-900 border border-blue-100 whitespace-nowrap resumen-porcentaje-chip"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-2 w-2 mr-0.5 text-blue-900"
-                      fill="none"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M8 12V4M8 4l-3 3m3-3l3 3"
-                      />
+                    class="inline-flex items-center px-1.5 py-0.5 rounded bg-blue-50 text-[10px] font-semibold text-blue-900 border border-blue-100 whitespace-nowrap resumen-porcentaje-chip">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-2 w-2 mr-0.5 text-blue-900" fill="none"
+                      viewBox="0 0 16 16">
+                      <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 12V4M8 4l-3 3m3-3l3 3" />
                     </svg>
                     {{ row.percent }}%
                   </span>
@@ -1272,38 +742,17 @@
                 <!-- Estado -->
                 <div class="flex items-center text-xs text-gray-600">
                   <span class="font-medium">{{ t.status }}:</span>
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="ml-1.5 agentes-activos-estado-icono"
-                  >
-                    <circle
-                      cx="8"
-                      cy="8"
-                      r="8"
-                      [attr.fill]="
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="ml-1.5 agentes-activos-estado-icono">
+                    <circle cx="8" cy="8" r="8" [attr.fill]="
                         row.status === t.activeStatus ? '#1E3A8A80' : '#EDEDED'
-                      "
-                    />
-                    <circle
-                      cx="8"
-                      cy="8"
-                      r="4"
-                      [attr.fill]="
+                      " />
+                    <circle cx="8" cy="8" r="4" [attr.fill]="
                         row.status === t.activeStatus ? '#1E3A8A' : '#C5CAC4'
-                      "
-                      [class.latido]="row.status === t.activeStatus"
-                    />
+                      " [class.latido]="row.status === t.activeStatus" />
                   </svg>
-                  <span
-                    class="ml-1.5"
-                    [class.text-gray-700]="row.status === t.activeStatus"
-                    [class.text-gray-500]="row.status !== t.activeStatus"
-                    >{{ row.status }}</span
-                  >
+                  <span class="ml-1.5" [class.text-gray-700]="row.status === t.activeStatus"
+                    [class.text-gray-500]="row.status !== t.activeStatus">{{ row.status }}</span>
                 </div>
               </div>
             </div>
@@ -1313,41 +762,27 @@
               <table class="w-full text-left mt-8 sm:mt-14 max-lg:text-sm">
                 <thead>
                   <tr class="border-b border-gray-200">
-                    <th
-                      class="text-sm font-medium text-gray-500 pb-4 max-lg:text-xs max-lg:pb-2"
-                    >
+                    <th class="text-sm font-medium text-gray-500 pb-4 max-lg:text-xs max-lg:pb-2">
                       {{ t.name }}
                     </th>
-                    <th
-                      class="text-sm font-medium text-gray-500 pb-4 max-lg:text-xs max-lg:pb-2"
-                    >
+                    <th class="text-sm font-medium text-gray-500 pb-4 max-lg:text-xs max-lg:pb-2">
                       {{ t.type }}
                     </th>
-                    <th
-                      class="text-sm font-medium text-gray-500 pb-4 max-lg:text-xs max-lg:pb-2"
-                    >
+                    <th class="text-sm font-medium text-gray-500 pb-4 max-lg:text-xs max-lg:pb-2">
                       {{ t.totalMinutesSpent }}
                     </th>
-                    <th
-                      class="text-sm font-medium text-gray-500 pb-4 max-lg:text-xs max-lg:pb-2"
-                    >
+                    <th class="text-sm font-medium text-gray-500 pb-4 max-lg:text-xs max-lg:pb-2">
                       {{ t.status }}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    class="border-b border-gray-100 hover:bg-gray-50 transition-colors"
-                    *ngFor="let row of createdAgents"
-                  >
-                    <td
-                      class="py-4 text-sm font-medium text-gray-900 max-lg:py-3 max-lg:text-xs"
-                    >
+                  <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+                    *ngFor="let row of createdAgents">
+                    <td class="py-4 text-sm font-medium text-gray-900 max-lg:py-3 max-lg:text-xs">
                       {{ row.name }}
                     </td>
-                    <td
-                      class="py-4 text-sm text-black font-light max-lg:py-3 max-lg:text-xs"
-                    >
+                    <td class="py-4 text-sm text-black font-light max-lg:py-3 max-lg:text-xs">
                       {{ row.type }}
                     </td>
                     <td class="py-4 text-sm max-lg:py-3 max-lg:text-xs">
@@ -1356,23 +791,13 @@
                         <div class="flex flex-col items-center">
                           <span class="font-normal text-center">{{
                             row.totalMin
-                          }}</span>
+                            }}</span>
                           <span
-                            class="inline-flex items-center px-0.5 py-0.5 rounded bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 mt-1 resumen-porcentaje-chip"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-1 w-1 mr-0.5 text-blue-900"
-                              fill="none"
-                              viewBox="0 0 16 16"
-                            >
-                              <path
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M8 12V4M8 4l-3 3m3-3l3 3"
-                              />
+                            class="inline-flex items-center px-0.5 py-0.5 rounded bg-gray-100 text-[10px] font-semibold text-blue-900 border border-blue-100 mt-1 resumen-porcentaje-chip">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-1 w-1 mr-0.5 text-blue-900" fill="none"
+                              viewBox="0 0 16 16">
+                              <path stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" d="M8 12V4M8 4l-3 3m3-3l3 3" />
                             </svg>
                             {{ row.percent }}%
                           </span>
@@ -1383,21 +808,11 @@
                       <div class="block max-sm:hidden">
                         <span class="font-normal ml-3">{{ row.totalMin }}</span>
                         <span
-                          class="inline-flex items-center px-0.5 py-0.5 rounded bg-gray-100 text-xs font-semibold text-blue-900 border border-blue-100 ml-2 resumen-porcentaje-chip"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-1.5 w-1.5 mr-0.5 text-blue-900"
-                            fill="none"
-                            viewBox="0 0 16 16"
-                          >
-                            <path
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M8 12V4M8 4l-3 3m3-3l3 3"
-                            />
+                          class="inline-flex items-center px-0.5 py-0.5 rounded bg-gray-100 text-xs font-semibold text-blue-900 border border-blue-100 ml-2 resumen-porcentaje-chip">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-1.5 w-1.5 mr-0.5 text-blue-900" fill="none"
+                            viewBox="0 0 16 16">
+                            <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                              d="M8 12V4M8 4l-3 3m3-3l3 3" />
                           </svg>
                           {{ row.percent }}%
                         </span>
@@ -1405,42 +820,22 @@
                     </td>
                     <td class="py-4 max-lg:py-3">
                       <div class="flex items-center">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="max-lg:w-3 max-lg:h-3 agentes-activos-estado-icono"
-                        >
-                          <circle
-                            cx="8"
-                            cy="8"
-                            r="8"
-                            [attr.fill]="
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                          class="max-lg:w-3 max-lg:h-3 agentes-activos-estado-icono">
+                          <circle cx="8" cy="8" r="8" [attr.fill]="
                               row.status === t.activeStatus
                                 ? '#1E3A8A80'
                                 : '#EDEDED'
-                            "
-                          />
-                          <circle
-                            cx="8"
-                            cy="8"
-                            r="4"
-                            [attr.fill]="
+                            " />
+                          <circle cx="8" cy="8" r="4" [attr.fill]="
                               row.status === t.activeStatus
                                 ? '#1E3A8A'
                                 : '#C5CAC4'
-                            "
-                            [class.latido]="row.status === t.activeStatus"
-                          />
+                            " [class.latido]="row.status === t.activeStatus" />
                         </svg>
-                        <span
-                          class="ml-2 max-lg:ml-1 max-lg:text-xs"
+                        <span class="ml-2 max-lg:ml-1 max-lg:text-xs"
                           [class.text-gray-700]="row.status === t.activeStatus"
-                          [class.text-gray-500]="row.status !== t.activeStatus"
-                          >{{ row.status }}</span
-                        >
+                          [class.text-gray-500]="row.status !== t.activeStatus">{{ row.status }}</span>
                       </div>
                     </td>
                   </tr>
@@ -1452,44 +847,27 @@
           <!-- Países -->
           <div
             class="bg-white rounded-xl sm:rounded-[2rem] p-4 sm:p-5 col-span-1 lg:-ml-5 fade-in-section border border-gray-200 history-border"
-            [class.fade-in-visible]="showPaises"
-          >
-            <h3
-              class="font-semibold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 tracking-[-0.3px]"
-            >
+            [class.fade-in-visible]="showPaises">
+            <h3 class="font-semibold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 tracking-[-0.3px]">
               {{ t.countries }}
             </h3>
             <div>
-              <div
-                class="mb-6 sm:mb-8"
-                *ngFor="let c of countries; let i = index"
-              >
+              <div class="mb-6 sm:mb-8" *ngFor="let c of countries; let i = index">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center font-semibold">
-                    <img
-                      [src]="c.img"
-                      [alt]="c.name"
-                      class="w-7 h-7 sm:w-9 sm:h-9 mr-1.5 sm:mr-2"
-                    />
-                    <span
-                      class="font-semibold -mt-3 sm:-mt-4 text-xs sm:text-sm"
-                      >{{ c.name }}</span
-                    >
+                    <img [src]="c.img" [alt]="c.name"
+                      class="w-7 h-7 sm:w-9 sm:h-9 mr-1.5 sm:mr-2 rounded-full object-cover" />
+                    <span class="font-semibold -mt-3 sm:-mt-4 text-xs sm:text-sm">{{ c.name }}</span>
                   </div>
-                  <span class="font-semibold -mt-3 sm:-mt-4 text-xs sm:text-sm"
-                    >{{ c.percent }}%</span
-                  >
+                  <span class="font-semibold -mt-3 sm:-mt-4 text-xs sm:text-sm">{{ c.percent }}%</span>
                 </div>
                 <div
-                  class="w-full h-2 sm:h-2.5 bg-gray-100 -mt-2 sm:-mt-3 ml-8 sm:ml-11 overflow-hidden country-track rounded-full"
-                >
+                  class="w-full h-2 sm:h-2.5 bg-gray-100 -mt-2 sm:-mt-3 ml-8 sm:ml-11 overflow-hidden country-track rounded-full">
                   <div
                     class="h-2 sm:h-2.5 bg-gradient-to-r from-blue-500 to-blue-600 country-bar rounded-full shadow-sm"
-                    [style.width.%]="showPaises ? c.percent : 0"
-                    [style.transition]="
+                    [style.width.%]="showPaises ? c.percent : 0" [style.transition]="
                       'width 1s ease-out ' + getCountryBarDelay(i) + 'ms'
-                    "
-                  ></div>
+                    "></div>
                 </div>
               </div>
             </div>
@@ -1498,10 +876,8 @@
 
         <!-- Versión al final del contenido -->
         <div class="text-center py-8 mt-8">
-          <p
-            class="text-sm text-gray-500 dark:text-slate-400"
-            style="font-family: &quot;Inter&quot;, sans-serif; font-weight: 400"
-          >
+          <p class="text-sm text-gray-500 dark:text-slate-400"
+            style="font-family: &quot;Inter&quot;, sans-serif; font-weight: 400">
             Llamalo v2.0
           </p>
         </div>

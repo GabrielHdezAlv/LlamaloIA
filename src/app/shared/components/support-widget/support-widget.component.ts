@@ -8,6 +8,7 @@ import {
     VoiceTestService,
     VoiceTestConfig,
 } from '../../../core/services/voice-test.service';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
     selector: 'app-support-widget',
@@ -27,6 +28,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
 
     readonly voiceTest = inject(VoiceTestService);
     private router = inject(Router);
+    private notificationService = inject(NotificationService);
 
     private animationId: any;
     private isBrowser: boolean;
@@ -177,10 +179,9 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
 
         } catch (error) {
             console.error('Error al acceder al micrófono:', error);
-            this.modalService.openError({
-                title: 'Error de micrófono',
-                message: 'No se pudo acceder al micrófono. Por favor, verifica los permisos.'
-            });
+            this.notificationService.error(
+                'No se pudo acceder al micrófono. Por favor, verifica los permisos.'
+            );
         }
     }
 

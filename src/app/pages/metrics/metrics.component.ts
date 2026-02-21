@@ -1299,7 +1299,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
           '1-868': { name: 'Trinidad y Tobago', flag: 'assets/trinidad.webp' },
           'SIN IDENTIFICAR': {
             name: 'Número oculto',
-            flag: 'assets/oculto.png',
+            flag: 'assets/predeterminada.webp',
           },
         };
 

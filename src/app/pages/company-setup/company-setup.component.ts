@@ -1103,11 +1103,9 @@ export class CompanySetupComponent
       this.animateAudioLevel();
     } catch (error) {
       console.error('Error al acceder al micrófono:', error);
-      this.modalService.openError({
-        title: 'Error de micrófono',
-        message:
-          'No se pudo acceder al micrófono. Por favor, verifica los permisos.',
-      });
+      this.notificationService.error(
+        'No se pudo acceder al micrófono. Por favor, verifica los permisos.'
+      );
     }
   }
 
