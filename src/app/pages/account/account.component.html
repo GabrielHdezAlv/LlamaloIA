@@ -582,3 +582,14 @@
   </div>
 </div>
 }
+
+<!-- Modal de Image Cropper -->
+@if (showImageCropper) {
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000] flex items-center justify-center p-4">
+  <app-image-cropper 
+    [imageUrl]="imageToCrop"
+    (imageCropped)="onImageCropped($event)"
+    (cancel)="closeImageCropper()">
+  </app-image-cropper>
+</div>
+}

@@ -74,9 +74,10 @@
                 <div class="flex gap-2 items-center text-left">
                   <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem]">
                     <div>
-                      <h3 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight uppercase">{{
+                      <h3 class="text-[11px] font-semibold text-gray-900 dark:text-white leading-tight">{{
                         news.title }}</h3>
-                      <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">{{ news.description }}
+                      <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">{{ news.description
+                        }}
                       </p>
                     </div>
                     <span class="text-[8px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1">{{ news.date
@@ -107,7 +108,7 @@
       <!-- Avatar móvil -->
       <div class="relative">
         <img [src]="getUserProfileImage()"
-          class="mobile-topbar-avatar h-9 w-9 sm:h-9 sm:w-9 md:h-10 md:w-10 rounded-full border border-blue-900 dark:border-2 history-border cursor-pointer"
+          class="mobile-topbar-avatar h-9 w-9 sm:h-9 sm:w-9 md:h-10 md:w-10 rounded-full border border-blue-900/20 dark:border-white/20 dark:border-2 history-border cursor-pointer"
           alt="Perfil" (click)="toggleDropdown()" />
 
         <!-- Dropdown móvil (clonado del navbar, adaptado) -->
@@ -296,12 +297,11 @@
                 <div class="flex gap-2 3xl:gap-4 items-center text-left">
                   <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem] 3xl:min-h-[5.5rem]">
                     <div>
-                      <h3
-                        class="text-[10px] 3xl:text-base font-bold text-gray-900 dark:text-white leading-tight uppercase">
+                      <h3 class="text-[11px] 3xl:text-base font-semibold text-gray-900 dark:text-white leading-tight">
                         {{
                         news.title }}</h3>
                       <p
-                        class="text-[9px] 3xl:text-sm text-gray-500 dark:text-gray-400 mt-0.5 3xl:mt-1.5 leading-tight">
+                        class="text-[10px] 3xl:text-sm text-gray-500 dark:text-gray-400 mt-0.5 3xl:mt-1.5 leading-tight">
                         {{ news.description }}
                       </p>
                     </div>
@@ -326,7 +326,7 @@
 
       <!-- Avatar escritorio -->
       <img [src]="getUserProfileImage()"
-        class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 4xl:h-14 4xl:w-14 rounded-full border md:border-[2px] dark:border-2 dark:md:border-[3px] border-blue-900 history-border cursor-pointer"
+        class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 4xl:h-14 4xl:w-14 rounded-full border md:border-[2px] dark:border-2 dark:md:border-[3px] border-blue-900/20 dark:border-white/20 history-border cursor-pointer"
         alt="Perfil" (click)="toggleDropdown()" />
 
       <!-- Dropdown escritorio -->

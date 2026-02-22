@@ -1,0 +1,204 @@
+.image-cropper-container {
+  display: flex;
+  flex-direction: column;
+  @apply bg-white dark:bg-[#131313] rounded-2xl shadow-lg max-w-[500px] w-full overflow-hidden;
+}
+
+.cropper-header {
+  @apply flex justify-between items-center p-5;
+}
+
+.cropper-main {
+  @apply flex flex-col items-center p-5 gap-5;
+}
+
+.canvas-container {
+  @apply relative w-[300px] h-[300px] border-2 border-dashed border-gray-300 dark:border-white/20 rounded-xl overflow-hidden cursor-grab select-none bg-gray-50 dark:bg-[#131313];
+
+  &:active {
+    @apply cursor-grabbing;
+  }
+
+  // Estilo para el círculo de guía
+  &::before {
+    content: '';
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-full pointer-events-none z-10;
+  }
+}
+
+.cropper-canvas {
+  @apply block max-w-full max-h-full;
+}
+
+.zoom-controls {
+  @apply flex items-center gap-3 bg-gray-100 dark:bg-white/10 px-4 py-2 rounded-lg;
+}
+
+.zoom-btn {
+  @apply flex items-center justify-center w-9 h-9 border-none bg-white dark:bg-white/10 rounded-lg cursor-pointer transition-all duration-200 text-gray-500 dark:text-gray-400;
+
+  &:hover:not(:disabled) {
+    @apply bg-gray-100 dark:bg-white/20 text-gray-700 dark:text-gray-300;
+  }
+
+  &:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  svg {
+    @apply w-[18px] h-[18px];
+  }
+}
+
+.zoom-indicator {
+  @apply min-w-[50px] text-center text-sm font-medium text-gray-700 dark:text-gray-300;
+}
+
+.cropper-footer {
+  @apply flex justify-center items-center p-5 bg-gray-50 dark:bg-[#131313];
+
+  .crop-btn {
+    @apply w-full max-w-xs bg-black dark:bg-white text-white dark:text-black border-none px-6 py-3 rounded-lg font-medium cursor-pointer transition-all duration-200 text-sm hover:bg-gray-800 dark:hover:bg-gray-100 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0;
+  }
+}
+
+// Responsive - Mejorado para móvil y tablet
+@media (max-width: 768px) {
+  .image-cropper-container {
+    @apply max-w-full mx-2.5 my-2;
+  }
+
+  .cropper-main {
+    @apply p-4 gap-4;
+  }
+
+  .canvas-container {
+    @apply w-[250px] h-[250px];
+
+    &::before {
+      @apply w-[170px] h-[170px];
+    }
+  }
+
+  .cropper-canvas {
+    @apply max-w-full max-h-full;
+  }
+
+  .zoom-controls {
+    @apply px-6 py-3 gap-4;
+
+    // Botones más grandes para táctil
+    .zoom-btn {
+      @apply w-12 h-12;
+
+      svg {
+        @apply w-5 h-5;
+      }
+    }
+
+    .zoom-indicator {
+      @apply text-base min-w-[60px];
+    }
+  }
+
+  .cropper-header {
+    @apply p-4;
+
+    h3 {
+      @apply text-lg;
+    }
+
+    .header-actions {
+      @apply gap-2;
+
+      button {
+        @apply px-3 py-2 text-sm;
+      }
+    }
+  }
+
+  .cropper-footer {
+    @apply flex-col gap-4 p-4;
+
+    .instructions {
+      @apply mr-0 text-center;
+
+      p {
+        @apply text-sm leading-relaxed;
+      }
+    }
+
+    .crop-btn {
+      @apply w-full py-4 text-base;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .image-cropper-container {
+    @apply mx-2 my-1;
+  }
+
+  .cropper-main {
+    @apply p-3 gap-3;
+  }
+
+  .canvas-container {
+    @apply w-[220px] h-[220px];
+
+    &::before {
+      @apply w-[150px] h-[150px];
+    }
+  }
+
+  .zoom-controls {
+    @apply px-4 py-2.5 gap-3;
+
+    .zoom-btn {
+      @apply w-10 h-10;
+
+      svg {
+        @apply w-4 h-4;
+      }
+    }
+
+    .zoom-indicator {
+      @apply text-sm min-w-[50px];
+    }
+  }
+
+  .crop-btn {
+    @apply py-3.5 text-sm;
+  }
+}
+
+// Optimizaciones para tablet
+@media (min-width: 769px) and (max-width: 1024px) {
+  .canvas-container {
+    @apply w-[280px] h-[280px];
+
+    &::before {
+      @apply w-[185px] h-[185px];
+    }
+  }
+
+  .zoom-controls {
+    @apply px-5 py-2.5 gap-3.5;
+  }
+}
+
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.image-cropper-container {
+  animation: fadeIn 0.3s ease-out;
+}

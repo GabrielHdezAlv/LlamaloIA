@@ -17,6 +17,7 @@ import { NotificationService } from '../../core/services/notification.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { RippleButtonComponent } from '../../shared/components/ripple-button/ripple-button.component';
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
+import { ImageCropperComponent } from '../../shared/components/image-cropper/image-cropper.component';
 import { TwilioService } from '../../core/services/twilio.service';
 
 @Component({
@@ -28,6 +29,7 @@ import { TwilioService } from '../../core/services/twilio.service';
     CommonModule,
     RippleButtonComponent,
     AnimatedCheckboxComponent,
+    ImageCropperComponent,
   ],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
@@ -52,6 +54,8 @@ export class AccountComponent implements OnInit, OnDestroy {
   activeTab: 'profile' | 'security' | 'billing' | 'gifts' | 'connections' =
     'profile';
   showAvatarModal = false;
+  showImageCropper = false;
+  imageToCrop: string = '';
 
   // Avatares predeterminados
   defaultAvatars = [
@@ -312,6 +316,33 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.showAvatarModal = false;
   }
 
+  // Métodos para manejar el image cropper
+  openImageCropper(imageUrl: string) {
+    this.imageToCrop = imageUrl;
+    this.showImageCropper = true;
+    this.showAvatarModal = false;
+  }
+
+  closeImageCropper() {
+    this.showImageCropper = false;
+    this.imageToCrop = '';
+  }
+
+  onImageCropped(croppedImageUrl: string) {
+    // Convertir la URL del blob a un File
+    fetch(croppedImageUrl)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], 'profile-image.png', { type: 'image/png' });
+        this.uploadProfileImage(file);
+        this.closeImageCropper();
+      })
+      .catch(error => {
+        console.error('Error al procesar la imagen recortada:', error);
+        this.notificationService.error('Error al procesar la imagen');
+      });
+  }
+
   selectDefaultAvatar(avatarUrl: string) {
     this.tempProfileImage = avatarUrl;
     this.showAvatarModal = false;
@@ -374,8 +405,24 @@ export class AccountComponent implements OnInit, OnDestroy {
     input.onchange = (event: any) => {
       const file = event.target.files[0];
       if (file) {
-        this.uploadProfileImage(file);
-        this.showAvatarModal = false;
+        // Validar tipo de archivo
+        const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+          this.notificationService.error(
+            'Formato no soportado. Usa PNG, JPG, JPEG o WebP'
+          );
+          return;
+        }
+
+        // Validar tamaño (máximo 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+          this.notificationService.error('La imagen debe ser menor a 5MB');
+          return;
+        }
+
+        // Crear URL temporal para el image cropper
+        const tempUrl = URL.createObjectURL(file);
+        this.openImageCropper(tempUrl);
       }
     };
     input.click();

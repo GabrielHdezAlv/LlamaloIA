@@ -1,0 +1,69 @@
+<div class="image-cropper-container">
+  <div class="cropper-header">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Ajustar imagen</h3>
+    <div class="header-actions">
+      <button (click)="onReset()" 
+        class="px-3 py-1 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+        Restablecer
+      </button>
+      <button (click)="onCancel()" 
+        class="px-3 py-1 text-sm text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 transition-colors">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+  <div class="cropper-main">
+    <div class="canvas-container" 
+         #container
+         (wheel)="onWheel($event)"
+         (mousedown)="onMouseDown($event)"
+         (mousemove)="onMouseMove($event)"
+         (mouseup)="onMouseUp()"
+         (mouseleave)="onMouseLeave()"
+         (touchstart)="onTouchStart($event); onTouchStartForZoom($event)"
+         (touchmove)="onTouchMove($event); onTouchMoveForZoom($event)"
+         (touchend)="onTouchEnd()"
+         (touchcancel)="onTouchEnd()">
+      <canvas #canvas 
+              [width]="canvasSize" 
+              [height]="canvasSize"
+              class="cropper-canvas">
+      </canvas>
+      <img #imageElement [src]="imageUrl" style="display: none;" />
+    </div>
+
+    <div class="zoom-controls">
+      <button (click)="onZoomOut()" 
+        class="zoom-btn"
+        [disabled]="scale <= 0.1">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 11H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      
+      <div class="zoom-indicator">
+        {{ scalePercentage }}%
+      </div>
+      
+      <button (click)="onZoomIn()" 
+        class="zoom-btn"
+        [disabled]="scale >= 3">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 11H14M11 8V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="cropper-footer">
+    <button (click)="onCrop()" 
+      class="crop-btn">
+      Recortar imagen
+    </button>
+  </div>
+</div>
