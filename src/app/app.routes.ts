@@ -104,6 +104,7 @@ export const routes: Routes = [
       // 🔽 Nuevas rutas del dropdown
       { path: 'account', component: AccountComponent },
       { path: 'upgrade-plan', component: UpgradePlanComponent },
+      { path: 'billing', component: UpgradePlanComponent },
     ],
   },
   {

@@ -666,7 +666,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   navigateToUpgradePlan() {
-    this.router.navigate(['/dashboard/upgrade-plan']);
+    this.router.navigate(['/dashboard/billing']);
   }
 
   // Método para cargar las cuentas de Twilio del usuario

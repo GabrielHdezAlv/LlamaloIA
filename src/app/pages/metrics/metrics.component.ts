@@ -694,22 +694,33 @@ export class MetricsComponent implements OnInit, OnDestroy {
   get durationGradientStart(): string {
     switch (this.durationLabel) {
       case this.t.normal:
-        return '#22c55e'; // Verde
+        return '#4ade80'; // Verde más claro (igual que latency fast)
       case this.t.long:
-        return '#f59e0b'; // Naranja
+        return '#fb923c'; // Naranja más claro (igual que latency normal)
       default:
-        return '#22c55e'; // Verde
+        return '#4ade80'; // Verde más claro
     }
   }
 
   get durationGradientEnd(): string {
     switch (this.durationLabel) {
       case this.t.normal:
-        return '#16a34a'; // Verde más oscuro
+        return '#14532d'; // Verde más oscuro (igual que latency fast)
       case this.t.long:
-        return '#d97706'; // Naranja más oscuro
+        return '#c2410c'; // Naranja más oscuro (igual que latency normal)
       default:
-        return '#16a34a'; // Verde más oscuro
+        return '#14532d'; // Verde más oscuro
+    }
+  }
+
+  get durationGradient(): string {
+    switch (this.durationLabel) {
+      case this.t.normal:
+        return `linear-gradient(90deg, #16a34a 0%, #22c55e 100%)`;
+      case this.t.long:
+        return `linear-gradient(90deg, #ca8a04 0%, #eab308 100%)`;
+      default:
+        return `linear-gradient(90deg, #16a34a 0%, #22c55e 100%)`;
     }
   }
 

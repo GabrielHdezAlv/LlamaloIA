@@ -899,4 +899,9 @@ export class HomeComponent implements OnInit {
   navigateToCreateAgent(): void {
     this.router.navigateByUrl('/dashboard/agents/create');
   }
+
+  // Método genérico para navegar
+  navigateTo(route: string): void {
+    this.router.navigateByUrl(route);
+  }
 }

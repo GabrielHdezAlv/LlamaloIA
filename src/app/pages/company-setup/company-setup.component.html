@@ -32,11 +32,11 @@
         class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-1 leading-none">
+        <div class="flex flex-row items-baseline gap-0.25 leading-none">
           <span
-            class="font-poppins text-lg sm:text-xl 3xl:text-2xl font-bold text-blue-950 dark:text-white">Llamalo</span>
+            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
           <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-tight">beta</span>
+            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
         </div>
       </div>
       <div
@@ -76,7 +76,7 @@
             selectedCardFadingOut && mainUsageSelectedForTransition === 'customer-service'
               ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
               : ''
-          ]" (click)="playClick(); handleMainUsageClick('customer-service')">
+          ]" (click)="handleMainUsageClick('customer-service')">
               <div class="flex items-center justify-between mb-3 sm:mb-4 3xl:mb-5">
                 <div
                   class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-full border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
@@ -123,7 +123,7 @@
             selectedCardFadingOut && mainUsageSelectedForTransition === 'cart-recovery'
               ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
               : ''
-          ]" (click)="playClick(); handleMainUsageClick('cart-recovery')">
+          ]" (click)=" handleMainUsageClick('cart-recovery')">
               <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5">
                 <div
                   class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-full border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
@@ -170,7 +170,7 @@
             selectedCardFadingOut && mainUsageSelectedForTransition === 'phone-sales'
               ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
               : ''
-          ]" (click)="playClick(); handleMainUsageClick('phone-sales')">
+          ]" (click)=" handleMainUsageClick('phone-sales')">
               <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5">
                 <div
                   class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-full border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
@@ -218,7 +218,7 @@
             mainUsageSelectedForTransition === 'confirmations-reminders'
               ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
               : ''
-          ]" (click)="playClick(); handleMainUsageClick('confirmations-reminders')">
+          ]" (click)=" handleMainUsageClick('confirmations-reminders')">
               <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5">
                 <div
                   class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-full border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
@@ -269,13 +269,13 @@
           <div class="mt-4 3xl:mt-6 flex items-center justify-between w-full">
             <button type="button"
               class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 3xl:px-3 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
-              (click)="playClick(); goBack()">
+              (click)=" goBack()">
               <span class="text-xs leading-none">‹</span>
               <span>Atrás</span>
             </button>
             <button type="button"
               class="px-2.5 py-0.5 3xl:px-6 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
-              (click)="playClick(); goToStep(2)">
+              (click)=" goToStep(2)">
               Continuar
             </button>
           </div>
@@ -291,9 +291,9 @@
         class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-1 leading-none">
+        <div class="flex flex-row items-baseline gap-0.25 leading-none">
           <span
-            class="font-poppins text-lg sm:text-xl 3xl:text-2xl font-bold text-blue-950 dark:text-white">Llamalo</span>
+            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white">Llamalo</span>
           <span
             class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-tight">beta</span>
         </div>
@@ -319,7 +319,7 @@
               selectedDiscoveryChannels.includes('social')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
-            " (click)="playClick(); toggleDiscoveryChannel('social')">
+            " (click)=" toggleDiscoveryChannel('social')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
                   <!-- Icono redes sociales actualizado -->
@@ -352,7 +352,7 @@
               selectedDiscoveryChannels.includes('youtube')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
-            " (click)="playClick(); toggleDiscoveryChannel('youtube')">
+            " (click)=" toggleDiscoveryChannel('youtube')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
                   <!-- Icono YouTube -->
@@ -386,7 +386,7 @@
               selectedDiscoveryChannels.includes('google')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
-            " (click)="playClick(); toggleDiscoveryChannel('google')">
+            " (click)=" toggleDiscoveryChannel('google')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
                   <!-- Icono Google -->
@@ -418,7 +418,7 @@
               selectedDiscoveryChannels.includes('communities')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
-            " (click)="playClick(); toggleDiscoveryChannel('communities')">
+            " (click)=" toggleDiscoveryChannel('communities')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
                   <!-- Icono Comunidades -->
@@ -450,7 +450,7 @@
               selectedDiscoveryChannels.includes('events')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
-            " (click)="playClick(); toggleDiscoveryChannel('events')">
+            " (click)=" toggleDiscoveryChannel('events')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
                   <!-- Icono Eventos -->
@@ -512,7 +512,7 @@
               selectedDiscoveryChannels.includes('friend')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
-            " (click)="playClick(); toggleDiscoveryChannel('friend')">
+            " (click)=" toggleDiscoveryChannel('friend')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
                   <!-- Icono Recomendación -->
@@ -547,7 +547,7 @@
               selectedDiscoveryChannels.includes('other-source')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
-            " (click)="playClick(); toggleDiscoveryChannel('other-source')">
+            " (click)=" toggleDiscoveryChannel('other-source')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
                   <!-- Icono Otro -->
@@ -577,13 +577,13 @@
           <div class="mt-4 3xl:mt-6 flex items-center justify-between w-full">
             <button type="button"
               class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 3xl:px-3 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
-              (click)="playClick(); goBack()">
+              (click)=" goBack()">
               <span class="text-xs leading-none">‹</span>
               <span>Atrás</span>
             </button>
             <button type="button"
               class="px-2.5 py-0.5 3xl:px-6 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
-              (click)="playClick(); startAgentIntroAnimation()">
+              (click)=" startAgentIntroAnimation()">
               Continuar
             </button>
           </div>
@@ -721,7 +721,7 @@
         <!-- Botón principal más grande -->
         <button type="button"
           class="mt-10 sm:mt-12 inline-flex items-center justify-center px-16 sm:px-20 md:px-24 py-4 sm:py-4.5 rounded-full bg-[#1E3A8A] hover:bg-[#1E40AF] text-lg sm:text-xl md:text-2xl font-semibold shadow-[0_20px_50px_rgba(37,99,235,0.65)] transition-transform duration-300 ease-out hover:-translate-y-0.5 ll-hero-fade-up ll-hero-delay-4"
-          (click)="playClick(); completeSetup()">
+          (click)=" completeSetup()">
           Empezar
         </button>
       </div>
@@ -738,12 +738,12 @@
 
     <!-- Imagen principal -->
     <!-- Imagen principal modo claro -->
-    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard.webp' : '/assets/imagen1_onboarding.webp'"
+    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard.jpg' : '/assets/imagen1_onboarding.jpg'"
       alt="Onboarding" class="absolute bottom-0 right-0 h-auto transition-opacity duration-500 ease-out dark:hidden"
       [ngClass]="rightImageStep === 2 ? 'w-[9470px]' : 'w-[130%]'" [class.opacity-0]="isRightImageFading"
       [class.opacity-100]="!isRightImageFading" />
     <!-- Imagen principal modo oscuro (nuevas *_oscuro) -->
-    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard_oscuro.webp' : '/assets/imagen1_onboarding_oscuro.webp'"
+    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard_oscuro.jpg' : '/assets/imagen1_onboarding_oscuro.jpg'"
       alt="Onboarding oscuro"
       class="absolute bottom-0 right-0 h-auto transition-opacity duration-500 ease-out hidden dark:block"
       [ngClass]="rightImageStep === 2 ? 'w-[9470px]' : 'w-[130%]'" [class.opacity-0]="isRightImageFading"
