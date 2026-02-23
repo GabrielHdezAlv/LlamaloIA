@@ -285,64 +285,69 @@
               }
             </div>
           </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <div>
-              <span class="text-gray-500 text-xs dark:text-slate-400">Tipo</span>
-              <div class="mt-1">
-                <span
-                  class="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium text-gray-700 dark:text-slate-300 bg-transparent">
-                  {{ source.type.toUpperCase() }}
-                </span>
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex-1 min-w-0 space-y-3">
+              <div>
+                <span class="text-gray-500 text-xs dark:text-slate-400">Tipo</span>
+                <div class="mt-1">
+                  <span
+                    class="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium text-gray-700 dark:text-slate-300 bg-transparent">
+                    {{ source.type.toUpperCase() }}
+                  </span>
+                </div>
               </div>
-            </div>
-            <div>
-              <span class="text-gray-500 text-xs dark:text-slate-400">Estado</span>
-              <div class="mt-1">
-                <span
-                  class="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium text-gray-700 dark:text-slate-300 bg-transparent">
-                  @switch (source.status) {
-                  @case ("processing") {
-                  Procesando
-                  }
-                  @case ("completed") {
-                  Completado
-                  }
-                  @case ("failed") {
-                  Fallido
-                  }
-                  }
-                </span>
+              <div>
+                <span class="text-gray-500 text-xs dark:text-slate-400">Estado</span>
+                <div class="mt-1">
+                  <span
+                    class="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium text-gray-700 dark:text-slate-300 bg-transparent">
+                    @switch (source.status) {
+                    @case ("processing") {
+                    Procesando
+                    }
+                    @case ("completed") {
+                    Completado
+                    }
+                    @case ("failed") {
+                    Fallido
+                    }
+                    }
+                  </span>
+                </div>
               </div>
-            </div>
-            <div>
-              <span class="text-gray-500 text-xs dark:text-slate-400">Fragmentos</span>
-              <div class="mt-1">
-                <div class="text-sm text-gray-900 dark:text-slate-50">
-                  {{ source.metadata.chunkCount || 0 }} fragmentos
-                  @if (source.metadata.wordCount) {
-                  <span class="text-gray-500 dark:text-gray-400">• {{ source.metadata.wordCount }} palabras</span>
-                  }
+              <div>
+                <span class="text-gray-500 text-xs dark:text-slate-400">Fragmentos</span>
+                <div class="mt-1">
+                  <div class="text-sm text-gray-900 dark:text-slate-50 break-words whitespace-normal">
+                    {{ source.metadata.chunkCount || 0 }} fragmentos
+                    @if (source.metadata.wordCount) {
+                    <span class="text-gray-500 dark:text-gray-400"> • {{ source.metadata.wordCount }} palabras</span>
+                    }
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="flex items-center justify-end gap-2 pt-2">
-            <button
-              class="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-              title="Ver vista previa">
-              <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-              <circle cx="12" cy="12" r="3" />
-              </svg>
-            </button>
-            <button (click)="deleteKnowledgeSource(source.id)"
-              class="p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-              title="Eliminar">
-              <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="3,6 5,6 21,6" />
-              <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2" />
-              </svg>
-            </button>
+
+            <div class="flex flex-col items-end gap-2 flex-shrink-0 pt-1">
+              <button
+                class="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                title="Ver vista previa">
+                <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
+              <button (click)="deleteKnowledgeSource(source.id)"
+                class="p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                title="Eliminar">
+                <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <polyline points="3,6 5,6 21,6" />
+                  <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
