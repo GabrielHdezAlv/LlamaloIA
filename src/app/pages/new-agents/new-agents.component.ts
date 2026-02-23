@@ -218,10 +218,36 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/dashboard/agents/edit', agentId]);
   }
 
-  // Método para dejar de publicar
+  // Método para dejar de publicar / publicar de nuevo
   stopPublishing(index: number): void {
     this.openMenuIndex = null;
-    // TODO: Implementar lógica para dejar de publicar
+    
+    const agent = this.agents[index];
+    if (!agent) return;
+
+    const isInactive = agent.state === 'Inactivo';
+    
+    // Abrir modal de confirmación simple
+    const dialogRef = this.modalService.openWarning({
+      title: '', // Sin título para que sea más simple
+      message: isInactive 
+        ? `¿Estás seguro de que quieres publicar de nuevo el agente "${agent.name}"?`
+        : `¿Estás seguro de que quieres dejar de publicar el agente "${agent.name}"?`,
+      confirmText: isInactive ? 'Sí, publicar de nuevo' : 'Sí, dejar de publicar',
+      cancelText: 'Cancelar',
+      showCancelButton: true
+    });
+
+    // Suscribirse al resultado
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        // Cambiar el estado del agente
+        agent.state = isInactive ? 'Activo' : 'Inactivo';
+        
+        // Aquí podrías agregar una llamada al backend para persistir el cambio
+        // this.agentsService.updateAgentState(agent.agentId, agent.state).subscribe(...);
+      }
+    });
   }
 
   // Cerrar menú al hacer clic fuera

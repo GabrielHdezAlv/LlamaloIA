@@ -41,7 +41,7 @@
 
     <!-- Cabecera Número teléfono -->
     <div class="col-span-2 flex items-center">
-      <span class="font-medium text-gray-400 ml-1">Número teléfono</span>
+      <span class="font-medium text-gray-400 ml-1">Número teléfonoE</span>
     </div>
 
     <!-- Cabecera Estado -->
@@ -156,7 +156,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
               </svg>
-              {{ t.stopPublishing }}
+              {{ agent.state === 'Inactivo' ? 'Publicar de nuevo' : t.stopPublishing }}
             </button>
           </div>
           }
@@ -217,7 +217,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
               </svg>
-              {{ t.stopPublishing }}
+              {{ agent.state === 'Inactivo' ? 'Publicar de nuevo' : t.stopPublishing }}
             </button>
           </div>
           }

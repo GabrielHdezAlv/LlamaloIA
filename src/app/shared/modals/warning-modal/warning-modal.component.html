@@ -1,34 +1,23 @@
-<div class="modal-container 3xl:max-w-xl">
-  <!-- Icono centrado superior -->
-  <div class="modal-icon-wrapper warning pt-8 pb-4 3xl:pt-12 3xl:pb-6">
-    <div class="modal-icon-circle warning w-[72px] h-[72px] 3xl:w-24 3xl:h-24">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="modal-icon w-9 h-9 3xl:w-12 3xl:h-12">
-        <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-    </div>
-  </div>
-
+<div class="modal-container 3xl:max-w-2xl">
   <!-- Contenido -->
-  <div class="modal-content px-6 pb-6 3xl:px-8 3xl:pb-8">
-    <h2 class="modal-title warning text-center text-xl font-bold mb-3 3xl:text-2xl 3xl:mb-4">{{ data.title || t.warningTitleDefault }}</h2>
-    
-    <p class="modal-message text-center text-sm text-gray-700 dark:text-gray-300 mb-4 leading-relaxed 3xl:text-base 3xl:mb-5">{{ data.message }}</p>
+  <div class="modal-content px-8 py-8 3xl:px-12 3xl:py-12">
+    <p class="modal-message text-center text-sm text-gray-700 dark:text-gray-300 mb-8 leading-relaxed 3xl:text-base 3xl:mb-8">{{ data.message }}</p>
     
     <div *ngIf="data.details" class="modal-details warning rounded-xl p-4 mb-4 text-xs overflow-auto max-h-[200px] 3xl:p-5 3xl:mb-5 3xl:text-sm 3xl:max-h-[250px]">
       <p>{{ data.details }}</p>
     </div>
 
-    <div class="modal-actions flex justify-end gap-3 mt-6 3xl:gap-4 3xl:mt-8">
+    <div class="modal-actions flex justify-center items-center gap-4 mt-8 3xl:gap-6 3xl:mt-8">
       <button 
         *ngIf="data.showCancelButton !== false"
         (click)="cancel()"
-        class="modal-button modal-button-secondary px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 min-w-[100px] 3xl:px-6 3xl:py-3 3xl:text-base 3xl:min-w-[120px]"
+        class="modal-button modal-button-secondary px-6 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 min-w-[120px] 3xl:px-8 3xl:py-3 3xl:text-base 3xl:min-w-[140px]"
       >
         {{ data.cancelText || t.cancel }}
       </button>
       <button 
         (click)="confirm()"
-        class="modal-button modal-button-primary warning px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 min-w-[100px] 3xl:px-6 3xl:py-3 3xl:text-base 3xl:min-w-[120px]"
+        class="modal-button modal-button-primary warning dark:!bg-[#FFFFFF] dark:!text-[#000000] dark:hover:!bg-gray-100 px-6 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 min-w-[120px] 3xl:px-8 3xl:py-3 3xl:text-base 3xl:min-w-[140px]"
       >
         {{ data.confirmText || t.continue }}
       </button>
