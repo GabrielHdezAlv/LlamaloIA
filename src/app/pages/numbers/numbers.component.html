@@ -13,7 +13,7 @@
                                 d="M21 21l-4.35-4.35M17 10.5A6.5 6.5 0 104 10.5a6.5 6.5 0 0013 0z" />
                         </svg>
                     </div>
-                    <input type="text" placeholder="Números de búsqueda..." [(ngModel)]="searchTerm"
+                    <input type="text" placeholder="{{ t.searchNumbers }}" [(ngModel)]="searchTerm"
                         (ngModelChange)="onSearchChange()"
                         class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-10 pl-10 sm:pl-11 md:pl-12 pr-4 text-[13px] sm:text-sm border border-gray-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-500 focus:border-gray-400 dark:focus:border-slate-500 transition-colors duration-200" />
                 </div>
@@ -55,7 +55,7 @@
 
             <!-- Cabecera Número teléfono -->
             <div class="col-span-2 flex items-center">
-                <span class="font-medium text-gray-400  ml-1">Número teléfono</span>
+                <span class="font-medium text-gray-400  ml-1">{{ t.phoneNumberHeaderNumbers }}</span>
             </div>
 
             <!-- Cabecera Estado -->
@@ -268,7 +268,7 @@
                 </div>
                 }
                 <div>
-                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">Número de teléfono
+                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">{{ t.phoneNumberImportLabel }}
                         <span class="text-red-500">*</span></label>
                     <div class="flex">
                         <div class="country-dropdown-wrap relative flex-shrink-0">
@@ -300,26 +300,25 @@
                             </ul>
                             }
                         </div>
-                        <input type="tel" formControlName="phoneNumber" placeholder="630 00 00 00"
+                        <input type="tel" formControlName="phoneNumber" placeholder="{{ t.phoneNumberPlaceholder }}"
                             class="flex-1 h-11 px-4 rounded-r-lg border bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 text-sm"
                             [ngClass]="importErrorMessage ? 'border-red-500 dark:border-red-500 bg-red-50/70 dark:bg-red-900/20' : 'border-gray-300 dark:border-slate-600'" />
                     </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">{{ t.twilioAccountSidLabel }}
+                            Twilio</label>
+                        <input type="text" formControlName="twilioSid" placeholder="{{ t.twilioSidPlaceholder }}"
+                            class="w-full px-4 py-2.5 rounded-lg border bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 text-sm"
+                            [ngClass]="importErrorMessage ? 'border-red-500 dark:border-red-500 bg-red-50/70 dark:bg-red-900/20' : 'border-gray-300 dark:border-slate-600'" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">{{ t.twilioAccountTokenLabel }}
+                            Twilio</label>
+                        <input type="password" formControlName="twilioToken" placeholder="{{ t.twilioTokenPlaceholder }}"
+                            class="w-full px-4 py-2.5 rounded-lg border bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 text-sm"
+                            [ngClass]="importErrorMessage ? 'border-red-500 dark:border-red-500 bg-red-50/70 dark:bg-red-900/20' : 'border-gray-300 dark:border-slate-600'" />
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">SID de cuenta
-                        Twilio</label>
-                    <input type="text" formControlName="twilioSid" placeholder="SID de cuenta Twilio"
-                        class="w-full px-4 py-2.5 rounded-lg border bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 text-sm"
-                        [ngClass]="importErrorMessage ? 'border-red-500 dark:border-red-500 bg-red-50/70 dark:bg-red-900/20' : 'border-gray-300 dark:border-slate-600'" />
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-1.5">Token de cuenta
-                        Twilio</label>
-                    <input type="password" formControlName="twilioToken" placeholder="Token de cuenta Twilio"
-                        class="w-full px-4 py-2.5 rounded-lg border bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500 text-sm"
-                        [ngClass]="importErrorMessage ? 'border-red-500 dark:border-red-500 bg-red-50/70 dark:bg-red-900/20' : 'border-gray-300 dark:border-slate-600'" />
-                </div>
-
                 <div class="pt-4">
                     <button type="submit" [disabled]="importForm.invalid || isImportLoading"
                         class="w-full py-3 rounded-lg font-semibold text-sm bg-[#1B2559] dark:bg-blue-700 text-white hover:bg-[#0a1740] dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2">
@@ -339,4 +338,3 @@
         </aside>
     </div>
     }
-</div>

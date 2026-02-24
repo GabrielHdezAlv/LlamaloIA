@@ -48,7 +48,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
   private metricsService = inject(MetricsService);
   private newsService = inject(NewsService);
 
-  newsList = this.newsService.newsSignal;
+  newsList = () => this.newsService.getTranslatedNews();
 
   // Estado de loading para métricas
   isMetricsLoading: boolean = false;

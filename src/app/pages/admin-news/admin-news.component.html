@@ -26,14 +26,26 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="col-span-full">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Título</label>
-                                <input [(ngModel)]="newsForm.title" type="text"
+                                    class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Título (Español)</label>
+                                <input [(ngModel)]="newsForm.title.es" type="text"
+                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Title (English)</label>
+                                <input [(ngModel)]="newsForm.title.en" type="text"
                                     class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
                             </div>
                             <div class="col-span-full">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Descripción</label>
-                                <textarea [(ngModel)]="newsForm.description" rows="2"
+                                    class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Descripción (Español)</label>
+                                <textarea [(ngModel)]="newsForm.description.es" rows="2"
+                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                            </div>
+                            <div class="col-span-full">
+                                <label
+                                    class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Description (English)</label>
+                                <textarea [(ngModel)]="newsForm.description.en" rows="2"
                                     class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
                             </div>
                             <div>
@@ -63,13 +75,11 @@
                             class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-slate-800/40 rounded-2xl border border-gray-100 dark:border-slate-800 group transition-all hover:border-blue-500/30">
                             <img [src]="news.imageUrl" class="w-20 h-14 rounded-lg object-cover shadow-sm">
                             <div class="flex-1">
-                                <h4 class="font-bold text-gray-900 dark:text-slate-100 leading-tight">{{ news.title }}
+                                <h4 class="font-bold text-gray-900 dark:text-slate-100 leading-tight">{{ news.title.es || news.title.en }}
                                 </h4>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">{{
-                                    news.description }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">{{ news.description.es || news.description.en }}</p>
                                 <span
-                                    class="text-[10px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1 block">{{
-                                    news.date }}</span>
+                                    class="text-[10px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1 block">{{ news.date }}</span>
                             </div>
                             <div class="flex gap-2">
                                 <button (click)="editNews(news)"
@@ -114,9 +124,9 @@
                                         <div>
                                             <h3
                                                 class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight uppercase">
-                                                {{ item.title }}</h3>
+                                                {{ item.title.es || item.title.en }}</h3>
                                             <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">
-                                                {{ item.description }}</p>
+                                                {{ item.description.es || item.description.en }}</p>
                                         </div>
                                         <span
                                             class="text-[8px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1">{{

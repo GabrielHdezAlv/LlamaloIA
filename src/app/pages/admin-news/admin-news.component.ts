@@ -21,8 +21,8 @@ export class AdminNewsComponent implements OnInit {
 
     // Form model
     newsForm: Omit<NewsItem, 'id'> = {
-        title: '',
-        description: '',
+        title: { es: '', en: '' },
+        description: { es: '', en: '' },
         imageUrl: '',
         date: 'Hoy'
     };
@@ -33,8 +33,8 @@ export class AdminNewsComponent implements OnInit {
         this.isAdding = true;
         this.editingNews = null;
         this.newsForm = {
-            title: '',
-            description: '',
+            title: { es: '', en: '' },
+            description: { es: '', en: '' },
             imageUrl: '',
             date: 'Hoy'
         };
@@ -44,8 +44,14 @@ export class AdminNewsComponent implements OnInit {
         this.editingNews = { ...news };
         this.isAdding = false;
         this.newsForm = {
-            title: news.title,
-            description: news.description,
+            title: {
+                es: news.title?.es || '',
+                en: news.title?.en || ''
+            },
+            description: {
+                es: news.description?.es || '',
+                en: news.description?.en || ''
+            },
             imageUrl: news.imageUrl,
             date: news.date
         };
@@ -60,7 +66,19 @@ export class AdminNewsComponent implements OnInit {
         if (this.isAdding) {
             this.newsService.addNews(this.newsForm);
         } else if (this.editingNews?.id) {
-            this.newsService.updateNews(this.editingNews.id, this.newsForm);
+            // Al editar, si un idioma está vacío o es igual al valor original, usar el otro idioma
+            const updatedData = {
+                ...this.newsForm,
+                title: {
+                    es: this.newsForm.title.es || this.editingNews.title?.es || '',
+                    en: this.newsForm.title.en || this.editingNews.title?.en || this.newsForm.title.es || ''
+                },
+                description: {
+                    es: this.newsForm.description.es || this.editingNews.description?.es || '',
+                    en: this.newsForm.description.en || this.editingNews.description?.en || this.newsForm.description.es || ''
+                }
+            };
+            this.newsService.updateNews(this.editingNews.id, updatedData);
         }
         this.cancelEdit();
     }

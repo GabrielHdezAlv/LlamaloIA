@@ -23,6 +23,81 @@ export interface Translations {
   inbound: string;
   outbound: string;
   vsLastYear: string;
+  vsLastWeek: string;
+  totalCalls: string;
+  successfulCalls: string;
+  totalMinutes: string;
+  minutes: string;
+  successRate: string;
+  planStarter: string;
+  boostEfficiency: string;
+  unlockAdvancedFeatures: string;
+  upgradePlan: string;
+  dashboard: string;
+  configuration: string;
+
+  // Agents page translations
+  searchAgents: string;
+  agentNameHeader: string;
+  phoneNumberHeader: string;
+  noNumberAssigned: string;
+  inactive: string;
+  publishAgain: string;
+  noAgentsCreated: string;
+
+  // Numbers page translations
+  searchNumbers: string;
+  phoneNumberHeaderNumbers: string;
+  phoneNumberImportLabel: string;
+  twilioAccountSidLabel: string;
+  twilioAccountTokenLabel: string;
+  phoneNumberPlaceholder: string;
+  twilioSidPlaceholder: string;
+  twilioTokenPlaceholder: string;
+
+  // Metrics page translations
+  callsText: string;
+  totalCallsLabel: string;
+  averagePerDayLabel: string;
+  peakHoursDataNotAvailable: string;
+  waitingForEndpointData: string;
+  millisecondsLabel: string;
+  minutesLabel: string;
+  secondsLabel: string;
+  costPerMinute: string;
+  subscription: string;
+  peakHours: string;
+  systemStatus: string;
+  starterPlan: string;
+  for7Days: string;
+  successEvaluation: string;
+  title: string;
+  desktopMobileView: string;
+  for30Days: string;
+  compactHorizontalBarChart: string;
+  statisticalSummary: string;
+  desktopAreaView: string;
+  semicircularMeter: string;
+  semicircularGiant: string;
+  semicircleBackground: string;
+  dynamicProgressArc: string;
+  progressMarker: string;
+  gradientDefinition: string;
+  simpleStriped: string;
+  fullBandEmptyBand: string;
+  daysOfWeek: string;
+  desktopAndMobileHiddenTablet: string;
+  barChartWithRealData: string;
+  hourBars: string;
+  hourLabelsBelowChart: string;
+  countriesMovedFromOriginal: string;
+  callCompletionReason: string;
+  contentBasedOnPeakHoursData: string;
+  tooltipHover: string;
+  tooltipArrow: string;
+  statusIndicator: string;
+  messageWhenNoData: string;
+  systemStatusTabletOnly: string;
 
   // Days of the week
   monday: string;
@@ -118,7 +193,7 @@ export interface Translations {
   all: string;
   agent1: string;
   agent2: string;
-  totalMinutes: string;
+
   extraMinutes: string;
   latency: string;
   fast: string;
@@ -200,7 +275,7 @@ export interface Translations {
   currentSubscription: string;
   cancelSubscription: string;
   invoicesHistory: string;
-  upgradePlan: string;
+
   protectedByStripe: string;
 
   // Delete account modal
@@ -371,7 +446,83 @@ export class I18nService {
       draft: 'Borrador',
       inbound: 'Entrante',
       outbound: 'Saliente',
-      vsLastYear: 'vs semana pasada',
+      vsLastYear: 'vs año pasado',
+      vsLastWeek: 'vs semana pasada',
+      totalCalls: 'Total de llamadas',
+      successfulCalls: 'Llamadas exitosas',
+      totalMinutes: 'Minutos Totales',
+      minutes: 'Minutos',
+      successRate: 'Tasa de éxito de las llamadas',
+      planStarter: 'Plan Starter',
+      boostEfficiency: 'Maximiza tu Eficiencia',
+      unlockAdvancedFeatures: 'Desbloquea funciones avanzadas de automatización',
+      upgradePlan: 'Mejorar Plan',
+      dashboard: 'Panel de control',
+      configuration: 'Configuración',
+
+      // Agents page translations
+      searchAgents: 'Buscar agentes...',
+      agentNameHeader: 'Nombre',
+      phoneNumberHeader: 'Número teléfono',
+      noNumberAssigned: 'Sin número asignado',
+      inactive: 'Inactivo',
+      publishAgain: 'Publicar de nuevo',
+      noAgentsCreated: 'Aún no tiene agentes creados',
+
+      // Numbers page translations
+      searchNumbers: 'Buscar números...',
+      phoneNumberHeaderNumbers: 'Número teléfono',
+      phoneNumberImportLabel: 'Número de teléfono',
+      twilioAccountSidLabel: 'SID de cuenta Twilio',
+      twilioAccountTokenLabel: 'Token de cuenta Twilio',
+      phoneNumberPlaceholder: '630 00 00 00',
+      twilioSidPlaceholder: 'SID de cuenta Twilio',
+      twilioTokenPlaceholder: 'Token de cuenta Twilio',
+
+      // Metrics page translations
+      callsText: 'llamadas',
+      totalCallsLabel: 'Total llamadas',
+      averagePerDayLabel: 'Promedio/día',
+      peakHoursDataNotAvailable: 'Datos de horas pico no disponibles',
+      waitingForEndpointData: 'Esperando datos del endpoint...',
+      millisecondsLabel: 'MS',
+      minutesLabel: 'M',
+      secondsLabel: 'S',
+      costPerMinute: 'Coste por minuto',
+      subscription: 'Suscripción',
+      peakHours: 'Horas punta',
+      averageCallDuration: 'Duración media',
+      systemStatus: 'Estado del sistema',
+      starterPlan: 'Starter',
+      for7Days: 'Para 7 días',
+      successEvaluation: 'Evaluación de éxito',
+      title: 'Título',
+      desktopMobileView: 'Vista móvil',
+      for30Days: 'Para 30 días',
+      compactHorizontalBarChart: 'Gráfico de barras horizontales compacto',
+      statisticalSummary: 'Resumen estadístico compacto',
+      desktopAreaView: 'Vista desktop: Gráfico de área original',
+      semicircularMeter: 'Medidor semicircular dinámico',
+      semicircularGiant: 'Medidor semicircular gigante',
+      semicircleBackground: 'Fondo del semicírculo',
+      dynamicProgressArc: 'Arco de progreso dinámico',
+      progressMarker: 'Marcador al final del progreso',
+      gradientDefinition: 'Definición del gradiente',
+      simpleStriped: 'Rayado simple: banda llena y banda vacía',
+      fullBandEmptyBand: 'banda llena y banda vacía',
+      daysOfWeek: 'Días de la semana',
+      desktopAndMobileHiddenTablet: 'desktop y móvil, oculto en tablet',
+      barChartWithRealData: 'Gráfico de barras con datos reales',
+      hourBars: 'Barras de horas',
+      hourLabelsBelowChart: 'Etiquetas de horas debajo del gráfico',
+      countriesMovedFromOriginal: 'Países (movido desde su recuadro original)',
+      callCompletionReason: 'Razón de finalización de la llamada',
+      contentBasedOnPeakHoursData: 'Contenido basado en si hay datos de horas pico',
+      tooltipHover: 'Tooltip hover',
+      tooltipArrow: 'Flecha del tooltip',
+      statusIndicator: 'Indicador de estado',
+      messageWhenNoData: 'Mensaje cuando no hay datos',
+      systemStatusTabletOnly: 'solo en tablets (md)',
 
       // Days of the week
       monday: 'Lunes',
@@ -467,14 +618,12 @@ export class I18nService {
       all: 'Todos',
       agent1: 'Agente 1',
       agent2: 'Agente 2',
-      totalMinutes: 'Total Minutos',
       extraMinutes: 'Minutos Extra',
       latency: 'Latencia',
       fast: 'RÁPIDO',
       normal: 'NORMAL',
       slow: 'LENTO',
       latencyDescription: 'Tiempo que tarda el sistema en responder durante una llamada. Un valor más bajo indica mayor rapidez.',
-      averageCallDuration: 'Duración media de las llamadas',
       long: 'LARGA',
       durationDescription: 'Promedio de tiempo que duran las llamadas gestionadas por el agente.',
       callTypes: 'Tipo de llamadas',
@@ -549,7 +698,6 @@ export class I18nService {
       currentSubscription: 'Suscripción actual',
       cancelSubscription: 'Cancelar suscripción',
       invoicesHistory: 'Historial de facturas',
-      upgradePlan: 'Actualizar plan',
       protectedByStripe: 'Protegido por Stripe',
 
       // Delete account modal
@@ -709,6 +857,82 @@ export class I18nService {
       inbound: 'Inbound',
       outbound: 'Outbound',
       vsLastYear: 'vs last year',
+      vsLastWeek: 'vs last week',
+      totalCalls: 'Total calls',
+      successfulCalls: 'Successful calls',
+      totalMinutes: 'Total Minutes',
+      minutes: 'Minutes',
+      successRate: 'Call success rate',
+      planStarter: 'Starter Plan',
+      boostEfficiency: 'Maximize Your Efficiency',
+      unlockAdvancedFeatures: 'Unlock advanced automation features',
+      upgradePlan: 'Upgrade Plan',
+      dashboard: 'Dashboard',
+      configuration: 'Configuration',
+
+      // Agents page translations
+      searchAgents: 'Search agents...',
+      agentNameHeader: 'Name',
+      phoneNumberHeader: 'Phone Number',
+      noNumberAssigned: 'No number assigned',
+      inactive: 'Inactive',
+      publishAgain: 'Publish again',
+      noAgentsCreated: 'No agents created yet',
+
+      // Numbers page translations
+      searchNumbers: 'Search numbers...',
+      phoneNumberHeaderNumbers: 'Phone Number',
+      phoneNumberImportLabel: 'Phone Number',
+      twilioAccountSidLabel: 'Twilio Account SID',
+      twilioAccountTokenLabel: 'Twilio Account Token',
+      phoneNumberPlaceholder: '630 00 00 00',
+      twilioSidPlaceholder: 'Twilio Account SID',
+      twilioTokenPlaceholder: 'Twilio Account Token',
+
+      // Metrics page translations
+      callsText: 'calls',
+      totalCallsLabel: 'Total calls',
+      averagePerDayLabel: 'Average/day',
+      peakHoursDataNotAvailable: 'Peak hours data not available',
+      waitingForEndpointData: 'Waiting for endpoint data...',
+      millisecondsLabel: 'MS',
+      minutesLabel: 'M',
+      secondsLabel: 'S',
+      costPerMinute: 'Cost per minute',
+      subscription: 'Subscription',
+      peakHours: 'Peak hours',
+      averageCallDuration: 'Average duration',
+      systemStatus: 'System status',
+      starterPlan: 'Starter',
+      for7Days: 'For 7 days',
+      successEvaluation: 'Success evaluation',
+      title: 'Title',
+      desktopMobileView: 'Mobile view',
+      for30Days: 'For 30 days',
+      compactHorizontalBarChart: 'Compact horizontal bar chart',
+      statisticalSummary: 'Compact statistical summary',
+      desktopAreaView: 'Desktop view: Original area chart',
+      semicircularMeter: 'Dynamic semicircular meter',
+      semicircularGiant: 'Giant semicircular meter',
+      semicircleBackground: 'Semicircle background',
+      dynamicProgressArc: 'Dynamic progress arc',
+      progressMarker: 'Progress marker at the end',
+      gradientDefinition: 'Gradient definition',
+      simpleStriped: 'Simple striped: full band and empty band',
+      fullBandEmptyBand: 'full band and empty band',
+      daysOfWeek: 'Days of the week',
+      desktopAndMobileHiddenTablet: 'desktop and mobile, hidden on tablet',
+      barChartWithRealData: 'Bar chart with real data',
+      hourBars: 'Hour bars',
+      hourLabelsBelowChart: 'Hour labels below chart',
+      countriesMovedFromOriginal: 'Countries (moved from original box)',
+      callCompletionReason: 'Call completion reason',
+      contentBasedOnPeakHoursData: 'Content based on peak hours data',
+      tooltipHover: 'Tooltip hover',
+      tooltipArrow: 'Tooltip arrow',
+      statusIndicator: 'Status indicator',
+      messageWhenNoData: 'Message when no data',
+      systemStatusTabletOnly: 'tablet only (md)',
 
       // Days of the week
       monday: 'Monday',
@@ -804,14 +1028,12 @@ export class I18nService {
       all: 'All',
       agent1: 'Agent 1',
       agent2: 'Agent 2',
-      totalMinutes: 'Total Minutes',
       extraMinutes: 'Extra Minutes',
       latency: 'Latency',
       fast: 'FAST',
       normal: 'NORMAL',
       slow: 'SLOW',
       latencyDescription: 'Time it takes for the system to respond during a call. A lower value indicates greater speed.',
-      averageCallDuration: 'Average call duration',
       long: 'LONG',
       durationDescription: 'Average time that calls managed by the agent last.',
       callTypes: 'Call types',
@@ -886,7 +1108,6 @@ export class I18nService {
       currentSubscription: 'Current subscription',
       cancelSubscription: 'Cancel subscription',
       invoicesHistory: 'Invoices history',
-      upgradePlan: 'Upgrade plan',
       protectedByStripe: 'Protected by Stripe',
 
       // Delete account modal
