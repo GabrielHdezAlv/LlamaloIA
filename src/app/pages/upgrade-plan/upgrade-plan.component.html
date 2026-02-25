@@ -1,12 +1,12 @@
-<div class="upgrade-plan-wrapper py-6 px-4 sm:px-6 lg:px-8 min-h-screen">
+<div class="upgrade-plan-wrapper py-6 px-4 sm:px-6 lg:px-8 min-h-screen animate-fade-in">
     <!-- Header Section -->
-    <div class="text-center max-w-3xl 3xl:max-w-6xl mx-auto mb-8 3xl:mb-20 px-4">
+    <div class="text-center max-w-3xl 3xl:max-w-6xl mx-auto mb-8 3xl:mb-20 px-4 animate-slide-down">
         <h1
-            class="text-2xl md:text-4xl 3xl:text-6xl font-extrabold text-gray-900 dark:text-white mb-3 3xl:mb-8 tracking-tight">
+            class="text-2xl md:text-4xl 3xl:text-6xl font-extrabold text-gray-900 dark:text-white mb-3 3xl:mb-8 tracking-tight animate-gradient-text">
             Precios que crecen contigo
         </h1>
         <p
-            class="text-sm 3xl:text-2xl text-gray-500 dark:text-slate-400 max-w-xl 3xl:max-w-4xl mx-auto leading-relaxed">
+            class="text-sm 3xl:text-2xl text-gray-500 dark:text-slate-400 max-w-xl 3xl:max-w-4xl mx-auto leading-relaxed animate-fade-in-delay">
             Escucha lo que dicen nuestros clientes sobre cómo LlamaloIA ha transformado su comunicación.
         </p>
     </div>
@@ -14,10 +14,10 @@
     <!-- Pricing Cards -->
     <div
         class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl 3xl:max-w-[1400px] mx-auto mb-10 3xl:mb-14 px-4">
-        @for (plan of pricingPlans; track plan.name) {
-        <div [class]="'flex flex-col h-full rounded-[2rem] p-1.5 3xl:p-3 border shadow-xl transition-transform duration-300 hover:scale-[1.02] ' + 
+        @for (plan of pricingPlans; track plan.name; let i = $index) {
+        <div [class]="'flex flex-col h-full rounded-[2rem] p-1.5 3xl:p-3 border shadow-xl transition-all duration-500 hover:scale-[1.02] animate-fade-in-stagger animate-card-hover ' + 
             (plan.name === 'Pro' 
-                ? 'bg-[#151515] dark:bg-white border-transparent dark:border-gray-200' 
+                ? 'bg-[#151515] dark:bg-white border-transparent dark:border-gray-200 plan-pro-glow' 
                 : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')">
 
             <!-- Top Section Container -->
@@ -90,8 +90,8 @@
 
     <!-- Trust Badges -->
     <div
-        class="flex flex-wrap justify-center items-center gap-4 md:gap-10 3xl:gap-16 max-w-5xl 3xl:max-w-[1400px] mx-auto mb-16 3xl:mb-32 py-8 3xl:py-10 px-4">
-        <div class="trust-badge flex items-center gap-2">
+        class="flex flex-wrap justify-center items-center gap-4 md:gap-10 3xl:gap-16 max-w-5xl 3xl:max-w-[1400px] mx-auto mb-16 3xl:mb-32 py-8 3xl:py-10 px-4 animate-fade-in-stagger">
+        <div class="trust-badge flex items-center gap-2 animate-bounce-in">
             <img src="assets/hoja_izquierda.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
             <div class="text-center px-1">
                 <p class="text-[9px] 3xl:text-xs font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">
@@ -101,7 +101,7 @@
             <img src="assets/hoja_derecha.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
         </div>
 
-        <div class="trust-badge flex items-center gap-2">
+        <div class="trust-badge flex items-center gap-2 animate-bounce-in-delay">
             <img src="assets/hoja_izquierda.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
             <div class="text-center px-1">
                 <p class="text-[9px] 3xl:text-xs font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">
@@ -112,7 +112,7 @@
             <img src="assets/hoja_derecha.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
         </div>
 
-        <div class="trust-badge flex items-center gap-2">
+        <div class="trust-badge flex items-center gap-2 animate-bounce-in-delay-2">
             <img src="assets/hoja_izquierda.png" alt="" class="w-6 3xl:w-8 h-auto object-contain">
             <div class="text-center px-1">
                 <p class="text-[9px] 3xl:text-xs font-bold text-gray-500 dark:text-slate-400 leading-tight uppercase">
@@ -124,7 +124,7 @@
     </div>
 
     <!-- Feature Comparison Table -->
-    <div class="max-w-5xl 3xl:max-w-[1400px] mx-auto mb-12 3xl:mb-16 px-4 text-center">
+    <div class="max-w-5xl 3xl:max-w-[1400px] mx-auto mb-12 3xl:mb-16 px-4 text-center animate-slide-up">
         <h2
             class="text-xl md:text-3xl 3xl:text-6xl font-extrabold text-gray-900 dark:text-white mb-3 3xl:mb-8 tracking-tight">
             Comparación de funciones
