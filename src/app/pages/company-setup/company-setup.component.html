@@ -11,7 +11,7 @@
     <button type="button"
       class="absolute bottom-10 right-10 text-xs sm:text-sm px-3 py-2 rounded-full bg-black/5 dark:bg-white/10 text-gray-800 dark:text-white hover:bg-black/10 dark:hover:bg-white/20 transition-colors shadow-sm"
       (click)="skipWelcome()">
-      Saltar
+      {{ t.skipLabel }}
     </button>
   </div>
 
@@ -19,7 +19,7 @@
   <div *ngIf="showAgentIntroAnimation" class="welcome-sequence agent-intro-sequence"
     [class.exit-animation]="agentIntroExitTriggered">
     <div class="welcome-text-container">
-      <h2 class="brand-name brand-font">Crea tu primer agente</h2>
+      <h2 class="brand-name brand-font">{{ t.createFirstAgent }}</h2>
     </div>
   </div>
 
@@ -43,10 +43,10 @@
         class="w-full max-w-[300px] sm:max-w-[360px] md:max-w-[460px] 3xl:max-w-[560px] flex flex-col px-3 sm:px-4 md:px-5 3xl:px-6">
         <!-- Título y descripción -->
         <h1 class="text-sm 3xl:text-xl font-bold text-[#0F172A] dark:text-white leading-tight">
-          ¿Qué quieres conseguir con Llamalo?
+          {{ t.whatDoYouWantToAchieve }}
         </h1>
         <p class="mt-1 3xl:mt-2 text-[11px] sm:text-xs 3xl:text-sm text-[#6d747c] font-semibold">
-          Puedes seleccionar varias opciones para esta pregunta.
+          {{ t.youCanSelectMultiple }}
         </p>
 
         <!-- Contenido animado -->
@@ -97,11 +97,11 @@
                 </div>
               </div>
               <h3 class="text-[11px] sm:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
-                Atención al cliente<br />(Inbound)
+                {{ t.customerServiceInbound }}
               </h3>
               <p
                 class="mt-1 sm:mt-1.5 3xl:mt-1.5 text-[9px] sm:text-[10px] 3xl:text-[11px] text-gray-500 dark:text-slate-400 leading-snug">
-                Soporta llamadas entrantes: consultas, incidencias y seguimiento post‑venta.
+                {{ t.customerServiceInboundDesc }}
               </p>
             </div>
 
@@ -144,11 +144,11 @@
                 </div>
               </div>
               <h3 class="text-[11px] sm:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
-                Recuperar carritos<br />abandonados
+                {{ t.cartRecovery }}
               </h3>
               <p
                 class="mt-1 sm:mt-1.5 3xl:mt-1.5 text-[9px] sm:text-[10px] 3xl:text-[11px] text-gray-500 dark:text-slate-400 leading-snug">
-                Llamadas salientes para recuperar ventas y ofrecer ayuda personalizada.
+                {{ t.cartRecoveryDesc }}
               </p>
             </div>
 
@@ -191,11 +191,11 @@
                 </div>
               </div>
               <h3 class="text-[11px] sm:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-50">
-                Ventas salientes<br />(Outbound Sales)
+                {{ t.outboundSales }}
               </h3>
               <p
                 class="mt-1 sm:mt-1.5 3xl:mt-2 text-[9px] sm:text-[10px] 3xl:text-sm text-gray-500 dark:text-slate-400 leading-snug">
-                Agente que realiza llamadas para presentar ofertas, upsells y cerrar pedidos.
+                {{ t.outboundSalesDesc }}
               </p>
             </div>
 
@@ -239,15 +239,15 @@
                 </div>
               </div>
               <h3 class="text-[11px] sm:text-xs 3xl:text-sm font-semibold text-gray-900">
-                Confirmaciones y<br />recordatorios
+                {{ t.confirmationsReminders }}
               </h3>
               <p class="mt-1.5 sm:mt-2 3xl:mt-1.5 text-[9px] sm:text-[10px] 3xl:text-[11px] text-gray-500 leading-snug">
-                Confirmar pedidos, citas, entregas y enviar recordatorios automáticos.
+                {{ t.confirmationsRemindersDesc }}
               </p>
             </div>
           </div>
 
-          <!-- Opción Otro -->
+          <!-- Opción {{ t.otherOption }} -->
           <div
             class="mt-3 3xl:mt-4 rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md cursor-pointer transition-all duration-500 ease-out text-[11px] sm:text-xs 3xl:text-sm font-medium text-gray-900 dark:text-slate-50 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
             [ngClass]="
@@ -261,7 +261,7 @@
                   d="M3.74975 5.78594V0.9375C3.74975 0.68886 3.65098 0.450403 3.47516 0.274587C3.29935 0.0987721 3.06089 0 2.81225 0C2.56361 0 2.32515 0.0987721 2.14934 0.274587C1.97352 0.450403 1.87475 0.68886 1.87475 0.9375V5.78594C1.32647 5.97984 0.851771 6.33895 0.516027 6.81381C0.180283 7.28867 0 7.85594 0 8.4375C0 9.01906 0.180283 9.58633 0.516027 10.0612C0.851771 10.5361 1.32647 10.8952 1.87475 11.0891V14.6875C1.87475 14.9361 1.97352 15.1746 2.14934 15.3504C2.32515 15.5262 2.56361 15.625 2.81225 15.625C3.06089 15.625 3.29935 15.5262 3.47516 15.3504C3.65098 15.1746 3.74975 14.9361 3.74975 14.6875V11.0891C4.29804 10.8952 4.77273 10.5361 5.10848 10.0612C5.44422 9.58633 5.6245 9.01906 5.6245 8.4375C5.6245 7.85594 5.44422 7.28867 5.10848 6.81381C4.77273 6.33895 4.29804 5.97984 3.74975 5.78594ZM2.81225 9.375C2.62683 9.375 2.44558 9.32002 2.2914 9.217C2.13723 9.11399 2.01707 8.96757 1.94611 8.79627C1.87516 8.62496 1.85659 8.43646 1.89277 8.2546C1.92894 8.07275 2.01823 7.9057 2.14934 7.77459C2.28045 7.64348 2.4475 7.55419 2.62935 7.51801C2.81121 7.48184 2.99971 7.50041 3.17102 7.57136C3.34232 7.64232 3.48874 7.76248 3.59175 7.91665C3.69477 8.07082 3.74975 8.25208 3.74975 8.4375C3.74975 8.68614 3.65098 8.9246 3.47516 9.10041C3.29935 9.27623 3.06089 9.375 2.81225 9.375ZM11.2498 4.6875C11.2489 4.10609 11.0683 3.53917 10.7326 3.06446C10.3969 2.58975 9.92264 2.23049 9.37475 2.03594V0.9375C9.37475 0.68886 9.27598 0.450403 9.10016 0.274587C8.92435 0.0987721 8.68589 0 8.43725 0C8.18861 0 7.95015 0.0987721 7.77434 0.274587C7.59852 0.450403 7.49975 0.68886 7.49975 0.9375V2.03594C6.95147 2.22984 6.47677 2.58895 6.14103 3.06381C5.80528 3.53867 5.625 4.10594 5.625 4.6875C5.625 5.26906 5.80528 5.83633 6.14103 6.31119C6.47677 6.78605 6.95147 7.14516 7.49975 7.33906V14.6875C7.49975 14.9361 7.59852 15.1746 7.77434 15.3504C7.95015 15.5262 8.18861 15.625 8.43725 15.625C8.68589 15.625 8.92435 15.5262 9.10016 15.3504C9.27598 15.1746 9.37475 14.9361 9.37475 14.6875V7.33906C9.92264 7.14451 10.3969 6.78525 10.7326 6.31054C11.0683 5.83583 11.2489 5.26891 11.2498 4.6875ZM8.43725 5.625C8.25183 5.625 8.07058 5.57002 7.9164 5.467C7.76223 5.36399 7.64207 5.21757 7.57111 5.04627C7.50016 4.87496 7.48159 4.68646 7.51777 4.5046C7.55394 4.32275 7.64323 4.1557 7.77434 4.02459C7.90545 3.89348 8.0725 3.80419 8.25435 3.76801C8.43621 3.73184 8.62471 3.75041 8.79602 3.82136C8.96732 3.89232 9.11374 4.01248 9.21675 4.16665C9.31977 4.32082 9.37475 4.50208 9.37475 4.6875C9.37475 4.93614 9.27598 5.1746 9.10016 5.35041C8.92435 5.52623 8.68589 5.625 8.43725 5.625ZM16.8748 10.9375C16.8739 10.3561 16.6933 9.78917 16.3576 9.31446C16.0219 8.83975 15.5476 8.48049 14.9998 8.28594V0.9375C14.9998 0.68886 14.901 0.450403 14.7252 0.274587C14.5493 0.0987721 14.3109 0 14.0623 0C13.8136 0 13.5752 0.0987721 13.3993 0.274587C13.2235 0.450403 13.1248 0.68886 13.1248 0.9375V8.28594C12.5765 8.47984 12.1018 8.83895 11.766 9.31381C11.4303 9.78867 11.25 10.3559 11.25 10.9375C11.25 11.5191 11.4303 12.0863 11.766 12.5612C12.1018 13.0361 12.5765 13.3952 13.1248 13.5891V14.6875C13.1248 14.9361 13.2235 15.1746 13.3993 15.3504C13.5752 15.5262 13.8136 15.625 14.0623 15.625C14.3109 15.625 14.5493 15.5262 14.7252 15.3504C14.901 15.1746 14.9998 14.9361 14.9998 14.6875V13.5891C15.5476 13.3945 16.0219 13.0352 16.3576 12.5605C16.6933 12.0858 16.8739 11.5189 16.8748 10.9375ZM14.0623 11.875C13.8768 11.875 13.6956 11.82 13.5414 11.717C13.3872 11.614 13.2671 11.4676 13.1961 11.2963C13.1252 11.125 13.1066 10.9365 13.1428 10.7546C13.1789 10.5727 13.2682 10.4057 13.3993 10.2746C13.5305 10.1435 13.6975 10.0542 13.8794 10.018C14.0612 9.98184 14.2497 10.0004 14.421 10.0714C14.5923 10.1423 14.7387 10.2625 14.8418 10.4167C14.9448 10.5708 14.9998 10.7521 14.9998 10.9375C14.9998 11.1861 14.901 11.4246 14.7252 11.6004C14.5493 11.7762 14.3109 11.875 14.0623 11.875Z"
                   fill="#94A3B8" />
               </svg>
-              <span>Otro</span>
+              <span>{{ t.otherOption }}</span>
             </div>
           </div>
 
@@ -271,12 +271,12 @@
               class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 3xl:px-3 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
               (click)=" goBack()">
               <span class="text-xs leading-none">‹</span>
-              <span>Atrás</span>
+              <span>{{ t.back }}</span>
             </button>
             <button type="button"
               class="px-2.5 py-0.5 3xl:px-6 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
               (click)=" goToStep(2)">
-              Continuar
+              {{ t.continue }}
             </button>
           </div>
         </div>
@@ -301,10 +301,10 @@
       <div
         class="w-full max-w-[300px] sm:max-w-[360px] md:max-w-[460px] 3xl:max-w-[560px] flex flex-col px-3 sm:px-4 md:px-5 3xl:px-6">
         <h1 class="text-sm 3xl:text-xl font-bold text-[#0F172A] dark:text-white leading-tight">
-          ¿Cómo nos conociste?
+          {{ t.howDidYouFindUs }}
         </h1>
         <p class="mt-1 3xl:mt-2 text-[11px] sm:text-xs 3xl:text-sm text-[#6d747c] font-semibold">
-          Puedes seleccionar varias opciones para esta pregunta.
+          {{ t.youCanSelectMultiple }}
         </p>
 
         <!-- Contenido -->
@@ -330,7 +330,7 @@
                       stroke="#1E3A8A" stroke-width="1.33" stroke-linejoin="round" />
                   </svg>
                   <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
-                    Redes sociales (Instagram / TikTok / Twitter / LinkedIn)
+                    {{ t.socialNetworks }}
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('social')" class="ml-2 3xl:ml-3">
@@ -365,7 +365,7 @@
                       stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                   <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
-                    YouTube
+                    {{ t.youtube }}
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('youtube')" class="ml-2 3xl:ml-3">
@@ -397,7 +397,7 @@
                       stroke="#1E3A8A" stroke-width="1.33" stroke-linejoin="round" />
                   </svg>
                   <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
-                    Google / Buscando alternativas
+                    {{ t.googleSearch }}
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('google')" class="ml-2 3xl:ml-3">
@@ -429,7 +429,7 @@
                       stroke="#1E3A8A" stroke-width="1.33" stroke-linejoin="round" />
                   </svg>
                   <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900">
-                    Comunidades / Grupos (Slack, Discord, Telegram)
+                    {{ t.communities }}
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('communities')" class="ml-2 3xl:ml-3">
@@ -491,7 +491,7 @@
                       fill="#1E3A8A" />
                   </svg>
                   <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900">
-                    Evento o webinar
+                    {{ t.eventWebinar }}
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('events')" class="ml-2 3xl:ml-3">
@@ -526,7 +526,7 @@
                       stroke="#1E3A8A" stroke-width="0.5" />
                   </svg>
                   <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900">
-                    Recomendación de un amigo o colega
+                    {{ t.friendRecommendation }}
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('friend')" class="ml-2 3xl:ml-3">
@@ -550,7 +550,7 @@
             " (click)=" toggleDiscoveryChannel('other-source')">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
-                  <!-- Icono Otro -->
+                  <!-- Icono {{ t.otherOption }} -->
                   <svg class="onboarding-discovery-icon 3xl:w-5 3xl:h-5" width="16" height="16" viewBox="0 0 20 20"
                     fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -558,7 +558,7 @@
                       fill="#1E3A8A" />
                   </svg>
                   <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900">
-                    Otro
+                    {{ t.otherOption }}
                   </span>
                 </div>
                 <div *ngIf="selectedDiscoveryChannels.includes('other-source')" class="ml-2 3xl:ml-3">
@@ -579,12 +579,12 @@
               class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 3xl:px-3 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
               (click)=" goBack()">
               <span class="text-xs leading-none">‹</span>
-              <span>Atrás</span>
+              <span>{{ t.back }}</span>
             </button>
             <button type="button"
               class="px-2.5 py-0.5 3xl:px-6 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
               (click)=" startAgentIntroAnimation()">
-              Continuar
+              {{ t.continue }}
             </button>
           </div>
         </div>
@@ -709,20 +709,20 @@
         <!-- Título más grande -->
         <h1
           class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.08em] drop-shadow-sm ll-hero-fade-up ll-hero-delay-2">
-          Bienvenido a Llamalo AI
+          {{ t.welcomeToLlamalo }}
         </h1>
 
         <!-- Subtítulo más grande -->
         <p
           class="mt-6 text-lg sm:text-2xl md:text-3xl text-sky-50/95 max-w-3xl mx-auto ll-hero-fade-up ll-hero-delay-3">
-          Deja que la IA hable por ti.
+          {{ t.letAiSpeakForYou }}
         </p>
 
         <!-- Botón principal más grande -->
         <button type="button"
           class="mt-10 sm:mt-12 inline-flex items-center justify-center px-16 sm:px-20 md:px-24 py-4 sm:py-4.5 rounded-full bg-[#1E3A8A] hover:bg-[#1E40AF] text-lg sm:text-xl md:text-2xl font-semibold shadow-[0_20px_50px_rgba(37,99,235,0.65)] transition-transform duration-300 ease-out hover:-translate-y-0.5 ll-hero-fade-up ll-hero-delay-4"
           (click)=" completeSetup()">
-          Empezar
+          {{ t.startButton }}
         </button>
       </div>
     </div>

@@ -3,50 +3,51 @@
     <div class="text-center max-w-3xl 3xl:max-w-6xl mx-auto mb-8 3xl:mb-20 px-4 animate-slide-down">
         <h1
             class="text-2xl md:text-4xl 3xl:text-6xl font-extrabold text-gray-900 dark:text-white mb-3 3xl:mb-8 tracking-tight animate-gradient-text">
-            Precios que crecen contigo
+            {{ t.upgradeTitle }}
         </h1>
         <p
             class="text-sm 3xl:text-2xl text-gray-500 dark:text-slate-400 max-w-xl 3xl:max-w-4xl mx-auto leading-relaxed animate-fade-in-delay">
-            Escucha lo que dicen nuestros clientes sobre cómo LlamaloIA ha transformado su comunicación.
+            {{ t.upgradeSubtitle }}
         </p>
     </div>
 
     <!-- Pricing Cards -->
     <div
         class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl 3xl:max-w-[1400px] mx-auto mb-10 3xl:mb-14 px-4">
-        @for (plan of pricingPlans; track plan.name; let i = $index) {
-        <div [class]="'flex flex-col h-full rounded-[2rem] p-1.5 3xl:p-3 border shadow-xl transition-all duration-500 hover:scale-[1.02] animate-fade-in-stagger animate-card-hover ' + 
-            (plan.name === 'Pro' 
+        @for (plan of pricingPlans; track plan.id; let i = $index) {
+        <div [style.animation-delay]="(i * 180) + 'ms'"
+            [class]="'plan-card-fade-in flex flex-col h-full rounded-[2rem] p-1.5 3xl:p-3 border shadow-xl transition-all duration-500 hover:scale-[1.02] animate-card-hover ' + 
+            (plan.id === 'pro' 
                 ? 'bg-[#151515] dark:bg-white border-transparent dark:border-gray-200 plan-pro-glow' 
                 : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')">
 
             <!-- Top Section Container -->
             <div [class]="'rounded-[1.5rem] 3xl:rounded-[2rem] p-6 sm:p-8 3xl:p-10 flex flex-col h-fit transition-colors ' + 
-                (plan.name === 'Pro' 
+                (plan.id === 'pro' 
                     ? 'bg-[#222222] dark:bg-[#dddddd]' 
                     : 'bg-gray-50 dark:bg-[#222222]')">
                 <div class="mb-6 3xl:mb-8">
                     <h3
-                        [class]="'text-xl 3xl:text-3xl font-bold mb-2 3xl:mb-3 ' + (plan.name === 'Pro' ? 'text-white dark:text-[#000001]' : 'text-black dark:text-white')">
+                        [class]="'text-xl 3xl:text-3xl font-bold mb-2 3xl:mb-3 ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001]' : 'text-black dark:text-white')">
                         {{ plan.name }}
                     </h3>
                     <p
-                        [class]="'text-xs 3xl:text-base leading-relaxed font-medium ' + (plan.name === 'Pro' ? 'text-gray-400 dark:text-[#000001]/70' : 'text-gray-500 dark:text-gray-400')">
+                        [class]="'text-xs 3xl:text-base leading-relaxed font-medium ' + (plan.id === 'pro' ? 'text-gray-400 dark:text-[#000001]/70' : 'text-gray-500 dark:text-gray-400')">
                         {{ plan.description }}
                     </p>
                 </div>
 
                 <div class="flex items-baseline gap-1.5 3xl:gap-2 mb-8 3xl:mb-10">
                     <span
-                        [class]="'text-4xl 3xl:text-6xl font-extrabold tracking-tight ' + (plan.name === 'Pro' ? 'text-white dark:text-[#000001]' : 'text-black dark:text-white')">${{
+                        [class]="'text-4xl 3xl:text-6xl font-extrabold tracking-tight ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001]' : 'text-black dark:text-white')">${{
                         plan.price }}</span>
                     <span
-                        [class]="'text-xs 3xl:text-lg font-medium ' + (plan.name === 'Pro' ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">/
-                        Mes</span>
+                        [class]="'text-xs 3xl:text-lg font-medium ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">/
+                        {{ t.perMonth }}</span>
                 </div>
 
                 <button [class]="'w-full py-3 3xl:py-5 px-5 3xl:px-6 rounded-full font-bold text-sm 3xl:text-lg transition-all duration-300 flex items-center justify-center group shadow-md 3xl:shadow-lg ' + 
-                    (plan.name === 'Pro' 
+                    (plan.id === 'pro' 
                         ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90' 
                         : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
                     <span>{{ plan.buttonText }}</span>
@@ -61,23 +62,22 @@
             <!-- Bottom Section (Features List) -->
             <div class="p-6 sm:p-8 3xl:p-10 flex-1 flex flex-col">
                 <h4
-                    [class]="'text-[9px] 3xl:text-xs font-bold uppercase tracking-[0.15em] mb-4 3xl:mb-6 ' + (plan.name === 'Pro' ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">
-                    {{ plan.name === 'Gratis' ? "LO QUE INCLUYE:" : (plan.name === 'Pro' ? "TODO EN GRATIS, MÁS:" :
-                    "TODO EN PRO, MÁS:") }}
+                    [class]="'text-[9px] 3xl:text-xs font-bold uppercase tracking-[0.15em] mb-4 3xl:mb-6 ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">
+                    {{ plan.id === 'free' ? t.whatIncluded : (plan.id === 'pro' ? t.everythingInFreePlus : t.everythingInProPlus) }}
                 </h4>
 
                 <ul class="space-y-3 3xl:space-y-5">
                     @for (feature of plan.features; track feature.text) {
                     <li class="flex items-start gap-4 group">
                         <span
-                            [class]="'mt-0.5 transition-colors flex-shrink-0 ' + (plan.name === 'Pro' ? 'text-white dark:text-[#000001] group-hover:text-blue-500' : 'text-gray-400 dark:text-gray-500 group-hover:text-white')">
+                            [class]="'mt-0.5 transition-colors flex-shrink-0 ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001] group-hover:text-blue-500' : 'text-gray-400 dark:text-gray-500 group-hover:text-white')">
                             <svg class="w-4 h-4 3xl:w-6 3xl:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="feature.icon"></path>
                             </svg>
                         </span>
                         <span
-                            [class]="'text-xs 3xl:text-base font-medium leading-tight ' + (plan.name === 'Pro' ? 'text-gray-300 dark:text-[#000001]/70' : 'text-gray-700 dark:text-gray-300')">
+                            [class]="'text-xs 3xl:text-base font-medium leading-tight ' + (plan.id === 'pro' ? 'text-gray-300 dark:text-[#000001]/70' : 'text-gray-700 dark:text-gray-300')">
                             {{ feature.text }}
                         </span>
                     </li>
@@ -124,19 +124,20 @@
     </div>
 
     <!-- Feature Comparison Table -->
-    <div class="max-w-5xl 3xl:max-w-[1400px] mx-auto mb-12 3xl:mb-16 px-4 text-center animate-slide-up">
+    <div #comparisonSection class="comparison-section max-w-5xl 3xl:max-w-[1400px] mx-auto mb-12 3xl:mb-16 px-4 text-center"
+        [class.comparison-visible]="comparisonVisible">
         <h2
             class="text-xl md:text-3xl 3xl:text-6xl font-extrabold text-gray-900 dark:text-white mb-3 3xl:mb-8 tracking-tight">
-            Comparación de funciones
+            {{ t.comparisonTitle }}
         </h2>
         <p
             class="text-sm 3xl:text-xl text-gray-500 dark:text-slate-400 mb-8 3xl:mb-16 max-w-lg 3xl:max-w-3xl mx-auto leading-relaxed">
-            Llamalo es el socio perfecto para empresas que buscan excelencia en comunicación.
+            {{ t.comparisonSubtitle }}
         </p>
 
         <div class="comparison-mobile md:hidden text-left">
             <div class="grid grid-cols-3 items-center gap-3 pb-4 border-b border-gray-100 dark:border-gray-800">
-                @for (plan of pricingPlans; track plan.name) {
+                @for (plan of pricingPlans; track plan.id) {
                 <div class="text-xs font-bold text-gray-700 dark:text-slate-300 text-center">
                     {{ plan.name }}
                 </div>
@@ -241,7 +242,7 @@
                 <thead>
                     <tr>
                         <th class="py-6 px-4 min-w-[200px]"></th>
-                        @for (plan of pricingPlans; track plan.name) {
+                        @for (plan of pricingPlans; track plan.id) {
                         <th
                             class="py-4 3xl:py-6 px-2 sm:px-3 3xl:px-4 text-left min-w-[140px] 3xl:min-w-[170px] align-top">
                             <div
@@ -252,11 +253,11 @@
                                         plan.price
                                         }}</span>
                                     <span class="text-[9px] lg:text-[10px] 3xl:text-sm opacity-60 font-medium">/
-                                        Mes</span>
+                                        {{ t.perMonth }}</span>
                                 </div>
                                 <button
                                     [class]="'w-full py-2 3xl:py-3 px-3 3xl:px-4 rounded-full text-[11px] 3xl:text-sm font-bold flex items-center justify-center transition-opacity ' + (plan.highlighted ? 'bg-white text-black dark:bg-[#1a1a1a] dark:text-white hover:opacity-90' : 'bg-[#1a1a1a] text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
-                                    Elegir Plan
+                                    {{ t.choosePlan }}
                                     <svg class="w-3.5 h-3.5 ml-1.5" viewBox="0 0 24 24" fill="none"
                                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
                                         stroke-linejoin="round">

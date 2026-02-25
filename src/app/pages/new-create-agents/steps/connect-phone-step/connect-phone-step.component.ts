@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { I18nService } from '../../../../core/services/i18n.service';
 
 @Component({
   selector: 'app-connect-phone-step',
@@ -10,6 +11,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./connect-phone-step.component.scss'],
 })
 export class ConnectPhoneStepComponent {
+  private i18nService = inject(I18nService);
+
   @Input() currentStepNumber = 0;
   @Input() totalSteps = 0;
   @Input() showTwilioConfig = false;
@@ -62,6 +65,10 @@ export class ConnectPhoneStepComponent {
     number: string;
   }>();
   @Output() validatePhoneNumberClicked = new EventEmitter<void>();
+
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   getCurrentStepNumber(): number {
     return this.currentStepNumber;

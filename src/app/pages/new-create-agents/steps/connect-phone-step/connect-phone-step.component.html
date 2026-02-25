@@ -4,7 +4,7 @@
     class="w-full max-w-[500px] sm:max-w-[600px] md:max-w-[720px] xl:max-w-[700px] 3xl:max-w-[800px] flex flex-col px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8">
     <div class="flex items-center justify-between w-full">
       <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
-        Conecta tu número de teléfono
+        {{ t.connectPhoneTitle }}
       </h1>
       <span class="text-xs xl:text-[10px] 3xl:text-sm font-normal text-[#0F172A] dark:text-white leading-tight"
         *ngIf="getCurrentStepNumber() > 0">
@@ -12,7 +12,7 @@
       </span>
     </div>
     <p class="mt-0.5 3xl:mt-0.5 text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] font-semibold">
-      Configura Twilio y tu número para recibir llamadas con tu agente.
+      {{ t.configureTwilioDescription }}
     </p>
 
     <div
@@ -32,18 +32,18 @@
             </p>
             <p class="text-xs sm:text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] dark:text-slate-400">
               @if (isTwilioValidated && selectedTwilioAccount) {
-              Cuenta conectada
+              {{ t.accountConnected }}
               } @else if (isTwilioValidated) {
-              Cuenta validada
+              {{ t.accountValidated }}
               } @else {
-              Conecta tu cuenta de Twilio
+              {{ t.connectTwilioAccount }}
               }
             </p>
           </div>
         </div>
         <button type="button" (click)="toggleTwilioConfigClicked.emit(); $event.stopPropagation()"
           class="px-3 xl:px-2.5 3xl:px-5 py-1.5 xl:py-1 3xl:py-1.5 rounded-lg xl:rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white dark:bg-white dark:text-[#000001] dark:hover:bg-white text-xs xl:text-[10px] 3xl:text-base font-semibold transition-colors shrink-0">
-          {{ showTwilioConfig ? "Cerrar" : "Conectar" }}
+          {{ showTwilioConfig ? t.closeBtn : t.connect }}
         </button>
       </div>
 
@@ -58,18 +58,18 @@
           } @else if (selectedTwilioAccount && isTwilioValidated) {
           <div class="space-y-2 3xl:space-y-3">
             <div class="flex items-center justify-between text-[9px] 3xl:text-sm">
-              <span class="text-gray-500 dark:text-slate-400">Cuenta ID:
+              <span class="text-gray-500 dark:text-slate-400">{{ t.accountIdLabel }}
                 {{ selectedTwilioAccount.twilioAccountId }}</span>
               <button type="button" (click)="backToAccountSelectionClicked.emit()"
                 class="text-[#1E3A8A] dark:text-blue-400 font-medium 3xl:text-base">
-                Cambiar
+                {{ t.changeBtn }}
               </button>
             </div>
             @if (
             availablePhoneNumbers && availablePhoneNumbers.length > 0
             ) {
             <p class="text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-slate-300">
-              Números disponibles
+              {{ t.availableNumbers }}
             </p>
             <div
               class="max-h-20 3xl:max-h-28 overflow-y-auto border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl p-1.5 3xl:p-2.5 space-y-0.5 3xl:space-y-1">
@@ -86,8 +86,7 @@
             }
             <div>
               <label
-                class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-slate-400 mb-0.5 3xl:mb-1">Número
-                de teléfono *</label>
+                class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-slate-400 mb-0.5 3xl:mb-1">{{ t.phoneNumberLabel }}</label>
               <div class="flex gap-0.5 3xl:gap-1">
                 <select [ngModel]="selectedCountryCode" (ngModelChange)="onCountryCodeChange($event)"
                   class="w-14 3xl:w-16 h-7 3xl:h-10 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-l-md 3xl:rounded-l-lg px-1 3xl:px-1.5 text-gray-900 dark:text-white">
@@ -120,7 +119,7 @@
           ) {
           <div class="space-y-1.5 3xl:space-y-2.5">
             <p class="text-[9px] 3xl:text-sm font-semibold text-gray-700 dark:text-slate-300">
-              Cuentas conectadas
+              {{ t.connectedAccounts }}
             </p>
             @for (
             account of twilioAccounts;
@@ -135,7 +134,7 @@
             }
             <button type="button" (click)="showNewTwilioAccountClicked.emit()"
               class="w-full px-2 3xl:px-3 py-1.5 3xl:py-2.5 rounded-lg 3xl:rounded-xl border border-dashed border-gray-300 dark:border-slate-500 text-[10px] 3xl:text-base text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800">
-              + Conectar nueva cuenta
+              {{ t.connectNewAccount }}
             </button>
           </div>
           } @else {

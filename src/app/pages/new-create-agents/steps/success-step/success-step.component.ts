@@ -1,5 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { I18nService } from '../../../../core/services/i18n.service';
 
 @Component({
   selector: 'app-success-step',
@@ -9,6 +10,12 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./success-step.component.scss'],
 })
 export class SuccessStepComponent {
+  private i18nService = inject(I18nService);
+
   @Output() goToAgentsClicked = new EventEmitter<void>();
+
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 }
 

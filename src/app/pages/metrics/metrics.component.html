@@ -590,12 +590,8 @@
             </button>
           </div>
 
-          <!-- {{ t.contentBasedOnPeakHoursData }} -->
-          <div *ngIf="
-              callMetricsByHour &&
-              callMetricsByHour.dailyPeakHours.length > 0 &&
-              selectedPeakDay
-            " class="flex-1 flex flex-col justify-end">
+          <!-- {{ t.contentBasedOnPeakHoursData }} - siempre mostrar barras (0% si no hay datos) -->
+          <div class="flex-1 flex flex-col justify-end">
             <!-- {{ t.barChartWithRealData }} -->
             <div class="relative overflow-visible" (mouseleave)="hideTooltip()" (click)="hideTooltip()">
               <!-- {{ t.hourBars }} -->
@@ -609,11 +605,11 @@
                     class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 z-[100] pointer-events-none whitespace-nowrap">
                     <div
                       class="bg-gray-900 dark:bg-slate-800 text-white text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base px-3 max-lg:px-4 max-lg:sm:px-4.5 max-lg:md:px-5 py-1.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 rounded-lg shadow-xl font-medium">
-                      <div class="text-center">
-                        <div class="font-semibold">
-                          {{ hourData.calls }} llamadas
-                        </div>
-                        <div
+                        <div class="text-center">
+                          <div class="font-semibold">
+                            {{ hourData.calls }} {{ t.callsText }}
+                          </div>
+                          <div
                           class="text-[10px] max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-300 dark:text-slate-400 mt-0.5">
                           {{ hourData.label }}
                         </div>
@@ -627,7 +623,7 @@
 
                   <div
                     class="w-[90%] max-lg:w-[90%] rounded-lg max-lg:rounded max-lg:sm:rounded-md max-lg:md:rounded-lg transition-all duration-300 cursor-pointer relative bg-[#1b2559] dark:!bg-[rgb(38,38,38)]"
-                    [style.height.%]="hourData.percentage" [style.min-height.px]="hourData.calls > 0 ? 6 : 6"></div>
+                    [style.height.%]="hourData.percentage || 0" [style.min-height.px]="6"></div>
                 </div>
               </div>
 

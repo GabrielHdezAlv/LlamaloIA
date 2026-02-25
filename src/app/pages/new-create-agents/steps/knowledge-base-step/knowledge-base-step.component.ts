@@ -125,7 +125,7 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
     const validSource: KnowledgeSource = {
       id: source.id,
       userId: source.userId || '',
-      name: source.name || 'Sin nombre',
+      name: source.name || this.t.noName,
       type: source.type || 'unknown',
       status: source.status || 'processing',
       createdAt: source.createdAt ? new Date(source.createdAt) : new Date(),
@@ -165,8 +165,7 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.error('Error loading knowledge sources:', error);
-        this.error =
-          'No se pudieron cargar los documentos. Por favor, intenta de nuevo.';
+        this.error = this.t.knowledgeBaseLoadError;
         this.isLoading = false;
         this.knowledgeSources = [];
         this.cdr.detectChanges();
@@ -204,7 +203,7 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
     if (files.length > 0) {
       const file = files[0];
       if (file.size > 10 * 1024 * 1024) {
-        this.error = 'El PDF no puede exceder los 10MB';
+        this.error = this.t.pdfMaxError;
         return;
       }
       this.uploadPdfFiles(Array.from(files));

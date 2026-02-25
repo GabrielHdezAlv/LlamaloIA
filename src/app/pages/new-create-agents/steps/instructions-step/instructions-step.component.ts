@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { I18nService } from '../../../../core/services/i18n.service';
 
 @Component({
   selector: 'app-instructions-step',
@@ -10,6 +11,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./instructions-step.component.scss'],
 })
 export class InstructionsStepComponent {
+  private i18nService = inject(I18nService);
+
   @Input() greeting = '';
   @Input() instructions = '';
   @Input() showMakeConfig = false;
@@ -45,6 +48,10 @@ export class InstructionsStepComponent {
 
   getTotalSteps(): number {
     return this.totalSteps;
+  }
+
+  get t() {
+    return this.i18nService.getTranslations();
   }
 
   onGreetingInput(value: string) {

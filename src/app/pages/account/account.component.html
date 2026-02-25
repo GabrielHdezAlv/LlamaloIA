@@ -8,7 +8,7 @@
       <div class="flex items-center gap-2 mb-3 mt-2 ml-2">
         <img [src]="getUserProfileImage()"
           class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border md:border-[2px] dark:border-2 dark:md:border-[3px] border-blue-900/20 history-border cursor-pointer"
-          alt="Perfil" />
+          [attr.alt]="t.profile" />
         <div>
           <h3
             class="font-semibold text-gray-900 text-sm lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base">
@@ -176,7 +176,7 @@
         <div class="flex items-start gap-3 mb-2.5 3xl:mb-3">
           <img [src]="getUserProfileImage()"
             class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border md:border-[2px] dark:border-2 dark:md:border-[3px] border-blue-900/10 history-border cursor-pointer"
-            alt="Perfil" (click)="onAvatarClick()" />
+            [attr.alt]="t.profile" (click)="onAvatarClick()" />
           <div class="flex flex-col mt-2.5">
             <span
               class="text-[10px] sm:text-[11px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500">{{
@@ -274,7 +274,7 @@
                   (checkedChange)="tempMarketingConsent = $event"></app-animated-checkbox>
                 <label class="ml-2 text-xs 2xl:text-sm text-gray-600 cursor-pointer leading-tight"
                   (click)="tempMarketingConsent = !tempMarketingConsent">
-                  Acepto recibir comunicaciones de marketing y promociones
+                  {{ t.acceptMarketing }}
                 </label>
               </div>
             </div>
@@ -377,7 +377,7 @@
                 <p
                   class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-yellow-700 dark:text-yellow-300 mb-2 3xl:mb-2.5 max-lg:mb-1.5 max-lg:sm:mb-2">
                   {{ daysRemaining() }} {{ t.daysRemaining }} hasta la
-                  eliminación permanente de tu cuenta.
+                  {{ t.accountDeletionUntilPermanent }}
                 </p>
                 <p
                   class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-yellow-600 dark:text-yellow-400">
@@ -402,7 +402,7 @@
                 daysRemaining() !== null &&
                 daysRemaining()! > 0
                 ) {
-                Tu cuenta está programada para eliminación. Tienes
+                {{ t.accountScheduledDeletionYouHave }}
                 {{ daysRemaining() }} {{ t.daysRemaining }}.
                 } @else {
                 {{ t.deleteAccountDescription }}
@@ -546,7 +546,7 @@
     <!-- Botón de cerrar -->
     <button (click)="closeAvatarModal()"
       class="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors"
-      aria-label="Cerrar modal">
+      [attr.aria-label]="t.closeBtn">
       <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" />
@@ -555,7 +555,7 @@
 
     <!-- Título -->
     <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 pr-8">
-      Selecciona un avatar
+      {{ t.selectAvatar }}
     </h2>
 
     <!-- Grid de avatares predeterminados -->
@@ -577,7 +577,7 @@
         <path d="M2 17L2 19C2 20.1046 2.89543 21 4 21L20 21C21.1046 21 22 20.1046 22 19L22 17" stroke="currentColor"
           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
-      <span>Subir mi propia foto</span>
+      <span>{{ t.uploadMyPhoto }}</span>
     </button>
   </div>
 </div>

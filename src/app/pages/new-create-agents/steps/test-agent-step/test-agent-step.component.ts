@@ -17,6 +17,7 @@ import {
   VoiceTestConfig,
   TranscriptMessage,
 } from '../../../../core/services/voice-test.service';
+import { I18nService } from '../../../../core/services/i18n.service';
 
 @Component({
   selector: 'app-test-agent-step',
@@ -26,6 +27,8 @@ import {
   styleUrls: ['./test-agent-step.component.scss'],
 })
 export class TestAgentStepComponent implements OnInit, OnDestroy {
+  private i18nService = inject(I18nService);
+
   @Input() currentStepNumber = 0;
   @Input() totalSteps = 0;
   @Input() isMicrophoneActive = false;
@@ -106,29 +109,33 @@ export class TestAgentStepComponent implements OnInit, OnDestroy {
     return `${m}:${s.toString().padStart(2, '0')}`;
   }
 
+  get t() {
+    return this.i18nService.getTranslations();
+  }
+
   getAgentStateText(): string {
     switch (this.voiceTest.agentState()) {
       case 'thinking':
-        return 'Pensando...';
+        return this.t.agentStateThinking;
       case 'speaking':
-        return 'Hablando...';
+        return this.t.agentStateSpeaking;
       case 'done':
-        return 'Listo';
+        return this.t.agentStateDone;
       default:
-        return 'Esperando...';
+        return this.t.agentStateWaiting;
     }
   }
 
   getConnectionStateText(): string {
     switch (this.voiceTest.connectionState()) {
       case 'connecting':
-        return 'Conectando...';
+        return this.t.connectionConnecting;
       case 'connected':
-        return 'Conectado';
+        return this.t.connected;
       case 'error':
-        return 'Error';
+        return this.t.statusError;
       case 'ended':
-        return 'Finalizado';
+        return this.t.connectionEnded;
       default:
         return '';
     }

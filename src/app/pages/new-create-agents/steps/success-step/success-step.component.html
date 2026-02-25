@@ -12,17 +12,16 @@
     </div>
 
     <h1 class="text-lg sm:text-xl 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight mb-2 3xl:mb-3">
-      ¡Agente creado correctamente!
+      {{ t.agentCreatedSuccessfully }}
     </h1>
     <p class="text-xs sm:text-sm 3xl:text-base text-[#6d747c] dark:text-slate-400 font-medium mb-6 3xl:mb-8">
-      Tu agente está listo para recibir llamadas. Ya puedes volver atrás y
-      gestionarlo desde la página de agentes.
+      {{ t.agentReadyDescription }}
     </p>
 
     <button type="button"
       class="w-full px-4 3xl:px-6 py-2.5 3xl:py-3 text-sm 3xl:text-base font-semibold rounded-lg 3xl:rounded-xl bg-[#1E3A8A] hover:bg-[#1E40AF] text-white transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
       (click)="goToAgentsClicked.emit()">
-      Volver a Agentes
+      {{ t.backToAgents }}
     </button>
   </div>
 </div>

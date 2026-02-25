@@ -54,6 +54,9 @@ export interface Translations {
   phoneNumberPlaceholder: string;
   twilioSidPlaceholder: string;
   twilioTokenPlaceholder: string;
+  noImportedNumbers: string;
+  importFirstNumberNow: string;
+  validating: string;
 
   // Metrics page translations
   callsText: string;
@@ -149,6 +152,22 @@ export interface Translations {
   remainingMinutes: string;
   planPro: string;
 
+  // Topbar / invites
+  noNews: string;
+  inviteTeamTitle: string;
+  inviteTeamDescription: string;
+  inviteEmailPlaceholder: string;
+  sendInvite: string;
+  invitedMembers: string;
+  noInvitesYet: string;
+  copyLink: string;
+  savedDraftLabel: string;
+  agentLabelTopbar: string;
+  noName: string;
+  stepLabel: string;
+  deleteLabel: string;
+  openMenu: string;
+
   // New Agents page
   yourAgents: string;
   createAgent: string;
@@ -181,6 +200,7 @@ export interface Translations {
   resolved: string;
   pending: string;
   selectContactToView: string;
+  back: string;
 
   // Common
   new: string;
@@ -417,6 +437,222 @@ export interface Translations {
   audioError: string;
   couldNotPlayAudio: string;
   audioLoadProblem: string;
+
+  // Knowledge base page
+  loadingKnowledgeSources: string;
+  refreshDocuments: string;
+  typeColumn: string;
+  statusColumn: string;
+  fragmentsAndWords: string;
+  fragments: string;
+  words: string;
+  statusProcessing: string;
+  statusCompleted: string;
+  statusFailed: string;
+  statusError: string;
+  viewPreview: string;
+  uploadLimits: string;
+  pdfMax: string;
+  urlMax: string;
+  textMax: string;
+  addWebSourceTitle: string;
+  addTextTitle: string;
+  manualTextDefault: string;
+  noDocumentsTitle: string;
+  noDocumentsDescription: string;
+  knowledgeBaseLoadError: string;
+  retry: string;
+  deleteDocument: string;
+  dateColumn: string;
+  actionsColumn: string;
+  pdfMaxError: string;
+  urlMaxError: string;
+  textMaxError: string;
+  errorNoFileInfo: string;
+  errorUploadingFile: string;
+  errorCreatingWeb: string;
+  errorServerResponse: string;
+  errorDeletingKnowledge: string;
+  urlTooLong: string;
+  textTooLong: string;
+
+  // Create agent steps
+  completeAgent: string;
+  chooseAgentNameDesc: string;
+  agentNameLabel: string;
+  agentNamePlaceholder: string;
+  callTypeTitle: string;
+  whatCallType: string;
+  notAvailable: string;
+  instructionsStepTitle: string;
+  defineInstructionsForAgent: string;
+  customGreetingLabel: string;
+  greetingPlaceholder: string;
+  generateWithAI: string;
+  generateInstructionsWithAI: string;
+  describeAgentBehavior: string;
+  exampleInstructionsPlaceholder: string;
+  generating: string;
+  generateBtn: string;
+  viewFullTextTitle: string;
+  externalActionsMake: string;
+  connectShopifyTitle: string;
+  linkStoreDescription: string;
+  shopifyConnectDesc: string;
+  connected: string;
+  connect: string;
+  connectPhoneTitle: string;
+  configureTwilioDescription: string;
+  accountConnected: string;
+  connectedAccounts: string;
+  accountValidated: string;
+  connectTwilioAccount: string;
+  closeBtn: string;
+  accountIdLabel: string;
+  changeBtn: string;
+  availableNumbers: string;
+  connectNewAccount: string;
+  testAgentTitle: string;
+  talkToAgentDescription: string;
+  remainingTime: string;
+  backToAgents: string;
+  agentReadyDescription: string;
+  languageAndVoice: string;
+  chooseCountryAndVoice: string;
+  countryLabel: string;
+
+  // Test agent step states
+  agentStateThinking: string;
+  agentStateSpeaking: string;
+  agentStateDone: string;
+  agentStateWaiting: string;
+  connectionConnecting: string;
+  connectionEnded: string;
+  speakToStart: string;
+  connectingToAgent: string;
+  testCall: string;
+  mutedLabel: string;
+  microphoneLabel: string;
+  endCallLabel: string;
+  tryAgainLabel: string;
+
+  // Account page extra
+  acceptMarketing: string;
+  accountDeletionUntilPermanent: string;
+  accountScheduledDeletionYouHave: string;
+  selectAvatar: string;
+  uploadMyPhoto: string;
+
+  // Upgrade plan page
+  upgradeTitle: string;
+  upgradeSubtitle: string;
+  perMonth: string;
+  whatIncluded: string;
+  everythingInFreePlus: string;
+  everythingInProPlus: string;
+  comparisonTitle: string;
+  comparisonSubtitle: string;
+  choosePlan: string;
+  upgradePlanFree: string;
+  upgradePlanPro: string;
+  upgradePlanPremium: string;
+  upgradePlanFreeDesc: string;
+  upgradePlanProDesc: string;
+  upgradePlanPremiumDesc: string;
+  upgradePlanFreeButton: string;
+  upgradePlanProButton: string;
+  upgradePlanPremiumButton: string;
+  upgradeFeatureFree1: string;
+  upgradeFeatureFree2: string;
+  upgradeFeatureFree3: string;
+  upgradeFeatureFree4: string;
+  upgradeFeatureFree5: string;
+  upgradeFeaturePro1: string;
+  upgradeFeaturePro2: string;
+  upgradeFeaturePro3: string;
+  upgradeFeaturePro4: string;
+  upgradeFeaturePro5: string;
+  upgradeFeaturePremium1: string;
+  upgradeFeaturePremium2: string;
+  upgradeFeaturePremium3: string;
+  upgradeFeaturePremium4: string;
+  upgradeFeaturePremium5: string;
+  upgradeComp1: string;
+  upgradeComp2: string;
+  upgradeComp3: string;
+  upgradeComp4: string;
+  upgradeComp5: string;
+  upgradeComp6: string;
+  upgradeComp7: string;
+  upgradeComp8: string;
+  upgradeComp9: string;
+  upgradeComp10: string;
+
+  // Company setup / onboarding
+  skipLabel: string;
+  createFirstAgent: string;
+  whatDoYouWantToAchieve: string;
+  youCanSelectMultiple: string;
+  customerServiceInbound: string;
+  customerServiceInboundDesc: string;
+  cartRecovery: string;
+  cartRecoveryDesc: string;
+  outboundSales: string;
+  outboundSalesDesc: string;
+  confirmationsReminders: string;
+  confirmationsRemindersDesc: string;
+  otherOption: string;
+  howDidYouFindUs: string;
+  socialNetworks: string;
+  youtube: string;
+  googleSearch: string;
+  communities: string;
+  eventWebinar: string;
+  friendRecommendation: string;
+  welcomeToLlamalo: string;
+  letAiSpeakForYou: string;
+  startButton: string;
+
+  // Auth (login / register)
+  authWelcomeBack: string;
+  authLoginTitle: string;
+  authLoginSubtitle: string;
+  authLoginButton: string;
+  authFullName: string;
+  authEmail: string;
+  authPassword: string;
+  authCountry: string;
+  authSelectCountry: string;
+  authMarketingConsentLlamalo: string;
+  authRememberMe: string;
+  authOrContinueWith: string;
+  authTermsPrefix: string;
+  authTermsConditions: string;
+  authTermsAnd: string;
+  authTermsPrivacy: string;
+  authTermsSuffix: string;
+  authPlaceholderName: string;
+  authPlaceholderEmail: string;
+  authCountryES: string;
+  authCountryFR: string;
+  authCountryIT: string;
+  authCountryPT: string;
+  authCountryDE: string;
+  authCountryGB: string;
+  authCountryUS: string;
+  authCountryMX: string;
+  authCountryAR: string;
+  authCountryCO: string;
+  authErrorEmailPassword: string;
+  authErrorLogin: string;
+  authSuccessLogin: string;
+  authErrorGetProfile: string;
+  authErrorFillAll: string;
+  authErrorMarketingConsent: string;
+  authSuccessVerifyEmail: string;
+  authErrorRegister: string;
+  authErrorRecoverEmail: string;
+  authSuccessRecover: string;
 }
 
 @Injectable({
@@ -478,6 +714,9 @@ export class I18nService {
       phoneNumberPlaceholder: '630 00 00 00',
       twilioSidPlaceholder: 'SID de cuenta Twilio',
       twilioTokenPlaceholder: 'Token de cuenta Twilio',
+      noImportedNumbers: 'Aún no tiene números de teléfono importados',
+      importFirstNumberNow: '¡Importa tu primer número ahora!',
+      validating: 'Validando...',
 
       // Metrics page translations
       callsText: 'llamadas',
@@ -574,6 +813,23 @@ export class I18nService {
       remainingMinutes: 'Minutos restantes',
       planPro: 'Plan Pro',
 
+      // Topbar / invites
+      noNews: 'No hay noticias',
+      inviteTeamTitle: 'Invita a tu equipo y trabaja con ellos',
+      inviteTeamDescription:
+        'Comparte tu enlace con tu equipo y colaboradores. Cuando empiecen a usar Llamalo, recibirás minutos extra en tu cuenta.',
+      inviteEmailPlaceholder: 'Email o usuario',
+      sendInvite: 'Enviar invitación',
+      invitedMembers: 'Miembros invitados',
+      noInvitesYet: 'Todavía no hay invitaciones. Empieza enviando tu primera invitación.',
+      copyLink: 'Copiar enlace',
+      savedDraftLabel: 'Borrador guardado',
+      agentLabelTopbar: 'Agente',
+      noName: 'Sin nombre',
+      stepLabel: 'Paso',
+      deleteLabel: 'Eliminar',
+      openMenu: 'Abrir menú',
+
       // New Agents page
       yourAgents: 'Tus Agentes',
       createAgent: 'Crear Agente',
@@ -606,6 +862,7 @@ export class I18nService {
       resolved: 'Resuelto',
       pending: 'Pendiente',
       selectContactToView: 'Selecciona una conversación de tu historial.',
+      back: 'Volver',
 
       // Common
       new: 'Nuevo',
@@ -838,7 +1095,222 @@ export class I18nService {
       durationBetween60And3600: 'La duración debe estar entre 60 y 3600 segundos',
       audioError: 'Error de audio',
       couldNotPlayAudio: 'No se pudo reproducir el audio',
-      audioLoadProblem: 'Problema al cargar el audio'
+      audioLoadProblem: 'Problema al cargar el audio',
+
+      // Knowledge base page
+      loadingKnowledgeSources: 'Cargando fuentes de conocimiento...',
+      refreshDocuments: 'Actualizar documentos',
+      typeColumn: 'Tipo',
+      statusColumn: 'Estado',
+      fragmentsAndWords: 'Fragmentos y palabras',
+      fragments: 'fragmentos',
+      words: 'palabras',
+      statusProcessing: 'Procesando',
+      statusCompleted: 'Completado',
+      statusFailed: 'Fallido',
+      statusError: 'Error',
+      viewPreview: 'Ver vista previa',
+      uploadLimits: 'Límites de subida',
+      pdfMax: 'PDF: Máximo',
+      urlMax: 'URL: Máximo',
+      textMax: 'Texto: Máximo',
+      addWebSourceTitle: 'Añadir fuente web',
+      addTextTitle: 'Añadir texto manual',
+      manualTextDefault: 'Texto manual',
+      noDocumentsTitle: 'No hay documentos',
+      noDocumentsDescription: 'Comienza agregando tu primer documento para crear la base de conocimientos de tu agente.',
+      knowledgeBaseLoadError: 'No se pudieron cargar los documentos. Por favor, intenta de nuevo.',
+      retry: 'Reintentar',
+      deleteDocument: 'Eliminar documento',
+      dateColumn: 'Fecha',
+      actionsColumn: 'Acciones',
+      pdfMaxError: 'El PDF no puede exceder los 10MB',
+      urlMaxError: 'La URL no puede exceder los 2048 caracteres',
+      textMaxError: 'El texto no puede exceder los 50,000 caracteres',
+      errorNoFileInfo: 'Error: No se recibió información del archivo subido',
+      errorUploadingFile: 'Error al subir el archivo',
+      errorCreatingWeb: 'Error al crear la fuente web',
+      errorServerResponse: 'Error en la respuesta del servidor',
+      errorDeletingKnowledge: 'Error al eliminar la fuente de conocimiento',
+      urlTooLong: 'La URL no puede exceder los 2048 caracteres',
+      textTooLong: 'El texto no puede exceder los 50,000 caracteres',
+
+      // Create agent steps
+      completeAgent: 'Completa tu agente',
+      chooseAgentNameDesc: 'Elige un nombre que refleje el propósito de tu agente',
+      agentNameLabel: 'Nombre del Agente *',
+      agentNamePlaceholder: 'Introduce el nombre del agente...',
+      callTypeTitle: 'Tipo de llamada',
+      whatCallType: '¿Qué tipo de llamadas atenderá tu agente?',
+      notAvailable: 'No disponible',
+      instructionsStepTitle: 'Instrucciones',
+      defineInstructionsForAgent: 'Define las instrucciones que seguirá tu agente de IA.',
+      customGreetingLabel: 'Saludo personalizado',
+      greetingPlaceholder: 'Hola, gracias por llamar a...',
+      generateWithAI: 'Generar con IA',
+      generateInstructionsWithAI: 'Generar instrucciones con IA',
+      describeAgentBehavior: 'Describe brevemente cómo debe comportarse el agente.',
+      exampleInstructionsPlaceholder: 'Ej: Agente amable que atiende reservas y dudas de un restaurante...',
+      generating: 'Generando...',
+      generateBtn: 'Generar',
+      viewFullTextTitle: 'Ver texto completo ampliado',
+      externalActionsMake: 'Acciones externas (Make)',
+      connectShopifyTitle: 'Conecta tu negocio de Shopify',
+      linkStoreDescription: 'Vincula tu tienda para que tu agente pueda usar tus datos reales.',
+      shopifyConnectDesc: 'Conecta tu tienda para sincronizar productos, pedidos y clientes.',
+      connected: 'Conectado',
+      connect: 'Conectar',
+      connectPhoneTitle: 'Conecta tu número de teléfono',
+      configureTwilioDescription: 'Configura Twilio y tu número para recibir llamadas con tu agente.',
+      accountConnected: 'Cuenta conectada',
+      connectedAccounts: 'Cuentas conectadas',
+      accountValidated: 'Cuenta validada',
+      connectTwilioAccount: 'Conecta tu cuenta de Twilio',
+      closeBtn: 'Cerrar',
+      accountIdLabel: 'Cuenta ID:',
+      changeBtn: 'Cambiar',
+      availableNumbers: 'Números disponibles',
+      connectNewAccount: '+ Conectar nueva cuenta',
+      testAgentTitle: 'Prueba de agente',
+      talkToAgentDescription: 'Habla con tu agente para verificar su voz, idioma e instrucciones antes de crear.',
+      remainingTime: 'restantes',
+      backToAgents: 'Volver a Agentes',
+      agentReadyDescription: 'Tu agente está listo para recibir llamadas. Ya puedes volver atrás y gestionarlo desde la página de agentes.',
+      languageAndVoice: 'Lenguaje y voz',
+      chooseCountryAndVoice: 'Elige el país y la voz de tu agente',
+      countryLabel: 'País',
+
+      agentStateThinking: 'Pensando...',
+      agentStateSpeaking: 'Hablando...',
+      agentStateDone: 'Listo',
+      agentStateWaiting: 'Esperando...',
+      connectionConnecting: 'Conectando...',
+      connectionEnded: 'Finalizado',
+      speakToStart: 'Habla para comenzar la conversación',
+      connectingToAgent: 'Conectando con el agente...',
+      testCall: 'Probar llamada',
+      mutedLabel: 'Silenciado',
+      microphoneLabel: 'Micrófono',
+      endCallLabel: 'Terminar',
+      tryAgainLabel: 'Probar de nuevo',
+
+      // Account page extra
+      acceptMarketing: 'Acepto recibir comunicaciones de marketing y promociones',
+      accountDeletionUntilPermanent: 'hasta la eliminación permanente de tu cuenta.',
+      accountScheduledDeletionYouHave: 'Tu cuenta está programada para eliminación. Tienes',
+      selectAvatar: 'Selecciona un avatar',
+      uploadMyPhoto: 'Subir mi propia foto',
+
+      // Upgrade plan page
+      upgradeTitle: 'Precios que crecen contigo',
+      upgradeSubtitle: 'Escucha lo que dicen nuestros clientes sobre cómo LlamaloIA ha transformado su comunicación.',
+      perMonth: 'Mes',
+      whatIncluded: 'LO QUE INCLUYE:',
+      everythingInFreePlus: 'TODO EN GRATIS, MÁS:',
+      everythingInProPlus: 'TODO EN PRO, MÁS:',
+      comparisonTitle: 'Comparación de funciones',
+      comparisonSubtitle: 'Llamalo es el socio perfecto para tu negocio.',
+      choosePlan: 'Elegir Plan',
+      upgradePlanFree: 'Gratis',
+      upgradePlanPro: 'Pro',
+      upgradePlanPremium: 'Premium',
+      upgradePlanFreeDesc: 'Ideal para empezar y probar la plataforma.',
+      upgradePlanProDesc: 'Para equipos que quieren escalar su comunicación.',
+      upgradePlanPremiumDesc: 'Máxima capacidad y soporte prioritario.',
+      upgradePlanFreeButton: 'Empezar gratis',
+      upgradePlanProButton: 'Elegir Pro',
+      upgradePlanPremiumButton: 'Elegir Premium',
+      upgradeFeatureFree1: '1 agente de voz',
+      upgradeFeatureFree2: '100 minutos/mes',
+      upgradeFeatureFree3: 'Integración básica',
+      upgradeFeatureFree4: 'Soporte por email',
+      upgradeFeatureFree5: 'Prueba 14 días',
+      upgradeFeaturePro1: '5 agentes de voz',
+      upgradeFeaturePro2: '1.000 minutos/mes',
+      upgradeFeaturePro3: 'Integraciones avanzadas',
+      upgradeFeaturePro4: 'Soporte prioritario',
+      upgradeFeaturePro5: 'Analíticas avanzadas',
+      upgradeFeaturePremium1: 'Agentes ilimitados',
+      upgradeFeaturePremium2: 'Minutos ilimitados',
+      upgradeFeaturePremium3: 'API y webhooks',
+      upgradeFeaturePremium4: 'Gestor de cuenta dedicado',
+      upgradeFeaturePremium5: 'SLA 99.9%',
+      upgradeComp1: 'Agentes de voz',
+      upgradeComp2: 'Minutos/mes',
+      upgradeComp3: 'Integraciones',
+      upgradeComp4: 'Soporte',
+      upgradeComp5: 'Analíticas',
+      upgradeComp6: 'API',
+      upgradeComp7: 'Webhooks',
+      upgradeComp8: 'Gestor dedicado',
+      upgradeComp9: 'SLA',
+      upgradeComp10: 'Precio',
+
+      // Company setup
+      skipLabel: 'Saltar',
+      createFirstAgent: 'Crea tu primer agente',
+      whatDoYouWantToAchieve: '¿Qué quieres conseguir con Llamalo?',
+      youCanSelectMultiple: 'Puedes seleccionar varias opciones para esta pregunta.',
+      customerServiceInbound: 'Atención al cliente (Inbound)',
+      customerServiceInboundDesc: 'Soporta llamadas entrantes: consultas, incidencias y seguimiento post‑venta.',
+      cartRecovery: 'Recuperar carritos abandonados',
+      cartRecoveryDesc: 'Llamadas salientes para recuperar ventas y ofrecer ayuda personalizada.',
+      outboundSales: 'Ventas salientes (Outbound Sales)',
+      outboundSalesDesc: 'Agente que realiza llamadas para presentar ofertas, upsells y cerrar pedidos.',
+      confirmationsReminders: 'Confirmaciones y recordatorios',
+      confirmationsRemindersDesc: 'Confirmar pedidos, citas, entregas y enviar recordatorios automáticos.',
+      otherOption: 'Otro',
+      howDidYouFindUs: '¿Cómo nos conociste?',
+      socialNetworks: 'Redes sociales (Instagram / TikTok / Twitter / LinkedIn)',
+      youtube: 'YouTube',
+      googleSearch: 'Google / Buscando alternativas',
+      communities: 'Comunidades / Grupos (Slack, Discord, Telegram)',
+      eventWebinar: 'Evento o webinar',
+      friendRecommendation: 'Recomendación de un amigo o colega',
+      welcomeToLlamalo: 'Bienvenido a Llamalo AI',
+      letAiSpeakForYou: 'Deja que la IA hable por ti.',
+      startButton: 'Empezar',
+
+      // Auth
+      authWelcomeBack: '¡Bienvenido de vuelta!',
+      authLoginTitle: 'Iniciar sesión',
+      authLoginSubtitle: 'Introduzca sus datos de acceso',
+      authLoginButton: 'Acceder',
+      authFullName: 'Nombre completo',
+      authEmail: 'Correo electrónico',
+      authPassword: 'Contraseña',
+      authCountry: 'País',
+      authSelectCountry: 'Selecciona un país',
+      authMarketingConsentLlamalo: 'Acepto recibir comunicaciones de marketing y promociones de Llamalo AI',
+      authRememberMe: 'Mantener sesión activa',
+      authOrContinueWith: 'O continuar con',
+      authTermsPrefix: 'Al registrarme para crear una cuenta acepto las',
+      authTermsConditions: 'Condiciones de uso',
+      authTermsAnd: 'y la',
+      authTermsPrivacy: 'Política de privacidad',
+      authTermsSuffix: 'de Llamalo AI',
+      authPlaceholderName: 'Juan Carlos',
+      authPlaceholderEmail: 'info@example.com',
+      authCountryES: 'España',
+      authCountryFR: 'Francia',
+      authCountryIT: 'Italia',
+      authCountryPT: 'Portugal',
+      authCountryDE: 'Alemania',
+      authCountryGB: 'Reino Unido',
+      authCountryUS: 'Estados Unidos',
+      authCountryMX: 'México',
+      authCountryAR: 'Argentina',
+      authCountryCO: 'Colombia',
+      authErrorEmailPassword: 'Por favor, ingrese email y contraseña',
+      authErrorLogin: 'Error en inicio de sesión. Por favor, revisa tus credenciales.',
+      authSuccessLogin: '¡Bienvenido de vuelta! Has iniciado sesión correctamente.',
+      authErrorGetProfile: 'Error al obtener perfil de usuario',
+      authErrorFillAll: 'Por favor, completa todos los campos',
+      authErrorMarketingConsent: 'Debes aceptar el consentimiento de marketing para continuar',
+      authSuccessVerifyEmail: 'Ahora debe ir a su correo electrónico y validarlo para poder acceder a su cuenta.',
+      authErrorRegister: 'Error al registrar usuario. Por favor, inténtelo de nuevo.',
+      authErrorRecoverEmail: 'Ingresa tu correo para recuperar la contraseña',
+      authSuccessRecover: 'Si el correo existe, recibirás instrucciones de recuperación.',
     },
     en: {
       // Home page translations
@@ -888,6 +1360,9 @@ export class I18nService {
       phoneNumberPlaceholder: '630 00 00 00',
       twilioSidPlaceholder: 'Twilio Account SID',
       twilioTokenPlaceholder: 'Twilio Account Token',
+      noImportedNumbers: 'You don\'t have any imported phone numbers yet',
+      importFirstNumberNow: 'Import your first number now!',
+      validating: 'Validating...',
 
       // Metrics page translations
       callsText: 'calls',
@@ -984,6 +1459,23 @@ export class I18nService {
       remainingMinutes: 'Remaining minutes',
       planPro: 'Pro Plan',
 
+      // Topbar / invites
+      noNews: 'No news',
+      inviteTeamTitle: 'Invite your team and work together',
+      inviteTeamDescription:
+        'Share your link with your team and collaborators. When they start using Llamalo, you\'ll get extra minutes in your account.',
+      inviteEmailPlaceholder: 'Email or username',
+      sendInvite: 'Send invite',
+      invitedMembers: 'Invited members',
+      noInvitesYet: 'No invites yet. Start by sending your first invite.',
+      copyLink: 'Copy link',
+      savedDraftLabel: 'Draft saved',
+      agentLabelTopbar: 'Agent',
+      noName: 'No name',
+      stepLabel: 'Step',
+      deleteLabel: 'Delete',
+      openMenu: 'Open menu',
+
       // New Agents page
       yourAgents: 'Your agents',
       createAgent: 'Create Agent',
@@ -1016,6 +1508,7 @@ export class I18nService {
       resolved: 'Resolved',
       pending: 'Pending',
       selectContactToView: 'Select a contact to view the conversation.',
+      back: 'Back',
 
       // Common
       new: 'New',
@@ -1248,7 +1741,222 @@ export class I18nService {
       durationBetween60And3600: 'Duration must be between 60 and 3600 seconds',
       audioError: 'Audio error',
       couldNotPlayAudio: 'Could not play audio',
-      audioLoadProblem: 'Problem loading audio'
+      audioLoadProblem: 'Problem loading audio',
+
+      // Knowledge base page
+      loadingKnowledgeSources: 'Loading knowledge sources...',
+      refreshDocuments: 'Refresh documents',
+      typeColumn: 'Type',
+      statusColumn: 'Status',
+      fragmentsAndWords: 'Fragments and words',
+      fragments: 'fragments',
+      words: 'words',
+      statusProcessing: 'Processing',
+      statusCompleted: 'Completed',
+      statusFailed: 'Failed',
+      statusError: 'Error',
+      viewPreview: 'View preview',
+      uploadLimits: 'Upload limits',
+      pdfMax: 'PDF: Max',
+      urlMax: 'URL: Max',
+      textMax: 'Text: Max',
+      addWebSourceTitle: 'Add web source',
+      addTextTitle: 'Add manual text',
+      manualTextDefault: 'Manual text',
+      noDocumentsTitle: 'No documents',
+      noDocumentsDescription: 'Start by adding your first document to build your agent\'s knowledge base.',
+      knowledgeBaseLoadError: 'Could not load documents. Please try again.',
+      retry: 'Retry',
+      deleteDocument: 'Delete document',
+      dateColumn: 'Date',
+      actionsColumn: 'Actions',
+      pdfMaxError: 'PDF cannot exceed 10MB',
+      urlMaxError: 'URL cannot exceed 2,048 characters',
+      textMaxError: 'Text cannot exceed 50,000 characters',
+      errorNoFileInfo: 'Error: No file information received',
+      errorUploadingFile: 'Error uploading file',
+      errorCreatingWeb: 'Error creating web source',
+      errorServerResponse: 'Server response error',
+      errorDeletingKnowledge: 'Error deleting knowledge source',
+      urlTooLong: 'URL cannot exceed 2,048 characters',
+      textTooLong: 'Text cannot exceed 50,000 characters',
+
+      // Create agent steps
+      completeAgent: 'Complete your agent',
+      chooseAgentNameDesc: 'Choose a name that reflects your agent\'s purpose',
+      agentNameLabel: 'Agent Name *',
+      agentNamePlaceholder: 'Enter the agent name...',
+      callTypeTitle: 'Call type',
+      whatCallType: 'What type of calls will your agent handle?',
+      notAvailable: 'Not available',
+      instructionsStepTitle: 'Instructions',
+      defineInstructionsForAgent: 'Define the instructions your AI agent will follow.',
+      customGreetingLabel: 'Custom greeting',
+      greetingPlaceholder: 'Hello, thank you for calling...',
+      generateWithAI: 'Generate with AI',
+      generateInstructionsWithAI: 'Generate instructions with AI',
+      describeAgentBehavior: 'Briefly describe how the agent should behave.',
+      exampleInstructionsPlaceholder: 'E.g.: Friendly agent that handles reservations and questions for a restaurant...',
+      generating: 'Generating...',
+      generateBtn: 'Generate',
+      viewFullTextTitle: 'View full expanded text',
+      externalActionsMake: 'External actions (Make)',
+      connectShopifyTitle: 'Connect your Shopify business',
+      linkStoreDescription: 'Link your store so your agent can use your real data.',
+      shopifyConnectDesc: 'Connect your store to sync products, orders and customers.',
+      connected: 'Connected',
+      connect: 'Connect',
+      connectPhoneTitle: 'Connect your phone number',
+      configureTwilioDescription: 'Set up Twilio and your number to receive calls with your agent.',
+      accountConnected: 'Account connected',
+      connectedAccounts: 'Connected accounts',
+      accountValidated: 'Account validated',
+      connectTwilioAccount: 'Connect your Twilio account',
+      closeBtn: 'Close',
+      accountIdLabel: 'Account ID:',
+      changeBtn: 'Change',
+      availableNumbers: 'Available numbers',
+      connectNewAccount: '+ Connect new account',
+      testAgentTitle: 'Agent test',
+      talkToAgentDescription: 'Talk to your agent to verify its voice, language and instructions before creating.',
+      remainingTime: 'remaining',
+      backToAgents: 'Back to Agents',
+      agentReadyDescription: 'Your agent is ready to receive calls. You can go back and manage it from the agents page.',
+      languageAndVoice: 'Language and voice',
+      chooseCountryAndVoice: 'Choose your agent\'s country and voice',
+      countryLabel: 'Country',
+
+      agentStateThinking: 'Thinking...',
+      agentStateSpeaking: 'Speaking...',
+      agentStateDone: 'Ready',
+      agentStateWaiting: 'Waiting...',
+      connectionConnecting: 'Connecting...',
+      connectionEnded: 'Ended',
+      speakToStart: 'Speak to start the conversation',
+      connectingToAgent: 'Connecting to agent...',
+      testCall: 'Test call',
+      mutedLabel: 'Muted',
+      microphoneLabel: 'Microphone',
+      endCallLabel: 'End',
+      tryAgainLabel: 'Try again',
+
+      // Account page extra
+      acceptMarketing: 'I agree to receive marketing and promotional communications',
+      accountDeletionUntilPermanent: 'until permanent account deletion.',
+      accountScheduledDeletionYouHave: 'Your account is scheduled for deletion. You have',
+      selectAvatar: 'Select an avatar',
+      uploadMyPhoto: 'Upload my own photo',
+
+      // Upgrade plan page
+      upgradeTitle: 'Pricing that grows with you',
+      upgradeSubtitle: 'Hear what our customers say about how LlamaloIA has transformed their communication.',
+      perMonth: 'Month',
+      whatIncluded: 'WHAT\'S INCLUDED:',
+      everythingInFreePlus: 'EVERYTHING IN FREE, PLUS:',
+      everythingInProPlus: 'EVERYTHING IN PRO, PLUS:',
+      comparisonTitle: 'Feature comparison',
+      comparisonSubtitle: 'Llamalo is the perfect partner for your business.',
+      choosePlan: 'Choose Plan',
+      upgradePlanFree: 'Free',
+      upgradePlanPro: 'Pro',
+      upgradePlanPremium: 'Premium',
+      upgradePlanFreeDesc: 'Ideal to get started and try the platform.',
+      upgradePlanProDesc: 'For teams that want to scale their communication.',
+      upgradePlanPremiumDesc: 'Maximum capacity and priority support.',
+      upgradePlanFreeButton: 'Start free',
+      upgradePlanProButton: 'Choose Pro',
+      upgradePlanPremiumButton: 'Choose Premium',
+      upgradeFeatureFree1: '1 voice agent',
+      upgradeFeatureFree2: '100 minutes/month',
+      upgradeFeatureFree3: 'Basic integration',
+      upgradeFeatureFree4: 'Email support',
+      upgradeFeatureFree5: '14-day trial',
+      upgradeFeaturePro1: '5 voice agents',
+      upgradeFeaturePro2: '1,000 minutes/month',
+      upgradeFeaturePro3: 'Advanced integrations',
+      upgradeFeaturePro4: 'Priority support',
+      upgradeFeaturePro5: 'Advanced analytics',
+      upgradeFeaturePremium1: 'Unlimited agents',
+      upgradeFeaturePremium2: 'Unlimited minutes',
+      upgradeFeaturePremium3: 'API and webhooks',
+      upgradeFeaturePremium4: 'Dedicated account manager',
+      upgradeFeaturePremium5: '99.9% SLA',
+      upgradeComp1: 'Voice agents',
+      upgradeComp2: 'Minutes/month',
+      upgradeComp3: 'Integrations',
+      upgradeComp4: 'Support',
+      upgradeComp5: 'Analytics',
+      upgradeComp6: 'API',
+      upgradeComp7: 'Webhooks',
+      upgradeComp8: 'Dedicated manager',
+      upgradeComp9: 'SLA',
+      upgradeComp10: 'Price',
+
+      // Company setup
+      skipLabel: 'Skip',
+      createFirstAgent: 'Create your first agent',
+      whatDoYouWantToAchieve: 'What do you want to achieve with Llamalo?',
+      youCanSelectMultiple: 'You can select multiple options for this question.',
+      customerServiceInbound: 'Customer service (Inbound)',
+      customerServiceInboundDesc: 'Handle incoming calls with AI 24/7.',
+      cartRecovery: 'Recover abandoned carts',
+      cartRecoveryDesc: 'Recover sales with automated calls.',
+      outboundSales: 'Outbound sales',
+      outboundSalesDesc: 'Run sales campaigns with AI.',
+      confirmationsReminders: 'Confirmations and reminders',
+      confirmationsRemindersDesc: 'Appointment confirmations and automatic reminders.',
+      otherOption: 'Other',
+      howDidYouFindUs: 'How did you find us?',
+      socialNetworks: 'Social media (Instagram / TikTok / Twitter / LinkedIn)',
+      youtube: 'YouTube',
+      googleSearch: 'Google / Searching for alternatives',
+      communities: 'Communities / Groups (Slack, Discord, Telegram)',
+      eventWebinar: 'Event or webinar',
+      friendRecommendation: 'Friend or colleague recommendation',
+      welcomeToLlamalo: 'Welcome to Llamalo AI',
+      letAiSpeakForYou: 'Let AI speak for you.',
+      startButton: 'Start',
+
+      // Auth
+      authWelcomeBack: 'Welcome back!',
+      authLoginTitle: 'Log in',
+      authLoginSubtitle: 'Enter your access details',
+      authLoginButton: 'Log in',
+      authFullName: 'Full name',
+      authEmail: 'Email',
+      authPassword: 'Password',
+      authCountry: 'Country',
+      authSelectCountry: 'Select a country',
+      authMarketingConsentLlamalo: 'I agree to receive marketing and promotional communications from Llamalo AI',
+      authRememberMe: 'Keep me signed in',
+      authOrContinueWith: 'Or continue with',
+      authTermsPrefix: 'By signing up I accept the',
+      authTermsConditions: 'Terms of use',
+      authTermsAnd: 'and the',
+      authTermsPrivacy: 'Privacy policy',
+      authTermsSuffix: 'of Llamalo AI',
+      authPlaceholderName: 'John Doe',
+      authPlaceholderEmail: 'info@example.com',
+      authCountryES: 'Spain',
+      authCountryFR: 'France',
+      authCountryIT: 'Italy',
+      authCountryPT: 'Portugal',
+      authCountryDE: 'Germany',
+      authCountryGB: 'United Kingdom',
+      authCountryUS: 'United States',
+      authCountryMX: 'Mexico',
+      authCountryAR: 'Argentina',
+      authCountryCO: 'Colombia',
+      authErrorEmailPassword: 'Please enter email and password',
+      authErrorLogin: 'Login failed. Please check your credentials.',
+      authSuccessLogin: 'Welcome back! You have logged in successfully.',
+      authErrorGetProfile: 'Error getting user profile',
+      authErrorFillAll: 'Please fill in all fields',
+      authErrorMarketingConsent: 'You must accept marketing consent to continue',
+      authSuccessVerifyEmail: 'Please check your email and verify it to access your account.',
+      authErrorRegister: 'Error registering user. Please try again.',
+      authErrorRecoverEmail: 'Enter your email to recover your password',
+      authSuccessRecover: 'If the email exists, you will receive recovery instructions.',
     }
   };
 
@@ -1265,6 +1973,13 @@ export class I18nService {
 
   setLanguage(language: Language): void {
     this.currentLanguage.set(language);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        localStorage.setItem('selectedLanguage', language.code);
+      } catch {
+        // Ignorar errores de localStorage (modo privado, etc.)
+      }
+    }
   }
 
   getTranslations(): Translations {

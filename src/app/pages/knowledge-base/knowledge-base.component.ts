@@ -86,7 +86,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
     const validSource: KnowledgeSource = {
       id: source.id,
       userId: source.userId || '',
-      name: source.name || 'Sin nombre',
+      name: source.name || this.t.noName,
       type: source.type || 'unknown',
       status: source.status || 'processing',
       createdAt: source.createdAt ? new Date(source.createdAt) : new Date(),
@@ -165,7 +165,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
       },
       error: (err) => {
         console.error('Error loading knowledge sources:', err);
-        this.notificationService.error('No se encontraron documentos');
+        this.notificationService.error(this.t.knowledgeBaseNoDocuments);
         this.isLoading = false;
         this.cdr.detectChanges();
       },
@@ -204,7 +204,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
       // Validar tamaño del archivo PDF
       const file = files[0];
       if (file.size > 10 * 1024 * 1024) {
-        this.notificationService.error('El PDF no puede exceder los 10MB');
+        this.notificationService.error(this.t.pdfMaxError);
         return;
       }
       this.uploadPdfFiles(Array.from(files));
@@ -229,14 +229,14 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
               if (sourceToAdd) {
                 this.addKnowledgeSource(sourceToAdd);
               } else {
-                this.notificationService.error('Error: No se recibió información del archivo subido');
+                this.notificationService.error(this.t.errorNoFileInfo);
               }
               this.isLoading = false;
               this.cdr.detectChanges();
             },
             error: (err) => {
               console.error('Error uploading PDF:', err);
-              this.notificationService.error(`Error al subir el archivo ${file.name}`);
+              this.notificationService.error(`${this.t.errorUploadingFile} ${file.name}`);
               this.isLoading = false;
               this.cdr.detectChanges();
             }
@@ -247,7 +247,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
 
   openWebModal(): void {
     const dialogRef = this.modalService.openWeb({
-      title: 'Añadir fuente web',
+      title: this.t.addWebSourceTitle,
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -259,19 +259,19 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
 
   openTextModal(): void {
     const dialogRef = this.modalService.openText({
-      title: 'Añadir texto manual',
+      title: this.t.addTextTitle,
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result && result.content) {
-        this.createTextSource(result.content, result.name || 'Texto manual');
+        this.createTextSource(result.content, result.name || this.t.manualTextDefault);
       }
     });
   }
 
   createWebSource(url: string, name: string): void {
     if (url.length > 2048) {
-      this.notificationService.error('La URL no puede exceder los 2048 caracteres');
+      this.notificationService.error(this.t.urlMaxError);
       return;
     }
 
@@ -283,14 +283,14 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
           if (response?.id) {
             this.addKnowledgeSource(response);
           } else {
-            this.notificationService.error('Error en la respuesta del servidor');
+            this.notificationService.error(this.t.errorServerResponse);
           }
           this.isLoading = false;
           this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error creating web source:', err);
-          this.notificationService.error('Error al crear la fuente web');
+          this.notificationService.error(this.t.errorCreatingWeb);
           this.isLoading = false;
           this.cdr.detectChanges();
         },
@@ -299,7 +299,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
 
   createTextSource(content: string, name: string): void {
     if (content.length > 50000) {
-      this.notificationService.error('El texto no puede exceder los 50,000 caracteres');
+      this.notificationService.error(this.t.textMaxError);
       return;
     }
 
@@ -342,7 +342,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
       },
       error: (err) => {
         console.error('Error deleting knowledge source:', err);
-        this.notificationService.error('Error al eliminar la fuente de conocimiento');
+        this.notificationService.error(this.t.errorDeletingKnowledge);
       },
     });
   }

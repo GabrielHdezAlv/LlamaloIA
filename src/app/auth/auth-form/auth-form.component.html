@@ -16,6 +16,24 @@
         </a>
       </p>
       }
+
+      <!-- Idiomas ES / ENG -->
+      <div class="flex gap-1 justify-center mt-6 px-2 py-1">
+        <button type="button" (click)="selectLanguage(languages[0])" [class]="
+          selectedLanguage.code === 'es'
+            ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold'
+            : 'bg-transparent text-gray-700 dark:text-slate-200'
+        " class="px-4 py-2 rounded-lg text-sm transition-colors border border-gray-400 dark:border-slate-400">
+          ES
+        </button>
+        <button type="button" (click)="selectLanguage(languages[1])" [class]="
+          selectedLanguage.code === 'en'
+            ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold'
+            : 'bg-transparent text-gray-700 dark:text-slate-200'
+        " class="px-4 py-2 rounded-lg text-sm transition-colors border border-gray-400 dark:border-slate-400">
+          ENG
+        </button>
+      </div>
     </div>
   </div>
 
@@ -53,9 +71,9 @@
         @if (type === "register") {
         <div class="relative">
           <label for="fullName" class="absolute left-4 top-1 text-xs text-gray-500 dark:text-slate-400 input-label">
-            Nombre completo
+            {{ t.authFullName }}
           </label>
-          <input type="text" id="fullName" [(ngModel)]="fullName" name="fullName" placeholder="Juan Carlos"
+          <input type="text" id="fullName" [(ngModel)]="fullName" name="fullName" [placeholder]="t.authPlaceholderName"
             class="auth-input block w-full px-4 pt-6 pb-2 md:py-4 lg:py-4 border border-gray-300 dark:border-slate-700 rounded-lg focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-slate-900 text-black dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 transition duration-200 text-sm md:text-base lg:text-base" />
         </div>
         }
@@ -63,9 +81,9 @@
         <!-- Email Input -->
         <div class="relative">
           <label for="email" class="absolute left-4 top-1 text-xs text-gray-500 dark:text-slate-400 input-label">
-            Correo electrónico
+            {{ t.authEmail }}
           </label>
-          <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="info@example.com"
+          <input type="email" id="email" [(ngModel)]="email" name="email" [placeholder]="t.authPlaceholderEmail"
             class="auth-input block w-full px-4 pt-6 pb-2 md:py-4 lg:py-4 border-2 border-gray-300 dark:border-slate-700 rounded-lg focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-slate-900 text-black dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 transition duration-200 text-sm md:text-base lg:text-base" />
         </div>
 
@@ -74,7 +92,7 @@
         <div>
           <div class="relative">
             <input [type]="showPassword ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password"
-              placeholder="Contraseña"
+              [placeholder]="t.authPassword"
               class="auth-input block w-full px-4 py-3 md:py-4 lg:py-4 pr-12 border-2 border-gray-300 dark:border-slate-700 rounded-lg focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-slate-900 text-black dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 transition duration-200 text-sm md:text-base lg:text-base" />
             <button type="button" (click)="togglePasswordVisibility()"
               class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 transition-colors duration-200">
@@ -102,11 +120,11 @@
         @if (type === "register") {
         <div class="relative">
           <label for="country" class="absolute left-4 top-1 text-xs text-gray-500 dark:text-slate-400 input-label">
-            País
+            {{ t.authCountry }}
           </label>
           <select id="country" [(ngModel)]="country" name="country" required
             class="auth-input block w-full px-4 pt-6 pb-2 md:py-4 lg:py-4 border border-gray-300 dark:border-slate-700 rounded-lg focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-slate-900 text-black dark:text-slate-50 transition duration-200 text-sm md:text-base lg:text-base appearance-none pr-10">
-            <option value="">Selecciona un país</option>
+            <option value="">{{ t.authSelectCountry }}</option>
             @for (countryOption of countries; track countryOption.code) {
             <option [value]="countryOption.code">
               {{ countryOption.name }}
@@ -128,8 +146,7 @@
             class=""></app-animated-checkbox>
           <label class="ml-2 text-sm text-gray-600 dark:text-slate-300 cursor-pointer"
             (click)="marketingConsent = !marketingConsent">
-            Acepto recibir comunicaciones de marketing y promociones de
-            Llamalo AI
+            {{ t.authMarketingConsentLlamalo }}
           </label>
         </div>
         }
@@ -141,7 +158,7 @@
             <app-animated-checkbox [checked]="rememberMe" (checkedChange)="rememberMe = $event"></app-animated-checkbox>
             <label
               class="ml-1 block text-xs font-normal text-black dark:text-slate-200 font-sans remember-label whitespace-nowrap tracking-[-0.5px]">
-              Mantener sesión activa
+              {{ t.authRememberMe }}
             </label>
           </div>
           <!-- Enlace de recuperación de contraseña deshabilitado temporalmente -->
@@ -180,8 +197,7 @@
           </div>
           <div class="relative flex justify-center text-sm md:text-base lg:text-base">
             <span
-              class="px-2 bg-white lg:bg-gray-50 dark:bg-[#020617] text-black dark:text-slate-200 font-normal divider-text whitespace-nowrap">O
-              continuar con</span>
+              class="px-2 bg-white lg:bg-gray-50 dark:bg-[#020617] text-black dark:text-slate-200 font-normal divider-text whitespace-nowrap">{{ t.authOrContinueWith }}</span>
           </div>
         </div>
 
@@ -203,11 +219,11 @@
         <!-- Terms and Conditions for Register -->
         @if (type === "register") {
         <div class="text-center text-xs text-gray-500 dark:text-slate-400 mt-6 mb-4 px-2">
-          Al registrarme para crear una cuenta acepto las
-          <a href="#" class="text-black dark:text-slate-50 hover:underline font-medium">Condiciones de uso</a>
-          y la
-          <a href="#" class="text-black dark:text-slate-50 hover:underline font-medium">Política de privacidad</a>
-          de Llamalo AI
+          {{ t.authTermsPrefix }}
+          <a href="#" class="text-black dark:text-slate-50 hover:underline font-medium">{{ t.authTermsConditions }}</a>
+          {{ t.authTermsAnd }}
+          <a href="#" class="text-black dark:text-slate-50 hover:underline font-medium">{{ t.authTermsPrivacy }}</a>
+          {{ t.authTermsSuffix }}
         </div>
         }
       </form>

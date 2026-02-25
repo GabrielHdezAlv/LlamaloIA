@@ -19,6 +19,7 @@ import { ModalService } from '../../shared/modals/modal.service';
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
 import { ACCOUNT_STATUS } from '../../shared/models/account-status.enum';
 import { USER_ROLE } from '../../shared/models/user-role.enum';
+import { I18nService, Language } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -35,15 +36,7 @@ import { USER_ROLE } from '../../shared/models/user-role.enum';
 })
 export class AuthFormComponent implements OnInit {
   type: 'login' | 'register' | 'recover' = 'login';
-  title: string = '';
-  subtitle: string = '';
-  linkText: string = '';
   linkRoute: string = '';
-  formTitle: string = '';
-  formSubtitle: string = '';
-  buttonText: string = '';
-  bottomText: string = '';
-  bottomLinkText: string = '';
   bottomLinkRoute: string = '';
 
   // Campos del formulario
@@ -60,45 +53,73 @@ export class AuthFormComponent implements OnInit {
   // Estado para recordar sesión
   rememberMe: boolean = false;
 
-  // Lista de países con códigos ISO
-  countries = [
-    { code: 'ES', name: 'España' },
-    { code: 'FR', name: 'Francia' },
-    { code: 'IT', name: 'Italia' },
-    { code: 'PT', name: 'Portugal' },
-    { code: 'DE', name: 'Alemania' },
-    { code: 'GB', name: 'Reino Unido' },
-    { code: 'US', name: 'Estados Unidos' },
-    { code: 'MX', name: 'México' },
-    { code: 'AR', name: 'Argentina' },
-    { code: 'CO', name: 'Colombia' },
-  ];
-
   private userService = inject(UserService);
   private notificationService = inject(NotificationService);
   private userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
+  private i18nService = inject(I18nService);
+
+  languages = this.i18nService.getAvailableLanguages();
+  get selectedLanguage() {
+    return this.i18nService.selectedLanguage();
+  }
+  selectLanguage(lang: Language) {
+    this.i18nService.setLanguage(lang);
+  }
+
+  get t() {
+    return this.i18nService.getTranslations();
+  }
+
+  get title(): string {
+    return this.type === 'login' ? this.t.authWelcomeBack
+      : this.type === 'register' ? this.t.authWelcomeBack
+      : this.t.authLoginTitle;
+  }
+  get formTitle(): string {
+    return this.type === 'login' ? this.t.authLoginTitle
+      : this.type === 'register' ? this.t.authLoginTitle
+      : this.t.authLoginTitle;
+  }
+  get formSubtitle(): string {
+    return this.t.authLoginSubtitle;
+  }
+  get buttonText(): string {
+    return this.type === 'login' ? this.t.authLoginButton
+      : this.type === 'register' ? this.t.authLoginButton
+      : this.t.authLoginButton;
+  }
+  get subtitle(): string { return ''; }
+  get linkText(): string { return ''; }
+  get bottomText(): string { return ''; }
+  get bottomLinkText(): string { return ''; }
+
+  get countries() {
+    const t = this.t;
+    return [
+      { code: 'ES', name: t.authCountryES },
+      { code: 'FR', name: t.authCountryFR },
+      { code: 'IT', name: t.authCountryIT },
+      { code: 'PT', name: t.authCountryPT },
+      { code: 'DE', name: t.authCountryDE },
+      { code: 'GB', name: t.authCountryGB },
+      { code: 'US', name: t.authCountryUS },
+      { code: 'MX', name: t.authCountryMX },
+      { code: 'AR', name: t.authCountryAR },
+      { code: 'CO', name: t.authCountryCO },
+    ];
+  }
+
   private router = inject(Router);
   private modalService = inject(ModalService);
 
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // Detecta el tipo desde la ruta
     this.route.data.subscribe((data) => {
-      if (this.type && this.type !== data['type']) {
-      }
       this.type = data['type'];
-      this.title = data['title'];
-      this.subtitle = data['subtitle'];
-      this.linkText = data['linkText'];
-      this.linkRoute = data['linkRoute'];
-      this.formTitle = data['formTitle'];
-      this.formSubtitle = data['formSubtitle'];
-      this.buttonText = data['buttonText'];
-      this.bottomText = data['bottomText'];
-      this.bottomLinkText = data['bottomLinkText'];
-      this.bottomLinkRoute = data['bottomLinkRoute'];
+      this.linkRoute = data['linkRoute'] ?? '';
+      this.bottomLinkRoute = data['bottomLinkRoute'] ?? '';
     });
   }
 
@@ -120,7 +141,7 @@ export class AuthFormComponent implements OnInit {
     event.preventDefault();
 
     if (!this.email || !this.password) {
-      this.notificationService.error('Por favor, ingrese email y contraseña');
+      this.notificationService.error(this.t.authErrorEmailPassword);
       return;
     }
 
@@ -150,9 +171,7 @@ export class AuthFormComponent implements OnInit {
             }
 
             // Mostrar notificación pill de éxito
-            this.notificationService.success(
-              `¡Bienvenido de vuelta! Has iniciado sesión correctamente.`
-            );
+            this.notificationService.success(this.t.authSuccessLogin);
 
             // Redirigir según rol: owner → /admin, resto → /dashboard
             const redirectUrl = data.rol === USER_ROLE.OWNER ? '/admin' : '/dashboard';
@@ -162,13 +181,13 @@ export class AuthFormComponent implements OnInit {
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);
-            this.notificationService.error('Error al obtener perfil de usuario');
+            this.notificationService.error(this.t.authErrorGetProfile);
           },
         });
       },
       error: (err) => {
         console.error('❌ Error en inicio de sesión:', err);
-        this.notificationService.error('Error en inicio de sesión. Por favor, revisa tus credenciales.');
+        this.notificationService.error(this.t.authErrorLogin);
       },
     });
   }
@@ -179,13 +198,12 @@ export class AuthFormComponent implements OnInit {
 
     // Validar campos antes de registrar
     if (!this.fullName || !this.email || !this.password || !this.country) {
-      this.notificationService.error('Por favor, completa todos los campos');
+      this.notificationService.error(this.t.authErrorFillAll);
       return;
     }
 
-    // Validar consentimiento de marketing
     if (!this.marketingConsent) {
-      this.notificationService.error('Debes aceptar el consentimiento de marketing para continuar');
+      this.notificationService.error(this.t.authErrorMarketingConsent);
       return;
     }
 
@@ -208,9 +226,7 @@ export class AuthFormComponent implements OnInit {
     this.userService.RegisterUser(user).subscribe({
       next: (response) => {
         // Mostrar notificación de validación de correo
-        this.notificationService.info(
-          'Ahora debe ir a su correo electrónico y validarlo para poder acceder a su cuenta.'
-        );
+        this.notificationService.info(this.t.authSuccessVerifyEmail);
 
         // Redirigir a login después de un breve delay
         setTimeout(() => {
@@ -218,9 +234,7 @@ export class AuthFormComponent implements OnInit {
         }, 2000);
       },
       error: (err) => {
-        this.notificationService.error(
-          'Error al registrar usuario. Por favor, inténtelo de nuevo.'
-        );
+        this.notificationService.error(this.t.authErrorRegister);
       },
     });
   }
@@ -228,13 +242,11 @@ export class AuthFormComponent implements OnInit {
   recover(event: Event) {
     event.preventDefault();
     if (!this.email) {
-      this.notificationService.error('Ingresa tu correo para recuperar la contraseña');
+      this.notificationService.error(this.t.authErrorRecoverEmail);
       return;
     }
     // Aquí se podría llamar a un endpoint real de recuperación
-    this.notificationService.success(
-      'Si el correo existe, recibirás instrucciones de recuperación.'
-    );
+    this.notificationService.success(this.t.authSuccessRecover);
   }
 
   togglePasswordVisibility() {

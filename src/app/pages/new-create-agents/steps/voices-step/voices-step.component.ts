@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { I18nService } from '../../../../core/services/i18n.service';
 
 @Component({
   selector: 'app-voices-step',
@@ -10,6 +11,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./voices-step.component.scss'],
 })
 export class VoicesStepComponent {
+  private i18nService = inject(I18nService);
+
   @Input() selectedCountry = 'es';
   @Input() countryOptions: { code: string; label: string }[] = [];
   @Input() voices: any[] = [];
@@ -43,6 +46,10 @@ export class VoicesStepComponent {
 
   getTotalSteps(): number {
     return this.totalSteps;
+  }
+
+  get t() {
+    return this.i18nService.getTranslations();
   }
 
   toggleCountryDropdown(event: Event) {

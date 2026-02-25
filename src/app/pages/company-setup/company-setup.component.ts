@@ -28,6 +28,7 @@ import {
   VoiceParameters,
 } from '../../shared/models/agent.model';
 import { ModalService } from '../../shared/modals/modal.service';
+import { I18nService } from '../../core/services/i18n.service';
 import lottie from 'lottie-web';
 
 // Step components
@@ -80,6 +81,11 @@ export class CompanySetupComponent
   private twilioService = inject(TwilioService);
   private modalService = inject(ModalService);
   private route = inject(ActivatedRoute, { optional: true });
+  private i18nService = inject(I18nService);
+
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   @ViewChild('lottieContainer', { static: false })
   lottieContainer!: ElementRef<HTMLDivElement>;

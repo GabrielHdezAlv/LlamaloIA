@@ -4,7 +4,7 @@
     class="w-full max-w-[500px] sm:max-w-[600px] md:max-w-[720px] xl:max-w-[700px] 3xl:max-w-[800px] flex flex-col px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8 relative">
     <div class="flex items-center justify-between w-full">
       <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
-        Prueba de agente
+        {{ t.testAgentTitle }}
       </h1>
       <div class="flex items-center gap-2">
         <!-- Connection indicator (solo durante llamada) -->
@@ -36,7 +36,7 @@
       </div>
     </div>
     <p class="mt-0.5 3xl:mt-0.5 text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] font-semibold">
-      Habla con tu agente para verificar su voz, idioma e instrucciones antes de crear.
+      {{ t.talkToAgentDescription }}
     </p>
 
     <!-- Esfera -->
@@ -68,7 +68,7 @@
               'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400': voiceTest.remainingSeconds() <= 30,
               'bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300': voiceTest.remainingSeconds() > 30
             }">
-        {{ formatTime(voiceTest.remainingSeconds()) }} restantes
+        {{ formatTime(voiceTest.remainingSeconds()) }} {{ t.remainingTime }}
       </span>
       }
       }
@@ -91,7 +91,7 @@
               stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           <p class="text-[10px] 3xl:text-xs text-gray-400 dark:text-gray-500">
-            Habla para comenzar la conversación
+            {{ t.speakToStart }}
           </p>
         </div>
         }
@@ -102,7 +102,7 @@
             class="w-6 h-6 3xl:w-7 3xl:h-7 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mb-1.5">
           </div>
           <p class="text-[10px] 3xl:text-xs text-gray-400 dark:text-gray-500">
-            Conectando con el agente...
+            {{ t.connectingToAgent }}
           </p>
         </div>
         }
@@ -134,7 +134,7 @@
             <path
               d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
           </svg>
-          Probar llamada
+          {{ t.testCall }}
         </button>
         }
 
@@ -167,7 +167,7 @@
                 'text-gray-500 dark:text-gray-400': !voiceTest.isMuted(),
                 'text-red-500 dark:text-red-400': voiceTest.isMuted()
                }">
-            {{ voiceTest.isMuted() ? 'Silenciado' : 'Micrófono' }}
+            {{ voiceTest.isMuted() ? t.mutedLabel : t.microphoneLabel }}
           </span>
         </button>
 
@@ -180,7 +180,7 @@
                 d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.14 8.91 7.33 7 12 7s8.86 1.91 11.71 4.72c.38.37.38.98 0 1.36l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28a11.27 11.27 0 00-2.67-1.85.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z" />
             </svg>
           </span>
-          <span class="text-[9px] 3xl:text-[10px] font-medium text-red-500">Terminar</span>
+          <span class="text-[9px] 3xl:text-[10px] font-medium text-red-500">{{ t.endCallLabel }}</span>
         </button>
         }
 
@@ -193,7 +193,7 @@
             <path
               d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
           </svg>
-          Probar de nuevo
+          {{ t.tryAgainLabel }}
         </button>
         }
       </div>
@@ -204,12 +204,12 @@
           class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-base rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
           (click)="backClicked.emit()">
           <span class="text-xs 3xl:text-lg leading-none">‹</span>
-          <span>Atrás</span>
+          <span>{{ t.back }}</span>
         </button>
         <button type="button"
           class="px-2.5 3xl:px-5 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-base rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
           (click)="continueClicked.emit()">
-          Continuar
+          {{ t.continue }}
         </button>
       </div>
     </div>

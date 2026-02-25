@@ -321,7 +321,9 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   getSavedStepText(): string {
     if (!this.savedDraft) return '';
-    const stepTexts: Record<string, string> = {
+    const langCode = this.i18nService.selectedLanguage().code;
+
+    const stepTextsEs: Record<string, string> = {
       agentName: 'Nombre',
       language: 'Idioma',
       template: 'Plantilla',
@@ -331,6 +333,20 @@ export class TopbarComponent implements OnInit, OnDestroy {
       advanced: 'Avanzado',
       final: 'Final',
     };
+
+    const stepTextsEn: Record<string, string> = {
+      agentName: 'Name',
+      language: 'Language',
+      template: 'Template',
+      greeting: 'Greeting',
+      instructions: 'Instructions',
+      voice: 'Voice',
+      advanced: 'Advanced',
+      final: 'Final',
+    };
+
+    const stepTexts = langCode === 'en' ? stepTextsEn : stepTextsEs;
+
     return stepTexts[this.savedDraft.step] || this.savedDraft.step;
   }
 
@@ -374,43 +390,61 @@ export class TopbarComponent implements OnInit, OnDestroy {
   updateHeader() {
     const url = this.router.url;
     const t = this.i18nService.getTranslations();
+    const langCode = this.i18nService.selectedLanguage().code;
 
     // Detectar si estamos en la sección de admin
     this.isAdminSection = url.startsWith('/admin');
 
     // Rutas de admin
     if (url.startsWith('/admin/tokens')) {
-      this.pageTitle = 'Servicios Externos';
+      this.pageTitle =
+        langCode === 'en' ? 'External services' : 'Servicios Externos';
       this.welcomeText = '';
       this.pageSubtitle =
-        'Gestiona y visualiza los tokens de API de los servicios integrados';
+        langCode === 'en'
+          ? 'Manage and view API tokens for integrated services'
+          : 'Gestiona y visualiza los tokens de API de los servicios integrados';
     } else if (url.startsWith('/admin/redes-sociales')) {
-      this.pageTitle = 'Redes Sociales';
+      this.pageTitle =
+        langCode === 'en' ? 'Social networks' : 'Redes Sociales';
       this.welcomeText = '';
       this.pageSubtitle =
-        'Gestiona y visualiza las métricas de tus redes sociales';
+        langCode === 'en'
+          ? 'Manage and view your social media metrics'
+          : 'Gestiona y visualiza las métricas de tus redes sociales';
     } else if (url.startsWith('/admin/gasto')) {
-      this.pageTitle = 'Gasto de Servicios';
+      this.pageTitle =
+        langCode === 'en' ? 'Services spending' : 'Gasto de Servicios';
       this.welcomeText = '';
       this.pageSubtitle =
-        'Gestiona y visualiza el gasto de los servicios integrados';
+        langCode === 'en'
+          ? 'Manage and view spending for integrated services'
+          : 'Gestiona y visualiza el gasto de los servicios integrados';
     } else if (url.startsWith('/admin/metrics')) {
-      this.pageTitle = 'Métricas';
+      this.pageTitle = t.metrics;
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else if (url.startsWith('/admin/home') || url === '/admin') {
-      this.pageTitle = 'Información General';
+      this.pageTitle =
+        langCode === 'en' ? 'General information' : 'Información General';
       this.welcomeText = '';
       this.pageSubtitle =
-        'Vista general del sistema y métricas administrativas';
+        langCode === 'en'
+          ? 'Overview of the system and admin metrics'
+          : 'Vista general del sistema y métricas administrativas';
     } else if (url.startsWith('/admin/agents/edit/')) {
-      this.pageTitle = 'Configuración Xenon';
+      this.pageTitle =
+        langCode === 'en' ? 'Xenon settings' : 'Configuración Xenon';
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else if (url === '/admin/news') {
-      this.pageTitle = 'Gestionar Noticias';
+      this.pageTitle =
+        langCode === 'en' ? 'Manage news' : 'Gestionar Noticias';
       this.welcomeText = '';
-      this.pageSubtitle = 'Crea y edita las noticias que aparecen en el panel superior';
+      this.pageSubtitle =
+        langCode === 'en'
+          ? 'Create and edit the news that appears in the top panel'
+          : 'Crea y edita las noticias que aparecen en el panel superior';
     } else if (url === '/dashboard/agents/create') {
       this.pageTitle = t.createAgent;
       this.welcomeText = '';
@@ -449,7 +483,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else if (url === '/dashboard/upgrade-plan') {
-      this.pageTitle = 'Actualizar plan';
+      this.pageTitle =
+        langCode === 'en' ? 'Upgrade plan' : 'Actualizar plan';
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else {
@@ -466,7 +501,6 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   selectLanguage(lang: Language) {
     this.i18nService.setLanguage(lang);
-    //TODO: Tal vez hay que quitarlo
     this.updateHeader();
   }
 

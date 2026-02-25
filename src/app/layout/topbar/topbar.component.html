@@ -89,8 +89,9 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="newsList().length === 0" class="py-10 text-center text-xs text-gray-400 italic">No hay
-                noticias</div>
+              <div *ngIf="newsList().length === 0" class="py-10 text-center text-xs text-gray-400 italic">
+                {{ t.noNews }}
+              </div>
             </div>
           </div>
         </div>
@@ -99,7 +100,7 @@
       <!-- Botón hamburguesa para abrir sidebar móvil -->
       <button (click)="openMobileSidebar()"
         class="p-1.5 md:p-2 text-black rounded-full focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors dark:text-slate-100">
-        <span class="sr-only">Abrir menú</span>
+        <span class="sr-only">{{ t.openMenu }}</span>
         <svg class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -317,8 +318,8 @@
                 </div>
               </div>
               <div *ngIf="newsList().length === 0" class="py-10 text-center text-xs 3xl:text-base text-gray-400 italic">
-                No hay
-                noticias</div>
+                {{ t.noNews }}
+              </div>
             </div>
           </div>
         </div>
@@ -440,7 +441,7 @@
         <!-- Botón cerrar -->
         <button (click)="closeInviteModal()"
           class="absolute top-2 right-2 sm:top-3 sm:right-3 3xl:top-4 3xl:right-4 text-gray-400 hover:text-gray-600 dark:text-slate-400 dark:hover:text-slate-200 transition-colors p-1 3xl:p-1.5"
-          aria-label="Cerrar">
+          [attr.aria-label]="t.close">
           <svg class="w-4 h-4 3xl:w-6 3xl:h-6 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -471,12 +472,11 @@
           </div>
           <h2
             class="text-base sm:text-lg md:text-xl 3xl:text-2xl font-bold text-gray-900 dark:text-slate-50 leading-snug">
-            Invita a tu equipo y trabaja con ellos
+            {{ t.inviteTeamTitle }}
           </h2>
           <p
             class="mt-1.5 3xl:mt-2 text-xs sm:text-sm 3xl:text-base text-gray-700 dark:text-slate-300 leading-relaxed max-w-lg 3xl:max-w-2xl">
-            Comparte tu enlace con tu equipo y colaboradores. Cuando empiecen a
-            usar Llamalo, recibirás minutos extra en tu cuenta.
+            {{ t.inviteTeamDescription }}
           </p>
         </div>
 
@@ -486,18 +486,18 @@
           <form (submit)="sendInvite(); $event.preventDefault()"
             class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 3xl:gap-4 items-stretch sm:items-center">
             <input type="text" name="emailInput" [(ngModel)]="emailInput" (input)="onEmailInputChange()"
-              (keypress)="onEmailKeyPress($event)" placeholder="Email or username"
+              (keypress)="onEmailKeyPress($event)" [placeholder]="t.inviteEmailPlaceholder"
               class="flex-1 rounded-lg border border-gray-300 px-3 3xl:px-4 py-2 3xl:py-3 text-xs sm:text-sm 3xl:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-50 dark:placeholder-slate-400 dark:focus:ring-blue-400 dark:focus:border-blue-400" />
             <button type="submit" [disabled]="!emailInput && selectedEmails.length === 0"
               class="rounded-lg bg-black text-white font-semibold px-4 sm:px-5 3xl:px-6 py-2 3xl:py-3 text-xs sm:text-sm 3xl:text-base whitespace-nowrap disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors">
-              Send invite
+              {{ t.sendInvite }}
             </button>
           </form>
 
           <!-- Lista de invitados -->
           <div
             class="mt-4 3xl:mt-6 mb-1.5 3xl:mb-2 text-[10px] sm:text-xs 3xl:text-sm text-gray-500 dark:text-slate-400 text-center">
-            Miembros invitados ({{ teamMembers.length }})
+            {{ t.invitedMembers }} ({{ teamMembers.length }})
           </div>
 
           <div *ngIf="teamMembers.length > 0"
@@ -544,7 +544,7 @@
 
           <div *ngIf="teamMembers.length === 0"
             class="py-3 3xl:py-4 text-center text-[10px] sm:text-[11px] 3xl:text-sm text-gray-400 dark:text-slate-500">
-            No invites yet. Start by sending your first invite.
+            {{ t.noInvitesYet }}
           </div>
 
           <!-- Footer: acciones -->
@@ -552,7 +552,7 @@
             <button type="button"
               class="flex-1 rounded-lg border border-gray-200 bg-gray-50 px-3 3xl:px-4 py-2 3xl:py-3 font-medium text-gray-900 hover:bg-gray-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-700 transition-colors"
               (click)="copyInviteLink()">
-              Copy link
+              {{ t.copyLink }}
             </button>
           </div>
         </div>
@@ -565,13 +565,15 @@
     class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 bg-black rounded-2xl px-6 py-4 shadow-2xl w-[90%] sm:w-auto sm:min-w-[550px] border border-gray-800">
     <div class="flex flex-col min-w-0 items-center sm:items-start">
       <span class="text-[9px] text-blue-400 font-bold uppercase tracking-[0.1em] leading-none mb-1">
-        Borrador guardado
+        {{ t.savedDraftLabel }}
       </span>
       <span class="text-xs sm:text-sm text-white font-medium whitespace-nowrap text-center sm:text-left">
-        Agente: <span class="font-semibold">{{ savedDraft?.agentName || "Sin nombre" }}</span>
+        {{ t.agentLabelTopbar }}:
+        <span class="font-semibold">{{ savedDraft?.agentName || t.noName }}</span>
       </span>
       <span class="text-[11px] sm:text-xs text-gray-400 mt-1" *ngIf="getSavedStepText()">
-        Paso: <span class="text-gray-300 font-medium">{{ getSavedStepText() }}</span>
+        {{ t.stepLabel }}:
+        <span class="text-gray-300 font-medium">{{ getSavedStepText() }}</span>
       </span>
     </div>
     <div class="flex items-center gap-2.5 sm:gap-4 w-full sm:w-auto justify-center">
@@ -583,7 +585,7 @@
             d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        Eliminar
+        {{ t.deleteLabel }}
       </button>
       <button (click)="goToRecoverDraft()"
         class="flex-1 sm:flex-none flex items-center justify-center gap-2 text-[11px] sm:text-sm bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2 sm:py-2.5 rounded-xl transition-all shadow-lg active:scale-95">
@@ -593,7 +595,7 @@
             d="M3.51 15C4.15839 16.8404 5.38734 18.4202 7.01166 19.5014C8.63598 20.5826 10.5677 21.1066 12.5157 20.9945C14.4637 20.8823 16.3226 20.1402 17.8121 18.8798C19.3017 17.6193 20.3413 15.909 20.7742 14.0064C21.2072 12.1037 21.0101 10.112 20.2126 8.33111C19.4152 6.55025 18.0605 5.07687 16.3528 4.13277C14.6451 3.18868 12.6769 2.82527 10.7447 3.09712C8.81245 3.36897 7.02091 4.26142 5.64 5.64L1 10"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        Continuar
+        {{ t.continue }}
       </button>
     </div>
   </div>

@@ -4,7 +4,7 @@
     class="w-full max-w-[500px] sm:max-w-[600px] md:max-w-[720px] xl:max-w-[700px] 3xl:max-w-[800px] flex flex-col px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8">
     <div class="flex items-center justify-between w-full">
       <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
-        Tipo de llamada
+        {{ t.callTypeTitle }}
       </h1>
       <span class="text-xs xl:text-[10px] 3xl:text-sm font-normal text-[#0F172A] dark:text-white leading-tight"
         *ngIf="getCurrentStepNumber() > 0">
@@ -12,7 +12,7 @@
       </span>
     </div>
     <p class="mt-0.5 3xl:mt-0.5 text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] font-semibold">
-      ¿Qué tipo de llamadas atenderá tu agente?
+      {{ t.whatCallType }}
     </p>
 
     <div class="grid grid-cols-2 gap-4 xl:gap-3 3xl:gap-5 mt-4 xl:mt-3 3xl:mt-4">
@@ -36,7 +36,7 @@
               stroke-linejoin="round" />
           </svg>
         </div>
-        <span class="text-sm xl:text-xs 3xl:text-lg font-medium text-gray-900 dark:text-white">Inbound</span>
+        <span class="text-sm xl:text-xs 3xl:text-lg font-medium text-gray-900 dark:text-white">{{ t.inbound }}</span>
       </button>
 
       <!-- Outbound -->
@@ -54,8 +54,8 @@
               stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
           </svg>
         </div>
-        <span class="text-sm xl:text-xs font-medium text-gray-500 dark:text-gray-400">Outbound</span>
-        <span class="text-xs xl:text-[10px] 3xl:text-xs text-gray-400 dark:text-gray-500 mt-1">No disponible</span>
+        <span class="text-sm xl:text-xs font-medium text-gray-500 dark:text-gray-400">{{ t.outbound }}</span>
+        <span class="text-xs xl:text-[10px] 3xl:text-xs text-gray-400 dark:text-gray-500 mt-1">{{ t.notAvailable }}</span>
       </button>
     </div>
 
@@ -64,13 +64,13 @@
         class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-base rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
         (click)="backClicked.emit()">
         <span class="text-xs 3xl:text-lg leading-none">‹</span>
-        <span>Atrás</span>
+        <span>{{ t.back }}</span>
       </button>
       <button type="button" [disabled]="!selectedCallType" [class.opacity-50]="!selectedCallType"
         [class.cursor-not-allowed]="!selectedCallType"
         class="px-2.5 3xl:px-6 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-base rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors disabled:hover:bg-[#1E3A8A] dark:bg-white dark:text-[#000000] dark:hover:bg-white"
         (click)="continueClicked.emit()">
-        Continuar
+        {{ t.continue }}
       </button>
     </div>
   </div>

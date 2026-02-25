@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, inject, OnInit, Inject, PLATFORM_ID, effect } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { I18nService } from '../../core/services/i18n.service';
@@ -63,10 +63,6 @@ export class HomeComponent implements OnInit {
   // Guardar el último breakpoint para evitar re-renders innecesarios durante el resize
   private lastBreakpoint: string = '';
   private isBrowser: boolean;
-
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-  }
 
   get summary() {
     // Si hay datos del backend, usarlos
@@ -377,8 +373,7 @@ export class HomeComponent implements OnInit {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
 
-      const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-      const dayName = dayNames[date.getDay()];
+      const dayName = this.getDayAbbreviationForDate(date);
       const dayNumber = date.getDate();
 
       dates.push(`${dayName} ${dayNumber}`);
@@ -396,8 +391,7 @@ export class HomeComponent implements OnInit {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
 
-      const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-      const dayName = dayNames[date.getDay()];
+      const dayName = this.getDayAbbreviationForDate(date);
       const dayNumber = date.getDate();
 
       // Mostrar todos los días
@@ -405,6 +399,13 @@ export class HomeComponent implements OnInit {
     }
 
     return dates;
+  }
+
+  // Obtener abreviación de día según idioma actual
+  private getDayAbbreviationForDate(date: Date): string {
+    const t = this.t;
+    const dayNames = [t.sun, t.mon, t.tue, t.wed, t.thu, t.fri, t.sat];
+    return dayNames[date.getDay()] ?? '';
   }
 
   // Generar datos aleatorios para los últimos 30 días
@@ -469,9 +470,21 @@ export class HomeComponent implements OnInit {
     },
   };
 
-  // Obtener categorías según el período seleccionado
+  // Obtener categorías según el período seleccionado (reactivo al idioma)
   getCurrentCategories(): string[] {
     return this.getLast7Days();
+  }
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    // Actualizar categorías del gráfico solo cuando cambie el idioma (evita parpadeo)
+    effect(() => {
+      this.i18nService.selectedLanguage();
+      this.callsAreaXAxis = {
+        ...this.callsAreaXAxis,
+        categories: this.getCurrentCategories(),
+      };
+    });
   }
 
   // Obtener datos según el período seleccionado

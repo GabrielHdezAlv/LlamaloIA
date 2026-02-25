@@ -1,3 +1,41 @@
+// Fade-in suave para las 3 tarjetas (opacity + ligero slide-up, curva agradable)
+@keyframes plan-card-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.plan-card-fade-in {
+    animation: plan-card-fade-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    opacity: 0;
+}
+
+// Comparación de funciones: fade-in cuando entra en viewport
+@keyframes comparison-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.comparison-section {
+    opacity: 0;
+    transform: translateY(24px);
+
+    &.comparison-visible {
+        animation: comparison-fade-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+}
+
 .upgrade-plan-wrapper {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     transform: scale(0.82);
@@ -5,6 +43,8 @@
     max-width: 1200px;
     margin: 0 auto;
     margin-top: 1.5rem;
+    /* Ajustes para que no se vea cortado por el transform scale */
+    padding-bottom: 200px;
 
     @media (max-width: 700px) {
         transform: scale(1.15);
@@ -67,7 +107,4 @@
             transition: background-color 0.2s ease;
         }
     }
-
-    /* Ajustes para que no se vea cortado por el transform scale */
-    padding-bottom: 200px;
 }

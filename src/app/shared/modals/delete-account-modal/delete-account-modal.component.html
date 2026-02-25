@@ -1,66 +1,22 @@
-<div class="modal-container 3xl:max-w-xl">
-  <!-- Icono centrado superior -->
-  <div class="modal-icon-wrapper error pt-8 pb-4 3xl:pt-12 3xl:pb-6">
-    <div class="modal-icon-circle error w-[72px] h-[72px] 3xl:w-24 3xl:h-24">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="modal-icon w-9 h-9 3xl:w-12 3xl:h-12">
-        <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-    </div>
-  </div>
-
-  <!-- Contenido -->
-  <div class="modal-content px-6 pb-6 3xl:px-8 3xl:pb-8">
-    <h2 class="modal-title error text-center text-xl font-bold mb-4 3xl:text-2xl 3xl:mb-5">{{ t.deleteAccountTitle }}</h2>
-    
-    <div class="modal-message-wrapper mb-6 3xl:mb-8">
-      <div class="text-xs text-gray-700 dark:text-gray-300 mb-4 space-y-2 leading-relaxed 3xl:text-sm 3xl:mb-5 3xl:space-y-3">
-        <p>{{ t.deleteAccountIntro1 }}</p>
-        <p>{{ t.deleteAccountIntro2 }}</p>
-        <p>{{ t.deleteAccountIntro3 }}</p>
-        <p>{{ t.deleteAccountIntro4 }}</p>
-      </div>
-      
-      <div class="modal-details error rounded-xl p-4 3xl:p-5 mb-4 3xl:mb-5">
-        <p class="text-xs text-red-700 dark:text-red-400 font-semibold mb-2 flex items-center 3xl:text-sm 3xl:mb-3">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 mr-1.5 3xl:w-5 3xl:h-5 3xl:mr-2">
-            <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          {{ t.irreversibleAction }}
-        </p>
-        <ul class="text-xs text-red-600 dark:text-red-400 space-y-1.5 list-disc list-inside 3xl:text-sm 3xl:space-y-2">
-          <li>{{ t.irreversiblePoint1 }}</li>
-          <li>{{ t.irreversiblePoint2 }}</li>
-          <li>{{ t.irreversiblePoint3 }}</li>
-        </ul>
-      </div>
-      
-      <div class="modal-details bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 3xl:p-5">
-        <p class="text-xs text-blue-700 dark:text-blue-300 font-semibold mb-2 flex items-center 3xl:text-sm 3xl:mb-3">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 mr-1.5 3xl:w-5 3xl:h-5 3xl:mr-2">
-            <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          Período de recuperación
-        </p>
-        <p class="text-xs text-blue-600 dark:text-blue-400 3xl:text-sm">
-          {{ t.deleteAccountRecoveryPeriod }}
-        </p>
-      </div>
-    </div>
-
-    <div class="modal-actions modal-actions-column flex gap-3 3xl:gap-4">
-      <button 
-        (click)="contactSupport()"
-        class="modal-button modal-button-primary warning w-full px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 3xl:px-6 3xl:py-3 3xl:text-base"
-      >
-        {{ t.contactSupport }}
-      </button>
-      <button 
-        (click)="confirm()"
-        class="modal-button modal-button-secondary w-full px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 3xl:px-6 3xl:py-3 3xl:text-base"
-      >
-        {{ t.deleteMyAccount }}
-      </button>
-    </div>
+<div class="p-6 max-w-sm mx-auto bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-gray-100 dark:border-slate-800">
+  <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+    {{ t.deleteAccountTitle }}
+  </h2>
+  <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+    {{ t.deleteAccountIntro1 }}
+  </p>
+  <div class="flex gap-3 justify-end">
+    <button
+      type="button"
+      (click)="cancel()"
+      class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+      {{ t.cancel }}
+    </button>
+    <button
+      type="button"
+      (click)="confirm()"
+      class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700 rounded-lg transition-colors">
+      {{ t.deleteMyAccount }}
+    </button>
   </div>
 </div>
-

@@ -66,8 +66,11 @@ export class MetricsComponent implements OnInit, OnDestroy {
   // Variable para controlar el día seleccionado en horas punta (0 = LUN, 1 = MAR, ..., 6 = DOM)
   selectedDayIndex: number = 5; // Por defecto SAB (Sábado)
 
-  // Días de la semana para horas punta
-  weekDays: string[] = ['LUN', 'MAR', 'MIE', 'JUE', 'VIE', 'SAB', 'DOM'];
+  // Días de la semana para horas punta (dependen del idioma)
+  get weekDays(): string[] {
+    const t = this.t;
+    return [t.mon, t.tue, t.wed, t.thu, t.fri, t.sat, t.sun];
+  }
 
   // Propiedades para métricas detalladas
   isLoadingDetailedMetrics: boolean = false;
@@ -125,12 +128,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
     message: string;
     textColor: string;
   }> {
+    const langCode = this.i18nService.selectedLanguage().code;
     const statuses = [];
 
     // Sistema OK (siempre visible)
     statuses.push({
       circleColor: 'bg-green-500',
-      message: 'Sistema OK',
+      message: langCode === 'en' ? 'System OK' : 'Sistema OK',
       textColor: 'text-gray-800 dark:text-slate-200',
     });
 
@@ -139,26 +143,34 @@ export class MetricsComponent implements OnInit, OnDestroy {
       if (this.latencyMs > 2000) {
         statuses.push({
           circleColor: 'bg-orange-500',
-          message: 'Latencia alta en España',
+          message:
+            langCode === 'en'
+              ? 'High latency in Spain'
+              : 'Latencia alta en España',
           textColor: 'text-gray-800 dark:text-slate-200',
         });
       } else if (this.latencyMs > 1000) {
         statuses.push({
           circleColor: 'bg-yellow-500',
-          message: 'Latencia normal',
+          message:
+            langCode === 'en' ? 'Normal latency' : 'Latencia normal',
           textColor: 'text-gray-800 dark:text-slate-200',
         });
       } else {
         statuses.push({
           circleColor: 'bg-green-500',
-          message: 'Latencia óptima',
+          message:
+            langCode === 'en' ? 'Optimal latency' : 'Latencia óptima',
           textColor: 'text-gray-800 dark:text-slate-200',
         });
       }
     } else {
       statuses.push({
         circleColor: 'bg-gray-400',
-        message: 'Latencia no disponible',
+        message:
+          langCode === 'en'
+            ? 'Latency not available'
+            : 'Latencia no disponible',
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     }
@@ -167,19 +179,24 @@ export class MetricsComponent implements OnInit, OnDestroy {
     if (this.isTwilioConnected && !this.detailedMetricsError) {
       statuses.push({
         circleColor: 'bg-green-500',
-        message: 'Twilio conectado',
+        message:
+          langCode === 'en' ? 'Twilio connected' : 'Twilio conectado',
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else if (this.detailedMetricsError) {
       statuses.push({
         circleColor: 'bg-red-500',
-        message: 'Fallos Twilio detectados',
+        message:
+          langCode === 'en'
+            ? 'Twilio failures detected'
+            : 'Fallos Twilio detectados',
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else {
       statuses.push({
         circleColor: 'bg-red-500',
-        message: 'Twilio no conectado',
+        message:
+          langCode === 'en' ? 'Twilio not connected' : 'Twilio no conectado',
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     }
@@ -193,31 +210,46 @@ export class MetricsComponent implements OnInit, OnDestroy {
     if (usagePercent >= 90) {
       statuses.push({
         circleColor: 'bg-red-500',
-        message: `Usado ${Math.round(usagePercent)}% del plan`,
+        message:
+          langCode === 'en'
+            ? `Used ${Math.round(usagePercent)}% of the plan`
+            : `Usado ${Math.round(usagePercent)}% del plan`,
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else if (usagePercent >= 85) {
       statuses.push({
         circleColor: 'bg-yellow-500',
-        message: `Usado ${Math.round(usagePercent)}% del plan`,
+        message:
+          langCode === 'en'
+            ? `Used ${Math.round(usagePercent)}% of the plan`
+            : `Usado ${Math.round(usagePercent)}% del plan`,
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else if (usagePercent >= 70) {
       statuses.push({
         circleColor: 'bg-orange-500',
-        message: `Usado ${Math.round(usagePercent)}% del plan`,
+        message:
+          langCode === 'en'
+            ? `Used ${Math.round(usagePercent)}% of the plan`
+            : `Usado ${Math.round(usagePercent)}% del plan`,
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else if (usagePercent >= 50) {
       statuses.push({
         circleColor: 'bg-yellow-500',
-        message: `Usado ${Math.round(usagePercent)}% del plan`,
+        message:
+          langCode === 'en'
+            ? `Used ${Math.round(usagePercent)}% of the plan`
+            : `Usado ${Math.round(usagePercent)}% del plan`,
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else {
       statuses.push({
         circleColor: 'bg-green-500',
-        message: `Usado ${Math.round(usagePercent)}% del plan`,
+        message:
+          langCode === 'en'
+            ? `Used ${Math.round(usagePercent)}% of the plan`
+            : `Usado ${Math.round(usagePercent)}% del plan`,
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     }
@@ -226,13 +258,17 @@ export class MetricsComponent implements OnInit, OnDestroy {
     if (this.isShopifyConnected) {
       statuses.push({
         circleColor: 'bg-green-500',
-        message: 'Shopify conectado',
+        message:
+          langCode === 'en' ? 'Shopify connected' : 'Shopify conectado',
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else {
       statuses.push({
         circleColor: 'bg-gray-400',
-        message: 'Shopify no conectado',
+        message:
+          langCode === 'en'
+            ? 'Shopify not connected'
+            : 'Shopify no conectado',
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     }
@@ -336,6 +372,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
   averageCalls: number = 0;
 
   private isBrowser: boolean;
+  private languageChangeHandler = (event: Event) => {
+    this.handleLanguageChange();
+  };
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.i18nService.initializeLanguage();
@@ -354,8 +393,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
 
-      const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-      const dayName = dayNames[date.getDay()];
+      const dayName = this.getDayAbbreviationForDate(date);
       const dayNumber = date.getDate();
 
       dates.push(`${dayName} ${dayNumber}`);
@@ -373,8 +411,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
 
-      const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-      const dayName = dayNames[date.getDay()];
+      const dayName = this.getDayAbbreviationForDate(date);
       const dayNumber = date.getDate();
 
       // Mostrar todos los días
@@ -403,6 +440,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
       enabled: false,
     },
   };
+
+  // Obtener abreviación de día según idioma actual
+  private getDayAbbreviationForDate(date: Date): string {
+    const t = this.t;
+    const dayNames = [t.sun, t.mon, t.tue, t.wed, t.thu, t.fri, t.sat];
+    return dayNames[date.getDay()] ?? '';
+  }
 
   callsAreaStroke: ApexStroke = {
     curve: 'smooth',
@@ -877,15 +921,67 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   // Obtener el texto de ocupación según el nivel de busyness
   getBusynessLabel(busyness: number): string {
-    if (busyness >= 80) return 'Muy solicitado';
-    if (busyness >= 60) return 'Ocupado';
-    if (busyness >= 40) return 'Moderado';
-    if (busyness >= 20) return 'Poco ocupado';
-    return 'Muy poco ocupado';
+    const langCode = this.i18nService.selectedLanguage().code;
+    if (busyness >= 80) {
+      return langCode === 'en' ? 'Very busy' : 'Muy solicitado';
+    }
+    if (busyness >= 60) {
+      return langCode === 'en' ? 'Busy' : 'Ocupado';
+    }
+    if (busyness >= 40) {
+      return langCode === 'en' ? 'Moderate' : 'Moderado';
+    }
+    if (busyness >= 20) {
+      return langCode === 'en' ? 'Slightly busy' : 'Poco ocupado';
+    }
+    return langCode === 'en' ? 'Very quiet' : 'Muy poco ocupado';
   }
 
   get countries() {
-    return this.cachedCountries;
+    const langCode = this.i18nService.selectedLanguage().code;
+    const locale = langCode === 'en' ? 'en-US' : 'es-ES';
+
+    let regionNames: Intl.DisplayNames | null = null;
+    try {
+      if (typeof Intl !== 'undefined' && (Intl as any).DisplayNames) {
+        regionNames = new (Intl as any).DisplayNames([locale], {
+          type: 'region',
+        });
+      }
+    } catch {
+      regionNames = null;
+    }
+
+    return this.cachedCountries.map((c: any) => {
+      let name: string;
+
+      if (c.isoCode && typeof c.isoCode === 'string') {
+        // Si es un ISO real (2 letras), intentar resolver con Intl.DisplayNames
+        if (c.isoCode.length === 2 && regionNames) {
+          name = regionNames.of(c.isoCode) || c.isoCode;
+        } else if (c.isoCode.startsWith('+')) {
+          // Prefijo sin identificar
+          name =
+            langCode === 'en'
+              ? `Country ${c.isoCode}`
+              : `País ${c.isoCode}`;
+        } else if (c.isoCode === 'ZZ') {
+          name =
+            langCode === 'en'
+              ? 'Hidden number'
+              : 'Número oculto';
+        } else {
+          name = c.isoCode;
+        }
+      } else {
+        name = '';
+      }
+
+      return {
+        ...c,
+        name,
+      };
+    });
   }
 
   // Evaluación de éxito - ordenados de mayor a menor
@@ -1093,14 +1189,14 @@ export class MetricsComponent implements OnInit, OnDestroy {
       };
     }
 
-    // Actualizar categorías del gráfico
+    // Actualizar categorías del gráfico con nombres de días traducidos
     this.callsAreaXAxis = {
       ...this.callsAreaXAxis,
       categories: this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.map(
         (item) => {
           const date = new Date(item.fecha);
-          const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-          return `${dayNames[date.getDay()]} ${date.getDate()}`;
+          const dayName = this.getDayAbbreviationForDate(date);
+          return `${dayName} ${date.getDate()}`;
         },
       ),
     };
@@ -1184,14 +1280,14 @@ export class MetricsComponent implements OnInit, OnDestroy {
       };
     }
 
-    // Actualizar categorías del gráfico
+    // Actualizar categorías del gráfico con nombres de días traducidos
     this.callsAreaXAxis = {
       ...this.callsAreaXAxis,
       categories: this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
         (item) => {
           const date = new Date(item.fecha);
-          const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-          return `${dayNames[date.getDay()]} ${date.getDate()}`;
+          const dayName = this.getDayAbbreviationForDate(date);
+          return `${dayName} ${date.getDate()}`;
         },
       ),
     };
@@ -1247,69 +1343,69 @@ export class MetricsComponent implements OnInit, OnDestroy {
     // Actualizar latencia con valor real del backend
     this.latencyMs = this.detailedMetrics.latenciaMedia;
 
-    // Calcular países
+    // Calcular países (guardamos ISO y bandera; el nombre se resuelve según idioma)
     this.cachedCountries = this.detailedMetrics.paisesOrigen
       .map((pais) => {
-        let countryName = '';
+        let isoCode = '';
         let countryFlag = '';
 
-        // Mapeo de prefijos a nombres y banderas
+        // Mapeo de prefijos a ISO y banderas
         const countryMapping: {
-          [key: string]: { name: string; flag: string };
+          [key: string]: { isoCode: string; flag: string };
         } = {
-          '1': { name: 'Estados Unidos', flag: 'assets/eeuu.webp' },
-          '34': { name: 'España', flag: 'assets/spain.webp' },
-          '33': { name: 'Francia', flag: 'assets/france.webp' },
-          '44': { name: 'Reino Unido', flag: 'assets/united-kingdom.webp' },
-          '55': { name: 'Brasil', flag: 'assets/brasil.webp' },
-          '52': { name: 'México', flag: 'assets/mexico.webp' },
-          '39': { name: 'Italia', flag: 'assets/italy.webp' },
-          '49': { name: 'Alemania', flag: 'assets/germany.webp' },
-          '351': { name: 'Portugal', flag: 'assets/portugal.webp' },
-          '31': { name: 'Países Bajos', flag: 'assets/netherlands.webp' },
-          '41': { name: 'Suiza', flag: 'assets/switzerland.webp' },
-          '43': { name: 'Austria', flag: 'assets/austria.webp' },
-          '32': { name: 'Bélgica', flag: 'assets/belgium.webp' },
-          '46': { name: 'Suecia', flag: 'assets/sweden.webp' },
-          '47': { name: 'Noruega', flag: 'assets/norway.webp' },
-          '45': { name: 'Dinamarca', flag: 'assets/denmark.webp' },
-          '358': { name: 'Finlandia', flag: 'assets/finland.webp' },
-          '48': { name: 'Polonia', flag: 'assets/poland.webp' },
-          '420': { name: 'República Checa', flag: 'assets/czech.webp' },
-          '36': { name: 'Hungría', flag: 'assets/hungary.webp' },
-          '40': { name: 'Rumanía', flag: 'assets/romania.webp' },
-          '30': { name: 'Grecia', flag: 'assets/greece.webp' },
-          '90': { name: 'Turquía', flag: 'assets/turkey.webp' },
-          '7': { name: 'Rusia', flag: 'assets/russia.webp' },
-          '81': { name: 'Japón', flag: 'assets/japan.webp' },
-          '82': { name: 'Corea del Sur', flag: 'assets/korea.webp' },
-          '86': { name: 'China', flag: 'assets/china.webp' },
-          '91': { name: 'India', flag: 'assets/india.webp' },
-          '61': { name: 'Australia', flag: 'assets/australia.webp' },
-          '64': { name: 'Nueva Zelanda', flag: 'assets/newzealand.webp' },
-          '27': { name: 'Sudáfrica', flag: 'assets/southafrica.webp' },
-          '54': { name: 'Argentina', flag: 'assets/argentina.webp' },
-          '56': { name: 'Chile', flag: 'assets/chile.webp' },
-          '57': { name: 'Colombia', flag: 'assets/colombia.webp' },
-          '58': { name: 'Venezuela', flag: 'assets/venezuela.webp' },
-          '51': { name: 'Perú', flag: 'assets/peru.webp' },
-          '598': { name: 'Uruguay', flag: 'assets/uruguay.webp' },
-          '593': { name: 'Ecuador', flag: 'assets/ecuador.webp' },
-          '507': { name: 'Panamá', flag: 'assets/panama.webp' },
-          '506': { name: 'Costa Rica', flag: 'assets/costarica.webp' },
-          '503': { name: 'El Salvador', flag: 'assets/elsalvador.webp' },
-          '502': { name: 'Guatemala', flag: 'assets/guatemala.webp' },
-          '501': { name: 'Belice', flag: 'assets/belize.webp' },
-          '53': { name: 'Cuba', flag: 'assets/cuba.webp' },
+          '1': { isoCode: 'US', flag: 'assets/eeuu.webp' },
+          '34': { isoCode: 'ES', flag: 'assets/spain.webp' },
+          '33': { isoCode: 'FR', flag: 'assets/france.webp' },
+          '44': { isoCode: 'GB', flag: 'assets/united-kingdom.webp' },
+          '55': { isoCode: 'BR', flag: 'assets/brasil.webp' },
+          '52': { isoCode: 'MX', flag: 'assets/mexico.webp' },
+          '39': { isoCode: 'IT', flag: 'assets/italy.webp' },
+          '49': { isoCode: 'DE', flag: 'assets/germany.webp' },
+          '351': { isoCode: 'PT', flag: 'assets/portugal.webp' },
+          '31': { isoCode: 'NL', flag: 'assets/netherlands.webp' },
+          '41': { isoCode: 'CH', flag: 'assets/switzerland.webp' },
+          '43': { isoCode: 'AT', flag: 'assets/austria.webp' },
+          '32': { isoCode: 'BE', flag: 'assets/belgium.webp' },
+          '46': { isoCode: 'SE', flag: 'assets/sweden.webp' },
+          '47': { isoCode: 'NO', flag: 'assets/norway.webp' },
+          '45': { isoCode: 'DK', flag: 'assets/denmark.webp' },
+          '358': { isoCode: 'FI', flag: 'assets/finland.webp' },
+          '48': { isoCode: 'PL', flag: 'assets/poland.webp' },
+          '420': { isoCode: 'CZ', flag: 'assets/czech.webp' },
+          '36': { isoCode: 'HU', flag: 'assets/hungary.webp' },
+          '40': { isoCode: 'RO', flag: 'assets/romania.webp' },
+          '30': { isoCode: 'GR', flag: 'assets/greece.webp' },
+          '90': { isoCode: 'TR', flag: 'assets/turkey.webp' },
+          '7': { isoCode: 'RU', flag: 'assets/russia.webp' },
+          '81': { isoCode: 'JP', flag: 'assets/japan.webp' },
+          '82': { isoCode: 'KR', flag: 'assets/korea.webp' },
+          '86': { isoCode: 'CN', flag: 'assets/china.webp' },
+          '91': { isoCode: 'IN', flag: 'assets/india.webp' },
+          '61': { isoCode: 'AU', flag: 'assets/australia.webp' },
+          '64': { isoCode: 'NZ', flag: 'assets/newzealand.webp' },
+          '27': { isoCode: 'ZA', flag: 'assets/southafrica.webp' },
+          '54': { isoCode: 'AR', flag: 'assets/argentina.webp' },
+          '56': { isoCode: 'CL', flag: 'assets/chile.webp' },
+          '57': { isoCode: 'CO', flag: 'assets/colombia.webp' },
+          '58': { isoCode: 'VE', flag: 'assets/venezuela.webp' },
+          '51': { isoCode: 'PE', flag: 'assets/peru.webp' },
+          '598': { isoCode: 'UY', flag: 'assets/uruguay.webp' },
+          '593': { isoCode: 'EC', flag: 'assets/ecuador.webp' },
+          '507': { isoCode: 'PA', flag: 'assets/panama.webp' },
+          '506': { isoCode: 'CR', flag: 'assets/costarica.webp' },
+          '503': { isoCode: 'SV', flag: 'assets/elsalvador.webp' },
+          '502': { isoCode: 'GT', flag: 'assets/guatemala.webp' },
+          '501': { isoCode: 'BZ', flag: 'assets/belize.webp' },
+          '53': { isoCode: 'CU', flag: 'assets/cuba.webp' },
           '1-809': {
-            name: 'República Dominicana',
+            isoCode: 'DO',
             flag: 'assets/dominican.webp',
           },
-          '1-787': { name: 'Puerto Rico', flag: 'assets/puertorico.webp' },
-          '1-876': { name: 'Jamaica', flag: 'assets/jamaica.webp' },
-          '1-868': { name: 'Trinidad y Tobago', flag: 'assets/trinidad.webp' },
+          '1-787': { isoCode: 'PR', flag: 'assets/puertorico.webp' },
+          '1-876': { isoCode: 'JM', flag: 'assets/jamaica.webp' },
+          '1-868': { isoCode: 'TT', flag: 'assets/trinidad.webp' },
           'SIN IDENTIFICAR': {
-            name: 'Número oculto',
+            isoCode: 'ZZ',
             flag: 'assets/predeterminada.webp',
           },
         };
@@ -1317,16 +1413,16 @@ export class MetricsComponent implements OnInit, OnDestroy {
         const mappedCountry = countryMapping[pais.pais];
 
         if (mappedCountry) {
-          countryName = mappedCountry.name;
+          isoCode = mappedCountry.isoCode;
           countryFlag = mappedCountry.flag;
         } else {
-          // Para prefijos no mapeados, mostrar el prefijo
-          countryName = `País +${pais.pais}`;
+          // Prefijo no mapeado: guardamos el prefijo para mostrarlo luego
+          isoCode = `+${pais.pais}`;
           countryFlag = 'assets/default.webp';
         }
 
         return {
-          name: countryName,
+          isoCode,
           img: countryFlag,
           percent: Math.round(pais.porcentaje * 10) / 10, // Redondear a 1 decimal
         };
@@ -1373,8 +1469,12 @@ export class MetricsComponent implements OnInit, OnDestroy {
         },
       ].sort((a, b) => b.percent - a.percent);
     } else {
-      // Si no hay datos, dejar vacío
-      this.cachedSuccessEvaluation = [];
+      // Sin datos: mostrar las mismas filas con barras al 0%
+      this.cachedSuccessEvaluation = [
+        { name: 'Exitoso', percent: 0, color: 'bg-green-500' },
+        { name: 'Parcial', percent: 0, color: 'bg-yellow-500' },
+        { name: 'Fallido', percent: 0, color: 'bg-red-500' },
+      ];
     }
 
     // Calcular razones de finalización
@@ -1432,8 +1532,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
         },
       ].sort((a, b) => b.percent - a.percent);
     } else {
-      // Si no hay datos, dejar vacío
-      this.cachedCallCompletionReasons = [];
+      // Sin datos: mostrar las mismas filas con barras al 0%
+      this.cachedCallCompletionReasons = [
+        { name: 'Completada exitosamente', percent: 0, color: 'bg-blue-500' },
+        { name: 'Cliente colgó', percent: 0, color: 'bg-orange-500' },
+        { name: 'Error técnico', percent: 0, color: 'bg-red-500' },
+        { name: 'Tiempo agotado', percent: 0, color: 'bg-gray-500' },
+      ];
     }
 
     this.hasCachedData = true;
@@ -1494,6 +1599,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     if (this.isBrowser) {
       this.updateChartForScreenSize();
       window.addEventListener('resize', () => this.updateChartForScreenSize());
+      window.addEventListener('languageChanged', this.languageChangeHandler);
     }
 
     // Ejecutar animaciones escalonadas
@@ -1502,8 +1608,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // Limpiar event listeners y prevenir memory leaks
-    if (this.isBrowser && window.removeEventListener) {
+    if (this.isBrowser && typeof window !== 'undefined' && window.removeEventListener) {
       window.removeEventListener('resize', this.updateChartForScreenSize);
+      window.removeEventListener('languageChanged', this.languageChangeHandler);
     }
     // Resetear flags para permitir nuevas cargas si el componente se vuelve a crear
     this.hasLoadedDetailedMetrics = false;
@@ -1532,6 +1639,40 @@ export class MetricsComponent implements OnInit, OnDestroy {
         rotate: isMobile ? -30 : 0,
       },
     };
+  }
+
+  // Actualizar textos dependientes del idioma (filtros, categorías, etc.)
+  private handleLanguageChange(): void {
+    // Actualizar etiquetas de filtros
+    this.periods = [this.t.last7Days];
+    this.selectedPeriod = this.periods[0];
+
+    this.agents = [this.t.all, this.t.agent1, this.t.agent2];
+    if (!this.agents.includes(this.selectedAgent)) {
+      this.selectedAgent = this.agents[0];
+    }
+
+    // Actualizar categorías del gráfico principal usando los datos cargados
+    if (
+      this.dashboardMetrics?.llamadas_exitosas_ultimos_7_dias &&
+      this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.length > 0
+    ) {
+      this.updateComponentWithDashboardData();
+    } else if (
+      this.detailedMetrics?.llamadasExitosasUltimos7Dias &&
+      this.detailedMetrics.llamadasExitosasUltimos7Dias.length > 0
+    ) {
+      this.updateComponentWithDetailedData();
+    } else {
+      // Si no hay datos del backend, usar las funciones locales
+      this.callsAreaXAxis = {
+        ...this.callsAreaXAxis,
+        categories: this.getCurrentCategories(),
+      };
+    }
+
+    // Actualizar datos del gráfico móvil (labels con días traducidos)
+    this.updateMobileChartData();
   }
 
   private startFadeInAnimations(): void {
@@ -1638,14 +1779,21 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return this.callMetricsService.getDayName(dateString);
   }
 
-  // Obtener datos de horas pico para el día seleccionado
+  // Obtener datos de horas pico para el día seleccionado (si no hay datos, 24 barras a 0%)
   getPeakHoursData(): Array<{
     hour: number;
     label: string;
     calls: number;
     percentage: number;
   }> {
-    if (!this.selectedPeakDay) return [];
+    if (!this.selectedPeakDay || !this.selectedPeakDay.hourlyCalls?.length) {
+      return Array.from({ length: 24 }, (_, hour) => ({
+        hour,
+        label: this.formatPeakHour(hour),
+        calls: 0,
+        percentage: 0,
+      }));
+    }
 
     const maxCalls = Math.max(...this.selectedPeakDay.hourlyCalls);
     return this.selectedPeakDay.hourlyCalls.map((calls, hour) => ({
