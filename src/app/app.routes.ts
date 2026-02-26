@@ -26,6 +26,7 @@ import { VerifyEmailComponent } from './auth/verify-email/verify-email.component
 import { UpgradePlanComponent } from './pages/upgrade-plan/upgrade-plan.component';
 import { AdminEditAgentComponent } from './pages/admin-edit-agent/admin-edit-agent.component';
 import { AdminNewsComponent } from './pages/admin-news/admin-news.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -141,5 +142,8 @@ export const routes: Routes = [
       // { path: 'settings', component: AdminSettingsComponent },
     ],
   },
-  { path: '**', redirectTo: 'login' },
+  {
+    path: '**',
+    component: NotFoundComponent,
+  },
 ];

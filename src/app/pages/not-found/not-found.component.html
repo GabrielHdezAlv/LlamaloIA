@@ -1,0 +1,95 @@
+<div
+  class="min-h-screen flex flex-col px-4 relative overflow-hidden bg-black text-slate-100 font-['Inter',system-ui,-apple-system,sans-serif]"
+>
+  <!-- Fondo degradado / glow -->
+  <div
+    class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(0,0,0,0)_0,rgba(0,0,0,0)_32%,rgba(0,0,0,0.85)_48%,#000_70%,#000_100%),url('/assets/fondo_404.jfif')] bg-center bg-cover"
+  ></div>
+
+  <!-- Contenido centrado -->
+  <div class="flex-1 flex items-center justify-center">
+    <div class="relative z-10 max-w-3xl w-full text-center px-4 sm:px-8 py-10 sm:py-14">
+      <!-- Logo superior -->
+      <div class="flex justify-center mb-6">
+        <img
+          src="assets/logo_blanco.webp"
+          alt="Llamalo"
+          class="h-8 sm:h-9 md:h-10 w-auto drop-shadow-[0_0_18px_rgba(255,255,255,0.22)]"
+        />
+      </div>
+
+      <!-- Bloque 404 grande -->
+      <div class="relative flex flex-col items-center mb-3 sm:mb-4">
+        <div
+          class="text-[130px] sm:text-[180px] md:text-[220px] leading-none font-black tracking-[0.02em] font-['Manrope',sans-serif] text-transparent bg-clip-text rounded-xl inline-block px-6"
+          style="-webkit-text-stroke: 1px rgba(255, 255, 255, 0.33); background: linear-gradient(90deg, rgba(71,85,105,0.02) 0%, rgba(203,213,225,0.01) 50%, rgba(226,232,240,0.015) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"
+        >
+          404
+        </div>
+        <h1
+          class="text-4xl sm:text-5xl md:text-6xl font-bold -mt-4 -tracking-[0.3rem] leading-tight text-transparent bg-gradient-to-b from-white via-white/90 to-white/70 bg-clip-text [text-shadow:0_6px_18px_rgba(0,0,0,0.75)] p-2"
+        >
+          Página no encontrada
+        </h1>
+      </div>
+
+      <!-- Botón principal -->
+      <div class="flex flex-col items-center gap-3 mt-6 sm:mt-10">
+        <!-- Marco exterior con borde degradado + liquid glass en el ring -->
+        <div
+          class="inline-flex items-center justify-center rounded-full bg-transparent p-[1.5px] sm:p-[2.5px] ring-1 ring-white/25 liquid-ring"
+        >
+          <div class="rounded-full bg-transparent px-3 py-2 sm:px-4 sm:py-3">
+            <a
+              routerLink="/dashboard/home"
+              class="inline-flex items-center justify-center rounded-full px-8 py-3 text-sm sm:text-base font-semibold bg-[radial-gradient(circle_at_top,#f9fafb,#e5e7eb)] text-slate-950 shadow-[0_20px_40px_rgba(15,23,42,0.7),0_0_0_1px_rgba(148,163,184,0.4)] transition-all duration-200 hover:-translate-y-px hover:shadow-[0_24px_55px_rgba(15,23,42,0.85),0_0_0_1px_rgba(148,163,184,0.55)]"
+            >
+              Volver al panel
+              <svg
+                class="w-4 h-4 ml-2"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtro SVG para efecto liquid glass del ring del botón -->
+  <svg class="hidden">
+    <defs>
+      <filter id="ring-glass">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.008 0.008"
+          numOctaves="2"
+          seed="5"
+          result="noise"
+        />
+        <feGaussianBlur in="noise" stdDeviation="3" result="blurredNoise" />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="blurredNoise"
+          scale="0"
+          xChannelSelector="R"
+          yChannelSelector="G"
+        />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Footer siempre abajo -->
+  <footer
+    class="mt-auto mb-4 text-center text-[9px] sm:text-[10px] text-white/70 -tracking-[0.1em] uppercase relative z-10"
+  >
+    Llamalo 2026 · Todos los derechos reservados
+  </footer>
+</div>

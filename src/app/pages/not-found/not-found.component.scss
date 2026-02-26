@@ -1,0 +1,60 @@
+/* Página 404: efecto liquid glass en el ring y borde de cristal en el 404 */
+
+.liquid-ring {
+  position: relative;
+  z-index: 0;
+}
+
+.liquid-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  box-shadow:
+    inset 2px 2px 0px -2px rgba(255, 255, 255, 0.7),
+    inset 0 0 3px 1px rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.liquid-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  filter: url(#ring-glass);
+  -webkit-filter: url(#ring-glass);
+  overflow: hidden;
+  isolation: isolate;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Números 404: cristal como el borde superior del botón */
+.liquid-404 {
+  position: relative;
+  color: transparent;
+  /* borde suave, un poco más grueso y luminoso */
+  -webkit-text-stroke: 1px rgba(248, 250, 252, 0.85);
+  text-stroke: 1px rgba(248, 250, 252, 0.7);
+  /* relleno estilo cristal: luz arriba, algo más oscuro abajo */
+  background:
+    linear-gradient(
+      130deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(203, 213, 225, 0.2) 30%,
+      rgba(15, 23, 42, 0.08) 70%
+    );
+  -webkit-background-clip: text;
+  background-clip: text;
+  /* sin distorsión extra, solo el look de cristal */
+  filter: none;
+  -webkit-filter: none;
+  /* sombreado: peso abajo y halo blanco suave alrededor del borde */
+  text-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(255, 255, 255, 0.22);
+}
+
