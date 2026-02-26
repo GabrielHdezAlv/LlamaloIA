@@ -25,6 +25,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     volume = 80; // Default volume
     isPlaying = false;
     currentUrl = '';
+    hideSupportWidget = false;
 
     readonly voiceTest = inject(VoiceTestService);
     private router = inject(Router);
@@ -55,18 +56,29 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     ngOnInit() {
         if (this.isBrowser) {
             this.animateIdle();
-            this.currentUrl = this.router.url;
+            this.updateVisibility();
             this.router.events.pipe(
                 filter(event => event instanceof NavigationEnd)
-            ).subscribe((event: any) => {
-                this.currentUrl = event.url;
+            ).subscribe(() => {
+                this.updateVisibility();
             });
         }
     }
 
+    private updateVisibility(): void {
+        this.currentUrl = this.router.url;
+        let route = this.router.routerState.snapshot.root;
+        while (route.firstChild) {
+            route = route.firstChild;
+        }
+        this.hideSupportWidget = route.data['hideSupportWidget'] === true;
+    }
+
     get shouldShow(): boolean {
         const authRoutes = ['/login', '/register', '/verify-email'];
-        return !authRoutes.some(route => this.currentUrl.includes(route));
+        if (authRoutes.some(route => this.currentUrl.includes(route))) return false;
+        if (this.hideSupportWidget) return false;
+        return true;
     }
 
     ngOnDestroy() {

@@ -145,5 +145,6 @@ export const routes: Routes = [
   {
     path: '**',
     component: NotFoundComponent,
+    data: { hideSupportWidget: true },
   },
 ];
