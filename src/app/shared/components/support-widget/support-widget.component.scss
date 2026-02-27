@@ -9,8 +9,6 @@
     gap: 16px;
 
     .widget-container {
-        width: 300px;
-        height: 480px;
         background: #000000;
         border-radius: 16px;
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
@@ -519,21 +517,14 @@
     .support-widget {
 
         .widget-container {
-            // Keep the floating box positioned near the button
-            position: fixed;
-            right: 70px; // Position it next to the button
-            bottom: 20px; // Align with button area
-            top: auto;
-            transform: none;
-            left: auto;
-            width: 300px;
-            height: 480px;
-            border-radius: 16px;
-            animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            // El layout (fixed/fullscreen) lo gestiona Tailwind en el template
+            border-radius: 0;
+            box-shadow: none;
 
             .widget-content {
-                padding: 24px;
+                padding: 20px 20px 32px;
+                height: 100%;
+                overflow-y: auto;
             }
         }
 
@@ -576,14 +567,9 @@
         display: none;
     }
 
-    // Adjust position when creating agent (avoid overlap with fixed buttons)
+    // En modo "creating-agent" dejamos que el overlay de Tailwind cubra toda la pantalla
     :host-context(.creating-agent) .support-widget .launcher {
-        bottom: 110px; // Just above the mobile nav buttons
-        top: auto;
-    }
-
-    :host-context(.creating-agent) .support-widget .widget-container {
-        bottom: 180px; // Open above the launcher
+        bottom: 110px; // posición solo cuando está cerrado
         top: auto;
     }
 }

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { I18nService } from '../../core/services/i18n.service';
 
 @Component({
   selector: 'app-not-found',
@@ -11,5 +12,15 @@ import { RouterModule } from '@angular/router';
 })
 export class NotFoundComponent {
   currentYear = new Date().getFullYear();
+
+  private i18nService = inject(I18nService);
+
+  constructor() {
+    this.i18nService.initializeLanguage();
+  }
+
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 }
 

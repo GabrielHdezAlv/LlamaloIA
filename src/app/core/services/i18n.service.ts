@@ -205,6 +205,11 @@ export interface Translations {
   // Common
   new: string;
 
+  // 404 / Not Found page
+  notFoundTitle: string;
+  notFoundBackToDashboard: string;
+  allRightsReserved: string;
+
   // Metrics page
   last7Days: string;
   last30Days: string;
@@ -867,6 +872,11 @@ export class I18nService {
       // Common
       new: 'Nuevo',
 
+      // 404 / Not Found page
+      notFoundTitle: 'Página no encontrada',
+      notFoundBackToDashboard: 'Volver al panel',
+      allRightsReserved: 'Todos los derechos reservados',
+
       // Metrics page
       last7Days: 'Últimos 7 días',
       last30Days: 'Últimos 30 días',
@@ -1512,6 +1522,11 @@ export class I18nService {
 
       // Common
       new: 'New',
+
+      // 404 / Not Found page
+      notFoundTitle: 'Page not found',
+      notFoundBackToDashboard: 'Back to dashboard',
+      allRightsReserved: 'All rights reserved',
 
       // Metrics page
       last7Days: 'Last 7 days',
