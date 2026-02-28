@@ -866,7 +866,7 @@ export class I18nService {
       searchNumber: 'Buscar el número',
       resolved: 'Resuelto',
       pending: 'Pendiente',
-      selectContactToView: 'Selecciona una conversación de tu historial.',
+      selectContactToView: 'Selecciona una conversación',
       back: 'Volver',
 
       // Common
@@ -1517,7 +1517,7 @@ export class I18nService {
       searchNumber: 'Search number',
       resolved: 'Resolved',
       pending: 'Pending',
-      selectContactToView: 'Select a contact to view the conversation.',
+      selectContactToView: 'Select a conversation',
       back: 'Back',
 
       // Common

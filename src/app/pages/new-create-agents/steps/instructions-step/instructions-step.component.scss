@@ -1,3 +1,54 @@
+/* Sidebar Make: abrir y cerrar (mismo diseño que sidebar de voces) */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes makeBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.make-sidebar-aside {
+  transform: translateX(100%);
+}
+
+.make-sidebar-aside.animate-slide-in-right {
+  animation: slideInRight 0.28s ease-out forwards;
+}
+
+.make-sidebar-aside.animate-slide-out-right {
+  animation: slideOutRight 0.28s ease-in forwards;
+}
+
+.make-sidebar-backdrop-layer {
+  opacity: 0;
+  animation: makeBackdropFadeIn 0.28s ease-out forwards;
+  transition: opacity 0.28s ease-in;
+}
+
+.make-sidebar-overlay-closing .make-sidebar-backdrop-layer {
+  opacity: 0;
+  animation: none;
+}
+
 @keyframes makeModalSlideIn {
   0% {
     opacity: 0;

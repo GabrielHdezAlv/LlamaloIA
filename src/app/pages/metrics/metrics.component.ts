@@ -1260,37 +1260,46 @@ export class MetricsComponent implements OnInit, OnDestroy {
   private updateComponentWithDetailedData(): void {
     if (!this.detailedMetrics) return;
 
-    // Actualizar datos del gráfico de llamadas exitosas
-    const data = this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
-      (item) => item.total,
-    );
-    this.callsAreaSeries = [
-      {
-        name: 'Llamadas',
-        data: data,
-      },
-    ];
+    const hasDashboardCalls =
+      !!this.dashboardMetrics?.llamadas_exitosas_ultimos_7_dias &&
+      this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.length > 0;
 
-    // Actualizar YAxis dinámicamente basado en los datos
-    if (data.length > 0) {
-      const maxValue = Math.max(...data);
-      this.callsAreaYAxis = {
-        ...this.callsAreaYAxis,
-        max: Math.ceil(maxValue * 1.1), // 10% más para espacio visual
+    // Solo usamos los datos detallados para el gráfico principal
+    // si NO tenemos datos del dashboard. Así evitamos que el
+    // gráfico se "reinicie" dos veces al cargar la página.
+    if (!hasDashboardCalls) {
+      // Actualizar datos del gráfico de llamadas exitosas
+      const data = this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
+        (item) => item.total,
+      );
+      this.callsAreaSeries = [
+        {
+          name: 'Llamadas',
+          data: data,
+        },
+      ];
+
+      // Actualizar YAxis dinámicamente basado en los datos
+      if (data.length > 0) {
+        const maxValue = Math.max(...data);
+        this.callsAreaYAxis = {
+          ...this.callsAreaYAxis,
+          max: Math.ceil(maxValue * 1.1), // 10% más para espacio visual
+        };
+      }
+
+      // Actualizar categorías del gráfico con nombres de días traducidos
+      this.callsAreaXAxis = {
+        ...this.callsAreaXAxis,
+        categories: this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
+          (item) => {
+            const date = new Date(item.fecha);
+            const dayName = this.getDayAbbreviationForDate(date);
+            return `${dayName} ${date.getDate()}`;
+          },
+        ),
       };
     }
-
-    // Actualizar categorías del gráfico con nombres de días traducidos
-    this.callsAreaXAxis = {
-      ...this.callsAreaXAxis,
-      categories: this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
-        (item) => {
-          const date = new Date(item.fecha);
-          const dayName = this.getDayAbbreviationForDate(date);
-          return `${dayName} ${date.getDate()}`;
-        },
-      ),
-    };
 
     // Actualizar totales
     this.totalMinutesUsed = this.detailedMetrics.totalMinutosUltimoMes;
@@ -1326,8 +1335,11 @@ export class MetricsComponent implements OnInit, OnDestroy {
       );
     }
 
-    // Actualizar datos móviles
-    this.updateMobileChartData();
+    // Actualizar datos móviles solo si el gráfico principal
+    // está usando también los datos detallados
+    if (!hasDashboardCalls) {
+      this.updateMobileChartData();
+    }
   }
 
   // Método para calcular y cachear todos los valores de métricas

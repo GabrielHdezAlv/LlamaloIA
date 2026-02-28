@@ -228,11 +228,12 @@
           <span class="text-gray-500 text-sm sm:text-base md:text-base dark:text-slate-400">{{ t.status }}:</span>
           <p class="font-medium text-sm sm:text-base md:text-base mt-1 sm:mt-1.5 text-gray-900 dark:text-slate-50">
             {{
-            agent.state === "Activo"
-            ? t.active
-            : agent.state === "Inactivo"
-            ? t.inactive
-            : agent.state
+              agent.state === "Activo"
+                ? t.active
+                : agent.state === "Inactivo"
+                  ? t.inactive
+                  : agent.state
+            }}
           </p>
         </div>
         <div>

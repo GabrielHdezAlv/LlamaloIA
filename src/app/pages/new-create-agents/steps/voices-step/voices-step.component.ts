@@ -39,6 +39,7 @@ export class VoicesStepComponent {
   showCountryDropdown = false;
   showVoiceDropdown = false;
   showVoiceParamsDropdown = false;
+  voiceParamsSidebarClosing = false;
 
   getCurrentStepNumber(): number {
     return this.currentStepNumber;
@@ -70,6 +71,15 @@ export class VoicesStepComponent {
     event.stopPropagation();
     this.showVoiceDropdown = false;
     this.showVoiceParamsDropdown = !this.showVoiceParamsDropdown;
+  }
+
+  closeVoiceParamsSidebar() {
+    if (this.voiceParamsSidebarClosing) return;
+    this.voiceParamsSidebarClosing = true;
+    setTimeout(() => {
+      this.showVoiceParamsDropdown = false;
+      this.voiceParamsSidebarClosing = false;
+    }, 280);
   }
 
   getSelectedCountryOption() {

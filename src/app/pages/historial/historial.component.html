@@ -44,9 +44,9 @@
       </div>
     </div>
 
-    <!-- Panel derecho: Chat - Oculto en móviles cuando no hay chat seleccionado -->
-    <div class="flex-1 lg:flex flex-col bg-white h-auto lg:h-full min-h-0 fade-in-section chat-panel"
-      [class.hidden]="!showChat" [class.lg:flex]="true" [class.fade-in-visible]="showChat">
+    <!-- Panel derecho: en desktop siempre visible; en móvil solo cuando hay conversación seleccionada. Sin fade cuando está vacío para que se vea el mensaje -->
+    <div class="flex-1 flex-col bg-white dark:bg-slate-900 h-auto lg:h-full min-h-0 chat-panel hidden lg:!flex"
+      [class.max-lg:!flex]="showChat" [class.fade-in-section]="showChat && selectedContact" [class.fade-in-visible]="showChat && selectedContact">
       @if (selectedContact) {
       <!-- Botón volver (solo móviles) -->
       <button (click)="backToContactList()"
@@ -164,9 +164,11 @@
         </div>
       </div>
       } @else {
-      <div
-        class="flex-1 flex items-center justify-center text-gray-500 text-[10px] 3xl:text-base max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg dark:text-slate-400 ">
-        {{ t.selectContactToView }}
+      <div class="flex-1 flex items-center justify-center min-h-[320px] lg:min-h-0">
+        <p
+          class="text-gray-600 text-base sm:text-lg 3xl:text-xl dark:text-slate-300 text-center font-medium">
+          {{ t.selectContactToView }}
+        </p>
       </div>
       }
     </div>

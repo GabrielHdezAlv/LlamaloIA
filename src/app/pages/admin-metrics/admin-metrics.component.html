@@ -2,27 +2,27 @@
   <div class="max-w-7xl mx-auto">
     <!-- Encabezado -->
     <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-      <div class="relative w-full sm:w-auto">
+      <div class="relative w-fit max-w-full">
         <select
-          class="appearance-none bg-white rounded-[2rem] w-full px-3 sm:px-4 py-2 pr-10 md:pr-12 text-sm sm:text-base border border-gray-200 history-border focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="appearance-none bg-white rounded-[2rem] w-full px-3 sm:px-4 py-2 pr-11 text-sm sm:text-base border border-gray-200 history-border focus:outline-none focus:ring-2 focus:ring-blue-500"
           [(ngModel)]="selectedPeriod" (change)="onPeriodChange()">
           <option *ngFor="let p of periods">{{ p }}</option>
         </select>
         <svg xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 absolute right-3 md:right-4 top-2.5 sm:top-2.5" fill="none"
+          class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none"
           viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
       </div>
 
-      <div class="relative w-full sm:w-auto">
+      <div class="relative w-fit max-w-full">
         <select
-          class="appearance-none bg-white rounded-[2rem] w-full px-3 sm:px-4 py-2 pr-10 md:pr-12 text-sm sm:text-base border border-gray-200 history-border focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="appearance-none bg-white rounded-[2rem] w-full px-3 sm:px-4 py-2 pr-11 text-sm sm:text-base border border-gray-200 history-border focus:outline-none focus:ring-2 focus:ring-blue-500"
           [(ngModel)]="selectedAgent">
           <option *ngFor="let a of agents">{{ a }}</option>
         </select>
         <svg xmlns="http://www.w3.org/2000/svg"
-          class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 absolute right-3 md:right-4 top-2.5 sm:top-2.5" fill="none"
+          class="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none"
           viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>

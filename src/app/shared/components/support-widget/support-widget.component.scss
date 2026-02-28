@@ -522,9 +522,39 @@
             box-shadow: none;
 
             .widget-content {
-                padding: 20px 20px 32px;
+                padding: 28px 24px 40px;
                 height: 100%;
                 overflow-y: auto;
+
+                .widget-header {
+                    .header-text {
+                        .widget-title {
+                            font-size: 18px;
+                        }
+
+                        .widget-subtitle {
+                            font-size: 12px;
+                        }
+                    }
+                }
+
+                .sphere-wrapper {
+                    width: 170%;
+                }
+
+                .controls-wrapper {
+                    gap: 16px;
+
+                    .mic-btn,
+                    .action-btn {
+                        width: 64px;
+                        height: 64px;
+                    }
+
+                    .branding-text {
+                        font-size: 9px;
+                    }
+                }
             }
         }
 

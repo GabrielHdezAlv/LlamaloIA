@@ -1199,12 +1199,12 @@ export class NewCreateAgentsComponent
 
   toggleMakeConfig() {
     if (this.showMakeConfig) {
-      // Iniciar animación de salida
+      // Iniciar animación de salida (misma duración que sidebar de voces)
       this.isMakeConfigClosing = true;
       setTimeout(() => {
         this.showMakeConfig = false;
         this.isMakeConfigClosing = false;
-      }, 200); // Duración de la animación de salida
+      }, 280);
     } else {
       this.showMakeConfig = true;
       this.isMakeConfigClosing = false;
@@ -1219,12 +1219,12 @@ export class NewCreateAgentsComponent
       return;
     }
 
-    // Iniciar animación de salida
+    // Iniciar animación de salida (misma duración que sidebar de voces)
     this.isMakeConfigClosing = true;
     setTimeout(() => {
       this.showMakeConfig = false;
       this.isMakeConfigClosing = false;
-    }, 200); // Duración de la animación de salida
+    }, 280);
   }
 
   toggleTwilioConfig() {

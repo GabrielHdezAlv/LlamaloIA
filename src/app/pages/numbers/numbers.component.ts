@@ -47,6 +47,7 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   // Importar número: dropdown + sidebar
   showImportDropdown = false;
   showImportSidebar = false;
+  importSidebarClosing = false;
   importForm: FormGroup;
   isImportLoading = false;
   showCountryMenu = false;
@@ -191,8 +192,13 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   }
 
   closeImportSidebar(): void {
-    this.showImportSidebar = false;
+    if (this.importSidebarClosing) return;
+    this.importSidebarClosing = true;
     this.showCountryMenu = false;
+    setTimeout(() => {
+      this.showImportSidebar = false;
+      this.importSidebarClosing = false;
+    }, 280);
   }
 
   toggleCountryMenu(): void {
