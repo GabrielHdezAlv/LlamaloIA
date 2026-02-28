@@ -355,6 +355,10 @@ export class NewCreateAgentsComponent
       if (this.step === 'summary') {
         setTimeout(() => this.logSavedData(), 100);
       }
+
+      if (this.step === 'connectPhone') {
+        this.showTwilioConfig = false;
+      }
     }
     this.showRecoveryPopup = false;
   }
@@ -1025,6 +1029,7 @@ export class NewCreateAgentsComponent
       this.step = 'summary';
     } else if (this.step === 'summary') {
       this.step = 'connectPhone';
+      this.showTwilioConfig = false;
       this.saveDraft();
     } else if (this.step === 'connectPhone') {
       this.createAgentAfterValidation();
@@ -1597,6 +1602,7 @@ export class NewCreateAgentsComponent
   onSubmitTestCall() {
     // Ir a Conecta tu número de teléfono
     this.step = 'connectPhone';
+    this.showTwilioConfig = false;
     this.loadTwilioAccounts();
     this.saveDraft();
   }

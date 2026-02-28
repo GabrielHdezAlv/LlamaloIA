@@ -1,3 +1,10 @@
+/* Estado cerrado: oculto sin animación (evita que se vea abierto al cargar el paso) */
+.twilio-closed {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
 /* Animación de deslizamiento para Twilio config */
 .twilio-slide-down {
   animation: twilioSlideDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
