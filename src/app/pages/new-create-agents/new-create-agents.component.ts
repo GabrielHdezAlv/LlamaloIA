@@ -2081,7 +2081,7 @@ export class NewCreateAgentsComponent
 
   // Parámetros de voz
   voiceParameters: VoiceParameters = {
-    stability: 0.72, // 0-1.0
+    stability: 0.5, // 0-1.0
     similarity: 0.8, // 0-1.0
     style: 0.5, // 0-1.0
     boost: true, // true/false
