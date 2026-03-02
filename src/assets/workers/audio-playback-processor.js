@@ -18,6 +18,9 @@ class AudioPlaybackProcessor extends AudioWorkletProcessor {
     this._prebufferSize = 4000; // ~250ms at 16kHz, overridden by configure
     this._prebuffering = true;
 
+    // Simple gain control for output volume (0.0 - 1.0)
+    this._gain = 1.0;
+
     this.port.onmessage = (event) => {
       if (event.data.type === 'enqueue') {
         this._enqueue(event.data.samples);
@@ -29,6 +32,11 @@ class AudioPlaybackProcessor extends AudioWorkletProcessor {
       } else if (event.data.type === 'configure') {
         if (event.data.prebufferSize) {
           this._prebufferSize = event.data.prebufferSize;
+        }
+      } else if (event.data.type === 'setGain') {
+        const g = Number(event.data.gain);
+        if (!Number.isNaN(g)) {
+          this._gain = Math.max(0, Math.min(1, g));
         }
       }
     };
@@ -69,7 +77,7 @@ class AudioPlaybackProcessor extends AudioWorkletProcessor {
     // Read from ring buffer
     let written = 0;
     while (written < channel.length && this._samplesAvailable > 0) {
-      channel[written] = this._buffer[this._readPos];
+      channel[written] = this._buffer[this._readPos] * this._gain;
       this._readPos = (this._readPos + 1) % this._bufferSize;
       this._samplesAvailable--;
       written++;

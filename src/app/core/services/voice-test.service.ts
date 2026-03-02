@@ -55,6 +55,9 @@ export class VoiceTestService {
   private isSending = true;
   private incomingAudioBuffer = new Uint8Array(0);
 
+  // Volumen de reproducción (0.0 - 1.0), controlado desde el widget Xenon
+  private playbackGain = 1.0;
+
   private readonly WS_URL =
     'wss://llamaloiabackend-5294.onrender.com/voice/test-stream';
   private readonly WS_SUPPORT_CHAT_URL =
@@ -73,6 +76,18 @@ export class VoiceTestService {
         this.notificationService.error(error);
       }
     });
+  }
+
+  // Permite ajustar el volumen de reproducción desde otros componentes (0-1)
+  setPlaybackVolume(gain: number): void {
+    const clamped = Math.max(0, Math.min(1, gain));
+    this.playbackGain = clamped;
+    if (this.playbackWorklet) {
+      this.playbackWorklet.port.postMessage({
+        type: 'setGain',
+        gain: clamped,
+      });
+    }
   }
 
   private getEndReasonText(reason: string): string {
@@ -345,11 +360,15 @@ export class VoiceTestService {
         this.playbackContext,
         'audio-playback-processor',
       );
-      // Pre-buffer de ~250ms antes de empezar a reproducir
+      // Configurar pre-buffer y volumen inicial
       const prebufferSamples = Math.round(this.playbackSampleRate * 0.25);
       this.playbackWorklet.port.postMessage({
         type: 'configure',
         prebufferSize: prebufferSamples,
+      });
+      this.playbackWorklet.port.postMessage({
+        type: 'setGain',
+        gain: this.playbackGain,
       });
       this.playbackWorklet.connect(this.playbackContext.destination);
     } catch (e) {

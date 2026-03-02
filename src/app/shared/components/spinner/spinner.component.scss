@@ -1,0 +1,55 @@
+.spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__icon {
+    width: 46px;
+    height: 41px;
+    filter: drop-shadow(0px 0px 3px rgba(0, 58, 112, 0.4));
+
+    &--pbi {
+      width: 46px;
+      height: 41px;
+      filter: none;
+      animation: pbi-cascade 1.5s ease-in-out infinite;
+    }
+  }
+
+  &__pbi-path {
+    animation: pbi-cascade 1.5s ease-in-out infinite;
+
+    &--1 {
+      animation-delay: 0s;
+    }
+    &--2 {
+      animation-delay: 0.3s;
+    }
+    &--3 {
+      animation-delay: 0.6s;
+    }
+  }
+
+  &__text {
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+      "Apple Color Emoji", "Segoe UI Emoji";
+    margin-top: 16px;
+    color: #000000;
+    text-align: center;
+  }
+}
+
+@keyframes pbi-cascade {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.15;
+  }
+  50%,
+  100% {
+    opacity: 1;
+  }
+}
+

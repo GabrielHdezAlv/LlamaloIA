@@ -22,7 +22,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     audioLevel = 0;
     isMicrophoneActive = false;
     isSettingsOpen = false;
-    volume = 80; // Default volume
+  volume = 80; // Default volume (0-100)
     isPlaying = false;
     currentUrl = '';
     hideSupportWidget = false;
@@ -100,9 +100,11 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     }
 
     setVolume(value: string) {
-        this.volume = parseInt(value);
-        // Here you would typically adjust the actual audio output volume
-        // if هناك actual audio logic.
+        const parsed = parseInt(value, 10);
+        const clamped = isNaN(parsed) ? 0 : Math.min(100, Math.max(0, parsed));
+        this.volume = clamped;
+        // Mapear 0-100 → 0.0-1.0 y actualizar volumen real de reproducción
+        this.voiceTest.setPlaybackVolume(this.volume / 100);
     }
 
     togglePlayback() {
