@@ -8,7 +8,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:llamaloIO": "node dist/llamalo-io/server/server.mjs",
-    "rename:voces": "node scripts/rename-voces.js"
+    "rename:voces": "node scripts/rename-voces.js",
+    "deploy": "node scripts/deploy.js",
+    "deploy:build": "npm run build && npm run deploy"
   },
   "private": true,
   "dependencies": {
@@ -63,6 +65,8 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^3.4.1",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.2",
+    "basic-ftp": "^5.0.3",
+    "ssh2-sftp-client": "^10.0.3"
   }
 }

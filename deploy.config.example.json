@@ -1,0 +1,12 @@
+{
+  "method": "ftp",
+  "host": "ftp.tudominio.com",
+  "port": 21,
+  "username": "tuusuario@tudominio.com",
+  "password": "",
+  "token": "",
+  "remotePath": "/public_html",
+  "localPath": "dist/llamalo-io/browser",
+  "privateKeyPath": "",
+  "passphrase": ""
+}
