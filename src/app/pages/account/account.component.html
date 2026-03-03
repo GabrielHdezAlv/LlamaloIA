@@ -152,6 +152,34 @@
               t.giftsSubtitle }}</span>
           </div>
         </button>
+
+        <!-- Contacto -->
+        <button (click)="setActiveTab('contact')" [class]="
+            activeTab === 'contact'
+              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
+              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left hover:bg-gray-50 transition-colors duration-200  group whitespace-nowrap'
+          ">
+          <span
+            class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-full bg-gray-100 resumen-icon transition-colors duration-200 flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8">
+              <path
+                d="M4 4H20C20.5523 4 21 4.44772 21 5V19C21 19.5523 20.5523 20 20 20H4C3.44772 20 3 19.5523 3 19V5C3 4.44772 3.44772 4 4 4Z"
+                stroke="#727272" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              <path
+                d="M4 7L10.382 11.255C11.3704 11.9129 12.6296 11.9129 13.618 11.255L20 7"
+                stroke="#727272" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <div class="hidden sm:flex sm:flex-col min-w-0">
+            <span
+              class="font-semibold text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm truncate">{{
+              t.contact }}</span>
+            <span
+              class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 truncate">{{
+              t.contactSubtitle }}</span>
+          </div>
+        </button>
       </nav>
     </div>
 
@@ -531,6 +559,129 @@
         <div class="flex-1"></div>
       </div>
       }
+      @if (activeTab === "contact") {
+      <!-- === SECCIÓN CONTACTO === -->
+      <div
+        class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
+        style="
+            transform: scale(0.95);
+            transform-origin: top left;
+            width: calc(105.26% - 2rem);
+          ">
+        <h2 class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-900 mb-3">
+          {{ t.contact }}
+        </h2>
+
+        <div class="flex flex-col gap-4 lg:gap-5">
+          <!-- Bloque: Mensaje al equipo técnico -->
+          <div class="bg-gray-50 rounded-2xl border border-gray-200 history-border p-3 lg:p-4">
+            <h3 class="text-xs lg:text-sm font-semibold text-gray-900 mb-1.5">
+              {{ t.contactMessageLabel }}
+            </h3>
+            <p class="text-[10px] lg:text-xs text-gray-500 mb-2">
+              {{ t.contactSubtitle }}
+            </p>
+            <textarea
+              [(ngModel)]="contactMessage"
+              rows="4"
+              class="w-full px-3 py-2 rounded-xl border border-gray-300 history-border bg-white text-xs lg:text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+              [placeholder]="t.contactMessagePlaceholder">
+            </textarea>
+            <div class="flex justify-end mt-3">
+              <app-ripple-button
+                (buttonClick)="sendContactMessage()"
+                buttonClass="px-4 lg:px-5 py-2 lg:py-2.5 bg-black text-white font-medium rounded-xl text-xs lg:text-sm hover:bg-gray-900 transition-colors flex items-center justify-center"
+                rippleColor="rgba(255, 255, 255, 0.4)"
+                [rippleScale]="8">
+                {{ t.contactMessageButton }}
+              </app-ripple-button>
+            </div>
+          </div>
+
+          <!-- Bloque: Calendario para agendar reunión -->
+          <div class="bg-gray-50 rounded-2xl border border-gray-200 history-border p-3 lg:p-4">
+            <h3 class="text-xs lg:text-sm font-semibold text-gray-900 mb-1.5">
+              {{ t.contactMeetingTitle }}
+            </h3>
+            <p class="text-[10px] lg:text-xs text-gray-500 mb-3">
+              {{ t.contactMeetingSubtitle }}
+            </p>
+
+            <!-- Calendario grande -->
+            <div class="bg-white rounded-2xl border border-gray-200 history-border p-3 lg:p-4">
+              <div class="flex items-center justify-between mb-3">
+                <button
+                  type="button"
+                  class="p-1.5 rounded-full hover:bg-gray-100"
+                  (click)="goToPrevMonth()">
+                  <span class="text-xs lg:text-sm text-gray-600">&larr;</span>
+                </button>
+                <div class="text-xs lg:text-sm font-semibold text-gray-800">
+                  {{ currentCalendarDate | date: 'MMMM y' }}
+                </div>
+                <button
+                  type="button"
+                  class="p-1.5 rounded-full hover:bg-gray-100"
+                  (click)="goToNextMonth()">
+                  <span class="text-xs lg:text-sm text-gray-600">&rarr;</span>
+                </button>
+              </div>
+
+              <!-- Cabecera días de la semana (alineada con las columnas de días) -->
+              <div class="grid grid-cols-7 gap-1 mb-1">
+                <div class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 text-[10px] lg:text-xs text-gray-400">L</div>
+                <div class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 text-[10px] lg:text-xs text-gray-400">M</div>
+                <div class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 text-[10px] lg:text-xs text-gray-400">X</div>
+                <div class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 text-[10px] lg:text-xs text-gray-400">J</div>
+                <div class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 text-[10px] lg:text-xs text-gray-400">V</div>
+                <div class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 text-[10px] lg:text-xs text-gray-400">S</div>
+                <div class="flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 text-[10px] lg:text-xs text-gray-400">D</div>
+              </div>
+
+              <!-- Días -->
+              <div class="grid grid-cols-7 gap-1">
+                @for (day of calendarDays; track day.date || day.label) {
+                <button
+                  type="button"
+                  class="w-8 h-8 lg:w-9 lg:h-9 flex items-center justify-center rounded-xl text-[11px] lg:text-xs"
+                  [ngClass]="{
+                    'text-gray-300 cursor-default': !day.date,
+                    'bg-gray-100 text-gray-400 cursor-not-allowed': day.date && day.isPast,
+                    'bg-blue-900 text-white font-semibold': day.date && day.isSelected && !day.isPast,
+                    'border border-blue-900 text-blue-900 font-semibold bg-blue-50':
+                      day.date && day.isToday && !day.isSelected && !day.isPast,
+                    'text-gray-700 hover:bg-gray-100':
+                      day.date && !day.isPast && !day.isSelected && !day.isToday
+                  }"
+                  [disabled]="!day.date || day.isPast"
+                  (click)="selectCalendarDay(day)">
+                  {{ day.label || '' }}
+                </button>
+                }
+              </div>
+            </div>
+
+            <!-- Selector de hora cuando hay día seleccionado -->
+            <div class="mt-4 space-y-2" *ngIf="selectedCalendarDate">
+              <p class="text-[10px] lg:text-xs text-gray-600">
+                {{ t.contactMeetingTimeLabel }}
+                <span *ngIf="contactMeetingTime">: {{ contactMeetingTime }}</span>
+              </p>
+
+              <div class="flex justify-end mt-2">
+                <app-ripple-button
+                  (buttonClick)="openTimeModal()"
+                  buttonClass="px-4 lg:px-5 py-2 lg:py-2.5 bg-black text-white font-medium rounded-xl text-xs lg:text-sm hover:bg-gray-900 transition-colors flex items-center justify-center"
+                  rippleColor="rgba(255, 255, 255, 0.4)"
+                  [rippleScale]="8">
+                  {{ t.contactMeetingButton }}
+                </app-ripple-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
     </div>
   </div>
 </div>
@@ -591,5 +742,68 @@
     (imageCropped)="onImageCropped($event)"
     (cancel)="closeImageCropper()">
   </app-image-cropper>
+</div>
+}
+
+<!-- Modal selección de hora para reunión -->
+@if (showTimeModal) {
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000] flex items-center justify-center p-4">
+  <div
+    class="bg-[#0b0b0f] text-white rounded-2xl w-full max-w-sm md:max-w-md p-4 md:p-5 shadow-2xl flex flex-col gap-4 items-center">
+    <!-- Solo los dos recuadros tipo despertador -->
+    <div class="flex justify-center gap-6 mt-1 w-full">
+      <!-- Columna horas -->
+      <div class="flex flex-col items-center">
+        <div class="relative h-40 md:h-44 w-14 md:w-16 overflow-y-auto scrollbar-hide">
+          <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-8 md:h-9 rounded-xl border border-white/20 pointer-events-none"></div>
+          <div class="flex flex-col items-stretch gap-1 py-2">
+            @for (hour of timeHours; track hour) {
+            <button
+              type="button"
+              class="h-8 md:h-9 flex items-center justify-center rounded-xl text-xs md:text-sm transition-colors"
+              [ngClass]="{
+                'bg-white text-black font-semibold': hour === selectedHour,
+                'text-gray-300 hover:bg-white/10': hour !== selectedHour
+              }"
+              (click)="selectHour(hour)">
+              {{ hour }}
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna minutos -->
+      <div class="flex flex-col items-center">
+        <div class="relative h-40 md:h-44 w-14 md:w-16 overflow-y-auto scrollbar-hide">
+          <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-8 md:h-9 rounded-xl border border-white/20 pointer-events-none"></div>
+          <div class="flex flex-col items-stretch gap-1 py-2">
+            @for (minute of timeMinutes; track minute) {
+            <button
+              type="button"
+              class="h-8 md:h-9 flex items-center justify-center rounded-xl text-xs md:text-sm transition-colors"
+              [ngClass]="{
+                'bg-white text-black font-semibold': minute === selectedMinute,
+                'text-gray-300 hover:bg-white/10': minute !== selectedMinute
+              }"
+              (click)="selectMinute(minute)">
+              {{ minute }}
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón de solicitar debajo de los dos recuadros -->
+    <div class="mt-2 w-full flex justify-center">
+      <button
+        type="button"
+        class="px-5 py-2.5 rounded-xl bg-white text-black text-xs md:text-sm font-semibold hover:bg-gray-100"
+        (click)="confirmTimeSelection()">
+        {{ t.contactMeetingButton }}
+      </button>
+    </div>
+  </div>
 </div>
 }

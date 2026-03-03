@@ -451,7 +451,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
   callsAreaStroke: ApexStroke = {
     curve: 'smooth',
     width: 3,
-    colors: ['#1E3A8A'],
+  // Negro por defecto (modo claro); en modo oscuro se sobreescribe vía CSS a blanco
+  colors: ['#000000'],
   };
   callsAreaDataLabels: ApexDataLabels = { enabled: false };
   callsAreaGrid: ApexGrid = {
@@ -538,12 +539,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
       opacityTo: 0.1,
       stops: [0, 100],
       colorStops: [
-        { offset: 0, color: '#1E3A8A', opacity: 0.4 },
-        { offset: 100, color: '#1E3A8A', opacity: 0.1 },
+        { offset: 0, color: '#1B2559', opacity: 0.4 },
+        { offset: 100, color: '#1B2559', opacity: 0.1 },
       ],
     },
   };
-  callsAreaColors: string[] = ['#1E3A8A'];
+  // Color base de la serie (negro en modo claro); en modo oscuro se fuerza a blanco por CSS
+  callsAreaColors: string[] = ['#000000'];
 
   // Configuración del tooltip personalizado
   callsAreaTooltip: any = {

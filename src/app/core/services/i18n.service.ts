@@ -547,6 +547,21 @@ export interface Translations {
   accountScheduledDeletionYouHave: string;
   selectAvatar: string;
   uploadMyPhoto: string;
+  contact: string;
+  contactSubtitle: string;
+  contactEmpty: string;
+  contactMessageLabel: string;
+  contactMessagePlaceholder: string;
+  contactMessageButton: string;
+  contactMessageRequired: string;
+  contactMessageSuccess: string;
+  contactMeetingTitle: string;
+  contactMeetingSubtitle: string;
+  contactMeetingDateLabel: string;
+  contactMeetingTimeLabel: string;
+  contactMeetingButton: string;
+  contactMeetingRequired: string;
+  contactMeetingSuccess: string;
 
   // Upgrade plan page
   upgradeTitle: string;
@@ -1210,6 +1225,21 @@ export class I18nService {
       accountScheduledDeletionYouHave: 'Tu cuenta está programada para eliminación. Tienes',
       selectAvatar: 'Selecciona un avatar',
       uploadMyPhoto: 'Subir mi propia foto',
+      contact: 'Contacto',
+      contactSubtitle: 'Ponte en contacto con nuestro equipo',
+      contactEmpty: 'Pronto verás aquí las opciones de contacto.',
+      contactMessageLabel: 'Mensaje para el equipo técnico',
+      contactMessagePlaceholder: 'Escribe aquí con qué necesitas ayuda...',
+      contactMessageButton: 'Enviar mensaje',
+      contactMessageRequired: 'Por favor, escribe un mensaje para el equipo técnico.',
+      contactMessageSuccess: 'Tu mensaje se ha enviado al equipo técnico.',
+      contactMeetingTitle: 'Agendar una reunión',
+      contactMeetingSubtitle: 'Elige fecha y hora para hablar con el equipo técnico.',
+      contactMeetingDateLabel: 'Fecha de la reunión',
+      contactMeetingTimeLabel: 'Hora de la reunión',
+      contactMeetingButton: 'Agendar reunión',
+      contactMeetingRequired: 'Selecciona una fecha y una hora para la reunión.',
+      contactMeetingSuccess: 'Tu solicitud de reunión se ha enviado al equipo técnico.',
 
       // Upgrade plan page
       upgradeTitle: 'Precios que crecen contigo',
@@ -1861,6 +1891,21 @@ export class I18nService {
       accountScheduledDeletionYouHave: 'Your account is scheduled for deletion. You have',
       selectAvatar: 'Select an avatar',
       uploadMyPhoto: 'Upload my own photo',
+      contact: 'Contact',
+      contactSubtitle: 'Get in touch with our team',
+      contactEmpty: 'Contact options will appear here soon.',
+      contactMessageLabel: 'Message to the technical team',
+      contactMessagePlaceholder: 'Write here what you need help with...',
+      contactMessageButton: 'Send message',
+      contactMessageRequired: 'Please write a message for the technical team.',
+      contactMessageSuccess: 'Your message has been sent to the technical team.',
+      contactMeetingTitle: 'Schedule a meeting',
+      contactMeetingSubtitle: 'Choose a date and time to talk with the technical team.',
+      contactMeetingDateLabel: 'Meeting date',
+      contactMeetingTimeLabel: 'Meeting time',
+      contactMeetingButton: 'Schedule meeting',
+      contactMeetingRequired: 'Please select a date and time for the meeting.',
+      contactMeetingSuccess: 'Your meeting request has been sent to the technical team.',
 
       // Upgrade plan page
       upgradeTitle: 'Pricing that grows with you',

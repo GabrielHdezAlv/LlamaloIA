@@ -222,3 +222,51 @@ apx-chart {
   width: 100% !important;
   height: 100% !important;
 }
+
+/* Estilos específicos para el gráfico principal de área (primer gráfico) */
+/* MODO CLARO: línea y textos en negro, igual que en Home */
+.chart-container ::ng-deep apx-chart {
+  .apexcharts-line-series path,
+  .apexcharts-area-series path[stroke] {
+    stroke: #1B2559 !important;
+  }
+
+  .apexcharts-series-markers .apexcharts-marker,
+  .apexcharts-marker {
+    fill: #1B2559 !important;
+    stroke: #1B2559 !important;
+  }
+
+  svg text {
+    fill: #000000 !important;
+  }
+}
+
+/* MODO OSCURO: sobrescribir a blanco, igual que en Home */
+:host-context(.dark) .chart-container ::ng-deep apx-chart {
+  .apexcharts-line-series path,
+  .apexcharts-area-series path[stroke] {
+    stroke: #FFFFFF !important;
+  }
+
+  svg path[stroke],
+  svg .apexcharts-line-series path,
+  svg .apexcharts-area-series path[stroke] {
+    stroke: #FFFFFF !important;
+  }
+
+  /* Convertir el degradado azul a blanco en modo oscuro */
+  .apexcharts-area-series path[fill^="url("] {
+    filter: brightness(0) saturate(100%) invert(1) brightness(1.2);
+  }
+
+  .apexcharts-series-markers .apexcharts-marker,
+  .apexcharts-marker {
+    fill: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+  }
+
+  svg text {
+    fill: #FFFFFF !important;
+  }
+}
