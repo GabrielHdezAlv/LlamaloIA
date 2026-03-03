@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID, effect, inject, computed } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID, effect, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -22,7 +22,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     audioLevel = 0;
     isMicrophoneActive = false;
     isSettingsOpen = false;
-  volume = 80; // Default volume (0-100)
+    volume = 80; // Default volume (0-100)
     isPlaying = false;
     currentUrl = '';
     hideSupportWidget = false;

@@ -24,6 +24,7 @@ export interface TranscriptMessage {
   role: 'user' | 'assistant';
   text: string;
   timestamp: number;
+  isFinal?: boolean;
 }
 
 type ConnectionState = 'idle' | 'connecting' | 'connected' | 'error' | 'ended';
@@ -54,6 +55,7 @@ export class VoiceTestService {
   private playbackSampleRate = 16000;
   private isSending = true;
   private incomingAudioBuffer = new Uint8Array(0);
+  private ignoreIncomingAudio = false;
 
   // Volumen de reproducción (0.0 - 1.0), controlado desde el widget Xenon
   private playbackGain = 1.0;
@@ -160,6 +162,18 @@ export class VoiceTestService {
     this.cleanup();
   }
 
+  clearAgentAudio(): void {
+    if (this.playbackWorklet) {
+      // 1. Limpia los buffers ya cargados en el hilo de audio del navegador
+      this.playbackWorklet.port.postMessage({ type: 'clear' });
+    }
+    // 2. Limpia los buffers locales de datos entrantes
+    this.incomingAudioBuffer = new Uint8Array(0);
+    // 3. Activa el bloqueo de audio antiguo hasta que llegue la siguiente respuesta
+    this.ignoreIncomingAudio = true;
+    console.log('[VoiceTest] Audio limpiado y bloqueo de entrada activado');
+  }
+
   reset(): void {
     this.cleanup();
     this.resetState();
@@ -244,11 +258,62 @@ export class VoiceTestService {
         this.startTimer();
         break;
 
+      case 'clear_audio':
+        console.log('[VoiceTest] Recibido evento clear_audio - Interrumpiendo agente');
+        this.clearAgentAudio();
+        this.agentState.set('idle');
+        // Un seguro por si el backend no enviara transcript.start tras el clear_audio
+        setTimeout(() => { if (this.ignoreIncomingAudio) this.ignoreIncomingAudio = false; }, 1000);
+        break;
+
+      case 'transcript.start':
+        if (msg.role === 'assistant') {
+          this.ignoreIncomingAudio = false;
+          this.transcripts.update((t) => [
+            ...t,
+            { role: 'assistant', text: '', timestamp: Date.now(), isFinal: false },
+          ]);
+        }
+        break;
+
+      case 'transcript.delta':
+        this.transcripts.update((t) => {
+          if (t.length === 0) return t;
+          const last = t[t.length - 1];
+          if (last.role === 'assistant' && !last.isFinal) {
+            const updated = [...t];
+            updated[t.length - 1] = {
+              ...last,
+              text: last.text + (msg.text || ''),
+            };
+            return updated;
+          }
+          return t;
+        });
+        break;
+
       case 'transcript':
-        this.transcripts.update((t) => [
-          ...t,
-          { role: msg.role, text: msg.text, timestamp: Date.now() },
-        ]);
+        this.transcripts.update((t) => {
+          // If it's assistant and we were streaming, update the last one
+          if (msg.role === 'assistant') {
+            const lastIdx = t.length - 1;
+            if (lastIdx >= 0 && t[lastIdx].role === 'assistant' && !t[lastIdx].isFinal) {
+              const updated = [...t];
+              updated[lastIdx] = {
+                ...t[lastIdx],
+                text: msg.text, // Backend provides full text
+                isFinal: true,
+              };
+              return updated;
+            }
+          }
+
+          // If it's a new message (user or non-streaming assistant)
+          return [
+            ...t,
+            { role: msg.role, text: msg.text, timestamp: Date.now(), isFinal: true },
+          ];
+        });
         break;
 
       case 'agent.thinking':
@@ -298,6 +363,17 @@ export class VoiceTestService {
 
   private handleBinaryAudio(buffer: ArrayBuffer): void {
     if (!this.playbackWorklet || !this.playbackContext) return;
+
+    // Si estamos en medio de una interrupción, ignoramos el audio residual
+    if (this.ignoreIncomingAudio) {
+      // console.log('[VoiceTest] Ignorando audio residual tras interrupción');
+      return;
+    }
+
+    // Al recibir audio real, nos aseguramos que el estado visual sea 'speaking'
+    if (this.agentState() !== 'speaking') {
+      this.agentState.set('speaking');
+    }
 
     if (this.playbackContext.state === 'suspended') {
       this.playbackContext.resume();
@@ -380,6 +456,13 @@ export class VoiceTestService {
 
   private async setupCaptureContext(): Promise<void> {
     this.captureContext = new AudioContext();
+    
+    // IMPORTANTE: Algunos navegadores inician el contexto suspendido.
+    // Si no lo reanudamos, el micrófono no enviará audio al servidor
+    // y la interrupción nunca funcionará porque el servidor no nos escuchará.
+    if (this.captureContext.state === 'suspended') {
+      await this.captureContext.resume();
+    }
 
     this.captureSampleRate = this.captureContext.sampleRate;
     const source = this.captureContext.createMediaStreamSource(
@@ -400,7 +483,9 @@ export class VoiceTestService {
           this.isSending &&
           this.ws?.readyState === WebSocket.OPEN
         ) {
-          this.sendAudioChunk(event.data.samples as Float32Array);
+          const samples = event.data.samples as Float32Array;
+          this.checkLocalBargeIn(samples);
+          this.sendAudioChunk(samples);
         }
       };
       source.connect(this.captureWorklet);
@@ -417,10 +502,39 @@ export class VoiceTestService {
       );
       this.captureProcessor.onaudioprocess = (e: AudioProcessingEvent) => {
         if (!this.isSending || this.ws?.readyState !== WebSocket.OPEN) return;
-        this.sendAudioChunk(new Float32Array(e.inputBuffer.getChannelData(0)));
+        const samples = new Float32Array(e.inputBuffer.getChannelData(0));
+        this.checkLocalBargeIn(samples);
+        this.sendAudioChunk(samples);
       };
       source.connect(this.captureProcessor);
       this.captureProcessor.connect(this.captureContext.destination);
+    }
+  }
+
+  private checkLocalBargeIn(samples: Float32Array): void {
+    // Solo actuamos si el agente está hablando
+    if (this.agentState() !== 'speaking') return;
+
+    // Calculamos el nivel RMS del audio capturado (volumen del usuario)
+    let sum = 0;
+    for (let i = 0; i < samples.length; i++) {
+      sum += samples[i] * samples[i];
+    }
+    const rms = Math.sqrt(sum / samples.length);
+
+    // Umbral de sensibilidad para la interrupción automática local
+    // 0.05 es un valor estándar para voz; si se interrumpe con ruido bajar a 0.08
+    const threshold = 0.05;
+
+    if (rms > threshold) {
+      console.log('[VoiceTest] Interrupción automática local detectada (RMS:', rms.toFixed(4), ')');
+      this.clearAgentAudio();
+      this.agentState.set('idle');
+
+      // Notificamos al backend de la interrupción manual si es necesario
+      if (this.ws?.readyState === WebSocket.OPEN) {
+        this.ws.send(JSON.stringify({ type: 'user.interruption' }));
+      }
     }
   }
 

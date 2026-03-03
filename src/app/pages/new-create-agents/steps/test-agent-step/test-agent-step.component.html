@@ -109,11 +109,15 @@
 
         @for (msg of voiceTest.transcripts(); track trackByTimestamp($index, msg)) {
         <div class="flex" [class.justify-end]="msg.role === 'user'" [class.justify-start]="msg.role === 'assistant'">
-          <div class="max-w-[85%] px-2.5 py-1.5 rounded-xl text-xs 3xl:text-base leading-relaxed" [ngClass]="{
+          <div class="max-w-[85%] px-2.5 py-1.5 rounded-xl text-xs 3xl:text-base leading-relaxed relative" [ngClass]="{
                 'bg-[#1E3A8A] text-white rounded-br-sm': msg.role === 'user',
-                'bg-gray-200  text-black dark:text-white rounded-bl-sm': msg.role === 'assistant'
+                'bg-gray-200  text-black dark:text-white rounded-bl-sm': msg.role === 'assistant',
+                'border-dashed border border-gray-400 dark:border-gray-500': msg.role === 'assistant' && !msg.isFinal
                }">
             {{ msg.text }}
+            <span class="inline-flex gap-0.5 ml-1" *ngIf="msg.role === 'assistant' && !msg.isFinal">
+              <span class="w-1 h-1 bg-current rounded-full animate-pulse"></span>
+            </span>
           </div>
         </div>
         }

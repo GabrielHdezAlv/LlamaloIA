@@ -111,11 +111,15 @@
 
       @for (msg of voiceTest.transcripts(); track trackByTimestamp($index, msg)) {
       <div class="flex" [class.justify-end]="msg.role === 'user'" [class.justify-start]="msg.role === 'assistant'">
-        <div class="max-w-[85%] px-3 py-2 rounded-xl text-sm leading-relaxed" [ngClass]="{
+        <div class="max-w-[85%] px-3 py-2 rounded-xl text-sm leading-relaxed relative" [ngClass]="{
               'bg-[#1E3A8A] text-white rounded-br-sm': msg.role === 'user',
-              'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-200 rounded-bl-sm': msg.role === 'assistant'
+              'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-200 rounded-bl-sm': msg.role === 'assistant',
+              'border-dashed border border-gray-300 dark:border-white/20': msg.role === 'assistant' && !msg.isFinal
             }">
           {{ msg.text }}
+          <span class="inline-flex gap-0.5 ml-1" *ngIf="msg.role === 'assistant' && !msg.isFinal">
+            <span class="w-1 h-1 bg-current rounded-full animate-pulse"></span>
+          </span>
         </div>
       </div>
       <!-- Auto-scroll trigger -->
