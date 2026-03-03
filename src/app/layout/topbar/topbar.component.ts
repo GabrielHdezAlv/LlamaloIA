@@ -482,9 +482,12 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.pageTitle = t.settings;
       this.welcomeText = '';
       this.pageSubtitle = '';
-    } else if (url === '/dashboard/upgrade-plan') {
-      this.pageTitle =
-        langCode === 'en' ? 'Upgrade plan' : 'Actualizar plan';
+    } else if (
+      url === '/dashboard/upgrade-plan' ||
+      url === '/dashboard/billing'
+    ) {
+      // Upgrade plan / billing: mostrar "Precios" / "Pricing" en el header
+      this.pageTitle = langCode === 'en' ? 'Pricing' : 'Precios';
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else {

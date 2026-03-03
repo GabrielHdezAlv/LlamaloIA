@@ -1,2 +1,19 @@
 <router-outlet></router-outlet>
 <app-support-widget></app-support-widget>
+
+@if (isGlobalLoading) {
+  <div class="fixed inset-0 z-[9999] pointer-events-none">
+    <!-- Capa de blur fija a pantalla completa, sin transiciones -->
+    <div
+      class="absolute inset-0"
+      style="backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: none !important;">
+    </div>
+
+    <!-- Capa del loader (sin blur) -->
+    <div class="relative w-full h-full flex items-center justify-center">
+      <div class="scale-150">
+        <ds-spinner [inputTextSpinner]="''"></ds-spinner>
+      </div>
+    </div>
+  </div>
+}

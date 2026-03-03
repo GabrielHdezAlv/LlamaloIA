@@ -146,6 +146,7 @@ export class AuthFormComponent implements OnInit {
     }
 
     const user = new LoginUser(this.email, this.password);
+    this.setGlobalLoading(true);
 
     this.userService.LoginUser(user).subscribe({
       next: (response) => {
@@ -177,17 +178,20 @@ export class AuthFormComponent implements OnInit {
             const redirectUrl = data.rol === USER_ROLE.OWNER ? '/admin' : '/dashboard';
             setTimeout(() => {
               this.router.navigate([redirectUrl]);
+              this.setGlobalLoading(false);
             }, 2000);
           },
           error: (err) => {
             console.error('Error al obtener perfil', err);
             this.notificationService.error(this.t.authErrorGetProfile);
+            this.setGlobalLoading(false);
           },
         });
       },
       error: (err) => {
         console.error('❌ Error en inicio de sesión:', err);
         this.notificationService.error(this.t.authErrorLogin);
+        this.setGlobalLoading(false);
       },
     });
   }
@@ -251,5 +255,13 @@ export class AuthFormComponent implements OnInit {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  private setGlobalLoading(isLoading: boolean) {
+    if (typeof window !== 'undefined' && 'dispatchEvent' in window) {
+      window.dispatchEvent(
+        new CustomEvent<boolean>('global-loading', { detail: isLoading }),
+      );
+    }
   }
 }

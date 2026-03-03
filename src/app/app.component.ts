@@ -4,17 +4,19 @@ import { filter } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { RouteVisibilityService } from './core/services/route-visibility.service';
 import { SupportWidgetComponent } from './shared/components/support-widget/support-widget.component';
+import { SpinnerComponent } from './shared/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SupportWidgetComponent],
+  imports: [RouterOutlet, SupportWidgetComponent, SpinnerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   title = 'llamaloIO';
   isAtBottom = false;
+  isGlobalLoading = false;
 
   private router = inject(Router);
   private routeVisibilityService = inject(RouteVisibilityService);
@@ -40,6 +42,12 @@ export class AppComponent implements OnInit {
 
       // Configurar detección de scroll para mostrar el footer
       this.setupScrollDetection();
+
+      // Escuchar eventos globales de carga (por ejemplo, inicio de sesión)
+      window.addEventListener('global-loading', (event: Event) => {
+        const custom = event as CustomEvent<boolean>;
+        this.isGlobalLoading = !!custom.detail;
+      });
     }
   }
 
