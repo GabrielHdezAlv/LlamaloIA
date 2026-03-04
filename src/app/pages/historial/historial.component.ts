@@ -32,6 +32,7 @@ export interface Message {
   standalone: true,
   templateUrl: './historial.component.html',
   styleUrls: ['./historial.component.scss'],
+  imports: [CommonModule],
 })
 export class HistorialComponent implements OnInit, AfterViewInit {
   // Variable para controlar la animación de fade in
