@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { NewsItem } from '../../shared/models/news.model';
 import { I18nService } from './i18n.service';
 
@@ -6,6 +7,7 @@ import { I18nService } from './i18n.service';
     providedIn: 'root'
 })
 export class NewsService {
+    private platformId = inject(PLATFORM_ID);
     private STORAGE_KEY = 'llamalo_news';
 
     constructor(private i18nService: I18nService) { }
@@ -68,6 +70,10 @@ export class NewsService {
     newsSignal = signal<NewsItem[]>(this.loadNews());
 
     private loadNews(): NewsItem[] {
+        if (!isPlatformBrowser(this.platformId)) {
+            return this.initialNews;
+        }
+
         const storedNews = localStorage.getItem(this.STORAGE_KEY);
         if (!storedNews) {
             return this.initialNews;
@@ -128,7 +134,9 @@ export class NewsService {
 
     saveNews(news: NewsItem[]) {
         this.newsSignal.set(news);
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(news));
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(news));
+        }
     }
 
     addNews(newsItem: Omit<NewsItem, 'id'>) {
