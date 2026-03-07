@@ -2,7 +2,8 @@
     <!-- Widget Content Box -->
     <div
         class="widget-container fixed inset-0 w-screen h-[100dvh] xl:static xl:w-[300px] xl:h-[480px]"
-        *ngIf="isOpen">
+        [class.closing]="isClosing"
+        *ngIf="isOpen || isClosing">
         <div class="widget-content">
             <div class="widget-header">
                 <div class="header-text">

@@ -5,12 +5,12 @@
   <div class="flex flex-col lg:flex-row flex-1 min-h-0">
     <!-- Panel lateral izquierdo (Sidebar) - Pegado al panel derecho, sin hueco -->
     <div
-      class="w-full lg:w-72 flex-shrink-0 flex flex-col space-y-4 3xl:space-y-8 h-auto lg:h-full mb-6 3xl:mb-10 lg:mb-0 border border-gray-200 dark:border-slate-600 border-r-0 lg:rounded-l-xl lg:rounded-r-none rounded-xl p-3 lg:p-3 3xl:p-4"
+      class="w-full lg:w-72 flex-shrink-0 flex flex-col space-y-4 3xl:space-y-8 h-auto lg:h-full mb-6 3xl:mb-10 lg:mb-0 border border-gray-300 dark:border-slate-600 border-r-0 lg:rounded-l-xl lg:rounded-r-none rounded-xl p-3 lg:p-3 3xl:p-4"
       [class.hidden]="showChat" [class.lg:flex]="showChat">
       <!-- Buscador -->
       <div class="relative">
         <input type="text" [placeholder]="t.searchNumber"
-          class="w-full pl-8 lg:pl-9 xl:pl-9 2xl:pl-9 3xl:pl-12 pr-3 lg:pr-3.5 xl:pr-3.5 2xl:pr-3.5 3xl:pr-5 py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:pl-10 max-lg:sm:pl-11 max-lg:md:pl-12 max-lg:pr-4 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 history-border text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base dark:bg-slate-800 dark:border-slate-700 dark:text-slate-50" />
+          class="w-full pl-8 lg:pl-9 xl:pl-9 2xl:pl-9 3xl:pl-12 pr-3 lg:pr-3.5 xl:pr-3.5 2xl:pr-3.5 3xl:pr-5 py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:pl-10 max-lg:sm:pl-11 max-lg:md:pl-12 max-lg:pr-4 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base bg-gray-100 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-gray-500 history-border text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base dark:bg-slate-800 dark:border-slate-700 dark:text-slate-50" />
         <svg
           class="h-4 w-4 lg:h-4 lg:w-4 xl:h-4 xl:w-4 2xl:h-4 2xl:w-4 3xl:h-6 3xl:w-6 max-lg:h-5 max-lg:sm:h-5 max-lg:md:h-5 max-lg:w-5 max-lg:sm:w-5 max-lg:md:w-5 max-lg:left-3 max-lg:sm:left-3.5 max-lg:md:left-4 text-gray-400 absolute left-2.5 lg:left-2.5 xl:left-2.5 2xl:left-2.5 3xl:left-4 top-1/2 -translate-y-1/2"
           viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,7 +46,7 @@
 
     <!-- Panel derecho: pegado al izquierdo, mismo recuadro visual -->
     <div
-      class="flex-1 flex-col h-auto lg:h-full min-h-0 chat-panel border border-gray-200 dark:border-slate-600 rounded-2xl lg:rounded-r-[1.05rem] lg:rounded-l-none lg:border-l-0"
+      class="flex-1 flex-col h-auto lg:h-full min-h-0 chat-panel border border-gray-300 dark:border-slate-600 rounded-2xl lg:rounded-r-[1.05rem] lg:rounded-l-none lg:border-l-0"
       [ngClass]="showChat ? 'flex' : 'hidden lg:flex'"
       [class.fade-in-section]="showChat && selectedContact"
       [class.fade-in-visible]="showChat && selectedContact">
@@ -65,7 +65,7 @@
       <!-- Información del contacto (pegado al bloque de abajo, sin margen) -->
       <div class="mb-0">
         <div
-          class="flex flex-col sm:flex-row items-start justify-between rounded-t-[0.90rem] border border-b border-gray-200 dark:border-slate-600 p-2 sm:p-3 3xl:p-5 max-lg:p-3 max-lg:sm:p-4 max-lg:md:p-5 max-lg:gap-3 max-lg:sm:gap-4 max-lg:md:gap-4 gap-2 3xl:gap-4 sm:gap-0">
+          class="flex flex-col sm:flex-row items-start justify-between rounded-t-[0.90rem] border border-b border-gray-300 dark:border-slate-600 p-2 sm:p-3 3xl:p-5 max-lg:p-3 max-lg:sm:p-4 max-lg:md:p-5 max-lg:gap-3 max-lg:sm:gap-4 max-lg:md:gap-4 gap-2 3xl:gap-4 sm:gap-0">
           <div class="flex items-center space-x-2 3xl:space-x-3 max-lg:space-x-3 max-lg:sm:space-x-3.5 max-lg:md:space-x-4 flex-1">
             <img [src]="selectedContact.avatar" alt="Avatar"
               class="w-7 h-7 3xl:w-10 3xl:h-10 max-lg:w-9 max-lg:sm:w-10 max-lg:md:w-11 max-lg:h-9 max-lg:sm:h-10 max-lg:md:h-11 object-cover rounded-full flex-shrink-0" />
@@ -85,14 +85,11 @@
           </div>
           <div class="flex flex-col items-end">
             <button
-              class="text-gray-400 hover:text-gray-600 rounded-full border border-gray-300 p-1.5 sm:p-2 3xl:p-3 max-lg:p-2 max-lg:sm:p-2.5 max-lg:md:p-3 dark:text-slate-400 dark:hover:text-slate-50 dark:border-slate-700">
-              <svg class="w-5 h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:sm:w-6 max-lg:md:w-7 max-lg:h-6 max-lg:sm:h-6 max-lg:md:h-7" viewBox="0 0 20 20" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M0.75 3C0.551088 3 0.360322 3.07902 0.21967 3.21967C0.0790175 3.36032 0 3.55109 0 3.75C0 3.94891 0.0790175 4.13968 0.21967 4.28033C0.360322 4.42098 0.551088 4.5 0.75 4.5V3ZM19.25 4.5C19.4489 4.5 19.6397 4.42098 19.7803 4.28033C19.921 4.13968 20 3.94891 20 3.75C20 3.55109 19.921 3.36032 19.7803 3.21967C19.6397 3.07902 19.4489 3 19.25 3V4.5ZM8.5 8.75C8.5 8.55109 8.42098 8.36032 8.28033 8.21967C8.13968 8.07902 7.94891 8 7.75 8C7.55109 8 7.36032 8.07902 7.21967 8.21967C7.07902 8.36032 7 8.55109 7 8.75H8.5ZM7 14.25C7 14.4489 7.07902 14.6397 7.21967 14.7803C7.36032 14.921 7.55109 15 7.75 15C7.94891 15 8.13968 14.921 8.28033 14.7803C8.42098 14.6397 8.5 14.4489 8.5 14.25H7ZM13 8.75C13 8.55109 12.921 8.36032 12.7803 8.21967C12.6397 8.07902 12.4489 8 12.25 8C12.0511 8 11.8603 8.07902 11.7197 8.21967C11.579 8.36032 11.5 8.55109 11.5 8.75H13ZM11.5 14.25C11.5 14.4489 11.579 14.6397 11.7197 14.7803C11.8603 14.921 12.0511 15 12.25 15C12.4489 15 12.6397 14.921 12.7803 14.7803C12.921 14.6397 13 14.4489 13 14.25H11.5ZM13.148 3.937C13.1976 4.12968 13.3217 4.29477 13.493 4.39594C13.6643 4.49712 13.8688 4.5261 14.0615 4.4765C14.2542 4.4269 14.4193 4.3028 14.5204 4.13148C14.6216 3.96017 14.6506 3.75568 14.601 3.563L13.148 3.937ZM2.002 3.798L2.881 17.427L4.378 17.33L3.499 3.701L2.002 3.798ZM5.625 20H14.375V18.5H5.625V20ZM17.119 17.427L17.998 3.798L16.501 3.701L15.622 17.331L17.119 17.427ZM17.25 3H2.75V4.5H17.25V3ZM0.75 4.5H2.75V3H0.75V4.5ZM17.25 4.5H19.25V3H17.25V4.5ZM14.375 20C15.0737 19.9999 15.7461 19.7339 16.2557 19.256C16.7654 18.7782 17.074 18.1242 17.119 17.427L15.622 17.331C15.6014 17.6478 15.4611 17.9438 15.2295 18.1609C14.9979 18.378 14.6924 18.4999 14.375 18.5V20ZM2.881 17.427C2.92597 18.1242 3.23462 18.7782 3.74427 19.256C4.25391 19.7339 4.92635 19.9999 5.625 20V18.5C5.30757 18.4999 5.00206 18.379 4.77047 18.1619C4.53888 17.9448 4.39857 17.6468 4.378 17.33L2.881 17.427ZM7 8.75V14.25H8.5V8.75H7ZM11.5 8.75V14.25H13V8.75H11.5ZM10 1.5C11.513 1.5 12.787 2.535 13.148 3.937L14.601 3.563C14.073 1.515 12.214 0 10 0V1.5ZM6.852 3.937C7.213 2.535 8.487 1.5 10 1.5V0C7.786 0 5.927 1.515 5.4 3.563L6.852 3.937Z"
-                  fill="#727272" />
+              class="text-gray-400 hover:text-gray-600 rounded-full border border-gray-200 p-1.5 sm:p-2 3xl:p-3 max-lg:p-2 max-lg:sm:p-2.5 max-lg:md:p-3 dark:text-slate-400 dark:hover:text-slate-50 dark:border-slate-700">
+              <svg class="w-5 h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:sm:w-6 max-lg:md:w-7 max-lg:h-6 max-lg:sm:h-6 max-lg:md:h-7 scale-110" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 6.52381C3 6.12932 3.32671 5.80952 3.72973 5.80952H8.51787C8.52437 4.9683 8.61554 3.81504 9.45037 3.01668C10.1074 2.38839 11.0081 2 12 2C12.9919 2 13.8926 2.38839 14.5496 3.01668C15.3844 3.81504 15.4756 4.9683 15.4821 5.80952H20.2703C20.6733 5.80952 21 6.12932 21 6.52381C21 6.9183 20.6733 7.2381 20.2703 7.2381H3.72973C3.32671 7.2381 3 6.9183 3 6.52381Z" fill="currentColor"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5956 22H12.4044C15.1871 22 16.5785 22 17.4831 21.1141C18.3878 20.2281 18.4803 18.7749 18.6654 15.8685L18.9321 11.6806C19.0326 10.1036 19.0828 9.31511 18.6289 8.81545C18.1751 8.31579 17.4087 8.31579 15.876 8.31579H8.12404C6.59127 8.31579 5.82488 8.31579 5.37105 8.81545C4.91722 9.31511 4.96744 10.1036 5.06788 11.6806L5.33459 15.8685C5.5197 18.7749 5.61225 20.2281 6.51689 21.1141C7.42153 22 8.81289 22 11.5956 22ZM10.2463 12.1885C10.2051 11.7546 9.83753 11.4381 9.42537 11.4815C9.01321 11.5249 8.71251 11.9117 8.75372 12.3456L9.25372 17.6087C9.29494 18.0426 9.66247 18.3591 10.0746 18.3157C10.4868 18.2724 10.7875 17.8855 10.7463 17.4516L10.2463 12.1885ZM14.5746 11.4815C14.9868 11.5249 15.2875 11.9117 15.2463 12.3456L14.7463 17.6087C14.7051 18.0426 14.3375 18.3591 13.9254 18.3157C13.5132 18.2724 13.2125 17.8855 13.2537 17.4516L13.7537 12.1885C13.7949 11.7546 14.1625 11.4381 14.5746 11.4815Z" fill="currentColor"/>
               </svg>
-
             </button>
           </div>
         </div>
@@ -100,7 +97,7 @@
 
       <!-- Mensajes con reproductor de audio (pegado arriba, sin hueco) -->
       <div
-        class="rounded-b-2xl border border-t-0 border-gray-200 dark:border-slate-600 p-2 sm:p-3 3xl:p-5 max-lg:p-3 max-lg:sm:p-4 max-lg:md:p-5 pt-0 flex flex-col h-[calc(100vh-320px)] md:h-[calc(100vh-350px)] lg:h-[calc(100vh-200px)]">
+        class="rounded-b-2xl border border-t-0 border-gray-300 dark:border-slate-600 p-2 sm:p-3 3xl:p-5 max-lg:p-3 max-lg:sm:p-4 max-lg:md:p-5 pt-0 flex flex-col h-[calc(100vh-320px)] md:h-[calc(100vh-350px)] lg:h-[calc(100vh-200px)]">
         <div
           class="flex-1 overflow-y-auto p-1.5 3xl:p-3 max-lg:p-2 max-lg:sm:p-3 max-lg:md:p-3.5 space-y-2 3xl:space-y-5 sm:space-y-3 max-lg:space-y-3 max-lg:sm:space-y-4 max-lg:md:space-y-4">
           @for (msg of selectedContact.messages; track $index) {
@@ -108,7 +105,7 @@
           <!-- Mensaje del cliente -->
           <div class="flex justify-start">
             <div
-              class="inline-block max-w-xs sm:max-w-md max-lg:md:max-w-lg px-3 py-2 rounded-2xl bg-[#E5E7EB] text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-[#000001] whitespace-pre-line leading-snug">
+              class="bubble-user inline-block max-w-xs sm:max-w-md max-lg:md:max-w-lg px-3 py-2 rounded-2xl bg-[#E5E7EB] text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-[#000001] whitespace-pre-line leading-snug">
               {{ msg.text }}
             </div>
           </div>
@@ -116,7 +113,7 @@
           <!-- Respuesta del agente -->
           <div class="flex justify-end">
             <div
-              class="inline-block max-w-[15rem] sm:max-w-[16rem] lg:max-w-[18rem] px-3 py-2 rounded-2xl bg-[#1B2559] text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-white whitespace-pre-line leading-snug text-left">
+              class="bubble-agent inline-block max-w-[15rem] sm:max-w-[16rem] lg:max-w-[18rem] px-3 py-2 rounded-2xl bg-[#1B2559] text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-white whitespace-pre-line leading-snug text-left">
               {{ msg.text }}
             </div>
           </div>
@@ -127,7 +124,7 @@
         <!-- Reproductor de audio -->
         <div class="mt-auto pt-0 max-lg:pt-2 max-lg:sm:pt-2.5 max-lg:md:pt-3">
         <div
-          class="flex items-center gap-2 rounded-2xl border border-gray-200 dark:border-slate-600 px-2 py-1.5 3xl:px-3 3xl:py-2">
+          class="flex items-center gap-2 rounded-2xl border border-gray-300 dark:border-slate-600 px-2 py-1.5 3xl:px-3 3xl:py-2">
           <button
             (click)="togglePlay()"
             class="flex items-center justify-center w-12 h-12 3xl:w-14 3xl:h-14 text-[#1B2559] dark:text-white flex-shrink-0">
@@ -152,7 +149,7 @@
               [value]="audioProgress"
               (input)="onProgressChange($event)"
               class="audio-progress-slider w-full h-1.5 rounded-full appearance-none cursor-pointer"
-              [style.background]="'linear-gradient(to right, #0ea5e9 0%, #0ea5e9 ' + audioProgress + '%, #d1d5db ' + audioProgress + '%, #d1d5db 100%)'">
+              [style.background]="'linear-gradient(to right, var(--audio-bar-fill) 0%, var(--audio-bar-fill) ' + audioProgress + '%, var(--audio-bar-unfill) ' + audioProgress + '%, var(--audio-bar-unfill) 100%)'">
             <span
               class="text-[9px] sm:text-[10px] 3xl:text-xs text-gray-500 dark:text-slate-400 whitespace-nowrap flex-shrink-0 text-right">
               {{ currentAudioTime }} / {{ audioDuration }}

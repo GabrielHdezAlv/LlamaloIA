@@ -19,6 +19,8 @@ import { NotificationService } from '../../../core/services/notification.service
 })
 export class SupportWidgetComponent implements OnInit, OnDestroy {
     isOpen = false;
+    isClosing = false;
+    private readonly closeAnimationMs = 300;
     audioLevel = 0;
     isMicrophoneActive = false;
     isSettingsOpen = false;
@@ -92,8 +94,16 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     }
 
     toggle() {
-        this.isOpen = !this.isOpen;
-        if (!this.isOpen) this.isSettingsOpen = false;
+        if (this.isOpen) {
+            this.isClosing = true;
+            this.isSettingsOpen = false;
+            setTimeout(() => {
+                this.isOpen = false;
+                this.isClosing = false;
+            }, this.closeAnimationMs);
+        } else {
+            this.isOpen = true;
+        }
     }
 
     toggleSettings() {

@@ -1,3 +1,35 @@
+// Bordes más finos en la página de cuenta (1px en claro y en oscuro)
+.account-border-thin {
+  border-width: 1px !important;
+}
+
+.account-settings {
+  &.account-border-thin,
+  .history-border {
+    border-width: 1px !important;
+  }
+  input.border,
+  select.border,
+  input[class*='border'],
+  select[class*='border'] {
+    border-width: 1px !important;
+  }
+}
+
+// En modo oscuro los globales fuerzan 2px en .history-border; aquí lo anulamos solo en account
+:host-context(html.dark) {
+  .account-settings,
+  .account-settings .history-border,
+  .account-border-thin {
+    border-width: 1px !important;
+  }
+  .account-settings input.border,
+  .account-settings select.border,
+  .account-settings input[class*='border'],
+  .account-settings select[class*='border'] {
+    border-width: 1px !important;
+  }
+}
 
 // Estilos para las notificaciones (snackbar)
 ::ng-deep .snackbar-success {
