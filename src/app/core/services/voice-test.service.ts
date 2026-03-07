@@ -42,6 +42,8 @@ export class VoiceTestService {
   readonly isMuted = signal<boolean>(false);
   readonly remainingSeconds = signal<number>(120);
   readonly sessionEndReason = signal<string>('');
+  /** Timestamp del último audio recibido del agente (para animar la esfera). */
+  readonly lastAgentAudioAt = signal<number>(0);
 
   private ws: WebSocket | null = null;
   private mediaStream: MediaStream | null = null;
@@ -49,6 +51,7 @@ export class VoiceTestService {
   private playbackContext: AudioContext | null = null;
   private captureWorklet: AudioWorkletNode | null = null;
   private playbackWorklet: AudioWorkletNode | null = null;
+  private playbackAnalyser: AnalyserNode | null = null;
   private captureProcessor: ScriptProcessorNode | null = null;
   private timerInterval: ReturnType<typeof setInterval> | null = null;
   private captureSampleRate = 16000;
@@ -90,6 +93,20 @@ export class VoiceTestService {
         gain: clamped,
       });
     }
+  }
+
+  /**
+   * Nivel actual del audio que está sonando (salida del agente). 0-1.
+   * Para animar la esfera según lo que se escucha.
+   */
+  getPlaybackLevel(): number {
+    if (!this.playbackAnalyser) return 0;
+    const data = new Uint8Array(this.playbackAnalyser.frequencyBinCount);
+    this.playbackAnalyser.getByteFrequencyData(data);
+    let max = 0;
+    for (let i = 0; i < data.length; i++) max = Math.max(max, data[i]);
+    const n = Math.min(1, Math.pow(max / 255, 0.5) * 1.3);
+    return n;
   }
 
   private getEndReasonText(reason: string): string {
@@ -374,6 +391,7 @@ export class VoiceTestService {
     if (this.agentState() !== 'speaking') {
       this.agentState.set('speaking');
     }
+    this.lastAgentAudioAt.set(Date.now());
 
     if (this.playbackContext.state === 'suspended') {
       this.playbackContext.resume();
@@ -446,7 +464,11 @@ export class VoiceTestService {
         type: 'setGain',
         gain: this.playbackGain,
       });
-      this.playbackWorklet.connect(this.playbackContext.destination);
+      this.playbackAnalyser = this.playbackContext.createAnalyser();
+      this.playbackAnalyser.fftSize = 256;
+      this.playbackAnalyser.smoothingTimeConstant = 0.4;
+      this.playbackWorklet.connect(this.playbackAnalyser);
+      this.playbackAnalyser.connect(this.playbackContext.destination);
     } catch (e) {
       console.warn('AudioWorklet for playback not available:', e);
     }
@@ -659,6 +681,10 @@ export class VoiceTestService {
       this.playbackWorklet.disconnect();
       this.playbackWorklet = null;
     }
+    if (this.playbackAnalyser) {
+      this.playbackAnalyser.disconnect();
+      this.playbackAnalyser = null;
+    }
     if (this.playbackContext && this.playbackContext.state !== 'closed') {
       this.playbackContext.close().catch(() => { });
       this.playbackContext = null;
@@ -668,6 +694,7 @@ export class VoiceTestService {
   private resetState(): void {
     this.connectionState.set('idle');
     this.agentState.set('idle');
+    this.lastAgentAudioAt.set(0);
     this.transcripts.set([]);
     this.errorMessage.set('');
     this.isMuted.set(false);

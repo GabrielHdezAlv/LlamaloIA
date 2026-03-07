@@ -48,6 +48,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
             if (state === 'ended' || state === 'error') {
                 this.isPlaying = false;
                 this.isMicrophoneActive = false;
+                this.stopMicrophone();
                 this.animateIdle();
             }
         });
@@ -107,11 +108,12 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
         this.voiceTest.setPlaybackVolume(this.volume / 100);
     }
 
-    togglePlayback() {
+    async togglePlayback() {
         if (this.isPlaying) {
             this.voiceTest.endSession();
             this.isPlaying = false;
             this.isMicrophoneActive = false;
+            this.stopMicrophone();
             this.animateIdle();
         } else {
             if (this.isMicrophoneActive) {
@@ -133,7 +135,18 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
                     speed: 1,
                 },
             };
-            this.voiceTest.startSession(config);
+            try {
+                await this.voiceTest.startSession(config);
+            } catch (err) {
+                this.isMicrophoneActive = false;
+                this.isPlaying = false;
+                return;
+            }
+            try {
+                await this.startMicrophone();
+            } catch (_) {
+                // Sin analizador de mic la bola solo reaccionará al agente
+            }
             this.isPlaying = true;
             if (this.animationId) cancelAnimationFrame(this.animationId);
             this.animateVoiceCall();
@@ -156,16 +169,26 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
 
     private animateVoiceCall() {
         if (!this.isBrowser || !this.isPlaying) return;
-        const state = this.voiceTest.agentState();
         const connState = this.voiceTest.connectionState();
         if (connState === 'ended' || connState === 'error') return;
 
-        let target = 0.1;
-        if (state === 'speaking') target = 0.6 + Math.sin(Date.now() / 200) * 0.2;
-        else if (state === 'thinking') target = 0.3 + Math.sin(Date.now() / 400) * 0.15;
-        else if (connState === 'connected') target = 0.2 + Math.sin(Date.now() / 800) * 0.1;
+        let target = 0.15;
+        const playbackLevel = this.voiceTest.getPlaybackLevel();
+        if (playbackLevel > 0.02) {
+            const wave = 0.6 + Math.sin(Date.now() / 200) * 0.25;
+            target = Math.max(target, Math.min(1, playbackLevel * wave));
+        }
 
-        this.audioLevel = this.audioLevel * 0.8 + target * 0.2;
+        if (this.analyser && !this.voiceTest.isMuted()) {
+            const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+            this.analyser.getByteFrequencyData(dataArray);
+            let max = 0;
+            for (let i = 0; i < dataArray.length; i++) max = Math.max(max, dataArray[i]);
+            const userLevel = Math.min(1, Math.pow(max / 255, 0.5) * 1.2);
+            target = Math.max(target, userLevel);
+        }
+
+        this.audioLevel = this.audioLevel * 0.75 + target * 0.25;
         this.animationId = requestAnimationFrame(() => this.animateVoiceCall());
     }
 

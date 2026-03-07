@@ -42,24 +42,24 @@
 .audio-progress-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  background: #ffffff;
+  background: #1b2559;
   height: 14px;
   width: 14px;
   border-radius: 50%;
   margin-top: -4px;
   cursor: pointer;
-  border: 2px solid #3b82f6;
+  border: 2px solid #1b2559;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   transition: transform 0.15s ease;
 }
 
 .audio-progress-slider::-moz-range-thumb {
-  background: #ffffff;
+  background: #1b2559;
   height: 14px;
   width: 14px;
   border-radius: 50%;
   cursor: pointer;
-  border: 2px solid #3b82f6;
+  border: 2px solid #1b2559;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   transition: transform 0.15s ease;
 }
@@ -67,12 +67,12 @@
 /* Hover en thumb */
 .audio-progress-slider:hover::-webkit-slider-thumb {
   transform: scale(1.15);
-  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.5);
+  box-shadow: 0 2px 6px rgba(27, 37, 89, 0.5);
 }
 
 .audio-progress-slider:hover::-moz-range-thumb {
   transform: scale(1.15);
-  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.5);
+  box-shadow: 0 2px 6px rgba(27, 37, 89, 0.5);
 }
 
 /* Focus */
@@ -81,5 +81,16 @@
 }
 
 .audio-progress-slider:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 3px rgba(27, 37, 89, 0.3);
+}
+
+/* Modo oscuro: thumb blanco */
+:host-context(.dark) .audio-progress-slider::-webkit-slider-thumb {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+:host-context(.dark) .audio-progress-slider::-moz-range-thumb {
+  background: #ffffff;
+  border-color: #ffffff;
 }
