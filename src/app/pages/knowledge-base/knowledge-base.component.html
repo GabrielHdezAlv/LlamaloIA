@@ -79,7 +79,7 @@
         }
       </span>
       <span
-        class="text-[10px] sm:text-xs 3xl:text-sm font-medium text-gray-700 dark:text-slate-200 text-center leading-tight whitespace-nowrap truncate max-w-full">
+        class="text-sm 3xl:text-base font-medium text-gray-700 dark:text-slate-200 text-center leading-tight whitespace-nowrap truncate max-w-full">
         {{ getAddLabel(item.type) }}
       </span>
     </button>
@@ -175,29 +175,23 @@
           </div>
 
           <!-- Columna Tipo (col-span-2) -->
-          <div class="col-span-2 flex items-center justify-start">
-            <span
-              class="inline-flex items-center px-2 py-2 rounded-full text-xs 3xl:text-base font-medium text-gray-700 dark:text-slate-300 bg-transparent -ml-3">
-              {{ source.type.toUpperCase() }}
-            </span>
+          <div class="col-span-2 flex items-center justify-start text-sm 3xl:text-base font-medium text-gray-700 dark:text-slate-300">
+            {{ source.type.toUpperCase() }}
           </div>
 
           <!-- Columna Estado (col-span-2) -->
-          <div class="col-span-2 flex items-center justify-start">
-            <span
-              class="inline-flex items-center px-2 py-1 rounded-full text-xs 3xl:text-base font-medium text-gray-700 dark:text-slate-300 bg-transparent -ml-2">
-              @switch (source.status) {
-              @case ("processing") {
-              {{ t.statusProcessing }}
-              }
-              @case ("completed") {
-              {{ t.statusCompleted }}
-              }
-              @case ("failed") {
-              {{ t.statusFailed }}
-              }
-              }
-            </span>
+          <div class="col-span-2 flex items-center justify-start text-sm 3xl:text-base font-medium text-gray-700 dark:text-slate-300">
+            @switch (source.status) {
+            @case ("processing") {
+            {{ t.statusProcessing }}
+            }
+            @case ("completed") {
+            {{ t.statusCompleted }}
+            }
+            @case ("failed") {
+            {{ t.statusFailed }}
+            }
+            }
           </div>
 
           <!-- Columna Fragmentos (col-span-2) -->
@@ -289,30 +283,24 @@
             <div class="flex-1 min-w-0 space-y-3">
               <div>
                 <span class="text-gray-500 text-xs dark:text-slate-400">{{ t.type }}</span>
-                <div class="mt-1">
-                  <span
-                    class="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium text-gray-700 dark:text-slate-300 bg-transparent">
-                    {{ source.type.toUpperCase() }}
-                  </span>
+                <div class="mt-1 text-sm 3xl:text-base font-medium text-gray-700 dark:text-slate-300">
+                  {{ source.type.toUpperCase() }}
                 </div>
               </div>
               <div>
                 <span class="text-gray-500 text-xs dark:text-slate-400">{{ t.statusColumn }}</span>
-                <div class="mt-1">
-                  <span
-                    class="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium text-gray-700 dark:text-slate-300 bg-transparent">
-                    @switch (source.status) {
-                    @case ("processing") {
-                    {{ t.statusProcessing }}
-                    }
-                    @case ("completed") {
-                    {{ t.statusCompleted }}
-                    }
-                    @case ("failed") {
-                    {{ t.statusFailed }}
-                    }
-                    }
-                  </span>
+                <div class="mt-1 text-sm 3xl:text-base font-medium text-gray-700 dark:text-slate-300">
+                  @switch (source.status) {
+                  @case ("processing") {
+                  {{ t.statusProcessing }}
+                  }
+                  @case ("completed") {
+                  {{ t.statusCompleted }}
+                  }
+                  @case ("failed") {
+                  {{ t.statusFailed }}
+                  }
+                  }
                 </div>
               </div>
               <div>

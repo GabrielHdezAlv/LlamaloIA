@@ -5,6 +5,7 @@ import {
   OnDestroy,
   Inject,
   PLATFORM_ID,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -41,6 +42,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
   private metricsService = inject(MetricsService);
   private callMetricsService = inject(CallMetricsService);
   public userStorage = inject(UserStorage);
+  private cdr = inject(ChangeDetectorRef);
 
   // Obtener traducciones
   get t() {
@@ -604,6 +606,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
   // Latencia
   latencyMs = 0;
   latencyMaxMs = 3000;
+  /** Valor animado 0→1 para que la barra y la bola se muevan juntas (1s) */
+  latencyPercentDisplay = 0;
+  private latencyAnimationId: number | null = null;
 
   get latencyPercent(): number {
     const ratio = this.latencyMs / this.latencyMaxMs;
@@ -671,15 +676,41 @@ export class MetricsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Coordenadas del marcador de latencia al final del arco
+  // Coordenadas del marcador de latencia (usan valor animado para ir pegadas al arco)
   get latencyMarkerX(): number {
-    const angle = Math.PI * (1 - this.latencyPercent); // de π (izq) a 0 (der)
+    const angle = Math.PI * (1 - this.latencyPercentDisplay);
     return 260 + 260 * Math.cos(angle);
   }
 
   get latencyMarkerY(): number {
-    const angle = Math.PI * (1 - this.latencyPercent);
+    const angle = Math.PI * (1 - this.latencyPercentDisplay);
     return 320 - 260 * Math.sin(angle);
+  }
+
+  /** Anima latencyPercentDisplay de 0 al valor actual en 1s (easeOutCubic). En SSR solo asigna el valor. */
+  private animateLatencyDisplay(): void {
+    const target = this.latencyPercent;
+    if (!this.isBrowser) {
+      this.latencyPercentDisplay = target;
+      this.cdr.markForCheck();
+      return;
+    }
+    if (this.latencyAnimationId != null) {
+      cancelAnimationFrame(this.latencyAnimationId);
+    }
+    const start = this.latencyPercentDisplay;
+    const startTime = performance.now();
+    const duration = 1000;
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      this.latencyPercentDisplay = start + (target - start) * easeOutCubic(t);
+      this.cdr.markForCheck();
+      if (t < 1) this.latencyAnimationId = requestAnimationFrame(tick);
+      else this.latencyAnimationId = null;
+    };
+    this.latencyAnimationId = requestAnimationFrame(tick);
   }
 
   // Método para simular cambios de latencia
@@ -695,6 +726,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
   // Duración media (texto mostrado)
   averageCallDurationSeconds = 0;
   maxCallDurationSeconds = 120; // 2 minutos máximo
+  /** Valor animado 0→1 para que la barra y la bola se muevan juntas (1s) */
+  durationPercentDisplay = 0;
+  private durationAnimationId: number | null = null;
 
   get averageCallDurationLabel(): string {
     const minutes = this.averageCallDurationMinutes;
@@ -770,15 +804,41 @@ export class MetricsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Coordenadas del marcador de duración al final del arco (semicírculo grande)
+  // Coordenadas del marcador de duración (usan valor animado para ir pegadas al arco)
   get durationMarkerX(): number {
-    const angle = Math.PI * (1 - this.durationPercent); // de π (izq) a 0 (der)
+    const angle = Math.PI * (1 - this.durationPercentDisplay);
     return 260 + 260 * Math.cos(angle);
   }
 
   get durationMarkerY(): number {
-    const angle = Math.PI * (1 - this.durationPercent);
+    const angle = Math.PI * (1 - this.durationPercentDisplay);
     return 320 - 260 * Math.sin(angle);
+  }
+
+  /** Anima durationPercentDisplay de 0 al valor actual en 1s (easeOutCubic). En SSR solo asigna el valor. */
+  private animateDurationDisplay(): void {
+    const target = this.durationPercent;
+    if (!this.isBrowser) {
+      this.durationPercentDisplay = target;
+      this.cdr.markForCheck();
+      return;
+    }
+    if (this.durationAnimationId != null) {
+      cancelAnimationFrame(this.durationAnimationId);
+    }
+    const start = this.durationPercentDisplay;
+    const startTime = performance.now();
+    const duration = 1000;
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      this.durationPercentDisplay = start + (target - start) * easeOutCubic(t);
+      this.cdr.markForCheck();
+      if (t < 1) this.durationAnimationId = requestAnimationFrame(tick);
+      else this.durationAnimationId = null;
+    };
+    this.durationAnimationId = requestAnimationFrame(tick);
   }
 
   // Estado de ánimo
@@ -1357,6 +1417,14 @@ export class MetricsComponent implements OnInit, OnDestroy {
     // Actualizar latencia con valor real del backend
     this.latencyMs = this.detailedMetrics.latenciaMedia;
 
+    // Animar barra y bola de latencia y duración cuando ya hay datos (por si las secciones se mostraron antes)
+    if (this.showLatencia || this.showDuracionMedia) {
+      setTimeout(() => {
+        if (this.showLatencia) this.animateLatencyDisplay();
+        if (this.showDuracionMedia) this.animateDurationDisplay();
+      }, 0);
+    }
+
     // Calcular países (guardamos ISO y bandera; el nombre se resuelve según idioma)
     this.cachedCountries = this.detailedMetrics.paisesOrigen
       .map((pais) => {
@@ -1621,6 +1689,16 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.isBrowser) {
+      if (this.latencyAnimationId != null) {
+        cancelAnimationFrame(this.latencyAnimationId);
+        this.latencyAnimationId = null;
+      }
+      if (this.durationAnimationId != null) {
+        cancelAnimationFrame(this.durationAnimationId);
+        this.durationAnimationId = null;
+      }
+    }
     // Limpiar event listeners y prevenir memory leaks
     if (this.isBrowser && typeof window !== 'undefined' && window.removeEventListener) {
       window.removeEventListener('resize', this.updateChartForScreenSize);
@@ -1706,14 +1784,18 @@ export class MetricsComponent implements OnInit, OnDestroy {
       this.showTotalMinutos = true;
     }, 300);
 
-    // 3. Latencia (500ms)
+    // 3. Latencia (500ms): barra y bola se animan juntas en 1s
     setTimeout(() => {
       this.showLatencia = true;
+      this.cdr.markForCheck();
+      setTimeout(() => this.animateLatencyDisplay(), 0);
     }, 500);
 
-    // 4. Duración media (700ms)
+    // 4. Duración media (700ms): barra y bola se animan juntas en 1s
     setTimeout(() => {
       this.showDuracionMedia = true;
+      this.cdr.markForCheck();
+      setTimeout(() => this.animateDurationDisplay(), 0);
     }, 700);
 
     // 5. Tipo de llamadas (900ms)
@@ -1753,7 +1835,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   private showAllSectionsImmediately(): void {
-    // Mostrar todas las secciones inmediatamente sin animación
+    // Mostrar todas las secciones y animar barra+bola de latencia y duración
     this.showGraficoLlamadas = true;
     this.showTotalMinutos = true;
     this.showLatencia = true;
@@ -1765,6 +1847,11 @@ export class MetricsComponent implements OnInit, OnDestroy {
     this.showRazonFinalizacion = true;
     this.showHorasPico = true;
     this.showAgentesCreados = true;
+    this.cdr.markForCheck();
+    setTimeout(() => {
+      this.animateLatencyDisplay();
+      this.animateDurationDisplay();
+    }, 0);
   }
 
   // Métodos para controlar el tooltip de horas punta

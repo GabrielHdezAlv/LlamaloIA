@@ -378,11 +378,11 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
   getStatusClasses(status: string): string {
     switch (status) {
       case 'processing':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+        return 'bg-amber-500/20 text-amber-800 dark:bg-amber-500/25 dark:text-amber-200';
       case 'completed':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+        return 'bg-slate-200/80 text-slate-700 dark:bg-slate-600/40 dark:text-slate-200';
       case 'failed':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+        return 'bg-red-500/20 text-red-800 dark:bg-red-500/25 dark:text-red-200';
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
     }
