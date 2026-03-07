@@ -56,8 +56,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     | 'security'
     | 'billing'
     | 'gifts'
-    | 'connections'
-    | 'contact' = 'profile';
+    | 'connections' = 'profile';
   showAvatarModal = false;
   showImageCropper = false;
   imageToCrop: string = '';
@@ -125,38 +124,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     twilioToken: string;
   }> = [];
 
-  // Contacto
-  contactMessage = '';
-  contactMeetingDate = '';
-  contactMeetingTime = '';
-  currentCalendarDate: Date = new Date();
-  selectedCalendarDate: string = '';
-  calendarDays: {
-    label: number | null;
-    date: string | null;
-    isToday: boolean;
-    isSelected: boolean;
-    isPast: boolean;
-  }[] = [];
-  showTimeModal = false;
-  timeHours: string[] = [
-    '09',
-    '10',
-    '11',
-    '12',
-    '13',
-    '14',
-    '15',
-    '16',
-    '17',
-    '18',
-    '19',
-    '20',
-  ];
-  timeMinutes: string[] = ['00', '15', '30', '45'];
-  selectedHour: string = '09';
-  selectedMinute: string = '00';
-
   // Usuario actual
   private userStore = inject(UserStorage);
   user = this.userStore.user;
@@ -200,8 +167,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       | 'security'
       | 'billing'
       | 'gifts'
-      | 'connections'
-      | 'contact',
+      | 'connections',
   ) {
     this.activeTab = tab;
     // Cargar cuentas de Twilio cuando se abre la pestaña de conexiones
@@ -297,130 +263,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         }, 10);
       }
 
-      if (params['tab'] === 'contact') {
-        this.setActiveTab('contact');
-        setTimeout(() => {
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: {},
-            replaceUrl: true,
-          });
-        }, 10);
-      }
     });
-
-    // Construir calendario inicial
-    this.buildCalendar();
-  }
-
-  private buildCalendar() {
-    const year = this.currentCalendarDate.getFullYear();
-    const month = this.currentCalendarDate.getMonth();
-
-    const firstDayOfMonth = new Date(year, month, 1);
-    const firstWeekday = (firstDayOfMonth.getDay() + 6) % 7; // 0 = lunes
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    const today = new Date();
-    const todayIso = today.toISOString().slice(0, 10);
-
-    const days: {
-      label: number | null;
-      date: string | null;
-      isToday: boolean;
-      isSelected: boolean;
-      isPast: boolean;
-    }[] = [];
-
-    // Huecos iniciales
-    for (let i = 0; i < firstWeekday; i++) {
-      days.push({
-        label: null,
-        date: null,
-        isToday: false,
-        isSelected: false,
-        isPast: false,
-      });
-    }
-
-    // Días reales del mes
-    for (let d = 1; d <= daysInMonth; d++) {
-      const dateObj = new Date(year, month, d);
-      const iso = dateObj.toISOString().slice(0, 10);
-      const isPast = dateObj < new Date(todayIso + 'T00:00:00');
-
-      days.push({
-        label: d,
-        date: iso,
-        isToday: iso === todayIso,
-        isSelected: iso === this.selectedCalendarDate,
-        isPast,
-      });
-    }
-
-    this.calendarDays = days;
-  }
-
-  goToPrevMonth() {
-    this.currentCalendarDate = new Date(
-      this.currentCalendarDate.getFullYear(),
-      this.currentCalendarDate.getMonth() - 1,
-      1,
-    );
-    this.buildCalendar();
-  }
-
-  goToNextMonth() {
-    this.currentCalendarDate = new Date(
-      this.currentCalendarDate.getFullYear(),
-      this.currentCalendarDate.getMonth() + 1,
-      1,
-    );
-    this.buildCalendar();
-  }
-
-  selectCalendarDay(day: {
-    label: number | null;
-    date: string | null;
-    isToday: boolean;
-    isSelected: boolean;
-    isPast: boolean;
-  }) {
-    if (!day.date || day.isPast) {
-      return;
-    }
-    this.selectedCalendarDate = day.date;
-    this.contactMeetingDate = day.date;
-    this.calendarDays = this.calendarDays.map((d) => ({
-      ...d,
-      isSelected: d.date === day.date,
-    }));
-
-    // Abrir modal de hora cada vez que se selecciona un día
-    this.openTimeModal();
-  }
-
-  openTimeModal() {
-    // Abrir siempre el modal; la validación final se hace al confirmar
-    this.showTimeModal = true;
-  }
-
-  closeTimeModal() {
-    this.showTimeModal = false;
-  }
-
-  selectHour(hour: string) {
-    this.selectedHour = hour;
-  }
-
-  selectMinute(minute: string) {
-    this.selectedMinute = minute;
-  }
-
-  confirmTimeSelection() {
-    this.contactMeetingTime = `${this.selectedHour}:${this.selectedMinute}`;
-    this.scheduleTechnicalMeeting();
-    this.showTimeModal = false;
   }
 
   // Método para actualizar contraseña
@@ -834,29 +677,6 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   navigateToUpgradePlan() {
     this.router.navigate(['/dashboard/billing']);
-  }
-
-  // Contacto: enviar mensaje al equipo técnico
-  sendContactMessage() {
-    if (!this.contactMessage.trim()) {
-      this.notificationService.error(this.t.contactMessageRequired || 'Por favor, escribe un mensaje.');
-      return;
-    }
-    // Aquí se podría llamar al backend / soporte
-    this.notificationService.success(this.t.contactMessageSuccess || 'Mensaje enviado al equipo técnico.');
-    this.contactMessage = '';
-  }
-
-  // Contacto: agendar reunión con equipo técnico
-  scheduleTechnicalMeeting() {
-    if (!this.contactMeetingDate || !this.contactMeetingTime) {
-      this.notificationService.error(this.t.contactMeetingRequired || 'Selecciona fecha y hora para la reunión.');
-      return;
-    }
-    // Aquí se podría integrar con calendario / backend
-    this.notificationService.success(this.t.contactMeetingSuccess || 'Reunión solicitada con el equipo técnico.');
-    this.contactMeetingDate = '';
-    this.contactMeetingTime = '';
   }
 
   // Método para cargar las cuentas de Twilio del usuario

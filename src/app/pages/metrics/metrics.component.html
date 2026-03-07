@@ -5,7 +5,7 @@
     class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-2 3xl:gap-5 max-lg:gap-1.5 mb-3 3xl:mb-5 max-lg:mb-2">
     <div class="relative w-fit max-w-full">
       <select
-        class="appearance-none bg-white rounded-2xl w-full px-2 sm:px-2.5 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 pr-10 max-lg:px-3 max-lg:sm:px-3.5 max-lg:md:px-4 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-sm border border-gray-100 history-border focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px] pointer-events-none opacity-80"
+        class="appearance-none bg-white rounded-2xl w-full px-2 sm:px-2.5 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 pr-10 max-lg:px-3 max-lg:sm:px-3.5 max-lg:md:px-4 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-sm border border-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px] pointer-events-none opacity-80"
         [(ngModel)]="selectedPeriod" (change)="onPeriodChange()" disabled>
         <option *ngFor="let p of periods">{{ p }}</option>
       </select>
@@ -13,7 +13,7 @@
 
     <div class="relative w-fit max-w-full">
       <select
-        class="appearance-none bg-white rounded-2xl w-full px-2 sm:px-2.5 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 pr-11 max-lg:px-3 max-lg:sm:px-3.5 max-lg:md:px-4 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-sm border border-gray-100 history-border focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]"
+        class="appearance-none bg-white rounded-2xl w-full px-2 sm:px-2.5 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 pr-11 max-lg:px-3 max-lg:sm:px-3.5 max-lg:md:px-4 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-sm border border-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]"
         [(ngModel)]="selectedAgent">
         <option *ngFor="let a of agents">{{ a }}</option>
       </select>
@@ -30,7 +30,7 @@
     <div class="flex-1">
       <!-- {{ t.totalCallsLabel }} exitosas (solo tablets: full width) -->
       <div
-        class="hidden md:block lg:hidden bg-white rounded-2xl px-2.5 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 fade-in-section border border-gray-100 history-border mb-3 3xl:mb-5 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
+        class="hidden md:block lg:hidden bg-white rounded-2xl px-2.5 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 fade-in-section border border-gray-100 mb-3 3xl:mb-5 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
         [class.fade-in-visible]="showGraficoLlamadas">
         <div class="flex justify-between items-center mb-1 max-lg:mb-1">
           <h3
@@ -145,7 +145,7 @@
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 3xl:gap-6 max-lg:gap-1.5 mb-4 3xl:mb-6 max-lg:mb-3 md:mb-3">
         <!-- {{ t.successfulCalls }} ({{ t.desktopAndMobileHiddenTablet }}) -->
         <div
-          class="block md:hidden lg:block bg-white rounded-2xl px-2.5 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:col-span-2 fade-in-section border border-gray-100 history-border min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
+          class="block md:hidden lg:block bg-white rounded-2xl px-2.5 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:col-span-2 fade-in-section border border-gray-100 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showGraficoLlamadas">
           <div class="flex justify-between items-center mb-1 max-lg:mb-1">
             <h3
@@ -338,7 +338,7 @@
 
         <!-- {{ t.totalMinutes }} -->
         <div
-          class="bg-white rounded-3xl px-4 pt-4 max-lg:px-5 max-lg:sm:px-6 max-lg:md:px-7 max-lg:pt-5 max-lg:sm:pt-6 max-lg:md:pt-7 pb-3 max-lg:pb-4 max-lg:sm:pb-5 max-lg:md:pb-6 border border-gray-100 history-border flex flex-col justify-between h-full min-h-[185px] max-lg:min-h-[155px] fade-in-section md:col-span-1 lg:col-span-1 dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-3xl px-4 pt-4 max-lg:px-5 max-lg:sm:px-6 max-lg:md:px-7 max-lg:pt-5 max-lg:sm:pt-6 max-lg:md:pt-7 pb-3 max-lg:pb-4 max-lg:sm:pb-5 max-lg:md:pb-6 border border-gray-100 flex flex-col justify-between h-full min-h-[185px] max-lg:min-h-[155px] fade-in-section md:col-span-1 lg:col-span-1 dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTotalMinutos">
           <div>
             <p
@@ -378,7 +378,7 @@
 
         <!-- {{ t.systemStatus }} {{ t.systemStatusTabletOnly }} -->
         <div
-          class="hidden md:block lg:hidden bg-white rounded-2xl px-3 pt-3 pb-3 fade-in-section border border-gray-100 history-border dark:bg-slate-900 dark:border-slate-800"
+          class="hidden md:block lg:hidden bg-white rounded-2xl px-3 pt-3 pb-3 fade-in-section border border-gray-100 dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas">
           <h3
             class="font-semibold text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-800 mb-3 max-lg:mb-3 max-lg:sm:mb-4 max-lg:md:mb-4 tracking-[-0.7px] dark:text-slate-50">
@@ -408,7 +408,7 @@
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1.5 3xl:gap-4 max-lg:gap-1 lg:gap-2.5 3xl:lg:gap-6 mb-4 3xl:mb-6 max-lg:mb-3 md:mb-3">
         <!-- Latencia -->
         <div
-          class="bg-white rounded-2xl px-2.5 pt-2.5 lg:px-2.5 lg:pt-2.5 pb-1.5 lg:pb-2 mb-3 max-lg:mb-2.5 md:mb-2.5 lg:mb-5 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 history-border flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-full lg:w-[calc(100%-0.75rem)]"
+          class="bg-white rounded-2xl px-2.5 pt-2.5 lg:px-2.5 lg:pt-2.5 pb-1.5 lg:pb-2 mb-3 max-lg:mb-2.5 md:mb-2.5 lg:mb-5 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-full lg:w-[calc(100%-0.75rem)]"
           [class.fade-in-visible]="showLatencia">
           <div class="flex justify-between items-start mb-2 lg:mb-2">
             <div>
@@ -470,7 +470,7 @@
         </div>
 
         <div
-          class="bg-white rounded-2xl px-3 pt-3 lg:px-3 lg:pt-3 pb-2 lg:pb-2.5 mb-4 max-lg:mb-3 md:mb-3 lg:mb-6 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 history-border flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-full lg:w-[calc(100%-0.75rem)] lg:-ml-2.5"
+          class="bg-white rounded-2xl px-3 pt-3 lg:px-3 lg:pt-3 pb-2 lg:pb-2.5 mb-4 max-lg:mb-3 md:mb-3 lg:mb-6 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-full lg:w-[calc(100%-0.75rem)] lg:-ml-2.5"
           [class.fade-in-visible]="showDuracionMedia">
           <div class="flex justify-between items-start mb-2 lg:mb-2">
             <div>
@@ -534,7 +534,7 @@
 
         <!-- {{ t.systemStatus }} ({{ t.desktopAndMobileHiddenTablet }}) -->
         <div
-          class="block md:hidden lg:block bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:-ml-5 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 history-border dark:bg-slate-900 dark:border-slate-800"
+          class="block md:hidden lg:block bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:-ml-5 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas">
           <h3
             class="font-semibold text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 4xl:text-lg text-gray-800 mb-3 max-lg:mb-3 max-lg:sm:mb-4 max-lg:md:mb-4 tracking-[-0.7px] dark:text-slate-50">
@@ -565,7 +565,7 @@
         [class.fade-in-visible]="showHorasPico">
         <!-- {{ t.peakHours }} (Popular times) -->
         <div
-          class="bg-white rounded-2xl p-3 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:p-4 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 history-border min-h-[260px] md:min-h-[320px] lg:min-h-[240px] max-h-[350px] md:max-h-[400px] lg:max-h-[344px] xl:max-h-[344px] 2xl:max-h-[344px] 3xl:lg:max-h-[344px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)] overflow-visible flex flex-col"
+          class="bg-white rounded-2xl p-3 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:p-4 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 min-h-[260px] md:min-h-[320px] lg:min-h-[240px] max-h-[350px] md:max-h-[400px] lg:max-h-[344px] xl:max-h-[344px] 2xl:max-h-[344px] 3xl:lg:max-h-[344px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)] overflow-visible flex flex-col"
           [class.fade-in-visible]="showHorasPico">
           <!-- {{ t.title }} -->
           <div class="flex items-center justify-between mb-3 max-lg:mb-2">
@@ -654,7 +654,7 @@
 
         <!-- {{ t.countriesMovedFromOriginal }} -->
         <div
-          class="bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 mb-3 max-lg:mb-2.5 md:mb-2.5 lg:mb-5 lg:-ml-5 md:h-[320px] lg:h-[320px] fade-in-section border border-gray-100 history-border flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 mb-3 max-lg:mb-2.5 md:mb-2.5 lg:mb-5 lg:-ml-5 md:h-[320px] lg:h-[320px] fade-in-section border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showPaises">
           <h3
             class="font-semibold text-gray-800 mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-3 lg:mb-2 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50">
@@ -692,7 +692,7 @@
         class="grid grid-cols-1 md:grid-cols-2 gap-2 3xl:gap-6 max-lg:gap-1.5 mt-2 sm:mt-2 md:mt-2 lg:-mt-1 3xl:mt-0">
         <!-- {{ t.successEvaluation }} -->
         <div
-          class="bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 history-border max-h-[320px] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 max-h-[320px] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showEvaluacionExito">
           <h3
             class="font-semibold text-gray-800 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50">
@@ -721,7 +721,7 @@
 
         <!-- {{ t.callCompletionReason }} -->
         <div
-          class="bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 history-border max-h-[320px] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 max-h-[320px] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showRazonFinalizacion">
           <h3
             class="font-semibold text-gray-800 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50">

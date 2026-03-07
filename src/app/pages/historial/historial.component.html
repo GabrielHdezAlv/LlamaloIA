@@ -2,10 +2,10 @@
   class="rounded-2xl p-3 lg:p-4 xl:p-4 2xl:p-4 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-lg:max-w-full max-lg:w-full agentes-activos-recuadro fade-in-section max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] 4xl:max-w-[110rem] mx-auto h-auto lg:h-[70vh] flex flex-col"
   [class.fade-in-visible]="showContent">
   <!-- Contenido principal -->
-  <div class="flex flex-col lg:flex-row lg:space-x-4 flex-1 min-h-0">
-    <!-- Panel lateral izquierdo (Sidebar) - Oculto en móviles cuando se muestra el chat -->
+  <div class="flex flex-col lg:flex-row flex-1 min-h-0">
+    <!-- Panel lateral izquierdo (Sidebar) - Pegado al panel derecho, sin hueco -->
     <div
-      class="w-full lg:w-72 flex-shrink-0 flex flex-col space-y-4 3xl:space-y-8 h-auto lg:h-full mb-6 3xl:mb-10 lg:mb-0"
+      class="w-full lg:w-72 flex-shrink-0 flex flex-col space-y-4 3xl:space-y-8 h-auto lg:h-full mb-6 3xl:mb-10 lg:mb-0 border border-gray-200 dark:border-slate-600 border-r-0 lg:rounded-l-xl lg:rounded-r-none rounded-xl p-3 lg:p-3 3xl:p-4"
       [class.hidden]="showChat" [class.lg:flex]="showChat">
       <!-- Buscador -->
       <div class="relative">
@@ -44,9 +44,9 @@
       </div>
     </div>
 
-    <!-- Panel derecho: en desktop siempre visible; en móvil solo cuando hay conversación seleccionada. Sin fade cuando está vacío para que se vea el mensaje -->
+    <!-- Panel derecho: pegado al izquierdo, mismo recuadro visual -->
     <div
-      class="flex-1 flex-col h-auto lg:h-full min-h-0 chat-panel lg:border-l lg:border-gray-200 dark:lg:border-slate-800 lg:pl-4"
+      class="flex-1 flex-col h-auto lg:h-full min-h-0 chat-panel border border-gray-200 dark:border-slate-600 rounded-2xl lg:rounded-r-[1.05rem] lg:rounded-l-none lg:border-l-0"
       [ngClass]="showChat ? 'flex' : 'hidden lg:flex'"
       [class.fade-in-section]="showChat && selectedContact"
       [class.fade-in-visible]="showChat && selectedContact">
@@ -62,10 +62,10 @@
           class="font-semibold text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg ">{{ t.back }}</span>
       </button>
 
-      <!-- Información del contacto -->
-      <div class="mb-2 3xl:mb-4 max-lg:mb-3 max-lg:sm:mb-3.5 max-lg:md:mb-4">
+      <!-- Información del contacto (pegado al bloque de abajo, sin margen) -->
+      <div class="mb-0">
         <div
-          class="flex flex-col sm:flex-row items-start justify-between rounded-2xl border border-gray-100 p-2 sm:p-3 3xl:p-5 max-lg:p-3 max-lg:sm:p-4 max-lg:md:p-5 max-lg:gap-3 max-lg:sm:gap-4 max-lg:md:gap-4 gap-2 3xl:gap-4 sm:gap-0 history-border dark:border-slate-800 dark:bg-slate-900">
+          class="flex flex-col sm:flex-row items-start justify-between rounded-t-[0.90rem] border border-b border-gray-200 dark:border-slate-600 p-2 sm:p-3 3xl:p-5 max-lg:p-3 max-lg:sm:p-4 max-lg:md:p-5 max-lg:gap-3 max-lg:sm:gap-4 max-lg:md:gap-4 gap-2 3xl:gap-4 sm:gap-0">
           <div class="flex items-center space-x-2 3xl:space-x-3 max-lg:space-x-3 max-lg:sm:space-x-3.5 max-lg:md:space-x-4 flex-1">
             <img [src]="selectedContact.avatar" alt="Avatar"
               class="w-7 h-7 3xl:w-10 3xl:h-10 max-lg:w-9 max-lg:sm:w-10 max-lg:md:w-11 max-lg:h-9 max-lg:sm:h-10 max-lg:md:h-11 object-cover rounded-full flex-shrink-0" />
@@ -98,9 +98,9 @@
         </div>
       </div>
 
-      <!-- Mensajes con reproductor de audio -->
+      <!-- Mensajes con reproductor de audio (pegado arriba, sin hueco) -->
       <div
-        class="rounded-2xl p-2 sm:p-3 3xl:p-5 max-lg:p-3 max-lg:sm:p-4 max-lg:md:p-5 flex flex-col h-[calc(100vh-320px)] md:h-[calc(100vh-350px)] lg:h-[calc(100vh-200px)]">
+        class="rounded-b-2xl border border-t-0 border-gray-200 dark:border-slate-600 p-2 sm:p-3 3xl:p-5 max-lg:p-3 max-lg:sm:p-4 max-lg:md:p-5 pt-0 flex flex-col h-[calc(100vh-320px)] md:h-[calc(100vh-350px)] lg:h-[calc(100vh-200px)]">
         <div
           class="flex-1 overflow-y-auto p-1.5 3xl:p-3 max-lg:p-2 max-lg:sm:p-3 max-lg:md:p-3.5 space-y-2 3xl:space-y-5 sm:space-y-3 max-lg:space-y-3 max-lg:sm:space-y-4 max-lg:md:space-y-4">
           @for (msg of selectedContact.messages; track $index) {
@@ -108,7 +108,7 @@
           <!-- Mensaje del cliente -->
           <div class="flex justify-start">
             <div
-              class="inline-block max-w-xs sm:max-w-md max-lg:md:max-w-lg px-3 py-2 rounded-2xl bg-gray-100 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-black whitespace-pre-line leading-snug dark:bg-slate-800 dark:text-slate-100">
+              class="inline-block max-w-xs sm:max-w-md max-lg:md:max-w-lg px-3 py-2 rounded-2xl bg-[#E5E7EB] text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-[#000001] whitespace-pre-line leading-snug">
               {{ msg.text }}
             </div>
           </div>
@@ -116,7 +116,7 @@
           <!-- Respuesta del agente -->
           <div class="flex justify-end">
             <div
-              class="inline-block max-w-[15rem] sm:max-w-[16rem] lg:max-w-[18rem] px-3 py-2 rounded-2xl bg-[#1B2559] text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-white whitespace-pre-line leading-snug dark:bg-blue-600 text-left">
+              class="inline-block max-w-[15rem] sm:max-w-[16rem] lg:max-w-[18rem] px-3 py-2 rounded-2xl bg-[#1B2559] text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-white whitespace-pre-line leading-snug text-left">
               {{ msg.text }}
             </div>
           </div>
@@ -127,7 +127,7 @@
         <!-- Reproductor de audio -->
         <div class="mt-auto pt-0 max-lg:pt-2 max-lg:sm:pt-2.5 max-lg:md:pt-3">
         <div
-          class="flex items-center gap-2 rounded-xl border border-gray-200 history-border px-2 py-1.5 3xl:px-3 3xl:py-2 dark:border-slate-700">
+          class="flex items-center gap-2 rounded-2xl border border-gray-200 dark:border-slate-600 px-2 py-1.5 3xl:px-3 3xl:py-2">
           <button
             (click)="togglePlay()"
             class="flex items-center justify-center w-12 h-12 3xl:w-14 3xl:h-14 text-[#1B2559] dark:text-white flex-shrink-0">
