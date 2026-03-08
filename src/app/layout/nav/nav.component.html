@@ -258,8 +258,10 @@
           </div>
 
           <!-- Dropdown Menu -->
-          <div *ngIf="showDropdown"
-            class="absolute top-full left-0 ml-0 mt-2 w-44 bg-white rounded-lg shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-100 dark:bg-slate-900 dark:border-slate-700">
+          <div *ngIf="showDropdown || dropdownClosing"
+            class="nav-dropdown absolute top-full left-0 ml-0 mt-2 w-44 bg-white rounded-lg shadow-xl z-[9999] border border-gray-200 transition-all duration-200 ease-out dark:bg-slate-900 dark:border-slate-700"
+            [class.dropdown-entering]="dropdownOpening"
+            [class.dropdown-leaving]="dropdownClosing">
             <!-- {{ t.settings }} -->
             <button (click)="navigateTo('/dashboard/account'); closeMenu()"
               class="w-full flex items-center gap-2 px-2 py-1.5 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-lg dark:text-white dark:hover:bg-slate-800">
@@ -836,8 +838,10 @@
         </div>
 
         <!-- Dropdown Menu -->
-        <div *ngIf="showDropdown"
-          class="absolute top-full left-full ml-2 -mt-40 3xl:-mt-52 w-44 3xl:w-52 bg-white rounded-2xl shadow-xl z-[9999] border border-gray-200 transition-all duration-500 ease-in-out opacity-100 dark:bg-slate-900 dark:border-slate-700">
+        <div *ngIf="showDropdown || dropdownClosing"
+          class="nav-dropdown absolute top-full left-full ml-2 -mt-40 3xl:-mt-52 w-44 3xl:w-52 bg-white rounded-2xl shadow-xl z-[9999] border border-gray-200 transition-all duration-200 ease-out dark:bg-slate-900 dark:border-slate-700"
+          [class.dropdown-entering]="dropdownOpening"
+          [class.dropdown-leaving]="dropdownClosing">
           <!-- {{ t.settings }} -->
           <button (click)="navigateTo('/dashboard/account')"
             class="w-full flex items-center gap-2 px-2 3xl:px-2.5 py-1.5 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl dark:text-white dark:hover:bg-slate-800">

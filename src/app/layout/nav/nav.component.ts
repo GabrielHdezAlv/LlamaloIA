@@ -167,8 +167,7 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
 
   // Colapsar/cerrar sidebar al navegar a una página
   collapseOnNavigate() {
-    // Cerrar dropdown si está abierto
-    this.showDropdown = false;
+    this.closeDropdownWithAnimation();
 
     // Cerrar sidebar móvil si está abierto
     if (this.windowWidth < 1280) {
@@ -286,10 +285,9 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
     const sidebar = target.closest('app-nav');
     const isInsideSidebar = sidebar !== null;
 
-    // Si el clic fue fuera del sidebar y está expandido, cerrarlo
     if (!isInsideSidebar) {
       this.isCollapsed = true;
-      this.showDropdown = false;
+      this.closeDropdownWithAnimation();
       this.triggerResizeAfterTransition();
     }
   }
@@ -315,25 +313,47 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
     return currentUrl === route;
   }
 
-  // En el componente
   showDropdown = false;
+  dropdownClosing = false;
+  dropdownOpening = false;
+  private dropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
+  private dropdownOpenTimer: ReturnType<typeof setTimeout> | null = null;
 
-  // Método para abrir/cerrar dropdown
+  closeDropdownWithAnimation() {
+    if (!this.showDropdown || this.dropdownClosing) return;
+    this.dropdownClosing = true;
+    if (this.dropdownCloseTimer) clearTimeout(this.dropdownCloseTimer);
+    this.dropdownCloseTimer = setTimeout(() => {
+      this.showDropdown = false;
+      this.dropdownClosing = false;
+      this.dropdownCloseTimer = null;
+    }, 220);
+  }
+
   toggleDropdown() {
-    this.showDropdown = !this.showDropdown;
+    if (this.showDropdown) {
+      this.closeDropdownWithAnimation();
+    } else {
+      this.showDropdown = true;
+      this.dropdownClosing = false;
+      this.dropdownOpening = true;
+      if (this.dropdownOpenTimer) clearTimeout(this.dropdownOpenTimer);
+      this.dropdownOpenTimer = setTimeout(() => {
+        this.dropdownOpening = false;
+        this.dropdownOpenTimer = null;
+      }, 20);
+    }
   }
 
   // Navegar a ruta usando el servicio de navegación
   navigateTo(route: string) {
     if (route === '/dashboard/community') {
-      // Redirigir al canal de Telegram de Llamalo AI
       window.open('https://t.me/+wDgRI51qiW1mZjdk', '_blank');
     } else {
-      // Usar el servicio de navegación para mantener la URL limpia
       const routeName = route.replace('/dashboard/', '');
       this.navigationService.navigateToRoute(routeName);
     }
-    this.showDropdown = false;
+    this.closeDropdownWithAnimation();
     this.collapseOnNavigate();
   }
 
@@ -342,9 +362,7 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
     this.router.navigate(['/dashboard/account'], {
       queryParams: { tab: 'gifts' },
     });
-    this.showDropdown = false;
-    // No colapsar el sidebar al ir a regalos desde el footer
-    // this.collapseOnNavigate();
+    this.closeDropdownWithAnimation();
   }
 
   // Navegar específicamente a la sección de regalos en account
@@ -437,8 +455,9 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  // Limpiar timer al destruir el componente
   ngOnDestroy() {
     this.clearHoverTimer();
+    if (this.dropdownCloseTimer) clearTimeout(this.dropdownCloseTimer);
+    if (this.dropdownOpenTimer) clearTimeout(this.dropdownOpenTimer);
   }
 }

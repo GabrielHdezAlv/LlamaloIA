@@ -33,6 +33,13 @@ html.dark .onboarding-logo-text {
   color: #ffffff !important;
 }
 
+/* Placeholders en modo oscuro: gris claro neutro (no azulado) en toda la app */
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #909090 !important;
+  opacity: 1;
+}
+
 /* Iconos de las 4 tarjetas del paso 1 del onboarding:
    - Modo claro: trazos oscuros con borde suave
    - Modo oscuro: trazos claros con borde suave

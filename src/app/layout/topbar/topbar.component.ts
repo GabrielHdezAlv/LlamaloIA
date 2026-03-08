@@ -66,9 +66,17 @@ export class TopbarComponent implements OnInit, OnDestroy {
   isAdminSection = false;
 
   showDropdown = false;
+  dropdownClosing = false;
+  dropdownOpening = false;
   showInviteModal = false;
   showNewsDropdown = false;
+  newsDropdownClosing = false;
+  newsDropdownOpening = false;
   hasNewNotifications = true;
+  private dropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
+  private newsDropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
+  private dropdownOpenTimer: ReturnType<typeof setTimeout> | null = null;
+  private newsDropdownOpenTimer: ReturnType<typeof setTimeout> | null = null;
 
   // Draft recovery
   hasSavedDraft = false;
@@ -186,7 +194,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
           (mobileAvatar && mobileAvatar.contains(target))
         )
       ) {
-        this.showDropdown = false;
+        this.closeDropdownWithAnimation();
       }
     }
 
@@ -206,9 +214,31 @@ export class TopbarComponent implements OnInit, OnDestroy {
       });
 
       if (!clickedInside) {
-        this.showNewsDropdown = false;
+        this.closeNewsDropdownWithAnimation();
       }
     }
+  }
+
+  closeDropdownWithAnimation() {
+    if (!this.showDropdown || this.dropdownClosing) return;
+    this.dropdownClosing = true;
+    if (this.dropdownCloseTimer) clearTimeout(this.dropdownCloseTimer);
+    this.dropdownCloseTimer = setTimeout(() => {
+      this.showDropdown = false;
+      this.dropdownClosing = false;
+      this.dropdownCloseTimer = null;
+    }, 220);
+  }
+
+  closeNewsDropdownWithAnimation() {
+    if (!this.showNewsDropdown || this.newsDropdownClosing) return;
+    this.newsDropdownClosing = true;
+    if (this.newsDropdownCloseTimer) clearTimeout(this.newsDropdownCloseTimer);
+    this.newsDropdownCloseTimer = setTimeout(() => {
+      this.showNewsDropdown = false;
+      this.newsDropdownClosing = false;
+      this.newsDropdownCloseTimer = null;
+    }, 220);
   }
 
   // Idiomas usando el servicio de i18n
@@ -275,6 +305,10 @@ export class TopbarComponent implements OnInit, OnDestroy {
     if (this.metricsLoadingSubscription) {
       this.metricsLoadingSubscription.unsubscribe();
     }
+    if (this.dropdownCloseTimer) clearTimeout(this.dropdownCloseTimer);
+    if (this.newsDropdownCloseTimer) clearTimeout(this.newsDropdownCloseTimer);
+    if (this.dropdownOpenTimer) clearTimeout(this.dropdownOpenTimer);
+    if (this.newsDropdownOpenTimer) clearTimeout(this.newsDropdownOpenTimer);
   }
 
   checkForSavedDraft() {
@@ -499,7 +533,20 @@ export class TopbarComponent implements OnInit, OnDestroy {
   }
 
   toggleDropdown() {
-    this.showDropdown = !this.showDropdown;
+    if (this.showDropdown) {
+      this.closeDropdownWithAnimation();
+    } else {
+      this.showNewsDropdown = false;
+      this.newsDropdownClosing = false;
+      this.showDropdown = true;
+      this.dropdownClosing = false;
+      this.dropdownOpening = true;
+      if (this.dropdownOpenTimer) clearTimeout(this.dropdownOpenTimer);
+      this.dropdownOpenTimer = setTimeout(() => {
+        this.dropdownOpening = false;
+        this.dropdownOpenTimer = null;
+      }, 20);
+    }
   }
 
   selectLanguage(lang: Language) {
@@ -509,12 +556,11 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   navigateTo(route: string) {
     if (route === '/dashboard/community') {
-      // Redirigir al canal de Telegram de Llamalo AI
       window.open('https://t.me/+wDgRI51qiW1mZjdk', '_blank');
     } else {
       this.router.navigate([route]);
     }
-    this.showDropdown = false;
+    this.closeDropdownWithAnimation();
   }
 
   logout() {
@@ -528,7 +574,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/dashboard/account'], {
       queryParams: { tab: 'gifts' },
     });
-    this.showDropdown = false;
+    this.closeDropdownWithAnimation();
   }
 
   openInviteModal() {
@@ -659,12 +705,22 @@ export class TopbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Abrir dropdown de noticias
   toggleNewsDropdown() {
-    this.showNewsDropdown = !this.showNewsDropdown;
     if (this.showNewsDropdown) {
+      this.closeNewsDropdownWithAnimation();
+    } else {
+      this.showDropdown = false;
+      this.dropdownClosing = false;
+      this.showNewsDropdown = true;
+      this.newsDropdownClosing = false;
+      this.newsDropdownOpening = true;
       this.hasNewNotifications = false;
-      this.showDropdown = false; // Cerrar el otro dropdown
+      this.closeDropdownWithAnimation();
+      if (this.newsDropdownOpenTimer) clearTimeout(this.newsDropdownOpenTimer);
+      this.newsDropdownOpenTimer = setTimeout(() => {
+        this.newsDropdownOpening = false;
+        this.newsDropdownOpenTimer = null;
+      }, 20);
     }
   }
 

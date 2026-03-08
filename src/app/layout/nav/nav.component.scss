@@ -108,6 +108,22 @@
   animation: fadeInTooltip 0.3s ease-in-out;
 }
 
+/* --- Animación entrada/salida para dropdown del nav --- */
+.nav-dropdown.dropdown-entering {
+  opacity: 0;
+  transform: scale(0.97) translateY(-6px);
+}
+
+.nav-dropdown.dropdown-leaving {
+  opacity: 0;
+  transform: scale(0.97) translateY(-6px);
+  pointer-events: none;
+}
+
+.nav-dropdown {
+  transform-origin: top left;
+}
+
 /* --- Smooth animations --- */
 @keyframes fadeInTooltip {
   from {

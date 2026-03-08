@@ -64,8 +64,10 @@
         </button>
 
         <!-- Dropdown de noticias móvil -->
-        <div *ngIf="showNewsDropdown"
-          class="news-dropdown fixed left-2 right-2 sm:absolute sm:left-auto sm:right-0 sm:w-[350px] top-[70px] sm:top-full sm:mt-2 bg-white rounded-2xl shadow-xl z-[9999] border border-gray-100 dark:bg-slate-900 dark:border-slate-800 transform origin-top sm:origin-top-right transition-all duration-300">
+        <div *ngIf="showNewsDropdown || newsDropdownClosing"
+          class="news-dropdown fixed left-2 right-2 sm:absolute sm:left-auto sm:right-0 sm:w-[350px] top-[70px] sm:top-full sm:mt-2 bg-white rounded-2xl shadow-xl z-[9999] border border-gray-100 dark:bg-slate-900 dark:border-slate-800 transform origin-top sm:origin-top-right transition-all duration-300"
+          [class.dropdown-entering]="newsDropdownOpening"
+          [class.dropdown-leaving]="newsDropdownClosing">
           <div class="flex flex-col max-h-[225px] overflow-hidden">
             <!-- Content -->
             <div class="p-1.5 overflow-y-auto custom-scrollbar space-y-1">
@@ -113,8 +115,10 @@
           alt="Perfil" (click)="toggleDropdown()" />
 
         <!-- Dropdown móvil (clonado del navbar, adaptado) -->
-        <div *ngIf="showDropdown"
-          class="mobile-topbar-dropdown xl:hidden absolute right-0 top-12 w-44 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700">
+        <div *ngIf="showDropdown || dropdownClosing"
+          class="mobile-topbar-dropdown xl:hidden absolute right-0 top-12 w-44 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700 transition-all duration-200 ease-out"
+          [class.dropdown-entering]="dropdownOpening"
+          [class.dropdown-leaving]="dropdownClosing">
           <!-- Ajustes -->
           <button (click)="navigateTo('/dashboard/account')"
             class="w-full flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl dark:text-slate-100 dark:hover:bg-slate-800">
@@ -288,8 +292,10 @@
         </button>
 
         <!-- Dropdown de noticias escritorio -->
-        <div *ngIf="showNewsDropdown"
-          class="news-dropdown absolute right-0 mt-3 w-[300px] 3xl:w-[450px] bg-white rounded-2xl shadow-xl z-[9999] border border-gray-100 dark:bg-slate-900 dark:border-slate-800 transform origin-top-right transition-all duration-300">
+        <div *ngIf="showNewsDropdown || newsDropdownClosing"
+          class="news-dropdown absolute right-0 mt-3 w-[300px] 3xl:w-[450px] bg-white rounded-2xl shadow-xl z-[9999] border border-gray-100 dark:bg-slate-900 dark:border-slate-800 transform origin-top-right transition-all duration-300"
+          [class.dropdown-entering]="newsDropdownOpening"
+          [class.dropdown-leaving]="newsDropdownClosing">
           <div class="flex flex-col max-h-[225px] 3xl:max-h-[400px] overflow-hidden">
             <!-- Content -->
             <div class="p-1.5 3xl:p-3 overflow-y-auto custom-scrollbar space-y-1 3xl:space-y-2">
@@ -331,8 +337,10 @@
         alt="Perfil" (click)="toggleDropdown()" />
 
       <!-- Dropdown escritorio -->
-      <div *ngIf="showDropdown"
-        class="topbar-dropdown absolute right-0 mt-60 sm:mt-56 md:mt-56 lg:mt-60 xl:mt-60 2xl:mt-60 3xl:mt-72 w-48 sm:w-44 md:w-44 lg:w-48 xl:w-48 2xl:w-48 3xl:w-48 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700">
+      <div *ngIf="showDropdown || dropdownClosing"
+        class="topbar-dropdown absolute right-0 mt-60 sm:mt-56 md:mt-56 lg:mt-60 xl:mt-60 2xl:mt-60 3xl:mt-72 w-48 sm:w-44 md:w-44 lg:w-48 xl:w-48 2xl:w-48 3xl:w-48 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700 transition-all duration-200 ease-out"
+        [class.dropdown-entering]="dropdownOpening"
+        [class.dropdown-leaving]="dropdownClosing">
         <!-- Ajustes -->
         <button (click)="navigateTo('/dashboard/account')"
           class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl dark:text-slate-100 dark:hover:bg-slate-800">

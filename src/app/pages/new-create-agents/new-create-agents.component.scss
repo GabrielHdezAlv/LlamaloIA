@@ -384,10 +384,10 @@
     border-color: #3a3a3a !important;
   }
 
-  // Inputs con placeholder
+  // Inputs con placeholder (gris claro neutro, no azulado)
   input::placeholder,
   textarea::placeholder {
-    color: #9ca3af !important; // gray-400
+    color: #6d6d6d !important;
   }
 
   // Select con texto gris
