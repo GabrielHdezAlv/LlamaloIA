@@ -143,6 +143,7 @@
           <span class="nav-text mt-1 block">{{ t.numbers }}</span>
         </a>
 
+        @if (showHistorialNav) {
         <a [routerLink]="['/dashboard/history']" (click)="closeMenu()" [class]="
             'nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition ' +
             (isRouteActive('/dashboard/history')
@@ -164,6 +165,7 @@
           <span class="ml-auto text-[10px] text-blue-900 border border-gray-300 px-2 py-0.5 rounded-lg font-bold">{{
             t.new }}</span>
         </a>
+        }
 
         <a [routerLink]="['/dashboard/metrics']" (click)="closeMenu()" [class]="
             'nav-link flex items-center gap-2 px-3 py-2 rounded-lg transition ' +
@@ -534,6 +536,7 @@
           t.numbers }}</span>
       </a>
 
+      @if (showHistorialNav) {
       <a #navItem [attr.data-route]="'/dashboard/history'" [routerLink]="['/dashboard/history']"
         (click)="collapseOnNavigate()" [class]="
           'relative flex items-center gap-2 3xl:gap-2.5 rounded-lg transition my-0 w-full py-1 ' +
@@ -567,6 +570,7 @@
           class="relative z-10 nav-text text-xs 3xl:text-sm transition-all duration-500 ease-in-out opacity-0 animate-fade-in whitespace-nowrap flex-shrink-0">{{
           t.history }}</span>
       </a>
+      }
 
       <a #navItem [attr.data-route]="'/dashboard/metrics'" [routerLink]="['/dashboard/metrics']"
         (click)="collapseOnNavigate()" [class]="

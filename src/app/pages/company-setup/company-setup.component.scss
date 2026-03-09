@@ -294,3 +294,28 @@
 :host-context(.dark) .web-icon-wrap-step8 svg {
     filter: brightness(0) invert(1);
 }
+
+/* Animación transición imagen paso 1 → paso 2 (panel derecho onboarding) */
+.onboarding-right-imgs {
+    pointer-events: none;
+}
+
+.onboarding-panel-img {
+    transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center bottom;
+}
+
+.onboarding-panel-img.onboarding-img-out {
+    opacity: 0;
+    transform: scale(0.98) translateY(8px);
+}
+
+.onboarding-panel-img.opacity-0 {
+    transform: scale(0.98) translateY(8px);
+}
+
+.onboarding-panel-img.opacity-0.onboarding-img-in {
+    opacity: 1 !important;
+    transform: scale(1) translateY(0);
+}

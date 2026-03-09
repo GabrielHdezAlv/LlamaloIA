@@ -1,3 +1,11 @@
+// Animación cambio de sección: desaparece contenido, luego aparece el nuevo
+.account-section {
+  transition: opacity 0.2s ease-out;
+}
+.account-section.section-leaving {
+  opacity: 0;
+}
+
 // Bordes más finos en la página de cuenta (1px en claro y en oscuro)
 .account-border-thin {
   border-width: 1px !important;

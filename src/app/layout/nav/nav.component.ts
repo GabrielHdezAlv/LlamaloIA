@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
 import { NavigationService } from '../../core/services/navigation.service';
 import { I18nService, Language } from '../../core/services/i18n.service';
+import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
 
 @Component({
   selector: 'app-nav',
@@ -312,6 +313,9 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
     // Para otras rutas, verificar coincidencia exacta
     return currentUrl === route;
   }
+
+  /** Ocultar enlace a Historial en el nav (sin borrar código). Ver core/constants/features.ts */
+  showHistorialNav = SHOW_HISTORIAL_NAV;
 
   showDropdown = false;
   dropdownClosing = false;

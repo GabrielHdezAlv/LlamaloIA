@@ -53,26 +53,13 @@
           <div class="mt-3 3xl:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 3xl:gap-3">
             <!-- Tarjeta 1 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-500 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
-              [ngClass]="[
-            selectedMainUsages.includes('customer-service')
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              [ngClass]="selectedMainUsages.includes('customer-service')
               ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
-              : '',
-            isMainUsageAnimating && mainUsageSelectedForTransition !== 'customer-service'
-              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
-              : '',
-            isMainUsageAnimating &&
-            mainUsageSelectedForTransition === 'customer-service' &&
-            !selectedCardFadingOut
-              ? 'scale-[1.03] shadow-[0_16px_45px_rgba(15,23,42,0.15)]'
-              : '',
-            selectedCardFadingOut && mainUsageSelectedForTransition === 'customer-service'
-              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
-              : ''
-          ]" (click)="handleMainUsageClick('customer-service')">
+              : ''" (click)="selectMainUsage('customer-service')">
               <div class="flex items-center justify-between mb-3 sm:mb-4 3xl:mb-5">
                 <div
-                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-full border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
+                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6">
                     <path
@@ -106,26 +93,13 @@
 
             <!-- Tarjeta 2 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-500 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
-              [ngClass]="[
-            selectedMainUsages.includes('cart-recovery')
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              [ngClass]="selectedMainUsages.includes('cart-recovery')
               ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
-              : '',
-            isMainUsageAnimating && mainUsageSelectedForTransition !== 'cart-recovery'
-              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
-              : '',
-            isMainUsageAnimating &&
-            mainUsageSelectedForTransition === 'cart-recovery' &&
-            !selectedCardFadingOut
-              ? 'scale-[1.03] shadow-[0_16px_45px_rgba(15,23,42,0.15)]'
-              : '',
-            selectedCardFadingOut && mainUsageSelectedForTransition === 'cart-recovery'
-              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
-              : ''
-          ]" (click)=" handleMainUsageClick('cart-recovery')">
+              : ''" (click)="selectMainUsage('cart-recovery')">
               <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5">
                 <div
-                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-full border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
+                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6">
                     <path
@@ -159,26 +133,13 @@
 
             <!-- Tarjeta 3 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-500 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
-              [ngClass]="[
-            selectedMainUsages.includes('phone-sales')
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              [ngClass]="selectedMainUsages.includes('phone-sales')
               ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
-              : '',
-            isMainUsageAnimating && mainUsageSelectedForTransition !== 'phone-sales'
-              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
-              : '',
-            isMainUsageAnimating &&
-            mainUsageSelectedForTransition === 'phone-sales' &&
-            !selectedCardFadingOut
-              ? 'scale-[1.03] shadow-[0_16px_45px_rgba(15,23,42,0.15)]'
-              : '',
-            selectedCardFadingOut && mainUsageSelectedForTransition === 'phone-sales'
-              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
-              : ''
-          ]" (click)=" handleMainUsageClick('phone-sales')">
+              : ''" (click)="selectMainUsage('phone-sales')">
               <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5">
                 <div
-                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-full border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
+                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6">
                     <path fill-rule="evenodd" clip-rule="evenodd"
@@ -206,27 +167,13 @@
 
             <!-- Tarjeta 4 (seleccionada por defecto) -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-500 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
-              [ngClass]="[
-            selectedMainUsages.includes('confirmations-reminders')
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              [ngClass]="selectedMainUsages.includes('confirmations-reminders')
               ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
-              : '',
-            isMainUsageAnimating && mainUsageSelectedForTransition !== 'confirmations-reminders'
-              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
-              : '',
-            isMainUsageAnimating &&
-            mainUsageSelectedForTransition === 'confirmations-reminders' &&
-            !selectedCardFadingOut
-              ? 'scale-[1.03] shadow-[0_16px_45px_rgba(15,23,42,0.15)]'
-              : '',
-            selectedCardFadingOut &&
-            mainUsageSelectedForTransition === 'confirmations-reminders'
-              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
-              : ''
-          ]" (click)=" handleMainUsageClick('confirmations-reminders')">
+              : ''" (click)="selectMainUsage('confirmations-reminders')">
               <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5">
                 <div
-                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-full border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
+                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6">
                     <path
@@ -255,21 +202,29 @@
             </div>
           </div>
 
-          <!-- Opción {{ t.otherOption }} (mismo icono que Otra en paso 2: ajustes) -->
+          <!-- Opción {{ t.otherOption }} (icono 3 puntos, tick a la derecha) -->
           <div
-            class="mt-3 3xl:mt-4 rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md cursor-pointer transition-all duration-500 ease-out text-[11px] sm:text-xs 3xl:text-sm font-medium text-gray-900 dark:text-slate-50 flex items-center justify-between focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
-            [ngClass]="
-            isMainUsageAnimating
-              ? 'opacity-0 translate-y-3 scale-[0.97] pointer-events-none'
-              : 'opacity-100 translate-y-0'
-          ">
-            <div class="flex items-center gap-3">
-              <svg width="17" height="16" viewBox="0 0 600 600" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="text-slate-500 dark:text-slate-400">
-                <g transform="matrix(0.95173205,0,0,0.95115787,13.901174,12.168794)">
-                  <path d="M 447.70881 -12.781343 A 42.041451 42.041451 0 0 0 405.66786 29.260344 L 405.66786 50.301721 L 27.434765 50.301721 A 42.041302 42.041302 0 0 0 -14.606185 92.341354 A 42.041302 42.041302 0 0 0 27.434765 134.38304 L 405.66786 134.38304 L 405.66786 155.44906 A 42.041451 42.041451 0 0 0 447.70881 197.49075 A 42.041451 42.041451 0 0 0 489.74976 155.44906 L 489.74976 134.38304 L 573.78036 134.38304 A 42.041302 42.041302 0 0 0 615.82336 92.341354 A 42.041302 42.041302 0 0 0 573.78036 50.301721 L 489.74976 50.301721 L 489.74976 29.260344 A 42.041451 42.041451 0 0 0 447.70881 -12.781343 z M 143.0012 197.48869 A 42.041451 42.041451 0 0 0 100.9582 239.53038 L 100.9582 260.5697 L 27.447078 260.5697 A 42.041302 42.041302 0 0 0 -14.593872 302.61139 A 42.041302 42.041302 0 0 0 27.447078 344.65308 L 100.9582 344.65308 L 100.9582 365.7191 A 42.041451 42.041451 0 0 0 143.0012 407.76078 A 42.041451 42.041451 0 0 0 185.04215 365.7191 L 185.04215 344.65308 L 573.79472 344.65308 A 42.041302 42.041302 0 0 0 615.83567 302.61139 A 42.041302 42.041302 0 0 0 573.79472 260.5697 L 185.04215 260.5697 L 185.04215 239.53038 A 42.041451 42.041451 0 0 0 143.0012 197.48869 z M 279.59427 407.76078 A 42.041451 42.041451 0 0 0 237.55332 449.80042 L 237.55332 470.83974 L 27.447078 470.83974 A 42.041302 42.041302 0 0 0 -14.593872 512.88143 A 42.041302 42.041302 0 0 0 27.447078 554.92106 L 237.55332 554.92106 L 237.55332 575.98913 A 42.041451 42.041451 0 0 0 279.59427 618.02877 A 42.041451 42.041451 0 0 0 321.63522 575.98913 L 321.63522 554.92106 L 573.79472 554.92106 A 42.041302 42.041302 0 0 0 615.83567 512.88143 A 42.041302 42.041302 0 0 0 573.79472 470.83974 L 321.63522 470.83974 L 321.63522 449.80042 A 42.041451 42.041451 0 0 0 279.59427 407.76078 z" />
-                </g>
+            class="mt-3 3xl:mt-4 rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md cursor-pointer transition-all duration-200 ease-out text-[11px] sm:text-xs 3xl:text-sm font-medium text-gray-900 dark:text-slate-50 flex items-center justify-between w-full focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+            [ngClass]="selectedMainUsages.includes('other')
+              ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
+              : ''"
+            (click)="selectMainUsage('other')">
+            <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3 min-w-0 pr-2">
+              <!-- Icono 3 puntos horizontales -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5 3xl:w-6 3xl:h-6 text-slate-600 dark:text-slate-300 flex-shrink-0">
+                <circle cx="6" cy="12" r="1.75" />
+                <circle cx="12" cy="12" r="1.75" />
+                <circle cx="18" cy="12" r="1.75" />
               </svg>
               <span>{{ t.otherOption }}</span>
+            </div>
+            <div *ngIf="selectedMainUsages.includes('other')" class="flex-shrink-0 ml-2">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                <path
+                  d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                  fill="currentColor" />
+              </svg>
             </div>
           </div>
 
@@ -282,8 +237,9 @@
               <span>{{ t.back }}</span>
             </button>
             <button type="button"
-              class="px-2.5 py-0.5 3xl:px-6 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
-              (click)=" goToStep(2)">
+              class="px-2.5 py-0.5 3xl:px-6 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#1E3A8A] dark:disabled:hover:bg-white"
+              [disabled]="selectedMainUsages.length === 0"
+              (click)="goToStep(2)">
               {{ t.continue }}
             </button>
           </div>
@@ -315,8 +271,8 @@
           {{ t.youCanSelectMultiple }}
         </p>
 
-        <!-- Contenido -->
-        <div class="flex flex-col flex-1 transition-all duration-700 ease-out mt-3"
+        <!-- Contenido (sin animación) -->
+        <div class="flex flex-col flex-1 mt-3"
           [ngClass]="step2ContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'">
           <!-- Lista de opciones -->
           <div class="flex flex-col gap-2 3xl:gap-3 mt-3 3xl:mt-4">
@@ -500,34 +456,32 @@
               </div>
             </div>
 
-            <!-- Opción 7: Otra (icono de ajustes) -->
+            <!-- Opción 7: Otra (icono 3 puntos, tick a la derecha) -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white flex items-center justify-between w-full"
               [ngClass]="
               selectedDiscoveryChannels.includes('other-source')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
-            " (click)=" toggleDiscoveryChannel('other-source')">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
-                  <!-- Icono ajustes (igual que Otro en paso 1) -->
-                  <svg class="w-4 h-4 text-gray-900 dark:text-slate-200 3xl:w-5 3xl:h-5" viewBox="0 0 600 600" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <g transform="matrix(0.95173205,0,0,0.95115787,13.901174,12.168794)">
-                      <path d="M 447.70881 -12.781343 A 42.041451 42.041451 0 0 0 405.66786 29.260344 L 405.66786 50.301721 L 27.434765 50.301721 A 42.041302 42.041302 0 0 0 -14.606185 92.341354 A 42.041302 42.041302 0 0 0 27.434765 134.38304 L 405.66786 134.38304 L 405.66786 155.44906 A 42.041451 42.041451 0 0 0 447.70881 197.49075 A 42.041451 42.041451 0 0 0 489.74976 155.44906 L 489.74976 134.38304 L 573.78036 134.38304 A 42.041302 42.041302 0 0 0 615.82336 92.341354 A 42.041302 42.041302 0 0 0 573.78036 50.301721 L 489.74976 50.301721 L 489.74976 29.260344 A 42.041451 42.041451 0 0 0 447.70881 -12.781343 z M 143.0012 197.48869 A 42.041451 42.041451 0 0 0 100.9582 239.53038 L 100.9582 260.5697 L 27.447078 260.5697 A 42.041302 42.041302 0 0 0 -14.593872 302.61139 A 42.041302 42.041302 0 0 0 27.447078 344.65308 L 100.9582 344.65308 L 100.9582 365.7191 A 42.041451 42.041451 0 0 0 143.0012 407.76078 A 42.041451 42.041451 0 0 0 185.04215 365.7191 L 185.04215 344.65308 L 573.79472 344.65308 A 42.041302 42.041302 0 0 0 615.83567 302.61139 A 42.041302 42.041302 0 0 0 573.79472 260.5697 L 185.04215 260.5697 L 185.04215 239.53038 A 42.041451 42.041451 0 0 0 143.0012 197.48869 z M 279.59427 407.76078 A 42.041451 42.041451 0 0 0 237.55332 449.80042 L 237.55332 470.83974 L 27.447078 470.83974 A 42.041302 42.041302 0 0 0 -14.593872 512.88143 A 42.041302 42.041302 0 0 0 27.447078 554.92106 L 237.55332 554.92106 L 237.55332 575.98913 A 42.041451 42.041451 0 0 0 279.59427 618.02877 A 42.041451 42.041451 0 0 0 321.63522 575.98913 L 321.63522 554.92106 L 573.79472 554.92106 A 42.041302 42.041302 0 0 0 615.83567 512.88143 A 42.041302 42.041302 0 0 0 573.79472 470.83974 L 321.63522 470.83974 L 321.63522 449.80042 A 42.041451 42.041451 0 0 0 279.59427 407.76078 z" />
-                    </g>
-                  </svg>
-                  <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
-                    {{ t.otherOption }}
-                  </span>
-                </div>
-                <div *ngIf="selectedDiscoveryChannels.includes('other-source')" class="ml-2 3xl:ml-3">
-                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
-                    <path
-                      d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
-                      fill="currentColor" />
-                  </svg>
-                </div>
+            " (click)="toggleDiscoveryChannel('other-source')">
+              <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3 min-w-0 pr-2">
+                <!-- Icono 3 puntos horizontales -->
+                <svg class="w-4 h-4 text-gray-900 dark:text-slate-200 3xl:w-5 3xl:h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="6" cy="12" r="1.75" />
+                  <circle cx="12" cy="12" r="1.75" />
+                  <circle cx="18" cy="12" r="1.75" />
+                </svg>
+                <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
+                  {{ t.otherOption }}
+                </span>
+              </div>
+              <div *ngIf="selectedDiscoveryChannels.includes('other-source')" class="flex-shrink-0 ml-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                  <path
+                    d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
+                    fill="currentColor" />
+                </svg>
               </div>
             </div>
           </div>
@@ -552,17 +506,10 @@
 
     <!-- Paso 3: Nombre del agente -->
     <div *ngSwitchCase="3" class="relative w-full h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <!-- Logo + Llamalo beta: esquina superior izquierda -->
-      <div
-        class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
+      <!-- Logo centrado -->
+      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-0.25 leading-none">
-          <span
-            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
-          <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
-        </div>
       </div>
       <app-agent-name-step [agentName]="agentName" [currentStepNumber]="getAgentStepNumber()"
         [totalSteps]="getAgentTotalSteps()" (agentNameChange)="agentName = $event" (backClicked)="goBack()"
@@ -572,17 +519,10 @@
 
     <!-- Paso 4: Tipo de llamada (Inbound / Outbound) -->
     <div *ngSwitchCase="4" class="relative w-full h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <!-- Logo + Llamalo beta: esquina superior izquierda -->
-      <div
-        class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
+      <!-- Logo centrado -->
+      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-0.25 leading-none">
-          <span
-            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
-          <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
-        </div>
       </div>
       <app-call-type-step [selectedCallType]="selectedCallType" [currentStepNumber]="getAgentStepNumber()"
         [totalSteps]="getAgentTotalSteps()" (callTypeChange)="selectedCallType = $event" (backClicked)="goBack()"
@@ -592,17 +532,10 @@
 
     <!-- Paso 5: País y voz -->
     <div *ngSwitchCase="5" class="relative w-full h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <!-- Logo + Llamalo beta: esquina superior izquierda -->
-      <div
-        class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
+      <!-- Logo centrado -->
+      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-0.25 leading-none">
-          <span
-            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
-          <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
-        </div>
       </div>
       <app-voices-step [selectedCountry]="selectedCountry" [countryOptions]="countryOptions" [voices]="voices"
         [selectedVoiceId]="selectedVoiceId" [currentPlayingVoice]="currentPlayingVoice"
@@ -617,17 +550,10 @@
 
     <!-- Paso 6: Conecta tu negocio -->
     <div *ngSwitchCase="6" class="relative w-full h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <!-- Logo + Llamalo beta: esquina superior izquierda -->
-      <div
-        class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
+      <!-- Logo centrado -->
+      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-0.25 leading-none">
-          <span
-            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
-          <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
-        </div>
       </div>
       <app-connect-business-step [shopifyConnectedDomain]="shopifyConnectedDomain"
         [currentStepNumber]="getAgentStepNumber()" [totalSteps]="getAgentTotalSteps()" (backClicked)="goBack()"
@@ -637,17 +563,10 @@
 
     <!-- Paso 7: Instrucciones -->
     <div *ngSwitchCase="7" class="relative w-full h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <!-- Logo + Llamalo beta: esquina superior izquierda -->
-      <div
-        class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
+      <!-- Logo centrado -->
+      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-0.25 leading-none">
-          <span
-            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
-          <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
-        </div>
       </div>
       <app-instructions-step [greeting]="greeting" [instructions]="instructions" [showMakeConfig]="showMakeConfig"
         [isMakeConfigClosing]="isMakeConfigClosing" [makeActionData]="makeActionData"
@@ -669,17 +588,10 @@
 
     <!-- Paso 8: Base de conocimientos -->
     <div *ngSwitchCase="8" class="relative w-full h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <!-- Logo + Llamalo beta: esquina superior izquierda -->
-      <div
-        class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
+      <!-- Logo centrado -->
+      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-0.25 leading-none">
-          <span
-            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
-          <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
-        </div>
       </div>
       <app-knowledge-base-step [currentStepNumber]="getAgentStepNumber()" [totalSteps]="getAgentTotalSteps()"
         (sourceSelected)="onSourceSelected($event)" (backClicked)="goBack()"
@@ -688,17 +600,10 @@
 
     <!-- Paso 9: Prueba de agente -->
     <div *ngSwitchCase="9" class="relative w-full h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <!-- Logo + Llamalo beta: esquina superior izquierda -->
-      <div
-        class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
+      <!-- Logo centrado -->
+      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-0.25 leading-none">
-          <span
-            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
-          <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
-        </div>
       </div>
       <app-test-agent-step [currentStepNumber]="getAgentStepNumber()" [totalSteps]="getAgentTotalSteps()"
         [agentInstruction]="instructions" [firstInteraction]="greeting" [language]="selectedCountry"
@@ -710,17 +615,10 @@
 
     <!-- Paso 10: Conecta tu número de teléfono (Twilio) -->
     <div *ngSwitchCase="10" class="relative w-full h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <!-- Logo + Llamalo beta: esquina superior izquierda -->
-      <div
-        class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
+      <!-- Logo centrado -->
+      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-0.25 leading-none">
-          <span
-            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
-          <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
-        </div>
       </div>
       <app-connect-phone-step [currentStepNumber]="getAgentStepNumber()" [totalSteps]="getAgentTotalSteps()"
         [showTwilioConfig]="showTwilioConfig" [loadingTwilioAccounts]="loadingTwilioAccounts"
@@ -787,22 +685,25 @@
   <!-- Lado derecho: fondo de onboarding + mockup (solo pasos 1 y 2, solo en desktop) -->
   <div *ngIf="currentStep === 1 || currentStep === 2"
     class="relative hidden lg:flex lg:w-1/2 h-full overflow-hidden order-2 lg:order-1 flex-shrink-0 bg-gray-50 dark:bg-[#020617]">
-    <!-- Capa blanca suave para el desvanecido entre imágenes -->
-    <div class="absolute inset-0 bg-white transition-opacity duration-300 ease-out pointer-events-none"
-      [ngClass]="isRightImageFading ? 'opacity-100' : 'opacity-0'"></div>
-
-    <!-- Imagen principal -->
-    <!-- Imagen principal modo claro -->
-    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard.jpg' : '/assets/imagen1_onboarding.jpg'"
-      alt="Onboarding" class="absolute bottom-0 right-0 h-auto transition-opacity duration-500 ease-out dark:hidden"
-      [ngClass]="rightImageStep === 2 ? 'w-[9470px]' : 'w-[130%]'" [class.opacity-0]="isRightImageFading"
-      [class.opacity-100]="!isRightImageFading" />
-    <!-- Imagen principal modo oscuro (nuevas *_oscuro) -->
-    <img [src]="rightImageStep === 2 ? '/assets/voces_onboard_oscuro.jpg' : '/assets/imagen1_onboarding_oscuro.jpg'"
-      alt="Onboarding oscuro"
-      class="absolute bottom-0 right-0 h-auto transition-opacity duration-500 ease-out hidden dark:block"
-      [ngClass]="rightImageStep === 2 ? 'w-[9470px]' : 'w-[130%]'" [class.opacity-0]="isRightImageFading"
-      [class.opacity-100]="!isRightImageFading" />
+    <!-- Imágenes con animación de transición paso 1 → paso 2 -->
+    <div class="onboarding-right-imgs absolute inset-0">
+      <!-- Modo claro: imagen paso 1 -->
+      <img src="/assets/imagen1_onboarding.jpg" alt="Onboarding paso 1"
+        class="onboarding-panel-img absolute bottom-0 right-0 h-auto w-[130%] dark:hidden"
+        [class.onboarding-img-out]="rightImageStep === 2" />
+      <!-- Modo claro: imagen paso 2 -->
+      <img src="/assets/voces_onboard.jpg" alt="Onboarding paso 2"
+        class="onboarding-panel-img opacity-0 absolute bottom-0 right-0 h-auto w-[9470px] dark:hidden"
+        [class.onboarding-img-in]="rightImageStep === 2" />
+      <!-- Modo oscuro: imagen paso 1 -->
+      <img src="/assets/imagen1_onboarding_oscuro.jpg" alt="Onboarding paso 1 oscuro"
+        class="onboarding-panel-img absolute bottom-0 right-0 h-auto w-[130%] hidden dark:block"
+        [class.onboarding-img-out]="rightImageStep === 2" />
+      <!-- Modo oscuro: imagen paso 2 -->
+      <img src="/assets/voces_onboard_oscuro.jpg" alt="Onboarding paso 2 oscuro"
+        class="onboarding-panel-img opacity-0 absolute bottom-0 right-0 h-auto w-[9470px] hidden dark:block"
+        [class.onboarding-img-in]="rightImageStep === 2" />
+    </div>
   </div>
 </div>
 

@@ -21,6 +21,7 @@ import {
 } from '../../core/services/reminder.service';
 import { I18nService, Language } from '../../core/services/i18n.service';
 import { NavigationService } from '../../core/services/navigation.service';
+import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,6 +47,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   showMobileSidebar = false;
   showInactiveReminderModal = false;
   uploadedImage: string | null = null;
+
+  /** Ocultar enlace a Historial en el menú móvil. Ver core/constants/features.ts */
+  showHistorialNav = SHOW_HISTORIAL_NAV;
 
   // Lista de recordatorios
   reminders: ReminderData[] = [];

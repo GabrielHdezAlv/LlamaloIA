@@ -6,6 +6,12 @@ import {
   PLATFORM_ID,
   OnDestroy,
 } from '@angular/core';
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+} from '@angular/animations';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
@@ -33,6 +39,14 @@ import { TwilioService } from '../../core/services/twilio.service';
   ],
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
+  animations: [
+    trigger('sectionEnter', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('220ms ease-out', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class AccountComponent implements OnInit, OnDestroy {
   // Enum para tipos de imagen
@@ -57,6 +71,15 @@ export class AccountComponent implements OnInit, OnDestroy {
     | 'billing'
     | 'gifts'
     | 'connections' = 'profile';
+  /** Sección realmente mostrada (va por detrás de activeTab para animar salida → entrada) */
+  displayedTab:
+    | 'profile'
+    | 'security'
+    | 'billing'
+    | 'gifts'
+    | 'connections' = 'profile';
+  sectionLeaving = false;
+  private sectionTransitionTimeout: ReturnType<typeof setTimeout> | null = null;
   showAvatarModal = false;
   showImageCropper = false;
   imageToCrop: string = '';
@@ -160,7 +183,7 @@ export class AccountComponent implements OnInit, OnDestroy {
     return this.i18nService.getTranslations();
   }
 
-  // Método para cambiar de pestaña
+  // Método para cambiar de pestaña (primero desaparece el contenido, luego aparece el nuevo)
   setActiveTab(
     tab:
       | 'profile'
@@ -169,11 +192,16 @@ export class AccountComponent implements OnInit, OnDestroy {
       | 'gifts'
       | 'connections',
   ) {
+    if (tab === this.displayedTab) return;
+    if (this.sectionTransitionTimeout) clearTimeout(this.sectionTransitionTimeout);
     this.activeTab = tab;
-    // Cargar cuentas de Twilio cuando se abre la pestaña de conexiones
-    if (tab === 'connections') {
-      this.loadTwilioAccounts();
-    }
+    if (tab === 'connections') this.loadTwilioAccounts();
+    this.sectionLeaving = true;
+    this.sectionTransitionTimeout = setTimeout(() => {
+      this.displayedTab = tab;
+      this.sectionLeaving = false;
+      this.sectionTransitionTimeout = null;
+    }, 200);
   }
 
   userProfileImage = computed(() => this.user()?.profileImage ?? '');
@@ -607,7 +635,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Limpiar blob URL al destruir componente para evitar fugas de memoria
+    if (this.sectionTransitionTimeout) clearTimeout(this.sectionTransitionTimeout);
     this.revokeBlobUrl();
   }
 

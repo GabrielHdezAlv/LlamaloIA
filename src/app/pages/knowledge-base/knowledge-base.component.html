@@ -100,196 +100,52 @@
       </p>
     </div>
     } @else if (hasKnowledgeSources) {
-    <!-- Títulos fuera del recuadro -->
-    <div class="hidden lg:grid grid-cols-12 gap-4 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-8 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-400 pb-1.5 lg:pb-2 xl:pb-2 2xl:pb-2 3xl:pb-3 mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 3xl:mb-5 max-lg:text-[9px] dark:text-slate-400 border-b border-gray-300 dark:border-slate-600">
-      <!-- Cabecera Nombre -->
-      <div class="col-span-4 flex items-center">
-        <span class="font-medium text-gray-400 ml-2">{{ t.name }}</span>
-      </div>
-
-      <!-- Cabecera Tipo -->
-      <div class="col-span-2 font-medium text-gray-400">{{ t.type }}</div>
-
-      <!-- Cabecera Estado -->
-      <div class="col-span-2 font-medium text-gray-400">{{ t.statusColumn }}</div>
-
-      <!-- Cabecera Fragmentos -->
-      <div class="col-span-2 font-medium text-gray-400 whitespace-nowrap -ml-1">
-        {{ t.fragmentsAndWords }}
-      </div>
-
-      <!-- Columna vacía para el icono de acciones -->
-      <div class="col-span-2"></div>
-    </div>
-
-    <div class="space-y-3 3xl:space-y-4">
-      @for (source of filteredKnowledgeSources; track source.id) {
-      <div
-        class="bg-transparent dark:bg-transparent p-4 3xl:p-6 max-lg:p-5 max-lg:sm:p-6 max-lg:md:p-7 rounded-xl border border-transparent hover:border-gray-200 dark:hover:border-gray-700 hover:bg-gray-50/70 dark:hover:bg-white/5 hover:shadow-sm transition duration-200 ease-in-out">
-        <div class="hidden lg:grid lg:grid-cols-12 lg:gap-4 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-8 items-center">
-          <!-- Columna Nombre (col-span-4) -->
-          <div class="col-span-4 flex items-center gap-3 3xl:gap-4">
-            <div
-              class="flex items-center justify-center w-6 h-6 3xl:w-8 3xl:h-8 rounded border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent flex-shrink-0">
-              @switch (source.type) {
-              @case ("pdf") {
-              <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
-                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-              </svg>
-              }
-              @case ("web") {
-              <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="2" y1="12" x2="22" y2="12" />
-              <path
-                d="M12 2a15.3 15.3 0 0 1 4 10.5 15.3 15.3 0 0 1-4 10.5 15.3 15.3 0 0 1-4-10.5 15.3 15.3 0 0 1 4-10.5z" />
-              </svg>
-              }
-              @case ("text") {
-              <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
-              <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-              </svg>
-              }
-              }
-            </div>
-            <div class="flex-1 min-w-0">
-              <h3
-                class="text-sm 3xl:text-base font-semibold text-gray-900 dark:text-white truncate">
-                {{ source.name }}
-              </h3>
-              @if (source.tags.length > 0) {
-              <div class="flex flex-wrap gap-1 mt-1">
-                @for (tag of source.tags; track tag) {
-                <span
-                  class="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] 3xl:text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                  {{ tag }}
-                </span>
-                }
-              </div>
-              }
-            </div>
-          </div>
-
-          <!-- Columna Tipo (col-span-2) -->
-          <div class="col-span-2 flex items-center justify-start text-sm 3xl:text-base font-medium text-gray-700 dark:text-slate-300">
-            {{ source.type.toUpperCase() }}
-          </div>
-
-          <!-- Columna Estado (col-span-2) -->
-          <div class="col-span-2 flex items-center justify-start text-sm 3xl:text-base font-medium text-gray-700 dark:text-slate-300">
-            @switch (source.status) {
-            @case ("processing") {
-            {{ t.statusProcessing }}
-            }
-            @case ("completed") {
-            {{ t.statusCompleted }}
-            }
-            @case ("failed") {
-            {{ t.statusFailed }}
-            }
-            }
-          </div>
-
-          <!-- Columna Fragmentos (col-span-2) -->
-          <div class="col-span-2 flex flex-col items-start justify-start">
-            <div class="text-sm 3xl:text-base text-gray-900 dark:text-slate-50">
-              {{ source.metadata.chunkCount || 0 }} {{ t.fragments }}
-            </div>
-            @if (source.metadata.wordCount) {
-            <div class="text-sm 3xl:text-base text-gray-500 dark:text-gray-400 mt-1">
-              {{ source.metadata.wordCount }} {{ t.words }}
-            </div>
-            }
-          </div>
-
-          <!-- Columna Acciones (col-span-2) -->
-          <div class="col-span-2 flex items-center justify-end">
-            <div class="flex items-center gap-2">
-              <button
-                class="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                [title]="t.viewPreview">
-                <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-                </svg>
-              </button>
-              <button (click)="deleteKnowledgeSource(source.id)"
-                class="p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                [title]="t.deleteLabel">
-                <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="3,6 5,6 21,6" />
-                <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Versión móvil/tablet -->
-        <div class="lg:hidden space-y-3">
-          <div class="flex items-center gap-3 3xl:gap-4">
-            <div
-              class="flex items-center justify-center w-8 h-8 3xl:w-10 3xl:h-10 max-lg:w-10 max-lg:h-10 max-lg:sm:w-11 max-lg:sm:h-11 max-lg:md:w-12 max-lg:md:h-12 rounded-lg border border-gray-200 dark:border-gray-400 text-gray-700 dark:text-slate-300 bg-transparent flex-shrink-0">
-              @switch (source.type) {
-              @case ("pdf") {
-              <svg
-                class="w-5 h-5 3xl:w-6 3xl:h-6 max-lg:w-6 max-lg:h-6 max-lg:sm:w-7 max-lg:sm:h-7 max-lg:md:w-8 max-lg:md:h-8"
-                viewBox="0 0 24 24" fill="currentColor">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
-                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-              </svg>
-              }
-              @case ("web") {
-              <svg class="w-5 h-5 3xl:w-6 3xl:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" preserveAspectRatio="xMidYMid meet">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="2" y1="12" x2="22" y2="12" />
-              <path
-                d="M12 2a15.3 15.3 0 0 1 4 10.5 15.3 15.3 0 0 1-4 10.5 15.3 15.3 0 0 1-4-10.5 15.3 15.3 0 0 1 4-10.5z" />
-              </svg>
-              }
-              @case ("text") {
-              <svg class="w-5 h-5 3xl:w-6 3xl:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
-              <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
-              </svg>
-              }
-              }
-            </div>
-            <div class="flex-1 min-w-0">
-              <h3
-                class="text-sm 3xl:text-base max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg font-semibold text-gray-900 dark:text-white truncate">
-                {{ source.name }}
-              </h3>
-              @if (source.tags.length > 0) {
-              <div
-                class="flex flex-wrap gap-1 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2.5 mt-1">
-                @for (tag of source.tags; track tag) {
-                <span
-                  class="inline-flex items-center px-2 py-1 rounded text-xs 3xl:text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
-                  {{ tag }}
-                </span>
-                }
-              </div>
-              }
-            </div>
-          </div>
-          <div class="flex items-start justify-between gap-3">
-            <div class="flex-1 min-w-0 space-y-3">
-              <div>
-                <span class="text-gray-500 text-xs dark:text-slate-400">{{ t.type }}</span>
-                <div class="mt-1 text-sm 3xl:text-base font-medium text-gray-700 dark:text-slate-300">
-                  {{ source.type.toUpperCase() }}
+    <!-- Tabla al estilo del paso de creación de agentes -->
+    <div
+      class="rounded-xl bg-white dark:bg-[#111113] border border-gray-200 dark:border-[#2C2C2C] overflow-hidden shadow-sm">
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200 dark:border-[#2C2C2C]">
+            <tr>
+              <th
+                class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
+                {{ t.name }}
+              </th>
+              <th
+                class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
+                {{ t.type }}
+              </th>
+              <th
+                class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
+                {{ t.statusColumn }}
+              </th>
+              <th
+                class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
+                {{ t.dateColumn }}
+              </th>
+              <th
+                class="px-3 py-2 3xl:px-4 3xl:py-2 text-right text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
+                {{ t.actionsColumn }}
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 dark:divide-[#2C2C2C]">
+            @for (source of filteredKnowledgeSources; track source.id) {
+            <tr class="hover:bg-gray-50/50 dark:hover:bg-white/[0.02] transition-colors">
+              <td
+                class="px-3 py-2 3xl:px-4 3xl:py-2 whitespace-nowrap text-xs 3xl:text-sm font-medium text-gray-900 dark:text-white align-middle">
+                <div class="flex items-center h-full">
+                  <span class="truncate max-w-[150px] sm:max-w-xs">{{ source.name }}</span>
                 </div>
-              </div>
-              <div>
-                <span class="text-gray-500 text-xs dark:text-slate-400">{{ t.statusColumn }}</span>
-                <div class="mt-1 text-sm 3xl:text-base font-medium text-gray-700 dark:text-slate-300">
+              </td>
+              <td
+                class="px-3 py-2 3xl:px-4 3xl:py-2 whitespace-nowrap text-xs 3xl:text-sm text-gray-500 dark:text-gray-400 align-middle">
+                <div class="flex items-center h-full">
+                  {{ getTypeLabel(source.type) }}
+                </div>
+              </td>
+              <td class="px-3 py-2 3xl:px-4 3xl:py-2 whitespace-nowrap align-middle">
+                <div class="flex items-center h-full text-[10px] 3xl:text-[11px] font-medium text-gray-700 dark:text-slate-300">
                   @switch (source.status) {
                   @case ("processing") {
                   {{ t.statusProcessing }}
@@ -300,46 +156,43 @@
                   @case ("failed") {
                   {{ t.statusFailed }}
                   }
+                  @default {
+                  {{ source.status }}
+                  }
                   }
                 </div>
-              </div>
-              <div>
-                <span class="text-gray-500 text-xs dark:text-slate-400">{{ t.fragments }}</span>
-                <div class="mt-1">
-                  <div class="text-sm text-gray-900 dark:text-slate-50 break-words whitespace-normal">
-                    {{ source.metadata.chunkCount || 0 }} {{ t.fragments }}
-                    @if (source.metadata.wordCount) {
-                    <span class="text-gray-500 dark:text-gray-400"> • {{ source.metadata.wordCount }} {{ t.words }}</span>
-                    }
-                  </div>
+              </td>
+              <td
+                class="px-3 py-2 3xl:px-4 3xl:py-2 whitespace-nowrap text-xs 3xl:text-sm text-gray-500 dark:text-gray-400 align-middle">
+                <div class="flex items-center h-full">
+                  {{ source.createdAt | date: "dd/MM/yyyy" }}
                 </div>
-              </div>
-            </div>
-
-            <div class="flex flex-col items-end gap-2 flex-shrink-0 pt-1">
-              <button
-                class="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                [title]="t.viewPreview">
-                <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-              </button>
-              <button (click)="deleteKnowledgeSource(source.id)"
-                class="p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                [title]="t.deleteLabel">
-                <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2">
-                <polyline points="3,6 5,6 21,6" />
-                  <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
+              </td>
+              <td class="px-3 py-2 3xl:px-4 3xl:py-2 whitespace-nowrap text-right text-xs font-medium align-middle">
+                <div class="flex items-center justify-end h-full gap-0.5">
+                  <button
+                    class="p-1.5 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+                    [title]="t.viewPreview">
+                    <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </button>
+                  <button (click)="deleteKnowledgeSource(source.id)"
+                    class="p-1.5 rounded-md text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                    [title]="t.deleteDocument">
+                    <svg class="w-4 h-4 3xl:w-5 3xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
       </div>
-      }
     </div>
     } @else {
     <!-- Empty State -->

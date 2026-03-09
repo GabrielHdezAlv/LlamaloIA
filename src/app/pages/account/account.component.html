@@ -158,10 +158,10 @@
     <!-- Main Content -->
     <div
       class="w-full lg:w-[80%] 3xl:flex-1 bg-white rounded-b-xl sm:rounded-b-2xl lg:rounded-l-3xl lg:rounded-tl-3xl lg:rounded-r-2xl lg:rounded-b-2xl shadow-sm p-3 lg:p-3 xl:p-3 2xl:p-3 3xl:p-5 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-5 lg:-ml-6 xl:-ml-6 2xl:-ml-6 3xl:-ml-36 min-h-[460px] max-lg:min-h-[calc(100vh-16rem)] flex flex-col">
-      @if (activeTab === "profile") {
+      @if (displayedTab === "profile") {
       <!-- === SECCIÓN PERFIL === -->
-      <div
-        class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
+      <div @sectionEnter [class.section-leaving]="sectionLeaving"
+        class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
         style="
             transform: scale(0.95);
             transform-origin: top left;
@@ -304,9 +304,10 @@
         </div>
       </div>
       }
-      @if (activeTab === "security") {
+      @if (displayedTab === "security") {
       <!-- === SECCIÓN SEGURIDAD === -->
-      <div class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6" style="
+      <div @sectionEnter [class.section-leaving]="sectionLeaving"
+        class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6" style="
             transform: scale(0.95);
             transform-origin: top left;
             width: calc(105.26% - 2rem);
@@ -416,10 +417,10 @@
         </div>
       </div>
       }
-      @if (activeTab === "billing") {
+      @if (displayedTab === "billing") {
       <!-- === SECCIÓN FACTURACIÓN === -->
-      <div
-        class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
+      <div @sectionEnter [class.section-leaving]="sectionLeaving"
+        class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
         style="
             transform: scale(0.95);
             transform-origin: top left;
@@ -478,10 +479,10 @@
         <div class="flex-1"></div>
       </div>
       }
-      @if (activeTab === "gifts") {
+      @if (displayedTab === "gifts") {
       <!-- === SECCIÓN REGALOS === -->
-      <div
-        class="flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
+      <div @sectionEnter [class.section-leaving]="sectionLeaving"
+        class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
         style="
             transform: scale(0.95);
             transform-origin: top left;

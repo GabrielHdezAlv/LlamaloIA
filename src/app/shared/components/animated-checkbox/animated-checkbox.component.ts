@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
     .checkbox {
       width: 18px;
       height: 18px;
-      border: 2px solid #d1d5db;
+      border: 1.5px solid #d1d5db;
       border-radius: 3px;
       background: white;
       display: flex;

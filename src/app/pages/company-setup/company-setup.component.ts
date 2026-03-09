@@ -155,7 +155,6 @@ export class CompanySetupComponent
 
   // Imagen derecha (mockup del onboarding)
   rightImageStep = 1; // 1 = zona 1, 2 = zona 2
-  isRightImageFading = false;
 
   // Sonido de click para botones del onboarding
   // En SSR (Node) no existe `Audio`, así que lo inicializamos solo en navegador
@@ -580,7 +579,8 @@ export class CompanySetupComponent
   goBack() {
     // Animación especial al volver del paso 2 al paso 1
     if (this.currentStep === 2) {
-      const backFadeDuration = 300;
+      const backFadeDuration = 200;
+      this.rightImageStep = 1; // Imagen vuelve al paso 1 al instante (animación en paralelo)
       this.step2ContentVisible = false;
       setTimeout(() => {
         this.goToStep(1);
@@ -631,15 +631,14 @@ export class CompanySetupComponent
 
     this.currentStep = step;
 
-    // Si se navega a la zona 2 sin venir de la animación de la zona 1,
-    // aseguramos que su contenido esté visible inmediatamente.
-    if (step === 2 && !this.isMainUsageAnimating) {
+    // Paso 2: contenido visible al instante (sin animación)
+    if (step === 2) {
       this.step2ContentVisible = true;
     }
 
-    // Transición suave de la imagen derecha entre pasos 1 y 2
+    // Imagen derecha: cambio instantáneo entre pasos 1 y 2 (sin animación)
     if ((step === 1 || step === 2) && step !== previousStep) {
-      this.triggerRightImageTransition(step);
+      this.rightImageStep = step;
     }
 
     // Cargar voces al entrar al paso 5
@@ -656,23 +655,6 @@ export class CompanySetupComponent
     if (step === 10) {
       this.loadTwilioAccounts();
     }
-  }
-
-  private triggerRightImageTransition(targetStep: number) {
-    if (
-      targetStep === this.rightImageStep ||
-      (targetStep !== 1 && targetStep !== 2)
-    ) {
-      return;
-    }
-
-    const fadeDuration = 350; // ms
-    this.isRightImageFading = true;
-
-    setTimeout(() => {
-      this.rightImageStep = targetStep;
-      this.isRightImageFading = false;
-    }, fadeDuration);
   }
 
   // Método para manejar la subida del logo

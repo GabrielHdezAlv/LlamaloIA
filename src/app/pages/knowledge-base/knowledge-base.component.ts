@@ -10,7 +10,7 @@ import {
   ElementRef,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, DatePipe } from '@angular/common';
 import { I18nService } from '../../core/services/i18n.service';
 import { KnowledgeBaseService } from '../../core/services/knowledge-base.service';
 import {
@@ -30,7 +30,7 @@ export interface KnowledgeBaseItem {
 @Component({
   selector: 'app-knowledge-base',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, DatePipe],
   templateUrl: './knowledge-base.component.html',
   styleUrl: './knowledge-base.component.scss',
 })
