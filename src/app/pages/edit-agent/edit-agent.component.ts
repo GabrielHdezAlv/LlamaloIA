@@ -585,8 +585,12 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           : response?.knowledgeSources || [];
         const sourceIds = knowledgeSources.map((source) => source.id);
 
-        // Almacenar las fuentes de conocimiento
-        this.agentKnowledgeSources = knowledgeSources;
+        // Normalizar fechas para evitar errores con el pipe date
+        this.agentKnowledgeSources = knowledgeSources.map((source: any) => ({
+          ...source,
+          createdAt: this.toDate(source.createdAt),
+          updatedAt: this.toDate(source.updatedAt),
+        }));
       },
       error: (error) => {
         console.error(
@@ -599,6 +603,34 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         this.isLoadingKnowledgeSources = false;
       },
     });
+  }
+
+  /**
+   * Normaliza distintos formatos de fecha (Date, string, timestamp con seconds, etc.)
+   * a una instancia de Date válida para usar con el pipe date.
+   */
+  private toDate(value: any): Date {
+    if (!value) {
+      return new Date();
+    }
+
+    if (value instanceof Date) {
+      return value;
+    }
+
+    if (typeof value === 'string' || typeof value === 'number') {
+      const parsed = new Date(value);
+      return isNaN(parsed.getTime()) ? new Date() : parsed;
+    }
+
+    if (typeof value === 'object') {
+      const seconds = (value as any).seconds ?? (value as any)._seconds;
+      if (typeof seconds === 'number') {
+        return new Date(seconds * 1000);
+      }
+    }
+
+    return new Date();
   }
 
   private populateForm(): void {
