@@ -1,9 +1,17 @@
-// Estilos base del modal (sin borde ni sombra)
+// Estilos base del aviso de confirmación (recuadro tipo pastilla)
 .modal-container {
-  @apply max-w-md mx-auto bg-white dark:bg-[#18181A] rounded-2xl overflow-hidden;
+  @apply mx-auto rounded-full overflow-hidden;
   padding: 0;
-  box-shadow: none;
-  border: none;
+  display: inline-block;              /* ancho según el contenido */
+  /* Modo claro: fondo blanco ligeramente elevado */
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+/* Modo oscuro: fondo y borde como la captura */
+:host-context(html.dark) .modal-container {
+  background-color: #111111;
+  border-color: #27272a;
 }
 
 // Contenedor del icono
@@ -42,7 +50,49 @@
 
 // Contenido del modal
 .modal-content {
-  @apply px-6 pb-6;
+  @apply px-5 py-3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+// Fila principal tipo "toast": punto + mensaje
+.modal-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap; /* forzar todo en una sola línea */
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #ef4444; // rojo aviso
+  flex-shrink: 0;
+}
+
+.modal-message-text {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #111827;
+  white-space: nowrap;         /* no permitir saltos de línea en el texto */
+  overflow: hidden;
+  text-overflow: ellipsis;     /* si no cabe, cortar con ... */
+}
+
+:host-context(html.dark) .modal-message-text {
+  color: #f9fafb;
+}
+
+/* Contenedor para texto + botones en una sola fila */
+.message-and-actions {
+  display: flex;
+  align-items: center;        /* sube los botones a la altura del texto */
+  justify-content: space-between;
+  gap: 12px;
+  flex: 1;
 }
 
 // Título
@@ -82,56 +132,35 @@
 
 // Acciones
 .modal-actions {
-  @apply flex justify-end gap-3 mt-6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 0;              /* que no baje los botones */
 }
 
 // Botones
 .modal-button {
-  @apply px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200;
-  min-width: 100px;
-  
-  &:focus {
-    @apply outline-none ring-2 ring-offset-2;
-  }
-  
-  &.modal-button-primary {
-    &.warning {
-      // Azul en lugar de naranja/ámbar
-      @apply bg-blue-600 dark:bg-blue-700 text-white;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-      
-      &:hover {
-        @apply bg-blue-700 dark:bg-blue-600;
-        transform: translateY(-1px);
-        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
-      }
-      
-      &:active {
-        transform: translateY(0);
-      }
-      
-      &:focus {
-        @apply ring-blue-500;
-      }
-    }
-  }
-  
-  &.modal-button-secondary {
-    @apply bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-slate-600;
-    
-    &:hover {
-      @apply bg-gray-50 dark:bg-slate-700;
-      transform: translateY(-1px);
-    }
-    
-    &:active {
-      transform: translateY(0);
-    }
-    
-    &:focus {
-      @apply ring-gray-500;
-    }
-  }
+  @apply px-3 py-1.5 text-[11px] font-semibold rounded-full;
+  min-width: 80px;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-button-secondary {
+  @apply bg-transparent text-gray-600 dark:text-gray-200;
+  border: 1px solid #d1d5db; /* recuadro claro en modo claro */
+}
+
+.modal-button-primary.warning {
+  /* Modo claro: botón negro con texto blanco */
+  @apply bg-black text-white;
+}
+
+/* Modo oscuro: mantener botón blanco con texto negro (sin @apply para evitar bucles) */
+:host-context(html.dark) .modal-button-primary.warning {
+  background-color: #ffffff;
+  color: #000000;
 }
 
 // Eliminar bordes del contenedor de Material Dialog
@@ -172,6 +201,12 @@
       max-width: 576px !important;
     }
   }
+}
+
+// Colocar los warning en la parte superior (como las notificaciones)
+::ng-deep .warning-dialog-top.cdk-overlay-pane {
+  align-self: flex-start !important;
+  margin-top: 20px;
 }
 
 ::ng-deep html.dark .custom-dialog-container {

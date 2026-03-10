@@ -269,7 +269,11 @@ export class AccountComponent implements OnInit, OnDestroy {
     // Verificar si hay parámetros de consulta para activar una pestaña específica
     this.route.queryParams.subscribe((params) => {
       if (params['tab'] === 'gifts') {
-        this.setActiveTab('gifts');
+        // Ir directamente a la pestaña de regalos SIN animación
+        this.activeTab = 'gifts';
+        this.displayedTab = 'gifts';
+        this.sectionLeaving = false;
+
         // Limpiar el parámetro de consulta después de un pequeño delay
         setTimeout(() => {
           this.router.navigate([], {
@@ -504,10 +508,12 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   // Método para eliminar cuenta
   deleteAccount() {
-    const dialogRef = this.modalService.openDeleteAccount({
-      userName: this.fullName(),
-      message:
-        '¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.',
+    const dialogRef = this.modalService.openWarning({
+      title: '',
+      message: `¿Seguro que quieres eliminar tu cuenta "${this.fullName()}"?`,
+      confirmText: 'Sí, eliminar cuenta',
+      cancelText: 'Cancelar',
+      showCancelButton: true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

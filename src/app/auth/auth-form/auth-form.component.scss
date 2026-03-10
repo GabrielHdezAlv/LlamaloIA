@@ -1,4 +1,8 @@
-/* --- Auth Input Focus Styles --- */
+/* --- Auth Input Base & Focus Styles --- */
+.auth-input {
+  border-width: 1px; /* fuerza siempre el mismo grosor, también con autofill */
+}
+
 .auth-input:focus {
   outline: none;
   border-color: black;
@@ -11,6 +15,24 @@
 /* --- Checkbox personalizado (opcional: puedes reforzar el color) --- */
 .custom-checkbox {
   accent-color: black;
+}
+
+/* --- Corregir grosor en autofill (Chrome, Edge, etc.) --- */
+input.auth-input:-webkit-autofill,
+input.auth-input:-webkit-autofill:hover,
+input.auth-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+  box-shadow: 0 0 0px 1000px #ffffff inset;
+  border: 1px solid #d1d5db !important; /* mismo grosor y color que el resto */
+}
+
+:host-context(html.dark) input.auth-input:-webkit-autofill,
+:host-context(html.dark) input.auth-input:-webkit-autofill:hover,
+:host-context(html.dark) input.auth-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #020617 inset;
+  box-shadow: 0 0 0px 1000px #020617 inset;
+  /* mismo gris del borde normal en dark (dark:border-slate-700) */
+  border: 1px solid #1d1d1d !important;
 }
 
 /* --- Google button --- */

@@ -160,25 +160,31 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    // Confirmar eliminación
-    const confirmed = confirm(`¿Está seguro de que desea eliminar el agente "${agent.name}"?`);
+    // Confirmar eliminación con el mismo modal estilizado
+    const dialogRef = this.modalService.openWarning({
+      title: '',
+      message: `¿Seguro que quieres eliminar el agente "${agent.name}"?`,
+      confirmText: 'Sí, eliminar',
+      cancelText: 'Cancelar',
+      showCancelButton: true
+    });
 
-    if (!confirmed) {
-      return;
-    }
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (!confirmed) return;
 
-    // Realizar petición DELETE
-    this.agentsService.deleteAgent(agentId).subscribe({
-      next: (response) => {
-        this.notificationService.success(response.message || 'El agente ha sido eliminado correctamente.');
-        // Recargar la lista de agentes
-        this.loadAgents();
-      },
-      error: (error) => {
-        console.error('❌ Error al eliminar agente:', error);
-        const errorMessage = error?.error?.message || error?.message || 'Error al eliminar el agente. Por favor, intenta nuevamente.';
-        this.notificationService.error(errorMessage);
-      }
+      // Realizar petición DELETE
+      this.agentsService.deleteAgent(agentId).subscribe({
+        next: (response) => {
+          this.notificationService.success(response.message || 'El agente ha sido eliminado correctamente.');
+          // Recargar la lista de agentes
+          this.loadAgents();
+        },
+        error: (error) => {
+          console.error('❌ Error al eliminar agente:', error);
+          const errorMessage = error?.error?.message || error?.message || 'Error al eliminar el agente. Por favor, intenta nuevamente.';
+          this.notificationService.error(errorMessage);
+        }
+      });
     });
   }
 
@@ -227,12 +233,12 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
 
     const isInactive = agent.state === 'Inactivo';
     
-    // Abrir modal de confirmación simple
+    // Abrir modal de confirmación simple (para que el usuario decida)
     const dialogRef = this.modalService.openWarning({
-      title: '', // Sin título para que sea más simple
+      title: '',
       message: isInactive 
-        ? `¿Estás seguro de que quieres publicar de nuevo el agente "${agent.name}"?`
-        : `¿Estás seguro de que quieres dejar de publicar el agente "${agent.name}"?`,
+        ? `¿Quieres volver a publicar el agente "${agent.name}"?`
+        : `¿Quieres dejar de publicar el agente "${agent.name}"?`,
       confirmText: isInactive ? 'Sí, publicar de nuevo' : 'Sí, dejar de publicar',
       cancelText: 'Cancelar',
       showCancelButton: true
@@ -241,9 +247,16 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     // Suscribirse al resultado
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        // Cambiar el estado del agente
+        // Cambiar el estado del agente solo si confirma
         agent.state = isInactive ? 'Activo' : 'Inactivo';
-        
+
+        // Opcional: mostrar notificación informando del cambio
+        if (isInactive) {
+          this.notificationService.success(`Has vuelto a publicar el agente "${agent.name}".`);
+        } else {
+          this.notificationService.warning(`Has dejado de publicar el agente "${agent.name}".`);
+        }
+
         // Aquí podrías agregar una llamada al backend para persistir el cambio
         // this.agentsService.updateAgentState(agent.agentId, agent.state).subscribe(...);
       }

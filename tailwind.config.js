@@ -10,7 +10,7 @@ module.exports = {
         "dm-sans": ["DM Sans", ...defaultTheme.fontFamily.sans],
       },
       screens: {
-        '3xl': '1920px',
+        '3xl': '1900px',
         '4xl': '2500px',
       },
     },

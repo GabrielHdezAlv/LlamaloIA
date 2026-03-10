@@ -302,11 +302,10 @@ export class NumbersComponent implements OnInit, AfterViewInit {
     // Formatear el número para mostrar en el mensaje
     const formattedNumber = this.formatPhoneNumber(phone.countryCode, phone.number);
 
-    // Mostrar modal de confirmación
+    // Mostrar modal de confirmación (sin texto extra de detalle)
     const dialogRef = this.modalService.openWarning({
       title: 'Eliminar número de teléfono',
       message: `¿Está seguro de que desea eliminar el número "${formattedNumber}"?`,
-      details: 'Al eliminar este número, si hay algún agente con este número asignado, se volverá inactivo.',
       confirmText: 'Eliminar',
       cancelText: 'Cancelar'
     });

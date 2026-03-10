@@ -97,9 +97,10 @@ export class ModalService {
 
   openWarning(data: WarningModalData) {
     return this.dialog.open(WarningModalComponent, {
-      width: '420px',
+      width: 'auto',            // que se adapte al contenido
+      maxWidth: '90vw',         // evitar que se salga de la pantalla
       disableClose: false,
-      panelClass: 'custom-dialog-container',
+      panelClass: ['custom-dialog-container', 'warning-dialog-top'],
       data,
     });
   }
