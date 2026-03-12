@@ -3,6 +3,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color: #1b2559;
+
+  &--auto {
+    color: #1b2559;
+  }
+
+  &--dark {
+    color: #1b2559;
+  }
+
+  &--light {
+    color: #ffffff;
+  }
 
   &__icon {
     width: 46px;
@@ -35,9 +48,13 @@
     font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
       "Apple Color Emoji", "Segoe UI Emoji";
     margin-top: 16px;
-    color: #000000;
+    color: currentColor;
     text-align: center;
   }
+}
+
+:host-context(html.dark) .spinner--auto {
+  color: #ffffff;
 }
 
 @keyframes pbi-cascade {

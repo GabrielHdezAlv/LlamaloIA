@@ -1,4 +1,9 @@
-<div class="spinner">
+<div
+  class="spinner"
+  [class.spinner--auto]="variant === 'auto'"
+  [class.spinner--dark]="variant === 'dark'"
+  [class.spinner--light]="variant === 'light'"
+>
   <div class="spinner__icon spinner__icon--pbi">
     <svg
       width="46"
@@ -108,7 +113,7 @@
                 <g clip-path="url(#pbi-clip-1e)">
                   <g clip-path="url(#pbi-clip-1f)">
                     <path
-                      fill="#1b2559"
+                      fill="currentColor"
                       d="M 13.152344 -3.613281 L 59.6875 55.96875 L 42.492188 69.398438 L -4.042969 9.816406 Z"
                       fill-opacity="1"
                       fill-rule="nonzero"
@@ -128,7 +133,7 @@
                 <g clip-path="url(#pbi-clip-2e)">
                   <g clip-path="url(#pbi-clip-2f)">
                     <path
-                      fill="#1b2559"
+                      fill="currentColor"
                       d="M 13.933594 -3.867188 L 32.675781 20.128906 L 14.5 34.324219 L -4.242188 10.328125 Z"
                       fill-opacity="1"
                       fill-rule="nonzero"
@@ -148,7 +153,7 @@
                 <g clip-path="url(#pbi-clip-3e)">
                   <g clip-path="url(#pbi-clip-3f)">
                     <path
-                      fill="#1b2559"
+                      fill="currentColor"
                       d="M 12.871094 -4.296875 L 39.8125 30.199219 L 22.925781 43.386719 L -4.015625 8.890625 Z"
                       fill-opacity="1"
                       fill-rule="nonzero"

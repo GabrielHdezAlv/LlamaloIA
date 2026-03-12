@@ -11,5 +11,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 })
 export class SpinnerComponent {
   @Input() public inputTextSpinner = '';
+  @Input() public variant: 'auto' | 'dark' | 'light' = 'auto';
 }
 
