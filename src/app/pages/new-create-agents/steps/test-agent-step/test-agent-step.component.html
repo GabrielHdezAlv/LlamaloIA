@@ -205,13 +205,13 @@
       <!-- Navegación -->
       <div class="w-full flex items-center justify-between nav-buttons-mobile">
         <button type="button"
-          class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-base rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
+          class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
           (click)="backClicked.emit()">
           <span class="text-xs 3xl:text-lg leading-none">‹</span>
           <span>{{ t.back }}</span>
         </button>
         <button type="button"
-          class="px-2.5 3xl:px-5 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-base rounded-[5px] 3xl:rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
+          class="px-3 3xl:px-6 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white font-medium transition-colors dark:bg-white dark:text-[#1B2559] dark:hover:bg-white"
           (click)="continueClicked.emit()">
           {{ t.continue }}
         </button>

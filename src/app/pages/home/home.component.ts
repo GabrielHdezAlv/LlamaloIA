@@ -185,31 +185,29 @@ export class HomeComponent implements OnInit {
 
   // Actualizar gráficos sparkline con datos reales
   private updateSparklineCharts(data: DashboardMetrics): void {
-    // Comentado para mantener los datos manuales que el usuario configura
-    // if (data.llamadas_ultimos_7_dias && data.llamadas_ultimos_7_dias.length > 0) {
-    //   const last7Days = data.llamadas_ultimos_7_dias.slice(-7);
-    //   const callsData = last7Days.map((item) => item.total);
-    //
-    //   // Si todos los datos son 0, usar datos de ejemplo para que se vea el gráfico
-    //   const allZeros = callsData.every(val => val === 0);
-    //   if (allZeros) {
-    //     this.callsSparklineSeries = [{ name: 'Llamadas', data: [20, 35, 25, 45, 30, 40, 35] }];
-    //     this.timeSavedSparklineSeries = [{ name: 'Tiempo', data: [15, 30, 20, 40, 25, 35, 30] }];
-    //     this.minutesSparklineSeries = [{ name: 'Minutos', data: [10, 25, 15, 35, 20, 30, 25] }];
-    //   } else {
-    //     // Gráfico de llamadas exitosas
-    //     this.callsSparklineSeries = [{ name: 'Llamadas', data: callsData }];
-    //
-    //     // Para tiempo ahorrado y minutos usados, usar datos proporcionales
-    //     // (el backend no proporciona estos datos específicos, así que usamos datos derivados)
-    //     const maxValue = Math.max(...callsData, 1);
-    //     const timeSavedData = callsData.map(val => Math.round((val / maxValue) * 100));
-    //     const minutesData = callsData.map(val => Math.round((val / maxValue) * 80));
-    //
-    //     this.timeSavedSparklineSeries = [{ name: 'Tiempo', data: timeSavedData }];
-    //     this.minutesSparklineSeries = [{ name: 'Minutos', data: minutesData }];
-    //   }
-    // }
+    if (
+      data.llamadas_exitosas_ultimos_7_dias &&
+      data.llamadas_exitosas_ultimos_7_dias.length > 0
+    ) {
+      const last7Days = data.llamadas_exitosas_ultimos_7_dias.slice(-7);
+      const callsData = last7Days.map((item: { total: number }) => item.total);
+
+      // Usar directamente los datos del endpoint sin mocks
+      this.callsSparklineSeries = [{ name: 'Llamadas', data: callsData }];
+      this.timeSavedSparklineSeries = [{ name: 'Tiempo', data: callsData }];
+      this.minutesSparklineSeries = [{ name: 'Minutos', data: callsData }];
+    } else {
+      // Si no hay datos, mantener todo a cero
+      this.callsSparklineSeries = [
+        { name: 'Llamadas', data: [0, 0, 0, 0, 0, 0, 0] },
+      ];
+      this.timeSavedSparklineSeries = [
+        { name: 'Tiempo', data: [0, 0, 0, 0, 0, 0, 0] },
+      ];
+      this.minutesSparklineSeries = [
+        { name: 'Minutos', data: [0, 0, 0, 0, 0, 0, 0] },
+      ];
+    }
   }
 
   // Actualizar agentes activos desde el backend
@@ -286,12 +284,12 @@ export class HomeComponent implements OnInit {
   // Número de llamadas por día - inicializados en cero para evitar mostrar datos ficticios
   callsByDayCounts: number[] = [0, 0, 0, 0, 0, 0, 0];
 
-  // Configuraciones de gráficos sparkline
+  // Configuraciones de gráficos sparkline (inicialmente en cero hasta que llegue el backend)
   callsSparklineSeries: ApexAxisChartSeries = [
-    { name: 'Llamadas', data: [250, 0, 25, 120, 30, 40, 35] },
+    { name: 'Llamadas', data: [0, 0, 0, 0, 0, 0, 0] },
   ];
   timeSavedSparklineSeries: ApexAxisChartSeries = [
-    { name: 'Tiempo', data: [15, 30, 20, 40, 25, 35, 30] },
+    { name: 'Tiempo', data: [0, 0, 0, 0, 0, 0, 0] },
   ];
   minutesSparklineSeries: ApexAxisChartSeries = [
     { name: 'Minutos', data: [0, 0, 0, 0, 0, 0, 0] },
@@ -408,26 +406,6 @@ export class HomeComponent implements OnInit {
     return dayNames[date.getDay()] ?? '';
   }
 
-  // Generar datos aleatorios para los últimos 30 días
-  getLast30DaysData(): number[] {
-    const data: number[] = [];
-    const baseValue = 200;
-
-    for (let i = 0; i < 30; i++) {
-      // Simular tendencia más realista con picos y valles
-      const trend = Math.sin(i * 0.15) * 60; // Onda suave
-      const weeklyPattern = Math.sin(i * 0.9) * 40; // Patrón semanal
-      const random = (Math.random() - 0.5) * 80; // Variación aleatoria
-      const value = Math.max(
-        50,
-        Math.min(400, baseValue + trend + weeklyPattern + random),
-      );
-      data.push(Math.round(value));
-    }
-
-    return data;
-  }
-
   callsAreaChart: ApexChart = {
     type: 'area',
     height: 280,
@@ -499,8 +477,8 @@ export class HomeComponent implements OnInit {
         this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.slice(-7);
       return last7Days.map((item) => item.total);
     }
-    // Si no hay datos, devolver datos por defecto
-    return [120, 280, 180, 350, 160, 320, 250];
+    // Si no hay datos, devolver todo a cero para no mostrar mocks
+    return [0, 0, 0, 0, 0, 0, 0];
   }
 
   // Calcular el mínimo del eje Y: si el mínimo de datos es >= 100, usar la centena inferior, si no, usar 0
@@ -807,18 +785,6 @@ export class HomeComponent implements OnInit {
       this.updateChartOptions();
       // Escuchar cambios de tamaño de ventana
       window.addEventListener('resize', () => this.updateChartOptions());
-    } else {
-      // Si no estamos en el navegador, asegurar que los gráficos tengan datos por defecto
-      // (ya están inicializados arriba, pero esto asegura que se muestren)
-      this.callsSparklineSeries = [
-        { name: 'Llamadas', data: [20, 35, 25, 45, 30, 40, 35] },
-      ];
-      this.timeSavedSparklineSeries = [
-        { name: 'Tiempo', data: [15, 30, 20, 40, 25, 35, 30] },
-      ];
-      this.minutesSparklineSeries = [
-        { name: 'Minutos', data: [10, 25, 15, 35, 20, 30, 25] },
-      ];
     }
 
     // Ejecutar animaciones siempre
