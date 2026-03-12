@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { isPlatformBrowser, DatePipe } from '@angular/common';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
 import { I18nService } from '../../core/services/i18n.service';
 import { KnowledgeBaseService } from '../../core/services/knowledge-base.service';
 import {
@@ -30,7 +31,7 @@ export interface KnowledgeBaseItem {
 @Component({
   selector: 'app-knowledge-base',
   standalone: true,
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, SpinnerComponent],
   templateUrl: './knowledge-base.component.html',
   styleUrl: './knowledge-base.component.scss',
 })

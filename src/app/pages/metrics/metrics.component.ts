@@ -383,10 +383,10 @@ export class MetricsComponent implements OnInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-  // Serie mini área para "Total de llamadas exitosas"
+  // Serie área para "Total de llamadas exitosas" (mismo diseño que en Home)
   callsAreaSeries: ApexAxisChartSeries = [{ name: 'Llamadas', data: [] }];
 
-  // Generar fechas de los últimos 7 días
+  // Generar fechas de los últimos 7 días (para categorías por defecto)
   getLast7Days(): string[] {
     const dates: string[] = [];
     const today = new Date();
@@ -404,7 +404,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return dates;
   }
 
-  // Generar fechas de los últimos 30 días
+  // Generar fechas de los últimos 30 días (para futuro soporte de período extendido)
   getLast30Days(): string[] {
     const dates: string[] = [];
     const today = new Date();
@@ -416,20 +416,20 @@ export class MetricsComponent implements OnInit, OnDestroy {
       const dayName = this.getDayAbbreviationForDate(date);
       const dayNumber = date.getDate();
 
-      // Mostrar todos los días
       dates.push(`${dayName} ${dayNumber}`);
     }
 
     return dates;
   }
 
+  // Configuración del chart: igual que en Home (Total de llamadas)
   callsAreaChart: ApexChart = {
     type: 'area',
-    height: 240,
+    height: 280,
     width: '100%',
     toolbar: { show: false },
     offsetX: 5,
-    offsetY: -5,
+    offsetY: -8,
     animations: {
       enabled: true,
       speed: 300,
@@ -450,24 +450,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return dayNames[date.getDay()] ?? '';
   }
 
-  callsAreaStroke: ApexStroke = {
-    curve: 'smooth',
-    width: 3,
-  // Negro por defecto (modo claro); en modo oscuro se sobreescribe vía CSS a blanco
-  colors: ['#000000'],
-  };
-  callsAreaDataLabels: ApexDataLabels = { enabled: false };
-  callsAreaGrid: ApexGrid = {
-    strokeDashArray: 3,
-    borderColor: 'rgba(229, 231, 235, 0.3)',
-    xaxis: { lines: { show: false } },
-    yaxis: { lines: { show: true } },
-    padding: {
-      bottom: 5,
-      left: 20,
-      right: 10,
-    },
-  };
+  // Eje X: mismo estilo que en Home
   callsAreaXAxis: ApexXAxis = {
     categories: this.getCurrentCategories(),
     axisBorder: { show: false },
@@ -475,9 +458,11 @@ export class MetricsComponent implements OnInit, OnDestroy {
     labels: {
       show: true,
       style: {
-        colors: '#6B7280',
+        // Gris neutro para que se vea bien en fondo oscuro
+        colors: '#9CA3AF',
         fontSize: '11px',
-        fontWeight: 500,
+        fontWeight: 600,
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
       },
       offsetY: 2,
       rotate: 0,
@@ -485,43 +470,54 @@ export class MetricsComponent implements OnInit, OnDestroy {
       hideOverlappingLabels: false,
     },
     crosshairs: {
-      show: false,
+      show: true,
+      stroke: {
+        color: 'rgba(255, 255, 255, 0.3)',
+        width: 1,
+        dashArray: 0,
+      },
     },
     floating: false,
     position: 'bottom',
+    tooltip: {
+      enabled: false,
+    },
   };
 
   // Obtener categorías según el período seleccionado
   getCurrentCategories(): string[] {
-    if (this.selectedPeriod === 'Últimos 30 días') {
-      return this.getLast30Days();
-    }
+    // Por ahora, usamos siempre últimos 7 días (igual que Home)
     return this.getLast7Days();
   }
 
-  // Obtener datos según el período seleccionado (solo datos reales)
+  // Datos para el gráfico: solo datos reales (dashboard o detallados)
   getCurrentData(): number[] {
-    // Si hay datos del dashboard, usarlos
     if (this.dashboardMetrics?.llamadas_exitosas_ultimos_7_dias) {
       return this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.map(
         (item) => item.total,
       );
     }
-    // Si hay datos detallados, usarlos
     if (this.detailedMetrics?.llamadasExitosasUltimos7Dias) {
       return this.detailedMetrics.llamadasExitosasUltimos7Dias.map(
         (item) => item.total,
       );
     }
-    // Si no hay datos, retornar array vacío
-    return [];
+    // Sin datos → array de ceros para mantener línea y días
+    return new Array(7).fill(0);
   }
+
+  // Eje Y: mismo estilo y dinámica que en Home
   callsAreaYAxis: any = {
     min: 0,
-    max: undefined, // Se calculará dinámicamente desde los datos
+    max: 5,
     tickAmount: 5,
     labels: {
-      style: { colors: '#6B7280', fontSize: '11px' },
+      style: {
+        colors: '#9CA3AF',
+        fontSize: '11px',
+        fontWeight: 600,
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+      },
       formatter: (value: number) => value.toString(),
       offsetX: 0,
     },
@@ -531,52 +527,65 @@ export class MetricsComponent implements OnInit, OnDestroy {
     axisTicks: {
       show: false,
     },
-    forceNiceScale: true, // Permitir que se ajuste automáticamente
+    forceNiceScale: false,
   };
+
+  // Trazo, grid y relleno: clonados de Home
+  callsAreaStroke: ApexStroke = {
+    curve: 'smooth',
+    width: 3,
+    colors: ['#000000'],
+  };
+
+  callsAreaDataLabels: ApexDataLabels = { enabled: false };
+
+  callsAreaGrid: ApexGrid = {
+    strokeDashArray: 3,
+    borderColor: 'rgba(229, 231, 235, 0.3)',
+    xaxis: { lines: { show: false } },
+    yaxis: { lines: { show: false } },
+    padding: {
+      bottom: 20,
+      left: 20,
+      right: 10,
+      top: 10,
+    },
+  };
+
   callsAreaFill: ApexFill = {
     type: 'gradient',
     gradient: {
       shadeIntensity: 1,
-      opacityFrom: 0.4,
-      opacityTo: 0.1,
+      opacityFrom: 0.3,
+      opacityTo: 0,
       stops: [0, 100],
       colorStops: [
-        { offset: 0, color: '#1B2559', opacity: 0.4 },
-        { offset: 100, color: '#1B2559', opacity: 0.1 },
+        { offset: 0, color: '#1B2559', opacity: 0.3 },
+        { offset: 100, color: '#1B2559', opacity: 0 },
       ],
     },
   };
-  // Color base de la serie (negro en modo claro); en modo oscuro se fuerza a blanco por CSS
+
   callsAreaColors: string[] = ['#000000'];
 
-  // Configuración del tooltip personalizado
+  // Tooltip: mismo estilo que en Home
   callsAreaTooltip: any = {
     enabled: true,
-    custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
+    custom: function ({ series, seriesIndex, dataPointIndex }: any) {
       const value = series[seriesIndex][dataPointIndex];
       return `
         <div style="
-          background: #1F2937;
+          background: #18181A;
           color: white;
-          padding: 8px 12px;
-          border-radius: 6px;
+          padding: 10px 16px;
+          border-radius: 4px;
           font-weight: 600;
           font-size: 14px;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-          position: relative;
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+          border: none;
         ">
           ${value}
-          <div style="
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 4px solid #1F2937;
-          "></div>
         </div>
       `;
     },
@@ -1139,21 +1148,17 @@ export class MetricsComponent implements OnInit, OnDestroy {
   // Método para cambiar el período y actualizar el gráfico
   onPeriodChange(): void {
     // Solo actualizar si hay datos reales cargados
-    if (this.dashboardMetrics || this.detailedMetrics) {
-      const data = this.getCurrentData();
-      this.callsAreaSeries = [{ name: 'Llamadas', data: data }];
+    const data = this.getCurrentData();
+    this.callsAreaSeries = [{ name: 'Llamadas', data }];
 
-      // Actualizar YAxis dinámicamente basado en los datos
-      if (data.length > 0) {
-        const maxValue = Math.max(...data);
-        this.callsAreaYAxis = {
-          ...this.callsAreaYAxis,
-          max: Math.ceil(maxValue * 1.1), // 10% más para espacio visual
-        };
-      }
-    } else {
-      // Si no hay datos, mantener vacío
-      this.callsAreaSeries = [{ name: 'Llamadas', data: [] }];
+    // Actualizar YAxis dinámicamente basado en los datos (si todos son 0, usar un máximo pequeño > 0)
+    if (data.length > 0) {
+      const maxValue = Math.max(...data);
+      const safeMax = maxValue > 0 ? Math.ceil(maxValue * 1.1) : 5;
+      this.callsAreaYAxis = {
+        ...this.callsAreaYAxis,
+        max: safeMax,
+      };
     }
 
     // Actualizar datos del gráfico móvil
@@ -1165,7 +1170,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     // Actualizar altura del gráfico
     this.callsAreaChart = {
       ...this.callsAreaChart,
-      height: isMobile ? 180 : 220,
+      height: isMobile ? 180 : 280,
     };
 
     this.callsAreaXAxis = {
@@ -1218,8 +1223,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.metricsService.setLoading(false);
         this.hasLoadedDashboardMetrics = false; // Permitir reintentar en caso de error
 
-        // Limpiar datos del gráfico en caso de error
-        this.callsAreaSeries = [{ name: 'Llamadas', data: [] }];
+        // Limpiar datos del gráfico en caso de error pero manteniendo días y línea base
+        this.callsAreaSeries = [{ name: 'Llamadas', data: this.getCurrentData() }];
         this.totalMinutesUsed = 0;
         this.timeSavedHours = 0;
         this.updateMobileChartData();
@@ -1302,8 +1307,21 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.metricsService.setLoading(false);
         this.hasLoadedDetailedMetrics = false; // Permitir reintentar en caso de error
 
-        // Limpiar datos del gráfico en caso de error
-        this.callsAreaSeries = [{ name: 'Llamadas', data: [] }];
+        // Mantener el gráfico de total de llamadas con los datos disponibles del dashboard (o ceros)
+        const data = this.getCurrentData();
+        this.callsAreaSeries = [{ name: 'Llamadas', data }];
+
+        // Recalcular eje Y con datos seguros
+        if (data.length > 0) {
+          const maxValue = Math.max(...data);
+          const safeMax = maxValue > 0 ? Math.ceil(maxValue * 1.1) : 5;
+          this.callsAreaYAxis = {
+            ...this.callsAreaYAxis,
+            max: safeMax,
+          };
+        }
+
+        // Resetear otras métricas que sí dependen de Twilio detallado
         this.totalMinutesUsed = 0;
         this.timeSavedHours = 0;
         this.latencyMs = 0;

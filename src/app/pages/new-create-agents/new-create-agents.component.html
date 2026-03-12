@@ -1,9 +1,11 @@
 <!-- Contenedor principal del formulario de creación de agentes -->
 <div
   class="w-full flex flex-col bg-gray-100 dark:bg-[#111113] text-black dark:text-slate-50 transition-colors duration-300 overflow-visible">
-  <ng-container [ngSwitch]="step">
+  <ng-container [ngSwitch]="displayedStep">
     <!-- Paso 1: Nombre del agente -->
-    <div *ngSwitchCase="'agentName'">
+    <div
+      *ngSwitchCase="'agentName'"
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
       <app-agent-name-step [agentName]="agentName" [currentStepNumber]="getCurrentStepNumber()"
         [totalSteps]="getTotalSteps()" (agentNameChange)="agentName = $event" (backClicked)="goBack()"
         (continueClicked)="onSubmitAgentName()">
@@ -11,7 +13,9 @@
     </div>
 
     <!-- Paso 2: Tipo de llamada (Inbound / Outbound) -->
-    <div *ngSwitchCase="'language'">
+    <div
+      *ngSwitchCase="'language'"
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
       <app-call-type-step [selectedCallType]="selectedCallType" [currentStepNumber]="getCurrentStepNumber()"
         [totalSteps]="getTotalSteps()" (callTypeChange)="selectedCallType = $event" (backClicked)="goBack()"
         (continueClicked)="onSkip()">
@@ -19,7 +23,9 @@
     </div>
 
     <!-- Paso 3: País y voz -->
-    <div *ngSwitchCase="'voices'">
+    <div
+      *ngSwitchCase="'voices'"
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
       <app-voices-step [selectedCountry]="selectedCountry" [countryOptions]="countryOptions" [voices]="voices"
         [selectedVoiceId]="selectedVoiceId" [currentPlayingVoice]="currentPlayingVoice"
         [voiceParameters]="voiceParameters" [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
@@ -30,7 +36,9 @@
     </div>
 
     <!-- Paso 4: Conecta tu negocio -->
-    <div *ngSwitchCase="'connectBusiness'">
+    <div
+      *ngSwitchCase="'connectBusiness'"
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
       <app-connect-business-step [shopifyConnectedDomain]="shopifyConnectedDomain"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()" (backClicked)="goBack()"
         (continueClicked)="onContinueFromConnectBusiness()" (connectShopifyClicked)="goToShopifyOnboarding()">
@@ -38,7 +46,9 @@
     </div>
 
     <!-- Paso 5: Instrucciones -->
-    <div *ngSwitchCase="'instructions'">
+    <div
+      *ngSwitchCase="'instructions'"
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
       <app-instructions-step [greeting]="greeting" [instructions]="instructions" [showMakeConfig]="showMakeConfig"
         [isMakeConfigClosing]="isMakeConfigClosing" [makeActionData]="makeActionData"
         [showGeneratePromptModal]="showGeneratePromptModal"
@@ -57,14 +67,18 @@
     </div>
 
     <!-- Paso 6: Base de conocimientos -->
-    <div *ngSwitchCase="'knowledgeBase'">
+    <div
+      *ngSwitchCase="'knowledgeBase'"
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
       <app-knowledge-base-step [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
         (sourceSelected)="onSourceSelected($event)" (backClicked)="goBack()"
         (continueClicked)="onKnowledgeBaseContinue($event)"></app-knowledge-base-step>
     </div>
 
     <!-- Paso 7: Prueba de agente -->
-    <div *ngSwitchCase="'summary'">
+    <div
+      *ngSwitchCase="'summary'"
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
       <app-test-agent-step [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
         [agentInstruction]="instructions" [firstInteraction]="greeting" [language]="selectedCountry"
         [agentName]="agentName" [voiceId]="selectedVoiceId" [voiceParameters]="voiceParameters"
@@ -75,7 +89,9 @@
     </div>
 
     <!-- Paso 8: Conecta tu número de teléfono (Twilio) -->
-    <div *ngSwitchCase="'connectPhone'">
+    <div
+      *ngSwitchCase="'connectPhone'"
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
       <app-connect-phone-step [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
         [showTwilioConfig]="showTwilioConfig" [loadingTwilioAccounts]="loadingTwilioAccounts"
         [isTwilioValidated]="isTwilioValidated" [isValidatingTwilio]="isValidatingTwilio" [twilioSid]="twilioSid"
@@ -100,7 +116,9 @@
     </div>
 
     <!-- Paso 9: Agente creado correctamente -->
-    <div *ngSwitchCase="'success'">
+    <div
+      *ngSwitchCase="'success'"
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
       <app-success-step (goToAgentsClicked)="goToAgents()">
       </app-success-step>
     </div>

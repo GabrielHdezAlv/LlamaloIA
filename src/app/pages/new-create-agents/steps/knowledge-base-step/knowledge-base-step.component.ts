@@ -20,12 +20,13 @@ import {
   KnowledgeSource,
   CreateKnowledgeSourceRequest,
 } from '../../../../shared/models/knowledge-source.model';
+import { ModalService } from '../../../../shared/modals/modal.service';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 
 // Extended interface to include selection
 interface ExtendedKnowledgeSource extends KnowledgeSource {
   selected?: boolean;
 }
-import { ModalService } from '../../../../shared/modals/modal.service';
 
 export type KnowledgeBaseType = 'pdf' | 'web' | 'text';
 
@@ -37,7 +38,7 @@ export interface KnowledgeBaseItem {
 @Component({
   selector: 'app-knowledge-base-step',
   standalone: true,
-  imports: [FormsModule, CommonModule, DatePipe],
+  imports: [FormsModule, CommonModule, DatePipe, SpinnerComponent],
   templateUrl: './knowledge-base-step.component.html',
   styleUrls: ['./knowledge-base-step.component.scss'],
 })

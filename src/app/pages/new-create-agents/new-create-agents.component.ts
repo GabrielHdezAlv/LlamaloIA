@@ -114,6 +114,21 @@ export class NewCreateAgentsComponent
     | 'final'
     | 'success' = 'agentName';
 
+  displayedStep:
+    | 'agentName'
+    | 'language'
+    | 'voices'
+    | 'connectBusiness'
+    | 'instructions'
+    | 'knowledgeBase'
+    | 'summary'
+    | 'connectPhone'
+    | 'advancedSettings'
+    | 'final'
+    | 'success' = 'agentName';
+
+  isStepFadingOut = false;
+
   // Popup de recuperación de borrador
   showRecoveryPopup = false;
   savedDraft: AgentDraft | null = null;
@@ -195,6 +210,7 @@ export class NewCreateAgentsComponent
   private route = inject(ActivatedRoute, { optional: true });
   private router = inject(Router);
   private notificationService = inject(NotificationService);
+  private stepFadeTimeout: any = null;
 
   constructor(
     private location: Location,
@@ -218,6 +234,7 @@ export class NewCreateAgentsComponent
     const stepParam = this.route?.snapshot?.queryParams?.['step'];
     if (stepParam === 'connectBusiness') {
       this.step = 'connectBusiness';
+      this.displayedStep = 'connectBusiness';
       this.saveDraft();
     } else {
       this.checkForSavedDraft();
@@ -361,6 +378,8 @@ export class NewCreateAgentsComponent
       }
     }
     this.showRecoveryPopup = false;
+    this.displayedStep = this.step;
+    this.isStepFadingOut = false;
   }
 
   // Descartar el borrador y empezar de nuevo
@@ -992,21 +1011,21 @@ export class NewCreateAgentsComponent
 
   goBack() {
     if (this.step === 'connectPhone') {
-      this.step = 'summary';
+      this.setStep('summary');
     } else if (this.step === 'summary') {
-      this.step = 'knowledgeBase';
+      this.setStep('knowledgeBase');
     } else if (this.step === 'knowledgeBase') {
-      this.step = 'instructions';
+      this.setStep('instructions');
     } else if (this.step === 'instructions') {
-      this.step = 'connectBusiness';
+      this.setStep('connectBusiness');
     } else if (this.step === 'connectBusiness') {
-      this.step = 'voices';
+      this.setStep('voices');
       this.loadVoices();
     } else if (this.step === 'voices') {
       this.pauseVoice();
-      this.step = 'language';
+      this.setStep('language');
     } else if (this.step === 'language') {
-      this.step = 'agentName';
+      this.setStep('agentName');
     } else if (this.step === 'agentName') {
       this.location.back();
     }
@@ -1014,21 +1033,21 @@ export class NewCreateAgentsComponent
 
   onSkip() {
     if (this.step === 'agentName') {
-      this.step = 'language';
+      this.setStep('language');
     } else if (this.step === 'language') {
-      this.step = 'voices';
+      this.setStep('voices');
       this.loadVoices();
     } else if (this.step === 'voices') {
       this.pauseVoice();
-      this.step = 'connectBusiness';
+      this.setStep('connectBusiness');
     } else if (this.step === 'connectBusiness') {
-      this.step = 'instructions';
+      this.setStep('instructions');
     } else if (this.step === 'instructions') {
-      this.step = 'knowledgeBase';
+      this.setStep('knowledgeBase');
     } else if (this.step === 'knowledgeBase') {
-      this.step = 'summary';
+      this.setStep('summary');
     } else if (this.step === 'summary') {
-      this.step = 'connectPhone';
+      this.setStep('connectPhone');
       this.showTwilioConfig = false;
       this.saveDraft();
     } else if (this.step === 'connectPhone') {
@@ -1047,7 +1066,7 @@ export class NewCreateAgentsComponent
       });
       return;
     }
-    this.step = 'language';
+    this.setStep('language');
     this.saveDraft();
   }
 
@@ -1185,7 +1204,7 @@ export class NewCreateAgentsComponent
   }
 
   onSubmit() {
-    this.step = 'knowledgeBase';
+    this.setStep('knowledgeBase');
     this.saveDraft();
   }
 
@@ -1405,7 +1424,7 @@ export class NewCreateAgentsComponent
 
   // Continuar desde "Conecta tu negocio" a Instrucciones
   onContinueFromConnectBusiness() {
-    this.step = 'instructions';
+    this.setStep('instructions');
     this.saveDraft();
   }
 
@@ -1527,7 +1546,7 @@ export class NewCreateAgentsComponent
   // Method to handle knowledge base continue with selected sources
   onKnowledgeBaseContinue(selectedSourceIds: string[]) {
     this.selectedKnowledgeSourceIds = selectedSourceIds;
-    this.step = 'summary';
+    this.setStep('summary');
     this.saveDraft();
   }
 
@@ -1595,13 +1614,13 @@ export class NewCreateAgentsComponent
 
   // Opcional: Método para continuar sin elegir fuente
   continueWithoutSource() {
-    this.step = 'summary'; // Pasa a resumen
+    this.setStep('summary'); // Pasa a resumen
     this.saveDraft();
   }
 
   onSubmitTestCall() {
     // Ir a Conecta tu número de teléfono
-    this.step = 'connectPhone';
+    this.setStep('connectPhone');
     this.showTwilioConfig = false;
     this.loadTwilioAccounts();
     this.saveDraft();
@@ -1886,7 +1905,7 @@ export class NewCreateAgentsComponent
     };
 
     // Navegar a pantalla de carga
-    this.step = 'final';
+    this.setStep('final');
 
     // Enviar petición al backend
     this.agentsService.createAgent(agentConfig).subscribe({
@@ -1914,14 +1933,14 @@ export class NewCreateAgentsComponent
         }
 
         // Cambiar a pantalla de éxito
-        this.step = 'success';
+        this.setStep('success');
         // Limpiar el borrador cuando el agente se crea con éxito
         this.clearSavedDraft();
       },
       error: (error) => {
         console.error('❌ Error al crear agente:', error);
         // Volver a la pantalla de prueba agente
-        this.step = 'summary';
+        this.setStep('summary');
         // Mostrar mensaje de error
         const errorMessage =
           error?.error?.message ||
@@ -2204,7 +2223,7 @@ export class NewCreateAgentsComponent
   onSubmitAdvancedSettings() {
     if (this.validateAdvancedSettings()) {
       // Cambia a prueba de agente
-      this.step = 'summary';
+      this.setStep('summary');
       this.animateIdle();
       this.saveDraft();
     }
@@ -2213,7 +2232,7 @@ export class NewCreateAgentsComponent
   // Método para saltar la configuración avanzada
   onSkipAdvancedSettings() {
     // Avanza a prueba de agente
-    this.step = 'summary';
+    this.setStep('summary');
     this.animateIdle();
   }
 
@@ -2402,6 +2421,9 @@ export class NewCreateAgentsComponent
     if (this.isBrowser) {
       document.body.classList.remove('creating-agent');
       document.body.style.overflow = '';
+    }
+    if (this.stepFadeTimeout) {
+      clearTimeout(this.stepFadeTimeout);
     }
   }
 
@@ -2665,7 +2687,7 @@ export class NewCreateAgentsComponent
   }
 
   onSkipConnectPhone() {
-    this.step = 'final';
+    this.setStep('final');
     this.saveDraft();
   }
 
@@ -2687,5 +2709,41 @@ export class NewCreateAgentsComponent
   // Método para obtener el total de pasos
   getTotalSteps(): number {
     return 8;
+  }
+
+  private setStep(
+    nextStep:
+      | 'agentName'
+      | 'language'
+      | 'voices'
+      | 'connectBusiness'
+      | 'instructions'
+      | 'knowledgeBase'
+      | 'summary'
+      | 'connectPhone'
+      | 'advancedSettings'
+      | 'final'
+      | 'success',
+  ) {
+    if (this.step === nextStep && this.displayedStep === nextStep) {
+      return;
+    }
+
+    this.step = nextStep;
+
+    if (this.displayedStep === nextStep) {
+      this.isStepFadingOut = false;
+      return;
+    }
+
+    this.isStepFadingOut = true;
+    if (this.stepFadeTimeout) {
+      clearTimeout(this.stepFadeTimeout);
+    }
+    this.stepFadeTimeout = setTimeout(() => {
+      this.displayedStep = nextStep;
+      this.isStepFadingOut = false;
+      this.stepFadeTimeout = null;
+    }, 250);
   }
 }

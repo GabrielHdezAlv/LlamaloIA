@@ -327,7 +327,7 @@
                 <label
                   class="absolute left-4 sm:left-8 max-lg:left-4 max-lg:sm:left-5 max-lg:md:left-6 top-1 text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-black pointer-events-none bg-white px-1">{{
                   t.newPassword }}</label>
-                <input type="password" [(ngModel)]="newPassword" placeholder="1234567"
+                <input type="password" [(ngModel)]="newPassword" placeholder="1234567" autocomplete="new-password"
                   class="w-full mt-3 px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base bg-white text-black placeholder-gray-400 outline-none"
                   style="box-shadow: none" />
               </div>
@@ -335,7 +335,7 @@
                 <label
                   class="absolute left-4 sm:left-8 max-lg:left-4 max-lg:sm:left-5 max-lg:md:left-6 top-1 text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-black pointer-events-none bg-white px-1">{{
                   t.confirmNewPassword }}</label>
-                <input type="password" [(ngModel)]="confirmPassword" placeholder="1234567"
+                <input type="password" [(ngModel)]="confirmPassword" placeholder="1234567" autocomplete="new-password"
                   class="w-full mt-3 px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl focus:ring-0 focus:border-black text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base bg-white text-black placeholder-gray-400 outline-none"
                   style="box-shadow: none" />
               </div>
@@ -446,17 +446,17 @@
           <!-- Botones de Acción -->
           <div class="flex flex-col sm:flex-row gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2">
             <app-ripple-button
-              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
+              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-xl hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
               rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
               {{ t.cancelSubscription }}
             </app-ripple-button>
             <app-ripple-button
-              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
+              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-xl hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
               rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
               {{ t.editPaymentMethod }}
             </app-ripple-button>
             <app-ripple-button
-              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
+              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-xl hover:bg-gray-900 transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
               rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
               {{ t.invoicesHistory }}
             </app-ripple-button>
@@ -464,9 +464,9 @@
 
           <!-- Mejorar/Cambiar Plan -->
           <app-ripple-button (buttonClick)="navigateToUpgradePlan()"
-            buttonClass="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gradient-to-r from-blue-900 to-blue-800 text-white font-semibold rounded-full hover:from-blue-800 hover:to-blue-700 transition-all duration-200  mt-3 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm"
+            buttonClass="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-[#1B2559] text-white font-semibold rounded-2xl hover:bg-[#131a3f] transition-all duration-200  mt-3 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm dark:bg-white dark:text-[#1B2559] dark:hover:bg-gray-100"
             rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
-            {{ t.upgradePlan }}
+          {{ t.upgradePlan }}
           </app-ripple-button>
 
           <!-- Protegido por Stripe -->
