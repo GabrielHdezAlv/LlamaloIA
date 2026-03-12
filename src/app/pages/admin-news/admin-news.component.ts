@@ -27,7 +27,27 @@ export class AdminNewsComponent implements OnInit {
         date: 'Hoy'
     };
 
+    isUploadingImage = false;
+
     ngOnInit() { }
+
+    onImageSelected(event: any) {
+        const file = event.target.files[0];
+        if (file) {
+            this.isUploadingImage = true;
+            this.newsService.uploadImage(file).subscribe({
+                next: (res) => {
+                    this.newsForm.imageUrl = res.imageUrl;
+                    this.isUploadingImage = false;
+                },
+                error: (err) => {
+                    console.error('Error subiendo imagen', err);
+                    this.isUploadingImage = false;
+                    alert('Error subiendo la imagen');
+                }
+            });
+        }
+    }
 
     startAdding() {
         this.isAdding = true;
