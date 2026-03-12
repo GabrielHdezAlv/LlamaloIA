@@ -603,12 +603,10 @@ body::-webkit-scrollbar {
     @apply border-neutral-800 !important;
   }
 
-  /* Bordes más visibles en el historial (recuadros grandes) en modo oscuro */
+  /* Bordes en elementos con .history-border en modo oscuro (ligeramente más finos) */
   html.dark .history-border {
     @apply border-neutral-800 !important;
-    /* solo estos recuadros van más marcados */
-    border-width: 2px !important;
-    /* un poco más grueso para destacar */
+    border-width: 1px !important;
   }
 
   /* Sidebar: avatares con borde azul en claro (border-blue-900 de Tailwind)

@@ -720,7 +720,7 @@
           [class]="isCollapsed ? 'w-full justify-center' : 'flex-1'" (click)="toggleDropdown()">
           @if (getUserProfileImage()) {
           <img [src]="getUserProfileImage()"
-            class="rounded-full border-2 border-blue-900/20 history-border flex-shrink-0 h-5 w-5 3xl:h-7 3xl:w-7"
+            class="rounded-full border border-blue-900/20 history-border flex-shrink-0 h-5 w-5 3xl:h-7 3xl:w-7"
             [ngClass]="{ 'mx-auto': isCollapsed }" alt="Perfil" />
           } @else {
           <span class="flex items-center justify-center rounded-full bg-gray-100 flex-shrink-0 h-5 w-5 3xl:h-7 3xl:w-7"
