@@ -99,8 +99,18 @@ export class MetricsComponent implements OnInit, OnDestroy {
   // Propiedades cacheadas para evitar cálculos repetidos
   private cachedWeeklyComparison: number = 0;
   private cachedCountries: any[] = [];
-  private cachedSuccessEvaluation: any[] = [];
-  private cachedCallCompletionReasons: any[] = [];
+  // Inicializar con filas base al 0% para que siempre se vean barras y porcentajes
+  private cachedSuccessEvaluation: any[] = [
+    { name: 'Exitoso', percent: 0, color: 'bg-green-500' },
+    { name: 'Parcial', percent: 0, color: 'bg-yellow-500' },
+    { name: 'Fallido', percent: 0, color: 'bg-red-500' },
+  ];
+  private cachedCallCompletionReasons: any[] = [
+    { name: 'Completada exitosamente', percent: 0, color: 'bg-blue-500' },
+    { name: 'Cliente colgó', percent: 0, color: 'bg-orange-500' },
+    { name: 'Error técnico', percent: 0, color: 'bg-red-500' },
+    { name: 'Tiempo agotado', percent: 0, color: 'bg-gray-500' },
+  ];
   private hasCachedData: boolean = false;
 
   // Getters para verificar el estado de las conexiones
@@ -1329,8 +1339,22 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.inboundPercentage = 0;
         this.outboundPercentage = 0;
         this.cachedCountries = [];
-        this.cachedSuccessEvaluation = [];
-        this.cachedCallCompletionReasons = [];
+        // Mantener tarjetas de evaluación y razones con filas base al 0%
+        this.cachedSuccessEvaluation = [
+          { name: 'Exitoso', percent: 0, color: 'bg-green-500' },
+          { name: 'Parcial', percent: 0, color: 'bg-yellow-500' },
+          { name: 'Fallido', percent: 0, color: 'bg-red-500' },
+        ];
+        this.cachedCallCompletionReasons = [
+          {
+            name: 'Completada exitosamente',
+            percent: 0,
+            color: 'bg-blue-500',
+          },
+          { name: 'Cliente colgó', percent: 0, color: 'bg-orange-500' },
+          { name: 'Error técnico', percent: 0, color: 'bg-red-500' },
+          { name: 'Tiempo agotado', percent: 0, color: 'bg-gray-500' },
+        ];
         this.updateMobileChartData();
       },
     });
