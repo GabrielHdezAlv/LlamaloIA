@@ -590,8 +590,13 @@
             </button>
           </div>
 
-          <!-- {{ t.contentBasedOnPeakHoursData }} - siempre mostrar barras (0% si no hay datos) -->
-          <div class="flex-1 flex flex-col justify-end">
+          <!-- {{ t.contentBasedOnPeakHoursData }} -->
+          <!-- Si hay datos, mostramos el gráfico. Si no, solo el mensaje centrado. -->
+          <div *ngIf="
+              callMetricsByHour &&
+              callMetricsByHour.dailyPeakHours.length > 0;
+              else noPeakHoursData
+            " class="flex-1 flex flex-col justify-end">
             <!-- {{ t.barChartWithRealData }} -->
             <div class="relative overflow-visible" (mouseleave)="hideTooltip()" (click)="hideTooltip()">
               <!-- {{ t.hourBars }} -->
@@ -641,15 +646,14 @@
           </div>
 
           <!-- {{ t.messageWhenNoData }} -->
-          <div *ngIf="
-              !callMetricsByHour ||
-              callMetricsByHour.dailyPeakHours.length === 0
-            " class="flex-1 flex flex-col items-center justify-center text-gray-500 dark:text-slate-400">
-            <div class="text-sm mb-2">{{ t.peakHoursDataNotAvailable }}</div>
-            <div class="text-xs text-center">
-              {{ t.waitingForEndpointData }}
+          <ng-template #noPeakHoursData>
+            <div
+              class="flex-1 flex flex-col items-center justify-center text-gray-500 dark:text-slate-400">
+              <div class="text-sm mb-1 text-center">
+                Todavía no hay datos disponibles
+              </div>
             </div>
-          </div>
+          </ng-template>
         </div>
 
         <!-- {{ t.countriesMovedFromOriginal }} -->
@@ -660,7 +664,8 @@
             class="font-semibold text-gray-800 mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-3 lg:mb-2 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50">
             {{ t.countries }}
           </h3>
-          <div class="overflow-y-auto">
+          <!-- Si hay países, mostramos la lista; si no, mensaje centrado -->
+          <div *ngIf="countries && countries.length > 0; else noCountries" class="overflow-y-auto">
             <div class="mb-3 max-lg:mb-2 lg:mb-4" *ngFor="let c of countries; let i = index">
               <div class="flex items-center justify-between">
                 <div class="flex items-center font-semibold">
@@ -684,6 +689,14 @@
               </div>
             </div>
           </div>
+          <ng-template #noCountries>
+            <div
+              class="flex-1 flex flex-col items-center justify-center text-gray-500 dark:text-slate-400">
+              <div class="text-sm mb-1 text-center">
+                Todavía no hay datos disponibles
+              </div>
+            </div>
+          </ng-template>
         </div>
       </div>
 
@@ -713,6 +726,7 @@
                 <div
                   class="h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950 dark:bg-white"
                   [style.width.%]="showEvaluacionExito ? item.percent : 0"
+                  [style.min-width.px]="showEvaluacionExito ? 4 : null"
                   [style.transition-delay]="getCountryBarDelay(i) + 'ms'"></div>
               </div>
             </div>
@@ -742,6 +756,7 @@
                 <div
                   class="h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950 dark:bg-white"
                   [style.width.%]="showRazonFinalizacion ? item.percent : 0"
+                  [style.min-width.px]="showRazonFinalizacion ? 4 : null"
                   [style.transition-delay]="getCountryBarDelay(i) + 'ms'"></div>
               </div>
             </div>

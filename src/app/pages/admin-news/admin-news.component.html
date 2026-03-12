@@ -76,12 +76,16 @@
                             class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-slate-800/40 rounded-2xl border border-gray-100 dark:border-slate-800 group transition-all hover:border-blue-500/30">
                             <img [src]="news.imageUrl" class="w-20 h-14 rounded-lg object-cover shadow-sm">
                             <div class="flex-1">
-                                <h4 class="font-bold text-gray-900 dark:text-slate-100 leading-tight">{{ news.title.es || news.title.en }}
+                                <h4 class="font-bold text-gray-900 dark:text-slate-100 leading-tight">
+                                    {{ news.title.es || news.title.en }}
                                 </h4>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">{{ news.description.es || news.description.en }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">
+                                    {{ news.description.es || news.description.en }}
+                                </p>
                                 <span
-                                    class="text-[10px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1 block">{{ news.date }}</span>
-                            </div>
+                                    class="text-[10px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1 block">
+                                    {{ news.date }}
+                                </span>
                             </div>
                             <div class="flex gap-2">
                                 <button (click)="editNews(news)"
@@ -153,4 +157,3 @@
 
         </div>
     </div>
-</div>
