@@ -104,6 +104,16 @@ export class UserService {
     });
   }
 
+  // ✅ Login con Google
+  LoginWithGoogle(token: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/google`, { token }, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Accept: '*/*'
+      }),
+    });
+  }
+
   getUserProfile(): Observable<UserProfileResponseDto> {
     return this.http.get<UserProfileResponseDto>(
       `${this.apiUrl}/users/profile`,

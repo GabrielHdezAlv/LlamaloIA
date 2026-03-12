@@ -20,6 +20,8 @@ import { AnimatedCheckboxComponent } from '../../shared/components/animated-chec
 import { ACCOUNT_STATUS } from '../../shared/models/account-status.enum';
 import { USER_ROLE } from '../../shared/models/user-role.enum';
 import { I18nService, Language } from '../../core/services/i18n.service';
+import { signInWithPopup } from 'firebase/auth';
+import { firebaseAuth, googleProvider } from '../../core/services/firebase.config';
 
 @Component({
   selector: 'app-auth-form',
@@ -153,44 +155,80 @@ export class AuthFormComponent implements OnInit {
         if (typeof window !== 'undefined' && window.localStorage) {
           localStorage.setItem('token', response.token);
         }
-        this.userService.getUserProfile().subscribe({
-          next: (data: any) => {
-            this.userStorage.setUser(data);
-            // Actualizar TwilioStorage si viene en el perfil
-            // Usar la primera cuenta de Twilio para compatibilidad con el storage actual
-            if (
-              data.twilio &&
-              Array.isArray(data.twilio) &&
-              data.twilio.length > 0
-            ) {
-              const firstAccount = data.twilio[0];
-              this.twilioStorage.setConfig({
-                twilioAccountId: firstAccount.twilioAccountId,
-                twilioSid: firstAccount.twilioSid,
-                twilioToken: firstAccount.twilioToken,
-              });
-            }
-
-            // Mostrar notificación pill de éxito
-            this.notificationService.success(this.t.authSuccessLogin);
-
-            // Redirigir según rol: owner → /admin, resto → /dashboard
-            const redirectUrl = data.rol === USER_ROLE.OWNER ? '/admin' : '/dashboard';
-            setTimeout(() => {
-              this.router.navigate([redirectUrl]);
-              this.setGlobalLoading(false);
-            }, 2000);
-          },
-          error: (err) => {
-            console.error('Error al obtener perfil', err);
-            this.notificationService.error(this.t.authErrorGetProfile);
-            this.setGlobalLoading(false);
-          },
-        });
+        this.loadProfileAndNavigate();
       },
       error: (err) => {
         console.error('❌ Error en inicio de sesión:', err);
         this.notificationService.error(this.t.authErrorLogin);
+        this.setGlobalLoading(false);
+      },
+    });
+  }
+
+  // ✅ Login con Google
+  async loginWithGoogle() {
+    this.setGlobalLoading(true);
+
+    try {
+      // 1. Abrir popup de Firebase para Google
+      const result = await signInWithPopup(firebaseAuth, googleProvider);
+      
+      // 2. Obtener el idToken
+      const idToken = await result.user.getIdToken();
+
+      // 3. Enviarlo al backend
+      this.userService.LoginWithGoogle(idToken).subscribe({
+        next: (response) => {
+          if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem('token', response.token);
+          }
+          this.loadProfileAndNavigate();
+        },
+        error: (err) => {
+          console.error('❌ Error en login de Google con el backend:', err);
+          this.notificationService.error(this.t.authErrorLogin || 'Error al iniciar sesión con Google');
+          this.setGlobalLoading(false);
+        }
+      });
+    } catch (error: any) {
+      console.error('❌ Error al iniciar sesión con Google:', error);
+      // Solo mostramos error si el usuario no cerró el popup a propósito
+      if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
+        this.notificationService.error(this.t.authErrorLogin || 'Error al conectar con Google');
+      }
+      this.setGlobalLoading(false);
+    }
+  }
+
+  // Factorizado de cargar perfil y navegar para reutilizarlo en ambos logins
+  private loadProfileAndNavigate() {
+    this.userService.getUserProfile().subscribe({
+      next: (data: any) => {
+        this.userStorage.setUser(data);
+        if (
+          data.twilio &&
+          Array.isArray(data.twilio) &&
+          data.twilio.length > 0
+        ) {
+          const firstAccount = data.twilio[0];
+          this.twilioStorage.setConfig({
+            twilioAccountId: firstAccount.twilioAccountId,
+            twilioSid: firstAccount.twilioSid,
+            twilioToken: firstAccount.twilioToken,
+          });
+        }
+
+        this.notificationService.success(this.t.authSuccessLogin);
+
+        const redirectUrl = data.rol === USER_ROLE.OWNER ? '/admin' : '/dashboard';
+        setTimeout(() => {
+          this.router.navigate([redirectUrl]);
+          this.setGlobalLoading(false);
+        }, 2000);
+      },
+      error: (err) => {
+        console.error('Error al obtener perfil', err);
+        this.notificationService.error(this.t.authErrorGetProfile);
         this.setGlobalLoading(false);
       },
     });
