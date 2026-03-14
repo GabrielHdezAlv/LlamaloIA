@@ -1467,7 +1467,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     }
 
     // Actualizar latencia con valor real del backend
-    this.latencyMs = this.detailedMetrics.latenciaMedia;
+    this.latencyMs = this.detailedMetrics.latenciaMedia || 0;
 
     // Animar barra y bola de latencia y duración cuando ya hay datos (por si las secciones se mostraron antes)
     if (this.showLatencia || this.showDuracionMedia) {
