@@ -14,7 +14,6 @@ import { UserStorage } from '../../storages/user/user-storage';
 })
 export class AdminDashboardComponent implements OnInit, AfterViewInit {
   @ViewChild(AdminNavComponent) navComponent!: AdminNavComponent;
-  private _isNavCollapsed: boolean = true;
 
   showMobileSidebar = false;
 
@@ -36,16 +35,7 @@ export class AdminDashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Inicializar el estado y forzar la detección de cambios del sidebar
-    this._isNavCollapsed = this.navComponent?.isCollapsed ?? true;
     this.cdr.detectChanges();
-  }
-
-  get isNavCollapsed(): boolean {
-    if (this.navComponent) {
-      this._isNavCollapsed = this.navComponent.isCollapsed;
-    }
-    return this._isNavCollapsed;
   }
 
   openMobileSidebar() {

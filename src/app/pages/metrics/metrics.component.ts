@@ -1176,11 +1176,21 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
     const isLast30Days = this.selectedPeriod === 'Últimos 30 días';
     const isMobile = this.isBrowser && window.innerWidth < 640;
+    const isVeryWide = this.isBrowser && window.innerWidth >= 1920;
 
-    // Actualizar altura del gráfico
+    // Actualizar altura del gráfico (solo cambiamos 3xl; el resto se queda como estaba)
     this.callsAreaChart = {
       ...this.callsAreaChart,
-      height: isMobile ? 180 : 280,
+      height: isMobile ? 180 : isVeryWide ? 320 : 280,
+    };
+
+    // Ajustar padding inferior de la grid para que en 3xl el trazo no quede tan pegado abajo
+    this.callsAreaGrid = {
+      ...this.callsAreaGrid,
+      padding: {
+        ...this.callsAreaGrid.padding,
+        bottom: isVeryWide ? 40 : 20,
+      },
     };
 
     this.callsAreaXAxis = {
@@ -1754,11 +1764,23 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   private updateChartForScreenSize(): void {
-    const isMobile = window.innerWidth < 640;
+    const width = window.innerWidth;
+    const isMobile = width < 640;
+    const isVeryWide = width >= 1920;
 
+    // Mantener comportamiento original y solo subir altura en pantallas muy anchas (3xl)
     this.callsAreaChart = {
       ...this.callsAreaChart,
-      height: isMobile ? 180 : 220,
+      height: isMobile ? 180 : isVeryWide ? 320 : 220,
+    };
+
+    // Ajustar también el padding inferior en función del ancho
+    this.callsAreaGrid = {
+      ...this.callsAreaGrid,
+      padding: {
+        ...this.callsAreaGrid.padding,
+        bottom: isVeryWide ? 40 : 20,
+      },
     };
 
     this.callsAreaXAxis = {

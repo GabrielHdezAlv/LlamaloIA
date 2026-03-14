@@ -106,6 +106,33 @@ export class NewsService {
         }));
     }
 
+  /** Etiqueta relativa: "hace 2 horas", "hace 20 horas", "hace 1 día", "hace 3 días", etc. */
+  getRelativeDateLabel(date: string): string {
+    if (!date) return '';
+
+    const parsed = new Date(date);
+    if (isNaN(parsed.getTime())) return date;
+
+    const now = new Date();
+    const diffMs = Math.max(0, now.getTime() - parsed.getTime());
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHours = Math.floor(diffMin / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffSec < 60) return 'Justo ahora';
+    if (diffMin < 60) return diffMin === 1 ? 'hace 1 minuto' : `hace ${diffMin} minutos`;
+    // Menos de 24 h → siempre en horas (2 h, 20 h, 23 h)
+    if (diffHours < 24) return diffHours === 1 ? 'hace 1 hora' : `hace ${diffHours} horas`;
+    // 1 día o más
+    if (diffDays === 1) return 'hace 1 día';
+    if (diffDays < 7) return `hace ${diffDays} días`;
+
+    const day = parsed.getDate();
+    const monthNames = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+    return `${day} ${monthNames[parsed.getMonth()]}`;
+  }
+
     addNews(newsItem: Omit<NewsItem, 'id'>) {
         if (!this.isBrowser) return;
 

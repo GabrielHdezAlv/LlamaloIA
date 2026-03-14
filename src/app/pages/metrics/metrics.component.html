@@ -131,7 +131,7 @@
           </div>
         </div>
         <!-- Desktop -->
-        <div class="hidden sm:block relative h-44 sm:h-52 lg:h-56 chart-container -mx-1 mt-6"
+        <div class="hidden sm:block relative h-44 sm:h-52 lg:h-56 3xl:h-72 chart-container -mx-1 mt-6"
           style="overflow: hidden; touch-action: none">
           <apx-chart [series]="callsAreaSeries" [chart]="callsAreaChart" [dataLabels]="callsAreaDataLabels"
             [stroke]="callsAreaStroke" [grid]="callsAreaGrid" [xaxis]="callsAreaXAxis" [yaxis]="callsAreaYAxis"
@@ -147,13 +147,13 @@
         <div
           class="block md:hidden lg:block bg-white rounded-2xl px-2.5 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:col-span-2 fade-in-section border border-gray-100 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showGraficoLlamadas">
-          <div class="flex justify-between items-center mb-1 max-lg:mb-1">
+          <div class="flex justify-between items-center mb-1 max-lg:mb-1 3xl:mb-2">
             <h3
-              class="font-semibold text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm 4xl:text-lg text-gray-800 tracking-[-0.7px] dark:text-slate-50">
+              class="font-semibold text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm 3xl:text-base 4xl:text-lg text-gray-800 tracking-[-0.7px] dark:text-slate-50">
               {{ t.totalSuccessfulCalls }}
             </h3>
             <span
-              class="text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-green-500 font-bold dark:text-green-400 tracking-[-0.7px]">↑
+              class="text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 3xl:text-sm text-green-500 font-bold dark:text-green-400 tracking-[-0.7px]">↑
               {{ weeklyComparisonPercentage }}%</span>
           </div>
 
@@ -251,7 +251,7 @@
           </div>
 
           <!-- {{ t.desktopAreaView }} -->
-          <div class="hidden sm:block relative h-44 sm:h-52 lg:h-56 chart-container -mx-1 mt-6 3xl:mt-14"
+          <div class="hidden sm:block relative h-44 sm:h-52 lg:h-56 3xl:h-72 chart-container -mx-1 mt-6 3xl:mt-14"
             style="overflow: hidden; touch-action: none">
             <apx-chart [series]="callsAreaSeries" [chart]="callsAreaChart" [dataLabels]="callsAreaDataLabels"
               [stroke]="callsAreaStroke" [grid]="callsAreaGrid" [xaxis]="callsAreaXAxis" [yaxis]="callsAreaYAxis"

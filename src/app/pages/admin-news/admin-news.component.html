@@ -1,15 +1,15 @@
-<div class="min-h-screen bg-gray-100 dark:bg-gray-800 p-6 xl:p-8">
-    <div class="max-w-7xl mx-auto">
-        <div class="flex flex-col lg:flex-row gap-8">
+<div class="min-h-screen bg-gray-100 dark:bg-gray-800 py-5 xl:py-7 px-4 xl:px-8 3xl:py-10 3xl:px-16">
+    <div class="max-w-6xl 3xl:max-w-[90rem] mx-auto">
+        <div class="flex flex-col md:flex-row gap-6 items-start">
 
             <!-- Management List -->
-            <div class="flex-1">
+            <div class="w-full md:flex-1 3xl:pr-4">
                 <div
-                    class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm p-6 border border-gray-100 dark:border-slate-800">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-2xl font-bold text-gray-800 dark:text-slate-50">Gestionar Noticias Topbar</h2>
+                    class="bg-white dark:bg-slate-900 rounded-[1.75rem] shadow-sm p-5 3xl:p-7 border border-gray-100 dark:border-slate-800">
+                    <div class="flex justify-between items-center mb-5 3xl:mb-6">
+                        <h2 class="text-xl 3xl:text-3xl font-semibold text-gray-800 dark:text-slate-50">Gestionar Noticias Topbar</h2>
                         <button (click)="startAdding()"
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition-all flex items-center gap-2">
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl transition-all flex items-center gap-2 text-sm">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 4v16m8-8H4" />
@@ -20,7 +20,7 @@
 
                     <!-- Form (Add/Edit) -->
                     <div *ngIf="isAdding || editingNews"
-                        class="mb-8 p-6 bg-gray-50 dark:bg-slate-800/50 rounded-2xl border border-blue-100 dark:border-blue-900/30">
+                        class="mb-7 p-5 bg-gray-50 dark:bg-slate-800/50 rounded-2xl border border-blue-100 dark:border-blue-900/30">
                         <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-slate-100">{{ isAdding ? 'Añadir
                             Nueva Noticia' : 'Editar Noticia' }}</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -28,55 +28,49 @@
                                 <label
                                     class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Título (Español)</label>
                                 <input [(ngModel)]="newsForm.title.es" type="text"
-                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none text-sm">
                             </div>
                             <div>
                                 <label
                                     class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Title (English)</label>
                                 <input [(ngModel)]="newsForm.title.en" type="text"
-                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none text-sm">
                             </div>
                             <div class="col-span-full">
                                 <label
                                     class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Descripción (Español)</label>
                                 <textarea [(ngModel)]="newsForm.description.es" rows="2"
-                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none text-sm"></textarea>
                             </div>
                             <div class="col-span-full">
                                 <label
                                     class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Description (English)</label>
                                 <textarea [(ngModel)]="newsForm.description.en" rows="2"
-                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none text-sm"></textarea>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Imagen (Seleccionar archivo)</label>
                                 <input type="file" (change)="onImageSelected($event)" accept="image/png, image/jpeg, image/webp"
-                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none text-sm file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                                 <div *ngIf="isUploadingImage" class="text-sm text-blue-600 mt-2">Subiendo imagen...</div>
                                 <div *ngIf="newsForm.imageUrl" class="mt-2 text-sm text-green-600">Imagen actual: <a [href]="newsForm.imageUrl" target="_blank" class="underline">Ver imagen</a></div>
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Fecha /
-                                    Etiqueta (Ej: Hoy, Ayer, 10 Sep)</label>
-                                <input [(ngModel)]="newsForm.date" type="text"
-                                    class="w-full px-4 py-2 rounded-xl border border-gray-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
-                            </div>
                         </div>
-                        <div class="mt-6 flex gap-3">
+                        <div class="mt-5 flex gap-3">
                             <button (click)="saveNews()" [disabled]="isUploadingImage"
-                                class="bg-black text-white px-6 py-2 rounded-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed">Guardar Cambios</button>
+                                class="bg-black text-white px-6 py-2 rounded-xl text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed">Guardar Cambios</button>
                             <button (click)="cancelEdit()"
-                                class="bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 px-6 py-2 rounded-xl font-bold">Cancelar</button>
+                                class="bg-gray-200 dark:bg-slate-700 text-gray-800 dark:text-gray-200 px-6 py-2 rounded-xl text-sm font-semibold">Cancelar</button>
                         </div>
                     </div>
 
                     <!-- List -->
-                    <div class="space-y-4">
+                    <div class="space-y-4 3xl:space-y-5">
                         <div *ngFor="let news of newsList()"
-                            class="flex items-center gap-4 p-4 bg-gray-50 dark:bg-slate-800/40 rounded-2xl border border-gray-100 dark:border-slate-800 group transition-all hover:border-blue-500/30">
-                            <img [src]="news.imageUrl" class="w-20 h-14 rounded-lg object-cover shadow-sm">
+                            class="flex items-center gap-4 p-4 3xl:p-5 bg-gray-50 dark:bg-slate-800/40 rounded-2xl border border-gray-100 dark:border-slate-800 group transition-all hover:border-blue-500/30">
+                            <img [src]="news.imageUrl" class="w-20 h-14 3xl:w-24 3xl:h-16 rounded-lg object-cover shadow-sm">
                             <div class="flex-1">
-                                <h4 class="font-bold text-gray-900 dark:text-slate-100 leading-tight">
+                                <h4 class="font-semibold text-[15px] 3xl:text-lg text-gray-900 dark:text-slate-100 leading-tight">
                                     {{ news.title.es || news.title.en }}
                                 </h4>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">
@@ -84,7 +78,7 @@
                                 </p>
                                 <span
                                     class="text-[10px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1 block">
-                                    {{ news.date }}
+                                    {{ formatNewsDate(news.date) }}
                                 </span>
                             </div>
                             <div class="flex gap-2">
@@ -106,49 +100,44 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
             <!-- Preview Sidebar -->
-            <div class="w-full lg:w-80">
+            <div class="w-full md:w-[350px] md:flex-none 3xl:w-[420px]">
                 <div class="sticky top-8">
-                    <h3 class="text-sm font-bold text-gray-500 dark:text-slate-400 uppercase tracking-widest mb-4 ml-4">
-                        Previsualización Real</h3>
-
-                    <!-- Mock Dropdown -->
+                    <!-- Mock Dropdown: igual que el original del topbar -->
                     <div
                         class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden w-full transition-all duration-300">
-                        <div
-                            class="p-4 border-b border-gray-50 dark:border-slate-800 bg-gray-50/50 dark:bg-slate-800/50">
-                            <h3 class="text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
-                                Notificaciones</h3>
-                        </div>
-                        <div class="max-h-[350px] overflow-y-auto p-2 space-y-1 custom-scrollbar">
-                            <div *ngFor="let item of newsList()"
-                                class="p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
-                                <div class="flex gap-2 items-center">
-                                    <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem]">
-                                        <div>
-                                            <h3
-                                                class="text-[10px] font-bold text-gray-900 dark:text-white leading-tight uppercase">
-                                                {{ item.title.es || item.title.en }}</h3>
-                                            <p class="text-[9px] text-gray-500 dark:text-gray-400 mt-0.5 leading-tight">
-                                                {{ item.description.es || item.description.en }}</p>
+                        <div class="flex flex-col max-h-[225px] 3xl:max-h-[400px] overflow-hidden">
+                            <div
+                                class="p-1.5 3xl:p-3 overflow-y-auto custom-scrollbar space-y-1 3xl:space-y-2">
+                                <div *ngFor="let item of newsList()"
+                                    class="p-2 3xl:p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group">
+                                    <div class="flex gap-2 3xl:gap-4 items-center text-left">
+                                        <div
+                                            class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem] 3xl:min-h-[5.5rem]">
+                                            <div>
+                                                <h3
+                                                    class="text-[11px] 3xl:text-base font-semibold text-gray-900 dark:text-white leading-tight">
+                                                    {{ item.title.es || item.title.en }}</h3>
+                                                <p
+                                                    class="text-[10px] 3xl:text-sm text-gray-500 dark:text-gray-400 mt-0.5 3xl:mt-1.5 leading-tight">
+                                                    {{ item.description.es || item.description.en }}</p>
+                                            </div>
+                                            <span
+                                                class="text-[8px] 3xl:text-xs text-blue-600 dark:text-blue-400 font-bold uppercase mt-1 3xl:mt-2">{{
+                                                formatNewsDate(item.date) }}</span>
                                         </div>
-                                        <span
-                                            class="text-[8px] text-blue-600 dark:text-blue-400 font-bold uppercase mt-1">{{
-                                            item.date }}</span>
-                                    </div>
-                                    <div
-                                        class="w-24 h-14 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
-                                        <img [src]="item.imageUrl" class="w-full h-full object-cover" alt="Image">
+                                        <div
+                                            class="w-24 h-14 3xl:w-36 3xl:h-24 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
+                                            <img [src]="item.imageUrl" class="w-full h-full object-cover" alt="Image">
+                                        </div>
                                     </div>
                                 </div>
+                                <div *ngIf="newsList().length === 0"
+                                    class="py-10 text-center text-xs 3xl:text-base text-gray-400 italic">
+                                    No hay noticias para mostrar</div>
                             </div>
-                            <div *ngIf="newsList().length === 0" class="py-10 text-center text-xs text-gray-400 italic">
-                                No hay noticias para mostrar</div>
-                        </div>
-                        <div
-                            class="p-3 bg-gray-50 dark:bg-slate-800/50 border-t border-gray-50 dark:border-slate-800 text-center">
-                            <span class="text-[10px] text-gray-400 font-medium">Llamalo IA v1.2.0</span>
                         </div>
                     </div>
                 </div>

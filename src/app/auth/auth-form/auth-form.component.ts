@@ -220,7 +220,8 @@ export class AuthFormComponent implements OnInit {
 
         this.notificationService.success(this.t.authSuccessLogin);
 
-        const redirectUrl = data.rol === USER_ROLE.OWNER ? '/admin' : '/dashboard';
+        const redirectUrl =
+          data.rol === USER_ROLE.OWNER ? '/admin/agents/edit/1' : '/dashboard';
         setTimeout(() => {
           this.router.navigate([redirectUrl]);
           this.setGlobalLoading(false);

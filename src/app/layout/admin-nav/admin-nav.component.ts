@@ -11,7 +11,6 @@ import { UserStorage } from '../../storages/user/user-storage';
   styleUrls: ['./admin-nav.component.scss'],
 })
 export class AdminNavComponent implements OnDestroy, OnInit {
-  isCollapsed: boolean = true;
   windowWidth: number = 0;
 
   // Inyectar UserStorage y Router
@@ -40,10 +39,6 @@ export class AdminNavComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.onResize();
-  }
-
-  toggleCollapse() {
-    this.isCollapsed = !this.isCollapsed;
   }
 
   @HostListener('window:resize', ['$event'])

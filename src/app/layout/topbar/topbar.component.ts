@@ -264,6 +264,10 @@ export class TopbarComponent implements OnInit, OnDestroy {
     return user?.profileImage || 'assets/predeterminada.webp';
   };
 
+  formatNewsDate(date: string): string {
+    return this.newsService.getRelativeDateLabel(date);
+  }
+
   ngOnInit() {
     this.i18nService.initializeLanguage();
 
@@ -475,10 +479,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.pageTitle =
         langCode === 'en' ? 'Manage news' : 'Gestionar Noticias';
       this.welcomeText = '';
-      this.pageSubtitle =
-        langCode === 'en'
-          ? 'Create and edit the news that appears in the top panel'
-          : 'Crea y edita las noticias que aparecen en el panel superior';
+      this.pageSubtitle = '';
     } else if (url === '/dashboard/agents/create') {
       this.pageTitle = t.createAgent;
       this.welcomeText = '';

@@ -24,7 +24,8 @@ export class AdminNewsComponent implements OnInit {
         title: { es: '', en: '' },
         description: { es: '', en: '' },
         imageUrl: '',
-        date: 'Hoy'
+        // Guardamos una fecha real (ISO) y luego mostramos una etiqueta relativa
+        date: new Date().toISOString()
     };
 
     isUploadingImage = false;
@@ -56,7 +57,7 @@ export class AdminNewsComponent implements OnInit {
             title: { es: '', en: '' },
             description: { es: '', en: '' },
             imageUrl: '',
-            date: 'Hoy'
+            date: new Date().toISOString()
         };
     }
 
@@ -107,5 +108,9 @@ export class AdminNewsComponent implements OnInit {
         if (confirm('¿Estás seguro de que quieres eliminar esta noticia?')) {
             this.newsService.deleteNews(id);
         }
+    }
+
+    formatNewsDate(date: string): string {
+        return this.newsService.getRelativeDateLabel(date);
     }
 }
