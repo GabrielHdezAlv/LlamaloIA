@@ -11,6 +11,7 @@ import { TwilioDetailedMetrics } from '../../shared/models/twilio-detailed-metri
 export class MetricsService {
   private http = inject(HttpClient);
   private apiUrl = 'https://llamaloiabackend-5294.onrender.com/metrics';
+  private baseUrl = 'https://llamaloiabackend-5294.onrender.com';
   private isBrowser: boolean;
   
   // Observable para el estado de loading compartido
@@ -23,6 +24,25 @@ export class MetricsService {
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  /**
+   * Verifica la salud del sistema (backend)
+   * @returns Observable con true si el sistema responde "pong", false en caso contrario
+   */
+  checkSystemHealth(): Observable<boolean> {
+    return new Observable<boolean>((subscriber) => {
+      this.http.get(`${this.baseUrl}/ping`, { responseType: 'text' }).subscribe({
+        next: (response) => {
+          subscriber.next(response === 'pong');
+          subscriber.complete();
+        },
+        error: () => {
+          subscriber.next(false);
+          subscriber.complete();
+        },
+      });
+    });
   }
 
   private getAuthHeaders(): HttpHeaders {

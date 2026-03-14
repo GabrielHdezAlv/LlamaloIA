@@ -96,6 +96,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
   dashboardMetrics: DashboardMetrics | null = null;
   hasLoadedDashboardMetrics: boolean = false; // Flag para prevenir múltiples llamadas
 
+  // Propiedad para el estado del sistema
+  isSystemOk: boolean = true;
+
   // Propiedades cacheadas para evitar cálculos repetidos
   private cachedWeeklyComparison: number = 0;
   private cachedCountries: any[] = [];
@@ -145,8 +148,14 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
     // Sistema OK (siempre visible)
     statuses.push({
-      circleColor: 'bg-green-500',
-      message: langCode === 'en' ? 'System OK' : 'Sistema OK',
+      circleColor: this.isSystemOk ? 'bg-green-500' : 'bg-red-500',
+      message: this.isSystemOk
+        ? langCode === 'en'
+          ? 'System OK'
+          : 'Sistema OK'
+        : langCode === 'en'
+          ? 'System Error'
+          : 'Error del sistema',
       textColor: 'text-gray-800 dark:text-slate-200',
     });
 
@@ -1725,6 +1734,12 @@ export class MetricsComponent implements OnInit, OnDestroy {
     // Cargar métricas del dashboard y detalladas al entrar en la pantalla
     this.loadDashboardMetrics();
     this.loadDetailedMetrics();
+
+    // Verificar salud del sistema
+    this.metricsService.checkSystemHealth().subscribe((isOk) => {
+      this.isSystemOk = isOk;
+      this.cdr.markForCheck();
+    });
 
     // Inicializar datos del gráfico móvil
     this.updateMobileChartData();
