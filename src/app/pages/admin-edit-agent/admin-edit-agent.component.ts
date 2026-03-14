@@ -209,6 +209,16 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // Leer query params para ver si venimos de conectar Shopify o si hay un tab específico
+    this.route.queryParams.subscribe((params) => {
+      if (params['tab']) {
+        const tab = params['tab'];
+        if (tab === 'main' || tab === 'connections' || tab === 'knowledge') {
+          this.setActiveTab(tab as any);
+        }
+      }
+    });
+
     // agentId de la ruta (para pestaña Base de Conocimiento y posibles usos)
     const agentIdParam = this.route.snapshot.paramMap.get('agentId');
     if (agentIdParam) {
@@ -672,7 +682,17 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
         }
 
         this.agent = agent;
-        this.selectedShopifyDomain = (agent as any)?.shopifyDomain || '';
+
+        // No sobrescribir selectedShopifyDomain si venimos de un éxito de conexión
+        const queryParams = this.route.snapshot.queryParams;
+        if (queryParams['shopify'] === 'success' && queryParams['shop']) {
+          this.selectedShopifyDomain = queryParams['shop'];
+          // Auto-guardar
+          setTimeout(() => this.saveShopifyDomain(), 500);
+        } else {
+          this.selectedShopifyDomain = (agent as any)?.shopifyDomain || '';
+        }
+
         this.populateForm();
 
         // Cargar fuentes de conocimiento del agente
@@ -1387,7 +1407,11 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   }
 
   goToShopifyOnboarding(): void {
-    this.router.navigate(['/shopify-onboarding']);
+    if (this.agentId) {
+      this.router.navigate(['/shopify-onboarding'], { queryParams: { agentId: this.agentId, source: 'admin' } });
+    } else {
+      this.router.navigate(['/shopify-onboarding'], { queryParams: { source: 'admin' } });
+    }
   }
 
   goToTwilioConnections(): void {

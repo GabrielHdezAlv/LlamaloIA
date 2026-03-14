@@ -7,7 +7,7 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
@@ -50,9 +50,14 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
   showNewStoreForm = false;
   /** Tienda seleccionada si el usuario elige usar una existente */
   selectedStore: string | null = null;
+  /** Agent ID si venimos de la pantalla de edición */
+  agentId: string | null = null;
+  /** Si venimos de la pantalla de admin */
+  sourceAdmin: boolean = false;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private http: HttpClient,
     private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: object,
@@ -79,6 +84,11 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
       document.body.classList.add(BODY_CLASS);
       document.documentElement.classList.add(BODY_CLASS);
     }
+    
+    // Capturar agentId de los query params
+    this.agentId = this.route.snapshot.queryParams['agentId'] || null;
+    this.sourceAdmin = this.route.snapshot.queryParams['source'] === 'admin';
+    
     this.loadConnectedStores();
   }
 
@@ -132,7 +142,19 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
       return;
     }
     // Si no hay tiendas conectadas o ya estamos en la vista de selección, navegar a la página anterior
-    this.router.navigate(['/dashboard/agents/create']);
+    if (this.agentId) {
+      if (this.sourceAdmin) {
+        this.router.navigate(['/admin/agents/edit', this.agentId], { queryParams: { tab: 'connections' } });
+      } else {
+        this.router.navigate(['/dashboard/agents/edit', this.agentId], { queryParams: { tab: 'connections' } });
+      }
+    } else {
+      if (this.sourceAdmin) {
+        this.router.navigate(['/admin']);
+      } else {
+        this.router.navigate(['/dashboard/agents/create']);
+      }
+    }
   }
 
   /** Comprueba si el dominio tiene el formato correcto: *nombre.myshopify.com */
@@ -176,9 +198,22 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.errorMessage = null;
 
+    let successPath = '/shopify-onboarding/success';
+    const params = new URLSearchParams();
+    if (this.agentId) {
+      params.append('agentId', this.agentId);
+    }
+    if (this.sourceAdmin) {
+      params.append('source', 'admin');
+    }
+    
+    if (params.toString()) {
+      successPath += `?${params.toString()}`;
+    }
+
     const returnTo =
       isPlatformBrowser(this.platformId) && typeof window !== 'undefined'
-        ? `${window.location.origin}/shopify-onboarding/success`
+        ? `${window.location.origin}${successPath}`
         : '';
     const returnToParam = returnTo
       ? `&returnTo=${encodeURIComponent(returnTo)}`

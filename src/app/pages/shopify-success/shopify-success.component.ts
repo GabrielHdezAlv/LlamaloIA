@@ -27,6 +27,10 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
   errorCode = '';
   /** Mensaje de error si aplica */
   errorMessage = '';
+  /** Agent ID si venimos de la pantalla de edición */
+  agentId: string | null = null;
+  /** Si venimos de la pantalla de admin */
+  sourceAdmin: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,6 +48,8 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
     this.isError = (params['shopify'] ?? '').toLowerCase() === 'error';
     this.errorCode = params['code'] ?? '';
     this.errorMessage = params['message'] ?? '';
+    this.agentId = params['agentId'] || null;
+    this.sourceAdmin = params['source'] === 'admin';
   }
 
   ngOnDestroy(): void {
@@ -59,20 +65,47 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
    * con Shopify fue exitosa para que la página de crear agente muestre el modal.
    */
   continueConfiguringAgent(): void {
-    this.router.navigate(['/dashboard/agents/create'], {
-      queryParams: {
-        shopify: 'success',
-        shop: this.shop || undefined,
-        step: 'connectBusiness',
-      },
-      queryParamsHandling: '',
-    });
+    if (this.agentId) {
+      const targetRoute = this.sourceAdmin
+        ? ['/admin/agents/edit', this.agentId]
+        : ['/dashboard/agents/edit', this.agentId];
+
+      this.router.navigate(targetRoute, {
+        queryParams: {
+          shopify: 'success',
+          shop: this.shop || undefined,
+          tab: 'connections'
+        },
+        queryParamsHandling: 'merge',
+      });
+    } else {
+      const targetRoute = this.sourceAdmin ? ['/admin'] : ['/dashboard/agents/create'];
+      this.router.navigate(targetRoute, {
+        queryParams: {
+          shopify: 'success',
+          shop: this.shop || undefined,
+          step: 'connectBusiness',
+        },
+        queryParamsHandling: '',
+      });
+    }
   }
 
   /**
-   * Volver a crear agente sin indicar éxito (para el caso de error).
+   * Volver a crear/editar agente sin indicar éxito (para el caso de error).
    */
   goBack(): void {
-    this.router.navigate(['/dashboard/agents/create']);
+    if (this.agentId) {
+      const targetRoute = this.sourceAdmin
+        ? ['/admin/agents/edit', this.agentId]
+        : ['/dashboard/agents/edit', this.agentId];
+
+      this.router.navigate(targetRoute, {
+        queryParams: { tab: 'connections' }
+      });
+    } else {
+      const targetRoute = this.sourceAdmin ? ['/admin'] : ['/dashboard/agents/create'];
+      this.router.navigate(targetRoute);
+    }
   }
 }
