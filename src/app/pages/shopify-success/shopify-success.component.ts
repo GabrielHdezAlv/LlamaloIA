@@ -1,13 +1,15 @@
 import { isPlatformBrowser } from '@angular/common';
 import {
   Component,
+  inject,
   Inject,
   OnDestroy,
   OnInit,
   PLATFORM_ID,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../core/services/user.service';
+import { UserStorage } from '../../storages/user/user-storage';
 
 const BODY_CLASS = 'page-shopify-success';
 
@@ -32,9 +34,12 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
   /** Si venimos de la pantalla de admin */
   sourceAdmin: boolean = false;
 
+  private userStorage = inject(UserStorage);
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: object,
   ) {}
 
@@ -50,6 +55,15 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
     this.errorMessage = params['message'] ?? '';
     this.agentId = params['agentId'] || null;
     this.sourceAdmin = params['source'] === 'admin';
+
+    if (!this.isError) {
+      // Recargar el perfil del usuario para asegurar que las tiendas Shopify estén actualizadas
+      this.userStorage.loadUserProfile().then(() => {
+        console.log('✅ Perfil de usuario recargado tras conexión Shopify exitosa.');
+      }).catch((err: any) => {
+        console.error('Error al recargar el perfil de usuario tras conexión Shopify:', err);
+      });
+    }
   }
 
   ngOnDestroy(): void {
