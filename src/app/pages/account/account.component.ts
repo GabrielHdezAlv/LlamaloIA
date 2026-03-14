@@ -240,6 +240,9 @@ export class AccountComponent implements OnInit, OnDestroy {
       this.tempMarketingConsent = user.marketingConsent || false;
       // Inicializar enterprise como objeto
       this.tempEnterprise = user.enterprise || { name: '', url: '' };
+      
+      this.currentPlanMinutes = user.minutesLimit ?? 100;
+
       // Limpiar URL de imagen de timestamps existentes para inicialización correcta
       const imageUrl = user.profileImage || '';
       // Solo usar URLs del servidor, nunca blob URLs

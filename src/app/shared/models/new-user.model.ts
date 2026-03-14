@@ -12,6 +12,8 @@ export class User {
   accountStatus?: number; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
   rol?: USER_ROLE; // ⬅️ NUEVO: Opcional (owner/client_user)
   hasCompletedSetup?: boolean;
+  minutesLimit?: number; // ⬅️ NUEVO: Límite de minutos asignados al usuario
+  extraMinutes?: number; // ⬅️ NUEVO: Minutos extra asignados al usuario
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   email?: string; // Opcional porque puede venir undefined del perfil
   password?: string; // Opcional porque no viene del perfil del usuario

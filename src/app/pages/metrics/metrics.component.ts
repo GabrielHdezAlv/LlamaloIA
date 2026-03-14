@@ -225,7 +225,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
     // Estado de uso del plan (siempre visible, cambia según porcentaje)
     // Si no hay límite configurado, usar un límite por defecto de 1000 minutos para mostrar el porcentaje
     const planLimit = this.minutesLimit > 0 ? this.minutesLimit : 1000;
-    const usagePercent = (this.totalMinutesUsed / planLimit) * 100;
+    
+    // El porcentaje no debe superar el 100% si se usan minutos extra
+    const usagePercent = Math.min((this.totalMinutesUsed / planLimit) * 100, 100);
 
     // Mostrar porcentaje con diferentes estados según el nivel
     if (usagePercent >= 90) {
@@ -622,6 +624,15 @@ export class MetricsComponent implements OnInit, OnDestroy {
   extraMinutes = 0;
   timeSavedHours = 0;
   costPerMinute = 0; // coste medio por minuto en euros
+
+  // Getters para UI
+  get displayMinutesUsed(): number {
+    return Math.min(this.totalMinutesUsed, this.minutesLimit);
+  }
+
+  get displayExtraMinutesUsed(): number {
+    return Math.max(0, this.totalMinutesUsed - this.minutesLimit);
+  }
 
   get costPerMinuteLabel(): string {
     // Formateamos con dos decimales y coma para estilo español: 0,00 €/min
@@ -1731,6 +1742,15 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // Inicializar límite de minutos con el del usuario
+    const user = this.userStorage.user();
+    if (user && user.minutesLimit !== undefined) {
+      this.minutesLimit = user.minutesLimit;
+    }
+    if (user && user.extraMinutes !== undefined) {
+      this.extraMinutes = user.extraMinutes;
+    }
+
     // Cargar métricas del dashboard y detalladas al entrar en la pantalla
     this.loadDashboardMetrics();
     this.loadDetailedMetrics();

@@ -6,6 +6,8 @@ export interface User {
   name: string;
   lastname: string;
   rol: USER_ROLE; // ⬅️ NUEVO: Obligatorio (owner/client_user)
+  minutesLimit?: number;
+  extraMinutes?: number;
   hasCompletedSetup?: boolean;
   enterprise?: {
     name: string;

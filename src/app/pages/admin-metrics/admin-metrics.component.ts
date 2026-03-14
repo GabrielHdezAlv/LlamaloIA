@@ -14,6 +14,7 @@ import {
 import { I18nService } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
+import { UserStorage } from '../../storages/user/user-storage';
 
 @Component({
   selector: 'app-admin-metrics',
@@ -25,6 +26,7 @@ import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 export class AdminMetricsComponent implements OnInit {
   private i18nService = inject(I18nService);
   private metricsService = inject(MetricsService);
+  public userStorage = inject(UserStorage);
 
   // Obtener traducciones
   get t() {
@@ -262,8 +264,24 @@ export class AdminMetricsComponent implements OnInit {
   totalMinutesUsed = 714;
   minutesLimit = 1000;
   extraMinutes = 0;
-  timeSavedHours = 49;
-  costPerMinute = 0.12; // coste medio por minuto en euros
+
+  // Getters para UI
+  get displayMinutesUsed(): number {
+    return Math.min(this.totalMinutesUsed, this.minutesLimit);
+  }
+
+  get displayExtraMinutesUsed(): number {
+    return Math.max(0, this.totalMinutesUsed - this.minutesLimit);
+  }
+
+  // Getters para UI
+  get displayMinutesUsed(): number {
+    return Math.min(this.totalMinutesUsed, this.minutesLimit);
+  }
+
+  get displayExtraMinutesUsed(): number {
+    return Math.max(0, this.totalMinutesUsed - this.minutesLimit);
+  }
 
   get costPerMinuteLabel(): string {
     // Formateamos con dos decimales y coma para estilo español: 0,12 €/min
@@ -783,6 +801,14 @@ export class AdminMetricsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const user = this.userStorage.user();
+    if (user && user.minutesLimit !== undefined) {
+      this.minutesLimit = user.minutesLimit;
+    }
+    if (user && user.extraMinutes !== undefined) {
+      this.extraMinutes = user.extraMinutes;
+    }
+
     // Cargar métricas del dashboard
     this.loadDashboardMetrics();
 
