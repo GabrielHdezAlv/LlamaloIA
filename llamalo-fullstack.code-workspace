@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "name": "LlamaloIA",
+      "path": "."
+    },
+    {
+      "name": "llamalo-ai-api",
+      "path": "../../LLAMALO-AI/llamalo-ai-api"
+    }
+  ],
+  "settings": {}
+}

@@ -144,6 +144,13 @@ export class UserService {
         String(userData.marketingConsent || false),
       );
 
+      if (userData.hasCompletedSetup !== undefined) {
+        formData.append(
+          'hasCompletedSetup',
+          String(userData.hasCompletedSetup),
+        );
+      }
+
       if (userData.enterprise) {
         formData.append('enterprise[name]', userData.enterprise.name || '');
         formData.append('enterprise[url]', userData.enterprise.url || '');

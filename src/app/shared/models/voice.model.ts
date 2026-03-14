@@ -7,4 +7,3 @@ export class Voice {
     this.voiceId = voiceId;
   }
 }
-

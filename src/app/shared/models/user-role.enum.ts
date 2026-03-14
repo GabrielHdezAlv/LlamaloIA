@@ -3,5 +3,5 @@
  */
 export enum USER_ROLE {
   OWNER = 'owner',
-  CLIENT_USER = 'client_user'
+  CLIENT_USER = 'client_user',
 }

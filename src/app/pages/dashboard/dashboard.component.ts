@@ -109,7 +109,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       } else if (storedTheme === 'light') {
         this.setDarkMode(false, false);
       } else {
-        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        const prefersDark = window.matchMedia?.(
+          '(prefers-color-scheme: dark)',
+        ).matches;
         this.setDarkMode(prefersDark, false);
       }
 
@@ -281,17 +283,28 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-    // Inicializar el estado y forzar la detección de cambios del sidebar
-    this._isNavCollapsed = this.navComponent?.isCollapsed ?? true;
-    this.cdr.detectChanges();
-  }
-
   get isNavCollapsed(): boolean {
     if (this.navComponent) {
       this._isNavCollapsed = this.navComponent.isCollapsed;
     }
     return this._isNavCollapsed;
+  }
+
+  ngAfterViewInit() {
+    // Inicializar el estado y forzar la detección de cambios del sidebar
+    this._isNavCollapsed = this.navComponent?.isCollapsed ?? true;
+
+    // Verificar si el usuario ya completó el onboarding
+    const user = this.userStorage.user();
+    if (user && user.hasCompletedSetup === false) {
+      this.showCompanySetup = true;
+      if (this.companySetupComponent) {
+        this.companySetupComponent.isSetupActive = true;
+        this.companySetupComponent.startWelcomeSequence();
+      }
+    }
+
+    this.cdr.detectChanges();
   }
 
   toggleCompanySetup() {

@@ -71,7 +71,8 @@ interface EmployeeRange {
   styleUrl: './company-setup.component.scss',
 })
 export class CompanySetupComponent
-  implements OnInit, OnDestroy, AfterViewChecked {
+  implements OnInit, OnDestroy, AfterViewChecked
+{
   // Servicios inyectados
   private userService = inject(UserService);
   private userStore = inject(UserStorage);
@@ -664,7 +665,7 @@ export class CompanySetupComponent
       // Validar tipo de archivo
       if (!file.type.startsWith('image/')) {
         this.notificationService.error(
-          'Por favor, selecciona un archivo de imagen válido'
+          'Por favor, selecciona un archivo de imagen válido',
         );
         return;
       }
@@ -689,7 +690,7 @@ export class CompanySetupComponent
       // TEMPORAL: Mantener la imagen local sin subir al backend por ahora
       setTimeout(() => {
         this.notificationService.success(
-          'Imagen cargada correctamente (modo local)'
+          'Imagen cargada correctamente (modo local)',
         );
       }, 1000);
 
@@ -716,14 +717,14 @@ export class CompanySetupComponent
           } else {
             console.error('Respuesta del backend sin imageUrl:', response);
             this.notificationService.error(
-              'Error: No se recibió la URL de la imagen del servidor'
+              'Error: No se recibió la URL de la imagen del servidor',
             );
           }
         },
         error: (error: any) => {
           console.error('Error completo al subir imagen:', error);
           this.notificationService.error(
-            `Error al subir la imagen: ${error.message || 'Error desconocido'}`
+            `Error al subir la imagen: ${error.message || 'Error desconocido'}`,
           );
           // NO limpiar el preview en caso de error - mantener la imagen local
           // this.logoPreview = null;
@@ -743,9 +744,34 @@ export class CompanySetupComponent
 
   // Método para completar el setup
   completeSetup() {
-    // Aquí marcarías en el backend que el usuario completó el setup
     this.isSetupActive = false;
-    this.router.navigate(['/dashboard/home']);
+
+    // Actualizamos el usuario en el backend
+    this.userService.updateUserProfile({ hasCompletedSetup: true }).subscribe({
+      next: (response) => {
+        // Actualizamos el storage local
+        const currentUser = this.userStore.user();
+        if (currentUser) {
+          this.userStore.setUser({
+            ...currentUser,
+            hasCompletedSetup: true,
+          });
+        }
+        this.router.navigate(['/dashboard/home']);
+      },
+      error: (error) => {
+        console.error('Error actualizando perfil:', error);
+        // Aun así lo dejamos pasar para no bloquear al usuario
+        const currentUser = this.userStore.user();
+        if (currentUser) {
+          this.userStore.setUser({
+            ...currentUser,
+            hasCompletedSetup: true,
+          });
+        }
+        this.router.navigate(['/dashboard/home']);
+      },
+    });
   }
 
   // ===== Métodos de pasos de creación de agente =====
@@ -1092,7 +1118,7 @@ export class CompanySetupComponent
     } catch (error) {
       console.error('Error al acceder al micrófono:', error);
       this.notificationService.error(
-        'No se pudo acceder al micrófono. Por favor, verifica los permisos.'
+        'No se pudo acceder al micrófono. Por favor, verifica los permisos.',
       );
     }
   }
@@ -1511,7 +1537,6 @@ export class CompanySetupComponent
       },
     });
   }
-
 
   // Validar si el formulario es válido
   private isFormValid(): boolean {

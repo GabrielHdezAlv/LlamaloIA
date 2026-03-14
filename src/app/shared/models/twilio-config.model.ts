@@ -3,7 +3,7 @@
  * twilioAccountId es opcional: si no se envía, se crea una nueva cuenta
  */
 export interface TwilioConfigRequest {
-  twilioAccountId?: number;  // ⚠️ NUEVO: opcional
+  twilioAccountId?: number; // ⚠️ NUEVO: opcional
   twilioSid: string;
   twilioToken: string;
 }
@@ -36,7 +36,7 @@ export interface TwilioConfig {
  * Compatible con la estructura antigua (objeto único) y nueva (array)
  */
 export interface TwilioConfigLocal {
-  twilioAccountId?: number;  // ⚠️ NUEVO
+  twilioAccountId?: number; // ⚠️ NUEVO
   twilioSid: string;
   twilioToken: string;
   inboundMinutes?: {

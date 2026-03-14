@@ -11,6 +11,7 @@ export class User {
   marketingConsent?: boolean; // ✅ NUEVO - Opcional
   accountStatus?: number; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
   rol?: USER_ROLE; // ⬅️ NUEVO: Opcional (owner/client_user)
+  hasCompletedSetup?: boolean;
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   email?: string; // Opcional porque puede venir undefined del perfil
   password?: string; // Opcional porque no viene del perfil del usuario
