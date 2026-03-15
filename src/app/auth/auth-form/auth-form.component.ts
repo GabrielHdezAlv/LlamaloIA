@@ -167,16 +167,16 @@ export class AuthFormComponent implements OnInit {
 
   // ✅ Login con Google
   async loginWithGoogle() {
-    this.setGlobalLoading(true);
-
     try {
-      // 1. Abrir popup de Firebase para Google
+      // 1. Abrir popup — el loading NO se activa aquí para no bloquear si el usuario cierra el modal
       const result = await signInWithPopup(firebaseAuth, googleProvider);
-      
-      // 2. Obtener el idToken
+
+      // 2. El usuario completó el popup: ahora sí activamos el loading
+      this.setGlobalLoading(true);
+
+      // 3. Obtener el idToken y enviarlo al backend
       const idToken = await result.user.getIdToken();
 
-      // 3. Enviarlo al backend
       this.userService.LoginWithGoogle(idToken).subscribe({
         next: (response) => {
           if (typeof window !== 'undefined' && window.localStorage) {
@@ -188,14 +188,18 @@ export class AuthFormComponent implements OnInit {
           console.error('❌ Error en login de Google con el backend:', err);
           this.notificationService.error(this.t.authErrorLogin || 'Error al iniciar sesión con Google');
           this.setGlobalLoading(false);
-        }
+        },
       });
     } catch (error: any) {
-      console.error('❌ Error al iniciar sesión con Google:', error);
-      // Solo mostramos error si el usuario no cerró el popup a propósito
-      if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
+      // Si el usuario cerró el popup a propósito, no hacemos nada (la pantalla sigue igual)
+      if (
+        error.code !== 'auth/popup-closed-by-user' &&
+        error.code !== 'auth/cancelled-popup-request'
+      ) {
+        console.error('❌ Error al iniciar sesión con Google:', error);
         this.notificationService.error(this.t.authErrorLogin || 'Error al conectar con Google');
       }
+      // Aseguramos que el loader quede apagado en cualquier caso de error
       this.setGlobalLoading(false);
     }
   }
