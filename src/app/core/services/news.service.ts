@@ -1,4 +1,4 @@
-import { Injectable, signal, inject, PLATFORM_ID, Inject } from '@angular/core';
+import { Injectable, signal, computed, inject, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -98,13 +98,17 @@ export class NewsService {
     }
 
     getTranslatedNews() {
-        const currentLang = this.i18nService.getCurrentLanguage().code;
+        return this.getTranslatedNewsSignal()();
+    }
+
+    getTranslatedNewsSignal = computed(() => {
+        const currentLang = this.i18nService.selectedLanguage().code;
         return this.newsSignal().map(news => ({
             ...news,
             title: news.title[currentLang as keyof typeof news.title] || news.title.es,
             description: news.description[currentLang as keyof typeof news.description] || news.description.es
         }));
-    }
+    });
 
   /** Etiqueta relativa: "hace 2 horas", "hace 20 horas", "hace 1 día", "hace 3 días", etc. */
   getRelativeDateLabel(date: string): string {

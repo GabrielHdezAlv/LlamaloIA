@@ -60,7 +60,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
   private metricsService = inject(MetricsService);
   private newsService = inject(NewsService);
 
-  newsList = () => this.newsService.getTranslatedNews();
+  newsList = this.newsService.getTranslatedNewsSignal;
 
   // Estado de loading para métricas
   isMetricsLoading: boolean = false;
@@ -782,12 +782,11 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   closeNewsItemModal() {
     this.showNewsModal = false;
+    this.selectedNewsItem = null;
+    
     if (this.cdr) {
       this.cdr.detectChanges();
     }
-    setTimeout(() => {
-      this.selectedNewsItem = null;
-    }, 300); // Wait for animation to finish
   }
 
   // Abrir sidebar móvil
