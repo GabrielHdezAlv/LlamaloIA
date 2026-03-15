@@ -18,6 +18,7 @@ import { I18nService, Language } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
 import { NewsService } from '../../core/services/news.service';
 import { USER_ROLE } from '../../shared/models/user-role.enum';
+import { NewsItem } from '../../shared/models/news.model';
 import { Subscription } from 'rxjs';
 
 const AGENT_DRAFT_KEY = 'llamalo_agent_draft';
@@ -74,6 +75,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
   newsDropdownClosing = false;
   newsDropdownOpening = false;
   hasNewNotifications = false;
+  selectedNewsItem: NewsItem | null = null;
+  showNewsModal = false;
   private dropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
   private newsDropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
   private dropdownOpenTimer: ReturnType<typeof setTimeout> | null = null;
@@ -750,8 +753,21 @@ export class TopbarComponent implements OnInit, OnDestroy {
   }
 
   // Compatibilidad con referencias antiguas si las hubiera
-  openNewsModal() {
-    this.toggleNewsDropdown();
+  openNewsModal(news?: NewsItem) {
+    if (news) {
+      this.selectedNewsItem = news;
+      this.showNewsModal = true;
+      this.closeNewsDropdownWithAnimation();
+    } else {
+      this.toggleNewsDropdown();
+    }
+  }
+
+  closeNewsItemModal() {
+    this.showNewsModal = false;
+    setTimeout(() => {
+      this.selectedNewsItem = null;
+    }, 300); // Wait for animation to finish
   }
 
   // Abrir sidebar móvil
