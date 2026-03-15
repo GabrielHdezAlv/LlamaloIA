@@ -87,6 +87,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
   hasNewNotifications = false;
   selectedNewsItem: TranslatedNewsItem | null = null;
   showNewsModal = false;
+  showNewsScrollIndicator = false;
   private dropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
   private newsDropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
   private dropdownOpenTimer: ReturnType<typeof setTimeout> | null = null;
@@ -775,14 +776,35 @@ export class TopbarComponent implements OnInit, OnDestroy {
       if (this.cdr) {
         this.cdr.detectChanges();
       }
+      
+      // Check if scroll indicator is needed after a short delay for rendering
+      setTimeout(() => {
+        this.checkNewsScroll();
+      }, 50);
     } else {
       this.toggleNewsDropdown();
+    }
+  }
+
+  checkNewsScroll(event?: Event) {
+    const container = event?.target as HTMLElement;
+    if (container) {
+      // Calculate if we've reached the bottom (with a 5px tolerance)
+      const isAtBottom = Math.abs(container.scrollHeight - container.scrollTop - container.clientHeight) <= 5;
+      this.showNewsScrollIndicator = !isAtBottom && container.scrollHeight > container.clientHeight;
+    } else {
+      // Find the container by class when it's just opening
+      const modalContainer = document.querySelector('.news-modal-scroll-container');
+      if (modalContainer) {
+        this.showNewsScrollIndicator = modalContainer.scrollHeight > modalContainer.clientHeight;
+      }
     }
   }
 
   closeNewsItemModal() {
     this.showNewsModal = false;
     this.selectedNewsItem = null;
+    this.showNewsScrollIndicator = false;
     
     if (this.cdr) {
       this.cdr.detectChanges();
