@@ -596,32 +596,32 @@
     class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-4 sm:p-6"
     style="z-index: 999999; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);"
     (click)="closeNewsItemModal()">
-    <div class="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden"
+    <div class="relative w-full max-w-4xl max-h-[85vh] md:h-[450px] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row"
       (click)="$event.stopPropagation()">
       <!-- Close button -->
       <button (click)="closeNewsItemModal()"
-        class="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors z-10 cursor-pointer">
+        class="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors z-20 cursor-pointer">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
       <!-- Image Header -->
-      <div class="w-full h-48 sm:h-64 md:h-80 overflow-hidden bg-gray-100 dark:bg-slate-800">
+      <div class="w-full md:w-2/5 h-48 md:h-full flex-shrink-0 bg-gray-100 dark:bg-slate-800">
         <img *ngIf="selectedNewsItem?.imageUrl" [src]="selectedNewsItem?.imageUrl" class="w-full h-full object-cover" [alt]="selectedNewsItem?.title">
       </div>
 
       <!-- Content -->
-      <div class="p-6 sm:p-8">
-        <div class="flex items-center justify-between mb-4">
+      <div class="w-full md:w-3/5 p-6 sm:p-8 flex flex-col overflow-y-auto custom-scrollbar">
+        <div class="flex items-center justify-between mb-4 flex-shrink-0">
           <span class="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider">
             {{ selectedNewsItem ? formatNewsDate(selectedNewsItem.date) : '' }}
           </span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight flex-shrink-0 pr-8">
           {{ selectedNewsItem?.title }}
         </h2>
-        <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+        <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap pb-4">
           {{ selectedNewsItem?.description }}
         </p>
       </div>
