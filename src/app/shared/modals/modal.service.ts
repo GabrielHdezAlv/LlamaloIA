@@ -52,6 +52,7 @@ import {
   TextModalComponent,
   TextModalData,
 } from './text-modal/text-modal.component';
+import { UpgradePlanModalComponent } from './upgrade-plan-modal/upgrade-plan-modal.component';
 
 @Injectable({
   providedIn: 'root',
@@ -189,6 +190,15 @@ export class ModalService {
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
+    });
+  }
+
+  openUpgradePlan() {
+    return this.dialog.open(UpgradePlanModalComponent, {
+      width: '760px',
+      maxWidth: '95vw',
+      disableClose: false,
+      panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
     });
   }
 }

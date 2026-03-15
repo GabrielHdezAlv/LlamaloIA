@@ -1,40 +1,36 @@
 <div class="min-h-screen p-6 bg-gray-50 dark:bg-[#2a2abd]">
   <div class="max-w-[72rem] 3xl:max-w-[80rem] mx-auto">
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">
-        Editor de agente
-      </h1>
-      <button (click)="goBack()"
-        class="px-4 py-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
-        Volver
-      </button>
-    </div>
-
-    <div class="flex items-center gap-2 mb-6">
-      <button type="button" (click)="setActiveTab('main')"
+    <div class="flex items-center justify-between gap-4 mb-6">
+      <div class="flex items-center gap-2">
+        <button type="button" (click)="setActiveTab('main')"
         class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
           activeTab === 'main'
             ? 'bg-white dark:bg-[#252525] text-gray-900 dark:text-white border-gray-200 dark:border-gray-800/50'
             : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-white dark:hover:bg-[#252525]'
         ">
-        Principal
-      </button>
-      <button type="button" (click)="setActiveTab('connections')"
+          Principal
+        </button>
+        <button type="button" (click)="setActiveTab('connections')"
         class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
           activeTab === 'connections'
             ? 'bg-white dark:bg-[#252525] text-gray-900 dark:text-white border-gray-200 dark:border-gray-800/50'
             : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-white dark:hover:bg-[#252525]'
         ">
-        Conexiones
-      </button>
-      <button type="button" (click)="setActiveTab('knowledge')"
+          Conexiones
+        </button>
+        <button type="button" (click)="setActiveTab('knowledge')"
         class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
           activeTab === 'knowledge'
             ? 'bg-white dark:bg-[#252525] text-gray-900 dark:text-white border-gray-200 dark:border-gray-800/50'
             : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-white dark:hover:bg-[#252525]'
         ">
-        Base de Conocimiento
+          Base de Conocimiento
+        </button>
+      </div>
+
+      <button (click)="goBack()"
+        class="px-4 py-2 bg-white dark:bg-slate-800 text-gray-900 dark:text-white text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+        Volver
       </button>
     </div>
 
@@ -42,11 +38,11 @@
     @if (activeTab === "main") {
     <form [formGroup]="editForm" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- COLUMNA IZQUIERDA (2/3) -->
-      <div class="lg:col-span-2 space-y-6">
+      <div class="lg:col-span-2 space-y-4">
         <!-- Nombre del agente -->
         <div
-          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
-          <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
+          class="rounded-xl p-4 shadow-sm dark:shadow-none">
+          <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
             Nombre del agente
           </label>
           <input type="text" formControlName="name" placeholder="Ej: Marta"
@@ -62,8 +58,8 @@
 
         <!-- Primer mensaje -->
         <div
-          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
-          <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
+          class="rounded-xl p-4 shadow-sm dark:shadow-none">
+          <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
             Primer mensaje
           </label>
           <textarea formControlName="firstInteraction" rows="5" placeholder="¡Hola! ¿Cómo puedo ayudarte hoy?"
@@ -80,7 +76,7 @@
 
         <!-- Mensaje del sistema -->
         <div
-          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+          class="rounded-xl p-4 shadow-sm dark:shadow-none">
           <div class="flex items-center justify-between mb-4">
             <label class="text-sm font-semibold text-gray-900 dark:text-white flex items-center gap-2">
               Mensaje del sistema
@@ -149,8 +145,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Número de teléfono -->
           <div
-            class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
-            <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
+            class="rounded-xl p-4 shadow-sm dark:shadow-none">
+            <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
               Número de teléfono
             </label>
             <div class="flex items-center relative">
@@ -273,8 +269,8 @@
 
           <!-- Etiqueta -->
           <div
-            class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
-            <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-3">
+            class="rounded-xl p-4 shadow-sm dark:shadow-none">
+            <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
               Etiqueta
               <span class="text-gray-500 dark:text-gray-400 text-xs font-normal ml-1">(opcional)</span>
             </label>
@@ -288,7 +284,7 @@
       <div class="space-y-6">
         <!-- Esfera AI con botón de play -->
         <div
-          class="bg-white dark:bg-[#252525] rounded-xl p-5 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+          class=" rounded-xl p-5 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
           <div class="flex flex-col items-center min-h-[420px] relative overflow-visible">
             <!-- Esfera AI -->
             <div class="flex flex-col items-center shrink-0 overflow-hidden h-[260px] mt-2">
@@ -648,7 +644,7 @@
 
         <!-- Parámetros de voz (debajo del recuadro esfera + voz) -->
         <div
-          class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+          class=" rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
           <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">
             Parámetros de voz
           </h3>
@@ -775,7 +771,7 @@
     } @else if (activeTab === "knowledge") {
     <div class="space-y-6">
       <div
-        class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+        class=" rounded-xl p-4 shadow-sm dark:shadow-none">
         <h2 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
           Fuentes de Conocimiento
         </h2>
@@ -919,7 +915,7 @@
     <!-- Add Knowledge Sources Section -->
     <div class="space-y-6 mt-5">
       <div
-        class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none">
+        class="rounded-xl p-4 shadow-sm dark:shadow-none">
         <h2 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
           Añadir Fuentes de Conocimiento
         </h2>
@@ -1143,7 +1139,7 @@
     } @else {
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div
-        class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col">
+        class="rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-sm font-semibold text-gray-900 dark:text-white">
             Shopify
@@ -1166,7 +1162,7 @@
       </div>
 
       <div
-        class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col">
+        class="rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-sm font-semibold text-gray-900 dark:text-white">
             Twilio

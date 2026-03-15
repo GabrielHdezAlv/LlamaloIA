@@ -1050,6 +1050,17 @@ export class MetricsComponent implements OnInit, OnDestroy {
         // Si es un ISO real (2 letras), intentar resolver con Intl.DisplayNames
         if (c.isoCode.length === 2 && regionNames) {
           name = regionNames.of(c.isoCode) || c.isoCode;
+
+          // Algunos navegadores/devices devuelven textos genéricos como "Unknown Region"
+          // para números ocultos; los normalizamos a "Número oculto" / "Hidden number"
+          if (
+            name &&
+            ['Unknown region', 'Unknown Region', 'Región desconocida'].includes(
+              name,
+            )
+          ) {
+            name = langCode === 'en' ? 'Hidden number' : 'Número oculto';
+          }
         } else if (c.isoCode.startsWith('+')) {
           // Prefijo sin identificar
           name =

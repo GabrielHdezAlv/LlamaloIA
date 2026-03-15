@@ -485,7 +485,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/agents/edit/')) {
-      this.pageTitle = '';
+      this.pageTitle = langCode === 'en' ? 'Edit agent' : 'Editor de agente';
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/agents')) {
@@ -515,14 +515,6 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.pageSubtitle = '';
     } else if (url === '/dashboard/account') {
       this.pageTitle = t.settings;
-      this.welcomeText = '';
-      this.pageSubtitle = '';
-    } else if (
-      url === '/dashboard/upgrade-plan' ||
-      url === '/dashboard/billing'
-    ) {
-      // Upgrade plan / billing: mostrar "Precios" / "Pricing" en el header
-      this.pageTitle = langCode === 'en' ? 'Pricing' : 'Precios';
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else {

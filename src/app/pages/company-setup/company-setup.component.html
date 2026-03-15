@@ -705,6 +705,31 @@
         [class.onboarding-img-in]="rightImageStep === 2" />
     </div>
   </div>
+
+
+  <!-- Lado derecho: fondo de onboarding + mockup (solo pasos 1 y 2, solo en desktop) -->
+  <div *ngIf="currentStep === 1 || currentStep === 2"
+    class="relative hidden lg:flex lg:w-1/2 h-full overflow-hidden order-2 lg:order-1 flex-shrink-0 bg-gray-50 dark:bg-[#020617]">
+    <!-- Imágenes con animación de transición paso 1 → paso 2 -->
+    <div class="onboarding-right-imgs absolute inset-0">
+      <!-- Modo claro: imagen paso 1 -->
+      <img src="/assets/imagen1_onboarding.jpg" alt="Onboarding paso 1"
+        class="onboarding-panel-img absolute bottom-0 right-0 h-auto w-[130%] dark:hidden"
+        [class.onboarding-img-out]="rightImageStep === 2" />
+      <!-- Modo claro: imagen paso 2 -->
+      <img src="/assets/voces_onboard.jpg" alt="Onboarding paso 2"
+        class="onboarding-panel-img opacity-0 absolute bottom-0 right-0 h-auto w-[9470px] dark:hidden"
+        [class.onboarding-img-in]="rightImageStep === 2" />
+      <!-- Modo oscuro: imagen paso 1 -->
+      <img src="/assets/imagen1_onboarding_oscuro.jpg" alt="Onboarding paso 1 oscuro"
+        class="onboarding-panel-img absolute bottom-0 right-0 h-auto w-[130%] hidden dark:block"
+        [class.onboarding-img-out]="rightImageStep === 2" />
+      <!-- Modo oscuro: imagen paso 2 -->
+      <img src="/assets/voces_onboard_oscuro.jpg" alt="Onboarding paso 2 oscuro"
+        class="onboarding-panel-img opacity-0 absolute bottom-0 right-0 h-auto w-[9470px] hidden dark:block"
+        [class.onboarding-img-in]="rightImageStep === 2" />
+    </div>
+  </div>
 </div>
 
 <!-- Botón camuflado para mostrar/ocultar el setup (esquina inferior derecha, casi invisible) -->

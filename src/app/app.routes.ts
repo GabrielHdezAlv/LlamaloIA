@@ -23,7 +23,6 @@ import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.co
 import { ShopifyOnboardingComponent } from './pages/shopify-onboarding/shopify-onboarding.component';
 import { ShopifySuccessComponent } from './pages/shopify-success/shopify-success.component';
 import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
-import { UpgradePlanComponent } from './pages/upgrade-plan/upgrade-plan.component';
 import { AdminEditAgentComponent } from './pages/admin-edit-agent/admin-edit-agent.component';
 import { AdminNewsComponent } from './pages/admin-news/admin-news.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
@@ -109,8 +108,6 @@ export const routes: Routes = [
 
       // 🔽 Nuevas rutas del dropdown
       { path: 'account', component: AccountComponent },
-      { path: 'upgrade-plan', component: UpgradePlanComponent },
-      { path: 'billing', component: UpgradePlanComponent },
     ],
   },
   {

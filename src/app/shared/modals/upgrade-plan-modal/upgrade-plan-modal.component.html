@@ -1,0 +1,73 @@
+<div class="upgrade-plan-modal p-4 min-h-0 max-h-[90vh] overflow-y-auto relative">
+  <button *ngIf="showCloseButton" type="button" (click)="close()"
+    class="fixed top-6 right-6 z-[10000] p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 dark:hover:text-white transition-colors">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 items-stretch w-[92%] max-w-[92%] mx-auto md:w-full md:max-w-full">
+    @for (plan of pricingPlans; track plan.id; let i = $index) {
+      <div [style.animation-delay]="(i * 100) + 'ms'"
+        [class]="'plan-card-fade-in flex flex-col h-full rounded-3xl p-0.5 border shadow-lg transition-all duration-300 min-h-[24rem] md:min-h-0 ' +
+        (plan.id === 'pro'
+          ? 'plan-card-pro plan-pro-glow bg-[#151515] dark:bg-white border-transparent dark:border-gray-200'
+          : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')">
+
+        <div [class]="'rounded-3xl flex flex-col h-fit p-4 sm:p-5 ' +
+          (plan.id === 'pro' ? 'bg-[#222222] dark:bg-[#dddddd]' : 'bg-gray-50 dark:bg-[#222222]')">
+          <!-- Gratis y Premium: parte superior más alta (min-h mayor). Pro igual. -->
+          <div [class]="'mb-3 ' + (plan.id === 'pro' ? 'min-h-[3.5rem]' : 'min-h-[4.75rem]')">
+            <h3 [class]="'mb-1 ' + (plan.id === 'pro' ? 'font-semibold text-lg md:text-xl text-white dark:text-[#000001]' : 'font-medium text-xl text-black dark:text-white')">
+              {{ plan.name }}
+            </h3>
+            <p [class]="'leading-snug ' + (plan.id === 'pro' ? 'font-normal text-[11px] md:text-xs text-gray-400 dark:text-[#000001]/70' : 'font-normal text-xs md:text-sm text-gray-500 dark:text-gray-400')">
+              {{ plan.description }}
+            </p>
+          </div>
+
+          <div class="flex items-baseline gap-1.5 mb-5">
+            <span [class]="'font-semibold tracking-tight ' + (plan.id === 'pro' ? 'text-2xl md:text-3xl text-white dark:text-[#000001]' : 'text-2xl text-black dark:text-white')">
+              ${{ plan.price }}
+            </span>
+            <span [class]="'font-normal ' + (plan.id === 'pro' ? 'text-[11px] text-white dark:text-[#000001]' : 'text-xs text-gray-400 dark:text-gray-500')">
+              / {{ t.perMonth }}
+            </span>
+          </div>
+
+          <button [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] transition-all duration-300 flex items-center justify-center group shadow ' +
+            (plan.id === 'pro'
+              ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90'
+              : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
+            <span>{{ plan.buttonText }}</span>
+            <svg [class]="(plan.id === 'pro' ? 'w-5 h-5 ml-2 md:w-3.5 md:h-3.5 md:ml-1.5' : 'w-5 h-5 ml-2 md:w-4 md:h-4 md:ml-1.5') + ' transition-transform duration-300 group-hover:translate-x-1'"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div [class]="'flex-1 flex flex-col min-h-0 mt-4 ' + (plan.id === 'pro' ? 'px-5 py-4 sm:px-6 sm:py-5' : 'px-4 py-4 sm:px-5 sm:py-5')">
+          <h4 [class]="'font-bold uppercase tracking-widest mb-2 md:mb-1.5 text-xs md:text-[8px] ' + (plan.id === 'pro' ? 'md:text-[8px] text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500 md:text-[9px]')">
+            {{ plan.id === 'free' ? t.whatIncluded : (plan.id === 'pro' ? t.everythingInFreePlus : t.everythingInProPlus) }}
+          </h4>
+
+          <ul class="space-y-2.5 md:space-y-2">
+            @for (feature of plan.features; track feature.text) {
+              <li class="flex items-start gap-2 md:gap-1.5">
+                <span [class]="'mt-0.5 flex-shrink-0 ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">
+                  <svg [class]="plan.id === 'pro' ? 'w-5 h-5 md:w-4 md:h-4' : 'w-4 h-4 md:w-3.5 md:h-3.5'" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="feature.icon"></path>
+                  </svg>
+                </span>
+                <span [class]="'font-medium leading-tight text-sm md:text-[12px] ' + (plan.id === 'pro' ? 'text-gray-300 dark:text-[#000001]/70' : 'text-gray-700 dark:text-gray-300')">
+                  {{ feature.text }}
+                </span>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    }
+  </div>
+</div>
