@@ -41,7 +41,9 @@
             <span class="text-[9px] max-lg:text-xs text-gray-400 dark:text-slate-500 font-normal">· {{ t.last7Days }}</span>
           </div>
           <span
-            class="text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-green-500 font-bold dark:text-green-400 tracking-[-0.7px]">↑
+            class="text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-bold tracking-[-0.7px]"
+            [ngClass]="weeklyComparisonPercentage >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'">
+            {{ weeklyComparisonPercentage >= 0 ? '↑' : '↓' }}
             {{ weeklyComparisonPercentage }}%</span>
         </div>
         <!-- {{ t.desktopMobileView }} -->
@@ -159,7 +161,9 @@
               <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">· {{ t.last7Days }}</span>
             </div>
             <span
-              class="text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 3xl:text-sm text-green-500 font-bold dark:text-green-400 tracking-[-0.7px]">↑
+              class="text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 3xl:text-sm font-bold tracking-[-0.7px]"
+              [ngClass]="weeklyComparisonPercentage >= 0 ? 'text-green-500 dark:text-green-400' : 'text-red-500 dark:text-red-400'">
+              {{ weeklyComparisonPercentage >= 0 ? '↑' : '↓' }}
               {{ weeklyComparisonPercentage }}%</span>
           </div>
 
