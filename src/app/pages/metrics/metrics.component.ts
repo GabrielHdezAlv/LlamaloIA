@@ -1646,6 +1646,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
       rf.completada +
       rf.clienteColgo +
       (rf.sinRespuesta ?? 0) +
+      (rf.silencio ?? 0) +
       rf.errorTecnico +
       rf.tiempoAgotado;
 
@@ -1667,6 +1668,11 @@ export class MetricsComponent implements OnInit, OnDestroy {
           color: 'bg-yellow-500',
         },
         {
+          name: 'Silencio prolongado',
+          percent: Math.round(((rf.silencio ?? 0) / totalReasons) * 100 * 10) / 10,
+          color: 'bg-purple-500',
+        },
+        {
           name: 'Error técnico',
           percent: Math.round((rf.errorTecnico / totalReasons) * 100 * 10) / 10,
           color: 'bg-red-500',
@@ -1683,6 +1689,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
         { name: 'Completada exitosamente', percent: 0, color: 'bg-blue-500' },
         { name: 'Cliente colgó', percent: 0, color: 'bg-orange-500' },
         { name: 'Sin respuesta', percent: 0, color: 'bg-yellow-500' },
+        { name: 'Silencio prolongado', percent: 0, color: 'bg-purple-500' },
         { name: 'Error técnico', percent: 0, color: 'bg-red-500' },
         { name: 'Tiempo agotado', percent: 0, color: 'bg-gray-500' },
       ];
