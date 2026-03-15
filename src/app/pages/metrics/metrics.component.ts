@@ -1450,15 +1450,15 @@ export class MetricsComponent implements OnInit, OnDestroy {
       this.detailedMetrics.duracionMediaLlamadas * 60,
     );
 
-    // Actualizar porcentajes de tipo de llamadas
-    const totalCalls =
+    // Calcular porcentajes de tipo de llamadas a partir de conteos absolutos del backend
+    const totalCallTypes =
       this.detailedMetrics.tiposLlamadas.inbound +
       this.detailedMetrics.tiposLlamadas.outbound;
-    if (totalCalls > 0) {
+    if (totalCallTypes > 0) {
       this.inboundPercentage =
-        (this.detailedMetrics.tiposLlamadas.inbound / totalCalls) * 100;
+        Math.round((this.detailedMetrics.tiposLlamadas.inbound / totalCallTypes) * 100 * 10) / 10;
       this.outboundPercentage =
-        (this.detailedMetrics.tiposLlamadas.outbound / totalCalls) * 100;
+        Math.round((this.detailedMetrics.tiposLlamadas.outbound / totalCallTypes) * 100 * 10) / 10;
     }
 
     // Calcular y cachear todos los valores
