@@ -1640,57 +1640,40 @@ export class MetricsComponent implements OnInit, OnDestroy {
       ];
     }
 
-    // Calcular razones de finalización
+    // Calcular razones de finalización (valores son conteos absolutos del backend)
+    const rf = this.detailedMetrics.razonesFinalizacion;
     const totalReasons =
-      this.detailedMetrics.razonesFinalizacion.completada +
-      this.detailedMetrics.razonesFinalizacion.clienteColgo +
-      this.detailedMetrics.razonesFinalizacion.errorTecnico +
-      this.detailedMetrics.razonesFinalizacion.tiempoAgotado;
+      rf.completada +
+      rf.clienteColgo +
+      (rf.sinRespuesta ?? 0) +
+      rf.errorTecnico +
+      rf.tiempoAgotado;
 
     if (totalReasons > 0) {
       this.cachedCallCompletionReasons = [
         {
           name: 'Completada exitosamente',
-          percent:
-            Math.round(
-              (this.detailedMetrics.razonesFinalizacion.completada /
-                totalReasons) *
-              100 *
-              10,
-            ) / 10,
+          percent: Math.round((rf.completada / totalReasons) * 100 * 10) / 10,
           color: 'bg-blue-500',
         },
         {
           name: 'Cliente colgó',
-          percent:
-            Math.round(
-              (this.detailedMetrics.razonesFinalizacion.clienteColgo /
-                totalReasons) *
-              100 *
-              10,
-            ) / 10,
+          percent: Math.round((rf.clienteColgo / totalReasons) * 100 * 10) / 10,
           color: 'bg-orange-500',
         },
         {
+          name: 'Sin respuesta',
+          percent: Math.round(((rf.sinRespuesta ?? 0) / totalReasons) * 100 * 10) / 10,
+          color: 'bg-yellow-500',
+        },
+        {
           name: 'Error técnico',
-          percent:
-            Math.round(
-              (this.detailedMetrics.razonesFinalizacion.errorTecnico /
-                totalReasons) *
-              100 *
-              10,
-            ) / 10,
+          percent: Math.round((rf.errorTecnico / totalReasons) * 100 * 10) / 10,
           color: 'bg-red-500',
         },
         {
           name: 'Tiempo agotado',
-          percent:
-            Math.round(
-              (this.detailedMetrics.razonesFinalizacion.tiempoAgotado /
-                totalReasons) *
-              100 *
-              10,
-            ) / 10,
+          percent: Math.round((rf.tiempoAgotado / totalReasons) * 100 * 10) / 10,
           color: 'bg-gray-500',
         },
       ].sort((a, b) => b.percent - a.percent);
@@ -1699,6 +1682,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
       this.cachedCallCompletionReasons = [
         { name: 'Completada exitosamente', percent: 0, color: 'bg-blue-500' },
         { name: 'Cliente colgó', percent: 0, color: 'bg-orange-500' },
+        { name: 'Sin respuesta', percent: 0, color: 'bg-yellow-500' },
         { name: 'Error técnico', percent: 0, color: 'bg-red-500' },
         { name: 'Tiempo agotado', percent: 0, color: 'bg-gray-500' },
       ];

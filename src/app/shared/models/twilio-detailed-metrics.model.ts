@@ -36,6 +36,7 @@ export interface TwilioDetailedMetrics {
   razonesFinalizacion: {
     completada: number;
     clienteColgo: number;
+    sinRespuesta: number;
     errorTecnico: number;
     tiempoAgotado: number;
   };
