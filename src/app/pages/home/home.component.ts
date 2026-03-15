@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Inject, PLATFORM_ID, effect } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, Inject, PLATFORM_ID, effect } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { I18nService } from '../../core/services/i18n.service';
@@ -28,7 +28,7 @@ import {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private i18nService = inject(I18nService);
   private metricsService = inject(MetricsService);
   private agentsService = inject(AgentsService);
@@ -63,6 +63,7 @@ export class HomeComponent implements OnInit {
   // Guardar el último breakpoint para evitar re-renders innecesarios durante el resize
   private lastBreakpoint: string = '';
   private isBrowser: boolean;
+  private resizeListener = () => this.updateChartOptions();
 
   get summary() {
     // Si hay datos del backend, usarlos
@@ -111,9 +112,6 @@ export class HomeComponent implements OnInit {
 
         // Actualizar datos de llamadas por día
         this.updateCallsByDay(data);
-
-        // Actualizar agentes activos
-        this.updateActiveAgents(data);
 
         // Actualizar datos del gráfico principal y forzar recálculo de opciones
         this.updateMainChart(data);
@@ -199,12 +197,6 @@ export class HomeComponent implements OnInit {
         { name: 'Minutos', data: [0, 0, 0, 0, 0, 0, 0] },
       ];
     }
-  }
-
-  // Actualizar agentes activos desde el backend
-  private updateActiveAgents(data: DashboardMetrics): void {
-    // Los datos de agentes se actualizarán automáticamente a través del getter
-    // que ahora usará dashboardMetrics.agentes
   }
 
   // Actualizar gráfico principal con datos reales
@@ -775,11 +767,17 @@ export class HomeComponent implements OnInit {
       // Actualizar opciones del gráfico según el tamaño de pantalla (altura, fuentes, etc)
       this.updateChartOptions();
       // Escuchar cambios de tamaño de ventana
-      window.addEventListener('resize', () => this.updateChartOptions());
+      window.addEventListener('resize', this.resizeListener);
     }
 
     // Ejecutar animaciones siempre
     this.startFadeInAnimations();
+  }
+
+  ngOnDestroy(): void {
+    if (this.isBrowser) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   }
 
   // Cargar agentes del usuario

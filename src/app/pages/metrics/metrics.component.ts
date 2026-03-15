@@ -620,7 +620,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   // Totales
   totalMinutesUsed = 0;
-  minutesLimit = 100;
+  minutesLimit = 1000;
   extraMinutes = 0;
   timeSavedHours = 0;
   costPerMinute = 0; // coste medio por minuto en euros
@@ -881,8 +881,10 @@ export class MetricsComponent implements OnInit, OnDestroy {
     this.durationAnimationId = requestAnimationFrame(tick);
   }
 
-  // Estado de ánimo
-  moodValue = 75; // Valor del estado de ánimo (0-100%)
+  // Estado de ánimo — derivado de la tasa de éxito de las llamadas (0-100)
+  get moodValue(): number {
+    return Math.round(this.tasaExito);
+  }
 
   get moodText(): string {
     if (this.moodValue >= 80) return 'Contento';
@@ -940,28 +942,21 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return 320 - 260 * Math.sin(angle);
   }
 
-  // Agentes creados (tabla resumen)
+  // Agentes creados (tabla resumen) — datos reales del backend
   get createdAgents() {
-    return [
-      {
-        name: 'Carla',
-        type: this.t.inbound,
-        totalMin: 530,
-        percent: 25.4,
-        status: this.t.activeStatus,
-      },
-      {
-        name: 'Carla',
-        type: this.t.outbound,
-        totalMin: 250,
-        percent: 8.9,
-        status: this.t.draftStatus,
-      },
-    ];
+    const agentes = this.dashboardMetrics?.agentes || [];
+    const totalMin = agentes.reduce((acc, a) => acc + (a.minutos_totales || 0), 0);
+    return agentes.map((a) => ({
+      name: a.nombre,
+      type: a.tipo === 'outbound' ? this.t.outbound : this.t.inbound,
+      totalMin: Math.round(a.minutos_totales || 0),
+      percent: totalMin > 0 ? Math.round((a.minutos_totales / totalMin) * 1000) / 10 : 0,
+      status: a.estado === 'activo' ? this.t.activeStatus : this.t.draftStatus,
+    }));
   }
 
   // Países (porcentaje y barra) - ordenados de mayor a menor
-  // Datos para el gráfico de horas punta (24 horas con patrón de curva de campana)
+  // Datos para el gráfico de horas punta (24 horas) — derivados de callMetricsByHour real
   // Las barras empiezan desde las 4am (índice 0) hasta las 3am (índice 23)
   get popularTimesData(): Array<{
     label: string;
@@ -969,39 +964,38 @@ export class MetricsComponent implements OnInit, OnDestroy {
     isLive: boolean;
     hour: number;
   }> {
-    const hours = [];
-    // La hora actual del sistema
     const currentHour = new Date().getHours();
 
-    for (let i = 0; i < 24; i++) {
-      // Mapear el índice de la barra a la hora real del día
-      // Índice 0 = 4am, índice 1 = 5am, ..., índice 20 = 0am (medianoche), índice 21 = 1am, índice 22 = 2am, índice 23 = 3am
-      const actualHour = (i + 4) % 24;
-
-      // Crear una curva de campana centrada alrededor de las 15 horas (3 PM)
-      const center = 15;
-      const width = 8;
-      const peak = 100;
-      // Calcular la distancia desde el centro, considerando el ciclo circular de 24 horas
-      let distanceFromCenter = actualHour - center;
-      // Ajustar la distancia para considerar el ciclo circular (la distancia mínima)
-      if (distanceFromCenter > 12) {
-        distanceFromCenter = distanceFromCenter - 24;
-      } else if (distanceFromCenter <= -12) {
-        distanceFromCenter = distanceFromCenter + 24;
+    // Acumular llamadas por hora usando datos reales si están disponibles
+    const hourlyTotals = new Array(24).fill(0);
+    const days = this.callMetricsByHour?.dailyPeakHours || [];
+    for (const day of days) {
+      if (day.hourlyCalls?.length === 24) {
+        for (let h = 0; h < 24; h++) {
+          hourlyTotals[h] += day.hourlyCalls[h];
+        }
       }
-      const busyness = Math.max(
-        5,
-        peak * Math.exp(-Math.pow(distanceFromCenter / width, 2)),
-      );
+    }
+    const hasRealData = hourlyTotals.some((v) => v > 0);
+    const maxCalls = hasRealData ? Math.max(...hourlyTotals) : 1;
 
-      // La hora actual es la hora "Live"
-      const isLive = actualHour === currentHour;
+    const hours = [];
+    for (let i = 0; i < 24; i++) {
+      const actualHour = (i + 4) % 24;
+      let busyness: number;
+      if (hasRealData) {
+        busyness = Math.max(5, Math.round((hourlyTotals[actualHour] / maxCalls) * 100));
+      } else {
+        // Fallback visual si aún no hay datos históricos suficientes
+        const center = 15;
+        const width = 8;
+        let d = actualHour - center;
+        if (d > 12) d -= 24;
+        else if (d <= -12) d += 24;
+        busyness = Math.max(5, Math.round(100 * Math.exp(-Math.pow(d / width, 2))));
+      }
 
-      // Mostrar etiquetas: empezar en la tercera barra (índice 2, hora 6 = 6a) y terminar en la última (índice 23, hora 3 = 3a)
       let label = '';
-      // La tercera barra (índice 2) corresponde a la hora 6 (6a)
-      // Luego cada 3 barras: 9a (índice 5), 12p (índice 8), 3p (índice 11), 6p (índice 14), 9p (índice 17), 12a (índice 20), 3a (índice 23)
       if (i === 2) label = '6a';
       else if (i === 5) label = '9a';
       else if (i === 8) label = '12p';
@@ -1011,12 +1005,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
       else if (i === 20) label = '12a';
       else if (i === 23) label = '3a';
 
-      hours.push({
-        label,
-        busyness: Math.round(busyness),
-        isLive,
-        hour: actualHour,
-      });
+      hours.push({ label, busyness, isLive: actualHour === currentHour, hour: actualHour });
     }
     return hours;
   }
