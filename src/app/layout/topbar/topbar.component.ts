@@ -8,6 +8,7 @@ import {
   HostListener,
   ElementRef,
   effect,
+  ChangeDetectorRef
 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -761,12 +762,16 @@ export class TopbarComponent implements OnInit, OnDestroy {
     this.showNewsDropdown = false;
   }
 
+  private cdr = inject(ChangeDetectorRef);
+
   // Compatibilidad con referencias antiguas si las hubiera
   openNewsModal(news?: TranslatedNewsItem) {
+    console.log("CLICKED NEWS", news);
     if (news) {
       this.selectedNewsItem = news;
       this.showNewsModal = true;
       this.closeNewsDropdownWithAnimation();
+      this.cdr.detectChanges();
     } else {
       this.toggleNewsDropdown();
     }
