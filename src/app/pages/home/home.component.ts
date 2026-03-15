@@ -872,8 +872,4 @@ export class HomeComponent implements OnInit, OnDestroy {
   navigateTo(route: string): void {
     this.router.navigateByUrl(route);
   }
-
-  openUpgradePlanModal(): void {
-    this.modalService.openUpgradePlan();
-  }
 }

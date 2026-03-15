@@ -7,6 +7,7 @@ import {
   PLATFORM_ID,
   HostListener,
   ElementRef,
+  effect,
 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -72,7 +73,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
   showNewsDropdown = false;
   newsDropdownClosing = false;
   newsDropdownOpening = false;
-  hasNewNotifications = true;
+  hasNewNotifications = false;
   private dropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
   private newsDropdownCloseTimer: ReturnType<typeof setTimeout> | null = null;
   private dropdownOpenTimer: ReturnType<typeof setTimeout> | null = null;
@@ -165,6 +166,19 @@ export class TopbarComponent implements OnInit, OnDestroy {
     private elementRef: ElementRef,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
+    
+    if (this.isBrowser) {
+      effect(() => {
+        const news = this.newsList();
+        if (news && news.length > 0) {
+          const lastReadNewsId = localStorage.getItem('lastReadNewsId');
+          const latestNewsId = news[0].id;
+          this.hasNewNotifications = lastReadNewsId !== latestNewsId;
+        } else {
+          this.hasNewNotifications = false;
+        }
+      });
+    }
   }
 
   @HostListener('document:click', ['$event'])
@@ -485,7 +499,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/agents/edit/')) {
-      this.pageTitle = langCode === 'en' ? 'Edit agent' : 'Editor de agente';
+      this.pageTitle = '';
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/agents')) {
@@ -515,6 +529,14 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.pageSubtitle = '';
     } else if (url === '/dashboard/account') {
       this.pageTitle = t.settings;
+      this.welcomeText = '';
+      this.pageSubtitle = '';
+    } else if (
+      url === '/dashboard/upgrade-plan' ||
+      url === '/dashboard/billing'
+    ) {
+      // Upgrade plan / billing: mostrar "Precios" / "Pricing" en el header
+      this.pageTitle = langCode === 'en' ? 'Pricing' : 'Precios';
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else {
@@ -708,6 +730,12 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.newsDropdownClosing = false;
       this.newsDropdownOpening = true;
       this.hasNewNotifications = false;
+      if (this.isBrowser) {
+        const news = this.newsList();
+        if (news && news.length > 0) {
+          localStorage.setItem('lastReadNewsId', news[0].id);
+        }
+      }
       this.closeDropdownWithAnimation();
       if (this.newsDropdownOpenTimer) clearTimeout(this.newsDropdownOpenTimer);
       this.newsDropdownOpenTimer = setTimeout(() => {
