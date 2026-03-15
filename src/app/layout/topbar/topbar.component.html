@@ -607,7 +607,7 @@
       </button>
 
       <!-- Contenedor que hará scroll interno general (imagen + texto) si excede 85vh -->
-      <div class="w-full flex flex-col overflow-y-auto custom-scrollbar">
+      <div class="w-full flex flex-col overflow-y-scroll custom-scrollbar pr-1">
         <!-- Image Header -->
         <div class="w-full h-48 sm:h-64 md:h-80 flex-shrink-0 bg-gray-100 dark:bg-slate-800">
           <img *ngIf="selectedNewsItem?.imageUrl" [src]="selectedNewsItem?.imageUrl" class="w-full h-full object-cover" [alt]="selectedNewsItem?.title">
