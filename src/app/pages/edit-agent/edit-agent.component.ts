@@ -1334,6 +1334,26 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     }
   }
 
+  unlinkShopify(): void {
+    if (!this.agentId || !this.agentShopifyDomain) return;
+
+    this.modalService
+      .openWarning({
+        title: 'Desvincular Shopify',
+        message: `¿Estás seguro de que quieres desvincular la tienda "${this.agentShopifyDomain}" de este agente?`,
+        confirmText: 'Desvincular',
+        cancelText: 'Cancelar',
+        showCancelButton: true,
+      })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.selectedShopifyDomain = '';
+          this.saveShopifyDomain();
+        }
+      });
+  }
+
   goToTwilioConnections(): void {
     this.router.navigate(['/dashboard/account'], {
       queryParams: { tab: 'connections' },
