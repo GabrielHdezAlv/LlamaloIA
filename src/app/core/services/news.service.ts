@@ -98,7 +98,7 @@ export class NewsService {
     }
 
     getTranslatedNews() {
-        return this.getTranslatedNewsSignal()();
+        return this.getTranslatedNewsSignal();
     }
 
     getTranslatedNewsSignal = computed(() => {
