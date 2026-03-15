@@ -90,18 +90,9 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  // Calcular total de llamadas exitosas de los últimos 7 días
+  // Total real de llamadas de los últimos 7 días (cualquier status)
   get totalCallsFromLast7Days(): number {
-    if (
-      this.dashboardMetrics?.llamadas_exitosas_ultimos_7_dias &&
-      this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.length > 0
-    ) {
-      return this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.reduce(
-        (total, day) => total + day.total,
-        0,
-      );
-    }
-    return 0;
+    return this.dashboardMetrics?.resumen?.total_llamadas?.actual ?? 0;
   }
 
   // Cargar métricas del backend (últimos 7 días)
