@@ -33,10 +33,13 @@
         class="hidden md:block lg:hidden bg-white rounded-2xl px-2.5 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 fade-in-section border border-gray-100 mb-3 3xl:mb-5 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
         [class.fade-in-visible]="showGraficoLlamadas">
         <div class="flex justify-between items-center mb-1 max-lg:mb-1">
-          <h3
-            class="font-semibold text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-800 tracking-[-0.7px] dark:text-slate-50">
-            {{ t.totalSuccessfulCalls }}
-          </h3>
+          <div class="flex items-center gap-1.5">
+            <h3
+              class="font-semibold text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-800 tracking-[-0.7px] dark:text-slate-50">
+              {{ t.totalSuccessfulCalls }}
+            </h3>
+            <span class="text-[9px] max-lg:text-xs text-gray-400 dark:text-slate-500 font-normal">· {{ t.last7Days }}</span>
+          </div>
           <span
             class="text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-green-500 font-bold dark:text-green-400 tracking-[-0.7px]">↑
             {{ weeklyComparisonPercentage }}%</span>
@@ -148,10 +151,13 @@
           class="block md:hidden lg:block bg-white rounded-2xl px-2.5 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:col-span-2 fade-in-section border border-gray-100 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showGraficoLlamadas">
           <div class="flex justify-between items-center mb-1 max-lg:mb-1 3xl:mb-2">
-            <h3
-              class="font-semibold text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm 3xl:text-base 4xl:text-lg text-gray-800 tracking-[-0.7px] dark:text-slate-50">
-              {{ t.totalSuccessfulCalls }}
-            </h3>
+            <div class="flex items-center gap-1.5">
+              <h3
+                class="font-semibold text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm 3xl:text-base 4xl:text-lg text-gray-800 tracking-[-0.7px] dark:text-slate-50">
+                {{ t.totalSuccessfulCalls }}
+              </h3>
+              <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">· {{ t.last7Days }}</span>
+            </div>
             <span
               class="text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 3xl:text-sm text-green-500 font-bold dark:text-green-400 tracking-[-0.7px]">↑
               {{ weeklyComparisonPercentage }}%</span>
@@ -341,10 +347,13 @@
           class="bg-white rounded-2xl px-4 pt-4 max-lg:px-5 max-lg:sm:px-6 max-lg:md:px-7 max-lg:pt-5 max-lg:sm:pt-6 max-lg:md:pt-7 pb-3 max-lg:pb-4 max-lg:sm:pb-5 max-lg:md:pb-6 border border-gray-100 flex flex-col justify-between h-full min-h-[185px] max-lg:min-h-[155px] fade-in-section md:col-span-1 lg:col-span-1 dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTotalMinutos">
           <div>
-            <p
-              class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg 4xl:text-base font-semibold text-gray-600 mb-1 max-lg:mb-1.5 tracking-[-0.7px] dark:text-slate-400">
-              {{ t.totalMinutes }}
-            </p>
+            <div class="flex items-center gap-1.5 mb-1 max-lg:mb-1.5">
+              <p
+                class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg 4xl:text-base font-semibold text-gray-600 tracking-[-0.7px] dark:text-slate-400">
+                {{ t.totalMinutes }}
+              </p>
+              <span class="text-[9px] max-lg:text-xs text-gray-400 dark:text-slate-500 font-normal">· {{ t.thisMonth }}</span>
+            </div>
             <p
               class="text-xl sm:text-2xl 3xl:text-3xl max-lg:text-xl max-lg:sm:text-2xl max-lg:md:text-2xl font-semibold text-gray-800 mb-2 3xl:mb-3 max-lg:mb-2 leading-tight dark:text-slate-50 tracking-[-0.7px]">
               {{ displayMinutesUsed }}/{{ minutesLimit }}
@@ -707,10 +716,15 @@
         <div
           class="bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 max-h-[320px] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showEvaluacionExito">
-          <h3
-            class="font-semibold text-gray-800 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50">
-            {{ t.successEvaluation }}
-          </h3>
+          <div class="flex items-center gap-1.5 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3">
+            <h3
+              class="font-semibold text-gray-800 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50">
+              {{ t.successEvaluation }}
+            </h3>
+            <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
+              · {{ t.thisMonth }}
+            </span>
+          </div>
           <div class="overflow-y-auto space-y-2.5 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4">
             <div *ngFor="let item of successEvaluation; let i = index" class="group">
               <div class="flex items-center justify-between mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-2.5">
@@ -737,10 +751,15 @@
         <div
           class="bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 max-h-[320px] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showRazonFinalizacion">
-          <h3
-            class="font-semibold text-gray-800 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50">
-            {{ t.callCompletionReason }}
-          </h3>
+          <div class="flex items-center gap-1.5 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3">
+            <h3
+              class="font-semibold text-gray-800 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50">
+              {{ t.callCompletionReason }}
+            </h3>
+            <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
+              · {{ t.thisMonth }}
+            </span>
+          </div>
           <div class="overflow-y-auto space-y-2.5 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4">
             <div *ngFor="let item of callCompletionReasons; let i = index" class="group">
               <div class="flex items-center justify-between mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-2.5">
