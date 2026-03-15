@@ -226,7 +226,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     }
 
     // Cerrar dropdown de noticias si se hace clic fuera
-    if (this.showNewsDropdown) {
+    if (this.showNewsDropdown && !this.showNewsModal) {
       const host = this.elementRef.nativeElement as HTMLElement;
       const newsButtons = host.querySelectorAll('.news-bell-btn');
       const newsDropdowns = host.querySelectorAll('.news-dropdown');
@@ -766,12 +766,15 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   // Compatibilidad con referencias antiguas si las hubiera
   openNewsModal(news?: TranslatedNewsItem) {
-    console.log("CLICKED NEWS", news);
     if (news) {
       this.selectedNewsItem = news;
       this.showNewsModal = true;
       this.closeNewsDropdownWithAnimation();
-      this.cdr.detectChanges();
+      
+      // Forzar la actualización para asegurarse de que Angular renderice el modal
+      if (this.cdr) {
+        this.cdr.detectChanges();
+      }
     } else {
       this.toggleNewsDropdown();
     }
@@ -779,6 +782,9 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   closeNewsItemModal() {
     this.showNewsModal = false;
+    if (this.cdr) {
+      this.cdr.detectChanges();
+    }
     setTimeout(() => {
       this.selectedNewsItem = null;
     }, 300); // Wait for animation to finish
