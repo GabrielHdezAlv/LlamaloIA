@@ -596,7 +596,7 @@
     class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-4 sm:p-6"
     style="z-index: 999999; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);"
     (click)="closeNewsItemModal()">
-    <div class="relative w-full max-w-4xl max-h-[85vh] md:h-[450px] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row"
+    <div class="relative w-full max-w-2xl max-h-[85vh] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
       (click)="$event.stopPropagation()">
       <!-- Close button -->
       <button (click)="closeNewsItemModal()"
@@ -606,24 +606,27 @@
         </svg>
       </button>
 
-      <!-- Image Header -->
-      <div class="w-full md:w-2/5 h-48 md:h-full flex-shrink-0 bg-gray-100 dark:bg-slate-800">
-        <img *ngIf="selectedNewsItem?.imageUrl" [src]="selectedNewsItem?.imageUrl" class="w-full h-full object-cover" [alt]="selectedNewsItem?.title">
-      </div>
-
-      <!-- Content -->
-      <div class="w-full md:w-3/5 p-6 sm:p-8 flex flex-col overflow-y-auto custom-scrollbar">
-        <div class="flex items-center justify-between mb-4 flex-shrink-0">
-          <span class="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider">
-            {{ selectedNewsItem ? formatNewsDate(selectedNewsItem.date) : '' }}
-          </span>
+      <!-- Contenedor que hará scroll interno general (imagen + texto) si excede 85vh -->
+      <div class="w-full flex flex-col overflow-y-auto custom-scrollbar">
+        <!-- Image Header -->
+        <div class="w-full h-48 sm:h-64 md:h-80 flex-shrink-0 bg-gray-100 dark:bg-slate-800">
+          <img *ngIf="selectedNewsItem?.imageUrl" [src]="selectedNewsItem?.imageUrl" class="w-full h-full object-cover" [alt]="selectedNewsItem?.title">
         </div>
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight flex-shrink-0 pr-8">
-          {{ selectedNewsItem?.title }}
-        </h2>
-        <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap pb-4">
-          {{ selectedNewsItem?.description }}
-        </p>
+
+        <!-- Content -->
+        <div class="p-6 sm:p-8 flex flex-col flex-grow">
+          <div class="flex items-center justify-between mb-4 flex-shrink-0">
+            <span class="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider">
+              {{ selectedNewsItem ? formatNewsDate(selectedNewsItem.date) : '' }}
+            </span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight flex-shrink-0">
+            {{ selectedNewsItem?.title }}
+          </h2>
+          <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+            {{ selectedNewsItem?.description }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
