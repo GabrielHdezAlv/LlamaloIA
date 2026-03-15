@@ -261,18 +261,11 @@ export class AdminMetricsComponent implements OnInit {
   selectedAgent = this.agents[0];
 
   // Totales
-  totalMinutesUsed = 714;
+  totalMinutesUsed = 0;
   minutesLimit = 1000;
   extraMinutes = 0;
-
-  // Getters para UI
-  get displayMinutesUsed(): number {
-    return Math.min(this.totalMinutesUsed, this.minutesLimit);
-  }
-
-  get displayExtraMinutesUsed(): number {
-    return Math.max(0, this.totalMinutesUsed - this.minutesLimit);
-  }
+  timeSavedHours = 0;
+  costPerMinute = 0; // coste medio por minuto en euros
 
   // Getters para UI
   get displayMinutesUsed(): number {
@@ -787,9 +780,12 @@ export class AdminMetricsComponent implements OnInit {
       ),
     };
 
-    // Actualizar totales con datos del dashboard
-    this.totalMinutesUsed =
-      this.dashboardMetrics.resumen.minutos_ultimo_mes.actual;
+    // Actualizar totales: usar el mayor entre minutesByMonth (Firebase) y el valor de Twilio
+    const twilioMinutes = this.dashboardMetrics.resumen.minutos_ultimo_mes.actual;
+    const user = this.userStorage.user();
+    const monthKey = this.getCurrentMonthKey();
+    const firebaseMinutes = user?.minutesByMonth?.[monthKey] ?? 0;
+    this.totalMinutesUsed = Math.max(Math.round(firebaseMinutes), twilioMinutes);
 
     // Calcular tiempo ahorrado (minutos * 2.5)
     const timeSavedMinutes =
@@ -800,6 +796,13 @@ export class AdminMetricsComponent implements OnInit {
     this.updateMobileChartData();
   }
 
+  private getCurrentMonthKey(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    return `${year}-${month}`;
+  }
+
   ngOnInit(): void {
     const user = this.userStorage.user();
     if (user && user.minutesLimit !== undefined) {
@@ -807,6 +810,14 @@ export class AdminMetricsComponent implements OnInit {
     }
     if (user && user.extraMinutes !== undefined) {
       this.extraMinutes = user.extraMinutes;
+    }
+    // Usar minutesByMonth del mes actual como fuente de verdad persistente
+    if (user?.minutesByMonth) {
+      const monthKey = this.getCurrentMonthKey();
+      const stored = user.minutesByMonth[monthKey] ?? 0;
+      if (stored > 0) {
+        this.totalMinutesUsed = Math.round(stored);
+      }
     }
 
     // Cargar métricas del dashboard

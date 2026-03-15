@@ -21,6 +21,7 @@ export interface UserProfileResponseDto {
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   minutesLimit?: number; // ⬅️ NUEVO: Límite de minutos asignados al usuario
   extraMinutes?: number; // ⬅️ NUEVO: Minutos extra asignados al usuario
+  minutesByMonth?: Record<string, number>; // ⬅️ NUEVO: Historial de minutos por mes (YYYY-MM)
   createdAt?: string | null; // Fecha formateada en español (ej: "12 de octubre de 2025, 10:30:45")
   twilio?: TwilioAccount[]; // ⚠️ ACTUALIZADO: ahora es un array
   agent?: {

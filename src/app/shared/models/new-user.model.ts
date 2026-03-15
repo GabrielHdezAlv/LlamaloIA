@@ -14,6 +14,7 @@ export class User {
   hasCompletedSetup?: boolean;
   minutesLimit?: number; // ⬅️ NUEVO: Límite de minutos asignados al usuario
   extraMinutes?: number; // ⬅️ NUEVO: Minutos extra asignados al usuario
+  minutesByMonth?: Record<string, number>; // ⬅️ NUEVO: Historial de minutos por mes (YYYY-MM)
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   email?: string; // Opcional porque puede venir undefined del perfil
   password?: string; // Opcional porque no viene del perfil del usuario
