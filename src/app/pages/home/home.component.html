@@ -232,10 +232,8 @@
               <div class="mb-auto">
                 <span
                   class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black dark:text-white tracking-tight">
-                  300<span
-                    class="text-[10px] lg:text-xs 3xl:text-base 4xl:text-lg ml-0.5 opacity-70 font-semibold">M</span>
-                  12<span
-                    class="text-[10px] lg:text-xs 3xl:text-base 4xl:text-lg ml-0.5 opacity-70 font-semibold">S</span>
+                  {{ summary.minutesUsed }}
+                  <span class="text-[10px] lg:text-xs 3xl:text-base 4xl:text-lg ml-0.5 opacity-70 font-semibold">/ {{ user()?.minutesLimit ?? 100 }}</span>
                 </span>
               </div>
 
@@ -248,7 +246,7 @@
               <!-- Barra de progreso estilo tarjeta -->
               <div class="h-2 3xl:h-3 4xl:h-4 bg-white/20 rounded-full w-full overflow-hidden">
                 <div class="bg-[#1B2559] dark:bg-white h-full rounded-full transition-all duration-300"
-                  style="width: 60%"></div>
+                  [style.width.%]="(summary.minutesUsed / (user()?.minutesLimit ?? 100)) * 100 | number:'1.0-0'"></div>
               </div>
             </div>
           </div>

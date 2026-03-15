@@ -627,11 +627,12 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   // Getters para UI
   get displayMinutesUsed(): number {
-    return Math.min(this.totalMinutesUsed, this.minutesLimit);
+    return Math.round(Math.min(this.totalMinutesUsed, this.minutesLimit));
   }
 
-  get displayExtraMinutesUsed(): number {
-    return Math.max(0, this.totalMinutesUsed - this.minutesLimit);
+  get displayExtraMinutesUsed(): string {
+    const val = Math.max(0, this.totalMinutesUsed - this.minutesLimit);
+    return (Math.round(val * 100) / 100).toFixed(2).replace('.', ',');
   }
 
   get costPerMinuteLabel(): string {
