@@ -872,4 +872,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   navigateTo(route: string): void {
     this.router.navigateByUrl(route);
   }
+
+  // Abrir modal de upgrade plan desde el dashboard home
+  openUpgradePlanModal(): void {
+    this.modalService.openUpgradePlan();
+  }
 }

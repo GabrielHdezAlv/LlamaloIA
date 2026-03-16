@@ -195,7 +195,7 @@ export class ModalService {
 
   openUpgradePlan() {
     return this.dialog.open(UpgradePlanModalComponent, {
-      width: '760px',
+      width: '880px',
       maxWidth: '95vw',
       disableClose: false,
       panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],

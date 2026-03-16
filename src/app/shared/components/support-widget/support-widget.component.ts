@@ -64,6 +64,9 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
                 filter(event => event instanceof NavigationEnd)
             ).subscribe(() => {
                 this.updateVisibility();
+                // Al cambiar de página, cerramos el asistente de voz para que solo permanezca
+                // abierto en la página donde se abrió.
+                this.closeWidget();
             });
         }
     }
@@ -93,7 +96,23 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
         }
     }
 
-    toggle() {
+    /**
+     * Cierra el widget y detiene cualquier sesión de voz/micrófono activa.
+     * Se usa tanto al cambiar de página como cuando el usuario lo cierra manualmente.
+     */
+    private closeWidget() {
+        // Si no hay nada activo ni abierto, no hacemos nada
+        if (!this.isOpen && !this.isPlaying && !this.isMicrophoneActive) {
+            return;
+        }
+
+        // Detener sesión de voz y micro
+        this.voiceTest.endSession();
+        this.isPlaying = false;
+        this.isMicrophoneActive = false;
+        this.stopMicrophone();
+        this.animateIdle();
+
         if (this.isOpen) {
             this.isClosing = true;
             this.isSettingsOpen = false;
@@ -101,6 +120,12 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
                 this.isOpen = false;
                 this.isClosing = false;
             }, this.closeAnimationMs);
+        }
+    }
+
+    toggle() {
+        if (this.isOpen) {
+            this.closeWidget();
         } else {
             this.isOpen = true;
         }

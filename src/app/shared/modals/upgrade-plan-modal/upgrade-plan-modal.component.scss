@@ -61,13 +61,42 @@
   border: none !important;
 }
 
-/* Blur en el fondo cuando el modal de planes está abierto */
+/* Fondo con un poco de blur cuando el modal de planes está abierto */
 ::ng-deep body.upgrade-plan-modal-open .cdk-overlay-backdrop {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   background-color: rgba(0, 0, 0, 0.25) !important;
 }
 
 ::ng-deep body.upgrade-plan-modal-open html.dark .cdk-overlay-backdrop {
   background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Recuadro del modal con blur */
+.upgrade-plan-modal {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+:host-context(.dark) .upgrade-plan-modal {
+  background-color: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Más espacio por todos los lados del recuadro; menos abajo para que el enterprise quede más pegado */
+.upgrade-plan-modal--spaced {
+  padding: 3rem 2rem 1.25rem !important;
+}
+
+/* Contenido (tarjetas) con tamaño fijo: solo el recuadro crece */
+.upgrade-plan-modal__content {
+  max-width: 760px;
+  max-height: 82vh;
+  margin-left: auto;
+  margin-right: auto;
 }
