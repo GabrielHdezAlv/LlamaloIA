@@ -1032,10 +1032,7 @@ export class CompanySetupComponent
 
     this.agentsService.generateAgentInstructions(request).subscribe({
       next: (res) => {
-        const instruction =
-          typeof res === 'string'
-            ? res
-            : (res as any)?.instruction || (res as any)?.instructions || '';
+        const instruction = (res?.agentInstruction || '').trim();
         if (!instruction) {
           this.generatePromptError =
             'No se pudo generar el prompt. Inténtalo de nuevo.';

@@ -1670,6 +1670,9 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
       voiceId: voiceId || 'default', // Proporcionar un valor por defecto si no hay voz seleccionada
       voiceParameters,
       userDescription: userDescription,
+      ...(this.selectedShopifyDomain
+        ? { shopDomain: this.selectedShopifyDomain }
+        : {}),
     };
 
     this.isGeneratingPrompt = true;
