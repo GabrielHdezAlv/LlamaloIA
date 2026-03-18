@@ -61,6 +61,12 @@ export class VoiceTestCallComponent implements OnInit, OnDestroy {
     };
     this.voiceTest.startSession(config);
     this.animateIdlePulse();
+
+    // Suscribirse al evento de colgado del agente desde el servicio
+    this.voiceTest.agentHangup$.subscribe(() => {
+      console.log('[VoiceTestCallComponent] Agente ha colgado, cerrando modal.');
+      this.onClose(); // Usar la misma lógica de cierre que ya existe
+    });
   }
 
   ngOnDestroy(): void {

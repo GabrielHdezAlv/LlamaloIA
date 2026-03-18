@@ -1,6 +1,7 @@
 import { Injectable, signal, inject, PLATFORM_ID, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { NotificationService } from './notification.service';
+import { Subject } from 'rxjs';
 
 export interface VoiceTestConfig {
   agentInstruction: string;
@@ -60,6 +61,9 @@ export class VoiceTestService {
   private incomingAudioBuffer = new Uint8Array(0);
   private ignoreIncomingAudio = false;
   private isSupportChatSession = false;
+
+  // Observable para notificar cuando el agente ha terminado la llamada por sí mismo (e.g. con [END_CALL])
+  public readonly agentHangup$ = new Subject<void>();
 
   // Volumen de reproducción (0.0 - 1.0), controlado desde el widget Xenon
   private playbackGain = 1.0;
@@ -371,6 +375,10 @@ export class VoiceTestService {
       case 'session.ended':
         this.connectionState.set('ended');
         this.sessionEndReason.set(msg.reason || 'unknown');
+        // Si la razón es agent_hangup, emitir la señal para que el componente de UI reaccione
+        if (msg.reason === 'agent_hangup') {
+          this.agentHangup$.next();
+        }
         this.cleanup();
         break;
     }
