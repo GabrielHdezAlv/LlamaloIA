@@ -21,6 +21,7 @@ export class InstructionsStepComponent {
   @Input() showGeneratePromptModal = false;
   @Input() isGeneratePromptDropdownClosing = false;
   @Input() promptDescription = '';
+  @Input() promptEnterpriseName = '';
   @Input() isGeneratingPrompt = false;
   @Input() generatePromptError = '';
   @Input() showExpandInstructionsModal = false;
@@ -31,6 +32,7 @@ export class InstructionsStepComponent {
   @Output() greetingChange = new EventEmitter<string>();
   @Output() instructionsChange = new EventEmitter<string>();
   @Output() promptDescriptionChange = new EventEmitter<string>();
+  @Output() promptEnterpriseNameChange = new EventEmitter<string>();
   @Output() makeActionDataChange = new EventEmitter<any>();
   @Output() backClicked = new EventEmitter<void>();
   @Output() continueClicked = new EventEmitter<void>();
@@ -67,6 +69,11 @@ export class InstructionsStepComponent {
   onPromptDescriptionInput(value: string) {
     this.promptDescription = value;
     this.promptDescriptionChange.emit(value);
+  }
+
+  onPromptEnterpriseNameInput(value: string) {
+    this.promptEnterpriseName = value;
+    this.promptEnterpriseNameChange.emit(value);
   }
 
   onMakeActionNameInput(value: string) {

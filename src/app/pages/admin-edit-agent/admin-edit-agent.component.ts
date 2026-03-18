@@ -175,6 +175,7 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   // Modal de generar prompt con IA
   showGeneratePromptModal = false;
   promptDescription = '';
+  promptEnterpriseName = '';
   isGeneratingPrompt = false;
   generatePromptError = '';
 
@@ -1604,6 +1605,8 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   openGeneratePromptModal() {
     this.showGeneratePromptModal = true;
     this.promptDescription = '';
+    this.promptEnterpriseName =
+      (this.userStore.user()?.enterprise?.name || '').trim() || 'Mi Empresa';
     this.isGeneratingPrompt = false;
     this.generatePromptError = '';
   }
@@ -1659,8 +1662,7 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
     };
 
     // Obtener nombre de la empresa
-    const enterpriseName =
-      (this.userStore.user()?.enterprise?.name || '').trim() || 'Mi Empresa';
+    const enterpriseName = this.promptEnterpriseName.trim() || 'Mi Empresa';
 
     const payload: GenerateAgentInstructionsRequest = {
       enterpriseName,

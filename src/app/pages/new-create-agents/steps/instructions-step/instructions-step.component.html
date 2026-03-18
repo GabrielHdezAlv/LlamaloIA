@@ -48,6 +48,10 @@
                 </p>
               </div>
               <div>
+                <input type="text" [ngModel]="promptEnterpriseName" (ngModelChange)="onPromptEnterpriseNameInput($event)"
+                  placeholder="Nombre de la empresa"
+                  class="w-full px-2.5 3xl:px-3 py-1.5 3xl:py-2 text-[10px] 3xl:text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none transition-all mb-2" />
+                
                 <textarea [ngModel]="promptDescription" (ngModelChange)="onPromptDescriptionInput($event)"
                   [placeholder]="t.exampleInstructionsPlaceholder" rows="3"
                   class="w-full px-2.5 3xl:px-3 py-1.5 3xl:py-2 text-[10px] 3xl:text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none resize-none transition-all"></textarea>

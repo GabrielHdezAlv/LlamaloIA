@@ -491,6 +491,7 @@ export class NewCreateAgentsComponent
   // Modal de generar prompt con IA
   showGeneratePromptModal = false;
   promptDescription = '';
+  promptEnterpriseName = '';
   isGeneratingPrompt = false;
   generatePromptError = '';
   isGeneratePromptDropdownClosing = false;
@@ -2600,6 +2601,8 @@ export class NewCreateAgentsComponent
   openGeneratePromptModal() {
     this.isGeneratePromptDropdownClosing = false;
     this.showGeneratePromptModal = true;
+    this.promptEnterpriseName =
+      (this.userStore.user()?.enterprise?.name || '').trim() || 'Mi Empresa';
   }
 
   closeGeneratePromptModal() {
@@ -2638,8 +2641,7 @@ export class NewCreateAgentsComponent
       this.voices?.[this.currentVoiceIndex]?.id ||
       '';
 
-    const enterpriseName =
-      (this.userStore.user()?.enterprise?.name || '').trim() || 'Mi Empresa';
+    const enterpriseName = this.promptEnterpriseName.trim() || 'Mi Empresa';
 
     const payload: GenerateAgentInstructionsRequest = {
       enterpriseName,

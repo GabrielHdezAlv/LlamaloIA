@@ -299,6 +299,7 @@ export class CompanySetupComponent
   showGeneratePromptModal = false;
   isGeneratePromptDropdownClosing = false;
   promptDescription = '';
+  promptEnterpriseName = '';
   isGeneratingPrompt = false;
   generatePromptError = '';
   showExpandInstructionsModal = false;
@@ -988,6 +989,8 @@ export class CompanySetupComponent
       this.closeGeneratePromptModal();
     } else {
       this.showGeneratePromptModal = true;
+      this.promptEnterpriseName =
+        (this.userStore.user()?.enterprise?.name || '').trim() || 'Mi Empresa';
       this.isGeneratePromptDropdownClosing = false;
       this.generatePromptError = '';
     }
@@ -1010,7 +1013,7 @@ export class CompanySetupComponent
     this.isGeneratingPrompt = true;
     this.generatePromptError = '';
 
-    const companyName = this.userStore.user()?.enterprise?.name || '';
+    const companyName = this.promptEnterpriseName.trim() || 'Mi Empresa';
     const request: GenerateAgentInstructionsRequest = {
       enterpriseName: companyName,
       agentName: this.agentName || 'Agente',
