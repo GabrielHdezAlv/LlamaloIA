@@ -60,14 +60,19 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
         if (this.isBrowser) {
             this.animateIdle();
             this.updateVisibility();
-            this.router.events.pipe(
-                filter(event => event instanceof NavigationEnd)
-            ).subscribe(() => {
-                this.updateVisibility();
-                // Al cambiar de página, cerramos el asistente de voz para que solo permanezca
-                // abierto en la página donde se abrió.
-                this.closeWidget();
-            });
+            this.router.events
+                .pipe(filter(event => event instanceof NavigationEnd))
+                .subscribe(() => {
+                    this.updateVisibility();
+
+                    // Al navegar: si NO hay llamada en curso, cerramos el widget
+                    // (comportamiento original). Si hay llamada activa, no tocamos nada.
+                    const state = this.voiceTest.connectionState();
+                    const hasActiveCall = state === 'connecting' || state === 'connected';
+                    if (!hasActiveCall) {
+                        this.closeWidget();
+                    }
+                });
         }
     }
 
@@ -97,8 +102,8 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Cierra el widget y detiene cualquier sesión de voz/micrófono activa.
-     * Se usa tanto al cambiar de página como cuando el usuario lo cierra manualmente.
+     * Cierra el widget y detiene cualquier sesi?n de voz/micr?fono activa.
+     * Se usa tanto al cambiar de p?gina como cuando el usuario lo cierra manualmente.
      */
     private closeWidget() {
         // Si no hay nada activo ni abierto, no hacemos nada
@@ -106,7 +111,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
             return;
         }
 
-        // Detener sesión de voz y micro
+        // Detener sesi?n de voz y micro
         this.voiceTest.endSession();
         this.isPlaying = false;
         this.isMicrophoneActive = false;
@@ -125,9 +130,37 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
 
     toggle() {
         if (this.isOpen) {
+            // Si hay una llamada en curso, solo minimizamos el widget
+            const state = this.voiceTest.connectionState();
+            const hasActiveCall = state === 'connecting' || state === 'connected';
+
+            if (hasActiveCall) {
+                this.isOpen = false;
+                this.isClosing = false;
+                this.isSettingsOpen = false;
+                return;
+            }
+
+            // Si no hay llamada, cerramos completamente
             this.closeWidget();
         } else {
             this.isOpen = true;
+        }
+    }
+
+    onBackdropClick(event: MouseEvent) {
+        // Solo cerrar al hacer click fuera cuando NO hay llamada en curso
+        const state = this.voiceTest.connectionState();
+        const hasActiveCall = state === 'connecting' || state === 'connected';
+        if (hasActiveCall) {
+            return;
+        }
+
+        const target = event.target as HTMLElement;
+        // Si el clic NO est? dentro del contenido del widget, consideramos que es fondo
+        const clickedInsideContent = !!target.closest('.widget-content');
+        if (!clickedInsideContent) {
+            this.closeWidget();
         }
     }
 
@@ -139,7 +172,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
         const parsed = parseInt(value, 10);
         const clamped = isNaN(parsed) ? 0 : Math.min(100, Math.max(0, parsed));
         this.volume = clamped;
-        // Mapear 0-100 → 0.0-1.0 y actualizar volumen real de reproducción
+        // Mapear 0-100 ��� 0.0-1.0 y actualizar volumen real de reproducci?n
         this.voiceTest.setPlaybackVolume(this.volume / 100);
     }
 
@@ -180,7 +213,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
             try {
                 await this.startMicrophone();
             } catch (_) {
-                // Sin analizador de mic la bola solo reaccionará al agente
+                // Sin analizador de mic la bola solo reaccionar? al agente
             }
             this.isPlaying = true;
             if (this.animationId) cancelAnimationFrame(this.animationId);
@@ -250,9 +283,9 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
             this.animateVoice();
 
         } catch (error) {
-            console.error('Error al acceder al micrófono:', error);
+            console.error('Error al acceder al micr?fono:', error);
             this.notificationService.error(
-                'No se pudo acceder al micrófono. Por favor, verifica los permisos.'
+                'No se pudo acceder al micr?fono. Por favor, verifica los permisos.'
             );
         }
     }
@@ -302,7 +335,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
             normalizedLevel = Math.pow(normalizedLevel, 0.5);
             normalizedLevel = Math.min(normalizedLevel, 1.0);
 
-            // Factor de sensibilidad para que se note más la voz
+            // Factor de sensibilidad para que se note m?s la voz
             const targetLevel = normalizedLevel * 1;
             this.audioLevel = this.audioLevel * 0.7 + targetLevel * 0.3;
             this.audioLevel = Math.min(this.audioLevel, 1);

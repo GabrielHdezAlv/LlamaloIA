@@ -59,6 +59,7 @@ export class VoiceTestService {
   private isSending = true;
   private incomingAudioBuffer = new Uint8Array(0);
   private ignoreIncomingAudio = false;
+  private isSupportChatSession = false;
 
   // Volumen de reproducción (0.0 - 1.0), controlado desde el widget Xenon
   private playbackGain = 1.0;
@@ -130,6 +131,11 @@ export class VoiceTestService {
     if (!isPlatformBrowser(this.platformId)) return;
 
     this.resetState();
+    // Si es una sesión del asistente de soporte, marcamos la flag global.
+    // Si no lo es, NO desmarcamos una sesión de soporte que ya estuviera activa.
+    if (config.useSupportChat === true) {
+      this.isSupportChatSession = true;
+    }
     this.connectionState.set('connecting');
     this.isSending = true;
 
@@ -194,6 +200,19 @@ export class VoiceTestService {
   reset(): void {
     this.cleanup();
     this.resetState();
+  }
+
+  /**
+   * Resetea la sesión solo si no es una sesión del asistente de soporte (Xenon).
+   * Útil para que al destruir componentes de prueba de agente no se corte
+   * una llamada global de soporte que esté en curso.
+   */
+  resetIfNotSupportChat(): void {
+    if (this.isSupportChatSession) {
+      // Hay una sesión global de soporte activa (Xenon), no tocarla.
+      return;
+    }
+    this.reset();
   }
 
   // ──────── WebSocket ────────

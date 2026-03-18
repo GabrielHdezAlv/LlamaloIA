@@ -89,6 +89,14 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
   activeTab: 'main' | 'connections' | 'knowledge' = 'main';
 
+  // Secciones desplegables del tab "Principal" (cada una independiente)
+  nameSectionOpen = false;
+  greetingSectionOpen = false;
+  systemSectionOpen = false;
+  phoneSectionOpen = false;
+  callSectionOpen = false;
+  voiceSectionOpen = false;
+
   agentKnowledgeSources: KnowledgeSource[] = [];
   isLoadingKnowledgeSources = false;
   availableKnowledgeSources: KnowledgeSource[] = [];
@@ -190,6 +198,31 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         [Validators.required, Validators.min(0.25), Validators.max(4)],
       ],
     });
+  }
+
+  setActiveMainSection(
+    section: 'name' | 'greeting' | 'system' | 'phone' | 'call' | 'voice',
+  ): void {
+    switch (section) {
+      case 'name':
+        this.nameSectionOpen = !this.nameSectionOpen;
+        break;
+      case 'greeting':
+        this.greetingSectionOpen = !this.greetingSectionOpen;
+        break;
+      case 'system':
+        this.systemSectionOpen = !this.systemSectionOpen;
+        break;
+      case 'phone':
+        this.phoneSectionOpen = !this.phoneSectionOpen;
+        break;
+      case 'call':
+        this.callSectionOpen = !this.callSectionOpen;
+        break;
+      case 'voice':
+        this.voiceSectionOpen = !this.voiceSectionOpen;
+        break;
+    }
   }
 
   ngOnInit(): void {
@@ -541,8 +574,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     });
     this.audioCache.clear();
 
-    // Limpiar voice test
-    this.voiceTest.reset();
+    // Limpiar voice test local sin cortar una posible sesión global de soporte (Xenon)
+    this.voiceTest.resetIfNotSupportChat();
 
     // Limpiar suscripciones
     this.destroy$.next();

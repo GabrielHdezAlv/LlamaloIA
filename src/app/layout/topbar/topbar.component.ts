@@ -513,7 +513,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/agents/edit/')) {
-      this.pageTitle = '';
+      this.pageTitle = langCode === 'en' ? 'Edit agent' : 'Edición de Agente';
       this.welcomeText = '';
       this.pageSubtitle = '';
     } else if (url.startsWith('/dashboard/agents')) {
