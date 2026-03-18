@@ -67,7 +67,9 @@ export class VoiceTestCallComponent implements OnInit, OnDestroy {
     if (this.animationFrame) {
       cancelAnimationFrame(this.animationFrame);
     }
-    this.voiceTest.reset();
+    // Al salir de la pantalla de prueba de agente, solo reseteamos la sesión
+    // si no se trata de una sesión global de soporte (Xenon).
+    this.voiceTest.resetIfNotSupportChat();
   }
 
   onToggleMute(): void {
