@@ -37,3 +37,20 @@
 .import-sidebar-overlay-closing .import-sidebar-backdrop-layer {
   opacity: 0;
 }
+
+/* Menú ⋮: entrada suave al abrir */
+@keyframes actions-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.actions-dropdown-panel {
+  transform-origin: top right;
+  animation: actions-dropdown-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

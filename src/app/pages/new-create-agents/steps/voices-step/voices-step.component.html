@@ -235,7 +235,7 @@
         </button>
         @if (showCountryDropdown) {
         <div
-          class="absolute top-full left-0 right-0 mt-1 3xl:mt-1.5 py-1 3xl:py-1.5 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 max-h-48 3xl:max-h-64 overflow-y-auto">
+          class="create-flow-dropdown-panel absolute top-full left-0 right-0 mt-1 3xl:mt-1.5 py-1 3xl:py-1.5 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 max-h-48 3xl:max-h-64 overflow-y-auto">
           @for (c of countryOptions; track c.code) {
           <button type="button" (click)="selectCountry(c.code)"
             class="w-full flex items-center gap-2 3xl:gap-3 px-3 3xl:px-5 py-2 3xl:py-2.5 text-left text-xs 3xl:text-lg hover:bg-gray-50 dark:hover:bg-slate-700/80 text-gray-900 dark:text-white transition-colors first:rounded-t-md last:rounded-b-md">
@@ -470,7 +470,7 @@
             </button>
             @if (showVoiceDropdown) {
             <div
-              class="absolute top-full left-0 right-0 mt-1 3xl:mt-1.5 py-1 3xl:py-1.5 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 max-h-44 3xl:max-h-64 overflow-y-auto">
+              class="create-flow-dropdown-panel absolute top-full left-0 right-0 mt-1 3xl:mt-1.5 py-1 3xl:py-1.5 rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 shadow-lg z-50 max-h-44 3xl:max-h-64 overflow-y-auto">
               @for (v of voices; track v.voiceId) {
               <div (click)="selectVoice(v.voiceId)"
                 class="w-full flex items-center justify-between gap-2 3xl:gap-3 px-3 3xl:px-5 py-2 3xl:py-2.5 text-left text-xs 3xl:text-lg hover:bg-gray-50 dark:hover:bg-slate-700/80 text-gray-900 dark:text-white transition-colors first:rounded-t-md last:rounded-b-md cursor-pointer">

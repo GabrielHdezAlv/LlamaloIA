@@ -1,4 +1,13 @@
-import { Component, inject, OnInit, OnDestroy, Inject, PLATFORM_ID, effect } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  OnDestroy,
+  Inject,
+  PLATFORM_ID,
+  effect,
+  NgZone,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { I18nService } from '../../core/services/i18n.service';
@@ -36,6 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private userStorage = inject(UserStorage);
   private modalService = inject(ModalService);
   private router = inject(Router);
+  private ngZone = inject(NgZone);
 
   // Obtener usuario actual
   user = this.userStorage.user;
@@ -43,6 +53,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   dashboardMetrics: DashboardMetrics | null = null;
   isLoadingMetrics: boolean = false;
   userAgents: Agent[] = [];
+
+  /** Valores animados (conteo 0 → objetivo) para las tarjetas KPI */
+  displayTotalCalls = 0;
+  displaySuccessfulCalls = 0;
+  displayMinutesMonth = 0;
+  displayTimeSaved = 0;
+  displaySuccessRate = 0;
+
+  private kpiAnimFrameId: number | null = null;
 
   // Obtener traducciones
   get t() {
@@ -91,9 +110,21 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
   }
 
-  // Total real de llamadas de los últimos 7 días (cualquier status)
-  get totalCallsFromLast7Days(): number {
-    return this.dashboardMetrics?.resumen?.total_llamadas?.actual ?? 0;
+  /**
+   * Barra «minutos restantes»: ancho = cupo restante (no consumido).
+   * Si superas el límite, 0 % de relleno.
+   */
+  get minutesRemainingBarPercent(): number {
+    const limit = this.user()?.minutesLimit ?? 100;
+    const used = this.displayMinutesMonth;
+    if (limit <= 0) {
+      return 0;
+    }
+    const remaining = limit - used;
+    if (remaining <= 0) {
+      return 0;
+    }
+    return Math.min(100, (remaining / limit) * 100);
   }
 
   // Cargar métricas del backend (últimos 7 días)
@@ -109,6 +140,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       next: (data: DashboardMetrics) => {
         this.dashboardMetrics = data;
         this.isLoadingMetrics = false;
+        this.animateKpiCounters();
 
         // Actualizar datos de llamadas por día
         this.updateCallsByDay(data);
@@ -775,9 +807,76 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.cancelKpiAnimation();
     if (this.isBrowser) {
       window.removeEventListener('resize', this.resizeListener);
     }
+  }
+
+  private cancelKpiAnimation(): void {
+    if (this.kpiAnimFrameId != null && this.isBrowser) {
+      cancelAnimationFrame(this.kpiAnimFrameId);
+      this.kpiAnimFrameId = null;
+    }
+  }
+
+  /** Conteo suave ease-out al cargar métricas (solo navegador) */
+  private animateKpiCounters(): void {
+    if (!this.isBrowser || !this.dashboardMetrics) {
+      return;
+    }
+
+    const r = this.dashboardMetrics.resumen;
+    const targets = {
+      totalCalls: r.total_llamadas.actual,
+      successful: r.total_llamadas_exitosas.actual,
+      minutes: Math.round(r.minutos_ultimo_mes.actual),
+      timeSaved: Math.round(r.tiempo_ahorrado.actual),
+      successRate: Math.round(r.tasa_exito),
+    };
+
+    this.cancelKpiAnimation();
+
+    this.ngZone.run(() => {
+      this.displayTotalCalls = 0;
+      this.displaySuccessfulCalls = 0;
+      this.displayMinutesMonth = 0;
+      this.displayTimeSaved = 0;
+      this.displaySuccessRate = 0;
+    });
+
+    const durationMs = 1100;
+    const t0 = performance.now();
+
+    const easeOutExpo = (x: number) => (x >= 1 ? 1 : 1 - 2 ** (-10 * x));
+
+    const step = (now: number) => {
+      const t = Math.min(1, (now - t0) / durationMs);
+      const ease = easeOutExpo(t);
+
+      this.ngZone.run(() => {
+        this.displayTotalCalls = Math.round(targets.totalCalls * ease);
+        this.displaySuccessfulCalls = Math.round(targets.successful * ease);
+        this.displayMinutesMonth = Math.round(targets.minutes * ease);
+        this.displayTimeSaved = Math.round(targets.timeSaved * ease);
+        this.displaySuccessRate = Math.round(targets.successRate * ease);
+      });
+
+      if (t < 1) {
+        this.kpiAnimFrameId = requestAnimationFrame(step);
+      } else {
+        this.ngZone.run(() => {
+          this.displayTotalCalls = targets.totalCalls;
+          this.displaySuccessfulCalls = targets.successful;
+          this.displayMinutesMonth = targets.minutes;
+          this.displayTimeSaved = targets.timeSaved;
+          this.displaySuccessRate = targets.successRate;
+        });
+        this.kpiAnimFrameId = null;
+      }
+    };
+
+    this.kpiAnimFrameId = requestAnimationFrame(step);
   }
 
   // Cargar agentes del usuario

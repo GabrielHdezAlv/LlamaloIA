@@ -189,6 +189,7 @@ export class ModalService {
       maxWidth: '95vw',
       disableClose: false,
       panelClass: 'custom-dialog-container',
+      backdropClass: 'text-modal-backdrop',
       data,
     });
   }

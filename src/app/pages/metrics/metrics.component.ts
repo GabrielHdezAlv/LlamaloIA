@@ -1075,8 +1075,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
       let name: string;
 
       if (c.isoCode && typeof c.isoCode === 'string') {
-        // Si es un ISO real (2 letras), intentar resolver con Intl.DisplayNames
-        if (c.isoCode.length === 2 && regionNames) {
+        // ZZ debe resolverse aquí: DisplayNames lo traduce como "Región desconocida"
+        if (c.isoCode === 'ZZ') {
+          name =
+            langCode === 'en'
+              ? 'Hidden number'
+              : 'Número Oculto';
+        } else if (c.isoCode.length === 2 && regionNames) {
           name = regionNames.of(c.isoCode) || c.isoCode;
         } else if (c.isoCode.startsWith('+')) {
           // Prefijo sin identificar
@@ -1084,11 +1089,6 @@ export class MetricsComponent implements OnInit, OnDestroy {
             langCode === 'en'
               ? `Country ${c.isoCode}`
               : `País ${c.isoCode}`;
-        } else if (c.isoCode === 'ZZ') {
-          name =
-            langCode === 'en'
-              ? 'Hidden number'
-              : 'Número oculto';
         } else {
           name = c.isoCode;
         }

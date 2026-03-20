@@ -17,8 +17,8 @@
             </span>
           </div>
           <div class="flex flex-col">
-            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black">
-              {{ totalCallsFromLast7Days }}
+            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black tabular-nums">
+              {{ displayTotalCalls }}
             </span>
             <div class="flex items-center gap-1 mt-0.5">
               <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold" [ngClass]="
@@ -57,10 +57,8 @@
             </span>
           </div>
           <div class="flex flex-col">
-            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black">
-              {{
-              dashboardMetrics?.resumen?.total_llamadas_exitosas?.actual || 0
-              }}
+            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black tabular-nums">
+              {{ displaySuccessfulCalls }}
             </span>
             <div class="flex items-center gap-1 mt-0.5">
               <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold" [ngClass]="
@@ -99,8 +97,8 @@
             </span>
           </div>
           <div class="flex flex-col">
-            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black">
-              {{ dashboardMetrics?.resumen?.minutos_ultimo_mes?.actual || 0 }} m
+            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black tabular-nums">
+              {{ displayMinutesMonth }} m
             </span>
             <div class="flex items-center gap-1 mt-0.5">
               <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold" [ngClass]="
@@ -139,8 +137,8 @@
             </span>
           </div>
           <div class="flex flex-col">
-            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black">
-              {{ dashboardMetrics?.resumen?.tiempo_ahorrado?.actual || 0 }} m
+            <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black tabular-nums">
+              {{ displayTimeSaved }} m
             </span>
             <div class="flex items-center gap-1 mt-0.5">
               <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold" [ngClass]="
@@ -215,8 +213,8 @@
 
           <!-- Porcentaje grande en el centro -->
           <div class="flex items-center justify-center flex-1">
-            <span class="text-4xl lg:text-5xl 3xl:text-5xl 4xl:text-6xl font-bold text-black">
-              {{ dashboardMetrics?.resumen?.tasa_exito || 0 }}%
+            <span class="text-4xl lg:text-5xl 3xl:text-5xl 4xl:text-6xl font-bold text-black tabular-nums">
+              {{ displaySuccessRate }}%
             </span>
           </div>
 
@@ -256,8 +254,8 @@
             <div class="flex-1 flex flex-col">
               <div class="mb-auto">
                 <span
-                  class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black dark:text-white tracking-tight">
-                  {{ summary.minutesUsed }}
+                  class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black dark:text-white tracking-tight tabular-nums">
+                  {{ displayMinutesMonth }}
                   <span class="text-[10px] lg:text-xs 3xl:text-base 4xl:text-lg ml-0.5 opacity-70 font-semibold">/ {{ user()?.minutesLimit ?? 100 }}</span>
                 </span>
               </div>
@@ -268,10 +266,11 @@
                 </span>
               </div>
 
-              <!-- Barra de progreso estilo tarjeta -->
-              <div class="h-2 3xl:h-3 4xl:h-4 bg-white/20 rounded-full w-full overflow-hidden">
-                <div class="bg-[#1B2559] dark:bg-white h-full rounded-full transition-all duration-300"
-                  [style.width.%]="(summary.minutesUsed / (user()?.minutesLimit ?? 100)) * 100 | number:'1.0-0'"></div>
+              <!-- Minutos restantes: ancho = % que queda; el azul se acorta por la derecha al consumir (lleno → vacío) -->
+              <div class="relative h-2 3xl:h-3 4xl:h-4 w-full rounded-full bg-white/20 overflow-hidden">
+                <div
+                  class="absolute top-0 bottom-0 left-0 rounded-full bg-[#1B2559] dark:bg-white transition-[width] duration-[1200ms] ease-out"
+                  [style.width.%]="minutesRemainingBarPercent | number:'1.0-0'"></div>
               </div>
             </div>
           </div>

@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../core/services/notification.service';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
   ReactiveFormsModule,
@@ -109,6 +110,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   @ViewChild('transcriptContainer')
   transcriptContainer!: ElementRef<HTMLDivElement>;
 
+  @ViewChild('expandedSystemMessageTa')
+  expandedSystemMessageTa?: ElementRef<HTMLTextAreaElement>;
+
   twilioAccounts: TwilioAccount[] = [];
   isLoadingTwilioInfo = false;
 
@@ -170,6 +174,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   promptEnterpriseName = '';
   isGeneratingPrompt = false;
   generatePromptError = '';
+
+  /** Modal de mensaje del sistema a pantalla completa (mismo patrón que instrucciones en creación). */
+  showExpandSystemMessageModal = false;
+  isSystemMessageModalClosing = false;
 
   constructor() {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -1597,6 +1605,32 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.promptDescription = '';
     this.isGeneratingPrompt = false;
     this.generatePromptError = '';
+  }
+
+  get agentInstructionControl(): FormControl<string | null> {
+    return this.editForm.get('agentInstruction') as FormControl<string | null>;
+  }
+
+  openExpandSystemMessageModal() {
+    this.isSystemMessageModalClosing = false;
+    this.showExpandSystemMessageModal = true;
+  }
+
+  onExpandedSystemMessageModelChange(value: string) {
+    this.agentInstructionControl.setValue(value, { emitEvent: true });
+  }
+
+  closeExpandSystemMessageModal() {
+    if (this.isSystemMessageModalClosing) return;
+    const ta = this.expandedSystemMessageTa?.nativeElement;
+    if (ta) {
+      this.agentInstructionControl.setValue(ta.value, { emitEvent: true });
+    }
+    this.isSystemMessageModalClosing = true;
+    setTimeout(() => {
+      this.showExpandSystemMessageModal = false;
+      this.isSystemMessageModalClosing = false;
+    }, 150);
   }
 
   private normalizeLanguageCode(code: string): string {

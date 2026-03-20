@@ -33,7 +33,7 @@
                 </app-ripple-button>
                 @if (showImportDropdown) {
                 <div
-                    class="absolute right-0 top-full mt-1.5 w-56 z-50 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden py-1">
+                    class="actions-dropdown-panel absolute right-0 top-full mt-1.5 w-56 z-50 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden py-1">
                     <button (click)="openImportFromTwilio()" type="button"
                         class="w-full text-left px-4 py-3 text-sm font-medium text-gray-900 dark:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
                         {{ t.fromTwilio }}
@@ -108,9 +108,9 @@
                 <div class="col-span-2 flex items-center justify-end">
                     <div class="relative">
                         <button type="button" (click)="toggleMenu(i)"
-                            class="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors duration-200 focus:outline-none"
+                            class="p-1 transition-colors duration-200"
                             [attr.aria-expanded]="openMenuIndex === i" aria-label="Menú de opciones">
-                            <svg class="w-4 h-4 text-gray-400 dark:text-slate-500" fill="currentColor"
+                            <svg class="w-4 h-4 text-black dark:text-white" fill="currentColor"
                                 viewBox="0 0 20 20">
                                 <path
                                     d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
@@ -118,7 +118,7 @@
                         </button>
                         @if (openMenuIndex === i) {
                         <div
-                            class="absolute right-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 z-10 py-1">
+                            class="actions-dropdown-panel absolute right-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 z-10 py-1">
                             <button (click)="deleteNumber(i, phone.label || t.clientNumber)"
                                 class="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-2">
                                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -155,9 +155,9 @@
                     <!-- Menú de 3 puntos (como en new-agents) -->
                     <div class="relative ml-2">
                         <button type="button" (click)="toggleMenu(i)"
-                            class="p-2 sm:p-2.5 md:p-2.5 -mr-1 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors duration-200"
+                            class="p-2 sm:p-2.5 md:p-2.5 -mr-1 transition-colors duration-200"
                             [attr.aria-expanded]="openMenuIndex === i" aria-label="Menú de opciones">
-                            <svg class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-400 dark:text-slate-500"
+                            <svg class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 text-black dark:text-white"
                                 fill="currentColor" viewBox="0 0 20 20">
                                 <path
                                     d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
@@ -165,7 +165,7 @@
                         </button>
                         @if (openMenuIndex === i) {
                         <div
-                            class="absolute right-0 mt-1 w-44 sm:w-48 md:w-52 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 z-20 py-1.5 sm:py-2 text-sm sm:text-base">
+                            class="actions-dropdown-panel absolute right-0 mt-1 w-44 sm:w-48 md:w-52 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 z-20 py-1.5 sm:py-2 text-sm sm:text-base">
                             <button (click)="deleteNumber(i, phone.label || t.clientNumber)"
                                 class="w-full text-left px-4 sm:px-5 md:px-5 py-2 sm:py-2.5 md:py-2.5 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-slate-700 flex items-center gap-2.5 sm:gap-3">
                                 <svg width="15" height="14" viewBox="0 0 15 14" fill="none"
@@ -226,11 +226,14 @@
                 </app-ripple-button>
                 @if (showImportDropdown) {
                 <div
-                    class="absolute left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 top-full mt-1.5 w-56 z-50 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden py-1">
-                    <button (click)="openImportFromTwilio()" type="button"
-                        class="w-full text-left px-4 py-3 text-sm font-medium text-gray-900 dark:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
-                        {{ t.fromTwilio }}
-                    </button>
+                    class="absolute left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 top-full mt-1.5 w-56 z-50">
+                    <div
+                        class="actions-dropdown-panel rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden py-1">
+                        <button (click)="openImportFromTwilio()" type="button"
+                            class="w-full text-left px-4 py-3 text-sm font-medium text-gray-900 dark:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
+                            {{ t.fromTwilio }}
+                        </button>
+                    </div>
                 </div>
                 }
             </div>

@@ -32,6 +32,31 @@
   }
 }
 
+// Solo modal «añadir texto»: blur y velado en el backdrop (clase aplicada desde ModalService)
+::ng-deep .cdk-overlay-backdrop.text-modal-backdrop {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(107, 114, 128, 0.38) !important;
+}
+
+::ng-deep .cdk-overlay-backdrop.text-modal-backdrop.cdk-overlay-backdrop-showing {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(107, 114, 128, 0.38) !important;
+}
+
+::ng-deep html.dark .cdk-overlay-backdrop.text-modal-backdrop {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(0, 0, 0, 0.55) !important;
+}
+
+::ng-deep html.dark .cdk-overlay-backdrop.text-modal-backdrop.cdk-overlay-backdrop-showing {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(0, 0, 0, 0.55) !important;
+}
+
 ::ng-deep html.dark {
   .mat-mdc-dialog-container {
     border: none !important;
