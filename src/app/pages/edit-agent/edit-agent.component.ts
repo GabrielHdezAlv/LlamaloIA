@@ -90,11 +90,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   activeTab: 'main' | 'connections' | 'knowledge' = 'main';
 
   // Secciones desplegables del tab "Principal" (cada una independiente)
-  nameSectionOpen = false;
+  nameSectionOpen = true;
   greetingSectionOpen = false;
-  systemSectionOpen = false;
+  systemSectionOpen = true;
   phoneSectionOpen = false;
-  callSectionOpen = false;
+  callSectionOpen = true;
   voiceSectionOpen = false;
 
   agentKnowledgeSources: KnowledgeSource[] = [];

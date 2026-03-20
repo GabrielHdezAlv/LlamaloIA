@@ -44,6 +44,15 @@
         </svg>
       </button>
 
+      <!-- Botón hamburguesa para abrir sidebar móvil -->
+      <button (click)="openMobileSidebar()"
+        class="p-1.5 md:p-2 text-black rounded-full focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors dark:text-slate-100">
+        <span class="sr-only">{{ t.openMenu }}</span>
+        <svg class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
       <!-- Campana de notificaciones móvil -->
       <div class="relative">
         <button type="button" (click)="toggleNewsDropdown()"
@@ -65,7 +74,7 @@
 
         <!-- Dropdown de noticias móvil -->
         <div *ngIf="showNewsDropdown || newsDropdownClosing"
-          class="news-dropdown fixed left-2 right-2 sm:absolute sm:left-auto sm:right-0 sm:w-[350px] top-[70px] sm:top-full sm:mt-2 bg-white rounded-2xl shadow-xl z-[9999] border border-gray-100 dark:bg-slate-900 dark:border-slate-800 transform origin-top sm:origin-top-right transition-all duration-300"
+          class="news-dropdown fixed left-2 right-2 sm:absolute sm:left-auto sm:right-0 sm:w-[350px] top-[70px] sm:top-full sm:mt-2 bg-white rounded-2xl shadow-xl z-[9999] border border-gray-100 dark:bg-slate-900 dark:border-slate-800 transform origin-top sm:origin-top-right transition-all	duration-300"
           [class.dropdown-entering]="newsDropdownOpening"
           [class.dropdown-leaving]="newsDropdownClosing">
           <div class="flex flex-col max-h-[225px] overflow-hidden">
@@ -100,15 +109,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Botón hamburguesa para abrir sidebar móvil -->
-      <button (click)="openMobileSidebar()"
-        class="p-1.5 md:p-2 text-black rounded-full focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors dark:text-slate-100">
-        <span class="sr-only">{{ t.openMenu }}</span>
-        <svg class="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
 
       <!-- Avatar móvil -->
       <div class="relative">

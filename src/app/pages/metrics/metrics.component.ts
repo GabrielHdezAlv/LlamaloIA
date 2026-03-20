@@ -7,7 +7,7 @@ import {
   PLATFORM_ID,
   ChangeDetectorRef,
 } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   NgApexchartsModule,
@@ -43,6 +43,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
   private callMetricsService = inject(CallMetricsService);
   public userStorage = inject(UserStorage);
   private cdr = inject(ChangeDetectorRef);
+  private document = inject(DOCUMENT);
 
   // Obtener traducciones
   get t() {
@@ -404,6 +405,33 @@ export class MetricsComponent implements OnInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
+  /**
+   * URL absoluta para banderas: en algunos móviles/WebViews las rutas tipo "assets/…"
+   * respecto a la ruta actual fallan; resolver contra baseURI evita iconos en blanco.
+   */
+  countryFlagUrl(assetPath: string): string {
+    if (!assetPath) {
+      return '';
+    }
+    let path = assetPath.replace(/^\.\//, '');
+    if (!path.startsWith('/')) {
+      path = `/${path}`;
+    }
+    if (!this.isBrowser) {
+      return path;
+    }
+    try {
+      return new URL(path, this.document.baseURI).href;
+    } catch {
+      return path;
+    }
+  }
+
+  countryFlagBackgroundStyle(assetPath: string): { [key: string]: string } {
+    const url = this.countryFlagUrl(assetPath);
+    return url ? { 'background-image': `url("${url}")` } : {};
+  }
+
   // Serie área para "Total de llamadas exitosas" (mismo diseño que en Home)
   callsAreaSeries: ApexAxisChartSeries = [{ name: 'Llamadas', data: [] }];
 
@@ -566,10 +594,10 @@ export class MetricsComponent implements OnInit, OnDestroy {
     xaxis: { lines: { show: false } },
     yaxis: { lines: { show: false } },
     padding: {
-      bottom: 20,
-      left: 20,
-      right: 10,
-      top: 10,
+      bottom: 14,
+      left: 14,
+      right: 8,
+      top: 8,
     },
   };
 
@@ -1187,41 +1215,78 @@ export class MetricsComponent implements OnInit, OnDestroy {
     const isLast30Days = this.selectedPeriod === 'Últimos 30 días';
     const isMobile = this.isBrowser && window.innerWidth < 640;
     const isVeryWide = this.isBrowser && window.innerWidth >= 1920;
+    const mobileWeekLikeHome = isMobile && !isLast30Days;
 
-    // Actualizar altura del gráfico (solo cambiamos 3xl; el resto se queda como estaba)
     this.callsAreaChart = {
       ...this.callsAreaChart,
-      height: isMobile ? 180 : isVeryWide ? 320 : 280,
+      height: isMobile ? 280 : isVeryWide ? 320 : 220,
+      // Móvil 7 días: mismo offset que Home para centrar el trazo; 30 días: sin desplazar
+      offsetX: isMobile ? (mobileWeekLikeHome ? 5 : 0) : 5,
+      offsetY: isMobile ? -4 : -8,
     };
 
-    // Ajustar padding inferior de la grid para que en 3xl el trazo no quede tan pegado abajo
+    const chartPad = isMobile
+      ? mobileWeekLikeHome
+        ? { top: 2, left: 18, right: 8, bottom: 6 }
+        : { top: 2, left: 8, right: 12, bottom: 6 }
+      : isVeryWide
+        ? { top: 10, right: 10, bottom: 40, left: 20 }
+        : { top: 8, right: 8, bottom: 14, left: 14 };
     this.callsAreaGrid = {
       ...this.callsAreaGrid,
       padding: {
         ...this.callsAreaGrid.padding,
-        bottom: isVeryWide ? 40 : 20,
+        ...chartPad,
       },
     };
 
+    // En móvil con 7 días, mismo criterio que Home (sin rotar; ejes limpios)
     this.callsAreaXAxis = {
       ...this.callsAreaXAxis,
       categories: this.getCurrentCategories(),
-      axisBorder: { show: true },
-      axisTicks: { show: true },
+      axisBorder: { show: mobileWeekLikeHome ? false : true },
+      axisTicks: { show: mobileWeekLikeHome ? false : true },
       labels: {
         show: true,
         style: {
-          colors: '#6B7280',
-          fontSize: isMobile ? '8px' : isLast30Days ? '9px' : '11px',
-          fontWeight: 500,
+          colors: mobileWeekLikeHome ? '#000000' : '#6B7280',
+          fontSize: mobileWeekLikeHome
+            ? '11px'
+            : isMobile
+              ? '8px'
+              : isLast30Days
+                ? '9px'
+                : '11px',
+          fontWeight: mobileWeekLikeHome ? 600 : 500,
         },
-        offsetY: 2,
-        rotate: isMobile ? -30 : isLast30Days ? -45 : 0,
+        offsetY: mobileWeekLikeHome ? 0 : 2,
+        rotate: mobileWeekLikeHome
+          ? 0
+          : isMobile
+            ? -30
+            : isLast30Days
+              ? -45
+              : 0,
         trim: false,
         hideOverlappingLabels: !isLast30Days,
       },
-      crosshairs: {
-        show: false,
+      crosshairs: mobileWeekLikeHome
+        ? {
+            show: true,
+            stroke: {
+              color: 'rgba(255, 255, 255, 0.3)',
+              width: 1,
+              dashArray: 0,
+            },
+          }
+        : { show: false },
+    };
+
+    this.callsAreaYAxis = {
+      ...this.callsAreaYAxis,
+      labels: {
+        ...this.callsAreaYAxis.labels,
+        offsetX: mobileWeekLikeHome ? 0 : isMobile ? -8 : 0,
       },
     };
   }
@@ -1807,18 +1872,28 @@ export class MetricsComponent implements OnInit, OnDestroy {
     const isMobile = width < 640;
     const isVeryWide = width >= 1920;
 
-    // Mantener comportamiento original y solo subir altura en pantallas muy anchas (3xl)
+    const isLast30DaysResize = this.selectedPeriod === 'Últimos 30 días';
+    const mobileWeekLikeHomeResize = isMobile && !isLast30DaysResize;
+
     this.callsAreaChart = {
       ...this.callsAreaChart,
-      height: isMobile ? 180 : isVeryWide ? 320 : 220,
+      height: isMobile ? 280 : isVeryWide ? 320 : 220,
+      offsetX: isMobile ? (mobileWeekLikeHomeResize ? 5 : 0) : 5,
+      offsetY: isMobile ? -4 : -8,
     };
 
-    // Ajustar también el padding inferior en función del ancho
+    const chartPadResize = isMobile
+      ? mobileWeekLikeHomeResize
+        ? { top: 2, left: 18, right: 8, bottom: 6 }
+        : { top: 2, left: 8, right: 12, bottom: 6 }
+      : isVeryWide
+        ? { top: 10, right: 10, bottom: 40, left: 20 }
+        : { top: 8, right: 8, bottom: 14, left: 14 };
     this.callsAreaGrid = {
       ...this.callsAreaGrid,
       padding: {
         ...this.callsAreaGrid.padding,
-        bottom: isVeryWide ? 40 : 20,
+        ...chartPadResize,
       },
     };
 
@@ -1827,11 +1902,20 @@ export class MetricsComponent implements OnInit, OnDestroy {
       labels: {
         ...this.callsAreaXAxis.labels,
         style: {
-          colors: '#6B7280',
-          fontSize: isMobile ? '9px' : '11px',
-          fontWeight: 500,
+          colors: mobileWeekLikeHomeResize ? '#000000' : '#6B7280',
+          fontSize: mobileWeekLikeHomeResize ? '11px' : isMobile ? '9px' : '11px',
+          fontWeight: mobileWeekLikeHomeResize ? 600 : 500,
         },
-        rotate: isMobile ? -30 : 0,
+        offsetY: mobileWeekLikeHomeResize ? 0 : 2,
+        rotate: mobileWeekLikeHomeResize ? 0 : isMobile ? -30 : 0,
+      },
+    };
+
+    this.callsAreaYAxis = {
+      ...this.callsAreaYAxis,
+      labels: {
+        ...this.callsAreaYAxis.labels,
+        offsetX: mobileWeekLikeHomeResize ? 0 : isMobile ? -8 : 0,
       },
     };
   }

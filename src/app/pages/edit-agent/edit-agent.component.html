@@ -1,7 +1,7 @@
-<div class="min-h-screen p-6 bg-gray-50 dark:bg-[#2a2abd]">
-  <div class="max-w-4xl 3xl:max-w-5xl mx-auto">
-    <div class="flex items-center justify-between gap-4 mb-6">
-      <div class="relative flex items-center gap-6 text-[13px] font-medium">
+<div class="min-h-screen px-3 md:px-5 3xl:px-8 4xl:px-12 py-6 3xl:py-8 4xl:py-10 bg-gray-50 dark:bg-[#2a2abd]">
+  <div class="w-full max-w-6xl 3xl:max-w-[90rem] 4xl:max-w-[110rem] mx-auto">
+    <div class="flex items-center justify-between gap-4 3xl:gap-6 4xl:gap-8 mb-6 3xl:mb-10 4xl:mb-12">
+      <div class="relative flex items-center gap-6 3xl:gap-8 4xl:gap-10 text-[13px] 3xl:text-lg 4xl:text-xl font-medium">
         <button
           type="button"
           (click)="setActiveTab('main')"
@@ -61,7 +61,7 @@
       </div>
 
       <button (click)="goBack()"
-        class="px-3 py-1.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-white text-xs font-medium rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
+        class="px-3 py-1.5 3xl:px-5 3xl:py-2.5 4xl:px-6 4xl:py-3 bg-white dark:bg-slate-800 text-gray-900 dark:text-white text-xs 3xl:text-base 4xl:text-lg font-medium rounded-lg 3xl:rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
         Volver
       </button>
     </div>
@@ -69,8 +69,8 @@
     <!-- Contenido principal -->
     @if (activeTab === "main") {
     <div class="w-full flex justify-center">
-      <div class="w-full max-w-[720px] xl:max-w-[700px] 3xl:max-w-[800px]">
-        <form [formGroup]="editForm" class="flex flex-col gap-4">
+      <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1400px] 3xl:w-[84.75%] 3xl:scale-[1.18] 3xl:origin-top 3xl:mb-24 4xl:w-[80.65%] 4xl:scale-[1.24] 4xl:mb-32">
+        <form [formGroup]="editForm" class="flex flex-col gap-4 3xl:gap-6 4xl:gap-8">
           <!-- Nombre del agente (acordeón) -->
           <div class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10">
             <button
@@ -707,7 +707,7 @@
         </form>
 
         <!-- Botones de acción -->
-        <div class="flex justify-end gap-2 mt-8">
+        <div class="flex justify-end gap-2 mt-8 3xl:mt-10 3xl:pb-6 4xl:mt-12 4xl:pb-8">
           <button type="button" (click)="goBack()"
         class="px-4 py-1.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-medium rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-xs">
         Cancelar
@@ -732,9 +732,10 @@
       </div>
     </div>
     } @else if (activeTab === "knowledge") {
-    <div class="space-y-6">
+    <div class="w-full flex justify-center">
+      <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1300px] 3xl:max-w-[100rem] 4xl:max-w-[110rem] space-y-6">
       <div
-        class=" rounded-xl p-4 shadow-sm dark:shadow-none">
+        class=" rounded-xl shadow-sm dark:shadow-none">
         <h2 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
           Fuentes de Conocimiento
         </h2>
@@ -873,12 +874,14 @@
         </div>
         }
       </div>
+      </div>
     </div>
 
     <!-- Add Knowledge Sources Section -->
-    <div class="space-y-6 mt-5">
-      <div
-        class="rounded-xl p-4 shadow-sm dark:shadow-none">
+    <div class="w-full flex justify-center mt-5">
+      <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1200px] 3xl:max-w-[90rem] 4xl:max-w-[150rem]">
+      <div class="space-y-6">
+      <div class="rounded-xl shadow-sm dark:shadow-none">
         <h2 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
           Añadir Fuentes de Conocimiento
         </h2>
@@ -901,10 +904,10 @@
         }
 
         <!-- Add New Sources -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
           <button type="button" (click)="selectKnowledgeSource('pdf')" [disabled]="isLoadingKnowledgeSources"
-            class="flex flex-col items-center justify-center gap-2 p-4 border border-gray-300 dark:border-white rounded-lg hover:border-[#1B2559] dark:hover:border-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-            <svg class="w-8 h-8 text-gray-900 dark:text-white" viewBox="0 0 52 52" fill="currentColor"
+            class="flex flex-col items-center justify-center gap-1.5 p-3 md:p-4 border border-gray-300 dark:border-white rounded-lg hover:border-[#1B2559] dark:hover:border-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            <svg class="w-7 h-7 md:w-8 md:h-8 text-gray-900 dark:text-white" viewBox="0 0 52 52" fill="currentColor"
               xmlns="http://www.w3.org/2000/svg">
               <path
                 d="m28.6 11.4h5.1a1.11 1.11 0 0 0 1.1-1.1 1.32 1.32 0 0 0 -.3-.8l-7.2-7.1a.89.89 0 0 0 -.7-.3 1.11 1.11 0 0 0 -1.1 1.1v5.1a3.12 3.12 0 0 0 3.1 3.1z" />
@@ -917,13 +920,13 @@
               <path
                 d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z" />
             </svg>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Subir PDF</span>
-            <span class="text-xs text-gray-500 dark:text-gray-400">Máx. 10MB</span>
+            <span class="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">Subir PDF</span>
+            <span class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400">Máx. 10MB</span>
           </button>
 
           <button type="button" (click)="selectKnowledgeSource('web')" [disabled]="isLoadingKnowledgeSources"
-            class="flex flex-col items-center justify-center gap-2 p-4 border border-gray-300 dark:border-white rounded-lg hover:border-[#1B2559] dark:hover:border-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-            <svg class="w-8 h-8 text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="none"
+            class="flex flex-col items-center justify-center gap-1.5 p-3 md:p-4 border border-gray-300 dark:border-white rounded-lg hover:border-[#1B2559] dark:hover:border-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            <svg class="w-7 h-7 md:w-8 md:h-8 text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
               <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -966,13 +969,13 @@
                 </g>
               </g>
             </svg>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Añadir URL</span>
-            <span class="text-xs text-gray-500 dark:text-gray-400">Página web</span>
+            <span class="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">Añadir URL</span>
+            <span class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400">Página web</span>
           </button>
 
           <button type="button" (click)="selectKnowledgeSource('text')" [disabled]="isLoadingKnowledgeSources"
-            class="flex flex-col items-center justify-center gap-2 p-4 border border-gray-300 dark:border-white rounded-lg hover:border-[#1B2559] dark:hover:border-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-            <svg class="w-7 h-7 text-gray-900 dark:text-white" viewBox="-3 0 32 32" version="1.1"
+            class="flex flex-col items-center justify-center gap-1.5 p-3 md:p-4 border border-gray-300 dark:border-white rounded-lg hover:border-[#1B2559] dark:hover:border-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            <svg class="w-6 h-6 md:w-7 md:h-7 text-gray-900 dark:text-white" viewBox="-3 0 32 32" version="1.1"
               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-105.000000, -101.000000)" fill="currentColor">
@@ -981,8 +984,8 @@
                 </g>
               </g>
             </svg>
-            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Añadir Texto</span>
-            <span class="text-xs text-gray-500 dark:text-gray-400">Manual</span>
+            <span class="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">Añadir Texto</span>
+            <span class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400">Manual</span>
           </button>
         </div>
 
@@ -1098,8 +1101,12 @@
         } @else {
         }
       </div>
+      </div>
+      </div>
     </div>
     } @else {
+    <div class="w-full flex justify-center">
+      <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1200px] 3xl:max-w-[100rem] 4xl:max-w-[110rem]">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div
         class="rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col">
@@ -1164,6 +1171,8 @@
           class="mt-auto w-full px-4 pt-2.5 pb-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm">
           Añadir nueva
         </button>
+      </div>
+    </div>
       </div>
     </div>
     }

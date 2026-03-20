@@ -191,6 +191,22 @@
   transform: translateY(0);
 }
 
+/* Tarjeta Países: en iOS/Safari, translateY + overflow en ancestros puede dejar <img> invisible */
+@media (max-width: 1023px) {
+  .fade-in-section.fade-in-countries-mobile,
+  .fade-in-section.fade-in-countries-mobile.fade-in-visible {
+    transform: none;
+  }
+}
+
+.country-flag-avatar {
+  flex-shrink: 0;
+  /* contain: se ve la bandera entera dentro del círculo (cover la recortaba) */
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 /* Contenedor del gráfico - siempre mantener en su estado */
 .chart-container {
   width: 100% !important;
@@ -248,5 +264,21 @@ apx-chart {
 
   svg text {
     fill: #FFFFFF !important;
+  }
+}
+
+// Móvil y tablet: misma separación entre bloques (0.75rem = gap-3 / mb-3 de Tailwind). ≥lg sin cambios.
+@media (max-width: 1023px) {
+  .metrics-section-grid {
+    margin-bottom: 0.75rem;
+  }
+
+  .metrics-section-grid:last-child {
+    margin-bottom: 0;
+  }
+
+  // Tarjeta solo tablet alineada con el mismo ritmo que las filas metrics-section-grid
+  .metrics-tablet-only-card {
+    margin-bottom: 0.75rem;
   }
 }
