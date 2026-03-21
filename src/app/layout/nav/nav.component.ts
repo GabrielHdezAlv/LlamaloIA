@@ -7,6 +7,7 @@ import { UserStorage } from '../../storages/user/user-storage';
 import { NavigationService } from '../../core/services/navigation.service';
 import { I18nService, Language } from '../../core/services/i18n.service';
 import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
+import { ModalService } from '../../shared/modals/modal.service';
 
 @Component({
   selector: 'app-nav',
@@ -34,6 +35,7 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
   private router = inject(Router);
   private navigationService = inject(NavigationService);
   private i18nService = inject(I18nService);
+  private modalService = inject(ModalService);
   private isBrowser: boolean;
 
   // Modo oscuro
@@ -164,6 +166,12 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
         this.justOpened = false;
       }, 100);
     }
+  }
+
+  /** Abre el modal de planes (mismo flujo que en home) y cierra/colapsa el sidebar. */
+  openUpgradePlanModal(): void {
+    this.modalService.openUpgradePlan();
+    this.collapseOnNavigate();
   }
 
   // Colapsar/cerrar sidebar al navegar a una página

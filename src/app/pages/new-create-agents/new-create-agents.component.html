@@ -51,6 +51,7 @@
       [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
       <app-instructions-step [greeting]="greeting" [instructions]="instructions" [showMakeConfig]="showMakeConfig"
         [isMakeConfigClosing]="isMakeConfigClosing" [makeActionData]="makeActionData"
+        [makeActionActive]="makeActionActive" [makeGeneratedWebhook]="makeGeneratedWebhook"
         [showGeneratePromptModal]="showGeneratePromptModal"
         [isGeneratePromptDropdownClosing]="isGeneratePromptDropdownClosing" [promptDescription]="promptDescription"
         [promptEnterpriseName]="promptEnterpriseName"
@@ -60,7 +61,8 @@
         [totalSteps]="getTotalSteps()" (greetingChange)="greeting = $event" (instructionsChange)="instructions = $event"
         (promptDescriptionChange)="promptDescription = $event" (promptEnterpriseNameChange)="promptEnterpriseName = $event" (makeActionDataChange)="makeActionData = $event"
         (backClicked)="goBack()" (continueClicked)="onSubmit()" (toggleMakeConfigClicked)="toggleMakeConfig()"
-        (saveMakeActionClicked)="onSaveMakeAction()" (toggleGeneratePromptClicked)="toggleGeneratePromptDropdown()"
+        (saveMakeActionClicked)="onSaveMakeAction()" (editMakeActionClicked)="onEditMakeAction()"
+        (deleteMakeActionClicked)="onDeleteMakeAction()" (toggleGeneratePromptClicked)="toggleGeneratePromptDropdown()"
         (generatePromptClicked)="generatePrompt()" (closeGeneratePromptClicked)="closeGeneratePromptModal()"
         (openExpandInstructionsClicked)="openExpandInstructionsModal()"
         (closeExpandInstructionsClicked)="closeExpandInstructionsModal()">

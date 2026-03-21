@@ -296,6 +296,8 @@ export class CompanySetupComponent
   showMakeConfig = false;
   isMakeConfigClosing = false;
   makeActionData = { name: '', description: '', serverUrl: '' };
+  makeActionActive = false;
+  makeGeneratedWebhook = '';
   showGeneratePromptModal = false;
   isGeneratePromptDropdownClosing = false;
   promptDescription = '';
@@ -977,11 +979,47 @@ export class CompanySetupComponent
       console.warn('Completa nombre y URL del servidor para guardar.');
       return;
     }
+    if (!this.makeGeneratedWebhook) {
+      this.makeGeneratedWebhook = this.generateMockMakeWebhook();
+    }
+    this.makeActionActive = true;
     this.isMakeConfigClosing = true;
     setTimeout(() => {
       this.showMakeConfig = false;
       this.isMakeConfigClosing = false;
     }, 200);
+  }
+
+  private generateMockMakeWebhook(): string {
+    const token =
+      typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? crypto.randomUUID().replace(/-/g, '').slice(0, 32)
+        : Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+    return `https://hooks.llamalo.ai/make/${token}`;
+  }
+
+  onEditMakeAction(): void {
+    this.showMakeConfig = true;
+    this.isMakeConfigClosing = false;
+  }
+
+  onDeleteMakeAction(): void {
+    const actionLabel =
+      this.makeActionData.name?.trim() || 'esta acción';
+    const dialogRef = this.modalService.openWarning({
+      title: '',
+      message: `¿Seguro que quieres eliminar la acción de Make "${actionLabel}"?`,
+      confirmText: 'Sí, eliminar acción',
+      cancelText: 'Cancelar',
+      showCancelButton: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.makeActionActive = false;
+        this.makeGeneratedWebhook = '';
+        this.makeActionData = { name: '', description: '', serverUrl: '' };
+      }
+    });
   }
 
   toggleGeneratePromptDropdown() {

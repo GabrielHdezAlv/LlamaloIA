@@ -18,6 +18,10 @@ export class InstructionsStepComponent {
   @Input() showMakeConfig = false;
   @Input() isMakeConfigClosing = false;
   @Input() makeActionData = { name: '', description: '', serverUrl: '' };
+  /** Acción Make guardada y activa en la UI (mock). */
+  @Input() makeActionActive = false;
+  /** Webhook generado tras guardar (mock). */
+  @Input() makeGeneratedWebhook = '';
   @Input() showGeneratePromptModal = false;
   @Input() isGeneratePromptDropdownClosing = false;
   @Input() promptDescription = '';
@@ -38,6 +42,8 @@ export class InstructionsStepComponent {
   @Output() continueClicked = new EventEmitter<void>();
   @Output() toggleMakeConfigClicked = new EventEmitter<void>();
   @Output() saveMakeActionClicked = new EventEmitter<void>();
+  @Output() editMakeActionClicked = new EventEmitter<void>();
+  @Output() deleteMakeActionClicked = new EventEmitter<void>();
   @Output() toggleGeneratePromptClicked = new EventEmitter<void>();
   @Output() generatePromptClicked = new EventEmitter<void>();
   @Output() closeGeneratePromptClicked = new EventEmitter<void>();
@@ -89,6 +95,18 @@ export class InstructionsStepComponent {
   onMakeActionServerUrlInput(value: string) {
     this.makeActionData = { ...this.makeActionData, serverUrl: value };
     this.makeActionDataChange.emit(this.makeActionData);
+  }
+
+  async copyMakeWebhook(): Promise<void> {
+    const url = this.makeGeneratedWebhook?.trim();
+    if (!url || typeof navigator === 'undefined' || !navigator.clipboard?.writeText) {
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      /* ignore */
+    }
   }
 }
 
