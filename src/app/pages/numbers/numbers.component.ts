@@ -1,4 +1,6 @@
 import { Component, inject, OnInit, AfterViewInit, Inject, PLATFORM_ID, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Subject, timer } from 'rxjs';
+import { debounce, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { I18nService } from '../../core/services/i18n.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { Router } from '@angular/router';
@@ -60,6 +62,8 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   private userTwilioToken: string | null = null;
   importErrorMessage: string | null = null;
 
+  private searchSubject = new Subject<string>();
+
   // Obtener traducciones
   get t() {
     return this.i18nService.getTranslations();
@@ -91,11 +95,48 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // Obtener los phoneNumbers del usuario al entrar
-    this.loadPhoneNumbers();
+    this.searchSubject
+      .pipe(
+        debounce((value: string) => {
+          const t = value?.trim() ?? '';
+          return t.length === 0 ? timer(0) : timer(200);
+        }),
+        distinctUntilChanged(),
+        switchMap((term) =>
+          this.userService.getUserPhoneNumbers(
+            term?.trim() ? term.trim() : undefined,
+          ),
+        ),
+      )
+      .subscribe({
+        next: (response) => {
+          const phones = response?.phoneNumbers || [];
+
+          if (phones.length > 0) {
+            this.phoneNumbers = phones.map((phone, index) => ({
+              phoneId: phone.phoneId || index + 1,
+              countryCode: phone.countryCode || '',
+              number: String(phone.number || ''),
+              label: `ID ${phone.phoneId || index + 1}`,
+              state: phone.state || 'Activo',
+              importedBy: phone.importedBy || 'Twilio',
+            }));
+          } else {
+            this.phoneNumbers = [];
+          }
+          this.cdr.detectChanges();
+        },
+        error: (error) => {
+          console.error('Error al obtener los números de teléfono del usuario:', error);
+          this.phoneNumbers = [];
+          this.cdr.detectChanges();
+        },
+      });
+
+    this.searchSubject.next('');
   }
 
-  // Método para cargar los números de teléfono del perfil
+  /** Recarga números respetando el término de búsqueda (tras importar o eliminar). */
   private loadPhoneNumbers(q?: string): void {
     this.userService.getUserPhoneNumbers(q).subscribe({
       next: (response) => {
@@ -105,12 +146,11 @@ export class NumbersComponent implements OnInit, AfterViewInit {
           this.phoneNumbers = phones.map((phone, index) => ({
             phoneId: phone.phoneId || index + 1,
             countryCode: phone.countryCode || '',
-            number: String(phone.number || ''), // Convertir a string por si viene como número
-            label: `ID ${phone.phoneId || index + 1}`, // Generar label basado en phoneId
-            state: phone.state || 'Activo', // Usar state del backend o 'Activo' por defecto
-            importedBy: phone.importedBy || 'Twilio', // Usar importedBy del backend o 'Twilio' por defecto
+            number: String(phone.number || ''),
+            label: `ID ${phone.phoneId || index + 1}`,
+            state: phone.state || 'Activo',
+            importedBy: phone.importedBy || 'Twilio',
           }));
-          // Forzar detección de cambios
           this.cdr.detectChanges();
         } else {
           this.phoneNumbers = [];
@@ -151,10 +191,9 @@ export class NumbersComponent implements OnInit, AfterViewInit {
     this.showImportDropdown = !this.showImportDropdown;
   }
 
-  // Actualizar lista al cambiar el término de búsqueda
+  // Actualizar lista al escribir (sin necesidad de Enter)
   onSearchChange(): void {
-    const term = this.searchTerm?.trim();
-    this.loadPhoneNumbers(term || undefined);
+    this.searchSubject.next(this.searchTerm ?? '');
   }
 
   openImportFromTwilio(): void {
@@ -248,7 +287,9 @@ export class NumbersComponent implements OnInit, AfterViewInit {
           this.importErrorMessage = null;
           this.closeImportSidebar();
           this.notificationService.success(response?.message || 'El número de teléfono se ha importado correctamente.');
-          this.loadPhoneNumbers();
+          this.loadPhoneNumbers(
+            this.searchTerm?.trim() ? this.searchTerm.trim() : undefined,
+          );
         },
         error: (err) => {
           this.isImportLoading = false;
@@ -322,7 +363,9 @@ export class NumbersComponent implements OnInit, AfterViewInit {
             }
             this.notificationService.success(message);
             // Recargar la lista de números
-            this.loadPhoneNumbers();
+            this.loadPhoneNumbers(
+              this.searchTerm?.trim() ? this.searchTerm.trim() : undefined,
+            );
           },
           error: (err) => {
             let errorMessage = 'Error al eliminar el número de teléfono. Por favor, intenta nuevamente.';

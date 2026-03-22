@@ -8,8 +8,8 @@ import { RippleButtonComponent } from '../../shared/components/ripple-button/rip
 import { NotificationService } from '../../core/services/notification.service';
 import { ModalService } from '../../shared/modals/modal.service';
 import { UserService } from '../../core/services/user.service';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Subject, timer } from 'rxjs';
+import { debounce, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-agents',
@@ -59,12 +59,19 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.i18nService.initializeLanguage();
 
-    // Suscribirse a los cambios de búsqueda con debounce
+    // Búsqueda en vivo: sin Enter; vacío sin espera; con texto tras breve pausa (menos peticiones)
     this.searchSubject
       .pipe(
-        debounceTime(400),
+        debounce((value: string) => {
+          const t = value?.trim() ?? '';
+          return t.length === 0 ? timer(0) : timer(200);
+        }),
         distinctUntilChanged(),
-        switchMap((term) => this.agentsService.getAgentsList(term && term.trim().length > 0 ? term : undefined))
+        switchMap((term) =>
+          this.agentsService.getAgentsList(
+            term?.trim() ? term.trim() : undefined,
+          ),
+        ),
       )
       .subscribe({
         next: (response) => {
@@ -76,8 +83,7 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
         },
       });
 
-    // Listar agentes del usuario inicialmente (sin búsqueda)
-    this.loadAgents();
+    this.searchSubject.next('');
   }
 
   ngAfterViewInit(): void {
@@ -105,16 +111,9 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // Handler para cambios en la barra de búsqueda
+  // Handler para cambios en la barra de búsqueda (cada tecla; no hace falta Enter)
   onSearchChange(term: string): void {
     this.searchTerm = term;
-
-    // Si el input está vacío, recargamos la lista completa sin query param
-    if (!term || term.trim().length === 0) {
-      this.loadAgents();
-      return;
-    }
-
     this.searchSubject.next(term);
   }
 
@@ -135,9 +134,10 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     }, 180);
   }
 
-  // Método para cargar la lista de agentes
+  /** Recarga la lista respetando el filtro actual de búsqueda (p. ej. tras borrar un agente). */
   private loadAgents(): void {
-    this.agentsService.getAgentsList().subscribe({
+    const q = this.searchTerm?.trim();
+    this.agentsService.getAgentsList(q ? q : undefined).subscribe({
       next: (response) => {
         this.agents = response.agents || [];
       },
