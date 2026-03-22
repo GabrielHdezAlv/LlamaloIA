@@ -189,8 +189,8 @@
         </div>
         }
 
+        <!-- Google login (oculto): descomentar para reactivar
         @if (type !== "recover") {
-        <!-- Divider -->
         <div class="relative my-6 lg:my-6">
           <div class="absolute inset-0 flex items-center">
             <div class="w-full border-t border-gray-300"></div>
@@ -201,20 +201,18 @@
           </div>
         </div>
 
-        <!-- Google Login Button -->
         <button type="button" (click)="loginWithGoogle()"
           class="w-full flex items-center justify-center gap-3 bg-black text-white py-3 md:py-4 lg:py-4 px-6 rounded-lg font-semibold text-sm md:text-base lg:text-base hover:bg-gray-800 transition duration-200 google-button">
-          <!-- SVG Icon for mobile/tablet -->
           <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="lg:hidden">
             <path
               d="M31.6849 13.4058C31.8889 14.5104 32 15.6653 32 16.8704C32 26.2971 25.7569 33 16.3276 33C14.1832 33.0007 12.0598 32.5743 10.0785 31.7454C8.09726 30.9164 6.29707 29.701 4.78078 28.1687C3.26449 26.6364 2.06184 24.8172 1.24153 22.8151C0.421226 20.8129 -0.00065304 18.667 7.58745e-07 16.5C-0.00065304 14.333 0.421226 12.1871 1.24153 10.1849C2.06184 8.18277 3.26449 6.36356 4.78078 4.83126C6.29707 3.29897 8.09726 2.08361 10.0785 1.25464C12.0598 0.425674 14.1832 -0.000659937 16.3276 7.66757e-07C20.7362 7.66757e-07 24.42 1.63927 27.2464 4.301L22.6437 8.95231V8.94057C20.9303 7.29124 18.7558 6.44479 16.3276 6.44479C10.9403 6.44479 6.56155 11.0441 6.56155 16.4899C6.56155 21.9341 10.9403 26.5435 16.3276 26.5435C21.2156 26.5435 24.5428 23.7192 25.2261 19.8406H16.3276V13.4058H31.6865H31.6849Z"
               fill="white" />
           </svg>
-          <!-- Original image for desktop -->
           <img src="../../../assets/google.webp" alt="Google logo" class="hidden lg:block h-10 w-10 object-contain" />
         </button>
         }
+        -->
 
         <!-- Terms and Conditions for Register -->
         @if (type === "register") {

@@ -20,8 +20,8 @@ import { AnimatedCheckboxComponent } from '../../shared/components/animated-chec
 import { ACCOUNT_STATUS } from '../../shared/models/account-status.enum';
 import { USER_ROLE } from '../../shared/models/user-role.enum';
 import { I18nService, Language } from '../../core/services/i18n.service';
-import { signInWithPopup } from 'firebase/auth';
-import { firebaseAuth, googleProvider } from '../../core/services/firebase.config';
+// import { signInWithPopup } from 'firebase/auth';
+// import { firebaseAuth, googleProvider } from '../../core/services/firebase.config';
 
 @Component({
   selector: 'app-auth-form',
@@ -165,46 +165,38 @@ export class AuthFormComponent implements OnInit {
     });
   }
 
-  // ✅ Login con Google
-  async loginWithGoogle() {
-    try {
-      // 1. Abrir popup — el loading NO se activa aquí para no bloquear si el usuario cierra el modal
-      const result = await signInWithPopup(firebaseAuth, googleProvider);
+  // Login con Google (oculto en plantilla): descomentar imports de Firebase y este método para reactivar
+  // async loginWithGoogle() {
+  //   try {
+  //     const result = await signInWithPopup(firebaseAuth, googleProvider);
+  //     this.setGlobalLoading(true);
+  //     const idToken = await result.user.getIdToken();
+  //     this.userService.LoginWithGoogle(idToken).subscribe({
+  //       next: (response) => {
+  //         if (typeof window !== 'undefined' && window.localStorage) {
+  //           localStorage.setItem('token', response.token);
+  //         }
+  //         this.loadProfileAndNavigate();
+  //       },
+  //       error: (err) => {
+  //         console.error('❌ Error en login de Google con el backend:', err);
+  //         this.notificationService.error(this.t.authErrorLogin || 'Error al iniciar sesión con Google');
+  //         this.setGlobalLoading(false);
+  //       },
+  //     });
+  //   } catch (error: any) {
+  //     if (
+  //       error.code !== 'auth/popup-closed-by-user' &&
+  //       error.code !== 'auth/cancelled-popup-request'
+  //     ) {
+  //       console.error('❌ Error al iniciar sesión con Google:', error);
+  //       this.notificationService.error(this.t.authErrorLogin || 'Error al conectar con Google');
+  //     }
+  //     this.setGlobalLoading(false);
+  //   }
+  // }
 
-      // 2. El usuario completó el popup: ahora sí activamos el loading
-      this.setGlobalLoading(true);
-
-      // 3. Obtener el idToken y enviarlo al backend
-      const idToken = await result.user.getIdToken();
-
-      this.userService.LoginWithGoogle(idToken).subscribe({
-        next: (response) => {
-          if (typeof window !== 'undefined' && window.localStorage) {
-            localStorage.setItem('token', response.token);
-          }
-          this.loadProfileAndNavigate();
-        },
-        error: (err) => {
-          console.error('❌ Error en login de Google con el backend:', err);
-          this.notificationService.error(this.t.authErrorLogin || 'Error al iniciar sesión con Google');
-          this.setGlobalLoading(false);
-        },
-      });
-    } catch (error: any) {
-      // Si el usuario cerró el popup a propósito, no hacemos nada (la pantalla sigue igual)
-      if (
-        error.code !== 'auth/popup-closed-by-user' &&
-        error.code !== 'auth/cancelled-popup-request'
-      ) {
-        console.error('❌ Error al iniciar sesión con Google:', error);
-        this.notificationService.error(this.t.authErrorLogin || 'Error al conectar con Google');
-      }
-      // Aseguramos que el loader quede apagado en cualquier caso de error
-      this.setGlobalLoading(false);
-    }
-  }
-
-  // Factorizado de cargar perfil y navegar para reutilizarlo en ambos logins
+  // Factorizado de cargar perfil y navegar para reutilizarlo en login (y Google si se reactiva)
   private loadProfileAndNavigate() {
     this.userService.getUserProfile().subscribe({
       next: (data: any) => {
