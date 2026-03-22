@@ -154,6 +154,12 @@ export interface Translations {
 
   // Topbar / invites
   noNews: string;
+  /** Fechas relativas en el listado de noticias (placeholder {{n}} = minutos) */
+  newsDateJustNow: string;
+  newsDateOneMinuteAgo: string;
+  newsDateMinutesAgo: string;
+  newsDateToday: string;
+  newsDateYesterday: string;
   inviteTeamTitle: string;
   inviteTeamDescription: string;
   inviteEmailPlaceholder: string;
@@ -835,6 +841,11 @@ export class I18nService {
 
       // Topbar / invites
       noNews: 'No hay noticias',
+      newsDateJustNow: 'Justo ahora',
+      newsDateOneMinuteAgo: 'hace 1 minuto',
+      newsDateMinutesAgo: 'hace {{n}} minutos',
+      newsDateToday: 'Hoy',
+      newsDateYesterday: 'Ayer',
       inviteTeamTitle: 'Invita a tu equipo y trabaja con ellos',
       inviteTeamDescription:
         'Comparte tu enlace con tu equipo y colaboradores. Cuando empiecen a usar Llamalo, recibirás minutos extra en tu cuenta.',
@@ -1501,6 +1512,11 @@ export class I18nService {
 
       // Topbar / invites
       noNews: 'No news',
+      newsDateJustNow: 'Just now',
+      newsDateOneMinuteAgo: '1 minute ago',
+      newsDateMinutesAgo: '{{n}} minutes ago',
+      newsDateToday: 'Today',
+      newsDateYesterday: 'Yesterday',
       inviteTeamTitle: 'Invite your team and work together',
       inviteTeamDescription:
         'Share your link with your team and collaborators. When they start using Llamalo, you\'ll get extra minutes in your account.',
