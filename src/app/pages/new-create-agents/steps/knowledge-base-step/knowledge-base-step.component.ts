@@ -22,6 +22,7 @@ import {
 } from '../../../../shared/models/knowledge-source.model';
 import { ModalService } from '../../../../shared/modals/modal.service';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 // Extended interface to include selection
 interface ExtendedKnowledgeSource extends KnowledgeSource {
@@ -46,6 +47,7 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
   private i18nService = inject(I18nService);
   private knowledgeBaseService = inject(KnowledgeBaseService);
   private modalService = inject(ModalService);
+  private notificationService = inject(NotificationService);
   private cdr = inject(ChangeDetectorRef);
 
   constructor(@Inject(PLATFORM_ID) private platformId: object) { }
@@ -136,6 +138,7 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
       isPublic: source.isPublic === 'true' || source.isPublic === true,
       originalUrl: source.originalUrl,
       fileName: source.fileName,
+      hasDownloadableContent: !!source.hasDownloadableContent,
     };
 
     if (!this.knowledgeSources) {
@@ -159,6 +162,7 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
         this.knowledgeSources = sources.map((source) => ({
           ...source,
           selected: false,
+          hasDownloadableContent: !!source.hasDownloadableContent,
         }));
 
         this.isLoading = false;
@@ -356,6 +360,39 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
         }
         this.isLoading = false;
         this.cdr.detectChanges();
+      },
+    });
+  }
+
+  downloadKnowledgeFile(source: ExtendedKnowledgeSource): void {
+    if (
+      !source.hasDownloadableContent ||
+      source.status !== 'completed' ||
+      (source.type !== 'pdf' && source.type !== 'text')
+    ) {
+      return;
+    }
+    this.knowledgeBaseService.downloadKnowledgeSource(source.id).subscribe({
+      next: (blob) => {
+        const ext = source.type === 'pdf' ? '.pdf' : '.txt';
+        let base =
+          (source.name || 'documento')
+            .replace(/[/\\?%*:|"<>]/g, '-')
+            .trim()
+            .slice(0, 180) || 'documento';
+        if (!base.toLowerCase().endsWith(ext)) {
+          base += ext;
+        }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = base;
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        console.error('Error downloading knowledge file:', err);
+        this.notificationService.error(this.t.errorDownloadingKnowledge);
       },
     });
   }

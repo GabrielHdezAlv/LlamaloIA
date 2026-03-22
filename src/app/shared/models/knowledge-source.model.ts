@@ -19,6 +19,8 @@ export interface KnowledgeSource {
   };
   tags: string[];
   isPublic: boolean | string; // Puede venir como string del backend
+  /** Indica si el API permite descargar PDF o .txt */
+  hasDownloadableContent?: boolean;
 }
 
 /**

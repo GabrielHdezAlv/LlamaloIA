@@ -463,6 +463,8 @@ export interface Translations {
   statusFailed: string;
   statusError: string;
   viewPreview: string;
+  downloadKnowledgeFile: string;
+  errorDownloadingKnowledge: string;
   uploadLimits: string;
   pdfMax: string;
   urlMax: string;
@@ -1148,6 +1150,8 @@ export class I18nService {
       statusFailed: 'Fallido',
       statusError: 'Error',
       viewPreview: 'Ver vista previa',
+      downloadKnowledgeFile: 'Descargar archivo',
+      errorDownloadingKnowledge: 'No se pudo descargar el archivo',
       uploadLimits: 'Límites de subida',
       pdfMax: 'PDF: Máximo',
       urlMax: 'URL: Máximo',
@@ -1820,6 +1824,8 @@ export class I18nService {
       statusFailed: 'Failed',
       statusError: 'Error',
       viewPreview: 'View preview',
+      downloadKnowledgeFile: 'Download file',
+      errorDownloadingKnowledge: 'Could not download the file',
       uploadLimits: 'Upload limits',
       pdfMax: 'PDF: Max',
       urlMax: 'URL: Max',

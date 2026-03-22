@@ -97,6 +97,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
       isPublic: source.isPublic === 'true' || source.isPublic === true,
       originalUrl: source.originalUrl,
       fileName: source.fileName,
+      hasDownloadableContent: !!source.hasDownloadableContent,
     };
 
     if (!this.knowledgeSources) {
@@ -159,6 +160,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
             createdAt: new Date(source.createdAt),
             updatedAt: new Date(source.updatedAt),
             isPublic: source.isPublic === 'true' || source.isPublic === true,
+            hasDownloadableContent: !!source.hasDownloadableContent,
           }));
 
         this.isLoading = false;
@@ -330,6 +332,35 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
         this.isLoading = false;
         this.cdr.detectChanges();
       }
+    });
+  }
+
+  downloadKnowledgeFile(source: KnowledgeSource): void {
+    if (
+      !source.hasDownloadableContent ||
+      source.status !== 'completed' ||
+      (source.type !== 'pdf' && source.type !== 'text')
+    ) {
+      return;
+    }
+    this.knowledgeBaseService.downloadKnowledgeSource(source.id).subscribe({
+      next: (blob) => {
+        const ext = source.type === 'pdf' ? '.pdf' : '.txt';
+        let base = (source.name || 'documento').replace(/[/\\?%*:|"<>]/g, '-').trim().slice(0, 180) || 'documento';
+        if (!base.toLowerCase().endsWith(ext)) {
+          base += ext;
+        }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = base;
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        console.error('Error downloading knowledge file:', err);
+        this.notificationService.error(this.t.errorDownloadingKnowledge);
+      },
     });
   }
 

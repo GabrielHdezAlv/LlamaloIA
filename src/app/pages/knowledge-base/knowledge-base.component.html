@@ -199,10 +199,10 @@
               </td>
               <td class="px-3 py-2 3xl:px-4 3xl:py-2 whitespace-nowrap text-right text-xs font-medium align-middle">
                 <div class="flex items-center justify-end h-full gap-0.5">
-                  <button
+                  @if (source.hasDownloadableContent && source.status === 'completed' && (source.type === 'pdf' || source.type === 'text')) {
+                  <button type="button" (click)="downloadKnowledgeFile(source)"
                     class="p-1.5 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
-                    [title]="t.viewPreview">
-                    <!-- icono descargar / bajar -->
+                    [title]="t.downloadKnowledgeFile">
                     <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path fill-rule="evenodd" clip-rule="evenodd"
@@ -210,6 +210,7 @@
                         fill="currentColor"></path>
                     </svg>
                   </button>
+                  }
                   <button (click)="deleteKnowledgeSource(source.id)"
                     class="p-1.5 rounded-md text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 transition-colors"
                     [title]="t.deleteDocument">

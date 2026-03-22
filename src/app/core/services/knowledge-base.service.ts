@@ -202,6 +202,16 @@ export class KnowledgeBaseService {
   }
 
   /**
+   * Descarga el PDF original o el texto como .txt (solo fuentes con hasDownloadableContent).
+   */
+  downloadKnowledgeSource(sourceId: string): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/sources/${sourceId}/download`, {
+      headers: this.getAuthHeaders(),
+      responseType: 'blob',
+    });
+  }
+
+  /**
    * Search in knowledge base
    */
   searchKnowledgeBase(
