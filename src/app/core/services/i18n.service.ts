@@ -154,11 +154,12 @@ export interface Translations {
 
   // Topbar / invites
   noNews: string;
-  /** Fechas relativas en el listado de noticias (placeholder {{n}} = minutos) */
+  /** Fechas relativas en el listado de noticias (placeholders {{n}} = minutos u horas) */
   newsDateJustNow: string;
   newsDateOneMinuteAgo: string;
   newsDateMinutesAgo: string;
-  newsDateToday: string;
+  newsDateOneHourAgo: string;
+  newsDateHoursAgo: string;
   newsDateYesterday: string;
   inviteTeamTitle: string;
   inviteTeamDescription: string;
@@ -844,7 +845,8 @@ export class I18nService {
       newsDateJustNow: 'Justo ahora',
       newsDateOneMinuteAgo: 'hace 1 minuto',
       newsDateMinutesAgo: 'hace {{n}} minutos',
-      newsDateToday: 'Hoy',
+      newsDateOneHourAgo: 'hace 1 hora',
+      newsDateHoursAgo: 'hace {{n}} horas',
       newsDateYesterday: 'Ayer',
       inviteTeamTitle: 'Invita a tu equipo y trabaja con ellos',
       inviteTeamDescription:
@@ -1515,7 +1517,8 @@ export class I18nService {
       newsDateJustNow: 'Just now',
       newsDateOneMinuteAgo: '1 minute ago',
       newsDateMinutesAgo: '{{n}} minutes ago',
-      newsDateToday: 'Today',
+      newsDateOneHourAgo: '1 hour ago',
+      newsDateHoursAgo: '{{n}} hours ago',
       newsDateYesterday: 'Yesterday',
       inviteTeamTitle: 'Invite your team and work together',
       inviteTeamDescription:

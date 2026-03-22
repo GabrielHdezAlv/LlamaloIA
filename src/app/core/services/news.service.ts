@@ -111,8 +111,8 @@ export class NewsService {
     });
 
   /**
-   * Noticias: menos de 1 h en minutos, mismo día "Hoy", día anterior "Ayer",
-   * fechas más antiguas con formato local (ej. 15 mar 2026).
+   * Noticias: minutos si es reciente, horas si es hoy pero hace más de 1 h (así se distinguen varias noticias del mismo día),
+   * "Ayer" si el día local es el anterior, fecha completa si es más antigua.
    */
   getRelativeDateLabel(date: string): string {
     if (!date) return '';
@@ -133,11 +133,15 @@ export class NewsService {
       return t.newsDateMinutesAgo.replace('{{n}}', String(diffMin));
     }
 
-    if (this.sameLocalCalendarDay(parsed, now)) return t.newsDateToday;
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (this.sameLocalCalendarDay(parsed, yesterday)) return t.newsDateYesterday;
 
-    const y = new Date(now);
-    y.setDate(y.getDate() - 1);
-    if (this.sameLocalCalendarDay(parsed, y)) return t.newsDateYesterday;
+    if (this.sameLocalCalendarDay(parsed, now)) {
+      const diffHours = Math.floor(diffMin / 60);
+      if (diffHours === 1) return t.newsDateOneHourAgo;
+      return t.newsDateHoursAgo.replace('{{n}}', String(diffHours));
+    }
 
     const locale = lang === 'en' ? 'en-US' : 'es-ES';
     return new Intl.DateTimeFormat(locale, {
@@ -155,7 +159,8 @@ export class NewsService {
     );
   }
 
-    addNews(newsItem: Omit<NewsItem, 'id'>) {
+    /** Crea noticia: el backend asigna `date` en ISO 8601; no enviar `date` desde el cliente. */
+    addNews(newsItem: Omit<NewsItem, 'id' | 'date'>) {
         if (!this.isBrowser) return;
 
         this.http.post<NewsItem>(this.apiUrl, newsItem, {

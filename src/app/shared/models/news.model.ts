@@ -9,6 +9,7 @@ export interface NewsItem {
     en: string;
   };
   imageUrl: string;
+  /** Fecha/hora de publicación en ISO 8601 (viene del API); las etiquetas "hace X min" se calculan en el cliente. */
   date: string;
   link?: string;
 }

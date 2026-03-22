@@ -19,12 +19,11 @@ export class AdminNewsComponent implements OnInit {
   editingNews: Partial<NewsItem> | null = null;
   isAdding = false;
 
-  // Form model
+  // Form model (al crear, `date` la fija el servidor en ISO; al editar se puede enviar fecha manual)
   newsForm: Omit<NewsItem, 'id'> = {
     title: { es: '', en: '' },
     description: { es: '', en: '' },
     imageUrl: '',
-    // Guardamos una fecha real (ISO) y luego mostramos una etiqueta relativa
     date: new Date().toISOString(),
   };
 
@@ -85,7 +84,8 @@ export class AdminNewsComponent implements OnInit {
 
   saveNews() {
     if (this.isAdding) {
-      this.newsService.addNews(this.newsForm);
+      const { date: _omit, ...payload } = this.newsForm;
+      this.newsService.addNews(payload);
     } else if (this.editingNews?.id) {
       // Al editar, si un idioma está vacío o es igual al valor original, usar el otro idioma
       const updatedData = {
