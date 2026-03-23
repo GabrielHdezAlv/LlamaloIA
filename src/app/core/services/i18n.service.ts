@@ -280,6 +280,15 @@ export interface Translations {
   trustpilot: string;
   trustpilotBonus: string;
   trustpilotDescription: string;
+  gift2Title: string;
+  gift2Bonus: string;
+  gift2Description: string;
+  gift2SocialInstagram: string;
+  gift2SocialLinkedIn: string;
+  gift2SocialX: string;
+  gift3Title: string;
+  gift3Bonus: string;
+  gift3Description: string;
   giftRedeemedSuccess: string;
 
   // Modals common
@@ -510,6 +519,8 @@ export interface Translations {
   generateBtn: string;
   viewFullTextTitle: string;
   externalActionsMake: string;
+  makeExternalDescription: string;
+  makeComingSoon: string;
   connectShopifyTitle: string;
   linkStoreDescription: string;
   shopifyConnectDesc: string;
@@ -758,7 +769,7 @@ export class I18nService {
       secondsLabel: 'S',
       costPerMinute: 'Coste por minuto',
       subscription: 'Suscripción',
-      peakHours: 'Horas punta',
+      peakHours: 'Llamadas por hora',
       averageCallDuration: 'Duración media',
       systemStatus: 'Estado del sistema',
       starterPlan: 'Starter',
@@ -968,6 +979,17 @@ export class I18nService {
       trustpilot: 'Trustpilot',
       trustpilotBonus: '+10 min',
       trustpilotDescription: 'Gana 10 minutos adicionales dejando una reseña sobre Llamalo en Trustpilot. Una vez publicada, envíanos una captura de pantalla en el chat junto con el email de tu cuenta y añadiremos los minutos extra automáticamente.',
+      gift2Title: 'Seguir en redes sociales',
+      gift2Bonus: 'Máx. +3 min',
+      gift2Description:
+        'Consigue un minuto gratis por cada red social seguida (hasta tres minutos en total). Cuando lo tengas, envíanos una captura por el chat con el email de tu cuenta.',
+      gift2SocialInstagram: 'Instagram',
+      gift2SocialLinkedIn: 'LinkedIn',
+      gift2SocialX: 'X',
+      gift3Title: 'Recompensa eCommerce',
+      gift3Bonus: '+20 min',
+      gift3Description:
+        'Si dejas una mención visible sobre Llamalo en tu canal de venta (tienda online, ficha de producto, redes o donde encaje con tu negocio), te sumamos 20 minutos de llamadas. Para acreditarlos, envíanos por el chat una captura de la publicación y el correo con el que usas la cuenta.',
       giftRedeemedSuccess: '¡Recompensa canjeada! Te contactaremos pronto.',
 
       // Modals common
@@ -1197,6 +1219,8 @@ export class I18nService {
       generateBtn: 'Generar',
       viewFullTextTitle: 'Ver texto completo ampliado',
       externalActionsMake: 'Acciones externas',
+      makeExternalDescription: 'Automatiza tus flujos',
+      makeComingSoon: 'Próximamente',
       connectShopifyTitle: 'Conecta tu negocio de Shopify',
       linkStoreDescription: 'Vincula tu tienda para que tu agente pueda usar tus datos reales.',
       shopifyConnectDesc: 'Conecta tu tienda para sincronizar productos, pedidos y clientes.',
@@ -1432,7 +1456,7 @@ export class I18nService {
       secondsLabel: 'S',
       costPerMinute: 'Cost per minute',
       subscription: 'Subscription',
-      peakHours: 'Peak hours',
+      peakHours: 'Calls per hour',
       averageCallDuration: 'Average duration',
       systemStatus: 'System status',
       starterPlan: 'Starter',
@@ -1642,6 +1666,17 @@ export class I18nService {
       trustpilot: 'Trustpilot',
       trustpilotBonus: '+10 min',
       trustpilotDescription: 'Earn 10 extra minutes by leaving a review about Llamalo on Trustpilot. Once published, send us a screenshot in the chat along with your account email and we will add the extra minutes automatically.',
+      gift2Title: 'Follow on social media',
+      gift2Bonus: 'Max. +3 min',
+      gift2Description:
+        'Get one free minute for each social network you follow (up to three minutes in total). When done, send us a screenshot in the chat with your account email.',
+      gift2SocialInstagram: 'Instagram',
+      gift2SocialLinkedIn: 'LinkedIn',
+      gift2SocialX: 'X',
+      gift3Title: 'eCommerce reward',
+      gift3Bonus: '+20 min',
+      gift3Description:
+        'Post a public mention of Llamalo in your sales channel (your store, a listing, socials—anywhere it fits your business) and we will add 20 minutes of calling time. Send a screenshot in the chat plus the email you use to log in so we can verify it and apply the bonus.',
       giftRedeemedSuccess: 'Reward redeemed! We will contact you soon.',
 
       // Modals common
@@ -1871,6 +1906,8 @@ export class I18nService {
       generateBtn: 'Generate',
       viewFullTextTitle: 'View full expanded text',
       externalActionsMake: 'External actions',
+      makeExternalDescription: 'Automate your workflows',
+      makeComingSoon: 'Coming soon',
       connectShopifyTitle: 'Connect your Shopify business',
       linkStoreDescription: 'Link your store so your agent can use your real data.',
       shopifyConnectDesc: 'Connect your store to sync products, orders and customers.',

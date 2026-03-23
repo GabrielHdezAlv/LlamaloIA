@@ -110,16 +110,20 @@
         class="block text-sm xl:text-[10px] 3xl:text-base font-semibold text-[#0F172A] dark:text-white mb-1.5 xl:mb-1 3xl:mb-1.5">{{ t.externalActionsMake }}</label>
       <div
         class="rounded-lg 3xl:rounded-xl bg-white dark:bg-slate-900/40 overflow-visible transition-colors border border-gray-300 dark:border-slate-600"
-        [ngClass]="makeActionActive ? 'shadow-sm shadow-slate-900/5 dark:shadow-black/20' : ''">
+        [ngClass]="{
+          'shadow-sm shadow-slate-900/5 dark:shadow-black/20': makeActionActive && !makeIntegrationComingSoon,
+          'opacity-70': makeIntegrationComingSoon
+        }">
         <div class="flex items-center gap-2 px-3 3xl:px-4 py-1.5 3xl:py-2 transition-colors">
-          <div class="flex items-center gap-2 min-w-0">
-            <img src="assets/make.webp" alt="Make" class="w-6 h-6 3xl:w-7 3xl:h-7 object-contain" />
+        <div class="flex items-center gap-2 min-w-0">
+            <img src="assets/make.webp" alt="Make" class="w-6 h-6 3xl:w-7 3xl:h-7 object-contain transition-[filter]"
+              [ngClass]="{ 'grayscale opacity-80': makeIntegrationComingSoon }" />
             <div class="min-w-0">
               <div class="flex items-center gap-2 flex-wrap">
                 <p class="text-sm xl:text-[10px] 3xl:text-base font-semibold text-gray-900 dark:text-white leading-tight m-0">
                   Make
                 </p>
-                @if (makeActionActive) {
+                @if (makeActionActive && !makeIntegrationComingSoon) {
                 <span
                   class="inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] xl:text-[8px] 3xl:text-[10px] font-semibold uppercase tracking-wide bg-slate-100 text-slate-700 dark:bg-slate-700/80 dark:text-slate-200">
                   Acción activa
@@ -127,17 +131,25 @@
                 }
               </div>
               <p class="text-xs xl:text-[9px] 3xl:text-xs text-gray-500 dark:text-gray-400 leading-tight">
-                Automatiza tus flujos
+                {{ t.makeExternalDescription }}
               </p>
             </div>
           </div>
           <div class="ml-auto flex items-center flex-shrink-0">
         <button type="button"
-          class="px-3 3xl:px-5 py-1.5 xl:py-1 3xl:py-1.5 text-[9px] xl:text-[10px] 3xl:text-base rounded-md xl:rounded-[5px] 3xl:rounded-lg bg-[#000000] text-white dark:bg-white dark:text-[#000000] font-semibold hover:bg-[#1a1a1a] dark:hover:bg-white transition-colors flex items-center justify-center"
-              (click)="toggleMakeConfigClicked.emit()">
-              {{ showMakeConfig ? "Cerrar" : (makeActionActive ? "Editar" : "Conectar") }}
+          class="px-3 3xl:px-5 py-1.5 xl:py-1 3xl:py-1.5 text-[9px] xl:text-[10px] 3xl:text-base rounded-md xl:rounded-[5px] 3xl:rounded-lg font-semibold flex items-center justify-center transition-colors"
+          [ngClass]="makeIntegrationComingSoon
+            ? 'bg-gray-200 text-gray-500 dark:bg-slate-700 dark:text-slate-400 cursor-not-allowed'
+            : 'bg-black text-white dark:bg-white dark:text-black hover:bg-[#1a1a1a] dark:hover:bg-white'"
+          [disabled]="makeIntegrationComingSoon"
+              (click)="!makeIntegrationComingSoon && toggleMakeConfigClicked.emit()">
+              @if (makeIntegrationComingSoon) {
+                {{ t.makeComingSoon }}
+              } @else {
+                {{ showMakeConfig ? "Cerrar" : (makeActionActive ? "Editar" : "Conectar") }}
+              }
             </button>
-            @if (showMakeConfig || isMakeConfigClosing) {
+            @if (!makeIntegrationComingSoon && (showMakeConfig || isMakeConfigClosing)) {
             <div class="fixed inset-0 z-[10000] flex make-sidebar-overlay" aria-modal="true"
               [class.make-sidebar-overlay-closing]="isMakeConfigClosing">
               <div (click)="toggleMakeConfigClicked.emit()"
@@ -190,7 +202,7 @@
             }
           </div>
         </div>
-        @if (makeActionActive && makeGeneratedWebhook) {
+        @if (makeActionActive && makeGeneratedWebhook && !makeIntegrationComingSoon) {
         <div class="px-3 3xl:px-4 pt-2 3xl:pt-2.5 pb-3 3xl:pb-3.5">
           <p class="text-[10px] xl:text-[9px] 3xl:text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">
             Webhook generado

@@ -648,6 +648,22 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.revokeBlobUrl();
   }
 
+  private readonly gift2SocialUrls: Record<
+    'instagram' | 'linkedin' | 'x',
+    string
+  > = {
+    instagram: 'https://www.instagram.com/llamaloai/',
+    linkedin:
+      'https://www.linkedin.com/company/llamaloai/posts/?feedView=all',
+    x: 'https://x.com/llamaloai',
+  };
+
+  openSocialGiftNetwork(network: 'instagram' | 'linkedin' | 'x') {
+    const url = this.gift2SocialUrls[network];
+    if (!url || !isPlatformBrowser(this.platformId)) return;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
   // Método para canjear recompensa
   redeemReward(rewardType: string) {
     // Aquí puedes implementar la lógica para canjear la recompensa

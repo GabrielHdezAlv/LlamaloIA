@@ -1,3 +1,8 @@
+/* Título principal: negro en modo claro (evita tono azul #1b2559 de utilidades globales) */
+html:not(.dark) .topbar-container h1 {
+  color: #000000 !important;
+}
+
 .topbar-container {
   padding-top: 12px;
   padding-bottom: 8px;

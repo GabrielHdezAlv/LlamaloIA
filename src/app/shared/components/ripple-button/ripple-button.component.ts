@@ -15,6 +15,7 @@ interface RippleData {
   template: `
     <button 
       [class]="buttonClass"
+      [attr.aria-label]="ariaLabel || null"
       [disabled]="disabled"
       (click)="onClick($event)"
       (mousedown)="onMouseDown($event)"
@@ -32,6 +33,9 @@ interface RippleData {
     </button>
   `,
   styles: [`
+    :host {
+      display: block;
+    }
     button {
       position: relative;
       overflow: hidden;
@@ -61,6 +65,8 @@ interface RippleData {
 })
 export class RippleButtonComponent {
   @Input() buttonClass: string = '';
+  /** Accesibilidad: etiqueta cuando el botón solo muestra un icono. */
+  @Input() ariaLabel: string | undefined;
   @Input() disabled: boolean = false;
   @Input() rippleColor: string = 'rgba(255, 255, 255, 0.6)';
   @Input() rippleScale: number = 10;

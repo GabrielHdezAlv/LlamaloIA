@@ -40,6 +40,15 @@ export class AuthFormComponent implements OnInit {
   type: 'login' | 'register' | 'recover' = 'login';
   linkRoute: string = '';
   bottomLinkRoute: string = '';
+  subtitle: string = '';
+  linkText: string = '';
+  bottomText: string = '';
+  bottomLinkText: string = '';
+
+  private routeTitle?: string;
+  private routeFormTitle?: string;
+  private routeFormSubtitle?: string;
+  private routeButtonText?: string;
 
   // Campos del formulario
   email: string = '';
@@ -74,27 +83,29 @@ export class AuthFormComponent implements OnInit {
   }
 
   get title(): string {
-    return this.type === 'login' ? this.t.authWelcomeBack
-      : this.type === 'register' ? this.t.authWelcomeBack
-      : this.t.authLoginTitle;
+    if (this.routeTitle !== undefined && this.routeTitle !== '') {
+      return this.routeTitle;
+    }
+    return this.t.authWelcomeBack;
   }
   get formTitle(): string {
-    return this.type === 'login' ? this.t.authLoginTitle
-      : this.type === 'register' ? this.t.authLoginTitle
-      : this.t.authLoginTitle;
+    if (this.routeFormTitle !== undefined && this.routeFormTitle !== '') {
+      return this.routeFormTitle;
+    }
+    return this.t.authLoginTitle;
   }
   get formSubtitle(): string {
+    if (this.routeFormSubtitle !== undefined && this.routeFormSubtitle !== '') {
+      return this.routeFormSubtitle;
+    }
     return this.t.authLoginSubtitle;
   }
   get buttonText(): string {
-    return this.type === 'login' ? this.t.authLoginButton
-      : this.type === 'register' ? this.t.authLoginButton
-      : this.t.authLoginButton;
+    if (this.routeButtonText !== undefined && this.routeButtonText !== '') {
+      return this.routeButtonText;
+    }
+    return this.t.authLoginButton;
   }
-  get subtitle(): string { return ''; }
-  get linkText(): string { return ''; }
-  get bottomText(): string { return ''; }
-  get bottomLinkText(): string { return ''; }
 
   get countries() {
     const t = this.t;
@@ -119,9 +130,17 @@ export class AuthFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe((data) => {
-      this.type = data['type'];
+      this.type = data['type'] ?? 'login';
       this.linkRoute = data['linkRoute'] ?? '';
       this.bottomLinkRoute = data['bottomLinkRoute'] ?? '';
+      this.subtitle = data['subtitle'] ?? '';
+      this.linkText = data['linkText'] ?? '';
+      this.bottomText = data['bottomText'] ?? '';
+      this.bottomLinkText = data['bottomLinkText'] ?? '';
+      this.routeTitle = data['title'];
+      this.routeFormTitle = data['formTitle'];
+      this.routeFormSubtitle = data['formSubtitle'];
+      this.routeButtonText = data['buttonText'];
     });
   }
 

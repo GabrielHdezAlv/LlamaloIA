@@ -811,11 +811,11 @@
             >
               <!-- {{ t.hourBars }} -->
               <div
-                class="flex items-end justify-between gap-0.5 max-lg:gap-0 h-52 max-lg:h-40 max-lg:sm:h-44 max-lg:md:h-48 lg:h-52 relative overflow-visible mt-0"
+                class="flex items-stretch justify-between gap-0.5 max-lg:gap-0 h-52 max-lg:h-40 max-lg:sm:h-44 max-lg:md:h-48 lg:h-52 relative overflow-visible mt-0"
               >
                 <div
                   *ngFor="let hourData of getPeakHoursData(); let i = index"
-                  class="flex flex-col items-center flex-1 h-full justify-end relative group"
+                  class="flex flex-col items-center flex-1 min-h-0 min-w-0 justify-end relative group"
                   (mouseenter)="showTooltip(i)"
                   (mouseleave)="hideTooltip()"
                   (click)="hideTooltip()"

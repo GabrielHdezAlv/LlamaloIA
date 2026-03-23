@@ -161,13 +161,12 @@
               {{ t.authRememberMe }}
             </label>
           </div>
-          <!-- Enlace de recuperación de contraseña deshabilitado temporalmente -->
-          <!-- <a
-            href="recover"
+          <a
+            routerLink="/recover"
             class="text-xs text-black dark:text-slate-200 hover:underline font-medium forgot-password-link whitespace-nowrap tracking-[-0.5px]"
           >
-            ¿Has olvidado tu contraseña?
-          </a> -->
+            {{ t.forgotPassword }}
+          </a>
         </div>
         }
 
@@ -177,10 +176,10 @@
           {{ buttonText }}
         </button>
 
-        <!-- Register link - Deshabilitado temporalmente -->
+        <!-- Mismo enlace que en el panel izquierdo: solo en móvil (el panel está oculto en &lt; lg) -->
         @if (bottomText && bottomLinkRoute && bottomLinkRoute !== "") {
         <div
-          class="text-center text-sm md:text-base lg:text-base text-gray-600 dark:text-slate-300 register-text whitespace-nowrap">
+          class="lg:hidden text-center text-sm md:text-base text-gray-600 dark:text-slate-300 register-text whitespace-nowrap">
           {{ bottomText }}
           <a [routerLink]="bottomLinkRoute"
             class="font-semibold text-black dark:text-slate-50 hover:underline register-link">

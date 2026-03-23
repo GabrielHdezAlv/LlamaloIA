@@ -1,6 +1,15 @@
-@media (max-width: 1279px) {
-  :host {
-    padding-bottom: 6rem;
-  }
+/* Este paso no usa barra inferior fija: sin padding extra que suba el bloque */
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Círculo verde + tick blanco (claro y oscuro), por si reglas del padre tocan los SVG */
+.success-icon-circle svg {
+  color: #ffffff;
+}
+
+.success-icon-circle svg path {
+  stroke: #ffffff;
 }
 

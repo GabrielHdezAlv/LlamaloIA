@@ -43,44 +43,44 @@ input.auth-input:-webkit-autofill:focus {
 
 @media (min-width: 1024px) {
   .google-button img {
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 2.35rem;
+    width: 2.35rem;
   }
 }
 
 /* --- Laptop (1024px - 1600px): hacer todo un poco más pequeño --- */
 @media (min-width: 1024px) and (max-width: 1600px) {
   .welcome-title {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-  }
-
-  .login-title {
-    font-size: 2.1rem;
+    font-size: 2.05rem;
     line-height: 2.35rem;
   }
 
+  .login-title {
+    font-size: 1.95rem;
+    line-height: 2.15rem;
+  }
+
   .login-subtitle {
-    font-size: 0.95rem;
-    line-height: 1.4rem;
+    font-size: 0.9rem;
+    line-height: 1.35rem;
   }
 
   .input-label {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .remember-label,
   .forgot-password-link {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .register-text,
   .divider-text {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .form-container {
-    max-width: 24rem;
+    max-width: 22.5rem;
     margin-top: 0.5rem;
   }
 
@@ -90,24 +90,24 @@ input.auth-input:-webkit-autofill:focus {
 
   .login-button,
   .google-button {
-    padding: 0.8rem 1.6rem;
-    font-size: 0.95rem;
+    padding: 0.7rem 1.45rem;
+    font-size: 0.9rem;
   }
 
   .form-container input {
-    padding: 0.85rem 1.1rem;
-    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
   }
 
   /* Logo un poco más pequeño en laptops */
   .form-container img {
-    height: 2.5rem;
+    height: 2.35rem;
   }
 
   /* Icono de Google ligeramente más pequeño que en ≥1440px */
   .google-button img {
-    height: 2.25rem;
-    width: 2.25rem;
+    height: 2.1rem;
+    width: 2.1rem;
   }
 }
 

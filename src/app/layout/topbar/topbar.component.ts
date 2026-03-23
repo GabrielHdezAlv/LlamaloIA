@@ -21,6 +21,7 @@ import { NewsService } from '../../core/services/news.service';
 import { USER_ROLE } from '../../shared/models/user-role.enum';
 import { NewsItem } from '../../shared/models/news.model';
 import { Subscription } from 'rxjs';
+import { getAgentDraftStepLabel } from '../../shared/utils/agent-draft-step-labels';
 
 export interface TranslatedNewsItem {
   id: string;
@@ -356,6 +357,13 @@ export class TopbarComponent implements OnInit, OnDestroy {
     if (savedData) {
       try {
         this.savedDraft = JSON.parse(savedData);
+        // Borrador de flujo ya completado: no mostrar banner (y limpiar datos viejos)
+        if (this.savedDraft?.step === 'success') {
+          localStorage.removeItem(AGENT_DRAFT_KEY);
+          this.savedDraft = null;
+          this.hasSavedDraft = false;
+          return;
+        }
         // Solo mostrar si hay algo significativo guardado
         if (
           this.savedDraft &&
@@ -387,33 +395,10 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   getSavedStepText(): string {
     if (!this.savedDraft) return '';
-    const langCode = this.i18nService.selectedLanguage().code;
-
-    const stepTextsEs: Record<string, string> = {
-      agentName: 'Nombre',
-      language: 'Idioma',
-      template: 'Plantilla',
-      greeting: 'Saludo',
-      instructions: 'Instrucciones',
-      voice: 'Voz',
-      advanced: 'Avanzado',
-      final: 'Final',
-    };
-
-    const stepTextsEn: Record<string, string> = {
-      agentName: 'Name',
-      language: 'Language',
-      template: 'Template',
-      greeting: 'Greeting',
-      instructions: 'Instructions',
-      voice: 'Voice',
-      advanced: 'Advanced',
-      final: 'Final',
-    };
-
-    const stepTexts = langCode === 'en' ? stepTextsEn : stepTextsEs;
-
-    return stepTexts[this.savedDraft.step] || this.savedDraft.step;
+    return getAgentDraftStepLabel(
+      this.savedDraft.step,
+      this.i18nService.selectedLanguage().code,
+    );
   }
 
   toggleDarkMode() {

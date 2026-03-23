@@ -31,6 +31,7 @@ import {
   VoiceParameters,
 } from '../../shared/models/agent.model';
 import lottie from 'lottie-web';
+import { getAgentDraftStepLabel } from '../../shared/utils/agent-draft-step-labels';
 
 // Clave para localStorage
 const AGENT_DRAFT_KEY = 'llamalo_agent_draft';
@@ -312,6 +313,12 @@ export class NewCreateAgentsComponent
       if (savedData) {
         this.savedDraft = JSON.parse(savedData);
 
+        if (this.savedDraft?.step === 'success') {
+          localStorage.removeItem(AGENT_DRAFT_KEY);
+          this.savedDraft = null;
+          return;
+        }
+
         // Verificar que el borrador tenga datos significativos
         if (this.savedDraft) {
           // Mostrar popup si está más allá del primer paso O si tiene nombre de agente
@@ -396,6 +403,8 @@ export class NewCreateAgentsComponent
   // Guardar el estado actual en localStorage
   saveDraft() {
     if (!this.isBrowser) return;
+    // Tras crear el agente con éxito no debe persistir borrador (ngOnDestroy/beforeunload lo volvían a guardar)
+    if (this.step === 'success') return;
 
     try {
       const draft: AgentDraft = {
@@ -446,20 +455,10 @@ export class NewCreateAgentsComponent
   // Obtener texto del paso guardado para mostrar en el popup
   getSavedStepText(): string {
     if (!this.savedDraft) return '';
-
-    const stepNames: Record<string, string> = {
-      agentName: 'Nombre y Tipo',
-      language: 'Idioma',
-      voices: 'Voces',
-      connectBusiness: 'Conecta tu negocio',
-      instructions: 'Instrucciones',
-      knowledgeBase: 'Base de conocimientos',
-      advancedSettings: 'Configuración avanzada',
-      summary: 'Prueba de agente',
-      connectPhone: 'Conecta tu número de teléfono',
-    };
-
-    return stepNames[this.savedDraft.step] || this.savedDraft.step;
+    return getAgentDraftStepLabel(
+      this.savedDraft.step,
+      this.i18nService.selectedLanguage().code,
+    );
   }
 
   greeting = this.getGreetingWithCompanyName();
