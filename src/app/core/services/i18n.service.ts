@@ -254,6 +254,11 @@ export interface Translations {
   security: string;
   billing: string;
   gifts: string;
+  connections: string;
+  manageConnections: string;
+  twilioIntegrationDesc: string;
+  editTwilioAccount: string;
+  addTwilioAccount: string;
   personalInfo: string;
   personalInfoDesc: string;
   firstName: string;
@@ -311,6 +316,12 @@ export interface Translations {
   forgotPassword: string;
   confirmNewPassword: string;
   deleteAccount: string;
+  addAccount: string;
+  editAccount: string;
+  noConnections: string;
+  cancelBtn: string;
+  saveBtn: string;
+  importHelp: string;
   deleteAccountDescription: string;
   deleteAccountBtn: string;
   currentSubscription: string;
@@ -953,6 +964,11 @@ export class I18nService {
       security: 'Seguridad',
       billing: 'Facturación',
       gifts: 'Regalos',
+      connections: 'Conexiones',
+      manageConnections: 'Gestiona tus integraciones',
+      twilioIntegrationDesc: 'Conecta tu cuenta de Twilio para importar números de teléfono.',
+      editTwilioAccount: 'Editar cuenta de Twilio',
+      addTwilioAccount: 'Añadir nueva cuenta de Twilio',
       personalInfo: 'Información Personal',
       personalInfoDesc: 'Actualiza tu información personal aquí.',
       firstName: 'Nombre',
@@ -1012,6 +1028,12 @@ export class I18nService {
       forgotPassword: '¿Olvidaste tu contraseña?',
       confirmNewPassword: 'Confirmar nueva contraseña',
       deleteAccount: 'Eliminar cuenta',
+      addAccount: 'Añadir cuenta',
+      editAccount: 'Editar cuenta',
+      noConnections: 'No tienes conexiones configuradas',
+      cancelBtn: 'Cancelar',
+      saveBtn: 'Guardar configuración',
+      importHelp: 'Conecta tu cuenta de Twilio para importar números de teléfono.',
       deleteAccountDescription: 'Esta acción no se puede deshacer',
       deleteAccountBtn: 'Eliminar cuenta',
       currentSubscription: 'Suscripción actual',
@@ -1640,6 +1662,11 @@ export class I18nService {
       security: 'Security',
       billing: 'Billing',
       gifts: 'Gifts',
+      connections: 'Connections',
+      manageConnections: 'Manage your integrations',
+      twilioIntegrationDesc: 'Connect your Twilio account to import phone numbers.',
+      editTwilioAccount: 'Edit Twilio Account',
+      addTwilioAccount: 'Add New Twilio Account',
       personalInfo: 'Personal Information',
       personalInfoDesc: 'Update your personal information here.',
       firstName: 'First name',
@@ -1699,6 +1726,12 @@ export class I18nService {
       forgotPassword: 'Forgot password?',
       confirmNewPassword: 'Confirm new password',
       deleteAccount: 'Delete account',
+      addAccount: 'Add account',
+      editAccount: 'Edit account',
+      noConnections: 'No connections configured',
+      cancelBtn: 'Cancel',
+      saveBtn: 'Save configuration',
+      importHelp: 'Connect your Twilio account to import phone numbers.',
       deleteAccountDescription: 'This action cannot be undone',
       deleteAccountBtn: 'Delete account',
       currentSubscription: 'Current subscription',

@@ -812,8 +812,7 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.twilioAccountId = undefined;
         this.twilioSid = '';
         this.twilioToken = '';
-        // Opcional: cerrar el formulario después de guardar
-        // this.showTwilioConfig = false;
+        this.showTwilioConfig = false;
       },
       error: (error) => {
         this.isLoadingTwilio = false;
@@ -825,6 +824,38 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.notificationService.error(errorMessage);
         console.error('Error al guardar configuración de Twilio:', error);
       },
+    });
+  }
+
+  deleteTwilioAccount(twilioAccountId: number) {
+    const dialogRef = this.modalService.openWarning({
+      title: 'Eliminar cuenta de Twilio',
+      message:
+        '¿Estás seguro de que quieres eliminar esta cuenta de Twilio? Al hacerlo, no podrás importar más números de esta cuenta.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      showCancelButton: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.isLoadingTwilio = true;
+        this.twilioService.deleteTwilioAccount(twilioAccountId).subscribe({
+          next: (res) => {
+            this.isLoadingTwilio = false;
+            this.notificationService.success(
+              res.message || 'Cuenta de Twilio eliminada correctamente.'
+            );
+            this.loadTwilioAccounts();
+          },
+          error: (err) => {
+            this.isLoadingTwilio = false;
+            this.notificationService.error(
+              err?.error?.message || 'Error al eliminar la cuenta de Twilio.'
+            );
+          },
+        });
+      }
     });
   }
 }
