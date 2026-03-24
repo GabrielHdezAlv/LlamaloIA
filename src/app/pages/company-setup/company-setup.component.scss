@@ -319,3 +319,32 @@
     opacity: 1 !important;
     transform: scale(1) translateY(0);
 }
+
+/* Transiciones entre pasos (misma lógica que new-create-agents) */
+@keyframes stepFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes stepFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.step-fade-in {
+    animation: stepFadeIn 0.4s ease-out forwards;
+}
+
+.step-fade-out {
+    animation: stepFadeOut 0.25s ease-out forwards;
+}
