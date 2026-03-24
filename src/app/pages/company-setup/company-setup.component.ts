@@ -200,6 +200,10 @@ export class CompanySetupComponent
   // Estado para controlar el paso actual
   currentStep: number = 1;
   maxStep: number = 11;
+  /** Paso visible (fade); `currentStep` es el lógico inmediato (como en new-create-agents) */
+  displayedStep: number = 1;
+  isStepFadingOut = false;
+  private stepFadeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   // ===== Propiedades para pasos de creación de agente (3-10) =====
 
@@ -437,6 +441,10 @@ export class CompanySetupComponent
     this.stopMicrophone();
     this.pauseVoice();
     this.destroyLottie();
+    if (this.stepFadeTimeout) {
+      clearTimeout(this.stepFadeTimeout);
+      this.stepFadeTimeout = null;
+    }
     if (this.phoneValidationTimeout) {
       clearTimeout(this.phoneValidationTimeout);
     }
@@ -451,6 +459,12 @@ export class CompanySetupComponent
     this.isSetupActive = !this.isSetupActive;
     if (this.isSetupActive) {
       this.currentStep = 1;
+      this.displayedStep = 1;
+      this.isStepFadingOut = false;
+      if (this.stepFadeTimeout) {
+        clearTimeout(this.stepFadeTimeout);
+        this.stepFadeTimeout = null;
+      }
       this.step2ContentVisible = true;
       this.showWelcomeSequence = true;
       this.welcomeExitTriggered = false;
@@ -491,7 +505,8 @@ export class CompanySetupComponent
 
   // Animación tras "Cómo nos conociste" -> paso 3 (nombre agente) ya preparado mientras se anima
   startAgentIntroAnimation() {
-    this.goToStep(3); // Paso 3 ya renderizado detrás del overlay
+    // Sin fade: el overlay cubre la vista; el paso 3 debe estar ya montado detrás
+    this.goToStep(3, { instant: true });
     this.showAgentIntroAnimation = true;
     this.agentIntroExitTriggered = false;
     setTimeout(() => {
@@ -572,7 +587,7 @@ export class CompanySetupComponent
   // Método para saltar la configuración
   skipSetup() {
     if (this.currentStep === 1) {
-      this.currentStep = 2;
+      this.goToStep(2);
     } else if (this.currentStep === 2) {
       this.startAgentIntroAnimation();
     } else if (this.currentStep >= 3 && this.currentStep <= 10) {
@@ -621,8 +636,8 @@ export class CompanySetupComponent
     this.goToStep(this.currentStep - 1);
   }
 
-  // Método genérico para ir a un paso concreto
-  goToStep(step: number) {
+  // Método genérico para ir a un paso concreto (fade entre pasos como new-create-agents)
+  goToStep(step: number, options?: { instant?: boolean }) {
     if (step < 1) {
       step = 1;
     }
@@ -663,6 +678,36 @@ export class CompanySetupComponent
     if (step === 10) {
       this.loadTwilioAccounts();
     }
+
+    // Transición visual (misma cadencia que creación de agentes)
+    if (options?.instant) {
+      this.displayedStep = step;
+      this.isStepFadingOut = false;
+      if (this.stepFadeTimeout) {
+        clearTimeout(this.stepFadeTimeout);
+        this.stepFadeTimeout = null;
+      }
+      return;
+    }
+
+    if (this.displayedStep === step) {
+      this.isStepFadingOut = false;
+      if (this.stepFadeTimeout) {
+        clearTimeout(this.stepFadeTimeout);
+        this.stepFadeTimeout = null;
+      }
+      return;
+    }
+
+    this.isStepFadingOut = true;
+    if (this.stepFadeTimeout) {
+      clearTimeout(this.stepFadeTimeout);
+    }
+    this.stepFadeTimeout = setTimeout(() => {
+      this.displayedStep = step;
+      this.isStepFadingOut = false;
+      this.stepFadeTimeout = null;
+    }, 250);
   }
 
   // Método para manejar la subida del logo
@@ -967,7 +1012,7 @@ export class CompanySetupComponent
       this.isSetupActive = true;
       this.showWelcomeSequence = false;
       this.welcomeExitTriggered = true;
-      this.currentStep = 6;
+      this.goToStep(6, { instant: true });
     }
 
     if (params['shopify'] === undefined) return;
