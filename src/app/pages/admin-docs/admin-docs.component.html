@@ -477,29 +477,29 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
         </div>
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Motor de Métricas (Híbrido API + BD)</h2>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Motor de Métricas (Firestore como fuente de verdad)</h2>
       </div>
 
       <p class="mb-8 text-gray-600 dark:text-gray-300 leading-relaxed">
-        El dashboard de métricas utiliza un enfoque <strong>híbrido</strong>. Descarga el listado de llamadas recientes directamente desde Twilio (para garantizar exactitud absoluta en la facturación) y lo cruza con registros internos almacenados en <strong>Firestore</strong> para enriquecer la información semántica (latencias, motivos de cuelgue, históricos a largo plazo).
+        Los <strong>listados de llamadas por período</strong> (dashboard y métricas detalladas) se construyen desde <strong>Firestore</strong>, no desde la API REST de Twilio. Cada vez que termina una sesión WebRTC en <code>StreamsGateway</code>, persistimos un documento por <code>CallSid</code> con duración, dirección y marcas de tiempo. Twilio sigue siendo imprescindible para <strong>telefonía</strong>, <strong>webhooks</strong> y <strong>números</strong>; la agregación de métricas del producto es <strong>nuestra</strong>.
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         
-        <!-- Twilio Directo -->
+        <!-- Registro por llamada -->
         <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700 shadow-sm hover:border-red-300 dark:hover:border-red-700 transition-colors group">
           <div class="flex items-center mb-4">
             <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center mr-3 group-hover:bg-red-200 dark:group-hover:bg-red-900/40 transition-colors">
               <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20Z"/></svg>
             </div>
-            <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">1. Tiempo Real (Twilio API)</h3>
+            <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">1. Registro por llamada (<code>llamadas_registradas</code>)</h3>
           </div>
           <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
-            Las llamadas de los últimos 14 a 30 días se descargan "en vivo" a través del endpoint <code>/Calls.json</code>.
+            Colección con documento por <code>callSid</code>: <code>userId</code>, <code>twilioAccountId</code>, <code>durationSeconds</code>, <code>startedAt</code>, <code>endedAt</code>, origen/destino. Es la base para filtrar 7 / 14 días y mes actual en el API de métricas.
           </p>
           <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-2 list-disc pl-5">
-            <li>Aporta la duración real en segundos, coste y el estado crudo (completed, no-answer, failed).</li>
-            <li>Evita desincronizaciones si Twilio rechaza llamadas por red antes de que nuestro backend se entere.</li>
+            <li>Requiere índice compuesto en Firestore: <code>userId</code> + <code>endedAt</code> (el despliegue puede pedir crearlo automáticamente la primera vez que se consulte).</li>
+            <li>Si el usuario desvincula Twilio, el histórico de llamadas ya guardado <strong>sigue disponible</strong> para el dashboard (no dependemos de credenciales para releer listados).</li>
           </ul>
         </div>
 
@@ -516,7 +516,7 @@
           </p>
           <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-2 list-disc pl-5">
             <li>Al cerrar WebRTC, nuestro backend guarda si colgó el <strong>agente</strong>, el <strong>cliente</strong>, o hubo <strong>silencio</strong> prolongado.</li>
-            <li>En el dashboard, las llamadas de Twilio se cruzan con esta colección (join en memoria) usando el <code>CallSid</code>.</li>
+            <li>En el dashboard, los registros de <code>llamadas_registradas</code> se cruzan con esta colección (join en memoria) usando el <code>CallSid</code>.</li>
           </ul>
         </div>
 
@@ -529,7 +529,7 @@
             <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">3. Históricos a Largo Plazo</h3>
           </div>
           <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
-            Colección: <code>metricas_historicas</code>. No leemos llamadas de hace 2 años desde Twilio (sería muy lento y costoso para la API).
+            Colección: <code>metricas_historicas</code>. Contadores acumulados sin depender de re-descargar historiales externos.
           </p>
           <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-2 list-disc pl-5">
             <li>Al terminar cada llamada, hacemos un <code>FieldValue.increment(x)</code> atómico de contadores (países, minutos, éxito/fracaso).</li>
