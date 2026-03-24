@@ -382,8 +382,6 @@
       </div>
     </div>
 
-  </div>
-
   <!-- 5. BASE DE CONOCIMIENTOS -->
   <div *ngIf="activeTab === 'knowledge'" class="tab-content animate-slide-in">
     <div class="flex items-center mb-6">
@@ -395,10 +393,11 @@
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Base de Conocimientos RAG</h2>
     </div>
 
-      <div class="prose dark:prose-invert max-w-none">
-        <p class="mb-8 text-gray-600 dark:text-gray-300">El sistema de Base de Conocimientos (Knowledge Base) permite inyectar contexto personalizado al agente mediante la arquitectura RAG (Retrieval-Augmented Generation), dándole al modelo información de la que no fue entrenado originalmente. Los documentos se almacenan temporalmente en Cloud Storage y se vectorizan en Pinecone.</p>
+    <p class="mb-8 text-gray-600 dark:text-gray-300 leading-relaxed max-w-none">
+      El sistema de Base de Conocimientos (Knowledge Base) permite inyectar contexto personalizado al agente mediante la arquitectura RAG (Retrieval-Augmented Generation), dándole al modelo información de la que no fue entrenado originalmente. Los documentos se almacenan temporalmente en Cloud Storage y se vectorizan en Pinecone.
+    </p>
 
-      <div class="bg-gray-50 dark:bg-neutral-900/40 rounded-xl p-8 border border-gray-200 dark:border-neutral-700">
+    <div class="not-prose bg-gray-50 dark:bg-neutral-900/40 rounded-xl p-8 border border-gray-200 dark:border-neutral-700 relative z-0">
         <h3 class="text-xl font-bold mb-6 text-gray-800 dark:text-gray-200">Pipeline de Procesamiento Vectorial</h3>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
@@ -415,7 +414,7 @@
           </div>
 
             <!-- Arrow -->
-            <div class="hidden md:flex absolute top-[100px] left-[33%] right-[66%] -mt-3 items-center justify-center text-gray-300 dark:text-neutral-600 z-0 opacity-50">
+            <div class="hidden md:flex absolute top-[100px] left-[33%] right-[66%] -mt-3 items-center justify-center text-gray-300 dark:text-neutral-600 z-[1] pointer-events-none opacity-50">
                <svg class="w-8 h-8 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                </svg>
@@ -433,7 +432,7 @@
             </div>
 
             <!-- Arrow -->
-            <div class="hidden md:flex absolute top-[100px] left-[66%] right-[33%] -mt-3 items-center justify-center text-gray-300 dark:text-neutral-600 z-0 opacity-50">
+            <div class="hidden md:flex absolute top-[100px] left-[66%] right-[33%] -mt-3 items-center justify-center text-gray-300 dark:text-neutral-600 z-[1] pointer-events-none opacity-50">
                <svg class="w-8 h-8 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="animation-delay: 0.5s;">
                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                </svg>
@@ -450,12 +449,11 @@
               <p class="text-xs text-gray-500 dark:text-gray-400">Los vectores se indexan en la base de datos vectorial (Pinecone). En tiempo real, cuando el usuario hace una pregunta durante la llamada, la query se vectoriza y se buscan los 3-5 chunks con mayor "Cosine Similarity" para añadirlos dinámicamente al prompt.</p>
             </div>
             
-          </div>
         </div>
 
-        <div class="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-lg p-5 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
+        <div class="not-prose mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-lg p-5 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors relative z-10">
           <h4 class="font-bold text-blue-800 dark:text-blue-300 mb-2 flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <svg class="w-5 h-5 mr-2 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             ¿Por qué RAG sobre Fine-Tuning?
           </h4>
           <p class="text-sm text-blue-700 dark:text-blue-400">
@@ -467,8 +465,9 @@
             <li>Conectar el catálogo de Shopify en tiempo real.</li>
           </ul>
         </div>
-      </div>
     </div>
+
+  </div>
 
     <!-- 6. MÉTRICAS -->
     <div *ngIf="activeTab === 'metrics'" class="tab-content animate-slide-in">
@@ -559,4 +558,5 @@
     </div>
 
   </div>
+</div>
 
