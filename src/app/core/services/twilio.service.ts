@@ -123,4 +123,14 @@ export class TwilioService {
       map(event => event.body!)
     );
   }
+
+  // Método para eliminar la cuenta(s) de Twilio al completo
+  deleteTwilioAccount(): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${this.apiUrl}/account`,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  }
 }

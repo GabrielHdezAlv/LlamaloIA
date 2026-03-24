@@ -94,6 +94,46 @@ export class NumbersComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // Exponer userTwilioSid para el HTML
+  get hasTwilioAccount(): boolean {
+    return !!this.userTwilioSid;
+  }
+
+  deleteTwilioAccount(): void {
+    const dialogRef = this.modalService.openWarning({
+      title: 'Eliminar cuenta de Twilio',
+      message: '¿Estás seguro de que quieres eliminar tu cuenta de Twilio? Al hacerlo, no podrás importar más números hasta que vuelvas a configurarla.',
+      confirmText: 'Eliminar',
+      cancelText: 'Cancelar',
+      showCancelButton: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.isImportLoading = true;
+        this.twilioService.deleteTwilioAccount().subscribe({
+          next: (res) => {
+            this.isImportLoading = false;
+            this.userTwilioSid = null;
+            this.userTwilioToken = null;
+            this.notificationService.success(res.message || 'Cuenta de Twilio eliminada correctamente.');
+            // Limpiar los valores precargados en el formulario
+            this.importForm.patchValue({
+              twilioSid: '',
+              twilioToken: ''
+            });
+          },
+          error: (err) => {
+            this.isImportLoading = false;
+            this.notificationService.error(
+              err?.error?.message || 'Error al eliminar la cuenta de Twilio.'
+            );
+          }
+        });
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.searchSubject
       .pipe(

@@ -355,6 +355,15 @@
                         {{ isImportLoading ? t.validating : t.importNumber }}
                     </button>
                 </div>
+                <!-- Botón para eliminar cuenta (solo si ya existe una) -->
+                @if (hasTwilioAccount) {
+                <div class="pt-2">
+                    <button type="button" (click)="deleteTwilioAccount()"
+                        class="w-full py-3 rounded-lg font-semibold text-sm border border-red-200 dark:border-red-900/50 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center justify-center">
+                        Eliminar cuenta de Twilio
+                    </button>
+                </div>
+                }
             </form>
         </aside>
     </div>
