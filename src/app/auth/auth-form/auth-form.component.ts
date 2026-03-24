@@ -20,8 +20,8 @@ import { AnimatedCheckboxComponent } from '../../shared/components/animated-chec
 import { ACCOUNT_STATUS } from '../../shared/models/account-status.enum';
 import { USER_ROLE } from '../../shared/models/user-role.enum';
 import { I18nService, Language } from '../../core/services/i18n.service';
-// import { signInWithPopup } from 'firebase/auth';
-// import { firebaseAuth, googleProvider } from '../../core/services/firebase.config';
+import { signInWithPopup } from 'firebase/auth';
+import { firebaseAuth, googleProvider } from '../../core/services/firebase.config';
 
 @Component({
   selector: 'app-auth-form',
@@ -184,38 +184,42 @@ export class AuthFormComponent implements OnInit {
     });
   }
 
-  // Login con Google (oculto en plantilla): descomentar imports de Firebase y este método para reactivar
-  // async loginWithGoogle() {
-  //   try {
-  //     const result = await signInWithPopup(firebaseAuth, googleProvider);
-  //     this.setGlobalLoading(true);
-  //     const idToken = await result.user.getIdToken();
-  //     this.userService.LoginWithGoogle(idToken).subscribe({
-  //       next: (response) => {
-  //         if (typeof window !== 'undefined' && window.localStorage) {
-  //           localStorage.setItem('token', response.token);
-  //         }
-  //         this.loadProfileAndNavigate();
-  //       },
-  //       error: (err) => {
-  //         console.error('❌ Error en login de Google con el backend:', err);
-  //         this.notificationService.error(this.t.authErrorLogin || 'Error al iniciar sesión con Google');
-  //         this.setGlobalLoading(false);
-  //       },
-  //     });
-  //   } catch (error: any) {
-  //     if (
-  //       error.code !== 'auth/popup-closed-by-user' &&
-  //       error.code !== 'auth/cancelled-popup-request'
-  //     ) {
-  //       console.error('❌ Error al iniciar sesión con Google:', error);
-  //       this.notificationService.error(this.t.authErrorLogin || 'Error al conectar con Google');
-  //     }
-  //     this.setGlobalLoading(false);
-  //   }
-  // }
+  async loginWithGoogle() {
+    try {
+      const result = await signInWithPopup(firebaseAuth, googleProvider);
+      this.setGlobalLoading(true);
+      const idToken = await result.user.getIdToken();
+      this.userService.LoginWithGoogle(idToken).subscribe({
+        next: (response) => {
+          if (typeof window !== 'undefined' && window.localStorage) {
+            localStorage.setItem('token', response.token);
+          }
+          this.loadProfileAndNavigate();
+        },
+        error: (err) => {
+          console.error('❌ Error en login de Google con el backend:', err);
+          this.notificationService.error(
+            this.t.authErrorLogin || 'Error al iniciar sesión con Google',
+          );
+          this.setGlobalLoading(false);
+        },
+      });
+    } catch (error: unknown) {
+      const err = error as { code?: string };
+      if (
+        err?.code !== 'auth/popup-closed-by-user' &&
+        err?.code !== 'auth/cancelled-popup-request'
+      ) {
+        console.error('❌ Error al iniciar sesión con Google:', error);
+        this.notificationService.error(
+          this.t.authErrorLogin || 'Error al conectar con Google',
+        );
+      }
+      this.setGlobalLoading(false);
+    }
+  }
 
-  // Factorizado de cargar perfil y navegar para reutilizarlo en login (y Google si se reactiva)
+  // Factorizado de cargar perfil y navegar para reutilizarlo en login y Google
   private loadProfileAndNavigate() {
     this.userService.getUserProfile().subscribe({
       next: (data: any) => {
