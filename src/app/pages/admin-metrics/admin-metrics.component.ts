@@ -781,12 +781,8 @@ export class AdminMetricsComponent implements OnInit {
       ),
     };
 
-    // Actualizar totales: usar el mayor entre minutesByMonth (Firebase) y el valor de Twilio
     const twilioMinutes = this.dashboardMetrics.resumen.minutos_ultimo_mes.actual;
-    const user = this.userStorage.user();
-    const monthKey = this.getCurrentMonthKey();
-    const firebaseMinutes = user?.minutesByMonth?.[monthKey] ?? 0;
-    this.totalMinutesUsed = Math.max(Math.round(firebaseMinutes), twilioMinutes);
+    this.totalMinutesUsed = twilioMinutes;
 
     // Calcular tiempo ahorrado (minutos * 2.5)
     const timeSavedMinutes =
@@ -811,14 +807,6 @@ export class AdminMetricsComponent implements OnInit {
     }
     if (user && user.extraMinutes !== undefined) {
       this.extraMinutes = user.extraMinutes;
-    }
-    // Usar minutesByMonth del mes actual como fuente de verdad persistente
-    if (user?.minutesByMonth) {
-      const monthKey = this.getCurrentMonthKey();
-      const stored = user.minutesByMonth[monthKey] ?? 0;
-      if (stored > 0) {
-        this.totalMinutesUsed = Math.round(stored);
-      }
     }
 
     // Cargar métricas del dashboard

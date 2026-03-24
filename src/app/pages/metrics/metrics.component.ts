@@ -1363,12 +1363,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
       ),
     };
 
-    // Actualizar totales: usar el mayor entre minutesByMonth (Firebase) y el valor de Twilio
+    // Consumo del mes: mismo valor que el dashboard (backend alinea `minutesByMonth` con llamadas_registradas)
     const twilioMinutes = this.dashboardMetrics.resumen.minutos_ultimo_mes.actual;
-    const user = this.userStorage.user();
-    const monthKey = this.getCurrentMonthKey();
-    const firebaseMinutes = user?.minutesByMonth?.[monthKey] ?? 0;
-    this.totalMinutesUsed = Math.max(Math.round(firebaseMinutes), twilioMinutes);
+    this.totalMinutesUsed = twilioMinutes;
 
     // Calcular tiempo ahorrado (minutos * 2.5)
     const timeSavedMinutes =
@@ -1493,12 +1490,10 @@ export class MetricsComponent implements OnInit, OnDestroy {
       };
     }
 
-    // Actualizar totales: usar el mayor entre minutesByMonth (Firebase) y el valor de Twilio
     const twilioDetailedMinutes = this.detailedMetrics.totalMinutosUltimoMes;
-    const userForDetailed = this.userStorage.user();
-    const monthKeyDetailed = this.getCurrentMonthKey();
-    const firebaseDetailedMinutes = userForDetailed?.minutesByMonth?.[monthKeyDetailed] ?? 0;
-    this.totalMinutesUsed = Math.max(Math.round(firebaseDetailedMinutes), twilioDetailedMinutes);
+    this.totalMinutesUsed =
+      this.dashboardMetrics?.resumen?.minutos_ultimo_mes?.actual ??
+      twilioDetailedMinutes;
 
     this.averageCallDurationSeconds = Math.round(
       this.detailedMetrics.duracionMediaLlamadas * 60,
@@ -1810,14 +1805,6 @@ export class MetricsComponent implements OnInit, OnDestroy {
     }
     if (user && user.extraMinutes !== undefined) {
       this.extraMinutes = user.extraMinutes;
-    }
-    // Usar minutesByMonth del mes actual como fuente de verdad persistente
-    if (user?.minutesByMonth) {
-      const monthKey = this.getCurrentMonthKey();
-      const stored = user.minutesByMonth[monthKey] ?? 0;
-      if (stored > 0) {
-        this.totalMinutesUsed = Math.round(stored);
-      }
     }
 
     // Cargar métricas del dashboard y detalladas al entrar en la pantalla

@@ -365,18 +365,14 @@
         </div>
 
         <div class="bg-gray-50 dark:bg-neutral-900/40 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 md:col-span-2">
-          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Métricas e Índices (Webhook de Finalización)</h3>
+          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Métricas e Índices (Webhook y consumo mensual)</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-            Al terminar una llamada, Twilio envía un webhook con estado "completed". Para evitar escaneos de base de datos masivos (Full Scan) buscando qué usuario es dueño del `AccountSid`:
+            Al terminar una llamada, Twilio envía un webhook con estado "completed". El handler resuelve al usuario vía índice inverso <code>twilio_index</code> (O(1) en lugar de Full Scan). El consumo mensual en <code>users.minutesByMonth["YYYY-MM"]</code> (UTC) <strong>no</strong> se incrementa desde este webhook: se recalcula desde la suma de duraciones en la colección <code>llamadas_registradas</code> al cargar el dashboard o las métricas detalladas, alineado con lo que muestra la UI.
           </p>
           <div class="bg-neutral-800 rounded-md p-4 text-xs font-mono text-green-400 overflow-x-auto">
-            // 1. O(1) Búsqueda por índice inverso<br>
+            // Índice inverso: twilio_index/{AccountSid} → userId<br>
             const indexDoc = await firestore.collection('twilio_index').doc(AccountSid).get();<br>
-            const userId = indexDoc.data().userId;<br><br>
-            // 2. Incremento atómico del consumo<br>
-            await firestore.collection('users').doc(userId).update(&#123;<br>
-            &nbsp;&nbsp;[`minutesByMonth.$&#123;monthKey&#125;`]: FieldValue.increment(durationMinutes)<br>
-            &#125;);
+            // minutesByMonth := Σ (duración) de llamadas_registradas del mes (al GET /metrics/dashboard)
           </div>
         </div>
       </div>
@@ -480,9 +476,19 @@
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Motor de Métricas (Firestore como fuente de verdad)</h2>
       </div>
 
-      <p class="mb-8 text-gray-600 dark:text-gray-300 leading-relaxed">
+      <p class="mb-6 text-gray-600 dark:text-gray-300 leading-relaxed">
         Los <strong>listados de llamadas por período</strong> (dashboard y métricas detalladas) se construyen desde <strong>Firestore</strong>, no desde la API REST de Twilio. Cada vez que termina una sesión WebRTC en <code>StreamsGateway</code>, persistimos un documento por <code>CallSid</code> con duración, dirección y marcas de tiempo. Twilio sigue siendo imprescindible para <strong>telefonía</strong>, <strong>webhooks</strong> y <strong>números</strong>; la agregación de métricas del producto es <strong>nuestra</strong>.
       </p>
+
+      <div class="mb-8 rounded-xl border border-pink-200 dark:border-pink-900/50 bg-pink-50/80 dark:bg-pink-950/30 p-5 md:p-6">
+        <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Consumo mensual (minutos) y coherencia en la UI</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+          El campo <code>users.minutesByMonth["YYYY-MM"]</code> (clave en <strong>UTC</strong>) se <strong>recalcula en el backend</strong> a partir de la suma de duraciones en <code>llamadas_registradas</code> del mes al atender <code>GET /metrics/dashboard</code> o <code>GET /metrics/twilio-detailed</code> (sin filtrar por cuenta Twilio concreta). Así coincide con lo que muestra la tarjeta de <strong>Plan Starter</strong> en el dashboard y la pantalla de <strong>Métricas</strong>: ambas leen el mismo valor del API (<code>minutos_ultimo_mes</code> / minutos del mes en detallado).
+        </p>
+        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+          El <strong>webhook</strong> de finalización de Twilio <strong>no</strong> incrementa ya <code>minutesByMonth</code> (antes contaba todas las llamadas de la cuenta y podía desalinearse de las sesiones guardadas en <code>llamadas_registradas</code>). Si MailerLite u otros procesos dependen de ese campo, se actualiza cuando el usuario carga métricas y el backend sincroniza el total.
+        </p>
+      </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         
@@ -500,6 +506,7 @@
           <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-2 list-disc pl-5">
             <li>Requiere índice compuesto en Firestore: <code>userId</code> + <code>endedAt</code> (el despliegue puede pedir crearlo automáticamente la primera vez que se consulte).</li>
             <li>Si el usuario desvincula Twilio, el histórico de llamadas ya guardado <strong>sigue disponible</strong> para el dashboard (no dependemos de credenciales para releer listados).</li>
+            <li>Los <strong>minutos del mes</strong> mostrados en la app se derivan de esta colección (ver recuadro superior); no de listados REST de Twilio.</li>
           </ul>
         </div>
 
