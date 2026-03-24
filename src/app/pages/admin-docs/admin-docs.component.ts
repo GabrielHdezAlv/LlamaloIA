@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./admin-docs.component.scss'],
 })
 export class AdminDocsComponent {
-  activeTab = 'xenon'; // 'xenon', 'calls', 'shopify', 'twilio', 'knowledge', 'metrics'
+  activeTab: string = 'xenon'; // 'xenon', 'calls', 'shopify', 'twilio', 'knowledge', 'metrics'
 
   tabs = [
     { id: 'xenon', name: 'Flujo Xenon', icon: 'M13 10V3L4 14h7v7l9-11h-7z' }, // Lightning bolt icon
