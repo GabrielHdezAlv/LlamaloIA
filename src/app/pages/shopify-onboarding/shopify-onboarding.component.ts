@@ -55,6 +55,9 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
   /** Si venimos de la pantalla de admin */
   sourceAdmin: boolean = false;
 
+  /** Si venimos del onboarding de empresa (company-setup) */
+  sourceOnboarding: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -88,6 +91,7 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     // Capturar agentId de los query params
     this.agentId = this.route.snapshot.queryParams['agentId'] || null;
     this.sourceAdmin = this.route.snapshot.queryParams['source'] === 'admin';
+    this.sourceOnboarding = this.route.snapshot.queryParams['source'] === 'onboarding';
     
     this.loadConnectedStores();
   }
@@ -148,6 +152,15 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
       } else {
         this.router.navigate(['/dashboard/agents/edit', this.agentId], { queryParams: { tab: 'connections' } });
       }
+    } else if (this.sourceOnboarding) {
+      const queryParams: Record<string, string> = {
+        step: 'connectBusiness',
+      };
+      if (this.connectedStores.length > 0) {
+        queryParams['shopify'] = 'success';
+        queryParams['shop'] = this.connectedStores[0].shopDomain;
+      }
+      this.router.navigate(['/company-setup'], { queryParams });
     } else {
       if (this.sourceAdmin) {
         this.router.navigate(['/admin']);
@@ -212,6 +225,9 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     }
     if (this.sourceAdmin) {
       params.append('source', 'admin');
+    }
+    if (this.sourceOnboarding) {
+      params.append('source', 'onboarding');
     }
     
     if (params.toString()) {

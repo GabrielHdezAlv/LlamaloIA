@@ -370,7 +370,6 @@ export class CompanySetupComponent
     // Por defecto está desactivado, se activa con el botón
     this.isSetupActive = false;
     this.showWelcomeSequence = true;
-    this.startWelcomeSequence();
 
     // Inicializar audio solo en entorno navegador para evitar errores en SSR
     if (typeof window !== 'undefined' && typeof Audio !== 'undefined') {
@@ -389,6 +388,11 @@ export class CompanySetupComponent
     if (this.isBrowser) {
       this.handleShopifyReturnParams();
       document.body.classList.add('creating-agent');
+    }
+    
+    // Si no estamos saltando a un paso específico debido a Shopify, iniciar secuencia normal
+    if (this.showWelcomeSequence) {
+      this.startWelcomeSequence();
     }
   }
 
@@ -940,7 +944,7 @@ export class CompanySetupComponent
 
   // Paso 6: Conecta tu negocio
   goToShopifyOnboarding(): void {
-    this.router.navigate(['/shopify-onboarding']);
+    this.router.navigate(['/shopify-onboarding'], { queryParams: { source: 'onboarding' } });
   }
 
   onContinueFromConnectBusiness() {
@@ -949,7 +953,17 @@ export class CompanySetupComponent
 
   private handleShopifyReturnParams(): void {
     const params = this.route?.snapshot?.queryParams;
-    if (!params || params['shopify'] === undefined) return;
+    if (!params) return;
+
+    // Si viene con el step de Shopify, saltar directamente a ese paso
+    if (params['step'] === 'connectBusiness') {
+      this.isSetupActive = true;
+      this.showWelcomeSequence = false;
+      this.welcomeExitTriggered = true;
+      this.currentStep = 6;
+    }
+
+    if (params['shopify'] === undefined) return;
 
     const shopify = params['shopify'];
     const shop = params['shop'] ?? '';
