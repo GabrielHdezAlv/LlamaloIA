@@ -1,0 +1,472 @@
+<div class="p-6 max-w-7xl mx-auto min-h-screen bg-gray-50 dark:bg-neutral-900 text-gray-800 dark:text-gray-200">
+  <header class="mb-10 animate-fade-in-up">
+    <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-2">
+      Documentación Interna <span class="text-blue-600 dark:text-blue-400">LlamaloAI</span>
+    </h1>
+    <p class="text-lg text-gray-500 dark:text-gray-400">
+      Arquitectura, flujos de datos y procesos internos del sistema. Exclusivo para administradores.
+    </p>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="mb-8 border-b border-gray-200 dark:border-neutral-800 animate-fade-in-up delay-100">
+    <nav class="-mb-px flex space-x-8 overflow-x-auto" aria-label="Tabs">
+      <button *ngFor="let tab of tabs" 
+              (click)="setTab(tab.id)"
+              [class.border-blue-500]="activeTab === tab.id"
+              [class.text-blue-600]="activeTab === tab.id"
+              [class.dark:text-blue-400]="activeTab === tab.id"
+              [class.border-transparent]="activeTab !== tab.id"
+              [class.text-gray-500]="activeTab !== tab.id"
+              [class.hover:text-gray-700]="activeTab !== tab.id"
+              [class.hover:border-gray-300]="activeTab !== tab.id"
+              class="group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap transition-colors duration-200 focus:outline-none">
+        <svg class="mr-2 h-5 w-5" [class.text-blue-500]="activeTab === tab.id" [class.text-gray-400]="activeTab !== tab.id" [class.group-hover:text-gray-500]="activeTab !== tab.id" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="tab.icon" />
+        </svg>
+        {{ tab.name }}
+      </button>
+    </nav>
+  </div>
+
+  <!-- Content Area -->
+  <div class="bg-white dark:bg-neutral-800 rounded-2xl shadow-sm border border-gray-100 dark:border-neutral-700 p-8 min-h-[500px] relative overflow-hidden">
+    
+    <!-- Decoración de fondo -->
+    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-blue-50 dark:bg-blue-900/10 opacity-50 blur-3xl pointer-events-none"></div>
+
+    <!-- 1. FLUJO XENON -->
+    <div *ngIf="activeTab === 'xenon'" class="tab-content animate-slide-in">
+      <div class="flex items-center mb-6">
+        <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg mr-4">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Funcionamiento de Xenon (Agente de Soporte de LlamaloIA)</h2>
+      </div>
+
+      <p class="mb-8 text-gray-600 dark:text-gray-300 leading-relaxed">
+        Xenon es el asistente virtual oficial de soporte técnico de Llamalo IA. Su propósito es guiar a los clientes en la configuración de la plataforma, resolver incidencias técnicas complejas, y escalar al equipo humano las consultas administrativas críticas (facturación, reembolsos).
+      </p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        
+        <!-- Arquitectura del Prompt -->
+        <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-green-100 dark:bg-green-900/20 rounded-full blur-2xl -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
+          <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200 flex items-center relative z-10">
+            <div class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></div> Arquitectura del Prompt & RAG
+          </h3>
+          <ul class="space-y-4 text-sm text-gray-600 dark:text-gray-400 relative z-10">
+            <li class="flex items-start bg-gray-50 dark:bg-neutral-900/50 p-3 rounded-lg border border-gray-100 dark:border-neutral-800">
+              <span class="text-green-500 mr-3 mt-0.5"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg></span>
+              <div>
+                <strong class="text-gray-800 dark:text-gray-200 block mb-1">Rol y Personalidad</strong>
+                Ingeniero de soporte Nivel 2. Tono directo, profesional, empático y orientado a resolver problemas técnicos sin rodeos. Siempre habla en español.
+              </div>
+            </li>
+            <li class="flex items-start bg-gray-50 dark:bg-neutral-900/50 p-3 rounded-lg border border-gray-100 dark:border-neutral-800">
+              <span class="text-green-500 mr-3 mt-0.5"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg></span>
+              <div>
+                <strong class="text-gray-800 dark:text-gray-200 block mb-1">Inyección de Contexto (RAG)</strong>
+                El prompt base se alimenta constantemente del archivo <code>src/knowledge/llamalo-ai/xenon-persona.md</code>, que contiene toda la lógica de negocio, reglas de facturación, y guías de configuración de Twilio/Shopify de la plataforma.
+              </div>
+            </li>
+            <li class="flex items-start bg-gray-50 dark:bg-neutral-900/50 p-3 rounded-lg border border-gray-100 dark:border-neutral-800">
+              <span class="text-green-500 mr-3 mt-0.5"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg></span>
+              <div>
+                <strong class="text-gray-800 dark:text-gray-200 block mb-1">Manejo de Objeciones y Casos Borde</strong>
+                Xenon tiene reglas estrictas para no inventar precios, no prometer devoluciones (solo el equipo humano aprueba reembolsos) y detectar cuándo una consulta técnica escapa a su conocimiento para agendar una llamada con soporte Nivel 3.
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- System Prompt Flow -->
+        <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow flex flex-col justify-center">
+            <div class="absolute top-0 left-0 w-32 h-32 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-2xl -ml-10 -mt-10 transition-transform group-hover:scale-110"></div>
+            <h3 class="text-lg font-semibold mb-6 text-gray-800 dark:text-gray-200 flex items-center relative z-10">
+              <div class="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse"></div> Estructura del System Prompt
+            </h3>
+            
+            <div class="relative z-10 flex flex-col items-center w-full space-y-2">
+              <div class="w-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 rounded-lg p-3 text-center shadow-sm">
+                <span class="font-mono text-xs text-indigo-700 dark:text-indigo-300 font-bold uppercase tracking-wider">Instrucciones Base (Voz)</span>
+              </div>
+              <div class="w-1 h-4 border-l-2 border-dashed border-gray-300 dark:border-gray-600"></div>
+              
+              <div class="flex w-full space-x-2">
+                <div class="w-1/2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-lg p-3 text-center shadow-sm">
+                    <span class="font-mono text-xs text-blue-700 dark:text-blue-300 font-bold block mb-1">Variables de Contexto</span>
+                    <span class="text-[10px] text-gray-500 dark:text-gray-400">Fecha, Hora, Info Usuario</span>
+                </div>
+                <div class="w-1/2 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50 rounded-lg p-3 text-center shadow-sm">
+                    <span class="font-mono text-xs text-emerald-700 dark:text-emerald-300 font-bold block mb-1">Herramientas (Tools)</span>
+                    <span class="text-[10px] text-gray-500 dark:text-gray-400">Escalar, Consultar API</span>
+                </div>
+              </div>
+              <div class="w-1 h-4 border-l-2 border-dashed border-gray-300 dark:border-gray-600"></div>
+
+              <div class="w-full bg-purple-50 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-800 rounded-lg p-4 text-center shadow-sm border-l-4 border-l-purple-500">
+                <span class="font-mono text-sm text-purple-700 dark:text-purple-300 font-bold block mb-1">RAG: Xenon Persona MD</span>
+                <p class="text-xs text-gray-600 dark:text-gray-400 leading-tight">Inyección del documento markdown completo con las reglas del negocio, precios de Twilio, manuales de Shopify y protocolos de escalamiento.</p>
+              </div>
+              <div class="w-1 h-4 border-l-2 border-solid border-purple-300 dark:border-purple-600"></div>
+
+              <div class="w-full bg-gray-800 dark:bg-black border border-gray-700 rounded-lg p-3 text-center shadow-md">
+                <span class="font-mono text-xs text-green-400 font-bold">GPT-4 Turbo / GPT-4o Realtime</span>
+              </div>
+            </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 2. LLAMADAS -->
+    <div *ngIf="activeTab === 'calls'" class="tab-content animate-slide-in">
+      <div class="flex items-center mb-6">
+        <div class="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg mr-4">
+          <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Ciclo de Vida de una Llamada (Inbound)</h2>
+      </div>
+
+      <!-- Diagrama animado CSS avanzado -->
+      <div class="flex flex-col items-center justify-center py-16 my-8 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-neutral-900/60 dark:to-neutral-900/20 rounded-2xl border border-gray-200 dark:border-neutral-800 shadow-inner relative overflow-x-auto">
+        
+        <!-- Grid pattern background -->
+        <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style="background-image: radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0); background-size: 24px 24px;"></div>
+
+        <div class="flex w-[800px] lg:w-full max-w-4xl justify-between items-center relative z-10 px-12">
+          
+          <!-- Cliente -->
+          <div class="flex flex-col items-center z-10 group cursor-default">
+            <div class="relative">
+              <div class="absolute inset-0 bg-emerald-400 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity animate-pulse-ring"></div>
+              <div class="w-20 h-20 bg-white dark:bg-neutral-800 rounded-full shadow-lg flex items-center justify-center border-4 border-emerald-400 z-10 relative transform transition-transform group-hover:scale-105">
+                <svg class="w-10 h-10 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+              </div>
+            </div>
+            <span class="mt-4 text-base font-bold text-gray-700 dark:text-gray-200">Llamante</span>
+            <span class="text-xs text-gray-500 font-mono mt-1">Teléfono Normal</span>
+          </div>
+
+          <!-- Línea de conexión 1 (PSTN a Twilio) -->
+          <div class="flex-1 h-2 bg-gray-200 dark:bg-neutral-800 relative mx-4 rounded-full shadow-inner group cursor-pointer">
+            <div class="absolute inset-y-0 left-0 w-full h-full overflow-hidden rounded-full">
+              <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-400/50 via-emerald-400 to-emerald-400/50 w-1/4 animate-advanced-flow shadow-[0_0_10px_rgba(52,211,153,0.8)] rounded-full"></div>
+            </div>
+            <!-- Etiqueta sobre la línea -->
+            <div class="absolute -top-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+               <span class="text-[10px] font-mono bg-emerald-100 text-emerald-800 dark:bg-emerald-900/80 dark:text-emerald-300 px-2 py-1 rounded shadow-sm whitespace-nowrap">Red PSTN</span>
+            </div>
+            <div class="absolute -bottom-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-neutral-700 shadow-sm whitespace-nowrap">Audio G.711</span>
+            </div>
+          </div>
+
+          <!-- Twilio -->
+          <div class="flex flex-col items-center z-10 group cursor-default">
+            <div class="relative">
+              <div class="absolute inset-0 bg-red-500 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+              <div class="w-20 h-20 bg-[#F22F46] rounded-full shadow-lg flex items-center justify-center border-4 border-red-300 dark:border-red-900 z-10 relative transform transition-transform group-hover:scale-105">
+                <svg viewBox="0 0 24 24" class="w-10 h-10 text-white" fill="currentColor">
+                  <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,6C8.69,6 6,8.69 6,12C6,15.31 8.69,18 12,18C15.31,18 18,15.31 18,12C18,8.69 15.31,6 12,6M12,16C9.79,16 8,14.21 8,12C8,9.79 9.79,8 12,8C14.21,8 16,9.79 16,12C16,14.21 14.21,16 12,16M12,10C10.9,10 10,10.9 10,12C10,13.1 10.9,14 12,14C13.1,14 14,13.1 14,12C14,10.9 13.1,10 12,10Z" />
+                </svg>
+              </div>
+            </div>
+            <span class="mt-4 text-base font-bold text-gray-700 dark:text-gray-200">Twilio</span>
+            <span class="text-xs text-gray-500 font-mono mt-1">Media Streams</span>
+          </div>
+
+          <!-- Línea de conexión 2 (WebSocket) -->
+          <div class="flex-1 h-2 bg-gray-200 dark:bg-neutral-800 relative mx-4 rounded-full shadow-inner group cursor-pointer">
+            <div class="absolute inset-y-0 left-0 w-full h-full overflow-hidden rounded-full">
+              <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-400/50 via-blue-400 to-blue-400/50 w-1/4 animate-advanced-flow delay-150 shadow-[0_0_10px_rgba(96,165,250,0.8)] rounded-full"></div>
+            </div>
+            <!-- Etiqueta sobre la línea -->
+            <div class="absolute -top-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+               <span class="text-[10px] font-mono bg-blue-100 text-blue-800 dark:bg-blue-900/80 dark:text-blue-300 px-2 py-1 rounded shadow-sm whitespace-nowrap">WebSocket wss://</span>
+            </div>
+            <div class="absolute -bottom-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-neutral-700 shadow-sm whitespace-nowrap">Audio Mulaw 8kHz</span>
+            </div>
+          </div>
+
+          <!-- NestJS Gateway -->
+          <div class="flex flex-col items-center z-10 group cursor-default">
+            <div class="relative">
+              <div class="absolute inset-0 bg-blue-500 rounded-lg blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+              <div class="w-20 h-20 bg-white dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center border-4 border-blue-500 z-10 relative transform transition-transform group-hover:scale-105">
+                <svg class="w-10 h-10 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+            </div>
+            <span class="mt-4 text-base font-bold text-gray-700 dark:text-gray-200">NestJS</span>
+            <span class="text-xs text-gray-500 font-mono mt-1">StreamsGateway</span>
+          </div>
+          
+          <!-- Línea de conexión 3 (OpenAI Realtime) -->
+          <div class="flex-1 h-2 bg-gray-200 dark:bg-neutral-800 relative mx-4 rounded-full shadow-inner group cursor-pointer">
+            <div class="absolute inset-y-0 left-0 w-full h-full overflow-hidden rounded-full">
+              <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-purple-400/50 via-purple-500 to-purple-400/50 w-1/4 animate-advanced-flow delay-300 shadow-[0_0_10px_rgba(168,85,247,0.8)] rounded-full"></div>
+            </div>
+            <!-- Etiqueta sobre la línea -->
+            <div class="absolute -top-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+               <span class="text-[10px] font-mono bg-purple-100 text-purple-800 dark:bg-purple-900/80 dark:text-purple-300 px-2 py-1 rounded shadow-sm whitespace-nowrap">Realtime API wss://</span>
+            </div>
+            <div class="absolute -bottom-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-neutral-700 shadow-sm whitespace-nowrap">Audio PCM16 24kHz</span>
+            </div>
+          </div>
+
+          <!-- OpenAI / Deepgram / 11Labs -->
+          <div class="flex flex-col items-center z-10 group cursor-default">
+            <div class="relative">
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl blur opacity-30 group-hover:opacity-60 transition-opacity animate-pulse-ring" style="animation-delay: 1s;"></div>
+              <div class="w-20 h-20 bg-gradient-to-br from-purple-600 to-indigo-700 rounded-2xl shadow-lg flex items-center justify-center text-white z-10 relative transform transition-transform group-hover:scale-105 border-2 border-white/20">
+                <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+              </div>
+            </div>
+            <span class="mt-4 text-base font-bold text-gray-700 dark:text-gray-200">LLM Core</span>
+            <span class="text-xs text-gray-500 font-mono mt-1">OpenAI Realtime API</span>
+          </div>
+        </div>
+
+        <!-- Leyenda interactiva -->
+        <div class="w-full max-w-4xl mt-16 px-8 relative">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors">
+              <div class="flex items-center mb-3">
+                <div class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center mr-3">
+                  <span class="text-emerald-600 dark:text-emerald-400 text-xs font-bold">1</span>
+                </div>
+                <h4 class="font-bold text-gray-800 dark:text-gray-200">Webhook de Inicio</h4>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Cuando un cliente llama al número, Twilio envía un POST a <code>/twilio/voice</code>. NestJS responde con TwiML instruyendo a Twilio a conectarse a nuestro servidor WebSocket mediante <code>&lt;Connect&gt;&lt;Stream url="..."&gt;</code>.</p>
+            </div>
+            
+            <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-blue-300 dark:hover:border-blue-700 transition-colors">
+              <div class="flex items-center mb-3">
+                <div class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mr-3">
+                  <span class="text-blue-600 dark:text-blue-400 text-xs font-bold">2</span>
+                </div>
+                <h4 class="font-bold text-gray-800 dark:text-gray-200">El Puente WebSocket</h4>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-400">El <code>StreamsGateway</code> mantiene <strong>dos conexiones simultáneas</strong> por llamada: una con Twilio (audio 8kHz mulaw crudo) y otra con OpenAI Realtime API (audio 24kHz PCM16). Actúa como un router de paquetes de audio bidireccional.</p>
+            </div>
+            
+            <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-purple-300 dark:hover:border-purple-700 transition-colors">
+              <div class="flex items-center mb-3">
+                <div class="w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center mr-3">
+                  <span class="text-purple-600 dark:text-purple-400 text-xs font-bold">3</span>
+                </div>
+                <h4 class="font-bold text-gray-800 dark:text-gray-200">VAD y Gestión de Turnos</h4>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-400">El VAD (Voice Activity Detection) lo maneja OpenAI de forma nativa. Si el usuario interrumpe (barge-in), OpenAI trunca la respuesta actual, NestJS limpia el buffer de audio de Twilio (<code>clear</code>) y la conversación fluye naturalmente.</p>
+            </div>
+            
+            <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-red-300 dark:hover:border-red-700 transition-colors">
+              <div class="flex items-center mb-3">
+                <div class="w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center mr-3">
+                  <span class="text-red-600 dark:text-red-400 text-xs font-bold">4</span>
+                </div>
+                <h4 class="font-bold text-gray-800 dark:text-gray-200">Métricas en Tiempo Real</h4>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Durante la llamada, medimos la latencia Round-Trip (desde el final de habla del cliente hasta el primer byte de audio devuelto). Al finalizar la llamada (<code>stream.close</code>), consolidamos los metadatos en Firestore para el Dashboard analítico.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <!-- 3. SHOPIFY -->
+    <div *ngIf="activeTab === 'shopify'" class="tab-content animate-slide-in">
+      <div class="flex items-center mb-6">
+        <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg mr-4">
+          <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Sincronización de Catálogo Shopify</h2>
+      </div>
+
+      <div class="prose dark:prose-invert max-w-none">
+        <p>El agente puede responder preguntas sobre productos, stock y precios de tiendas Shopify integradas mediante el flujo de OAuth2 y webhooks.</p>
+        
+        <div class="mt-8 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-lg shadow-sm">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">Flujo de Ingesta de Datos</h3>
+            <div class="space-y-6">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <div class="flex items-center justify-center h-8 w-8 rounded-full bg-green-500 text-white font-bold">1</div>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-md font-bold text-gray-900 dark:text-white">Instalación App (OAuth)</h4>
+                  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">El cliente instala la app pública de LlamaloIA. Recibimos el <code>offline_access_token</code> de la API de Shopify y lo almacenamos cifrado en Firebase.</p>
+                </div>
+              </div>
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <div class="flex items-center justify-center h-8 w-8 rounded-full bg-blue-500 text-white font-bold">2</div>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-md font-bold text-gray-900 dark:text-white">Sincronización Inicial (Bulk)</h4>
+                  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Un worker en segundo plano extrae todos los productos, variantes y políticas de envío mediante GraphQL API. Se genera un vector embedding usando text-embedding-ada-002 y se inserta en Pinecone / base de datos vectorial.</p>
+                </div>
+              </div>
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <div class="flex items-center justify-center h-8 w-8 rounded-full bg-purple-500 text-white font-bold">3</div>
+                </div>
+                <div class="ml-4">
+                  <h4 class="text-md font-bold text-gray-900 dark:text-white">Webhooks (Actualizaciones en tiempo real)</h4>
+                  <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Suscripciones activas a <code>PRODUCTS_UPDATE</code>, <code>PRODUCTS_DELETE</code> y <code>ORDERS_CREATE</code>. Mantiene la base de conocimiento del agente actualizada instantáneamente sin intervención manual.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. TWILIO -->
+    <div *ngIf="activeTab === 'twilio'" class="tab-content animate-slide-in">
+      <div class="flex items-center mb-6">
+        <div class="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg mr-4">
+          <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Manejo de Cuentas y Métricas de Twilio</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-gray-50 dark:bg-neutral-900/40 p-5 rounded-lg border border-gray-200 dark:border-neutral-700">
+          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Multi-cuenta</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Un mismo usuario puede conectar múltiples credenciales de Twilio (SID/Auth Token).
+            En Firebase se guarda en el arreglo <code>twilio: []</code> dentro del documento de usuario. Cada cuenta obtiene un identificador único (<code>twilioAccountId</code>) tipo timestamp.
+          </p>
+        </div>
+
+        <div class="bg-gray-50 dark:bg-neutral-900/40 p-5 rounded-lg border border-gray-200 dark:border-neutral-700">
+          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Números y Agentes</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Los números de teléfono de las cuentas de Twilio se importan al panel. Al crear un agente, el usuario vincula uno de esos números con el ID del Agente. Las llamadas entrantes a ese número levantan el socket asociado a la configuración específica de ese agente.
+          </p>
+        </div>
+
+        <div class="bg-gray-50 dark:bg-neutral-900/40 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 md:col-span-2">
+          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Métricas e Índices (Webhook de Finalización)</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            Al terminar una llamada, Twilio envía un webhook con estado "completed". Para evitar escaneos de base de datos masivos (Full Scan) buscando qué usuario es dueño del `AccountSid`:
+          </p>
+          <div class="bg-neutral-800 rounded-md p-4 text-xs font-mono text-green-400 overflow-x-auto">
+            // 1. O(1) Búsqueda por índice inverso<br>
+            const indexDoc = await firestore.collection('twilio_index').doc(AccountSid).get();<br>
+            const userId = indexDoc.data().userId;<br><br>
+            // 2. Incremento atómico del consumo<br>
+            await firestore.collection('users').doc(userId).update(&#123;<br>
+            &nbsp;&nbsp;[`minutesByMonth.$&#123;monthKey&#125;`]: FieldValue.increment(durationMinutes)<br>
+            &#125;);
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 5. BASE DE CONOCIMIENTOS -->
+  <div *ngIf="activeTab === 'knowledge'" class="tab-content animate-slide-in">
+    <div class="flex items-center mb-6">
+      <div class="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-lg mr-4">
+        <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Base de Conocimientos RAG</h2>
+    </div>
+
+      <div class="prose dark:prose-invert max-w-none">
+        <p class="mb-8 text-gray-600 dark:text-gray-300">El sistema de Base de Conocimientos (Knowledge Base) permite inyectar contexto personalizado al agente mediante la arquitectura RAG (Retrieval-Augmented Generation), dándole al modelo información de la que no fue entrenado originalmente. Los documentos se almacenan temporalmente en Cloud Storage y se vectorizan en Pinecone.</p>
+
+      <div class="bg-gray-50 dark:bg-neutral-900/40 rounded-xl p-8 border border-gray-200 dark:border-neutral-700">
+        <h3 class="text-xl font-bold mb-6 text-gray-800 dark:text-gray-200">Pipeline de Procesamiento Vectorial</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+          
+          <!-- Step 1 -->
+          <div class="bg-white dark:bg-neutral-800 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 shadow-sm relative z-10 text-center flex flex-col items-center group hover:-translate-y-1 transition-transform">
+            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-900 transition-colors">
+              <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <h4 class="font-bold text-gray-800 dark:text-gray-200 mb-2">1. Ingesta (Chunking)</h4>
+            <p class="text-xs text-gray-500 dark:text-gray-400">El usuario sube documentos (PDF, TXT, DOCX). Se extrae el texto y se divide en fragmentos (chunks) con solapamiento semántico (ej. 500 tokens por chunk) para mantener el contexto cruzado.</p>
+          </div>
+
+            <!-- Arrow -->
+            <div class="hidden md:flex absolute top-[100px] left-[33%] right-[66%] -mt-3 items-center justify-center text-gray-300 dark:text-neutral-600 z-0 opacity-50">
+               <svg class="w-8 h-8 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+               </svg>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="bg-white dark:bg-neutral-800 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 shadow-sm relative z-10 text-center flex flex-col items-center group hover:-translate-y-1 transition-transform delay-100">
+              <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mb-4 group-hover:bg-amber-200 dark:group-hover:bg-amber-900 transition-colors">
+                <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h4 class="font-bold text-gray-800 dark:text-gray-200 mb-2">2. Vectorización</h4>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Se llama a la API de OpenAI (<code>text-embedding-3-small</code>) para convertir cada fragmento de texto en un vector numérico denso (un array de 1536 dimensiones).</p>
+            </div>
+
+            <!-- Arrow -->
+            <div class="hidden md:flex absolute top-[100px] left-[66%] right-[33%] -mt-3 items-center justify-center text-gray-300 dark:text-neutral-600 z-0 opacity-50">
+               <svg class="w-8 h-8 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="animation-delay: 0.5s;">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+               </svg>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="bg-white dark:bg-neutral-800 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 shadow-sm relative z-10 text-center flex flex-col items-center group hover:-translate-y-1 transition-transform delay-200">
+              <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mb-4 group-hover:bg-purple-200 dark:group-hover:bg-purple-900 transition-colors">
+                <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                </svg>
+              </div>
+              <h4 class="font-bold text-gray-800 dark:text-gray-200 mb-2">3. Storage & Retrieval</h4>
+              <p class="text-xs text-gray-500 dark:text-gray-400">Los vectores se indexan en la base de datos vectorial (Pinecone). En tiempo real, cuando el usuario hace una pregunta durante la llamada, la query se vectoriza y se buscan los 3-5 chunks con mayor "Cosine Similarity" para añadirlos dinámicamente al prompt.</p>
+            </div>
+            
+          </div>
+        </div>
+
+        <div class="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800/50 rounded-lg p-5 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
+          <h4 class="font-bold text-blue-800 dark:text-blue-300 mb-2 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            ¿Por qué RAG sobre Fine-Tuning?
+          </h4>
+          <p class="text-sm text-blue-700 dark:text-blue-400">
+            A diferencia del Fine-Tuning (que "enseña" permanentemente al modelo y es costoso/lento de actualizar), RAG inyecta el conocimiento <strong>directamente en el prompt en tiempo de ejecución</strong>. Esto nos permite:
+          </p>
+          <ul class="list-disc pl-5 mt-2 text-sm text-blue-700 dark:text-blue-400 space-y-1">
+            <li>Actualizar precios de Twilio o reglas de facturación de LlamaloIA instantáneamente modificando un solo archivo.</li>
+            <li>Evitar alucinaciones (el modelo basa su respuesta <em>estrictamente</em> en el documento inyectado).</li>
+            <li>Conectar el catálogo de Shopify en tiempo real.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>

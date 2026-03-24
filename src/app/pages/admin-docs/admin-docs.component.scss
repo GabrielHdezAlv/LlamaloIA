@@ -1,0 +1,80 @@
+// Keyframes personalizados
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes flowLine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+// Clases utilitarias
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.animate-flow {
+  animation: flowLine 2.5s infinite linear;
+}
+
+  // Estilos de contenido
+  .tab-content {
+    opacity: 0; // Se inicializa oculto para el fadeIn/slideIn
+  }
+  
+  // Custom Flow Line Animation
+  @keyframes advancedFlowLine {
+    0% { transform: translateX(-100%) scaleX(0.5); opacity: 0; }
+    30% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: translateX(400%) scaleX(1.5); opacity: 0; }
+  }
+  
+  .animate-advanced-flow {
+    animation: advancedFlowLine 3s infinite ease-in-out;
+  }
+
+  // Animaciones para elementos SVG
+  @keyframes pulse-ring {
+    0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); opacity: 0.8; }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); opacity: 0; }
+    100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); opacity: 0; }
+  }
+
+  .animate-pulse-ring {
+    animation: pulse-ring 2.5s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
