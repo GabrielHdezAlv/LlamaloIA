@@ -152,7 +152,14 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
       if (this.sourceAdmin) {
         this.router.navigate(['/admin']);
       } else {
-        this.router.navigate(['/dashboard/agents/create']);
+        const queryParams: Record<string, string> = {
+          step: 'connectBusiness',
+        };
+        if (this.connectedStores.length > 0) {
+          queryParams['shopify'] = 'success';
+          queryParams['shop'] = this.connectedStores[0].shopDomain;
+        }
+        this.router.navigate(['/dashboard/agents/create'], { queryParams });
       }
     }
   }

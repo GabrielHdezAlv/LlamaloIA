@@ -238,15 +238,19 @@ export class NewCreateAgentsComponent
 
   ngOnInit() {
     const stepParam = this.route?.snapshot?.queryParams?.['step'];
+    this.checkForSavedDraft();
+
     if (stepParam === 'connectBusiness') {
-      this.step = 'connectBusiness';
-      this.displayedStep = 'connectBusiness';
-      this.saveDraft();
-    } else {
-      this.checkForSavedDraft();
-      if (this.savedDraft && this.showRecoveryPopup) {
+      if (this.savedDraft) {
         this.recoverDraft();
       }
+      this.step = 'connectBusiness';
+      this.displayedStep = 'connectBusiness';
+      this.isStepFadingOut = false;
+      this.showRecoveryPopup = false;
+      this.saveDraft();
+    } else if (this.savedDraft && this.showRecoveryPopup) {
+      this.recoverDraft();
     }
 
     if (this.isBrowser) {

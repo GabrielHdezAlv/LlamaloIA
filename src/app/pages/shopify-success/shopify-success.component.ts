@@ -74,9 +74,8 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Misma funcionalidad que "Volver" de la página de conecta Shopify:
-   * navega a crear agente. Además envía query params indicando que la conexión
-   * con Shopify fue exitosa para que la página de crear agente muestre el modal.
+   * Vuelve al paso "Conecta tu negocio de Shopify" del onboarding con estado conectado
+   * (mismos query params que "Continuar configurando el agente").
    */
   continueConfiguringAgent(): void {
     if (this.agentId) {
@@ -106,7 +105,7 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Volver a crear/editar agente sin indicar éxito (para el caso de error).
+   * Volver tras error: mismo paso de onboarding sin forzar éxito de Shopify.
    */
   goBack(): void {
     if (this.agentId) {
@@ -118,8 +117,14 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
         queryParams: { tab: 'connections' }
       });
     } else {
-      const targetRoute = this.sourceAdmin ? ['/admin'] : ['/dashboard/agents/create'];
-      this.router.navigate(targetRoute);
+      if (this.sourceAdmin) {
+        this.router.navigate(['/admin']);
+      } else {
+        this.router.navigate(['/dashboard/agents/create'], {
+          queryParams: { step: 'connectBusiness' },
+          queryParamsHandling: '',
+        });
+      }
     }
   }
 }
