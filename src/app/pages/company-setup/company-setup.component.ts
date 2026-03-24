@@ -955,6 +955,13 @@ export class CompanySetupComponent
     const params = this.route?.snapshot?.queryParams;
     if (!params) return;
 
+    // Solo reaccionar si estamos explícitamente en la ruta /company-setup (o si se agregó un flag interno)
+    // Esto evita que si el componente está montado oculto dentro de /dashboard, secuestre la pantalla
+    // cuando el creador de agentes de la web use el parámetro step=connectBusiness.
+    if (!this.router.url.includes('/company-setup')) {
+      return;
+    }
+
     // Si viene con el step de Shopify, saltar directamente a ese paso
     if (params['step'] === 'connectBusiness') {
       this.isSetupActive = true;
