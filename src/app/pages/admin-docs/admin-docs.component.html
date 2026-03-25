@@ -6,6 +6,12 @@
     <p class="text-lg text-gray-500 dark:text-gray-400">
       Arquitectura, flujos de datos y procesos internos del sistema. Exclusivo para administradores.
     </p>
+    <p class="text-sm text-gray-500 dark:text-gray-500 mt-3 max-w-3xl leading-relaxed">
+      Uso previsto: <strong class="text-gray-700 dark:text-gray-300">dirección</strong> (visión de producto y riesgos),
+      <strong class="text-gray-700 dark:text-gray-300">equipo técnico</strong> (rutas, integraciones, datos)
+      y <strong class="text-gray-700 dark:text-gray-300">referencia rápida</strong> cuando un proceso no esté fresco en memoria.
+      Donde haya bloque «Resumen para dirección y negocio», lo de abajo sigue siendo el detalle completo.
+    </p>
   </header>
 
   <!-- Navigation Tabs -->
@@ -134,6 +140,26 @@
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Ciclo de Vida de una Llamada (Inbound)</h2>
       </div>
 
+      <div class="mb-6 rounded-xl border border-emerald-200/80 dark:border-emerald-800/60 bg-emerald-50/60 dark:bg-emerald-950/25 p-5 shadow-sm">
+        <h3 class="text-sm font-semibold text-emerald-900 dark:text-emerald-200 mb-3 flex items-center gap-2">
+          <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          Resumen para dirección y negocio
+        </h3>
+        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300 space-y-2 leading-relaxed">
+          <li>El cliente marca un número de Twilio; la voz del agente de IA es el resultado de nuestro backend procesando el audio, no un “bot” autocontenido dentro de Twilio.</li>
+          <li>Antes de que suene cualquier mensaje generado por la app, el sistema comprueba en base de datos que el número pertenezca a un cliente, esté vinculado a un agente y que ese agente esté activo.</li>
+          <li>Si falta configuración o el agente está inactivo, la llamada puede colgarse de inmediato <strong class="font-medium text-gray-800 dark:text-gray-200">sin mensaje de error audible</strong>: conviene tenerlo en cuenta en soporte y en comunicación al cliente.</li>
+          <li>La experiencia de voz depende de terceros (reconocimiento, modelo, síntesis); el valor de LlamaloIA está en orquestar todo bajo la misma cuenta, agente y métricas.</li>
+        </ul>
+        <p class="mt-4 text-xs text-gray-500 dark:text-gray-500 border-t border-emerald-200/60 dark:border-emerald-800/50 pt-3">
+          A partir del siguiente párrafo: detalle técnico (HTTP, TwiML, WebSocket, Firestore) y diagrama, sin condensar.
+        </p>
+      </div>
+
+      <p class="mb-6 text-gray-600 dark:text-gray-300 leading-relaxed max-w-4xl">
+        El flujo tiene <strong>dos fases</strong>: primero Twilio hace un <strong>POST HTTP</strong> al webhook de voz del backend (<code class="text-sm bg-gray-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">POST /voice/incoming</code>), donde se resuelve el usuario en Firestore, el número marcado y el agente. Solo si la llamada está permitida, la respuesta TwiML abre el <strong>WebSocket</strong> hacia <code class="text-sm bg-gray-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">StreamsGateway</code>. Si el agente está inactivo, no hay mapeo válido o el número no existe en el perfil, el TwiML devuelve <code class="text-sm">&lt;Reject /&gt;</code> y la llamada se corta sin audio generado por la app.
+      </p>
+
       <!-- Diagrama animado CSS avanzado -->
       <div class="flex flex-col items-center justify-center py-16 my-8 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-neutral-900/60 dark:to-neutral-900/20 rounded-2xl border border-gray-200 dark:border-neutral-800 shadow-inner relative overflow-x-auto">
         
@@ -179,7 +205,7 @@
               </div>
             </div>
             <span class="mt-4 text-base font-bold text-gray-700 dark:text-gray-200">Twilio</span>
-            <span class="text-xs text-gray-500 font-mono mt-1">Media Streams</span>
+            <span class="text-xs text-gray-500 font-mono mt-1">Voice URL → TwiML</span>
           </div>
 
           <!-- Línea de conexión 2 (WebSocket) -->
@@ -210,17 +236,17 @@
             <span class="text-xs text-gray-500 font-mono mt-1">StreamsGateway</span>
           </div>
           
-          <!-- Línea de conexión 3 (OpenAI Realtime) -->
+          <!-- Línea de conexión 3 (APIs STT/LLM/TTS) -->
           <div class="flex-1 h-2 bg-gray-200 dark:bg-neutral-800 relative mx-4 rounded-full shadow-inner group cursor-pointer">
             <div class="absolute inset-y-0 left-0 w-full h-full overflow-hidden rounded-full">
               <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-purple-400/50 via-purple-500 to-purple-400/50 w-1/4 animate-advanced-flow delay-300 shadow-[0_0_10px_rgba(168,85,247,0.8)] rounded-full"></div>
             </div>
             <!-- Etiqueta sobre la línea -->
             <div class="absolute -top-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
-               <span class="text-[10px] font-mono bg-purple-100 text-purple-800 dark:bg-purple-900/80 dark:text-purple-300 px-2 py-1 rounded shadow-sm whitespace-nowrap">Realtime API wss://</span>
+               <span class="text-[10px] font-mono bg-purple-100 text-purple-800 dark:bg-purple-900/80 dark:text-purple-300 px-2 py-1 rounded shadow-sm whitespace-nowrap">HTTPS / WSS proveedores</span>
             </div>
             <div class="absolute -bottom-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
-               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-neutral-700 shadow-sm whitespace-nowrap">Audio PCM16 24kHz</span>
+               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-neutral-700 shadow-sm whitespace-nowrap">STT · chat · TTS</span>
             </div>
           </div>
 
@@ -232,8 +258,8 @@
                 <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
               </div>
             </div>
-            <span class="mt-4 text-base font-bold text-gray-700 dark:text-gray-200">LLM Core</span>
-            <span class="text-xs text-gray-500 font-mono mt-1">OpenAI Realtime API</span>
+            <span class="mt-4 text-base font-bold text-gray-700 dark:text-gray-200">Pipeline voz</span>
+            <span class="text-xs text-gray-500 font-mono mt-1 text-center leading-tight">OpenAI · ElevenLabs · Deepgram</span>
           </div>
         </div>
 
@@ -245,9 +271,9 @@
                 <div class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center mr-3">
                   <span class="text-emerald-600 dark:text-emerald-400 text-xs font-bold">1</span>
                 </div>
-                <h4 class="font-bold text-gray-800 dark:text-gray-200">Webhook de Inicio</h4>
+                <h4 class="font-bold text-gray-800 dark:text-gray-200">Webhook de voz (TwiML)</h4>
               </div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">Cuando un cliente llama al número, Twilio envía un POST a <code>/twilio/voice</code>. NestJS responde con TwiML instruyendo a Twilio a conectarse a nuestro servidor WebSocket mediante <code>&lt;Connect&gt;&lt;Stream url="..."&gt;</code>.</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">En la consola de Twilio, el número debe tener <strong>A call comes in</strong> → Webhook <code class="text-xs">POST</code> apuntando a <code class="text-xs">https://&lt;tu-dominio&gt;/voice/incoming</code>. El controlador busca en Firestore el usuario por el número (<code class="text-xs">phoneNumbers[]</code> o compatibilidad legacy), enlaza el agente por <code class="text-xs">phoneId</code> y comprueba <code class="text-xs">state</code>. Si procede, responde <code class="text-xs">&lt;Connect&gt;&lt;Stream&gt;</code> hacia el WebSocket; si no, <code class="text-xs">&lt;Reject /&gt;</code> (sin mensaje de voz).</p>
             </div>
             
             <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-blue-300 dark:hover:border-blue-700 transition-colors">
@@ -255,9 +281,9 @@
                 <div class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mr-3">
                   <span class="text-blue-600 dark:text-blue-400 text-xs font-bold">2</span>
                 </div>
-                <h4 class="font-bold text-gray-800 dark:text-gray-200">El Puente WebSocket</h4>
+                <h4 class="font-bold text-gray-800 dark:text-gray-200">El puente WebSocket</h4>
               </div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">El <code>StreamsGateway</code> mantiene <strong>dos conexiones simultáneas</strong> por llamada: una con Twilio (audio 8kHz mulaw crudo) y otra con OpenAI Realtime API (audio 24kHz PCM16). Actúa como un router de paquetes de audio bidireccional.</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">Tras el TwiML, el <code>StreamsGateway</code> recibe el stream de Twilio (audio 8 kHz μ-law). Orquesta STT (p. ej. Deepgram), el modelo de chat (OpenAI) y síntesis de voz (ElevenLabs) según la configuración del agente; no es obligatorio que el primer salto HTTP pase por el mismo host que el WebSocket, pero el TwiML debe generarse siempre en <code class="text-xs">/voice/incoming</code> para aplicar reglas de negocio antes de abrir audio.</p>
             </div>
             
             <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-purple-300 dark:hover:border-purple-700 transition-colors">
@@ -265,9 +291,9 @@
                 <div class="w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center mr-3">
                   <span class="text-purple-600 dark:text-purple-400 text-xs font-bold">3</span>
                 </div>
-                <h4 class="font-bold text-gray-800 dark:text-gray-200">VAD y Gestión de Turnos</h4>
+                <h4 class="font-bold text-gray-800 dark:text-gray-200">VAD y turnos</h4>
               </div>
-              <p class="text-sm text-gray-600 dark:text-gray-400">El VAD (Voice Activity Detection) lo maneja OpenAI de forma nativa. Si el usuario interrumpe (barge-in), OpenAI trunca la respuesta actual, NestJS limpia el buffer de audio de Twilio (<code>clear</code>) y la conversación fluye naturalmente.</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">La detección de voz y los turnos dependen del pipeline activo (p. ej. Deepgram + LLM). En barge-in, el gateway puede cortar TTS y priorizar la entrada del usuario según la lógica implementada en <code>StreamsGateway</code>.</p>
             </div>
             
             <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-red-300 dark:hover:border-red-700 transition-colors">
@@ -348,6 +374,22 @@
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Manejo de Cuentas y Métricas de Twilio</h2>
       </div>
 
+      <div class="mb-6 rounded-xl border border-red-200/80 dark:border-red-900/50 bg-red-50/50 dark:bg-red-950/20 p-5 shadow-sm">
+        <h3 class="text-sm font-semibold text-red-900 dark:text-red-200 mb-3 flex items-center gap-2">
+          <svg class="w-5 h-5 text-red-600 dark:text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          Resumen para dirección y negocio
+        </h3>
+        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300 space-y-2 leading-relaxed">
+          <li>Un cliente puede conectar <strong class="font-medium text-gray-800 dark:text-gray-200">varias cuentas Twilio</strong> a un mismo usuario en LlamaloIA; es flexibilidad operativa, no una cuenta única obligatoria.</li>
+          <li>Los números se importan al panel y se asocian a agentes: <strong class="font-medium text-gray-800 dark:text-gray-200">sin ese vínculo, no hay experiencia de voz coherente</strong> para ese teléfono.</li>
+          <li>La facturación y el uso de minutos que ve el producto se alinean con registros internos de llamadas; no confundir con un contador “en vivo” único en un solo webhook.</li>
+          <li>Borrar una cuenta Twilio en el panel implica desactivar agentes que dependían de esos números: es una acción con impacto en producción, no solo “quitar credenciales”.</li>
+        </ul>
+        <p class="mt-4 text-xs text-gray-500 dark:text-gray-500 border-t border-red-200/60 dark:border-red-900/40 pt-3">
+          A continuación: detalle técnico (Firebase, índices, webhooks, código de ejemplo), sin resumir.
+        </p>
+      </div>
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-gray-50 dark:bg-neutral-900/40 p-5 rounded-lg border border-gray-200 dark:border-neutral-700">
           <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Multi-cuenta</h3>
@@ -361,6 +403,16 @@
           <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Números y Agentes</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400">
             Los números de teléfono de las cuentas de Twilio se importan al panel. Al crear un agente, el usuario vincula uno de esos números con el ID del Agente. Las llamadas entrantes a ese número levantan el socket asociado a la configuración específica de ese agente.
+          </p>
+        </div>
+
+        <div class="bg-gray-50 dark:bg-neutral-900/40 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 md:col-span-2">
+          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Webhook de voz en Twilio (Voice URL)</h3>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+            Para que las llamadas entrantes lleguen al backend, en la consola de Twilio el número debe tener <strong>A call comes in</strong> configurado como Webhook <code class="text-xs">POST</code> a <code class="text-xs">https://&lt;tu-dominio-api&gt;/voice/incoming</code> (mismo host público que el resto del API). El TwiML de respuesta abre el Media Stream hacia <code class="text-xs">/voice/stream</code> (WebSocket) con los parámetros del agente.
+          </p>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Al <strong>eliminar</strong> una cuenta Twilio desde el panel, se quitan los números importados de esa cuenta, los agentes que usaban esos números pasan a <strong>inactivos</strong> y se limpia <code class="text-xs">twilioAccountId</code> en el documento del usuario, de modo que no queden referencias huérfanas.
           </p>
         </div>
 
