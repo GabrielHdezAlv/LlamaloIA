@@ -1311,7 +1311,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.metricsService.setLoading(false);
       },
       error: (error) => {
-        console.error('Error loading dashboard metrics:', error);
+        if (this.isBrowser && error?.status !== 401) {
+          console.error('Error loading dashboard metrics:', error);
+        }
         this.dashboardMetricsError =
           'Error al cargar las métricas del dashboard';
         this.isLoadingDashboardMetrics = false;
@@ -1396,7 +1398,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.metricsService.setLoading(false);
       },
       error: (error) => {
-        console.error('Error loading detailed metrics:', error);
+        if (this.isBrowser && error?.status !== 401) {
+          console.error('Error loading detailed metrics:', error);
+        }
         this.detailedMetricsError = 'Error al cargar las métricas detalladas';
         this.isLoadingDetailedMetrics = false;
         this.metricsService.setLoading(false);
@@ -1807,15 +1811,15 @@ export class MetricsComponent implements OnInit, OnDestroy {
       this.extraMinutes = user.extraMinutes;
     }
 
-    // Cargar métricas del dashboard y detalladas al entrar en la pantalla
-    this.loadDashboardMetrics();
-    this.loadDetailedMetrics();
-
-    // Verificar salud del sistema
-    this.metricsService.checkSystemHealth().subscribe((isOk) => {
-      this.isSystemOk = isOk;
-      this.cdr.markForCheck();
-    });
+    // Solo en navegador: el prerender SSR no tiene token y llenaría la consola de 401
+    if (this.isBrowser) {
+      this.loadDashboardMetrics();
+      this.loadDetailedMetrics();
+      this.metricsService.checkSystemHealth().subscribe((isOk) => {
+        this.isSystemOk = isOk;
+        this.cdr.markForCheck();
+      });
+    }
 
     // Inicializar datos del gráfico móvil
     this.updateMobileChartData();

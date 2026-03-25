@@ -152,16 +152,20 @@ export class NumbersComponent implements OnInit, AfterViewInit {
           this.cdr.detectChanges();
         },
         error: (error) => {
-          console.error(
-            'Error al obtener los números de teléfono del usuario:',
-            error,
-          );
+          if (this.isBrowser && error?.status !== 401) {
+            console.error(
+              'Error al obtener los números de teléfono del usuario:',
+              error,
+            );
+          }
           this.phoneNumbers = [];
           this.cdr.detectChanges();
         },
       });
 
-    this.searchSubject.next('');
+    if (this.isBrowser) {
+      this.searchSubject.next('');
+    }
   }
 
   /** Recarga números respetando el término de búsqueda (tras importar o eliminar). */
@@ -186,10 +190,12 @@ export class NumbersComponent implements OnInit, AfterViewInit {
         }
       },
       error: (error) => {
-        console.error(
-          'Error al obtener los números de teléfono del usuario:',
-          error,
-        );
+        if (this.isBrowser && error?.status !== 401) {
+          console.error(
+            'Error al obtener los números de teléfono del usuario:',
+            error,
+          );
+        }
         this.phoneNumbers = [];
         this.cdr.detectChanges();
       },

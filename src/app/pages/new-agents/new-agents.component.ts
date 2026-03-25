@@ -78,12 +78,16 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
           this.agents = response.agents || [];
         },
         error: (error) => {
-          console.error('❌ Error al buscar agentes:', error);
+          if (this.isBrowser && error?.status !== 401) {
+            console.error('❌ Error al buscar agentes:', error);
+          }
           this.agents = [];
         },
       });
 
-    this.searchSubject.next('');
+    if (this.isBrowser) {
+      this.searchSubject.next('');
+    }
   }
 
   ngAfterViewInit(): void {

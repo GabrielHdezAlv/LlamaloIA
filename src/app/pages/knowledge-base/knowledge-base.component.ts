@@ -116,7 +116,9 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadKnowledgeSources();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadKnowledgeSources();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -167,8 +169,17 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Error loading knowledge sources:', err);
-        this.notificationService.error(this.t.knowledgeBaseNoDocuments);
+        if (isPlatformBrowser(this.platformId) && err?.status !== 401) {
+          console.error('Error loading knowledge sources:', err);
+        }
+        if (err?.status === 401) {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+          return;
+        }
+        if (isPlatformBrowser(this.platformId)) {
+          this.notificationService.error(this.t.knowledgeBaseNoDocuments);
+        }
         this.isLoading = false;
         this.cdr.detectChanges();
       },

@@ -370,7 +370,7 @@
             Al terminar una llamada, Twilio envía un webhook con estado "completed". El handler resuelve al usuario vía índice inverso <code>twilio_index</code> (O(1) en lugar de Full Scan). El consumo mensual en <code>users.minutesByMonth["YYYY-MM"]</code> (UTC) <strong>no</strong> se incrementa desde este webhook: se recalcula desde la suma de duraciones en la colección <code>llamadas_registradas</code> al cargar el dashboard o las métricas detalladas, alineado con lo que muestra la UI.
           </p>
           <div class="bg-neutral-800 rounded-md p-4 text-xs font-mono text-green-400 overflow-x-auto">
-            // Índice inverso: twilio_index/{AccountSid} → userId<br>
+            // Índice inverso: twilio_index/&lt;AccountSid&gt; → userId<br>
             const indexDoc = await firestore.collection('twilio_index').doc(AccountSid).get();<br>
             // minutesByMonth := Σ (duración) de llamadas_registradas del mes (al GET /metrics/dashboard)
           </div>

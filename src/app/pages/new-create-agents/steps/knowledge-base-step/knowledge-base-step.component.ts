@@ -169,7 +169,14 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
       },
       error: (error) => {
-        console.error('Error loading knowledge sources:', error);
+        if (isPlatformBrowser(this.platformId) && error?.status !== 401) {
+          console.error('Error loading knowledge sources:', error);
+        }
+        if (error?.status === 401) {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+          return;
+        }
         this.error = this.t.knowledgeBaseLoadError;
         this.isLoading = false;
         this.knowledgeSources = [];
@@ -496,7 +503,9 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
 
   // Lifecycle hooks
   ngOnInit(): void {
-    this.loadKnowledgeSources();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadKnowledgeSources();
+    }
   }
 
   ngAfterViewInit(): void {

@@ -746,7 +746,9 @@ export class AdminMetricsComponent implements OnInit {
         this.isLoadingDashboardMetrics = false;
       },
       error: (error) => {
-        console.error('Error loading dashboard metrics:', error);
+        if (this.isBrowser && error?.status !== 401) {
+          console.error('Error loading dashboard metrics:', error);
+        }
         this.dashboardMetricsError =
           'Error al cargar las métricas del dashboard';
         this.isLoadingDashboardMetrics = false;
@@ -809,8 +811,9 @@ export class AdminMetricsComponent implements OnInit {
       this.extraMinutes = user.extraMinutes;
     }
 
-    // Cargar métricas del dashboard
-    this.loadDashboardMetrics();
+    if (this.isBrowser) {
+      this.loadDashboardMetrics();
+    }
 
     // Inicializar datos del gráfico móvil
     this.updateMobileChartData();
