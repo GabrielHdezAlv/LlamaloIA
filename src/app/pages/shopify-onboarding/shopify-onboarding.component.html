@@ -106,7 +106,7 @@
           </button>
         </div>
       </div>
-      } @else {
+      } @else if (showNewStoreForm || connectedStores.length === 0) {
       <!-- Formulario de nueva tienda -->
       <div class="flex flex-col gap-1 3xl:gap-1.5">
         <label class="text-xs sm:text-sm 3xl:text-base font-medium text-white">Dominio de Shopify</label>
@@ -121,6 +121,9 @@
         </p>
         }
       </div>
+      } @else {
+      <!-- Estado de seguridad: no renderizar input si hay tiendas conectadas y no estamos creando una nueva -->
+      <div></div>
       }
     </div>
 

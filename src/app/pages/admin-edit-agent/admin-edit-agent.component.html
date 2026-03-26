@@ -660,7 +660,8 @@
           </p>
         </div>
         } @else {
-        <div class="space-y-4">
+        <!-- Limita visualmente el listado para que no empuje toda la pantalla -->
+        <div class="space-y-4 max-h-[14rem] sm:max-h-[16rem] overflow-y-auto pr-1">
           @for (source of agentKnowledgeSources; track source.id) {
           <div
             class="flex items-center justify-between p-4 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-lg">

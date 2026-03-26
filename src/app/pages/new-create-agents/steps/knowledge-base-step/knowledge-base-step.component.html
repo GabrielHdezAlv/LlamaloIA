@@ -157,12 +157,13 @@
           </button>
         </div>
         } @else if (hasKnowledgeSources) {
-        <!-- Lista de fuentes de conocimiento -->
+        <!-- Lista de fuentes de conocimiento (limita visualmente a ~3-4 filas) -->
         <div
-          class="flex-1 min-w-0 rounded-xl bg-white dark:bg-[#111113] border border-gray-200 dark:border-[#2C2C2C] overflow-hidden shadow-sm">
+          class="flex-1 min-w-0 rounded-xl bg-white dark:bg-[#111113] border border-gray-200 dark:border-[#2C2C2C] overflow-y-auto max-h-[14rem] sm:max-h-[16rem] shadow-sm">
           <div class="overflow-x-auto">
             <table class="w-full">
-              <thead class="bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200 dark:border-[#2C2C2C]">
+              <thead
+                class="sticky top-0 z-10 bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200 dark:border-[#2C2C2C]">
                 <tr>
                   <th class="py-2 3xl:py-2 px-2 3xl:px-3 w-10">
                     <div class="flex items-center justify-center">

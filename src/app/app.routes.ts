@@ -28,6 +28,7 @@ import { AdminEditAgentComponent } from './pages/admin-edit-agent/admin-edit-age
 import { AdminNewsComponent } from './pages/admin-news/admin-news.component';
 import { AdminDocsComponent } from './pages/admin-docs/admin-docs.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ShopifyComponent } from './pages/shopify/shopify.component';
 
 export const routes: Routes = [
   {
@@ -72,6 +73,11 @@ export const routes: Routes = [
   {
     path: 'verify-email',
     component: VerifyEmailComponent,
+  },
+  {
+    path: 'shopify',
+    component: ShopifyComponent,
+    data: { hideSupportWidget: true },
   },
   {
     path: 'recover',

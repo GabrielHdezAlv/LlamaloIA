@@ -1,0 +1,607 @@
+<div class="min-h-screen bg-gray-50 dark:bg-slate-950">
+  <div class="w-full flex flex-col items-center px-3 sm:px-4 md:px-6 3xl:px-10 4xl:px-14 pb-10">
+    <!-- Más aire superior; fila KPI más estrecha (centrada) -->
+    <div
+      class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] 4xl:max-w-[110rem] mx-auto pt-10 sm:pt-12 md:pt-14 lg:pt-16 2xl:pt-14 3xl:pt-16 4xl:pt-20"
+    >
+      <div class="w-full max-w-3xl sm:max-w-4xl xl:max-w-5xl mx-auto px-1 sm:px-2">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-5 4xl:gap-6">
+          <div
+            class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between relative"
+          >
+            <div class="flex items-center gap-1.5 -mt-1">
+              <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black dark:text-slate-50 font-medium">
+                Total de llamadas
+              </span>
+              <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
+                · Últimos 7 días
+              </span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black dark:text-slate-50 tabular-nums">
+                {{ mock.totalCalls }}
+              </span>
+              <div class="flex items-center gap-1 mt-0.5">
+                <span
+                  class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold"
+                  [ngClass]="
+                    mock.totalCallsVar >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                  "
+                >
+                  {{ mock.totalCallsVar >= 0 ? '+' : '' }}{{ mock.totalCallsVar }}%
+                </span>
+                <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base text-gray-500 dark:text-slate-500">
+                  vs semana anterior
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between relative"
+          >
+            <div class="flex items-center gap-1.5 -mt-1">
+              <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black dark:text-slate-50 font-medium">
+                Llamadas exitosas
+              </span>
+              <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
+                · Últimos 7 días
+              </span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black dark:text-slate-50 tabular-nums">
+                {{ mock.successfulCalls }}
+              </span>
+              <div class="flex items-center gap-1 mt-0.5">
+                <span
+                  class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold"
+                  [ngClass]="
+                    mock.successfulCallsVar >= 0
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-red-600 dark:text-red-400'
+                  "
+                >
+                  {{ mock.successfulCallsVar >= 0 ? '+' : '' }}{{ mock.successfulCallsVar }}%
+                </span>
+                <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base text-gray-500 dark:text-slate-500">
+                  vs semana anterior
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between relative"
+          >
+            <div class="flex items-center gap-1.5 -mt-1">
+              <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black dark:text-slate-50 font-medium">
+                Minutos totales
+              </span>
+              <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
+                · Este mes
+              </span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black dark:text-slate-50 tabular-nums">
+                {{ mock.totalMinutes }} m
+              </span>
+              <div class="flex items-center gap-1 mt-0.5">
+                <span
+                  class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold"
+                  [ngClass]="
+                    mock.totalMinutesVar >= 0
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-red-600 dark:text-red-400'
+                  "
+                >
+                  {{ mock.totalMinutesVar >= 0 ? '+' : '' }}{{ mock.totalMinutesVar }}%
+                </span>
+                <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base text-gray-500 dark:text-slate-500">
+                  vs semana anterior
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between relative"
+          >
+            <div class="flex items-center gap-1.5 -mt-1">
+              <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black dark:text-slate-50 font-medium">
+                Tiempo ahorrado
+              </span>
+              <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
+                · Este mes
+              </span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black dark:text-slate-50 tabular-nums">
+                {{ mock.timeSaved }} m
+              </span>
+              <div class="flex items-center gap-1 mt-0.5">
+                <span
+                  class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base font-semibold"
+                  [ngClass]="
+                    mock.timeSavedVar >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                  "
+                >
+                  {{ mock.timeSavedVar >= 0 ? '+' : '' }}{{ mock.timeSavedVar }}%
+                </span>
+                <span class="text-[10px] lg:text-[10px] 3xl:text-sm 4xl:text-base text-gray-500 dark:text-slate-500">
+                  vs semana anterior
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segunda fila: mismo ancho que los 4 KPI — 8 cols + 4 cols (tasa arriba, minutos abajo) -->
+    <div class="w-full flex items-start justify-center px-3 sm:px-4 md:px-6 3xl:px-10 4xl:px-14">
+      <div
+        class="w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] 4xl:max-w-[110rem] mx-auto mt-6 sm:mt-8 2xl:mt-6 3xl:mt-8 4xl:mt-10"
+      >
+        <div class="w-full max-w-3xl sm:max-w-4xl xl:max-w-5xl mx-auto px-1 sm:px-2">
+          <div
+            class="grid grid-cols-12 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-5 4xl:gap-7 max-lg:gap-2 items-stretch"
+          >
+            <!-- Columna izquierda: Latencia + Duración media (mismo diseño que Métricas) -->
+            <div
+              class="col-span-12 lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-5 4xl:gap-7 max-lg:gap-2 items-stretch"
+            >
+              <!-- Latencia (copiado de metrics.component.html) -->
+              <div
+                class="bg-white rounded-2xl px-3 pt-3 lg:px-3 lg:pt-3 pb-2 lg:pb-2.5 mb-0 md:h-[360px] lg:h-auto border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-full shadow-sm"
+              >
+                <div class="flex justify-between items-start mb-2 lg:mb-2">
+                  <div>
+                    <h3
+                      class="font-semibold text-xs lg:text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 4xl:text-lg text-gray-800 tracking-[-0.7px] dark:text-slate-50"
+                    >
+                      {{ t.latency }}
+                    </h3>
+                    <div
+                      class="mt-1.5 lg:mt-1.5 max-lg:mt-2 max-lg:sm:mt-2.5 max-lg:md:mt-3 flex items-baseline gap-0.5"
+                    >
+                      <span
+                        class="text-base lg:text-lg 3xl:text-xl max-lg:text-xl max-lg:sm:text-2xl max-lg:md:text-2xl font-bold text-gray-900 leading-none dark:text-slate-50 tracking-[-0.7px]"
+                        >{{ latencyMs }}</span
+                      >
+                      <span
+                        class="text-[8px] lg:text-[8px] max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 font-bold leading-none dark:text-slate-400 tracking-[-0.7px]"
+                        >{{ t.millisecondsLabel }}</span
+                      >
+                    </div>
+                  </div>
+                  <span
+                    [class]="
+                      latencyBadgeClasses +
+                      ' text-[8px] lg:text-[8px] max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm max-lg:px-2 max-lg:sm:px-2.5 max-lg:md:px-3 max-lg:py-1 max-lg:sm:py-1 max-lg:md:py-1.5 lg:px-1 lg:py-0.5 tracking-[-0.7px]'
+                    "
+                    >{{ latencyLabel }}</span
+                  >
+                </div>
+
+                <div
+                  class="mt-auto w-[calc(100%+10rem)] sm:w-[calc(100%+11rem)] lg:w-[calc(100%+14rem)] -mx-[4.5rem] sm:-mx-[5.5rem] lg:-mx-[7rem] max-lg:-mb-8 max-lg:sm:-mb-10 lg:-mb-14 flex items-end justify-center"
+                >
+                  <div class="relative w-full max-w-none aspect-[2/1] lg:scale-95">
+                    <svg viewBox="0 0 520 360" class="absolute inset-0 w-full h-full">
+                      <path
+                        d="M 0 320 A 260 260 0 0 1 520 320"
+                        stroke="url(#shopifyLatencyPattern)"
+                        stroke-width="52"
+                        fill="none"
+                        class="metrics-progress-bg"
+                      />
+
+                      <path
+                        d="M 0 320 A 260 260 0 0 1 520 320"
+                        stroke="url(#shopifyLatencyGradient)"
+                        stroke-width="52"
+                        fill="none"
+                        [style.stroke-dasharray]="'817'"
+                        [style.stroke-dashoffset]="817 - 817 * latencyPercentDisplay"
+                        class="latency-arc"
+                      />
+
+                      <circle
+                        [attr.cx]="latencyMarkerX"
+                        [attr.cy]="latencyMarkerY"
+                        r="26"
+                        stroke="url(#shopifyLatencyGradient)"
+                        stroke-width="11"
+                        fill="url(#shopifyLatencyGradient)"
+                        class="latency-marker"
+                      />
+                      <circle
+                        [attr.cx]="latencyMarkerX"
+                        [attr.cy]="latencyMarkerY"
+                        r="11"
+                        fill="#ffffff"
+                        stroke-width="2.5"
+                        class="latency-marker"
+                      />
+
+                      <defs>
+                        <pattern
+                          id="shopifyLatencyPattern"
+                          width="8"
+                          height="8"
+                          patternUnits="userSpaceOnUse"
+                          patternTransform="rotate(-35)"
+                        >
+                          <rect width="8" height="8" fill="transparent" />
+                          <rect
+                            x="-12"
+                            y="0"
+                            width="32"
+                            height="3"
+                            fill="currentColor"
+                            opacity="0.18"
+                          />
+                        </pattern>
+                        <linearGradient id="shopifyLatencyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" [attr.stop-color]="latencyGradientStart" />
+                          <stop offset="100%" [attr.stop-color]="latencyGradientEnd" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Duración media (copiado de metrics.component.html) -->
+              <div
+                class="bg-white rounded-2xl px-3 pt-3 lg:px-3 lg:pt-3 pb-2 lg:pb-2.5 mb-0 md:h-[360px] lg:h-auto border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-full shadow-sm"
+              >
+                <div class="flex justify-between items-start mb-2 lg:mb-2">
+                  <div>
+                    <h3
+                      class="font-semibold text-xs lg:text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 4xl:text-lg text-gray-800 tracking-[-0.7px] dark:text-slate-50"
+                    >
+                      {{ t.averageCallDuration }}
+                    </h3>
+                    <div
+                      class="mt-1.5 lg:mt-1.5 max-lg:mt-2 max-lg:sm:mt-2.5 max-lg:md:mt-3 flex items-baseline gap-0.5"
+                    >
+                      <span
+                        class="text-base lg:text-lg 3xl:text-xl max-lg:text-xl max-lg:sm:text-2xl max-lg:md:text-2xl font-bold text-gray-900 leading-none dark:text-slate-50 tracking-[-0.7px]"
+                      >
+                        {{ averageCallDurationMinutes
+                        }}<span
+                          class="text-[8px] lg:text-[8px] max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 font-bold leading-none dark:text-slate-400 tracking-[-0.7px] ml-0.5"
+                          >{{ t.minutesLabel }}</span
+                        >
+                        {{ averageCallDurationSecondsOnly
+                        }}<span
+                          class="text-[8px] lg:text-[8px] max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 font-bold leading-none dark:text-slate-400 tracking-[-0.7px] ml-0.5"
+                          >{{ t.secondsLabel }}</span
+                        >
+                      </span>
+                    </div>
+                  </div>
+                  <span
+                    [class]="
+                      durationBadgeClasses +
+                      ' text-[8px] lg:text-[8px] max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm max-lg:px-2 max-lg:sm:px-2.5 max-lg:md:px-3 max-lg:py-1 max-lg:sm:py-1 max-lg:md:py-1.5 lg:px-1 lg:py-0.5 tracking-[-0.7px]'
+                    "
+                    >{{ durationLabel }}</span
+                  >
+                </div>
+
+                <div
+                  class="mt-auto w-[calc(100%+10rem)] sm:w-[calc(100%+11rem)] lg:w-[calc(100%+14rem)] -mx-[4.5rem] sm:-mx-[5.5rem] lg:-mx-[7rem] max-lg:-mb-8 max-lg:sm:-mb-10 lg:-mb-14 flex items-end justify-center"
+                >
+                  <div class="relative w-full max-w-none aspect-[2/1] lg:scale-95">
+                    <svg viewBox="0 0 520 360" class="absolute inset-0 w-full h-full">
+                      <path
+                        d="M 0 320 A 260 260 0 0 1 520 320"
+                        stroke="url(#shopifyDurationPattern)"
+                        stroke-width="52"
+                        fill="none"
+                        class="metrics-progress-bg"
+                      />
+
+                      <path
+                        d="M 0 320 A 260 260 0 0 1 520 320"
+                        stroke="url(#shopifyDurationGradient)"
+                        stroke-width="52"
+                        fill="none"
+                        [style.stroke-dasharray]="'817'"
+                        [style.stroke-dashoffset]="817 - 817 * durationPercentDisplay"
+                        class="duration-arc"
+                      />
+
+                      <circle
+                        [attr.cx]="durationMarkerX"
+                        [attr.cy]="durationMarkerY"
+                        r="26"
+                        stroke="url(#shopifyDurationGradient)"
+                        stroke-width="11"
+                        fill="url(#shopifyDurationGradient)"
+                        class="duration-marker"
+                      />
+                      <circle
+                        [attr.cx]="durationMarkerX"
+                        [attr.cy]="durationMarkerY"
+                        r="11"
+                        fill="#ffffff"
+                        stroke-width="2.5"
+                        class="duration-marker"
+                      />
+
+                      <defs>
+                        <pattern
+                          id="shopifyDurationPattern"
+                          width="8"
+                          height="8"
+                          patternUnits="userSpaceOnUse"
+                          patternTransform="rotate(-35)"
+                        >
+                          <rect width="8" height="8" fill="transparent" />
+                          <rect
+                            x="-12"
+                            y="0"
+                            width="32"
+                            height="3"
+                            fill="currentColor"
+                            opacity="0.18"
+                          />
+                        </pattern>
+                        <linearGradient id="shopifyDurationGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" [attr.stop-color]="durationGradientStart" />
+                          <stop offset="100%" [attr.stop-color]="durationGradientEnd" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Columna derecha: tasa de éxito y debajo minutos — igual que Home -->
+            <div
+              class="col-span-12 lg:col-span-4 grid grid-cols-1 gap-3 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-5 4xl:gap-7 max-lg:gap-2"
+            >
+            <div
+              class="relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-6 4xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[7.5rem] lg:min-h-[9rem] 3xl:min-h-[14rem] 4xl:min-h-[18rem] flex flex-col justify-between"
+            >
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black dark:text-slate-50 font-medium">
+                  Tasa de éxito de las llamadas
+                </span>
+                <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
+                  · Últimos 7 días
+                </span>
+              </div>
+              <div class="flex items-center justify-center flex-1">
+                <span class="text-4xl lg:text-5xl 3xl:text-5xl 4xl:text-6xl font-bold text-black dark:text-slate-50 tabular-nums">
+                  {{ mock.successRate }}%
+                </span>
+              </div>
+              <div
+                class="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-green-500 via-green-400 to-transparent opacity-40 blur-md"
+              ></div>
+              <div
+                class="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-green-500 via-green-300 to-transparent opacity-50 blur-sm"
+              ></div>
+              <div class="absolute bottom-0 left-0 right-0 h-1 bg-green-500 opacity-70"></div>
+            </div>
+
+            <div
+              class="credits-card-light relative overflow-hidden bg-gradient-to-br to-[#18181a] rounded-2xl shadow-lg p-3 lg:p-4 xl:p-4 2xl:p-5 3xl:p-6 4xl:p-8 min-h-[6.5rem] lg:min-h-[7.5rem] 3xl:min-h-[13rem] 4xl:min-h-[14.5rem] border border-gray-100 dark:border-slate-800"
+            >
+              <div class="relative z-10 flex flex-col h-full">
+                <div class="flex items-center justify-between mb-3 3xl:mb-3">
+                  <div class="flex flex-col">
+                    <h3
+                      class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl font-medium text-black/80 dark:text-white/80"
+                    >
+                      Minutos
+                    </h3>
+                    <span
+                      class="text-[10px] lg:text-[9px] 3xl:text-xs 4xl:text-sm font-medium text-black/60 dark:text-white/60 uppercase tracking-wider mt-0.5"
+                    >
+                      Plan Starter
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <img
+                      src="assets/logo_azul.webp"
+                      alt="Logo"
+                      class="w-7 h-7 3xl:w-8 3xl:h-8 4xl:w-12 4xl:h-12 object-contain dark:hidden"
+                    />
+                    <img
+                      src="assets/logo_blanco.webp"
+                      alt="Logo"
+                      class="w-7 h-7 3xl:w-8 3xl:h-8 4xl:w-12 4xl:h-12 object-contain hidden dark:block"
+                    />
+                  </div>
+                </div>
+                <div class="flex-1 flex flex-col">
+                  <div class="mb-auto">
+                    <span
+                      class="text-2xl lg:text-2xl 3xl:text-4xl 4xl:text-5xl font-bold text-black dark:text-white tracking-tight tabular-nums"
+                    >
+                      {{ mock.minutesRemaining }}
+                      <span
+                        class="text-[10px] lg:text-xs 3xl:text-base 4xl:text-lg ml-0.5 opacity-70 font-semibold"
+                        >/ {{ mock.minutesLimit }}</span
+                      >
+                    </span>
+                  </div>
+                  <div class="mb-2 3xl:mb-2.5 4xl:mb-4">
+                    <span
+                      class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl font-medium text-black/70 dark:text-white/70"
+                    >
+                      Minutos restantes
+                    </span>
+                  </div>
+                  <div
+                    class="relative h-2 3xl:h-3 4xl:h-4 w-full rounded-full bg-gray-700/20 dark:bg-gray-200/10 overflow-hidden"
+                  >
+                    <div
+                      class="absolute top-0 bottom-0 left-0 rounded-full bg-[#1B2559] dark:bg-white transition-[width] duration-[1200ms] ease-out"
+                      [style.width.%]="minutesBarPercent()"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Países | Evaluación de éxito | Razón de finalización (misma fila que en Métricas) -->
+          <div
+            class="col-span-12 grid grid-cols-1 lg:grid-cols-3 gap-2 3xl:gap-6 max-lg:!gap-3 mt-4 sm:mt-5 lg:mt-6 items-stretch"
+          >
+            <div
+              class="bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 border border-gray-100 flex flex-col lg:min-h-[13.5rem] lg:h-full dark:bg-slate-900 dark:border-slate-800 shadow-sm"
+            >
+              <h3
+                class="font-semibold text-gray-800 mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-3 lg:mb-2 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50"
+              >
+                {{ t.countries }}
+              </h3>
+              <div class="w-full">
+                @for (c of countries; track c.name; let i = $index) {
+                  <div class="mb-2.5 max-lg:mb-2 lg:mb-3 last:mb-0">
+                    <div class="flex items-center justify-between gap-2">
+                      <div
+                        class="flex min-w-0 flex-1 items-center gap-1.5 max-lg:gap-2 font-semibold"
+                      >
+                        <span
+                          class="country-flag-avatar block h-5 w-5 shrink-0 max-lg:h-6 max-lg:w-6 max-lg:sm:h-7 max-lg:sm:w-7 max-lg:md:h-7 max-lg:md:w-7 lg:h-6 lg:w-6 rounded-full"
+                          role="img"
+                          [attr.aria-label]="c.name"
+                          [ngStyle]="countryFlagBackgroundStyle(c.img)"
+                        ></span>
+                        <span
+                          class="min-w-0 -mt-2 max-lg:-mt-1.5 lg:-mt-2 self-center break-words font-semibold text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] leading-tight dark:text-slate-50 tracking-[-0.7px]"
+                          >{{ c.name }}</span
+                        >
+                      </div>
+                      <span
+                        class="shrink-0 -mt-1.5 max-lg:-mt-1 lg:-mt-1.5 self-center font-semibold text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] leading-tight dark:text-slate-50 tracking-[-0.7px]"
+                        >{{ c.percent }}%</span
+                      >
+                    </div>
+                    <div
+                      class="w-full h-1.5 max-lg:h-2 max-lg:sm:h-2.5 max-lg:md:h-3 lg:h-2 bg-gray-100 -mt-1.5 max-lg:-mt-1 lg:-mt-2 ml-6 max-lg:ml-7 max-lg:sm:ml-8 max-lg:md:ml-9 lg:ml-7 overflow-hidden country-track rounded-full dark:bg-slate-800"
+                    >
+                      <div
+                        class="h-1.5 max-lg:h-2 max-lg:sm:h-2.5 max-lg:md:h-3 lg:h-2 bg-blue-950 dark:bg-white country-bar rounded-full shadow-sm"
+                        [style.width.%]="barChartsReady ? c.percent : 0"
+                        [style.transition]="'width 1s ease-out ' + getCountryBarDelay(i) + 'ms'"
+                      ></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div
+              class="flex flex-col lg:min-h-[13.5rem] lg:h-full bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 border border-gray-100 dark:bg-slate-900 dark:border-slate-800 shadow-sm"
+            >
+              <div
+                class="flex shrink-0 items-center gap-1.5 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3"
+              >
+                <h3
+                  class="font-semibold text-gray-800 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50"
+                >
+                  {{ t.successEvaluation }}
+                </h3>
+                <span
+                  class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal"
+                >
+                  · {{ t.thisMonth }}
+                </span>
+              </div>
+              <div
+                class="space-y-2.5 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4"
+              >
+                @for (item of successEvaluation; track item.name; let i = $index) {
+                  <div class="group">
+                    <div
+                      class="flex items-center justify-between mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-2.5"
+                    >
+                      <span
+                        class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] font-medium text-gray-700 dark:text-slate-300 tracking-[-0.7px]"
+                        >{{ item.name }}</span
+                      >
+                      <span
+                        class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] font-bold text-gray-900 dark:text-slate-50 tracking-[-0.7px]"
+                        >{{ item.percent }}%</span
+                      >
+                    </div>
+                    <div
+                      class="relative w-full h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 bg-gray-100 rounded-full overflow-hidden shadow-inner dark:bg-slate-800"
+                    >
+                      <div
+                        class="h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950 dark:bg-white"
+                        [style.width.%]="barChartsReady ? item.percent : 0"
+                        [style.min-width.px]="barChartsReady ? 4 : null"
+                        [style.transition-delay]="getCountryBarDelay(i) + 'ms'"
+                      ></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div
+              class="flex flex-col lg:min-h-[13.5rem] lg:h-full bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 border border-gray-100 dark:bg-slate-900 dark:border-slate-800 shadow-sm"
+            >
+              <div
+                class="flex shrink-0 items-center gap-1.5 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3"
+              >
+                <h3
+                  class="font-semibold text-gray-800 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50"
+                >
+                  {{ t.callCompletionReason }}
+                </h3>
+                <span
+                  class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal"
+                >
+                  · {{ t.thisMonth }}
+                </span>
+              </div>
+              <div
+                class="space-y-2.5 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4"
+              >
+                @for (item of callCompletionReasons; track item.name; let i = $index) {
+                  <div class="group">
+                    <div
+                      class="flex items-center justify-between mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-2.5"
+                    >
+                      <span
+                        class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] font-medium text-gray-700 dark:text-slate-300 tracking-[-0.7px]"
+                        >{{ item.name }}</span
+                      >
+                      <span
+                        class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] font-bold text-gray-900 dark:text-slate-50 tracking-[-0.7px]"
+                        >{{ item.percent }}%</span
+                      >
+                    </div>
+                    <div
+                      class="relative w-full h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 bg-gray-100 rounded-full overflow-hidden shadow-inner dark:bg-slate-800"
+                    >
+                      <div
+                        class="h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950 dark:bg-white"
+                        [style.width.%]="barChartsReady ? item.percent : 0"
+                        [style.min-width.px]="barChartsReady ? 4 : null"
+                        [style.transition-delay]="getCountryBarDelay(i) + 'ms'"
+                      ></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

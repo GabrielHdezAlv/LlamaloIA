@@ -114,10 +114,10 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
               shopDomain: store.shopDomain as string,
             }));
         }
-        // Si no hay tiendas conectadas, mostrar directamente el formulario de nueva tienda
-        if (this.connectedStores.length === 0) {
-          this.showNewStoreForm = true;
-        }
+        // Sincronizar estado visual:
+        // - Si hay tiendas conectadas, NO mostrar el input de nueva tienda por defecto.
+        // - Si no hay tiendas, sí mostrarlo.
+        this.showNewStoreForm = this.connectedStores.length === 0;
       })
       .catch((error) => {
         console.error('Error al cargar tiendas conectadas:', error);

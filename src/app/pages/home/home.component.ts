@@ -9,7 +9,8 @@ import {
   NgZone,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { I18nService } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
 import { AgentsService } from '../../core/services/agents.service';
@@ -83,6 +84,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private lastBreakpoint: string = '';
   private isBrowser: boolean;
   private resizeListener = () => this.updateChartOptions();
+  private routerEventsSub?: Subscription;
 
   get summary() {
     // Si hay datos del backend, usarlos
@@ -798,8 +800,20 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.loadUserAgents();
       // Actualizar opciones del gráfico según el tamaño de pantalla (altura, fuentes, etc)
       this.updateChartOptions();
+      this.scheduleChartReflow();
       // Escuchar cambios de tamaño de ventana
       window.addEventListener('resize', this.resizeListener);
+
+      // Al volver desde otras secciones (ej. knowledge-base), forzar recarga/reflow del gráfico.
+      this.routerEventsSub = this.router.events.subscribe((event) => {
+        if (
+          event instanceof NavigationEnd &&
+          event.urlAfterRedirects.startsWith('/dashboard/home')
+        ) {
+          this.loadMetrics();
+          this.scheduleChartReflow();
+        }
+      });
     }
 
     // Ejecutar animaciones siempre
@@ -808,9 +822,25 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.cancelKpiAnimation();
+    this.routerEventsSub?.unsubscribe();
     if (this.isBrowser) {
       window.removeEventListener('resize', this.resizeListener);
     }
+  }
+
+  private scheduleChartReflow(): void {
+    if (!this.isBrowser) return;
+
+    // Reasignar referencias para forzar a ApexCharts a recalcular.
+    this.callsAreaSeries = [...this.callsAreaSeries];
+    this.callsAreaChart = { ...this.callsAreaChart };
+
+    // Doble resize para garantizar que el gráfico recoja dimensiones finales.
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 0);
+    setTimeout(() => {
+      this.updateChartOptions();
+      window.dispatchEvent(new Event('resize'));
+    }, 220);
   }
 
   private cancelKpiAnimation(): void {
@@ -930,6 +960,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Panel Gráfico (izquierda)
     setTimeout(() => {
       this.showChartPanel = true;
+      this.scheduleChartReflow();
     }, 400);
 
     // Panel Anuncio (derecha, superior)

@@ -1,0 +1,71 @@
+:host {
+  display: block;
+}
+
+/* Arcos y marcadores — mismo comportamiento que metrics.component.scss */
+.latency-arc,
+.duration-arc {
+  transform-origin: center;
+}
+
+.latency-marker,
+.duration-marker {
+  transition: transform 0.3s ease-out;
+}
+
+/* Países — mismas reglas que metrics.component.scss */
+.country-bar {
+  transform-origin: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.country-track {
+  max-width: calc(100% - 28px);
+  border-radius: 9999px;
+}
+
+.country-flag-avatar {
+  flex-shrink: 0;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Misma tarjeta de minutos que Home */
+.credits-card-light {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.08) 30%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  :host-context(html.dark) &::before,
+  html.dark &::before {
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.08) 30%,
+      transparent 70%
+    );
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}

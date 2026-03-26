@@ -86,7 +86,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     }
 
     get shouldShow(): boolean {
-        const authRoutes = ['/login', '/register', '/verify-email'];
+        const authRoutes = ['/login', '/register', '/verify-email', '/shopify'];
         if (authRoutes.some(route => this.currentUrl.includes(route))) return false;
         if (this.hideSupportWidget) return false;
         return true;
@@ -172,7 +172,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
         const parsed = parseInt(value, 10);
         const clamped = isNaN(parsed) ? 0 : Math.min(100, Math.max(0, parsed));
         this.volume = clamped;
-        // Mapear 0-100 ÿÿÿ 0.0-1.0 y actualizar volumen real de reproducci?n
+        // Mapear 0-100 ï¿½ï¿½ï¿½ 0.0-1.0 y actualizar volumen real de reproducci?n
         this.voiceTest.setPlaybackVolume(this.volume / 100);
     }
 
