@@ -123,6 +123,66 @@ html.dark .play-button {
   }
 }
 
+/* Dropdown «Generar con IA» (mismo patrón que instructions-step) */
+@keyframes iaDropdownIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes iaDropdownOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+}
+
+.ia-generate-dropdown {
+  animation: iaDropdownIn 0.18s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform-origin: top right;
+}
+
+.ia-generate-dropdown.closing {
+  animation: iaDropdownOut 0.14s ease-in forwards;
+  transform-origin: top right;
+}
+
+/* Twilio inline (mismo comportamiento que connect-phone-step) */
+.twilio-inline-closed {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.twilio-inline-slide-down {
+  animation: twilioInlineSlideDown 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes twilioInlineSlideDown {
+  from {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    max-height: 560px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Modal mensaje del sistema ampliado (mismo patrón que instructions-step) */
 @keyframes instructionsModalFadeIn {
   from {

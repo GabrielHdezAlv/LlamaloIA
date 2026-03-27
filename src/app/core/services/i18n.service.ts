@@ -169,6 +169,8 @@ export interface Translations {
   noInvitesYet: string;
   copyLink: string;
   savedDraftLabel: string;
+  /** Banner inferior: pregunta antes de recuperar borrador de creación de agente */
+  continueAgentCreationQuestion: string;
   agentLabelTopbar: string;
   noName: string;
   stepLabel: string;
@@ -881,6 +883,7 @@ export class I18nService {
       noInvitesYet: 'Todavía no hay invitaciones. Empieza enviando tu primera invitación.',
       copyLink: 'Copiar enlace',
       savedDraftLabel: 'Borrador guardado',
+      continueAgentCreationQuestion: '¿Deseas seguir con la creación del agente?',
       agentLabelTopbar: 'Agente',
       noName: 'Sin nombre',
       stepLabel: 'Paso',
@@ -1579,6 +1582,7 @@ export class I18nService {
       noInvitesYet: 'No invites yet. Start by sending your first invite.',
       copyLink: 'Copy link',
       savedDraftLabel: 'Draft saved',
+      continueAgentCreationQuestion: 'Do you want to continue creating your agent?',
       agentLabelTopbar: 'Agent',
       noName: 'No name',
       stepLabel: 'Step',

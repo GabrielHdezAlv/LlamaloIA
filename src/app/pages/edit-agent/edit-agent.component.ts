@@ -94,7 +94,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   nameSectionOpen = true;
   greetingSectionOpen = false;
   systemSectionOpen = true;
-  phoneSectionOpen = false;
+  twilioSectionOpen = false;
   callSectionOpen = true;
   voiceSectionOpen = false;
 
@@ -116,12 +116,21 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   twilioAccounts: TwilioAccount[] = [];
   isLoadingTwilioInfo = false;
 
-  showTwilioModal = false;
-  twilioModalMode: 'existing' | 'new' = 'existing';
-  selectedTwilioAccountId: number | null = null;
+  /** Twilio inline (mismo bloque que en new-create-agents / connect-phone-step; sin modal) */
+  showTwilioConfig = false;
+  loadingTwilioAccountsPanel = false;
+  isTwilioValidated = false;
+  isValidatingTwilio = false;
+  twilioSidValidationStatus: 'success' | 'error' | null = null;
+  twilioTokenValidationStatus: 'success' | 'error' | null = null;
+  twilioErrorMessage = '';
+  /** Cuenta seleccionada o validada en el panel (antes de asignar al agente) */
+  twilioPanelSelectedAccount: TwilioAccount | null = null;
+  showNewTwilioAccountForm = false;
   twilioSid = '';
   twilioToken = '';
   isSavingTwilioConfig = false;
+  twilioAssignError: string | null = null;
 
   shopifyStores: string[] = [];
   isLoadingShopifyStores = false;
@@ -168,8 +177,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
   private isBrowser: boolean;
 
-  // Modal de generar prompt con IA
+  // Desplegable de generar prompt con IA (mismo patrón que crear agente)
   showGeneratePromptModal = false;
+  isGeneratePromptDropdownClosing = false;
   promptDescription = '';
   promptEnterpriseName = '';
   isGeneratingPrompt = false;
@@ -210,7 +220,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   }
 
   setActiveMainSection(
-    section: 'name' | 'greeting' | 'system' | 'phone' | 'call' | 'voice',
+    section: 'name' | 'greeting' | 'system' | 'twilio' | 'call' | 'voice',
   ): void {
     switch (section) {
       case 'name':
@@ -222,8 +232,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       case 'system':
         this.systemSectionOpen = !this.systemSectionOpen;
         break;
-      case 'phone':
-        this.phoneSectionOpen = !this.phoneSectionOpen;
+      case 'twilio':
+        this.twilioSectionOpen = !this.twilioSectionOpen;
+        if (!this.twilioSectionOpen) {
+          this.showTwilioConfig = false;
+        }
         break;
       case 'call':
         this.callSectionOpen = !this.callSectionOpen;
@@ -426,26 +439,215 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     return this.twilioAccounts.find((a) => a.twilioAccountId === id) || null;
   }
 
+  toggleTwilioInlineConfig(event?: Event): void {
+    event?.stopPropagation();
+    this.showTwilioConfig = !this.showTwilioConfig;
+    if (this.showTwilioConfig) {
+      this.prepareTwilioPanel();
+    }
+  }
+
+  /**
+   * Compatibilidad: enlaces antiguos o caché de plantilla que aún llaman al modal eliminado.
+   * Abre el acordeón Twilio si hace falta y despliega el panel inline (mismo flujo que Conectar).
+   */
   openTwilioModal(): void {
-    this.showTwilioModal = true;
-    const existingId = this.agentTwilioAccountId;
-    this.selectedTwilioAccountId = existingId ?? null;
-    this.twilioModalMode = this.twilioAccounts.length > 0 ? 'existing' : 'new';
+    if (!this.twilioSectionOpen) {
+      this.twilioSectionOpen = true;
+    }
+    if (!this.showTwilioConfig) {
+      this.showTwilioConfig = true;
+      this.prepareTwilioPanel();
+    }
+  }
+
+  prepareTwilioPanel(): void {
+    this.loadingTwilioAccountsPanel = true;
+    this.loadTwilioInfo(() => {
+      this.loadingTwilioAccountsPanel = false;
+      this.showNewTwilioAccountForm = this.twilioAccounts.length === 0;
+    });
+  }
+
+  onTwilioSidInputEdit(value: string): void {
+    this.twilioSid = value;
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.twilioErrorMessage = '';
+    this.isTwilioValidated = false;
+    this.twilioAssignError = null;
+  }
+
+  onTwilioTokenInputEdit(value: string): void {
+    this.twilioToken = value;
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.twilioErrorMessage = '';
+    this.isTwilioValidated = false;
+    this.twilioAssignError = null;
+  }
+
+  useExistingTwilioAccountForPanel(account: TwilioAccount): void {
+    this.twilioPanelSelectedAccount = account;
+    this.twilioSid = account.twilioSid;
+    this.twilioToken = account.twilioToken;
+    this.showNewTwilioAccountForm = false;
+    this.twilioAssignError = null;
+    this.validateTwilioConfigInline();
+  }
+
+  showNewTwilioAccountForPanel(): void {
+    this.twilioPanelSelectedAccount = null;
     this.twilioSid = '';
     this.twilioToken = '';
+    this.showNewTwilioAccountForm = true;
+    this.showTwilioConfig = true;
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.isTwilioValidated = false;
+    this.twilioErrorMessage = '';
+    this.twilioAssignError = null;
   }
 
-  closeTwilioModal(): void {
-    this.showTwilioModal = false;
-    this.isSavingTwilioConfig = false;
+  backToTwilioAccountSelection(): void {
+    this.showNewTwilioAccountForm = false;
+    this.twilioPanelSelectedAccount = null;
+    this.twilioSid = '';
+    this.twilioToken = '';
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.isTwilioValidated = false;
+    this.twilioErrorMessage = '';
+    this.twilioAssignError = null;
   }
 
-  setTwilioModalMode(mode: 'existing' | 'new'): void {
-    this.twilioModalMode = mode;
+  validateTwilioConfigInline(): void {
+    if (!this.twilioSid?.trim() || !this.twilioToken?.trim()) {
+      this.notificationService.error(
+        'Completa Account SID y Auth Token antes de validar.',
+      );
+      return;
+    }
+
+    this.twilioErrorMessage = '';
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.twilioAssignError = null;
+    this.isValidatingTwilio = true;
+
+    const config: {
+      twilioSid: string;
+      twilioToken: string;
+      twilioAccountId?: number;
+    } = {
+      twilioSid: this.twilioSid.trim(),
+      twilioToken: this.twilioToken.trim(),
+    };
+    if (this.twilioPanelSelectedAccount) {
+      config.twilioAccountId = this.twilioPanelSelectedAccount.twilioAccountId;
+    }
+
+    this.twilioService
+      .setConfig(config)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+      next: () => {
+        this.isValidatingTwilio = false;
+        this.twilioSidValidationStatus = 'success';
+        this.twilioTokenValidationStatus = 'success';
+        this.isTwilioValidated = true;
+        this.loadTwilioInfo();
+
+        if (this.twilioPanelSelectedAccount) {
+          this.assignTwilioAccountToAgent(
+            this.twilioPanelSelectedAccount.twilioAccountId,
+          );
+          return;
+        }
+
+        this.userService
+          .getUserProfile()
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+          next: (profile) => {
+            const list = profile.twilio || [];
+            const sid = this.twilioSid.trim();
+            const token = this.twilioToken.trim();
+            let match = list.find(
+              (a) => a.twilioSid === sid && a.twilioToken === token,
+            );
+            if (!match) {
+              match = list.find((a) => a.twilioSid === sid);
+            }
+            if (match) {
+              this.twilioPanelSelectedAccount = match;
+              this.assignTwilioAccountToAgent(match.twilioAccountId);
+            } else {
+              const fromLoaded = this.twilioAccounts.find((a) => a.twilioSid === sid);
+              if (fromLoaded) {
+                this.twilioPanelSelectedAccount = fromLoaded;
+                this.assignTwilioAccountToAgent(fromLoaded.twilioAccountId);
+              } else {
+                this.notificationService.error(
+                  'Cuenta validada pero no se encontró el ID. Recarga e inténtalo de nuevo.',
+                );
+              }
+            }
+          },
+          error: () => {
+            const sid = this.twilioSid.trim();
+            const fromLoaded = this.twilioAccounts.find((a) => a.twilioSid === sid);
+            if (fromLoaded) {
+              this.twilioPanelSelectedAccount = fromLoaded;
+              this.assignTwilioAccountToAgent(fromLoaded.twilioAccountId);
+            } else {
+              this.notificationService.error(
+                'No se pudo obtener el perfil para completar la asignación.',
+              );
+            }
+          },
+        });
+      },
+      error: (error: unknown) => {
+        this.isValidatingTwilio = false;
+        this.twilioSidValidationStatus = 'error';
+        this.twilioTokenValidationStatus = 'error';
+        this.isTwilioValidated = false;
+        let msg =
+          'Error al validar Twilio. Revisa Account SID y Auth Token.';
+        const err = error as { error?: { message?: string }; message?: string; status?: number };
+        if (err?.error?.message) {
+          msg = err.error.message;
+        } else if (err?.message) {
+          msg = err.message;
+        } else if (err?.status === 401) {
+          msg =
+            'Credenciales inválidas. Verifica Account SID y Auth Token.';
+        }
+        this.twilioErrorMessage = msg;
+      },
+    });
   }
 
-  private assignTwilioAccountToAgent(twilioAccountId: number | null): void {
+  private resetTwilioPanelAfterAssign(): void {
+    this.showTwilioConfig = false;
+    this.showNewTwilioAccountForm = false;
+    this.isTwilioValidated = false;
+    this.twilioPanelSelectedAccount = null;
+    this.twilioSid = '';
+    this.twilioToken = '';
+    this.twilioSidValidationStatus = null;
+    this.twilioTokenValidationStatus = null;
+    this.twilioErrorMessage = '';
+    this.twilioAssignError = null;
+  }
+
+  assignTwilioAccountToAgent(twilioAccountId: number | null): void {
     if (!this.agentId) return;
+    if (twilioAccountId == null || Number.isNaN(Number(twilioAccountId))) {
+      this.notificationService.error('Selecciona una cuenta de Twilio válida.');
+      return;
+    }
     if (!this.editForm.valid) {
       this.notificationService.error(
         'Revisa los campos del agente antes de asignar Twilio.',
@@ -483,6 +685,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     };
 
     this.isSavingTwilioConfig = true;
+    this.twilioAssignError = null;
     this.agentsService.updateAgent(this.agentId, updateData).subscribe({
       next: (response) => {
         this.isSavingTwilioConfig = false;
@@ -492,15 +695,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         this.notificationService.success(
           'La cuenta de Twilio del agente se actualizó correctamente.',
         );
-        this.closeTwilioModal();
+        this.resetTwilioPanelAfterAssign();
       },
       error: (error) => {
         console.error('❌ Error al actualizar Twilio del agente:', error);
         this.isSavingTwilioConfig = false;
-        const anyAgent = this.agent as any;
-        if (anyAgent) {
-          anyAgent.twilioAccountId = Number(twilioAccountId ?? 0);
-        }
+        this.twilioAssignError =
+          'No se pudo asignar la cuenta a este agente. Reintenta.';
         this.notificationService.error(
           'No se pudo actualizar la cuenta de Twilio del agente.',
         );
@@ -508,50 +709,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     });
   }
 
-  saveTwilioModal(): void {
-    if (this.twilioModalMode === 'existing') {
-      this.assignTwilioAccountToAgent(this.selectedTwilioAccountId);
-      return;
-    }
-
-    const sid = this.twilioSid.trim();
-    const token = this.twilioToken.trim();
-
-    if (!sid || !token) {
-      this.notificationService.error('Completa el SID y el Token de Twilio.');
-      return;
-    }
-
-    this.isSavingTwilioConfig = true;
-    this.twilioService
-      .setConfig({ twilioSid: sid, twilioToken: token })
-      .subscribe({
-        next: () => {
-          this.loadTwilioInfo();
-          this.twilioService
-            .getInfo()
-            .pipe(
-              takeUntil(this.destroy$),
-              catchError(() => of(null as TwilioConfig | null)),
-            )
-            .subscribe((config) => {
-              const accounts = config?.accounts || [];
-              const match = accounts.find((a) => a.twilioSid === sid) || null;
-              this.selectedTwilioAccountId = match?.twilioAccountId ?? null;
-              this.assignTwilioAccountToAgent(this.selectedTwilioAccountId);
-            });
-        },
-        error: (error) => {
-          console.error('❌ Error al guardar configuración Twilio:', error);
-          this.isSavingTwilioConfig = false;
-          this.notificationService.error(
-            'No se pudo guardar la configuración de Twilio.',
-          );
-        },
-      });
-  }
-
-  private loadTwilioInfo(): void {
+  private loadTwilioInfo(onComplete?: () => void): void {
     this.isLoadingTwilioInfo = true;
     this.twilioService
       .getInfo()
@@ -565,6 +723,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       .subscribe((config) => {
         this.isLoadingTwilioInfo = false;
         this.twilioAccounts = config?.accounts || [];
+        onComplete?.();
       });
   }
 
@@ -801,6 +960,14 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     const menu = target.closest('ul');
     const menuItem = target.closest('li');
     const languageDropdown = target.closest('[data-language-dropdown]');
+    const iaGenerateRoot = target.closest('[data-ia-generate-root]');
+
+    if (
+      (this.showGeneratePromptModal || this.isGeneratePromptDropdownClosing) &&
+      !iaGenerateRoot
+    ) {
+      this.closeGeneratePromptModal();
+    }
 
     if (!dropdown && !menu && !menuItem && !languageDropdown) {
       this.showCountryMenu = false;
@@ -1589,8 +1756,17 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Métodos para el modal de generar prompt
+  // Desplegable «Generar con IA»
+  toggleGeneratePromptDropdown() {
+    if (this.showGeneratePromptModal || this.isGeneratePromptDropdownClosing) {
+      this.closeGeneratePromptModal();
+    } else {
+      this.openGeneratePromptModal();
+    }
+  }
+
   openGeneratePromptModal() {
+    this.isGeneratePromptDropdownClosing = false;
     this.showGeneratePromptModal = true;
     this.promptDescription = '';
     this.promptEnterpriseName =
@@ -1601,10 +1777,14 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
   closeGeneratePromptModal() {
     if (this.isGeneratingPrompt) return;
-    this.showGeneratePromptModal = false;
-    this.promptDescription = '';
-    this.isGeneratingPrompt = false;
-    this.generatePromptError = '';
+    this.isGeneratePromptDropdownClosing = true;
+    setTimeout(() => {
+      this.showGeneratePromptModal = false;
+      this.isGeneratePromptDropdownClosing = false;
+      this.promptDescription = '';
+      this.isGeneratingPrompt = false;
+      this.generatePromptError = '';
+    }, 160);
   }
 
   get agentInstructionControl(): FormControl<string | null> {

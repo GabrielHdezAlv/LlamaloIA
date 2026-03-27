@@ -152,34 +152,100 @@
 
           <!-- MENSAJE DEL SISTEMA (acordeón) -->
           <div class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10">
-            <button
-              type="button"
-              class="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-left text-gray-900 dark:text-white"
-              (click)="setActiveMainSection('system')">
-              <span>Mensaje del sistema</span>
-              <svg
-                class="w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform duration-200 flex-shrink-0"
-                [ngClass]="{ 'rotate-180': systemSectionOpen }"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  fill-rule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
-                  clip-rule="evenodd" />
-              </svg>
-            </button>
+            <div class="flex items-center gap-2 px-3 py-2">
+              <button
+                type="button"
+                class="min-w-0 flex-1 text-left text-xs font-semibold text-gray-900 dark:text-white"
+                (click)="setActiveMainSection('system')">
+                <span>Mensaje del sistema</span>
+              </button>
+              @if (systemSectionOpen) {
+              <div class="relative shrink-0" data-ia-generate-root>
+                <button
+                  type="button"
+                  (click)="toggleGeneratePromptDropdown(); $event.stopPropagation()"
+                  class="group relative flex shrink-0 items-center gap-1 px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 ease-in-out border border-gray-300 dark:border-slate-600 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 hover:scale-[1.02] hover:shadow-md hover:shadow-purple-500/20">
+                  <span
+                    class="text-[10px] 3xl:text-xs font-medium leading-tight bg-gradient-to-r from-violet-500 via-purple-500 to-blue-600 bg-clip-text text-transparent whitespace-nowrap"
+                    >Generar con IA</span
+                  >
+                </button>
+                @if (showGeneratePromptModal || isGeneratePromptDropdownClosing) {
+                <div
+                  class="absolute right-0 mt-2 w-72 rounded-xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 shadow-xl z-[60] p-3 space-y-3 ia-generate-dropdown"
+                  [class.closing]="isGeneratePromptDropdownClosing"
+                  (click)="$event.stopPropagation()">
+                  <div>
+                    <p class="text-[10px] font-semibold text-gray-900 dark:text-white">
+                      Generar instrucciones con IA
+                    </p>
+                    <p class="mt-0.5 text-[9px] text-gray-500 dark:text-gray-400 leading-snug">
+                      Describe cómo debería ser tu agente y generaremos las instrucciones automáticamente.
+                    </p>
+                  </div>
+                  <div>
+                    <input type="text" [(ngModel)]="promptEnterpriseName"
+                      [ngModelOptions]="{ standalone: true }"
+                      placeholder="Nombre de la empresa"
+                      class="w-full px-2.5 py-1.5 text-[10px] border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none transition-all mb-2" />
+                    <textarea [(ngModel)]="promptDescription"
+                      [ngModelOptions]="{ standalone: true }"
+                      placeholder="Ej: Un agente amigable que atiende clientes, toma reservas..."
+                      rows="3"
+                      class="w-full px-2.5 py-1.5 text-[10px] border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none resize-none transition-all"></textarea>
+                  </div>
+                  @if (generatePromptError) {
+                  <p class="text-[9px] text-red-500 dark:text-red-400">
+                    {{ generatePromptError }}
+                  </p>
+                  }
+                  <div class="flex justify-end gap-2">
+                    <button type="button" (click)="closeGeneratePromptModal()" [disabled]="isGeneratingPrompt"
+                      class="px-2.5 py-1 text-[9px] font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                      Cancelar
+                    </button>
+                    <button type="button" (click)="generatePrompt()" [disabled]="isGeneratingPrompt || !promptDescription.trim()"
+                      class="px-2.5 py-1 text-[9px] font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
+                      @if (isGeneratingPrompt) {
+                      <svg class="animate-spin h-3 w-3" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                      </svg>
+                      Generando...
+                      } @else {
+                      Generar
+                      }
+                    </button>
+                  </div>
+                </div>
+                }
+              </div>
+              }
+              <button
+                type="button"
+                class="flex shrink-0 items-center justify-center rounded p-0.5 text-gray-400 transition-colors hover:bg-gray-100 dark:text-gray-500 dark:hover:bg-white/10"
+                (click)="setActiveMainSection('system')"
+                [attr.aria-expanded]="systemSectionOpen"
+                aria-label="Expandir o contraer mensaje del sistema">
+                <svg
+                  class="h-4 w-4 transition-transform duration-200"
+                  [ngClass]="{ 'rotate-180': systemSectionOpen }"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                    clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
 
             @if (systemSectionOpen) {
             <div class="px-3 pb-3 pt-1">
-              <div class="flex justify-end mb-2">
-                <button type="button" (click)="openGeneratePromptModal()"
-                  class="group relative flex items-center gap-1 px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 ease-in-out border border-gray-300 dark:border-slate-600 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 hover:scale-105 hover:shadow-md hover:shadow-purple-500/20">
-                  <span
-                    class="text-[10px] 3xl:text-xs font-medium leading-tight bg-gradient-to-r from-violet-500 via-purple-500 to-blue-600 bg-clip-text text-transparent">Generar
-                    con IA</span>
-                </button>
-              </div>
               <div class="relative">
                 <textarea [formControl]="agentInstructionControl" rows="8" placeholder="Eres un asistente útil."
                   class="w-full px-3 py-2.5 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none text-xs"></textarea>
@@ -204,16 +270,16 @@
             }
           </div>
 
-          <!-- TELÉFONO Y ETIQUETA (acordeón) -->
+          <!-- Twilio (acordeón, mismo estilo que el resto de Principal) -->
           <div class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10">
             <button
               type="button"
               class="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-left text-gray-900 dark:text-white"
-              (click)="setActiveMainSection('phone')">
-              <span>Teléfono y etiqueta</span>
+              (click)="setActiveMainSection('twilio')">
+              <span>Conexión número de telefono</span>
               <svg
                 class="w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform duration-200 flex-shrink-0"
-                [ngClass]="{ 'rotate-180': phoneSectionOpen }"
+                [ngClass]="{ 'rotate-180': twilioSectionOpen }"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
@@ -224,142 +290,153 @@
               </svg>
             </button>
 
-            @if (phoneSectionOpen) {
+            @if (twilioSectionOpen) {
             <div class="px-3 pb-3 pt-1">
-              <!-- Número de teléfono -->
-              <div class="mb-3">
-                <label class="block text-xs font-semibold text-gray-900 dark:text-white mb-1.5">
-                  Número de teléfono
-                </label>
-                <div class="flex items-center relative">
-                  <div (click)="toggleCountryMenu()"
-                    class="w-28 h-11 bg-gray-50 dark:bg-[#1A1A1A] border border-r-0 border-gray-300 dark:border-gray-700/50 rounded-l-lg px-3 flex items-center justify-between gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#222222] transition-all">
-                    <div class="flex items-center gap-2">
-                      <ng-container [ngSwitch]="selectedCountry">
-                        <svg *ngSwitchCase="'es'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
-                          <rect width="20" height="12" fill="#C60B1E" />
-                          <rect y="3" width="20" height="6" fill="#FFC400" />
-                        </svg>
-                        <svg *ngSwitchCase="'us'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
-                          <rect width="20" height="12" fill="#B22234" />
-                          <rect y="1" width="20" height="2" fill="#FFFFFF" />
-                          <rect y="3" width="20" height="2" fill="#B22234" />
-                          <rect y="5" width="20" height="2" fill="#FFFFFF" />
-                          <rect y="7" width="20" height="2" fill="#B22234" />
-                          <rect y="9" width="20" height="2" fill="#FFFFFF" />
-                          <rect width="9" height="7" fill="#3C3B6E" />
-                        </svg>
-                        <svg *ngSwitchCase="'fr'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
-                          <rect width="20" height="12" fill="#fff" />
-                          <rect width="6.66" height="12" fill="#0055A4" />
-                          <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
-                        </svg>
-                        <svg *ngSwitchCase="'de'" width="20" height="12" viewBox="0 0 20 12" class="rounded-sm">
-                          <rect width="20" height="12" fill="#000000" />
-                          <rect y="4" width="20" height="8" fill="#DD0000" />
-                          <rect y="8" width="20" height="4" fill="#FFCE00" />
-                        </svg>
-                      </ng-container>
-                      <span class="text-xs font-medium text-gray-900 dark:text-white">{{ selectedCountryCode }}</span>
+              <!-- Igual que connect-phone-step en new-create-agents (sin modal) -->
+              <div
+                class="border border-gray-200 dark:border-slate-600 rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-900/30">
+                <div
+                  class="flex items-center justify-between gap-3 px-3 py-3 cursor-pointer transition-colors"
+                  (click)="toggleTwilioInlineConfig()">
+                  <div class="flex items-center gap-3 min-w-0 flex-1">
+                    <div
+                      class="w-9 h-9 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm overflow-hidden shrink-0">
+                      <img src="assets/twilio.jpg" alt="Twilio"
+                        class="w-9 h-9 object-contain rounded" />
                     </div>
-                    <svg class="w-3 h-3 text-gray-500 dark:text-gray-400 transition-transform"
-                      [class.rotate-180]="showCountryMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <div class="min-w-0">
+                      <p class="text-xs font-semibold text-[#0F172A] dark:text-white">
+                        Twilio
+                      </p>
+                      <p class="text-[10px] text-[#6d747c] dark:text-slate-400 leading-snug">
+                        @if (isTwilioValidated && twilioPanelSelectedAccount) {
+                        Cuenta conectada
+                        } @else if (isTwilioValidated) {
+                        Cuenta validada
+                        } @else if (agentTwilioAccount) {
+                        Cuenta asignada al agente · ID {{ agentTwilioAccount.twilioAccountId }}
+                        } @else {
+                        Conecta tu cuenta de Twilio
+                        }
+                      </p>
+                    </div>
                   </div>
-
-                  <ul [class.hidden]="!showCountryMenu"
-                    class="absolute top-full left-0 mt-1.5 w-36 bg-white dark:bg-[#252525] border border-gray-200 dark:border-gray-700/50 rounded-lg shadow-xl z-20 overflow-hidden">
-                    <li (click)="selectCountry('es', '+34')"
-                      class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs border-b border-gray-200 dark:border-gray-700/50 transition-colors">
-                      <svg width="20" height="12" class="mr-2 rounded-sm">
-                        <rect width="20" height="12" fill="#C60B1E" />
-                        <rect y="3" width="20" height="6" fill="#FFC400" />
-                      </svg>
-                      <span class="font-medium text-gray-900 dark:text-white">+34</span>
-                    </li>
-                    <li (click)="selectCountry('us', '+1')"
-                      class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs border-b border-gray-200 dark:border-gray-700/50 transition-colors">
-                      <svg width="20" height="12" class="mr-2 rounded-sm">
-                        <rect width="20" height="12" fill="#00247D" />
-                        <path d="M0 0L20 12M20 0L0 12" stroke="#FFF" stroke-width="2" />
-                      </svg>
-                      <span class="font-medium text-gray-900 dark:text-white">+1</span>
-                    </li>
-                    <li (click)="selectCountry('fr', '+33')"
-                      class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs border-b border-gray-200 dark:border-gray-700/50 transition-colors">
-                      <svg width="20" height="12" class="mr-2 rounded-sm">
-                        <rect width="20" height="12" fill="#0055A4" />
-                        <rect x="6.66" width="6.66" height="12" fill="#fff" />
-                        <rect x="13.33" width="6.67" height="12" fill="#EF4135" />
-                      </svg>
-                      <span class="font-medium text-gray-900 dark:text-white">+33</span>
-                    </li>
-                    <li (click)="selectCountry('de', '+49')"
-                      class="flex items-center px-4 py-2 hover:bg-gray-50 dark:hover:bg-[#1A1A1A] cursor-pointer text-xs transition-colors">
-                      <svg width="20" height="12" class="mr-2 rounded-sm">
-                        <rect width="20" height="12" fill="#FFCE00" />
-                        <rect y="6" width="20" height="6" fill="#DD0000" />
-                        <rect y="4" width="20" height="4" fill="#000" />
-                      </svg>
-                      <span class="font-medium text-gray-900 dark:text-white">+49</span>
-                    </li>
-                  </ul>
-
-                  <input type="tel" formControlName="phoneNumber" placeholder="630 00 00 00"
-                    [class.border-green-500]="phoneIsValid === true"
-                    [class.border-red-500]="phoneIsValid === false"
-                    class="flex-1 h-11 px-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-r-lg rounded-l-none text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-xs" />
+                  <button type="button" (click)="toggleTwilioInlineConfig($event)"
+                    class="shrink-0 px-3 py-1.5 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-white text-[10px] font-semibold transition-colors">
+                    {{ showTwilioConfig ? "Cerrar" : "Conectar" }}
+                  </button>
                 </div>
-                @if (
-                editForm.get("phoneNumber")?.invalid &&
-                editForm.get("phoneNumber")?.touched
-                ) {
-                <p class="text-xs text-red-500 dark:text-red-400 mt-1.5">
-                  {{ getErrorMessage("phoneNumber") }}
-                </p>
-                }
-                @if (isValidatingPhone) {
-                <p class="text-[11px] text-blue-500 dark:text-blue-400 mt-1.5 flex items-center gap-1">
-                  <svg class="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                      stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                    </path>
-                  </svg>
-                  Validando número de teléfono...
-                </p>
-                }
-                @if (
-                phoneIsValid === true &&
-                !isValidatingPhone &&
-                phoneValidationMessage
-                ) {
-                <p class="text-xs text-green-500 dark:text-green-400 mt-1.5">
-                  {{ phoneValidationMessage }}
-                </p>
-                }
-                @if (
-                phoneIsValid === false &&
-                !isValidatingPhone &&
-                phoneValidationMessage
-                ) {
-                <p class="text-xs text-red-500 dark:text-red-400 mt-1.5">
-                  {{ phoneValidationMessage }}
-                </p>
-                }
-              </div>
 
-              <!-- Etiqueta -->
-              <div class="mt-2">
-                <label class="block text-xs font-semibold text-gray-900 dark:text-white mb-1.5">
-                  Etiqueta
-                  <span class="text-gray-500 dark:text-gray-400 text-xs font-normal ml-1">(opcional)</span>
-                </label>
-                <input type="text" formControlName="label" placeholder="Ej: Agente principal"
-                  class="w-full px-3 py-2.5 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-xs" />
+                <div [class.twilio-inline-closed]="!showTwilioConfig"
+                  [class.twilio-inline-slide-down]="showTwilioConfig" class="overflow-hidden">
+                  <div class="px-3 pb-3 pt-0 space-y-2">
+                    @if (isSavingTwilioConfig) {
+                    <div class="flex flex-col items-center justify-center gap-2 py-4">
+                      <div
+                        class="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-[#1B2559] dark:border-t-white">
+                      </div>
+                      <p class="text-[10px] text-gray-600 dark:text-gray-400">Guardando en el agente…</p>
+                    </div>
+                    } @else if (loadingTwilioAccountsPanel) {
+                    <div class="flex justify-center py-3">
+                      <div
+                        class="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-[#1B2559] dark:border-t-white">
+                      </div>
+                    </div>
+                    } @else if (twilioPanelSelectedAccount && isTwilioValidated) {
+                    <div class="space-y-2">
+                      <div class="flex items-center justify-between text-[10px]">
+                        <span class="text-gray-500 dark:text-slate-400">Cuenta ID:
+                          {{ twilioPanelSelectedAccount.twilioAccountId }}</span>
+                        <button type="button" (click)="backToTwilioAccountSelection()"
+                          class="text-[#1B2559] dark:text-blue-400 font-medium">
+                          Cambiar
+                        </button>
+                      </div>
+                      @if (twilioAssignError) {
+                      <p class="text-[10px] text-red-500">{{ twilioAssignError }}</p>
+                      <button type="button" (click)="assignTwilioAccountToAgent(twilioPanelSelectedAccount.twilioAccountId)"
+                        [disabled]="isSavingTwilioConfig"
+                        class="w-full py-2 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-black text-[10px] font-semibold disabled:opacity-50">
+                        Reintentar asignar
+                      </button>
+                      }
+                    </div>
+                    } @else if (
+                    twilioAccounts &&
+                    twilioAccounts.length > 0 &&
+                    !showNewTwilioAccountForm
+                    ) {
+                    <div class="space-y-1.5">
+                      <p class="text-[10px] font-semibold text-gray-700 dark:text-slate-300">
+                        Cuentas conectadas
+                      </p>
+                      @for (account of twilioAccounts; track account.twilioAccountId) {
+                      <button type="button" (click)="useExistingTwilioAccountForPanel(account)"
+                        [disabled]="isValidatingTwilio"
+                        class="w-full px-2 py-1.5 rounded-lg border text-left text-[10px] border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-[#1B2559] dark:hover:border-blue-400 disabled:opacity-50">
+                        Cuenta ID: {{ account.twilioAccountId }} · SID:
+                        {{ account.twilioSid.length > 10 ? (account.twilioSid.slice(0, 10) + "…") : account.twilioSid }}
+                      </button>
+                      }
+                      <button type="button" (click)="showNewTwilioAccountForPanel()"
+                        class="w-full px-2 py-1.5 rounded-lg border border-dashed border-gray-300 dark:border-slate-500 text-[10px] text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800">
+                        Conectar nueva cuenta
+                      </button>
+                    </div>
+                    } @else {
+                    <div class="space-y-2">
+                      <div>
+                        <label
+                          class="block text-[10px] font-semibold text-gray-600 dark:text-slate-400 mb-0.5">Account
+                          SID</label>
+                        <input type="text" [ngModel]="twilioSid"
+                          (ngModelChange)="onTwilioSidInputEdit($event)"
+                          [ngModelOptions]="{ standalone: true }" placeholder="ACxxxxxxxx..."
+                          class="w-full h-9 px-2 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md text-gray-900 dark:text-white" />
+                      </div>
+                      <div>
+                        <label
+                          class="block text-[10px] font-semibold text-gray-600 dark:text-slate-400 mb-0.5">Auth
+                          Token</label>
+                        <input type="password" [ngModel]="twilioToken"
+                          (ngModelChange)="onTwilioTokenInputEdit($event)"
+                          [ngModelOptions]="{ standalone: true }" placeholder="••••••••"
+                          class="w-full h-9 px-2 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md text-gray-900 dark:text-white" />
+                      </div>
+                      <button type="button" (click)="validateTwilioConfigInline()" [disabled]="
+                          isValidatingTwilio ||
+                          !twilioSid.trim() ||
+                          !twilioToken.trim()
+                        "
+                        class="w-full py-2 rounded-md bg-[#1B2559] dark:bg-white hover:bg-[#131a3f] dark:hover:bg-slate-100 text-white dark:text-[#000000] text-[10px] font-semibold disabled:opacity-50 flex items-center justify-center gap-1">
+                        @if (isValidatingTwilio) {
+                        Validando…
+                        } @else if (
+                        twilioSidValidationStatus === "success" &&
+                        twilioTokenValidationStatus === "success"
+                        ) {
+                        Validado
+                        } @else if (
+                        twilioSidValidationStatus === "error" ||
+                        twilioTokenValidationStatus === "error"
+                        ) {
+                        Error
+                        } @else {
+                        Validar
+                        }
+                      </button>
+                      @if (
+                      (twilioSidValidationStatus === "error" ||
+                      twilioTokenValidationStatus === "error") &&
+                      twilioErrorMessage
+                      ) {
+                      <p class="text-[10px] text-red-500">{{ twilioErrorMessage }}</p>
+                      }
+                    </div>
+                    }
+                  </div>
+                </div>
               </div>
             </div>
             }
@@ -1147,34 +1224,28 @@
           </div>
         </div>
 
-        <!-- Twilio -->
+        <!-- Make (grisáceo como Instrucciones; contorno redondeado como Shopify) -->
         <div
-          class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10 bg-gray-50 dark:bg-slate-900/30 px-2.5 py-2 sm:px-3 sm:py-2.5 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
-          <div class="flex items-center gap-2 sm:gap-2.5 flex-1 min-w-0">
-            <div
-              class="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm shrink-0 overflow-hidden">
-              <img src="assets/twilio.jpg" alt="Twilio" class="w-8 h-8 object-cover rounded-md" />
-            </div>
-            <div class="flex-1 min-w-0 flex flex-row flex-wrap items-center gap-x-2 gap-y-1">
-              <p class="text-xs font-semibold text-[#0F172A] dark:text-white leading-tight shrink-0">Twilio</p>
-              @if (agentTwilioAccount) {
-              <div
-                class="flex flex-col sm:flex-row sm:items-center sm:gap-x-3 gap-y-0.5 min-w-0 w-full sm:w-auto text-[10px] leading-tight text-gray-700 dark:text-gray-300 bg-white/80 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-md px-2 py-1">
-                <div class="break-all sm:truncate sm:max-w-full"><span class="font-semibold">ID:</span> {{ agentTwilioAccount.twilioAccountId }}</div>
-                <div class="break-all sm:truncate sm:max-w-full"><span class="font-semibold">SID:</span> {{ agentTwilioAccount.twilioSid }}</div>
+          class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10 bg-gray-50 dark:bg-slate-900/30 overflow-visible opacity-70 transition-colors px-2.5 py-2 sm:px-3 sm:py-2.5">
+          <div class="flex items-center gap-2 sm:gap-2.5">
+            <div class="flex items-center gap-2 min-w-0 flex-1">
+              <img src="assets/make.webp" alt="Make"
+                class="w-6 h-6 shrink-0 object-contain grayscale opacity-80 transition-[filter]" />
+              <div class="min-w-0">
+                <p class="text-xs font-semibold text-gray-900 dark:text-white leading-tight m-0">
+                  Make
+                </p>
+                <p class="text-[10px] text-gray-500 dark:text-gray-400 leading-tight mt-0.5">
+                  Automatiza tus flujos
+                </p>
               </div>
-              }
             </div>
-          </div>
-          <div
-            class="flex flex-row items-center gap-2 shrink-0 w-full sm:w-auto justify-between sm:justify-end sm:pl-0 pt-2.5 mt-0.5 border-t border-gray-800/30 dark:border-gray-200/10 sm:pt-0 sm:mt-0 sm:border-t-0">
-            <span class="text-[10px] font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap">
-              {{ agentTwilioAccount ? "Asignada" : "Sin asignar" }}
-            </span>
-            <button type="button" (click)="openTwilioModal()"
-              class="px-2.5 py-1 rounded-md text-[10px] sm:text-xs font-semibold transition-colors whitespace-nowrap bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-slate-100">
-              {{ agentTwilioAccount ? "Añadir nueva" : "Conectar" }}
-            </button>
+            <div class="ml-auto flex shrink-0 items-center">
+              <button type="button" disabled
+                class="px-2.5 py-1.5 rounded-md text-[10px] font-semibold cursor-not-allowed bg-gray-200 text-gray-500 dark:bg-slate-700 dark:text-slate-400">
+                Próximamente
+              </button>
+            </div>
           </div>
         </div>
     </div>
@@ -1184,181 +1255,6 @@
 
 <!-- Hidden file input for PDF uploads -->
 <input #fileInput type="file" accept=".pdf" (change)="handleFileSelection($event)" style="display: none" />
-
-@if (showTwilioModal) {
-<div class="fixed inset-0 z-50 flex items-center justify-center p-4">
-  <div class="absolute inset-0 bg-black/40" (click)="closeTwilioModal()"></div>
-
-  <div
-    class="relative w-full max-w-xl bg-white dark:bg-[#252525] rounded-2xl border border-gray-200 dark:border-gray-800/50 shadow-xl p-6">
-    <div class="flex items-start justify-between gap-4 mb-5">
-      <div>
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Conectar Twilio
-        </h3>
-        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
-          Selecciona una cuenta existente o añade una nueva.
-        </p>
-      </div>
-      <button type="button" (click)="closeTwilioModal()"
-        class="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#2A2A2A]">
-        <span class="text-lg leading-none">×</span>
-      </button>
-    </div>
-
-    <div class="flex items-center gap-2 mb-5">
-      <button type="button" (click)="setTwilioModalMode('existing')"
-        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
-            twilioModalMode === 'existing'
-              ? 'bg-white dark:bg-[#1A1A1A] text-gray-900 dark:text-white border-gray-200 dark:border-gray-700/50'
-              : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-gray-50 dark:hover:bg-[#2A2A2A]'
-          ">
-        Usar existente
-      </button>
-      <button type="button" (click)="setTwilioModalMode('new')"
-        class="px-4 py-2 text-sm font-semibold rounded-lg border transition-colors" [ngClass]="
-            twilioModalMode === 'new'
-              ? 'bg-white dark:bg-[#1A1A1A] text-gray-900 dark:text-white border-gray-200 dark:border-gray-700/50'
-              : 'bg-transparent text-gray-600 dark:text-gray-300 border-transparent hover:bg-gray-50 dark:hover:bg-[#2A2A2A]'
-          ">
-        Añadir nueva
-      </button>
-    </div>
-
-    @if (twilioModalMode === "existing") {
-    <div class="space-y-2">
-      <label class="block text-sm font-semibold text-gray-900 dark:text-white">
-        Cuenta
-      </label>
-      <select
-        class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
-        [(ngModel)]="selectedTwilioAccountId" [ngModelOptions]="{ standalone: true }"
-        [disabled]="twilioAccounts.length === 0">
-        <option [ngValue]="null">—</option>
-        @for (acc of twilioAccounts; track acc.twilioAccountId) {
-        <option [ngValue]="acc.twilioAccountId">
-          {{ acc.twilioSid }} (ID: {{ acc.twilioAccountId }})
-        </option>
-        }
-      </select>
-
-      @if (twilioAccounts.length === 0) {
-      <p class="text-sm text-gray-600 dark:text-gray-300">
-        No tienes cuentas de Twilio guardadas. Usa "Añadir nueva".
-      </p>
-      }
-    </div>
-    } @else {
-    <div class="space-y-4">
-      <div>
-        <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-          Twilio SID
-        </label>
-        <input type="text" [(ngModel)]="twilioSid" [ngModelOptions]="{ standalone: true }"
-          class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
-          placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" />
-      </div>
-
-      <div>
-        <label class="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
-          Twilio Token
-        </label>
-        <input type="password" [(ngModel)]="twilioToken" [ngModelOptions]="{ standalone: true }"
-          class="w-full px-4 py-3 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-sm"
-          placeholder="••••••••••••••••••••••••••••••••" />
-      </div>
-    </div>
-    }
-
-    <div class="flex justify-end gap-3 mt-7">
-      <button type="button" (click)="closeTwilioModal()"
-        class="px-6 py-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm">
-        Cancelar
-      </button>
-      <button type="button" (click)="saveTwilioModal()" [disabled]="isSavingTwilioConfig"
-        class="px-6 py-2.5 bg-[#1B2559] dark:bg-blue-700 text-white font-semibold rounded-lg hover:bg-[#0a1740] dark:hover:bg-blue-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm">
-        {{ isSavingTwilioConfig ? "Guardando..." : "Guardar" }}
-      </button>
-    </div>
-  </div>
-</div>
-}
-
-<!-- Modal para Generar con IA -->
-@if (showGeneratePromptModal) {
-<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-  <div
-    class="relative w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-600 shadow-xl p-6">
-    <!-- Header del modal -->
-    <div class="flex items-start justify-between gap-4 mb-5">
-      <div>
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-          Generar instrucciones con IA
-        </h3>
-        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
-          Describe cómo debería ser tu agente y generaremos las instrucciones
-          automáticamente.
-        </p>
-      </div>
-      <button type="button" (click)="closeGeneratePromptModal()"
-        class="w-8 h-8 rounded-lg border border-gray-200 dark:border-slate-600 flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
-        <span class="text-lg leading-none">×</span>
-      </button>
-    </div>
-
-    <!-- Contenido del modal -->
-    <div class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-          Nombre de la empresa o negocio
-        </label>
-        <input type="text" [(ngModel)]="promptEnterpriseName"
-          placeholder="Ej: Pisadas Felices, Talleres Pérez..."
-          class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:focus:border-transparent outline-none transition-all text-sm mb-4" />
-        
-        <label class="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-          Describe tu agente
-        </label>
-        <textarea [(ngModel)]="promptDescription"
-          placeholder="Ej: Un agente amigable que atiende clientes de un restaurante, toma reservas y responde preguntas sobre el menú..."
-          rows="4"
-          class="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent dark:focus:border-transparent outline-none resize-none transition-all text-sm"></textarea>
-      </div>
-
-      <!-- Error message -->
-      @if (generatePromptError) {
-      <div class="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-        <p class="text-sm text-red-600 dark:text-red-400">
-          {{ generatePromptError }}
-        </p>
-      </div>
-      }
-    </div>
-
-    <!-- Botones de acción -->
-    <div class="flex justify-end gap-3 mt-6">
-      <button type="button" (click)="closeGeneratePromptModal()" [disabled]="isGeneratingPrompt"
-        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-        Cancelar
-      </button>
-      <button type="button" (click)="generatePrompt()" [disabled]="isGeneratingPrompt || !promptDescription.trim()"
-        class="px-4 py-2 text-sm font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] border border-transparent rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-        @if (isGeneratingPrompt) {
-        <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-          </path>
-        </svg>
-        Generando...
-        } @else {
-        Generar instrucciones
-        }
-      </button>
-    </div>
-  </div>
-</div>
-}
 
 <!-- Modal mensaje del sistema ampliado (mismo patrón que instrucciones en creación de agente) -->
 @if (showExpandSystemMessageModal || isSystemMessageModalClosing) {

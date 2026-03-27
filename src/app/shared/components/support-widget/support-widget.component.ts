@@ -92,6 +92,19 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
         return true;
     }
 
+    /** Fondo del slider de volumen según tema (modo claro vs oscuro). */
+    get volumeSliderBackground(): string {
+        if (!this.isBrowser) {
+            return '';
+        }
+        const dark = document.documentElement.classList.contains('dark');
+        const v = this.volume;
+        if (dark) {
+            return `linear-gradient(90deg, #ffffff 0%, #ffffff ${v}%, rgba(255, 255, 255, 0.2) ${v}%, rgba(255, 255, 255, 0.2) 100%)`;
+        }
+        return `linear-gradient(90deg, #1e3a8a 0%, #1e3a8a ${v}%, #e2e8f0 ${v}%, #e2e8f0 100%)`;
+    }
+
     ngOnDestroy() {
         if (this.isBrowser) {
             this.stopMicrophone();

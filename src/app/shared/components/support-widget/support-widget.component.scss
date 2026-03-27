@@ -9,14 +9,14 @@
     gap: 16px;
 
     .widget-container {
-        background: #000000;
+        background: #f8fafc;
         border-radius: 16px;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);
         display: flex;
         flex-direction: column;
         overflow: hidden;
         animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(15, 23, 42, 0.08);
 
         &.closing {
             animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -25,7 +25,7 @@
         .widget-content {
             flex: 1;
             padding: 24px;
-            background: #000000;
+            background: #f8fafc;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -51,16 +51,16 @@
                         margin: 0;
                         font-size: 16px;
                         font-weight: 500;
-                        color: #ffffff;
+                        color: #0f172a;
                         text-align: center;
-                        opacity: 0.9;
+                        opacity: 0.95;
                         letter-spacing: -0.5px;
                         width: 100%;
                     }
 
                     .widget-subtitle {
                         font-size: 10px;
-                        color: rgba(255, 255, 255, 0.5);
+                        color: rgba(15, 23, 42, 0.55);
                         font-weight: 400;
                         margin-top: -2px;
                     }
@@ -72,7 +72,7 @@
                     .settings-btn {
                         background: transparent;
                         border: none;
-                        color: #ffffff;
+                        color: #475569;
                         padding: 8px;
                         cursor: pointer;
                         border-radius: 50%;
@@ -80,11 +80,11 @@
                         align-items: center;
                         justify-content: center;
                         transition: all 0.2s ease;
-                        opacity: 0.9;
+                        opacity: 0.95;
 
                         &:hover {
                             opacity: 1;
-                            background: rgba(255, 255, 255, 0.1);
+                            background: rgba(15, 23, 42, 0.06);
                         }
                     }
 
@@ -92,12 +92,12 @@
                         position: absolute;
                         top: calc(100% + 8px);
                         right: 0;
-                        background: #1a1a1a;
-                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        background: #ffffff;
+                        border: 1px solid rgba(15, 23, 42, 0.1);
                         border-radius: 12px;
                         padding: 16px;
                         width: 200px;
-                        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+                        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
                         animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
                         .volume-control {
@@ -107,8 +107,8 @@
 
                             .label {
                                 font-size: 12px;
-                                color: #ffffff;
-                                opacity: 0.8;
+                                color: #334155;
+                                opacity: 0.95;
                                 font-weight: 500;
                             }
 
@@ -116,6 +116,7 @@
                                 display: flex;
                                 align-items: center;
                                 gap: 10px;
+                                color: #475569;
 
                                 .volume-slider {
                                     flex: 1;
@@ -131,7 +132,7 @@
                                         width: 12px;
                                         height: 12px;
                                         border-radius: 50%;
-                                        background: #ffffff;
+                                        background: #1e3a8a;
                                         cursor: pointer;
                                         transition: all 0.2s ease;
                                     }
@@ -144,8 +145,8 @@
 
                                 .value {
                                     font-size: 11px;
-                                    color: #ffffff;
-                                    opacity: 0.6;
+                                    color: #64748b;
+                                    opacity: 0.9;
                                     min-width: 30px;
                                     text-align: right;
                                 }
@@ -179,8 +180,8 @@
 
                 .branding-text {
                     font-size: 8px;
-                    color: #ffffff;
-                    opacity: 0.4;
+                    color: #64748b;
+                    opacity: 0.85;
                     letter-spacing: 0.3px;
                     font-weight: 400;
                     position: absolute;
@@ -205,10 +206,10 @@
                     justify-content: center;
                     cursor: pointer;
                     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
 
                     &:hover {
-                        background: #f0f0f0;
+                        background: #f1f5f9;
                         transform: scale(1.1);
                     }
 
@@ -233,7 +234,7 @@
         border-radius: 50%;
         background: transparent;
         border: none;
-        color: white;
+        color: #0f172a;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -248,9 +249,9 @@
             right: 100%;
             top: 50%;
             transform: translateY(-50%) translateX(20px) scale(0.5);
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(8px);
-            color: white;
+            color: #0f172a;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 13px;
@@ -260,8 +261,8 @@
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.12);
+            border: 1px solid rgba(15, 23, 42, 0.1);
             z-index: -1;
         }
 
@@ -313,19 +314,110 @@
             }
         }
 
-        // Modo oscuro
-        :host-context(.dark) & {
-            background: transparent;
-            border: none;
-            box-shadow: none;
+    }
+}
 
-            &:hover {
-                background: transparent;
-            }
+// Modo oscuro: mismo aspecto que antes (solo se aplican saltos sobre el tema claro de arriba).
+// `.dark` en <html> alinea con Tailwind `dark:`; `html.dark` por si el host-context lo exige en algún build.
+:host-context(html.dark) .support-widget,
+:host-context(.dark) .support-widget {
+    .widget-container {
+        background: #000000;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-            &.active {
-                border-color: transparent;
-            }
+    .widget-container .widget-content {
+        background: #000000;
+    }
+
+    // Misma profundidad que las reglas base para ganar en especificidad (texto e icono en blanco en oscuro).
+    .widget-container .widget-content .widget-header .header-text .widget-title {
+        color: #ffffff;
+        opacity: 1;
+        -webkit-text-fill-color: #ffffff;
+    }
+
+    .widget-container .widget-content .widget-header .header-text .widget-subtitle {
+        color: rgba(255, 255, 255, 0.65);
+    }
+
+    .widget-container .widget-content .widget-header .settings-container .settings-btn {
+        color: #ffffff;
+        opacity: 1;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    // Rutas completas como en la base; si no, el dropdown y el volumen quedan en tema claro (bloque blanco).
+    .widget-container .widget-content .widget-header .settings-container .settings-dropdown {
+        background: #1a1a1a;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .widget-container .widget-content .widget-header .settings-container .settings-dropdown .volume-control .slider-wrapper {
+        color: #ffffff;
+    }
+
+    .widget-container
+        .widget-content
+        .widget-header
+        .settings-container
+        .settings-dropdown
+        .volume-control
+        .slider-wrapper
+        .volume-slider::-webkit-slider-thumb {
+        background: #ffffff;
+    }
+
+    .widget-container
+        .widget-content
+        .widget-header
+        .settings-container
+        .settings-dropdown
+        .volume-control
+        .label {
+        color: #ffffff;
+        opacity: 0.9;
+    }
+
+    .widget-container
+        .widget-content
+        .widget-header
+        .settings-container
+        .settings-dropdown
+        .volume-control
+        .slider-wrapper
+        .value {
+        color: #ffffff;
+        opacity: 0.75;
+    }
+
+    .widget-container .widget-content .controls-wrapper .branding-text {
+        color: #ffffff;
+        opacity: 0.4;
+    }
+
+    .launcher {
+        color: #ffffff;
+    }
+
+    .launcher .launcher-tooltip {
+        background: rgba(0, 0, 0, 0.95);
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .widget-container .widget-content .controls-wrapper .mic-btn,
+    .widget-container .widget-content .controls-wrapper .action-btn {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+        &:hover {
+            background: #f0f0f0;
         }
     }
 }

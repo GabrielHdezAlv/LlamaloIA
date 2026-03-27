@@ -551,41 +551,39 @@
     </div>
   </div>
 
-  <!-- Banner de borrador guardado (centro inferior) -->
-  <div *ngIf="hasSavedDraft"
-    class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 bg-black rounded-2xl px-6 py-4 shadow-2xl w-[90%] sm:w-auto sm:min-w-[550px] border border-transparent dark:border-transparent">
-    <div class="flex flex-col min-w-0 items-center sm:items-start">
-      <span class="text-[9px] text-blue-400 font-bold uppercase tracking-[0.1em] leading-none mb-1">
-        {{ t.savedDraftLabel }}
-      </span>
-      <span class="text-xs sm:text-sm text-white font-medium whitespace-nowrap text-center sm:text-left">
-        {{ t.agentLabelTopbar }}:
-        <span class="font-semibold">{{ savedDraft?.agentName || t.noName }}</span>
-      </span>
-      <span class="text-[11px] sm:text-xs text-gray-400 mt-1" *ngIf="getSavedStepText()">
-        {{ t.stepLabel }}:
-        <span class="text-gray-300 font-medium">{{ getSavedStepText() }}</span>
-      </span>
+  <!-- Banner borrador creación agente: cápsula compacta (misma altura sensación que antes) -->
+  <div
+    *ngIf="hasSavedDraft"
+    class="fixed bottom-4 left-1/2 z-[100] flex w-[90%] max-w-[min(42rem,calc(100vw-2rem))] -translate-x-1/2 flex-col items-stretch gap-3 rounded-[9999px] border border-white/20 bg-black px-4 py-3 shadow-2xl sm:w-auto sm:min-w-[550px] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6 sm:py-2.5"
+  >
+    <div class="flex min-w-0 flex-col items-center gap-0.5 text-center sm:items-start sm:text-left">
+      <p class="text-xs font-medium leading-snug text-white sm:text-[13px]">
+        {{ t.continueAgentCreationQuestion }}
+      </p>
+      <div class="text-[10px] leading-snug text-gray-400 sm:text-[11px]">
+        <span>
+          {{ t.agentLabelTopbar }}:
+          <span class="font-medium text-gray-300">{{ savedDraft?.agentName || t.noName }}</span>
+        </span>
+        <span *ngIf="getSavedStepText()" class="mt-0.5 block">
+          {{ t.stepLabel }}:
+          <span class="font-medium text-gray-300">{{ getSavedStepText() }}</span>
+        </span>
+      </div>
     </div>
-    <div class="flex items-center gap-2.5 sm:gap-4 w-full sm:w-auto justify-center">
-      <button (click)="discardDraft()"
-        class="flex-1 sm:flex-none flex items-center justify-center gap-2 text-[11px] sm:text-sm bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-xl px-4 py-2 sm:py-2.5 transition-colors">
-        <svg class="w-3.5 h-3.5 sm:w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path
-            d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+    <div class="flex shrink-0 items-center justify-center gap-2.5 sm:gap-3 sm:justify-end">
+      <button
+        type="button"
+        (click)="discardDraft()"
+        class="inline-flex flex-1 items-center justify-center rounded-full border border-white/35 bg-transparent px-4 py-2 text-[11px] font-medium text-white transition-colors hover:bg-white/10 sm:flex-initial sm:px-4 sm:py-2 sm:text-xs"
+      >
         {{ t.deleteLabel }}
       </button>
-      <button (click)="goToRecoverDraft()"
-        class="flex-1 sm:flex-none flex items-center justify-center gap-2 text-[11px] sm:text-sm bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2 sm:py-2.5 rounded-xl transition-all shadow-lg active:scale-95 dark:bg-white dark:text-[#000000] dark:hover:bg-slate-100">
-        <svg class="w-3.5 h-3.5 sm:w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 4V10H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path
-            d="M3.51 15C4.15839 16.8404 5.38734 18.4202 7.01166 19.5014C8.63598 20.5826 10.5677 21.1066 12.5157 20.9945C14.4637 20.8823 16.3226 20.1402 17.8121 18.8798C19.3017 17.6193 20.3413 15.909 20.7742 14.0064C21.2072 12.1037 21.0101 10.112 20.2126 8.33111C19.4152 6.55025 18.0605 5.07687 16.3528 4.13277C14.6451 3.18868 12.6769 2.82527 10.7447 3.09712C8.81245 3.36897 7.02091 4.26142 5.64 5.64L1 10"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+      <button
+        type="button"
+        (click)="goToRecoverDraft()"
+        class="inline-flex flex-1 items-center justify-center rounded-full bg-white px-4 py-2 text-[11px] font-semibold text-black transition-colors hover:bg-gray-100 active:scale-[0.98] sm:flex-initial sm:px-5 sm:py-2 sm:text-xs"
+      >
         {{ t.continue }}
       </button>
     </div>
