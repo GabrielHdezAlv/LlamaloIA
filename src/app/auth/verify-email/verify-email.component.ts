@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../shared/modals/modal.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-verify-email',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './verify-email.component.html',
   styleUrls: ['./verify-email.component.scss'],
 })
@@ -16,35 +18,40 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
+  private notificationService = inject(NotificationService);
 
-  verificationState: 'loading' | 'success' | 'error' = 'loading';
+  verificationState: 'input' | 'loading' | 'success' | 'error' = 'input';
   message: string = '';
   countdown: number = 5;
   private countdownInterval: any;
+  
+  verificationCode: string = '';
+  emailToVerify: string = '';
 
   ngOnInit(): void {
-    this.extractTokenAndVerify();
-  }
-
-  private extractTokenAndVerify(): void {
-    // Extraer token de los query params
+    // Si la ruta nos manda un token (por ejemplo de un click accidental en un correo viejo), lo probamos.
+    // De lo contrario, extraemos el email si se envió por state o query params
     this.route.queryParams.subscribe((params) => {
       const token = params['token'];
-
-      if (!token) {
-        this.handleError('Enlace inválido o expirado');
-        return;
+      if (token) {
+        this.verificationCode = token;
+        this.verifyCode();
+      } else {
+        this.emailToVerify = params['email'] || history.state?.email || '';
       }
-
-      this.verifyEmail(token);
     });
   }
 
-  private verifyEmail(token: string): void {
-    this.verificationState = 'loading';
-    this.message = 'Verificando tu email...';
+  verifyCode(): void {
+    if (!this.verificationCode || this.verificationCode.length < 6) {
+      this.notificationService.error('Introduce el código de 6 dígitos');
+      return;
+    }
 
-    this.userService.verifyEmail(token).subscribe({
+    this.verificationState = 'loading';
+    this.message = 'Verificando tu código...';
+
+    this.userService.verifyEmail(this.verificationCode).subscribe({
       next: (response) => {
         this.verificationState = 'success';
         this.message = '¡Email verificado! Redirigiendo al login...';
@@ -63,8 +70,32 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error verificando email:', err);
-        this.handleError('Enlace inválido o expirado');
+        this.handleError('Código inválido o expirado. Revisa tu correo o solicita uno nuevo.');
       },
+    });
+  }
+
+  resendCode(): void {
+    if (!this.emailToVerify) {
+      this.notificationService.warning('Por favor ingresa tu correo para poder reenviar el código');
+      // No tenemos email. Mostraríamos un prompt o navegar a login?
+      return;
+    }
+
+    this.verificationState = 'loading';
+    this.message = 'Reenviando código...';
+    
+    // Suponiendo que hay un endpoint resendVerificationEmail(email)
+    this.userService.resendVerificationEmail(this.emailToVerify).subscribe({
+      next: () => {
+        this.verificationState = 'input';
+        this.notificationService.success('Código reenviado. Revisa tu bandeja de entrada.');
+      },
+      error: (err) => {
+        console.error('Error reenviando código:', err);
+        this.verificationState = 'input';
+        this.notificationService.error('Error al reenviar el código.');
+      }
     });
   }
 
@@ -77,26 +108,14 @@ export class VerifyEmailComponent implements OnInit, OnDestroy {
       title: 'Error de verificación',
       message: errorMessage,
       details:
-        'Por favor, intenta registrarte nuevamente o contacta soporte si el problema persiste.',
+        'Por favor, intenta nuevamente o solicita un nuevo código.',
     });
 
-    // Iniciar countdown
-    this.startCountdown();
-
-    // Redirigir automáticamente al registro después de 5 segundos
+    // En vez de redirigir, le permitimos intentar de nuevo
     setTimeout(() => {
-      this.navigateToRegister();
-    }, 5000);
-  }
-
-  private startCountdown(): void {
-    this.countdown = 5;
-    this.countdownInterval = setInterval(() => {
-      this.countdown--;
-      if (this.countdown <= 0) {
-        clearInterval(this.countdownInterval);
-      }
-    }, 1000);
+      this.verificationState = 'input';
+      this.verificationCode = ''; // Limpiar
+    }, 3000);
   }
 
   navigateToRegister(): void {

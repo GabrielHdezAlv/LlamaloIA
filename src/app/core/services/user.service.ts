@@ -250,4 +250,15 @@ export class UserService {
       },
     );
   }
+
+  // Reenviar email de verificación
+  resendVerificationEmail(email: string): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiUrl}/auth/resend-verification`,
+      { email },
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  }
 }

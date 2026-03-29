@@ -288,12 +288,12 @@ export class AuthFormComponent implements OnInit {
     this.userService.RegisterUser(user).subscribe({
       next: (response) => {
         // Mostrar notificación de validación de correo
-        this.notificationService.info(this.t.authSuccessVerifyEmail);
+        this.notificationService.info('Revisa tu correo para el código de verificación.');
 
-        // Redirigir a login después de un breve delay
+        // Redirigir a verify-email después de un breve delay y pasar el email
         setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000);
+          this.router.navigate(['/verify-email'], { queryParams: { email: this.email } });
+        }, 1500);
       },
       error: (err) => {
         this.notificationService.error(this.t.authErrorRegister);
