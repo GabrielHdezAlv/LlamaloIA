@@ -229,6 +229,15 @@ export class UserService {
     );
   }
 
+  // ✅ CANJEAR RECOMPENSA
+  redeemReward(rewardType: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/users/rewards/redeem`,
+      { rewardType },
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
   // Verificar email
   verifyEmail(
     token: string,

@@ -284,6 +284,7 @@ export interface Translations {
   giftsTitle: string;
   giftsDescription: string;
   redeem: string;
+  redeemed: string;
   trustpilot: string;
   trustpilotBonus: string;
   trustpilotDescription: string;
@@ -995,6 +996,7 @@ export class I18nService {
       giftsTitle: 'Regalos',
       giftsDescription: 'Los minutos extra que ganes y no uses el mes siguiente no expirarán. ¡Canjea tus recompensas ahora para no olvidarte!',
       redeem: 'Canjear',
+      redeemed: 'Canjeado',
       trustpilot: 'Trustpilot',
       trustpilotBonus: '+10 min',
       trustpilotDescription: 'Gana 10 minutos adicionales dejando una reseña sobre Llamalo en Trustpilot. Una vez publicada, envíanos una captura de pantalla en el chat junto con el email de tu cuenta y añadiremos los minutos extra automáticamente.',
@@ -1694,6 +1696,7 @@ export class I18nService {
       giftsTitle: 'Gifts',
       giftsDescription: 'Extra minutes you earn and don\'t use the following month will not expire. Redeem your rewards now so you don\'t forget!',
       redeem: 'Redeem',
+      redeemed: 'Redeemed',
       trustpilot: 'Trustpilot',
       trustpilotBonus: '+10 min',
       trustpilotDescription: 'Earn 10 extra minutes by leaving a review about Llamalo on Trustpilot. Once published, send us a screenshot in the chat along with your account email and we will add the extra minutes automatically.',

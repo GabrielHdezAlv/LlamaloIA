@@ -661,13 +661,35 @@ export class AccountComponent implements OnInit, OnDestroy {
   openSocialGiftNetwork(network: 'instagram' | 'linkedin' | 'x') {
     const url = this.gift2SocialUrls[network];
     if (!url || !isPlatformBrowser(this.platformId)) return;
+    
+    // Primero abrimos la URL en nueva pestaña
     window.open(url, '_blank', 'noopener,noreferrer');
+    
+    // Y llamamos automáticamente a canjear para esa red
+    this.redeemReward(network);
+  }
+
+  isRewardRedeemed(rewardType: string): boolean {
+    const redeemed = this.user()?.redeemedRewards || [];
+    return redeemed.includes(rewardType);
   }
 
   // Método para canjear recompensa
   redeemReward(rewardType: string) {
-    // Aquí puedes implementar la lógica para canjear la recompensa
-    this.notificationService.success(this.t.giftRedeemedSuccess);
+    this.userService.redeemReward(rewardType).subscribe({
+      next: (res: any) => {
+        // Actualizamos los datos del usuario en el store para reflejar los minutos extra ganados
+        this.userService.getUserProfile().subscribe((profile) => {
+          this.userStore.setUser(profile);
+        });
+        
+        this.notificationService.success(res.message || this.t.giftRedeemedSuccess);
+      },
+      error: (err: any) => {
+        const errorMessage = err?.error?.message || 'Error al canjear la recompensa';
+        this.notificationService.error(errorMessage);
+      }
+    });
   }
 
 
