@@ -2,11 +2,37 @@
   <div class="shopify-polaris-shell">
     <div class="shopify-polaris-shell-inner">
       <div class="shopify-polaris-page">
-        <header class="shopify-polaris-section-header">
-          <h1 class="shopify-polaris-section-header__title shopify-polaris-section-header__title--secondary">
-            {{ pageTitle }}
-          </h1>
-          <p class="shopify-polaris-section-header__date">{{ reportPeriodRange }}</p>
+        <header class="shopify-polaris-section-header shopify-polaris-section-header--with-external">
+          <div class="shopify-polaris-section-header__cluster">
+            <h1 class="shopify-polaris-section-header__title shopify-polaris-section-header__title--secondary">
+              {{ pageTitle }}
+            </h1>
+            <p class="shopify-polaris-section-header__date">{{ reportPeriodRange }}</p>
+          </div>
+          <a
+            class="shopify-polaris-section-header__external-link"
+            href="/login"
+            target="_top"
+            rel="noopener noreferrer"
+            aria-label="Ir al inicio de sesión de Llamalo"
+          >
+            <svg
+              class="shopify-polaris-external-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11.75 3.5a.75.75 0 0 0 0 1.5h2.19l-4.97 4.97a.75.75 0 1 0 1.06 1.06l4.97-4.97v2.19a.75.75 0 0 0 1.5 0v-4a.75.75 0 0 0-.75-.75h-4Z"
+              />
+              <path
+                d="M15 10.967a.75.75 0 0 0-1.5 0v2.783c0 .69-.56 1.25-1.25 1.25h-6c-.69 0-1.25-.56-1.25-1.25v-6c0-.69.56-1.25 1.25-1.25h2.783a.75.75 0 0 0 0-1.5h-2.783a2.75 2.75 0 0 0-2.75 2.75v6a2.75 2.75 0 0 0 2.75 2.75h6a2.75 2.75 0 0 0 2.75-2.75v-2.783Z"
+              />
+            </svg>
+          </a>
         </header>
 
         <div class="shopify-polaris-grid shopify-polaris-grid--4">
@@ -15,13 +41,27 @@
               class="shopify-polaris-kpi-chart"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              fill-opacity="0.88"
               aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill="currentColor"
-                fill-opacity="0.88"
-                d="M5 19h2v-6H5v6zm4 0h2V9H9v10zm4 0h2V5h-2v14zm4 0h2v-8h-2v8z"
+                fill-rule="evenodd"
+                d="M4 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M16 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M8 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M12 3a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-1.5 0v-12.5a.75.75 0 0 1 .75-.75Z"
               />
             </svg>
             <div class="shopify-polaris-kpi-head">
@@ -34,9 +74,33 @@
                 [class.shopify-polaris-trend--up]="mock.totalCallsVar >= 0"
                 [class.shopify-polaris-trend--down]="mock.totalCallsVar < 0"
               >
-                <span class="shopify-polaris-trend__arrow">{{
-                  mock.totalCallsVar >= 0 ? '↑' : '↓'
-                }}</span>
+                <span class="shopify-polaris-trend__arrow" aria-hidden="true">
+                  @if (mock.totalCallsVar >= 0) {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 11.8a.75.75 0 0 0 1.06-.04l2.7-2.908 2.7 2.908a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 0 0 .04 1.06Z"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 8.2a.75.75 0 0 1 1.06.04l2.7 2.908 2.7-2.908a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0l-3.25-3.5a.75.75 0 0 1 .04-1.06Z"
+                      />
+                    </svg>
+                  }
+                </span>
                 {{ mock.totalCallsVar >= 0 ? '+' : '' }}{{ mock.totalCallsVar }}%
               </span>
             </div>
@@ -47,13 +111,27 @@
               class="shopify-polaris-kpi-chart"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              fill-opacity="0.88"
               aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill="currentColor"
-                fill-opacity="0.88"
-                d="M5 19h2v-6H5v6zm4 0h2V9H9v10zm4 0h2V5h-2v14zm4 0h2v-8h-2v8z"
+                fill-rule="evenodd"
+                d="M4 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M16 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M8 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M12 3a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-1.5 0v-12.5a.75.75 0 0 1 .75-.75Z"
               />
             </svg>
             <div class="shopify-polaris-kpi-head">
@@ -66,9 +144,33 @@
                 [class.shopify-polaris-trend--up]="mock.successfulCallsVar >= 0"
                 [class.shopify-polaris-trend--down]="mock.successfulCallsVar < 0"
               >
-                <span class="shopify-polaris-trend__arrow">{{
-                  mock.successfulCallsVar >= 0 ? '↑' : '↓'
-                }}</span>
+                <span class="shopify-polaris-trend__arrow" aria-hidden="true">
+                  @if (mock.successfulCallsVar >= 0) {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 11.8a.75.75 0 0 0 1.06-.04l2.7-2.908 2.7 2.908a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 0 0 .04 1.06Z"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 8.2a.75.75 0 0 1 1.06.04l2.7 2.908 2.7-2.908a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0l-3.25-3.5a.75.75 0 0 1 .04-1.06Z"
+                      />
+                    </svg>
+                  }
+                </span>
                 {{ mock.successfulCallsVar >= 0 ? '+' : '' }}{{ mock.successfulCallsVar }}%
               </span>
             </div>
@@ -79,13 +181,27 @@
               class="shopify-polaris-kpi-chart"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              fill-opacity="0.88"
               aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill="currentColor"
-                fill-opacity="0.88"
-                d="M5 19h2v-6H5v6zm4 0h2V9H9v10zm4 0h2V5h-2v14zm4 0h2v-8h-2v8z"
+                fill-rule="evenodd"
+                d="M4 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M16 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M8 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M12 3a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-1.5 0v-12.5a.75.75 0 0 1 .75-.75Z"
               />
             </svg>
             <div class="shopify-polaris-kpi-head">
@@ -98,9 +214,33 @@
                 [class.shopify-polaris-trend--up]="mock.totalMinutesVar >= 0"
                 [class.shopify-polaris-trend--down]="mock.totalMinutesVar < 0"
               >
-                <span class="shopify-polaris-trend__arrow">{{
-                  mock.totalMinutesVar >= 0 ? '↑' : '↓'
-                }}</span>
+                <span class="shopify-polaris-trend__arrow" aria-hidden="true">
+                  @if (mock.totalMinutesVar >= 0) {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 11.8a.75.75 0 0 0 1.06-.04l2.7-2.908 2.7 2.908a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 0 0 .04 1.06Z"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 8.2a.75.75 0 0 1 1.06.04l2.7 2.908 2.7-2.908a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0l-3.25-3.5a.75.75 0 0 1 .04-1.06Z"
+                      />
+                    </svg>
+                  }
+                </span>
                 {{ mock.totalMinutesVar >= 0 ? '+' : '' }}{{ mock.totalMinutesVar }}%
               </span>
             </div>
@@ -111,13 +251,27 @@
               class="shopify-polaris-kpi-chart"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              fill-opacity="0.88"
               aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill="currentColor"
-                fill-opacity="0.88"
-                d="M5 19h2v-6H5v6zm4 0h2V9H9v10zm4 0h2V5h-2v14zm4 0h2v-8h-2v8z"
+                fill-rule="evenodd"
+                d="M4 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M16 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M8 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M12 3a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-1.5 0v-12.5a.75.75 0 0 1 .75-.75Z"
               />
             </svg>
             <div class="shopify-polaris-kpi-head">
@@ -130,9 +284,33 @@
                 [class.shopify-polaris-trend--up]="mock.timeSavedVar >= 0"
                 [class.shopify-polaris-trend--down]="mock.timeSavedVar < 0"
               >
-                <span class="shopify-polaris-trend__arrow">{{
-                  mock.timeSavedVar >= 0 ? '↑' : '↓'
-                }}</span>
+                <span class="shopify-polaris-trend__arrow" aria-hidden="true">
+                  @if (mock.timeSavedVar >= 0) {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 11.8a.75.75 0 0 0 1.06-.04l2.7-2.908 2.7 2.908a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 0 0 .04 1.06Z"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 8.2a.75.75 0 0 1 1.06.04l2.7 2.908 2.7-2.908a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0l-3.25-3.5a.75.75 0 0 1 .04-1.06Z"
+                      />
+                    </svg>
+                  }
+                </span>
                 {{ mock.timeSavedVar >= 0 ? '+' : '' }}{{ mock.timeSavedVar }}%
               </span>
             </div>
@@ -145,13 +323,27 @@
               class="shopify-polaris-kpi-chart"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              fill-opacity="0.88"
               aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill="currentColor"
-                fill-opacity="0.88"
-                d="M5 19h2v-6H5v6zm4 0h2V9H9v10zm4 0h2V5h-2v14zm4 0h2v-8h-2v8z"
+                fill-rule="evenodd"
+                d="M4 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M16 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M8 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M12 3a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-1.5 0v-12.5a.75.75 0 0 1 .75-.75Z"
               />
             </svg>
             <div class="shopify-polaris-kpi-head">
@@ -164,9 +356,33 @@
                 [class.shopify-polaris-trend--up]="mock.successRateVar >= 0"
                 [class.shopify-polaris-trend--down]="mock.successRateVar < 0"
               >
-                <span class="shopify-polaris-trend__arrow">{{
-                  mock.successRateVar >= 0 ? '↑' : '↓'
-                }}</span>
+                <span class="shopify-polaris-trend__arrow" aria-hidden="true">
+                  @if (mock.successRateVar >= 0) {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 11.8a.75.75 0 0 0 1.06-.04l2.7-2.908 2.7 2.908a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 0 0 .04 1.06Z"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 8.2a.75.75 0 0 1 1.06.04l2.7 2.908 2.7-2.908a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0l-3.25-3.5a.75.75 0 0 1 .04-1.06Z"
+                      />
+                    </svg>
+                  }
+                </span>
                 {{ mock.successRateVar >= 0 ? '+' : '' }}{{ mock.successRateVar }} pp
               </span>
             </div>
@@ -177,13 +393,27 @@
               class="shopify-polaris-kpi-chart"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              fill-opacity="0.88"
               aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill="currentColor"
-                fill-opacity="0.88"
-                d="M5 19h2v-6H5v6zm4 0h2V9H9v10zm4 0h2V5h-2v14zm4 0h2v-8h-2v8z"
+                fill-rule="evenodd"
+                d="M4 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M16 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M8 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M12 3a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-1.5 0v-12.5a.75.75 0 0 1 .75-.75Z"
               />
             </svg>
             <div class="shopify-polaris-kpi-head">
@@ -217,9 +447,33 @@
                 [class.shopify-polaris-trend--up]="mock.consultasResueltasVar >= 0"
                 [class.shopify-polaris-trend--down]="mock.consultasResueltasVar < 0"
               >
-                <span class="shopify-polaris-trend__arrow">{{
-                  mock.consultasResueltasVar >= 0 ? '↑' : '↓'
-                }}</span>
+                <span class="shopify-polaris-trend__arrow" aria-hidden="true">
+                  @if (mock.consultasResueltasVar >= 0) {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 11.8a.75.75 0 0 0 1.06-.04l2.7-2.908 2.7 2.908a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 0 0 .04 1.06Z"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 8.2a.75.75 0 0 1 1.06.04l2.7 2.908 2.7-2.908a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0l-3.25-3.5a.75.75 0 0 1 .04-1.06Z"
+                      />
+                    </svg>
+                  }
+                </span>
                 {{ mock.consultasResueltasVar >= 0 ? '+' : '' }}{{ mock.consultasResueltasVar }}%
               </span>
             </div>
@@ -239,9 +493,33 @@
                 [class.shopify-polaris-trend--success]="mock.consultasFallidasVar < 0"
                 [class.shopify-polaris-trend--critical]="mock.consultasFallidasVar >= 0"
               >
-                <span class="shopify-polaris-trend__arrow">{{
-                  mock.consultasFallidasVar >= 0 ? '↑' : '↓'
-                }}</span>
+                <span class="shopify-polaris-trend__arrow" aria-hidden="true">
+                  @if (mock.consultasFallidasVar >= 0) {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 11.8a.75.75 0 0 0 1.06-.04l2.7-2.908 2.7 2.908a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 0 0 .04 1.06Z"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 8.2a.75.75 0 0 1 1.06.04l2.7 2.908 2.7-2.908a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0l-3.25-3.5a.75.75 0 0 1 .04-1.06Z"
+                      />
+                    </svg>
+                  }
+                </span>
                 {{ mock.consultasFallidasVar >= 0 ? '+' : '' }}{{ mock.consultasFallidasVar }}%
               </span>
             </div>
@@ -266,13 +544,27 @@
               class="shopify-polaris-kpi-chart"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              fill-opacity="0.88"
               aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill="currentColor"
-                fill-opacity="0.88"
-                d="M5 19h2v-6H5v6zm4 0h2V9H9v10zm4 0h2V5h-2v14zm4 0h2v-8h-2v8z"
+                fill-rule="evenodd"
+                d="M4 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M16 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M8 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M12 3a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-1.5 0v-12.5a.75.75 0 0 1 .75-.75Z"
               />
             </svg>
             <div class="shopify-polaris-kpi-head">
@@ -288,7 +580,33 @@
                 [class.shopify-polaris-trend--success]="mock.latencyVar < 0"
                 [class.shopify-polaris-trend--critical]="mock.latencyVar >= 0"
               >
-                <span class="shopify-polaris-trend__arrow">{{ mock.latencyVar >= 0 ? '↑' : '↓' }}</span>
+                <span class="shopify-polaris-trend__arrow" aria-hidden="true">
+                  @if (mock.latencyVar >= 0) {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 11.8a.75.75 0 0 0 1.06-.04l2.7-2.908 2.7 2.908a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 0 0 .04 1.06Z"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 8.2a.75.75 0 0 1 1.06.04l2.7 2.908 2.7-2.908a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0l-3.25-3.5a.75.75 0 0 1 .04-1.06Z"
+                      />
+                    </svg>
+                  }
+                </span>
                 {{ mock.latencyVar >= 0 ? '+' : '' }}{{ mock.latencyVar }}%
               </span>
             </div>
@@ -299,13 +617,27 @@
               class="shopify-polaris-kpi-chart"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              fill-opacity="0.88"
               aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill="currentColor"
-                fill-opacity="0.88"
-                d="M5 19h2v-6H5v6zm4 0h2V9H9v10zm4 0h2V5h-2v14zm4 0h2v-8h-2v8z"
+                fill-rule="evenodd"
+                d="M4 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M16 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M8 9.5a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0v-6a.75.75 0 0 1 .75-.75Z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M12 3a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-1.5 0v-12.5a.75.75 0 0 1 .75-.75Z"
               />
             </svg>
             <div class="shopify-polaris-kpi-head">
@@ -325,7 +657,33 @@
                 [class.shopify-polaris-trend--success]="mock.durationVar < 0"
                 [class.shopify-polaris-trend--critical]="mock.durationVar >= 0"
               >
-                <span class="shopify-polaris-trend__arrow">{{ mock.durationVar >= 0 ? '↑' : '↓' }}</span>
+                <span class="shopify-polaris-trend__arrow" aria-hidden="true">
+                  @if (mock.durationVar >= 0) {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 11.8a.75.75 0 0 0 1.06-.04l2.7-2.908 2.7 2.908a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 0 0 .04 1.06Z"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="shopify-polaris-caret"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M6.24 8.2a.75.75 0 0 1 1.06.04l2.7 2.908 2.7-2.908a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0l-3.25-3.5a.75.75 0 0 1 .04-1.06Z"
+                      />
+                    </svg>
+                  }
+                </span>
                 {{ mock.durationVar >= 0 ? '+' : '' }}{{ mock.durationVar }}%
               </span>
             </div>
