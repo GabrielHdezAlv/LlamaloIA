@@ -269,11 +269,11 @@ export class AdminMetricsComponent implements OnInit {
 
   // Getters para UI
   get displayMinutesUsed(): number {
-    return Math.round(Math.min(this.totalMinutesUsed, this.minutesLimit));
+    return Math.round(Math.min(this.totalMinutesUsed, (this.minutesLimit ?? 100) + (this.extraMinutes ?? 0)));
   }
 
   get displayExtraMinutesUsed(): string {
-    const val = Math.max(0, this.totalMinutesUsed - this.minutesLimit);
+    const val = Math.max(0, this.totalMinutesUsed - ((this.minutesLimit ?? 100) + (this.extraMinutes ?? 0)));
     return (Math.round(val * 100) / 100).toFixed(2).replace('.', ',');
   }
 

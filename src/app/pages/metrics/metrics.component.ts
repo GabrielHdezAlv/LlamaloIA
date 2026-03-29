@@ -225,7 +225,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
     // Estado de uso del plan (siempre visible, cambia según porcentaje)
     // Si no hay límite configurado, usar un límite por defecto de 1000 minutos para mostrar el porcentaje
-    const planLimit = this.minutesLimit > 0 ? this.minutesLimit : 1000;
+    const baseLimit = this.minutesLimit > 0 ? this.minutesLimit : 1000;
+    const planLimit = baseLimit + (this.extraMinutes || 0);
     
     // El porcentaje no debe superar el 100% si se usan minutos extra
     const usagePercent = Math.min((this.totalMinutesUsed / planLimit) * 100, 100);
@@ -655,11 +656,11 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   // Getters para UI
   get displayMinutesUsed(): number {
-    return Math.round(Math.min(this.totalMinutesUsed, this.minutesLimit));
+    return Math.round(Math.min(this.totalMinutesUsed, (this.minutesLimit ?? 100) + (this.extraMinutes ?? 0)));
   }
 
   get displayExtraMinutesUsed(): string {
-    const val = Math.max(0, this.totalMinutesUsed - this.minutesLimit);
+    const val = Math.max(0, this.totalMinutesUsed - ((this.minutesLimit ?? 100) + (this.extraMinutes ?? 0)));
     return (Math.round(val * 100) / 100).toFixed(2).replace('.', ',');
   }
 
