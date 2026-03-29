@@ -1,8 +1,20 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  viewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { Subject, takeUntil } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { I18nService } from '../../../core/services/i18n.service';
+
+/** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.48s). */
+const UPGRADE_MODAL_CLOSE_MS = 520;
 
 @Component({
   selector: 'app-upgrade-plan-modal',
@@ -14,17 +26,40 @@ import { I18nService } from '../../../core/services/i18n.service';
 export class UpgradePlanModalComponent implements OnInit, OnDestroy {
   private i18nService = inject(I18nService);
   dialogRef = inject(MatDialogRef<UpgradePlanModalComponent>);
+  private readonly destroy$ = new Subject<void>();
+  private readonly modalShell = viewChild<ElementRef<HTMLElement>>('modalShell');
   showCloseButton = false;
+  private closing = false;
 
   ngOnInit(): void {
     document.body.classList.add('upgrade-plan-modal-open');
     setTimeout(() => {
       this.showCloseButton = true;
     }, 200);
+
+    this.dialogRef
+      .backdropClick()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.closeWithAnimation());
+
+    this.dialogRef
+      .keydownEvents()
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((e): e is KeyboardEvent => e.key === 'Escape')
+      )
+      .subscribe((e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.closeWithAnimation();
+      });
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     document.body.classList.remove('upgrade-plan-modal-open');
+    document.body.classList.remove('upgrade-plan-modal-leaving');
   }
 
   get t() {
@@ -83,6 +118,20 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
-    this.dialogRef.close();
+    this.closeWithAnimation();
+  }
+
+  private closeWithAnimation(): void {
+    if (this.closing) {
+      return;
+    }
+    this.closing = true;
+    const el = this.modalShell()?.nativeElement;
+    el?.classList.add('upgrade-plan-modal--leave');
+    document.body.classList.add('upgrade-plan-modal-leaving');
+    setTimeout(() => {
+      document.body.classList.remove('upgrade-plan-modal-leaving');
+      this.dialogRef.close();
+    }, UPGRADE_MODAL_CLOSE_MS);
   }
 }

@@ -1,16 +1,53 @@
+/* Contenedor del modal: entrada “zoom suave + desenfoque”, salida inversa */
+@keyframes upgrade-plan-shell-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+    filter: blur(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes upgrade-plan-shell-out {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+    filter: blur(10px);
+  }
+}
+
+.upgrade-plan-modal:not(.upgrade-plan-modal--leave) {
+  animation: upgrade-plan-shell-in 0.72s cubic-bezier(0.2, 0.85, 0.25, 1) both;
+}
+
+.upgrade-plan-modal.upgrade-plan-modal--leave {
+  animation: upgrade-plan-shell-out 0.48s cubic-bezier(0.45, 0, 0.55, 1) forwards !important;
+  pointer-events: none;
+}
+
+/* Tarjetas: entrada ligera con escala (distinta al antiguo solo translateY) */
 @keyframes plan-card-fade-in {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px) scale(0.97);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 .plan-card-fade-in {
-  animation: plan-card-fade-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: plan-card-fade-in 0.58s cubic-bezier(0.28, 1, 0.4, 1) forwards;
   opacity: 0;
 }
 
@@ -19,7 +56,7 @@
   @keyframes plan-card-pro-fade-in {
     from {
       opacity: 0;
-      transform: scale(1.08) translateY(12px);
+      transform: scale(1.08) translateY(10px);
     }
     to {
       opacity: 1;
@@ -32,7 +69,7 @@
   }
 
   .plan-card-pro.plan-card-fade-in {
-    animation: plan-card-pro-fade-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: plan-card-pro-fade-in 0.58s cubic-bezier(0.28, 1, 0.4, 1) forwards;
   }
 
   .plan-card-pro:hover {
@@ -70,6 +107,16 @@
 
 ::ng-deep body.upgrade-plan-modal-open html.dark .cdk-overlay-backdrop {
   background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Fundido del backdrop al cerrar (~0.48s; el .ts espera un poco más antes de destroy) */
+::ng-deep body.upgrade-plan-modal-leaving .cdk-overlay-backdrop {
+  transition:
+    opacity 0.48s cubic-bezier(0.45, 0, 0.55, 1),
+    backdrop-filter 0.48s ease !important;
+  opacity: 0 !important;
+  backdrop-filter: blur(0) !important;
+  -webkit-backdrop-filter: blur(0) !important;
 }
 
 /* Recuadro del modal con blur */

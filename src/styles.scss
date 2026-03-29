@@ -895,3 +895,6 @@ html.dark .dark\:focus\:border-blue-400:focus {
     padding: 0 !important;
   }
 }
+
+/* Shopify Polaris: variables y temas (admin) — --p-* para vistas tipo embebido */
+@import '@shopify/polaris-tokens/css/styles.css';
