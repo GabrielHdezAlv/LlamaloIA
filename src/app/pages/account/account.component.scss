@@ -1,3 +1,28 @@
+/* Igual que connect-phone-step: panel Twilio desplegable */
+.twilio-closed {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.twilio-slide-down {
+  animation: twilioSlideDown 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes twilioSlideDown {
+  from {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+
+  to {
+    max-height: 1000px;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 // Animación cambio de sección: desaparece contenido, luego aparece el nuevo
 .account-section {
   transition: opacity 0.2s ease-out;

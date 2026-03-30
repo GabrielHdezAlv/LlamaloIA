@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Make">
+  <!-- Marca estilo Make: barras inclinadas, sin fondo -->
+  <path fill="#6D00CC" d="M4.2 18.5 9.4 4.2l2.4.9-5.1 14.3-2.5-.9z" />
+  <path fill="#6D00CC" d="M12.2 18.5 17.4 4.2l2.5.9-5.2 14.3-2.5-.9z" opacity=".85" />
+</svg>
