@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MatDialogModule,
@@ -30,10 +30,18 @@ export interface LoginSuccessModalData {
   templateUrl: './login-success-modal.component.html',
   styleUrls: ['./login-success-modal.component.scss'],
 })
-export class LoginSuccessModalComponent {
+export class LoginSuccessModalComponent implements OnDestroy {
   dialogRef = inject(MatDialogRef);
   data = inject(MAT_DIALOG_DATA) as LoginSuccessModalData;
   private i18nService = inject(I18nService);
+
+  /** Desliza hacia fuera (slideOut) antes de cerrar el dialog. */
+  isClosing = false;
+  private closeTimer?: ReturnType<typeof setTimeout>;
+
+  ngOnDestroy(): void {
+    if (this.closeTimer) clearTimeout(this.closeTimer);
+  }
 
   get t() {
     return this.i18nService.getTranslations();
@@ -55,11 +63,26 @@ export class LoginSuccessModalComponent {
     return this.data?.continueButtonText || 'Ir al Dashboard';
   }
 
+  /** Cierra con animación CSS (.closing → slideOutToRight). */
+  requestClose(): void {
+    if (this.isClosing) return;
+    this.isClosing = true;
+    if (this.closeTimer) clearTimeout(this.closeTimer);
+    this.closeTimer = setTimeout(() => {
+      this.dialogRef.close();
+    }, 300);
+  }
+
   close(): void {
-    this.dialogRef.close();
+    this.requestClose();
   }
 
   continue(): void {
-    this.dialogRef.close('continue');
+    if (this.isClosing) return;
+    this.isClosing = true;
+    if (this.closeTimer) clearTimeout(this.closeTimer);
+    this.closeTimer = setTimeout(() => {
+      this.dialogRef.close('continue');
+    }, 300);
   }
 }

@@ -23,7 +23,8 @@
     opacity: 1;
   }
 
-  &:hover {
+  /* Hover solo cuando está visible; si no, al quitar .visible la transición de salida no compite */
+  &.visible:hover {
     transform: translateX(0) translateY(-2px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
   }

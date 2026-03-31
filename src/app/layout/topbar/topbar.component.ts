@@ -15,6 +15,13 @@ import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {
+  animate,
+  AnimationEvent,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { I18nService, Language } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
 import { NewsService } from '../../core/services/news.service';
@@ -46,6 +53,32 @@ interface AgentDraft {
   imports: [CommonModule, FormsModule],
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
+  animations: [
+    trigger('draftBanner', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translate(-50%, 20px)',
+        }),
+        animate(
+          '420ms cubic-bezier(0.32, 0.72, 0, 1)',
+          style({
+            opacity: 1,
+            transform: 'translate(-50%, 0)',
+          }),
+        ),
+      ]),
+      transition(':leave', [
+        animate(
+          '480ms cubic-bezier(0.36, 0, 0.2, 1)',
+          style({
+            opacity: 0,
+            transform: 'translate(-50%, 20px)',
+          }),
+        ),
+      ]),
+    ]),
+  ],
 })
 export class TopbarComponent implements OnInit, OnDestroy {
   pageTitle: string = 'Inicio';
@@ -94,9 +127,14 @@ export class TopbarComponent implements OnInit, OnDestroy {
   private dropdownOpenTimer: ReturnType<typeof setTimeout> | null = null;
   private newsDropdownOpenTimer: ReturnType<typeof setTimeout> | null = null;
 
-  // Draft recovery
-  hasSavedDraft = false;
+  // Draft recovery (visibilidad del banner; la navegación / borrado esperan al fin de la animación de salida)
+  draftBannerShown = false;
   savedDraft: AgentDraft | null = null;
+  private draftBannerClosingForUserAction = false;
+  private pendingNavigateToCreateFromBanner = false;
+  private pendingDiscardDraftAfterBannerClose = false;
+  private draftBannerActionFallbackTimer: ReturnType<typeof setTimeout> | null =
+    null;
 
   // Variables para el modal de invitación
   emailInput: string = '';
@@ -342,6 +380,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     if (this.newsDropdownCloseTimer) clearTimeout(this.newsDropdownCloseTimer);
     if (this.dropdownOpenTimer) clearTimeout(this.dropdownOpenTimer);
     if (this.newsDropdownOpenTimer) clearTimeout(this.newsDropdownOpenTimer);
+    this.clearDraftBannerActionFallback();
   }
 
   checkForSavedDraft() {
@@ -349,7 +388,12 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
     // No mostrar el banner si ya estamos en la página de crear agentes
     if (this.router.url === '/dashboard/agents/create') {
-      this.hasSavedDraft = false;
+      this.draftBannerShown = false;
+      this.draftBannerClosingForUserAction = false;
+      return;
+    }
+
+    if (this.draftBannerClosingForUserAction) {
       return;
     }
 
@@ -361,7 +405,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
         if (this.savedDraft?.step === 'success') {
           localStorage.removeItem(AGENT_DRAFT_KEY);
           this.savedDraft = null;
-          this.hasSavedDraft = false;
+          this.draftBannerShown = false;
           return;
         }
         // Solo mostrar si hay algo significativo guardado
@@ -369,28 +413,81 @@ export class TopbarComponent implements OnInit, OnDestroy {
           this.savedDraft &&
           (this.savedDraft.step !== 'agentName' || this.savedDraft.agentName)
         ) {
-          this.hasSavedDraft = true;
+          this.draftBannerShown = true;
         } else {
-          this.hasSavedDraft = false;
+          this.draftBannerShown = false;
         }
       } catch (e) {
-        this.hasSavedDraft = false;
+        this.draftBannerShown = false;
       }
     } else {
-      this.hasSavedDraft = false;
+      this.draftBannerShown = false;
     }
   }
 
   goToRecoverDraft() {
-    this.router.navigate(['/dashboard/agents/create']);
+    this.draftBannerClosingForUserAction = true;
+    this.pendingNavigateToCreateFromBanner = true;
+    this.draftBannerShown = false;
+    this.scheduleDraftBannerActionFallback();
   }
 
   discardDraft() {
-    if (this.isBrowser) {
-      localStorage.removeItem(AGENT_DRAFT_KEY);
+    this.draftBannerClosingForUserAction = true;
+    this.pendingDiscardDraftAfterBannerClose = true;
+    this.draftBannerShown = false;
+    this.scheduleDraftBannerActionFallback();
+  }
+
+  onDraftBannerAnimDone(event: AnimationEvent): void {
+    if (event.phaseName !== 'done' || event.toState !== 'void') {
+      return;
     }
-    this.hasSavedDraft = false;
-    this.savedDraft = null;
+    if (
+      !this.pendingNavigateToCreateFromBanner &&
+      !this.pendingDiscardDraftAfterBannerClose
+    ) {
+      return;
+    }
+    this.flushDraftBannerPendingActions();
+  }
+
+  private scheduleDraftBannerActionFallback(): void {
+    this.clearDraftBannerActionFallback();
+    this.draftBannerActionFallbackTimer = setTimeout(() => {
+      this.draftBannerActionFallbackTimer = null;
+      if (
+        this.pendingNavigateToCreateFromBanner ||
+        this.pendingDiscardDraftAfterBannerClose
+      ) {
+        this.flushDraftBannerPendingActions();
+      }
+    }, 650);
+  }
+
+  private clearDraftBannerActionFallback(): void {
+    if (this.draftBannerActionFallbackTimer) {
+      clearTimeout(this.draftBannerActionFallbackTimer);
+      this.draftBannerActionFallbackTimer = null;
+    }
+  }
+
+  private flushDraftBannerPendingActions(): void {
+    this.clearDraftBannerActionFallback();
+    if (this.pendingNavigateToCreateFromBanner) {
+      this.pendingNavigateToCreateFromBanner = false;
+      this.draftBannerClosingForUserAction = false;
+      this.router.navigate(['/dashboard/agents/create']);
+      return;
+    }
+    if (this.pendingDiscardDraftAfterBannerClose) {
+      this.pendingDiscardDraftAfterBannerClose = false;
+      this.draftBannerClosingForUserAction = false;
+      if (this.isBrowser) {
+        localStorage.removeItem(AGENT_DRAFT_KEY);
+      }
+      this.savedDraft = null;
+    }
   }
 
   getSavedStepText(): string {

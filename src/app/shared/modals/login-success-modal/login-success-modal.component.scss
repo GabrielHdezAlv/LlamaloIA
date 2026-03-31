@@ -125,13 +125,8 @@
   }
 }
 
-// Auto-close después de 4 segundos
-.login-success-popup {
-  animation: slideInFromRight 0.4s ease-out;
-}
-
 .login-success-popup.closing {
-  animation: slideOutToRight 0.3s ease-in;
+  animation: slideOutToRight 0.3s ease-in forwards;
 }
 
 // Responsive
@@ -157,8 +152,8 @@
   }
 }
 
-// Efectos adicionales
-.popup-content:hover {
+// Efectos adicionales (no durante la salida)
+.login-success-popup:not(.closing) .popup-content:hover {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
   transition: all 0.3s ease;

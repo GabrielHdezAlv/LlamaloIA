@@ -10,8 +10,9 @@ export class NotificationService {
 
     show(message: string, type: 'success' | 'error' | 'info' | 'warning' = 'success', duration: number = 3000) {
         this.snackBar.openFromComponent(CustomNotificationComponent, {
-            duration: duration,
-            data: { message, type },
+            /* La animación de salida la controla el componente (boxExit + dismiss). */
+            duration: undefined,
+            data: { message, type, durationMs: duration },
             horizontalPosition: 'center',
             verticalPosition: 'top',
             panelClass: ['simple-pill-snackbar']

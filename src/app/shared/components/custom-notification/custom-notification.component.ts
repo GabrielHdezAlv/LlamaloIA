@@ -1,23 +1,37 @@
-import { Component, Inject } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import {
+  MAT_SNACK_BAR_DATA,
+  MatSnackBarRef,
+} from '@angular/material/snack-bar';
 
 export interface NotificationData {
-    message: string;
-    type: 'success' | 'error' | 'info' | 'warning';
+  message: string;
+  type: 'success' | 'error' | 'info' | 'warning';
+  /** Milisegundos visibles antes de la animación de salida (el snackbar no usa `duration` de Material). */
+  durationMs?: number;
 }
 
 @Component({
-    selector: 'app-custom-notification',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
-    <div class="notification-box" [ngClass]="data.type">
+  selector: 'app-custom-notification',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div
+      class="notification-box"
+      [ngClass]="data.type"
+      [class.closing]="closing"
+      (animationend)="onBoxAnimationEnd($event)">
       <div class="status-dot"></div>
       <span class="message-text">{{ data.message }}</span>
     </div>
   `,
-    styles: [`
+  styles: [`
     .notification-box {
       display: flex;
       align-items: center;
@@ -27,7 +41,7 @@ export interface NotificationData {
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(0, 0, 0, 0.05);
-      border-radius: 10px; /* Menos redondeado, más estándar */
+      border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
       color: #1e293b;
       font-family: 'Inter', sans-serif;
@@ -35,9 +49,18 @@ export interface NotificationData {
       animation: boxAppear 0.25s ease-out forwards;
     }
 
+    .notification-box.closing {
+      animation: boxExit 0.25s ease-in forwards;
+    }
+
     @keyframes boxAppear {
       from { transform: translateY(-10px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes boxExit {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-10px); opacity: 0; }
     }
 
     :host-context(html.dark) .notification-box {
@@ -60,12 +83,56 @@ export interface NotificationData {
     .warning .status-dot { background: #f59e0b; }
 
     .message-text {
-      font-weight: 300; /* Letra más fina */
+      font-weight: 300;
       font-size: 13px;
       line-height: 1.4;
     }
-  `]
+  `],
 })
-export class CustomNotificationComponent {
-    constructor(@Inject(MAT_SNACK_BAR_DATA) public data: NotificationData) { }
+export class CustomNotificationComponent implements OnInit, OnDestroy {
+  readonly data = inject<NotificationData>(MAT_SNACK_BAR_DATA);
+  private readonly snackBarRef = inject(
+    MatSnackBarRef<CustomNotificationComponent>,
+  );
+
+  closing = false;
+
+  private dismissTimeout?: ReturnType<typeof setTimeout>;
+  private exitFallback?: ReturnType<typeof setTimeout>;
+
+  ngOnInit(): void {
+    const ms = this.data.durationMs ?? 3000;
+    if (ms > 0) {
+      this.dismissTimeout = setTimeout(() => this.beginExit(), ms);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.dismissTimeout) clearTimeout(this.dismissTimeout);
+    if (this.exitFallback) clearTimeout(this.exitFallback);
+  }
+
+  onBoxAnimationEnd(event: AnimationEvent): void {
+    const name = event.animationName || '';
+    if (
+      !this.closing ||
+      !name.includes('boxExit') ||
+      event.target !== event.currentTarget
+    ) {
+      return;
+    }
+    if (this.exitFallback) {
+      clearTimeout(this.exitFallback);
+      this.exitFallback = undefined;
+    }
+    this.snackBarRef.dismiss();
+  }
+
+  private beginExit(): void {
+    if (this.closing) return;
+    this.closing = true;
+    this.exitFallback = setTimeout(() => {
+      this.snackBarRef.dismiss();
+    }, 350);
+  }
 }

@@ -60,12 +60,19 @@ import { UpgradePlanModalComponent } from './upgrade-plan-modal/upgrade-plan-mod
 export class ModalService {
   private dialog = inject(MatDialog);
 
+  /** Animaciones de entrada/salida del contenedor de Material Dialog. */
+  private readonly dialogMotion = {
+    enterAnimationDuration: '200ms',
+    exitAnimationDuration: '200ms',
+  } as const;
+
   openError(data: ErrorModalData) {
     return this.dialog.open(ErrorModalComponent, {
       width: '420px',
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -75,6 +82,7 @@ export class ModalService {
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -84,6 +92,7 @@ export class ModalService {
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -93,6 +102,7 @@ export class ModalService {
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -103,6 +113,7 @@ export class ModalService {
       disableClose: false,
       panelClass: ['custom-dialog-container', 'warning-dialog-top'],
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -112,6 +123,7 @@ export class ModalService {
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -121,6 +133,7 @@ export class ModalService {
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -134,11 +147,11 @@ export class ModalService {
         top: '20px',
         right: '20px',
       },
+      ...this.dialogMotion,
     });
 
-    // Auto-cerrar después de 4 segundos
     setTimeout(() => {
-      dialogRef.close();
+      dialogRef.componentInstance?.requestClose();
     }, 4000);
 
     return dialogRef;
@@ -151,6 +164,7 @@ export class ModalService {
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -161,6 +175,7 @@ export class ModalService {
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -170,6 +185,7 @@ export class ModalService {
       disableClose: true,
       panelClass: 'custom-dialog-container',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -180,6 +196,7 @@ export class ModalService {
       disableClose: false,
       panelClass: 'custom-dialog-container',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -191,6 +208,7 @@ export class ModalService {
       panelClass: 'custom-dialog-container',
       backdropClass: 'text-modal-backdrop',
       data,
+      ...this.dialogMotion,
     });
   }
 
@@ -201,6 +219,7 @@ export class ModalService {
       // El cierre animado lo gestiona el componente (backdrop / Escape / X).
       disableClose: true,
       panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
+      ...this.dialogMotion,
     });
   }
 }
