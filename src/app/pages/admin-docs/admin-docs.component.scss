@@ -1,3 +1,26 @@
+:host {
+  display: block;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.admin-docs-page code {
+  font-family:
+    ui-monospace,
+    'Cascadia Code',
+    'SFMono-Regular',
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+  font-size: 0.8125em;
+}
+
 // Keyframes personalizados
 @keyframes fadeInUp {
   from {

@@ -1,42 +1,132 @@
-<div class="p-6 max-w-7xl mx-auto min-h-screen bg-gray-50 dark:bg-neutral-900 text-gray-800 dark:text-gray-200">
-  <header class="mb-10 animate-fade-in-up">
-    <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-2">
-      Documentación Interna <span class="text-blue-600 dark:text-blue-400">LlamaloAI</span>
-    </h1>
-    <p class="text-lg text-gray-500 dark:text-gray-400">
-      Arquitectura, flujos de datos y procesos internos del sistema. Exclusivo para administradores.
-    </p>
-    <p class="text-sm text-gray-500 dark:text-gray-500 mt-3 max-w-3xl leading-relaxed">
-      Uso previsto: <strong class="text-gray-700 dark:text-gray-300">dirección</strong> (visión de producto y riesgos),
-      <strong class="text-gray-700 dark:text-gray-300">equipo técnico</strong> (rutas, integraciones, datos)
-      y <strong class="text-gray-700 dark:text-gray-300">referencia rápida</strong> cuando un proceso no esté fresco en memoria.
-      Donde haya bloque «Resumen para dirección y negocio», lo de abajo sigue siendo el detalle completo.
-    </p>
+<!-- Mismo ancho y márgenes que la fila del topbar (título ↔ cerrar sesión) -->
+<div
+  class="w-full flex justify-center px-2 sm:px-3 md:px-5 3xl:px-10 4xl:px-12"
+>
+  <div
+    class="admin-docs-page w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] 4xl:max-w-[110rem] pb-12 pt-2 text-gray-800 dark:text-slate-200 animate-fade-in-up"
+  >
+  <!-- Cabecera al estilo tarjetas del dashboard admin -->
+  <header
+    class="mb-6 rounded-[2rem] border border-gray-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-6 md:p-8"
+  >
+    <div class="flex flex-col md:flex-row md:items-start gap-5 md:gap-6">
+      <svg
+        class="shrink-0 w-10 h-10 md:w-11 md:h-11 text-blue-950 dark:text-blue-300"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M20.5 16V18.5C20.5 20.43 18.93 22 17 22H7C5.07 22 3.5 20.43 3.5 18.5V17.85C3.5 16.28 4.78 15 6.35 15H19.5C20.05 15 20.5 15.45 20.5 16Z"
+          fill="currentColor" />
+        <path
+          d="M15.5 2H8.5C4.5 2 3.5 3 3.5 7V14.58C4.26 13.91 5.26 13.5 6.35 13.5H19.5C20.05 13.5 20.5 13.05 20.5 12.5V7C20.5 3 19.5 2 15.5 2ZM13 10.75H8C7.59 10.75 7.25 10.41 7.25 10C7.25 9.59 7.59 9.25 8 9.25H13C13.41 9.25 13.75 9.59 13.75 10C13.75 10.41 13.41 10.75 13 10.75ZM16 7.25H8C7.59 7.25 7.25 6.91 7.25 6.5C7.25 6.09 7.59 5.75 8 5.75H16C16.41 5.75 16.75 6.09 16.75 6.5C16.75 6.91 16.41 7.25 16 7.25Z"
+          fill="currentColor" />
+      </svg>
+      <div class="min-w-0 flex-1">
+        <p
+          class="text-[11px] font-semibold uppercase tracking-[0.12em] text-blue-950/75 dark:text-blue-300/90 mb-1.5"
+        >
+          Panel admin
+        </p>
+        <h1
+          class="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-slate-50 tracking-tight brand-font"
+        >
+          Documentación interna
+        </h1>
+        <p class="mt-1 text-lg font-medium text-blue-950 dark:text-blue-200/95">
+          LlamaloAI
+        </p>
+        <p class="mt-3 text-sm md:text-base text-gray-600 dark:text-slate-400 leading-relaxed max-w-3xl">
+          Arquitectura, flujos de datos y procesos internos del sistema. Solo administradores.
+        </p>
+        <p class="mt-4 text-sm text-gray-500 dark:text-slate-500 max-w-3xl leading-relaxed border-t border-gray-100 dark:border-slate-800 pt-4">
+          Uso previsto:
+          <strong class="text-gray-800 dark:text-slate-300 font-semibold">dirección</strong> (visión de producto y riesgos),
+          <strong class="text-gray-800 dark:text-slate-300 font-semibold">equipo técnico</strong> (rutas, integraciones, datos)
+          y
+          <strong class="text-gray-800 dark:text-slate-300 font-semibold">referencia rápida</strong> cuando un proceso no esté fresco en memoria.
+          Donde haya bloque «Resumen para dirección y negocio», lo de abajo sigue siendo el detalle completo.
+        </p>
+      </div>
+    </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <div class="mb-8 border-b border-gray-200 dark:border-neutral-800 animate-fade-in-up delay-100">
-    <nav class="-mb-px flex space-x-8 overflow-x-auto" aria-label="Tabs">
-      <button *ngFor="let tab of tabs" 
-              (click)="setTab(tab.id)"
-              [class.border-blue-500]="activeTab === tab.id"
-              [class.text-blue-600]="activeTab === tab.id"
-              [class.dark:text-blue-400]="activeTab === tab.id"
-              [class.border-transparent]="activeTab !== tab.id"
-              [class.text-gray-500]="activeTab !== tab.id"
-              [class.hover:text-gray-700]="activeTab !== tab.id"
-              [class.hover:border-gray-300]="activeTab !== tab.id"
-              class="group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap transition-colors duration-200 focus:outline-none">
-        <svg class="mr-2 h-5 w-5" [class.text-blue-500]="activeTab === tab.id" [class.text-gray-400]="activeTab !== tab.id" [class.group-hover:text-gray-500]="activeTab !== tab.id" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="tab.icon" />
-        </svg>
+  <!-- Pestañas estilo píldora (coherente con el resto del admin) -->
+  <div
+    class="mb-8 rounded-2xl border border-gray-200/90 dark:border-slate-700 bg-gray-100/70 dark:bg-slate-800/60 p-1.5 shadow-sm animate-fade-in-up delay-100"
+  >
+    <nav class="flex flex-wrap gap-1.5 overflow-x-auto pb-0.5" aria-label="Secciones de documentación">
+      <button
+        *ngFor="let tab of tabs"
+        type="button"
+        (click)="setTab(tab.id)"
+        class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900/20 dark:focus-visible:ring-slate-300/30"
+        [ngClass]="
+          activeTab === tab.id
+            ? 'bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-100 shadow-sm border border-gray-200/90 dark:border-slate-600'
+            : 'text-gray-600 dark:text-slate-400 border border-transparent hover:bg-white/70 dark:hover:bg-slate-900/50 hover:text-gray-900 dark:hover:text-slate-100'
+        "
+      >
+        <span
+          class="inline-flex shrink-0 items-center justify-center [&_svg]:block"
+          [ngClass]="
+            activeTab === tab.id
+              ? 'text-gray-900 dark:text-slate-100'
+              : 'text-gray-600 dark:text-slate-400'
+          "
+        >
+          <ng-container [ngSwitch]="tab.id">
+            <svg *ngSwitchCase="'xenon'" class="h-5 w-5 drop-shadow-sm" viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <radialGradient id="adminDocsTabXenonSphereGrad" cx="50%" cy="30%" r="50%">
+                  <stop offset="0%" stop-color="#E0F2FE" />
+                  <stop offset="45%" stop-color="#38BDF8" />
+                  <stop offset="100%" stop-color="#1D4ED8" />
+                </radialGradient>
+              </defs>
+              <circle cx="12" cy="12" r="9" fill="url(#adminDocsTabXenonSphereGrad)" />
+              <ellipse cx="10" cy="9" rx="3" ry="2" fill="white" fill-opacity="0.55" />
+            </svg>
+            <svg *ngSwitchCase="'calls'" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M15.5562 14.5477L15.1007 15.0272C15.1007 15.0272 14.0181 16.167 11.0631 13.0559C8.10812 9.94484 9.1907 8.80507 9.1907 8.80507L9.47752 8.50311C10.1841 7.75924 10.2507 6.56497 9.63424 5.6931L8.37326 3.90961C7.61028 2.8305 6.13596 2.68795 5.26145 3.60864L3.69185 5.26114C3.25823 5.71766 2.96765 6.30945 3.00289 6.96594C3.09304 8.64546 3.81071 12.259 7.81536 16.4752C12.0621 20.9462 16.0468 21.1239 17.6763 20.9631C18.1917 20.9122 18.6399 20.6343 19.0011 20.254L20.4217 18.7584C21.3806 17.7489 21.1102 16.0182 19.8833 15.312L17.9728 14.2123C17.1672 13.7486 16.1858 13.8848 15.5562 14.5477Z" />
+              <path
+                d="M13.2595 1.87983C13.3257 1.47094 13.7122 1.19357 14.1211 1.25976C14.1464 1.26461 14.2279 1.27983 14.2705 1.28933C14.3559 1.30834 14.4749 1.33759 14.6233 1.38082C14.9201 1.46726 15.3347 1.60967 15.8323 1.8378C16.8286 2.29456 18.1544 3.09356 19.5302 4.46936C20.906 5.84516 21.705 7.17097 22.1617 8.16725C22.3899 8.66487 22.5323 9.07947 22.6187 9.37625C22.6619 9.52466 22.6912 9.64369 22.7102 9.72901C22.7197 9.77168 22.7267 9.80594 22.7315 9.83125L22.7373 9.86245C22.8034 10.2713 22.5286 10.6739 22.1197 10.7401C21.712 10.8061 21.3279 10.53 21.2601 10.1231C21.258 10.1121 21.2522 10.0828 21.2461 10.0551C21.2337 9.9997 21.2124 9.91188 21.1786 9.79572C21.1109 9.56339 20.9934 9.21806 20.7982 8.79238C20.4084 7.94207 19.7074 6.76789 18.4695 5.53002C17.2317 4.29216 16.0575 3.59117 15.2072 3.20134C14.7815 3.00618 14.4362 2.88865 14.2038 2.82097C14.0877 2.78714 13.9417 2.75363 13.8863 2.7413C13.4793 2.67347 13.1935 2.28755 13.2595 1.87983Z" />
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M13.4857 5.3293C13.5995 4.93102 14.0146 4.7004 14.4129 4.81419L14.2069 5.53534C14.4129 4.81419 14.4129 4.81419 14.4129 4.81419L14.4144 4.81461L14.4159 4.81505L14.4192 4.81602L14.427 4.81834L14.4468 4.8245C14.4618 4.82932 14.4807 4.8356 14.5031 4.84357C14.548 4.85951 14.6074 4.88217 14.6802 4.91337C14.8259 4.97581 15.0249 5.07223 15.2695 5.21694C15.7589 5.50662 16.4271 5.9878 17.2121 6.77277C17.9971 7.55775 18.4782 8.22593 18.7679 8.7154C18.9126 8.95991 19.009 9.15897 19.0715 9.30466C19.1027 9.37746 19.1254 9.43682 19.1413 9.48173C19.1493 9.50418 19.1555 9.52301 19.1604 9.53809L19.1665 9.55788L19.1688 9.56563L19.1698 9.56896L19.1702 9.5705C19.1702 9.5705 19.1707 9.57194 18.4495 9.77798L19.1707 9.57194C19.2845 9.97021 19.0538 10.3853 18.6556 10.4991C18.2607 10.6119 17.8492 10.3862 17.7313 9.99413L17.7276 9.98335C17.7223 9.96832 17.7113 9.93874 17.6928 9.89554C17.6558 9.8092 17.5887 9.66797 17.4771 9.47938C17.2541 9.10264 16.8514 8.53339 16.1514 7.83343C15.4515 7.13348 14.8822 6.73078 14.5055 6.50781C14.3169 6.39619 14.1757 6.32909 14.0893 6.29209C14.0461 6.27358 14.0165 6.26254 14.0015 6.25721L13.9907 6.25352C13.5987 6.13564 13.3729 5.72419 13.4857 5.3293Z" />
+            </svg>
+            <svg *ngSwitchCase="'shopify'" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <svg *ngSwitchCase="'knowledge'" class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path
+                d="M15.538 18.9987L15.2473 20.2572C15.0241 21.2205 14.2013 21.9181 13.2285 21.9927L13.0554 21.9993H10.9437C9.95426 21.9993 9.0885 21.3544 8.79678 20.4229L8.75135 20.2556L8.461 18.9987H15.538Z"
+                fill="currentColor" />
+              <path
+                d="M12 2.0007C16.0041 2.0007 19.25 5.24664 19.25 9.2507C19.25 11.3873 18.3144 13.344 16.4846 15.0914C16.4493 15.1252 16.4247 15.1684 16.4137 15.216L15.886 17.4987H12.75V10.75C12.75 10.3358 12.4142 10 12 10C11.5858 10 11.25 10.3358 11.25 10.75V17.4987H8.114L7.58801 15.2161C7.57702 15.1685 7.55234 15.1252 7.51701 15.0915C5.68616 13.344 4.75 11.3873 4.75 9.2507C4.75 5.24663 7.99593 2.0007 12 2.0007ZM11.25 6.75046V8.25049C11.25 8.6647 11.5858 9.00049 12 9.00049C12.4142 9.00049 12.75 8.6647 12.75 8.25049V6.75046C12.75 6.33624 12.4142 6.00046 12 6.00046C11.5858 6.00046 11.25 6.33624 11.25 6.75046ZM16.2803 8.21579C15.9874 7.9229 15.5126 7.9229 15.2197 8.21579L14.159 9.27648C13.8661 9.56937 13.8661 10.0442 14.159 10.3371C14.4519 10.63 14.9268 10.63 15.2197 10.3371L16.2803 9.27645C16.5732 8.98356 16.5732 8.50869 16.2803 8.21579ZM8.78032 8.21579C8.48743 7.9229 8.01255 7.9229 7.71966 8.21579C7.42677 8.50869 7.42677 8.98356 7.71966 9.27645L8.78034 10.3371C9.07324 10.63 9.54811 10.63 9.841 10.3371C10.1339 10.0442 10.1339 9.56937 9.841 9.27648L8.78032 8.21579Z"
+                fill="currentColor" />
+            </svg>
+            <svg *ngSwitchCase="'metrics'" class="h-[1.15rem] w-[1.1rem]" viewBox="0 0 19 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect y="5" width="5" height="15" rx="2" fill="currentColor" />
+              <rect x="14" width="5" height="20" rx="2" fill="currentColor" />
+              <rect x="7" y="11" width="5" height="9" rx="2" fill="currentColor" />
+            </svg>
+            <svg *ngSwitchCase="'twilio'" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </ng-container>
+        </span>
         {{ tab.name }}
       </button>
     </nav>
   </div>
 
-  <!-- Content Area -->
-  <div class="bg-white dark:bg-neutral-800 rounded-2xl shadow-sm border border-gray-100 dark:border-neutral-700 p-8 min-h-[500px] relative overflow-hidden">
+  <!-- Contenido -->
+  <div
+    class="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-gray-100 dark:border-slate-800 p-6 md:p-8 xl:p-10 min-h-[500px] relative overflow-hidden"
+  >
     
     <!-- Decoración de fondo -->
     <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-blue-50 dark:bg-blue-900/10 opacity-50 blur-3xl pointer-events-none"></div>
@@ -44,11 +134,17 @@
     <!-- 1. FLUJO XENON -->
     <div *ngIf="activeTab === 'xenon'" class="tab-content animate-slide-in">
       <div class="flex items-center mb-6">
-        <div class="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg mr-4">
-          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-        </div>
+        <svg class="shrink-0 w-7 h-7 mr-4 drop-shadow-sm" viewBox="0 0 24 24" aria-hidden="true">
+          <defs>
+            <radialGradient id="adminDocsHeaderXenonSphereGrad" cx="50%" cy="30%" r="50%">
+              <stop offset="0%" stop-color="#E0F2FE" />
+              <stop offset="45%" stop-color="#38BDF8" />
+              <stop offset="100%" stop-color="#1D4ED8" />
+            </radialGradient>
+          </defs>
+          <circle cx="12" cy="12" r="9" fill="url(#adminDocsHeaderXenonSphereGrad)" />
+          <ellipse cx="10" cy="9" rx="3" ry="2" fill="white" fill-opacity="0.55" />
+        </svg>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Funcionamiento de Xenon (Agente de Soporte de LlamaloIA)</h2>
       </div>
 
@@ -59,27 +155,27 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         
         <!-- Arquitectura del Prompt -->
-        <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
           <div class="absolute top-0 right-0 w-32 h-32 bg-green-100 dark:bg-green-900/20 rounded-full blur-2xl -mr-10 -mt-10 transition-transform group-hover:scale-110"></div>
           <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200 flex items-center relative z-10">
             <div class="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse"></div> Arquitectura del Prompt & RAG
           </h3>
           <ul class="space-y-4 text-sm text-gray-600 dark:text-gray-400 relative z-10">
-            <li class="flex items-start bg-gray-50 dark:bg-neutral-900/50 p-3 rounded-lg border border-gray-100 dark:border-neutral-800">
+            <li class="flex items-start bg-gray-50 dark:bg-slate-900/50 p-3 rounded-lg border border-gray-100 dark:border-slate-800">
               <span class="text-green-500 mr-3 mt-0.5"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg></span>
               <div>
                 <strong class="text-gray-800 dark:text-gray-200 block mb-1">Rol y Personalidad</strong>
                 Ingeniero de soporte Nivel 2. Tono directo, profesional, empático y orientado a resolver problemas técnicos sin rodeos. Siempre habla en español.
               </div>
             </li>
-            <li class="flex items-start bg-gray-50 dark:bg-neutral-900/50 p-3 rounded-lg border border-gray-100 dark:border-neutral-800">
+            <li class="flex items-start bg-gray-50 dark:bg-slate-900/50 p-3 rounded-lg border border-gray-100 dark:border-slate-800">
               <span class="text-green-500 mr-3 mt-0.5"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg></span>
               <div>
                 <strong class="text-gray-800 dark:text-gray-200 block mb-1">Inyección de Contexto (RAG)</strong>
                 El prompt base se alimenta constantemente del archivo <code>src/knowledge/llamalo-ai/xenon-persona.md</code>, que contiene toda la lógica de negocio, reglas de facturación, y guías de configuración de Twilio/Shopify de la plataforma.
               </div>
             </li>
-            <li class="flex items-start bg-gray-50 dark:bg-neutral-900/50 p-3 rounded-lg border border-gray-100 dark:border-neutral-800">
+            <li class="flex items-start bg-gray-50 dark:bg-slate-900/50 p-3 rounded-lg border border-gray-100 dark:border-slate-800">
               <span class="text-green-500 mr-3 mt-0.5"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg></span>
               <div>
                 <strong class="text-gray-800 dark:text-gray-200 block mb-1">Manejo de Objeciones y Casos Borde</strong>
@@ -90,7 +186,7 @@
         </div>
 
         <!-- System Prompt Flow -->
-        <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow flex flex-col justify-center">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow flex flex-col justify-center">
             <div class="absolute top-0 left-0 w-32 h-32 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-2xl -ml-10 -mt-10 transition-transform group-hover:scale-110"></div>
             <h3 class="text-lg font-semibold mb-6 text-gray-800 dark:text-gray-200 flex items-center relative z-10">
               <div class="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse"></div> Estructura del System Prompt
@@ -132,11 +228,14 @@
     <!-- 2. LLAMADAS -->
     <div *ngIf="activeTab === 'calls'" class="tab-content animate-slide-in">
       <div class="flex items-center mb-6">
-        <div class="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg mr-4">
-          <svg class="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-          </svg>
-        </div>
+        <svg class="shrink-0 w-7 h-7 mr-4 text-gray-900 dark:text-slate-100" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path
+            d="M15.5562 14.5477L15.1007 15.0272C15.1007 15.0272 14.0181 16.167 11.0631 13.0559C8.10812 9.94484 9.1907 8.80507 9.1907 8.80507L9.47752 8.50311C10.1841 7.75924 10.2507 6.56497 9.63424 5.6931L8.37326 3.90961C7.61028 2.8305 6.13596 2.68795 5.26145 3.60864L3.69185 5.26114C3.25823 5.71766 2.96765 6.30945 3.00289 6.96594C3.09304 8.64546 3.81071 12.259 7.81536 16.4752C12.0621 20.9462 16.0468 21.1239 17.6763 20.9631C18.1917 20.9122 18.6399 20.6343 19.0011 20.254L20.4217 18.7584C21.3806 17.7489 21.1102 16.0182 19.8833 15.312L17.9728 14.2123C17.1672 13.7486 16.1858 13.8848 15.5562 14.5477Z" />
+          <path
+            d="M13.2595 1.87983C13.3257 1.47094 13.7122 1.19357 14.1211 1.25976C14.1464 1.26461 14.2279 1.27983 14.2705 1.28933C14.3559 1.30834 14.4749 1.33759 14.6233 1.38082C14.9201 1.46726 15.3347 1.60967 15.8323 1.8378C16.8286 2.29456 18.1544 3.09356 19.5302 4.46936C20.906 5.84516 21.705 7.17097 22.1617 8.16725C22.3899 8.66487 22.5323 9.07947 22.6187 9.37625C22.6619 9.52466 22.6912 9.64369 22.7102 9.72901C22.7197 9.77168 22.7267 9.80594 22.7315 9.83125L22.7373 9.86245C22.8034 10.2713 22.5286 10.6739 22.1197 10.7401C21.712 10.8061 21.3279 10.53 21.2601 10.1231C21.258 10.1121 21.2522 10.0828 21.2461 10.0551C21.2337 9.9997 21.2124 9.91188 21.1786 9.79572C21.1109 9.56339 20.9934 9.21806 20.7982 8.79238C20.4084 7.94207 19.7074 6.76789 18.4695 5.53002C17.2317 4.29216 16.0575 3.59117 15.2072 3.20134C14.7815 3.00618 14.4362 2.88865 14.2038 2.82097C14.0877 2.78714 13.9417 2.75363 13.8863 2.7413C13.4793 2.67347 13.1935 2.28755 13.2595 1.87983Z" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M13.4857 5.3293C13.5995 4.93102 14.0146 4.7004 14.4129 4.81419L14.2069 5.53534C14.4129 4.81419 14.4129 4.81419 14.4129 4.81419L14.4144 4.81461L14.4159 4.81505L14.4192 4.81602L14.427 4.81834L14.4468 4.8245C14.4618 4.82932 14.4807 4.8356 14.5031 4.84357C14.548 4.85951 14.6074 4.88217 14.6802 4.91337C14.8259 4.97581 15.0249 5.07223 15.2695 5.21694C15.7589 5.50662 16.4271 5.9878 17.2121 6.77277C17.9971 7.55775 18.4782 8.22593 18.7679 8.7154C18.9126 8.95991 19.009 9.15897 19.0715 9.30466C19.1027 9.37746 19.1254 9.43682 19.1413 9.48173C19.1493 9.50418 19.1555 9.52301 19.1604 9.53809L19.1665 9.55788L19.1688 9.56563L19.1698 9.56896L19.1702 9.5705C19.1702 9.5705 19.1707 9.57194 18.4495 9.77798L19.1707 9.57194C19.2845 9.97021 19.0538 10.3853 18.6556 10.4991C18.2607 10.6119 17.8492 10.3862 17.7313 9.99413L17.7276 9.98335C17.7223 9.96832 17.7113 9.93874 17.6928 9.89554C17.6558 9.8092 17.5887 9.66797 17.4771 9.47938C17.2541 9.10264 16.8514 8.53339 16.1514 7.83343C15.4515 7.13348 14.8822 6.73078 14.5055 6.50781C14.3169 6.39619 14.1757 6.32909 14.0893 6.29209C14.0461 6.27358 14.0165 6.26254 14.0015 6.25721L13.9907 6.25352C13.5987 6.13564 13.3729 5.72419 13.4857 5.3293Z" />
+        </svg>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Ciclo de Vida de una Llamada (Inbound)</h2>
       </div>
 
@@ -157,11 +256,11 @@
       </div>
 
       <p class="mb-6 text-gray-600 dark:text-gray-300 leading-relaxed max-w-4xl">
-        El flujo tiene <strong>dos fases</strong>: primero Twilio hace un <strong>POST HTTP</strong> al webhook de voz del backend (<code class="text-sm bg-gray-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">POST /voice/incoming</code>), donde se resuelve el usuario en Firestore, el número marcado y el agente. Solo si la llamada está permitida, la respuesta TwiML abre el <strong>WebSocket</strong> hacia <code class="text-sm bg-gray-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">StreamsGateway</code>. Si el agente está inactivo, no hay mapeo válido o el número no existe en el perfil, el TwiML devuelve <code class="text-sm">&lt;Reject /&gt;</code> y la llamada se corta sin audio generado por la app.
+        El flujo tiene <strong>dos fases</strong>: primero Twilio hace un <strong>POST HTTP</strong> al webhook de voz del backend (<code class="text-sm bg-gray-100 dark:bg-slate-900 px-1.5 py-0.5 rounded">POST /voice/incoming</code>), donde se resuelve el usuario en Firestore, el número marcado y el agente. Solo si la llamada está permitida, la respuesta TwiML abre el <strong>WebSocket</strong> hacia <code class="text-sm bg-gray-100 dark:bg-slate-900 px-1.5 py-0.5 rounded">StreamsGateway</code>. Si el agente está inactivo, no hay mapeo válido o el número no existe en el perfil, el TwiML devuelve <code class="text-sm">&lt;Reject /&gt;</code> y la llamada se corta sin audio generado por la app.
       </p>
 
       <!-- Diagrama animado CSS avanzado -->
-      <div class="flex flex-col items-center justify-center py-16 my-8 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-neutral-900/60 dark:to-neutral-900/20 rounded-2xl border border-gray-200 dark:border-neutral-800 shadow-inner relative overflow-x-auto">
+      <div class="flex flex-col items-center justify-center py-16 my-8 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-900/60 dark:to-slate-900/20 rounded-2xl border border-gray-200 dark:border-slate-800 shadow-inner relative overflow-x-auto">
         
         <!-- Grid pattern background -->
         <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style="background-image: radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0); background-size: 24px 24px;"></div>
@@ -172,7 +271,7 @@
           <div class="flex flex-col items-center z-10 group cursor-default">
             <div class="relative">
               <div class="absolute inset-0 bg-emerald-400 rounded-full blur opacity-20 group-hover:opacity-40 transition-opacity animate-pulse-ring"></div>
-              <div class="w-20 h-20 bg-white dark:bg-neutral-800 rounded-full shadow-lg flex items-center justify-center border-4 border-emerald-400 z-10 relative transform transition-transform group-hover:scale-105">
+              <div class="w-20 h-20 bg-white dark:bg-slate-900 rounded-full shadow-lg flex items-center justify-center border-4 border-emerald-400 z-10 relative transform transition-transform group-hover:scale-105">
                 <svg class="w-10 h-10 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
               </div>
             </div>
@@ -181,7 +280,7 @@
           </div>
 
           <!-- Línea de conexión 1 (PSTN a Twilio) -->
-          <div class="flex-1 h-2 bg-gray-200 dark:bg-neutral-800 relative mx-4 rounded-full shadow-inner group cursor-pointer">
+          <div class="flex-1 h-2 bg-gray-200 dark:bg-slate-900 relative mx-4 rounded-full shadow-inner group cursor-pointer">
             <div class="absolute inset-y-0 left-0 w-full h-full overflow-hidden rounded-full">
               <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-400/50 via-emerald-400 to-emerald-400/50 w-1/4 animate-advanced-flow shadow-[0_0_10px_rgba(52,211,153,0.8)] rounded-full"></div>
             </div>
@@ -190,7 +289,7 @@
                <span class="text-[10px] font-mono bg-emerald-100 text-emerald-800 dark:bg-emerald-900/80 dark:text-emerald-300 px-2 py-1 rounded shadow-sm whitespace-nowrap">Red PSTN</span>
             </div>
             <div class="absolute -bottom-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
-               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-neutral-700 shadow-sm whitespace-nowrap">Audio G.711</span>
+               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-slate-900 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-slate-800 shadow-sm whitespace-nowrap">Audio G.711</span>
             </div>
           </div>
 
@@ -209,7 +308,7 @@
           </div>
 
           <!-- Línea de conexión 2 (WebSocket) -->
-          <div class="flex-1 h-2 bg-gray-200 dark:bg-neutral-800 relative mx-4 rounded-full shadow-inner group cursor-pointer">
+          <div class="flex-1 h-2 bg-gray-200 dark:bg-slate-900 relative mx-4 rounded-full shadow-inner group cursor-pointer">
             <div class="absolute inset-y-0 left-0 w-full h-full overflow-hidden rounded-full">
               <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-blue-400/50 via-blue-400 to-blue-400/50 w-1/4 animate-advanced-flow delay-150 shadow-[0_0_10px_rgba(96,165,250,0.8)] rounded-full"></div>
             </div>
@@ -218,7 +317,7 @@
                <span class="text-[10px] font-mono bg-blue-100 text-blue-800 dark:bg-blue-900/80 dark:text-blue-300 px-2 py-1 rounded shadow-sm whitespace-nowrap">WebSocket wss://</span>
             </div>
             <div class="absolute -bottom-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
-               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-neutral-700 shadow-sm whitespace-nowrap">Audio Mulaw 8kHz</span>
+               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-slate-900 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-slate-800 shadow-sm whitespace-nowrap">Audio Mulaw 8kHz</span>
             </div>
           </div>
 
@@ -226,7 +325,7 @@
           <div class="flex flex-col items-center z-10 group cursor-default">
             <div class="relative">
               <div class="absolute inset-0 bg-blue-500 rounded-lg blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
-              <div class="w-20 h-20 bg-white dark:bg-neutral-800 rounded-xl shadow-lg flex items-center justify-center border-4 border-blue-500 z-10 relative transform transition-transform group-hover:scale-105">
+              <div class="w-20 h-20 bg-white dark:bg-slate-900 rounded-xl shadow-lg flex items-center justify-center border-4 border-blue-500 z-10 relative transform transition-transform group-hover:scale-105">
                 <svg class="w-10 h-10 text-blue-600 dark:text-blue-400" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
@@ -237,7 +336,7 @@
           </div>
           
           <!-- Línea de conexión 3 (APIs STT/LLM/TTS) -->
-          <div class="flex-1 h-2 bg-gray-200 dark:bg-neutral-800 relative mx-4 rounded-full shadow-inner group cursor-pointer">
+          <div class="flex-1 h-2 bg-gray-200 dark:bg-slate-900 relative mx-4 rounded-full shadow-inner group cursor-pointer">
             <div class="absolute inset-y-0 left-0 w-full h-full overflow-hidden rounded-full">
               <div class="absolute inset-y-0 left-0 bg-gradient-to-r from-purple-400/50 via-purple-500 to-purple-400/50 w-1/4 animate-advanced-flow delay-300 shadow-[0_0_10px_rgba(168,85,247,0.8)] rounded-full"></div>
             </div>
@@ -246,7 +345,7 @@
                <span class="text-[10px] font-mono bg-purple-100 text-purple-800 dark:bg-purple-900/80 dark:text-purple-300 px-2 py-1 rounded shadow-sm whitespace-nowrap">HTTPS / WSS proveedores</span>
             </div>
             <div class="absolute -bottom-8 inset-x-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
-               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-neutral-800 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-neutral-700 shadow-sm whitespace-nowrap">STT · chat · TTS</span>
+               <span class="text-[10px] font-mono bg-gray-100 text-gray-600 dark:bg-slate-900 dark:text-gray-400 px-2 py-1 rounded border border-gray-200 dark:border-slate-800 shadow-sm whitespace-nowrap">STT · chat · TTS</span>
             </div>
           </div>
 
@@ -266,7 +365,7 @@
         <!-- Leyenda interactiva -->
         <div class="w-full max-w-4xl mt-16 px-8 relative">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors">
+            <div class="bg-white dark:bg-slate-900 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors">
               <div class="flex items-center mb-3">
                 <div class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center mr-3">
                   <span class="text-emerald-600 dark:text-emerald-400 text-xs font-bold">1</span>
@@ -276,7 +375,7 @@
               <p class="text-sm text-gray-600 dark:text-gray-400">En la consola de Twilio, el número debe tener <strong>A call comes in</strong> → Webhook <code class="text-xs">POST</code> apuntando a <code class="text-xs">https://&lt;tu-dominio&gt;/voice/incoming</code>. El controlador busca en Firestore el usuario por el número (<code class="text-xs">phoneNumbers[]</code> o compatibilidad legacy), enlaza el agente por <code class="text-xs">phoneId</code> y comprueba <code class="text-xs">state</code>. Si procede, responde <code class="text-xs">&lt;Connect&gt;&lt;Stream&gt;</code> hacia el WebSocket; si no, <code class="text-xs">&lt;Reject /&gt;</code> (sin mensaje de voz).</p>
             </div>
             
-            <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-blue-300 dark:hover:border-blue-700 transition-colors">
+            <div class="bg-white dark:bg-slate-900 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 transition-colors">
               <div class="flex items-center mb-3">
                 <div class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mr-3">
                   <span class="text-blue-600 dark:text-blue-400 text-xs font-bold">2</span>
@@ -286,7 +385,7 @@
               <p class="text-sm text-gray-600 dark:text-gray-400">Tras el TwiML, el <code>StreamsGateway</code> recibe el stream de Twilio (audio 8 kHz μ-law). Orquesta STT (p. ej. Deepgram), el modelo de chat (OpenAI) y síntesis de voz (ElevenLabs) según la configuración del agente; no es obligatorio que el primer salto HTTP pase por el mismo host que el WebSocket, pero el TwiML debe generarse siempre en <code class="text-xs">/voice/incoming</code> para aplicar reglas de negocio antes de abrir audio.</p>
             </div>
             
-            <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-purple-300 dark:hover:border-purple-700 transition-colors">
+            <div class="bg-white dark:bg-slate-900 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-800 hover:border-purple-300 dark:hover:border-purple-700 transition-colors">
               <div class="flex items-center mb-3">
                 <div class="w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center mr-3">
                   <span class="text-purple-600 dark:text-purple-400 text-xs font-bold">3</span>
@@ -296,7 +395,7 @@
               <p class="text-sm text-gray-600 dark:text-gray-400">La detección de voz y los turnos dependen del pipeline activo (p. ej. Deepgram + LLM). En barge-in, el gateway puede cortar TTS y priorizar la entrada del usuario según la lógica implementada en <code>StreamsGateway</code>.</p>
             </div>
             
-            <div class="bg-white dark:bg-neutral-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-neutral-700 hover:border-red-300 dark:hover:border-red-700 transition-colors">
+            <div class="bg-white dark:bg-slate-900 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-slate-800 hover:border-red-300 dark:hover:border-red-700 transition-colors">
               <div class="flex items-center mb-3">
                 <div class="w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center mr-3">
                   <span class="text-red-600 dark:text-red-400 text-xs font-bold">4</span>
@@ -315,18 +414,16 @@
     <!-- 3. SHOPIFY -->
     <div *ngIf="activeTab === 'shopify'" class="tab-content animate-slide-in">
       <div class="flex items-center mb-6">
-        <div class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg mr-4">
-          <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-          </svg>
-        </div>
+        <svg class="shrink-0 w-7 h-7 mr-4 text-gray-900 dark:text-slate-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Sincronización de Catálogo Shopify</h2>
       </div>
 
       <div class="prose dark:prose-invert max-w-none">
         <p>El agente puede responder preguntas sobre productos, stock y precios de tiendas Shopify integradas mediante el flujo de OAuth2 y webhooks.</p>
         
-        <div class="mt-8 bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-lg shadow-sm">
+        <div class="mt-8 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg shadow-sm">
           <div class="px-4 py-5 sm:p-6">
             <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">Flujo de Ingesta de Datos</h3>
             <div class="space-y-6">
@@ -366,11 +463,9 @@
     <!-- 4. TWILIO -->
     <div *ngIf="activeTab === 'twilio'" class="tab-content animate-slide-in">
       <div class="flex items-center mb-6">
-        <div class="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg mr-4">
-          <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
-        </div>
+        <svg class="shrink-0 w-7 h-7 mr-4 text-gray-900 dark:text-slate-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Manejo de Cuentas y Métricas de Twilio</h2>
       </div>
 
@@ -391,23 +486,23 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-gray-50 dark:bg-neutral-900/40 p-5 rounded-lg border border-gray-200 dark:border-neutral-700">
-          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Multi-cuenta</h3>
+        <div class="bg-gray-50 dark:bg-slate-900/40 p-5 rounded-lg border border-gray-200 dark:border-slate-800">
+          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-slate-800 pb-2">Multi-cuenta</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400">
             Un mismo usuario puede conectar múltiples credenciales de Twilio (SID/Auth Token).
             En Firebase se guarda en el arreglo <code>twilio: []</code> dentro del documento de usuario. Cada cuenta obtiene un identificador único (<code>twilioAccountId</code>) tipo timestamp.
           </p>
         </div>
 
-        <div class="bg-gray-50 dark:bg-neutral-900/40 p-5 rounded-lg border border-gray-200 dark:border-neutral-700">
-          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Números y Agentes</h3>
+        <div class="bg-gray-50 dark:bg-slate-900/40 p-5 rounded-lg border border-gray-200 dark:border-slate-800">
+          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-slate-800 pb-2">Números y Agentes</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400">
             Los números de teléfono de las cuentas de Twilio se importan al panel. Al crear un agente, el usuario vincula uno de esos números con el ID del Agente. Las llamadas entrantes a ese número levantan el socket asociado a la configuración específica de ese agente.
           </p>
         </div>
 
-        <div class="bg-gray-50 dark:bg-neutral-900/40 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 md:col-span-2">
-          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Webhook de voz en Twilio (Voice URL)</h3>
+        <div class="bg-gray-50 dark:bg-slate-900/40 p-5 rounded-lg border border-gray-200 dark:border-slate-800 md:col-span-2">
+          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-slate-800 pb-2">Webhook de voz en Twilio (Voice URL)</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
             Para que las llamadas entrantes lleguen al backend, en la consola de Twilio el número debe tener <strong>A call comes in</strong> configurado como Webhook <code class="text-xs">POST</code> a <code class="text-xs">https://&lt;tu-dominio-api&gt;/voice/incoming</code> (mismo host público que el resto del API). El TwiML de respuesta abre el Media Stream hacia <code class="text-xs">/voice/stream</code> (WebSocket) con los parámetros del agente.
           </p>
@@ -416,12 +511,12 @@
           </p>
         </div>
 
-        <div class="bg-gray-50 dark:bg-neutral-900/40 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 md:col-span-2">
-          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-neutral-700 pb-2">Métricas e Índices (Webhook y consumo mensual)</h3>
+        <div class="bg-gray-50 dark:bg-slate-900/40 p-5 rounded-lg border border-gray-200 dark:border-slate-800 md:col-span-2">
+          <h3 class="text-md font-bold mb-3 dark:text-white text-gray-800 border-b border-gray-200 dark:border-slate-800 pb-2">Métricas e Índices (Webhook y consumo mensual)</h3>
           <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
             Al terminar una llamada, Twilio envía un webhook con estado "completed". El handler resuelve al usuario vía índice inverso <code>twilio_index</code> (O(1) en lugar de Full Scan). El consumo mensual en <code>users.minutesByMonth["YYYY-MM"]</code> (UTC) <strong>no</strong> se incrementa desde este webhook: se recalcula desde la suma de duraciones en la colección <code>llamadas_registradas</code> al cargar el dashboard o las métricas detalladas, alineado con lo que muestra la UI.
           </p>
-          <div class="bg-neutral-800 rounded-md p-4 text-xs font-mono text-green-400 overflow-x-auto">
+          <div class="bg-slate-950 rounded-xl border border-slate-700 p-4 text-xs font-mono text-green-400 overflow-x-auto shadow-inner">
             // Índice inverso: twilio_index/&lt;AccountSid&gt; → userId<br>
             const indexDoc = await firestore.collection('twilio_index').doc(AccountSid).get();<br>
             // minutesByMonth := Σ (duración) de llamadas_registradas del mes (al GET /metrics/dashboard)
@@ -433,11 +528,14 @@
   <!-- 5. BASE DE CONOCIMIENTOS -->
   <div *ngIf="activeTab === 'knowledge'" class="tab-content animate-slide-in">
     <div class="flex items-center mb-6">
-      <div class="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-lg mr-4">
-        <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-        </svg>
-      </div>
+      <svg class="shrink-0 w-7 h-7 mr-4 text-gray-900 dark:text-slate-100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path
+          d="M15.538 18.9987L15.2473 20.2572C15.0241 21.2205 14.2013 21.9181 13.2285 21.9927L13.0554 21.9993H10.9437C9.95426 21.9993 9.0885 21.3544 8.79678 20.4229L8.75135 20.2556L8.461 18.9987H15.538Z"
+          fill="currentColor" />
+        <path
+          d="M12 2.0007C16.0041 2.0007 19.25 5.24664 19.25 9.2507C19.25 11.3873 18.3144 13.344 16.4846 15.0914C16.4493 15.1252 16.4247 15.1684 16.4137 15.216L15.886 17.4987H12.75V10.75C12.75 10.3358 12.4142 10 12 10C11.5858 10 11.25 10.3358 11.25 10.75V17.4987H8.114L7.58801 15.2161C7.57702 15.1685 7.55234 15.1252 7.51701 15.0915C5.68616 13.344 4.75 11.3873 4.75 9.2507C4.75 5.24663 7.99593 2.0007 12 2.0007ZM11.25 6.75046V8.25049C11.25 8.6647 11.5858 9.00049 12 9.00049C12.4142 9.00049 12.75 8.6647 12.75 8.25049V6.75046C12.75 6.33624 12.4142 6.00046 12 6.00046C11.5858 6.00046 11.25 6.33624 11.25 6.75046ZM16.2803 8.21579C15.9874 7.9229 15.5126 7.9229 15.2197 8.21579L14.159 9.27648C13.8661 9.56937 13.8661 10.0442 14.159 10.3371C14.4519 10.63 14.9268 10.63 15.2197 10.3371L16.2803 9.27645C16.5732 8.98356 16.5732 8.50869 16.2803 8.21579ZM8.78032 8.21579C8.48743 7.9229 8.01255 7.9229 7.71966 8.21579C7.42677 8.50869 7.42677 8.98356 7.71966 9.27645L8.78034 10.3371C9.07324 10.63 9.54811 10.63 9.841 10.3371C10.1339 10.0442 10.1339 9.56937 9.841 9.27648L8.78032 8.21579Z"
+          fill="currentColor" />
+      </svg>
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Base de Conocimientos RAG</h2>
     </div>
 
@@ -445,13 +543,13 @@
       El sistema de Base de Conocimientos (Knowledge Base) permite inyectar contexto personalizado al agente mediante la arquitectura RAG (Retrieval-Augmented Generation), dándole al modelo información de la que no fue entrenado originalmente. Los documentos se almacenan temporalmente en Cloud Storage y se vectorizan en Pinecone.
     </p>
 
-    <div class="not-prose bg-gray-50 dark:bg-neutral-900/40 rounded-xl p-8 border border-gray-200 dark:border-neutral-700 relative z-0">
+    <div class="not-prose bg-gray-50 dark:bg-slate-900/40 rounded-xl p-8 border border-gray-200 dark:border-slate-800 relative z-0">
         <h3 class="text-xl font-bold mb-6 text-gray-800 dark:text-gray-200">Pipeline de Procesamiento Vectorial</h3>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
           
           <!-- Step 1 -->
-          <div class="bg-white dark:bg-neutral-800 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 shadow-sm relative z-10 text-center flex flex-col items-center group hover:-translate-y-1 transition-transform">
+          <div class="bg-white dark:bg-slate-900 p-5 rounded-lg border border-gray-200 dark:border-slate-800 shadow-sm relative z-10 text-center flex flex-col items-center group hover:-translate-y-1 transition-transform">
             <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-200 dark:group-hover:bg-blue-900 transition-colors">
               <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -462,14 +560,14 @@
           </div>
 
             <!-- Arrow -->
-            <div class="hidden md:flex absolute top-[100px] left-[33%] right-[66%] -mt-3 items-center justify-center text-gray-300 dark:text-neutral-600 z-[1] pointer-events-none opacity-50">
+            <div class="hidden md:flex absolute top-[100px] left-[33%] right-[66%] -mt-3 items-center justify-center text-gray-300 dark:text-slate-600 z-[1] pointer-events-none opacity-50">
                <svg class="w-8 h-8 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                </svg>
             </div>
 
             <!-- Step 2 -->
-            <div class="bg-white dark:bg-neutral-800 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 shadow-sm relative z-10 text-center flex flex-col items-center group hover:-translate-y-1 transition-transform delay-100">
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-lg border border-gray-200 dark:border-slate-800 shadow-sm relative z-10 text-center flex flex-col items-center group hover:-translate-y-1 transition-transform delay-100">
               <div class="w-12 h-12 bg-amber-100 dark:bg-amber-900/50 rounded-full flex items-center justify-center mb-4 group-hover:bg-amber-200 dark:group-hover:bg-amber-900 transition-colors">
                 <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -480,14 +578,14 @@
             </div>
 
             <!-- Arrow -->
-            <div class="hidden md:flex absolute top-[100px] left-[66%] right-[33%] -mt-3 items-center justify-center text-gray-300 dark:text-neutral-600 z-[1] pointer-events-none opacity-50">
+            <div class="hidden md:flex absolute top-[100px] left-[66%] right-[33%] -mt-3 items-center justify-center text-gray-300 dark:text-slate-600 z-[1] pointer-events-none opacity-50">
                <svg class="w-8 h-8 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="animation-delay: 0.5s;">
                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                </svg>
             </div>
 
             <!-- Step 3 -->
-            <div class="bg-white dark:bg-neutral-800 p-5 rounded-lg border border-gray-200 dark:border-neutral-700 shadow-sm relative z-10 text-center flex flex-col items-center group hover:-translate-y-1 transition-transform delay-200">
+            <div class="bg-white dark:bg-slate-900 p-5 rounded-lg border border-gray-200 dark:border-slate-800 shadow-sm relative z-10 text-center flex flex-col items-center group hover:-translate-y-1 transition-transform delay-200">
               <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mb-4 group-hover:bg-purple-200 dark:group-hover:bg-purple-900 transition-colors">
                 <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
@@ -514,17 +612,16 @@
           </ul>
         </div>
     </div>
-
   </div>
 
     <!-- 6. MÉTRICAS -->
     <div *ngIf="activeTab === 'metrics'" class="tab-content animate-slide-in">
       <div class="flex items-center mb-6">
-        <div class="p-3 bg-pink-100 dark:bg-pink-900/30 rounded-lg mr-4">
-          <svg class="w-6 h-6 text-pink-600 dark:text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg>
-        </div>
+        <svg class="shrink-0 w-[1.65rem] h-[1.75rem] mr-4 text-gray-900 dark:text-slate-100" viewBox="0 0 19 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect y="5" width="5" height="15" rx="2" fill="currentColor" />
+          <rect x="14" width="5" height="20" rx="2" fill="currentColor" />
+          <rect x="7" y="11" width="5" height="9" rx="2" fill="currentColor" />
+        </svg>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Motor de Métricas (Firestore como fuente de verdad)</h2>
       </div>
 
@@ -545,7 +642,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         
         <!-- Registro por llamada -->
-        <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700 shadow-sm hover:border-red-300 dark:hover:border-red-700 transition-colors group">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm hover:border-red-300 dark:hover:border-red-700 transition-colors group">
           <div class="flex items-center mb-4">
             <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center mr-3 group-hover:bg-red-200 dark:group-hover:bg-red-900/40 transition-colors">
               <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20Z"/></svg>
@@ -563,7 +660,7 @@
         </div>
 
         <!-- Finalizaciones (Enriquecimiento) -->
-        <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700 shadow-sm hover:border-purple-300 dark:hover:border-purple-700 transition-colors group">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm hover:border-purple-300 dark:hover:border-purple-700 transition-colors group">
           <div class="flex items-center mb-4">
             <div class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center mr-3 group-hover:bg-purple-200 dark:group-hover:bg-purple-900/40 transition-colors">
               <svg class="w-5 h-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
@@ -580,7 +677,7 @@
         </div>
 
         <!-- Agregación Histórica -->
-        <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700 shadow-sm hover:border-amber-300 dark:hover:border-amber-700 transition-colors group">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm hover:border-amber-300 dark:hover:border-amber-700 transition-colors group">
           <div class="flex items-center mb-4">
             <div class="w-10 h-10 rounded-full bg-amber-100 dark:bg-amber-900/20 flex items-center justify-center mr-3 group-hover:bg-amber-200 dark:group-hover:bg-amber-900/40 transition-colors">
               <svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -597,7 +694,7 @@
         </div>
 
         <!-- Latencias -->
-        <div class="bg-white dark:bg-neutral-800 p-6 rounded-xl border border-gray-200 dark:border-neutral-700 shadow-sm hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors group">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-gray-200 dark:border-slate-800 shadow-sm hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors group">
           <div class="flex items-center mb-4">
             <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center mr-3 group-hover:bg-emerald-200 dark:group-hover:bg-emerald-900/40 transition-colors">
               <svg class="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -616,6 +713,7 @@
       </div>
     </div>
 
+  </div>
   </div>
 </div>
 
