@@ -19,7 +19,7 @@
         border: 1px solid rgba(15, 23, 42, 0.08);
 
         &.closing {
-            animation: slideOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: slideOut 0.34s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         .widget-content {
@@ -178,16 +178,28 @@
                     justify-content: center;
                 }
 
+                .branding-footer {
+                    position: absolute;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: calc(100% - 20px);
+                    max-width: 260px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0;
+                    text-align: center;
+                    pointer-events: auto;
+                }
+
                 .branding-text {
                     font-size: 8px;
                     color: #64748b;
                     opacity: 0.85;
                     letter-spacing: 0.3px;
                     font-weight: 400;
-                    position: absolute;
-                    bottom: 32px;
-                    left: 50%;
-                    transform: translateX(-50%);
+                    margin: 0;
                     width: 100%;
                     text-align: center;
                     pointer-events: none;
@@ -228,6 +240,60 @@
         }
     }
 
+    .launcher-stack {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        position: relative;
+        flex-shrink: 0;
+
+        &.closing-ui .contact-speech-bubble {
+            pointer-events: none;
+            animation: contactChipOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+    }
+
+    // Mismo aspecto que `.launcher .launcher-tooltip` (píldora flotante, sin cola)
+    .contact-speech-bubble {
+        flex-shrink: 1;
+        min-width: 0;
+        max-width: min(260px, calc(100vw - 100px));
+        animation: contactChipIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        &__body {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            border-radius: 20px;
+            padding: 8px 16px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.12);
+        }
+
+        &__link {
+            display: block;
+            font-size: 12px;
+            line-height: 1.45;
+            font-weight: 600;
+            color: #0f172a;
+            text-decoration: none;
+            text-align: left;
+
+            &:hover {
+                text-decoration: underline;
+                opacity: 0.92;
+            }
+
+            &:focus-visible {
+                outline: 2px solid #3b82f6;
+                outline-offset: 2px;
+                border-radius: 12px;
+            }
+        }
+    }
+
     .launcher {
         width: 60px;
         height: 60px;
@@ -240,21 +306,23 @@
         align-items: center;
         justify-content: center;
         box-shadow: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition:
+            transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+            opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: visible;
 
         .launcher-tooltip {
             position: absolute;
-            right: 100%;
-            top: 50%;
-            transform: translateY(-50%) translateX(20px) scale(0.5);
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px) scale(0.92);
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(8px);
             color: #0f172a;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             white-space: nowrap;
             opacity: 0;
@@ -263,13 +331,13 @@
             pointer-events: none;
             box-shadow: 0 4px 20px rgba(15, 23, 42, 0.12);
             border: 1px solid rgba(15, 23, 42, 0.1);
-            z-index: -1;
+            z-index: 20;
         }
 
         &:hover .launcher-tooltip {
             opacity: 1;
             visibility: visible;
-            transform: translateY(-50%) translateX(-8px) scale(1);
+            transform: translateX(-50%) translateY(0) scale(1);
         }
 
         .launcher-sphere-wrapper {
@@ -297,7 +365,16 @@
             height: 24px;
             z-index: 10;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-            animation: fadeInScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center;
+            will-change: transform, opacity;
+
+            &:not(.close-icon--out) {
+                animation: fadeInScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            }
+
+            &.close-icon--out {
+                animation: fadeOutScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            }
         }
 
         &:hover {
@@ -313,7 +390,6 @@
                 transition: all 0.3s ease;
             }
         }
-
     }
 }
 
@@ -399,6 +475,20 @@
     .widget-container .widget-content .controls-wrapper .branding-text {
         color: #ffffff;
         opacity: 0.4;
+    }
+
+    .contact-speech-bubble .contact-speech-bubble__body {
+        background: rgba(0, 0, 0, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .contact-speech-bubble .contact-speech-bubble__link {
+        color: #ffffff;
+
+        &:hover {
+            opacity: 0.9;
+        }
     }
 
     .launcher {
@@ -652,6 +742,7 @@
 
                 .controls-wrapper {
                     gap: 16px;
+                    padding-bottom: 48px;
 
                     .mic-btn,
                     .action-btn {
@@ -666,28 +757,36 @@
             }
         }
 
-        .launcher {
-            // Keep circular button but on the right edge, positioned lower
+        .launcher-stack {
             position: fixed;
-            bottom: 80px; // Lower position
-            right: 0; // Flush with right edge
+            bottom: 80px;
+            right: 0;
             top: auto;
             left: auto;
-            transform: translateX(50%); // Half outside the screen
+            // Medio círculo de la esfera fuera de pantalla (60px ≈ ancho del lanzador)
+            transform: translateX(30px);
+            z-index: 10001;
+            align-items: center;
+            max-width: calc(100vw - 16px);
+
+            &:hover:not(:has(.launcher.active)) {
+                transform: translateX(30px) scale(1.05);
+            }
+
+            &:has(.launcher.active) {
+                transform: translateX(30px);
+            }
+        }
+
+        .launcher-stack .launcher {
+            position: relative;
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            z-index: 10001;
-            background: transparent;
-            border: none;
-            overflow: visible;
-
-            &:hover {
-                transform: translateX(50%) scale(1.05);
-            }
+            transform: none;
 
             &.active {
-                transform: translateX(50%);
+                transform: none;
             }
 
             .launcher-sphere-wrapper {
@@ -706,8 +805,8 @@
     }
 
     // En modo "creating-agent" dejamos que el overlay de Tailwind cubra toda la pantalla
-    :host-context(.creating-agent) .support-widget .launcher {
-        bottom: 110px; // posición solo cuando está cerrado
+    :host-context(.creating-agent) .support-widget .launcher-stack {
+        bottom: 110px;
         top: auto;
     }
 }
@@ -724,6 +823,32 @@
     }
 }
 
+@keyframes contactChipIn {
+    from {
+        opacity: 0;
+        transform: translateX(12px) scale(0.92);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+// Cierre: se mantienen un momento y luego salida rápida y limpia
+@keyframes contactChipOut {
+    0%,
+    36% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(20px) scale(0.86);
+    }
+}
+
 @keyframes fadeInScale {
     from {
         opacity: 0;
@@ -733,5 +858,17 @@
     to {
         opacity: 1;
         transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes fadeOutScale {
+    from {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(0.5) rotate(-90deg);
     }
 }

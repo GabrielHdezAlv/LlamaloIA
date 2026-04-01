@@ -20,7 +20,8 @@ import { NotificationService } from '../../../core/services/notification.service
 export class SupportWidgetComponent implements OnInit, OnDestroy {
     isOpen = false;
     isClosing = false;
-    private readonly closeAnimationMs = 300;
+    /** Un poco más largo que la animación de la X (300 ms) para evitar cortar el último frame. */
+    private readonly closeAnimationMs = 340;
     audioLevel = 0;
     isMicrophoneActive = false;
     isSettingsOpen = false;
@@ -28,6 +29,10 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     isPlaying = false;
     currentUrl = '';
     hideSupportWidget = false;
+
+    /** Fuera de la plantilla: `@` en HTML dispara NG5002 (bloques de control). */
+    readonly advancedSupportMailto = 'mailto:team@llamalo.ai';
+    readonly advancedSupportEmailLabel = 'team@llamalo.ai';
 
     readonly voiceTest = inject(VoiceTestService);
     private router = inject(Router);

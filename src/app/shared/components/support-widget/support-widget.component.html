@@ -108,21 +108,47 @@
                         </svg>
                     </button>
                 </div>
-                <p class="branding-text">Powered by Llamalo AI</p>
+                <div class="branding-footer">
+                    <p class="branding-text">Powered by Llamalo AI</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Launcher Button -->
-    <button class="launcher" (click)="toggle()" [class.active]="isOpen">
-        <span class="launcher-tooltip">Asistente de voz</span>
-        <div class="launcher-sphere-wrapper">
-            <!-- Cuando está abierto fijamos un nivel bajo para que no reaccione a la llamada -->
-            <app-ai-sphere [audioLevel]="isOpen ? 0.15 : audioLevel"></app-ai-sphere>
-        </div>
-        <svg *ngIf="isOpen" class="close-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-        </svg>
-    </button>
+    <!-- Mismo estilo que el chip «Asistente de voz»; solo con el panel abierto -->
+    <div class="launcher-stack" [class.closing-ui]="isClosing">
+        <aside
+            *ngIf="isOpen"
+            class="contact-speech-bubble"
+            aria-label="Contacto para consultas avanzadas"
+        >
+            <div class="contact-speech-bubble__body">
+                <a
+                    [href]="advancedSupportMailto"
+                    class="contact-speech-bubble__link"
+                    (click)="$event.stopPropagation()"
+                >
+                    Para consultas avanzadas, contáctanos en {{ advancedSupportEmailLabel }}
+                </a>
+            </div>
+        </aside>
+        <button class="launcher" (click)="toggle()" [class.active]="isOpen">
+            <span class="launcher-tooltip">Asistente de voz</span>
+            <div class="launcher-sphere-wrapper">
+                <!-- Cuando está abierto fijamos un nivel bajo para que no reaccione a la llamada -->
+                <app-ai-sphere [audioLevel]="isOpen ? 0.15 : audioLevel"></app-ai-sphere>
+            </div>
+            <svg
+                *ngIf="isOpen"
+                class="close-icon"
+                [class.close-icon--out]="isClosing"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </button>
+    </div>
 </div>
