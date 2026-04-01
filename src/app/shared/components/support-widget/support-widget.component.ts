@@ -129,8 +129,18 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
             return;
         }
 
-        // Detener sesi?n de voz y micro
-        this.voiceTest.endSession();
+        // Solo notificar "finalizado" si había llamada real (connecting/connected).
+        // Abrir y cerrar el panel sin iniciar la llamada no debe disparar endSession().
+        const conn = this.voiceTest.connectionState();
+        if (
+            conn === 'connecting' ||
+            conn === 'connected' ||
+            this.isPlaying
+        ) {
+            this.voiceTest.endSession();
+        } else if (conn === 'error') {
+            this.voiceTest.reset();
+        }
         this.isPlaying = false;
         this.isMicrophoneActive = false;
         this.stopMicrophone();

@@ -109,6 +109,14 @@
                     </button>
                 </div>
                 <div class="branding-footer">
+                    <a
+                        class="widget-contact-inline"
+                        [href]="advancedSupportMailto"
+                        aria-label="Contacto para consultas avanzadas"
+                        (click)="$event.stopPropagation()"
+                    >
+                        Para consultas avanzadas, contáctanos en {{ advancedSupportEmailLabel }}
+                    </a>
                     <p class="branding-text">Powered by Llamalo AI</p>
                 </div>
             </div>
@@ -116,22 +124,7 @@
     </div>
 
     <!-- Mismo estilo que el chip «Asistente de voz»; solo con el panel abierto -->
-    <div class="launcher-stack" [class.closing-ui]="isClosing">
-        <aside
-            *ngIf="isOpen"
-            class="contact-speech-bubble"
-            aria-label="Contacto para consultas avanzadas"
-        >
-            <div class="contact-speech-bubble__body">
-                <a
-                    [href]="advancedSupportMailto"
-                    class="contact-speech-bubble__link"
-                    (click)="$event.stopPropagation()"
-                >
-                    Para consultas avanzadas, contáctanos en {{ advancedSupportEmailLabel }}
-                </a>
-            </div>
-        </aside>
+    <div class="launcher-stack">
         <button class="launcher" (click)="toggle()" [class.active]="isOpen">
             <span class="launcher-tooltip">Asistente de voz</span>
             <div class="launcher-sphere-wrapper">

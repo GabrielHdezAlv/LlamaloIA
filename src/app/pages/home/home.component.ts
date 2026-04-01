@@ -85,6 +85,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private isBrowser: boolean;
   private resizeListener = () => this.updateChartOptions();
   private routerEventsSub?: Subscription;
+  /** Un solo resize tras varios eventos seguidos (evita 2–3 repintados del gráfico). */
+  private chartReflowDebouncer: ReturnType<typeof setTimeout> | null = null;
 
   get summary() {
     // Si hay datos del backend, usarlos
@@ -154,6 +156,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         // Actualizar datos del gráfico principal y forzar recálculo de opciones
         this.updateMainChart(data);
         this.updateChartOptions();
+        // Tras pintar datos, forzar reflow (el fade-in y ApexCharts compiten por el layout)
+        this.scheduleChartReflow();
       },
       error: (error) => {
         this.isLoadingMetrics = false;
@@ -189,74 +193,59 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Actualizar datos de llamadas por día desde el backend
   private updateCallsByDay(data: DashboardMetrics): void {
-    if (
-      data.llamadas_exitosas_ultimos_7_dias &&
-      data.llamadas_exitosas_ultimos_7_dias.length > 0
-    ) {
-      // Obtener los últimos 7 días
-      const last7Days = data.llamadas_exitosas_ultimos_7_dias.slice(-7);
-
-      // Mapear a arrays de conteos
-      this.callsByDayCounts = last7Days.map((item) => item.total);
-
-      // Calcular porcentajes basados en el máximo
-      const maxCalls = Math.max(...this.callsByDayCounts, 1);
-      this.callsByDayPercentages = this.callsByDayCounts.map((count) =>
-        Math.round((count / maxCalls) * 100),
-      );
-
-      // Actualizar datos de los gráficos sparkline
-      this.updateSparklineCharts(data);
-    }
+    const counts = this.buildSevenDayCallTotals(data);
+    this.callsByDayCounts = counts;
+    const maxCalls = Math.max(...counts, 1);
+    this.callsByDayPercentages = counts.map((count) =>
+      Math.round((count / maxCalls) * 100),
+    );
+    this.updateSparklineCharts(data);
   }
 
   // Actualizar gráficos sparkline con datos reales
   private updateSparklineCharts(data: DashboardMetrics): void {
-    if (
-      data.llamadas_exitosas_ultimos_7_dias &&
-      data.llamadas_exitosas_ultimos_7_dias.length > 0
-    ) {
-      const last7Days = data.llamadas_exitosas_ultimos_7_dias.slice(-7);
-      const callsData = last7Days.map((item: { total: number }) => item.total);
-
-      // Usar directamente los datos del endpoint sin mocks
-      this.callsSparklineSeries = [{ name: 'Llamadas', data: callsData }];
-      this.timeSavedSparklineSeries = [{ name: 'Tiempo', data: callsData }];
-      this.minutesSparklineSeries = [{ name: 'Minutos', data: callsData }];
-    } else {
-      // Si no hay datos, mantener todo a cero
-      this.callsSparklineSeries = [
-        { name: 'Llamadas', data: [0, 0, 0, 0, 0, 0, 0] },
-      ];
-      this.timeSavedSparklineSeries = [
-        { name: 'Tiempo', data: [0, 0, 0, 0, 0, 0, 0] },
-      ];
-      this.minutesSparklineSeries = [
-        { name: 'Minutos', data: [0, 0, 0, 0, 0, 0, 0] },
-      ];
-    }
+    const callsData = this.buildSevenDayCallTotals(data);
+    this.callsSparklineSeries = [{ name: 'Llamadas', data: callsData }];
+    this.timeSavedSparklineSeries = [{ name: 'Tiempo', data: callsData }];
+    this.minutesSparklineSeries = [{ name: 'Minutos', data: callsData }];
   }
 
-  // Actualizar gráfico principal con datos reales
-  private updateMainChart(data: DashboardMetrics): void {
-    // Actualizar la serie del gráfico principal con los datos de los últimos 7 días
-    if (
-      data.llamadas_exitosas_ultimos_7_dias &&
-      data.llamadas_exitosas_ultimos_7_dias.length > 0
-    ) {
-      const last7Days = data.llamadas_exitosas_ultimos_7_dias.slice(-7);
-      this.callsAreaSeries = [
-        { name: 'Llamadas', data: last7Days.map((item) => item.total) },
-      ];
+  /** Fecha local YYYY-MM-DD (alineada con el backend). */
+  private formatLocalYmd(d: Date): string {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
 
-      // Actualizar el eje Y con nuevos valores dinámicos
-      this.callsAreaYAxis = {
-        ...this.callsAreaYAxis,
-        min: 0,
-        max: this.getMaxDataValue(),
-        tickAmount: 5,
-      };
+  /**
+   * Siempre 7 puntos, unidos por fecha con las categorías del eje X.
+   * Evita series más cortas que las categorías (ApexCharts puede quedar en blanco).
+   */
+  private buildSevenDayCallTotals(data: DashboardMetrics | null): number[] {
+    const rows = data?.llamadas_exitosas_ultimos_7_dias ?? [];
+    const map = new Map(rows.map((r) => [r.fecha, r.total]));
+    const out: number[] = [];
+    const today = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const key = this.formatLocalYmd(d);
+      out.push(map.get(key) ?? 0);
     }
+    return out;
+  }
+
+  // Actualizar gráfico principal con datos reales (siempre 7 valores)
+  private updateMainChart(data: DashboardMetrics): void {
+    const totals = this.buildSevenDayCallTotals(data);
+    this.callsAreaSeries = [{ name: 'Llamadas', data: totals }];
+    this.callsAreaYAxis = {
+      ...this.callsAreaYAxis,
+      min: 0,
+      max: this.getMaxDataValue(),
+      tickAmount: 5,
+    };
   }
 
   currentWeekdayIndex: number = this.computeWeekdayIndex();
@@ -488,18 +477,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Obtener datos según el período seleccionado
   getCurrentData(): number[] {
-    // Si hay datos del backend, usarlos
-    if (
-      this.dashboardMetrics?.llamadas_exitosas_ultimos_7_dias &&
-      this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.length > 0
-    ) {
-      // Obtener los últimos 7 días
-      const last7Days =
-        this.dashboardMetrics.llamadas_exitosas_ultimos_7_dias.slice(-7);
-      return last7Days.map((item) => item.total);
-    }
-    // Si no hay datos, devolver todo a cero para no mostrar mocks
-    return [0, 0, 0, 0, 0, 0, 0];
+    return this.buildSevenDayCallTotals(this.dashboardMetrics);
   }
 
   // Calcular el mínimo del eje Y: si el mínimo de datos es >= 100, usar la centena inferior, si no, usar 0
@@ -525,7 +503,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     const maxValue = Math.ceil(maxData * 1.2);
 
     // Redondear hacia arriba a la siguiente decena más cercana para números más limpios
-    return Math.ceil(maxValue / 10) * 10;
+    const rounded = Math.ceil(maxValue / 10) * 10;
+    // min=0 y max=0 rompe el área en Apex; obligamos a un rango visible
+    return Math.max(rounded, 10);
   }
 
   callsAreaXAxis: ApexXAxis = {
@@ -804,7 +784,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.loadUserAgents();
       // Actualizar opciones del gráfico según el tamaño de pantalla (altura, fuentes, etc)
       this.updateChartOptions();
-      this.scheduleChartReflow();
       // Escuchar cambios de tamaño de ventana
       window.addEventListener('resize', this.resizeListener);
 
@@ -815,7 +794,6 @@ export class HomeComponent implements OnInit, OnDestroy {
           event.urlAfterRedirects.startsWith('/dashboard/home')
         ) {
           this.loadMetrics();
-          this.scheduleChartReflow();
         }
       });
     }
@@ -827,24 +805,34 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.cancelKpiAnimation();
     this.routerEventsSub?.unsubscribe();
+    if (this.chartReflowDebouncer != null) {
+      clearTimeout(this.chartReflowDebouncer);
+      this.chartReflowDebouncer = null;
+    }
     if (this.isBrowser) {
       window.removeEventListener('resize', this.resizeListener);
     }
   }
 
+  /**
+   * Fuerza un único recálculo de tamaño en ApexCharts. Varias llamadas seguidas
+   * (datos listos + panel visible con fade-in) se fusionan en un solo resize.
+   */
   private scheduleChartReflow(): void {
     if (!this.isBrowser) return;
 
-    // Reasignar referencias para forzar a ApexCharts a recalcular.
     this.callsAreaSeries = [...this.callsAreaSeries];
     this.callsAreaChart = { ...this.callsAreaChart };
 
-    // Doble resize para garantizar que el gráfico recoja dimensiones finales.
-    setTimeout(() => window.dispatchEvent(new Event('resize')), 0);
-    setTimeout(() => {
-      this.updateChartOptions();
-      window.dispatchEvent(new Event('resize'));
-    }, 220);
+    if (this.chartReflowDebouncer != null) {
+      clearTimeout(this.chartReflowDebouncer);
+    }
+    this.chartReflowDebouncer = setTimeout(() => {
+      this.chartReflowDebouncer = null;
+      requestAnimationFrame(() => {
+        window.dispatchEvent(new Event('resize'));
+      });
+    }, 120);
   }
 
   private cancelKpiAnimation(): void {
