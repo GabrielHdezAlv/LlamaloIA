@@ -27,6 +27,7 @@ import { UpgradePlanComponent } from './pages/upgrade-plan/upgrade-plan.componen
 import { AdminEditAgentComponent } from './pages/admin-edit-agent/admin-edit-agent.component';
 import { AdminNewsComponent } from './pages/admin-news/admin-news.component';
 import { AdminDocsComponent } from './pages/admin-docs/admin-docs.component';
+import { AdminSystemLogsComponent } from './pages/admin-system-logs/admin-system-logs';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ShopifyComponent } from './pages/shopify/shopify.component';
 
@@ -146,6 +147,7 @@ export const routes: Routes = [
       { path: 'recordatorio', component: AdminRecordatorioComponent },
       { path: 'news', component: AdminNewsComponent },
       { path: 'docs', component: AdminDocsComponent },
+      { path: 'system-logs', component: AdminSystemLogsComponent },
       { path: 'agents/edit/:agentId', component: AdminEditAgentComponent },
       // Aquí puedes agregar más rutas de admin en el futuro
       // { path: 'users', component: AdminUsersComponent },
