@@ -25,6 +25,7 @@ import {
 import { TwilioStorage } from '../../../storages/twilio/twilio-storage';
 import { TwilioService } from '../../../core/services/twilio.service';
 import { I18nService } from '../../../core/services/i18n.service';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-twilio-integration-modal',
@@ -50,6 +51,7 @@ export class TwilioIntegrationModalComponent implements OnInit {
   private twilioStorage = inject(TwilioStorage);
   private twilioService = inject(TwilioService);
   private i18nService = inject(I18nService);
+  private notificationService = inject(NotificationService);
 
   form!: FormGroup;
   formEnabled: boolean = false;
@@ -152,7 +154,15 @@ export class TwilioIntegrationModalComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al guardar la configuración:', error);
-        // Aquí podrías mostrar un mensaje de error al usuario
+        
+        let errorMessage = 'Error al guardar la configuración. Revisa tus credenciales.';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        } else if (typeof error.error === 'string') {
+          errorMessage = error.error;
+        }
+        
+        this.notificationService.error(errorMessage);
       },
     });
   }

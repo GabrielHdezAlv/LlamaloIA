@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { TwilioService } from '../../../core/services/twilio.service';
 import { ModalService } from '../modal.service';
+import { NotificationService } from '../../../core/services/notification.service';
 
 export interface ImportNumberModalData {
   title?: string;
@@ -45,6 +46,7 @@ export class ImportNumberModalComponent {
   data = inject<ImportNumberModalData>(MAT_DIALOG_DATA);
   private fb = inject(FormBuilder);
   private twilioService = inject(TwilioService);
+  private notificationService = inject(NotificationService);
   private modalService = inject(ModalService);
 
   importForm: FormGroup;
