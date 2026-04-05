@@ -547,6 +547,11 @@ export interface Translations {
   accountValidated: string;
   connectTwilioAccount: string;
   closeBtn: string;
+  openBtn: string;
+  /** Subtítulo Twilio: exactamente una cuenta */
+  twilioConnectedSummaryOne: string;
+  /** Parte plural: "N " + suffix → "3 cuentas conectadas" */
+  twilioConnectedSummaryManySuffix: string;
   accountIdLabel: string;
   changeBtn: string;
   availableNumbers: string;
@@ -1260,6 +1265,9 @@ export class I18nService {
       accountValidated: 'Cuenta validada',
       connectTwilioAccount: 'Conecta tu cuenta de Twilio',
       closeBtn: 'Cerrar',
+      openBtn: 'Abrir',
+      twilioConnectedSummaryOne: '1 cuenta conectada',
+      twilioConnectedSummaryManySuffix: 'cuentas conectadas',
       accountIdLabel: 'Cuenta ID:',
       changeBtn: 'Cambiar',
       availableNumbers: 'Números disponibles',
@@ -1960,6 +1968,9 @@ export class I18nService {
       accountValidated: 'Account validated',
       connectTwilioAccount: 'Connect your Twilio account',
       closeBtn: 'Close',
+      openBtn: 'Open',
+      twilioConnectedSummaryOne: '1 connected account',
+      twilioConnectedSummaryManySuffix: 'connected accounts',
       accountIdLabel: 'Account ID:',
       changeBtn: 'Change',
       availableNumbers: 'Available numbers',

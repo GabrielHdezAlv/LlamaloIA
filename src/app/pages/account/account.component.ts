@@ -213,6 +213,23 @@ export class AccountComponent implements OnInit, OnDestroy {
     return this.i18nService.getTranslations();
   }
 
+  /** Texto bajo "Twilio" cuando hay cuentas (sin guión; singular / plural). */
+  get twilioConnectionsSubtitle(): string {
+    const n = this.twilioAccounts.length;
+    if (n <= 0) return '';
+    const tr = this.t;
+    return n === 1
+      ? tr.twilioConnectedSummaryOne
+      : `${n} ${tr.twilioConnectedSummaryManySuffix}`;
+  }
+
+  /** Cerrar si el panel está abierto; Abrir si hay cuentas y está cerrado; Conectar si no hay cuentas. */
+  get twilioHeaderActionLabel(): string {
+    if (this.twilioConnectionsExpanded) return this.t.closeBtn;
+    if (this.twilioAccounts.length > 0) return this.t.openBtn;
+    return this.t.connect;
+  }
+
   // Método para cambiar de pestaña (primero desaparece el contenido, luego aparece el nuevo)
   setActiveTab(
     tab:

@@ -55,7 +55,6 @@ export class AuthFormComponent implements OnInit {
   password: string = '';
   confirmPassword: string = '';
   fullName: string = '';
-  country: string = ''; // ✅ NUEVO - Requerido
   marketingConsent: boolean = false; // ✅ NUEVO - Requerido
 
   // Estado para mostrar/ocultar contraseña
@@ -259,7 +258,7 @@ export class AuthFormComponent implements OnInit {
     event.preventDefault();
 
     // Validar campos antes de registrar
-    if (!this.fullName || !this.email || !this.password || !this.country) {
+    if (!this.fullName || !this.email || !this.password) {
       this.notificationService.error(this.t.authErrorFillAll);
       return;
     }
@@ -279,7 +278,7 @@ export class AuthFormComponent implements OnInit {
       lastname: this.fullName.split(' ')[1] || '',
       email: this.email,
       password: this.password,
-      country: this.country, // NUEVO - Requerido
+      country: '',
       marketingConsent: this.marketingConsent, // NUEVO - Requerido
       accountStatus: ACCOUNT_STATUS.UNVERIFIED, // NUEVO: Por defecto No validado (3) para nuevos usuarios hasta que verifiquen email
       rol: USER_ROLE.CLIENT_USER, // ⬅️ NUEVO: Por defecto client_user para nuevos registros

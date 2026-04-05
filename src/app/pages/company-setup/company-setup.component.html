@@ -682,38 +682,40 @@
       </div>
     </div>
 
-    <!-- Paso 11: pantalla de bienvenida ocupando TODA la pantalla -->
+    <!-- Paso 11: nubes animadas — claro (blanco + azules suaves) / oscuro (como shopify-onboarding) -->
     <div *ngSwitchCase="11"
-      class="relative w-full flex-1 min-h-0 h-full bg-cover bg-no-repeat bg-[url('/assets/fondo_onboarding2.webp')] bg-[position:center_-140px] dark:bg-[url('/assets/fondo_modo_oscuro2.jpg')] dark:bg-center">
-      <!-- Capa oscura negra y suave encima del fondo -->
-      <div class="absolute inset-0 bg-black/5"></div>
+      class="company-setup-welcome-final relative w-full flex-1 min-h-0 h-full overflow-x-hidden overflow-y-auto">
+      <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <div class="company-setup-welcome-cloud company-setup-welcome-cloud-1"></div>
+        <div class="company-setup-welcome-cloud company-setup-welcome-cloud-2"></div>
+        <div class="company-setup-welcome-cloud company-setup-welcome-cloud-3"></div>
+        <div class="company-setup-welcome-cloud company-setup-welcome-cloud-4"></div>
+        <div class="company-setup-welcome-cloud company-setup-welcome-cloud-5"></div>
+        <div class="company-setup-welcome-cloud company-setup-welcome-cloud-6"></div>
+      </div>
 
-      <!-- Contenido grande cerca de la parte baja de la pantalla (un poco más arriba) -->
       <div
-        class="absolute bottom-16 sm:bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center text-center text-white px-6">
-        <!-- Logo normal centrado (sin recuadro) — sin animación de paso -->
-        <div class="mb-16 sm:mb-20 md:mb-24">
-          <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-20 sm:h-24 md:h-28 w-auto mx-auto dark:hidden" />
-          <img src="assets/logo_blanco.webp" alt="Llamalo Logo"
-            class="h-20 sm:h-24 md:h-28 w-auto mx-auto hidden dark:block" />
+        class="relative z-10 flex min-h-full w-full flex-col items-center justify-center px-5 py-10 text-center text-white sm:px-6 sm:py-12">
+        <div class="mb-8 flex w-full flex-col items-center sm:mb-10 md:mb-11">
+          <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-14 w-auto sm:h-[4.25rem] md:h-[4.75rem]" />
         </div>
 
-        <!-- Título, subtítulo y botón: solo este bloque usa el fade de transición entre pasos -->
-        <div class="flex flex-col items-center"
+        <div
+          class="flex w-full max-w-2xl flex-col items-center"
           [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
           <h1
-            class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.08em] drop-shadow-sm">
+            class="w-full text-3xl font-extrabold tracking-[-0.08em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] sm:text-4xl md:text-5xl lg:text-6xl dark:font-semibold dark:tracking-tight dark:drop-shadow-none dark:text-white">
             {{ t.welcomeToLlamalo }}
           </h1>
 
           <p
-            class="mt-6 text-lg sm:text-2xl md:text-3xl text-sky-50/95 max-w-3xl mx-auto">
+            class="mx-auto mt-4 max-w-xl text-base text-white sm:mt-5 sm:max-w-2xl sm:text-lg md:text-xl dark:text-sm dark:text-gray-400 sm:dark:text-base">
             {{ t.letAiSpeakForYou }}
           </p>
 
           <button type="button"
-            class="mt-10 sm:mt-12 inline-flex items-center justify-center px-16 sm:px-20 md:px-24 py-4 sm:py-4.5 rounded-full bg-[#1E3A8A] hover:bg-[#1E40AF] text-lg sm:text-xl md:text-2xl font-semibold shadow-[0_20px_50px_rgba(37,99,235,0.65)] transition-transform duration-300 ease-out hover:-translate-y-0.5"
-            (click)=" completeSetup()">
+            class="mx-auto mt-7 inline-flex shrink-0 items-center justify-center rounded-xl bg-[#1B2559] px-7 py-2 text-sm font-medium text-white transition-colors hover:bg-[#0a1740] sm:mt-8 sm:px-9 sm:py-2.5 sm:text-base md:px-10 md:text-[1.05rem]"
+            (click)="completeSetup()">
             {{ t.startButton }}
           </button>
         </div>
