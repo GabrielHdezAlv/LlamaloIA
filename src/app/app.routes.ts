@@ -37,6 +37,7 @@ export const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'login',
   },
+  /*
   {
     path: 'login',
     component: AuthFormComponent,
@@ -54,6 +55,25 @@ export const routes: Routes = [
       bottomLinkRoute: '/register',
     },
   },
+  */
+  {
+    path: 'login',
+    component: AuthFormComponent,
+    data: {
+      type: 'login',
+      title: '¡Bienvenido de vuelta!',
+      subtitle: '',
+      linkText: '',
+      linkRoute: '',
+      formTitle: 'Iniciar sesión',
+      formSubtitle: 'Introduzca sus datos de acceso',
+      buttonText: 'Acceder',
+      bottomText: '',
+      bottomLinkText: '',
+      bottomLinkRoute: '',
+    },
+  },
+  /*
   {
     path: 'register',
     component: AuthFormComponent,
@@ -71,6 +91,11 @@ export const routes: Routes = [
       bottomLinkRoute: '/login',
     },
   },
+  */
+  {
+    path: 'register',
+    redirectTo: 'login',
+  },
   {
     path: 'verify-email',
     component: VerifyEmailComponent,
@@ -80,6 +105,7 @@ export const routes: Routes = [
     component: ShopifyComponent,
     data: { hideSupportWidget: true },
   },
+  /*
   {
     path: 'recover',
     component: AuthFormComponent,
@@ -95,6 +121,24 @@ export const routes: Routes = [
       bottomText: '¿Todavía no tienes una cuenta?',
       bottomLinkText: 'Regístrate',
       bottomLinkRoute: '/register',
+    },
+  },
+  */
+  {
+    path: 'recover',
+    component: AuthFormComponent,
+    data: {
+      type: 'recover',
+      title: 'Recuperar contraseña',
+      subtitle: '',
+      linkText: '',
+      linkRoute: '',
+      formTitle: 'Recuperar contraseña',
+      formSubtitle: 'Introduzca el email',
+      buttonText: 'Acceder',
+      bottomText: '',
+      bottomLinkText: '',
+      bottomLinkRoute: '',
     },
   },
   {
