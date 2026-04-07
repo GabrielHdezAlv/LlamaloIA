@@ -706,7 +706,7 @@
           </p>
           <ul class="text-xs text-gray-500 dark:text-gray-400 space-y-2 list-disc pl-5">
             <li>Se guardan en arrays diarios mediante <code>FieldValue.arrayUnion(latenciaMs)</code>.</li>
-            <li>El dashboard promedia solo las <strong>últimas 20 interacciones</strong> (media móvil reactiva) para que una latencia antigua no corrompa el rendimiento mostrado.</li>
+            <li>El dashboard promedia solo las <strong>últimas 5 mediciones</strong> (turnos con latencia registrada), sin filtrar por día: se usan todos los días guardados en Firestore y se toman las cinco más recientes.</li>
           </ul>
         </div>
 
