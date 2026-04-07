@@ -41,6 +41,8 @@ export interface TranslatedNewsItem {
 }
 
 const AGENT_DRAFT_KEY = 'llamalo_agent_draft';
+/** Legacy key; ahora se usa por usuario en lastReadNewsStorageKey() */
+const LEGACY_LAST_READ_NEWS_ID = 'lastReadNewsId';
 
 interface AgentDraft {
   step: string;
@@ -224,16 +226,65 @@ export class TopbarComponent implements OnInit, OnDestroy {
     
     if (this.isBrowser) {
       effect(() => {
-        const news = this.newsList();
-        if (news && news.length > 0) {
-          const lastReadNewsId = localStorage.getItem('lastReadNewsId');
-          const latestNewsId = news[0].id;
-          this.hasNewNotifications = lastReadNewsId !== latestNewsId;
-        } else {
-          this.hasNewNotifications = false;
-        }
+        this.userStorage.user();
+        const news = this.newsList() ?? [];
+        this.syncNotificationBadgeFromStorage(news);
       });
     }
+  }
+
+  /** Key por usuario para que cambiar de cuenta no mezcle “leído” */
+  private lastReadNewsStorageKey(): string {
+    const uid = this.userStorage.user()?.userId;
+    return uid
+      ? `llamalo_lastReadNewsId_${uid}`
+      : 'llamalo_lastReadNewsId_guest';
+  }
+
+  private getLastReadNewsIdFromStorage(): string | null {
+    if (!this.isBrowser) return null;
+    const key = this.lastReadNewsStorageKey();
+    let v = localStorage.getItem(key);
+    if (!v && key !== LEGACY_LAST_READ_NEWS_ID) {
+      const legacy = localStorage.getItem(LEGACY_LAST_READ_NEWS_ID);
+      if (legacy) {
+        localStorage.setItem(key, legacy);
+        v = legacy;
+      }
+    }
+    if (!v && key.startsWith('llamalo_lastReadNewsId_') && !key.endsWith('_guest')) {
+      const guest = localStorage.getItem('llamalo_lastReadNewsId_guest');
+      if (guest) {
+        localStorage.setItem(key, guest);
+        v = guest;
+      }
+    }
+    return v;
+  }
+
+  /**
+   * Indicador rojo: solo si la noticia más reciente del listado es distinta
+   * de la última marcada como vista en localStorage.
+   */
+  private syncNotificationBadgeFromStorage(news: TranslatedNewsItem[]): void {
+    if (!this.isBrowser) return;
+    if (!news || news.length === 0) {
+      this.hasNewNotifications = false;
+      return;
+    }
+    const latestNewsId = news[0].id;
+    const lastRead = this.getLastReadNewsIdFromStorage();
+    this.hasNewNotifications = lastRead !== latestNewsId;
+  }
+
+  /** Persiste que el usuario ya vio el listado actual (popup abierto o detalle). */
+  private markCurrentNewsAsSeen(): void {
+    if (!this.isBrowser) return;
+    const news = this.newsList();
+    if (!news || news.length === 0) return;
+    const latestId = news[0].id;
+    localStorage.setItem(this.lastReadNewsStorageKey(), latestId);
+    this.hasNewNotifications = false;
   }
 
   @HostListener('document:click', ['$event'])
@@ -824,13 +875,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.showNewsDropdown = true;
       this.newsDropdownClosing = false;
       this.newsDropdownOpening = true;
-      this.hasNewNotifications = false;
-      if (this.isBrowser) {
-        const news = this.newsList();
-        if (news && news.length > 0) {
-          localStorage.setItem('lastReadNewsId', news[0].id);
-        }
-      }
+      this.markCurrentNewsAsSeen();
       this.closeDropdownWithAnimation();
       if (this.newsDropdownOpenTimer) clearTimeout(this.newsDropdownOpenTimer);
       this.newsDropdownOpenTimer = setTimeout(() => {
@@ -849,6 +894,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
   // Compatibilidad con referencias antiguas si las hubiera
   openNewsModal(news?: TranslatedNewsItem) {
     if (news) {
+      this.markCurrentNewsAsSeen();
       this.selectedNewsItem = news;
       this.showNewsModal = true;
       this.closeNewsDropdownWithAnimation();
