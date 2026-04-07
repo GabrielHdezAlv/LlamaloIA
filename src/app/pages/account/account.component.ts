@@ -1,3 +1,4 @@
+import { firstValueFrom } from 'rxjs';
 import {
   Component,
   inject,
@@ -134,6 +135,8 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   // Facturación
   currentPlanMinutes: number | null = null;
+  isSaving = false;
+  currentPlanName: string = 'Básico';
 
   // Integraciones (mismo patrón visual que edit-agent / connect-phone-step)
   twilioConnectionsExpanded = false;
@@ -289,6 +292,13 @@ export class AccountComponent implements OnInit, OnDestroy {
       this.tempEnterprise = user.enterprise || { name: '', url: '' };
       
       this.currentPlanMinutes = user.minutesLimit ?? 100;
+      
+      const planMap: Record<string, string> = {
+        basic: 'Básico',
+        pro: 'Pro',
+        premium: 'Premium'
+      };
+      this.currentPlanName = user.plan ? planMap[user.plan] || 'Básico' : 'Básico';
 
       // Limpiar URL de imagen de timestamps existentes para inicialización correcta
       const imageUrl = user.profileImage || '';
@@ -1124,5 +1134,19 @@ export class AccountComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  async changePlan(planType: string) {
+    this.isSaving = true;
+    try {
+      await firstValueFrom(this.userService.changePlan(planType));
+      await this.userStore.loadUserProfile();
+      this.notificationService.success('Plan actualizado correctamente');
+    } catch (error) {
+      console.error('Error changing plan:', error);
+      this.notificationService.error('Error al actualizar el plan');
+    } finally {
+      this.isSaving = false;
+    }
   }
 }

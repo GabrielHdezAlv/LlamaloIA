@@ -229,6 +229,15 @@ export class UserService {
     );
   }
 
+  // ✅ CAMBIAR PLAN (Mock Stripe / Update DB)
+  changePlan(planType: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/users/plan`,
+      { plan: planType },
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
   // ✅ CANJEAR RECOMPENSA
   redeemReward(rewardType: string): Observable<any> {
     return this.http.post<any>(

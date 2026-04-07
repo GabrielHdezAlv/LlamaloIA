@@ -19,6 +19,7 @@ export interface UserProfileResponseDto {
   rol?: USER_ROLE; // ⬅️ NUEVO: Incluido en respuestas (owner/client_user)
   hasCompletedSetup?: boolean;
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
+  plan?: string; // ⬅️ NUEVO: Plan de suscripción
   minutesLimit?: number; // ⬅️ NUEVO: Límite de minutos asignados al usuario
   extraMinutes?: number; // ⬅️ NUEVO: Minutos extra asignados al usuario
   minutesByMonth?: Record<string, number>; // ⬅️ NUEVO: Historial de minutos por mes (YYYY-MM)

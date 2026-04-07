@@ -469,12 +469,32 @@
             </h3>
             <p class="text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-800">
               {{ currentPlanMinutes ?? "---" }} {{ t.minutesWord }}
-              {{ t.withPlan }} <strong>{{ t.basicPlan }}</strong>
+              {{ t.withPlan }} <strong>{{ currentPlanName }}</strong>
             </p>
           </div>
 
           <!-- Botones de Acción -->
-          <div class="flex flex-col sm:flex-row gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2">
+          <div class="flex flex-col sm:flex-row gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 flex-wrap">
+            <app-ripple-button
+              (click)="changePlan('basic')"
+              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gray-200 text-black font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap flex items-center justify-center hover:bg-gray-300"
+              rippleColor="rgba(0, 0, 0, 0.1)" [rippleScale]="8" [disabled]="isSaving">
+              Plan Básico
+            </app-ripple-button>
+            <app-ripple-button
+              (click)="changePlan('pro')"
+              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-blue-600 text-white font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap flex items-center justify-center hover:bg-blue-700"
+              rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8" [disabled]="isSaving">
+              Plan Pro
+            </app-ripple-button>
+            <app-ripple-button
+              (click)="changePlan('premium')"
+              buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-purple-600 text-white font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap flex items-center justify-center hover:bg-purple-700"
+              rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8" [disabled]="isSaving">
+              Plan Premium
+            </app-ripple-button>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 mt-4">
             <app-ripple-button
               buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
               rippleColor="rgba(255, 255, 255, 0.4)" [rippleScale]="8">
