@@ -3,6 +3,7 @@ import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 import { RouteVisibilityService } from './core/services/route-visibility.service';
+import { FirebaseTokenRefreshService } from './core/services/firebase-token-refresh.service';
 import { SupportWidgetComponent } from './shared/components/support-widget/support-widget.component';
 import { SpinnerComponent } from './shared/components/spinner/spinner.component';
 
@@ -20,11 +21,14 @@ export class AppComponent implements OnInit {
 
   private router = inject(Router);
   private routeVisibilityService = inject(RouteVisibilityService);
+  private firebaseTokenRefresh = inject(FirebaseTokenRefreshService);
 
   constructor(@Inject(PLATFORM_ID) private platformId: object) { }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
+      this.firebaseTokenRefresh.start();
+
       // Interceptar TODA la navegación para mantener la URL limpia
       this.interceptAllNavigation();
 

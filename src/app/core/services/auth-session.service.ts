@@ -4,6 +4,10 @@ import { signOut } from 'firebase/auth';
 import { firebaseAuth } from './firebase.config';
 import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
+import {
+  FirebaseTokenRefreshService,
+  FIREBASE_REFRESH_TOKEN_STORAGE_KEY,
+} from './firebase-token-refresh.service';
 
 /**
  * Limpieza unificada de sesión (JWT, Firebase, perfil en memoria, Twilio local).
@@ -15,11 +19,14 @@ export class AuthSessionService {
   private userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
   private platformId = inject(PLATFORM_ID);
+  private tokenRefresh = inject(FirebaseTokenRefreshService);
 
   async clearSession(): Promise<void> {
+    this.tokenRefresh.stop();
     if (isPlatformBrowser(this.platformId)) {
       if (typeof window !== 'undefined' && window.localStorage) {
         localStorage.removeItem('token');
+        localStorage.removeItem(FIREBASE_REFRESH_TOKEN_STORAGE_KEY);
       }
       try {
         await signOut(firebaseAuth);

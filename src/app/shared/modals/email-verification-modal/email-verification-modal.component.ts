@@ -22,6 +22,7 @@ import { UserStorage } from '../../../storages/user/user-storage';
 import { TwilioStorage } from '../../../storages/twilio/twilio-storage';
 import { USER_ROLE } from '../../../shared/models/user-role.enum';
 import { isPlatformBrowser } from '@angular/common';
+import { FirebaseTokenRefreshService } from '../../../core/services/firebase-token-refresh.service';
 
 export interface EmailVerificationModalData {
   email?: string;
@@ -54,6 +55,7 @@ export class EmailVerificationModalComponent
   private userStorage = inject(UserStorage);
   private twilioStorage = inject(TwilioStorage);
   private platformId = inject(PLATFORM_ID);
+  private firebaseTokenRefresh = inject(FirebaseTokenRefreshService);
 
   uiState: 'input' | 'verifying' | 'success' | 'error' = 'input';
   errorMessage = '';
@@ -151,14 +153,9 @@ export class EmailVerificationModalComponent
 
     if (email && password) {
       this.userService.LoginUser(new LoginUser(email, password)).subscribe({
-        next: (response) => {
-          if (
-            isPlatformBrowser(this.platformId) &&
-            typeof window !== 'undefined' &&
-            window.localStorage
-          ) {
-            localStorage.setItem('token', response.token);
-          }
+        next: (response: { token: string; refreshToken?: string }) => {
+          this.firebaseTokenRefresh.persistSessionTokensFromApi(response);
+          this.firebaseTokenRefresh.start();
           loadProfileAndGoDashboard();
         },
         error: () => {

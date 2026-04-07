@@ -23,6 +23,7 @@ import { I18nService, Language } from '../../core/services/i18n.service';
 import { take } from 'rxjs/operators';
 import { signInWithPopup } from 'firebase/auth';
 import { firebaseAuth, googleProvider } from '../../core/services/firebase.config';
+import { FirebaseTokenRefreshService } from '../../core/services/firebase-token-refresh.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -126,6 +127,7 @@ export class AuthFormComponent implements OnInit {
   private router = inject(Router);
   private modalService = inject(ModalService);
   private platformId = inject(PLATFORM_ID);
+  private firebaseTokenRefresh = inject(FirebaseTokenRefreshService);
 
   constructor(private route: ActivatedRoute) { }
 
@@ -191,10 +193,9 @@ export class AuthFormComponent implements OnInit {
     this.setGlobalLoading(true);
 
     this.userService.LoginUser(user).subscribe({
-      next: (response) => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-          localStorage.setItem('token', response.token);
-        }
+      next: (response: { token: string; refreshToken?: string }) => {
+        this.firebaseTokenRefresh.persistSessionTokensFromApi(response);
+        this.firebaseTokenRefresh.start();
         this.loadProfileAndNavigate();
       },
       error: (err: { status?: number; error?: { message?: string } }) => {
@@ -234,10 +235,11 @@ export class AuthFormComponent implements OnInit {
       this.setGlobalLoading(true);
       const idToken = await result.user.getIdToken();
       this.userService.LoginWithGoogle(idToken).subscribe({
-        next: (response) => {
-          if (typeof window !== 'undefined' && window.localStorage) {
-            localStorage.setItem('token', response.token);
-          }
+        next: (response: { token: string }) => {
+          this.firebaseTokenRefresh.persistSessionTokensFromApi({
+            token: response.token,
+          });
+          this.firebaseTokenRefresh.start();
           this.loadProfileAndNavigate();
         },
         error: (err) => {
@@ -333,13 +335,14 @@ export class AuthFormComponent implements OnInit {
       next: (res: {
         verificationEmailSent?: boolean;
         token?: string;
+        refreshToken?: string;
       }) => {
-        if (
-          typeof window !== 'undefined' &&
-          window.localStorage &&
-          res?.token
-        ) {
-          localStorage.setItem('token', res.token);
+        if (res?.token) {
+          this.firebaseTokenRefresh.persistSessionTokensFromApi({
+            token: res.token,
+            refreshToken: res.refreshToken,
+          });
+          this.firebaseTokenRefresh.start();
         }
         if (res?.verificationEmailSent === false) {
           this.notificationService.warning(
