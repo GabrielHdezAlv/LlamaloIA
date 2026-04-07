@@ -8,6 +8,7 @@ import { NavigationService } from '../../core/services/navigation.service';
 import { I18nService, Language } from '../../core/services/i18n.service';
 import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
 import { ModalService } from '../../shared/modals/modal.service';
+import { AuthSessionService } from '../../core/services/auth-session.service';
 
 @Component({
   selector: 'app-nav',
@@ -32,6 +33,7 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
   // Inyectar UserStorage, Router y NavigationService
   // DESPUÉS (público para que el template pueda acceder)
   public userStorage = inject(UserStorage);
+  private authSession = inject(AuthSessionService);
   private router = inject(Router);
   private navigationService = inject(NavigationService);
   private i18nService = inject(I18nService);
@@ -421,10 +423,8 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
 
   // Cerrar sesión
   logout() {
-    // Limpiar datos de usuario
-    this.userStorage.clearUser();
     this.collapseOnNavigate();
-    this.router.navigate(['/login']);
+    this.authSession.signOutAndReload();
   }
 
   // Estilo dinámico para cada barra según el progreso

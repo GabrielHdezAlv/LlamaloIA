@@ -29,6 +29,7 @@ import { USER_ROLE } from '../../shared/models/user-role.enum';
 import { NewsItem } from '../../shared/models/news.model';
 import { Subscription } from 'rxjs';
 import { getAgentDraftStepLabel } from '../../shared/utils/agent-draft-step-labels';
+import { AuthSessionService } from '../../core/services/auth-session.service';
 
 export interface TranslatedNewsItem {
   id: string;
@@ -89,6 +90,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   public router = inject(Router);
   public userStorage = inject(UserStorage);
+  private authSession = inject(AuthSessionService);
   private isBrowser: boolean;
   private i18nService = inject(I18nService);
   private metricsService = inject(MetricsService);
@@ -675,10 +677,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    // Limpiar datos de usuario
-    this.userStorage.clearUser();
-
-    this.router.navigate(['/login']);
+    this.authSession.signOutAndReload();
   }
 
   goToGifts() {

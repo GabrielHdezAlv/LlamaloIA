@@ -60,7 +60,7 @@ export const UserStorage = signalStore(
 
       clearUser() {
         storageRepo.clearStore(Store.UserStorage);
-        patchState(store, { user: null });
+        patchState(store, { user: null, initialized: false });
       },
 
       async loadUserProfile(): Promise<void> {

@@ -22,6 +22,7 @@ import {
 import { I18nService, Language } from '../../core/services/i18n.service';
 import { NavigationService } from '../../core/services/navigation.service';
 import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
+import { AuthSessionService } from '../../core/services/auth-session.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -78,6 +79,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   // Inyectar servicios
   public userStorage = inject(UserStorage);
+  private authSession = inject(AuthSessionService);
   private reminderService = inject(ReminderService);
   private router = inject(Router);
   public i18nService = inject(I18nService);
@@ -462,9 +464,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   // Cerrar sesión
   logout() {
-    // Limpiar datos de usuario
-    this.userStorage.clearUser();
-    this.router.navigate(['/login']);
+    this.authSession.signOutAndReload();
   }
 
   // Seleccionar idioma

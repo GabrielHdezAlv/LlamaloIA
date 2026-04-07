@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { GuestGuard } from './core/guards/guest.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { AgentsComponent } from './pages/agents/agents.component';
@@ -37,10 +38,10 @@ export const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'login',
   },
-  /*
   {
     path: 'login',
     component: AuthFormComponent,
+    canActivate: [GuestGuard],
     data: {
       type: 'login',
       title: '¡Bienvenido de vuelta!',
@@ -55,28 +56,10 @@ export const routes: Routes = [
       bottomLinkRoute: '/register',
     },
   },
-  */
-  {
-    path: 'login',
-    component: AuthFormComponent,
-    data: {
-      type: 'login',
-      title: '¡Bienvenido de vuelta!',
-      subtitle: '',
-      linkText: '',
-      linkRoute: '',
-      formTitle: 'Iniciar sesión',
-      formSubtitle: 'Introduzca sus datos de acceso',
-      buttonText: 'Acceder',
-      bottomText: '',
-      bottomLinkText: '',
-      bottomLinkRoute: '',
-    },
-  },
-  /*
   {
     path: 'register',
     component: AuthFormComponent,
+    canActivate: [GuestGuard],
     data: {
       type: 'register',
       title: 'Bienvenido a Llamalo',
@@ -91,11 +74,6 @@ export const routes: Routes = [
       bottomLinkRoute: '/login',
     },
   },
-  */
-  {
-    path: 'register',
-    redirectTo: 'login',
-  },
   {
     path: 'verify-email',
     component: VerifyEmailComponent,
@@ -105,10 +83,10 @@ export const routes: Routes = [
     component: ShopifyComponent,
     data: { hideSupportWidget: true },
   },
-  /*
   {
     path: 'recover',
     component: AuthFormComponent,
+    canActivate: [GuestGuard],
     data: {
       type: 'recover',
       title: 'Recuperar contraseña',
@@ -121,24 +99,6 @@ export const routes: Routes = [
       bottomText: '¿Todavía no tienes una cuenta?',
       bottomLinkText: 'Regístrate',
       bottomLinkRoute: '/register',
-    },
-  },
-  */
-  {
-    path: 'recover',
-    component: AuthFormComponent,
-    data: {
-      type: 'recover',
-      title: 'Recuperar contraseña',
-      subtitle: '',
-      linkText: '',
-      linkRoute: '',
-      formTitle: 'Recuperar contraseña',
-      formSubtitle: 'Introduzca el email',
-      buttonText: 'Acceder',
-      bottomText: '',
-      bottomLinkText: '',
-      bottomLinkRoute: '',
     },
   },
   {
