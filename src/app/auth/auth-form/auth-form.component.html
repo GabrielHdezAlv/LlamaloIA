@@ -8,7 +8,6 @@
         {{ title }}
       </h1>
 
-      <!-- Ocultado temporalmente
       @if (subtitle && linkText && linkRoute !== "") {
       <p class="font-sans text-gray-600 dark:text-slate-300 text-base lg:text-lg leading-7 mt-4 text-center">
         {{ subtitle }}
@@ -17,7 +16,6 @@
         </a>
       </p>
       }
-      -->
 
       <!-- Idiomas ES / ENG -->
       <div class="flex gap-1 justify-center mt-6 px-2 py-1">
@@ -155,8 +153,7 @@
           {{ buttonText }}
         </button>
 
-        <!-- Mismo enlace que en el panel izquierdo: solo en móvil (el panel está oculto en &lt; lg) -->
-        <!-- Ocultado temporalmente
+        <!-- Mismo enlace que en el panel izquierdo: solo en móvil (el panel está oculto en < lg) -->
         @if (bottomText && bottomLinkRoute && bottomLinkRoute !== "") {
         <div
           class="lg:hidden text-center text-sm md:text-base text-gray-600 dark:text-slate-300 register-text whitespace-nowrap">
@@ -167,9 +164,7 @@
           </a>
         </div>
         }
-        -->
 
-        <!-- Ocultado temporalmente el inicio de sesión con Google y el divisor
         @if (type !== "recover") {
         <div class="relative my-6 lg:my-6">
           <div class="absolute inset-0 flex items-center">
@@ -192,7 +187,6 @@
           <img src="../../../assets/google.webp" alt="Google logo" class="hidden lg:block h-10 w-10 object-contain" />
         </button>
         }
-        -->
 
         <!-- Terms and Conditions for Register -->
         @if (type === "register") {

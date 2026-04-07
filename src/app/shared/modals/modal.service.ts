@@ -182,8 +182,10 @@ export class ModalService {
   openEmailVerification(data: EmailVerificationModalData = {}) {
     return this.dialog.open(EmailVerificationModalComponent, {
       width: '500px',
-      disableClose: true,
+      maxWidth: '95vw',
+      disableClose: false,
       panelClass: 'custom-dialog-container',
+      backdropClass: 'email-verification-backdrop',
       data,
       ...this.dialogMotion,
     });

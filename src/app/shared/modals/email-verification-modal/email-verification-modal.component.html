@@ -1,70 +1,163 @@
-<div class="p-10 max-w-md bg-white dark:bg-slate-900 rounded-[3rem] text-center">
-  <!-- Icono centrado con gradiente -->
-  <div class="flex justify-center mb-4">
-    <div class="flex items-center justify-center rounded-3xl bg-gradient-to-br from-blue-900 to-black p-4" style="width: 80px; height: 80px;">
-      <svg viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 text-white">
-        <path d="M4 9.00005L10.2 13.65C11.2667 14.45 12.7333 14.45 13.8 13.65L20 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M3 9.17681C3 8.45047 3.39378 7.78123 4.02871 7.42849L11.0287 3.5396C11.6328 3.20402 12.3672 3.20402 12.9713 3.5396L19.9713 7.42849C20.6062 7.78123 21 8.45047 21 9.17681V17C21 18.1046 20.1046 19 19 19H5C3.89543 19 3 18.1046 3 17V9.17681Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-      </svg>
+<div
+  class="ev-modal-inner max-w-md bg-white dark:bg-slate-900 rounded-[2rem] text-center p-8 sm:p-10 shadow-xl border border-gray-100 dark:border-slate-700"
+>
+  <!-- Estado: introducir código -->
+  @if (uiState === 'input' || uiState === 'error') {
+    <div class="flex justify-center mb-4">
+      <div
+        class="flex items-center justify-center rounded-2xl bg-gradient-to-br from-blue-950 to-slate-900 p-3.5 shadow-md"
+        style="width: 72px; height: 72px"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-10 h-10 text-white"
+          aria-hidden="true"
+        >
+          <path
+            d="M4 9.00005L10.2 13.65C11.2667 14.45 12.7333 14.45 13.8 13.65L20 9"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M3 9.17681C3 8.45047 3.39378 7.78123 4.02871 7.42849L11.0287 3.5396C11.6328 3.20402 12.3672 3.20402 12.9713 3.5396L19.9713 7.42849C20.6062 7.78123 21 8.45047 21 9.17681V17C21 18.1046 20.1046 19 19 19H5C3.89543 19 3 18.1046 3 17V9.17681Z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </div>
     </div>
-  </div>
 
-  <!-- Título centrado -->
-  <h2 class="text-2xl font-bold text-gray-900 dark:text-slate-50 mb-3">
-    {{ data.title || 'Verificar correo' }}
-  </h2>
-  
-  <!-- Texto instructivo -->
-  <p class="text-sm text-gray-600 dark:text-slate-300 mb-4">
-    Hemos enviado un código de verificación a
-    @if (data.email) {
-      <span class="font-bold text-gray-900 dark:text-slate-50">{{ data.email }}</span>
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-slate-50 mb-2">
+      {{ data.title || 'Verifica tu correo' }}
+    </h2>
+
+    <p class="text-sm text-gray-600 dark:text-slate-300 mb-1">
+      Hemos enviado un código de 6 dígitos a
+      @if (data.email) {
+        <span class="font-semibold text-gray-900 dark:text-slate-50">{{
+          data.email
+        }}</span>
+      }
+    </p>
+    <p class="text-sm text-gray-500 dark:text-slate-400 mb-5">
+      Introdúcelo para activar tu cuenta.
+    </p>
+
+    <div class="flex justify-center gap-2 sm:gap-2.5 mb-5 flex-wrap">
+      @for (digit of codeDigits; track $index) {
+        <input
+          type="text"
+          [id]="'ev-code-' + $index"
+          [(ngModel)]="codeDigits[$index]"
+          [name]="'ev-code-' + $index"
+          (input)="onCodeInput($index, $event)"
+          (keydown)="onCodeKeyDown($index, $event)"
+          (paste)="onCodePaste($event)"
+          maxlength="1"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          class="ev-digit w-11 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold border-2 rounded-xl bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-slate-50 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-900/40"
+          [class.border-blue-900]="focusedIndex === $index"
+          [class.border-gray-200]="focusedIndex !== $index"
+          [class.dark:border-slate-600]="focusedIndex !== $index"
+          (focus)="focusedIndex = $index"
+        />
+      }
+    </div>
+
+    @if (uiState === 'error' && errorMessage) {
+      <p
+        class="text-sm text-red-600 dark:text-red-400 mb-4 text-center"
+        role="alert"
+      >
+        {{ errorMessage }}
+      </p>
     }
-  </p>
 
-  <!-- Texto antes de los campos de código -->
-  <p class="text-sm text-gray-600 dark:text-slate-300 mb-4">
-    Ingresa el código a continuación
-  </p>
-
-  <!-- Campos de código (4 inputs cuadrados) -->
-  <div class="flex justify-center gap-3 mb-6">
-    @for (digit of codeDigits; track $index) {
-      <input
-        type="text"
-        [id]="'code-' + $index"
-        [(ngModel)]="codeDigits[$index]"
-        [name]="'code-' + $index"
-        (input)="onCodeInput($index, $event)"
-        (keydown)="onCodeKeyDown($index, $event)"
-        (paste)="onCodePaste($event)"
-        maxlength="1"
-        pattern="[0-9]"
-        inputmode="numeric"
-        class="w-16 h-16 text-center text-2xl font-bold border-2 border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-blue-900 bg-white dark:bg-slate-800 text-gray-900 dark:text-slate-50 transition duration-200"
-        [class.border-blue-900]="focusedIndex === $index"
-        (focus)="focusedIndex = $index"
-      />
-    }
-  </div>
-
-  <!-- Botón Continue -->
-  <button 
-    (click)="verify()"
-    [disabled]="isCodeIncomplete"
-    class="w-full py-4 bg-blue-900 hover:bg-blue-950 dark:bg-blue-900 dark:hover:bg-blue-950 disabled:bg-gray-400 dark:disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold text-lg rounded-lg transition duration-200 mb-4"
-  >
-    Continuar
-  </button>
-
-  <!-- Enlace de reenvío -->
-  <p class="text-sm text-gray-600 dark:text-slate-400">
-    ¿No recibiste el correo?
-    <button 
-      (click)="resendCode()"
-      class="text-blue-900 hover:text-blue-950 dark:text-blue-400 dark:hover:text-blue-300 font-semibold underline ml-1"
+    <button
+      type="button"
+      (click)="verify()"
+      [disabled]="!isCodeComplete"
+      class="w-full py-3.5 bg-blue-900 hover:bg-blue-950 dark:bg-blue-800 dark:hover:bg-blue-900 disabled:bg-gray-300 dark:disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-semibold text-base rounded-xl transition duration-200 mb-4"
     >
-      Haz clic para reenviar
+      Verificar cuenta
     </button>
-  </p>
+
+    <p class="text-sm text-gray-500 dark:text-slate-400">
+      ¿No recibiste el código?
+      <button
+        type="button"
+        (click)="resendCode()"
+        class="text-blue-900 dark:text-blue-400 font-semibold underline underline-offset-2 hover:opacity-90"
+      >
+        Reenviar
+      </button>
+    </p>
+
+    <button
+      type="button"
+      (click)="close()"
+      class="mt-6 text-sm text-gray-400 hover:text-gray-600 dark:hover:text-slate-300"
+    >
+      Cerrar
+    </button>
+  }
+
+  <!-- Estado: comprobando -->
+  @if (uiState === 'verifying') {
+    <div class="py-10 flex flex-col items-center gap-4">
+      <div
+        class="w-12 h-12 border-4 border-blue-900/30 border-t-blue-900 rounded-full animate-spin"
+        aria-hidden="true"
+      ></div>
+      <p class="text-gray-700 dark:text-slate-200 font-medium">
+        Verificando código…
+      </p>
+    </div>
+  }
+
+  <!-- Estado: éxito -->
+  @if (uiState === 'success') {
+    <div class="py-4 flex flex-col items-center gap-5">
+      <div
+        class="flex items-center justify-center w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-900/40 shadow-inner"
+      >
+        <svg
+          class="w-11 h-11 text-emerald-600 dark:text-emerald-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2.5"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900 dark:text-slate-50 mb-2">
+          ¡Correo verificado!
+        </h2>
+        <p class="text-sm text-gray-600 dark:text-slate-300">
+          Tu cuenta está activa. Ya puedes iniciar sesión con tu email y
+          contraseña.
+        </p>
+      </div>
+      <button
+        type="button"
+        (click)="goToLogin()"
+        class="w-full py-3.5 bg-blue-900 hover:bg-blue-950 text-white font-semibold rounded-xl transition"
+      >
+        Ir a iniciar sesión
+      </button>
+    </div>
+  }
 </div>

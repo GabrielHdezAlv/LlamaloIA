@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   FormsModule,
@@ -14,12 +15,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { NotificationService } from '../../core/services/notification.service';
-import { log } from 'console';
 import { ModalService } from '../../shared/modals/modal.service';
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
 import { ACCOUNT_STATUS } from '../../shared/models/account-status.enum';
 import { USER_ROLE } from '../../shared/models/user-role.enum';
 import { I18nService, Language } from '../../core/services/i18n.service';
+import { take } from 'rxjs/operators';
 import { signInWithPopup } from 'firebase/auth';
 import { firebaseAuth, googleProvider } from '../../core/services/firebase.config';
 
@@ -124,6 +125,7 @@ export class AuthFormComponent implements OnInit {
 
   private router = inject(Router);
   private modalService = inject(ModalService);
+  private platformId = inject(PLATFORM_ID);
 
   constructor(private route: ActivatedRoute) { }
 
@@ -140,6 +142,26 @@ export class AuthFormComponent implements OnInit {
       this.routeFormTitle = data['formTitle'];
       this.routeFormSubtitle = data['formSubtitle'];
       this.routeButtonText = data['buttonText'];
+    });
+
+    this.route.queryParams.pipe(take(1)).subscribe((params) => {
+      if (
+        isPlatformBrowser(this.platformId) &&
+        params['verify'] === '1' &&
+        params['email']
+      ) {
+        const em = String(params['email']);
+        this.email = em;
+        setTimeout(() => {
+          this.modalService.openEmailVerification({ email: em });
+        }, 400);
+        void this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { verify: null, email: null },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
+      }
     });
   }
 
@@ -175,8 +197,31 @@ export class AuthFormComponent implements OnInit {
         }
         this.loadProfileAndNavigate();
       },
-      error: (err) => {
+      error: (err: { status?: number; error?: { message?: string } }) => {
         console.error('❌ Error en inicio de sesión:', err);
+        const msg = String(err?.error?.message ?? '');
+        const lower = msg.toLowerCase();
+        if (
+          err?.status === 401 &&
+          (lower.includes('verificar') ||
+            lower.includes('verify') ||
+            lower.includes('verification'))
+        ) {
+          this.notificationService.info(
+            this.t.authSuccessVerifyEmail ||
+              'Introduce el código que te enviamos por correo para activar la cuenta.',
+          );
+          setTimeout(() => {
+            if (isPlatformBrowser(this.platformId)) {
+              this.modalService.openEmailVerification({
+                email: this.email,
+                password: this.password,
+              });
+            }
+          }, 400);
+          this.setGlobalLoading(false);
+          return;
+        }
         this.notificationService.error(this.t.authErrorLogin);
         this.setGlobalLoading(false);
       },
@@ -285,14 +330,31 @@ export class AuthFormComponent implements OnInit {
     };
 
     this.userService.RegisterUser(user).subscribe({
-      next: (response) => {
-        // Mostrar notificación de validación de correo
-        this.notificationService.info('Revisa tu correo para el código de verificación.');
-
-        // Redirigir a verify-email después de un breve delay y pasar el email
+      next: (res: {
+        verificationEmailSent?: boolean;
+        token?: string;
+      }) => {
+        if (
+          typeof window !== 'undefined' &&
+          window.localStorage &&
+          res?.token
+        ) {
+          localStorage.setItem('token', res.token);
+        }
+        if (res?.verificationEmailSent === false) {
+          this.notificationService.warning(
+            'No pudimos enviar el correo de verificación. Usa «Reenviar código» en la ventana que se abre o revisa la carpeta de spam. Si el problema continúa, contacta con soporte.',
+          );
+        } else {
+          this.notificationService.info(
+            'Revisa tu correo para el código de verificación.',
+          );
+        }
         setTimeout(() => {
-          this.router.navigate(['/verify-email'], { queryParams: { email: this.email } });
-        }, 1500);
+          if (isPlatformBrowser(this.platformId)) {
+            this.modalService.openEmailVerification({ email: this.email });
+          }
+        }, 600);
       },
       error: (err) => {
         this.notificationService.error(this.t.authErrorRegister);
