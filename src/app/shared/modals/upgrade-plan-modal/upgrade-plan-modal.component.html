@@ -35,7 +35,10 @@
             </span>
           </div>
 
-          <button [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] transition-all duration-300 flex items-center justify-center group shadow ' +
+          <button
+            type="button"
+            (click)="onChoosePlan(plan.id, $event)"
+            [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] transition-all duration-300 flex items-center justify-center group shadow ' +
             (plan.id === 'pro'
               ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90'
               : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">

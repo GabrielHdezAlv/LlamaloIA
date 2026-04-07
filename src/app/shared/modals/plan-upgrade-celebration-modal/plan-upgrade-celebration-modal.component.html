@@ -1,0 +1,62 @@
+<div
+  #modalShell
+  class="upgrade-plan-modal upgrade-plan-modal--spaced min-h-0 max-h-[94vh] overflow-y-auto relative w-full max-w-full">
+  <button
+    *ngIf="showCloseButton"
+    type="button"
+    (click)="close()"
+    class="absolute top-3 right-3 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 dark:hover:text-white transition-colors">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+
+  <div
+    class="upgrade-plan-modal__content relative w-[92%] max-w-[92%] mx-auto md:w-full md:max-w-full">
+    <!-- Misma rejilla y alturas que antes (20rem / 26rem) para el tamaño del recuadro -->
+    <div
+      class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 items-stretch pointer-events-none"
+      aria-hidden="true">
+      @for (slot of placeholderSlots; track slot) {
+        <div class="min-h-[20rem] md:min-h-[26rem] rounded-3xl"></div>
+      }
+    </div>
+
+    <!-- Textos y CTA centrados encima -->
+    <div
+      class="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center px-4 py-8 text-center sm:px-6">
+      <div class="pointer-events-auto flex max-w-xl flex-col items-center">
+        <span
+          class="inline-flex items-center rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-700 dark:bg-white/10 dark:text-gray-200">
+          {{ planBadge }}
+        </span>
+
+        <h2
+          class="mt-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-[1.65rem] md:text-3xl">
+          {{ title }}
+        </h2>
+
+        <p class="mt-4 max-w-lg text-base leading-relaxed text-gray-700 dark:text-gray-300 sm:text-lg">
+          {{ message }}
+        </p>
+
+        <p class="mt-3 max-w-md text-sm leading-relaxed text-gray-600 dark:text-gray-400 sm:text-base">
+          {{ t.planUpgradeCelebrationSubline }}
+        </p>
+
+        <div class="mt-8 flex w-full justify-center sm:mt-10">
+          <button
+            type="button"
+            (click)="continueToDashboard()"
+            class="mx-auto inline-flex shrink-0 items-center justify-center rounded-xl bg-[#1B2559] px-7 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#0a1740] dark:bg-white dark:text-[#1B2559] dark:hover:bg-gray-100 sm:px-9 sm:py-2.5 sm:text-base md:px-10 md:text-[1.05rem]">
+            {{ t.planUpgradeCelebrationContinueDashboard }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="block text-center text-sm text-transparent dark:text-transparent mt-6 mb-1 select-none pointer-events-none" aria-hidden="true">
+    &nbsp;
+  </p>
+</div>

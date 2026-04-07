@@ -53,6 +53,10 @@ import {
   TextModalData,
 } from './text-modal/text-modal.component';
 import { UpgradePlanModalComponent } from './upgrade-plan-modal/upgrade-plan-modal.component';
+import {
+  PlanUpgradeCelebrationModalComponent,
+  PlanUpgradeCelebrationModalData,
+} from './plan-upgrade-celebration-modal/plan-upgrade-celebration-modal.component';
 
 @Injectable({
   providedIn: 'root',
@@ -221,6 +225,17 @@ export class ModalService {
       // El cierre animado lo gestiona el componente (backdrop / Escape / X).
       disableClose: true,
       panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
+      ...this.dialogMotion,
+    });
+  }
+
+  openPlanUpgradeCelebration(data: PlanUpgradeCelebrationModalData) {
+    return this.dialog.open(PlanUpgradeCelebrationModalComponent, {
+      width: '880px',
+      maxWidth: '95vw',
+      disableClose: true,
+      panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
+      data,
       ...this.dialogMotion,
     });
   }

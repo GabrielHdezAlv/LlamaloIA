@@ -644,6 +644,11 @@ body::-webkit-scrollbar {
     @apply text-blue-950;
   }
 
+  /* Solo acerca las letras del nombre (no toca color) */
+  .sidebar-llamalo-wordmark-tight {
+    letter-spacing: -0.07em;
+  }
+
   html.dark .sidebar-logo-text {
     @apply text-white !important;
   }

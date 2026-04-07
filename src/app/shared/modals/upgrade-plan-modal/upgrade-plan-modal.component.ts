@@ -4,14 +4,21 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   viewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { Subject, takeUntil } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { I18nService } from '../../../core/services/i18n.service';
+import {
+  PlanUpgradeCelebrationModalComponent,
+  PlanUpgradeCelebrationModalData,
+} from '../plan-upgrade-celebration-modal/plan-upgrade-celebration-modal.component';
+
+const PLAN_TIER_STORAGE_KEY = 'llamalo_selected_plan_tier';
 
 /** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.48s). */
 const UPGRADE_MODAL_CLOSE_MS = 520;
@@ -25,6 +32,8 @@ const UPGRADE_MODAL_CLOSE_MS = 520;
 })
 export class UpgradePlanModalComponent implements OnInit, OnDestroy {
   private i18nService = inject(I18nService);
+  private matDialog = inject(MatDialog);
+  private platformId = inject(PLATFORM_ID);
   dialogRef = inject(MatDialogRef<UpgradePlanModalComponent>);
   private readonly destroy$ = new Subject<void>();
   private readonly modalShell = viewChild<ElementRef<HTMLElement>>('modalShell');
@@ -119,6 +128,38 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
 
   close(): void {
     this.closeWithAnimation();
+  }
+
+  onChoosePlan(planId: 'free' | 'pro' | 'premium', event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.closing) {
+      return;
+    }
+    if (planId === 'free') {
+      this.closeWithAnimation();
+      return;
+    }
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        localStorage.setItem(PLAN_TIER_STORAGE_KEY, planId);
+      } catch {
+        /* ignore quota / private mode */
+      }
+    }
+    this.closeWithAnimation();
+    window.setTimeout(() => {
+      const data: PlanUpgradeCelebrationModalData = { plan: planId };
+      this.matDialog.open(PlanUpgradeCelebrationModalComponent, {
+        width: '880px',
+        maxWidth: '95vw',
+        disableClose: true,
+        panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
+        data,
+        enterAnimationDuration: '200ms',
+        exitAnimationDuration: '200ms',
+      });
+    }, UPGRADE_MODAL_CLOSE_MS);
   }
 
   private closeWithAnimation(): void {

@@ -1,0 +1,141 @@
+/* Igual que upgrade-plan-modal: blur del panel, backdrop y animación de cierre */
+@keyframes upgrade-plan-shell-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+    filter: blur(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes upgrade-plan-shell-out {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+    filter: blur(10px);
+  }
+}
+
+.upgrade-plan-modal:not(.upgrade-plan-modal--leave) {
+  animation: upgrade-plan-shell-in 0.72s cubic-bezier(0.2, 0.85, 0.25, 1) both;
+}
+
+.upgrade-plan-modal.upgrade-plan-modal--leave {
+  animation: upgrade-plan-shell-out 0.48s cubic-bezier(0.45, 0, 0.55, 1) forwards !important;
+  pointer-events: none;
+}
+
+@keyframes plan-card-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.plan-card-fade-in {
+  animation: plan-card-fade-in 0.58s cubic-bezier(0.28, 1, 0.4, 1) forwards;
+  opacity: 0;
+}
+
+@media (min-width: 768px) {
+  @keyframes plan-card-pro-fade-in {
+    from {
+      opacity: 0;
+      transform: scale(1.08) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.08) translateY(0);
+    }
+  }
+
+  .plan-card-pro {
+    transform-origin: center;
+  }
+
+  .plan-card-pro.plan-card-fade-in {
+    animation: plan-card-pro-fade-in 0.58s cubic-bezier(0.28, 1, 0.4, 1) forwards;
+  }
+
+  .plan-card-pro:hover {
+    transform: scale(1.1);
+  }
+
+  .pro-inner-padding {
+    padding: 1rem 1.25rem !important;
+  }
+}
+
+.plan-pro-glow {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.dark .plan-pro-glow {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+::ng-deep .upgrade-plan-dialog .mat-mdc-dialog-container,
+::ng-deep .upgrade-plan-dialog .mat-mdc-dialog-surface,
+::ng-deep .upgrade-plan-dialog .mdc-dialog__surface {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+::ng-deep body.upgrade-plan-modal-open .cdk-overlay-backdrop {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.25) !important;
+}
+
+::ng-deep body.upgrade-plan-modal-open html.dark .cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+::ng-deep body.upgrade-plan-modal-leaving .cdk-overlay-backdrop {
+  transition:
+    opacity 0.48s cubic-bezier(0.45, 0, 0.55, 1),
+    backdrop-filter 0.48s ease !important;
+  opacity: 0 !important;
+  backdrop-filter: blur(0) !important;
+  -webkit-backdrop-filter: blur(0) !important;
+}
+
+.upgrade-plan-modal {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+:host-context(.dark) .upgrade-plan-modal {
+  background-color: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.upgrade-plan-modal--spaced {
+  padding: 3rem 2rem 1.25rem !important;
+}
+
+.upgrade-plan-modal__content {
+  max-width: 760px;
+  max-height: 82vh;
+  margin-left: auto;
+  margin-right: auto;
+}

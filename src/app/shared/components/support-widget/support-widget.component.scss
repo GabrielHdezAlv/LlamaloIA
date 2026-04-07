@@ -24,7 +24,7 @@
 
         .widget-content {
             flex: 1;
-            padding: 24px;
+            padding: 24px 24px 14px;
             background: #f8fafc;
             display: flex;
             flex-direction: column;
@@ -165,24 +165,26 @@
             }
 
             .controls-wrapper {
+                position: relative;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 12px;
-                padding-bottom: 48px;
+                justify-content: flex-end;
+                flex-shrink: 0;
                 width: 100%;
+                padding-top: 8px;
+                padding-bottom: 8px;
+                gap: 20px;
 
                 .buttons-row {
                     display: flex;
                     gap: 16px;
                     justify-content: center;
+                    position: relative;
+                    z-index: 1;
                 }
 
                 .branding-footer {
-                    position: absolute;
-                    bottom: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
                     width: calc(100% - 20px);
                     max-width: 260px;
                     display: flex;
@@ -191,6 +193,7 @@
                     gap: 6px;
                     text-align: center;
                     pointer-events: auto;
+                    flex-shrink: 0;
                 }
 
                 .widget-contact-inline {
@@ -693,7 +696,7 @@
             box-shadow: none;
 
             .widget-content {
-                padding: 28px 24px 40px;
+                padding: 28px 24px 24px;
                 height: 100%;
                 overflow-y: auto;
 
@@ -714,8 +717,8 @@
                 }
 
                 .controls-wrapper {
-                    gap: 16px;
-                    padding-bottom: 48px;
+                    padding-bottom: 12px;
+                    gap: 22px;
 
                     .mic-btn,
                     .action-btn {

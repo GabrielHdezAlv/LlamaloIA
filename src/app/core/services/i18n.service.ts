@@ -646,6 +646,13 @@ export interface Translations {
   upgradeComp8: string;
   upgradeComp9: string;
   upgradeComp10: string;
+  planUpgradeCelebrationTitlePro: string;
+  planUpgradeCelebrationTitlePremium: string;
+  planUpgradeCelebrationMessagePro: string;
+  planUpgradeCelebrationMessagePremium: string;
+  planUpgradeCelebrationSubline: string;
+  planUpgradeCelebrationButton: string;
+  planUpgradeCelebrationContinueDashboard: string;
 
   // Company setup / onboarding
   skipLabel: string;
@@ -1361,6 +1368,16 @@ export class I18nService {
       upgradeComp8: 'Gestor dedicado',
       upgradeComp9: 'SLA',
       upgradeComp10: 'Precio',
+      planUpgradeCelebrationTitlePro: '¡Bienvenido a tu nuevo plan Pro!',
+      planUpgradeCelebrationTitlePremium: '¡Bienvenido a tu nuevo plan Premium!',
+      planUpgradeCelebrationMessagePro:
+        'Has dado un gran salto: más agentes, minutos e integraciones para seguir creciendo con Llamalo.',
+      planUpgradeCelebrationMessagePremium:
+        'Estás en el plan más completo: capacidad ampliada, prioridad y el mejor acompañamiento.',
+      planUpgradeCelebrationSubline:
+        'Desde el panel puedes seguir creando agentes, revisar métricas y conectar todo lo que tu negocio necesita.',
+      planUpgradeCelebrationButton: '¡Genial!',
+      planUpgradeCelebrationContinueDashboard: 'Continuar al panel',
 
       // Company setup
       skipLabel: 'Saltar',
@@ -2064,6 +2081,16 @@ export class I18nService {
       upgradeComp8: 'Dedicated manager',
       upgradeComp9: 'SLA',
       upgradeComp10: 'Price',
+      planUpgradeCelebrationTitlePro: 'Welcome to your new Pro plan!',
+      planUpgradeCelebrationTitlePremium: 'Welcome to your new Premium plan!',
+      planUpgradeCelebrationMessagePro:
+        'Great step forward: more agents, minutes, and integrations to grow with Llamalo.',
+      planUpgradeCelebrationMessagePremium:
+        'You are on our fullest plan: expanded capacity, priority support, and the best experience.',
+      planUpgradeCelebrationSubline:
+        'In your dashboard you can keep building agents, track metrics, and connect everything your business needs.',
+      planUpgradeCelebrationButton: 'Awesome!',
+      planUpgradeCelebrationContinueDashboard: 'Continue to dashboard',
 
       // Company setup
       skipLabel: 'Skip',
