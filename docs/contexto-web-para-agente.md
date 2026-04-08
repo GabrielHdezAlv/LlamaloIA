@@ -158,7 +158,7 @@ Página de **configuración** con **sidebar interno** (en desktop) y **pestañas
 - **Eliminar cuenta**: bloque con explicación y botón **“Eliminar cuenta”** (rojo). Si hay **eliminación programada**, se muestra aviso con días restantes y opción de cancelar la eliminación.
 
 **Facturación**
-- **Suscripción actual**: texto con minutos incluidos y plan (p. ej. “Plan Básico”).
+- **Suscripción actual**: texto con minutos incluidos y plan (p. ej. “Plan Gratis”).
 - Botones: **Cancelar suscripción**, **Editar método de pago**, **Historial de facturas**.
 - Botón **“Mejorar plan”** (navega a `/dashboard/upgrade-plan`).
 - Texto “Protegido por Stripe” (o similar).

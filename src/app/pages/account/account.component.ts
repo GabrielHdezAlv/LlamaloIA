@@ -136,7 +136,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   // Facturación
   currentPlanMinutes: number | null = null;
   isSaving = false;
-  currentPlanName: string = 'Básico';
+  currentPlanName: string = 'Gratis';
 
   // Integraciones (mismo patrón visual que edit-agent / connect-phone-step)
   twilioConnectionsExpanded = false;
@@ -294,11 +294,15 @@ export class AccountComponent implements OnInit, OnDestroy {
       this.currentPlanMinutes = user.minutesLimit ?? 100;
       
       const planMap: Record<string, string> = {
-        basic: 'Básico',
+        gratis: 'Gratis',
+        basic: 'Gratis',
+        free: 'Gratis',
         pro: 'Pro',
-        premium: 'Premium'
+        premium: 'Premium',
       };
-      this.currentPlanName = user.plan ? planMap[user.plan] || 'Básico' : 'Básico';
+      this.currentPlanName = user.plan
+        ? planMap[user.plan] || 'Gratis'
+        : 'Gratis';
 
       // Limpiar URL de imagen de timestamps existentes para inicialización correcta
       const imageUrl = user.profileImage || '';
