@@ -268,9 +268,9 @@
     outline: none !important;
   }
   
-  // Aumentar ancho en 3xl
+  // Aumentar ancho en 3xl (no aplicar al modal de celebración de plan: otro ancho)
   @media (min-width: 1920px) {
-    .cdk-overlay-pane {
+    .cdk-overlay-pane:not(:has(app-plan-upgrade-celebration-modal)) {
       width: 576px !important; // max-w-xl = 576px
       max-width: 576px !important;
     }

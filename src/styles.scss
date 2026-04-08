@@ -160,6 +160,21 @@ body::-webkit-scrollbar {
   }
 }
 
+/* Modal celebración de plan: tokens en tailwind.config.js (plan-celebration). !important para ganar a estilos inline de Material. */
+@layer components {
+  .cdk-overlay-pane.plan-celebration-dialog {
+    @apply box-border;
+    width: theme('width.plan-celebration') !important;
+    max-width: theme('maxWidth.plan-celebration') !important;
+  }
+
+  .cdk-overlay-pane.plan-celebration-dialog .mat-mdc-dialog-container {
+    @apply box-border;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
 /* =========================
    Onboarding (zona 3) hero animations
    ========================= */

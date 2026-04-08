@@ -13,6 +13,16 @@ module.exports = {
         '3xl': '1900px',
         '4xl': '2500px',
       },
+      /** Modal plan celebration: un solo lugar para el ancho/alto (uso en HTML y @apply global). */
+      width: {
+        "plan-celebration": "min(23.75rem, calc(100vw - 2rem))",
+      },
+      maxWidth: {
+        "plan-celebration": "min(23.75rem, calc(100vw - 2rem))",
+      },
+      maxHeight: {
+        "plan-celebration": "min(90vh, 45rem)",
+      },
     },
   },
   plugins: [],

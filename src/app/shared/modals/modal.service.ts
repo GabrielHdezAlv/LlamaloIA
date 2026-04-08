@@ -231,10 +231,8 @@ export class ModalService {
 
   openPlanUpgradeCelebration(data: PlanUpgradeCelebrationModalData) {
     return this.dialog.open(PlanUpgradeCelebrationModalComponent, {
-      width: '880px',
-      maxWidth: '95vw',
       disableClose: true,
-      panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
+      panelClass: ['custom-dialog-container', 'plan-celebration-dialog'],
       data,
       ...this.dialogMotion,
     });

@@ -658,6 +658,9 @@ export interface Translations {
   planUpgradeCelebrationSubline: string;
   planUpgradeCelebrationButton: string;
   planUpgradeCelebrationContinueDashboard: string;
+  planUpgradeCelebrationWelcomeTop: string;
+  planUpgradeCelebrationPlanWord: string;
+  planUpgradeCelebrationBenefitsHeading: string;
 
   // Company setup / onboarding
   skipLabel: string;
@@ -1387,7 +1390,10 @@ export class I18nService {
       planUpgradeCelebrationSubline:
         'Desde el panel puedes seguir creando agentes, revisar métricas y conectar todo lo que tu negocio necesita.',
       planUpgradeCelebrationButton: '¡Genial!',
-      planUpgradeCelebrationContinueDashboard: 'Continuar al panel',
+      planUpgradeCelebrationContinueDashboard: 'Volver al dashboard',
+      planUpgradeCelebrationWelcomeTop: 'Bienvenido a tu nuevo plan',
+      planUpgradeCelebrationPlanWord: 'Plan',
+      planUpgradeCelebrationBenefitsHeading: 'Ventajas adquiridas',
 
       // Company setup
       skipLabel: 'Saltar',
@@ -2105,7 +2111,10 @@ export class I18nService {
       planUpgradeCelebrationSubline:
         'In your dashboard you can keep building agents, track metrics, and connect everything your business needs.',
       planUpgradeCelebrationButton: 'Awesome!',
-      planUpgradeCelebrationContinueDashboard: 'Continue to dashboard',
+      planUpgradeCelebrationContinueDashboard: 'Back to dashboard',
+      planUpgradeCelebrationWelcomeTop: 'Welcome to your new plan',
+      planUpgradeCelebrationPlanWord: 'Plan',
+      planUpgradeCelebrationBenefitsHeading: 'Benefits included',
 
       // Company setup
       skipLabel: 'Skip',

@@ -9,10 +9,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
 import { Subject, takeUntil } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { I18nService } from '../../../core/services/i18n.service';
+import { upgradePlanFeatureRows } from '../upgrade-plan-modal/pricing-plan-features';
 
 export type PlanUpgradeCelebrationPlan = 'pro' | 'premium';
 
@@ -20,53 +20,52 @@ export interface PlanUpgradeCelebrationModalData {
   plan: PlanUpgradeCelebrationPlan;
 }
 
-/** Misma duración que upgrade-plan-modal (~0.48s salida + margen). */
-const CELEBRATION_MODAL_CLOSE_MS = 520;
+const CELEBRATION_MODAL_CLOSE_MS = 420;
 
 @Component({
   selector: 'app-plan-upgrade-celebration-modal',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule],
   templateUrl: './plan-upgrade-celebration-modal.component.html',
   styleUrls: ['./plan-upgrade-celebration-modal.component.scss'],
+  host: { class: 'block w-full min-w-0 box-border' },
 })
 export class PlanUpgradeCelebrationModalComponent implements OnInit, OnDestroy {
   readonly planData = inject<PlanUpgradeCelebrationModalData>(MAT_DIALOG_DATA);
-  /** Reserva la misma altura que el modal de pricing (tres columnas). */
-  readonly placeholderSlots: readonly [1, 2, 3] = [1, 2, 3];
-  private i18nService = inject(I18nService);
-  private router = inject(Router);
+  private readonly i18nService = inject(I18nService);
+  private readonly router = inject(Router);
   dialogRef = inject(MatDialogRef<PlanUpgradeCelebrationModalComponent>);
   private readonly destroy$ = new Subject<void>();
   private readonly modalShell = viewChild<ElementRef<HTMLElement>>('modalShell');
-  showCloseButton = false;
   private closing = false;
 
   get t() {
     return this.i18nService.getTranslations();
   }
 
-  get title(): string {
+  get planDisplayName(): string {
     return this.planData.plan === 'premium'
-      ? this.t.planUpgradeCelebrationTitlePremium
-      : this.t.planUpgradeCelebrationTitlePro;
+      ? this.t.upgradePlanPremium
+      : this.t.upgradePlanPro;
   }
 
-  get message(): string {
-    return this.planData.plan === 'premium'
-      ? this.t.planUpgradeCelebrationMessagePremium
-      : this.t.planUpgradeCelebrationMessagePro;
+  /** Por si la clave i18n no está en el objeto en runtime (caché antigua, etc.). */
+  get benefitsHeading(): string {
+    const raw = this.t.planUpgradeCelebrationBenefitsHeading;
+    if (raw != null && String(raw).trim() !== '') {
+      return raw;
+    }
+    return this.i18nService.selectedLanguage().code === 'en'
+      ? 'Benefits included'
+      : 'Ventajas adquiridas';
   }
 
-  get planBadge(): string {
-    return this.planData.plan === 'premium' ? this.t.upgradePlanPremium : this.t.upgradePlanPro;
+  get celebrationFeatures() {
+    return upgradePlanFeatureRows(this.planData.plan, this.t);
   }
 
   ngOnInit(): void {
-    document.body.classList.add('upgrade-plan-modal-open');
-    setTimeout(() => {
-      this.showCloseButton = true;
-    }, 200);
+    document.body.classList.add('plan-celebration-modal-open');
 
     this.dialogRef
       .backdropClick()
@@ -89,26 +88,22 @@ export class PlanUpgradeCelebrationModalComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    document.body.classList.remove('upgrade-plan-modal-open');
-    document.body.classList.remove('upgrade-plan-modal-leaving');
+    document.body.classList.remove('plan-celebration-modal-open');
+    document.body.classList.remove('plan-celebration-modal-leaving');
   }
 
-  close(): void {
-    this.closeWithAnimation();
-  }
-
-  continueToDashboard(): void {
+  goToDashboard(): void {
     if (this.closing) {
       return;
     }
     this.closing = true;
     const el = this.modalShell()?.nativeElement;
-    el?.classList.add('upgrade-plan-modal--leave');
-    document.body.classList.add('upgrade-plan-modal-leaving');
+    el?.classList.add('plan-celebration-shell--leave');
+    document.body.classList.add('plan-celebration-modal-leaving');
     setTimeout(() => {
-      document.body.classList.remove('upgrade-plan-modal-leaving');
+      document.body.classList.remove('plan-celebration-modal-leaving');
       this.dialogRef.close('dashboard');
-      void this.router.navigate(['/dashboard/home']);
+      void this.router.navigate(['/dashboard']);
     }, CELEBRATION_MODAL_CLOSE_MS);
   }
 
@@ -118,10 +113,10 @@ export class PlanUpgradeCelebrationModalComponent implements OnInit, OnDestroy {
     }
     this.closing = true;
     const el = this.modalShell()?.nativeElement;
-    el?.classList.add('upgrade-plan-modal--leave');
-    document.body.classList.add('upgrade-plan-modal-leaving');
+    el?.classList.add('plan-celebration-shell--leave');
+    document.body.classList.add('plan-celebration-modal-leaving');
     setTimeout(() => {
-      document.body.classList.remove('upgrade-plan-modal-leaving');
+      document.body.classList.remove('plan-celebration-modal-leaving');
       this.dialogRef.close();
     }, CELEBRATION_MODAL_CLOSE_MS);
   }
