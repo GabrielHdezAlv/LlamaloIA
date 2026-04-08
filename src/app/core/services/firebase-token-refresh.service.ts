@@ -2,6 +2,7 @@ import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { firebaseAuth } from './firebase.config';
 import { environment } from '../../../environments/environment';
+import { ProfileEventsClientService } from './profile-events-client.service';
 
 /** Clave en localStorage para renovar el ID token (login email/contraseña vía REST). */
 export const FIREBASE_REFRESH_TOKEN_STORAGE_KEY = 'firebase_refresh_token';
@@ -19,6 +20,7 @@ const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 })
 export class FirebaseTokenRefreshService {
   private platformId = inject(PLATFORM_ID);
+  private profileEventsClient = inject(ProfileEventsClientService);
   private intervalId: ReturnType<typeof setInterval> | null = null;
 
   /** Inicia el temporizador (solo navegador). Idempotente. */
@@ -49,6 +51,7 @@ export class FirebaseTokenRefreshService {
     if (typeof window === 'undefined' || !window.localStorage) return;
     if (response.token) {
       localStorage.setItem('token', response.token);
+      queueMicrotask(() => this.profileEventsClient.connectIfLoggedIn());
     }
     if (response.refreshToken) {
       localStorage.setItem(
@@ -75,6 +78,7 @@ export class FirebaseTokenRefreshService {
       try {
         const idToken = await user.getIdToken(true);
         localStorage.setItem('token', idToken);
+        queueMicrotask(() => this.profileEventsClient.connectIfLoggedIn());
       } catch {
         // Sesión SDK inválida; no limpiamos aquí (el 401 global lo hará).
       }
@@ -111,6 +115,7 @@ export class FirebaseTokenRefreshService {
 
       if (data.id_token) {
         localStorage.setItem('token', data.id_token);
+        queueMicrotask(() => this.profileEventsClient.connectIfLoggedIn());
       }
       if (data.refresh_token) {
         localStorage.setItem(

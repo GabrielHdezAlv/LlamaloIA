@@ -19,6 +19,11 @@ export class UserService {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
+  /** Base URL del backend (HTTP); misma base para WebSocket de perfil. */
+  getApiBaseUrl(): string {
+    return this.apiUrl;
+  }
+
   private getAuthHeaders(): HttpHeaders {
     let token = '';
     if (

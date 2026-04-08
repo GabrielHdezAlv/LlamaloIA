@@ -8,6 +8,7 @@ import {
   FirebaseTokenRefreshService,
   FIREBASE_REFRESH_TOKEN_STORAGE_KEY,
 } from './firebase-token-refresh.service';
+import { ProfileEventsClientService } from './profile-events-client.service';
 
 /**
  * Limpieza unificada de sesión (JWT, Firebase, perfil en memoria, Twilio local).
@@ -20,8 +21,10 @@ export class AuthSessionService {
   private twilioStorage = inject(TwilioStorage);
   private platformId = inject(PLATFORM_ID);
   private tokenRefresh = inject(FirebaseTokenRefreshService);
+  private profileEventsClient = inject(ProfileEventsClientService);
 
   async clearSession(): Promise<void> {
+    this.profileEventsClient.disconnect();
     this.tokenRefresh.stop();
     if (isPlatformBrowser(this.platformId)) {
       if (typeof window !== 'undefined' && window.localStorage) {
