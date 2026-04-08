@@ -5,7 +5,7 @@
     *ngIf="showCloseButton"
     type="button"
     (click)="close()"
-    class="absolute top-3 right-3 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 dark:hover:text-white transition-colors">
+    class="absolute top-3 right-3 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 transition-colors dark:bg-white/10 dark:text-white dark:hover:bg-white/18 dark:hover:text-white dark:ring-1 dark:ring-white/15">
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
@@ -27,7 +27,7 @@
       class="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center px-4 py-8 text-center sm:px-6">
       <div class="pointer-events-auto flex max-w-xl flex-col items-center">
         <span
-          class="inline-flex items-center rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-700 dark:bg-white/10 dark:text-gray-200">
+          class="inline-flex items-center rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-700 dark:bg-white/12 dark:text-gray-100">
           {{ planBadge }}
         </span>
 
@@ -48,7 +48,7 @@
           <button
             type="button"
             (click)="continueToDashboard()"
-            class="mx-auto inline-flex shrink-0 items-center justify-center rounded-xl bg-[#1B2559] px-7 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#0a1740] dark:bg-white dark:text-[#1B2559] dark:hover:bg-gray-100 sm:px-9 sm:py-2.5 sm:text-base md:px-10 md:text-[1.05rem]">
+            class="mx-auto inline-flex shrink-0 items-center justify-center rounded-xl bg-[#1B2559] px-7 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#0a1740] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1B2559] focus-visible:ring-offset-2 dark:bg-[#3d4f8a] dark:text-white dark:shadow-lg dark:shadow-black/25 dark:ring-1 dark:ring-white/20 dark:hover:bg-[#4a5fa0] dark:focus-visible:ring-white/40 dark:focus-visible:ring-offset-transparent sm:px-9 sm:py-2.5 sm:text-base md:px-10 md:text-[1.05rem]">
             {{ t.planUpgradeCelebrationContinueDashboard }}
           </button>
         </div>
