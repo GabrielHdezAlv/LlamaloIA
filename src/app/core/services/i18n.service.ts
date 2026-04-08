@@ -279,6 +279,11 @@ export interface Translations {
   plan: string;
   nextBilling: string;
   minutesWord: string;
+  /** Uso mensual de minutos en cuenta / facturación */
+  minuteUsageHeading: string;
+  outOfMinutesBannerTitle: string;
+  outOfMinutesBannerDesc: string;
+  planUnlimitedShort: string;
   withPlan: string;
   basicPlan: string;
   giftsTitle: string;
@@ -1003,6 +1008,11 @@ export class I18nService {
       plan: 'Plan',
       nextBilling: 'Próxima facturación',
       minutesWord: 'Minutos',
+      minuteUsageHeading: 'Uso del mes (UTC)',
+      outOfMinutesBannerTitle: 'Sin minutos disponibles este mes',
+      outOfMinutesBannerDesc:
+        'No se atenderán llamadas entrantes hasta que tengas cupo. Sube de plan, obtén minutos extra o espera al siguiente periodo según tu caso.',
+      planUnlimitedShort: 'Ilimitado (Premium)',
       withPlan: 'con el plan',
       basicPlan: 'Básico',
       giftsTitle: 'Regalos',
@@ -1716,6 +1726,11 @@ export class I18nService {
       plan: 'Plan',
       nextBilling: 'Next billing',
       minutesWord: 'Minutes',
+      minuteUsageHeading: 'Usage this month (UTC)',
+      outOfMinutesBannerTitle: 'No minutes left this month',
+      outOfMinutesBannerDesc:
+        'Inbound calls will not be answered until you have quota. Upgrade your plan, earn extra minutes, or wait for the next period as applicable.',
+      planUnlimitedShort: 'Unlimited (Premium)',
       withPlan: 'with the plan',
       basicPlan: 'Basic',
       giftsTitle: 'Gifts',

@@ -461,6 +461,19 @@
         </h2>
 
         <div class="space-y-3">
+          @if (showOutOfMinutesBanner()) {
+          <div
+            class="rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 dark:border-red-900/60 dark:bg-red-950/40"
+            role="alert">
+            <p class="text-xs font-semibold text-red-900 dark:text-red-100">
+              {{ t.outOfMinutesBannerTitle }}
+            </p>
+            <p class="mt-1 text-[11px] lg:text-xs text-red-800/95 dark:text-red-100/90 leading-snug">
+              {{ t.outOfMinutesBannerDesc }}
+            </p>
+          </div>
+          }
+
           <!-- Suscripción Actual -->
           <div>
             <h3
@@ -471,6 +484,18 @@
               {{ currentPlanMinutes ?? "---" }} {{ t.minutesWord }}
               {{ t.withPlan }} <strong>{{ currentPlanName }}</strong>
             </p>
+            @if (minuteQuotaView(); as q) {
+            <p
+              class="mt-2 text-[11px] lg:text-xs text-gray-600 dark:text-gray-400 leading-snug">
+              <span class="font-medium text-gray-800 dark:text-gray-200">{{ t.minuteUsageHeading }}:</span>
+              @if (q.mode === 'unlimited') {
+              {{ q.used | number : "1.0-1" }} {{ t.minutesWord }} · {{ t.planUnlimitedShort }}
+              } @else {
+              {{ q.used | number : "1.0-1" }} / {{ q.total | number : "1.0-1" }} {{ t.minutesWord }}
+              ({{ t.remainingMinutes }}: {{ q.remaining | number : "1.0-1" }})
+              }
+            </p>
+            }
           </div>
 
           <!-- Botones de Acción -->
