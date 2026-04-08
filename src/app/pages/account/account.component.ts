@@ -1142,9 +1142,13 @@ export class AccountComponent implements OnInit, OnDestroy {
       await firstValueFrom(this.userService.changePlan(planType));
       await this.userStore.loadUserProfile();
       this.notificationService.success('Plan actualizado correctamente');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error changing plan:', error);
-      this.notificationService.error('Error al actualizar el plan');
+      const httpErr = error as { error?: { message?: string } };
+      const msg =
+        httpErr?.error?.message ||
+        'Error al actualizar el plan (en producción el cambio manual puede estar desactivado).';
+      this.notificationService.error(msg);
     } finally {
       this.isSaving = false;
     }
