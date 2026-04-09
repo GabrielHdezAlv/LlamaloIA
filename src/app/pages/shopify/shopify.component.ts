@@ -1,4 +1,4 @@
-import { afterNextRender, Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { I18nService } from '../../core/services/i18n.service';
 
 const MONTHS_ES_SHORT = [
@@ -26,27 +26,8 @@ const MONTHS_ES_SHORT = [
 })
 export class ShopifyComponent {
   private i18n = inject(I18nService);
-  private destroyRef = inject(DestroyRef);
 
-  /** Clases de tema Polaris (light / dark) según `html.dark` en la app. */
-  readonly polarisWrapperClass = signal('p-theme-light shopify-polaris-root min-h-screen');
-
-  constructor() {
-    afterNextRender(() => {
-      const root = document.documentElement;
-      const sync = () => {
-        const dark = root.classList.contains('dark');
-        this.polarisWrapperClass.set(
-          `${dark ? 'p-theme-dark-experimental' : 'p-theme-light'} shopify-polaris-root min-h-screen`
-        );
-      };
-      sync();
-      const ob = new MutationObserver(sync);
-      ob.observe(root, { attributes: true, attributeFilter: ['class'] });
-      this.destroyRef.onDestroy(() => ob.disconnect());
-    });
-  }
-
+  /** Solo modo claro (embed Shopify); no se sigue `html.dark` de la app. */
   readonly pageTitle = 'Resumen de tu tienda';
   readonly extraSectionTitle = 'Detalle operativo';
 

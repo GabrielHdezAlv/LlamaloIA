@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -12,6 +12,10 @@ import { I18nService } from '../../../core/services/i18n.service';
 export interface TextModalData {
   title?: string;
   message?: string;
+  initialName?: string;
+  initialContent?: string;
+  /** Si viene definido, el modal actúa como edición y se devuelve en el cierre. */
+  sourceId?: string;
 }
 
 @Component({
@@ -21,7 +25,7 @@ export interface TextModalData {
   templateUrl: './text-modal.component.html',
   styleUrls: ['./text-modal.component.scss'],
 })
-export class TextModalComponent {
+export class TextModalComponent implements OnInit {
   dialogRef = inject(MatDialogRef<TextModalComponent, any>);
   data: TextModalData = inject(MAT_DIALOG_DATA);
   private i18nService = inject(I18nService);
@@ -31,6 +35,19 @@ export class TextModalComponent {
 
   get t() {
     return this.i18nService.getTranslations();
+  }
+
+  get isEditMode(): boolean {
+    return this.data.sourceId != null && this.data.sourceId !== '';
+  }
+
+  ngOnInit(): void {
+    if (this.data.initialName != null) {
+      this.name = this.data.initialName;
+    }
+    if (this.data.initialContent != null) {
+      this.textContent = this.data.initialContent;
+    }
   }
 
   isDarkMode(): boolean {
@@ -48,7 +65,8 @@ export class TextModalComponent {
   onConfirm(): void {
     this.dialogRef.close({
       content: this.textContent,
-      name: this.name || 'Texto manual',
+      name: this.name || this.t.manualTextDefault,
+      sourceId: this.data.sourceId,
     });
   }
 }

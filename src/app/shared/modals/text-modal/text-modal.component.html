@@ -48,7 +48,7 @@
     </button>
     <button (click)="onConfirm()" [disabled]="!textContent.trim()"
       class="px-5 py-2.5 rounded-xl text-sm font-semibold bg-black dark:bg-[#FFFFFF] text-white dark:text-[#000001] shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:bg-gray-800  disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-md transition-all duration-200 flex items-center">
-      <span>Añadir documento</span>
+      <span>{{ isEditMode ? t.saveChanges : t.addTextDocument }}</span>
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
         width="16" height="16" class="ml-2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

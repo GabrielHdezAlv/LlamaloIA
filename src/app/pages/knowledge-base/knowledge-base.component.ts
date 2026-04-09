@@ -278,9 +278,131 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result && result.content) {
+      if (!result?.content) {
+        return;
+      }
+      if (result.sourceId) {
+        this.patchKnowledgeSourceAfterEdit(result.sourceId, {
+          name: result.name,
+          content: result.content,
+          type: 'text',
+        });
+      } else {
         this.createTextSource(result.content, result.name || this.t.manualTextDefault);
       }
+    });
+  }
+
+  canEditKnowledgeSource(source: KnowledgeSource): boolean {
+    if (source.status !== 'completed') {
+      return false;
+    }
+    if (source.type === 'text') {
+      return !!source.hasDownloadableContent;
+    }
+    if (source.type === 'web') {
+      return !!(source.originalUrl && source.originalUrl.trim());
+    }
+    return false;
+  }
+
+  editKnowledgeSource(source: KnowledgeSource): void {
+    if (!this.canEditKnowledgeSource(source)) {
+      return;
+    }
+
+    if (source.type === 'text') {
+      this.knowledgeBaseService.downloadKnowledgeSource(source.id).subscribe({
+        next: (blob) => {
+          void blob.text().then((content) => {
+            const dialogRef = this.modalService.openText({
+              title: this.t.editKnowledgeSource,
+              initialName: source.name,
+              initialContent: content,
+              sourceId: source.id,
+            });
+            dialogRef.afterClosed().subscribe((result: any) => {
+              if (result?.content && result.sourceId) {
+                this.patchKnowledgeSourceAfterEdit(result.sourceId, {
+                  name: result.name,
+                  content: result.content,
+                  type: 'text',
+                });
+              }
+            });
+          });
+        },
+        error: (err) => {
+          console.error('Error loading text for edit:', err);
+          this.notificationService.error(this.t.errorDownloadingKnowledge);
+        },
+      });
+      return;
+    }
+
+    if (source.type === 'web') {
+      const dialogRef = this.modalService.openWeb({
+        title: this.t.editKnowledgeSource,
+        editSourceId: source.id,
+        initialFullUrl: source.originalUrl,
+        initialName: source.name,
+      });
+      dialogRef.afterClosed().subscribe((result: any) => {
+        if (result?.sourceId && result.url) {
+          if (result.url.length > 2048) {
+            this.notificationService.error(this.t.urlMaxError);
+            return;
+          }
+          this.patchKnowledgeSourceAfterEdit(result.sourceId, {
+            name: result.name,
+            url: result.url,
+            type: 'web',
+          });
+        }
+      });
+    }
+  }
+
+  private patchKnowledgeSourceAfterEdit(
+    id: string,
+    body: Partial<CreateKnowledgeSourceRequest>,
+  ): void {
+    if (body.content != null && body.content.length > 50000) {
+      this.notificationService.error(this.t.textMaxError);
+      return;
+    }
+    if (body.url != null && body.url.length > 2048) {
+      this.notificationService.error(this.t.urlMaxError);
+      return;
+    }
+    this.isLoading = true;
+    this.knowledgeBaseService.updateKnowledgeSource(id, body).subscribe({
+      next: (response) => {
+        const updated = response?.knowledgeSource;
+        if (updated?.id) {
+          this.knowledgeSources = this.knowledgeSources.map((s) =>
+            s.id === id
+              ? {
+                  ...s,
+                  ...updated,
+                  createdAt: new Date(updated.createdAt),
+                  updatedAt: new Date(updated.updatedAt),
+                  hasDownloadableContent: !!updated.hasDownloadableContent,
+                }
+              : s,
+          );
+        } else {
+          this.loadKnowledgeSources();
+        }
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error updating knowledge source:', err);
+        this.notificationService.error(this.t.errorUpdatingKnowledge);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
     });
   }
 

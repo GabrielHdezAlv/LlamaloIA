@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -12,6 +12,10 @@ import { I18nService } from '../../../core/services/i18n.service';
 export interface WebModalData {
   title?: string;
   message?: string;
+  /** URL completa al abrir en modo edición (https://... o http://...). */
+  initialFullUrl?: string;
+  editSourceId?: string;
+  initialName?: string;
 }
 
 @Component({
@@ -21,7 +25,7 @@ export interface WebModalData {
   templateUrl: './web-modal.component.html',
   styleUrls: ['./web-modal.component.scss'],
 })
-export class WebModalComponent {
+export class WebModalComponent implements OnInit {
   dialogRef = inject(MatDialogRef<WebModalComponent, any>);
   data: WebModalData = inject(MAT_DIALOG_DATA);
   private i18nService = inject(I18nService);
@@ -36,6 +40,27 @@ export class WebModalComponent {
 
   get t() {
     return this.i18nService.getTranslations();
+  }
+
+  get isEditMode(): boolean {
+    return this.data.editSourceId != null && this.data.editSourceId !== '';
+  }
+
+  ngOnInit(): void {
+    const full = this.data.initialFullUrl?.trim();
+    if (!full) {
+      return;
+    }
+    const lower = full.toLowerCase();
+    if (lower.startsWith('https://')) {
+      this.urlProtocol = 'https://';
+      this.url = full.slice(8);
+    } else if (lower.startsWith('http://')) {
+      this.urlProtocol = 'http://';
+      this.url = full.slice(7);
+    } else {
+      this.url = full;
+    }
   }
 
   get displayedLinks(): string[] {
@@ -134,10 +159,18 @@ export class WebModalComponent {
   onConfirm(): void {
     if (this.url.trim()) {
       const fullUrl = `${this.urlProtocol}${this.url.trim()}`;
-      this.dialogRef.close({
-        url: fullUrl,
-        name: `Web source - ${this.url}`,
-      });
+      if (this.isEditMode) {
+        this.dialogRef.close({
+          url: fullUrl,
+          name: this.data.initialName?.trim() || `Web source - ${this.url.trim()}`,
+          sourceId: this.data.editSourceId,
+        });
+      } else {
+        this.dialogRef.close({
+          url: fullUrl,
+          name: `Web source - ${this.url}`,
+        });
+      }
     }
   }
 

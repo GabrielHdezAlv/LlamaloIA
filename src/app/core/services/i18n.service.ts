@@ -493,12 +493,15 @@ export interface Translations {
   viewPreview: string;
   downloadKnowledgeFile: string;
   errorDownloadingKnowledge: string;
+  editKnowledgeSource: string;
+  errorUpdatingKnowledge: string;
   uploadLimits: string;
   pdfMax: string;
   urlMax: string;
   textMax: string;
   addWebSourceTitle: string;
   addTextTitle: string;
+  addTextDocument: string;
   manualTextDefault: string;
   noDocumentsTitle: string;
   noDocumentsDescription: string;
@@ -1226,12 +1229,15 @@ export class I18nService {
       viewPreview: 'Ver vista previa',
       downloadKnowledgeFile: 'Descargar archivo',
       errorDownloadingKnowledge: 'No se pudo descargar el archivo',
+      editKnowledgeSource: 'Editar fuente',
+      errorUpdatingKnowledge: 'No se pudo actualizar la fuente',
       uploadLimits: 'Límites de subida',
       pdfMax: 'PDF: Máximo',
       urlMax: 'URL: Máximo',
       textMax: 'Texto: Máximo',
       addWebSourceTitle: 'Añadir fuente web',
       addTextTitle: 'Añadir texto manual',
+      addTextDocument: 'Añadir documento',
       manualTextDefault: 'Texto manual',
       noDocumentsTitle: 'No hay documentos',
       noDocumentsDescription: 'Comienza agregando tu primer documento para crear la base de conocimientos de tu agente.',
@@ -1947,12 +1953,15 @@ export class I18nService {
       viewPreview: 'View preview',
       downloadKnowledgeFile: 'Download file',
       errorDownloadingKnowledge: 'Could not download the file',
+      editKnowledgeSource: 'Edit source',
+      errorUpdatingKnowledge: 'Could not update the source',
       uploadLimits: 'Upload limits',
       pdfMax: 'PDF: Max',
       urlMax: 'URL: Max',
       textMax: 'Text: Max',
       addWebSourceTitle: 'Add web source',
       addTextTitle: 'Add manual text',
+      addTextDocument: 'Add document',
       manualTextDefault: 'Manual text',
       noDocumentsTitle: 'No documents',
       noDocumentsDescription: 'Start by adding your first document to build your agent\'s knowledge base.',

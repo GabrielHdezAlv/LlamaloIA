@@ -1,5 +1,7 @@
 :host {
   display: block;
+  /** Escala uniforme para KPIs, deltas, tendencias y % en listas */
+  --shopify-num-scale: 0.78;
 }
 
 .shopify-polaris-shell {
@@ -124,9 +126,9 @@
   flex: 0 0 auto;
   text-align: right;
   font-family: var(--p-text-body-sm-font-family);
-  font-size: var(--p-text-body-sm-font-size);
+  font-size: calc(var(--p-text-body-sm-font-size) * var(--shopify-num-scale));
   font-weight: var(--p-font-weight-regular);
-  line-height: var(--p-text-body-sm-font-line-height);
+  line-height: calc(var(--p-text-body-sm-font-line-height) * var(--shopify-num-scale));
   color: var(--p-color-text-secondary);
   font-variant-numeric: tabular-nums;
 }
@@ -220,9 +222,9 @@
   align-items: center;
   gap: var(--p-space-050);
   font-family: var(--p-font-family-sans);
-  font-size: var(--p-text-body-md-font-size);
+  font-size: calc(var(--p-text-body-md-font-size) * var(--shopify-num-scale));
   font-weight: var(--p-font-weight-medium);
-  line-height: var(--p-text-body-md-font-line-height);
+  line-height: calc(var(--p-text-body-md-font-line-height) * var(--shopify-num-scale));
   font-variant-numeric: tabular-nums;
   color: var(--p-color-text-secondary);
 }
@@ -317,9 +319,9 @@
 
 .shopify-polaris-card__value {
   font-family: var(--p-font-family-sans);
-  font-size: var(--p-font-size-600);
+  font-size: calc(var(--p-font-size-600) * var(--shopify-num-scale));
   font-weight: var(--p-font-weight-medium);
-  line-height: var(--p-font-line-height-800);
+  line-height: calc(var(--p-font-line-height-800) * var(--shopify-num-scale));
   color: var(--p-color-text);
   font-variant-numeric: tabular-nums;
 }
@@ -329,7 +331,7 @@
   position: absolute;
   top: var(--p-space-300);
   right: var(--p-space-300);
-  font-size: var(--p-font-size-300);
+  font-size: calc(var(--p-font-size-300) * var(--shopify-num-scale));
   font-weight: var(--p-font-weight-medium);
   font-variant-numeric: tabular-nums;
   z-index: var(--p-z-index-1);
@@ -364,16 +366,16 @@
 
 .shopify-polaris-metric-unit {
   font-family: var(--p-text-heading-sm-font-family);
-  font-size: var(--p-text-body-sm-font-size);
+  font-size: calc(var(--p-text-body-sm-font-size) * var(--shopify-num-scale));
   font-weight: var(--p-font-weight-medium);
-  line-height: var(--p-text-body-sm-font-line-height);
+  line-height: calc(var(--p-text-body-sm-font-line-height) * var(--shopify-num-scale));
   color: var(--p-color-text-secondary);
 }
 
 @media (min-width: 64rem) {
   .shopify-polaris-metric-unit {
-    font-size: var(--p-text-body-md-font-size);
-    line-height: var(--p-text-body-md-font-line-height);
+    font-size: calc(var(--p-text-body-md-font-size) * var(--shopify-num-scale));
+    line-height: calc(var(--p-text-body-md-font-line-height) * var(--shopify-num-scale));
   }
 }
 
@@ -410,19 +412,19 @@
   }
 
   .shopify-polaris-card__value {
-    font-size: var(--p-font-size-750);
-    line-height: var(--p-font-line-height-1000);
+    font-size: calc(var(--p-font-size-750) * var(--shopify-num-scale));
+    line-height: calc(var(--p-font-line-height-1000) * var(--shopify-num-scale));
   }
 
   .shopify-polaris-delta {
     top: var(--p-space-500);
     right: var(--p-space-500);
-    font-size: var(--p-font-size-350);
+    font-size: calc(var(--p-font-size-350) * var(--shopify-num-scale));
   }
 
   .shopify-polaris-metric-unit {
-    font-size: var(--p-text-body-lg-font-size);
-    line-height: var(--p-text-body-lg-font-line-height);
+    font-size: calc(var(--p-text-body-lg-font-size) * var(--shopify-num-scale));
+    line-height: calc(var(--p-text-body-lg-font-line-height) * var(--shopify-num-scale));
   }
 
   .shopify-polaris-share-pct {
@@ -469,19 +471,19 @@
   }
 
   .shopify-polaris-card__value {
-    font-size: var(--p-font-size-900);
-    line-height: var(--p-font-line-height-1200);
+    font-size: calc(var(--p-font-size-900) * var(--shopify-num-scale));
+    line-height: calc(var(--p-font-line-height-1200) * var(--shopify-num-scale));
   }
 
   .shopify-polaris-delta {
     top: var(--p-space-800);
     right: var(--p-space-800);
-    font-size: var(--p-font-size-400);
+    font-size: calc(var(--p-font-size-400) * var(--shopify-num-scale));
   }
 
   .shopify-polaris-metric-unit {
-    font-size: var(--p-text-heading-lg-font-size);
-    line-height: var(--p-text-heading-lg-font-line-height);
+    font-size: calc(var(--p-text-heading-lg-font-size) * var(--shopify-num-scale));
+    line-height: calc(var(--p-text-heading-lg-font-line-height) * var(--shopify-num-scale));
   }
 
   .shopify-polaris-share-pct {
@@ -506,8 +508,8 @@
   }
 
   .shopify-polaris-section-header__date {
-    font-size: var(--p-text-body-md-font-size);
-    line-height: var(--p-text-body-md-font-line-height);
+    font-size: calc(var(--p-text-body-md-font-size) * var(--shopify-num-scale));
+    line-height: calc(var(--p-text-body-md-font-line-height) * var(--shopify-num-scale));
   }
 }
 
@@ -574,6 +576,8 @@
   font-weight: var(--p-font-weight-regular);
   color: var(--p-color-text-secondary);
   font-variant-numeric: tabular-nums;
+  font-size: calc(1em * var(--shopify-num-scale));
+  line-height: 1.35;
 }
 
 @media (min-width: 156.25rem) {

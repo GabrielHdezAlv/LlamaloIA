@@ -188,6 +188,7 @@ export class KnowledgeBaseService {
     return this.http.put<UpdateKnowledgeSourceResponse>(
       `${this.baseUrl}/sources/${id}`,
       request,
+      { headers: this.getAuthHeaders() },
     );
   }
 
