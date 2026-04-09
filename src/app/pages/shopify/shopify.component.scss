@@ -194,12 +194,6 @@
   }
 }
 
-@media (min-width: 120rem) {
-  .shopify-polaris-kpi-chart {
-    top: var(--p-space-500);
-    right: var(--p-space-500);
-  }
-}
 
 .shopify-polaris-kpi-head {
   padding-right: var(--p-space-800);
@@ -286,19 +280,6 @@
   }
 }
 
-@media (min-width: 120rem) {
-  .shopify-polaris-card {
-    min-height: 6.5rem;
-    padding: var(--p-space-500) var(--p-space-500) var(--p-space-300);
-  }
-}
-
-@media (min-width: 156.25rem) {
-  .shopify-polaris-card {
-    min-height: 8rem;
-    padding: var(--p-space-800) var(--p-space-800) var(--p-space-400);
-  }
-}
 
 .shopify-polaris-card--tall {
   min-height: 7rem;
@@ -310,17 +291,6 @@
   }
 }
 
-@media (min-width: 120rem) {
-  .shopify-polaris-card--tall {
-    min-height: 8.5rem;
-  }
-}
-
-@media (min-width: 156.25rem) {
-  .shopify-polaris-card--tall {
-    min-height: 10rem;
-  }
-}
 
 .shopify-polaris-card__title-row {
   display: flex;
@@ -344,19 +314,6 @@
   color: var(--p-color-text);
 }
 
-@media (min-width: 120rem) {
-  .shopify-polaris-card__title {
-    font-size: var(--p-text-heading-lg-font-size);
-    line-height: var(--p-text-heading-lg-font-line-height);
-  }
-}
-
-@media (min-width: 156.25rem) {
-  .shopify-polaris-card__title {
-    font-size: var(--p-text-heading-xl-font-size);
-    line-height: var(--p-text-heading-xl-font-line-height);
-  }
-}
 
 .shopify-polaris-card__value {
   font-family: var(--p-font-family-sans);
@@ -367,19 +324,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-@media (min-width: 120rem) {
-  .shopify-polaris-card__value {
-    font-size: var(--p-font-size-750);
-    line-height: var(--p-font-line-height-1000);
-  }
-}
-
-@media (min-width: 156.25rem) {
-  .shopify-polaris-card__value {
-    font-size: var(--p-font-size-900);
-    line-height: var(--p-font-line-height-1200);
-  }
-}
 
 .shopify-polaris-delta {
   position: absolute;
@@ -398,20 +342,6 @@
   }
 }
 
-@media (min-width: 120rem) {
-  .shopify-polaris-delta {
-    top: var(--p-space-500);
-    right: var(--p-space-500);
-    font-size: var(--p-font-size-350);
-  }
-}
-
-@media (min-width: 156.25rem) {
-  .shopify-polaris-delta {
-    top: var(--p-space-800);
-    right: var(--p-space-800);
-  }
-}
 
 .shopify-polaris-delta--success {
   color: var(--p-color-text-success-secondary);
@@ -447,19 +377,6 @@
   }
 }
 
-@media (min-width: 120rem) {
-  .shopify-polaris-metric-unit {
-    font-size: var(--p-text-body-lg-font-size);
-    line-height: var(--p-text-body-lg-font-line-height);
-  }
-}
-
-@media (min-width: 156.25rem) {
-  .shopify-polaris-metric-unit {
-    font-size: var(--p-text-heading-lg-font-size);
-    line-height: var(--p-text-heading-lg-font-line-height);
-  }
-}
 
 .shopify-polaris-share-pct {
   top: var(--p-space-400);
@@ -467,6 +384,47 @@
 }
 
 @media (min-width: 120rem) {
+  .shopify-polaris-shell-inner,
+  .shopify-polaris-page {
+    max-width: 68rem;
+  }
+
+  .shopify-polaris-kpi-chart {
+    top: var(--p-space-500);
+    right: var(--p-space-500);
+  }
+
+  .shopify-polaris-card {
+    min-height: 6.5rem;
+    padding: var(--p-space-500) var(--p-space-500) var(--p-space-300);
+    border-radius: var(--p-border-radius-400);
+  }
+
+  .shopify-polaris-card--tall {
+    min-height: 8.25rem;
+  }
+
+  .shopify-polaris-card__title {
+    font-size: var(--p-text-heading-lg-font-size);
+    line-height: var(--p-text-heading-lg-font-line-height);
+  }
+
+  .shopify-polaris-card__value {
+    font-size: var(--p-font-size-750);
+    line-height: var(--p-font-line-height-1000);
+  }
+
+  .shopify-polaris-delta {
+    top: var(--p-space-500);
+    right: var(--p-space-500);
+    font-size: var(--p-font-size-350);
+  }
+
+  .shopify-polaris-metric-unit {
+    font-size: var(--p-text-body-lg-font-size);
+    line-height: var(--p-text-body-lg-font-line-height);
+  }
+
   .shopify-polaris-share-pct {
     top: var(--p-space-500);
     right: var(--p-space-500);
@@ -474,11 +432,85 @@
 }
 
 @media (min-width: 156.25rem) {
+  .shopify-polaris-shell-inner,
+  .shopify-polaris-page {
+    max-width: 88rem;
+  }
+
+  .shopify-polaris-page {
+    padding-inline: var(--p-space-1200);
+  }
+
+  .shopify-polaris-grid {
+    gap: var(--p-space-300);
+  }
+
+  .shopify-polaris-kpi-chart {
+    top: var(--p-space-800);
+    right: var(--p-space-800);
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .shopify-polaris-card {
+    min-height: 8.75rem;
+    padding: var(--p-space-800) var(--p-space-800) var(--p-space-400);
+    gap: var(--p-space-200);
+    border-radius: var(--p-border-radius-500);
+  }
+
+  .shopify-polaris-card--tall {
+    min-height: 11rem;
+  }
+
+  .shopify-polaris-card__title {
+    font-size: var(--p-text-heading-xl-font-size);
+    line-height: var(--p-text-heading-xl-font-line-height);
+  }
+
+  .shopify-polaris-card__value {
+    font-size: var(--p-font-size-900);
+    line-height: var(--p-font-line-height-1200);
+  }
+
+  .shopify-polaris-delta {
+    top: var(--p-space-800);
+    right: var(--p-space-800);
+    font-size: var(--p-font-size-400);
+  }
+
+  .shopify-polaris-metric-unit {
+    font-size: var(--p-text-heading-lg-font-size);
+    line-height: var(--p-text-heading-lg-font-line-height);
+  }
+
   .shopify-polaris-share-pct {
     top: var(--p-space-800);
     right: var(--p-space-800);
   }
+
+  .shopify-polaris-list-card__heading {
+    font-size: var(--p-text-heading-xl-font-size);
+    line-height: var(--p-text-heading-xl-font-line-height);
+  }
+
+  .shopify-polaris-list-rows__item {
+    font-size: var(--p-text-body-lg-font-size);
+    line-height: var(--p-text-body-lg-font-line-height);
+    padding: var(--p-space-300) 0;
+  }
+
+  .shopify-polaris-section-header__title--secondary {
+    font-size: var(--p-text-heading-lg-font-size);
+    line-height: var(--p-text-heading-lg-font-line-height);
+  }
+
+  .shopify-polaris-section-header__date {
+    font-size: var(--p-text-body-md-font-size);
+    line-height: var(--p-text-body-md-font-line-height);
+  }
 }
+
 
 .shopify-polaris-truncate {
   overflow: hidden;
@@ -542,5 +574,17 @@
   font-weight: var(--p-font-weight-regular);
   color: var(--p-color-text-secondary);
   font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 156.25rem) {
+  .shopify-polaris-card--list-card .shopify-polaris-list-card__heading {
+    font-size: var(--p-font-size-500);
+    line-height: var(--p-font-line-height-700);
+  }
+
+  .shopify-polaris-card--list-card .shopify-polaris-list-rows__item {
+    font-size: var(--p-text-body-lg-font-size);
+    line-height: var(--p-text-body-lg-font-line-height);
+  }
 }
 
