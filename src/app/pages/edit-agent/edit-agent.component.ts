@@ -36,6 +36,7 @@ import {
   LinkKnowledgeSourcesToAgentRequest,
 } from '../../shared/models/knowledge-source.model';
 import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
+import { KnowledgeEmptyStateIconComponent } from '../../shared/components/knowledge-empty-state-icon/knowledge-empty-state-icon.component';
 import {
   VoiceTestService,
   VoiceTestConfig,
@@ -62,7 +63,13 @@ import { UserStorage } from '../../storages/user/user-storage';
 @Component({
   selector: 'app-edit-agent',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, AiSphereComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    AiSphereComponent,
+    KnowledgeEmptyStateIconComponent,
+  ],
   templateUrl: './edit-agent.component.html',
   styleUrls: ['./edit-agent.component.scss'],
 })

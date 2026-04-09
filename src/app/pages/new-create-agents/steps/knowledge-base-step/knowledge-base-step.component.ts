@@ -22,6 +22,7 @@ import {
 } from '../../../../shared/models/knowledge-source.model';
 import { ModalService } from '../../../../shared/modals/modal.service';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
+import { KnowledgeEmptyStateIconComponent } from '../../../../shared/components/knowledge-empty-state-icon/knowledge-empty-state-icon.component';
 import { NotificationService } from '../../../../core/services/notification.service';
 
 // Extended interface to include selection
@@ -39,7 +40,7 @@ export interface KnowledgeBaseItem {
 @Component({
   selector: 'app-knowledge-base-step',
   standalone: true,
-  imports: [FormsModule, CommonModule, DatePipe, SpinnerComponent],
+  imports: [FormsModule, CommonModule, DatePipe, SpinnerComponent, KnowledgeEmptyStateIconComponent],
   templateUrl: './knowledge-base-step.component.html',
   styleUrls: ['./knowledge-base-step.component.scss'],
 })

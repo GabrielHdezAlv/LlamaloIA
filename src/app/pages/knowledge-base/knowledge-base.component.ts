@@ -12,6 +12,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { isPlatformBrowser, DatePipe } from '@angular/common';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
+import { KnowledgeEmptyStateIconComponent } from '../../shared/components/knowledge-empty-state-icon/knowledge-empty-state-icon.component';
 import { I18nService } from '../../core/services/i18n.service';
 import { KnowledgeBaseService } from '../../core/services/knowledge-base.service';
 import {
@@ -31,7 +32,7 @@ export interface KnowledgeBaseItem {
 @Component({
   selector: 'app-knowledge-base',
   standalone: true,
-  imports: [FormsModule, DatePipe, SpinnerComponent],
+  imports: [FormsModule, DatePipe, SpinnerComponent, KnowledgeEmptyStateIconComponent],
   templateUrl: './knowledge-base.component.html',
   styleUrl: './knowledge-base.component.scss',
 })

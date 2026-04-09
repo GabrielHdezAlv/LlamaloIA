@@ -29,6 +29,48 @@
   pointer-events: none;
 }
 
+/*
+ * Funde el confeti hacia el fondo sin taparlo: una capa blanca encima lo dejaba invisible.
+ * La máscara solo atenúa el canvas; el fondo del hero (claro u oscuro) se ve en la zona suave.
+ */
+.plan-celebration-confetti-layer {
+  transform: translateZ(0);
+  /* Desplazar la máscara un poco hacia arriba respecto al canvas alargado; evita línea/repetición en el borde superior. */
+  -webkit-mask-position: center -12px;
+  mask-position: center -12px;
+  -webkit-mask-size: 100% calc(100% + 26px);
+  mask-size: 100% calc(100% + 26px);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 34%,
+    rgba(0, 0, 0, 0.78) 56%,
+    rgba(0, 0, 0, 0.28) 83%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 34%,
+    rgba(0, 0, 0, 0.78) 56%,
+    rgba(0, 0, 0, 0.28) 83%,
+    transparent 100%
+  );
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
+/* Modo oscuro: el botón debe ser blanco con texto negro.
+   Gana al override global que fuerza fondos azules si la clase incluye `bg-[#0a1740]`. */
+:host-context(html.dark) .plan-celebration-dashboard-btn {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+}
+
+:host-context(html.dark) .plan-celebration-dashboard-btn:hover {
+  background-color: #f3f4f6 !important;
+}
+
 ::ng-deep .plan-celebration-dialog .mat-mdc-dialog-container,
 ::ng-deep .plan-celebration-dialog .mat-mdc-dialog-surface,
 ::ng-deep .plan-celebration-dialog .mdc-dialog__surface {

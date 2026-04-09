@@ -2,35 +2,35 @@
   class="p-5 sm:p-6 lg:p-8 xl:p-8 2xl:p-8 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-w-[76rem] 3xl:max-w-[95rem] 4xl:max-w-[115rem] mx-auto max-lg:max-w-full max-lg:w-full fade-in-section"
   [class.fade-in-visible]="showContent">
   <!-- Barra de búsqueda -->
-  <div class="relative w-full flex flex-col sm:flex-row gap-2 mb-3 sm:mb-4 3xl:mb-6">
-    <div class="relative flex-1">
+  <div
+    class="relative mb-3 grid w-full grid-cols-1 gap-2 sm:mb-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center 3xl:mb-6">
+    <div class="relative min-w-0">
       <span
-        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 max-lg:pl-4 max-lg:sm:pl-4.5 max-lg:md:pl-5">
+        class="pointer-events-none absolute inset-y-0 left-0 z-[1] flex items-center justify-center pl-3 max-lg:pl-4 max-lg:sm:pl-4.5 max-lg:md:pl-5">
         <svg
-          class="w-4 h-4 3xl:w-5 3xl:h-5 max-lg:w-5 max-lg:h-5 max-lg:sm:w-5 max-lg:sm:h-5 max-lg:md:w-6 max-lg:md:h-6 text-gray-400 dark:text-slate-500"
-          fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          class="block h-4 w-4 shrink-0 text-gray-400 dark:text-slate-500 3xl:h-5 3xl:w-5 max-lg:h-5 max-lg:w-5 max-lg:sm:h-5 max-lg:sm:w-5 max-lg:md:h-6 max-lg:md:w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M21 21l-4.35-4.35M17 10.5A6.5 6.5 0 104 10.5a6.5 6.5 0 0013 0z" />
         </svg>
       </span>
       <input type="text" [(ngModel)]="searchTerm" [placeholder]="t.knowledgeBaseSearchPlaceholder"
-        class="w-full pl-9 3xl:pl-11 max-lg:pl-10 max-lg:sm:pl-11 max-lg:md:pl-12 pr-3 3xl:pr-4 max-lg:pr-4 max-lg:sm:pr-4 max-lg:md:pr-4 py-2 3xl:py-2.5 max-lg:py-2.5 max-lg:sm:py-3 max-lg:md:py-3.5 text-sm 3xl:text-base max-lg:text-base max-lg:sm:text-base max-lg:md:text-lg border border-gray-300 dark:border-slate-800 rounded-lg bg-white dark:bg-[#111113] text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-600 focus:border-gray-400 dark:focus:border-slate-600 transition-colors" />
+        class="relative z-0 w-full min-w-0 pl-9 3xl:pl-11 max-lg:pl-10 max-lg:sm:pl-11 max-lg:md:pl-12 pr-3 3xl:pr-4 max-lg:pr-4 max-lg:sm:pr-4 max-lg:md:pr-4 py-2 3xl:py-2.5 max-lg:py-2.5 max-lg:sm:py-3 max-lg:md:py-3.5 text-sm 3xl:text-base max-lg:text-base max-lg:sm:text-base max-lg:md:text-lg leading-normal border border-gray-300 dark:border-slate-800 rounded-lg bg-white dark:bg-[#111113] text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-600 focus:border-gray-400 dark:focus:border-slate-600 transition-colors" />
     </div>
 
     <!-- Botón de actualizar -->
-    <button (click)="refreshKnowledgeSources()" [disabled]="isLoading"
-      class="p-1 sm:p-2 text-[#1B2559] dark:text-white hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity flex-shrink-0"
+    <button (click)="refreshKnowledgeSources()" [disabled]="isLoading" type="button"
+      class="inline-flex size-10 shrink-0 items-center justify-center leading-none text-[#1B2559] hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50 sm:size-11 3xl:size-12 dark:text-white max-lg:size-10 max-lg:sm:size-11 max-lg:md:size-12 transition-opacity"
       [title]="t.refreshDocuments">
       <svg [class]="isLoading ? 'animate-spin' : ''"
-        class="w-6 h-6 3xl:w-7 3xl:h-7 max-lg:w-7 max-lg:h-7 max-lg:sm:w-7 max-lg:sm:h-7"
-        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-        <g id="SVGRepo_iconCarrier">
-          <path
-            d="M4.06189 13C4.02104 12.6724 4 12.3387 4 12C4 7.58172 7.58172 4 12 4C14.5006 4 16.7332 5.14727 18.2002 6.94416M19.9381 11C19.979 11.3276 20 11.6613 20 12C20 16.4183 16.4183 20 12 20C9.61061 20 7.46589 18.9525 6 17.2916M9 17H6V17.2916M18.2002 4V6.94416M18.2002 6.94416V6.99993L15.2002 7M6 20V17.2916"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-        </g>
+        class="block h-6 w-6 shrink-0 3xl:h-7 3xl:w-7 max-lg:h-6 max-lg:w-6 max-lg:sm:h-6 max-lg:sm:w-6 max-lg:md:h-7 max-lg:md:w-7"
+        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path
+          d="M4.06189 13C4.02104 12.6724 4 12.3387 4 12C4 7.58172 7.58172 4 12 4C14.5006 4 16.7332 5.14727 18.2002 6.94416M19.9381 11C19.979 11.3276 20 11.6613 20 12C20 16.4183 16.4183 20 12 20C9.61061 20 7.46589 18.9525 6 17.2916M9 17H6V17.2916M18.2002 4V6.94416M18.2002 6.94416V6.99993L15.2002 7M6 20V17.2916"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
       </svg>
     </button>
   </div>
@@ -243,22 +243,14 @@
     <!-- Empty State -->
     <div
       class="rounded-xl bg-gray-100 dark:bg-[#111113] border border-gray-200 dark:border-gray-400 flex flex-col items-center justify-center py-8 sm:py-10 px-6 3xl:px-8">
-      <div
-        class="w-10 h-10 rounded-lg bg-white dark:bg-[#111113] dark:border dark:border-gray-200 flex items-center justify-center shadow-sm mb-3">
-        <svg class="w-6 h-6 text-gray-600 dark:text-slate-300 shrink-0" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M13 3H8.2C7.0799 3 6.51984 3 6.09202 3.21799C5.71569 3.40973 5.40973 3.71569 5.21799 4.09202C5 4.51984 5 5.0799 5 6.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.0799 21 8.2 21H12M13 3L19 9M13 3V7.4C13 7.96005 13 8.24008 13.109 8.45399C13.2049 8.64215 13.3578 8.79513 13.546 8.89101C13.7599 9 14.0399 9 14.6 9H19M19 9V11M9 17H11M9 13H13M9 9H10M19.2686 19.2686L21 21M20 17.5C20 18.8807 18.8807 20 17.5 20C16.1193 20 15 18.8807 15 17.5C15 16.1193 16.1193 15 17.5 15C18.8807 15 20 16.1193 20 17.5Z" />
-        </svg>
-      </div>
+      <app-knowledge-empty-state-icon
+        iconClass="w-9 h-9 sm:w-10 sm:h-10 3xl:w-11 3xl:h-11 shrink-0 text-gray-900 dark:text-slate-100 mb-3" />
       <p class="text-sm font-semibold text-gray-900 dark:text-white text-center">
         {{ t.knowledgeBaseNoDocuments }}
       </p>
 
-      <!-- Límites de validación en cuadrito con sombreado -->
-      <div
-        class="mt-4 p-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-600 rounded-lg shadow-sm max-w-sm mx-auto">
+      <!-- Límites de validación (sin borde) -->
+      <div class="mt-4 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg max-w-sm mx-auto">
         <h4 class="text-[11px] font-semibold text-gray-700 dark:text-gray-300 mb-2 text-center">
           {{ t.uploadLimits }}
         </h4>
@@ -277,9 +269,6 @@
         </div>
       </div>
     </div>
-    @if (!isLoading && !hasKnowledgeSources) {
-    <!-- Empty State adicional? No, ya está arriba. -->
-    }
     }
   </div>
 </div>

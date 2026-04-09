@@ -15,10 +15,10 @@ module.exports = {
       },
       /** Modal plan celebration: un solo lugar para el ancho/alto (uso en HTML y @apply global). */
       width: {
-        "plan-celebration": "min(23.75rem, calc(100vw - 2rem))",
+        "plan-celebration": "min(29.5rem, calc(100vw - 2rem))",
       },
       maxWidth: {
-        "plan-celebration": "min(23.75rem, calc(100vw - 2rem))",
+        "plan-celebration": "min(29.5rem, calc(100vw - 2rem))",
       },
       maxHeight: {
         "plan-celebration": "min(90vh, 45rem)",
