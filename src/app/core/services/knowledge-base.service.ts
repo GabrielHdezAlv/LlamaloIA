@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import {
@@ -185,11 +185,29 @@ export class KnowledgeBaseService {
     id: string,
     request: Partial<CreateKnowledgeSourceRequest>,
   ): Observable<UpdateKnowledgeSourceResponse> {
-    return this.http.put<UpdateKnowledgeSourceResponse>(
-      `${this.baseUrl}/sources/${id}`,
-      request,
-      { headers: this.getAuthHeaders() },
-    );
+    return this.http
+      .put<KnowledgeSource | UpdateKnowledgeSourceResponse>(
+        `${this.baseUrl}/sources/${id}`,
+        request,
+        { headers: this.getAuthHeaders() },
+      )
+      .pipe(
+        map((raw) => {
+          if (
+            raw &&
+            typeof raw === 'object' &&
+            'knowledgeSource' in raw &&
+            (raw as UpdateKnowledgeSourceResponse).knowledgeSource
+          ) {
+            return raw as UpdateKnowledgeSourceResponse;
+          }
+          const dto = raw as KnowledgeSource;
+          return {
+            message: 'Knowledge source updated',
+            knowledgeSource: dto,
+          } satisfies UpdateKnowledgeSourceResponse;
+        }),
+      );
   }
 
   /**

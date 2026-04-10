@@ -6,6 +6,7 @@ import {
   PLATFORM_ID,
   ChangeDetectorRef,
   OnInit,
+  OnDestroy,
   ViewChild,
   ElementRef,
 } from '@angular/core';
@@ -36,7 +37,7 @@ export interface KnowledgeBaseItem {
   templateUrl: './knowledge-base.component.html',
   styleUrl: './knowledge-base.component.scss',
 })
-export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
+export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy {
   private i18nService = inject(I18nService);
   private knowledgeBaseService = inject(KnowledgeBaseService);
   private modalService = inject(ModalService);
@@ -47,6 +48,10 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
   knowledgeSources: KnowledgeSource[] = [];
   isLoading = false;
   error: string | null = null;
+
+  /** Recarga silenciosa mientras haya fuentes en processing/pending. */
+  private processingPollTimer: ReturnType<typeof setInterval> | null = null;
+  private readonly processingPollIntervalMs = 4000;
 
   clearError(): void {
     this.error = null;
@@ -106,6 +111,9 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
     }
 
     this.knowledgeSources.push(validSource);
+    if (isPlatformBrowser(this.platformId)) {
+      this.syncProcessingStatusPoll();
+    }
   }
 
   @ViewChild('fileInput', { static: false })
@@ -120,6 +128,10 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.loadKnowledgeSources();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.clearProcessingStatusPoll();
   }
 
   ngAfterViewInit(): void {
@@ -144,8 +156,11 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
     { id: '3', type: 'text' },
   ];
 
-  loadKnowledgeSources(): void {
-    this.isLoading = true;
+  loadKnowledgeSources(options?: { silent?: boolean }): void {
+    const silent = options?.silent === true;
+    if (!silent) {
+      this.isLoading = true;
+    }
     this.error = null;
 
     this.knowledgeBaseService.getKnowledgeSources().subscribe({
@@ -163,11 +178,14 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
             createdAt: new Date(source.createdAt),
             updatedAt: new Date(source.updatedAt),
             isPublic: source.isPublic === 'true' || source.isPublic === true,
-            hasDownloadableContent: !!source.hasDownloadableContent,
+            hasDownloadableContent: this.normalizeHasDownloadableContent(source),
           }));
 
         this.isLoading = false;
         this.cdr.detectChanges();
+        if (isPlatformBrowser(this.platformId)) {
+          this.syncProcessingStatusPoll();
+        }
       },
       error: (err) => {
         if (isPlatformBrowser(this.platformId) && err?.status !== 401) {
@@ -175,6 +193,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
         }
         if (err?.status === 401) {
           this.isLoading = false;
+          this.clearProcessingStatusPoll();
           this.cdr.detectChanges();
           return;
         }
@@ -182,9 +201,37 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
           this.notificationService.error(this.t.knowledgeBaseNoDocuments);
         }
         this.isLoading = false;
+        this.clearProcessingStatusPoll();
         this.cdr.detectChanges();
       },
     });
+  }
+
+  private hasProcessingKnowledgeSource(): boolean {
+    return this.knowledgeSources.some((s) => this.isSourceProcessing(s));
+  }
+
+  private clearProcessingStatusPoll(): void {
+    if (this.processingPollTimer != null) {
+      clearInterval(this.processingPollTimer);
+      this.processingPollTimer = null;
+    }
+  }
+
+  /**
+   * Si hay fuentes en processing, programa recargas silenciosas hasta que pasen a completed/failed.
+   */
+  private syncProcessingStatusPoll(): void {
+    this.clearProcessingStatusPoll();
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (!this.hasProcessingKnowledgeSource()) {
+      return;
+    }
+    this.processingPollTimer = setInterval(() => {
+      this.loadKnowledgeSources({ silent: true });
+    }, this.processingPollIntervalMs);
   }
 
   refreshKnowledgeSources(): void {
@@ -293,15 +340,80 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
     });
   }
 
-  canEditKnowledgeSource(source: KnowledgeSource): boolean {
-    if (source.status !== 'completed') {
+  private isSourceCompleted(source: KnowledgeSource): boolean {
+    const s = String(source.status ?? '').toLowerCase();
+    return s === 'completed' || s === 'ready';
+  }
+
+  /** Mientras reindexa tras editar, el API devuelve processing. */
+  isSourceProcessing(source: KnowledgeSource): boolean {
+    const s = String(source.status ?? '').toLowerCase();
+    return s === 'processing' || s === 'pending';
+  }
+
+  /** Completada o reindexando (tras guardar edición). */
+  private isSourceCompletedOrProcessing(source: KnowledgeSource): boolean {
+    return this.isSourceCompleted(source) || this.isSourceProcessing(source);
+  }
+
+  /**
+   * El API debe enviar hasDownloadableContent; si falta (serialización), inferimos para texto completado con chunks.
+   */
+  /** Visibilidad del botón descargar (alineado con canEdit para texto). */
+  showDownloadForSource(source: KnowledgeSource): boolean {
+    return (
+      this.normalizeHasDownloadableContent(source) &&
+      this.isSourceCompletedOrProcessing(source) &&
+      (source.type === 'pdf' || source.type === 'text')
+    );
+  }
+
+  /**
+   * Muestra el lápiz también en processing (deshabilitado) para que no “desaparezca” tras guardar.
+   */
+  showEditButtonForSource(source: KnowledgeSource): boolean {
+    const st = String(source.status ?? '').toLowerCase();
+    if (st === 'failed') {
+      return false;
+    }
+    if (!this.isSourceCompletedOrProcessing(source)) {
       return false;
     }
     if (source.type === 'text') {
-      return !!source.hasDownloadableContent;
+      return this.normalizeHasDownloadableContent(source);
     }
     if (source.type === 'web') {
-      return !!(source.originalUrl && source.originalUrl.trim());
+      const url = source.originalUrl ?? (source as { url?: string }).url;
+      return !!(url && String(url).trim());
+    }
+    return false;
+  }
+
+  private normalizeHasDownloadableContent(source: KnowledgeSource): boolean {
+    if (typeof source.hasDownloadableContent === 'boolean') {
+      return source.hasDownloadableContent;
+    }
+    if (source.type === 'text' && this.isSourceProcessing(source)) {
+      // Tras PUT, el texto sigue en Firestore mientras reindexa; el flag puede faltar en la respuesta.
+      return true;
+    }
+    if (source.type === 'text' && this.isSourceCompleted(source)) {
+      const chunks = source.metadata?.chunkCount ?? 0;
+      return chunks > 0;
+    }
+    return false;
+  }
+
+  canEditKnowledgeSource(source: KnowledgeSource): boolean {
+    if (!this.isSourceCompleted(source)) {
+      return false;
+    }
+    if (source.type === 'text') {
+      return this.normalizeHasDownloadableContent(source);
+    }
+    if (source.type === 'web') {
+      const url = source.originalUrl ?? (source as { url?: string }).url;
+      return !!(url && String(url).trim());
     }
     return false;
   }
@@ -387,7 +499,10 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
                   ...updated,
                   createdAt: new Date(updated.createdAt),
                   updatedAt: new Date(updated.updatedAt),
-                  hasDownloadableContent: !!updated.hasDownloadableContent,
+                  hasDownloadableContent:
+                    updated.hasDownloadableContent != null
+                      ? !!updated.hasDownloadableContent
+                      : !!s.hasDownloadableContent,
                 }
               : s,
           );
@@ -396,6 +511,9 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
         }
         this.isLoading = false;
         this.cdr.detectChanges();
+        if (isPlatformBrowser(this.platformId)) {
+          this.syncProcessingStatusPoll();
+        }
       },
       error: (err) => {
         console.error('Error updating knowledge source:', err);
@@ -471,8 +589,8 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
 
   downloadKnowledgeFile(source: KnowledgeSource): void {
     if (
-      !source.hasDownloadableContent ||
-      source.status !== 'completed' ||
+      !this.normalizeHasDownloadableContent(source) ||
+      !this.isSourceCompletedOrProcessing(source) ||
       (source.type !== 'pdf' && source.type !== 'text')
     ) {
       return;
@@ -505,6 +623,9 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
           (source) => source.id !== id,
         );
         this.cdr.detectChanges();
+        if (isPlatformBrowser(this.platformId)) {
+          this.syncProcessingStatusPoll();
+        }
       },
       error: (err) => {
         console.error('Error deleting knowledge source:', err);
@@ -520,7 +641,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
 
     // Filtrar elementos undefined y válidos
     const validSources = this.knowledgeSources.filter(
-      (source) => source && source.id && source.name && source.type,
+      (source) => source && source.id && source.type,
     );
 
     if (!this.searchTerm) {
@@ -528,12 +649,15 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit {
     }
 
     const term = this.searchTerm.toLowerCase();
-    return validSources.filter(
-      (source) =>
-        source.name.toLowerCase().includes(term) ||
+    return validSources.filter((source) => {
+      const name = (source.name ?? '').toLowerCase();
+      const tags = source.tags ?? [];
+      return (
+        name.includes(term) ||
         source.type.toLowerCase().includes(term) ||
-        source.tags.some((tag) => tag.toLowerCase().includes(term)),
-    );
+        tags.some((tag) => tag.toLowerCase().includes(term))
+      );
+    });
   }
 
   get hasKnowledgeSources(): boolean {

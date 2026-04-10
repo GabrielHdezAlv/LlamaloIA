@@ -14,6 +14,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NotificationService } from '../../core/services/notification.service';
+import { I18nService } from '../../core/services/i18n.service';
 import {
   FormBuilder,
   FormGroup,
@@ -32,6 +33,7 @@ import { Agent, SetAgentConfigDto } from '../../shared/models/agent.model';
 import { Voice } from '../../shared/models/voice.model';
 import {
   KnowledgeSource,
+  CreateKnowledgeSourceRequest,
   LinkKnowledgeSourcesToAgentRequest,
 } from '../../shared/models/knowledge-source.model';
 import { AiSphereComponent } from '../../shared/components/ai-sphere/ai-sphere.component';
@@ -91,6 +93,7 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   private userStore = inject(UserStorage);
   private cdr = inject(ChangeDetectorRef);
   private notificationService = inject(NotificationService);
+  private i18nService = inject(I18nService);
   private http = inject(HttpClient);
   readonly voiceTest = inject(VoiceTestService);
 
@@ -1894,5 +1897,128 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
 
   clearKnowledgeSourceError(): void {
     this.knowledgeSourceError = null;
+  }
+
+  get t() {
+    return this.i18nService.getTranslations();
+  }
+
+  canEditKnowledgeSource(source: KnowledgeSource): boolean {
+    if (source.status !== 'completed') {
+      return false;
+    }
+    if (source.type === 'text') {
+      return !!source.hasDownloadableContent;
+    }
+    if (source.type === 'web') {
+      return !!(source.originalUrl && source.originalUrl.trim());
+    }
+    return false;
+  }
+
+  editKnowledgeSource(source: KnowledgeSource): void {
+    if (!this.canEditKnowledgeSource(source)) {
+      return;
+    }
+
+    if (source.type === 'text') {
+      this.knowledgeBaseService.downloadKnowledgeSource(source.id).subscribe({
+        next: (blob) => {
+          void blob.text().then((content) => {
+            const dialogRef = this.modalService.openText({
+              title: this.t.editKnowledgeSource,
+              initialName: source.name,
+              initialContent: content,
+              sourceId: source.id,
+            });
+            dialogRef.afterClosed().subscribe((result: any) => {
+              if (result?.content && result.sourceId) {
+                this.patchKnowledgeSourceAfterEdit(result.sourceId, {
+                  name: result.name,
+                  content: result.content,
+                  type: 'text',
+                });
+              }
+            });
+          });
+        },
+        error: (err) => {
+          console.error('Error loading text for edit:', err);
+          this.notificationService.error(this.t.errorDownloadingKnowledge);
+        },
+      });
+      return;
+    }
+
+    if (source.type === 'web') {
+      const dialogRef = this.modalService.openWeb({
+        title: this.t.editKnowledgeSource,
+        editSourceId: source.id,
+        initialFullUrl: source.originalUrl,
+        initialName: source.name,
+      });
+      dialogRef.afterClosed().subscribe((result: any) => {
+        if (result?.sourceId && result.url) {
+          if (result.url.length > 2048) {
+            this.notificationService.error(this.t.urlMaxError);
+            return;
+          }
+          this.patchKnowledgeSourceAfterEdit(result.sourceId, {
+            name: result.name,
+            url: result.url,
+            type: 'web',
+          });
+        }
+      });
+    }
+  }
+
+  private patchKnowledgeSourceAfterEdit(
+    id: string,
+    body: Partial<CreateKnowledgeSourceRequest>,
+  ): void {
+    if (body.content != null && body.content.length > 50000) {
+      this.notificationService.error(this.t.textMaxError);
+      return;
+    }
+    if (body.url != null && body.url.length > 2048) {
+      this.notificationService.error(this.t.urlMaxError);
+      return;
+    }
+    this.isLoadingKnowledgeSources = true;
+    this.knowledgeBaseService.updateKnowledgeSource(id, body).subscribe({
+      next: (response) => {
+        const updated = response?.knowledgeSource;
+        if (updated?.id) {
+          const previous = this.agentKnowledgeSources.find((x) => x.id === id);
+          const merged: KnowledgeSource = {
+            ...updated,
+            createdAt: new Date(updated.createdAt),
+            updatedAt: new Date(updated.updatedAt),
+            hasDownloadableContent: !!(
+              updated.hasDownloadableContent ?? previous?.hasDownloadableContent
+            ),
+            isPublic:
+              updated.isPublic === 'true' || updated.isPublic === true,
+          };
+          this.agentKnowledgeSources = this.agentKnowledgeSources.map((s) =>
+            s.id === id ? { ...s, ...merged } : s,
+          );
+          this.availableKnowledgeSources = this.availableKnowledgeSources.map(
+            (s) => (s.id === id ? { ...s, ...merged } : s),
+          );
+        } else {
+          this.loadAgentKnowledgeSources();
+        }
+        this.isLoadingKnowledgeSources = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error updating knowledge source:', err);
+        this.notificationService.error(this.t.errorUpdatingKnowledge);
+        this.isLoadingKnowledgeSources = false;
+        this.cdr.detectChanges();
+      },
+    });
   }
 }
