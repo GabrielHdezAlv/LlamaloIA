@@ -135,9 +135,16 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-/* Más espacio por todos los lados del recuadro; menos abajo para que el enterprise quede más pegado */
+/* Padding simétrico arriba/abajo dentro del recuadro (antes el inferior era ~1.25rem y se veía cortado) */
 .upgrade-plan-modal--spaced {
-  padding: 3rem 2rem 1.25rem !important;
+  padding: 3rem 2rem 2.75rem !important;
+}
+
+@media (max-width: 767px) {
+  .upgrade-plan-modal--spaced {
+    /* Más aire abajo: la tarjeta Scale no puede quedar pegada al borde del recuadro */
+    padding: 3rem 1rem 4.5rem !important;
+  }
 }
 
 /* Contenido (tarjetas) con tamaño fijo: solo el recuadro crece */
@@ -146,4 +153,26 @@
   max-height: 82vh;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* En móvil no limitamos altura del grid: 82vh recortaba la última carta contra el borde */
+@media (max-width: 767px) {
+  .upgrade-plan-modal__content {
+    max-height: none !important;
+  }
+}
+
+/* Panel del diálogo: en móvil dejar crecer el recuadro a casi toda la pantalla */
+@media (max-width: 767px) {
+  ::ng-deep .upgrade-plan-dialog .mat-mdc-dialog-container {
+    max-height: min(calc(100dvh - 28px), calc(100svh - 28px)) !important;
+    align-items: stretch !important;
+  }
+
+  /* Aire respecto al borde superior/inferior del viewport */
+  ::ng-deep .cdk-overlay-pane.upgrade-plan-dialog {
+    max-height: min(calc(100dvh - 28px), calc(100svh - 28px)) !important;
+    margin-top: 14px !important;
+    margin-bottom: 14px !important;
+  }
 }

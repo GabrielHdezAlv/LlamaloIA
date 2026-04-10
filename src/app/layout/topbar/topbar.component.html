@@ -2,11 +2,12 @@
   <!-- TOPBAR MÓVIL / TABLET -->
   <div
     class="xl:hidden flex items-center justify-between w-full max-w-6xl lg:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] mx-auto">
-    <!-- Título de página -->
-    <div class="flex items-center gap-2 min-w-0 flex-shrink">
-      <div class="flex items-center gap-2 min-w-0">
-        <h1 class="text-base sm:text-lg md:text-xl font-bold truncate text-black dark:text-slate-50 leading-tight"
-          style="letter-spacing: -1.5px">
+    <!-- Título de página (flex-1 + line-clamp: evita cortar la última letra con truncate + letter-spacing negativo) -->
+    <div class="flex items-center gap-2 min-w-0 flex-1">
+      <div class="flex items-center gap-2 min-w-0 flex-1">
+        <h1
+          class="text-base sm:text-lg md:text-xl font-bold text-black dark:text-slate-50 leading-tight min-w-0 max-w-full line-clamp-2 break-words"
+          style="letter-spacing: -0.35px">
           @if (pageTitle === t.home) {
           {{ t.dashboard }}
           } @else if (pageTitle === 'Configuración Xenon') {
@@ -145,7 +146,7 @@
           </button>
 
           <!-- Idiomas -->
-          <div class="flex gap-1 px-2 py-1 border-t border-gray-100 dark:border-slate-700">
+          <div class="flex gap-1 px-2 py-1">
             <button (click)="selectLanguage(languages[0])" [class]="
               selectedLanguage.code === 'es'
                 ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold w-1/2'
@@ -362,9 +363,6 @@
           <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm">{{
             t.privateCommunity }}</span>
         </button>
-
-        <!-- Separador -->
-        <div class="h-px bg-gray-200 my-1"></div>
 
         <!-- Idiomas -->
         <div class="flex gap-1 px-2 3xl:px-2.5 py-1 3xl:py-1.5">

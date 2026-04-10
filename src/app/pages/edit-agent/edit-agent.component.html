@@ -814,8 +814,7 @@
     } @else if (activeTab === "knowledge") {
     <div class="w-full flex justify-center">
       <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1300px] 3xl:max-w-[100rem] 4xl:max-w-[110rem] space-y-6">
-      <div
-        class=" rounded-xl shadow-sm dark:shadow-none">
+      <div class="rounded-xl">
         <h2 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
           Fuentes de Conocimiento
         </h2>
@@ -851,7 +850,7 @@
             class="max-h-60 min-h-0 overflow-y-auto overflow-x-auto rounded-xl border border-gray-200 dark:border-[#2C2C2C] bg-white dark:bg-[#111113]">
             <table class="w-full">
               <thead
-                class="sticky top-0 z-10 bg-gray-50 dark:bg-[#1a1a1c] border-b border-gray-200 dark:border-[#2C2C2C] shadow-[0_1px_0_0_rgba(0,0,0,0.05)] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.06)]">
+                class="sticky top-0 z-10 bg-gray-50 dark:bg-[#1a1a1c] border-b border-gray-200 dark:border-[#2C2C2C] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.06)]">
                 <tr>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
@@ -959,7 +958,7 @@
     <div class="w-full flex justify-center mt-5">
       <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1200px] 3xl:max-w-[90rem] 4xl:max-w-[150rem]">
       <div class="space-y-6">
-      <div class="rounded-xl shadow-sm dark:shadow-none">
+      <div class="rounded-xl">
         <h2 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
           Añadir Fuentes de Conocimiento
         </h2>
@@ -1081,14 +1080,25 @@
         </div>
         } @else if (availableKnowledgeSources.length > 0) {
         <div class="mt-4">
-          <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-            Fuentes Disponibles
-          </h3>
+          <div class="mb-3">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
+              Fuentes Disponibles
+            </h3>
+            <p
+              class="mt-1.5 flex items-center gap-1.5 text-[10px] leading-snug text-gray-500 dark:text-gray-400 lg:hidden"
+              role="note">
+              <svg class="w-3.5 h-3.5 shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+              <span>Desliza hacia la derecha para añadir la fuente</span>
+            </p>
+          </div>
           <div
             class="max-h-60 min-h-0 overflow-y-auto overflow-x-auto rounded-xl border border-gray-200 dark:border-[#2C2C2C] bg-white dark:bg-[#111113]">
             <table class="w-full">
               <thead
-                class="sticky top-0 z-10 bg-gray-50 dark:bg-[#1a1a1c] border-b border-gray-200 dark:border-[#2C2C2C] shadow-[0_1px_0_0_rgba(0,0,0,0.05)] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.06)]">
+                class="sticky top-0 z-10 bg-gray-50 dark:bg-[#1a1a1c] border-b border-gray-200 dark:border-[#2C2C2C] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.06)]">
                 <tr>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
@@ -1192,11 +1202,11 @@
               class="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm shrink-0">
               <img src="assets/shopify.webp" alt="Shopify" class="w-[18px] h-[22px] object-contain" />
             </div>
-            <div class="flex-1 min-w-0 flex flex-col gap-1">
-              <p class="text-xs font-semibold text-[#0F172A] dark:text-white leading-tight">Shopify</p>
+            <div class="flex-1 min-w-0 flex flex-row flex-nowrap items-center gap-2">
+              <p class="text-xs font-semibold text-[#0F172A] dark:text-white leading-tight shrink-0">Shopify</p>
               @if (agentShopifyDomain) {
               <div
-                class="flex items-center gap-1.5 bg-white/80 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-md px-2 py-1 group/shopify">
+                class="flex min-w-0 flex-1 items-center gap-1.5 bg-white/80 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-md px-2 py-1 group/shopify">
                 <span class="text-[10px] text-gray-800 dark:text-gray-200 truncate flex-1 min-w-0">{{ agentShopifyDomain }}</span>
                 <button type="button" (click)="unlinkShopify()"
                   class="p-0.5 text-gray-400 hover:text-red-500 transition-colors shrink-0 opacity-70 group-hover/shopify:opacity-100"

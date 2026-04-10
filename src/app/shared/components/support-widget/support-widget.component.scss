@@ -776,6 +776,11 @@
                 align-items: center;
                 justify-content: center;
             }
+
+            /* Sin bocadillo «Asistente de voz» en móvil/tablet (solo esfera) */
+            .launcher-tooltip {
+                display: none !important;
+            }
         }
     }
 
