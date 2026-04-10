@@ -13,3 +13,31 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Lista de fuentes: barra de scroll más visible (alineado con topbar/custom-scrollbar) */
+.kb-list-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+}
+
+:host-context(.dark) .kb-list-scroll {
+  scrollbar-color: #475569 transparent;
+}
+
+:host-context(.dark) .kb-list-scroll::-webkit-scrollbar-thumb {
+  background: #475569;
+}

@@ -140,6 +140,8 @@ export interface Translations {
   knowledgeBaseNoDocuments: string;
   knowledgeBaseNoDocumentsYet: string;
   knowledgeBaseSearchPlaceholder: string;
+  /** Lista de fuentes con scroll: indicación cuando hay más filas */
+  knowledgeBaseScrollForMore: string;
   settings: string;
   privateCommunity: string;
   helpCenter: string;
@@ -905,6 +907,7 @@ export class I18nService {
       knowledgeBaseNoDocuments: 'No se encontraron documentos',
       knowledgeBaseNoDocumentsYet: 'Aún no tienes documentos.',
       knowledgeBaseSearchPlaceholder: 'Buscar documentos...',
+      knowledgeBaseScrollForMore: 'Desplázate para ver el resto',
       settings: 'Ajustes',
       privateCommunity: 'Comunidad Privada',
       helpCenter: 'Centro de Ayuda',
@@ -1659,6 +1662,7 @@ export class I18nService {
       knowledgeBaseNoDocuments: 'No documents found',
       knowledgeBaseNoDocumentsYet: 'You don\'t have any documents yet.',
       knowledgeBaseSearchPlaceholder: 'Search documents...',
+      knowledgeBaseScrollForMore: 'Scroll to see more',
       settings: 'Settings',
       privateCommunity: 'Private Community',
       helpCenter: 'Help Center',

@@ -9,6 +9,7 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
+  HostListener,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { isPlatformBrowser, DatePipe } from '@angular/common';
@@ -113,11 +114,18 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
     this.knowledgeSources.push(validSource);
     if (isPlatformBrowser(this.platformId)) {
       this.syncProcessingStatusPoll();
+      this.scheduleListScrollFadeSync();
     }
   }
 
   @ViewChild('fileInput', { static: false })
   fileInput!: ElementRef<HTMLInputElement>;
+
+  @ViewChild('knowledgeTableScroll', { read: ElementRef })
+  knowledgeTableScroll?: ElementRef<HTMLElement>;
+
+  /** Degradados superior/inferior cuando la tabla tiene scroll. */
+  listScrollFade = { top: false, bottom: false };
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: object,
@@ -132,6 +140,50 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
 
   ngOnDestroy(): void {
     this.clearProcessingStatusPoll();
+  }
+
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    this.scheduleListScrollFadeSync();
+  }
+
+  onKnowledgeTableScroll(event: Event): void {
+    const el = event.target as HTMLElement | null;
+    if (!el) {
+      return;
+    }
+    this.applyListScrollFade(el);
+  }
+
+  onKnowledgeSearchChange(): void {
+    this.scheduleListScrollFadeSync();
+  }
+
+  private scheduleListScrollFadeSync(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    setTimeout(() => this.syncListScrollFade(), 0);
+  }
+
+  private syncListScrollFade(): void {
+    const el = this.knowledgeTableScroll?.nativeElement;
+    if (!el) {
+      return;
+    }
+    this.applyListScrollFade(el);
+  }
+
+  private applyListScrollFade(el: HTMLElement): void {
+    const epsilon = 2;
+    const { scrollTop, scrollHeight, clientHeight } = el;
+    const canScroll = scrollHeight > clientHeight + epsilon;
+    const atTop = scrollTop <= epsilon;
+    const atBottom = scrollTop + clientHeight >= scrollHeight - epsilon;
+    this.listScrollFade = {
+      top: canScroll && !atTop,
+      bottom: canScroll && !atBottom,
+    };
   }
 
   ngAfterViewInit(): void {
@@ -185,6 +237,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
         this.cdr.detectChanges();
         if (isPlatformBrowser(this.platformId)) {
           this.syncProcessingStatusPoll();
+          this.scheduleListScrollFadeSync();
         }
       },
       error: (err) => {
@@ -513,6 +566,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
         this.cdr.detectChanges();
         if (isPlatformBrowser(this.platformId)) {
           this.syncProcessingStatusPoll();
+          this.scheduleListScrollFadeSync();
         }
       },
       error: (err) => {
@@ -542,6 +596,9 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
           }
           this.isLoading = false;
           this.cdr.detectChanges();
+          if (isPlatformBrowser(this.platformId)) {
+            this.scheduleListScrollFadeSync();
+          }
         },
         error: (err) => {
           console.error('Error creating web source:', err);
@@ -577,6 +634,9 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
         }
         this.isLoading = false;
         this.cdr.detectChanges();
+        if (isPlatformBrowser(this.platformId)) {
+          this.scheduleListScrollFadeSync();
+        }
       },
       error: (err) => {
         console.error('Error creating text source:', err);
@@ -625,6 +685,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
         this.cdr.detectChanges();
         if (isPlatformBrowser(this.platformId)) {
           this.syncProcessingStatusPoll();
+          this.scheduleListScrollFadeSync();
         }
       },
       error: (err) => {
