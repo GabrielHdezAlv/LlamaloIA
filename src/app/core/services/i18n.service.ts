@@ -654,6 +654,33 @@ export interface Translations {
   upgradeComp8: string;
   upgradeComp9: string;
   upgradeComp10: string;
+  upgradePlanStarter: string;
+  upgradePlanGrowth: string;
+  upgradePlanScale: string;
+  upgradePlanStarterDesc: string;
+  upgradePlanGrowthDesc: string;
+  upgradePlanScaleDesc: string;
+  upgradePlanStarterButton: string;
+  upgradePlanGrowthButton: string;
+  upgradePlanScaleButton: string;
+  pricingFeatureIncludedMinutes: string;
+  pricingFeatureAgents: string;
+  pricingFeatureDocuments: string;
+  pricingFeatureStorage: string;
+  pricingFeatureSupport: string;
+  pricingDocsStarter: string;
+  pricingDocsGrowth: string;
+  pricingDocsScale: string;
+  pricingStorageScale: string;
+  pricingSupportEmail: string;
+  pricingSupportPriority: string;
+  pricingSupportDedicated: string;
+  planUpgradeCelebrationTitleStarter: string;
+  planUpgradeCelebrationTitleGrowth: string;
+  planUpgradeCelebrationTitleScale: string;
+  planUpgradeCelebrationMessageStarter: string;
+  planUpgradeCelebrationMessageGrowth: string;
+  planUpgradeCelebrationMessageScale: string;
   planUpgradeCelebrationTitlePro: string;
   planUpgradeCelebrationTitlePremium: string;
   planUpgradeCelebrationMessagePro: string;
@@ -1387,6 +1414,36 @@ export class I18nService {
       upgradeComp8: 'Gestor dedicado',
       upgradeComp9: 'SLA',
       upgradeComp10: 'Precio',
+      upgradePlanStarter: 'Starter',
+      upgradePlanGrowth: 'Growth',
+      upgradePlanScale: 'Scale',
+      upgradePlanStarterDesc: 'Para empezar con agentes de voz y base de conocimiento.',
+      upgradePlanGrowthDesc: 'Más minutos y capacidad para equipos en crecimiento.',
+      upgradePlanScaleDesc: 'Máxima escala, almacenamiento y soporte dedicado.',
+      upgradePlanStarterButton: 'Elegir Starter',
+      upgradePlanGrowthButton: 'Elegir Growth',
+      upgradePlanScaleButton: 'Elegir Scale',
+      pricingFeatureIncludedMinutes: 'Minutos incluidos',
+      pricingFeatureAgents: 'Agentes',
+      pricingFeatureDocuments: 'Documentos',
+      pricingFeatureStorage: 'Almacenamiento',
+      pricingFeatureSupport: 'Soporte',
+      pricingDocsStarter: '5',
+      pricingDocsGrowth: '20',
+      pricingDocsScale: '60',
+      pricingStorageScale: '1,5 GB',
+      pricingSupportEmail: 'Email',
+      pricingSupportPriority: 'Prioritario',
+      pricingSupportDedicated: 'Dedicado',
+      planUpgradeCelebrationTitleStarter: '¡Bienvenido a tu plan Starter!',
+      planUpgradeCelebrationTitleGrowth: '¡Bienvenido a tu plan Growth!',
+      planUpgradeCelebrationTitleScale: '¡Bienvenido a tu plan Scale!',
+      planUpgradeCelebrationMessageStarter:
+        'Disfruta de minutos incluidos, agentes y documentos para empezar fuerte con Llamalo.',
+      planUpgradeCelebrationMessageGrowth:
+        'Has dado un salto de escala: más minutos, agentes y almacenamiento para tu equipo.',
+      planUpgradeCelebrationMessageScale:
+        'Estás en el plan más completo: máxima capacidad, almacenamiento y soporte dedicado.',
       planUpgradeCelebrationTitlePro: '¡Bienvenido a tu nuevo plan Pro!',
       planUpgradeCelebrationTitlePremium: '¡Bienvenido a tu nuevo plan Premium!',
       planUpgradeCelebrationMessagePro:
@@ -2111,6 +2168,36 @@ export class I18nService {
       upgradeComp8: 'Dedicated manager',
       upgradeComp9: 'SLA',
       upgradeComp10: 'Price',
+      upgradePlanStarter: 'Starter',
+      upgradePlanGrowth: 'Growth',
+      upgradePlanScale: 'Scale',
+      upgradePlanStarterDesc: 'Get started with voice agents and a knowledge base.',
+      upgradePlanGrowthDesc: 'More minutes and room for growing teams.',
+      upgradePlanScaleDesc: 'Maximum scale, storage, and dedicated support.',
+      upgradePlanStarterButton: 'Choose Starter',
+      upgradePlanGrowthButton: 'Choose Growth',
+      upgradePlanScaleButton: 'Choose Scale',
+      pricingFeatureIncludedMinutes: 'Included minutes',
+      pricingFeatureAgents: 'Agents',
+      pricingFeatureDocuments: 'Documents',
+      pricingFeatureStorage: 'Storage',
+      pricingFeatureSupport: 'Support',
+      pricingDocsStarter: '5',
+      pricingDocsGrowth: '20',
+      pricingDocsScale: '60',
+      pricingStorageScale: '1.5 GB',
+      pricingSupportEmail: 'Email',
+      pricingSupportPriority: 'Priority',
+      pricingSupportDedicated: 'Dedicated',
+      planUpgradeCelebrationTitleStarter: 'Welcome to your Starter plan!',
+      planUpgradeCelebrationTitleGrowth: 'Welcome to your Growth plan!',
+      planUpgradeCelebrationTitleScale: 'Welcome to your Scale plan!',
+      planUpgradeCelebrationMessageStarter:
+        'Enjoy included minutes, agents, and documents to hit the ground running with Llamalo.',
+      planUpgradeCelebrationMessageGrowth:
+        'You have leveled up: more minutes, agents, and storage for your team.',
+      planUpgradeCelebrationMessageScale:
+        'You are on the fullest plan: top capacity, storage, and dedicated support.',
       planUpgradeCelebrationTitlePro: 'Welcome to your new Pro plan!',
       planUpgradeCelebrationTitlePremium: 'Welcome to your new Premium plan!',
       planUpgradeCelebrationMessagePro:

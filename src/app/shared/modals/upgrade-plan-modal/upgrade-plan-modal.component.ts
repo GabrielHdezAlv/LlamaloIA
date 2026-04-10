@@ -17,7 +17,7 @@ import {
   PlanUpgradeCelebrationModalComponent,
   PlanUpgradeCelebrationModalData,
 } from '../plan-upgrade-celebration-modal/plan-upgrade-celebration-modal.component';
-import { upgradePlanFeatureRows } from './pricing-plan-features';
+import { paidPlanFeatureRows, type PaidUpgradePlanId } from './pricing-plan-features';
 
 const PLAN_TIER_STORAGE_KEY = 'llamalo_selected_plan_tier';
 
@@ -80,38 +80,32 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
     const t = this.t;
     return [
       {
-        id: 'free' as const,
-        name: t.upgradePlanFree,
-        description: t.upgradePlanFreeDesc,
-        price: '0',
-        buttonText: t.upgradePlanFreeButton,
+        id: 'starter' as const,
+        name: t.upgradePlanStarter,
+        description: t.upgradePlanStarterDesc,
+        price: '29',
+        buttonText: t.upgradePlanStarterButton,
         highlighted: false,
-        features: [
-          { text: t.upgradeFeatureFree1, icon: 'M13 10V3L4 14h7v7l9-11h-7z' },
-          { text: t.upgradeFeatureFree2, icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
-          { text: t.upgradeFeatureFree3, icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
-          { text: t.upgradeFeatureFree4, icon: 'M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z' },
-          { text: t.upgradeFeatureFree5, icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' }
-        ]
+        features: paidPlanFeatureRows('starter', t),
       },
       {
-        id: 'pro' as const,
-        name: t.upgradePlanPro,
-        description: t.upgradePlanProDesc,
-        price: '12',
-        buttonText: t.upgradePlanProButton,
+        id: 'growth' as const,
+        name: t.upgradePlanGrowth,
+        description: t.upgradePlanGrowthDesc,
+        price: '79',
+        buttonText: t.upgradePlanGrowthButton,
         highlighted: true,
-        features: upgradePlanFeatureRows('pro', t),
+        features: paidPlanFeatureRows('growth', t),
       },
       {
-        id: 'premium' as const,
-        name: t.upgradePlanPremium,
-        description: t.upgradePlanPremiumDesc,
-        price: '18',
-        buttonText: t.upgradePlanPremiumButton,
+        id: 'scale' as const,
+        name: t.upgradePlanScale,
+        description: t.upgradePlanScaleDesc,
+        price: '169',
+        buttonText: t.upgradePlanScaleButton,
         highlighted: false,
-        features: upgradePlanFeatureRows('premium', t),
-      }
+        features: paidPlanFeatureRows('scale', t),
+      },
     ];
   }
 
@@ -119,14 +113,10 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
     this.closeWithAnimation();
   }
 
-  onChoosePlan(planId: 'free' | 'pro' | 'premium', event: Event): void {
+  onChoosePlan(planId: PaidUpgradePlanId, event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     if (this.closing) {
-      return;
-    }
-    if (planId === 'free') {
-      this.closeWithAnimation();
       return;
     }
     if (isPlatformBrowser(this.platformId)) {

@@ -17,37 +17,37 @@
         @for (plan of pricingPlans; track plan.id; let i = $index) {
         <div [style.animation-delay]="(i * 180) + 'ms'"
             [class]="'plan-card-fade-in flex flex-col h-full rounded-[2rem] p-1.5 3xl:p-3 border shadow-xl transition-all duration-500 hover:scale-[1.02] animate-card-hover ' + 
-            (plan.id === 'pro' 
+            (plan.highlighted 
                 ? 'bg-[#151515] dark:bg-white border-transparent dark:border-gray-200 plan-pro-glow' 
                 : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')">
 
             <!-- Top Section Container -->
             <div [class]="'rounded-[1.5rem] 3xl:rounded-[2rem] p-6 sm:p-8 3xl:p-10 flex flex-col h-fit transition-colors ' + 
-                (plan.id === 'pro' 
+                (plan.highlighted 
                     ? 'bg-[#222222] dark:bg-[#dddddd]' 
                     : 'bg-gray-50 dark:bg-[#222222]')">
                 <div class="mb-6 3xl:mb-8">
                     <h3
-                        [class]="'text-xl 3xl:text-3xl font-bold mb-2 3xl:mb-3 ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001]' : 'text-black dark:text-white')">
+                        [class]="'text-xl 3xl:text-3xl font-bold mb-2 3xl:mb-3 ' + (plan.highlighted ? 'text-white dark:text-[#000001]' : 'text-black dark:text-white')">
                         {{ plan.name }}
                     </h3>
                     <p
-                        [class]="'text-xs 3xl:text-base leading-relaxed font-medium ' + (plan.id === 'pro' ? 'text-gray-400 dark:text-[#000001]/70' : 'text-gray-500 dark:text-gray-400')">
+                        [class]="'text-xs 3xl:text-base leading-relaxed font-medium ' + (plan.highlighted ? 'text-gray-400 dark:text-[#000001]/70' : 'text-gray-500 dark:text-gray-400')">
                         {{ plan.description }}
                     </p>
                 </div>
 
                 <div class="flex items-baseline gap-1.5 3xl:gap-2 mb-8 3xl:mb-10">
                     <span
-                        [class]="'text-4xl 3xl:text-6xl font-extrabold tracking-tight ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001]' : 'text-black dark:text-white')">${{
-                        plan.price }}</span>
+                        [class]="'text-4xl 3xl:text-6xl font-extrabold tracking-tight ' + (plan.highlighted ? 'text-white dark:text-[#000001]' : 'text-black dark:text-white')">{{
+                        plan.price }}&nbsp;€</span>
                     <span
-                        [class]="'text-xs 3xl:text-lg font-medium ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">/
+                        [class]="'text-xs 3xl:text-lg font-medium ' + (plan.highlighted ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">/
                         {{ t.perMonth }}</span>
                 </div>
 
                 <button [class]="'w-full py-3 3xl:py-5 px-5 3xl:px-6 rounded-full font-bold text-sm 3xl:text-lg transition-all duration-300 flex items-center justify-center group shadow-md 3xl:shadow-lg ' + 
-                    (plan.id === 'pro' 
+                    (plan.highlighted 
                         ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90' 
                         : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
                     <span>{{ plan.buttonText }}</span>
@@ -62,22 +62,28 @@
             <!-- Bottom Section (Features List) -->
             <div class="p-6 sm:p-8 3xl:p-10 flex-1 flex flex-col">
                 <h4
-                    [class]="'text-[9px] 3xl:text-xs font-bold uppercase tracking-[0.15em] mb-4 3xl:mb-6 ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">
-                    {{ plan.id === 'free' ? t.whatIncluded : (plan.id === 'pro' ? t.everythingInFreePlus : t.everythingInProPlus) }}
+                    [class]="'text-[9px] 3xl:text-xs font-bold uppercase tracking-[0.15em] mb-4 3xl:mb-6 ' + (plan.highlighted ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">
+                    {{ t.whatIncluded }}
                 </h4>
 
                 <ul class="space-y-3 3xl:space-y-5">
                     @for (feature of plan.features; track feature.text) {
-                    <li class="flex items-start gap-4 group">
+                    <li class="flex items-center gap-4 group">
                         <span
-                            [class]="'mt-0.5 transition-colors flex-shrink-0 ' + (plan.id === 'pro' ? 'text-white dark:text-[#000001] group-hover:text-blue-500' : 'text-gray-400 dark:text-gray-500 group-hover:text-white')">
-                            <svg class="w-4 h-4 3xl:w-6 3xl:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="feature.icon"></path>
+                            [class]="'transition-colors flex-shrink-0 flex items-center justify-center ' + (plan.highlighted ? 'text-white dark:text-[#000001] group-hover:text-blue-500' : 'text-gray-400 dark:text-gray-500 group-hover:text-white')">
+                            <svg
+                                [class]="'w-4 h-4 3xl:w-6 3xl:h-6 shrink-0 ' + (plan.highlighted ? 'invert dark:invert-0' : 'dark:invert')"
+                                fill="none" xmlns="http://www.w3.org/2000/svg" [attr.viewBox]="feature.icon.viewBox"
+                                aria-hidden="true">
+                                @for (p of feature.icon.paths; track $index) {
+                                <path [attr.d]="p.d" [attr.fill]="p.fill"
+                                    [attr.fill-rule]="p.fillRule ?? null" [attr.clip-rule]="p.clipRule ?? null"
+                                    [attr.opacity]="p.opacity ?? null" />
+                                }
                             </svg>
                         </span>
                         <span
-                            [class]="'text-xs 3xl:text-base font-medium leading-tight ' + (plan.id === 'pro' ? 'text-gray-300 dark:text-[#000001]/70' : 'text-gray-700 dark:text-gray-300')">
+                            [class]="'text-xs 3xl:text-base font-medium leading-tight ' + (plan.highlighted ? 'text-gray-300 dark:text-[#000001]/70' : 'text-gray-700 dark:text-gray-300')">
                             {{ feature.text }}
                         </span>
                     </li>

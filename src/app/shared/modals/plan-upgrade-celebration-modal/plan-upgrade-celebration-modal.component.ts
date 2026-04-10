@@ -15,9 +15,9 @@ import { Subject, takeUntil } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import confetti from 'canvas-confetti';
 import { I18nService } from '../../../core/services/i18n.service';
-import { upgradePlanFeatureRows } from '../upgrade-plan-modal/pricing-plan-features';
+import type { PaidUpgradePlanId } from '../upgrade-plan-modal/pricing-plan-features';
 
-export type PlanUpgradeCelebrationPlan = 'pro' | 'premium';
+export type PlanUpgradeCelebrationPlan = PaidUpgradePlanId;
 
 export interface PlanUpgradeCelebrationModalData {
   plan: PlanUpgradeCelebrationPlan;
@@ -37,8 +37,11 @@ const CONFETTI_BLUE_COLORS = [
   '#93c5fd',
 ];
 
-/** Más tiempo entre ráfagas = sensación más pausada. */
-const CONFETTI_LOOP_MS = 1450;
+/** Intervalo entre ráfagas del confeti (ms). */
+const CONFETTI_LOOP_MS = 900;
+
+/** Segunda ráfaga tras la inicial (ms). */
+const CONFETTI_SECOND_BURST_MS = 160;
 
 @Component({
   selector: 'app-plan-upgrade-celebration-modal',
@@ -68,37 +71,26 @@ export class PlanUpgradeCelebrationModalComponent implements OnInit, AfterViewIn
     return this.i18nService.getTranslations();
   }
 
-  get planDisplayName(): string {
-    return this.planData.plan === 'premium'
-      ? this.t.upgradePlanPremium
-      : this.t.upgradePlanPro;
-  }
-
   get celebrationTitle(): string {
-    return this.planData.plan === 'premium'
-      ? this.t.planUpgradeCelebrationTitlePremium
-      : this.t.planUpgradeCelebrationTitlePro;
+    switch (this.planData.plan) {
+      case 'starter':
+        return this.t.planUpgradeCelebrationTitleStarter;
+      case 'growth':
+        return this.t.planUpgradeCelebrationTitleGrowth;
+      case 'scale':
+        return this.t.planUpgradeCelebrationTitleScale;
+    }
   }
 
   get celebrationMessage(): string {
-    return this.planData.plan === 'premium'
-      ? this.t.planUpgradeCelebrationMessagePremium
-      : this.t.planUpgradeCelebrationMessagePro;
-  }
-
-  /** Por si la clave i18n no está en el objeto en runtime (caché antigua, etc.). */
-  get benefitsHeading(): string {
-    const raw = this.t.planUpgradeCelebrationBenefitsHeading;
-    if (raw != null && String(raw).trim() !== '') {
-      return raw;
+    switch (this.planData.plan) {
+      case 'starter':
+        return this.t.planUpgradeCelebrationMessageStarter;
+      case 'growth':
+        return this.t.planUpgradeCelebrationMessageGrowth;
+      case 'scale':
+        return this.t.planUpgradeCelebrationMessageScale;
     }
-    return this.i18nService.selectedLanguage().code === 'en'
-      ? 'Benefits included'
-      : 'Ventajas adquiridas';
-  }
-
-  get celebrationFeatures() {
-    return upgradePlanFeatureRows(this.planData.plan, this.t);
   }
 
   ngOnInit(): void {
@@ -126,7 +118,11 @@ export class PlanUpgradeCelebrationModalComponent implements OnInit, AfterViewIn
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    requestAnimationFrame(() => this.launchConfetti());
+    if (this.confettiCanvas()?.nativeElement) {
+      this.launchConfetti();
+    } else {
+      requestAnimationFrame(() => this.launchConfetti());
+    }
   }
 
   ngOnDestroy(): void {
@@ -212,7 +208,7 @@ export class PlanUpgradeCelebrationModalComponent implements OnInit, AfterViewIn
     };
 
     burst();
-    window.setTimeout(burst, 480);
+    window.setTimeout(burst, CONFETTI_SECOND_BURST_MS);
 
     this.confettiLoopIntervalId = window.setInterval(() => {
       burst();
