@@ -219,7 +219,7 @@
                 <div class="flex items-center justify-end h-full gap-0.5">
                   @if (showEditButtonForSource(source)) {
                   <button type="button" (click)="editKnowledgeSource(source)"
-                    [disabled]="!canEditKnowledgeSource(source)"
+                    [disabled]="!canEditKnowledgeSource(source) || isKnowledgeRowDeleting(source.id)"
                     class="p-1.5 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                     [attr.title]="canEditKnowledgeSource(source) ? t.editKnowledgeSource : t.statusProcessing">
                     <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none"
@@ -235,7 +235,8 @@
                   }
                   @if (showDownloadForSource(source)) {
                   <button type="button" (click)="downloadKnowledgeFile(source)"
-                    class="p-1.5 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+                    [disabled]="isKnowledgeRowDeleting(source.id)"
+                    class="p-1.5 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                     [title]="t.downloadKnowledgeFile">
                     <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none"
                       xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -245,10 +246,19 @@
                     </svg>
                   </button>
                   }
-                  <button type="button" (click)="deleteKnowledgeSource(source.id)"
-                    class="p-1.5 rounded-md text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                    [title]="t.deleteDocument">
-                    <!-- papelera de new-agents -->
+                  <button type="button" (click)="requestDeleteKnowledgeSource(source)"
+                    [disabled]="deletingKnowledgeSourceId !== null"
+                    class="p-1.5 rounded-md text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent min-w-[2.25rem] min-h-[2.25rem] inline-flex items-center justify-center"
+                    [title]="isKnowledgeRowDeleting(source.id) ? t.knowledgeBaseDeletingSource : t.deleteDocument"
+                    [attr.aria-busy]="isKnowledgeRowDeleting(source.id)">
+                    @if (isKnowledgeRowDeleting(source.id)) {
+                    <svg class="h-4 w-4 3xl:h-5 3xl:w-5 shrink-0 animate-spin text-gray-500 dark:text-slate-400"
+                      viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path
+                        d="M4.06189 13C4.02104 12.6724 4 12.3387 4 12C4 7.58172 7.58172 4 12 4C14.5006 4 16.7332 5.14727 18.2002 6.94416M19.9381 11C19.979 11.3276 20 11.6613 20 12C20 16.4183 16.4183 20 12 20C9.61061 20 7.46589 18.9525 6 17.2916M9 17H6V17.2916M18.2002 4V6.94416M18.2002 6.94416V6.99993L15.2002 7M6 20V17.2916"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    } @else {
                     <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none"
                       xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path
@@ -258,6 +268,7 @@
                         d="M11.5956 22.0001H12.4044C15.1871 22.0001 16.5785 22.0001 17.4831 21.1142C18.3878 20.2283 18.4803 18.7751 18.6654 15.8686L18.9321 11.6807C19.0326 10.1037 19.0828 9.31524 18.6289 8.81558C18.1751 8.31592 17.4087 8.31592 15.876 8.31592H8.12404C6.59127 8.31592 5.82488 8.31592 5.37105 8.81558C4.91722 9.31524 4.96744 10.1037 5.06788 11.6807L5.33459 15.8686C5.5197 18.7751 5.61225 20.2283 6.51689 21.1142C7.42153 22.0001 8.81289 22.0001 11.5956 22.0001ZM10.2463 12.1886C10.2051 11.7548 9.83753 11.4382 9.42537 11.4816C9.01321 11.525 8.71251 11.9119 8.75372 12.3457L9.25372 17.6089C9.29494 18.0427 9.66247 18.3593 10.0746 18.3159C10.4868 18.2725 10.7875 17.8856 10.7463 17.4518L10.2463 12.1886ZM14.5746 11.4816C14.9868 11.525 15.2875 11.9119 15.2463 12.3457L14.7463 17.6089C14.7051 18.0427 14.3375 18.3593 13.9254 18.3159C13.5132 18.2725 13.2125 17.8856 13.2537 17.4518L13.7537 12.1886C13.7949 11.7548 14.1625 11.4382 14.5746 11.4816Z"
                         fill="currentColor"></path>
                     </svg>
+                    }
                   </button>
                 </div>
               </td>

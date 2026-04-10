@@ -520,6 +520,12 @@ export interface Translations {
   errorCreatingWeb: string;
   errorServerResponse: string;
   errorDeletingKnowledge: string;
+  /** Título del modal de confirmación de borrado */
+  knowledgeBaseDeleteConfirmTitle: string;
+  /** Confirmación de borrado; sustituir {{name}} por el nombre de la fuente */
+  knowledgeBaseDeleteConfirmMessage: string;
+  knowledgeBaseDeleteConfirmButton: string;
+  knowledgeBaseDeletingSource: string;
   urlTooLong: string;
   textTooLong: string;
 
@@ -1284,6 +1290,11 @@ export class I18nService {
       errorCreatingWeb: 'Error al crear la fuente web',
       errorServerResponse: 'Error en la respuesta del servidor',
       errorDeletingKnowledge: 'Error al eliminar la fuente de conocimiento',
+      knowledgeBaseDeleteConfirmTitle: 'Eliminar documento',
+      knowledgeBaseDeleteConfirmMessage:
+        '¿Seguro que quieres eliminar «{{name}}»? Esta acción no se puede deshacer.',
+      knowledgeBaseDeleteConfirmButton: 'Eliminar',
+      knowledgeBaseDeletingSource: 'Eliminando…',
       urlTooLong: 'La URL no puede exceder los 2048 caracteres',
       textTooLong: 'El texto no puede exceder los 50,000 caracteres',
 
@@ -2039,6 +2050,11 @@ export class I18nService {
       errorCreatingWeb: 'Error creating web source',
       errorServerResponse: 'Server response error',
       errorDeletingKnowledge: 'Error deleting knowledge source',
+      knowledgeBaseDeleteConfirmTitle: 'Delete document',
+      knowledgeBaseDeleteConfirmMessage:
+        'Are you sure you want to delete "{{name}}"? This action cannot be undone.',
+      knowledgeBaseDeleteConfirmButton: 'Delete',
+      knowledgeBaseDeletingSource: 'Deleting…',
       urlTooLong: 'URL cannot exceed 2,048 characters',
       textTooLong: 'Text cannot exceed 50,000 characters',
 

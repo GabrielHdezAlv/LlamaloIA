@@ -676,12 +676,51 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
     });
   }
 
-  deleteKnowledgeSource(id: string): void {
+  /** Fila en la que se está ejecutando el DELETE (spinner en acciones). */
+  deletingKnowledgeSourceId: string | null = null;
+
+  requestDeleteKnowledgeSource(source: KnowledgeSource): void {
+    if (!source?.id || this.deletingKnowledgeSourceId) {
+      return;
+    }
+
+    const dialogRef = this.modalService.openConfirmDeleteKnowledge({
+      title: this.t.knowledgeBaseDeleteConfirmTitle,
+      message: this.formatKnowledgeDeleteConfirmMessage(source),
+      confirmText: this.t.knowledgeBaseDeleteConfirmButton,
+      cancelText: this.t.cancel,
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (!confirmed) {
+        return;
+      }
+      this.performDeleteKnowledgeSource(source.id);
+    });
+  }
+
+  isKnowledgeRowDeleting(sourceId: string): boolean {
+    return this.deletingKnowledgeSourceId === sourceId;
+  }
+
+  private formatKnowledgeDeleteConfirmMessage(source: KnowledgeSource): string {
+    const name = (source.name ?? this.t.noName).toString();
+    return this.t.knowledgeBaseDeleteConfirmMessage.replace(
+      /\{\{name\}\}/g,
+      name,
+    );
+  }
+
+  private performDeleteKnowledgeSource(id: string): void {
+    this.deletingKnowledgeSourceId = id;
+    this.cdr.detectChanges();
+
     this.knowledgeBaseService.deleteKnowledgeSource(id).subscribe({
       next: () => {
         this.knowledgeSources = this.knowledgeSources.filter(
           (source) => source.id !== id,
         );
+        this.deletingKnowledgeSourceId = null;
         this.cdr.detectChanges();
         if (isPlatformBrowser(this.platformId)) {
           this.syncProcessingStatusPoll();
@@ -690,7 +729,9 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
       },
       error: (err) => {
         console.error('Error deleting knowledge source:', err);
+        this.deletingKnowledgeSourceId = null;
         this.notificationService.error(this.t.errorDeletingKnowledge);
+        this.cdr.detectChanges();
       },
     });
   }

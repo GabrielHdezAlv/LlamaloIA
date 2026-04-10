@@ -21,6 +21,10 @@ import {
   WarningModalData,
 } from './warning-modal/warning-modal.component';
 import {
+  ConfirmDeleteKnowledgeModalComponent,
+  ConfirmDeleteKnowledgeModalData,
+} from './confirm-delete-knowledge-modal/confirm-delete-knowledge-modal.component';
+import {
   ImportNumberModalComponent,
   ImportNumberModalData,
 } from './import-number-modal/import-number-modal.component';
@@ -116,6 +120,18 @@ export class ModalService {
       maxWidth: '90vw',         // evitar que se salga de la pantalla
       disableClose: false,
       panelClass: ['custom-dialog-container', 'warning-dialog-top'],
+      data,
+      ...this.dialogMotion,
+    });
+  }
+
+  /** Modal responsive de confirmación al eliminar una fuente de la base de conocimientos. */
+  openConfirmDeleteKnowledge(data: ConfirmDeleteKnowledgeModalData) {
+    return this.dialog.open(ConfirmDeleteKnowledgeModalComponent, {
+      width: '100%',
+      maxWidth: 'min(100vw - 1.5rem, 28rem)',
+      disableClose: false,
+      panelClass: ['custom-dialog-container', 'confirm-delete-knowledge-dialog'],
       data,
       ...this.dialogMotion,
     });
