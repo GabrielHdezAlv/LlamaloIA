@@ -21,8 +21,8 @@ import { paidPlanFeatureRows, type PaidUpgradePlanId } from './pricing-plan-feat
 
 const PLAN_TIER_STORAGE_KEY = 'llamalo_selected_plan_tier';
 
-/** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.48s). */
-const UPGRADE_MODAL_CLOSE_MS = 520;
+/** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.45s). */
+const UPGRADE_MODAL_CLOSE_MS = 500;
 
 @Component({
   selector: 'app-upgrade-plan-modal',

@@ -684,11 +684,12 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
       return;
     }
 
-    const dialogRef = this.modalService.openConfirmDeleteKnowledge({
-      title: this.t.knowledgeBaseDeleteConfirmTitle,
+    const dialogRef = this.modalService.openWarning({
+      title: '',
       message: this.formatKnowledgeDeleteConfirmMessage(source),
       confirmText: this.t.knowledgeBaseDeleteConfirmButton,
       cancelText: this.t.cancel,
+      showCancelButton: true,
     });
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {

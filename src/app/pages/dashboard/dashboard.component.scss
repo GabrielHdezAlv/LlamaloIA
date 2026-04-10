@@ -119,3 +119,9 @@
     backdrop-filter: blur(0px);
   }
 }
+
+/* Menú móvil (oscuro): ruta activa fondo blanco + texto negro.
+   Gana a `html.dark .text-black` de styles.scss. */
+:host-context(html.dark) .mobile-sidebar nav a.bg-white.text-black {
+  color: #000000 !important;
+}

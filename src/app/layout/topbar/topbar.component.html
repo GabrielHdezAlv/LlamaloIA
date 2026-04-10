@@ -554,18 +554,19 @@
     *ngIf="draftBannerShown"
     @draftBanner
     (@draftBanner.done)="onDraftBannerAnimDone($event)"
-    class="fixed bottom-4 left-1/2 z-[100] flex w-[90%] max-w-[min(42rem,calc(100vw-2rem))] -translate-x-1/2 flex-col items-stretch gap-3 rounded-[9999px] border border-white/20 bg-black px-4 py-3 shadow-2xl sm:w-auto sm:min-w-[550px] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6 sm:py-2.5"
+    class="fixed bottom-4 left-1/2 z-[100] flex w-[90%] max-w-[min(42rem,calc(100vw-2rem))] -translate-x-1/2 flex-col items-stretch gap-3 rounded-3xl border border-white/20 bg-black px-4 py-3 shadow-2xl sm:w-auto sm:min-w-[550px] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6 sm:py-2.5"
   >
     <div class="flex min-w-0 flex-col items-center gap-0.5 text-center sm:items-start sm:text-left">
       <p class="text-xs font-medium leading-snug text-white sm:text-[13px]">
         {{ t.continueAgentCreationQuestion }}
       </p>
-      <div class="text-[10px] leading-snug text-gray-400 sm:text-[11px]">
+      <div
+        class="text-[10px] leading-snug text-gray-400 max-sm:flex max-sm:flex-row max-sm:flex-wrap max-sm:items-baseline max-sm:justify-center max-sm:gap-x-2 sm:text-[11px] sm:block">
         <span>
           {{ t.agentLabelTopbar }}:
           <span class="font-medium text-gray-300">{{ savedDraft?.agentName || t.noName }}</span>
         </span>
-        <span *ngIf="getSavedStepText()" class="mt-0.5 block">
+        <span *ngIf="getSavedStepText()" class="max-sm:inline sm:mt-0.5 sm:block">
           {{ t.stepLabel }}:
           <span class="font-medium text-gray-300">{{ getSavedStepText() }}</span>
         </span>

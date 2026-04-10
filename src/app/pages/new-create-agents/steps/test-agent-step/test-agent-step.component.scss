@@ -70,6 +70,14 @@
   bottom: 80px; // Spacing from footer (Continuar button)
   width: 180px;
 
+  // Móvil: panel y burbujas mucho más compactos (no dominar la pantalla)
+  @media (max-width: 767px) {
+    width: 108px;
+    top: 72px; // un poco más bajo, alineado con la esfera / menos solapamiento con el subtítulo
+    bottom: 88px;
+    right: 0;
+  }
+
   @media (min-width: 1920px) {
     width: 220px;
     top: 100px;

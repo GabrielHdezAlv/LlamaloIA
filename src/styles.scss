@@ -907,8 +907,9 @@ html.dark .dark\:focus\:border-blue-400:focus {
     padding: 0 !important;
     display: flex !important;
     justify-content: center !important;
-    max-width: none !important;
+    max-width: min(100%, calc(100vw - 2rem)) !important;
     min-width: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .mdc-snackbar__label {

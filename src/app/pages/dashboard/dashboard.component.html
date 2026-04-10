@@ -39,34 +39,34 @@
       <!-- Navegación principal -->
       <nav class="flex-1 px-6 pt-6 pb-4 space-y-3 overflow-y-auto">
         <a [routerLink]="['/dashboard/home']" (click)="closeMobileSidebar()"
-          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/home') ? 'bg-blue-100 text-blue-900 dark:bg-blue-900/30 dark:text-white' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
+          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/home') ? 'bg-[#1B2559] text-white dark:bg-white dark:text-[#000000]' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
           {{ t.home }}
         </a>
 
         <a [routerLink]="['/dashboard/agents']" (click)="closeMobileSidebar()"
-          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/agents') ? 'bg-blue-100 text-blue-900 dark:bg-blue-900/30 dark:text-white' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
+          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/agents') ? 'bg-[#1B2559] text-white dark:bg-white dark:text-[#000000]' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
           {{ t.agents }}
         </a>
 
         <a [routerLink]="['/dashboard/numbers']" (click)="closeMobileSidebar()"
-          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/numbers') ? 'bg-blue-100 text-blue-900 dark:bg-blue-900/30 dark:text-white' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
+          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/numbers') ? 'bg-[#1B2559] text-white dark:bg-white dark:text-[#000000]' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
           {{ t.numbers }}
         </a>
 
         @if (showHistorialNav) {
         <a [routerLink]="['/dashboard/history']" (click)="closeMobileSidebar()"
-          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/history') ? 'bg-blue-100 text-blue-900 dark:bg-blue-900/30 dark:text-white' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
+          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/history') ? 'bg-[#1B2559] text-white dark:bg-white dark:text-[#000000]' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
           {{ t.history }}
         </a>
         }
 
         <a [routerLink]="['/dashboard/metrics']" (click)="closeMobileSidebar()"
-          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/metrics') ? 'bg-blue-100 text-blue-900 dark:bg-blue-900/30 dark:text-white' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
+          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/metrics') ? 'bg-[#1B2559] text-white dark:bg-white dark:text-[#000000]' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
           {{ t.metrics }}
         </a>
 
         <a [routerLink]="['/dashboard/knowledge-base']" (click)="closeMobileSidebar()"
-          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/knowledge-base') ? 'bg-blue-100 text-blue-900 dark:bg-blue-900/30 dark:text-white' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
+          [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/knowledge-base') ? 'bg-[#1B2559] text-white dark:bg-white dark:text-[#000000]' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
           {{ t.knowledgeBase }}
         </a>
       </nav>

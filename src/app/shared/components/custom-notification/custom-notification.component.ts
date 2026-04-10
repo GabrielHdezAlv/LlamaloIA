@@ -37,6 +37,9 @@ export interface NotificationData {
       align-items: center;
       gap: 10px;
       padding: 10px 16px;
+      max-width: min(560px, calc(100vw - 2rem));
+      width: 100%;
+      box-sizing: border-box;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -83,9 +86,12 @@ export interface NotificationData {
     .warning .status-dot { background: #f59e0b; }
 
     .message-text {
+      flex: 1;
+      min-width: 0;
       font-weight: 300;
       font-size: 13px;
       line-height: 1.4;
+      word-break: break-word;
     }
   `],
 })

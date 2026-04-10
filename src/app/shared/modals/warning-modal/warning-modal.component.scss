@@ -1,17 +1,27 @@
 // Estilos base del aviso de confirmación (recuadro tipo pastilla)
+// Nota: NO usar overflow:hidden aquí: con border-radius recorta el trazo del borde en las curvas (Safari/WebKit).
 .modal-container {
-  @apply mx-auto rounded-full overflow-hidden;
+  @apply mx-auto rounded-full;
+  overflow: visible;
   padding: 0;
   display: inline-block;              /* ancho según el contenido */
-  /* Modo claro: fondo blanco ligeramente elevado */
+  max-width: min(100%, calc(100vw - 2rem));
+  box-sizing: border-box;
+  /* Borde en los 4 lados + sombra (la sombra externa puede recortarse en el overlay; el borde no) */
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.08),
+    0 10px 20px -5px rgba(0, 0, 0, 0.06);
 }
 
-/* Modo oscuro: fondo y borde como la captura */
+/* Modo oscuro: borde visible en todo el perímetro */
 :host-context(html.dark) .modal-container {
   background-color: #111111;
-  border-color: #27272a;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.45);
 }
 
 // Contenedor del icono
@@ -61,7 +71,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  white-space: nowrap; /* forzar todo en una sola línea */
+  white-space: nowrap; /* escritorio: una línea */
 }
 
 .status-dot {
@@ -74,12 +84,13 @@
 
 .modal-message-text {
   flex: 1;
+  min-width: 0;
   font-size: 13px;
   line-height: 1.4;
   color: #111827;
-  white-space: nowrap;         /* no permitir saltos de línea en el texto */
+  white-space: nowrap;         /* escritorio: una línea + ellipsis */
   overflow: hidden;
-  text-overflow: ellipsis;     /* si no cabe, cortar con ... */
+  text-overflow: ellipsis;
 }
 
 :host-context(html.dark) .modal-message-text {
@@ -204,9 +215,68 @@
 }
 
 // Colocar los warning en la parte superior (como las notificaciones)
+// Hueco + overflow visible: si no, el CDK recorta sombras y a veces el antialiasing del borde en las esquinas.
 ::ng-deep .warning-dialog-top.cdk-overlay-pane {
   align-self: flex-start !important;
   margin-top: 20px;
+  max-width: calc(100vw - 2rem) !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+  padding: 6px !important;
+}
+
+::ng-deep .warning-dialog-top.cdk-overlay-pane .mat-mdc-dialog-container,
+::ng-deep .warning-dialog-top.cdk-overlay-pane .mat-mdc-dialog-surface,
+::ng-deep .warning-dialog-top.cdk-overlay-pane .mdc-dialog__surface {
+  overflow: visible !important;
+}
+
+/* Móvil: que el recuadro y los botones quepan en pantalla */
+@media (max-width: 639px) {
+  .modal-container {
+    display: block;
+    width: 100%;
+    max-width: min(100%, calc(100vw - 1.5rem));
+    border-radius: 1.25rem;
+  }
+
+  .modal-header-row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    white-space: normal;
+  }
+
+  .message-and-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .modal-message-text {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+
+  .modal-actions {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .modal-button {
+    flex: 1 1 auto;
+    min-width: min(100%, 120px);
+  }
+
+  ::ng-deep .warning-dialog-top.cdk-overlay-pane {
+    margin-left: 0.75rem !important;
+    margin-right: 0.75rem !important;
+    width: auto !important;
+    max-width: calc(100vw - 1.5rem) !important;
+  }
 }
 
 ::ng-deep html.dark .custom-dialog-container {
