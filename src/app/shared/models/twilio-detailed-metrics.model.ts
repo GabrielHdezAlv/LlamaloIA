@@ -1,4 +1,5 @@
 import { CallMetricsDto } from './call-metrics.model';
+import type { PanelAnalytics } from './panel-analytics.model';
 
 /**
  * DTO para GET /metrics/twilio-detailed
@@ -43,4 +44,5 @@ export interface TwilioDetailedMetrics {
   };
   latenciaMedia: number; // latencia media en milisegundos
   callMetricsByHour?: CallMetricsDto; // Nueva propiedad para métricas por hora
+  panel_analytics?: PanelAnalytics;
 }

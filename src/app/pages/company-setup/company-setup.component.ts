@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
@@ -29,6 +30,8 @@ import {
 } from '../../shared/models/agent.model';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
+import { openPlanLimitDialog } from '../../shared/utils/plan-limit-dialog.util';
+import { canAddAnotherAgent } from '../../shared/utils/plan-usage.util';
 import lottie from 'lottie-web';
 
 // Step components
@@ -1571,6 +1574,21 @@ export class CompanySetupComponent
 
   // Crear agente
   private createAgentAfterValidation() {
+    if (!canAddAnotherAgent(this.userStore.user()?.planUsage)) {
+      this.isCreatingAgent = false;
+      this.modalService
+        .openWarning({
+          message: `${this.t.planLimitModalTitle}: ${this.t.http403PlanBlocked}`,
+          confirmText: this.t.planLimitModalCta,
+          cancelText: this.t.cancelBtn,
+        })
+        .afterClosed()
+        .subscribe((ok) => {
+          if (ok) void this.router.navigate(['/billing']);
+        });
+      return;
+    }
+
     const voiceId = this.selectedVoiceId || '';
 
     const agentConfig: SetAgentConfigDto = {
@@ -1627,10 +1645,19 @@ export class CompanySetupComponent
         this.isCreatingAgent = false;
         this.goToStep(11); // Ir a pantalla de bienvenida
       },
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
         console.error('❌ Error al crear agente:', error);
         this.isCreatingAgent = false;
         this.goToStep(9); // Volver a prueba de agente
+        if (error.status === 403) {
+          openPlanLimitDialog(
+            this.modalService,
+            this.router,
+            this.i18nService,
+            error,
+          );
+          return;
+        }
         this.modalService.openError({
           title: 'Error al crear agente',
           message:

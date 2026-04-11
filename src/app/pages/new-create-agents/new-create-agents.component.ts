@@ -13,6 +13,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '../../shared/modals/modal.service';
 import { NotificationService } from '../../core/services/notification.service';
@@ -32,6 +33,8 @@ import {
 } from '../../shared/models/agent.model';
 import lottie from 'lottie-web';
 import { getAgentDraftStepLabel } from '../../shared/utils/agent-draft-step-labels';
+import { openPlanLimitDialog } from '../../shared/utils/plan-limit-dialog.util';
+import { canAddAnotherAgent } from '../../shared/utils/plan-usage.util';
 
 // Clave para localStorage
 const AGENT_DRAFT_KEY = 'llamalo_agent_draft';
@@ -1909,6 +1912,21 @@ export class NewCreateAgentsComponent
 
   // Método para crear el agente después de validar el número
   private createAgentAfterValidation() {
+    if (!canAddAnotherAgent(this.userStore.user()?.planUsage)) {
+      const t = this.i18nService.getTranslations();
+      this.modalService
+        .openWarning({
+          message: `${t.planLimitModalTitle}: ${t.http403PlanBlocked}`,
+          confirmText: t.planLimitModalCta,
+          cancelText: t.cancelBtn,
+        })
+        .afterClosed()
+        .subscribe((ok) => {
+          if (ok) void this.router.navigate(['/billing']);
+        });
+      return;
+    }
+
     // Construir el objeto que se enviará al endpoint
     // Usar el voiceId guardado cuando se seleccionó la voz, o obtenerlo de la voz actual como fallback
     const voiceId =
@@ -1983,11 +2001,18 @@ export class NewCreateAgentsComponent
         // Limpiar el borrador cuando el agente se crea con éxito
         this.clearSavedDraft();
       },
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
         console.error('❌ Error al crear agente:', error);
-        // Volver a la pantalla de prueba agente
         this.setStep('summary');
-        // Mostrar mensaje de error
+        if (error.status === 403) {
+          openPlanLimitDialog(
+            this.modalService,
+            this.router,
+            this.i18nService,
+            error,
+          );
+          return;
+        }
         const errorMessage =
           error?.error?.message ||
           error?.message ||

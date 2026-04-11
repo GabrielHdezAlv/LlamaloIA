@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Voice } from '../../shared/models/voice.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
+import { X_HANDLES_PLAN_403 } from '../http/plan-403.headers';
 import {
   SetAgentConfigDto,
   CreateAgentResponse,
@@ -63,6 +64,11 @@ export class AgentsService {
     });
   }
 
+  /** Evita snackbar global en 403; el componente muestra modal con CTA. */
+  private authHeadersPlan403Handled(): HttpHeaders {
+    return this.getAuthHeaders().set(X_HANDLES_PLAN_403, '1');
+  }
+
   // Método para obtener las voces disponibles
   getVoices(): Observable<Voice[]> {
     return this.http.get<Voice[]>(`${this.voicesApiUrl}/allVoices`, {
@@ -73,7 +79,7 @@ export class AgentsService {
   // Método para crear un nuevo agente
   createAgent(config: SetAgentConfigDto): Observable<CreateAgentResponse> {
     return this.http.post<CreateAgentResponse>(`${this.apiUrl}`, config, {
-      headers: this.getAuthHeaders(),
+      headers: this.authHeadersPlan403Handled(),
     });
   }
 
@@ -129,15 +135,5 @@ export class AgentsService {
   // @deprecated Usar getVoices() en su lugar
   getAgents(): Observable<Voice[]> {
     return this.getVoices();
-  }
-
-  // Método deprecado - mantener por compatibilidad temporal
-  // @deprecated Usar createAgent en su lugar
-  setAgentConfig(voice: Voice, language: any): Observable<any> {
-    console.warn('setAgentConfig está deprecado. Usa createAgent en su lugar.');
-    // Por compatibilidad, retornar un observable vacío o lanzar error
-    throw new Error(
-      'setAgentConfig está deprecado. Usa createAgent en su lugar.',
-    );
   }
 }

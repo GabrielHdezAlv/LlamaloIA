@@ -29,6 +29,7 @@ import {
   DailyPeakHour,
 } from '../../shared/models/call-metrics.model';
 import { UserStorage } from '../../storages/user/user-storage';
+import type { PanelAnalyticsTier } from '../../shared/models/panel-analytics.model';
 
 @Component({
   selector: 'app-metrics',
@@ -48,6 +49,55 @@ export class MetricsComponent implements OnInit, OnDestroy {
   // Obtener traducciones
   get t() {
     return this.i18nService.getTranslations();
+  }
+
+  /** Tier del panel según plan (API: dashboard o métricas detalladas). */
+  get panelTier(): PanelAnalyticsTier {
+    const pa =
+      this.dashboardMetrics?.panel_analytics ??
+      this.detailedMetrics?.panel_analytics;
+    return pa?.tier ?? 'basic';
+  }
+
+  /** Starter: panel resumido; Growth/Scale: bloques avanzados. */
+  get showAdvancedPanelMetrics(): boolean {
+    return this.panelTier !== 'basic';
+  }
+
+  /** Solo Scale (exportación CSV en catálogo). */
+  get canExportCsv(): boolean {
+    const pa =
+      this.dashboardMetrics?.panel_analytics ??
+      this.detailedMetrics?.panel_analytics;
+    return pa?.can_export_csv === true;
+  }
+
+  exportMetricsCsv(): void {
+    if (!this.canExportCsv || !this.isBrowser) return;
+    const d = this.dashboardMetrics;
+    const lines: string[] = ['metric,value'];
+    if (d) {
+      lines.push(`total_llamadas,${d.resumen.total_llamadas.actual}`);
+      lines.push(
+        `total_llamadas_exitosas,${d.resumen.total_llamadas_exitosas.actual}`,
+      );
+      lines.push(`minutos_ultimo_mes,${d.resumen.minutos_ultimo_mes.actual}`);
+      lines.push(`tasa_exito,${d.resumen.tasa_exito}`);
+    }
+    const det = this.detailedMetrics;
+    if (det) {
+      lines.push(`totalMinutosUltimoMes,${det.totalMinutosUltimoMes}`);
+      lines.push(`duracionMediaLlamadas,${det.duracionMediaLlamadas}`);
+    }
+    const blob = new Blob([lines.join('\n')], {
+      type: 'text/csv;charset=utf-8',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = this.document.createElement('a');
+    a.href = url;
+    a.download = `metrics-llamalo-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   // Variables para controlar las animaciones de fade in
@@ -1399,6 +1449,12 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.metricsService.setLoading(false);
       },
       error: (error) => {
+        // 403: plan Starter/gratis con panel básico; el dashboard ya aporta el resumen permitido
+        if (error?.status === 403) {
+          this.isLoadingDetailedMetrics = false;
+          this.metricsService.setLoading(false);
+          return;
+        }
         if (this.isBrowser && error?.status !== 401) {
           console.error('Error loading detailed metrics:', error);
         }

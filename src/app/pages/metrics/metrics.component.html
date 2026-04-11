@@ -16,7 +16,15 @@
       </select>
     </div>
 
-    <div class="relative w-fit max-w-full shrink-0">
+    <div class="relative w-fit max-w-full shrink-0 flex items-center gap-2">
+      <button
+        *ngIf="canExportCsv"
+        type="button"
+        (click)="exportMetricsCsv()"
+        class="rounded-2xl border border-gray-200 bg-white px-3 py-1.5 text-[10px] font-medium text-gray-800 shadow-sm hover:bg-gray-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
+      >
+        {{ t.metricsExportCsvButton }}
+      </button>
       <select
         class="appearance-none bg-white rounded-2xl w-full px-2 sm:px-2.5 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-2.5 pr-11 max-lg:px-3 max-lg:sm:px-3.5 max-lg:md:px-4 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-sm border border-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-50 tracking-[-0.7px]"
         [(ngModel)]="selectedAgent"
@@ -466,6 +474,15 @@
           </div>
         </div>
       </div>
+
+      <div
+        *ngIf="!showAdvancedPanelMetrics"
+        class="mb-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100"
+      >
+        {{ t.metricsPanelBasicHint }}
+      </div>
+
+      <ng-container *ngIf="showAdvancedPanelMetrics">
       <!-- Row 2 -->
       <div
         class="metrics-section-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1.5 3xl:gap-4 max-lg:!gap-3 lg:gap-2.5 3xl:lg:gap-6 mb-0 lg:mb-4 3xl:mb-6"
@@ -1059,6 +1076,7 @@
           </div>
         </div>
       </div>
+      </ng-container>
     </div>
   </div>
 </div>

@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,6 +24,9 @@ import { SetAgentConfigDto } from '../../shared/models/agent.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../shared/modals/modal.service';
+import { I18nService } from '../../core/services/i18n.service';
+import { openPlanLimitDialog } from '../../shared/utils/plan-limit-dialog.util';
+import { canAddAnotherAgent } from '../../shared/utils/plan-usage.util';
 
 @Component({
   selector: 'app-agents',
@@ -49,9 +54,16 @@ export class AgentsComponent implements OnInit {
   private agentsService = inject(AgentsService);
   private userService = inject(UserService);
   private modalService = inject(ModalService);
+  private i18n = inject(I18nService);
+  private router = inject(Router);
 
   public twilioStorage: any = inject(TwilioStorage);
   private userStorage: any = inject(UserStorage);
+
+  get canCreateAgent(): boolean {
+    const u = this.userStorage.user();
+    return canAddAnotherAgent(u?.planUsage);
+  }
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -277,6 +289,22 @@ export class AgentsComponent implements OnInit {
         ? this.selectedLanguage
         : this.selectedLanguage?.code || 'es';
 
+    if (!this.canCreateAgent) {
+      loaderRef.close();
+      const t = this.i18n.getTranslations();
+      this.modalService
+        .openWarning({
+          message: `${t.planLimitModalTitle}: ${t.http403PlanBlocked}`,
+          confirmText: t.planLimitModalCta,
+          cancelText: t.cancelBtn,
+        })
+        .afterClosed()
+        .subscribe((ok) => {
+          if (ok) void this.router.navigate(['/billing']);
+        });
+      return;
+    }
+
     const agentConfig: SetAgentConfigDto = {
       name: this.selectedVoice.name || 'Agente',
       language: languageCode,
@@ -314,9 +342,18 @@ export class AgentsComponent implements OnInit {
           },
         });
       },
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
         loaderRef.close();
         console.error('Error al crear el agente:', error);
+        if (error.status === 403) {
+          openPlanLimitDialog(
+            this.modalService,
+            this.router,
+            this.i18n,
+            error,
+          );
+          return;
+        }
         this.modalService.openError({
           title: 'Error',
           message: 'No se pudo crear el agente.',

@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import {
   Component,
   inject,
@@ -23,6 +25,12 @@ import {
 } from '../../shared/models/knowledge-source.model';
 import { NotificationService } from '../../core/services/notification.service';
 import { ModalService } from '../../shared/modals/modal.service';
+import { UserStorage } from '../../storages/user/user-storage';
+import { openPlanLimitDialog } from '../../shared/utils/plan-limit-dialog.util';
+import {
+  canAddDocumentSource,
+  canAddWebSource,
+} from '../../shared/utils/plan-usage.util';
 
 export type KnowledgeBaseType = 'pdf' | 'web' | 'text';
 
@@ -43,6 +51,8 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
   private knowledgeBaseService = inject(KnowledgeBaseService);
   private modalService = inject(ModalService);
   private notificationService = inject(NotificationService);
+  private userStorage = inject(UserStorage);
+  private router = inject(Router);
 
   showContent = false;
   searchTerm = '';
@@ -294,6 +304,18 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   selectKnowledgeSource(type: 'pdf' | 'web' | 'text'): void {
+    const pu = this.userStorage.user()?.planUsage;
+    if (type === 'web') {
+      if (!canAddWebSource(pu)) {
+        this.showPlanLimitWarning();
+        return;
+      }
+    } else {
+      if (!canAddDocumentSource(pu)) {
+        this.showPlanLimitWarning();
+        return;
+      }
+    }
     switch (type) {
       case 'pdf':
         this.openFileSelector();
@@ -305,6 +327,31 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
         this.openTextModal();
         break;
     }
+  }
+
+  private showPlanLimitWarning(): void {
+    const t = this.t;
+    this.modalService
+      .openWarning({
+        message: `${t.planLimitModalTitle}: ${t.http403PlanBlocked}`,
+        confirmText: t.planLimitModalCta,
+        cancelText: t.cancelBtn,
+      })
+      .afterClosed()
+      .subscribe((ok) => {
+        if (ok) void this.router.navigate(['/billing']);
+      });
+  }
+
+  private handleKnowledgePlan403(err: HttpErrorResponse): boolean {
+    if (err.status !== 403) return false;
+    openPlanLimitDialog(
+      this.modalService,
+      this.router,
+      this.i18nService,
+      err,
+    );
+    return true;
   }
 
   openFileSelector(): void {
@@ -349,8 +396,13 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
               this.isLoading = false;
               this.cdr.detectChanges();
             },
-            error: (err) => {
+            error: (err: HttpErrorResponse) => {
               console.error('Error uploading PDF:', err);
+              if (this.handleKnowledgePlan403(err)) {
+                this.isLoading = false;
+                this.cdr.detectChanges();
+                return;
+              }
               this.notificationService.error(`${this.t.errorUploadingFile} ${file.name}`);
               this.isLoading = false;
               this.cdr.detectChanges();
@@ -600,8 +652,13 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
             this.scheduleListScrollFadeSync();
           }
         },
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           console.error('Error creating web source:', err);
+          if (this.handleKnowledgePlan403(err)) {
+            this.isLoading = false;
+            this.cdr.detectChanges();
+            return;
+          }
           this.notificationService.error(this.t.errorCreatingWeb);
           this.isLoading = false;
           this.cdr.detectChanges();
@@ -638,8 +695,13 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
           this.scheduleListScrollFadeSync();
         }
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         console.error('Error creating text source:', err);
+        if (this.handleKnowledgePlan403(err)) {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+          return;
+        }
         this.notificationService.error('Error al crear la fuente de texto');
         this.isLoading = false;
         this.cdr.detectChanges();

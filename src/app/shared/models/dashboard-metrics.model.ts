@@ -1,3 +1,5 @@
+import type { PanelAnalytics } from './panel-analytics.model';
+
 /**
  * DTO para GET /metrics/dashboard
  */
@@ -31,6 +33,8 @@ export interface DashboardMetrics {
     fecha: string; // Formato: "YYYY-MM-DD"
     total: number;
   }>;
+  /** Nivel de panel según plan (Starter / Growth / Scale). */
+  panel_analytics?: PanelAnalytics;
 }
 
 export type MetricsPeriod = 'day' | 'week' | 'month' | '6months' | 'year';

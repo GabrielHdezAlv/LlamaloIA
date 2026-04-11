@@ -343,6 +343,11 @@ export interface Translations {
   /** HTTP 403 por límite de plan / trial */
   http403PlanBlocked: string;
   http403PlanSuffix: string;
+  planLimitModalTitle: string;
+  planLimitModalCta: string;
+  metricsPanelBasicHint: string;
+  metricsExportCsvButton: string;
+  trialBannerUpgrade: string;
   cancelSubscription: string;
   invoicesHistory: string;
 
@@ -1121,6 +1126,12 @@ export class I18nService {
       http403PlanBlocked:
         'Tu plan actual no permite esta acción o el periodo de prueba ha finalizado.',
       http403PlanSuffix: 'Puedes mejorar tu plan en Suscripción.',
+      planLimitModalTitle: 'Límite del plan',
+      planLimitModalCta: 'Ver planes y suscripción',
+      metricsPanelBasicHint:
+        'Estás viendo el panel resumido de tu plan. Los análisis avanzados (latencia, países, horas pico, etc.) están disponibles desde Growth.',
+      metricsExportCsvButton: 'Exportar CSV',
+      trialBannerUpgrade: 'Mejorar plan',
       cancelSubscription: 'Cancelar suscripción',
       invoicesHistory: 'Historial de facturas',
       protectedByStripe: 'Protegido por Stripe',
@@ -1888,6 +1899,12 @@ export class I18nService {
       http403PlanBlocked:
         'Your current plan does not allow this action or your trial has ended.',
       http403PlanSuffix: 'You can upgrade in Subscription.',
+      planLimitModalTitle: 'Plan limit',
+      planLimitModalCta: 'View plans and billing',
+      metricsPanelBasicHint:
+        'You are viewing the summary dashboard for your plan. Advanced analytics (latency, countries, peak hours, etc.) are available from Growth.',
+      metricsExportCsvButton: 'Export CSV',
+      trialBannerUpgrade: 'Upgrade plan',
       cancelSubscription: 'Cancel subscription',
       invoicesHistory: 'Invoices history',
       protectedByStripe: 'Protected by Stripe',

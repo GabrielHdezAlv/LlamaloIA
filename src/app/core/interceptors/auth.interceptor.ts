@@ -6,6 +6,7 @@ import { AuthSessionService } from '../services/auth-session.service';
 import { NotificationService } from '../services/notification.service';
 import { I18nService } from '../services/i18n.service';
 import { isPlatformBrowser } from '@angular/common';
+import { X_HANDLES_PLAN_403 } from '../http/plan-403.headers';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
@@ -21,7 +22,15 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       const isAuthRoute = req.url.includes('/auth/login') ||
         req.url.includes('/auth/register');
 
-      if (error.status === 403 && !isAuthRoute && isPlatformBrowser(platformId)) {
+      const clientHandlesPlan403 =
+        req.headers.get(X_HANDLES_PLAN_403) === '1';
+
+      if (
+        error.status === 403 &&
+        !isAuthRoute &&
+        !clientHandlesPlan403 &&
+        isPlatformBrowser(platformId)
+      ) {
         const t = i18n.getTranslations();
         const backend =
           typeof error.error?.message === 'string' 

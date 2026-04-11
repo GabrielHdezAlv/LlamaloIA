@@ -3,6 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
+import { X_HANDLES_PLAN_403 } from '../http/plan-403.headers';
 import {
   KnowledgeSource,
   CreateKnowledgeSourceRequest,
@@ -50,6 +51,10 @@ export class KnowledgeBaseService {
     });
   }
 
+  private authHeadersPlan403Handled(): HttpHeaders {
+    return this.getAuthHeaders().set(X_HANDLES_PLAN_403, '1');
+  }
+
   /**
    * Create a new knowledge source (generic method for web and text)
    */
@@ -72,7 +77,7 @@ export class KnowledgeBaseService {
     return this.http.post<CreateKnowledgeSourceResponse>(
       `${this.baseUrl}/sources`,
       formData,
-      { headers: this.getAuthHeaders() },
+      { headers: this.authHeadersPlan403Handled() },
     );
   }
 
@@ -100,7 +105,7 @@ export class KnowledgeBaseService {
     return this.http.post<CreateKnowledgeSourceResponse>(
       `${this.baseUrl}/sources`,
       formData,
-      { headers: this.getAuthHeaders() },
+      { headers: this.authHeadersPlan403Handled() },
     );
   }
 
@@ -129,7 +134,7 @@ export class KnowledgeBaseService {
     return this.http.post<CreateKnowledgeSourceResponse>(
       `${this.baseUrl}/sources`,
       formData,
-      { headers: this.getAuthHeaders() },
+      { headers: this.authHeadersPlan403Handled() },
     );
   }
 
@@ -157,7 +162,7 @@ export class KnowledgeBaseService {
     return this.http.post<CreateKnowledgeSourceResponse>(
       `${this.baseUrl}/sources`,
       formData,
-      { headers: this.getAuthHeaders() },
+      { headers: this.authHeadersPlan403Handled() },
     );
   }
 
