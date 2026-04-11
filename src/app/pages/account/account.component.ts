@@ -329,6 +329,9 @@ export class AccountComponent implements OnInit, OnDestroy {
         gratis: 'Gratis',
         basic: 'Gratis',
         free: 'Gratis',
+        starter: 'Starter',
+        growth: 'Growth',
+        scale: 'Scale',
         pro: 'Pro',
         premium: 'Premium',
       };
