@@ -4,12 +4,14 @@ import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthSessionService } from '../services/auth-session.service';
 import { NotificationService } from '../services/notification.service';
+import { I18nService } from '../services/i18n.service';
 import { isPlatformBrowser } from '@angular/common';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const notificationService = inject(NotificationService);
   const authSession = inject(AuthSessionService);
+  const i18n = inject(I18nService);
   const platformId = inject(PLATFORM_ID) as object;
 
   return next(req).pipe(
@@ -18,6 +20,18 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       // Excluir rutas de autenticación (login, register) para evitar bucles
       const isAuthRoute = req.url.includes('/auth/login') ||
         req.url.includes('/auth/register');
+
+      if (error.status === 403 && !isAuthRoute && isPlatformBrowser(platformId)) {
+        const t = i18n.getTranslations();
+        const backend =
+          typeof error.error?.message === 'string' 
+            ? error.error.message.trim() 
+            : '';
+        const text = backend
+          ? `${backend} ${t.http403PlanSuffix}`
+          : `${t.http403PlanBlocked} ${t.http403PlanSuffix}`;
+        notificationService.warning(text);
+      }
 
       if (error.status === 401 && !isAuthRoute && isPlatformBrowser(platformId)) {
         void authSession.clearSession().then(() => {

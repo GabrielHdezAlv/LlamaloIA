@@ -17,6 +17,26 @@ export class User {
   extraMinutes?: number; // ⬅️ NUEVO: Minutos extra asignados al usuario
   minutesByMonth?: Record<string, number>; // ⬅️ NUEVO: Historial de minutos por mes (YYYY-MM)
   redeemedRewards?: string[]; // Recompensas canjeadas
+  /** Fin del periodo de prueba (7 días), ISO string */
+  trialEndsAt?: string | null;
+  /** Uso vs límites efectivos (API) */
+  planUsage?: {
+    trialEndsAt: string | null;
+    trialActive: boolean;
+    effectivePlanSlug: string;
+    limits: {
+      agents: number;
+      indexedUrls: number;
+      documentsMax: number;
+      storageTotalMb: number;
+      maxDocSizeMb: number;
+      betaAccess: boolean;
+    };
+    agentsCount: number;
+    webSourcesCount: number;
+    docSourcesCount: number;
+    storageUsedBytes: number;
+  };
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   email?: string; // Opcional porque puede venir undefined del perfil
   password?: string; // Opcional porque no viene del perfil del usuario

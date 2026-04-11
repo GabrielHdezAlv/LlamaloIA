@@ -335,6 +335,14 @@ export interface Translations {
   deleteAccountDescription: string;
   deleteAccountBtn: string;
   currentSubscription: string;
+  /** Cuenta / trial */
+  trialDaysLeft: string;
+  planUsageSummaryLabel: string;
+  agentsShort: string;
+  docsShort: string;
+  /** HTTP 403 por límite de plan / trial */
+  http403PlanBlocked: string;
+  http403PlanSuffix: string;
   cancelSubscription: string;
   invoicesHistory: string;
 
@@ -1106,6 +1114,13 @@ export class I18nService {
       deleteAccountDescription: 'Esta acción no se puede deshacer',
       deleteAccountBtn: 'Eliminar cuenta',
       currentSubscription: 'Suscripción actual',
+      trialDaysLeft: 'Días de prueba restantes',
+      planUsageSummaryLabel: 'Uso del plan',
+      agentsShort: 'agentes',
+      docsShort: 'docs',
+      http403PlanBlocked:
+        'Tu plan actual no permite esta acción o el periodo de prueba ha finalizado.',
+      http403PlanSuffix: 'Puedes mejorar tu plan en Suscripción.',
       cancelSubscription: 'Cancelar suscripción',
       invoicesHistory: 'Historial de facturas',
       protectedByStripe: 'Protegido por Stripe',
@@ -1866,6 +1881,13 @@ export class I18nService {
       deleteAccountDescription: 'This action cannot be undone',
       deleteAccountBtn: 'Delete account',
       currentSubscription: 'Current subscription',
+      trialDaysLeft: 'Trial days left',
+      planUsageSummaryLabel: 'Plan usage',
+      agentsShort: 'agents',
+      docsShort: 'docs',
+      http403PlanBlocked:
+        'Your current plan does not allow this action or your trial has ended.',
+      http403PlanSuffix: 'You can upgrade in Subscription.',
       cancelSubscription: 'Cancel subscription',
       invoicesHistory: 'Invoices history',
       protectedByStripe: 'Protected by Stripe',

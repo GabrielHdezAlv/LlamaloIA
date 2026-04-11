@@ -309,6 +309,26 @@ export class AccountComponent implements OnInit, OnDestroy {
     return q.remaining <= 0;
   });
 
+  /** Días restantes de prueba (plan gratis con trial activo). */
+  trialDaysRemaining = computed(() => {
+    const u = this.user();
+    const pu = u?.planUsage;
+    if (!u || u.plan !== 'gratis' || !pu?.trialActive) return null;
+    const raw = pu.trialEndsAt ?? u.trialEndsAt;
+    if (!raw) return null;
+    const end = new Date(raw).getTime();
+    const days = Math.ceil((end - Date.now()) / 86400000);
+    return Math.max(0, days);
+  });
+
+  /** Resumen de uso vs límites (API planUsage). */
+  planUsageSummary = computed(() => {
+    const pu = this.user()?.planUsage;
+    if (!pu) return null;
+    const mbUsed = (pu.storageUsedBytes / (1024 * 1024)).toFixed(1);
+    return `${pu.agentsCount}/${pu.limits.agents} ${this.t.agentsShort} · ${pu.webSourcesCount}/${pu.limits.indexedUrls} URLs · ${pu.docSourcesCount}/${pu.limits.documentsMax} ${this.t.docsShort} · ${mbUsed} / ${pu.limits.storageTotalMb} MB`;
+  });
+
   ngOnInit() {
     this.i18nService.initializeLanguage();
 
