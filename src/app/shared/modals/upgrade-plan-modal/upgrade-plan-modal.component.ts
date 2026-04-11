@@ -8,16 +8,15 @@ import {
   viewChild,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { I18nService } from '../../../core/services/i18n.service';
-import {
-  PlanUpgradeCelebrationModalComponent,
-  PlanUpgradeCelebrationModalData,
-} from '../plan-upgrade-celebration-modal/plan-upgrade-celebration-modal.component';
 import { paidPlanFeatureRows, type PaidUpgradePlanId } from './pricing-plan-features';
+import { StripeService } from '../../../core/services/stripe.service';
+import { UserStorage } from '../../../storages/user/user-storage';
+import { NotificationService } from '../../../core/services/notification.service';
 
 const PLAN_TIER_STORAGE_KEY = 'llamalo_selected_plan_tier';
 
@@ -33,13 +32,16 @@ const UPGRADE_MODAL_CLOSE_MS = 500;
 })
 export class UpgradePlanModalComponent implements OnInit, OnDestroy {
   private i18nService = inject(I18nService);
-  private matDialog = inject(MatDialog);
+  private stripeService = inject(StripeService);
+  private userStore = inject(UserStorage);
+  private notificationService = inject(NotificationService);
   private platformId = inject(PLATFORM_ID);
   dialogRef = inject(MatDialogRef<UpgradePlanModalComponent>);
   private readonly destroy$ = new Subject<void>();
   private readonly modalShell = viewChild<ElementRef<HTMLElement>>('modalShell');
   showCloseButton = false;
   private closing = false;
+  stripeRedirecting = false;
 
   ngOnInit(): void {
     document.body.classList.add('upgrade-plan-modal-open');
@@ -113,30 +115,59 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
     this.closeWithAnimation();
   }
 
-  onChoosePlan(planId: PaidUpgradePlanId, event: Event): void {
+  async onChoosePlan(planId: PaidUpgradePlanId, event: Event): Promise<void> {
     event.preventDefault();
     event.stopPropagation();
-    if (this.closing) {
+    if (this.closing || this.stripeRedirecting) {
       return;
     }
-    if (isPlatformBrowser(this.platformId)) {
-      try {
-        localStorage.setItem(PLAN_TIER_STORAGE_KEY, planId);
-      } catch {
-        /* ignore quota / private mode */
-      }
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
     }
-    this.closeWithAnimation();
-    window.setTimeout(() => {
-      const data: PlanUpgradeCelebrationModalData = { plan: planId };
-      this.matDialog.open(PlanUpgradeCelebrationModalComponent, {
-        disableClose: true,
-        panelClass: ['custom-dialog-container', 'plan-celebration-dialog'],
-        data,
-        enterAnimationDuration: '200ms',
-        exitAnimationDuration: '200ms',
-      });
-    }, UPGRADE_MODAL_CLOSE_MS);
+    try {
+      localStorage.setItem(PLAN_TIER_STORAGE_KEY, planId);
+    } catch {
+      /* ignore quota / private mode */
+    }
+
+    const origin = window.location.origin;
+    const successUrl = `${origin}/dashboard/account?tab=billing&stripe=success`;
+    const cancelUrl = `${origin}/dashboard/upgrade-plan?stripe=cancel`;
+    const portalReturnUrl = `${origin}/dashboard/account?tab=billing&stripe=return`;
+
+    const user = this.userStore.user();
+    this.stripeRedirecting = true;
+
+    try {
+      if (user?.stripeCustomerId?.trim()) {
+        const { url } = await firstValueFrom(
+          this.stripeService.createBillingPortalSession({
+            returnUrl: portalReturnUrl,
+          }),
+        );
+        if (url) {
+          window.location.href = url;
+          return;
+        }
+      } else {
+        const { url } = await firstValueFrom(
+          this.stripeService.createCheckoutSession({
+            plan: planId,
+            successUrl,
+            cancelUrl,
+          }),
+        );
+        if (url) {
+          window.location.href = url;
+          return;
+        }
+      }
+      this.notificationService.error(this.t.stripeBillingError);
+    } catch {
+      this.notificationService.error(this.t.stripeBillingError);
+    } finally {
+      this.stripeRedirecting = false;
+    }
   }
 
   private closeWithAnimation(): void {

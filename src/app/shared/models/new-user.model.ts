@@ -19,6 +19,9 @@ export class User {
   redeemedRewards?: string[]; // Recompensas canjeadas
   /** Fin del periodo de prueba (7 días), ISO string */
   trialEndsAt?: string | null;
+  /** Cliente Stripe (facturación); si existe, cambios de plan vía Customer Portal */
+  stripeCustomerId?: string | null;
+  stripeSubscriptionId?: string | null;
   /** Uso vs límites efectivos (API) */
   planUsage?: {
     trialEndsAt: string | null;

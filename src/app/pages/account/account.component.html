@@ -728,30 +728,18 @@
               }
             </div>
 
-            <!-- Botones de Acción -->
+            <!-- Customer Portal Stripe (cancelar, método de pago, facturas) -->
             <div
               class="flex flex-col sm:flex-row gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 mt-4"
             >
               <app-ripple-button
+                (buttonClick)="openBillingPortal()"
                 buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
                 rippleColor="rgba(255, 255, 255, 0.4)"
                 [rippleScale]="8"
+                [disabled]="stripeBillingRedirecting"
               >
-                {{ t.cancelSubscription }}
-              </app-ripple-button>
-              <app-ripple-button
-                buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
-                rippleColor="rgba(255, 255, 255, 0.4)"
-                [rippleScale]="8"
-              >
-                {{ t.editPaymentMethod }}
-              </app-ripple-button>
-              <app-ripple-button
-                buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
-                rippleColor="rgba(255, 255, 255, 0.4)"
-                [rippleScale]="8"
-              >
-                {{ t.invoicesHistory }}
+                {{ t.manageBilling }}
               </app-ripple-button>
             </div>
 

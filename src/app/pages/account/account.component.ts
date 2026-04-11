@@ -26,6 +26,7 @@ import { RippleButtonComponent } from '../../shared/components/ripple-button/rip
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
 import { ImageCropperComponent } from '../../shared/components/image-cropper/image-cropper.component';
 import { TwilioService } from '../../core/services/twilio.service';
+import { StripeService } from '../../core/services/stripe.service';
 
 @Component({
   selector: 'app-account',
@@ -65,6 +66,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private platformId = inject(PLATFORM_ID);
   private twilioService = inject(TwilioService);
+  private stripeService = inject(StripeService);
 
   activeTab:
     | 'profile'
@@ -137,6 +139,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   currentPlanMinutes: number | null = null;
   isSaving = false;
   currentPlanName: string = 'Gratis';
+  stripeBillingRedirecting = false;
 
   // Integraciones (mismo patrón visual que edit-agent / connect-phone-step)
   twilioConnectionsExpanded = false;
@@ -342,22 +345,8 @@ export class AccountComponent implements OnInit, OnDestroy {
       this.tempMarketingConsent = user.marketingConsent || false;
       // Inicializar enterprise como objeto
       this.tempEnterprise = user.enterprise || { name: '', url: '' };
-      
-      this.currentPlanMinutes = user.minutesLimit ?? 100;
-      
-      const planMap: Record<string, string> = {
-        gratis: 'Gratis',
-        basic: 'Gratis',
-        free: 'Gratis',
-        starter: 'Starter',
-        growth: 'Growth',
-        scale: 'Scale',
-        pro: 'Pro',
-        premium: 'Premium',
-      };
-      this.currentPlanName = user.plan
-        ? planMap[user.plan] || 'Gratis'
-        : 'Gratis';
+
+      this.syncBillingFromUser();
 
       // Limpiar URL de imagen de timestamps existentes para inicialización correcta
       const imageUrl = user.profileImage || '';
@@ -387,6 +376,27 @@ export class AccountComponent implements OnInit, OnDestroy {
 
     // Verificar si hay parámetros de consulta para activar una pestaña específica
     this.route.queryParams.subscribe((params) => {
+      if (params['tab'] === 'billing') {
+        this.activeTab = 'billing';
+        this.displayedTab = 'billing';
+        this.sectionLeaving = false;
+      }
+
+      if (params['stripe'] === 'success' || params['stripe'] === 'return') {
+        void this.userStore.loadUserProfile().then(() => {
+          this.syncBillingFromUser();
+          this.notificationService.success(this.t.stripeBillingUpdated);
+        });
+        setTimeout(() => {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { stripe: null },
+            queryParamsHandling: 'merge',
+            replaceUrl: true,
+          });
+        }, 10);
+      }
+
       if (params['tab'] === 'gifts') {
         // Ir directamente a la pestaña de regalos SIN animación
         this.activeTab = 'gifts';
@@ -869,6 +879,48 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   navigateToUpgradePlan() {
     this.modalService.openUpgradePlan();
+  }
+
+  private syncBillingFromUser(): void {
+    const u = this.user();
+    if (!u) return;
+    this.currentPlanMinutes = u.minutesLimit ?? 100;
+    const planMap: Record<string, string> = {
+      gratis: 'Gratis',
+      basic: 'Gratis',
+      free: 'Gratis',
+      starter: 'Starter',
+      growth: 'Growth',
+      scale: 'Scale',
+      pro: 'Pro',
+      premium: 'Premium',
+    };
+    this.currentPlanName = u.plan ? planMap[u.plan] || 'Gratis' : 'Gratis';
+  }
+
+  openBillingPortal(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const u = this.user();
+    if (!u?.stripeCustomerId?.trim()) {
+      this.notificationService.error(this.t.stripeNoCustomerYet);
+      return;
+    }
+    const returnUrl = `${window.location.origin}/dashboard/account?tab=billing&stripe=return`;
+    this.stripeBillingRedirecting = true;
+    this.stripeService.createBillingPortalSession({ returnUrl }).subscribe({
+      next: ({ url }) => {
+        if (url) {
+          window.location.href = url;
+          return;
+        }
+        this.notificationService.error(this.t.stripeBillingError);
+        this.stripeBillingRedirecting = false;
+      },
+      error: () => {
+        this.notificationService.error(this.t.stripeBillingError);
+        this.stripeBillingRedirecting = false;
+      },
+    });
   }
 
   toggleTwilioConnectionsPanel(): void {

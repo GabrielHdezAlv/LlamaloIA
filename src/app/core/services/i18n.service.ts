@@ -350,6 +350,12 @@ export interface Translations {
   trialBannerUpgrade: string;
   cancelSubscription: string;
   invoicesHistory: string;
+  /** Un solo CTA al Customer Portal (cancelar / método / facturas) */
+  manageBilling: string;
+  stripeBillingError: string;
+  stripeNoCustomerYet: string;
+  stripeBillingUpdated: string;
+  stripeCheckoutCancelled: string;
 
   protectedByStripe: string;
 
@@ -1134,6 +1140,13 @@ export class I18nService {
       trialBannerUpgrade: 'Mejorar plan',
       cancelSubscription: 'Cancelar suscripción',
       invoicesHistory: 'Historial de facturas',
+      manageBilling: 'Gestionar facturación',
+      stripeBillingError:
+        'No se pudo abrir la facturación. Inténtalo de nuevo o contacta con soporte.',
+      stripeNoCustomerYet:
+        'Aún no tienes suscripción de pago. Elige un plan en «Mejorar plan».',
+      stripeBillingUpdated: 'Datos de suscripción actualizados.',
+      stripeCheckoutCancelled: 'Pago cancelado. Puedes intentarlo cuando quieras.',
       protectedByStripe: 'Protegido por Stripe',
 
       // Delete account modal
@@ -1907,6 +1920,13 @@ export class I18nService {
       trialBannerUpgrade: 'Upgrade plan',
       cancelSubscription: 'Cancel subscription',
       invoicesHistory: 'Invoices history',
+      manageBilling: 'Manage billing',
+      stripeBillingError:
+        'Could not open billing. Please try again or contact support.',
+      stripeNoCustomerYet:
+        'You do not have an active paid subscription yet. Choose a plan under Upgrade.',
+      stripeBillingUpdated: 'Subscription details updated.',
+      stripeCheckoutCancelled: 'Payment cancelled. You can try again anytime.',
       protectedByStripe: 'Protected by Stripe',
 
       // Delete account modal
