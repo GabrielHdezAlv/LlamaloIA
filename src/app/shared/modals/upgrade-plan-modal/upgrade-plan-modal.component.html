@@ -1,14 +1,39 @@
 <div #modalShell
   class="upgrade-plan-modal upgrade-plan-modal--spaced min-h-0 max-h-[94vh] max-md:max-h-[min(calc(100dvh-28px),calc(100svh-28px))] max-md:min-h-[min(calc(96dvh-28px),calc(100svh-28px))] overflow-y-auto relative">
   <button *ngIf="showCloseButton" type="button" (click)="close()"
-    class="absolute top-3 right-3 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 dark:hover:text-white transition-colors">
+    class="absolute top-3 right-3 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white transition-colors">
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
   </button>
 
   <div
-    class="upgrade-plan-modal__content grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 items-stretch w-[92%] max-w-[92%] mx-auto md:w-full md:max-w-full max-md:pb-6">
+    class="upgrade-plan-modal__content flex flex-col w-[92%] max-w-[92%] mx-auto md:w-full md:max-w-full max-md:pb-6">
+    <div class="flex justify-end w-full shrink-0 mb-2 md:mb-3">
+      <div
+        class="billing-toggle relative inline-flex rounded-full p-[3px] bg-gray-100/95 shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)]"
+        role="group"
+        [attr.aria-label]="t.pricingToggleMonthly + ' / ' + t.pricingToggleAnnual">
+        <div
+          class="billing-toggle__thumb"
+          [class.billing-toggle__thumb--annual]="billingAnnual"
+          aria-hidden="true"></div>
+        <button
+          type="button"
+          (click)="billingAnnual = false"
+          [class]="'billing-toggle__btn ' + (!billingAnnual ? 'billing-toggle__btn--active' : '')">
+          {{ t.pricingToggleMonthly }}
+        </button>
+        <button
+          type="button"
+          (click)="billingAnnual = true"
+          [class]="'billing-toggle__btn ' + (billingAnnual ? 'billing-toggle__btn--active' : '')">
+          {{ t.pricingToggleAnnual }}
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 items-stretch">
     @for (plan of pricingPlans; track plan.id; let i = $index) {
       <div [style.animation-delay]="(i * 120) + 'ms'"
         [class]="'plan-card-fade-in flex flex-col h-full rounded-3xl p-0.5 border shadow-lg transition-all duration-300 min-h-[24rem] md:min-h-0 ' +
@@ -22,18 +47,41 @@
             <h3 [class]="'mb-1 ' + (plan.highlighted ? 'font-semibold text-lg md:text-xl text-white dark:text-[#000001]' : 'font-medium text-xl text-black dark:text-white')">
               {{ plan.name }}
             </h3>
-            <p [class]="'leading-snug ' + (plan.highlighted ? 'font-normal text-[11px] md:text-xs text-gray-400 dark:text-[#000001]/70' : 'font-normal text-xs md:text-sm text-gray-500 dark:text-gray-400')">
+            <p
+              [class]="'leading-snug ' + (plan.highlighted ? 'font-normal text-[11px] md:text-xs text-gray-400 dark:text-[#000001]/70' : 'font-normal text-xs md:text-sm text-gray-500 dark:text-gray-400') + (plan.id === 'scale' ? ' whitespace-pre-line' : '')">
               {{ plan.description }}
             </p>
           </div>
 
-          <div class="flex items-baseline gap-1.5 mb-5">
-            <span [class]="'font-semibold tracking-tight ' + (plan.highlighted ? 'text-2xl md:text-3xl text-white dark:text-[#000001]' : 'text-2xl text-black dark:text-white')">
-              {{ plan.price }}&nbsp;€
-            </span>
-            <span [class]="'font-normal ' + (plan.highlighted ? 'text-[11px] text-white dark:text-[#000001]' : 'text-xs text-gray-400 dark:text-gray-500')">
-              / {{ t.perMonth }}
-            </span>
+          <div
+            class="relative mb-5 min-h-[3.25rem] plan-price-crossfade"
+            [class.plan-price-crossfade--annual]="billingAnnual">
+            <!-- Mensual -->
+            <div class="plan-price-crossfade__layer plan-price-crossfade__layer--monthly flex flex-col gap-1">
+              <div class="flex items-baseline gap-1.5 flex-wrap">
+                <span [class]="'font-semibold tracking-tight ' + (plan.highlighted ? 'text-2xl md:text-3xl text-white dark:text-[#000001]' : 'text-2xl text-black dark:text-white')">
+                  {{ plan.priceMonthly }}&nbsp;€
+                </span>
+                <span [class]="'font-normal ' + (plan.highlighted ? 'text-[11px] text-white dark:text-[#000001]' : 'text-xs text-gray-400 dark:text-gray-500')">
+                  / {{ t.perMonth }}
+                </span>
+              </div>
+              <div class="min-h-[1.2rem] invisible" aria-hidden="true">&nbsp;</div>
+            </div>
+            <!-- Anual (superpuesto) -->
+            <div class="plan-price-crossfade__layer plan-price-crossfade__layer--annual flex flex-col gap-1">
+              <div class="flex items-baseline gap-1.5 flex-wrap">
+                <span [class]="'font-semibold tracking-tight ' + (plan.highlighted ? 'text-2xl md:text-3xl text-white dark:text-[#000001]' : 'text-2xl text-black dark:text-white')">
+                  {{ plan.priceAnnual }}&nbsp;€
+                </span>
+                <span [class]="'font-normal ' + (plan.highlighted ? 'text-[11px] text-white dark:text-[#000001]' : 'text-xs text-gray-400 dark:text-gray-500')">
+                  / {{ t.pricingPerYear }}
+                </span>
+              </div>
+              <div [class]="'text-[11px] leading-tight min-h-[1.2rem] ' + (plan.highlighted ? 'text-gray-400 dark:text-[#000001]/75' : 'text-gray-500 dark:text-gray-400')">
+                {{ t.pricingEquivalentTo }} {{ plan.monthlyEquivalent }} €{{ t.pricingPerMonthSlash }}
+              </div>
+            </div>
           </div>
 
           <button
@@ -82,6 +130,7 @@
         </div>
       </div>
     }
+    </div>
   </div>
 
   <p class="block text-center text-sm text-black dark:text-white mt-8 mb-4 max-md:mb-5">

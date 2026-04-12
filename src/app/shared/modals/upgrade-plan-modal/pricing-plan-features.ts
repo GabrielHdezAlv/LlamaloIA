@@ -106,7 +106,7 @@ function specsForPlan(plan: PaidUpgradePlanId, t: Translations) {
         agents: '1',
         documents: t.pricingDocsStarter,
         storage: '100 MB',
-        support: t.pricingSupportEmail,
+        support: t.pricingSupportPriority,
       };
     case 'growth':
       return {

@@ -30,6 +30,7 @@ import {
 } from '../../shared/models/agent.model';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
+import { AuthSessionService } from '../../core/services/auth-session.service';
 import { openPlanLimitDialog } from '../../shared/utils/plan-limit-dialog.util';
 import { canAddAnotherAgent } from '../../shared/utils/plan-usage.util';
 import lottie from 'lottie-web';
@@ -86,6 +87,7 @@ export class CompanySetupComponent
   private modalService = inject(ModalService);
   private route = inject(ActivatedRoute, { optional: true });
   private i18nService = inject(I18nService);
+  private authSession = inject(AuthSessionService);
 
   get t() {
     return this.i18nService.getTranslations();
@@ -156,9 +158,6 @@ export class CompanySetupComponent
 
   // Animación de entrada suave para la zona 2
   step2ContentVisible = true;
-
-  // Imagen derecha (mockup del onboarding)
-  rightImageStep = 1; // 1 = zona 1, 2 = zona 2
 
   // Sonido de click para botones del onboarding
   // En SSR (Node) no existe `Audio`, así que lo inicializamos solo en navegador
@@ -603,10 +602,17 @@ export class CompanySetupComponent
 
   // Método para ir hacia atrás
   goBack() {
+    if (this.currentStep === 1) {
+      // GuestGuard devuelve al dashboard si sigue habiendo token; hay que cerrar sesión primero.
+      void this.authSession.clearSession().then(() => {
+        void this.router.navigate(['/login'], { replaceUrl: true });
+      });
+      return;
+    }
+
     // Animación especial al volver del paso 2 al paso 1
     if (this.currentStep === 2) {
       const backFadeDuration = 200;
-      this.rightImageStep = 1; // Imagen vuelve al paso 1 al instante (animación en paralelo)
       this.step2ContentVisible = false;
       setTimeout(() => {
         this.goToStep(1);
@@ -660,11 +666,6 @@ export class CompanySetupComponent
     // Paso 2: contenido visible al instante (sin animación)
     if (step === 2) {
       this.step2ContentVisible = true;
-    }
-
-    // Imagen derecha: cambio instantáneo entre pasos 1 y 2 (sin animación)
-    if ((step === 1 || step === 2) && step !== previousStep) {
-      this.rightImageStep = step;
     }
 
     // Cargar voces al entrar al paso 5

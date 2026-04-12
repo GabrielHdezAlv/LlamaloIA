@@ -1,4 +1,4 @@
-<!-- Fondo dividido 50/50 blanco (contenido onboarding) y fondo_onboarding.png cuando el setup está activo -->
+<!-- Onboarding empresa: pasos 1–2 a pantalla completa con logo centrado (como pasos 3+) -->
 <div *ngIf="isSetupActive"
   class="fixed inset-0 w-screen h-screen flex flex-col lg:flex-row z-[9998] bg-white dark:bg-[#111113] text-black dark:text-slate-50 transition-colors duration-300">
   <!-- Secuencia de bienvenida animada -->
@@ -17,52 +17,48 @@
   </div>
 
   <ng-container [ngSwitch]="displayedStep">
-    <!-- Paso 1: ¿Qué quieres conseguir? (estilo unificado con el resto del onboarding) -->
+    <!-- Paso 1: ¿Qué quieres conseguir? (mismo encabezado centrado que pasos 3+) -->
     <div *ngSwitchCase="1"
-      class="relative w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-32 lg:pt-40 3xl:pt-48">
-      <!-- Logo + Llamalo beta: esquina superior izquierda -->
-      <div
-        class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
+      class="company-setup-nav-step relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113] order-1">
+      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-0.25 leading-none">
-          <span
-            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
-          <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
-        </div>
       </div>
       <div
-        class="w-full max-w-[300px] sm:max-w-[360px] md:max-w-[460px] 3xl:max-w-[560px] flex flex-col px-3 sm:px-4 md:px-5 3xl:px-6"
+        class="relative w-full min-h-full flex flex-col justify-start px-3 sm:px-4 md:px-5 3xl:px-6 pt-20 pb-12 sm:pb-10 max-xl:pt-28 max-xl:sm:pt-36 xl:justify-center xl:py-12"
         [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
+      <div
+        class="w-full max-w-[300px] sm:max-w-[360px] md:max-w-[460px] 3xl:max-w-[560px] max-xl:max-w-[340px] max-xl:sm:max-w-[420px] max-xl:md:max-w-[520px] mx-auto flex flex-col flex-1 min-h-0 xl:flex-none xl:min-h-0 xl:w-full">
         <!-- Título y descripción -->
-        <h1 class="text-sm 3xl:text-xl font-bold text-[#0F172A] dark:text-white leading-tight">
+        <h1
+          class="text-sm 3xl:text-xl font-bold text-[#0F172A] dark:text-white leading-tight max-xl:text-base max-xl:sm:text-lg">
           {{ t.whatDoYouWantToAchieve }}
         </h1>
-        <p class="mt-1 3xl:mt-2 text-[11px] sm:text-xs 3xl:text-sm text-[#6d747c] font-semibold">
+        <p
+          class="mt-1 3xl:mt-2 text-[11px] sm:text-xs 3xl:text-sm text-[#6d747c] font-semibold max-xl:mt-2 max-xl:text-xs max-xl:sm:text-sm">
           {{ t.youCanSelectMultiple }}
         </p>
 
         <!-- Contenido animado -->
-        <div class="flex flex-col flex-1 transition-all duration-500 ease-out" [ngClass]="
+        <div class="flex flex-col flex-1 min-h-0 transition-all duration-500 ease-out xl:flex-none" [ngClass]="
           isMainUsageAnimating
             ? 'opacity-0 translate-y-3 scale-[0.97]'
             : 'opacity-100 translate-y-0'
         ">
 
           <!-- Grid de tarjetas -->
-          <div class="mt-3 3xl:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 3xl:gap-3">
+          <div class="mt-3 3xl:mt-6 max-xl:mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 3xl:gap-3 max-xl:gap-2.5">
             <!-- Tarjeta 1 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 max-xl:px-3 max-xl:py-2.5 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="selectedMainUsages.includes('customer-service')
               ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
               : ''" (click)="selectMainUsage('customer-service')">
-              <div class="flex items-center justify-between mb-3 sm:mb-4 3xl:mb-5">
+              <div class="flex items-center justify-between mb-3 sm:mb-4 3xl:mb-5 max-xl:mb-3.5 max-xl:sm:mb-4">
                 <div
-                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
+                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 max-xl:w-8 max-xl:h-8 max-xl:sm:w-9 max-xl:sm:h-9 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6">
+                    class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6 max-xl:w-5 max-xl:h-5">
                     <path
                       d="M10.0376 5.31617L10.6866 6.4791C11.2723 7.52858 11.0372 8.90532 10.1147 9.8278C10.1147 9.8278 10.1147 9.8278 10.1147 9.8278C10.1146 9.82792 8.99588 10.9468 11.0245 12.9755C13.0525 15.0035 14.1714 13.8861 14.1722 13.8853C14.1722 13.8853 14.1722 13.8853 14.1722 13.8853C15.0947 12.9628 16.4714 12.7277 17.5209 13.3134L18.6838 13.9624C20.2686 14.8468 20.4557 17.0692 19.0628 18.4622C18.2258 19.2992 17.2004 19.9505 16.0669 19.9934C14.1588 20.0658 10.9183 19.5829 7.6677 16.3323C4.41713 13.0817 3.93421 9.84122 4.00655 7.93309C4.04952 6.7996 4.7008 5.77423 5.53781 4.93723C6.93076 3.54428 9.15317 3.73144 10.0376 5.31617Z"
                       fill="currentColor" />
@@ -76,33 +72,33 @@
                 </div>
                 <div *ngIf="selectedMainUsages.includes('customer-service')" class="ml-2 3xl:ml-3">
                   <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-6 3xl:h-6">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-6 3xl:h-6 max-xl:w-5 max-xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                       fill="currentColor" />
                   </svg>
                 </div>
               </div>
-              <h3 class="text-[11px] sm:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
+              <h3 class="text-[11px] sm:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50 max-xl:text-xs max-xl:sm:text-sm">
                 {{ t.customerServiceInbound }}
               </h3>
               <p
-                class="mt-1 sm:mt-1.5 3xl:mt-1.5 text-[9px] sm:text-[10px] 3xl:text-[11px] text-gray-500 dark:text-slate-400 leading-snug">
+                class="mt-1 sm:mt-1.5 3xl:mt-1.5 text-[9px] sm:text-[10px] 3xl:text-[11px] text-gray-500 dark:text-slate-400 leading-snug max-xl:text-[10px] max-xl:sm:text-[11px]">
                 {{ t.customerServiceInboundDesc }}
               </p>
             </div>
 
             <!-- Tarjeta 2 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 max-xl:px-3 max-xl:py-2.5 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="selectedMainUsages.includes('cart-recovery')
               ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
               : ''" (click)="selectMainUsage('cart-recovery')">
-              <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5">
+              <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5 max-xl:mb-3 max-xl:sm:mb-3.5">
                 <div
-                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
+                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 max-xl:w-8 max-xl:h-8 max-xl:sm:w-9 max-xl:sm:h-9 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6">
+                    class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6 max-xl:w-5 max-xl:h-5">
                     <path
                       d="M2.08416 2.7512C2.22155 2.36044 2.6497 2.15503 3.04047 2.29242L3.34187 2.39838C3.95839 2.61511 4.48203 2.79919 4.89411 3.00139C5.33474 3.21759 5.71259 3.48393 5.99677 3.89979C6.27875 4.31243 6.39517 4.76515 6.4489 5.26153C6.47295 5.48373 6.48564 5.72967 6.49233 6H17.1305C18.8155 6 20.3323 6 20.7762 6.57708C21.2202 7.15417 21.0466 8.02369 20.6995 9.76275L20.1997 12.1875C19.8846 13.7164 19.727 14.4808 19.1753 14.9304C18.6236 15.38 17.8431 15.38 16.2821 15.38H10.9792C8.19028 15.38 6.79583 15.38 5.92943 14.4662C5.06302 13.5523 4.99979 12.5816 4.99979 9.64L4.99979 7.03832C4.99979 6.29837 4.99877 5.80316 4.95761 5.42295C4.91828 5.0596 4.84858 4.87818 4.75832 4.74609C4.67026 4.61723 4.53659 4.4968 4.23336 4.34802C3.91052 4.18961 3.47177 4.03406 2.80416 3.79934L2.54295 3.7075C2.15218 3.57012 1.94678 3.14197 2.08416 2.7512Z"
                       fill="currentColor" />
@@ -116,33 +112,33 @@
                 </div>
                 <div *ngIf="selectedMainUsages.includes('cart-recovery')" class="ml-2 3xl:ml-3">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5 max-xl:w-[18px] max-xl:h-[18px]">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                       fill="currentColor" />
                   </svg>
                 </div>
               </div>
-              <h3 class="text-[11px] sm:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
+              <h3 class="text-[11px] sm:text-xs 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50 max-xl:text-xs max-xl:sm:text-sm">
                 {{ t.cartRecovery }}
               </h3>
               <p
-                class="mt-1 sm:mt-1.5 3xl:mt-1.5 text-[9px] sm:text-[10px] 3xl:text-[11px] text-gray-500 dark:text-slate-400 leading-snug">
+                class="mt-1 sm:mt-1.5 3xl:mt-1.5 text-[9px] sm:text-[10px] 3xl:text-[11px] text-gray-500 dark:text-slate-400 leading-snug max-xl:text-[10px] max-xl:sm:text-[11px]">
                 {{ t.cartRecoveryDesc }}
               </p>
             </div>
 
             <!-- Tarjeta 3 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 max-xl:px-3 max-xl:py-2.5 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="selectedMainUsages.includes('phone-sales')
               ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
               : ''" (click)="selectMainUsage('phone-sales')">
-              <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5">
+              <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5 max-xl:mb-3 max-xl:sm:mb-3.5">
                 <div
-                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
+                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 max-xl:w-8 max-xl:h-8 max-xl:sm:w-9 max-xl:sm:h-9 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6">
+                    class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6 max-xl:w-5 max-xl:h-5">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                       d="M12.052 1.25H11.948C11.0495 1.24997 10.3003 1.24995 9.70552 1.32991C9.07773 1.41432 8.51093 1.59999 8.05546 2.05546C7.59999 2.51093 7.41432 3.07773 7.32991 3.70552C7.27259 4.13189 7.25637 5.15147 7.25179 6.02566C5.22954 6.09171 4.01536 6.32778 3.17157 7.17157C2 8.34315 2 10.2288 2 14C2 17.7712 2 19.6569 3.17157 20.8284C4.34314 22 6.22876 22 9.99998 22H14C17.7712 22 19.6569 22 20.8284 20.8284C22 19.6569 22 17.7712 22 14C22 10.2288 22 8.34315 20.8284 7.17157C19.9846 6.32778 18.7705 6.09171 16.7482 6.02566C16.7436 5.15147 16.7274 4.13189 16.6701 3.70552C16.5857 3.07773 16.4 2.51093 15.9445 2.05546C15.4891 1.59999 14.9223 1.41432 14.2945 1.32991C13.6997 1.24995 12.9505 1.24997 12.052 1.25ZM15.2479 6.00188C15.2434 5.15523 15.229 4.24407 15.1835 3.9054C15.1214 3.44393 15.0142 3.24644 14.8839 3.11612C14.7536 2.9858 14.5561 2.87858 14.0946 2.81654C13.6116 2.7516 12.964 2.75 12 2.75C11.036 2.75 10.3884 2.7516 9.90539 2.81654C9.44393 2.87858 9.24644 2.9858 9.11612 3.11612C8.9858 3.24644 8.87858 3.44393 8.81654 3.9054C8.771 4.24407 8.75661 5.15523 8.75208 6.00188C9.1435 6 9.55885 6 10 6H14C14.4412 6 14.8565 6 15.2479 6.00188ZM12 9.25C12.4142 9.25 12.75 9.58579 12.75 10V10.0102C13.8388 10.2845 14.75 11.143 14.75 12.3333C14.75 12.7475 14.4142 13.0833 14 13.0833C13.5858 13.0833 13.25 12.7475 13.25 12.3333C13.25 11.9493 12.8242 11.4167 12 11.4167C11.1758 11.4167 10.75 11.9493 10.75 12.3333C10.75 12.7174 11.1758 13.25 12 13.25C13.3849 13.25 14.75 14.2098 14.75 15.6667C14.75 16.857 13.8388 17.7155 12.75 17.9898V18C12.75 18.4142 12.4142 18.75 12 18.75C11.5858 18.75 11.25 18.4142 11.25 18V17.9898C10.1612 17.7155 9.25 16.857 9.25 15.6667C9.25 15.2525 9.58579 14.9167 10 14.9167C10.4142 14.9167 10.75 15.2525 10.75 15.6667C10.75 16.0507 11.1758 16.5833 12 16.5833C12.8242 16.5833 13.25 16.0507 13.25 15.6667C13.25 15.2826 12.8242 14.75 12 14.75C10.6151 14.75 9.25 13.7903 9.25 12.3333C9.25 11.143 10.1612 10.2845 11.25 10.0102V10C11.25 9.58579 11.5858 9.25 12 9.25Z"
                       fill="currentColor" />
@@ -150,33 +146,33 @@
                 </div>
                 <div *ngIf="selectedMainUsages.includes('phone-sales')" class="ml-2 3xl:ml-3">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5 max-xl:w-[18px] max-xl:h-[18px]">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                       fill="currentColor" />
                   </svg>
                 </div>
               </div>
-              <h3 class="text-[11px] sm:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-50">
+              <h3 class="text-[11px] sm:text-xs 3xl:text-base font-semibold text-gray-900 dark:text-slate-50 max-xl:text-xs max-xl:sm:text-sm">
                 {{ t.outboundSales }}
               </h3>
               <p
-                class="mt-1 sm:mt-1.5 3xl:mt-2 text-[9px] sm:text-[10px] 3xl:text-sm text-gray-500 dark:text-slate-400 leading-snug">
+                class="mt-1 sm:mt-1.5 3xl:mt-2 text-[9px] sm:text-[10px] 3xl:text-sm text-gray-500 dark:text-slate-400 leading-snug max-xl:text-[10px] max-xl:sm:text-xs">
                 {{ t.outboundSalesDesc }}
               </p>
             </div>
 
             <!-- Tarjeta 4 (seleccionada por defecto) -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 max-xl:px-3 max-xl:py-2.5 cursor-pointer transition-all duration-200 ease-out border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
               [ngClass]="selectedMainUsages.includes('confirmations-reminders')
               ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
               : ''" (click)="selectMainUsage('confirmations-reminders')">
-              <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5">
+              <div class="flex items-center justify-between mb-2 sm:mb-3 3xl:mb-5 max-xl:mb-3 max-xl:sm:mb-3.5">
                 <div
-                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
+                  class="w-7 h-7 sm:w-8 sm:h-8 3xl:w-12 3xl:h-12 max-xl:w-8 max-xl:h-8 max-xl:sm:w-9 max-xl:sm:h-9 rounded-xl border border-gray-300 dark:border-slate-500 bg-transparent flex items-center justify-center onboarding-main-icon">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6">
+                    class="text-slate-600 dark:text-slate-200 3xl:w-6 3xl:h-6 max-xl:w-5 max-xl:h-5">
                     <path
                       d="M8.35179 20.2418C9.19288 21.311 10.5142 22 12 22C13.4858 22 14.8071 21.311 15.6482 20.2418C13.2264 20.57 10.7736 20.57 8.35179 20.2418Z"
                       fill="currentColor" />
@@ -187,17 +183,17 @@
                 </div>
                 <div *ngIf="selectedMainUsages.includes('confirmations-reminders')" class="ml-2 3xl:ml-3">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5 max-xl:w-[18px] max-xl:h-[18px]">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                       fill="currentColor" />
                   </svg>
                 </div>
               </div>
-              <h3 class="text-[11px] sm:text-xs 3xl:text-sm font-semibold text-gray-900">
+              <h3 class="text-[11px] sm:text-xs 3xl:text-sm font-semibold text-gray-900 max-xl:text-xs max-xl:sm:text-sm">
                 {{ t.confirmationsReminders }}
               </h3>
-              <p class="mt-1.5 sm:mt-2 3xl:mt-1.5 text-[9px] sm:text-[10px] 3xl:text-[11px] text-gray-500 leading-snug">
+              <p class="mt-1.5 sm:mt-2 3xl:mt-1.5 text-[9px] sm:text-[10px] 3xl:text-[11px] text-gray-500 leading-snug max-xl:text-[10px] max-xl:sm:text-[11px]">
                 {{ t.confirmationsRemindersDesc }}
               </p>
             </div>
@@ -205,14 +201,14 @@
 
           <!-- Opción {{ t.otherOption }} (icono 3 puntos, tick a la derecha) -->
           <div
-            class="mt-3 3xl:mt-4 rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md cursor-pointer transition-all duration-200 ease-out text-[11px] sm:text-xs 3xl:text-sm font-medium text-gray-900 dark:text-slate-50 flex items-center justify-between w-full focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+            class="mt-3 3xl:mt-4 rounded-lg border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-900/60 px-2.5 py-2 3xl:px-4 3xl:py-3 max-xl:px-3 max-xl:py-2.5 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md cursor-pointer transition-all duration-200 ease-out text-[11px] sm:text-xs 3xl:text-sm font-medium text-gray-900 dark:text-slate-50 flex items-center justify-between w-full focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white max-xl:text-xs max-xl:sm:text-sm"
             [ngClass]="selectedMainUsages.includes('other')
               ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
               : ''"
             (click)="selectMainUsage('other')">
-            <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3 min-w-0 pr-2">
+            <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3 min-w-0 pr-2 max-xl:gap-2.5 max-xl:sm:gap-3">
               <!-- Icono 3 puntos horizontales -->
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5 3xl:w-6 3xl:h-6 text-slate-600 dark:text-slate-300 flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5 3xl:w-6 3xl:h-6 text-slate-600 dark:text-slate-300 flex-shrink-0 max-xl:w-5 max-xl:h-5 max-xl:sm:w-6 max-xl:sm:h-6">
                 <circle cx="6" cy="12" r="1.75" />
                 <circle cx="12" cy="12" r="1.75" />
                 <circle cx="18" cy="12" r="1.75" />
@@ -221,7 +217,7 @@
             </div>
             <div *ngIf="selectedMainUsages.includes('other')" class="flex-shrink-0 ml-2">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5 max-xl:w-[18px] max-xl:h-[18px]">
                 <path
                   d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                   fill="currentColor" />
@@ -229,77 +225,73 @@
             </div>
           </div>
 
-          <!-- Botones (estilo unificado) -->
-          <div class="mt-4 3xl:mt-6 flex items-center justify-between w-full">
+        </div>
+
+          <div
+            class="mt-4 3xl:mt-6 flex items-center justify-between w-full nav-buttons-mobile xl:mt-8 xl:pt-0 3xl:pt-1">
             <button type="button"
-              class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 3xl:px-3 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+              class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-gray-300 dark:border-slate-600 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent dark:bg-transparent"
               (click)=" goBack()">
-              <span class="text-xs leading-none">‹</span>
+              <span class="text-xs 3xl:text-lg leading-none">‹</span>
               <span>{{ t.back }}</span>
             </button>
             <button type="button"
-              class="px-2.5 py-0.5 3xl:px-6 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-lg bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#1E3A8A] dark:disabled:hover:bg-white"
+              class="px-3 3xl:px-6 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#1B2559] dark:bg-white dark:text-[#000000] dark:hover:bg-white dark:disabled:hover:bg-white"
               [disabled]="selectedMainUsages.length === 0"
               (click)="goToStep(2)">
               {{ t.continue }}
             </button>
           </div>
-        </div>
+      </div>
       </div>
     </div>
 
-    <!-- Paso 2: "¿Cómo nos conociste?" (estilo unificado con el resto del onboarding) -->
+    <!-- Paso 2: "¿Cómo nos conociste?" (mismo encabezado centrado que pasos 3+) -->
     <div *ngSwitchCase="2"
-      class="relative w-full lg:w-full min-h-[80vh] lg:h-full bg-white dark:bg-[#020617] flex items-start justify-center overflow-hidden order-1 lg:order-1 rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none pb-12 lg:pb-0 pt-32 lg:pt-40 3xl:pt-48">
-      <!-- Logo + Llamalo beta: esquina superior izquierda (igual que paso 1) -->
-      <div
-        class="absolute top-4 left-4 sm:top-5 sm:left-5 3xl:top-8 3xl:left-8 flex items-center gap-1.5 sm:gap-2 3xl:gap-3 z-10">
+      class="company-setup-nav-step relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113] order-1">
+      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-        <div class="flex flex-row items-baseline gap-0.25 leading-none">
-          <span
-            class="font-poppins text-xl sm:text-2xl 3xl:text-3xl font-bold text-blue-950 dark:text-white tracking-[-1.5px] mt-[0.8px]">Llamalo</span>
-          <span
-            class="font-poppins text-[8px] sm:text-[9px] 3xl:text-xs text-gray-700 dark:text-slate-300 font-bold tracking-[-0.5px] ml-0.5">beta</span>
-        </div>
       </div>
       <div
-        class="w-full max-w-[300px] sm:max-w-[360px] md:max-w-[460px] 3xl:max-w-[560px] flex flex-col px-3 sm:px-4 md:px-5 3xl:px-6"
+        class="relative w-full min-h-full flex flex-col justify-start px-3 sm:px-4 md:px-5 3xl:px-6 pt-28 sm:pt-36 pb-12 sm:pb-10 xl:justify-center xl:py-12"
         [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-        <h1 class="text-sm 3xl:text-xl font-bold text-[#0F172A] dark:text-white leading-tight">
+      <div
+        class="w-full max-w-[340px] sm:max-w-[420px] md:max-w-[520px] 3xl:max-w-[640px] mx-auto flex flex-col flex-1 min-h-0 xl:max-w-[380px] xl:sm:max-w-[440px] xl:md:max-w-[520px] xl:3xl:max-w-[600px] xl:flex-none xl:min-h-0 xl:w-full">
+        <h1 class="text-base sm:text-lg 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight xl:text-sm xl:sm:text-sm xl:3xl:text-xl">
           {{ t.howDidYouFindUs }}
         </h1>
-        <p class="mt-1 3xl:mt-2 text-[11px] sm:text-xs 3xl:text-sm text-[#6d747c] font-semibold">
+        <p class="mt-2 3xl:mt-3 text-xs sm:text-sm 3xl:text-base text-[#6d747c] font-semibold xl:mt-1 xl:3xl:mt-2 xl:text-[11px] xl:sm:text-xs xl:3xl:text-sm">
           {{ t.youCanSelectMultiple }}
         </p>
 
-        <!-- Contenido (sin animación) -->
-        <div class="flex flex-col flex-1 mt-3"
+        <!-- Lista con fade -->
+        <div class="flex flex-col flex-1 min-h-0 mt-4 xl:mt-3 xl:flex-none"
           [ngClass]="step2ContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'">
           <!-- Lista de opciones -->
-          <div class="flex flex-col gap-2 3xl:gap-3 mt-3 3xl:mt-4">
+          <div class="flex flex-col gap-3.5 mt-4 3xl:gap-4 3xl:mt-5 xl:gap-2.5 xl:3xl:gap-3.5 xl:mt-3 xl:3xl:mt-4">
             <!-- Opción 1: Redes sociales (con icono a la izquierda) -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-4 py-3.5 3xl:px-5 3xl:py-4 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white xl:px-3.5 xl:py-2.5 xl:3xl:px-4 xl:3xl:py-3"
               [ngClass]="
               selectedDiscoveryChannels.includes('social')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
             " (click)=" toggleDiscoveryChannel('social')">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
+                <div class="flex items-center gap-2.5 sm:gap-3 3xl:gap-4 xl:gap-2.5 xl:sm:gap-3 xl:3xl:gap-3.5">
                   <!-- Icono TikTok / Redes sociales -->
-                  <svg class="w-[18px] h-5 text-gray-900 dark:text-slate-200 3xl:w-6 3xl:h-7" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-6 h-6 text-gray-900 dark:text-slate-200 3xl:w-8 3xl:h-8 shrink-0 xl:w-5 xl:h-5 xl:3xl:w-6 xl:3xl:h-8" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.656 1.029c1.637-0.025 3.262-0.012 4.886-0.025 0.054 2.031 0.878 3.859 2.189 5.213l-0.002-0.002c1.411 1.271 3.247 2.095 5.271 2.235l0.028 0.002v5.036c-1.912-0.048-3.71-0.489-5.331-1.247l0.082 0.034c-0.784-0.377-1.447-0.764-2.077-1.196l0.052 0.034c-0.012 3.649 0.012 7.298-0.025 10.934-0.103 1.853-0.719 3.543-1.707 4.954l0.020-0.031c-1.652 2.366-4.328 3.919-7.371 4.011l-0.014 0c-0.123 0.006-0.268 0.009-0.414 0.009-1.73 0-3.347-0.482-4.725-1.319l0.040 0.023c-2.508-1.509-4.238-4.091-4.558-7.094l-0.004-0.041c-0.025-0.625-0.037-1.25-0.012-1.862 0.49-4.779 4.494-8.476 9.361-8.476 0.547 0 1.083 0.047 1.604 0.136l-0.056-0.008c0.025 1.849-0.050 3.699-0.050 5.548-0.423-0.153-0.911-0.242-1.42-0.242-1.868 0-3.457 1.194-4.045 2.861l-0.009 0.030c-0.133 0.427-0.21 0.918-0.21 1.426 0 0.206 0.013 0.41 0.037 0.61l-0.002-0.024c0.332 2.046 2.086 3.59 4.201 3.59 0.061 0 0.121-0.001 0.181-0.004l-0.009 0c1.463-0.044 2.733-0.831 3.451-1.994l0.010-0.018c0.267-0.372 0.45-0.822 0.511-1.311l0.001-0.014c0.125-2.237 0.075-4.461 0.087-6.698 0.012-5.036-0.012-10.060 0.025-15.083z" />
                   </svg>
-                  <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
+                  <span class="text-xs sm:text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-slate-50 xl:text-[10px] xl:sm:text-xs xl:3xl:text-base">
                     {{ t.socialNetworks }}
                   </span>
                 </div>
-                <div *ngIf="selectedDiscoveryChannels.includes('social')" class="ml-2 3xl:ml-3">
+                <div *ngIf="selectedDiscoveryChannels.includes('social')" class="ml-3 3xl:ml-4 xl:ml-2 xl:3xl:ml-3">
                   <!-- Mismo check que en zona 1 -->
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                    class="w-5 h-5 text-blue-900 dark:text-white 3xl:w-6 3xl:h-6 xl:w-[18px] xl:h-[18px] xl:3xl:w-5 xl:3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                       fill="currentColor" />
@@ -310,25 +302,25 @@
 
             <!-- Opción 2 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-4 py-3.5 3xl:px-5 3xl:py-4 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white xl:px-3.5 xl:py-2.5 xl:3xl:px-4 xl:3xl:py-3"
               [ngClass]="
               selectedDiscoveryChannels.includes('youtube')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
             " (click)=" toggleDiscoveryChannel('youtube')">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
+                <div class="flex items-center gap-2.5 sm:gap-3 3xl:gap-4 xl:gap-2.5 xl:sm:gap-3 xl:3xl:gap-3.5">
                   <!-- Icono YouTube -->
-                  <svg class="w-[18px] h-[17px] text-gray-900 dark:text-slate-200 3xl:w-6 3xl:h-5" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-6 h-6 text-gray-900 dark:text-slate-200 3xl:w-8 3xl:h-8 shrink-0 xl:w-5 xl:h-[18px] xl:3xl:w-6 xl:3xl:h-6" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12.932 20.459v-8.917l7.839 4.459zM30.368 8.735c-0.354-1.301-1.354-2.307-2.625-2.663l-0.027-0.006c-3.193-0.406-6.886-0.638-10.634-0.638-0.381 0-0.761 0.002-1.14 0.007l0.058-0.001c-0.322-0.004-0.701-0.007-1.082-0.007-3.748 0-7.443 0.232-11.070 0.681l0.434-0.044c-1.297 0.363-2.297 1.368-2.644 2.643l-0.006 0.026c-0.4 2.109-0.628 4.536-0.628 7.016 0 0.088 0 0.176 0.001 0.263l-0-0.014c-0 0.074-0.001 0.162-0.001 0.25 0 2.48 0.229 4.906 0.666 7.259l-0.038-0.244c0.354 1.301 1.354 2.307 2.625 2.663l0.027 0.006c3.193 0.406 6.886 0.638 10.634 0.638 0.38 0 0.76-0.002 1.14-0.007l-0.058 0.001c0.322 0.004 0.702 0.007 1.082 0.007 3.749 0 7.443-0.232 11.070-0.681l-0.434 0.044c1.298-0.362 2.298-1.368 2.646-2.643l0.006-0.026c0.399-2.109 0.627-4.536 0.627-7.015 0-0.088-0-0.176-0.001-0.263l0 0.013c0-0.074 0.001-0.162 0.001-0.25 0-2.48-0.229-4.906-0.666-7.259l0.038 0.244z" />
                   </svg>
-                  <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
+                  <span class="text-xs sm:text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-slate-50 xl:text-[10px] xl:sm:text-xs xl:3xl:text-base">
                     {{ t.youtube }}
                   </span>
                 </div>
-                <div *ngIf="selectedDiscoveryChannels.includes('youtube')" class="ml-2 3xl:ml-3">
+                <div *ngIf="selectedDiscoveryChannels.includes('youtube')" class="ml-3 3xl:ml-4 xl:ml-2 xl:3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                    class="w-5 h-5 text-blue-900 dark:text-white 3xl:w-6 3xl:h-6 xl:w-[18px] xl:h-[18px] xl:3xl:w-5 xl:3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                       fill="currentColor" />
@@ -339,29 +331,29 @@
 
             <!-- Opción 3 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-4 py-3.5 3xl:px-5 3xl:py-4 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white xl:px-3.5 xl:py-2.5 xl:3xl:px-4 xl:3xl:py-3"
               [ngClass]="
               selectedDiscoveryChannels.includes('google')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
             " (click)=" toggleDiscoveryChannel('google')">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
+                <div class="flex items-center gap-2.5 sm:gap-3 3xl:gap-4 xl:gap-2.5 xl:sm:gap-3 xl:3xl:gap-3.5">
                   <!-- Icono Google -->
-                  <svg class="w-4 h-4 text-gray-900 dark:text-slate-200 3xl:w-5 3xl:h-5" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-900 dark:text-slate-200 3xl:w-7 3xl:h-7 shrink-0 xl:w-5 xl:h-5 xl:3xl:w-6 xl:3xl:h-6" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <g transform="translate(-300, -7399)">
                       <g transform="translate(56, 160)">
                         <path d="M263.821537 7247.00386L254.211298 7247.00386C254.211298 7248.0033 254.211298 7250.00218 254.205172 7251.00161L259.774046 7251.00161C259.560644 7252.00105 258.804036 7253.40026 257.734984 7254.10487C257.733963 7254.10387 257.732942 7254.11086 257.7309 7254.10986C256.309581 7255.04834 254.43389 7255.26122 253.041161 7254.98137C250.85813 7254.54762 249.130492 7252.96451 248.429023 7250.95364C248.433107 7250.95064 248.43617 7250.92266 248.439233 7250.92066C248.000176 7249.67336 248.000176 7248.0033 248.439233 7247.00386L248.438212 7247.00386C249.003881 7245.1669 250.783592 7243.49084 252.969687 7243.0321C254.727956 7242.65931 256.71188 7243.06308 258.170978 7244.42831C258.36498 7244.23842 260.856372 7241.80579 261.043226 7241.6079C256.0584 7237.09344 248.076756 7238.68155 245.090149 7244.51127L245.089128 7244.51127C245.089128 7244.51127 245.090149 7244.51127 245.084023 7244.52226L245.084023 7244.52226C243.606545 7247.38565 243.667809 7250.75975 245.094233 7253.48622C245.090149 7253.48921 245.087086 7253.49121 245.084023 7253.49421C246.376687 7256.0028 248.729215 7257.92672 251.563684 7258.6593C254.574796 7259.44886 258.406843 7258.90916 260.973794 7256.58747C260.974815 7256.58847 260.975836 7256.58947 260.976857 7256.59047C263.15172 7254.63157 264.505648 7251.29445 263.821537 7247.00386Z" />
                       </g>
                     </g>
                   </svg>
-                  <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
+                  <span class="text-xs sm:text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-slate-50 xl:text-[10px] xl:sm:text-xs xl:3xl:text-base">
                     {{ t.googleSearch }}
                   </span>
                 </div>
-                <div *ngIf="selectedDiscoveryChannels.includes('google')" class="ml-2 3xl:ml-3">
+                <div *ngIf="selectedDiscoveryChannels.includes('google')" class="ml-3 3xl:ml-4 xl:ml-2 xl:3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                    class="w-5 h-5 text-blue-900 dark:text-white 3xl:w-6 3xl:h-6 xl:w-[18px] xl:h-[18px] xl:3xl:w-5 xl:3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                       fill="currentColor" />
@@ -372,25 +364,25 @@
 
             <!-- Opción 4 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-4 py-3.5 3xl:px-5 3xl:py-4 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white xl:px-3.5 xl:py-2.5 xl:3xl:px-4 xl:3xl:py-3"
               [ngClass]="
               selectedDiscoveryChannels.includes('communities')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
             " (click)=" toggleDiscoveryChannel('communities')">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
+                <div class="flex items-center gap-2.5 sm:gap-3 3xl:gap-4 xl:gap-2.5 xl:sm:gap-3 xl:3xl:gap-3.5">
                   <!-- Icono Discord / Comunidades -->
-                  <svg class="w-4 h-4 text-gray-900 dark:text-slate-200 3xl:w-5 3xl:h-5" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-900 dark:text-slate-200 3xl:w-7 3xl:h-7 shrink-0 xl:w-5 xl:h-5 xl:3xl:w-6 xl:3xl:h-6" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20.992 20.163c-1.511-0.099-2.699-1.349-2.699-2.877 0-0.051 0.001-0.102 0.004-0.153l-0 0.007c-0.003-0.048-0.005-0.104-0.005-0.161 0-1.525 1.19-2.771 2.692-2.862l0.008-0c1.509 0.082 2.701 1.325 2.701 2.847 0 0.062-0.002 0.123-0.006 0.184l0-0.008c0.003 0.050 0.005 0.109 0.005 0.168 0 1.523-1.191 2.768-2.693 2.854l-0.008 0zM11.026 20.163c-1.511-0.099-2.699-1.349-2.699-2.877 0-0.051 0.001-0.102 0.004-0.153l-0 0.007c-0.003-0.048-0.005-0.104-0.005-0.161 0-1.525 1.19-2.771 2.692-2.862l0.008-0c1.509 0.082 2.701 1.325 2.701 2.847 0 0.062-0.002 0.123-0.006 0.184l0-0.008c0.003 0.048 0.005 0.104 0.005 0.161 0 1.525-1.19 2.771-2.692 2.862l-0.008 0zM26.393 6.465c-1.763-0.832-3.811-1.49-5.955-1.871l-0.149-0.022c-0.005-0.001-0.011-0.002-0.017-0.002-0.035 0-0.065 0.019-0.081 0.047l-0 0c-0.234 0.411-0.488 0.924-0.717 1.45l-0.043 0.111c-1.030-0.165-2.218-0.259-3.428-0.259s-2.398 0.094-3.557 0.275l0.129-0.017c-0.27-0.63-0.528-1.142-0.813-1.638l0.041 0.077c-0.017-0.029-0.048-0.047-0.083-0.047-0.005 0-0.011 0-0.016 0.001l0.001-0c-2.293 0.403-4.342 1.060-6.256 1.957l0.151-0.064c-0.017 0.007-0.031 0.019-0.040 0.034l-0 0c-2.854 4.041-4.562 9.069-4.562 14.496 0 0.907 0.048 1.802 0.141 2.684l-0.009-0.11c0.003 0.029 0.018 0.053 0.039 0.070l0 0c2.14 1.601 4.628 2.891 7.313 3.738l0.176 0.048c0.008 0.003 0.018 0.004 0.028 0.004 0.032 0 0.060-0.015 0.077-0.038l0-0c0.535-0.72 1.044-1.536 1.485-2.392l0.047-0.1c0.006-0.012 0.010-0.027 0.010-0.043 0-0.041-0.026-0.075-0.062-0.089l-0.001-0c-0.912-0.352-1.683-0.727-2.417-1.157l0.077 0.042c-0.029-0.017-0.048-0.048-0.048-0.083 0-0.031 0.015-0.059 0.038-0.076l0-0c0.157-0.118 0.315-0.24 0.465-0.364 0.016-0.013 0.037-0.021 0.059-0.021 0.014 0 0.027 0.003 0.038 0.008l-0.001-0c2.208 1.061 4.8 1.681 7.536 1.681s5.329-0.62 7.643-1.727l-0.107 0.046c0.012-0.006 0.025-0.009 0.040-0.009 0.022 0 0.043 0.008 0.059 0.021l-0-0c0.15 0.124 0.307 0.248 0.466 0.365 0.023 0.018 0.038 0.046 0.038 0.077 0 0.035-0.019 0.065-0.046 0.082l-0 0c-0.661 0.395-1.432 0.769-2.235 1.078l-0.105 0.036c-0.036 0.014-0.062 0.049-0.062 0.089 0 0.016 0.004 0.031 0.011 0.044l-0-0.001c0.501 0.96 1.009 1.775 1.571 2.548l-0.040-0.057c0.017 0.024 0.046 0.040 0.077 0.040 0.010 0 0.020-0.002 0.029-0.004l-0.001 0c2.865-0.892 5.358-2.182 7.566-3.832l-0.065 0.047c0.022-0.016 0.036-0.041 0.039-0.069l0-0c0.087-0.784 0.136-1.694 0.136-2.615 0-5.415-1.712-10.43-4.623-14.534l0.052 0.078c-0.008-0.016-0.022-0.029-0.038-0.036l-0-0z" />
                   </svg>
-                  <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
+                  <span class="text-xs sm:text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-slate-50 xl:text-[10px] xl:sm:text-xs xl:3xl:text-base">
                     {{ t.communities }}
                   </span>
                 </div>
-                <div *ngIf="selectedDiscoveryChannels.includes('communities')" class="ml-2 3xl:ml-3">
+                <div *ngIf="selectedDiscoveryChannels.includes('communities')" class="ml-3 3xl:ml-4 xl:ml-2 xl:3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                    class="w-5 h-5 text-blue-900 dark:text-white 3xl:w-6 3xl:h-6 xl:w-[18px] xl:h-[18px] xl:3xl:w-5 xl:3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                       fill="currentColor" />
@@ -401,26 +393,26 @@
 
             <!-- Opción 5 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-4 py-3.5 3xl:px-5 3xl:py-4 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white xl:px-3.5 xl:py-2.5 xl:3xl:px-4 xl:3xl:py-3"
               [ngClass]="
               selectedDiscoveryChannels.includes('events')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
             " (click)=" toggleDiscoveryChannel('events')">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
+                <div class="flex items-center gap-2.5 sm:gap-3 3xl:gap-4 xl:gap-2.5 xl:sm:gap-3 xl:3xl:gap-3.5">
                   <!-- Icono Eventos (calendario) -->
-                  <svg class="w-4 h-4 text-gray-900 dark:text-slate-200 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-900 dark:text-slate-200 3xl:w-7 3xl:h-7 shrink-0 xl:w-5 xl:h-5 xl:3xl:w-6 xl:3xl:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M7.75 2.5C7.75 2.08579 7.41421 1.75 7 1.75C6.58579 1.75 6.25 2.08579 6.25 2.5V4.07926C4.81067 4.19451 3.86577 4.47737 3.17157 5.17157C2.47737 5.86577 2.19451 6.81067 2.07926 8.25H21.9207C21.8055 6.81067 21.5226 5.86577 20.8284 5.17157C20.1342 4.47737 19.1893 4.19451 17.75 4.07926V2.5C17.75 2.08579 17.4142 1.75 17 1.75C16.5858 1.75 16.25 2.08579 16.25 2.5V4.0129C15.5847 4 14.839 4 14 4H10C9.16097 4 8.41527 4 7.75 4.0129V2.5Z" fill="currentColor" />
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M2 12C2 11.161 2 10.4153 2.0129 9.75H21.9871C22 10.4153 22 11.161 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12ZM17 14C17.5523 14 18 13.5523 18 13C18 12.4477 17.5523 12 17 12C16.4477 12 16 12.4477 16 13C16 13.5523 16.4477 14 17 14ZM17 18C17.5523 18 18 17.5523 18 17C18 16.4477 17.5523 16 17 16C16.4477 16 16 16.4477 16 17C16 17.5523 16.4477 18 17 18ZM13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13ZM13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17ZM7 14C7.55228 14 8 13.5523 8 13C8 12.4477 7.55228 12 7 12C6.44772 12 6 12.4477 6 13C6 13.5523 6.44772 14 7 14ZM7 18C7.55228 18 8 17.5523 8 17C8 16.4477 7.55228 16 7 16C6.44772 16 6 16.4477 6 17C6 17.5523 6.44772 18 7 18Z" fill="currentColor" />
                   </svg>
-                  <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
+                  <span class="text-xs sm:text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-slate-50 xl:text-[10px] xl:sm:text-xs xl:3xl:text-base">
                     {{ t.eventWebinar }}
                   </span>
                 </div>
-                <div *ngIf="selectedDiscoveryChannels.includes('events')" class="ml-2 3xl:ml-3">
+                <div *ngIf="selectedDiscoveryChannels.includes('events')" class="ml-3 3xl:ml-4 xl:ml-2 xl:3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                    class="w-5 h-5 text-blue-900 dark:text-white 3xl:w-6 3xl:h-6 xl:w-[18px] xl:h-[18px] xl:3xl:w-5 xl:3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                       fill="currentColor" />
@@ -431,25 +423,25 @@
 
             <!-- Opción 6 -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-4 py-3.5 3xl:px-5 3xl:py-4 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white xl:px-3.5 xl:py-2.5 xl:3xl:px-4 xl:3xl:py-3"
               [ngClass]="
               selectedDiscoveryChannels.includes('friend')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
             " (click)=" toggleDiscoveryChannel('friend')">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3">
+                <div class="flex items-center gap-2.5 sm:gap-3 3xl:gap-4 xl:gap-2.5 xl:sm:gap-3 xl:3xl:gap-3.5">
                   <!-- Icono Recomendación (grupo de personas) -->
-                  <svg class="w-4 h-4 text-gray-900 dark:text-slate-200 3xl:w-5 3xl:h-5" viewBox="0 -64 640 640" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-900 dark:text-slate-200 3xl:w-7 3xl:h-7 shrink-0 xl:w-5 xl:h-5 xl:3xl:w-6 xl:3xl:h-6" viewBox="0 -64 640 640" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M192 256c61.9 0 112-50.1 112-112S253.9 32 192 32 80 82.1 80 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C51.6 288 0 339.6 0 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zM480 256c53 0 96-43 96-96s-43-96-96-96-96 43-96 96 43 96 96 96zm48 32h-3.8c-13.9 4.8-28.6 8-44.2 8s-30.3-3.2-44.2-8H432c-20.4 0-39.2 5.9-55.7 15.4 24.4 26.3 39.7 61.2 39.7 99.8v38.4c0 2.2-.5 4.3-.6 6.4H592c26.5 0 48-21.5 48-48 0-61.9-50.1-112-112-112z" />
                   </svg>
-                  <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
+                  <span class="text-xs sm:text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-slate-50 xl:text-[10px] xl:sm:text-xs xl:3xl:text-base">
                     {{ t.friendRecommendation }}
                   </span>
                 </div>
-                <div *ngIf="selectedDiscoveryChannels.includes('friend')" class="ml-2 3xl:ml-3">
+                <div *ngIf="selectedDiscoveryChannels.includes('friend')" class="ml-3 3xl:ml-4 xl:ml-2 xl:3xl:ml-3">
                   <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                    class="w-5 h-5 text-blue-900 dark:text-white 3xl:w-6 3xl:h-6 xl:w-[18px] xl:h-[18px] xl:3xl:w-5 xl:3xl:h-5">
                     <path
                       d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                       fill="currentColor" />
@@ -460,26 +452,26 @@
 
             <!-- Opción 7: Otra (icono 3 puntos, tick a la derecha) -->
             <div
-              class="rounded-lg bg-white dark:bg-slate-900/60 px-2.5 py-2 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white flex items-center justify-between w-full"
+              class="rounded-lg bg-white dark:bg-slate-900/60 px-4 py-3.5 3xl:px-5 3xl:py-4 cursor-pointer transition border border-gray-200 dark:border-slate-600 shadow-sm hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white focus:border-transparent dark:focus:border-white flex items-center justify-between w-full xl:px-3.5 xl:py-2.5 xl:3xl:px-4 xl:3xl:py-3"
               [ngClass]="
               selectedDiscoveryChannels.includes('other-source')
                 ? '!border-blue-900 dark:!border-white shadow-[0_10px_30px_rgba(30,64,175,0.10)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.3)]'
                 : ''
             " (click)="toggleDiscoveryChannel('other-source')">
-              <div class="flex items-center gap-2 sm:gap-2.5 3xl:gap-3 min-w-0 pr-2">
+              <div class="flex items-center gap-2.5 sm:gap-3 3xl:gap-4 xl:gap-2.5 xl:sm:gap-3 xl:3xl:gap-3.5 min-w-0 pr-2">
                 <!-- Icono 3 puntos horizontales -->
-                <svg class="w-4 h-4 text-gray-900 dark:text-slate-200 3xl:w-5 3xl:h-5 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-900 dark:text-slate-200 3xl:w-7 3xl:h-7 flex-shrink-0 xl:w-5 xl:h-5 xl:3xl:w-6 xl:3xl:h-6" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="6" cy="12" r="1.75" />
                   <circle cx="12" cy="12" r="1.75" />
                   <circle cx="18" cy="12" r="1.75" />
                 </svg>
-                <span class="text-[9px] sm:text-[10px] 3xl:text-sm font-semibold text-gray-900 dark:text-slate-50">
+                <span class="text-xs sm:text-sm 3xl:text-lg font-semibold text-gray-900 dark:text-slate-50 xl:text-[10px] xl:sm:text-xs xl:3xl:text-base">
                   {{ t.otherOption }}
                 </span>
               </div>
-              <div *ngIf="selectedDiscoveryChannels.includes('other-source')" class="flex-shrink-0 ml-2">
+              <div *ngIf="selectedDiscoveryChannels.includes('other-source')" class="flex-shrink-0 ml-3 3xl:ml-4 xl:ml-2 xl:3xl:ml-3">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
-                  class="w-4 h-4 text-blue-900 dark:text-white 3xl:w-5 3xl:h-5">
+                  class="w-5 h-5 text-blue-900 dark:text-white 3xl:w-6 3xl:h-6 xl:w-[18px] xl:h-[18px] xl:3xl:w-5 xl:3xl:h-5">
                   <path
                     d="M9.75 0C7.82164 0 5.93657 0.571828 4.33319 1.64317C2.72982 2.71451 1.48013 4.23726 0.742179 6.01884C0.00422452 7.80042 -0.188858 9.76082 0.187348 11.6521C0.563554 13.5434 1.49215 15.2807 2.85571 16.6443C4.21928 18.0079 5.95656 18.9365 7.84787 19.3127C9.73919 19.6889 11.6996 19.4958 13.4812 18.7578C15.2627 18.0199 16.7855 16.7702 17.8568 15.1668C18.9282 13.5634 19.5 11.6784 19.5 9.75C19.4973 7.16498 18.4692 4.68661 16.6413 2.85872C14.8134 1.03084 12.335 0.00272983 9.75 0ZM14.0306 8.03063L8.78063 13.2806C8.71097 13.3504 8.62826 13.4057 8.53721 13.4434C8.44616 13.4812 8.34857 13.5006 8.25 13.5006C8.15144 13.5006 8.05385 13.4812 7.9628 13.4434C7.87175 13.4057 7.78903 13.3504 7.71938 13.2806L5.46938 11.0306C5.32865 10.8899 5.24959 10.699 5.24959 10.5C5.24959 10.301 5.32865 10.1101 5.46938 9.96937C5.61011 9.82864 5.80098 9.74958 6 9.74958C6.19903 9.74958 6.3899 9.82864 6.53063 9.96937L8.25 11.6897L12.9694 6.96937C13.0391 6.89969 13.1218 6.84442 13.2128 6.8067C13.3039 6.76899 13.4015 6.74958 13.5 6.74958C13.5986 6.74958 13.6961 6.76899 13.7872 6.8067C13.8782 6.84442 13.9609 6.89969 14.0306 6.96937C14.1003 7.03906 14.1556 7.12178 14.1933 7.21283C14.231 7.30387 14.2504 7.40145 14.2504 7.5C14.2504 7.59855 14.231 7.69613 14.1933 7.78717C14.1556 7.87822 14.1003 7.96094 14.0306 8.03063Z"
                     fill="currentColor" />
@@ -488,21 +480,23 @@
             </div>
           </div>
 
-          <!-- Botones (estilo unificado) -->
-          <div class="mt-4 3xl:mt-6 flex items-center justify-between w-full">
+        </div>
+
+          <div
+            class="mt-4 3xl:mt-6 flex items-center justify-between w-full nav-buttons-mobile xl:mt-8 xl:pt-0 3xl:pt-1">
             <button type="button"
-              class="flex items-center gap-0.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 py-0.5 3xl:px-3 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-transparent border border-gray-300 dark:border-white"
+              class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-gray-300 dark:border-slate-600 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent dark:bg-transparent"
               (click)=" goBack()">
-              <span class="text-xs leading-none">‹</span>
+              <span class="text-xs 3xl:text-lg leading-none">‹</span>
               <span>{{ t.back }}</span>
             </button>
             <button type="button"
-              class="px-2.5 py-0.5 3xl:px-6 3xl:py-1 text-[9px] sm:text-[10px] 3xl:text-xs rounded-[5px] bg-[#1E3A8A] hover:bg-[#1E40AF] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-gray-200"
+              class="px-3 3xl:px-6 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#1B2559] dark:bg-white dark:text-[#000000] dark:hover:bg-white dark:disabled:hover:bg-white"
               (click)=" startAgentIntroAnimation()">
               {{ t.continue }}
             </button>
           </div>
-        </div>
+      </div>
       </div>
     </div>
 
@@ -723,30 +717,6 @@
     </div>
   </ng-container>
 
-
-  <!-- Lado derecho: fondo de onboarding + mockup (solo pasos 1 y 2, solo en desktop) -->
-  <div *ngIf="displayedStep === 1 || displayedStep === 2"
-    class="relative hidden lg:flex lg:w-1/2 h-full overflow-hidden order-2 lg:order-1 flex-shrink-0 bg-gray-50 dark:bg-[#020617]">
-    <!-- Imágenes con animación de transición paso 1 → paso 2 -->
-    <div class="onboarding-right-imgs absolute inset-0">
-      <!-- Modo claro: imagen paso 1 -->
-      <img src="/assets/imagen1_onboarding.jpg" alt="Onboarding paso 1"
-        class="onboarding-panel-img absolute bottom-0 right-0 h-auto w-[130%] dark:hidden"
-        [class.onboarding-img-out]="rightImageStep === 2" />
-      <!-- Modo claro: imagen paso 2 -->
-      <img src="/assets/voces_onboard.jpg" alt="Onboarding paso 2"
-        class="onboarding-panel-img opacity-0 absolute bottom-0 right-0 h-auto w-[9470px] dark:hidden"
-        [class.onboarding-img-in]="rightImageStep === 2" />
-      <!-- Modo oscuro: imagen paso 1 -->
-      <img src="/assets/imagen1_onboarding_oscuro.jpg" alt="Onboarding paso 1 oscuro"
-        class="onboarding-panel-img absolute bottom-0 right-0 h-auto w-[130%] hidden dark:block"
-        [class.onboarding-img-out]="rightImageStep === 2" />
-      <!-- Modo oscuro: imagen paso 2 -->
-      <img src="/assets/voces_onboard_oscuro.jpg" alt="Onboarding paso 2 oscuro"
-        class="onboarding-panel-img opacity-0 absolute bottom-0 right-0 h-auto w-[9470px] hidden dark:block"
-        [class.onboarding-img-in]="rightImageStep === 2" />
-    </div>
-  </div>
 </div>
 
 <!-- Botón camuflado para mostrar/ocultar el setup (esquina inferior derecha, casi invisible) -->

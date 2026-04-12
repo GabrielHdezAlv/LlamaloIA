@@ -702,6 +702,11 @@ export interface Translations {
   pricingSupportEmail: string;
   pricingSupportPriority: string;
   pricingSupportDedicated: string;
+  pricingToggleMonthly: string;
+  pricingToggleAnnual: string;
+  pricingPerYear: string;
+  pricingEquivalentTo: string;
+  pricingPerMonthSlash: string;
   planUpgradeCelebrationTitleStarter: string;
   planUpgradeCelebrationTitleGrowth: string;
   planUpgradeCelebrationTitleScale: string;
@@ -823,7 +828,7 @@ export class I18nService {
       planStarter: 'Plan Starter',
       boostEfficiency: 'Maximiza tu Eficiencia',
       unlockAdvancedFeatures: 'Desbloquea funciones avanzadas de automatización',
-      upgradePlan: 'Mejorar Plan',
+      upgradePlan: 'Mejorar plan',
       dashboard: 'Panel de control',
       configuration: 'Configuración',
 
@@ -1472,7 +1477,7 @@ export class I18nService {
       upgradePlanScale: 'Scale',
       upgradePlanStarterDesc: 'Para empezar con agentes de voz y base de conocimiento.',
       upgradePlanGrowthDesc: 'Más minutos y capacidad para equipos en crecimiento.',
-      upgradePlanScaleDesc: 'Máxima escala, almacenamiento y soporte dedicado.',
+      upgradePlanScaleDesc: 'Escala máxima y capacidad\nSoporte dedicado.',
       upgradePlanStarterButton: 'Elegir Starter',
       upgradePlanGrowthButton: 'Elegir Growth',
       upgradePlanScaleButton: 'Elegir Scale',
@@ -1488,6 +1493,11 @@ export class I18nService {
       pricingSupportEmail: 'Email',
       pricingSupportPriority: 'Prioritario',
       pricingSupportDedicated: 'Dedicado',
+      pricingToggleMonthly: 'Mensual',
+      pricingToggleAnnual: 'Anual',
+      pricingPerYear: 'año',
+      pricingEquivalentTo: 'Equivale a',
+      pricingPerMonthSlash: '/mes',
       planUpgradeCelebrationTitleStarter: '¡Bienvenido a tu plan Starter!',
       planUpgradeCelebrationTitleGrowth: '¡Bienvenido a tu plan Growth!',
       planUpgradeCelebrationTitleScale: '¡Bienvenido a tu plan Scale!',
@@ -1603,7 +1613,7 @@ export class I18nService {
       planStarter: 'Starter Plan',
       boostEfficiency: 'Maximize Your Efficiency',
       unlockAdvancedFeatures: 'Unlock advanced automation features',
-      upgradePlan: 'Upgrade Plan',
+      upgradePlan: 'Upgrade plan',
       dashboard: 'Dashboard',
       configuration: 'Configuration',
 
@@ -2252,7 +2262,7 @@ export class I18nService {
       upgradePlanScale: 'Scale',
       upgradePlanStarterDesc: 'Get started with voice agents and a knowledge base.',
       upgradePlanGrowthDesc: 'More minutes and room for growing teams.',
-      upgradePlanScaleDesc: 'Maximum scale, storage, and dedicated support.',
+      upgradePlanScaleDesc: 'Max scale & capacity\nDedicated support.',
       upgradePlanStarterButton: 'Choose Starter',
       upgradePlanGrowthButton: 'Choose Growth',
       upgradePlanScaleButton: 'Choose Scale',
@@ -2268,6 +2278,11 @@ export class I18nService {
       pricingSupportEmail: 'Email',
       pricingSupportPriority: 'Priority',
       pricingSupportDedicated: 'Dedicated',
+      pricingToggleMonthly: 'Monthly',
+      pricingToggleAnnual: 'Annual',
+      pricingPerYear: 'year',
+      pricingEquivalentTo: 'Equivalent to',
+      pricingPerMonthSlash: '/month',
       planUpgradeCelebrationTitleStarter: 'Welcome to your Starter plan!',
       planUpgradeCelebrationTitleGrowth: 'Welcome to your Growth plan!',
       planUpgradeCelebrationTitleScale: 'Welcome to your Scale plan!',

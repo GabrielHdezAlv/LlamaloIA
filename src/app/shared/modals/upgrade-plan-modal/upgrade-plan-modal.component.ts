@@ -23,6 +23,13 @@ const PLAN_TIER_STORAGE_KEY = 'llamalo_selected_plan_tier';
 /** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.45s). */
 const UPGRADE_MODAL_CLOSE_MS = 500;
 
+/** Precios mensuales actuales; anual = total facturado al año (equiv. mensual × 12). */
+const PLAN_PRICE_KEYS = {
+  starter: { monthly: '29', annualTotal: '288', monthlyEquivalent: '24' },
+  growth: { monthly: '79', annualTotal: '792', monthlyEquivalent: '66' },
+  scale: { monthly: '169', annualTotal: '1692', monthlyEquivalent: '141' },
+} as const;
+
 @Component({
   selector: 'app-upgrade-plan-modal',
   standalone: true,
@@ -42,6 +49,8 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
   showCloseButton = false;
   private closing = false;
   stripeRedirecting = false;
+  /** false = precios mensuales (29 / 79 / 169); true = facturación anual con total anual destacado. */
+  billingAnnual = false;
 
   ngOnInit(): void {
     document.body.classList.add('upgrade-plan-modal-open');
@@ -80,12 +89,11 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
 
   get pricingPlans() {
     const t = this.t;
-    return [
+    const rows = [
       {
         id: 'starter' as const,
         name: t.upgradePlanStarter,
         description: t.upgradePlanStarterDesc,
-        price: '29',
         buttonText: t.upgradePlanStarterButton,
         highlighted: false,
         features: paidPlanFeatureRows('starter', t),
@@ -94,7 +102,6 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
         id: 'growth' as const,
         name: t.upgradePlanGrowth,
         description: t.upgradePlanGrowthDesc,
-        price: '79',
         buttonText: t.upgradePlanGrowthButton,
         highlighted: true,
         features: paidPlanFeatureRows('growth', t),
@@ -103,12 +110,20 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
         id: 'scale' as const,
         name: t.upgradePlanScale,
         description: t.upgradePlanScaleDesc,
-        price: '169',
         buttonText: t.upgradePlanScaleButton,
         highlighted: false,
         features: paidPlanFeatureRows('scale', t),
       },
     ];
+    return rows.map((row) => {
+      const p = PLAN_PRICE_KEYS[row.id];
+      return {
+        ...row,
+        priceMonthly: p.monthly,
+        priceAnnual: p.annualTotal,
+        monthlyEquivalent: p.monthlyEquivalent,
+      };
+    });
   }
 
   close(): void {
