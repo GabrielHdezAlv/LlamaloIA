@@ -108,6 +108,12 @@
                 d="M12 2.0007C16.0041 2.0007 19.25 5.24664 19.25 9.2507C19.25 11.3873 18.3144 13.344 16.4846 15.0914C16.4493 15.1252 16.4247 15.1684 16.4137 15.216L15.886 17.4987H12.75V10.75C12.75 10.3358 12.4142 10 12 10C11.5858 10 11.25 10.3358 11.25 10.75V17.4987H8.114L7.58801 15.2161C7.57702 15.1685 7.55234 15.1252 7.51701 15.0915C5.68616 13.344 4.75 11.3873 4.75 9.2507C4.75 5.24663 7.99593 2.0007 12 2.0007ZM11.25 6.75046V8.25049C11.25 8.6647 11.5858 9.00049 12 9.00049C12.4142 9.00049 12.75 8.6647 12.75 8.25049V6.75046C12.75 6.33624 12.4142 6.00046 12 6.00046C11.5858 6.00046 11.25 6.33624 11.25 6.75046ZM16.2803 8.21579C15.9874 7.9229 15.5126 7.9229 15.2197 8.21579L14.159 9.27648C13.8661 9.56937 13.8661 10.0442 14.159 10.3371C14.4519 10.63 14.9268 10.63 15.2197 10.3371L16.2803 9.27645C16.5732 8.98356 16.5732 8.50869 16.2803 8.21579ZM8.78032 8.21579C8.48743 7.9229 8.01255 7.9229 7.71966 8.21579C7.42677 8.50869 7.42677 8.98356 7.71966 9.27645L8.78034 10.3371C9.07324 10.63 9.54811 10.63 9.841 10.3371C10.1339 10.0442 10.1339 9.56937 9.841 9.27648L8.78032 8.21579Z"
                 fill="currentColor" />
             </svg>
+            <svg *ngSwitchCase="'plans'" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 4V9m0 4h.01M12 12h4.01M16 12h4m-4 4h4m-8 4h4m-4-8h4m-4-4h4" />
+            </svg>
+            <svg *ngSwitchCase="'stripe'" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+            </svg>
             <svg *ngSwitchCase="'metrics'" class="h-[1.15rem] w-[1.1rem]" viewBox="0 0 19 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <rect y="5" width="5" height="15" rx="2" fill="currentColor" />
               <rect x="14" width="5" height="20" rx="2" fill="currentColor" />
@@ -422,6 +428,9 @@
 
       <div class="prose dark:prose-invert max-w-none">
         <p>El agente puede responder preguntas sobre productos, stock y precios de tiendas Shopify integradas mediante el flujo de OAuth2 y webhooks.</p>
+        <p class="not-prose mt-4 text-sm text-amber-900 dark:text-amber-200/95 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-xl px-4 py-3 leading-relaxed">
+          <strong class="text-amber-950 dark:text-amber-100">Plan:</strong> conectar tienda Shopify desde el producto está restringido por plan (desde Growth en el catálogo actual). El backend rechaza la operación con <code class="text-xs bg-white/80 dark:bg-slate-900 px-1 rounded">403</code> si el plan no lo permite o el trial gratuito ha expirado. Ver pestaña «Planes y límites».
+        </p>
         
         <div class="mt-8 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-lg shadow-sm">
           <div class="px-4 py-5 sm:p-6">
@@ -539,8 +548,11 @@
       <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Base de Conocimientos RAG</h2>
     </div>
 
-    <p class="mb-8 text-gray-600 dark:text-gray-300 leading-relaxed max-w-none">
-      El sistema de Base de Conocimientos (Knowledge Base) permite inyectar contexto personalizado al agente mediante la arquitectura RAG (Retrieval-Augmented Generation), dándole al modelo información de la que no fue entrenado originalmente. Los documentos se almacenan temporalmente en Cloud Storage y se vectorizan en Pinecone.
+    <p class="mb-4 text-gray-600 dark:text-gray-300 leading-relaxed max-w-none">
+      El sistema de Base de Conocimientos (Knowledge Base) permite inyectar contexto personalizado al agente mediante la arquitectura RAG (Retrieval-Augmented Generation), dándole al modelo información de la que no fue entrenado originalmente. Los documentos se procesan en backend y se indexan para recuperación en tiempo de llamada.
+    </p>
+    <p class="not-prose mb-8 text-sm text-gray-700 dark:text-gray-300 bg-slate-100 dark:bg-slate-800/60 border border-gray-200 dark:border-slate-700 rounded-xl px-4 py-3 leading-relaxed">
+      <strong class="text-gray-900 dark:text-slate-100">Límites por plan:</strong> el API valida cada alta (web, PDF, texto) contra el plan efectivo del usuario: máximo de URLs indexadas, máximo de documentos (PDF + texto), MB por archivo, y almacenamiento total estimado en bytes. Las fuentes se asocian al usuario en Firestore (<code class="text-xs">knowledgeSources</code> u colección equivalente según implementación). Si se supera el cupo, respuesta <code class="text-xs">403</code> con mensaje orientativo. Detalle en la pestaña «Planes y límites».
     </p>
 
     <div class="not-prose bg-gray-50 dark:bg-slate-900/40 rounded-xl p-8 border border-gray-200 dark:border-slate-800 relative z-0">
@@ -614,6 +626,218 @@
     </div>
   </div>
 
+    <!-- 5b. PLANES Y LÍMITES -->
+    <div *ngIf="activeTab === 'plans'" class="tab-content animate-slide-in">
+      <div class="flex items-center mb-6">
+        <svg class="shrink-0 w-7 h-7 mr-4 text-gray-900 dark:text-slate-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 4V9m0 4h.01M12 12h4.01M16 12h4m-4 4h4m-8 4h4m-4-8h4m-4-4h4" />
+        </svg>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Planes, trial, límites y facturación</h2>
+      </div>
+
+      <div class="mb-6 rounded-xl border border-indigo-200/80 dark:border-indigo-900/50 bg-indigo-50/70 dark:bg-indigo-950/25 p-5 shadow-sm">
+        <h3 class="text-sm font-semibold text-indigo-900 dark:text-indigo-200 mb-3 flex items-center gap-2">
+          <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          Resumen para dirección y negocio
+        </h3>
+        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300 space-y-2 leading-relaxed">
+          <li>El producto se vende en <strong class="font-medium text-gray-800 dark:text-gray-200">cuatro slugs de catálogo</strong>: <code class="text-xs">gratis</code>, <code class="text-xs">starter</code>, <code class="text-xs">growth</code> y <code class="text-xs">scale</code>. Los límites técnicos viven en el backend (<code class="text-xs">PLAN_LIMITS</code> en la API).</li>
+          <li>La cuenta <strong class="font-medium text-gray-800 dark:text-gray-200">gratis</strong> incluye un <strong>periodo de prueba de 7 días</strong> con las mismas capacidades técnicas que Starter; cuando el trial expira, el usuario debe pasar a un plan de pago para seguir usando el producto (límites efectivos de bloqueo según implementación en API).</li>
+          <li>La <strong>facturación recurrente</strong> va por <strong>Stripe</strong> (checkout y portal); los webhooks actualizan <code class="text-xs">plan</code> y <code class="text-xs">minutesLimit</code> en Firestore. El detalle operativo (productos, precios, eventos, casos límite) está en la pestaña <strong>«Stripe &amp; facturación»</strong>. Los precios de minutos extra por plan están en catálogo (<code class="text-xs">extraPerMinuteEur</code>); el ajuste de consumo puede incrementar <code class="text-xs">extraMinutes</code>; la facturación real de extras en euros depende del acuerdo comercial y de la configuración en Stripe.</li>
+          <li>En la app cliente, los topes (agentes, URLs, documentos, almacenamiento) se comunican con <strong>403</strong> desde la API; el front muestra modales con CTA a facturación y usa cabeceras para no duplicar snackbars de error.</li>
+        </ul>
+      </div>
+
+      <div class="space-y-8 text-gray-600 dark:text-gray-300 leading-relaxed">
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Fuente de verdad y perfil</h3>
+          <ul class="list-disc pl-5 text-sm space-y-2">
+            <li>Firestore: <code class="text-xs bg-gray-100 dark:bg-slate-800 px-1 rounded">users.plan</code>, <code class="text-xs bg-gray-100 dark:bg-slate-800 px-1 rounded">minutesLimit</code>, <code class="text-xs bg-gray-100 dark:bg-slate-800 px-1 rounded">trialEndsAt</code>, <code class="text-xs bg-gray-100 dark:bg-slate-800 px-1 rounded">extraMinutes</code>, <code class="text-xs bg-gray-100 dark:bg-slate-800 px-1 rounded">minutesByMonth</code>.</li>
+            <li>El API expone en el perfil un objeto <code class="text-xs bg-gray-100 dark:bg-slate-800 px-1 rounded">planUsage</code>: recuentos (agentes, fuentes web, documentos PDF/texto, bytes de almacenamiento), <code class="text-xs">trialActive</code>, <code class="text-xs">effectivePlanSlug</code> y <code class="text-xs">limits</code> alineados con el plan efectivo (incluye trial gratis = límites tipo Starter).</li>
+            <li>Slugs antiguos (<code class="text-xs">basic</code>/<code class="text-xs">free</code> → gratis; <code class="text-xs">pro</code> → starter; <code class="text-xs">premium</code> → scale) se normalizan en backend al leer.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Qué se limita en la API</h3>
+          <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-800">
+            <table class="min-w-full text-sm text-left">
+              <thead class="bg-gray-50 dark:bg-slate-800/80 text-gray-800 dark:text-slate-200">
+                <tr>
+                  <th class="px-4 py-3 font-semibold">Ámbito</th>
+                  <th class="px-4 py-3 font-semibold">Comportamiento</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+                <tr class="bg-white dark:bg-slate-900/40">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">Agentes</td>
+                  <td class="px-4 py-3">Al crear agente se comprueba el recuento en <code class="text-xs">agents[]</code> frente a <code class="text-xs">limits.agents</code> (<code class="text-xs">PlanLimitsService.assertCanAddAgent</code>).</td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-slate-900/20">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">URLs (web)</td>
+                  <td class="px-4 py-3">Se cuentan fuentes tipo web por usuario; al superar <code class="text-xs">indexedUrls</code> se rechaza el alta.</td>
+                </tr>
+                <tr class="bg-white dark:bg-slate-900/40">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">Documentos</td>
+                  <td class="px-4 py-3">PDF + texto frente a <code class="text-xs">documentsMax</code>; tamaño máximo por archivo según <code class="text-xs">maxDocSizeMb</code>.</td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-slate-900/20">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">Almacenamiento</td>
+                  <td class="px-4 py-3">Suma de <code class="text-xs">sizeBytes</code> en fuentes PDF y texto; tope <code class="text-xs">storageTotalMb</code>. Las URLs nuevas usan una estimación fija para no superar el cupo.</td>
+                </tr>
+                <tr class="bg-white dark:bg-slate-900/40">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">Integración Shopify</td>
+                  <td class="px-4 py-3">Conexión OAuth y rutas relacionadas comprueban plan: disponible desde Growth según texto de integraciones en catálogo (<code class="text-xs">assertShopifyIntegrationAllowed</code>).</td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-slate-900/20">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">Funciones beta (p. ej. Scale)</td>
+                  <td class="px-4 py-3"><code class="text-xs">assertBetaFeatureAllowed</code> exige <code class="text-xs">betaAccess</code> en el plan efectivo; usar en controladores cuando exista la feature.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Experiencia en la app (LlamaloIA)</h3>
+          <ul class="list-disc pl-5 text-sm space-y-2">
+            <li>Comprobaciones previas con <code class="text-xs">planUsage</code> en altas de agente y base de conocimiento.</li>
+            <li>Errores 403 de plan: cabecera <code class="text-xs">X-Handles-Plan-403</code> en peticiones que abren modal de mejora de plan; el interceptor no muestra snackbar duplicado.</li>
+            <li>Banner de trial en el layout del dashboard cuando aplica (<code class="text-xs">trialActive</code> y plan efectivo gratis).</li>
+            <li>Pantalla de métricas: bloques avanzados y exportación CSV según tier del panel (ver pestaña «Métricas &amp; Datos»).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">Operaciones y mantenimiento</h3>
+          <ul class="list-disc pl-5 text-sm space-y-2">
+            <li>Script en la API: <code class="text-xs bg-gray-100 dark:bg-slate-800 px-1 rounded">npm run sync:user-minutes</code> — alinea <code class="text-xs">users.minutesLimit</code> con la misma lógica que los minutos de voz efectivos (gratis + trial activo → minutos Starter; gratis + trial caducado → 0; planes de pago → catálogo). Usar primero con <code class="text-xs">--dry-run</code>.</li>
+            <li>Otros scripts existentes: migración de planes, slugs legacy, <code class="text-xs">trialEndsAt</code>, seed de catálogo — ver <code class="text-xs">package.json</code> del API.</li>
+            <li>Checkout, portal de cliente, webhooks y sincronización con Firestore: ver pestaña <strong>«Stripe &amp; facturación»</strong>.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <!-- 5c. STRIPE -->
+    <div *ngIf="activeTab === 'stripe'" class="tab-content animate-slide-in">
+      <div class="flex items-center mb-6">
+        <svg class="shrink-0 w-7 h-7 mr-4 text-gray-900 dark:text-slate-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+        </svg>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Stripe: planes, webhooks y Firestore</h2>
+      </div>
+
+      <p class="mb-6 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+        Referencia alineada con <code class="text-xs bg-gray-100 dark:bg-slate-800 px-1 rounded">StripeService</code> y <code class="text-xs bg-gray-100 dark:bg-slate-800 px-1 rounded">StripeController</code> en la API (<code class="text-xs">llamalo-ai-api</code>). Los nombres de eventos y campos corresponden a la implementación actual.
+      </p>
+
+      <div class="space-y-10 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">1. Cómo están definidos los planes en Stripe</h3>
+          <p class="mb-3">
+            El backend <strong>no crea</strong> productos ni precios por API en el flujo normal. En el <strong>Dashboard de Stripe</strong> debe existir, para cada plan de pago de LlamaloIA, un <strong>precio recurrente</strong> (suscripción) asociado a un producto.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 mb-4">
+            <li>Planes de catálogo con checkout: <code class="text-xs">starter</code>, <code class="text-xs">growth</code>, <code class="text-xs">scale</code> (el plan <code class="text-xs">gratis</code> no usa Stripe Checkout en esta lógica).</li>
+            <li>En el despliegue, cada precio se referencia por su ID con variables de entorno en la API: <code class="text-xs">STRIPE_PRICE_STARTER</code>, <code class="text-xs">STRIPE_PRICE_GROWTH</code>, <code class="text-xs">STRIPE_PRICE_SCALE</code>.</li>
+            <li>La sesión de Checkout (<code class="text-xs">POST /stripe/checkout-session</code>, autenticada) usa <code class="text-xs">mode: subscription</code> y un único <code class="text-xs">line_items</code> con el <code class="text-xs">price</code> correspondiente al plan elegido.</li>
+            <li>En la suscripción y en la sesión se guarda metadata con <code class="text-xs">userId</code> (Firebase) y <code class="text-xs">plan</code> (slug interno), además de <code class="text-xs">client_reference_id</code> = <code class="text-xs">userId</code> en la sesión, para reconciliar al usuario tras el pago.</li>
+          </ul>
+          <p class="text-xs text-gray-500 dark:text-gray-500 border-l-2 border-gray-200 dark:border-slate-700 pl-3">
+            Requisitos de entorno: <code class="text-xs">STRIPE_SECRET_KEY</code> para la API; para webhooks, <code class="text-xs">STRIPE_WEBHOOK_SECRET</code> (ver siguiente apartado).
+          </p>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">2. Cómo funcionan los webhooks</h3>
+          <ul class="list-disc pl-5 space-y-2 mb-4">
+            <li><strong>Endpoint:</strong> <code class="text-xs">POST /stripe/webhook</code> (público; sin JWT). Stripe envía el cuerpo <strong>en bruto</strong>; el servidor debe exponer <code class="text-xs">rawBody</code> antes del parseo JSON (configurado en <code class="text-xs">main.ts</code> de la API).</li>
+            <li><strong>Firma:</strong> cabecera <code class="text-xs">stripe-signature</code>; verificación HMAC con <code class="text-xs">STRIPE_WEBHOOK_SECRET</code>. Si falta el secreto, el servicio registra advertencia y <strong>no aplica cambios</strong> (no falla de forma ruidosa en algunos despliegues).</li>
+            <li><strong>Eventos procesados</strong> en el <code class="text-xs">switch</code>:
+              <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li><code class="text-xs">checkout.session.completed</code> — primera confirmación de compra tras Checkout; aplica plan y minutos al usuario.</li>
+                <li><code class="text-xs">customer.subscription.updated</code> — cambios de plan, estado de suscripción o precio.</li>
+                <li><code class="text-xs">customer.subscription.deleted</code> — suscripción eliminada o cancelada al término del periodo según envíe Stripe.</li>
+              </ul>
+            </li>
+            <li><strong>Otros tipos de evento</strong> se ignoran (no hay ramas adicionales en el código actual).</li>
+          </ul>
+          <p class="text-xs text-amber-900/90 dark:text-amber-200/90 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 rounded-lg px-3 py-2">
+            En el Dashboard de Stripe, el endpoint del webhook debe apuntar a la URL pública del API (p. ej. <code class="text-xs">…/stripe/webhook</code>) y suscribirse al menos a esos tres tipos de evento.
+          </p>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">3. Cómo se actualiza el plan del usuario en base de datos</h3>
+          <p class="mb-3">Colección <code class="text-xs">users</code> en Firestore; actualizaciones con <code class="text-xs">set</code> y merge activado (no sobrescribe el documento entero).</p>
+
+          <h4 class="font-semibold text-gray-900 dark:text-slate-100 mb-2">Tras <code class="text-xs">checkout.session.completed</code></h4>
+          <p class="mb-2">Método <code class="text-xs">applyPlanFromSession</code>: lee <code class="text-xs">metadata.userId</code> o <code class="text-xs">client_reference_id</code> y <code class="text-xs">metadata.plan</code>. Si son válidos respecto a <code class="text-xs">PLAN_LIMITS</code>, escribe:</p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li><code class="text-xs">plan</code> — slug del plan pagado.</li>
+            <li><code class="text-xs">minutesLimit</code> — copiado del catálogo (p. ej. <code class="text-xs">PLAN_LIMITS</code> indexado por el slug del plan, campo <code class="text-xs">minutesLimit</code>).</li>
+            <li><code class="text-xs">stripeCustomerId</code> y <code class="text-xs">stripeSubscriptionId</code> — IDs devueltos por la sesión.</li>
+            <li><code class="text-xs">updatedAt</code> — fecha.</li>
+          </ul>
+
+          <h4 class="font-semibold text-gray-900 dark:text-slate-100 mb-2">Tras <code class="text-xs">customer.subscription.updated</code> o <code class="text-xs">deleted</code></h4>
+          <p class="mb-2">Método <code class="text-xs">syncSubscriptionToUser</code> → <code class="text-xs">updateUserFromSubscription</code>:</p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li>Identificación del usuario: preferentemente <code class="text-xs">subscription.metadata.userId</code>. Si no viene, se busca un documento <code class="text-xs">users</code> con <code class="text-xs">stripeCustomerId</code> igual al cliente de la suscripción.</li>
+            <li>Si el estado de la suscripción es <code class="text-xs">canceled</code>, <code class="text-xs">unpaid</code> o <code class="text-xs">incomplete_expired</code>, se fuerza <code class="text-xs">plan: 'gratis'</code>, <code class="text-xs">minutesLimit</code> al valor del plan gratuito en catálogo y <code class="text-xs">stripeSubscriptionId: null</code> (el usuario queda como cuenta gratuita en base de datos).</li>
+            <li>En caso contrario, se determina el slug <code class="text-xs">plan</code> por <code class="text-xs">subscription.metadata.plan</code> o, si falta, comparando el <code class="text-xs">price.id</code> del primer ítem con <code class="text-xs">STRIPE_PRICE_*</code>. Luego se escriben <code class="text-xs">plan</code>, <code class="text-xs">minutesLimit</code> del catálogo, <code class="text-xs">stripeSubscriptionId</code> y <code class="text-xs">updatedAt</code>.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">4. Actualización de minutos al suscribirse</h3>
+          <p>
+            No hay un incremento separado de “minutos de bienvenida” en el flujo Stripe descrito: al aplicar un plan de pago, <code class="text-xs">minutesLimit</code> se establece al <strong>techo mensual del catálogo</strong> para ese plan (mismo valor que en <code class="text-xs">PLAN_LIMITS</code> para ese slug). El consumo real del mes sigue modelado con <code class="text-xs">minutesByMonth</code> y extras según la lógica de métricas y cupo (ver pestañas «Métricas» y «Planes y límites»).
+          </p>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">5. Casos límite: pago fallido, cancelación, cambio de plan</h3>
+          <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-800">
+            <table class="min-w-full text-sm">
+              <thead class="bg-gray-50 dark:bg-slate-800/80 text-gray-800 dark:text-slate-200">
+                <tr>
+                  <th class="px-4 py-3 text-left font-semibold">Situación</th>
+                  <th class="px-4 py-3 text-left font-semibold">Comportamiento en código actual</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+                <tr class="bg-white dark:bg-slate-900/40">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">Pago fallido / impago</td>
+                  <td class="px-4 py-3">Si Stripe marca la suscripción con estado <code class="text-xs">unpaid</code>, se aplica el mismo tratamiento que cancelación efectiva: <code class="text-xs">plan</code> → <code class="text-xs">gratis</code>, minutos del catálogo gratis, <code class="text-xs">stripeSubscriptionId</code> → <code class="text-xs">null</code>. Otros estados problemáticos (<code class="text-xs">past_due</code>, etc.) <strong>no</strong> están listados en esa condición: se intentará mapear plan desde metadata o precio mientras el estado no sea uno de los tres anteriores.</td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-slate-900/20">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">Cancelación de suscripción</td>
+                  <td class="px-4 py-3">Evento <code class="text-xs">customer.subscription.deleted</code> o actualización con estado <code class="text-xs">canceled</code>: rebaja a <code class="text-xs">gratis</code> y limpia <code class="text-xs">stripeSubscriptionId</code> como en la fila anterior.</td>
+                </tr>
+                <tr class="bg-white dark:bg-slate-900/40">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">Suscripción incompleta / expirada</td>
+                  <td class="px-4 py-3">Estado <code class="text-xs">incomplete_expired</code>: mismo reset a <code class="text-xs">gratis</code>.</td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-slate-900/20">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">Cambio de plan (upgrade/downgrade)</td>
+                  <td class="px-4 py-3">Stripe envía <code class="text-xs">customer.subscription.updated</code> con el nuevo precio o metadata; el backend resuelve el slug (<code class="text-xs">metadata.plan</code> o comparación de <code class="text-xs">price.id</code> con variables de entorno) y actualiza <code class="text-xs">plan</code> y <code class="text-xs">minutesLimit</code> acorde al catálogo.</td>
+                </tr>
+                <tr class="bg-white dark:bg-slate-900/40">
+                  <td class="px-4 py-3 font-medium text-gray-800 dark:text-slate-200">Portal de facturación</td>
+                  <td class="px-4 py-3"><code class="text-xs">POST /stripe/billing-portal</code> crea una sesión del Billing Portal de Stripe; los cambios efectivos (cancelación, método de pago, etc.) siguen reflejándose vía webhooks de suscripción, no por una respuesta especial del portal en nuestro código.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="mt-4 text-xs text-gray-500 dark:text-gray-500">
+            Si el negocio necesita tratar <code class="text-xs">past_due</code> de forma distinta a un plan activo, habría que extender <code class="text-xs">updateUserFromSubscription</code> con ramas explícitas para ese estado.
+          </p>
+        </section>
+      </div>
+    </div>
+
     <!-- 6. MÉTRICAS -->
     <div *ngIf="activeTab === 'metrics'" class="tab-content animate-slide-in">
       <div class="flex items-center mb-6">
@@ -632,11 +856,22 @@
       <div class="mb-8 rounded-xl border border-pink-200 dark:border-pink-900/50 bg-pink-50/80 dark:bg-pink-950/30 p-5 md:p-6">
         <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Consumo mensual (minutos) y coherencia en la UI</h3>
         <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
-          El campo <code>users.minutesByMonth["YYYY-MM"]</code> (clave en <strong>UTC</strong>) se <strong>recalcula en el backend</strong> a partir de la suma de duraciones en <code>llamadas_registradas</code> del mes al atender <code>GET /metrics/dashboard</code> o <code>GET /metrics/twilio-detailed</code> (sin filtrar por cuenta Twilio concreta). Así coincide con lo que muestra la tarjeta de <strong>Plan Starter</strong> en el dashboard y la pantalla de <strong>Métricas</strong>: ambas leen el mismo valor del API (<code>minutos_ultimo_mes</code> / minutos del mes en detallado).
+          El campo <code>users.minutesByMonth["YYYY-MM"]</code> (clave en <strong>UTC</strong>) se <strong>recalcula en el backend</strong> a partir de la suma de duraciones en <code>llamadas_registradas</code> del mes al atender <code>GET /metrics/dashboard</code> (todos los planes). El mismo tipo de sincronización puede ejecutarse al cargar <code>GET /metrics/twilio-detailed</code> cuando el endpoint responde <strong>200</strong> (planes con panel avanzado o superior).
         </p>
-        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-          El <strong>webhook</strong> de finalización de Twilio <strong>no</strong> incrementa ya <code>minutesByMonth</code> (antes contaba todas las llamadas de la cuenta y podía desalinearse de las sesiones guardadas en <code>llamadas_registradas</code>). Si MailerLite u otros procesos dependen de ese campo, se actualiza cuando el usuario carga métricas y el backend sincroniza el total.
+        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+          El <strong>webhook</strong> de finalización de Twilio <strong>no</strong> incrementa ya <code>minutesByMonth</code> de forma fiable a partir de todo el tráfico de la cuenta; la fuente de verdad para el producto son las sesiones guardadas en <code>llamadas_registradas</code>. Si MailerLite u otros procesos dependen de ese campo, se actualiza cuando el usuario carga métricas y el backend sincroniza el total.
         </p>
+      </div>
+
+      <div class="mb-8 rounded-xl border border-sky-200 dark:border-sky-900/50 bg-sky-50/90 dark:bg-sky-950/25 p-5 md:p-6">
+        <h3 class="text-base font-bold text-gray-900 dark:text-white mb-2">Panel de análisis según plan (tier)</h3>
+        <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+          El catálogo define un nivel de panel por plan (<strong>Básico</strong>, <strong>Avanzado</strong>, <strong>Completo + exportación</strong>). El API adjunta en las respuestas de métricas un objeto <code class="text-xs">panel_analytics</code> con <code class="text-xs">tier</code> (<code class="text-xs">basic</code> | <code class="text-xs">advanced</code> | <code class="text-xs">full_export</code>) y <code class="text-xs">can_export_csv</code> (solo <code class="text-xs">true</code> en el nivel completo).
+        </p>
+        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300 space-y-2">
+          <li><code class="text-xs">GET /metrics/dashboard</code>: disponible para cualquier plan; devuelve resumen, agentes y llamadas exitosas por día más <code class="text-xs">panel_analytics</code>.</li>
+          <li><code class="text-xs">GET /metrics/twilio-detailed</code>: métricas avanzadas (latencias, países, tipos de llamada, horas pico, etc.). Si el plan solo incluye panel <strong>básico</strong> (p. ej. Starter o gratis en trial con mismo nivel de panel), el API responde <strong>403 Forbidden</strong> y <strong>no</strong> expone esos agregados. La app cliente ignora ese 403 sin vaciar los datos ya cargados del dashboard.</li>
+        </ul>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

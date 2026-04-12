@@ -9,13 +9,15 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./admin-docs.component.scss'],
 })
 export class AdminDocsComponent {
-  activeTab: string = 'xenon'; // 'xenon', 'calls', 'shopify', 'twilio', 'knowledge', 'metrics'
+  activeTab: string = 'xenon';
 
   tabs = [
     { id: 'xenon', name: 'Flujo Xenon' },
     { id: 'calls', name: 'Llamadas & WebRTC' },
     { id: 'shopify', name: 'Integración Shopify' },
     { id: 'knowledge', name: 'Base de Conocimientos (RAG)' },
+    { id: 'plans', name: 'Planes y límites' },
+    { id: 'stripe', name: 'Stripe & facturación' },
     { id: 'metrics', name: 'Métricas & Datos' },
     { id: 'twilio', name: 'Arquitectura Twilio' },
   ];
