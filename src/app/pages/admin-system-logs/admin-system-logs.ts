@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 interface SystemLog {
   id: string;
@@ -21,7 +22,7 @@ interface SystemLog {
 })
 export class AdminSystemLogsComponent implements OnInit {
   private http = inject(HttpClient);
-  private apiUrl = 'https://llamaloiabackend-5294.onrender.com';
+  private apiUrl = environment.apiUrl;
   
   logs: SystemLog[] = [];
   loading = true;

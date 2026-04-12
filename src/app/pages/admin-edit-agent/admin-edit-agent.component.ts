@@ -66,6 +66,7 @@ import {
   filter,
 } from 'rxjs';
 import { UserStorage } from '../../storages/user/user-storage';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin-edit-agent',
@@ -97,7 +98,7 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   private http = inject(HttpClient);
   readonly voiceTest = inject(VoiceTestService);
 
-  private readonly supportAgentApiUrl = 'https://llamaloiabackend-5294.onrender.com/support-agent';
+  private readonly supportAgentApiUrl = `${environment.apiUrl}/support-agent`;
 
   editForm!: FormGroup;
   isLoading = false;

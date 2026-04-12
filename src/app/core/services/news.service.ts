@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NewsItem } from '../../shared/models/news.model';
 import { I18nService } from './i18n.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,7 @@ import { I18nService } from './i18n.service';
 export class NewsService {
     private http = inject(HttpClient);
     private platformId = inject(PLATFORM_ID);
-    private apiUrl = 'https://llamaloiabackend-5294.onrender.com/news';
+    private apiUrl = `${environment.apiUrl}/news`;
     private isBrowser: boolean;
 
     constructor(private i18nService: I18nService, @Inject(PLATFORM_ID) platformId: Object) { 

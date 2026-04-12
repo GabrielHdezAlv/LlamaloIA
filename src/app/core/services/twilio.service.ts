@@ -5,6 +5,7 @@ import {
   TwilioConfig,
   TwilioConfigRequest,
 } from '../../shared/models/twilio-config.model';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
@@ -13,7 +14,7 @@ import { map, filter } from 'rxjs/operators';
 })
 export class TwilioService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://llamaloiabackend-5294.onrender.com/twilio';
+  private apiUrl = `${environment.apiUrl}/twilio`;
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {

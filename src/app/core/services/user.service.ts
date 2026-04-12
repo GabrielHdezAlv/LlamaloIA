@@ -6,12 +6,13 @@ import { LoginUser } from '../../shared/models/login-user.model';
 import { CreateUserDto } from '../../shared/models/create-user-dto.model';
 import { UpdateProfileDto } from '../../shared/models/update-profile-dto.model';
 import { UserProfileResponseDto } from '../../shared/models/user-profile-response.dto';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'https://llamaloiabackend-5294.onrender.com';
+  private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private isBrowser: boolean;
 

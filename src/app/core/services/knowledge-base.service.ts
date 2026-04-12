@@ -18,13 +18,13 @@ import {
   GetAgentKnowledgeSourcesResponse,
   UnlinkSourceFromAgentResponse,
 } from '../../shared/models/knowledge-source.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class KnowledgeBaseService {
-  private readonly baseUrl =
-    'https://llamaloiabackend-5294.onrender.com/knowledge-base';
+  private readonly baseUrl = `${environment.apiUrl}/knowledge-base`;
   private isBrowser: boolean;
 
   constructor(

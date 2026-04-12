@@ -12,10 +12,11 @@ import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
 import { UserProfileResponseDto } from '../../shared/models/user-profile-response.dto';
+import { environment } from '../../../environments/environment';
 
 const BODY_CLASS = 'page-shopify-onboarding';
 const MYSHOPIFY_SUFFIX = '.myshopify.com';
-const API_URL = 'https://llamaloiabackend-5294.onrender.com';
+const API_URL = environment.apiUrl;
 
 /** Respuesta del endpoint GET /shopify/auth */
 interface ShopifyAuthResponse {

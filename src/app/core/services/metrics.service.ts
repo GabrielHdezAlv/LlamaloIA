@@ -4,14 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 import { TwilioDetailedMetrics } from '../../shared/models/twilio-detailed-metrics.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MetricsService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://llamaloiabackend-5294.onrender.com/metrics';
-  private baseUrl = 'https://llamaloiabackend-5294.onrender.com';
+  private apiUrl = `${environment.apiUrl}/metrics`;
+  private baseUrl = environment.apiUrl;
   private isBrowser: boolean;
   
   // Observable para el estado de loading compartido

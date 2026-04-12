@@ -2,6 +2,7 @@ import { Injectable, signal, inject, PLATFORM_ID, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { NotificationService } from './notification.service';
 import { Subject } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface VoiceTestConfig {
   agentInstruction: string;
@@ -68,11 +69,22 @@ export class VoiceTestService {
   // Volumen de reproducción (0.0 - 1.0), controlado desde el widget Xenon
   private playbackGain = 1.0;
 
-  private readonly WS_URL =
-    'wss://llamaloiabackend-5294.onrender.com/voice/test-stream';
-  private readonly WS_SUPPORT_CHAT_URL =
-    'wss://llamaloiabackend-5294.onrender.com/support/chat';
   private readonly MAX_DURATION = 120;
+
+  private httpBaseToWs(httpBase: string): string {
+    const b = httpBase.replace(/\/$/, '');
+    return b
+      .replace(/^https:\/\//, 'wss://')
+      .replace(/^http:\/\//, 'ws://');
+  }
+
+  private get wsUrlVoiceTest(): string {
+    return `${this.httpBaseToWs(environment.apiUrl)}/voice/test-stream`;
+  }
+
+  private get wsUrlSupportChat(): string {
+    return `${this.httpBaseToWs(environment.apiUrl)}/support/chat`;
+  }
 
   constructor() {
     effect(() => {
@@ -223,7 +235,7 @@ export class VoiceTestService {
 
   private connectWebSocket(token: string, config: VoiceTestConfig): void {
     const useSupportChat = config.useSupportChat === true;
-    const url = useSupportChat ? this.WS_SUPPORT_CHAT_URL : this.WS_URL;
+    const url = useSupportChat ? this.wsUrlSupportChat : this.wsUrlVoiceTest;
     this.ws = new WebSocket(url);
     this.ws.binaryType = 'arraybuffer';
 
