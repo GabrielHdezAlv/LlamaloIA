@@ -9,14 +9,21 @@ import {
   NgZone,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterModule,
+} from '@angular/router';
+import { Subscription, firstValueFrom } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { I18nService } from '../../core/services/i18n.service';
 import { MetricsService } from '../../core/services/metrics.service';
 import { AgentsService } from '../../core/services/agents.service';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 import { ModalService } from '../../shared/modals/modal.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 import { Agent } from '../../shared/models/agent.model';
 import {
@@ -45,6 +52,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private userService = inject(UserService);
   private userStorage = inject(UserStorage);
   private modalService = inject(ModalService);
+  private notificationService = inject(NotificationService);
+  private route = inject(ActivatedRoute);
   private router = inject(Router);
   private ngZone = inject(NgZone);
 
@@ -780,6 +789,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // Cargar métricas solo si estamos en el navegador (no en SSR)
     if (this.isBrowser) {
+      this.handleStripeReturnQuery();
       this.loadMetrics();
       this.loadUserAgents();
       // Actualizar opciones del gráfico según el tamaño de pantalla (altura, fuentes, etc)
@@ -800,6 +810,35 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // Ejecutar animaciones siempre
     this.startFadeInAnimations();
+  }
+
+  /** Vuelta desde Stripe (cancel) o enlaces antiguos a /billing: aviso y/o modal de precios. */
+  private handleStripeReturnQuery(): void {
+    void firstValueFrom(this.route.queryParams.pipe(take(1))).then(
+      (params) => {
+        const stripe = params['stripe'];
+        const pricing = params['pricing'];
+        const hasStripeCancel = stripe === 'cancel';
+        const hasPricing = pricing === '1' || pricing === 'true';
+
+        if (!hasStripeCancel && !hasPricing) {
+          return;
+        }
+
+        if (hasStripeCancel) {
+          this.notificationService.info(this.t.stripeCheckoutCancelled);
+        }
+        if (hasPricing) {
+          setTimeout(() => this.modalService.openUpgradePlan(), 0);
+        }
+        void this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { stripe: null, pricing: null },
+          queryParamsHandling: 'merge',
+          replaceUrl: true,
+        });
+      },
+    );
   }
 
   ngOnDestroy(): void {

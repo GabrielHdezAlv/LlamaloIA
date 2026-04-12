@@ -132,7 +132,7 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
 
     const origin = window.location.origin;
     const successUrl = `${origin}/dashboard/account?tab=billing&stripe=success`;
-    const cancelUrl = `${origin}/dashboard/upgrade-plan?stripe=cancel`;
+    const cancelUrl = `${origin}/dashboard/home?stripe=cancel&pricing=1`;
     const portalReturnUrl = `${origin}/dashboard/account?tab=billing&stripe=return`;
 
     const user = this.userStore.user();
