@@ -91,7 +91,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     }
 
     get shouldShow(): boolean {
-        const authRoutes = ['/login', '/register', '/verify-email', '/shopify'];
+        const authRoutes = ['/login', '/verify-email', '/shopify'];
         if (authRoutes.some(route => this.currentUrl.includes(route))) return false;
         if (this.hideSupportWidget) return false;
         return true;
