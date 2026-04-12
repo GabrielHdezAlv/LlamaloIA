@@ -89,6 +89,9 @@
               <circle cx="12" cy="12" r="9" fill="url(#adminDocsTabXenonSphereGrad)" />
               <ellipse cx="10" cy="9" rx="3" ry="2" fill="white" fill-opacity="0.55" />
             </svg>
+            <svg *ngSwitchCase="'environments'" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+            </svg>
             <svg *ngSwitchCase="'calls'" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path
                 d="M15.5562 14.5477L15.1007 15.0272C15.1007 15.0272 14.0181 16.167 11.0631 13.0559C8.10812 9.94484 9.1907 8.80507 9.1907 8.80507L9.47752 8.50311C10.1841 7.75924 10.2507 6.56497 9.63424 5.6931L8.37326 3.90961C7.61028 2.8305 6.13596 2.68795 5.26145 3.60864L3.69185 5.26114C3.25823 5.71766 2.96765 6.30945 3.00289 6.96594C3.09304 8.64546 3.81071 12.259 7.81536 16.4752C12.0621 20.9462 16.0468 21.1239 17.6763 20.9631C18.1917 20.9122 18.6399 20.6343 19.0011 20.254L20.4217 18.7584C21.3806 17.7489 21.1102 16.0182 19.8833 15.312L17.9728 14.2123C17.1672 13.7486 16.1858 13.8848 15.5562 14.5477Z" />
@@ -228,6 +231,126 @@
             </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Entornos, Vercel, Render, ramas -->
+    <div *ngIf="activeTab === 'environments'" class="tab-content animate-slide-in">
+      <div class="flex items-center mb-6">
+        <svg class="shrink-0 w-7 h-7 mr-4 text-gray-900 dark:text-slate-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+        </svg>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Entornos, dominios y despliegue</h2>
+      </div>
+
+      <div class="mb-6 rounded-xl border border-slate-200/90 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900/40 p-5 shadow-sm">
+        <h3 class="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3 flex items-center gap-2">
+          Resumen para dirección y negocio
+        </h3>
+        <ul class="list-disc pl-5 text-sm text-gray-700 dark:text-gray-300 space-y-2 leading-relaxed">
+          <li>La aplicación web pública corre en <strong class="font-medium text-gray-900 dark:text-slate-100">Vercel</strong>; la API en <strong class="font-medium text-gray-900 dark:text-slate-100">Render</strong>. Son servicios distintos: un cambio en el front no despliega el back y viceversa.</li>
+          <li>Tres entornos alineados por <strong>dominio</strong> y <strong>rama Git</strong>: producción (<code class="text-xs bg-white/80 dark:bg-slate-800 px-1 rounded">app.llamalo.ai</code>), preproducción (<code class="text-xs bg-white/80 dark:bg-slate-800 px-1 rounded">preprod.llamalo.ai</code>) y desarrollo (<code class="text-xs bg-white/80 dark:bg-slate-800 px-1 rounded">dev.llamalo.ai</code>).</li>
+          <li>Cada entorno usa su <strong>propio backend</strong> en Render; los datos (Firestore, Stripe, etc.) pueden diferir: no asumir que una prueba en <code class="text-xs">dev</code> refleja producción.</li>
+        </ul>
+      </div>
+
+      <div class="space-y-10 text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">1. Mapa front (Vercel) ↔ rama Git ↔ URL</h3>
+          <p class="mb-3">El build del front se elige en <code class="text-xs bg-gray-100 dark:bg-slate-800 px-1 rounded">scripts/vercel-build.cjs</code> según la rama que dispara el deploy en Vercel (variable <code class="text-xs">VERCEL_GIT_COMMIT_REF</code>):</p>
+          <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-800 mb-4">
+            <table class="min-w-full text-sm text-left">
+              <thead class="bg-gray-50 dark:bg-slate-800/80 text-gray-800 dark:text-slate-200">
+                <tr>
+                  <th class="px-4 py-3 font-semibold">Rama Git</th>
+                  <th class="px-4 py-3 font-semibold">Configuración Angular</th>
+                  <th class="px-4 py-3 font-semibold">Dominio habitual</th>
+                  <th class="px-4 py-3 font-semibold">Archivo de entorno (apiUrl, etc.)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+                <tr class="bg-white dark:bg-slate-900/40">
+                  <td class="px-4 py-3 font-mono text-xs"><code>master</code></td>
+                  <td class="px-4 py-3"><code class="text-xs">production</code></td>
+                  <td class="px-4 py-3"><code class="text-xs">app.llamalo.ai</code> (Production en Vercel)</td>
+                  <td class="px-4 py-3"><code class="text-xs">environment.prod.ts</code></td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-slate-900/20">
+                  <td class="px-4 py-3 font-mono text-xs"><code>preprod</code></td>
+                  <td class="px-4 py-3"><code class="text-xs">preprod</code></td>
+                  <td class="px-4 py-3"><code class="text-xs">preprod.llamalo.ai</code></td>
+                  <td class="px-4 py-3"><code class="text-xs">environment.preprod.ts</code></td>
+                </tr>
+                <tr class="bg-white dark:bg-slate-900/40">
+                  <td class="px-4 py-3 font-mono text-xs"><code>dev</code></td>
+                  <td class="px-4 py-3"><code class="text-xs">dev-deploy</code></td>
+                  <td class="px-4 py-3"><code class="text-xs">dev.llamalo.ai</code></td>
+                  <td class="px-4 py-3"><code class="text-xs">environment.deploy-dev.ts</code></td>
+                </tr>
+                <tr class="bg-gray-50/50 dark:bg-slate-900/20">
+                  <td class="px-4 py-3 font-mono text-xs">Otra rama / PR</td>
+                  <td class="px-4 py-3"><code class="text-xs">dev-deploy</code> por defecto</td>
+                  <td class="px-4 py-3">Preview de Vercel (<code class="text-xs">*.vercel.app</code>)</td>
+                  <td class="px-4 py-3"><code class="text-xs">environment.deploy-dev.ts</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-500">
+            En Vercel, cada dominio personalizado debe enlazarse a la rama correcta (<strong>Settings → Domains</strong>): <code class="text-xs">app</code> → Production (<code class="text-xs">master</code>); <code class="text-xs">preprod</code> y <code class="text-xs">dev</code> → sus ramas homónimas.
+          </p>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">2. Mapa API (Render) ↔ entorno</h3>
+          <p class="mb-3">Cada entorno del front debe apuntar al host de API definido en el <code class="text-xs">environment.*.ts</code> correspondiente (campo <code class="text-xs">apiUrl</code>):</p>
+          <ul class="list-disc pl-5 space-y-2 mb-3">
+            <li><strong>Producción:</strong> servicio Render asociado al API de prod (host tipo <code class="text-xs">llamaloiabackend-…onrender.com</code> según despliegue).</li>
+            <li><strong>Preprod:</strong> <code class="text-xs">llamaloiabackend-preprod.onrender.com</code> (ajustar si el nombre del servicio cambia).</li>
+            <li><strong>Dev:</strong> <code class="text-xs">llamaloiabackend-dev.onrender.com</code>.</li>
+          </ul>
+          <p class="text-xs text-amber-900/90 dark:text-amber-200/90 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 rounded-lg px-3 py-2">
+            Tras cambiar URLs en código, hace falta un <strong>nuevo deploy</strong> del front en Vercel para que los usuarios reciban el bundle actualizado.
+          </p>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">3. CORS y variable <code class="text-xs font-normal">FRONTEND_URL</code></h3>
+          <p class="mb-3">La API NestJS (<code class="text-xs">llamalo-ai-api</code>) limita orígenes en <code class="text-xs">src/main.ts</code>: el navegador solo puede llamar al API desde orígenes permitidos.</p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong><code class="text-xs">FRONTEND_URL</code></strong> en Render: define el origen principal por servicio. Puede incluir <strong>varios orígenes separados por comas</strong> si hace falta.</li>
+            <li>Por defecto el código también permite <code class="text-xs">http://localhost:4200</code> (Angular local), el dominio Vercel del proyecto (<code class="text-xs">https://llamalo-ai.vercel.app</code>) y la variable opcional <strong><code class="text-xs">CORS_EXTRA_ORIGINS</code></strong> (lista separada por comas) para previews u otros hosts.</li>
+            <li>Recomendación: en <strong>cada</strong> servicio Render, fijar <code class="text-xs">FRONTEND_URL</code> al dominio público que usan los usuarios de ese entorno (p. ej. <code class="text-xs">https://app.llamalo.ai</code> en prod, <code class="text-xs">https://preprod.llamalo.ai</code> en preprod, <code class="text-xs">https://dev.llamalo.ai</code> en dev).</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">4. DNS y dominios personalizados</h3>
+          <ul class="list-disc pl-5 space-y-2">
+            <li>En el proveedor DNS de <code class="text-xs">llamalo.ai</code>, los subdominios <code class="text-xs">app</code>, <code class="text-xs">preprod</code> y <code class="text-xs">dev</code> suelen ser <strong>CNAME</strong> hacia <code class="text-xs">cname.vercel-dns.com</code> (o el valor que indique Vercel al añadir el dominio).</li>
+            <li>El dominio raíz (<code class="text-xs">llamalo.ai</code>) puede usar registros <strong>A</strong> hacia las IPs que Vercel indique para el apex.</li>
+            <li>Hasta que Vercel muestre <strong>Valid Configuration</strong> y el certificado SSL esté activo, algunos navegadores pueden fallar al cargar por HTTPS.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">5. Flujo de trabajo con Git (ramas)</h3>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong><code class="text-xs">master</code>:</strong> producción del front (app) y línea principal del API en el repo correspondiente.</li>
+            <li><strong><code class="text-xs">preprod</code></strong> y <strong><code class="text-xs">dev</code>:</strong> entornos intermedios; promover cambios subiendo merges (p. ej. <code class="text-xs">dev</code> → <code class="text-xs">preprod</code> → <code class="text-xs">master</code>) según acuerdo del equipo.</li>
+            <li><strong><code class="text-xs">new-dev</code>:</strong> rama de integración donde el equipo puede fusionar trabajo en curso; conviene fusionar periódicamente <code class="text-xs">dev</code> (o <code class="text-xs">master</code>) en <code class="text-xs">new-dev</code> para no perder fixes de entorno ni dependencias.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">6. Detalles técnicos del front en Vercel</h3>
+          <ul class="list-disc pl-5 space-y-2">
+            <li><strong>Build command:</strong> <code class="text-xs">npm run build:vercel</code> (ejecuta el script que elige la configuración Angular por rama).</li>
+            <li><strong>Output directory:</strong> <code class="text-xs">dist/llamalo-io/browser</code> (Angular application builder; el script de build puede copiar <code class="text-xs">index.csr.html</code> a <code class="text-xs">index.html</code> para el hosting estático).</li>
+            <li><strong><code class="text-xs">vercel.json</code>:</strong> rewrites SPA y, si aplica, <code class="text-xs">outputDirectory</code> / <code class="text-xs">buildCommand</code> para alinear el panel con el repo.</li>
+            <li><strong>npm:</strong> <code class="text-xs">.npmrc</code> con <code class="text-xs">legacy-peer-deps=true</code> por compatibilidad de dependencias (p. ej. Polaris vs React 19).</li>
+          </ul>
+        </section>
       </div>
     </div>
 
