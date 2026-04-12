@@ -1,5 +1,5 @@
 /**
- * Build: `ng build --configuration production` (rama `prod` en Vercel → app.llamalo.ai).
+ * Build: `ng build --configuration production` (rama `master` en Vercel → app.llamalo.ai).
  */
 export const environment = {
   production: true,
