@@ -3,6 +3,7 @@
  */
 export const environment = {
   production: true,
+  deployEnvLabel: null as string | null,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-5294.onrender.com',
   firebase: {

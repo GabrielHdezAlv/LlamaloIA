@@ -23,8 +23,11 @@
       </div>
     </div>
 
-    <!-- Acciones derechas: modo oscuro + notificaciones + hamburguesa + avatar -->
+    <!-- Acciones derechas: entorno + modo oscuro + notificaciones + hamburguesa + avatar -->
     <div class="relative flex items-center gap-1 sm:gap-2 flex-shrink-0">
+      @if (deployEnvLabel) {
+      <span [class]="deployEnvBadgeClass()" aria-label="Entorno">{{ deployEnvLabel }}</span>
+      }
       <!-- Modo oscuro (también disponible en móvil) -->
       <button type="button" (click)="toggleDarkMode()"
         class="hidden xs:inline-flex items-center justify-center w-8 h-8 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn">
@@ -226,8 +229,11 @@
 
 
 
-    <!-- Controles de la derecha: modo oscuro + logout (admin) / noticias + avatar (dashboard) -->
+    <!-- Controles de la derecha: entorno + modo oscuro + logout (admin) / noticias + avatar (dashboard) -->
     <div class="relative flex items-center gap-3 sm:gap-3 md:gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-5 4xl:gap-6">
+      @if (deployEnvLabel) {
+      <span [class]="deployEnvBadgeClass()" aria-label="Entorno">{{ deployEnvLabel }}</span>
+      }
       <!-- Icono sol/luna para modo oscuro (solo en admin) -->
       <button *ngIf="isAdminSection" type="button" (click)="toggleDarkMode()"
         class="inline-flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 4xl:w-11 4xl:h-11 rounded-full bg-white/80 dark:bg-slate-800/80 shadow-sm border border-gray-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300"

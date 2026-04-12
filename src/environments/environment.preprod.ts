@@ -4,6 +4,7 @@
  */
 export const environment = {
   production: true,
+  deployEnvLabel: 'preprod' as string | null,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-preprod.onrender.com',
   firebase: {

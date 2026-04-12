@@ -22,6 +22,7 @@ import { USER_ROLE } from '../../shared/models/user-role.enum';
 import { I18nService, Language } from '../../core/services/i18n.service';
 import { take } from 'rxjs/operators';
 import { FirebaseTokenRefreshService } from '../../core/services/firebase-token-refresh.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-auth-form',
@@ -192,6 +193,9 @@ export class AuthFormComponent implements OnInit {
 
     this.userService.LoginUser(user).subscribe({
       next: (response: { token: string; refreshToken?: string }) => {
+        if (environment.production && environment.deployEnvLabel == null) {
+          console.log('Bienvenido a producción');
+        }
         this.firebaseTokenRefresh.persistSessionTokensFromApi(response);
         this.firebaseTokenRefresh.start();
         this.loadProfileAndNavigate();

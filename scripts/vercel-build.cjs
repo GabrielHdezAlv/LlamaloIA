@@ -21,6 +21,8 @@ if (branch === 'master') {
   config = 'preprod';
 } else if (branch === 'dev') {
   config = 'dev-deploy';
+} else if (branch === 'new-dev') {
+  config = 'new-dev-deploy';
 }
 
 console.log(`[vercel-build] branch=${branch || '(none)'} -> ng build --configuration=${config}`);

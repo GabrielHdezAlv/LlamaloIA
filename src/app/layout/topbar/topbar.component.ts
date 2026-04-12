@@ -30,6 +30,7 @@ import { NewsItem } from '../../shared/models/news.model';
 import { Subscription } from 'rxjs';
 import { getAgentDraftStepLabel } from '../../shared/utils/agent-draft-step-labels';
 import { AuthSessionService } from '../../core/services/auth-session.service';
+import { environment } from '../../../environments/environment';
 
 export interface TranslatedNewsItem {
   id: string;
@@ -114,6 +115,9 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   // Indica si estamos en la sección de admin
   isAdminSection = false;
+
+  /** Etiqueta de entorno (Vercel / local); `null` en producción master. */
+  readonly deployEnvLabel = environment.deployEnvLabel;
 
   showDropdown = false;
   dropdownClosing = false;
@@ -386,6 +390,26 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   formatNewsDate(date: string): string {
     return this.newsService.getRelativeDateLabel(date);
+  }
+
+  /** Clases Tailwind para la pastilla de entorno (topbar derecha). */
+  deployEnvBadgeClass(): string {
+    const l = this.deployEnvLabel;
+    if (!l) {
+      return '';
+    }
+    const base =
+      'inline-flex items-center px-2 py-0.5 rounded-md border text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide shrink-0';
+    if (l === 'preprod') {
+      return `${base} border-amber-500/40 bg-amber-500/10 text-amber-900 dark:text-amber-200`;
+    }
+    if (l === 'dev') {
+      return `${base} border-sky-500/40 bg-sky-500/10 text-sky-900 dark:text-sky-200`;
+    }
+    if (l === 'new-dev') {
+      return `${base} border-violet-500/40 bg-violet-500/10 text-violet-900 dark:text-violet-200`;
+    }
+    return `${base} border-slate-400/40 bg-slate-500/10 text-slate-700 dark:text-slate-300`;
   }
 
   ngOnInit() {
