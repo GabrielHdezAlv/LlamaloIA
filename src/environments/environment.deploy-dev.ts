@@ -1,5 +1,5 @@
 /**
- * Build: `ng build --configuration dev-deploy` (rama `dev` en Vercel).
+ * Build: `ng build --configuration dev-deploy` (rama `new-dev` en Vercel → dev.llamalo.ai).
  * Ajusta apiUrl si el host de Render de dev no coincide.
  */
 export const environment = {

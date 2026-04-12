@@ -1,5 +1,5 @@
 /**
- * Build: `ng build --configuration preprod` (rama `preprod` en Vercel).
+ * Build: `ng build --configuration preprod` (rama `preprod` en Vercel → preprod.llamalo.ai).
  * Ajusta apiUrl si el host de Render de preprod no coincide.
  */
 export const environment = {

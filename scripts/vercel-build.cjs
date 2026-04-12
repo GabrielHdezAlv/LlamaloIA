@@ -6,11 +6,15 @@
 const { execSync } = require('child_process');
 
 const branch = process.env.VERCEL_GIT_COMMIT_REF || '';
-let config = 'production';
+// Ramas: prod → producción (app.llamalo.ai), preprod → preprod, new-dev → dev.
+// Cualquier otra rama (p. ej. PR) usa build tipo dev para no apuntar a la API de prod por error.
+let config = 'dev-deploy';
 
-if (branch === 'preprod') {
+if (branch === 'prod') {
+  config = 'production';
+} else if (branch === 'preprod') {
   config = 'preprod';
-} else if (branch === 'dev') {
+} else if (branch === 'new-dev') {
   config = 'dev-deploy';
 }
 
