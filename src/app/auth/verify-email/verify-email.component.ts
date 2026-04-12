@@ -36,7 +36,7 @@ export class VerifyEmailComponent implements OnInit {
       const token = (params['token'] as string) || '';
 
       if (!email.trim() && !token.trim()) {
-        void this.router.navigate(['/login'], { replaceUrl: true });
+        void this.router.navigate(['/register'], { replaceUrl: true });
         return;
       }
 
