@@ -295,9 +295,11 @@
 
         .launcher-tooltip {
             position: absolute;
-            bottom: calc(100% + 10px);
-            left: 50%;
-            transform: translateX(-50%) translateY(10px) scale(0.92);
+            top: 50%;
+            right: calc(100% + 10px);
+            left: auto;
+            bottom: auto;
+            transform: translateY(-50%) translateX(10px) scale(0.92);
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(8px);
             color: #0f172a;
@@ -318,7 +320,7 @@
         &:hover .launcher-tooltip {
             opacity: 1;
             visibility: visible;
-            transform: translateX(-50%) translateY(0) scale(1);
+            transform: translateY(-50%) translateX(0) scale(1);
         }
 
         .launcher-sphere-wrapper {

@@ -135,6 +135,20 @@ export class UserService {
     });
   }
 
+  /** Solicitud de enlace para restablecer contraseña (sin sesión). */
+  requestPasswordReset(email: string): Observable<{ message?: string }> {
+    return this.http.post<{ message?: string }>(
+      `${this.apiUrl}/auth/forgot-password`,
+      { email: email.trim() },
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+        }),
+      },
+    );
+  }
+
   updateUserProfile(
     userData: UpdateProfileDto,
     imageFile?: File,

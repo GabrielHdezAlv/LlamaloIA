@@ -43,21 +43,24 @@ export const routes: Routes = [
     canActivate: [GuestGuard],
     data: {
       type: 'login',
-      title: '¡Bienvenido de vuelta!',
-      subtitle: '',
-      linkText: '',
-      linkRoute: '',
-      formTitle: 'Iniciar sesión',
-      formSubtitle: 'Introduzca sus datos de acceso',
-      buttonText: 'Acceder',
-      bottomText: '',
-      bottomLinkText: '',
-      bottomLinkRoute: '',
     },
   },
   {
     path: 'register',
-    redirectTo: 'login',
+    component: AuthFormComponent,
+    canActivate: [GuestGuard],
+    data: {
+      type: 'register',
+    },
+  },
+  {
+    path: 'signup',
+    redirectTo: 'register',
+    pathMatch: 'full',
+  },
+  {
+    path: 'registro',
+    redirectTo: 'register',
     pathMatch: 'full',
   },
   {
@@ -75,17 +78,17 @@ export const routes: Routes = [
     canActivate: [GuestGuard],
     data: {
       type: 'recover',
-      title: 'Recuperar contraseña',
-      subtitle: '',
-      linkText: '',
-      linkRoute: '',
-      formTitle: 'Recuperar contraseña',
-      formSubtitle: 'Introduzca el email',
-      buttonText: 'Acceder',
-      bottomText: '¿Ya tiene una cuenta?',
-      bottomLinkText: 'Iniciar sesión',
-      bottomLinkRoute: '/login',
     },
+  },
+  {
+    path: 'forgot-password',
+    redirectTo: 'recover',
+    pathMatch: 'full',
+  },
+  {
+    path: 'recuperar',
+    redirectTo: 'recover',
+    pathMatch: 'full',
   },
   {
     path: 'billing',

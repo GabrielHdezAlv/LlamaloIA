@@ -19,8 +19,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       // Solo manejar errores 401 (token inválido o expirado)
       // Excluir rutas de autenticación (login, register) para evitar bucles
-      const isAuthRoute = req.url.includes('/auth/login') ||
-        req.url.includes('/auth/register');
+      const isAuthRoute =
+        req.url.includes('/auth/login') ||
+        req.url.includes('/auth/register') ||
+        req.url.includes('/auth/forgot-password');
 
       const clientHandlesPlan403 =
         req.headers.get(X_HANDLES_PLAN_403) === '1';

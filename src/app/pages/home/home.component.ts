@@ -128,9 +128,7 @@ export class HomeComponent implements OnInit, OnDestroy {
    * Si superas el límite, 0 % de relleno.
    */
   get minutesRemainingBarPercent(): number {
-    const baseLimit = this.user()?.minutesLimit ?? 100;
-    const extraLimit = this.user()?.extraMinutes ?? 0;
-    const totalLimit = baseLimit + extraLimit;
+    const totalLimit = this.user()?.minutesLimit ?? 100;
     const used = this.displayMinutesMonth;
     
     if (totalLimit <= 0) {

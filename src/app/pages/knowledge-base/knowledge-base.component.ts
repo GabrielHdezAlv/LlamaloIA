@@ -494,6 +494,27 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
     return false;
   }
 
+  /**
+   * Columnas 1–2 del grid de acciones: si no hay descarga, el lápiz va a la columna 2 (sin hueco en medio).
+   */
+  getKnowledgeActionSlots(source: KnowledgeSource): {
+    col1: 'edit' | null;
+    col2: 'edit' | 'download' | null;
+  } {
+    const hasEdit = this.showEditButtonForSource(source);
+    const hasDownload = this.showDownloadForSource(source);
+    if (hasEdit && hasDownload) {
+      return { col1: 'edit', col2: 'download' };
+    }
+    if (hasEdit && !hasDownload) {
+      return { col1: null, col2: 'edit' };
+    }
+    if (!hasEdit && hasDownload) {
+      return { col1: null, col2: 'download' };
+    }
+    return { col1: null, col2: null };
+  }
+
   private normalizeHasDownloadableContent(source: KnowledgeSource): boolean {
     if (typeof source.hasDownloadableContent === 'boolean') {
       return source.hasDownloadableContent;

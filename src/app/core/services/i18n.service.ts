@@ -789,6 +789,20 @@ export interface Translations {
   authErrorRegister: string;
   authErrorRecoverEmail: string;
   authSuccessRecover: string;
+  authWelcomeRegister: string;
+  authWelcomeRecover: string;
+  authRegisterTitle: string;
+  authRegisterSubtitle: string;
+  authRegisterButton: string;
+  authRecoverTitle: string;
+  authRecoverSubtitle: string;
+  authRecoverButton: string;
+  authPromptNoAccount: string;
+  authLinkRegister: string;
+  authPromptAlreadyAccount: string;
+  authLinkLogin: string;
+  authPromptRecoverRemember: string;
+  authErrorRecoverRequest: string;
 }
 
 @Injectable({
@@ -1586,6 +1600,21 @@ export class I18nService {
       authErrorRegister: 'Error al registrar usuario. Por favor, inténtelo de nuevo.',
       authErrorRecoverEmail: 'Ingresa tu correo para recuperar la contraseña',
       authSuccessRecover: 'Si el correo existe, recibirás instrucciones de recuperación.',
+      authWelcomeRegister: 'Crea tu cuenta en Llamalo',
+      authWelcomeRecover: 'Recupera el acceso a tu cuenta',
+      authRegisterTitle: 'Crear cuenta',
+      authRegisterSubtitle: 'Completa tus datos para registrarte',
+      authRegisterButton: 'Registrarse',
+      authRecoverTitle: 'Recuperar contraseña',
+      authRecoverSubtitle: 'Te enviaremos un enlace a tu correo',
+      authRecoverButton: 'Enviar enlace',
+      authPromptNoAccount: '¿No tienes cuenta?',
+      authLinkRegister: 'Regístrate',
+      authPromptAlreadyAccount: '¿Ya tienes cuenta?',
+      authLinkLogin: 'Iniciar sesión',
+      authPromptRecoverRemember: '¿Recordaste tu contraseña?',
+      authErrorRecoverRequest:
+        'No se pudo enviar el correo de recuperación. Inténtalo de nuevo.',
     },
     en: {
       // Home page translations
@@ -2371,6 +2400,21 @@ export class I18nService {
       authErrorRegister: 'Error registering user. Please try again.',
       authErrorRecoverEmail: 'Enter your email to recover your password',
       authSuccessRecover: 'If the email exists, you will receive recovery instructions.',
+      authWelcomeRegister: 'Create your Llamalo account',
+      authWelcomeRecover: 'Recover access to your account',
+      authRegisterTitle: 'Sign up',
+      authRegisterSubtitle: 'Fill in your details to create an account',
+      authRegisterButton: 'Sign up',
+      authRecoverTitle: 'Reset password',
+      authRecoverSubtitle: 'We will email you a reset link',
+      authRecoverButton: 'Send link',
+      authPromptNoAccount: "Don't have an account?",
+      authLinkRegister: 'Sign up',
+      authPromptAlreadyAccount: 'Already have an account?',
+      authLinkLogin: 'Log in',
+      authPromptRecoverRemember: 'Remember your password?',
+      authErrorRecoverRequest:
+        'Could not send the recovery email. Please try again.',
     }
   };
 

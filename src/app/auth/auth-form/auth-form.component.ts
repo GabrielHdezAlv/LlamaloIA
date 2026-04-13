@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Data, Router, RouterModule } from '@angular/router';
 import {
   FormsModule,
   FormBuilder,
@@ -86,25 +86,53 @@ export class AuthFormComponent implements OnInit {
     if (this.routeTitle !== undefined && this.routeTitle !== '') {
       return this.routeTitle;
     }
-    return this.t.authWelcomeBack;
+    switch (this.type) {
+      case 'register':
+        return this.t.authWelcomeRegister;
+      case 'recover':
+        return this.t.authWelcomeRecover;
+      default:
+        return this.t.authWelcomeBack;
+    }
   }
   get formTitle(): string {
     if (this.routeFormTitle !== undefined && this.routeFormTitle !== '') {
       return this.routeFormTitle;
     }
-    return this.t.authLoginTitle;
+    switch (this.type) {
+      case 'register':
+        return this.t.authRegisterTitle;
+      case 'recover':
+        return this.t.authRecoverTitle;
+      default:
+        return this.t.authLoginTitle;
+    }
   }
   get formSubtitle(): string {
     if (this.routeFormSubtitle !== undefined && this.routeFormSubtitle !== '') {
       return this.routeFormSubtitle;
     }
-    return this.t.authLoginSubtitle;
+    switch (this.type) {
+      case 'register':
+        return this.t.authRegisterSubtitle;
+      case 'recover':
+        return this.t.authRecoverSubtitle;
+      default:
+        return this.t.authLoginSubtitle;
+    }
   }
   get buttonText(): string {
     if (this.routeButtonText !== undefined && this.routeButtonText !== '') {
       return this.routeButtonText;
     }
-    return this.t.authLoginButton;
+    switch (this.type) {
+      case 'register':
+        return this.t.authRegisterButton;
+      case 'recover':
+        return this.t.authRecoverButton;
+      default:
+        return this.t.authLoginButton;
+    }
   }
 
   get countries() {
@@ -130,20 +158,23 @@ export class AuthFormComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) { }
 
+  private applyRouteData(data: Data): void {
+    this.type = (data['type'] as 'login' | 'register' | 'recover') ?? 'login';
+    this.linkRoute = data['linkRoute'] ?? '';
+    this.bottomLinkRoute = data['bottomLinkRoute'] ?? '';
+    this.subtitle = data['subtitle'] ?? '';
+    this.linkText = data['linkText'] ?? '';
+    this.bottomText = data['bottomText'] ?? '';
+    this.bottomLinkText = data['bottomLinkText'] ?? '';
+    this.routeTitle = data['title'];
+    this.routeFormTitle = data['formTitle'];
+    this.routeFormSubtitle = data['formSubtitle'];
+    this.routeButtonText = data['buttonText'];
+  }
+
   ngOnInit(): void {
-    this.route.data.subscribe((data) => {
-      this.type = data['type'] ?? 'login';
-      this.linkRoute = data['linkRoute'] ?? '';
-      this.bottomLinkRoute = data['bottomLinkRoute'] ?? '';
-      this.subtitle = data['subtitle'] ?? '';
-      this.linkText = data['linkText'] ?? '';
-      this.bottomText = data['bottomText'] ?? '';
-      this.bottomLinkText = data['bottomLinkText'] ?? '';
-      this.routeTitle = data['title'];
-      this.routeFormTitle = data['formTitle'];
-      this.routeFormSubtitle = data['formSubtitle'];
-      this.routeButtonText = data['buttonText'];
-    });
+    this.applyRouteData(this.route.snapshot.data);
+    this.route.data.subscribe((data) => this.applyRouteData(data));
 
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       if (
@@ -333,12 +364,26 @@ export class AuthFormComponent implements OnInit {
 
   recover(event: Event) {
     event.preventDefault();
-    if (!this.email) {
+    if (!this.email?.trim()) {
       this.notificationService.error(this.t.authErrorRecoverEmail);
       return;
     }
-    // Aquí se podría llamar a un endpoint real de recuperación
-    this.notificationService.success(this.t.authSuccessRecover);
+    this.setGlobalLoading(true);
+    this.userService.requestPasswordReset(this.email.trim()).subscribe({
+      next: () => {
+        this.notificationService.success(this.t.authSuccessRecover);
+        this.setGlobalLoading(false);
+      },
+      error: (err: { error?: { message?: string }; message?: string }) => {
+        console.error('❌ Error solicitud recuperación:', err);
+        const msg =
+          (typeof err?.error?.message === 'string' && err.error.message) ||
+          (typeof err?.message === 'string' && err.message) ||
+          this.t.authErrorRecoverRequest;
+        this.notificationService.error(msg);
+        this.setGlobalLoading(false);
+      },
+    });
   }
 
   togglePasswordVisibility() {
