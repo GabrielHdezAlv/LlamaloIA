@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:new-dev": "ng serve --configuration=new-dev",
     "build": "ng build --configuration production",
     "build:vercel": "node scripts/vercel-build.cjs",
     "build:preprod": "ng build --configuration preprod",
