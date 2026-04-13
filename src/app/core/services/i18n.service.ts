@@ -707,6 +707,8 @@ export interface Translations {
   pricingPerYear: string;
   pricingEquivalentTo: string;
   pricingPerMonthSlash: string;
+  /** Texto junto al precio del modal de planes: «/mes» / «/month». */
+  pricingPerMonthLabel: string;
   planUpgradeCelebrationTitleStarter: string;
   planUpgradeCelebrationTitleGrowth: string;
   planUpgradeCelebrationTitleScale: string;
@@ -1514,6 +1516,7 @@ export class I18nService {
       pricingPerYear: 'año',
       pricingEquivalentTo: 'Equivale a',
       pricingPerMonthSlash: '/mes',
+      pricingPerMonthLabel: '/mes',
       planUpgradeCelebrationTitleStarter: '¡Bienvenido a tu plan Starter!',
       planUpgradeCelebrationTitleGrowth: '¡Bienvenido a tu plan Growth!',
       planUpgradeCelebrationTitleScale: '¡Bienvenido a tu plan Scale!',
@@ -2317,6 +2320,7 @@ export class I18nService {
       pricingPerYear: 'year',
       pricingEquivalentTo: 'Equivalent to',
       pricingPerMonthSlash: '/month',
+      pricingPerMonthLabel: '/month',
       planUpgradeCelebrationTitleStarter: 'Welcome to your Starter plan!',
       planUpgradeCelebrationTitleGrowth: 'Welcome to your Growth plan!',
       planUpgradeCelebrationTitleScale: 'Welcome to your Scale plan!',

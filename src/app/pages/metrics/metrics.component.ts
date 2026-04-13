@@ -3,7 +3,6 @@ import {
   inject,
   OnInit,
   OnDestroy,
-  Inject,
   PLATFORM_ID,
   ChangeDetectorRef,
 } from '@angular/core';
@@ -45,6 +44,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
   public userStorage = inject(UserStorage);
   private cdr = inject(ChangeDetectorRef);
   private document = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
 
   // Obtener traducciones
   get t() {
@@ -446,14 +446,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
   totalCalls: number = 0;
   averageCalls: number = 0;
 
-  private isBrowser: boolean;
+  private readonly isBrowser = isPlatformBrowser(this.platformId);
   private languageChangeHandler = (event: Event) => {
     this.handleLanguageChange();
   };
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor() {
     this.i18nService.initializeLanguage();
-    this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   /**

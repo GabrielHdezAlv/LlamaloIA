@@ -23,11 +23,11 @@ const PLAN_TIER_STORAGE_KEY = 'llamalo_selected_plan_tier';
 /** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.45s). */
 const UPGRADE_MODAL_CLOSE_MS = 500;
 
-/** Precios mensuales actuales; anual = total facturado al año (equiv. mensual × 12). */
+/** Mensual facturado mes a mes vs. anual (importe por mes al pagar el año). */
 const PLAN_PRICE_KEYS = {
-  starter: { monthly: '29', annualTotal: '288', monthlyEquivalent: '24' },
-  growth: { monthly: '79', annualTotal: '792', monthlyEquivalent: '66' },
-  scale: { monthly: '169', annualTotal: '1692', monthlyEquivalent: '141' },
+  starter: { monthly: '29', annualPerMonth: '24' },
+  growth: { monthly: '79', annualPerMonth: '66' },
+  scale: { monthly: '169', annualPerMonth: '141' },
 } as const;
 
 @Component({
@@ -120,8 +120,7 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
       return {
         ...row,
         priceMonthly: p.monthly,
-        priceAnnual: p.annualTotal,
-        monthlyEquivalent: p.monthlyEquivalent,
+        priceAnnualPerMonth: p.annualPerMonth,
       };
     });
   }
