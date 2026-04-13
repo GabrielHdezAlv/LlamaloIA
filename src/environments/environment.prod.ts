@@ -8,11 +8,11 @@ export const environment = {
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-5294.onrender.com',
   firebase: {
-    apiKey: 'REEMPLAZAR',
+    apiKey: 'AIzaSyCq580utw2qQHvKzoYbT_FdG7CKEt0scvw',
     authDomain: 'llamalo-prod.firebaseapp.com',
     projectId: 'llamalo-prod',
     storageBucket: 'llamalo-prod.firebasestorage.app',
-    messagingSenderId: 'REEMPLAZAR',
-    appId: 'REEMPLAZAR',
+    messagingSenderId: '443157093661',
+    appId: '1:443157093661:web:ac1f815f51b53b8585d5f4',
   },
 };
