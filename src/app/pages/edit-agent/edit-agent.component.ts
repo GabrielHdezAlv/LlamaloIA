@@ -1260,21 +1260,32 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   }
 
   getVoiceTestAgentStateText(): string {
+    const t = this.t;
     switch (this.voiceTest.agentState()) {
-      case 'thinking': return 'Pensando...';
-      case 'speaking': return 'Hablando...';
-      case 'done': return 'Listo';
-      default: return 'Esperando...';
+      case 'thinking':
+        return t.agentStateThinking;
+      case 'speaking':
+        return t.agentStateSpeaking;
+      case 'done':
+        return t.agentStateDone;
+      default:
+        return t.agentStateWaiting;
     }
   }
 
   getVoiceTestConnectionStateText(): string {
+    const t = this.t;
     switch (this.voiceTest.connectionState()) {
-      case 'connecting': return 'Conectando...';
-      case 'connected': return 'Conectado';
-      case 'error': return 'Error';
-      case 'ended': return 'Finalizado';
-      default: return '';
+      case 'connecting':
+        return t.connectionConnecting;
+      case 'connected':
+        return t.connected;
+      case 'error':
+        return t.statusError;
+      case 'ended':
+        return t.connectionEnded;
+      default:
+        return '';
     }
   }
 
@@ -1550,6 +1561,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['/shopify-onboarding']);
     }
+  }
+
+  /** Abre el modal de configuración Make (webhook / acción). */
+  openMakeModal(): void {
+    this.modalService.openMake();
   }
 
   unlinkShopify(): void {

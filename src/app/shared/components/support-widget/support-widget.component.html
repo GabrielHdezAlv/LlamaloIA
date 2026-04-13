@@ -9,10 +9,10 @@
             <div class="widget-header">
                 <div class="header-text">
                     <h2 class="widget-title">Xenon</h2>
-                    <span class="widget-subtitle">chat de soporte</span>
+                    <span class="widget-subtitle">{{ t.supportWidgetSubtitle }}</span>
                 </div>
                 <div class="settings-container">
-                    <button class="settings-btn" (click)="toggleSettings()" title="Ajustes">
+                    <button class="settings-btn" (click)="toggleSettings()" [attr.title]="t.supportWidgetSettingsAria">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
                             <path
                                 d="M3 8L15 8M15 8C15 9.65686 16.3431 11 18 11C19.6569 11 21 9.65685 21 8C21 6.34315 19.6569 5 18 5C16.3431 5 15 6.34315 15 8ZM9 16L21 16M9 16C9 17.6569 7.65685 19 6 19C4.34315 19 3 17.6569 3 16C3 14.3431 4.34315 13 6 13C7.65685 13 9 14.3431 9 16Z"
@@ -73,7 +73,7 @@
             <div class="controls-wrapper">
                 <div class="buttons-row">
                     <button class="action-btn playback-action" (click)="togglePlayback()" [class.active]="isPlaying"
-                        [title]="isPlaying ? 'Detener' : 'Reproducir'">
+                        [attr.title]="isPlaying ? t.supportWidgetStopTitle : t.supportWidgetPlayTitle">
                         <!-- Play Icon (shown when not playing) -->
                         <svg *ngIf="!isPlaying" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                             width="24" height="24">
@@ -90,7 +90,7 @@
                         </svg>
                     </button>
                     <button class="mic-btn" (click)="toggleMicrophone()" [class.active]="isMicrophoneActive"
-                        [title]="isMicrophoneActive ? 'Desactivar micrófono' : 'Activar micrófono'">
+                        [attr.title]="isMicrophoneActive ? t.supportWidgetMicDisableTitle : t.supportWidgetMicEnableTitle">
                         <!-- Inactive/Muted Icon -->
                         <svg *ngIf="!isMicrophoneActive" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24">
@@ -109,14 +109,14 @@
                     </button>
                 </div>
                 <div class="branding-footer">
-                    <p class="branding-text">Powered by Llamalo AI</p>
+                    <p class="branding-text">{{ t.supportWidgetPoweredBy }}</p>
                     <a
                         class="widget-contact-inline"
                         [href]="advancedSupportMailto"
-                        aria-label="Contacto para consultas avanzadas"
+                        [attr.aria-label]="t.supportWidgetAdvancedContactAria"
                         (click)="$event.stopPropagation()"
                     >
-                        Para consultas avanzadas, contáctanos en {{ advancedSupportEmailLabel }}
+                        {{ t.supportWidgetAdvancedContact }} {{ advancedSupportEmailLabel }}
                     </a>
                 </div>
             </div>
@@ -126,7 +126,7 @@
     <!-- Mismo estilo que el chip «Asistente de voz»; solo con el panel abierto -->
     <div class="launcher-stack">
         <button class="launcher" (click)="toggle()" [class.active]="isOpen">
-            <span class="launcher-tooltip">Asistente de voz</span>
+            <span class="launcher-tooltip">{{ t.supportWidgetLauncherTooltip }}</span>
             <div class="launcher-sphere-wrapper">
                 <!-- Cuando está abierto fijamos un nivel bajo para que no reaccione a la llamada -->
                 <app-ai-sphere [audioLevel]="isOpen ? 0.15 : audioLevel"></app-ai-sphere>

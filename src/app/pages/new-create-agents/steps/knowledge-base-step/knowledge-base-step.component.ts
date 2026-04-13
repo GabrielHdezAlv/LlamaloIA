@@ -466,13 +466,13 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
   getAddLabel(type: KnowledgeBaseType): string {
     switch (type) {
       case 'pdf':
-        return 'Añadir PDF';
+        return this.t.knowledgeBaseAddPdf;
       case 'web':
-        return 'Añadir Web';
+        return this.t.knowledgeBaseAddWeb;
       case 'text':
-        return 'Añadir Texto';
+        return this.t.knowledgeBaseAddText;
       default:
-        return 'Añadir PDF';
+        return this.t.knowledgeBaseAddPdf;
     }
   }
 

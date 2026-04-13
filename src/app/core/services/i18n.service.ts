@@ -190,6 +190,13 @@ export interface Translations {
   noAgentsYet: string;
   createItNow: string;
   createAgentButton: string;
+  /** Panel lateral ajustes de voz (creación / ElevenLabs) */
+  voiceSettingsSidebarTitle: string;
+  voiceParamStability: string;
+  voiceParamSimilarity: string;
+  voiceParamStyle: string;
+  voiceParamSpeed: string;
+  voiceParamBoost: string;
 
   // Numbers page
   importNumber: string;
@@ -573,6 +580,28 @@ export interface Translations {
   connectShopifyTitle: string;
   linkStoreDescription: string;
   shopifyConnectDesc: string;
+  /** Pantallas /shopify-onboarding y /shopify-onboarding/success */
+  shopifyOnboardingAuthLoading: string;
+  shopifyOnboardingTitle: string;
+  shopifyOnboardingLoadingStores: string;
+  shopifyOnboardingSubtitleHasStores: string;
+  shopifyOnboardingSubtitleNew: string;
+  shopifyOnboardingConnectedStoresHeading: string;
+  shopifyOnboardingStoreConnectedBadge: string;
+  shopifyOnboardingConnectNewStore: string;
+  shopifyOnboardingDomainLabel: string;
+  shopifyOnboardingDomainPlaceholder: string;
+  shopifyOnboardingDomainInvalidHint: string;
+  shopifyOnboardingErrorSelectOrDomain: string;
+  shopifyOnboardingErrorDomainSuffix: string;
+  shopifyOnboardingErrorNoAuthUrl: string;
+  shopifyOnboardingErrorServer: string;
+  shopifySuccessErrorTitle: string;
+  shopifySuccessErrorFallback: string;
+  shopifySuccessTitle: string;
+  shopifySuccessYourStore: string;
+  shopifySuccessLinkedRest: string;
+  shopifySuccessContinueCta: string;
   connected: string;
   connect: string;
   connectPhoneTitle: string;
@@ -591,6 +620,8 @@ export interface Translations {
   changeBtn: string;
   availableNumbers: string;
   connectNewAccount: string;
+  /** Shopify en Cuenta: mismo texto que conectar otra cuenta, sin prefijo «+» */
+  shopifyConnectAnotherAccount: string;
   testAgentTitle: string;
   talkToAgentDescription: string;
   remainingTime: string;
@@ -599,6 +630,17 @@ export interface Translations {
   languageAndVoice: string;
   chooseCountryAndVoice: string;
   countryLabel: string;
+  /** Nombres del selector de idioma/región en el paso de voces (locale UI) */
+  voiceLang_es: string;
+  voiceLang_en: string;
+  voiceLang_fr: string;
+  voiceLang_it: string;
+  voiceLang_de: string;
+  voiceLang_pt: string;
+  voiceLang_us: string;
+  voiceLang_tr: string;
+  voiceLang_se: string;
+  voiceLang_nl: string;
 
   // Test agent step states
   agentStateThinking: string;
@@ -614,6 +656,31 @@ export interface Translations {
   microphoneLabel: string;
   endCallLabel: string;
   tryAgainLabel: string;
+
+  /** Widget flotante Xenon / asistente de voz */
+  supportWidgetSubtitle: string;
+  supportWidgetSettingsAria: string;
+  supportWidgetPlayTitle: string;
+  supportWidgetStopTitle: string;
+  supportWidgetMicEnableTitle: string;
+  supportWidgetMicDisableTitle: string;
+  supportWidgetPoweredBy: string;
+  supportWidgetAdvancedContact: string;
+  supportWidgetAdvancedContactAria: string;
+  supportWidgetLauncherTooltip: string;
+  supportWidgetMicPermissionError: string;
+
+  /** Notificaciones y fin de sesión (VoiceTestService) */
+  voiceTestEndTimeout: string;
+  voiceTestEndUser: string;
+  voiceTestEndDisconnect: string;
+  voiceTestEndReplaced: string;
+  voiceTestEndError: string;
+  voiceTestEndDefault: string;
+  voiceTestMicPermissionDenied: string;
+  voiceTestStartErrorPrefix: string;
+  voiceTestUnknownError: string;
+  voiceTestWsConnectFailed: string;
 
   // Account page extra
   acceptMarketing: string;
@@ -709,6 +776,8 @@ export interface Translations {
   pricingPerMonthSlash: string;
   /** Texto junto al precio del modal de planes: «/mes» / «/month». */
   pricingPerMonthLabel: string;
+  /** Pie del modal de pricing antes del enlace de email (planes enterprise). */
+  pricingCustomPlansFooter: string;
   planUpgradeCelebrationTitleStarter: string;
   planUpgradeCelebrationTitleGrowth: string;
   planUpgradeCelebrationTitleScale: string;
@@ -1003,6 +1072,12 @@ export class I18nService {
       noAgentsYet: 'Aún no tienes agentes',
       createItNow: 'Créalo ahora',
       createAgentButton: 'Crear Agente',
+      voiceSettingsSidebarTitle: 'Ajustes de voz',
+      voiceParamStability: 'Estabilidad',
+      voiceParamSimilarity: 'Similitud',
+      voiceParamStyle: 'Estilo',
+      voiceParamSpeed: 'Velocidad',
+      voiceParamBoost: 'Boost',
 
       // Numbers page
       importNumber: 'Importar Numero',
@@ -1385,6 +1460,37 @@ export class I18nService {
       connectShopifyTitle: 'Conecta tu negocio de Shopify',
       linkStoreDescription: 'Vincula tu tienda para que tu agente pueda usar tus datos reales.',
       shopifyConnectDesc: 'Conecta tu tienda para sincronizar productos, pedidos y clientes.',
+      shopifyOnboardingAuthLoading:
+        'Completando el proceso de asignar tienda a tu cuenta de Llamalo AI…',
+      shopifyOnboardingTitle: 'Conecta tu cuenta de Shopify',
+      shopifyOnboardingLoadingStores: 'Cargando tus tiendas conectadas...',
+      shopifyOnboardingSubtitleHasStores:
+        'Selecciona una de tus tiendas conectadas o conecta una nueva.',
+      shopifyOnboardingSubtitleNew:
+        'Introduce los datos de tu tienda para vincularla con Llamalo y empezar a configurar tu agente.',
+      shopifyOnboardingConnectedStoresHeading: 'Tiendas conectadas',
+      shopifyOnboardingStoreConnectedBadge: 'Tienda conectada',
+      shopifyOnboardingConnectNewStore: '+ Conectar nueva tienda',
+      shopifyOnboardingDomainLabel: 'Dominio de Shopify',
+      shopifyOnboardingDomainPlaceholder: 'Ej. mi-tienda.myshopify.com',
+      shopifyOnboardingDomainInvalidHint:
+        'El dominio debe terminar en .myshopify.com (ej. mi-tienda.myshopify.com)',
+      shopifyOnboardingErrorSelectOrDomain:
+        'Por favor, selecciona una tienda o ingresa un dominio válido.',
+      shopifyOnboardingErrorDomainSuffix:
+        'El dominio debe terminar en .myshopify.com',
+      shopifyOnboardingErrorNoAuthUrl:
+        'No se recibió la URL de autorización.',
+      shopifyOnboardingErrorServer:
+        'No se pudo conectar con el servidor. Inténtalo de nuevo.',
+      shopifySuccessErrorTitle: 'Error al conectar con Shopify',
+      shopifySuccessErrorFallback:
+        'No se pudo completar la conexión. Comprueba el dominio e inténtalo de nuevo.',
+      shopifySuccessTitle: 'Cuenta de Shopify conectada',
+      shopifySuccessYourStore: 'Tu tienda',
+      shopifySuccessLinkedRest:
+        'se ha vinculado correctamente con Llamalo. Puedes continuar configurando tu agente.',
+      shopifySuccessContinueCta: 'Continuar configurando el agente',
       connected: 'Conectado',
       connect: 'Conectar',
       connectPhoneTitle: 'Conecta tu número de teléfono',
@@ -1401,6 +1507,7 @@ export class I18nService {
       changeBtn: 'Cambiar',
       availableNumbers: 'Números disponibles',
       connectNewAccount: '+ Conectar nueva cuenta',
+      shopifyConnectAnotherAccount: 'Conectar nueva cuenta',
       testAgentTitle: 'Prueba de agente',
       talkToAgentDescription: 'Habla con tu agente para verificar su voz, idioma e instrucciones antes de crear.',
       remainingTime: 'restantes',
@@ -1409,6 +1516,16 @@ export class I18nService {
       languageAndVoice: 'Lenguaje y voz',
       chooseCountryAndVoice: 'Elige el país y la voz de tu agente',
       countryLabel: 'País',
+      voiceLang_es: 'Español',
+      voiceLang_en: 'Inglés',
+      voiceLang_fr: 'Francés',
+      voiceLang_it: 'Italiano',
+      voiceLang_de: 'Alemán',
+      voiceLang_pt: 'Portugués',
+      voiceLang_us: 'Inglés (EE. UU.)',
+      voiceLang_tr: 'Turco',
+      voiceLang_se: 'Sueco',
+      voiceLang_nl: 'Neerlandés',
 
       agentStateThinking: 'Pensando...',
       agentStateSpeaking: 'Hablando...',
@@ -1423,6 +1540,35 @@ export class I18nService {
       microphoneLabel: 'Micrófono',
       endCallLabel: 'Terminar',
       tryAgainLabel: 'Probar de nuevo',
+
+      supportWidgetSubtitle: 'chat de soporte',
+      supportWidgetSettingsAria: 'Ajustes',
+      supportWidgetPlayTitle: 'Reproducir',
+      supportWidgetStopTitle: 'Detener',
+      supportWidgetMicEnableTitle: 'Activar micrófono',
+      supportWidgetMicDisableTitle: 'Desactivar micrófono',
+      supportWidgetPoweredBy: 'Powered by Llamalo AI',
+      supportWidgetAdvancedContact:
+        'Para consultas avanzadas, contáctanos en',
+      supportWidgetAdvancedContactAria:
+        'Contacto para consultas avanzadas',
+      supportWidgetLauncherTooltip: 'Asistente de voz',
+      supportWidgetMicPermissionError:
+        'No se pudo acceder al micrófono. Por favor, verifica los permisos.',
+
+      voiceTestEndTimeout:
+        'La prueba ha finalizado porque se alcanzó el tiempo máximo de 2 minutos.',
+      voiceTestEndUser: 'Has finalizado la prueba.',
+      voiceTestEndDisconnect: 'La conexión se ha perdido.',
+      voiceTestEndReplaced: 'La sesión fue reemplazada por otra prueba.',
+      voiceTestEndError: 'La sesión finalizó debido a un error.',
+      voiceTestEndDefault: 'La prueba ha finalizado.',
+      voiceTestMicPermissionDenied:
+        'Permiso de micrófono denegado. Por favor, permite el acceso al micrófono en tu navegador.',
+      voiceTestStartErrorPrefix: 'Error al iniciar la prueba de voz: ',
+      voiceTestUnknownError: 'Error desconocido',
+      voiceTestWsConnectFailed:
+        'No se pudo conectar con el servidor. Verifica tu conexión a internet.',
 
       // Account page extra
       acceptMarketing: 'Acepto recibir comunicaciones de marketing y promociones',
@@ -1517,6 +1663,8 @@ export class I18nService {
       pricingEquivalentTo: 'Equivale a',
       pricingPerMonthSlash: '/mes',
       pricingPerMonthLabel: '/mes',
+      pricingCustomPlansFooter:
+        'Para planes personalizados dirigidos a grandes corporaciones, puedes contactarnos en',
       planUpgradeCelebrationTitleStarter: '¡Bienvenido a tu plan Starter!',
       planUpgradeCelebrationTitleGrowth: '¡Bienvenido a tu plan Growth!',
       planUpgradeCelebrationTitleScale: '¡Bienvenido a tu plan Scale!',
@@ -1807,6 +1955,12 @@ export class I18nService {
       noAgentsYet: 'You don\'t have any phone agents yet.',
       createItNow: 'Create it now!',
       createAgentButton: 'Create agent',
+      voiceSettingsSidebarTitle: 'Voice settings',
+      voiceParamStability: 'Stability',
+      voiceParamSimilarity: 'Similarity',
+      voiceParamStyle: 'Style',
+      voiceParamSpeed: 'Speed',
+      voiceParamBoost: 'Boost',
 
       // Numbers page
       importNumber: 'Import Number',
@@ -2189,6 +2343,36 @@ export class I18nService {
       connectShopifyTitle: 'Connect your Shopify business',
       linkStoreDescription: 'Link your store so your agent can use your real data.',
       shopifyConnectDesc: 'Connect your store to sync products, orders and customers.',
+      shopifyOnboardingAuthLoading:
+        'Completing the process of linking your store to your Llamalo AI account…',
+      shopifyOnboardingTitle: 'Connect your Shopify account',
+      shopifyOnboardingLoadingStores: 'Loading your connected stores...',
+      shopifyOnboardingSubtitleHasStores:
+        'Select one of your connected stores or connect a new one.',
+      shopifyOnboardingSubtitleNew:
+        'Enter your store details to link it with Llamalo and start configuring your agent.',
+      shopifyOnboardingConnectedStoresHeading: 'Connected stores',
+      shopifyOnboardingStoreConnectedBadge: 'Connected store',
+      shopifyOnboardingConnectNewStore: '+ Connect new store',
+      shopifyOnboardingDomainLabel: 'Shopify domain',
+      shopifyOnboardingDomainPlaceholder: 'E.g. my-store.myshopify.com',
+      shopifyOnboardingDomainInvalidHint:
+        'The domain must end in .myshopify.com (e.g. my-store.myshopify.com)',
+      shopifyOnboardingErrorSelectOrDomain:
+        'Please select a store or enter a valid domain.',
+      shopifyOnboardingErrorDomainSuffix:
+        'The domain must end in .myshopify.com',
+      shopifyOnboardingErrorNoAuthUrl: 'Authorization URL was not received.',
+      shopifyOnboardingErrorServer:
+        'Could not connect to the server. Please try again.',
+      shopifySuccessErrorTitle: 'Error connecting to Shopify',
+      shopifySuccessErrorFallback:
+        'The connection could not be completed. Check the domain and try again.',
+      shopifySuccessTitle: 'Shopify account connected',
+      shopifySuccessYourStore: 'Your store',
+      shopifySuccessLinkedRest:
+        'has been linked successfully with Llamalo. You can continue configuring your agent.',
+      shopifySuccessContinueCta: 'Continue configuring your agent',
       connected: 'Connected',
       connect: 'Connect',
       connectPhoneTitle: 'Connect your phone number',
@@ -2205,6 +2389,7 @@ export class I18nService {
       changeBtn: 'Change',
       availableNumbers: 'Available numbers',
       connectNewAccount: '+ Connect new account',
+      shopifyConnectAnotherAccount: 'Connect new account',
       testAgentTitle: 'Agent test',
       talkToAgentDescription: 'Talk to your agent to verify its voice, language and instructions before creating.',
       remainingTime: 'remaining',
@@ -2213,6 +2398,16 @@ export class I18nService {
       languageAndVoice: 'Language and voice',
       chooseCountryAndVoice: 'Choose your agent\'s country and voice',
       countryLabel: 'Country',
+      voiceLang_es: 'Spanish',
+      voiceLang_en: 'English',
+      voiceLang_fr: 'French',
+      voiceLang_it: 'Italian',
+      voiceLang_de: 'German',
+      voiceLang_pt: 'Portuguese',
+      voiceLang_us: 'English (US)',
+      voiceLang_tr: 'Turkish',
+      voiceLang_se: 'Swedish',
+      voiceLang_nl: 'Dutch',
 
       agentStateThinking: 'Thinking...',
       agentStateSpeaking: 'Speaking...',
@@ -2227,6 +2422,34 @@ export class I18nService {
       microphoneLabel: 'Microphone',
       endCallLabel: 'End',
       tryAgainLabel: 'Try again',
+
+      supportWidgetSubtitle: 'support chat',
+      supportWidgetSettingsAria: 'Settings',
+      supportWidgetPlayTitle: 'Play',
+      supportWidgetStopTitle: 'Stop',
+      supportWidgetMicEnableTitle: 'Turn on microphone',
+      supportWidgetMicDisableTitle: 'Turn off microphone',
+      supportWidgetPoweredBy: 'Powered by Llamalo AI',
+      supportWidgetAdvancedContact:
+        'For advanced inquiries, contact us at',
+      supportWidgetAdvancedContactAria: 'Contact for advanced inquiries',
+      supportWidgetLauncherTooltip: 'Voice assistant',
+      supportWidgetMicPermissionError:
+        'Could not access the microphone. Please check your permissions.',
+
+      voiceTestEndTimeout:
+        'The test ended because the maximum time of 2 minutes was reached.',
+      voiceTestEndUser: 'You ended the test.',
+      voiceTestEndDisconnect: 'The connection was lost.',
+      voiceTestEndReplaced: 'The session was replaced by another test.',
+      voiceTestEndError: 'The session ended due to an error.',
+      voiceTestEndDefault: 'The test has ended.',
+      voiceTestMicPermissionDenied:
+        'Microphone permission denied. Please allow microphone access in your browser.',
+      voiceTestStartErrorPrefix: 'Could not start the voice test: ',
+      voiceTestUnknownError: 'Unknown error',
+      voiceTestWsConnectFailed:
+        'Could not connect to the server. Check your internet connection.',
 
       // Account page extra
       acceptMarketing: 'I agree to receive marketing and promotional communications',
@@ -2321,6 +2544,8 @@ export class I18nService {
       pricingEquivalentTo: 'Equivalent to',
       pricingPerMonthSlash: '/month',
       pricingPerMonthLabel: '/month',
+      pricingCustomPlansFooter:
+        'For custom plans for large enterprises, contact us at',
       planUpgradeCelebrationTitleStarter: 'Welcome to your Starter plan!',
       planUpgradeCelebrationTitleGrowth: 'Welcome to your Growth plan!',
       planUpgradeCelebrationTitleScale: 'Welcome to your Scale plan!',

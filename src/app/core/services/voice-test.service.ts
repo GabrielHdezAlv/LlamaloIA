@@ -1,6 +1,7 @@
 import { Injectable, signal, inject, PLATFORM_ID, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { NotificationService } from './notification.service';
+import { I18nService } from './i18n.service';
 import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -36,6 +37,7 @@ type AgentState = 'idle' | 'thinking' | 'speaking' | 'done';
 export class VoiceTestService {
   private platformId = inject(PLATFORM_ID);
   private notificationService = inject(NotificationService);
+  private i18n = inject(I18nService);
 
   readonly connectionState = signal<ConnectionState>('idle');
   readonly agentState = signal<AgentState>('idle');
@@ -127,19 +129,20 @@ export class VoiceTestService {
   }
 
   private getEndReasonText(reason: string): string {
+    const t = this.i18n.getTranslations();
     switch (reason) {
       case 'timeout':
-        return 'La prueba ha finalizado porque se alcanzó el tiempo máximo de 2 minutos.';
+        return t.voiceTestEndTimeout;
       case 'user':
-        return 'Has finalizado la prueba.';
+        return t.voiceTestEndUser;
       case 'disconnect':
-        return 'La conexión se ha perdido.';
+        return t.voiceTestEndDisconnect;
       case 'replaced':
-        return 'La sesión fue reemplazada por otra prueba.';
+        return t.voiceTestEndReplaced;
       case 'error':
-        return 'La sesión finalizó debido a un error.';
+        return t.voiceTestEndError;
       default:
-        return 'La prueba ha finalizado.';
+        return t.voiceTestEndDefault;
     }
   }
 
@@ -171,14 +174,13 @@ export class VoiceTestService {
       this.connectWebSocket(token, config);
     } catch (err: any) {
       this.connectionState.set('error');
+      const t = this.i18n.getTranslations();
       if (err.name === 'NotAllowedError' || err.name === 'NotFoundError') {
-        this.errorMessage.set(
-          'Permiso de micrófono denegado. Por favor, permite el acceso al micrófono en tu navegador.',
-        );
+        this.errorMessage.set(t.voiceTestMicPermissionDenied);
       } else {
         this.errorMessage.set(
-          'Error al iniciar la prueba de voz: ' +
-          (err.message || 'Error desconocido'),
+          t.voiceTestStartErrorPrefix +
+            (err.message || t.voiceTestUnknownError),
         );
       }
       this.cleanup();
@@ -285,9 +287,7 @@ export class VoiceTestService {
     this.ws.onerror = () => {
       if (this.connectionState() === 'connecting') {
         this.connectionState.set('error');
-        this.errorMessage.set(
-          'No se pudo conectar con el servidor. Verifica tu conexión a internet.',
-        );
+        this.errorMessage.set(this.i18n.getTranslations().voiceTestWsConnectFailed);
       }
     };
 
@@ -381,7 +381,9 @@ export class VoiceTestService {
         break;
 
       case 'error':
-        this.errorMessage.set(msg.message || 'Error desconocido');
+        this.errorMessage.set(
+          msg.message || this.i18n.getTranslations().voiceTestUnknownError,
+        );
         break;
 
       case 'session.ended':

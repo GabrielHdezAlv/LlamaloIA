@@ -1,7 +1,10 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { I18nService } from '../../../../core/services/i18n.service';
+import {
+  I18nService,
+  Translations,
+} from '../../../../core/services/i18n.service';
 
 @Component({
   selector: 'app-voices-step',
@@ -87,6 +90,17 @@ export class VoicesStepComponent {
       this.countryOptions.find((c) => c.code === this.selectedCountry) ||
       this.countryOptions[0]
     );
+  }
+
+  /** Etiqueta del idioma según el locale de la UI (ES/EN). */
+  getCountryLabel(code: string): string {
+    const t = this.i18nService.getTranslations();
+    const key = `voiceLang_${code}` as keyof Translations;
+    const translated = t[key];
+    if (typeof translated === 'string' && translated.length > 0) {
+      return translated;
+    }
+    return this.countryOptions.find((c) => c.code === code)?.label ?? code;
   }
 
   getSelectedVoice() {

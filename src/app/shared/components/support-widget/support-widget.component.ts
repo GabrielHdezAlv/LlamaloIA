@@ -9,6 +9,7 @@ import {
     VoiceTestConfig,
 } from '../../../core/services/voice-test.service';
 import { NotificationService } from '../../../core/services/notification.service';
+import { I18nService } from '../../../core/services/i18n.service';
 
 @Component({
     selector: 'app-support-widget',
@@ -37,6 +38,11 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
     readonly voiceTest = inject(VoiceTestService);
     private router = inject(Router);
     private notificationService = inject(NotificationService);
+    private i18n = inject(I18nService);
+
+    get t() {
+        return this.i18n.getTranslations();
+    }
 
     private animationId: any;
     private isBrowser: boolean;
@@ -313,7 +319,7 @@ export class SupportWidgetComponent implements OnInit, OnDestroy {
         } catch (error) {
             console.error('Error al acceder al micr?fono:', error);
             this.notificationService.error(
-                'No se pudo acceder al micr?fono. Por favor, verifica los permisos.'
+                this.t.supportWidgetMicPermissionError,
             );
         }
     }

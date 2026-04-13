@@ -347,15 +347,15 @@
           [class.fade-in-visible]="showTotalMinutos"
         >
           <div>
-            <div class="flex items-center gap-1.5 mb-1 max-lg:mb-1.5">
+            <div class="flex w-full min-w-0 items-baseline gap-2 mb-1 max-lg:mb-1.5">
               <p
-                class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg 4xl:text-base font-semibold text-gray-600 tracking-[-0.7px] dark:text-slate-400"
+                class="text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg 4xl:text-base font-semibold text-gray-600 tracking-[-0.7px] dark:text-slate-400 flex-1 min-w-0 leading-snug"
               >
                 {{ t.totalMinutes }}
               </p>
               <span
-                class="text-[9px] max-lg:text-xs text-gray-400 dark:text-slate-500 font-normal"
-                >· {{ t.thisMonth }}</span
+                class="text-[8px] 3xl:text-[10px] 4xl:text-[11px] text-gray-400 dark:text-slate-500 font-normal shrink-0 text-right leading-snug max-w-[45%] pl-1 -translate-y-px"
+                >{{ t.thisMonth }}</span
               >
             </div>
             <p
@@ -936,17 +936,17 @@
           [class.fade-in-visible]="showEvaluacionExito"
         >
           <div
-            class="flex shrink-0 items-center gap-1.5 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3"
+            class="flex w-full min-w-0 shrink-0 items-baseline gap-2 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3"
           >
             <h3
-              class="font-semibold text-gray-800 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50"
+              class="font-semibold text-gray-800 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50 flex-1 min-w-0 leading-snug"
             >
               {{ t.successEvaluation }}
             </h3>
             <span
-              class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal"
+              class="text-[8px] 3xl:text-[10px] 4xl:text-[11px] text-gray-400 dark:text-slate-500 font-normal shrink-0 text-right leading-snug max-w-[45%] pl-1 -translate-y-px"
             >
-              · {{ t.thisMonth }}
+              {{ t.thisMonth }}
             </span>
           </div>
           <div
@@ -988,17 +988,17 @@
           [class.fade-in-visible]="showRazonFinalizacion"
         >
           <div
-            class="flex shrink-0 items-center gap-1.5 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3"
+            class="flex w-full min-w-0 shrink-0 items-baseline gap-2 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3"
           >
             <h3
-              class="font-semibold text-gray-800 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50"
+              class="font-semibold text-gray-800 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base tracking-[-0.7px] dark:text-slate-50 flex-1 min-w-0 leading-snug"
             >
               {{ t.callCompletionReason }}
             </h3>
             <span
-              class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal"
+              class="text-[8px] 3xl:text-[10px] 4xl:text-[11px] text-gray-400 dark:text-slate-500 font-normal shrink-0 text-right leading-snug max-w-[45%] pl-1 -translate-y-px"
             >
-              · {{ t.thisMonth }}
+              {{ t.thisMonth }}
             </span>
           </div>
           <div

@@ -49,7 +49,7 @@
         class="fade-in-up text-4xl md:text-5xl 3xl:text-6xl font-semibold text-gray-900 dark:text-white leading-tight max-w-xl 3xl:max-w-3xl mb-3 3xl:mb-5"
         style="animation-delay: 0.3s"
       >
-        Error al conectar con Shopify
+        {{ t.shopifySuccessErrorTitle }}
       </h1>
       <p
         class="fade-in-up text-gray-600 dark:text-gray-400 mb-6 3xl:mb-8 max-w-xl 3xl:max-w-3xl text-base 3xl:text-xl"
@@ -58,8 +58,7 @@
         @if (errorMessage) {
           {{ errorMessage }}
         } @else {
-          No se pudo completar la conexión. Comprueba el dominio e inténtalo de
-          nuevo.
+          {{ t.shopifySuccessErrorFallback }}
         }
       </p>
       <div
@@ -71,7 +70,7 @@
           (click)="goBack()"
           class="px-5 py-2.5 3xl:px-6 3xl:py-3 3xl:text-base rounded-xl bg-[#414141] text-white dark:text-gray-300 font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
         >
-          Volver
+          {{ t.back }}
         </button>
       </div>
     } @else {
@@ -79,14 +78,13 @@
         class="fade-in-up text-4xl md:text-5xl 3xl:text-6xl font-semibold text-gray-900 dark:text-white leading-tight max-w-xl 3xl:max-w-3xl mb-3 3xl:mb-5"
         style="animation-delay: 0.3s"
       >
-        Cuenta de Shopify conectada
+        {{ t.shopifySuccessTitle }}
       </h1>
       <p
         class="fade-in-up text-gray-600 dark:text-gray-400 mb-6 3xl:mb-8 max-w-xl 3xl:max-w-3xl text-base 3xl:text-xl"
         style="animation-delay: 0.4s"
       >
-        Tu tienda{{ shop ? " " + shop : "" }} se ha vinculado correctamente con
-        Llamalo. Puedes continuar configurando tu agente.
+        {{ t.shopifySuccessYourStore }}{{ shop ? ' ' + shop + ' ' : ' ' }}{{ t.shopifySuccessLinkedRest }}
       </p>
       <div
         class="fade-in-up mt-auto pt-8 3xl:pt-12"
@@ -97,7 +95,7 @@
           (click)="continueConfiguringAgent()"
           class="btn-continuar-shopify px-5 py-2.5 3xl:px-6 3xl:py-3 3xl:text-base rounded-xl bg-[#1B2559] dark:bg-white text-white dark:text-[#1B2559] font-medium text-sm hover:bg-[#0a1740] transition-colors"
         >
-          Continuar configurando el agente
+          {{ t.shopifySuccessContinueCta }}
         </button>
       </div>
     }

@@ -5,12 +5,14 @@ import {
   OnDestroy,
   OnInit,
   PLATFORM_ID,
+  inject,
 } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
+import { I18nService } from '../../core/services/i18n.service';
 import { UserProfileResponseDto } from '../../shared/models/user-profile-response.dto';
 import { environment } from '../../../environments/environment';
 
@@ -58,6 +60,12 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
 
   /** Si venimos del onboarding de empresa (company-setup) */
   sourceOnboarding: boolean = false;
+
+  private i18n = inject(I18nService);
+
+  get t() {
+    return this.i18n.getTranslations();
+  }
 
   constructor(
     private router: Router,
@@ -206,13 +214,13 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     const shop = this.selectedStore || this.shopifyDomain.trim();
     
     if (!shop) {
-      this.errorMessage = 'Por favor, selecciona una tienda o ingresa un dominio válido.';
+      this.errorMessage = this.t.shopifyOnboardingErrorSelectOrDomain;
       return;
     }
 
     // Validar formato si no es una tienda seleccionada
     if (!this.selectedStore && !this.isDomainValid) {
-      this.errorMessage = 'El dominio debe terminar en .myshopify.com';
+      this.errorMessage = this.t.shopifyOnboardingErrorDomainSuffix;
       return;
     }
 
@@ -258,13 +266,12 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
         this.loading = false;
         if (!res?.authUrl) {
           this.errorMessage =
-            res?.message || 'No se recibió la URL de autorización.';
+            res?.message || this.t.shopifyOnboardingErrorNoAuthUrl;
         }
       })
       .catch(() => {
         this.loading = false;
-        this.errorMessage =
-          'No se pudo conectar con el servidor. Inténtalo de nuevo.';
+        this.errorMessage = this.t.shopifyOnboardingErrorServer;
       });
   }
 }

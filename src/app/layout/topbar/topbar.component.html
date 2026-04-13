@@ -596,52 +596,51 @@
     </div>
   </div>
 
-  <!-- News Modal -->
+  <!-- News Modal: imagen un poco más alta que antes (~44% / ~56%, flex 4:5) -->
   <div *ngIf="showNewsModal"
+    @newsModal
     class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-4 sm:p-6"
     style="z-index: 999999; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);"
     (click)="closeNewsItemModal()">
-    <div class="relative w-full max-w-2xl max-h-[85vh] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+    <div
+      class="news-modal-shell relative w-full max-w-[min(400px,calc(100vw-2rem))] h-[min(68vh,420px)] max-h-[72vh] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden flex flex-col"
       (click)="$event.stopPropagation()">
       <!-- Close button -->
       <button (click)="closeNewsItemModal()"
-        class="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors z-20 cursor-pointer">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        class="absolute top-2.5 right-2.5 p-2 bg-black/45 hover:bg-black/65 text-white rounded-full transition-colors z-20 cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
-      <!-- Contenedor que hará scroll interno general (imagen + texto) si excede 85vh -->
-      <div class="news-modal-scroll-container w-full flex flex-col overflow-y-scroll custom-scrollbar pr-1"
-        (scroll)="checkNewsScroll($event)">
-        <!-- Image Header -->
-        <div class="w-full h-48 sm:h-64 md:h-80 flex-shrink-0 bg-gray-100 dark:bg-slate-800">
-          <img *ngIf="selectedNewsItem?.imageUrl" [src]="selectedNewsItem?.imageUrl" class="w-full h-full object-cover" [alt]="selectedNewsItem?.title">
-        </div>
-
-        <!-- Content -->
-        <div class="p-6 sm:p-8 flex flex-col flex-grow pb-12">
-          <div class="flex items-center justify-between mb-4 flex-shrink-0">
-            <span class="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider">
-              {{ selectedNewsItem ? formatNewsDate(selectedNewsItem.date) : '' }}
-            </span>
-          </div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight flex-shrink-0">
-            {{ selectedNewsItem?.title }}
-          </h2>
-          <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
-            {{ selectedNewsItem?.description }}
-          </p>
-        </div>
+      <!-- Imagen (flex 4 de 4+5 ≈ un poco más de altura que 40/60) -->
+      <div class="flex-[4] min-h-0 relative overflow-hidden rounded-b-2xl bg-gray-100 dark:bg-slate-800">
+        <img *ngIf="selectedNewsItem?.imageUrl" [src]="selectedNewsItem?.imageUrl"
+          class="w-full h-full object-cover" [alt]="selectedNewsItem?.title">
       </div>
-      
-      <!-- Scroll Indicator (fade) -->
-      <div class="pointer-events-none absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-slate-900 dark:via-slate-900/80 transition-opacity duration-300 rounded-b-3xl flex items-end justify-center pb-4"
+
+      <!-- Texto (flex 5), scroll interno -->
+      <div
+        class="news-modal-scroll-container flex-[5] min-h-0 w-full overflow-y-auto custom-scrollbar px-4 pt-3.5 pb-8 relative"
+        (scroll)="checkNewsScroll($event)">
+        <span class="text-[10px] text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wide block">
+          {{ selectedNewsItem ? formatNewsDate(selectedNewsItem.date) : '' }}
+        </span>
+        <h2 class="text-sm font-semibold text-gray-900 dark:text-white leading-snug mt-1.5">
+          {{ selectedNewsItem?.title }}
+        </h2>
+        <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed whitespace-pre-wrap mt-2">
+          {{ selectedNewsItem?.description }}
+        </p>
+      </div>
+
+      <!-- Scroll Indicator (fade) sobre la zona de texto -->
+      <div
+        class="pointer-events-none absolute bottom-0 left-0 w-full h-14 bg-gradient-to-t from-white via-white/85 to-transparent dark:from-slate-900 dark:via-slate-900/85 transition-opacity duration-300 rounded-b-2xl flex items-end justify-center pb-2"
         [class.opacity-100]="showNewsScrollIndicator"
         [class.opacity-0]="!showNewsScrollIndicator">
-        <!-- Optional animated arrow -->
         <div class="animate-bounce">
-          <svg class="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </div>

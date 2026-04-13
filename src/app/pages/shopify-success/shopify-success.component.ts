@@ -8,6 +8,7 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { I18nService } from '../../core/services/i18n.service';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 
@@ -37,6 +38,11 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
   sourceOnboarding: boolean = false;
 
   private userStorage = inject(UserStorage);
+  private i18n = inject(I18nService);
+
+  get t() {
+    return this.i18n.getTranslations();
+  }
 
   constructor(
     private route: ActivatedRoute,

@@ -175,6 +175,14 @@ export class AccountComponent implements OnInit, OnDestroy {
   isValidatingPhone = false;
   private phoneValidationTimeout: ReturnType<typeof setTimeout> | null = null;
 
+  /** Make: panel lateral (mismo flujo que paso Instrucciones al crear agente). */
+  showMakeConfig = false;
+  isMakeConfigClosing = false;
+  makeActionData = { name: '', description: '', serverUrl: '' };
+  makeActionActive = false;
+  makeGeneratedWebhook = '';
+  private readonly makeSidebarCloseMs = 280;
+
   // Usuario actual
   private userStore = inject(UserStorage);
   user = this.userStore.user;
@@ -966,6 +974,95 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   goToShopifyOnboardingFromAccount(): void {
     this.router.navigate(['/shopify-onboarding']);
+  }
+
+  toggleMakeConfig(): void {
+    if (this.showMakeConfig) {
+      this.isMakeConfigClosing = true;
+      setTimeout(() => {
+        this.showMakeConfig = false;
+        this.isMakeConfigClosing = false;
+      }, this.makeSidebarCloseMs);
+    } else {
+      this.showMakeConfig = true;
+      this.isMakeConfigClosing = false;
+    }
+  }
+
+  onMakeActionNameInput(value: string): void {
+    this.makeActionData = { ...this.makeActionData, name: value };
+  }
+
+  onMakeActionDescriptionInput(value: string): void {
+    this.makeActionData = { ...this.makeActionData, description: value };
+  }
+
+  onMakeActionServerUrlInput(value: string): void {
+    this.makeActionData = { ...this.makeActionData, serverUrl: value };
+  }
+
+  onSaveMakeAction(): void {
+    const { name, serverUrl } = this.makeActionData;
+    if (!name.trim() || !serverUrl.trim()) {
+      return;
+    }
+    if (!this.makeGeneratedWebhook) {
+      this.makeGeneratedWebhook = this.generateMockMakeWebhook();
+    }
+    this.makeActionActive = true;
+    this.isMakeConfigClosing = true;
+    setTimeout(() => {
+      this.showMakeConfig = false;
+      this.isMakeConfigClosing = false;
+    }, this.makeSidebarCloseMs);
+  }
+
+  private generateMockMakeWebhook(): string {
+    const token =
+      typeof crypto !== 'undefined' && 'randomUUID' in crypto
+        ? crypto.randomUUID().replace(/-/g, '').slice(0, 32)
+        : Math.random().toString(36).slice(2) +
+          Math.random().toString(36).slice(2);
+    return `https://hooks.llamalo.ai/make/${token}`;
+  }
+
+  onEditMakeAction(): void {
+    this.showMakeConfig = true;
+    this.isMakeConfigClosing = false;
+  }
+
+  onDeleteMakeAction(): void {
+    const actionLabel = this.makeActionData.name?.trim() || 'esta acción';
+    const dialogRef = this.modalService.openWarning({
+      title: '',
+      message: `¿Seguro que quieres eliminar la acción de Make "${actionLabel}"?`,
+      confirmText: 'Sí, eliminar acción',
+      cancelText: 'Cancelar',
+      showCancelButton: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === true) {
+        this.makeActionActive = false;
+        this.makeGeneratedWebhook = '';
+        this.makeActionData = { name: '', description: '', serverUrl: '' };
+      }
+    });
+  }
+
+  async copyMakeWebhook(): Promise<void> {
+    const url = this.makeGeneratedWebhook?.trim();
+    if (
+      !url ||
+      typeof navigator === 'undefined' ||
+      !navigator.clipboard?.writeText
+    ) {
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      /* ignore */
+    }
   }
 
   // Método para cargar las cuentas de Twilio del usuario

@@ -8,12 +8,13 @@
         <div
           class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
           [class.fade-in-visible]="showTotalCallsPanel">
-          <div class="flex items-center gap-1.5 -mt-1">
-            <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black font-medium">
+          <div class="flex w-full min-w-0 items-baseline gap-2 -mt-1">
+            <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black dark:text-slate-100 font-medium flex-1 min-w-0 leading-snug">
               {{ t.totalCalls }}
             </span>
-            <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
-              · {{ t.last7Days }}
+            <span
+              class="text-[8px] 3xl:text-[10px] 4xl:text-[11px] text-gray-400 dark:text-slate-500 font-normal shrink-0 text-right leading-snug max-w-[45%] pl-1 -translate-y-px">
+              {{ t.last7Days }}
             </span>
           </div>
           <div class="flex flex-col">
@@ -48,12 +49,13 @@
         <div
           class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
           [class.fade-in-visible]="showTotalCallsPanel">
-          <div class="flex items-center gap-1.5 -mt-1">
-            <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black font-medium">
+          <div class="flex w-full min-w-0 items-baseline gap-2 -mt-1">
+            <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black dark:text-slate-100 font-medium flex-1 min-w-0 leading-snug">
               {{ t.successfulCalls }}
             </span>
-            <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
-              · {{ t.last7Days }}
+            <span
+              class="text-[8px] 3xl:text-[10px] 4xl:text-[11px] text-gray-400 dark:text-slate-500 font-normal shrink-0 text-right leading-snug max-w-[45%] pl-1 -translate-y-px">
+              {{ t.last7Days }}
             </span>
           </div>
           <div class="flex flex-col">
@@ -88,12 +90,13 @@
         <div
           class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
           [class.fade-in-visible]="showMinutesPanel">
-          <div class="flex items-center gap-1.5 -mt-1">
-            <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black font-medium">
+          <div class="flex w-full min-w-0 items-baseline gap-2 -mt-1">
+            <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black dark:text-slate-100 font-medium flex-1 min-w-0 leading-snug">
               {{ t.totalMinutes }}
             </span>
-            <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
-              · {{ t.thisMonth }}
+            <span
+              class="text-[8px] 3xl:text-[10px] 4xl:text-[11px] text-gray-400 dark:text-slate-500 font-normal shrink-0 text-right leading-snug max-w-[45%] pl-1 -translate-y-px">
+              {{ t.thisMonth }}
             </span>
           </div>
           <div class="flex flex-col">
@@ -128,12 +131,13 @@
         <div
           class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm pt-2.5 pb-1.5 px-2.5 lg:pt-3 lg:pb-2 lg:px-3 xl:pt-3 xl:pb-2 xl:px-3 2xl:pt-3 2xl:pb-2 2xl:px-3 3xl:pt-5 3xl:pb-2 3xl:px-5 4xl:pt-7 4xl:pb-4 4xl:px-7 border border-gray-100 dark:border-slate-800 min-h-[5.5rem] lg:min-h-[6rem] 3xl:min-h-[6.5rem] 4xl:min-h-[8rem] flex flex-col justify-between fade-in-section relative"
           [class.fade-in-visible]="showMinutesPanel">
-          <div class="flex items-center gap-1.5 -mt-1">
-            <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black font-medium">
+          <div class="flex w-full min-w-0 items-baseline gap-2 -mt-1">
+            <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black dark:text-slate-100 font-medium flex-1 min-w-0 leading-snug">
               {{ t.timeSaved }}
             </span>
-            <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
-              · {{ t.thisMonth }}
+            <span
+              class="text-[8px] 3xl:text-[10px] 4xl:text-[11px] text-gray-400 dark:text-slate-500 font-normal shrink-0 text-right leading-snug max-w-[45%] pl-1 -translate-y-px">
+              {{ t.thisMonth }}
             </span>
           </div>
           <div class="flex flex-col">
@@ -202,12 +206,13 @@
           class="relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl shadow-sm p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-6 4xl:p-8 border border-gray-100 dark:border-slate-800 min-h-[7.5rem] lg:min-h-[9rem] 3xl:min-h-[14rem] 4xl:min-h-[18rem] flex flex-col justify-between fade-in-section"
           [class.fade-in-visible]="showAdPanel">
           <!-- Título -->
-          <div class="flex items-center gap-1.5">
-            <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black font-medium">
+          <div class="flex w-full min-w-0 items-baseline gap-2">
+            <span class="text-xs lg:text-xs 3xl:text-base 4xl:text-xl text-black dark:text-slate-100 font-medium flex-1 min-w-0 leading-snug">
               {{ t.successRate }}
             </span>
-            <span class="text-[9px] lg:text-[9px] 3xl:text-xs text-gray-400 dark:text-slate-500 font-normal">
-              · {{ t.last7Days }}
+            <span
+              class="text-[8px] 3xl:text-[10px] 4xl:text-[11px] text-gray-400 dark:text-slate-500 font-normal shrink-0 text-right leading-snug max-w-[45%] pl-1 -translate-y-px">
+              {{ t.last7Days }}
             </span>
           </div>
 

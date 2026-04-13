@@ -1247,26 +1247,26 @@
           </div>
         </div>
 
-        <!-- Make (logo con opacidad como en Cuenta › Conexiones) -->
+        <!-- Make -->
         <div
-          class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10 bg-gray-50 dark:bg-slate-900/30 overflow-visible opacity-70 transition-colors px-2.5 py-2 sm:px-3 sm:py-2.5">
+          class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10 bg-gray-50 dark:bg-slate-900/30 overflow-visible transition-colors px-2.5 py-2 sm:px-3 sm:py-2.5">
           <div class="flex items-center gap-2 sm:gap-2.5">
             <div class="flex items-center gap-2 min-w-0 flex-1">
               <img src="assets/make.webp" alt="Make"
-                class="w-6 h-6 shrink-0 object-contain opacity-40" />
+                class="w-6 h-6 shrink-0 object-contain" />
               <div class="min-w-0">
                 <p class="text-xs font-semibold text-gray-900 dark:text-white leading-tight m-0">
                   Make
                 </p>
                 <p class="text-[10px] text-gray-500 dark:text-gray-400 leading-tight mt-0.5">
-                  Automatiza tus flujos
+                  {{ t.makeExternalDescription }}
                 </p>
               </div>
             </div>
             <div class="ml-auto flex shrink-0 items-center">
-              <button type="button" disabled
-                class="px-2.5 py-1.5 rounded-md text-[10px] font-semibold cursor-not-allowed bg-gray-200 text-gray-500 dark:bg-slate-700 dark:text-slate-400">
-                Próximamente
+              <button type="button" (click)="openMakeModal()"
+                class="px-2.5 py-1.5 rounded-md text-[10px] font-semibold transition-colors bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-slate-100">
+                {{ t.connect }}
               </button>
             </div>
           </div>
