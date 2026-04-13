@@ -1,6 +1,7 @@
 /**
  * Build: `ng build --configuration preprod` (rama `preprod` en Vercel → preprod.llamalo.ai).
  * Ajusta apiUrl si el host de Render de preprod no coincide.
+ * Web SDK: completa apiKey, messagingSenderId y appId desde Firebase Console → proyecto llamalo-preprod → Ajustes → Tu app web.
  */
 export const environment = {
   production: true,
@@ -8,11 +9,11 @@ export const environment = {
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-preprod.onrender.com',
   firebase: {
-    apiKey: 'AIzaSyBeDYuVYfL9Multc9cOkXsk7lsL6t-YOUQ',
-    authDomain: 'llamaloio.firebaseapp.com',
-    projectId: 'llamaloio',
-    storageBucket: 'llamaloio.firebasestorage.app',
-    messagingSenderId: '479966293935',
-    appId: '1:479966293935:web:48abc8bf09690a0a56495a',
+    apiKey: 'REEMPLAZAR',
+    authDomain: 'llamalo-preprod.firebaseapp.com',
+    projectId: 'llamalo-preprod',
+    storageBucket: 'llamalo-preprod.firebasestorage.app',
+    messagingSenderId: 'REEMPLAZAR',
+    appId: 'REEMPLAZAR',
   },
 };
