@@ -23,6 +23,9 @@ import { I18nService, Language } from '../../core/services/i18n.service';
 import { take } from 'rxjs/operators';
 import { FirebaseTokenRefreshService } from '../../core/services/firebase-token-refresh.service';
 import { environment } from '../../../environments/environment';
+import { isLocalAuthRegistrationHost } from '../../core/utils/auth-host-features';
+import { signInWithPopup } from 'firebase/auth';
+import { firebaseAuth, googleProvider } from '../../core/services/firebase.config';
 
 @Component({
   selector: 'app-auth-form',
@@ -80,6 +83,14 @@ export class AuthFormComponent implements OnInit {
 
   get t() {
     return this.i18nService.getTranslations();
+  }
+
+  /** Registro y Google solo en localhost (no en dev/preprod/app). */
+  get authLocalFeatures(): boolean {
+    if (!isPlatformBrowser(this.platformId)) {
+      return false;
+    }
+    return isLocalAuthRegistrationHost();
   }
 
   get title(): string {
@@ -388,6 +399,41 @@ export class AuthFormComponent implements OnInit {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  loginWithGoogle(): void {
+    if (!this.authLocalFeatures) {
+      return;
+    }
+    this.setGlobalLoading(true);
+    signInWithPopup(firebaseAuth, googleProvider)
+      .then((cred) => cred.user.getIdToken())
+      .then((idToken) => {
+        this.userService.LoginWithGoogle(idToken).subscribe({
+          next: (response: { token: string; refreshToken?: string }) => {
+            this.firebaseTokenRefresh.persistSessionTokensFromApi(response);
+            this.firebaseTokenRefresh.start();
+            this.loadProfileAndNavigate();
+          },
+          error: () => {
+            this.notificationService.error(this.t.authErrorGoogleLogin);
+            this.setGlobalLoading(false);
+          },
+        });
+      })
+      .catch((err: { code?: string }) => {
+        const code = err?.code ?? '';
+        if (
+          code === 'auth/popup-closed-by-user' ||
+          code === 'auth/cancelled-popup-request'
+        ) {
+          this.setGlobalLoading(false);
+          return;
+        }
+        console.error('Google sign-in:', err);
+        this.notificationService.error(this.t.authErrorGoogleLogin);
+        this.setGlobalLoading(false);
+      });
   }
 
   private setGlobalLoading(isLoading: boolean) {

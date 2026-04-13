@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { GuestGuard } from './core/guards/guest.guard';
+import { RegisterLocalhostGuard } from './core/guards/register-localhost.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { AgentsComponent } from './pages/agents/agents.component';
@@ -48,7 +49,7 @@ export const routes: Routes = [
   {
     path: 'register',
     component: AuthFormComponent,
-    canActivate: [GuestGuard],
+    canActivate: [GuestGuard, RegisterLocalhostGuard],
     data: {
       type: 'register',
     },

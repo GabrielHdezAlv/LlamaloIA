@@ -762,6 +762,8 @@ export interface Translations {
   authMarketingConsentLlamalo: string;
   authRememberMe: string;
   authOrContinueWith: string;
+  authGoogleLogin: string;
+  authErrorGoogleLogin: string;
   authTermsPrefix: string;
   authTermsConditions: string;
   authTermsAnd: string;
@@ -1573,6 +1575,9 @@ export class I18nService {
       authMarketingConsentLlamalo: 'Acepto recibir comunicaciones de marketing y promociones de Llamalo AI',
       authRememberMe: 'Mantener sesión activa',
       authOrContinueWith: 'O continuar con',
+      authGoogleLogin: 'Continuar con Google',
+      authErrorGoogleLogin:
+        'No se pudo iniciar sesión con Google. Inténtalo de nuevo.',
       authTermsPrefix: 'Al registrarme para crear una cuenta acepto las',
       authTermsConditions: 'Condiciones de uso',
       authTermsAnd: 'y la',
@@ -2373,6 +2378,8 @@ export class I18nService {
       authMarketingConsentLlamalo: 'I agree to receive marketing and promotional communications from Llamalo AI',
       authRememberMe: 'Keep me signed in',
       authOrContinueWith: 'Or continue with',
+      authGoogleLogin: 'Continue with Google',
+      authErrorGoogleLogin: 'Could not sign in with Google. Please try again.',
       authTermsPrefix: 'By signing up I accept the',
       authTermsConditions: 'Terms of use',
       authTermsAnd: 'and the',
