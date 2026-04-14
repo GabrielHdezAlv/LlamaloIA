@@ -230,15 +230,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
       } else if (this.latencyMs > 1000) {
         statuses.push({
           circleColor: 'bg-yellow-500',
-          message:
-            langCode === 'en' ? 'Normal latency' : 'Latencia normal',
+          message: langCode === 'en' ? 'Normal latency' : 'Latencia normal',
           textColor: 'text-gray-800 dark:text-slate-200',
         });
       } else {
         statuses.push({
           circleColor: 'bg-green-500',
-          message:
-            langCode === 'en' ? 'Optimal latency' : 'Latencia óptima',
+          message: langCode === 'en' ? 'Optimal latency' : 'Latencia óptima',
           textColor: 'text-gray-800 dark:text-slate-200',
         });
       }
@@ -257,8 +255,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
     if (this.isTwilioConnected && !this.detailedMetricsError) {
       statuses.push({
         circleColor: 'bg-green-500',
-        message:
-          langCode === 'en' ? 'Twilio connected' : 'Twilio conectado',
+        message: langCode === 'en' ? 'Twilio connected' : 'Twilio conectado',
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else if (this.detailedMetricsError) {
@@ -283,9 +280,12 @@ export class MetricsComponent implements OnInit, OnDestroy {
     // Si no hay límite configurado, usar un límite por defecto de 1000 minutos para mostrar el porcentaje
     const baseLimit = this.minutesLimit > 0 ? this.minutesLimit : 1000;
     const planLimit = baseLimit + (this.extraMinutes || 0);
-    
+
     // El porcentaje no debe superar el 100% si se usan minutos extra
-    const usagePercent = Math.min((this.totalMinutesUsed / planLimit) * 100, 100);
+    const usagePercent = Math.min(
+      (this.totalMinutesUsed / planLimit) * 100,
+      100,
+    );
 
     // Mostrar porcentaje con diferentes estados según el nivel
     if (usagePercent >= 90) {
@@ -339,17 +339,14 @@ export class MetricsComponent implements OnInit, OnDestroy {
     if (this.isShopifyConnected) {
       statuses.push({
         circleColor: 'bg-green-500',
-        message:
-          langCode === 'en' ? 'Shopify connected' : 'Shopify conectado',
+        message: langCode === 'en' ? 'Shopify connected' : 'Shopify conectado',
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     } else {
       statuses.push({
         circleColor: 'bg-gray-400',
         message:
-          langCode === 'en'
-            ? 'Shopify not connected'
-            : 'Shopify no conectado',
+          langCode === 'en' ? 'Shopify not connected' : 'Shopify no conectado',
         textColor: 'text-gray-800 dark:text-slate-200',
       });
     }
@@ -711,11 +708,20 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   // Getters para UI
   get displayMinutesUsed(): number {
-    return Math.round(Math.min(this.totalMinutesUsed, (this.minutesLimit ?? 100) + (this.extraMinutes ?? 0)));
+    return Math.round(
+      Math.min(
+        this.totalMinutesUsed,
+        (this.minutesLimit ?? 100) + (this.extraMinutes ?? 0),
+      ),
+    );
   }
 
   get displayExtraMinutesUsed(): string {
-    const val = Math.max(0, this.totalMinutesUsed - ((this.minutesLimit ?? 100) + (this.extraMinutes ?? 0)));
+    const val = Math.max(
+      0,
+      this.totalMinutesUsed -
+        ((this.minutesLimit ?? 100) + (this.extraMinutes ?? 0)),
+    );
     return (Math.round(val * 100) / 100).toFixed(2).replace('.', ',');
   }
 
@@ -1029,12 +1035,18 @@ export class MetricsComponent implements OnInit, OnDestroy {
   // Agentes creados (tabla resumen) — datos reales del backend
   get createdAgents() {
     const agentes = this.dashboardMetrics?.agentes || [];
-    const totalMin = agentes.reduce((acc, a) => acc + (a.minutos_totales || 0), 0);
+    const totalMin = agentes.reduce(
+      (acc, a) => acc + (a.minutos_totales || 0),
+      0,
+    );
     return agentes.map((a) => ({
       name: a.nombre,
       type: a.tipo === 'outbound' ? this.t.outbound : this.t.inbound,
       totalMin: Math.round(a.minutos_totales || 0),
-      percent: totalMin > 0 ? Math.round((a.minutos_totales / totalMin) * 1000) / 10 : 0,
+      percent:
+        totalMin > 0
+          ? Math.round((a.minutos_totales / totalMin) * 1000) / 10
+          : 0,
       status: a.estado === 'activo' ? this.t.activeStatus : this.t.draftStatus,
     }));
   }
@@ -1068,7 +1080,10 @@ export class MetricsComponent implements OnInit, OnDestroy {
       const actualHour = (i + 4) % 24;
       let busyness: number;
       if (hasRealData) {
-        busyness = Math.max(5, Math.round((hourlyTotals[actualHour] / maxCalls) * 100));
+        busyness = Math.max(
+          5,
+          Math.round((hourlyTotals[actualHour] / maxCalls) * 100),
+        );
       } else {
         // Fallback visual si aún no hay datos históricos suficientes
         const center = 15;
@@ -1076,7 +1091,10 @@ export class MetricsComponent implements OnInit, OnDestroy {
         let d = actualHour - center;
         if (d > 12) d -= 24;
         else if (d <= -12) d += 24;
-        busyness = Math.max(5, Math.round(100 * Math.exp(-Math.pow(d / width, 2))));
+        busyness = Math.max(
+          5,
+          Math.round(100 * Math.exp(-Math.pow(d / width, 2))),
+        );
       }
 
       let label = '';
@@ -1089,7 +1107,12 @@ export class MetricsComponent implements OnInit, OnDestroy {
       else if (i === 20) label = '12a';
       else if (i === 23) label = '3a';
 
-      hours.push({ label, busyness, isLive: actualHour === currentHour, hour: actualHour });
+      hours.push({
+        label,
+        busyness,
+        isLive: actualHour === currentHour,
+        hour: actualHour,
+      });
     }
     return hours;
   }
@@ -1133,18 +1156,13 @@ export class MetricsComponent implements OnInit, OnDestroy {
       if (c.isoCode && typeof c.isoCode === 'string') {
         // ZZ debe resolverse aquí: DisplayNames lo traduce como "Región desconocida"
         if (c.isoCode === 'ZZ') {
-          name =
-            langCode === 'en'
-              ? 'Hidden number'
-              : 'Número Oculto';
+          name = langCode === 'en' ? 'Hidden number' : 'Número Oculto';
         } else if (c.isoCode.length === 2 && regionNames) {
           name = regionNames.of(c.isoCode) || c.isoCode;
         } else if (c.isoCode.startsWith('+')) {
           // Prefijo sin identificar
           name =
-            langCode === 'en'
-              ? `Country ${c.isoCode}`
-              : `País ${c.isoCode}`;
+            langCode === 'en' ? `Country ${c.isoCode}` : `País ${c.isoCode}`;
         } else {
           name = c.isoCode;
         }
@@ -1377,7 +1395,9 @@ export class MetricsComponent implements OnInit, OnDestroy {
         this.hasLoadedDashboardMetrics = false; // Permitir reintentar en caso de error
 
         // Limpiar datos del gráfico en caso de error pero manteniendo días y línea base
-        this.callsAreaSeries = [{ name: 'Llamadas', data: this.getCurrentData() }];
+        this.callsAreaSeries = [
+          { name: 'Llamadas', data: this.getCurrentData() },
+        ];
         this.totalMinutesUsed = 0;
         this.timeSavedHours = 0;
         this.updateMobileChartData();
@@ -1422,7 +1442,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
     };
 
     // Consumo del mes: mismo valor que el dashboard (backend alinea `minutesByMonth` con llamadas_registradas)
-    const twilioMinutes = this.dashboardMetrics.resumen.minutos_ultimo_mes.actual;
+    const twilioMinutes =
+      this.dashboardMetrics.resumen.minutos_ultimo_mes.actual;
     this.totalMinutesUsed = twilioMinutes;
 
     // Calcular tiempo ahorrado (minutos * 2.5)
@@ -1571,9 +1592,17 @@ export class MetricsComponent implements OnInit, OnDestroy {
       this.detailedMetrics.tiposLlamadas.outbound;
     if (totalCallTypes > 0) {
       this.inboundPercentage =
-        Math.round((this.detailedMetrics.tiposLlamadas.inbound / totalCallTypes) * 100 * 10) / 10;
+        Math.round(
+          (this.detailedMetrics.tiposLlamadas.inbound / totalCallTypes) *
+            100 *
+            10,
+        ) / 10;
       this.outboundPercentage =
-        Math.round((this.detailedMetrics.tiposLlamadas.outbound / totalCallTypes) * 100 * 10) / 10;
+        Math.round(
+          (this.detailedMetrics.tiposLlamadas.outbound / totalCallTypes) *
+            100 *
+            10,
+        ) / 10;
     }
 
     // Calcular y cachear todos los valores
@@ -1720,8 +1749,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.exitosas / totalSuccess) *
-              100 *
-              10,
+                100 *
+                10,
             ) / 10,
           color: 'bg-green-500',
         },
@@ -1730,8 +1759,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.parciales / totalSuccess) *
-              100 *
-              10,
+                100 *
+                10,
             ) / 10,
           color: 'bg-yellow-500',
         },
@@ -1740,8 +1769,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
           percent:
             Math.round(
               (this.detailedMetrics.evaluacionExito.fallidas / totalSuccess) *
-              100 *
-              10,
+                100 *
+                10,
             ) / 10,
           color: 'bg-red-500',
         },
@@ -1779,12 +1808,14 @@ export class MetricsComponent implements OnInit, OnDestroy {
         },
         {
           name: 'Sin respuesta',
-          percent: Math.round(((rf.sinRespuesta ?? 0) / totalReasons) * 100 * 10) / 10,
+          percent:
+            Math.round(((rf.sinRespuesta ?? 0) / totalReasons) * 100 * 10) / 10,
           color: 'bg-yellow-500',
         },
         {
           name: 'Silencio prolongado',
-          percent: Math.round(((rf.silencio ?? 0) / totalReasons) * 100 * 10) / 10,
+          percent:
+            Math.round(((rf.silencio ?? 0) / totalReasons) * 100 * 10) / 10,
           color: 'bg-purple-500',
         },
         {
@@ -1794,7 +1825,8 @@ export class MetricsComponent implements OnInit, OnDestroy {
         },
         {
           name: 'Tiempo agotado',
-          percent: Math.round((rf.tiempoAgotado / totalReasons) * 100 * 10) / 10,
+          percent:
+            Math.round((rf.tiempoAgotado / totalReasons) * 100 * 10) / 10,
           color: 'bg-gray-500',
         },
       ].sort((a, b) => b.percent - a.percent);
@@ -1909,7 +1941,11 @@ export class MetricsComponent implements OnInit, OnDestroy {
       }
     }
     // Limpiar event listeners y prevenir memory leaks
-    if (this.isBrowser && typeof window !== 'undefined' && window.removeEventListener) {
+    if (
+      this.isBrowser &&
+      typeof window !== 'undefined' &&
+      window.removeEventListener
+    ) {
       window.removeEventListener('resize', this.updateChartForScreenSize);
       window.removeEventListener('languageChanged', this.languageChangeHandler);
     }
@@ -1956,7 +1992,11 @@ export class MetricsComponent implements OnInit, OnDestroy {
         ...this.callsAreaXAxis.labels,
         style: {
           colors: mobileWeekLikeHomeResize ? '#000000' : '#6B7280',
-          fontSize: mobileWeekLikeHomeResize ? '11px' : isMobile ? '9px' : '11px',
+          fontSize: mobileWeekLikeHomeResize
+            ? '11px'
+            : isMobile
+              ? '9px'
+              : '11px',
           fontWeight: mobileWeekLikeHomeResize ? 600 : 500,
         },
         offsetY: mobileWeekLikeHomeResize ? 0 : 2,

@@ -359,14 +359,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     return Math.max(0, days);
   });
 
-  /** Resumen de uso vs límites (API planUsage). */
-  planUsageSummary = computed(() => {
-    const pu = this.user()?.planUsage;
-    if (!pu) return null;
-    const mbUsed = (pu.storageUsedBytes / (1024 * 1024)).toFixed(1);
-    return `${pu.agentsCount}/${pu.limits.agents} ${this.t.agentsShort} · ${pu.webSourcesCount}/${pu.limits.indexedUrls} URLs · ${pu.docSourcesCount}/${pu.limits.documentsMax} ${this.t.docsShort} · ${mbUsed} / ${pu.limits.storageTotalMb} MB`;
-  });
-
   ngOnInit() {
     this.i18nService.initializeLanguage();
 

@@ -554,6 +554,10 @@ export interface Translations {
   knowledgeBaseDeleteConfirmMessage: string;
   knowledgeBaseDeleteConfirmButton: string;
   knowledgeBaseDeletingSource: string;
+  /** Tras borrado OK; sustituir {{name}} */
+  knowledgeBaseDeletedSuccess: string;
+  /** Tras procesamiento; sustituir {{name}} */
+  knowledgeDocumentProcessingComplete: string;
   urlTooLong: string;
   textTooLong: string;
 
@@ -1448,6 +1452,10 @@ export class I18nService {
         '¿Seguro que quieres eliminar «{{name}}»? Esta acción no se puede deshacer.',
       knowledgeBaseDeleteConfirmButton: 'Eliminar',
       knowledgeBaseDeletingSource: 'Eliminando…',
+      knowledgeBaseDeletedSuccess:
+        '«{{name}}» se ha eliminado correctamente de la base de conocimientos.',
+      knowledgeDocumentProcessingComplete:
+        '«{{name}}» ha terminado de procesarse y ya está listo.',
       urlTooLong: 'La URL no puede exceder los 2048 caracteres',
       textTooLong: 'El texto no puede exceder los 50,000 caracteres',
 
@@ -2341,6 +2349,10 @@ export class I18nService {
         'Are you sure you want to delete "{{name}}"? This action cannot be undone.',
       knowledgeBaseDeleteConfirmButton: 'Delete',
       knowledgeBaseDeletingSource: 'Deleting…',
+      knowledgeBaseDeletedSuccess:
+        '"{{name}}" has been deleted from your knowledge base.',
+      knowledgeDocumentProcessingComplete:
+        '"{{name}}" has finished processing and is ready.',
       urlTooLong: 'URL cannot exceed 2,048 characters',
       textTooLong: 'Text cannot exceed 50,000 characters',
 

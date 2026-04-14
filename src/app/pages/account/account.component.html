@@ -683,34 +683,6 @@
                   {{ t.trialDaysLeft }}: <strong>{{ td }}</strong>
                 </p>
               }
-              @if (planUsageSummary(); as pu) {
-                <p
-                  class="mt-1 text-[11px] lg:text-xs text-gray-600 dark:text-gray-400"
-                >
-                  <span class="font-medium text-gray-800 dark:text-gray-200"
-                    >{{ t.planUsageSummaryLabel }}:</span
-                  >
-                  {{ pu }}
-                </p>
-              }
-              @if (minuteQuotaView(); as q) {
-                <p
-                  class="mt-2 text-[11px] lg:text-xs text-gray-600 dark:text-gray-400 leading-snug"
-                >
-                  <span class="font-medium text-gray-800 dark:text-gray-200"
-                    >{{ t.minuteUsageHeading }}:</span
-                  >
-                  @if (q.mode === "unlimited") {
-                    {{ q.used | number: "1.0-1" }} {{ t.minutesWord }} ·
-                    {{ t.planUnlimitedShort }}
-                  } @else {
-                    {{ q.used | number: "1.0-1" }} /
-                    {{ q.total | number: "1.0-1" }} {{ t.minutesWord }} ({{
-                      t.remainingMinutes
-                    }}: {{ q.remaining | number: "1.0-1" }})
-                  }
-                </p>
-              }
             </div>
 
             <!-- Customer Portal Stripe (cancelar, método de pago, facturas) -->

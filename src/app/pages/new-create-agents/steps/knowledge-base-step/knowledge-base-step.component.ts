@@ -405,13 +405,26 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
     });
   }
 
-  deleteKnowledgeSource(id: string): void {
+  deleteKnowledgeSource(source: ExtendedKnowledgeSource): void {
+    const id = source.id;
+    const deletedName = (source.name ?? this.t.noName).toString();
     this.knowledgeBaseService.deleteKnowledgeSource(id).subscribe({
       next: () => {
         this.knowledgeSources = this.knowledgeSources.filter(
-          (source) => source.id !== id,
+          (s) => s.id !== id,
         );
         this.cdr.detectChanges();
+        if (isPlatformBrowser(this.platformId)) {
+          this.modalService.openWarning({
+            title: '',
+            message: this.t.knowledgeBaseDeletedSuccess.replace(
+              /\{\{name\}\}/g,
+              deletedName,
+            ),
+            confirmText: this.t.close,
+            showCancelButton: false,
+          });
+        }
       },
       error: (err) => {
         console.error('Error deleting knowledge source:', err);
