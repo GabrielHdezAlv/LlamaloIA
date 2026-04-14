@@ -86,10 +86,17 @@
             </div>
           </div>
 
+          @if (isRegistrationMode && plan.id === 'starter') {
+            <p
+              class="text-center text-xs md:text-[11px] 4xl:text-base font-medium text-emerald-700 dark:text-emerald-400 mb-2 md:mb-1.5 4xl:mb-2.5">
+              {{ t.registrationStarterTrialBadge }}
+            </p>
+          }
+
           <button
             type="button"
             (click)="onChoosePlan(plan.id, $event)"
-            [disabled]="stripeRedirecting"
+            [disabled]="stripeRedirecting || cancelLoading"
             [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none ' +
             (plan.highlighted
               ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90'
@@ -136,22 +143,11 @@
 
     @if (isRegistrationMode) {
       <div
-        class="mt-6 md:mt-8 4xl:mt-10 flex flex-col items-center gap-3 border-t border-gray-200 dark:border-gray-700 pt-6 md:pt-8">
-        <button
-          type="button"
-          (click)="chooseFreeTrial($event)"
-          [disabled]="freeTrialLoading || stripeRedirecting || cancelLoading"
-          class="w-full max-w-md rounded-2xl font-semibold py-3.5 px-4 text-sm md:text-base 4xl:text-lg bg-[#1B2559] text-white hover:opacity-95 disabled:opacity-60 transition-colors">
-          @if (freeTrialLoading) {
-            <span>…</span>
-          } @else {
-            {{ t.registrationFreeTrialCta }}
-          }
-        </button>
+        class="mt-6 md:mt-8 4xl:mt-10 flex flex-col items-center border-t border-gray-200 dark:border-gray-700 pt-6 md:pt-8">
         <button
           type="button"
           (click)="cancelRegistration()"
-          [disabled]="cancelLoading || freeTrialLoading || stripeRedirecting"
+          [disabled]="cancelLoading || stripeRedirecting"
           class="text-sm text-gray-600 dark:text-gray-400 hover:underline disabled:opacity-50">
           @if (cancelLoading) {
             <span>…</span>

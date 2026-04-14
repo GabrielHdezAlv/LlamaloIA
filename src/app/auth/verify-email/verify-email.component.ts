@@ -45,12 +45,14 @@ export class VerifyEmailComponent implements OnInit {
           email: email.trim() || undefined,
           initialToken: token.trim() || undefined,
         });
-        ref.afterClosed().subscribe((result: { sessionCompleted?: boolean }) => {
-          if (result?.sessionCompleted) {
-            return;
-          }
-          void this.router.navigate(['/login'], { replaceUrl: true });
-        });
+        ref
+          .afterClosed()
+          .subscribe((result: { sessionCompleted?: boolean }) => {
+            if (result?.sessionCompleted) {
+              return;
+            }
+            void this.router.navigate(['/login'], { replaceUrl: true });
+          });
       }, 0);
     });
   }

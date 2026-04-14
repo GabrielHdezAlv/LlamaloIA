@@ -372,7 +372,8 @@ export interface Translations {
   stripePaymentPendingDesc: string;
   /** Paso de registro: elegir plan o prueba */
   registrationPlanStepTitle: string;
-  registrationFreeTrialCta: string;
+  /** Solo copy encima del CTA Starter en el modal de registro (informativo). */
+  registrationStarterTrialBadge: string;
   registrationCancelCta: string;
 
   protectedByStripe: string;
@@ -1281,7 +1282,7 @@ export class I18nService {
       stripePaymentPendingDesc:
         'Actualiza tu método de pago en el portal de facturación para seguir usando la plataforma.',
       registrationPlanStepTitle: 'Elige cómo quieres empezar',
-      registrationFreeTrialCta: 'Continuar con prueba gratuita (7 días)',
+      registrationStarterTrialBadge: '(Prueba 7 días gratis)',
       registrationCancelCta: 'Cancelar registro y salir',
       protectedByStripe: 'Protegido por Stripe',
 
@@ -2186,7 +2187,7 @@ export class I18nService {
       stripePaymentPendingDesc:
         'Update your payment method in the billing portal to keep using the platform.',
       registrationPlanStepTitle: 'Choose how to get started',
-      registrationFreeTrialCta: 'Continue with 7-day free trial',
+      registrationStarterTrialBadge: '(7-day free trial)',
       registrationCancelCta: 'Cancel sign-up and exit',
       protectedByStripe: 'Protected by Stripe',
 

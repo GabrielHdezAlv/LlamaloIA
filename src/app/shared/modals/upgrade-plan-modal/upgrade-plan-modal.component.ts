@@ -39,7 +39,8 @@ const PLAN_PRICE_KEYS = {
 } as const;
 
 export interface UpgradePlanModalData {
-  mode?: 'registration';
+  /** `registration`: gate post-alta. `paywall`: trial agotado / pago pendiente — no se puede cerrar sin elegir plan. */
+  mode?: 'registration' | 'paywall';
 }
 
 @Component({
@@ -62,11 +63,11 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
   }) as UpgradePlanModalData | undefined;
   dialogRef = inject(MatDialogRef<UpgradePlanModalComponent>);
   private readonly destroy$ = new Subject<void>();
-  private readonly modalShell = viewChild<ElementRef<HTMLElement>>('modalShell');
+  private readonly modalShell =
+    viewChild<ElementRef<HTMLElement>>('modalShell');
   showCloseButton = false;
   private closing = false;
   stripeRedirecting = false;
-  freeTrialLoading = false;
   cancelLoading = false;
   /** false = precios mensuales (29 / 79 / 169); true = facturación anual con total anual destacado. */
   billingAnnual = false;
@@ -75,9 +76,18 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
     return this.dialogData?.mode === 'registration';
   }
 
+  get isPaywallMode(): boolean {
+    return this.dialogData?.mode === 'paywall';
+  }
+
+  /** Modal que no debe cerrarse con X, backdrop ni Escape (salvo registro → cancelar cuenta). */
+  get isPlanGateLocked(): boolean {
+    return this.isRegistrationMode || this.isPaywallMode;
+  }
+
   ngOnInit(): void {
     document.body.classList.add('upgrade-plan-modal-open');
-    if (!this.isRegistrationMode) {
+    if (!this.isPlanGateLocked) {
       setTimeout(() => {
         this.showCloseButton = true;
       }, 200);
@@ -89,6 +99,8 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         if (this.isRegistrationMode) {
           void this.cancelRegistration();
+        } else if (this.isPaywallMode) {
+          /* Trial caducado: obligatorio elegir plan; no cerrar */
         } else {
           this.closeWithAnimation();
         }
@@ -105,6 +117,8 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
         e.stopPropagation();
         if (this.isRegistrationMode) {
           void this.cancelRegistration();
+        } else if (this.isPaywallMode) {
+          /* no cerrar */
         } else {
           this.closeWithAnimation();
         }
@@ -165,28 +179,10 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
       void this.cancelRegistration();
       return;
     }
+    if (this.isPaywallMode) {
+      return;
+    }
     this.closeWithAnimation();
-  }
-
-  async chooseFreeTrial(event: Event): Promise<void> {
-    event.preventDefault();
-    event.stopPropagation();
-    if (this.closing || this.freeTrialLoading || this.stripeRedirecting) {
-      return;
-    }
-    if (!isPlatformBrowser(this.platformId)) {
-      return;
-    }
-    this.freeTrialLoading = true;
-    try {
-      await firstValueFrom(this.userService.completePlanSelectionAfterRegister());
-      await this.userStore.loadUserProfile();
-      this.dialogRef.close('email_next');
-    } catch {
-      this.notificationService.error(this.t.stripeBillingError);
-    } finally {
-      this.freeTrialLoading = false;
-    }
   }
 
   async cancelRegistration(): Promise<void> {

@@ -25,7 +25,10 @@ import { FirebaseTokenRefreshService } from '../../core/services/firebase-token-
 import { environment } from '../../../environments/environment';
 import { isLocalAuthRegistrationHost } from '../../core/utils/auth-host-features';
 import { signInWithPopup } from 'firebase/auth';
-import { firebaseAuth, googleProvider } from '../../core/services/firebase.config';
+import {
+  firebaseAuth,
+  googleProvider,
+} from '../../core/services/firebase.config';
 
 @Component({
   selector: 'app-auth-form',
@@ -167,7 +170,7 @@ export class AuthFormComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private firebaseTokenRefresh = inject(FirebaseTokenRefreshService);
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   private applyRouteData(data: Data): void {
     this.type = (data['type'] as 'login' | 'register' | 'recover') ?? 'login';
@@ -308,7 +311,6 @@ export class AuthFormComponent implements OnInit {
     });
   }
 
-
   register(event: Event) {
     event.preventDefault();
 
@@ -342,6 +344,7 @@ export class AuthFormComponent implements OnInit {
     this.userService.RegisterUser(user).subscribe({
       next: (res: {
         verificationEmailSent?: boolean;
+        emailVerificationRequired?: boolean;
         token?: string;
         refreshToken?: string;
       }) => {
@@ -359,6 +362,10 @@ export class AuthFormComponent implements OnInit {
           const ref = this.modalService.openRegistrationPlanGate();
           ref.afterClosed().subscribe((result: string | undefined) => {
             if (result === 'email_next') {
+              if (res?.emailVerificationRequired === false) {
+                this.loadProfileAndNavigate();
+                return;
+              }
               if (res?.verificationEmailSent === false) {
                 this.notificationService.warning(
                   'No pudimos enviar el correo de verificación. Usa «Reenviar código» en la ventana que se abre o revisa la carpeta de spam. Si el problema continúa, contacta con soporte.',

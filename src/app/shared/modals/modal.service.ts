@@ -115,7 +115,7 @@ export class ModalService {
 
   openWarning(data: WarningModalData) {
     return this.dialog.open(WarningModalComponent, {
-      width: 'auto',            // que se adapte al contenido
+      width: 'auto', // que se adapte al contenido
       maxWidth: 'min(100%, calc(100vw - 1.5rem))', // móvil: nunca más ancho que el viewport
       disableClose: false,
       panelClass: ['custom-dialog-container', 'warning-dialog-top'],
@@ -234,7 +234,9 @@ export class ModalService {
 
   /** Trial expirado o pago pendiente: mismo modal de precios, no cerrable, id único para no duplicar. */
   openUpgradePlanPaywall() {
-    const existing = this.dialog.openDialogs.find((d) => d.id === 'subscription-paywall');
+    const existing = this.dialog.openDialogs.find(
+      (d) => d.id === 'subscription-paywall',
+    );
     if (existing) {
       return existing;
     }
@@ -243,13 +245,16 @@ export class ModalService {
       width: '880px',
       maxWidth: '95vw',
       disableClose: true,
+      data: { mode: 'paywall' } satisfies UpgradePlanModalData,
       panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
       ...this.dialogMotion,
     });
   }
 
   /** Tras registro: elegir plan de pago o prueba gratuita (no se puede omitir). */
-  openRegistrationPlanGate(data: UpgradePlanModalData = { mode: 'registration' }) {
+  openRegistrationPlanGate(
+    data: UpgradePlanModalData = { mode: 'registration' },
+  ) {
     const existing = this.dialog.openDialogs.find(
       (d) => d.id === 'registration-plan-gate',
     );
