@@ -72,6 +72,18 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return pa?.can_export_csv === true;
   }
 
+  /**
+   * Aviso de panel resumido (plan Starter): solo cuando la API ya devolvió
+   * `panel_analytics.tier === 'basic'`. Si no hay datos aún, el getter anterior
+   * asumía 'basic' y el banner parpadeaba al entrar/salir de Métricas.
+   */
+  get showMetricsBasicPanelBanner(): boolean {
+    const pa =
+      this.dashboardMetrics?.panel_analytics ??
+      this.detailedMetrics?.panel_analytics;
+    return pa?.tier === 'basic';
+  }
+
   exportMetricsCsv(): void {
     if (!this.canExportCsv || !this.isBrowser) return;
     const d = this.dashboardMetrics;
