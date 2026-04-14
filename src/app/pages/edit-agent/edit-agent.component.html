@@ -350,16 +350,76 @@
                           {{ twilioPanelSelectedAccount.twilioAccountId }}</span>
                         <button type="button" (click)="backToTwilioAccountSelection()"
                           class="text-[#1B2559] dark:text-blue-400 font-medium">
-                          Cambiar
+                          {{ t.changeBtn }}
                         </button>
                       </div>
+                      @if (loadingPhoneNumbers) {
+                      <div class="flex justify-center py-2">
+                        <div
+                          class="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-[#1B2559] dark:border-t-white">
+                        </div>
+                      </div>
+                      }
+                      @if (!loadingPhoneNumbers && availablePhoneNumbers.length > 0) {
+                      <p class="text-[10px] font-semibold text-gray-600 dark:text-slate-300">
+                        {{ t.availableNumbers }}
+                      </p>
+                      <div
+                        class="max-h-24 overflow-y-auto border border-gray-200 dark:border-slate-600 rounded-lg p-1.5 space-y-0.5">
+                        @for (phone of availablePhoneNumbers; track phone.phoneId) {
+                        <button type="button" (click)="onTwilioPanelSelectImportedPhone(phone)"
+                          class="w-full text-left px-2 py-1 rounded text-[10px] hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-900 dark:text-white">
+                          {{ phone.countryCode }} {{ phone.number }}
+                        </button>
+                        }
+                      </div>
+                      }
+                      @if (!loadingPhoneNumbers) {
+                      <div>
+                        <label
+                          class="block text-[10px] font-semibold text-gray-600 dark:text-slate-400 mb-0.5">{{
+                          t.phoneNumberLabel }}</label>
+                        <div class="flex gap-0.5">
+                          <select formControlName="countryCode" (change)="onTwilioPhoneCountryChange()"
+                            class="w-14 h-9 shrink-0 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-l-md px-1 text-gray-900 dark:text-white">
+                            <option value="+34">+34</option>
+                            <option value="+1">+1</option>
+                            <option value="+39">+39</option>
+                            <option value="+44">+44</option>
+                            <option value="+49">+49</option>
+                            <option value="+33">+33</option>
+                            <option value="+31">+31</option>
+                            <option value="+351">+351</option>
+                          </select>
+                          <input type="text" formControlName="phoneNumber" placeholder="612345678"
+                            class="flex-1 min-w-0 h-9 px-2 text-[10px] border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-md text-gray-900 dark:text-white placeholder-gray-400" />
+                        </div>
+                        @if (isValidatingPhone) {
+                        <p class="text-[10px] text-gray-500 mt-0.5">Validando…</p>
+                        }
+                        @if (!isValidatingPhone && phoneIsValid === false && phoneValidationMessage) {
+                        <p class="text-[10px] text-red-500 mt-0.5">{{ phoneValidationMessage }}</p>
+                        }
+                        @if (!isValidatingPhone && phoneIsValid === true && phoneValidationMessage) {
+                        <p class="text-[10px] text-green-600 dark:text-green-400/90 mt-0.5">{{
+                          phoneValidationMessage }}</p>
+                        }
+                      </div>
+                      <button type="button"
+                        (click)="assignTwilioAccountToAgent(twilioPanelSelectedAccount.twilioAccountId)"
+                        [disabled]="isSavingTwilioConfig || !isPhoneReadyForTwilioAssign()"
+                        class="w-full py-2 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-black text-[10px] font-semibold disabled:opacity-50">
+                        {{ t.twilioAssignNumberToAgentButton }}
+                      </button>
                       @if (twilioAssignError) {
                       <p class="text-[10px] text-red-500">{{ twilioAssignError }}</p>
-                      <button type="button" (click)="assignTwilioAccountToAgent(twilioPanelSelectedAccount.twilioAccountId)"
-                        [disabled]="isSavingTwilioConfig"
-                        class="w-full py-2 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-black text-[10px] font-semibold disabled:opacity-50">
+                      <button type="button"
+                        (click)="assignTwilioAccountToAgent(twilioPanelSelectedAccount.twilioAccountId)"
+                        [disabled]="isSavingTwilioConfig || !isPhoneReadyForTwilioAssign()"
+                        class="w-full py-2 rounded-lg border border-gray-300 dark:border-slate-600 text-[10px] font-semibold text-gray-800 dark:text-slate-200 disabled:opacity-50">
                         Reintentar asignar
                       </button>
+                      }
                       }
                     </div>
                     } @else if (

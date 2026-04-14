@@ -426,6 +426,8 @@ export interface Translations {
   // Twilio integration modal
   twilioIntegrationTitle: string;
   phoneNumberLabel: string;
+  /** Editar agente: tras validar Twilio, confirmar número en la cuenta */
+  twilioAssignNumberToAgentButton: string;
   invalidPhoneNumber: string;
   twilioAccountSid: string;
   twilioAuthToken: string;
@@ -1325,6 +1327,7 @@ export class I18nService {
       // Twilio integration modal
       twilioIntegrationTitle: 'Integración con Twilio',
       phoneNumberLabel: 'Número de teléfono *',
+      twilioAssignNumberToAgentButton: 'Asignar número al agente',
       invalidPhoneNumber: 'Número inválido (mín 6, máx 15 dígitos)',
       twilioAccountSid: 'Twilio Account SID',
       twilioAuthToken: 'Twilio Auth Token',
@@ -2222,6 +2225,7 @@ export class I18nService {
       // Twilio integration modal
       twilioIntegrationTitle: 'Twilio Integration',
       phoneNumberLabel: 'Phone number *',
+      twilioAssignNumberToAgentButton: 'Assign number to agent',
       invalidPhoneNumber: 'Invalid number (min 6, max 15 digits)',
       twilioAccountSid: 'Twilio Account SID',
       twilioAuthToken: 'Twilio Auth Token',

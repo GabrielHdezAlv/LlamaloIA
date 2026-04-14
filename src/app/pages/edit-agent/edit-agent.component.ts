@@ -141,6 +141,17 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   isSavingTwilioConfig = false;
   twilioAssignError: string | null = null;
 
+  /** Números importados en Twilio disponibles para asignar (mismo criterio que crear agente, excl. otros agentes). */
+  availablePhoneNumbers: Array<{
+    phoneId: number;
+    countryCode: string;
+    number: string;
+    state?: 'Activo' | 'Inactivo';
+    importedBy?: string;
+    twilioAccountId?: number;
+  }> = [];
+  loadingPhoneNumbers = false;
+
   shopifyStores: string[] = [];
   isLoadingShopifyStores = false;
   selectedShopifyDomain = '';
@@ -516,6 +527,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.isTwilioValidated = false;
     this.twilioErrorMessage = '';
     this.twilioAssignError = null;
+    this.availablePhoneNumbers = [];
+    this.loadingPhoneNumbers = false;
   }
 
   backToTwilioAccountSelection(): void {
@@ -528,6 +541,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.isTwilioValidated = false;
     this.twilioErrorMessage = '';
     this.twilioAssignError = null;
+    this.availablePhoneNumbers = [];
+    this.loadingPhoneNumbers = false;
   }
 
   validateTwilioConfigInline(): void {
@@ -565,57 +580,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         this.twilioSidValidationStatus = 'success';
         this.twilioTokenValidationStatus = 'success';
         this.isTwilioValidated = true;
-        this.loadTwilioInfo();
-
-        if (this.twilioPanelSelectedAccount) {
-          this.assignTwilioAccountToAgent(
-            this.twilioPanelSelectedAccount.twilioAccountId,
-          );
-          return;
-        }
-
-        this.userService
-          .getUserProfile()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe({
-          next: (profile) => {
-            const list = profile.twilio || [];
-            const sid = this.twilioSid.trim();
-            const token = this.twilioToken.trim();
-            let match = list.find(
-              (a) => a.twilioSid === sid && a.twilioToken === token,
-            );
-            if (!match) {
-              match = list.find((a) => a.twilioSid === sid);
-            }
-            if (match) {
-              this.twilioPanelSelectedAccount = match;
-              this.assignTwilioAccountToAgent(match.twilioAccountId);
-            } else {
-              const fromLoaded = this.twilioAccounts.find((a) => a.twilioSid === sid);
-              if (fromLoaded) {
-                this.twilioPanelSelectedAccount = fromLoaded;
-                this.assignTwilioAccountToAgent(fromLoaded.twilioAccountId);
-              } else {
-                this.notificationService.error(
-                  'Cuenta validada pero no se encontró el ID. Recarga e inténtalo de nuevo.',
-                );
-              }
-            }
-          },
-          error: () => {
-            const sid = this.twilioSid.trim();
-            const fromLoaded = this.twilioAccounts.find((a) => a.twilioSid === sid);
-            if (fromLoaded) {
-              this.twilioPanelSelectedAccount = fromLoaded;
-              this.assignTwilioAccountToAgent(fromLoaded.twilioAccountId);
-            } else {
-              this.notificationService.error(
-                'No se pudo obtener el perfil para completar la asignación.',
-              );
-            }
-          },
-        });
+        this.loadTwilioInfo(() => this.resolveTwilioAccountAfterValidation());
       },
       error: (error: unknown) => {
         this.isValidatingTwilio = false;
@@ -638,6 +603,147 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Tras validar credenciales Twilio: fija la cuenta en panel y carga números importados
+   * para elegir o escribir uno (no asigna al agente hasta "Asignar número al agente").
+   */
+  private resolveTwilioAccountAfterValidation(): void {
+    const applyAccount = (acc: TwilioAccount | null): void => {
+      if (!acc?.twilioAccountId) {
+        return;
+      }
+      this.twilioPanelSelectedAccount = acc;
+      this.loadAvailablePhoneNumbersForTwilioPanel();
+    };
+
+    if (this.twilioPanelSelectedAccount?.twilioAccountId != null) {
+      applyAccount(this.twilioPanelSelectedAccount);
+      return;
+    }
+
+    this.userService
+      .getUserProfile()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (profile) => {
+          const list = profile.twilio || [];
+          const sid = this.twilioSid.trim();
+          const token = this.twilioToken.trim();
+          let match = list.find(
+            (a) => a.twilioSid === sid && a.twilioToken === token,
+          );
+          if (!match) {
+            match = list.find((a) => a.twilioSid === sid);
+          }
+          if (match) {
+            applyAccount(match);
+            return;
+          }
+          const fromLoaded = this.twilioAccounts.find((a) => a.twilioSid === sid);
+          if (fromLoaded) {
+            applyAccount(fromLoaded);
+          } else {
+            this.notificationService.error(
+              'Cuenta validada pero no se encontró el ID. Recarga e inténtalo de nuevo.',
+            );
+          }
+        },
+        error: () => {
+          const sid = this.twilioSid.trim();
+          const fromLoaded = this.twilioAccounts.find((a) => a.twilioSid === sid);
+          if (fromLoaded) {
+            applyAccount(fromLoaded);
+          } else {
+            this.notificationService.error(
+              'No se pudo obtener el perfil para completar la selección de cuenta.',
+            );
+          }
+        },
+      });
+  }
+
+  private loadAvailablePhoneNumbersForTwilioPanel(): void {
+    if (!this.twilioPanelSelectedAccount) {
+      this.availablePhoneNumbers = [];
+      return;
+    }
+    this.loadingPhoneNumbers = true;
+    this.userService
+      .getUserProfile()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (profile) => {
+          this.loadingPhoneNumbers = false;
+          const allPhoneNumbers = profile.phoneNumbers || [];
+          const usedByOtherAgents = new Set<string>();
+          if (profile.agents && Array.isArray(profile.agents)) {
+            profile.agents.forEach((agentRow: any) => {
+              const aid = agentRow?.agentId as number | undefined;
+              if (aid != null && aid === this.agentId) {
+                return;
+              }
+              const pn = agentRow?.phoneNumbers as
+                | { countryCode: string; number: string | number }
+                | undefined;
+              if (
+                pn?.countryCode != null &&
+                pn.number != null &&
+                String(pn.number).length > 0
+              ) {
+                usedByOtherAgents.add(`${pn.countryCode}${pn.number}`);
+              }
+            });
+          }
+          const accId = this.twilioPanelSelectedAccount!.twilioAccountId;
+          this.availablePhoneNumbers = allPhoneNumbers.filter((phone) => {
+            if (phone.twilioAccountId !== accId) {
+              return false;
+            }
+            const key = `${phone.countryCode}${phone.number}`;
+            return !usedByOtherAgents.has(key);
+          });
+          setTimeout(() => this.validatePhoneNumber(), 0);
+        },
+        error: () => {
+          this.loadingPhoneNumbers = false;
+          this.availablePhoneNumbers = [];
+        },
+      });
+  }
+
+  onTwilioPanelSelectImportedPhone(phone: {
+    countryCode: string;
+    number: string | number;
+  }): void {
+    const cc = phone.countryCode.startsWith('+')
+      ? phone.countryCode
+      : `+${phone.countryCode}`;
+    const numStr = String(phone.number).replace(/\D/g, '');
+    this.selectedCountryCode = cc;
+    this.editForm.patchValue({
+      countryCode: cc,
+      phoneNumber: numStr,
+    });
+    this.validatePhoneNumber();
+  }
+
+  onTwilioPhoneCountryChange(): void {
+    const v = this.editForm.get('countryCode')?.value;
+    this.selectedCountryCode =
+      typeof v === 'string' && v.startsWith('+') ? v : '+34';
+    this.validatePhoneNumber();
+  }
+
+  /** Listo para confirmar cuenta + número en el agente (tras validar Twilio y el número). */
+  isPhoneReadyForTwilioAssign(): boolean {
+    const raw = this.editForm.get('phoneNumber')?.value;
+    const digits = raw ? String(raw).replace(/\D/g, '') : '';
+    if (!digits) {
+      return false;
+    }
+    return this.phoneIsValid === true;
+  }
+
   private resetTwilioPanelAfterAssign(): void {
     this.showTwilioConfig = false;
     this.showNewTwilioAccountForm = false;
@@ -649,6 +755,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.twilioTokenValidationStatus = null;
     this.twilioErrorMessage = '';
     this.twilioAssignError = null;
+    this.availablePhoneNumbers = [];
+    this.loadingPhoneNumbers = false;
   }
 
   assignTwilioAccountToAgent(twilioAccountId: number | null): void {
@@ -877,7 +985,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         firstInteraction: this.agent.firstInteraction || '',
         agentInstruction: this.agent.agentInstruction || '',
         countryCode: this.agent.phoneNumbers?.countryCode || '+34',
-        phoneNumber: this.agent.phoneNumbers?.number || '',
+        phoneNumber: this.agent.phoneNumbers?.number != null
+          ? String(this.agent.phoneNumbers.number)
+          : '',
         label: this.agent.label || '',
         state: this.agent.state || 'Activo',
         stability: this.agent.parameters?.stability ?? 0.5,
@@ -888,6 +998,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       },
       { emitEvent: false },
     ); // No emitir eventos al poblar el formulario para evitar validaciones innecesarias
+
+    this.selectedCountryCode =
+      this.agent.phoneNumbers?.countryCode || '+34';
 
     // Establecer las variables de idioma seleccionado
     this.selectedLanguageCode = agentLanguage;
@@ -1675,7 +1788,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           this.isValidatingPhone = true;
           this.phoneIsValid = null;
           this.phoneValidationMessage = '';
-          return this.twilioService.validatePhone(countryCode, number).pipe(
+          const twilioAid =
+            this.twilioPanelSelectedAccount?.twilioAccountId ??
+            this.agentTwilioAccountId ??
+            undefined;
+          return this.twilioService
+            .validatePhone(countryCode, number, twilioAid)
+            .pipe(
             catchError((error) => {
               // Manejar el error y devolver un observable que permita continuar
               console.error('❌ Error al validar teléfono:', error);
