@@ -36,6 +36,8 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
   sourceAdmin: boolean = false;
   /** Si venimos del onboarding de empresa (company-setup) */
   sourceOnboarding: boolean = false;
+  /** Si venimos de Ajustes → Conexiones */
+  sourceAccount: boolean = false;
 
   private userStorage = inject(UserStorage);
   private i18n = inject(I18nService);
@@ -64,6 +66,7 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
     this.agentId = params['agentId'] || null;
     this.sourceAdmin = params['source'] === 'admin';
     this.sourceOnboarding = params['source'] === 'onboarding';
+    this.sourceAccount = params['source'] === 'account';
 
     if (!this.isError) {
       // Recargar el perfil del usuario para asegurar que las tiendas Shopify estén actualizadas
@@ -109,6 +112,15 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
         },
         queryParamsHandling: '',
       });
+    } else if (this.sourceAccount) {
+      this.router.navigate(['/dashboard/account'], {
+        queryParams: {
+          shopify: 'success',
+          shop: this.shop || undefined,
+          tab: 'connections',
+        },
+        queryParamsHandling: '',
+      });
     } else {
       const targetRoute = this.sourceAdmin ? ['/admin'] : ['/dashboard/agents/create'];
       this.router.navigate(targetRoute, {
@@ -137,6 +149,11 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
     } else if (this.sourceOnboarding) {
       this.router.navigate(['/company-setup'], {
         queryParams: { step: 'connectBusiness' },
+        queryParamsHandling: '',
+      });
+    } else if (this.sourceAccount) {
+      this.router.navigate(['/dashboard/account'], {
+        queryParams: { tab: 'connections' },
         queryParamsHandling: '',
       });
     } else {

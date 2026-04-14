@@ -60,6 +60,8 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
 
   /** Si venimos del onboarding de empresa (company-setup) */
   sourceOnboarding: boolean = false;
+  /** Si venimos de Ajustes → Conexiones (cuenta) */
+  sourceAccount: boolean = false;
 
   private i18n = inject(I18nService);
 
@@ -101,6 +103,7 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     this.agentId = this.route.snapshot.queryParams['agentId'] || null;
     this.sourceAdmin = this.route.snapshot.queryParams['source'] === 'admin';
     this.sourceOnboarding = this.route.snapshot.queryParams['source'] === 'onboarding';
+    this.sourceAccount = this.route.snapshot.queryParams['source'] === 'account';
     
     this.loadConnectedStores();
   }
@@ -167,6 +170,10 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
       this.router.navigate(['/company-setup'], {
         queryParams: { step: 'connectBusiness' },
       });
+    } else if (this.sourceAccount) {
+      this.router.navigate(['/dashboard/account'], {
+        queryParams: { tab: 'connections' },
+      });
     } else {
       if (this.sourceAdmin) {
         this.router.navigate(['/admin']);
@@ -230,7 +237,10 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     if (this.sourceOnboarding) {
       params.append('source', 'onboarding');
     }
-    
+    if (this.sourceAccount) {
+      params.append('source', 'account');
+    }
+
     if (params.toString()) {
       successPath += `?${params.toString()}`;
     }

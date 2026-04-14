@@ -973,7 +973,9 @@ export class AccountComponent implements OnInit, OnDestroy {
   }
 
   goToShopifyOnboardingFromAccount(): void {
-    this.router.navigate(['/shopify-onboarding']);
+    this.router.navigate(['/shopify-onboarding'], {
+      queryParams: { source: 'account' },
+    });
   }
 
   toggleMakeConfig(): void {
