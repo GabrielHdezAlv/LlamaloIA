@@ -31,6 +31,7 @@ import { AdminDocsComponent } from './pages/admin-docs/admin-docs.component';
 import { AdminSystemLogsComponent } from './pages/admin-system-logs/admin-system-logs';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ShopifyComponent } from './pages/shopify/shopify.component';
+import { subscriptionPaywallGuard } from './core/guards/subscription-paywall.guard';
 
 export const routes: Routes = [
   {
@@ -100,6 +101,7 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
+    canActivateChild: [subscriptionPaywallGuard],
     children: [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
@@ -129,17 +131,17 @@ export const routes: Routes = [
   {
     path: 'shopify-onboarding',
     component: ShopifyOnboardingComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, subscriptionPaywallGuard],
   },
   {
     path: 'shopify-onboarding/success',
     component: ShopifySuccessComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, subscriptionPaywallGuard],
   },
   {
     path: 'company-setup',
     component: CompanySetupComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, subscriptionPaywallGuard],
   },
   {
     path: 'admin',

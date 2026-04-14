@@ -33,6 +33,14 @@ import {
   type PaidUpgradePlanId,
 } from '../../shared/modals/upgrade-plan-modal/pricing-plan-features';
 
+/** Alineado con backend: suscripción con cobro pendiente o incompleta. */
+const STRIPE_BILLING_BLOCKED_UI = new Set([
+  'past_due',
+  'unpaid',
+  'paused',
+  'incomplete',
+]);
+
 @Component({
   selector: 'app-account',
   standalone: true,
@@ -349,6 +357,13 @@ export class AccountComponent implements OnInit, OnDestroy {
     const q = this.minuteQuotaView();
     if (!q || q.mode === 'unlimited') return false;
     return q.remaining <= 0;
+  });
+
+  /** Pago pendiente en Stripe: mostrar aviso en Facturación. */
+  showStripePaymentPendingBanner = computed(() => {
+    const s = this.user()?.stripeSubscriptionStatus?.trim();
+    if (!s) return false;
+    return STRIPE_BILLING_BLOCKED_UI.has(s);
   });
 
   /** Igual que el dropdown del avatar: prueba activa en plan efectivo gratis. */

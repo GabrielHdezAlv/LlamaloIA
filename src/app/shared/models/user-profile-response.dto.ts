@@ -44,6 +44,8 @@ export interface UserProfileResponseDto {
   };
   stripeCustomerId?: string | null;
   stripeSubscriptionId?: string | null;
+  stripeSubscriptionStatus?: string | null;
+  planSelectionCompleted?: boolean;
   createdAt?: string | null; // Fecha formateada en español (ej: "12 de octubre de 2025, 10:30:45")
   twilio?: TwilioAccount[]; // ⚠️ ACTUALIZADO: ahora es un array
   agent?: {

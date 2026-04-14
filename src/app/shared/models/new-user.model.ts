@@ -22,6 +22,10 @@ export class User {
   /** Cliente Stripe (facturación); si existe, cambios de plan vía Customer Portal */
   stripeCustomerId?: string | null;
   stripeSubscriptionId?: string | null;
+  /** Estado Stripe: trialing, active, past_due, etc. */
+  stripeSubscriptionStatus?: string | null;
+  /** false = debe elegir plan o prueba en el flujo de registro */
+  planSelectionCompleted?: boolean;
   /** Uso vs límites efectivos (API) */
   planUsage?: {
     trialEndsAt: string | null;

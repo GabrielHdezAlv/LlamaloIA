@@ -9,6 +9,12 @@
 
   <div
     class="upgrade-plan-modal__content flex flex-col w-[92%] max-w-[92%] mx-auto md:w-full md:max-w-full max-md:pb-6">
+    @if (isRegistrationMode) {
+      <h2
+        class="text-center text-lg md:text-xl 4xl:text-2xl font-semibold text-gray-900 dark:text-white mb-3 md:mb-4 4xl:mb-6 px-2">
+        {{ t.registrationPlanStepTitle }}
+      </h2>
+    }
     <div class="flex justify-end w-full shrink-0 mb-2 md:mb-3 4xl:mb-4">
       <div
         class="billing-toggle relative inline-flex rounded-full p-[3px] bg-gray-100/95 shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)]"
@@ -127,6 +133,34 @@
       </div>
     }
     </div>
+
+    @if (isRegistrationMode) {
+      <div
+        class="mt-6 md:mt-8 4xl:mt-10 flex flex-col items-center gap-3 border-t border-gray-200 dark:border-gray-700 pt-6 md:pt-8">
+        <button
+          type="button"
+          (click)="chooseFreeTrial($event)"
+          [disabled]="freeTrialLoading || stripeRedirecting || cancelLoading"
+          class="w-full max-w-md rounded-2xl font-semibold py-3.5 px-4 text-sm md:text-base 4xl:text-lg bg-[#1B2559] text-white hover:opacity-95 disabled:opacity-60 transition-colors">
+          @if (freeTrialLoading) {
+            <span>…</span>
+          } @else {
+            {{ t.registrationFreeTrialCta }}
+          }
+        </button>
+        <button
+          type="button"
+          (click)="cancelRegistration()"
+          [disabled]="cancelLoading || freeTrialLoading || stripeRedirecting"
+          class="text-sm text-gray-600 dark:text-gray-400 hover:underline disabled:opacity-50">
+          @if (cancelLoading) {
+            <span>…</span>
+          } @else {
+            {{ t.registrationCancelCta }}
+          }
+        </button>
+      </div>
+    }
   </div>
 
   <p class="block text-center text-sm 4xl:text-lg text-black dark:text-white mt-8 mb-4 max-md:mb-5 4xl:mt-12">

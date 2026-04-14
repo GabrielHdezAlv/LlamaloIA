@@ -52,7 +52,10 @@ import {
   TextModalComponent,
   TextModalData,
 } from './text-modal/text-modal.component';
-import { UpgradePlanModalComponent } from './upgrade-plan-modal/upgrade-plan-modal.component';
+import {
+  UpgradePlanModalComponent,
+  type UpgradePlanModalData,
+} from './upgrade-plan-modal/upgrade-plan-modal.component';
 import {
   PlanUpgradeCelebrationModalComponent,
   PlanUpgradeCelebrationModalData,
@@ -224,6 +227,41 @@ export class ModalService {
       maxWidth: '95vw',
       // El cierre animado lo gestiona el componente (backdrop / Escape / X).
       disableClose: true,
+      panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
+      ...this.dialogMotion,
+    });
+  }
+
+  /** Trial expirado o pago pendiente: mismo modal de precios, no cerrable, id único para no duplicar. */
+  openUpgradePlanPaywall() {
+    const existing = this.dialog.openDialogs.find((d) => d.id === 'subscription-paywall');
+    if (existing) {
+      return existing;
+    }
+    return this.dialog.open(UpgradePlanModalComponent, {
+      id: 'subscription-paywall',
+      width: '880px',
+      maxWidth: '95vw',
+      disableClose: true,
+      panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
+      ...this.dialogMotion,
+    });
+  }
+
+  /** Tras registro: elegir plan de pago o prueba gratuita (no se puede omitir). */
+  openRegistrationPlanGate(data: UpgradePlanModalData = { mode: 'registration' }) {
+    const existing = this.dialog.openDialogs.find(
+      (d) => d.id === 'registration-plan-gate',
+    );
+    if (existing) {
+      return existing;
+    }
+    return this.dialog.open(UpgradePlanModalComponent, {
+      id: 'registration-plan-gate',
+      width: '880px',
+      maxWidth: '95vw',
+      disableClose: true,
+      data,
       panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
       ...this.dialogMotion,
     });

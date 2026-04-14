@@ -367,6 +367,13 @@ export interface Translations {
   stripeNoCustomerYet: string;
   stripeBillingUpdated: string;
   stripeCheckoutCancelled: string;
+  /** Facturación pendiente (pago fallido / trial sin tarjeta) */
+  stripePaymentPendingTitle: string;
+  stripePaymentPendingDesc: string;
+  /** Paso de registro: elegir plan o prueba */
+  registrationPlanStepTitle: string;
+  registrationFreeTrialCta: string;
+  registrationCancelCta: string;
 
   protectedByStripe: string;
 
@@ -1270,6 +1277,12 @@ export class I18nService {
         'Aún no tienes suscripción de pago. Elige un plan en «Mejorar plan».',
       stripeBillingUpdated: 'Datos de suscripción actualizados.',
       stripeCheckoutCancelled: 'Pago cancelado. Puedes intentarlo cuando quieras.',
+      stripePaymentPendingTitle: 'Pago pendiente de tu suscripción',
+      stripePaymentPendingDesc:
+        'Actualiza tu método de pago en el portal de facturación para seguir usando la plataforma.',
+      registrationPlanStepTitle: 'Elige cómo quieres empezar',
+      registrationFreeTrialCta: 'Continuar con prueba gratuita (7 días)',
+      registrationCancelCta: 'Cancelar registro y salir',
       protectedByStripe: 'Protegido por Stripe',
 
       // Delete account modal
@@ -2169,6 +2182,12 @@ export class I18nService {
         'You do not have an active paid subscription yet. Choose a plan under Upgrade.',
       stripeBillingUpdated: 'Subscription details updated.',
       stripeCheckoutCancelled: 'Payment cancelled. You can try again anytime.',
+      stripePaymentPendingTitle: 'Subscription payment pending',
+      stripePaymentPendingDesc:
+        'Update your payment method in the billing portal to keep using the platform.',
+      registrationPlanStepTitle: 'Choose how to get started',
+      registrationFreeTrialCta: 'Continue with 7-day free trial',
+      registrationCancelCta: 'Cancel sign-up and exit',
       protectedByStripe: 'Protected by Stripe',
 
       // Delete account modal

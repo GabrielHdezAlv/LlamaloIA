@@ -8,7 +8,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -21,6 +25,8 @@ import {
 import { StripeService } from '../../../core/services/stripe.service';
 import { UserStorage } from '../../../storages/user/user-storage';
 import { NotificationService } from '../../../core/services/notification.service';
+import { UserService } from '../../../core/services/user.service';
+import { AuthSessionService } from '../../../core/services/auth-session.service';
 
 /** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.45s). */
 const UPGRADE_MODAL_CLOSE_MS = 500;
@@ -31,6 +37,10 @@ const PLAN_PRICE_KEYS = {
   growth: { monthly: '79', annualPerMonth: '66' },
   scale: { monthly: '169', annualPerMonth: '141' },
 } as const;
+
+export interface UpgradePlanModalData {
+  mode?: 'registration';
+}
 
 @Component({
   selector: 'app-upgrade-plan-modal',
@@ -44,37 +54,60 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
   private stripeService = inject(StripeService);
   private userStore = inject(UserStorage);
   private notificationService = inject(NotificationService);
+  private userService = inject(UserService);
+  private authSession = inject(AuthSessionService);
   private platformId = inject(PLATFORM_ID);
+  readonly dialogData = inject(MAT_DIALOG_DATA, {
+    optional: true,
+  }) as UpgradePlanModalData | undefined;
   dialogRef = inject(MatDialogRef<UpgradePlanModalComponent>);
   private readonly destroy$ = new Subject<void>();
   private readonly modalShell = viewChild<ElementRef<HTMLElement>>('modalShell');
   showCloseButton = false;
   private closing = false;
   stripeRedirecting = false;
+  freeTrialLoading = false;
+  cancelLoading = false;
   /** false = precios mensuales (29 / 79 / 169); true = facturación anual con total anual destacado. */
   billingAnnual = false;
 
+  get isRegistrationMode(): boolean {
+    return this.dialogData?.mode === 'registration';
+  }
+
   ngOnInit(): void {
     document.body.classList.add('upgrade-plan-modal-open');
-    setTimeout(() => {
-      this.showCloseButton = true;
-    }, 200);
+    if (!this.isRegistrationMode) {
+      setTimeout(() => {
+        this.showCloseButton = true;
+      }, 200);
+    }
 
     this.dialogRef
       .backdropClick()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.closeWithAnimation());
+      .subscribe(() => {
+        if (this.isRegistrationMode) {
+          void this.cancelRegistration();
+        } else {
+          this.closeWithAnimation();
+        }
+      });
 
     this.dialogRef
       .keydownEvents()
       .pipe(
         takeUntil(this.destroy$),
-        filter((e): e is KeyboardEvent => e.key === 'Escape')
+        filter((e): e is KeyboardEvent => e.key === 'Escape'),
       )
       .subscribe((e) => {
         e.preventDefault();
         e.stopPropagation();
-        this.closeWithAnimation();
+        if (this.isRegistrationMode) {
+          void this.cancelRegistration();
+        } else {
+          this.closeWithAnimation();
+        }
       });
   }
 
@@ -128,7 +161,51 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
+    if (this.isRegistrationMode) {
+      void this.cancelRegistration();
+      return;
+    }
     this.closeWithAnimation();
+  }
+
+  async chooseFreeTrial(event: Event): Promise<void> {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.closing || this.freeTrialLoading || this.stripeRedirecting) {
+      return;
+    }
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    this.freeTrialLoading = true;
+    try {
+      await firstValueFrom(this.userService.completePlanSelectionAfterRegister());
+      await this.userStore.loadUserProfile();
+      this.dialogRef.close('email_next');
+    } catch {
+      this.notificationService.error(this.t.stripeBillingError);
+    } finally {
+      this.freeTrialLoading = false;
+    }
+  }
+
+  async cancelRegistration(): Promise<void> {
+    if (this.cancelLoading || this.closing) {
+      return;
+    }
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    this.cancelLoading = true;
+    try {
+      await firstValueFrom(this.userService.cancelIncompleteRegistration());
+      this.dialogRef.close('aborted');
+      this.authSession.signOutAndReload();
+    } catch {
+      this.notificationService.error(this.t.stripeBillingError);
+    } finally {
+      this.cancelLoading = false;
+    }
   }
 
   async onChoosePlan(planId: PaidUpgradePlanId, event: Event): Promise<void> {

@@ -1,4 +1,11 @@
-<div class="dashboard flex flex-col xl:flex-row xl:max-h-screen overflow-y-hidden">
+<div class="dashboard flex flex-col xl:flex-row xl:max-h-screen overflow-y-hidden relative">
+  @if (registrationPlanGateActive() || subscriptionPaywallActive()) {
+    <div
+      class="fixed inset-0 z-[998] bg-black/35 pointer-events-auto touch-none dark:bg-black/50"
+      aria-hidden="true"
+    ></div>
+  }
+
   <!-- Sidebar Desktop (solo visible en xl) -->
   <div
     [class]="'hidden xl:block w-full xl:overflow-visible p-0 h-screen bg-white transition-all duration-500 ease-in-out flex-shrink-0 dark:bg-slate-900 ' + (isNavCollapsed ? 'xl:w-12 3xl:w-16' : 'xl:w-[12rem] 2xl:w-[12rem] 3xl:w-[14rem]')">
@@ -145,8 +152,10 @@
     <topbar></topbar>
     <router-outlet></router-outlet>
   </div>
-<!-- Componente de configuración inicial de empresa -->
-<app-company-setup></app-company-setup>
+<!-- Componente de configuración inicial de empresa (no durante paywall forzado) -->
+@if (!registrationPlanGateActive() && !subscriptionPaywallActive()) {
+  <app-company-setup></app-company-setup>
+}
 
 <!-- Modal de recordatorio para usuarios inactivos -->
 <div *ngIf="showInactiveReminderModal"

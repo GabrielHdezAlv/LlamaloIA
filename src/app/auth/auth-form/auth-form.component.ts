@@ -352,20 +352,26 @@ export class AuthFormComponent implements OnInit {
           });
           this.firebaseTokenRefresh.start();
         }
-        if (res?.verificationEmailSent === false) {
-          this.notificationService.warning(
-            'No pudimos enviar el correo de verificación. Usa «Reenviar código» en la ventana que se abre o revisa la carpeta de spam. Si el problema continúa, contacta con soporte.',
-          );
-        } else {
-          this.notificationService.info(
-            'Revisa tu correo para el código de verificación.',
-          );
-        }
         setTimeout(() => {
-          if (isPlatformBrowser(this.platformId)) {
-            this.modalService.openEmailVerification({ email: this.email });
+          if (!isPlatformBrowser(this.platformId)) {
+            return;
           }
-        }, 600);
+          const ref = this.modalService.openRegistrationPlanGate();
+          ref.afterClosed().subscribe((result: string | undefined) => {
+            if (result === 'email_next') {
+              if (res?.verificationEmailSent === false) {
+                this.notificationService.warning(
+                  'No pudimos enviar el correo de verificación. Usa «Reenviar código» en la ventana que se abre o revisa la carpeta de spam. Si el problema continúa, contacta con soporte.',
+                );
+              } else {
+                this.notificationService.info(
+                  'Revisa tu correo para el código de verificación.',
+                );
+              }
+              this.modalService.openEmailVerification({ email: this.email });
+            }
+          });
+        }, 400);
       },
       error: (err) => {
         this.notificationService.error(this.t.authErrorRegister);

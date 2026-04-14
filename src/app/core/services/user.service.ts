@@ -135,6 +135,23 @@ export class UserService {
     });
   }
 
+  /** Tras registro: confirma elección de prueba gratuita (7 días) antes del onboarding. */
+  completePlanSelectionAfterRegister(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiUrl}/auth/register/complete-plan-selection`,
+      {},
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  /** Cancela cuenta creada si aún no eligió plan ni prueba (registro incompleto). */
+  cancelIncompleteRegistration(): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${this.apiUrl}/auth/register/cancel`,
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
   /** Solicitud de enlace para restablecer contraseña (sin sesión). */
   requestPasswordReset(email: string): Observable<{ message?: string }> {
     return this.http.post<{ message?: string }>(

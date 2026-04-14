@@ -23,6 +23,7 @@ import { AgentsService } from '../../core/services/agents.service';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 import { planDisplayLabelFromTranslations } from '../../shared/utils/plan-display.util';
+import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 import { ModalService } from '../../shared/modals/modal.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
@@ -836,7 +837,13 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.notificationService.info(this.t.stripeCheckoutCancelled);
         }
         if (hasPricing) {
-          setTimeout(() => this.modalService.openUpgradePlan(), 0);
+          setTimeout(() => {
+            if (requiresSubscriptionPaywall(this.userStorage.user())) {
+              this.modalService.openUpgradePlanPaywall();
+            } else {
+              this.modalService.openUpgradePlan();
+            }
+          }, 0);
         }
         void this.router.navigate([], {
           relativeTo: this.route,

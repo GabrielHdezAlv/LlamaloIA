@@ -8,7 +8,10 @@ import {
   PLATFORM_ID,
   computed,
   inject,
+  effect,
+  untracked,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavComponent } from '../../layout/nav/nav.component';
@@ -23,6 +26,8 @@ import { I18nService, Language } from '../../core/services/i18n.service';
 import { NavigationService } from '../../core/services/navigation.service';
 import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
 import { AuthSessionService } from '../../core/services/auth-session.service';
+import { ModalService } from '../../shared/modals/modal.service';
+import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -83,6 +88,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   private router = inject(Router);
   public i18nService = inject(I18nService);
   private navigationService = inject(NavigationService);
+  private modalService = inject(ModalService);
+  private matDialog = inject(MatDialog);
+
+  /** Trial agotado o pago Stripe pendiente: bloquear UI y mostrar solo modal de precios. */
+  subscriptionPaywallActive = computed(() =>
+    requiresSubscriptionPaywall(this.userStorage.user()),
+  );
+
+  /** Pendiente elegir plan o prueba tras registro (solo `false` explícito en API). */
+  registrationPlanGateActive = computed(() => {
+    const u = this.userStorage.user();
+    return u?.planSelectionCompleted === false;
+  });
 
   // Dropdown del perfil
   showDropdown = false;
@@ -98,7 +116,54 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(
     private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      effect((onCleanup) => {
+        this.registrationPlanGateActive();
+        this.subscriptionPaywallActive();
+        untracked(() => {
+          const needReg = this.registrationPlanGateActive();
+          const needPay = this.subscriptionPaywallActive();
+          if (needReg) {
+            document.body.style.overflow = 'hidden';
+            this.matDialog.openDialogs
+              .find((r) => r.id === 'subscription-paywall')
+              ?.close();
+            if (
+              !this.matDialog.openDialogs.some(
+                (r) => r.id === 'registration-plan-gate',
+              )
+            ) {
+              this.modalService.openRegistrationPlanGate();
+            }
+          } else if (needPay) {
+            document.body.style.overflow = 'hidden';
+            this.matDialog.openDialogs
+              .find((r) => r.id === 'registration-plan-gate')
+              ?.close();
+            if (
+              !this.matDialog.openDialogs.some(
+                (r) => r.id === 'subscription-paywall',
+              )
+            ) {
+              this.modalService.openUpgradePlanPaywall();
+            }
+          } else {
+            document.body.style.removeProperty('overflow');
+            this.matDialog.openDialogs
+              .find((r) => r.id === 'registration-plan-gate')
+              ?.close();
+            this.matDialog.openDialogs
+              .find((r) => r.id === 'subscription-paywall')
+              ?.close();
+          }
+        });
+        onCleanup(() => {
+          document.body.style.removeProperty('overflow');
+        });
+      });
+    }
+  }
 
   async ngOnInit() {
     // Lógica que depende de window / documento (solo en navegador)
@@ -297,7 +362,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     // Verificar si el usuario ya completó el onboarding
     const user = this.userStorage.user();
-    if (user && user.hasCompletedSetup === false) {
+    if (
+      user &&
+      user.hasCompletedSetup === false &&
+      user.planSelectionCompleted !== false &&
+      !requiresSubscriptionPaywall(user)
+    ) {
       this.showCompanySetup = true;
       if (this.companySetupComponent) {
         this.companySetupComponent.isSetupActive = true;
