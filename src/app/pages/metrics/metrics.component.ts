@@ -59,11 +59,6 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return pa?.tier ?? 'basic';
   }
 
-  /** Starter: panel resumido; Growth/Scale: bloques avanzados. */
-  get showAdvancedPanelMetrics(): boolean {
-    return this.panelTier !== 'basic';
-  }
-
   /** Solo Scale (exportación CSV en catálogo). */
   get canExportCsv(): boolean {
     const pa =
@@ -73,11 +68,10 @@ export class MetricsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Aviso de panel resumido (plan Starter): solo cuando la API ya devolvió
-   * `panel_analytics.tier === 'basic'`. Si no hay datos aún, el getter anterior
-   * asumía 'basic' y el banner parpadeaba al entrar/salir de Métricas.
+   * Plan Starter (tier `basic` en panel_analytics): se muestran todas las tarjetas;
+   * horas pico, países, evaluación de éxito y razón de finalización van atenuadas.
    */
-  get showMetricsBasicPanelBanner(): boolean {
+  get isStarterMetricsTier(): boolean {
     const pa =
       this.dashboardMetrics?.panel_analytics ??
       this.detailedMetrics?.panel_analytics;

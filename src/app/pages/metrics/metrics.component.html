@@ -433,14 +433,7 @@
         </div>
       </div>
 
-      <div
-        *ngIf="showMetricsBasicPanelBanner"
-        class="mb-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-100"
-      >
-        {{ t.metricsPanelBasicHint }}
-      </div>
-
-      <ng-container *ngIf="showAdvancedPanelMetrics">
+      <ng-container>
       <!-- Row 2 -->
       <div
         class="metrics-section-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1.5 3xl:gap-4 max-lg:!gap-3 lg:gap-2.5 3xl:lg:gap-6 mb-0 lg:mb-4 3xl:mb-6"
@@ -741,7 +734,7 @@
           [class.fade-in-visible]="showHorasPico"
         >
           <!-- {{ t.title }} -->
-          <div class="flex items-center justify-between mb-3 max-lg:mb-2">
+          <div class="flex shrink-0 items-center justify-between mb-3 max-lg:mb-2">
             <h3
               class="font-semibold text-gray-800 text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm 4xl:text-lg tracking-[-0.7px] dark:text-slate-50"
             >
@@ -749,6 +742,11 @@
             </h3>
           </div>
 
+          <div class="relative flex min-h-0 flex-1 flex-col">
+            <div
+              class="flex min-h-0 flex-1 flex-col"
+              [class.metrics-plan-locked-blur-region]="isStarterMetricsTier"
+            >
           <!-- {{ t.daysOfWeek }} -->
           <div class="flex gap-1 max-lg:gap-0.5 mb-3 max-lg:mb-2 w-full">
             <button
@@ -857,6 +855,17 @@
               </div>
             </div>
           </ng-template>
+            </div>
+            <div
+              *ngIf="isStarterMetricsTier"
+              class="metrics-plan-locked-overlay"
+              aria-hidden="true"
+            >
+              <p class="metrics-plan-locked-overlay-text">
+                {{ t.metricsUpgradePlanMessage }}
+              </p>
+            </div>
+          </div>
         </div>
 
         <!-- {{ t.countriesMovedFromOriginal }} -->
@@ -865,10 +874,15 @@
           [class.fade-in-visible]="showPaises"
         >
           <h3
-            class="font-semibold text-gray-800 mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-3 lg:mb-2 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50"
+            class="shrink-0 font-semibold text-gray-800 mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-3 lg:mb-2 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50"
           >
             {{ t.countries }}
           </h3>
+          <div class="relative flex min-h-0 flex-1 flex-col">
+            <div
+              class="flex min-h-0 flex-1 flex-col"
+              [class.metrics-plan-locked-blur-region]="isStarterMetricsTier"
+            >
           <!-- Si hay países, mostramos la lista; si no, mensaje centrado -->
           <div
             *ngIf="countries && countries.length > 0; else noCountries"
@@ -923,6 +937,17 @@
               </div>
             </div>
           </ng-template>
+            </div>
+            <div
+              *ngIf="isStarterMetricsTier"
+              class="metrics-plan-locked-overlay"
+              aria-hidden="true"
+            >
+              <p class="metrics-plan-locked-overlay-text">
+                {{ t.metricsUpgradePlanMessage }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -949,8 +974,10 @@
               {{ t.thisMonth }}
             </span>
           </div>
+          <div class="relative flex min-h-0 flex-1 flex-col">
           <div
             class="min-h-0 flex-1 overflow-y-auto overscroll-y-contain space-y-2.5 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4"
+            [class.metrics-plan-locked-blur-region]="isStarterMetricsTier"
           >
             <div
               *ngFor="let item of successEvaluation; let i = index"
@@ -980,6 +1007,16 @@
               </div>
             </div>
           </div>
+          <div
+            *ngIf="isStarterMetricsTier"
+            class="metrics-plan-locked-overlay"
+            aria-hidden="true"
+          >
+            <p class="metrics-plan-locked-overlay-text">
+              {{ t.metricsUpgradePlanMessage }}
+            </p>
+          </div>
+          </div>
         </div>
 
         <!-- {{ t.callCompletionReason }} -->
@@ -1001,8 +1038,10 @@
               {{ t.thisMonth }}
             </span>
           </div>
+          <div class="relative flex min-h-0 flex-1 flex-col">
           <div
             class="min-h-0 flex-1 overflow-y-auto overscroll-y-contain max-lg:flex-none max-lg:overflow-visible space-y-2.5 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4"
+            [class.metrics-plan-locked-blur-region]="isStarterMetricsTier"
           >
             <div
               *ngFor="let item of callCompletionReasons; let i = index"
@@ -1031,6 +1070,16 @@
                 ></div>
               </div>
             </div>
+          </div>
+          <div
+            *ngIf="isStarterMetricsTier"
+            class="metrics-plan-locked-overlay"
+            aria-hidden="true"
+          >
+            <p class="metrics-plan-locked-overlay-text">
+              {{ t.metricsUpgradePlanMessage }}
+            </p>
+          </div>
           </div>
         </div>
       </div>

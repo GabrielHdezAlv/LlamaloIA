@@ -282,3 +282,55 @@ apx-chart {
     margin-bottom: 0.75rem;
   }
 }
+
+/* Plan Starter: cuerpo de métrica difuminado (el título queda fuera, legible) */
+.metrics-plan-locked-blur-region {
+  filter: blur(5px);
+  opacity: 0.52;
+  pointer-events: none;
+  user-select: none;
+  transition:
+    filter 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.metrics-plan-locked-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 0.5rem;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.45)
+  );
+}
+
+:host-context(.dark) .metrics-plan-locked-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 23, 42, 0.2),
+    rgba(15, 23, 42, 0.62)
+  );
+}
+
+.metrics-plan-locked-overlay-text {
+  margin: 0;
+  max-width: 14rem;
+  text-align: center;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: #1e3a5f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+:host-context(.dark) .metrics-plan-locked-overlay-text {
+  color: #e2e8f0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}

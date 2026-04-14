@@ -353,6 +353,8 @@ export interface Translations {
   planLimitModalTitle: string;
   planLimitModalCta: string;
   metricsPanelBasicHint: string;
+  /** Mensaje sobre métricas atenuadas por plan (Starter) */
+  metricsUpgradePlanMessage: string;
   metricsExportCsvButton: string;
   trialBannerUpgrade: string;
   cancelSubscription: string;
@@ -1234,6 +1236,7 @@ export class I18nService {
       planLimitModalCta: 'Ver planes y suscripción',
       metricsPanelBasicHint:
         'Estás viendo el panel resumido de tu plan. Los análisis avanzados (latencia, países, horas pico, etc.) están disponibles desde Growth.',
+      metricsUpgradePlanMessage: 'Mejora el plan para ver estas métricas',
       metricsExportCsvButton: 'Exportar CSV',
       trialBannerUpgrade: 'Mejorar plan',
       cancelSubscription: 'Cancelar suscripción',
@@ -2117,6 +2120,7 @@ export class I18nService {
       planLimitModalCta: 'View plans and billing',
       metricsPanelBasicHint:
         'You are viewing the summary dashboard for your plan. Advanced analytics (latency, countries, peak hours, etc.) are available from Growth.',
+      metricsUpgradePlanMessage: 'Upgrade your plan to see these metrics',
       metricsExportCsvButton: 'Export CSV',
       trialBannerUpgrade: 'Upgrade plan',
       cancelSubscription: 'Cancel subscription',
