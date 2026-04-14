@@ -784,9 +784,8 @@ export interface Translations {
   upgradePlanGrowthDesc: string;
   upgradePlanScaleDesc: string;
   upgradePlanStarterButton: string;
-  /** CTA secundarios Starter: trial Stripe vs pago mensual (solo UI; el API usa starterMode). */
-  upgradePlanStarterTrialCta: string;
-  upgradePlanStarterPayCta: string;
+  /** Bajo el botón de pago Starter: enlace a checkout con trial en Stripe. */
+  upgradePlanStarterTrialTextLink: string;
   upgradePlanGrowthButton: string;
   upgradePlanScaleButton: string;
   pricingFeatureIncludedMinutes: string;
@@ -1696,8 +1695,7 @@ export class I18nService {
       upgradePlanGrowthDesc: 'Más minutos y capacidad para equipos en crecimiento.',
       upgradePlanScaleDesc: 'Escala máxima y capacidad\nSoporte dedicado.',
       upgradePlanStarterButton: 'Elegir Starter',
-      upgradePlanStarterTrialCta: 'Probar 7 días gratis',
-      upgradePlanStarterPayCta: 'Pagar mensualidad ahora',
+      upgradePlanStarterTrialTextLink: 'o probar 7 días gratis',
       upgradePlanGrowthButton: 'Elegir Growth',
       upgradePlanScaleButton: 'Elegir Scale',
       pricingFeatureIncludedMinutes: 'Minutos incluidos',
@@ -2600,8 +2598,7 @@ export class I18nService {
       upgradePlanGrowthDesc: 'More minutes and room for growing teams.',
       upgradePlanScaleDesc: 'Max scale & capacity\nDedicated support.',
       upgradePlanStarterButton: 'Choose Starter',
-      upgradePlanStarterTrialCta: 'Try free for 7 days',
-      upgradePlanStarterPayCta: 'Pay monthly now',
+      upgradePlanStarterTrialTextLink: 'or try free for 7 days',
       upgradePlanGrowthButton: 'Choose Growth',
       upgradePlanScaleButton: 'Choose Scale',
       pricingFeatureIncludedMinutes: 'Included minutes',
