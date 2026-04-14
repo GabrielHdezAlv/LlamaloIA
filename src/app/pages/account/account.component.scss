@@ -240,3 +240,25 @@
   opacity: 0;
   animation: none;
 }
+
+/* 4xl: contenido de las 5 secciones (Perfil, Seguridad, Facturación, Regalos, Conexiones) un poco más grande */
+@media (min-width: 2500px) {
+  .account-settings .account-section {
+    input:not([type='checkbox']):not([type='radio']),
+    select,
+    textarea {
+      font-size: 1rem !important;
+    }
+
+    label.block,
+    label.absolute {
+      font-size: 0.9375rem !important;
+    }
+
+    /* Párrafos de ayuda / descripciones (sin tocar botones app-ripple) */
+    > p,
+    > div > p {
+      font-size: 1.0625rem;
+    }
+  }
+}

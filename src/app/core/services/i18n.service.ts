@@ -624,6 +624,19 @@ export interface Translations {
   connectNewAccount: string;
   /** Shopify en Cuenta: mismo texto que conectar otra cuenta, sin prefijo «+» */
   shopifyConnectAnotherAccount: string;
+  /** Cuenta → Conexiones: botón que abre el panel de tiendas Shopify */
+  shopifyManageConnectionBtn: string;
+  /** Resumen cuando hay varias tiendas en subtítulo */
+  shopifyConnectedSummaryManySuffix: string;
+  /** Lista desplegable: encabezado sobre las tiendas */
+  shopifyConnectedAccountsHeading: string;
+  shopifyDisconnectConfirmTitle: string;
+  /** Usa {{shop}} para el dominio */
+  shopifyDisconnectConfirmMessage: string;
+  /** Texto del botón principal en el modal de desvincular */
+  shopifyDisconnectConfirmAction: string;
+  shopifyDisconnectedSuccess: string;
+  shopifyDisconnectError: string;
   testAgentTitle: string;
   talkToAgentDescription: string;
   remainingTime: string;
@@ -1511,6 +1524,15 @@ export class I18nService {
       availableNumbers: 'Números disponibles',
       connectNewAccount: '+ Conectar nueva cuenta',
       shopifyConnectAnotherAccount: 'Conectar nueva cuenta',
+      shopifyManageConnectionBtn: 'Gestionar',
+      shopifyConnectedSummaryManySuffix: 'tiendas conectadas',
+      shopifyConnectedAccountsHeading: 'Tiendas conectadas',
+      shopifyDisconnectConfirmTitle: 'Desvincular tienda Shopify',
+      shopifyDisconnectConfirmMessage:
+        '¿Seguro que quieres desvincular la tienda {{shop}}? Los agentes que la usen dejarán de sincronizar con esa tienda hasta que vuelvas a conectarla.',
+      shopifyDisconnectConfirmAction: 'Desvincular',
+      shopifyDisconnectedSuccess: 'Tienda Shopify desvinculada.',
+      shopifyDisconnectError: 'No se pudo desvincular la tienda. Inténtalo de nuevo.',
       testAgentTitle: 'Prueba de agente',
       talkToAgentDescription: 'Habla con tu agente para verificar su voz, idioma e instrucciones antes de crear.',
       remainingTime: 'restantes',
@@ -2394,6 +2416,15 @@ export class I18nService {
       availableNumbers: 'Available numbers',
       connectNewAccount: '+ Connect new account',
       shopifyConnectAnotherAccount: 'Connect new account',
+      shopifyManageConnectionBtn: 'Manage',
+      shopifyConnectedSummaryManySuffix: 'connected stores',
+      shopifyConnectedAccountsHeading: 'Connected stores',
+      shopifyDisconnectConfirmTitle: 'Disconnect Shopify store',
+      shopifyDisconnectConfirmMessage:
+        'Are you sure you want to disconnect {{shop}}? Agents using it will stop syncing with that store until you connect it again.',
+      shopifyDisconnectConfirmAction: 'Disconnect',
+      shopifyDisconnectedSuccess: 'Shopify store disconnected.',
+      shopifyDisconnectError: 'Could not disconnect the store. Please try again.',
       testAgentTitle: 'Agent test',
       talkToAgentDescription: 'Talk to your agent to verify its voice, language and instructions before creating.',
       remainingTime: 'remaining',

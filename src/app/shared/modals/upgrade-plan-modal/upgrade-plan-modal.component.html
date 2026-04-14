@@ -1,15 +1,15 @@
 <div #modalShell
-  class="upgrade-plan-modal upgrade-plan-modal--spaced min-h-0 max-h-[94vh] max-md:max-h-[min(calc(100dvh-28px),calc(100svh-28px))] max-md:min-h-[min(calc(96dvh-28px),calc(100svh-28px))] overflow-y-auto relative">
+  class="upgrade-plan-modal upgrade-plan-modal--spaced min-h-0 max-h-[94vh] 4xl:max-h-[96vh] max-md:max-h-[min(calc(100dvh-28px),calc(100svh-28px))] max-md:min-h-[min(calc(96dvh-28px),calc(100svh-28px))] overflow-y-auto relative">
   <button *ngIf="showCloseButton" type="button" (click)="close()"
-    class="absolute top-3 right-3 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white transition-colors">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+    class="absolute top-3 right-3 z-10 p-2 4xl:top-5 4xl:right-5 4xl:p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white transition-colors">
+    <svg class="w-4 h-4 4xl:w-6 4xl:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
   </button>
 
   <div
     class="upgrade-plan-modal__content flex flex-col w-[92%] max-w-[92%] mx-auto md:w-full md:max-w-full max-md:pb-6">
-    <div class="flex justify-end w-full shrink-0 mb-2 md:mb-3">
+    <div class="flex justify-end w-full shrink-0 mb-2 md:mb-3 4xl:mb-4">
       <div
         class="billing-toggle relative inline-flex rounded-full p-[3px] bg-gray-100/95 shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)]"
         role="group"
@@ -33,36 +33,36 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 items-stretch">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 4xl:gap-12 items-stretch">
     @for (plan of pricingPlans; track plan.id; let i = $index) {
       <div [style.animation-delay]="(i * 120) + 'ms'"
-        [class]="'plan-card-fade-in flex flex-col h-full rounded-3xl p-0.5 border shadow-lg transition-all duration-300 min-h-[24rem] md:min-h-0 ' +
+        [class]="'plan-card-fade-in flex flex-col h-full rounded-3xl p-0.5 border shadow-lg transition-all duration-300 min-h-[24rem] md:min-h-0 4xl:min-h-[33rem] ' +
         (plan.highlighted
           ? 'plan-card-pro plan-pro-glow bg-[#151515] dark:bg-white border-transparent dark:border-gray-200'
           : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')">
 
-        <div [class]="'rounded-3xl flex flex-col h-fit p-4 sm:p-5 ' +
+        <div [class]="'rounded-3xl flex flex-col h-fit p-4 sm:p-5 4xl:p-9 ' +
           (plan.highlighted ? 'bg-[#222222] dark:bg-[#dddddd]' : 'bg-gray-50 dark:bg-[#222222]')">
-          <div [class]="'mb-3 ' + (plan.highlighted ? 'min-h-[3.5rem]' : 'min-h-[4.75rem]')">
-            <h3 [class]="'mb-1 ' + (plan.highlighted ? 'font-semibold text-lg md:text-xl text-white dark:text-[#000001]' : 'font-medium text-xl text-black dark:text-white')">
+          <div [class]="'mb-3 4xl:mb-5 ' + (plan.highlighted ? 'min-h-[3.5rem] 4xl:min-h-[4.5rem]' : 'min-h-[4.75rem] 4xl:min-h-[5.75rem]')">
+            <h3 [class]="'mb-1 ' + (plan.highlighted ? 'font-semibold text-lg md:text-xl 4xl:text-3xl text-white dark:text-[#000001]' : 'font-medium text-xl 4xl:text-3xl text-black dark:text-white')">
               {{ plan.name }}
             </h3>
             <p
-              [class]="'leading-snug ' + (plan.highlighted ? 'font-normal text-[11px] md:text-xs text-gray-400 dark:text-[#000001]/70' : 'font-normal text-xs md:text-sm text-gray-500 dark:text-gray-400') + (plan.id === 'scale' ? ' whitespace-pre-line' : '')">
+              [class]="'leading-snug ' + (plan.highlighted ? 'font-normal text-[11px] md:text-xs 4xl:text-base text-gray-400 dark:text-[#000001]/70' : 'font-normal text-xs md:text-sm 4xl:text-lg text-gray-500 dark:text-gray-400') + (plan.id === 'scale' ? ' whitespace-pre-line' : '')">
               {{ plan.description }}
             </p>
           </div>
 
           <div
-            class="relative mb-5 min-h-[2.75rem] plan-price-crossfade"
+            class="relative mb-5 min-h-[2.75rem] 4xl:mb-6 4xl:min-h-[3.5rem] plan-price-crossfade"
             [class.plan-price-crossfade--annual]="billingAnnual">
             <!-- Mensual: 29 / 79 / 169 € -->
             <div class="plan-price-crossfade__layer plan-price-crossfade__layer--monthly">
               <div class="flex items-baseline gap-1.5 flex-wrap">
-                <span [class]="'font-semibold tracking-tight ' + (plan.highlighted ? 'text-2xl md:text-3xl text-white dark:text-[#000001]' : 'text-2xl text-black dark:text-white')">
+                <span [class]="'font-semibold tracking-tight ' + (plan.highlighted ? 'text-2xl md:text-3xl 4xl:text-5xl text-white dark:text-[#000001]' : 'text-2xl 4xl:text-4xl text-black dark:text-white')">
                   {{ plan.priceMonthly }}&nbsp;€
                 </span>
-                <span [class]="'font-normal ml-1 ' + (plan.highlighted ? 'text-[11px] text-white dark:text-[#000001]' : 'text-xs text-gray-400 dark:text-gray-500')">
+                <span [class]="'font-normal ml-1 ' + (plan.highlighted ? 'text-[11px] 4xl:text-base text-white dark:text-[#000001]' : 'text-xs 4xl:text-base text-gray-400 dark:text-gray-500')">
                   {{ t.pricingPerMonthLabel }}
                 </span>
               </div>
@@ -70,10 +70,10 @@
             <!-- Anual: 24 / 66 / 141 € (mismo tamaño, plan facturado al año) -->
             <div class="plan-price-crossfade__layer plan-price-crossfade__layer--annual">
               <div class="flex items-baseline gap-1.5 flex-wrap">
-                <span [class]="'font-semibold tracking-tight ' + (plan.highlighted ? 'text-2xl md:text-3xl text-white dark:text-[#000001]' : 'text-2xl text-black dark:text-white')">
+                <span [class]="'font-semibold tracking-tight ' + (plan.highlighted ? 'text-2xl md:text-3xl 4xl:text-5xl text-white dark:text-[#000001]' : 'text-2xl 4xl:text-4xl text-black dark:text-white')">
                   {{ plan.priceAnnualPerMonth }}&nbsp;€
                 </span>
-                <span [class]="'font-normal ml-1 ' + (plan.highlighted ? 'text-[11px] text-white dark:text-[#000001]' : 'text-xs text-gray-400 dark:text-gray-500')">
+                <span [class]="'font-normal ml-1 ' + (plan.highlighted ? 'text-[11px] 4xl:text-base text-white dark:text-[#000001]' : 'text-xs 4xl:text-base text-gray-400 dark:text-gray-500')">
                   {{ t.pricingPerMonthLabel }}
                 </span>
               </div>
@@ -84,12 +84,12 @@
             type="button"
             (click)="onChoosePlan(plan.id, $event)"
             [disabled]="stripeRedirecting"
-            [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none ' +
+            [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none ' +
             (plan.highlighted
               ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90'
               : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
             <span>{{ plan.buttonText }}</span>
-            <svg [class]="(plan.highlighted ? 'w-5 h-5 ml-2 md:w-3.5 md:h-3.5 md:ml-1.5' : 'w-5 h-5 ml-2 md:w-4 md:h-4 md:ml-1.5') + ' transition-transform duration-300 group-hover:translate-x-1'"
+            <svg [class]="(plan.highlighted ? 'w-5 h-5 ml-2 md:w-3.5 md:h-3.5 md:ml-1.5 4xl:w-7 4xl:h-7 4xl:ml-2.5' : 'w-5 h-5 ml-2 md:w-4 md:h-4 md:ml-1.5 4xl:w-7 4xl:h-7 4xl:ml-2.5') + ' transition-transform duration-300 group-hover:translate-x-1'"
               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>
@@ -97,17 +97,17 @@
         </div>
 
         <div
-          [class]="'flex-1 flex flex-col min-h-0 mt-4 max-md:pb-6 ' + (plan.highlighted ? 'px-5 py-4 sm:px-6 sm:py-5' : 'px-4 py-4 sm:px-5 sm:py-5')">
-          <h4 [class]="'font-bold uppercase tracking-widest mb-2 md:mb-1.5 text-xs md:text-[8px] ' + (plan.highlighted ? 'md:text-[8px] text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500 md:text-[9px]')">
+          [class]="'flex-1 flex flex-col min-h-0 mt-4 max-md:pb-6 4xl:mt-6 ' + (plan.highlighted ? 'px-5 py-4 sm:px-6 sm:py-5 4xl:px-8 4xl:py-8' : 'px-4 py-4 sm:px-5 sm:py-5 4xl:px-7 4xl:py-7')">
+          <h4 [class]="'font-bold uppercase tracking-widest mb-2 md:mb-1.5 4xl:mb-3 text-xs md:text-[8px] 4xl:text-sm ' + (plan.highlighted ? 'md:text-[8px] text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500 md:text-[9px]')">
             {{ t.whatIncluded }}
           </h4>
 
-          <ul class="space-y-2.5 md:space-y-2">
+          <ul class="space-y-2.5 md:space-y-2 4xl:space-y-4">
             @for (feature of plan.features; track feature.text) {
-              <li class="flex items-center gap-2 md:gap-1.5">
+              <li class="flex items-center gap-2 md:gap-1.5 4xl:gap-3">
                 <span [class]="'flex-shrink-0 flex items-center justify-center ' + (plan.highlighted ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">
                   <svg
-                    [class]="(plan.highlighted ? 'w-5 h-5 md:w-4 md:h-4' : 'w-4 h-4 md:w-3.5 md:h-3.5') + ' shrink-0 ' + (plan.highlighted ? 'invert dark:invert-0' : 'dark:invert')"
+                    [class]="(plan.highlighted ? 'w-5 h-5 md:w-4 md:h-4 4xl:w-7 4xl:h-7' : 'w-4 h-4 md:w-3.5 md:h-3.5 4xl:w-6 4xl:h-6') + ' shrink-0 ' + (plan.highlighted ? 'invert dark:invert-0' : 'dark:invert')"
                     fill="none" xmlns="http://www.w3.org/2000/svg" [attr.viewBox]="feature.icon.viewBox"
                     aria-hidden="true">
                     @for (p of feature.icon.paths; track $index) {
@@ -117,7 +117,7 @@
                     }
                   </svg>
                 </span>
-                <span [class]="'font-medium leading-tight text-sm md:text-[12px] ' + (plan.highlighted ? 'text-gray-300 dark:text-[#000001]/70' : 'text-gray-700 dark:text-gray-300')">
+                <span [class]="'font-medium leading-tight text-sm md:text-[12px] 4xl:text-lg ' + (plan.highlighted ? 'text-gray-300 dark:text-[#000001]/70' : 'text-gray-700 dark:text-gray-300')">
                   {{ feature.text }}
                 </span>
               </li>
@@ -129,7 +129,7 @@
     </div>
   </div>
 
-  <p class="block text-center text-sm text-black dark:text-white mt-8 mb-4 max-md:mb-5">
+  <p class="block text-center text-sm 4xl:text-lg text-black dark:text-white mt-8 mb-4 max-md:mb-5 4xl:mt-12">
     <span class="select-none">
       {{ t.pricingCustomPlansFooter }}
     </span>

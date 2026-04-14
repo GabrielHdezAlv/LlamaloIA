@@ -1,7 +1,8 @@
+<div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-5 3xl:px-10 4xl:px-12">
 <div
-  class="rounded-2xl p-3 sm:p-4 md:p-5 lg:p-4 xl:p-4 2xl:p-4 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 agentes-activos-recuadro fade-in-section max-w-[74rem] 3xl:max-w-[95rem] 4xl:max-w-[115rem] mx-auto max-lg:max-w-full max-lg:w-full"
+  class="rounded-2xl p-3 sm:p-4 md:p-5 lg:p-4 xl:p-4 2xl:p-4 3xl:p-10 4xl:p-12 mt-3 2xl:mt-2 3xl:mt-6 4xl:mt-8 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 agentes-activos-recuadro fade-in-section max-w-[74rem] 3xl:max-w-[95rem] 4xl:max-w-[131rem] mx-auto max-lg:max-w-full max-lg:w-full w-full"
   [class.fade-in-visible]="showContent">
-  <div class="flex justify-between items-center gap-3 mb-3 3xl:mb-6 max-lg:flex-col max-lg:items-start max-lg:gap-1.5">
+  <div class="flex justify-between items-center gap-3 mb-3 3xl:mb-6 4xl:mb-8 max-lg:flex-col max-lg:items-start max-lg:gap-1.5">
     <!-- Barra de búsqueda -->
     <div class="flex-1 max-lg:w-full">
       <div class="relative">
@@ -12,14 +13,14 @@
           </svg>
         </div>
         <input #searchInput type="text" placeholder="{{ t.searchAgents }}" (input)="onSearchChange(searchInput.value)"
-          class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-10 pl-10 sm:pl-11 md:pl-12 pr-4 text-[11px] sm:text-xs border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-500 focus:border-gray-400 dark:focus:border-slate-500 transition-colors duration-200" />
+          class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-10 4xl:h-11 pl-10 sm:pl-11 md:pl-12 pr-4 text-[11px] sm:text-xs 4xl:text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-500 focus:border-gray-400 dark:focus:border-slate-500 transition-colors duration-200" />
       </div>
     </div>
 
     @if (agents.length > 0) {
     <div class="flex-1 max-lg:w-full lg:flex-none lg:w-auto">
       <app-ripple-button (buttonClick)="navigateToCreateAgent()"
-        buttonClass="create-agent-btn-white-dark bg-[#0a1740] h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-10 text-white dark:!bg-[#ffffff] dark:!text-white w-full lg:w-auto px-5 sm:px-6 md:px-7 rounded-lg text-xs sm:text-sm lg:text-[11px] xl:text-[11px] 2xl:text-[11px] 3xl:text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 hover:shadow-lg hover:-translate-y-0.5 shadow-md hover:bg-gray-950 flex items-center justify-center whitespace-nowrap">
+        buttonClass="create-agent-btn-white-dark bg-[#0a1740] h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-10 4xl:h-11 text-white dark:!bg-[#ffffff] dark:!text-white w-full lg:w-auto px-5 sm:px-6 md:px-7 rounded-lg text-xs sm:text-sm lg:text-[11px] xl:text-[11px] 2xl:text-[11px] 3xl:text-sm 4xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 hover:shadow-lg hover:-translate-y-0.5 shadow-md hover:bg-gray-950 flex items-center justify-center whitespace-nowrap">
         <span class="flex items-center justify-center gap-1.5 sm:gap-2">
           <svg
             class="w-[1em] h-[1em] min-w-[0.875rem] min-h-[0.875rem] max-w-[0.9375rem] max-h-[0.9375rem] sm:max-w-[1rem] sm:max-h-[1rem] shrink-0 self-center stroke-current translate-y-px"
@@ -35,7 +36,7 @@
 
   <!-- Tabla Desktop (oculta en móviles y tablets) -->
   <div *ngIf="agents.length > 0"
-    class="hidden lg:grid grid-cols-12 gap-4 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-8 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-400 pb-1.5 lg:pb-2 xl:pb-2 2xl:pb-2 3xl:pb-3 mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 3xl:mb-5 max-lg:text-[9px] dark:text-slate-400 border-b border-gray-300 dark:border-slate-600">
+    class="hidden lg:grid grid-cols-12 gap-4 lg:gap-4 xl:gap-4 2xl:gap-4 3xl:gap-8 4xl:gap-10 text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base 4xl:text-lg text-gray-400 pb-1.5 lg:pb-2 xl:pb-2 2xl:pb-2 3xl:pb-3 4xl:pb-4 mb-2 lg:mb-3 xl:mb-3 2xl:mb-3 3xl:mb-5 4xl:mb-6 max-lg:text-[9px] dark:text-slate-400 border-b border-gray-300 dark:border-slate-600">
     <!-- Cabecera Nombre -->
     <div class="col-span-3 flex items-center">
       <span class="font-medium text-gray-400 ml-2">{{ t.agentNameHeader }}</span>
@@ -64,10 +65,10 @@
   <!-- Filas Desktop (ocultas en móviles y tablets) -->
   <div *ngIf="agents.length > 0" class="hidden lg:block space-y-1">
     <div *ngFor="let agent of agents; let i = index" tabindex="-1"
-      class="p-1.5 lg:p-2 xl:p-2 2xl:p-2 3xl:p-4 rounded-lg flex items-center gap-2 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-5 md:grid md:grid-cols-12 md:gap-4 lg:md:gap-4 xl:md:gap-4 2xl:md:gap-4 3xl:md:gap-8 group hover:bg-gray-200 transition-colors duration-200 hover:cursor-pointer max-lg:p-3 dark:hover:bg-slate-800 outline-none focus:outline-none focus-visible:outline-none">
+      class="p-1.5 lg:p-2 xl:p-2 2xl:p-2 3xl:p-4 4xl:p-5 rounded-lg flex items-center gap-2 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-5 4xl:gap-6 md:grid md:grid-cols-12 md:gap-4 lg:md:gap-4 xl:md:gap-4 2xl:md:gap-4 3xl:md:gap-8 4xl:md:gap-10 group hover:bg-gray-200 transition-colors duration-200 hover:cursor-pointer max-lg:p-3 dark:hover:bg-slate-800 outline-none focus:outline-none focus-visible:outline-none">
       <div class="col-span-3 flex flex-col justify-center mt-1">
         <p
-          class="font-semibold text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base text-gray-900 dark:text-slate-50 max-lg:text-[9px]">
+          class="font-semibold text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base 4xl:text-lg text-gray-900 dark:text-slate-50 max-lg:text-[9px]">
           {{ agent.name }}
         </p>
         @if (agent.shopifyDomain) {
@@ -79,7 +80,7 @@
       <!-- Columna Número teléfono -->
       <div class="col-span-2 flex items-center">
         <span
-          class="text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-sm font-medium text-gray-900 dark:text-slate-50">
+          class="text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-sm 4xl:text-base font-medium text-gray-900 dark:text-slate-50">
           @if (
           agent.phoneNumbers &&
           agent.phoneNumbers.countryCode &&
@@ -95,7 +96,7 @@
       <!-- Columna Estado -->
       <div class="col-span-2 flex items-center">
         <span
-          class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium text-gray-900 dark:text-slate-50 max-lg:text-[9px]">
+          class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base 4xl:text-lg font-medium text-gray-900 dark:text-slate-50 max-lg:text-[9px]">
           {{
           agent.state === "Activo"
           ? t.active
@@ -109,14 +110,14 @@
       <!-- Columna Minutos totales -->
       <div class="col-span-2 flex items-center gap-1.5 max-lg:gap-1">
         <span
-          class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base font-medium whitespace-nowrap max-lg:text-[9px] dark:text-slate-50">{{
+          class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-base 4xl:text-lg font-medium whitespace-nowrap max-lg:text-[9px] dark:text-slate-50">{{
           agent.totalMinutes }} m</span>
       </div>
 
       <!-- Columna Tipo -->
       <div class="col-span-2 flex items-center max-lg:-ml-0">
         <span
-          class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-gray-800 max-lg:text-[9px] dark:text-slate-50">{{
+          class="text-[10px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm 4xl:text-base text-gray-800 max-lg:text-[9px] dark:text-slate-50">{{
           agent.type === "inbound" ? t.inbound : t.outbound }}</span>
       </div>
 
@@ -296,15 +297,15 @@
   <!-- Estado vacío -->
   <div *ngIf="agents.length === 0"
     class="flex flex-col items-center justify-center text-center text-gray-600 py-10 sm:py-12 md:py-14 lg:py-8 dark:text-slate-400">
-    <p class="text-sm sm:text-base md:text-lg lg:text-sm text-gray-500 dark:text-slate-400 font-medium">
+    <p class="text-sm sm:text-base md:text-lg lg:text-sm 4xl:text-lg text-gray-500 dark:text-slate-400 font-medium">
       {{ t.noAgentsCreated }}
     </p>
     <p
-      class="text-xs sm:text-sm md:text-sm 3xl:text-sm text-gray-400 mb-4 sm:mb-5 md:mb-6 3xl:mb-5 dark:text-slate-400">
+      class="text-xs sm:text-sm md:text-sm 3xl:text-sm 4xl:text-base text-gray-400 mb-4 sm:mb-5 md:mb-6 3xl:mb-5 dark:text-slate-400">
       {{ t.createItNow }}
     </p>
     <app-ripple-button (buttonClick)="navigateToCreateAgent()"
-      buttonClass="create-agent-btn-white-dark bg-[#0a1740] hover:bg-gray-950 text-white dark:!bg-[#ffffff]  dark:!text-gray-900  w-full sm:w-auto px-4 sm:px-5 lg:px-5 3xl:px-8 py-1.5 sm:py-1.5 3xl:py-2 rounded-lg text-[11px] sm:text-xs 3xl:text-sm font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-md hover:-translate-y-0.5 shadow-sm flex items-center justify-center"
+      buttonClass="create-agent-btn-white-dark bg-[#0a1740] hover:bg-gray-950 text-white dark:!bg-[#ffffff]  dark:!text-gray-900  w-full sm:w-auto px-4 sm:px-5 lg:px-5 3xl:px-8 4xl:px-10 py-1.5 sm:py-1.5 3xl:py-2 4xl:py-2.5 rounded-lg text-[11px] sm:text-xs 3xl:text-sm 4xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-md hover:-translate-y-0.5 shadow-sm flex items-center justify-center"
       rippleColor="rgba(255, 255, 255, 0.4)">
       <span class="flex items-center justify-center gap-1.5 sm:gap-2">
         <svg
@@ -316,4 +317,5 @@
       </span>
     </app-ripple-button>
   </div>
+</div>
 </div>

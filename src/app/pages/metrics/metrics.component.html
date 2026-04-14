@@ -1,19 +1,6 @@
 <div
-  class="min-h-screen p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-lg:max-w-full max-lg:w-full max-w-[74rem] 3xl:max-w-[95rem] 4xl:max-w-[115rem] mx-auto"
+  class="min-h-screen p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-lg:max-w-full max-lg:w-full max-w-[74rem] 3xl:max-w-[95rem] 4xl:max-w-[130rem] mx-auto"
 >
-  <div
-    *ngIf="canExportCsv"
-    class="flex flex-row flex-nowrap justify-end items-center gap-2 3xl:gap-5 max-lg:gap-1.5 mb-3 3xl:mb-5 max-lg:mb-3"
-  >
-    <button
-      type="button"
-      (click)="exportMetricsCsv()"
-      class="rounded-2xl border border-gray-200 bg-white px-3 py-1.5 text-[10px] font-medium text-gray-800 shadow-sm hover:bg-gray-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
-    >
-      {{ t.metricsExportCsvButton }}
-    </button>
-  </div>
-
   <!-- Contenido principal con scroll -->
   <div class="rounded-2xl h-auto flex flex-col">
     <div class="flex-1">
@@ -402,27 +389,27 @@
           [class.fade-in-visible]="showTipoLlamadas"
         >
           <h3
-            class="font-semibold text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base text-gray-800 mb-3 max-lg:mb-3 max-lg:sm:mb-4 max-lg:md:mb-4 tracking-[-0.7px] dark:text-slate-50"
+            class="font-semibold text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 3xl:text-lg 4xl:text-xl text-gray-800 mb-3 max-lg:mb-3 max-lg:sm:mb-4 max-lg:md:mb-4 tracking-[-0.7px] dark:text-slate-50"
           >
             {{ t.systemStatus }}
           </h3>
 
           <div
-            class="space-y-4 max-lg:space-y-4 max-lg:sm:space-y-5 max-lg:md:space-y-5 flex flex-col items-center px-2"
+            class="space-y-4 max-lg:space-y-4 max-lg:sm:space-y-5 max-lg:md:space-y-5 3xl:space-y-5 4xl:space-y-6 flex flex-col items-center px-2"
           >
             <div
               *ngFor="let status of systemStatuses"
-              class="flex items-center justify-center gap-3 max-lg:gap-3.5 max-lg:sm:gap-4 max-lg:md:gap-4 w-full"
+              class="flex items-center justify-center gap-3 max-lg:gap-3.5 max-lg:sm:gap-4 max-lg:md:gap-4 3xl:gap-4 4xl:gap-5 w-full"
             >
               <div
                 [class]="
-                  'w-3.5 h-3.5 max-lg:w-4 max-lg:sm:w-4.5 max-lg:md:w-5 max-lg:h-4 max-lg:sm:h-4.5 max-lg:md:h-5 rounded-full ' +
+                  'w-3.5 h-3.5 max-lg:w-4 max-lg:sm:w-4.5 max-lg:md:w-5 max-lg:h-4 max-lg:sm:h-4.5 max-lg:md:h-5 3xl:w-5 3xl:h-5 4xl:w-6 4xl:h-6 rounded-full ' +
                   status.circleColor
                 "
               ></div>
               <span
                 [class]="
-                  'text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg font-medium tracking-[-0.7px] flex-1 ' +
+                  'text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg 3xl:text-base 4xl:text-lg font-medium tracking-[-0.7px] flex-1 ' +
                   status.textColor
                 "
               >
@@ -692,27 +679,27 @@
           [class.fade-in-visible]="showTipoLlamadas"
         >
           <h3
-            class="font-semibold text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 4xl:text-lg text-gray-800 mb-3 max-lg:mb-3 max-lg:sm:mb-4 max-lg:md:mb-4 tracking-[-0.7px] dark:text-slate-50"
+            class="font-semibold text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base 3xl:text-lg 4xl:text-xl text-gray-800 mb-3 max-lg:mb-3 max-lg:sm:mb-4 max-lg:md:mb-4 tracking-[-0.7px] dark:text-slate-50"
           >
             {{ t.systemStatus }}
           </h3>
 
           <div
-            class="space-y-4 max-lg:space-y-4 max-lg:sm:space-y-5 max-lg:md:space-y-5 flex flex-col items-center px-2 max-lg:px-1.5 lg:px-3 mt-8"
+            class="space-y-4 max-lg:space-y-4 max-lg:sm:space-y-5 max-lg:md:space-y-5 3xl:space-y-5 4xl:space-y-6 flex flex-col items-center px-2 max-lg:px-1.5 lg:px-3 3xl:px-3.5 4xl:px-4 mt-8 3xl:mt-9 4xl:mt-10"
           >
             <div
               *ngFor="let status of systemStatuses"
-              class="flex items-center justify-center gap-3 max-lg:gap-3.5 max-lg:sm:gap-4 max-lg:md:gap-4 lg:gap-4 w-full"
+              class="flex items-center justify-center gap-3 max-lg:gap-3.5 max-lg:sm:gap-4 max-lg:md:gap-4 lg:gap-4 3xl:gap-4 4xl:gap-5 w-full"
             >
               <div
                 [class]="
-                  'w-3.5 h-3.5 max-lg:w-4 max-lg:sm:w-4.5 max-lg:md:w-5 max-lg:h-4 max-lg:sm:h-4.5 max-lg:md:h-5 lg:w-4 lg:h-4 rounded-full ' +
+                  'w-3.5 h-3.5 max-lg:w-4 max-lg:sm:w-4.5 max-lg:md:w-5 max-lg:h-4 max-lg:sm:h-4.5 max-lg:md:h-5 lg:w-4 lg:h-4 3xl:w-5 3xl:h-5 4xl:w-6 4xl:h-6 rounded-full ' +
                   status.circleColor
                 "
               ></div>
               <span
                 [class]="
-                  'text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg lg:text-base font-medium tracking-[-0.7px] flex-1 ' +
+                  'text-sm max-lg:text-base max-lg:sm:text-lg max-lg:md:text-lg lg:text-base 3xl:text-base 4xl:text-lg font-medium tracking-[-0.7px] flex-1 ' +
                   status.textColor
                 "
               >
@@ -730,13 +717,13 @@
       >
         <!-- {{ t.peakHours }} (Popular times) -->
         <div
-          class="bg-white rounded-2xl p-3 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:p-4 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 min-h-[260px] md:min-h-[320px] lg:min-h-[240px] max-h-[350px] md:max-h-[400px] lg:max-h-[344px] xl:max-h-[344px] 2xl:max-h-[344px] 3xl:lg:max-h-[344px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)] overflow-visible flex flex-col"
+          class="bg-white rounded-2xl p-3 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:p-4 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 min-h-[260px] md:min-h-[320px] lg:min-h-[240px] 3xl:lg:min-h-[300px] 4xl:lg:min-h-[360px] max-h-[350px] md:max-h-[400px] lg:max-h-[344px] xl:max-h-[344px] 2xl:max-h-[344px] 3xl:lg:max-h-[420px] 4xl:lg:max-h-[500px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)] overflow-visible flex flex-col"
           [class.fade-in-visible]="showHorasPico"
         >
           <!-- {{ t.title }} -->
           <div class="flex shrink-0 items-center justify-between mb-3 max-lg:mb-2">
             <h3
-              class="font-semibold text-gray-800 text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm 4xl:text-lg tracking-[-0.7px] dark:text-slate-50"
+              class="font-semibold text-gray-800 text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm 3xl:text-base 4xl:text-lg tracking-[-0.7px] dark:text-slate-50"
             >
               {{ t.peakHours }}
             </h3>
@@ -784,7 +771,7 @@
             >
               <!-- {{ t.hourBars }} -->
               <div
-                class="flex items-stretch justify-between gap-0.5 max-lg:gap-0 h-52 max-lg:h-40 max-lg:sm:h-44 max-lg:md:h-48 lg:h-52 relative overflow-visible mt-0"
+                class="flex items-stretch justify-between gap-0.5 max-lg:gap-0 h-52 max-lg:h-40 max-lg:sm:h-44 max-lg:md:h-48 lg:h-52 3xl:h-64 4xl:h-72 relative overflow-visible mt-0"
               >
                 <div
                   *ngFor="let hourData of getPeakHoursData(); let i = index"
@@ -870,11 +857,11 @@
 
         <!-- {{ t.countriesMovedFromOriginal }} -->
         <div
-          class="bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 mb-0 lg:mb-5 lg:-ml-5 md:h-[320px] lg:h-[320px] fade-in-section fade-in-countries-mobile border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 mb-0 lg:mb-5 lg:-ml-5 md:h-[320px] lg:h-[320px] 3xl:lg:h-[400px] 4xl:lg:h-[480px] fade-in-section fade-in-countries-mobile border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showPaises"
         >
           <h3
-            class="shrink-0 font-semibold text-gray-800 mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-3 lg:mb-2 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50"
+            class="shrink-0 font-semibold text-gray-800 mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-3 lg:mb-2 3xl:text-base 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50"
           >
             {{ t.countries }}
           </h3>
@@ -897,26 +884,26 @@
                   class="flex min-w-0 flex-1 items-center gap-1.5 max-lg:gap-2 font-semibold"
                 >
                   <span
-                    class="country-flag-avatar block h-5 w-5 shrink-0 max-lg:h-6 max-lg:w-6 max-lg:sm:h-7 max-lg:sm:w-7 max-lg:md:h-7 max-lg:md:w-7 lg:h-6 lg:w-6 rounded-full"
+                    class="country-flag-avatar block h-5 w-5 shrink-0 max-lg:h-6 max-lg:w-6 max-lg:sm:h-7 max-lg:sm:w-7 max-lg:md:h-7 max-lg:md:w-7 lg:h-6 lg:w-6 4xl:h-7 4xl:w-7 rounded-full"
                     role="img"
                     [attr.aria-label]="c.name"
                     [ngStyle]="countryFlagBackgroundStyle(c.img)"
                   ></span>
                   <span
-                    class="min-w-0 -mt-2 max-lg:-mt-1.5 lg:-mt-2 self-center break-words font-semibold text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] leading-tight dark:text-slate-50 tracking-[-0.7px]"
+                    class="min-w-0 -mt-2 max-lg:-mt-1.5 lg:-mt-2 self-center break-words font-semibold text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] 4xl:text-sm leading-tight dark:text-slate-50 tracking-[-0.7px]"
                     >{{ c.name }}</span
                   >
                 </div>
                 <span
-                  class="shrink-0 -mt-1.5 max-lg:-mt-1 lg:-mt-1.5 self-center font-semibold text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] leading-tight dark:text-slate-50 tracking-[-0.7px]"
+                  class="shrink-0 -mt-1.5 max-lg:-mt-1 lg:-mt-1.5 self-center font-semibold text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] 4xl:text-sm leading-tight dark:text-slate-50 tracking-[-0.7px]"
                   >{{ c.percent }}%</span
                 >
               </div>
               <div
-                class="w-full h-1.5 max-lg:h-2 max-lg:sm:h-2.5 max-lg:md:h-3 lg:h-2 bg-gray-100 -mt-1.5 max-lg:-mt-1 lg:-mt-2 ml-6 max-lg:ml-7 max-lg:sm:ml-8 max-lg:md:ml-9 lg:ml-7 overflow-hidden country-track rounded-full dark:bg-slate-800"
+                class="w-full h-1.5 max-lg:h-2 max-lg:sm:h-2.5 max-lg:md:h-3 lg:h-2 4xl:h-2.5 bg-gray-100 -mt-1.5 max-lg:-mt-1 lg:-mt-2 ml-6 max-lg:ml-7 max-lg:sm:ml-8 max-lg:md:ml-9 lg:ml-7 4xl:ml-8 overflow-hidden country-track rounded-full dark:bg-slate-800"
               >
                 <div
-                  class="h-1.5 max-lg:h-2 max-lg:sm:h-2.5 max-lg:md:h-3 lg:h-2 bg-blue-950 dark:bg-white country-bar rounded-full shadow-sm"
+                  class="h-1.5 max-lg:h-2 max-lg:sm:h-2.5 max-lg:md:h-3 lg:h-2 4xl:h-2.5 bg-blue-950 dark:bg-white country-bar rounded-full shadow-sm"
                   [style.width.%]="showPaises ? c.percent : 0"
                   [style.transition]="
                     'width 1s ease-out ' + getCountryBarDelay(i) + 'ms'
@@ -929,10 +916,10 @@
             <div
               class="flex-1 flex flex-col items-center justify-center text-gray-500 dark:text-slate-400"
             >
-              <div class="text-sm mb-1 text-center">
+              <div class="text-sm 4xl:text-base mb-1 text-center">
                 Todavía no hay datos disponibles
               </div>
-              <div class="text-[11px] text-center text-gray-400 dark:text-slate-500">
+              <div class="text-[11px] 4xl:text-sm text-center text-gray-400 dark:text-slate-500">
                 Una vez se registre una llamada, aparecerá el país.
               </div>
             </div>
@@ -976,7 +963,7 @@
           </div>
           <div class="relative flex min-h-0 flex-1 flex-col">
           <div
-            class="min-h-0 flex-1 overflow-y-auto overscroll-y-contain space-y-2.5 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4"
+            class="min-h-0 flex-1 overflow-y-auto overscroll-y-contain space-y-2.5 4xl:space-y-3 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4"
             [class.metrics-plan-locked-blur-region]="isStarterMetricsTier"
           >
             <div
@@ -987,19 +974,19 @@
                 class="flex items-center justify-between mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-2.5"
               >
                 <span
-                  class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] font-medium text-gray-700 dark:text-slate-300 tracking-[-0.7px]"
+                  class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] 4xl:text-sm font-semibold leading-tight text-gray-700 dark:text-slate-300 tracking-[-0.7px]"
                   >{{ item.name }}</span
                 >
                 <span
-                  class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] font-bold text-gray-900 dark:text-slate-50 tracking-[-0.7px]"
+                  class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] 4xl:text-sm font-semibold leading-tight text-gray-900 dark:text-slate-50 tracking-[-0.7px]"
                   >{{ item.percent }}%</span
                 >
               </div>
               <div
-                class="relative w-full h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 bg-gray-100 rounded-full overflow-hidden shadow-inner dark:bg-slate-800"
+                class="relative w-full h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 4xl:h-2.5 bg-gray-100 rounded-full overflow-hidden shadow-inner dark:bg-slate-800"
               >
                 <div
-                  class="h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950 dark:bg-white"
+                  class="h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 4xl:h-2.5 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950 dark:bg-white"
                   [style.width.%]="showEvaluacionExito ? item.percent : 0"
                   [style.min-width.px]="showEvaluacionExito ? 4 : null"
                   [style.transition-delay]="getCountryBarDelay(i) + 'ms'"
@@ -1040,7 +1027,7 @@
           </div>
           <div class="relative flex min-h-0 flex-1 flex-col">
           <div
-            class="min-h-0 flex-1 overflow-y-auto overscroll-y-contain max-lg:flex-none max-lg:overflow-visible space-y-2.5 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4"
+            class="min-h-0 flex-1 overflow-y-auto overscroll-y-contain max-lg:flex-none max-lg:overflow-visible space-y-2.5 4xl:space-y-3 max-lg:space-y-3 max-lg:sm:space-y-3.5 max-lg:md:space-y-4"
             [class.metrics-plan-locked-blur-region]="isStarterMetricsTier"
           >
             <div
@@ -1051,19 +1038,19 @@
                 class="flex items-center justify-between mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-2.5"
               >
                 <span
-                  class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] font-medium text-gray-700 dark:text-slate-300 tracking-[-0.7px]"
+                  class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] 4xl:text-sm font-semibold leading-tight text-gray-700 dark:text-slate-300 tracking-[-0.7px]"
                   >{{ item.name }}</span
                 >
                 <span
-                  class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] font-bold text-gray-900 dark:text-slate-50 tracking-[-0.7px]"
+                  class="text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] 4xl:text-sm font-semibold leading-tight text-gray-900 dark:text-slate-50 tracking-[-0.7px]"
                   >{{ item.percent }}%</span
                 >
               </div>
               <div
-                class="relative w-full h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 bg-gray-100 rounded-full overflow-hidden shadow-inner dark:bg-slate-800"
+                class="relative w-full h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 4xl:h-2.5 bg-gray-100 rounded-full overflow-hidden shadow-inner dark:bg-slate-800"
               >
                 <div
-                  class="h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950 dark:bg-white"
+                  class="h-2 max-lg:h-2.5 max-lg:sm:h-3 max-lg:md:h-3.5 lg:h-2 4xl:h-2.5 rounded-full shadow-md transition-all duration-1000 ease-out bg-blue-950 dark:bg-white"
                   [style.width.%]="showRazonFinalizacion ? item.percent : 0"
                   [style.min-width.px]="showRazonFinalizacion ? 4 : null"
                   [style.transition-delay]="getCountryBarDelay(i) + 'ms'"

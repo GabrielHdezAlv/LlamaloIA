@@ -347,3 +347,30 @@ $plan-price-xfade-ease: cubic-bezier(0.14, 0.85, 0.28, 1);
     opacity: 1;
   }
 }
+
+/* Pantallas 4xl (≥2500px): recuadro del diálogo más ancho + contenido y toggle a escala */
+@media (min-width: 2500px) {
+  /* MatDialog fija width: 880px en el panel; lo ampliamos solo en pantallas muy grandes */
+  ::ng-deep .cdk-overlay-pane.upgrade-plan-dialog {
+    width: min(94vw, 1340px) !important;
+    max-width: min(94vw, 1340px) !important;
+  }
+
+  .upgrade-plan-modal__content {
+    max-width: 1240px;
+    max-height: 90vh;
+  }
+
+  .upgrade-plan-modal--spaced {
+    padding: 5.25rem 2.85rem 4.5rem !important;
+  }
+
+  .billing-toggle {
+    width: 16rem;
+  }
+
+  .billing-toggle__btn {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}

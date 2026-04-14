@@ -27,6 +27,7 @@ import { AnimatedCheckboxComponent } from '../../shared/components/animated-chec
 import { ImageCropperComponent } from '../../shared/components/image-cropper/image-cropper.component';
 import { TwilioService } from '../../core/services/twilio.service';
 import { StripeService } from '../../core/services/stripe.service';
+import { ShopifyIntegrationService } from '../../core/services/shopify-integration.service';
 
 @Component({
   selector: 'app-account',
@@ -67,6 +68,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private twilioService = inject(TwilioService);
   private stripeService = inject(StripeService);
+  private shopifyIntegrationService = inject(ShopifyIntegrationService);
 
   activeTab:
     | 'profile'
@@ -205,6 +207,28 @@ export class AccountComponent implements OnInit, OnDestroy {
     return first?.shopDomain ?? '';
   });
 
+  /** Tiendas Shopify enlazadas al perfil (panel borrar / desvincular). */
+  connectedShopifyStores = computed(() => {
+    const shops = this.user()?.integrations?.shopify ?? [];
+    return shops.filter(
+      (s) => !!(s?.shopDomain?.trim()) && s.connected !== false,
+    );
+  });
+
+  /** Subtítulo bajo “Shopify”, al estilo Twilio. */
+  shopifyConnectionsSubtitleText = computed(() => {
+    const shops = this.connectedShopifyStores();
+    const n = shops.length;
+    if (n === 0) return '';
+    const tr = this.i18nService.getTranslations();
+    if (n === 1) return shops[0].shopDomain!.trim();
+    return `${n} ${tr.shopifyConnectedSummaryManySuffix}`;
+  });
+
+  /** Panel desplegable para listar y borrar tiendas (como Twilio). */
+  shopifyConnectionsExpanded = false;
+  deletingShopifyDomain: string | null = null;
+
   // Información de eliminación programada
   scheduledDeletionDate = computed(
     () => this.user()?.scheduledDeletionDate ?? null,
@@ -256,7 +280,10 @@ export class AccountComponent implements OnInit, OnDestroy {
     if (tab === this.displayedTab) return;
     if (this.sectionTransitionTimeout) clearTimeout(this.sectionTransitionTimeout);
     this.activeTab = tab;
-    if (tab === 'connections') this.loadTwilioAccounts();
+    if (tab === 'connections') {
+      this.loadTwilioAccounts();
+      void this.userStore.loadUserProfile();
+    }
     this.sectionLeaving = true;
     this.sectionTransitionTimeout = setTimeout(() => {
       this.displayedTab = tab;
@@ -975,6 +1002,58 @@ export class AccountComponent implements OnInit, OnDestroy {
   goToShopifyOnboardingFromAccount(): void {
     this.router.navigate(['/shopify-onboarding'], {
       queryParams: { source: 'account' },
+    });
+  }
+
+  get shopifyDeleteHeaderLabel(): string {
+    if (this.shopifyConnectionsExpanded) return this.t.closeBtn;
+    return this.t.shopifyManageConnectionBtn;
+  }
+
+  toggleShopifyConnectionsPanel(): void {
+    if (this.connectedShopifyStores().length === 0) return;
+    this.shopifyConnectionsExpanded = !this.shopifyConnectionsExpanded;
+  }
+
+  onShopifyDeleteHeaderButtonClick(event: Event): void {
+    event.stopPropagation();
+    this.toggleShopifyConnectionsPanel();
+  }
+
+  deleteShopifyStore(shopDomain: string): void {
+    const tr = this.t;
+    const dialogRef = this.modalService.openWarning({
+      title: tr.shopifyDisconnectConfirmTitle,
+      message: tr.shopifyDisconnectConfirmMessage.replace(
+        '{{shop}}',
+        shopDomain,
+      ),
+      confirmText: tr.shopifyDisconnectConfirmAction,
+      cancelText: tr.cancelBtn,
+      showCancelButton: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== true) return;
+      this.deletingShopifyDomain = shopDomain;
+      this.shopifyIntegrationService.disconnectStore(shopDomain).subscribe({
+        next: async (res: { message?: string }) => {
+          this.deletingShopifyDomain = null;
+          this.notificationService.success(
+            res.message ?? tr.shopifyDisconnectedSuccess,
+          );
+          await this.userStore.loadUserProfile();
+          if (this.connectedShopifyStores().length === 0) {
+            this.shopifyConnectionsExpanded = false;
+          }
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.deletingShopifyDomain = null;
+          this.notificationService.error(
+            err?.error?.message ?? tr.shopifyDisconnectError,
+          );
+        },
+      });
     });
   }
 
