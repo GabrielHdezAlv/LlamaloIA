@@ -1,5 +1,5 @@
 <div class="w-full flex items-start justify-center px-2 sm:px-3 md:px-5 3xl:px-10 4xl:px-12">
-    <div class="w-full rounded-2xl p-3 sm:p-4 md:p-5 lg:p-4 xl:p-4 2xl:p-4 3xl:p-10 4xl:p-12 mt-3 2xl:mt-2 3xl:mt-6 4xl:mt-8 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 agentes-activos-recuadro fade-in-section max-w-[74rem] 3xl:max-w-[95rem] 4xl:max-w-[131rem] mx-auto max-lg:max-w-full max-lg:w-full"
+    <div class="w-full rounded-2xl 4xl:rounded-3xl p-3 sm:p-4 md:p-5 lg:p-4 xl:p-4 2xl:p-4 3xl:p-10 4xl:p-12 mt-3 2xl:mt-2 3xl:mt-6 4xl:mt-8 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 agentes-activos-recuadro fade-in-section max-w-[74rem] 3xl:max-w-[95rem] 4xl:max-w-[131rem] mx-auto max-lg:max-w-full max-lg:w-full"
         [class.fade-in-visible]="showContent">
         <div
             class="flex justify-between items-center gap-3 mb-3 3xl:mb-6 4xl:mb-8 max-lg:flex-col max-lg:items-start max-lg:gap-1.5">
@@ -15,14 +15,14 @@
                     </div>
                     <input type="text" placeholder="{{ t.searchNumbers }}" [(ngModel)]="searchTerm"
                         (ngModelChange)="onSearchChange()"
-                        class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-10 4xl:h-11 pl-10 sm:pl-11 md:pl-12 pr-4 text-[11px] sm:text-xs 4xl:text-sm border border-gray-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-500 focus:border-gray-400 dark:focus:border-slate-500 transition-colors duration-200" />
+                        class="w-full h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-10 4xl:h-11 pl-10 sm:pl-11 md:pl-12 pr-4 text-[11px] sm:text-xs 4xl:text-sm border border-gray-300 dark:border-slate-600 rounded-md 4xl:rounded-xl bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-slate-500 focus:border-gray-400 dark:focus:border-slate-500 transition-colors duration-200" />
                 </div>
             </div>
 
             @if (phoneNumbers.length > 0) {
             <div class="flex-1 max-lg:w-full lg:flex-none lg:w-auto import-dropdown-wrap relative">
                 <app-ripple-button (buttonClick)="toggleImportDropdown()"
-                    buttonClass="import-number-btn-white-dark bg-[#0a1740] h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-10 4xl:h-11 hover:bg-gray-950 text-white dark:!bg-[#ffffff] dark:!text-gray-900 w-full lg:w-auto px-5 sm:px-6 md:px-7 rounded-lg text-xs sm:text-sm lg:text-[11px] xl:text-[11px] 2xl:text-[11px] 3xl:text-sm 4xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 hover:shadow-lg hover:-translate-y-0.5 shadow-md flex items-center justify-center whitespace-nowrap"
+                    buttonClass="import-number-btn-white-dark bg-[#0a1740] h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-10 4xl:h-11 hover:bg-gray-950 text-white dark:!bg-[#ffffff] dark:!text-gray-900 w-full lg:w-auto px-5 sm:px-6 md:px-7 rounded-lg 4xl:rounded-2xl text-xs sm:text-sm lg:text-[11px] xl:text-[11px] 2xl:text-[11px] 3xl:text-sm 4xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 hover:shadow-lg hover:-translate-y-0.5 shadow-md flex items-center justify-center whitespace-nowrap"
                     rippleColor="rgba(255, 255, 255, 0.4)">
                     <span class="flex items-center justify-center gap-1.5 sm:gap-2">
                         <svg
@@ -147,7 +147,7 @@
             @for (phone of phoneNumbers; track phone.phoneId; let i = $index) {
             <!-- Tarjeta -->
             <div
-                class="bg-white hover:bg-gray-50 px-5 py-4 sm:px-6 sm:py-5 md:px-7 md:py-6 rounded-2xl border border-gray-200 shadow-sm transition-colors duration-200 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-700">
+                class="bg-white hover:bg-gray-50 px-5 py-4 sm:px-6 sm:py-5 md:px-7 md:py-6 rounded-2xl 4xl:rounded-3xl border border-gray-200 shadow-sm transition-colors duration-200 dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-slate-700">
                 <div class="flex items-start justify-between mb-3 sm:mb-3.5 md:mb-4 gap-2 sm:gap-2.5">
                     <div class="flex flex-col justify-center mt-1">
                         <p class="font-semibold text-gray-900 text-base sm:text-lg md:text-lg dark:text-slate-50">
@@ -221,7 +221,7 @@
             </p>
             <div class="import-dropdown-wrap relative">
                 <app-ripple-button (buttonClick)="toggleImportDropdown()"
-                    buttonClass="import-number-btn-white-dark bg-[#0a1740] hover:bg-gray-950 text-white dark:!bg-[#ffffff] dark:hover:!bg-gray-100 dark:!text-gray-900 dark:border dark:border-gray-200 w-full sm:w-auto px-4 sm:px-5 lg:px-5 3xl:px-8 4xl:px-10 py-1.5 sm:py-1.5 3xl:py-2 4xl:py-2.5 rounded-lg text-[11px] sm:text-xs 3xl:text-sm 4xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-md hover:-translate-y-0.5 shadow-sm flex items-center justify-center"
+                    buttonClass="import-number-btn-white-dark bg-[#0a1740] hover:bg-gray-950 text-white dark:!bg-[#ffffff] dark:hover:!bg-gray-100 dark:!text-gray-900 dark:border dark:border-gray-200 w-full sm:w-auto px-4 sm:px-5 lg:px-5 3xl:px-8 4xl:px-10 py-1.5 sm:py-1.5 3xl:py-2 4xl:py-2.5 rounded-lg 4xl:rounded-2xl text-[11px] sm:text-xs 3xl:text-sm 4xl:text-base font-medium font-sans transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-md hover:-translate-y-0.5 shadow-sm flex items-center justify-center"
                     rippleColor="rgba(255, 255, 255, 0.4)">
                     <span class="flex items-center justify-center gap-1.5 sm:gap-2">
                         <svg

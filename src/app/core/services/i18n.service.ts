@@ -357,6 +357,8 @@ export interface Translations {
   metricsUpgradePlanMessage: string;
   metricsExportCsvButton: string;
   trialBannerUpgrade: string;
+  /** Franja bajo el título: fin de prueba (día y hora), sin recuadro */
+  trialTimeRemainingLabel: string;
   cancelSubscription: string;
   invoicesHistory: string;
   /** Un solo CTA al Customer Portal (cancelar / método / facturas) */
@@ -1258,6 +1260,7 @@ export class I18nService {
       metricsUpgradePlanMessage: 'Mejora el plan para ver estas métricas',
       metricsExportCsvButton: 'Exportar CSV',
       trialBannerUpgrade: 'Mejorar plan',
+      trialTimeRemainingLabel: 'Tiempo restante de la prueba gratuita',
       cancelSubscription: 'Cancelar suscripción',
       invoicesHistory: 'Historial de facturas',
       manageBilling: 'Gestionar facturación',
@@ -2156,6 +2159,7 @@ export class I18nService {
       metricsUpgradePlanMessage: 'Upgrade your plan to see these metrics',
       metricsExportCsvButton: 'Export CSV',
       trialBannerUpgrade: 'Upgrade plan',
+      trialTimeRemainingLabel: 'Time remaining on the free trial',
       cancelSubscription: 'Cancel subscription',
       invoicesHistory: 'Invoices history',
       manageBilling: 'Manage billing',

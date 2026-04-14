@@ -2,11 +2,11 @@
   class="min-h-screen p-2.5 lg:p-3 xl:p-3 2xl:p-3 3xl:p-10 mt-3 2xl:mt-2 3xl:mt-6 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-lg:max-w-full max-lg:w-full max-w-[74rem] 3xl:max-w-[95rem] 4xl:max-w-[130rem] mx-auto"
 >
   <!-- Contenido principal con scroll -->
-  <div class="rounded-2xl h-auto flex flex-col">
+  <div class="rounded-2xl 4xl:rounded-3xl h-auto flex flex-col">
     <div class="flex-1">
       <!-- {{ t.totalCallsLabel }} exitosas (solo tablets: full width) -->
       <div
-        class="metrics-tablet-only-card hidden md:block lg:hidden bg-white rounded-2xl px-2.5 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 fade-in-section border border-gray-100 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
+        class="metrics-tablet-only-card hidden md:block lg:hidden bg-white rounded-2xl 4xl:rounded-3xl px-2.5 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 fade-in-section border border-gray-100 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
         [class.fade-in-visible]="showGraficoLlamadas"
       >
         <div class="flex justify-between items-center mb-1 max-lg:mb-1">
@@ -185,7 +185,7 @@
       >
         <!-- {{ t.successfulCalls }} ({{ t.desktopAndMobileHiddenTablet }}) -->
         <div
-          class="block md:hidden lg:block bg-white rounded-2xl px-2.5 max-sm:px-3 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 max-sm:pb-3 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:col-span-2 fade-in-section border border-gray-100 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
+          class="block md:hidden lg:block bg-white rounded-2xl 4xl:rounded-3xl px-2.5 max-sm:px-3 3xl:px-4 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 pt-2.5 3xl:pt-4 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-1 max-sm:pb-3 3xl:pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:col-span-2 fade-in-section border border-gray-100 min-h-[250px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showGraficoLlamadas"
         >
           <div
@@ -330,7 +330,7 @@
 
         <!-- {{ t.totalMinutes }} -->
         <div
-          class="bg-white rounded-2xl px-4 pt-4 max-lg:px-5 max-lg:sm:px-6 max-lg:md:px-7 max-lg:pt-5 max-lg:sm:pt-6 max-lg:md:pt-7 pb-3 max-lg:pb-4 max-lg:sm:pb-5 max-lg:md:pb-6 border border-gray-100 flex flex-col justify-between h-full min-h-[185px] max-lg:min-h-[155px] fade-in-section md:col-span-1 lg:col-span-1 dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-2xl 4xl:rounded-3xl px-4 pt-4 max-lg:px-5 max-lg:sm:px-6 max-lg:md:px-7 max-lg:pt-5 max-lg:sm:pt-6 max-lg:md:pt-7 pb-3 max-lg:pb-4 max-lg:sm:pb-5 max-lg:md:pb-6 border border-gray-100 flex flex-col justify-between h-full min-h-[185px] max-lg:min-h-[155px] fade-in-section md:col-span-1 lg:col-span-1 dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTotalMinutos"
         >
           <div>
@@ -385,7 +385,7 @@
 
         <!-- {{ t.systemStatus }} {{ t.systemStatusTabletOnly }} -->
         <div
-          class="hidden md:block lg:hidden bg-white rounded-2xl px-3 pt-3 pb-3 fade-in-section border border-gray-100 dark:bg-slate-900 dark:border-slate-800"
+          class="hidden md:block lg:hidden bg-white rounded-2xl 4xl:rounded-3xl px-3 pt-3 pb-3 fade-in-section border border-gray-100 dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas"
         >
           <h3
@@ -427,7 +427,7 @@
       >
         <!-- Latencia (misma altura que Duración media) -->
         <div
-          class="bg-white rounded-2xl px-3 pt-3 lg:px-3 lg:pt-3 pb-2 lg:pb-2.5 mb-0 lg:mb-6 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-full lg:w-[calc(100%-0.75rem)]"
+          class="bg-white rounded-2xl 4xl:rounded-3xl px-3 pt-3 lg:px-3 lg:pt-3 pb-2 lg:pb-2.5 mb-0 lg:mb-6 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-full lg:w-[calc(100%-0.75rem)]"
           [class.fade-in-visible]="showLatencia"
         >
           <div class="flex justify-between items-start mb-2 lg:mb-2">
@@ -548,7 +548,7 @@
         </div>
 
         <div
-          class="bg-white rounded-2xl px-3 pt-3 lg:px-3 lg:pt-3 pb-2 lg:pb-2.5 mb-4 max-lg:mb-3 md:mb-3 lg:mb-6 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-full lg:w-[calc(100%-0.75rem)] lg:-ml-2.5"
+          class="bg-white rounded-2xl 4xl:rounded-3xl px-3 pt-3 lg:px-3 lg:pt-3 pb-2 lg:pb-2.5 mb-4 max-lg:mb-3 md:mb-3 lg:mb-6 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800 w-full lg:w-[calc(100%-0.75rem)] lg:-ml-2.5"
           [class.fade-in-visible]="showDuracionMedia"
         >
           <div class="flex justify-between items-start mb-2 lg:mb-2">
@@ -675,7 +675,7 @@
 
         <!-- {{ t.systemStatus }} ({{ t.desktopAndMobileHiddenTablet }}) -->
         <div
-          class="block md:hidden lg:block bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:-ml-5 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 dark:bg-slate-900 dark:border-slate-800"
+          class="block md:hidden lg:block bg-white rounded-2xl 4xl:rounded-3xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:-ml-5 md:h-[360px] lg:h-auto fade-in-section border border-gray-100 dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showTipoLlamadas"
         >
           <h3
@@ -717,7 +717,7 @@
       >
         <!-- {{ t.peakHours }} (Popular times) -->
         <div
-          class="bg-white rounded-2xl p-3 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:p-4 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 min-h-[260px] md:min-h-[320px] lg:min-h-[240px] 3xl:lg:min-h-[300px] 4xl:lg:min-h-[360px] max-h-[350px] md:max-h-[400px] lg:max-h-[344px] xl:max-h-[344px] 2xl:max-h-[344px] 3xl:lg:max-h-[420px] 4xl:lg:max-h-[500px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)] overflow-visible flex flex-col"
+          class="bg-white rounded-2xl 4xl:rounded-3xl p-3 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:p-4 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 min-h-[260px] md:min-h-[320px] lg:min-h-[240px] 3xl:lg:min-h-[300px] 4xl:lg:min-h-[360px] max-h-[350px] md:max-h-[400px] lg:max-h-[344px] xl:max-h-[344px] 2xl:max-h-[344px] 3xl:lg:max-h-[420px] 4xl:lg:max-h-[500px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)] overflow-visible flex flex-col"
           [class.fade-in-visible]="showHorasPico"
           [class.metrics-plan-locked-card]="isStarterMetricsTier"
         >
@@ -858,7 +858,7 @@
 
         <!-- {{ t.countriesMovedFromOriginal }} -->
         <div
-          class="bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 mb-0 lg:mb-5 lg:-ml-5 md:h-[320px] lg:h-[320px] 3xl:lg:h-[400px] 4xl:lg:h-[480px] fade-in-section fade-in-countries-mobile border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800"
+          class="bg-white rounded-2xl 4xl:rounded-3xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 mb-0 lg:mb-5 lg:-ml-5 md:h-[320px] lg:h-[320px] 3xl:lg:h-[400px] 4xl:lg:h-[480px] fade-in-section fade-in-countries-mobile border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showPaises"
           [class.metrics-plan-locked-card]="isStarterMetricsTier"
         >
@@ -946,7 +946,7 @@
       >
         <!-- {{ t.successEvaluation }} -->
         <div
-          class="flex min-h-0 flex-col overflow-hidden bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 max-h-[min(320px,70vh)] md:h-full md:max-h-[min(440px,72vh)] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
+          class="flex min-h-0 flex-col overflow-hidden bg-white rounded-2xl 4xl:rounded-3xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 max-h-[min(320px,70vh)] md:h-full md:max-h-[min(440px,72vh)] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showEvaluacionExito"
           [class.metrics-plan-locked-card]="isStarterMetricsTier"
         >
@@ -1011,7 +1011,7 @@
 
         <!-- {{ t.callCompletionReason }} -->
         <div
-          class="flex min-h-0 flex-col overflow-hidden bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 max-lg:max-h-none lg:h-full lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
+          class="flex min-h-0 flex-col overflow-hidden bg-white rounded-2xl 4xl:rounded-3xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 max-lg:max-h-none lg:h-full lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showRazonFinalizacion"
           [class.metrics-plan-locked-card]="isStarterMetricsTier"
         >

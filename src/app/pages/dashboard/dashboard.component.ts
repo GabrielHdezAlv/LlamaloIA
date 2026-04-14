@@ -23,8 +23,6 @@ import { I18nService, Language } from '../../core/services/i18n.service';
 import { NavigationService } from '../../core/services/navigation.service';
 import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
 import { AuthSessionService } from '../../core/services/auth-session.service';
-import { TrialBannerComponent } from '../../shared/components/trial-banner/trial-banner.component';
-
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -35,7 +33,6 @@ import { TrialBannerComponent } from '../../shared/components/trial-banner/trial
     TopbarComponent,
     NavComponent,
     CompanySetupComponent,
-    TrialBannerComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],

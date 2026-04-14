@@ -676,11 +676,12 @@
                 {{ currentPlanMinutes ?? "---" }} {{ t.minutesWord }}
                 {{ t.withPlan }} <strong>{{ currentPlanName }}</strong>
               </p>
-              @if (trialDaysRemaining(); as td) {
+              @if (showTrialRemainingInBilling) {
                 <p
-                  class="mt-1.5 text-[11px] lg:text-xs text-amber-800 dark:text-amber-200/90"
+                  class="mt-1.5 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-800 flex flex-row items-center gap-1.5 flex-wrap"
                 >
-                  {{ t.trialDaysLeft }}: <strong>{{ td }}</strong>
+                  <span>{{ t.trialTimeRemainingLabel }}:</span>
+                  <span class="tabular-nums font-medium">{{ trialRemainingDh }}</span>
                 </p>
               }
             </div>

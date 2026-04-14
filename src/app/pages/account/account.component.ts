@@ -351,17 +351,29 @@ export class AccountComponent implements OnInit, OnDestroy {
     return q.remaining <= 0;
   });
 
-  /** Días restantes de prueba (plan gratis con trial activo). */
-  trialDaysRemaining = computed(() => {
+  /** Igual que el dropdown del avatar: prueba activa en plan efectivo gratis. */
+  get showTrialRemainingInBilling(): boolean {
+    const pu = this.user()?.planUsage;
+    if (!pu?.trialActive || !pu.trialEndsAt) return false;
+    return pu.effectivePlanSlug === 'gratis';
+  }
+
+  /** Tiempo hasta fin de prueba (p. ej. `6D 23H`). */
+  get trialRemainingDh(): string {
+    this.i18nService.selectedLanguage();
     const u = this.user();
-    const pu = u?.planUsage;
-    if (!u || u.plan !== 'gratis' || !pu?.trialActive) return null;
-    const raw = pu.trialEndsAt ?? u.trialEndsAt;
-    if (!raw) return null;
+    if (!u) return '0D 0H';
+    const pu = u.planUsage;
+    const raw = pu?.trialEndsAt ?? u.trialEndsAt;
+    if (!raw) return '0D 0H';
     const end = new Date(raw).getTime();
-    const days = Math.ceil((end - Date.now()) / 86400000);
-    return Math.max(0, days);
-  });
+    if (Number.isNaN(end)) return '0D 0H';
+    const ms = Math.max(0, end - Date.now());
+    const totalHours = Math.floor(ms / 3_600_000);
+    const days = Math.floor(totalHours / 24);
+    const hours = totalHours % 24;
+    return `${days}D ${hours}H`;
+  }
 
   ngOnInit() {
     this.i18nService.initializeLanguage();

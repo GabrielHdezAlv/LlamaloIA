@@ -122,7 +122,9 @@
 
         <!-- Dropdown móvil (clonado del navbar, adaptado) -->
         <div *ngIf="showDropdown || dropdownClosing"
-          class="mobile-topbar-dropdown xl:hidden absolute right-0 top-12 w-44 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700 transition-all duration-200 ease-out"
+          class="mobile-topbar-dropdown xl:hidden absolute right-0 w-44 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700 transition-all duration-200 ease-out"
+          [class.top-12]="!showTrialRemainingInDropdown"
+          [class.top-20]="showTrialRemainingInDropdown"
           [class.dropdown-entering]="dropdownOpening"
           [class.dropdown-leaving]="dropdownClosing">
           <!-- Ajustes -->
@@ -180,7 +182,8 @@
 
           <!-- Cerrar sesión -->
           <button (click)="logout()"
-            class="w-full flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-red-50 transition-colors rounded-b-2xl dark:text-slate-100 dark:hover:bg-red-900/30">
+            class="w-full flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-red-50 transition-colors dark:text-slate-100 dark:hover:bg-red-900/30"
+            [class.rounded-b-2xl]="!showTrialRemainingInDropdown">
             <svg class="w-4 h-4 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor"
               xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd"
@@ -192,6 +195,10 @@
             </svg>
             <span class="font-medium text-xs">{{ t.logout }}</span>
           </button>
+          <div *ngIf="showTrialRemainingInDropdown" class="px-3 pt-2 pb-2.5 rounded-b-2xl border-t border-gray-200 dark:border-slate-700 flex flex-row items-center gap-1.5 flex-wrap">
+            <span class="font-medium text-xs text-gray-700 dark:text-slate-100">{{ t.trialTimeRemainingLabel }}:</span>
+            <span class="font-medium text-xs tabular-nums text-gray-700 dark:text-slate-100">{{ trialRemainingDh }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -340,7 +347,10 @@
 
       <!-- Dropdown escritorio -->
       <div *ngIf="(!isAdminSection) && (showDropdown || dropdownClosing)"
-        class="topbar-dropdown absolute right-0 mt-60 sm:mt-56 md:mt-56 lg:mt-60 xl:mt-60 2xl:mt-60 3xl:mt-72 w-48 sm:w-44 md:w-44 lg:w-48 xl:w-48 2xl:w-48 3xl:w-48 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700 transition-all duration-200 ease-out"
+        class="topbar-dropdown absolute right-0 w-48 sm:w-44 md:w-44 lg:w-48 xl:w-48 2xl:w-48 3xl:w-48 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700 transition-all duration-200 ease-out"
+        [ngClass]="showTrialRemainingInDropdown
+          ? 'mt-72 sm:mt-64 md:mt-64 lg:mt-72 xl:mt-72 2xl:mt-72 3xl:mt-80 4xl:mt-80'
+          : 'mt-60 sm:mt-56 md:mt-56 lg:mt-60 xl:mt-60 2xl:mt-60 3xl:mt-72'"
         [class.dropdown-entering]="dropdownOpening"
         [class.dropdown-leaving]="dropdownClosing">
         <!-- Ajustes -->
@@ -406,7 +416,8 @@
 
         <!-- Cerrar sesión -->
         <button (click)="logout()"
-          class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-red-50 transition-colors rounded-b-2xl dark:text-slate-100 dark:hover:bg-red-900/30">
+          class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-red-50 transition-colors dark:text-slate-100 dark:hover:bg-red-900/30"
+          [class.rounded-b-2xl]="!showTrialRemainingInDropdown">
           <svg
             class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
             viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -420,6 +431,10 @@
           <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm">{{
             t.logout }}</span>
         </button>
+        <div *ngIf="showTrialRemainingInDropdown" class="px-2.5 3xl:px-2.5 pt-2 pb-2.5 rounded-b-2xl border-t border-gray-200 dark:border-slate-700 flex flex-row items-center gap-1.5 flex-wrap">
+          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-700 dark:text-slate-100">{{ t.trialTimeRemainingLabel }}:</span>
+          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm tabular-nums text-gray-700 dark:text-slate-100">{{ trialRemainingDh }}</span>
+        </div>
       </div>
     </div>
   </div>

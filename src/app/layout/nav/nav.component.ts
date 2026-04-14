@@ -90,6 +90,29 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
     return this.i18nService.getTranslations();
   }
 
+  /** Igual que topbar: prueba activa en menú del perfil. */
+  get showTrialRemainingInDropdown(): boolean {
+    const pu = this.userStorage.user()?.planUsage;
+    if (!pu?.trialActive || !pu.trialEndsAt) return false;
+    return pu.effectivePlanSlug === 'gratis';
+  }
+
+  get trialRemainingDh(): string {
+    this.i18nService.selectedLanguage();
+    const u = this.userStorage.user();
+    if (!u) return '0D 0H';
+    const pu = u.planUsage;
+    const raw = pu?.trialEndsAt ?? u.trialEndsAt;
+    if (!raw) return '0D 0H';
+    const end = new Date(raw).getTime();
+    if (Number.isNaN(end)) return '0D 0H';
+    const ms = Math.max(0, end - Date.now());
+    const totalHours = Math.floor(ms / 3_600_000);
+    const days = Math.floor(totalHours / 24);
+    const hours = totalHours % 24;
+    return `${days}D ${hours}H`;
+  }
+
   ngOnInit() {
     this.onResize();
     this.i18nService.initializeLanguage();
