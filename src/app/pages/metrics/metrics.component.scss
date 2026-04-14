@@ -292,6 +292,37 @@ apx-chart {
   transition:
     filter 0.2s ease,
     opacity 0.2s ease;
+  /* Mismo difuminado en 4 lados que el overlay (evita bordes duros del blur) */
+  -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent
+    ),
+    linear-gradient(
+      to bottom,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent
+    );
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent
+    ),
+    linear-gradient(
+      to bottom,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent
+    );
+  mask-composite: intersect;
 }
 
 .metrics-plan-locked-overlay {
@@ -301,21 +332,64 @@ apx-chart {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 0.5rem;
+  padding: 0;
   pointer-events: none;
+  box-sizing: border-box;
+  border-radius: 0 0 1rem 1rem;
   background: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0.12),
     rgba(255, 255, 255, 0.45)
   );
+  /**
+   * Difuminado en los 4 lados (y esquinas): intersección de
+   * fade horizontal + fade vertical → viñeta rectangular uniforme.
+   */
+  -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent
+    ),
+    linear-gradient(
+      to bottom,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent
+    );
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent
+    ),
+    linear-gradient(
+      to bottom,
+      transparent,
+      #000 10%,
+      #000 90%,
+      transparent
+    );
+  mask-composite: intersect;
 }
 
+/* Neutro (zinc), sin matiz azul del slate — alinea con tarjetas dark */
 :host-context(.dark) .metrics-plan-locked-overlay {
   background: linear-gradient(
     to bottom,
-    rgba(15, 23, 42, 0.2),
-    rgba(15, 23, 42, 0.62)
+    rgba(24, 24, 27, 0.5),
+    rgba(24, 24, 27, 0.92)
   );
+}
+
+/** Recuadro completo en plan Starter: mismo tono neutro que el overlay (evita slate-900 azulado) */
+:host-context(.dark) .metrics-plan-locked-card {
+  background-color: rgb(24 24 27) !important;
+  border-color: rgb(39 39 42) !important;
 }
 
 .metrics-plan-locked-overlay-text {

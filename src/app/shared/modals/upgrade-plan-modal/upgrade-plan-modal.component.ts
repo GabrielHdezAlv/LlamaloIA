@@ -13,12 +13,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { Subject, takeUntil, firstValueFrom } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { I18nService } from '../../../core/services/i18n.service';
-import { paidPlanFeatureRows, type PaidUpgradePlanId } from './pricing-plan-features';
+import {
+  paidPlanFeatureRows,
+  PLAN_TIER_STORAGE_KEY,
+  type PaidUpgradePlanId,
+} from './pricing-plan-features';
 import { StripeService } from '../../../core/services/stripe.service';
 import { UserStorage } from '../../../storages/user/user-storage';
 import { NotificationService } from '../../../core/services/notification.service';
-
-const PLAN_TIER_STORAGE_KEY = 'llamalo_selected_plan_tier';
 
 /** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.45s). */
 const UPGRADE_MODAL_CLOSE_MS = 500;

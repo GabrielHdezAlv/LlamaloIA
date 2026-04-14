@@ -29,6 +29,10 @@ import {
 } from '../../shared/models/call-metrics.model';
 import { UserStorage } from '../../storages/user/user-storage';
 import type { PanelAnalyticsTier } from '../../shared/models/panel-analytics.model';
+import {
+  planDisplayLabelFromTranslations,
+  userPlanGrantsFullMetrics,
+} from '../../shared/utils/plan-display.util';
 
 @Component({
   selector: 'app-metrics',
@@ -51,6 +55,14 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return this.i18nService.getTranslations();
   }
 
+  /** Nombre del plan actual (perfil), no el texto fijo «Starter». */
+  get subscriptionPlanDisplayName(): string {
+    return planDisplayLabelFromTranslations(
+      this.userStorage.user()?.plan,
+      this.t,
+    );
+  }
+
   /** Tier del panel según plan (API: dashboard o métricas detalladas). */
   get panelTier(): PanelAnalyticsTier {
     const pa =
@@ -70,8 +82,12 @@ export class MetricsComponent implements OnInit, OnDestroy {
   /**
    * Plan Starter (tier `basic` en panel_analytics): se muestran todas las tarjetas;
    * horas pico, países, evaluación de éxito y razón de finalización van atenuadas.
+   * Si el perfil ya indica Growth/Scale/Premium, no se trata como Starter aunque la API tarde en actualizar `tier`.
    */
   get isStarterMetricsTier(): boolean {
+    if (userPlanGrantsFullMetrics(this.userStorage.user()?.plan)) {
+      return false;
+    }
     const pa =
       this.dashboardMetrics?.panel_analytics ??
       this.detailedMetrics?.panel_analytics;

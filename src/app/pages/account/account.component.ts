@@ -28,6 +28,10 @@ import { ImageCropperComponent } from '../../shared/components/image-cropper/ima
 import { TwilioService } from '../../core/services/twilio.service';
 import { StripeService } from '../../core/services/stripe.service';
 import { ShopifyIntegrationService } from '../../core/services/shopify-integration.service';
+import {
+  PLAN_TIER_STORAGE_KEY,
+  type PaidUpgradePlanId,
+} from '../../shared/modals/upgrade-plan-modal/pricing-plan-features';
 
 @Component({
   selector: 'app-account',
@@ -410,9 +414,13 @@ export class AccountComponent implements OnInit, OnDestroy {
       }
 
       if (params['stripe'] === 'success' || params['stripe'] === 'return') {
+        const stripeKind = params['stripe'];
         void this.userStore.loadUserProfile().then(() => {
           this.syncBillingFromUser();
           this.notificationService.success(this.t.stripeBillingUpdated);
+          if (stripeKind === 'success') {
+            this.tryOpenPlanCelebrationAfterStripeSuccess();
+          }
         });
         setTimeout(() => {
           this.router.navigate([], {
@@ -452,6 +460,53 @@ export class AccountComponent implements OnInit, OnDestroy {
       }
 
     });
+  }
+
+  /**
+   * Tras Stripe Checkout (`stripe=success`): modal de celebración con el plan contratado.
+   * El tier suele venir de `PLAN_TIER_STORAGE_KEY` (guardado al elegir plan); si no, del perfil recargado.
+   */
+  private tryOpenPlanCelebrationAfterStripeSuccess(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    const plan = this.resolvePaidPlanForCelebration();
+    try {
+      localStorage.removeItem(PLAN_TIER_STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+    if (!plan) {
+      return;
+    }
+    setTimeout(() => {
+      this.modalService.openPlanUpgradeCelebration({ plan });
+    }, 200);
+  }
+
+  private resolvePaidPlanForCelebration(): PaidUpgradePlanId | null {
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        const stored = localStorage
+          .getItem(PLAN_TIER_STORAGE_KEY)
+          ?.trim()
+          .toLowerCase();
+        if (
+          stored === 'starter' ||
+          stored === 'growth' ||
+          stored === 'scale'
+        ) {
+          return stored;
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+    const raw = this.user()?.plan?.trim().toLowerCase() ?? '';
+    if (raw === 'starter' || raw === 'growth' || raw === 'scale') {
+      return raw;
+    }
+    return null;
   }
 
   // Método para actualizar contraseña

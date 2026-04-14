@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
 import { NavigationService } from '../../core/services/navigation.service';
 import { I18nService, Language } from '../../core/services/i18n.service';
+import { planDisplayLabelFromTranslations } from '../../shared/utils/plan-display.util';
 import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
 import { ModalService } from '../../shared/modals/modal.service';
 import { AuthSessionService } from '../../core/services/auth-session.service';
@@ -60,6 +61,13 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
       return `${user.name} ${user.lastname}`;
     }
     return 'Usuario';
+  });
+
+  /** Etiqueta del plan en la tarjeta lateral (según `user.plan`, no texto fijo). */
+  planBadgeLabel = computed(() => {
+    this.i18nService.selectedLanguage();
+    const user = this.userStorage.user();
+    return planDisplayLabelFromTranslations(user?.plan, this.i18nService.getTranslations());
   });
 
   // Método para obtener la imagen del perfil del usuario

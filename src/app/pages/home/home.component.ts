@@ -22,6 +22,7 @@ import { MetricsService } from '../../core/services/metrics.service';
 import { AgentsService } from '../../core/services/agents.service';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
+import { planDisplayLabelFromTranslations } from '../../shared/utils/plan-display.util';
 import { ModalService } from '../../shared/modals/modal.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
@@ -76,6 +77,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   // Obtener traducciones
   get t() {
     return this.i18nService.getTranslations();
+  }
+
+  /** Nombre del plan bajo «Minutos» (Growth, Scale, etc.), no el texto fijo Plan Starter. */
+  get minutesPlanDisplayName(): string {
+    return planDisplayLabelFromTranslations(
+      this.userStorage.user()?.plan,
+      this.t,
+    );
   }
 
   // Obtener idioma actual

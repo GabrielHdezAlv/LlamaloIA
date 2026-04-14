@@ -378,7 +378,7 @@
             <p
               class="text-xl sm:text-2xl 3xl:text-3xl max-lg:text-xl max-lg:sm:text-2xl max-lg:md:text-2xl font-semibold text-gray-800 mb-2 3xl:mb-3 max-lg:mb-2 leading-tight dark:text-slate-50 tracking-[-0.7px]"
             >
-              {{ t.starterPlan }}
+              {{ subscriptionPlanDisplayName }}
             </p>
           </div>
         </div>
@@ -719,6 +719,7 @@
         <div
           class="bg-white rounded-2xl p-3 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 lg:p-4 col-span-1 lg:col-span-2 lg:mr-4 lg:-mt-6 shadow-none fade-in-section border border-gray-100 min-h-[260px] md:min-h-[320px] lg:min-h-[240px] 3xl:lg:min-h-[300px] 4xl:lg:min-h-[360px] max-h-[350px] md:max-h-[400px] lg:max-h-[344px] xl:max-h-[344px] 2xl:max-h-[344px] 3xl:lg:max-h-[420px] 4xl:lg:max-h-[500px] dark:bg-slate-900 dark:border-slate-800 lg:max-w-[calc(100%-1.5rem)] overflow-visible flex flex-col"
           [class.fade-in-visible]="showHorasPico"
+          [class.metrics-plan-locked-card]="isStarterMetricsTier"
         >
           <!-- {{ t.title }} -->
           <div class="flex shrink-0 items-center justify-between mb-3 max-lg:mb-2">
@@ -859,6 +860,7 @@
         <div
           class="bg-white rounded-2xl px-2.5 pt-2.5 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 max-lg:pt-4 max-lg:sm:pt-5 max-lg:md:pt-6 pb-2 max-lg:pb-3 max-lg:sm:pb-4 max-lg:md:pb-5 mb-0 lg:mb-5 lg:-ml-5 md:h-[320px] lg:h-[320px] 3xl:lg:h-[400px] 4xl:lg:h-[480px] fade-in-section fade-in-countries-mobile border border-gray-100 flex flex-col overflow-hidden dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showPaises"
+          [class.metrics-plan-locked-card]="isStarterMetricsTier"
         >
           <h3
             class="shrink-0 font-semibold text-gray-800 mb-1.5 max-lg:mb-2 max-lg:sm:mb-2.5 max-lg:md:mb-3 lg:mb-2 3xl:text-base 4xl:text-lg text-xs max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-sm tracking-[-0.7px] dark:text-slate-50"
@@ -946,6 +948,7 @@
         <div
           class="flex min-h-0 flex-col overflow-hidden bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 max-h-[min(320px,70vh)] md:h-full md:max-h-[min(440px,72vh)] lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showEvaluacionExito"
+          [class.metrics-plan-locked-card]="isStarterMetricsTier"
         >
           <div
             class="flex w-full min-w-0 shrink-0 items-baseline gap-2 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3"
@@ -1010,6 +1013,7 @@
         <div
           class="flex min-h-0 flex-col overflow-hidden bg-white rounded-2xl p-2 max-lg:p-4 max-lg:sm:p-5 max-lg:md:p-6 lg:p-2.5 fade-in-section border border-gray-100 max-lg:max-h-none lg:h-full lg:max-h-[360px] dark:bg-slate-900 dark:border-slate-800"
           [class.fade-in-visible]="showRazonFinalizacion"
+          [class.metrics-plan-locked-card]="isStarterMetricsTier"
         >
           <div
             class="flex w-full min-w-0 shrink-0 items-baseline gap-2 mb-2 max-lg:mb-2.5 max-lg:sm:mb-3 max-lg:md:mb-3"
