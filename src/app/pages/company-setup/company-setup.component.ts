@@ -1649,7 +1649,7 @@ export class CompanySetupComponent
       error: (error: HttpErrorResponse) => {
         console.error('❌ Error al crear agente:', error);
         this.isCreatingAgent = false;
-        this.goToStep(9); // Volver a prueba de agente
+        // Mantener paso 10 (teléfono/Twilio): volver a 9 confundía al usuario si fallaba la creación
         if (error.status === 403) {
           openPlanLimitDialog(
             this.modalService,
