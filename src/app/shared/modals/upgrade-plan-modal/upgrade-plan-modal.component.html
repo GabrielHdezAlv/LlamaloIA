@@ -86,13 +86,31 @@
             </div>
           </div>
 
-          @if (isRegistrationMode && plan.id === 'starter') {
-            <p
-              class="text-center text-xs md:text-[11px] 4xl:text-base font-medium text-emerald-700 dark:text-emerald-400 mb-2 md:mb-1.5 4xl:mb-2.5">
-              {{ t.registrationStarterTrialBadge }}
-            </p>
-          }
-
+          @if (plan.id === 'starter') {
+            <div class="flex flex-col gap-2 md:gap-1.5 4xl:gap-3 w-full">
+              <button
+                type="button"
+                (click)="onChoosePlan(plan.id, $event, 'trial')"
+                [disabled]="stripeRedirecting || cancelLoading"
+                [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center shadow disabled:opacity-60 disabled:pointer-events-none border-2 border-emerald-700 text-emerald-800 bg-white hover:bg-emerald-50 dark:border-emerald-500 dark:text-emerald-200 dark:bg-transparent dark:hover:bg-emerald-950/40'">
+                {{ t.upgradePlanStarterTrialCta }}
+              </button>
+              <button
+                type="button"
+                (click)="onChoosePlan(plan.id, $event, 'pay')"
+                [disabled]="stripeRedirecting || cancelLoading"
+                [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none ' +
+                  (plan.highlighted
+                    ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90'
+                    : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
+                <span>{{ t.upgradePlanStarterPayCta }}</span>
+                <svg class="w-5 h-5 ml-2 md:w-4 md:h-4 md:ml-1.5 4xl:w-7 4xl:h-7 4xl:ml-2.5 transition-transform duration-300 group-hover:translate-x-1"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </button>
+            </div>
+          } @else {
           <button
             type="button"
             (click)="onChoosePlan(plan.id, $event)"
@@ -107,6 +125,7 @@
               <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>
           </button>
+          }
         </div>
 
         <div

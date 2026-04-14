@@ -22,7 +22,10 @@ import {
   PLAN_TIER_STORAGE_KEY,
   type PaidUpgradePlanId,
 } from './pricing-plan-features';
-import { StripeService } from '../../../core/services/stripe.service';
+import {
+  StripeService,
+  type StarterCheckoutMode,
+} from '../../../core/services/stripe.service';
 import { UserStorage } from '../../../storages/user/user-storage';
 import { NotificationService } from '../../../core/services/notification.service';
 import { UserService } from '../../../core/services/user.service';
@@ -204,13 +207,20 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  async onChoosePlan(planId: PaidUpgradePlanId, event: Event): Promise<void> {
+  async onChoosePlan(
+    planId: PaidUpgradePlanId,
+    event: Event,
+    starterMode?: StarterCheckoutMode,
+  ): Promise<void> {
     event.preventDefault();
     event.stopPropagation();
     if (this.closing || this.stripeRedirecting) {
       return;
     }
     if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (planId !== 'starter' && starterMode != null) {
       return;
     }
     try {
@@ -244,6 +254,9 @@ export class UpgradePlanModalComponent implements OnInit, OnDestroy {
             plan: planId,
             successUrl,
             cancelUrl,
+            ...(planId === 'starter' && starterMode != null
+              ? { starterMode }
+              : {}),
           }),
         );
         if (url) {

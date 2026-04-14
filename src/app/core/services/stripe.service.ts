@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { UserService } from './user.service';
 
 export type StripePaidPlan = 'starter' | 'growth' | 'scale';
+export type StarterCheckoutMode = 'trial' | 'pay';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +33,7 @@ export class StripeService {
     plan: StripePaidPlan;
     successUrl: string;
     cancelUrl: string;
+    starterMode?: StarterCheckoutMode;
   }): Observable<{ url: string | null; sessionId: string }> {
     return this.http.post<{ url: string | null; sessionId: string }>(
       `${this.stripeBase()}/checkout-session`,

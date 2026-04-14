@@ -372,8 +372,6 @@ export interface Translations {
   stripePaymentPendingDesc: string;
   /** Paso de registro: elegir plan o prueba */
   registrationPlanStepTitle: string;
-  /** Solo copy encima del CTA Starter en el modal de registro (informativo). */
-  registrationStarterTrialBadge: string;
   registrationCancelCta: string;
 
   protectedByStripe: string;
@@ -786,6 +784,9 @@ export interface Translations {
   upgradePlanGrowthDesc: string;
   upgradePlanScaleDesc: string;
   upgradePlanStarterButton: string;
+  /** CTA secundarios Starter: trial Stripe vs pago mensual (solo UI; el API usa starterMode). */
+  upgradePlanStarterTrialCta: string;
+  upgradePlanStarterPayCta: string;
   upgradePlanGrowthButton: string;
   upgradePlanScaleButton: string;
   pricingFeatureIncludedMinutes: string;
@@ -1282,7 +1283,6 @@ export class I18nService {
       stripePaymentPendingDesc:
         'Actualiza tu método de pago en el portal de facturación para seguir usando la plataforma.',
       registrationPlanStepTitle: 'Elige cómo quieres empezar',
-      registrationStarterTrialBadge: '(Prueba 7 días gratis)',
       registrationCancelCta: 'Cancelar registro y salir',
       protectedByStripe: 'Protegido por Stripe',
 
@@ -1696,6 +1696,8 @@ export class I18nService {
       upgradePlanGrowthDesc: 'Más minutos y capacidad para equipos en crecimiento.',
       upgradePlanScaleDesc: 'Escala máxima y capacidad\nSoporte dedicado.',
       upgradePlanStarterButton: 'Elegir Starter',
+      upgradePlanStarterTrialCta: 'Probar 7 días gratis',
+      upgradePlanStarterPayCta: 'Pagar mensualidad ahora',
       upgradePlanGrowthButton: 'Elegir Growth',
       upgradePlanScaleButton: 'Elegir Scale',
       pricingFeatureIncludedMinutes: 'Minutos incluidos',
@@ -2187,7 +2189,6 @@ export class I18nService {
       stripePaymentPendingDesc:
         'Update your payment method in the billing portal to keep using the platform.',
       registrationPlanStepTitle: 'Choose how to get started',
-      registrationStarterTrialBadge: '(7-day free trial)',
       registrationCancelCta: 'Cancel sign-up and exit',
       protectedByStripe: 'Protected by Stripe',
 
@@ -2599,6 +2600,8 @@ export class I18nService {
       upgradePlanGrowthDesc: 'More minutes and room for growing teams.',
       upgradePlanScaleDesc: 'Max scale & capacity\nDedicated support.',
       upgradePlanStarterButton: 'Choose Starter',
+      upgradePlanStarterTrialCta: 'Try free for 7 days',
+      upgradePlanStarterPayCta: 'Pay monthly now',
       upgradePlanGrowthButton: 'Choose Growth',
       upgradePlanScaleButton: 'Choose Scale',
       pricingFeatureIncludedMinutes: 'Included minutes',
