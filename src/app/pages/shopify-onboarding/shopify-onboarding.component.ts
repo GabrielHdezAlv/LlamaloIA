@@ -162,26 +162,18 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
         this.router.navigate(['/dashboard/agents/edit', this.agentId], { queryParams: { tab: 'connections' } });
       }
     } else if (this.sourceOnboarding) {
-      const queryParams: Record<string, string> = {
-        step: 'connectBusiness',
-      };
-      if (this.connectedStores.length > 0) {
-        queryParams['shopify'] = 'success';
-        queryParams['shop'] = this.connectedStores[0].shopDomain;
-      }
-      this.router.navigate(['/company-setup'], { queryParams });
+      // No añadir shopify=success aquí: listar tiendas en cuenta ≠ OAuth completado en esta sesión.
+      // El estado "Conectado" solo debe venir de /shopify-onboarding/success (continueConfiguringAgent).
+      this.router.navigate(['/company-setup'], {
+        queryParams: { step: 'connectBusiness' },
+      });
     } else {
       if (this.sourceAdmin) {
         this.router.navigate(['/admin']);
       } else {
-        const queryParams: Record<string, string> = {
-          step: 'connectBusiness',
-        };
-        if (this.connectedStores.length > 0) {
-          queryParams['shopify'] = 'success';
-          queryParams['shop'] = this.connectedStores[0].shopDomain;
-        }
-        this.router.navigate(['/dashboard/agents/create'], { queryParams });
+        this.router.navigate(['/dashboard/agents/create'], {
+          queryParams: { step: 'connectBusiness' },
+        });
       }
     }
   }
