@@ -463,7 +463,7 @@
           t.home }}</span>
       </a>
 
-      <a #navItem [attr.data-route]="'/dashboard/agents'" [routerLink]="['/dashboard/agents']"
+      <a #navItem id="tour-nav-agents-desktop" [attr.data-route]="'/dashboard/agents'" [routerLink]="['/dashboard/agents']"
         (click)="collapseOnNavigate()" [class]="
           'relative flex items-center gap-2 3xl:gap-2.5 rounded-lg transition my-0 w-full py-1 ' +
           (isRouteActive('/dashboard/agents')

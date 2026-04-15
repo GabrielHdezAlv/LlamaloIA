@@ -60,12 +60,14 @@ import {
   PlanUpgradeCelebrationModalComponent,
   PlanUpgradeCelebrationModalData,
 } from './plan-upgrade-celebration-modal/plan-upgrade-celebration-modal.component';
+import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService {
   private dialog = inject(MatDialog);
+  private firstAgentTour = inject(FirstAgentTourService);
 
   /** Animaciones de entrada/salida del contenedor de Material Dialog. */
   private readonly dialogMotion = {
@@ -273,6 +275,7 @@ export class ModalService {
   }
 
   openPlanUpgradeCelebration(data: PlanUpgradeCelebrationModalData) {
+    this.firstAgentTour.markPlanCelebrationRequired();
     return this.dialog.open(PlanUpgradeCelebrationModalComponent, {
       disableClose: true,
       panelClass: ['custom-dialog-container', 'plan-celebration-dialog'],

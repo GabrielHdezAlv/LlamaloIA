@@ -916,6 +916,14 @@ export interface Translations {
   authLinkLogin: string;
   authPromptRecoverRemember: string;
   authErrorRecoverRequest: string;
+  /** Tour primer agente (dashboard) */
+  firstAgentTourStep1Title: string;
+  firstAgentTourStep1Desc: string;
+  firstAgentTourStep2Title: string;
+  firstAgentTourStep2Desc: string;
+  firstAgentTourNextToAgents: string;
+  firstAgentTourDone: string;
+  firstAgentTourSkip: string;
 }
 
 @Injectable({
@@ -1841,6 +1849,15 @@ export class I18nService {
       authPromptRecoverRemember: '¿Recordaste tu contraseña?',
       authErrorRecoverRequest:
         'No se pudo enviar el correo de recuperación. Inténtalo de nuevo.',
+      firstAgentTourStep1Title: 'Tu primer agente de voz',
+      firstAgentTourStep1Desc:
+        'En el menú lateral, pulsa <strong>Agentes</strong> para abrir la lista. Después te indicaremos cómo crear uno.',
+      firstAgentTourStep2Title: 'Crear tu agente',
+      firstAgentTourStep2Desc:
+        'Pulsa <strong>Agregar agente</strong> para comenzar el asistente guiado de creación.',
+      firstAgentTourNextToAgents: 'Ir a Agentes',
+      firstAgentTourDone: 'Entendido',
+      firstAgentTourSkip: 'Saltar',
     },
     en: {
       // Home page translations
@@ -2751,6 +2768,15 @@ export class I18nService {
       authPromptRecoverRemember: 'Remember your password?',
       authErrorRecoverRequest:
         'Could not send the recovery email. Please try again.',
+      firstAgentTourStep1Title: 'Your first voice agent',
+      firstAgentTourStep1Desc:
+        'In the sidebar, tap <strong>Agents</strong> to open the list. We will then show you how to create one.',
+      firstAgentTourStep2Title: 'Create your agent',
+      firstAgentTourStep2Desc:
+        'Click <strong>Add agent</strong> to start the guided creation flow.',
+      firstAgentTourNextToAgents: 'Go to Agents',
+      firstAgentTourDone: 'Got it',
+      firstAgentTourSkip: 'Skip',
     }
   };
 

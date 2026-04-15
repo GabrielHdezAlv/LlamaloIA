@@ -12,7 +12,8 @@ import {
   untracked,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { RouterOutlet, RouterModule, Router } from '@angular/router';
+import { RouterOutlet, RouterModule, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavComponent } from '../../layout/nav/nav.component';
 import { TopbarComponent } from '../../layout/topbar/topbar.component';
@@ -27,6 +28,7 @@ import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
 import { AuthSessionService } from '../../core/services/auth-session.service';
 import { ModalService } from '../../shared/modals/modal.service';
 import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
+import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -84,6 +86,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   private navigationService = inject(NavigationService);
   private modalService = inject(ModalService);
   private matDialog = inject(MatDialog);
+  private firstAgentTour = inject(FirstAgentTourService);
 
   /** Trial agotado o pago Stripe pendiente: bloquear UI y mostrar solo modal de precios. */
   subscriptionPaywallActive = computed(() =>
@@ -171,6 +174,31 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     // Cargar datos del recordatorio
     await this.loadReminderData();
+
+    this.router.events
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.maybeStartFirstAgentTour();
+      });
+    queueMicrotask(() => this.maybeStartFirstAgentTour());
+  }
+
+  /** Tour guiado (primer agente): spotlight hacia Agentes → Agregar agente. */
+  private maybeStartFirstAgentTour(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (this.subscriptionPaywallActive()) {
+      return;
+    }
+    const url = this.router.url.split('?')[0];
+    if (!url.startsWith('/dashboard')) {
+      return;
+    }
+    if (url.includes('/agents/create') || url.includes('/agents/edit')) {
+      return;
+    }
+    this.firstAgentTour.start();
   }
 
   async loadReminderData(): Promise<void> {

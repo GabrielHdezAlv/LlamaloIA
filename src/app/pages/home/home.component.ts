@@ -25,6 +25,7 @@ import { UserStorage } from '../../storages/user/user-storage';
 import { planDisplayLabelFromTranslations } from '../../shared/utils/plan-display.util';
 import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 import { ModalService } from '../../shared/modals/modal.service';
+import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 import { Agent } from '../../shared/models/agent.model';
@@ -54,6 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private userService = inject(UserService);
   private userStorage = inject(UserStorage);
   private modalService = inject(ModalService);
+  private firstAgentTour = inject(FirstAgentTourService);
   private notificationService = inject(NotificationService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -1022,6 +1024,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.showCallsByDayPanel = true;
     }, 700);
+
+    // Tras el fade del panel Bienvenido (100 ms) y el resto de la secuencia (hasta 700 ms): margen antes del tour.
+    setTimeout(() => {
+      this.firstAgentTour.notifyHomeWelcomeSequenceComplete();
+    }, 900);
   }
 
   private showAllSectionsImmediately(): void {

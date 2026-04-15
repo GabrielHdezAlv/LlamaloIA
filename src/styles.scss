@@ -924,5 +924,44 @@ html.dark .dark\:focus\:border-blue-400:focus {
   backdrop-filter: blur(4px);
 }
 
+/* Tour primer agente (driver.js) */
+.first-agent-tour-popover.driver-popover {
+  max-width: min(22rem, calc(100vw - 2rem));
+  border-radius: 0.75rem;
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(15, 23, 42, 0.08);
+}
+
+.first-agent-tour-popover .driver-popover-description strong {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+html.dark .first-agent-tour-popover .driver-popover-description strong {
+  color: #f8fafc;
+}
+
+.driver-popover-skip-btn {
+  margin-right: auto;
+  background: transparent !important;
+  color: #64748b !important;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+html.dark .driver-popover-skip-btn {
+  color: #94a3b8 !important;
+}
+
+.driver-popover-skip-btn:hover {
+  color: #0f172a !important;
+}
+
+html.dark .driver-popover-skip-btn:hover {
+  color: #e2e8f0 !important;
+}
+
 /* Shopify Polaris: variables y temas (admin) — --p-* para vistas tipo embebido */
 @import '@shopify/polaris-tokens/css/styles.css';
