@@ -20,6 +20,9 @@ export class AppComponent implements OnInit {
   isAtBottom = false;
   isGlobalLoading = false;
 
+  /** Widget flotante Xenon: oculto durante onboarding (company-setup / Shopify). */
+  showSupportWidget = true;
+
   private router = inject(Router);
   private routeVisibilityService = inject(RouteVisibilityService);
   private firebaseTokenRefresh = inject(FirebaseTokenRefreshService);
@@ -28,6 +31,11 @@ export class AppComponent implements OnInit {
   constructor(@Inject(PLATFORM_ID) private platformId: object) { }
 
   ngOnInit(): void {
+    this.updateSupportWidgetVisibility(this.router.url);
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => this.updateSupportWidgetVisibility(this.router.url));
+
     if (isPlatformBrowser(this.platformId)) {
       this.firebaseTokenRefresh.start();
       queueMicrotask(() => this.profileEventsClient.connectIfLoggedIn());
@@ -171,6 +179,14 @@ export class AppComponent implements OnInit {
     if (window.location.href !== cleanUrl) {
       window.history.replaceState({}, '', cleanUrl);
     }
+  }
+
+  private updateSupportWidgetVisibility(url: string): void {
+    const path = url.split('?')[0];
+    const onboarding =
+      path.startsWith('/company-setup') ||
+      path.startsWith('/shopify-onboarding');
+    this.showSupportWidget = !onboarding;
   }
 }
 
