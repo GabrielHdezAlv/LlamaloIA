@@ -599,6 +599,10 @@ export interface Translations {
   externalActionsMake: string;
   makeExternalDescription: string;
   makeComingSoon: string;
+  /** Sidebar Make (creación / edición agente): descripción junto al logo */
+  makeModalSidebarDesc: string;
+  /** Enlace a Make.com desde el panel lateral */
+  makeModalOpenMakeSite: string;
   connectShopifyTitle: string;
   linkStoreDescription: string;
   shopifyConnectDesc: string;
@@ -790,7 +794,7 @@ export interface Translations {
   upgradePlanGrowthDesc: string;
   upgradePlanScaleDesc: string;
   upgradePlanStarterButton: string;
-  /** Bajo el botón de pago Starter: enlace a checkout con trial en Stripe. */
+  /** Encima del botón Starter (fuera de flujo): enlace a checkout con trial en Stripe. */
   upgradePlanStarterTrialTextLink: string;
   upgradePlanGrowthButton: string;
   upgradePlanScaleButton: string;
@@ -1522,6 +1526,9 @@ export class I18nService {
       externalActionsMake: 'Acciones externas',
       makeExternalDescription: 'Automatiza tus flujos',
       makeComingSoon: 'Próximamente',
+      makeModalSidebarDesc:
+        'Configura webhooks en Make.com para que tu agente dispare automatizaciones cuando lo necesites.',
+      makeModalOpenMakeSite: 'Abrir Make.com',
       connectShopifyTitle: 'Conecta tu negocio de Shopify',
       linkStoreDescription: 'Vincula tu tienda para que tu agente pueda usar tus datos reales.',
       shopifyConnectDesc: 'Conecta tu tienda para sincronizar productos, pedidos y clientes.',
@@ -1715,9 +1722,9 @@ export class I18nService {
       upgradePlanScale: 'Scale',
       upgradePlanStarterDesc: 'Para empezar con agentes de voz y base de conocimiento.',
       upgradePlanGrowthDesc: 'Más minutos y capacidad para equipos en crecimiento.',
-      upgradePlanScaleDesc: 'Escala máxima y capacidad\nSoporte dedicado.',
+      upgradePlanScaleDesc: 'Escala máxima para alto volumen.\nSoporte dedicado.',
       upgradePlanStarterButton: 'Elegir Starter',
-      upgradePlanStarterTrialTextLink: 'o probar 7 días gratis',
+      upgradePlanStarterTrialTextLink: 'Probar 7 días gratis',
       upgradePlanGrowthButton: 'Elegir Growth',
       upgradePlanScaleButton: 'Elegir Scale',
       pricingFeatureIncludedMinutes: 'Minutos incluidos',
@@ -2444,6 +2451,9 @@ export class I18nService {
       externalActionsMake: 'External actions',
       makeExternalDescription: 'Automate your workflows',
       makeComingSoon: 'Coming soon',
+      makeModalSidebarDesc:
+        'Set up webhooks in Make.com so your agent can trigger automations when needed.',
+      makeModalOpenMakeSite: 'Open Make.com',
       connectShopifyTitle: 'Connect your Shopify business',
       linkStoreDescription: 'Link your store so your agent can use your real data.',
       shopifyConnectDesc: 'Connect your store to sync products, orders and customers.',
@@ -2635,9 +2645,9 @@ export class I18nService {
       upgradePlanScale: 'Scale',
       upgradePlanStarterDesc: 'Get started with voice agents and a knowledge base.',
       upgradePlanGrowthDesc: 'More minutes and room for growing teams.',
-      upgradePlanScaleDesc: 'Max scale & capacity\nDedicated support.',
+      upgradePlanScaleDesc: 'Maximum scale for high volume.\nDedicated support.',
       upgradePlanStarterButton: 'Choose Starter',
-      upgradePlanStarterTrialTextLink: 'or try free for 7 days',
+      upgradePlanStarterTrialTextLink: 'Try 7 days free',
       upgradePlanGrowthButton: 'Choose Growth',
       upgradePlanScaleButton: 'Choose Scale',
       pricingFeatureIncludedMinutes: 'Included minutes',

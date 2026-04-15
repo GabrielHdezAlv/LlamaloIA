@@ -503,28 +503,16 @@
     <!-- Paso 3: Planes y pago (misma UI que el modal de registro) -->
     <div *ngSwitchCase="3"
       class="relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
-        <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
-        <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-      </div>
-      <div class="relative w-full min-h-full flex flex-col pt-20 pb-8 px-3 sm:px-4 md:px-6"
+      <div class="relative flex w-full min-h-full flex-col justify-center px-4 py-10 sm:py-12 md:py-14 3xl:py-16 sm:px-5 md:px-6 lg:px-8 3xl:px-12"
         [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-        <div class="mx-auto w-full max-w-6xl flex-1 min-h-0">
-          <app-upgrade-plan-pricing-view mode="embedded" />
+        <div class="mx-auto w-full max-w-[42.5rem] 3xl:max-w-[68rem]">
+          <app-upgrade-plan-pricing-view mode="embedded" (onboardingBack)="goBack()" />
         </div>
-        <div *ngIf="canContinuePastPricing" class="mt-4 flex justify-center max-w-6xl mx-auto w-full">
+        <div *ngIf="canContinuePastPricing" class="mx-auto mt-3 flex w-full max-w-[42.5rem] justify-center 3xl:max-w-[68rem]">
           <button type="button"
-            class="inline-flex items-center justify-center rounded-md bg-blue-900 dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-slate-900 transition hover:opacity-90"
+            class="inline-flex items-center justify-center rounded-md 3xl:rounded-xl bg-blue-900 dark:bg-white px-4 py-2 3xl:px-5 3xl:py-2.5 text-xs 3xl:text-sm font-semibold text-white dark:text-slate-900 transition hover:opacity-90"
             (click)="goToStep(4)">
             {{ t.continue }}
-          </button>
-        </div>
-        <div class="mt-6 flex justify-start max-w-6xl mx-auto w-full">
-          <button type="button"
-            class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-gray-300 dark:border-slate-600 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md bg-transparent"
-            (click)="goBack()">
-            <span class="text-xs 3xl:text-lg leading-none">‹</span>
-            <span>{{ t.back }}</span>
           </button>
         </div>
       </div>

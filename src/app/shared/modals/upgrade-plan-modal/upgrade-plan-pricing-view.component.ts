@@ -69,6 +69,8 @@ export class UpgradePlanPricingViewComponent implements OnInit {
 
   @Output() registrationAborted = new EventEmitter<void>();
   @Output() requestDismiss = new EventEmitter<void>();
+  /** Solo `mode="embedded"` (company-setup): volver al paso anterior. */
+  @Output() onboardingBack = new EventEmitter<void>();
 
   showCloseButton = false;
   private closing = false;
@@ -141,6 +143,10 @@ export class UpgradePlanPricingViewComponent implements OnInit {
         priceAnnualPerMonth: p.annualPerMonth,
       };
     });
+  }
+
+  emitOnboardingBack(): void {
+    this.onboardingBack.emit();
   }
 
   close(): void {

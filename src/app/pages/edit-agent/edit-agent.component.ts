@@ -60,7 +60,10 @@ import {
   of,
 } from 'rxjs';
 import { UserStorage } from '../../storages/user/user-storage';
-import { WebhookActionsService } from '../../core/services/webhook-actions.service';
+import {
+  WebhookActionsService,
+  type WebhookAction,
+} from '../../core/services/webhook-actions.service';
 
 @Component({
   selector: 'app-edit-agent',
@@ -159,9 +162,22 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   selectedShopifyDomain = '';
   isSavingShopifyDomain = false;
 
-  /** Número de acciones Make (webhooks) del agente; se actualiza al abrir Conexiones y al cerrar el modal. */
+  /** Número de acciones Make (webhooks) del agente; se actualiza al abrir Conexiones y al cerrar el panel. */
   makeWebhookActionsCount: number | null = null;
   makeWebhookCountLoading = false;
+
+  /** Sidebar Make (mismo patrón deslizante que el paso Instrucciones en creación de agente) */
+  showMakeEditSidebar = false;
+  isMakeEditSidebarClosing = false;
+  makeSidebarSavedActions: WebhookAction[] = [];
+  makeSidebarLoading = false;
+  makeSidebarSaving = false;
+  makeSidebarSaveError: string | null = null;
+  makeSidebarForm: { name: string; description: string; serverUrl: string } = {
+    name: '',
+    description: '',
+    serverUrl: '',
+  };
 
   // Audio
   audioLevel = 0;
@@ -1710,20 +1726,112 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     }
   }
 
-  /** Abre el modal de acciones Make (webhooks) con el agente actual. */
-  openMakeModal(): void {
+  /** Abre el panel lateral de acciones Make (webhooks), mismo diseño que en paso Instrucciones. */
+  openMakeEditSidebar(): void {
     if (!this.agentId) {
       this.notificationService.error(
         'No se pudo identificar el agente. Recarga la página e inténtalo de nuevo.',
       );
       return;
     }
-    this.modalService
-      .openMake({ agentId: this.agentId })
-      .afterClosed()
+    this.showMakeEditSidebar = true;
+    this.isMakeEditSidebarClosing = false;
+    this.makeSidebarSaveError = null;
+    this.loadMakeSidebarActions();
+  }
+
+  closeMakeEditSidebar(): void {
+    if (!this.showMakeEditSidebar) {
+      return;
+    }
+    this.isMakeEditSidebarClosing = true;
+    window.setTimeout(() => {
+      this.showMakeEditSidebar = false;
+      this.isMakeEditSidebarClosing = false;
+      this.refreshMakeWebhookActionsCount();
+    }, 280);
+  }
+
+  private loadMakeSidebarActions(): void {
+    if (this.agentId == null) {
+      return;
+    }
+    this.makeSidebarLoading = true;
+    this.makeSidebarSaveError = null;
+    this.webhookActionsService
+      .list(this.agentId)
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.refreshMakeWebhookActionsCount();
+      .subscribe({
+        next: (res) => {
+          this.makeSidebarSavedActions = res.items;
+          this.makeSidebarLoading = false;
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.makeSidebarLoading = false;
+          this.makeSidebarSaveError =
+            err?.error?.message ||
+            'No se pudieron cargar las acciones. Comprueba tu plan.';
+        },
+      });
+  }
+
+  isMakeSidebarFormValid(): boolean {
+    const n = this.makeSidebarForm.name.trim();
+    const u = this.makeSidebarForm.serverUrl.trim();
+    return n.length >= 2 && u.length >= 12;
+  }
+
+  saveMakeSidebarAction(): void {
+    if (this.agentId == null) {
+      this.notificationService.error('No se pudo identificar el agente.');
+      return;
+    }
+    if (!this.isMakeSidebarFormValid()) {
+      return;
+    }
+    this.makeSidebarSaving = true;
+    this.makeSidebarSaveError = null;
+    this.webhookActionsService
+      .create(this.agentId, {
+        name: this.makeSidebarForm.name.trim(),
+        description: this.makeSidebarForm.description.trim(),
+        webhookUrl: this.makeSidebarForm.serverUrl.trim(),
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.makeSidebarSaving = false;
+          this.notificationService.success('Acción guardada');
+          this.makeSidebarForm = { name: '', description: '', serverUrl: '' };
+          this.loadMakeSidebarActions();
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.makeSidebarSaving = false;
+          this.makeSidebarSaveError =
+            err?.error?.message ||
+            'No se pudo guardar. Revisa la URL (HTTPS) y los límites de tu plan.';
+        },
+      });
+  }
+
+  removeMakeSidebarAction(id: string, event: Event): void {
+    event.preventDefault();
+    if (this.agentId == null) {
+      return;
+    }
+    this.webhookActionsService
+      .delete(this.agentId, id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.notificationService.success('Acción eliminada');
+          this.loadMakeSidebarActions();
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.notificationService.error(
+            err?.error?.message || 'No se pudo eliminar la acción.',
+          );
+        },
       });
   }
 

@@ -214,6 +214,16 @@ export class FirstAgentTourService {
     popover.footerButtons.insertBefore(skip, popover.footerButtons.firstChild);
   }
 
+  /** Recalcula agujero y popover tras pintar (fuentes/layout); mejora alineación del flechazo */
+  private scheduleTourLayoutRefresh(drv: Driver): void {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        drv.refresh();
+        window.setTimeout(() => drv.refresh(), 48);
+      });
+    });
+  }
+
   private startPhaseNavToAgents(): void {
     const t = this.i18n.getTranslations();
     const el = this.getNavAgentsElement();
@@ -227,8 +237,10 @@ export class FirstAgentTourService {
     const d = driver({
       showProgress: false,
       animate: true,
-      overlayOpacity: 0.72,
-      stageRadius: 12,
+      overlayOpacity: 0.78,
+      stagePadding: 4,
+      stageRadius: 8,
+      popoverOffset: 6,
       smoothScroll: true,
       popoverClass: 'first-agent-tour-popover',
       showButtons: ['next', 'close'],
@@ -236,6 +248,7 @@ export class FirstAgentTourService {
       doneBtnText: t.firstAgentTourNextToAgents,
       onPopoverRender: (popover, { driver: drv }) => {
         this.wireSkipButton(popover, drv);
+        this.scheduleTourLayoutRefresh(drv);
       },
       onCloseClick: () => {
         this.markSkipped();
@@ -251,7 +264,7 @@ export class FirstAgentTourService {
             title: t.firstAgentTourStep1Title,
             description: t.firstAgentTourStep1Desc,
             side: 'right',
-            align: 'start',
+            align: 'center',
             onNextClick: (_element, _step, { driver: drv }) => {
               void this.router.navigate(['/dashboard/agents']).then(() => {
                 drv.destroy();
@@ -279,8 +292,10 @@ export class FirstAgentTourService {
       const d = driver({
         showProgress: false,
         animate: true,
-        overlayOpacity: 0.72,
-        stageRadius: 12,
+        overlayOpacity: 0.78,
+        stagePadding: 4,
+        stageRadius: 8,
+        popoverOffset: 6,
         smoothScroll: true,
         popoverClass: 'first-agent-tour-popover',
         showButtons: ['next', 'close'],
@@ -288,6 +303,7 @@ export class FirstAgentTourService {
         doneBtnText: t.firstAgentTourDone,
         onPopoverRender: (popover, { driver: drv }) => {
           this.wireSkipButton(popover, drv);
+          this.scheduleTourLayoutRefresh(drv);
         },
         onCloseClick: () => {
           this.markSkipped();

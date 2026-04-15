@@ -374,3 +374,56 @@ $plan-price-xfade-ease: cubic-bezier(0.14, 0.85, 0.28, 1);
     font-size: 0.875rem;
   }
 }
+
+/* Onboarding /company-setup paso planes: escala global + toggle proporcional */
+.onboarding-pricing-host--compact {
+  zoom: 0.86;
+}
+
+@media (min-width: 768px) {
+  .onboarding-pricing-host--compact {
+    zoom: 0.9;
+  }
+
+  @keyframes plan-card-pro-fade-in-compact {
+    from {
+      opacity: 0;
+      transform: scale(1.03) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.03) translateY(0);
+    }
+  }
+
+  .onboarding-pricing-host--compact .plan-card-pro.plan-card-fade-in {
+    animation: plan-card-pro-fade-in-compact 0.58s cubic-bezier(0.28, 1, 0.4, 1) forwards;
+  }
+
+  .onboarding-pricing-host--compact .plan-card-pro:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Pantallas 3xl (≥1900px): onboarding embebido más grande y toggle proporcional */
+@media (min-width: 1900px) {
+  .onboarding-pricing-host--compact {
+    zoom: 1;
+  }
+
+  .billing-toggle--onboarding {
+    width: 11.75rem;
+  }
+
+  .billing-toggle--onboarding .billing-toggle__thumb {
+    top: 4px;
+    left: 4px;
+    bottom: 4px;
+    width: calc(50% - 4px);
+  }
+
+  .billing-toggle--onboarding .billing-toggle__btn {
+    padding: 0.5rem 0.55rem;
+    font-size: 0.75rem;
+  }
+}
