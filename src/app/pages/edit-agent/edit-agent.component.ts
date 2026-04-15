@@ -22,6 +22,8 @@ import {
   ReactiveFormsModule,
   FormsModule,
 } from '@angular/forms';
+import { WebhookActionsService } from '../../core/services/webhook-actions.service';
+import type { WebhookAction } from '../../core/services/webhook-actions.service';
 import {
   AgentsService,
   GenerateAgentInstructionsRequest,
@@ -88,6 +90,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private notificationService = inject(NotificationService);
   private i18nService = inject(I18nService);
+  private webhookActionsService = inject(WebhookActionsService);
   readonly voiceTest = inject(VoiceTestService);
 
   editForm!: FormGroup;
@@ -157,6 +160,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   selectedShopifyDomain = '';
   isSavingShopifyDomain = false;
 
+  /** Acciones Make (webhooks) por agente */
+  webhookActions: WebhookAction[] = [];
+  isLoadingWebhookActions = false;
+  webhookSaveError: string | null = null;
+  isSavingWebhook = false;
+  webhookForm!: FormGroup;
+
   // Audio
   audioLevel = 0;
   isPlaying = false;
@@ -211,6 +221,12 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.isBrowser = isPlatformBrowser(this.platformId);
+    this.webhookForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      description: ['', [Validators.required, Validators.minLength(8)]],
+      webhookUrl: ['', [Validators.required, Validators.minLength(12)]],
+    });
+
     this.editForm = this.fb.group({
       name: ['', Validators.required],
       language: ['', Validators.required],
@@ -433,10 +449,89 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   setActiveTab(tab: 'main' | 'connections' | 'knowledge'): void {
     this.activeTab = tab;
 
+    if (tab === 'connections') {
+      this.loadWebhookActions();
+    }
+
     // Load available knowledge sources when switching to knowledge tab
     if (tab === 'knowledge') {
       this.loadAvailableKnowledgeSources();
     }
+  }
+
+  loadWebhookActions(): void {
+    if (!this.agentId) return;
+    this.isLoadingWebhookActions = true;
+    this.webhookSaveError = null;
+    this.webhookActionsService
+      .list(this.agentId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.webhookActions = res.items;
+          this.isLoadingWebhookActions = false;
+          this.cdr.markForCheck();
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.isLoadingWebhookActions = false;
+          this.webhookSaveError =
+            err?.error?.message ||
+            'No se pudieron cargar las acciones. Comprueba tu plan o inténtalo más tarde.';
+          this.cdr.markForCheck();
+        },
+      });
+  }
+
+  submitWebhookAction(): void {
+    if (!this.agentId || this.webhookForm.invalid) return;
+    this.isSavingWebhook = true;
+    this.webhookSaveError = null;
+    const v = this.webhookForm.getRawValue() as {
+      name: string;
+      description: string;
+      webhookUrl: string;
+    };
+    this.webhookActionsService
+      .create(this.agentId, v)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.webhookForm.reset({
+            name: '',
+            description: '',
+            webhookUrl: '',
+          });
+          this.isSavingWebhook = false;
+          this.loadWebhookActions();
+          this.notificationService.success('Acción webhook creada');
+          this.cdr.markForCheck();
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.isSavingWebhook = false;
+          this.webhookSaveError =
+            err?.error?.message ||
+            'No se pudo crear la acción. Revisa la URL (HTTPS) y los límites de tu plan.';
+          this.cdr.markForCheck();
+        },
+      });
+  }
+
+  removeWebhookAction(id: string): void {
+    if (!this.agentId) return;
+    this.webhookActionsService
+      .delete(this.agentId, id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.loadWebhookActions();
+          this.notificationService.success('Acción eliminada');
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.notificationService.error(
+            err?.error?.message || 'No se pudo eliminar la acción.',
+          );
+        },
+      });
   }
 
   get agentShopifyDomain(): string | null {
