@@ -2,6 +2,32 @@
   min-height: 100vh;
 }
 
+/**
+ * Evitar el focus global de styles.scss (p. ej. borde #000 con html sin .dark).
+ * Esta pantalla es siempre oscura: borde blanco al enfocar; rojo si el dominio es inválido.
+ * :host aumenta especificidad frente a `html.dark input:focus`.
+ */
+:host .shopify-onboarding input[type='text']:focus,
+:host .shopify-onboarding input[type='text']:focus-visible {
+  border-color: #ffffff !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+:host .shopify-onboarding input[type='text'].border-red-500:focus,
+:host .shopify-onboarding input[type='text'].border-red-500:focus-visible {
+  border-color: #ef4444 !important;
+}
+
+:host .shopify-onboarding input[type='text']:-webkit-autofill,
+:host .shopify-onboarding input[type='text']:-webkit-autofill:hover,
+:host .shopify-onboarding input[type='text']:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+  box-shadow: 0 0 0 1000px rgba(30, 41, 59, 0.45) inset !important;
+  transition: background-color 99999s ease-out 0s;
+}
+
 /* Fondo negro siempre: host y contenido (evita gris de body/html) */
 :host {
   display: block;

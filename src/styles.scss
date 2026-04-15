@@ -746,8 +746,8 @@ body::-webkit-scrollbar {
 
   /* Botones primarios (Crear agente, Continuar, etc.) que usan bg-[#0a1740]
      → en modo oscuro pasan al azul de marca #1E3A8A.
-     Excepción: .create-agent-btn-white-dark, .import-number-btn-white-dark y .btn-continuar-shopify quedan con su estilo (blanco/negro). */
-  html.dark [class*="bg-[#0a1740]"]:not(.create-agent-btn-white-dark):not(.import-number-btn-white-dark):not(.btn-continuar-shopify) {
+     Excepción: .create-agent-btn-white-dark, .import-number-btn-white-dark, .account-profile-save-changes y .btn-continuar-shopify quedan con su estilo (blanco/negro). */
+  html.dark [class*="bg-[#0a1740]"]:not(.create-agent-btn-white-dark):not(.import-number-btn-white-dark):not(.account-profile-save-changes):not(.btn-continuar-shopify) {
     background-color: rgba(30, 58, 138, 0.9) !important;
   }
 

@@ -195,9 +195,9 @@
             </svg>
             <span class="font-medium text-xs">{{ t.logout }}</span>
           </button>
-          <div *ngIf="showTrialRemainingInDropdown" class="px-3 pt-2 pb-2.5 rounded-b-2xl border-t border-gray-200 dark:border-slate-700 flex flex-row items-center gap-1.5 flex-wrap">
-            <span class="font-medium text-xs text-gray-700 dark:text-slate-100">{{ t.trialTimeRemainingLabel }}:</span>
-            <span class="font-medium text-xs tabular-nums text-gray-700 dark:text-slate-100">{{ trialRemainingDh }}</span>
+          <div *ngIf="showTrialRemainingInDropdown" class="px-3 pt-2 pb-2.5 rounded-b-2xl border-t border-gray-200 dark:border-slate-700 flex flex-row flex-nowrap items-center gap-x-1.5">
+            <span class="font-medium text-xs text-gray-700 dark:text-slate-100 whitespace-nowrap">{{ t.trialTimeRemainingLabelShort }}:</span>
+            <span class="font-semibold text-xs tabular-nums text-gray-700 dark:text-slate-100 whitespace-nowrap">{{ trialRemainingDh }}</span>
           </div>
         </div>
       </div>
@@ -431,9 +431,9 @@
           <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm">{{
             t.logout }}</span>
         </button>
-        <div *ngIf="showTrialRemainingInDropdown" class="px-2.5 3xl:px-2.5 pt-2 pb-2.5 rounded-b-2xl border-t border-gray-200 dark:border-slate-700 flex flex-row items-center gap-1.5 flex-wrap">
-          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-700 dark:text-slate-100">{{ t.trialTimeRemainingLabel }}:</span>
-          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm tabular-nums text-gray-700 dark:text-slate-100">{{ trialRemainingDh }}</span>
+        <div *ngIf="showTrialRemainingInDropdown" class="px-2.5 3xl:px-2.5 pt-2 pb-2.5 rounded-b-2xl border-t border-gray-200 dark:border-slate-700 flex flex-row flex-nowrap items-center gap-x-1.5">
+          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-700 dark:text-slate-100 whitespace-nowrap">{{ t.trialTimeRemainingLabelShort }}:</span>
+          <span class="font-semibold text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm tabular-nums text-gray-700 dark:text-slate-100 whitespace-nowrap">{{ trialRemainingDh }}</span>
         </div>
       </div>
     </div>

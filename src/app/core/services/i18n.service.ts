@@ -51,6 +51,8 @@ export interface Translations {
   phoneNumberImportLabel: string;
   twilioAccountSidLabel: string;
   twilioAccountTokenLabel: string;
+  countryDialPopularSection: string;
+  countryDialAllSection: string;
   phoneNumberPlaceholder: string;
   twilioSidPlaceholder: string;
   twilioTokenPlaceholder: string;
@@ -359,6 +361,8 @@ export interface Translations {
   trialBannerUpgrade: string;
   /** Franja bajo el título: fin de prueba (día y hora), sin recuadro */
   trialTimeRemainingLabel: string;
+  /** Misma idea, texto breve para menús desplegables (avatar / nav) */
+  trialTimeRemainingLabelShort: string;
   cancelSubscription: string;
   invoicesHistory: string;
   /** Un solo CTA al Customer Portal (cancelar / método / facturas) */
@@ -965,6 +969,8 @@ export class I18nService {
       phoneNumberImportLabel: 'Número de teléfono',
       twilioAccountSidLabel: 'SID de cuenta Twilio',
       twilioAccountTokenLabel: 'Token de cuenta Twilio',
+      countryDialPopularSection: 'Más usadas',
+      countryDialAllSection: 'Todos los países',
       phoneNumberPlaceholder: '630 00 00 00',
       twilioSidPlaceholder: 'SID de cuenta Twilio',
       twilioTokenPlaceholder: 'Token de cuenta Twilio',
@@ -1269,6 +1275,7 @@ export class I18nService {
       metricsExportCsvButton: 'Exportar CSV',
       trialBannerUpgrade: 'Mejorar plan',
       trialTimeRemainingLabel: 'Tiempo restante de la prueba gratuita',
+      trialTimeRemainingLabelShort: 'Tiempo restante',
       cancelSubscription: 'Cancelar suscripción',
       invoicesHistory: 'Historial de facturas',
       manageBilling: 'Gestionar facturación',
@@ -1870,6 +1877,8 @@ export class I18nService {
       phoneNumberImportLabel: 'Phone Number',
       twilioAccountSidLabel: 'Twilio Account SID',
       twilioAccountTokenLabel: 'Twilio Account Token',
+      countryDialPopularSection: 'Most used',
+      countryDialAllSection: 'All countries',
       phoneNumberPlaceholder: '630 00 00 00',
       twilioSidPlaceholder: 'Twilio Account SID',
       twilioTokenPlaceholder: 'Twilio Account Token',
@@ -2174,6 +2183,7 @@ export class I18nService {
       metricsExportCsvButton: 'Export CSV',
       trialBannerUpgrade: 'Upgrade plan',
       trialTimeRemainingLabel: 'Time remaining on the free trial',
+      trialTimeRemainingLabelShort: 'Time remaining',
       cancelSubscription: 'Cancel subscription',
       invoicesHistory: 'Invoices history',
       manageBilling: 'Manage billing',

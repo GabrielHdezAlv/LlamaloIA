@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   inject,
   OnInit,
   AfterViewInit,
@@ -25,6 +26,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getGroupedCountryDialOptions } from './phone-country-dial-codes';
 
 interface PhoneNumberDisplay {
   phoneId: number;
@@ -75,6 +77,11 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   showCountryMenu = false;
   selectedCountryCode = '+34';
   selectedCountry = 'es';
+  /** Prefijos: top 10 + resto A–Z, según idioma UI */
+  readonly countryDialGrouped = computed(() => {
+    const code = this.i18nService.selectedLanguage().code;
+    return getGroupedCountryDialOptions(code === 'en' ? 'en' : 'es');
+  });
   routingRegionEnabled = false;
 
   private isBrowser: boolean;

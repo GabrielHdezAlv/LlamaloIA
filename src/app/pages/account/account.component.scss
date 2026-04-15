@@ -62,6 +62,21 @@
   .account-settings select[class*='border'] {
     border-width: 1px !important;
   }
+
+  /* Perfil — "Guardar cambios": fondo/texto aquí (evita depender solo de utilidades dark: y de reglas globales en styles.scss) */
+  ::ng-deep app-ripple-button button.account-profile-save-changes {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  ::ng-deep app-ripple-button button.account-profile-save-changes:hover {
+    background-color: #f3f4f6 !important;
+    color: #000000 !important;
+  }
+
+  ::ng-deep button.account-profile-save-changes .ripple {
+    background-color: rgba(0, 0, 0, 0.14) !important;
+  }
 }
 
 // Estilos para las notificaciones (snackbar)
