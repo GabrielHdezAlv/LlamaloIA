@@ -377,6 +377,8 @@ export interface Translations {
   /** Paso de registro: elegir plan o prueba */
   registrationPlanStepTitle: string;
   registrationCancelCta: string;
+  /** Subtítulo bajo el título de planes en el onboarding (paso dedicado, no modal). */
+  onboardingPlanStepSubtitle: string;
 
   protectedByStripe: string;
 
@@ -833,6 +835,7 @@ export interface Translations {
   // Company setup / onboarding
   skipLabel: string;
   createFirstAgent: string;
+  onboardingPlanIntroTitle: string;
   whatDoYouWantToAchieve: string;
   youCanSelectMultiple: string;
   customerServiceInbound: string;
@@ -1290,6 +1293,8 @@ export class I18nService {
         'Actualiza tu método de pago en el portal de facturación para seguir usando la plataforma.',
       registrationPlanStepTitle: 'Elige cómo quieres empezar',
       registrationCancelCta: 'Cancelar registro y salir',
+      onboardingPlanStepSubtitle:
+        'Compara facturación mensual o anual. En Starter puedes activar la prueba gratuita o contratar al momento.',
       protectedByStripe: 'Protegido por Stripe',
 
       // Delete account modal
@@ -1751,6 +1756,7 @@ export class I18nService {
       // Company setup
       skipLabel: 'Saltar',
       createFirstAgent: 'Crea tu primer agente',
+      onboardingPlanIntroTitle: 'Elige tu plan',
       whatDoYouWantToAchieve: '¿Qué quieres conseguir con Llamalo?',
       youCanSelectMultiple: 'Puedes seleccionar varias opciones para esta pregunta.',
       customerServiceInbound: 'Atención al cliente (Inbound)',
@@ -2198,6 +2204,8 @@ export class I18nService {
         'Update your payment method in the billing portal to keep using the platform.',
       registrationPlanStepTitle: 'Choose how to get started',
       registrationCancelCta: 'Cancel sign-up and exit',
+      onboardingPlanStepSubtitle:
+        'Compare monthly or annual billing. On Starter you can start a free trial or subscribe right away.',
       protectedByStripe: 'Protected by Stripe',
 
       // Delete account modal
@@ -2657,6 +2665,7 @@ export class I18nService {
       // Company setup
       skipLabel: 'Skip',
       createFirstAgent: 'Create your first agent',
+      onboardingPlanIntroTitle: 'Choose your plan',
       whatDoYouWantToAchieve: 'What do you want to achieve with Llamalo?',
       youCanSelectMultiple: 'You can select multiple options for this question.',
       customerServiceInbound: 'Customer service (Inbound)',

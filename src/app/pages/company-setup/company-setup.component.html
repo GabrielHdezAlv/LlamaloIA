@@ -8,11 +8,11 @@
     </div>
   </div>
 
-  <!-- Animación "Vamos a crear tu primer agente" (tras Cómo nos conociste) -->
-  <div *ngIf="showAgentIntroAnimation" class="welcome-sequence agent-intro-sequence"
-    [class.exit-animation]="agentIntroExitTriggered">
+  <!-- Animación previa al paso de planes -->
+  <div *ngIf="showPlanIntroAnimation" class="welcome-sequence agent-intro-sequence"
+    [class.exit-animation]="planIntroExitTriggered">
     <div class="welcome-text-container">
-      <h2 class="brand-name brand-font">{{ t.createFirstAgent }}</h2>
+      <h2 class="brand-name brand-font">{{ t.onboardingPlanIntroTitle }}</h2>
     </div>
   </div>
 
@@ -492,7 +492,7 @@
             </button>
             <button type="button"
               class="px-3 3xl:px-6 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#1B2559] dark:bg-white dark:text-[#000000] dark:hover:bg-white dark:disabled:hover:bg-white"
-              (click)=" startAgentIntroAnimation()">
+              (click)="startPlanIntroAnimation()">
               {{ t.continue }}
             </button>
           </div>
@@ -500,184 +500,38 @@
       </div>
     </div>
 
-    <!-- Paso 3: Nombre del agente -->
+    <!-- Paso 3: Planes y pago (misma UI que el modal de registro) -->
     <div *ngSwitchCase="3"
       class="relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <!-- Logo centrado -->
       <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
         <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
         <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
       </div>
-      <div
-        class="relative w-full min-h-full h-full flex flex-col justify-center"
+      <div class="relative w-full min-h-full flex flex-col pt-20 pb-8 px-3 sm:px-4 md:px-6"
         [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-        <app-agent-name-step [agentName]="agentName" [currentStepNumber]="getAgentStepNumber()"
-          [totalSteps]="getAgentTotalSteps()" (agentNameChange)="agentName = $event" (backClicked)="goBack()"
-          (continueClicked)="onSubmitAgentName()">
-        </app-agent-name-step>
+        <div class="mx-auto w-full max-w-6xl flex-1 min-h-0">
+          <app-upgrade-plan-pricing-view mode="embedded" />
+        </div>
+        <div *ngIf="canContinuePastPricing" class="mt-4 flex justify-center max-w-6xl mx-auto w-full">
+          <button type="button"
+            class="inline-flex items-center justify-center rounded-md bg-blue-900 dark:bg-white px-4 py-2 text-xs font-semibold text-white dark:text-slate-900 transition hover:opacity-90"
+            (click)="goToStep(4)">
+            {{ t.continue }}
+          </button>
+        </div>
+        <div class="mt-6 flex justify-start max-w-6xl mx-auto w-full">
+          <button type="button"
+            class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-gray-300 dark:border-slate-600 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md bg-transparent"
+            (click)="goBack()">
+            <span class="text-xs 3xl:text-lg leading-none">‹</span>
+            <span>{{ t.back }}</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Paso 4: Tipo de llamada (Inbound / Outbound) -->
+    <!-- Paso 4: Bienvenida final -->
     <div *ngSwitchCase="4"
-      class="relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
-        <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
-        <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-      </div>
-      <div
-        class="relative w-full min-h-full h-full flex flex-col justify-center"
-        [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-        <app-call-type-step [selectedCallType]="selectedCallType" [currentStepNumber]="getAgentStepNumber()"
-          [totalSteps]="getAgentTotalSteps()" (callTypeChange)="selectedCallType = $event" (backClicked)="goBack()"
-          (continueClicked)="onContinueFromCallType()">
-        </app-call-type-step>
-      </div>
-    </div>
-
-    <!-- Paso 5: País y voz -->
-    <div *ngSwitchCase="5"
-      class="relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
-        <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
-        <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-      </div>
-      <div
-        class="relative w-full min-h-full h-full flex flex-col justify-center"
-        [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-      <app-voices-step [selectedCountry]="selectedCountry" [countryOptions]="countryOptions" [voices]="voices"
-        [selectedVoiceId]="selectedVoiceId" [currentPlayingVoice]="currentPlayingVoice"
-        [voiceParameters]="voiceParameters" [currentStepNumber]="getAgentStepNumber()"
-        [totalSteps]="getAgentTotalSteps()" (countrySelected)="selectCountry($event)"
-        (voiceSelected)="selectVoice($event)" (playVoiceClicked)="playVoice($event)"
-        (playVoicePreviewClicked)="playVoicePreview($event.voice, $event.event)"
-        (voiceParametersChange)="voiceParameters = $event" (backClicked)="goBack()"
-        (continueClicked)="onContinueFromVoices()">
-      </app-voices-step>
-      </div>
-    </div>
-
-    <!-- Paso 6: Conecta tu negocio -->
-    <div *ngSwitchCase="6"
-      class="relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
-        <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
-        <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-      </div>
-      <div
-        class="relative w-full min-h-full h-full flex flex-col justify-center"
-        [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-        <app-connect-business-step [shopifyConnectedDomain]="shopifyConnectedDomain"
-          [currentStepNumber]="getAgentStepNumber()" [totalSteps]="getAgentTotalSteps()" (backClicked)="goBack()"
-          (continueClicked)="onContinueFromConnectBusiness()" (connectShopifyClicked)="goToShopifyOnboarding()">
-        </app-connect-business-step>
-      </div>
-    </div>
-
-    <!-- Paso 7: Instrucciones -->
-    <div *ngSwitchCase="7"
-      class="relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
-        <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
-        <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-      </div>
-      <div
-        class="relative w-full min-h-full h-full flex flex-col justify-center"
-        [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-      <app-instructions-step [greeting]="greeting" [instructions]="instructions" [showMakeConfig]="showMakeConfig"
-        [isMakeConfigClosing]="isMakeConfigClosing" [makeActionData]="makeActionData"
-        [makeActionActive]="makeActionActive" [makeGeneratedWebhook]="makeGeneratedWebhook"
-        [showGeneratePromptModal]="showGeneratePromptModal"
-        [isGeneratePromptDropdownClosing]="isGeneratePromptDropdownClosing" [promptDescription]="promptDescription"
-        [promptEnterpriseName]="promptEnterpriseName"
-        [isGeneratingPrompt]="isGeneratingPrompt" [generatePromptError]="generatePromptError"
-        [showExpandInstructionsModal]="showExpandInstructionsModal"
-        [isInstructionsModalClosing]="isInstructionsModalClosing" [currentStepNumber]="getAgentStepNumber()"
-        [totalSteps]="getAgentTotalSteps()" (greetingChange)="greeting = $event"
-        (instructionsChange)="instructions = $event" (promptDescriptionChange)="promptDescription = $event"
-        (promptEnterpriseNameChange)="promptEnterpriseName = $event"
-        (makeActionDataChange)="makeActionData = $event" (backClicked)="goBack()"
-        (continueClicked)="onContinueFromInstructions()" (toggleMakeConfigClicked)="toggleMakeConfig()"
-        (saveMakeActionClicked)="onSaveMakeAction()" (editMakeActionClicked)="onEditMakeAction()"
-        (deleteMakeActionClicked)="onDeleteMakeAction()" (toggleGeneratePromptClicked)="toggleGeneratePromptDropdown()"
-        (generatePromptClicked)="generatePrompt()" (closeGeneratePromptClicked)="closeGeneratePromptModal()"
-        (openExpandInstructionsClicked)="openExpandInstructionsModal()"
-        (closeExpandInstructionsClicked)="closeExpandInstructionsModal()">
-      </app-instructions-step>
-      </div>
-    </div>
-
-    <!-- Paso 8: Base de conocimientos -->
-    <div *ngSwitchCase="8"
-      class="relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
-        <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
-        <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-      </div>
-      <div
-        class="relative w-full min-h-full h-full flex flex-col justify-center"
-        [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-      <app-knowledge-base-step [currentStepNumber]="getAgentStepNumber()" [totalSteps]="getAgentTotalSteps()"
-        (sourceSelected)="onSourceSelected($event)" (backClicked)="goBack()"
-        (continueClicked)="onKnowledgeBaseContinue($event)"></app-knowledge-base-step>
-      </div>
-    </div>
-
-    <!-- Paso 9: Prueba de agente -->
-    <div *ngSwitchCase="9"
-      class="relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
-        <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
-        <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-      </div>
-      <div
-        class="relative w-full min-h-full h-full flex flex-col justify-center"
-        [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-      <app-test-agent-step [currentStepNumber]="getAgentStepNumber()" [totalSteps]="getAgentTotalSteps()"
-        [agentInstruction]="instructions" [firstInteraction]="greeting" [language]="selectedCountry"
-        [agentName]="agentName" [voiceId]="selectedVoiceId" [voiceParameters]="voiceParameters"
-        [shopifyDomain]="shopifyConnectedDomain ?? undefined" (backClicked)="goBack()"
-        (continueClicked)="onSubmitTestCall()">
-      </app-test-agent-step>
-      </div>
-    </div>
-
-    <!-- Paso 10: Conecta tu número de teléfono (Twilio) -->
-    <div *ngSwitchCase="10"
-      class="relative w-full flex-1 min-h-0 h-full overflow-y-auto bg-gray-100 dark:bg-[#111113]">
-      <div class="absolute top-12 left-0 right-0 flex justify-center z-10 sm:top-14 3xl:top-16">
-        <img src="assets/logo_azul.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto dark:hidden" />
-        <img src="assets/logo_blanco.webp" alt="Llamalo Logo" class="h-6 sm:h-7 3xl:h-9 w-auto hidden dark:block" />
-      </div>
-      <div
-        class="relative w-full min-h-full h-full flex flex-col justify-center"
-        [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-      <app-connect-phone-step [currentStepNumber]="getAgentStepNumber()" [totalSteps]="getAgentTotalSteps()"
-        [showTwilioConfig]="showTwilioConfig" [loadingTwilioAccounts]="loadingTwilioAccounts"
-        [isTwilioValidated]="isTwilioValidated" [isValidatingTwilio]="isValidatingTwilio" [twilioSid]="twilioSid"
-        [twilioToken]="twilioToken" [twilioSidValidationStatus]="twilioSidValidationStatus"
-        [twilioTokenValidationStatus]="twilioTokenValidationStatus" [twilioErrorMessage]="twilioErrorMessage"
-        [selectedTwilioAccount]="selectedTwilioAccount" [twilioAccounts]="twilioAccounts"
-        [showNewTwilioAccountForm]="showNewTwilioAccountForm" [availablePhoneNumbers]="availablePhoneNumbers"
-        [phoneNumber]="phoneNumber" [selectedCountryCode]="selectedCountryCode"
-        [phoneValidationStatus]="phoneValidationStatus" [phoneErrorMessage]="phoneErrorMessage"
-        [canContinueFromConnections]="canContinueFromConnections" (backClicked)="goBack()"
-        (continueClicked)="onContinueFromConnections()" (toggleTwilioConfigClicked)="toggleTwilioConfig()"
-        (twilioSidChange)="twilioSid = $event; onTwilioSidChange()"
-        (twilioTokenChange)="twilioToken = $event; onTwilioTokenChange()"
-        (validateTwilioConfigClicked)="validateTwilioConfig()"
-        (useExistingTwilioAccountClicked)="useExistingTwilioAccount($event)"
-        (showNewTwilioAccountClicked)="showNewTwilioAccount()"
-        (backToAccountSelectionClicked)="backToAccountSelection()"
-        (phoneNumberChange)="phoneNumber = $event; onPhoneNumberChange()"
-        (selectedCountryCodeChange)="selectedCountryCode = $event; onPhoneNumberChange()"
-        (phoneNumberSelected)="onPhoneNumberSelected($event)" (validatePhoneNumberClicked)="validatePhoneNumber()">
-      </app-connect-phone-step>
-      </div>
-    </div>
-
-    <!-- Paso 11: nubes animadas — claro (blanco + azules suaves) / oscuro (como shopify-onboarding) -->
-    <div *ngSwitchCase="11"
       class="company-setup-welcome-final relative w-full flex-1 min-h-0 h-full overflow-x-hidden overflow-y-auto">
       <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <div class="company-setup-welcome-cloud company-setup-welcome-cloud-1"></div>

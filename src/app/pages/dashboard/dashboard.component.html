@@ -1,5 +1,5 @@
 <div class="dashboard flex flex-col xl:flex-row xl:max-h-screen overflow-y-hidden relative">
-  @if (registrationPlanGateActive() || subscriptionPaywallActive()) {
+  @if (subscriptionPaywallActive()) {
     <div
       class="fixed inset-0 z-[998] bg-black/35 pointer-events-auto touch-none dark:bg-black/50"
       aria-hidden="true"
@@ -152,10 +152,6 @@
     <topbar></topbar>
     <router-outlet></router-outlet>
   </div>
-<!-- Componente de configuración inicial de empresa (no durante paywall forzado) -->
-@if (!registrationPlanGateActive() && !subscriptionPaywallActive()) {
-  <app-company-setup></app-company-setup>
-}
 
 <!-- Modal de recordatorio para usuarios inactivos -->
 <div *ngIf="showInactiveReminderModal"

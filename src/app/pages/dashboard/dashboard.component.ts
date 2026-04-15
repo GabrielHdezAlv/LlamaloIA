@@ -16,7 +16,6 @@ import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavComponent } from '../../layout/nav/nav.component';
 import { TopbarComponent } from '../../layout/topbar/topbar.component';
-import { CompanySetupComponent } from '../company-setup/company-setup.component';
 import { UserStorage } from '../../storages/user/user-storage';
 import {
   ReminderService,
@@ -37,18 +36,13 @@ import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util'
     CommonModule,
     TopbarComponent,
     NavComponent,
-    CompanySetupComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-  @ViewChild(CompanySetupComponent)
-  companySetupComponent!: CompanySetupComponent;
   @ViewChild(NavComponent) navComponent!: NavComponent;
   private _isNavCollapsed: boolean = true;
-
-  showCompanySetup = false;
   showMobileSidebar = false;
   showInactiveReminderModal = false;
   uploadedImage: string | null = null;
@@ -96,12 +90,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     requiresSubscriptionPaywall(this.userStorage.user()),
   );
 
-  /** Pendiente elegir plan o prueba tras registro (solo `false` explícito en API). */
-  registrationPlanGateActive = computed(() => {
-    const u = this.userStorage.user();
-    return u?.planSelectionCompleted === false;
-  });
-
   // Dropdown del perfil
   showDropdown = false;
 
@@ -119,28 +107,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       effect((onCleanup) => {
-        this.registrationPlanGateActive();
         this.subscriptionPaywallActive();
         untracked(() => {
-          const needReg = this.registrationPlanGateActive();
           const needPay = this.subscriptionPaywallActive();
-          if (needReg) {
+          if (needPay) {
             document.body.style.overflow = 'hidden';
-            this.matDialog.openDialogs
-              .find((r) => r.id === 'subscription-paywall')
-              ?.close();
-            if (
-              !this.matDialog.openDialogs.some(
-                (r) => r.id === 'registration-plan-gate',
-              )
-            ) {
-              this.modalService.openRegistrationPlanGate();
-            }
-          } else if (needPay) {
-            document.body.style.overflow = 'hidden';
-            this.matDialog.openDialogs
-              .find((r) => r.id === 'registration-plan-gate')
-              ?.close();
             if (
               !this.matDialog.openDialogs.some(
                 (r) => r.id === 'subscription-paywall',
@@ -150,9 +121,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             }
           } else {
             document.body.style.removeProperty('overflow');
-            this.matDialog.openDialogs
-              .find((r) => r.id === 'registration-plan-gate')
-              ?.close();
             this.matDialog.openDialogs
               .find((r) => r.id === 'subscription-paywall')
               ?.close();
@@ -166,6 +134,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   async ngOnInit() {
+    const user = this.userStorage.user();
+    if (
+      user &&
+      user.hasCompletedSetup !== true &&
+      !requiresSubscriptionPaywall(user)
+    ) {
+      void this.router.navigate(['/company-setup'], { replaceUrl: true });
+      return;
+    }
+
     // Lógica que depende de window / documento (solo en navegador)
     if (isPlatformBrowser(this.platformId)) {
       // Inicializar modo oscuro desde localStorage / preferencia del sistema
@@ -357,32 +335,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Inicializar el estado y forzar la detección de cambios del sidebar
     this._isNavCollapsed = this.navComponent?.isCollapsed ?? true;
-
-    // Verificar si el usuario ya completó el onboarding
-    const user = this.userStorage.user();
-    if (
-      user &&
-      user.hasCompletedSetup === false &&
-      user.planSelectionCompleted !== false &&
-      !requiresSubscriptionPaywall(user)
-    ) {
-      this.showCompanySetup = true;
-      if (this.companySetupComponent) {
-        this.companySetupComponent.isSetupActive = true;
-        this.companySetupComponent.startWelcomeSequence();
-      }
-    }
-
     this.cdr.detectChanges();
-  }
-
-  toggleCompanySetup() {
-    this.showCompanySetup = !this.showCompanySetup;
-    if (this.companySetupComponent) {
-      this.companySetupComponent.toggleSetup();
-    }
   }
 
   openInactiveReminderModal() {

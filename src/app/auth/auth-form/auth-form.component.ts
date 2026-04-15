@@ -24,6 +24,7 @@ import { take } from 'rxjs/operators';
 import { FirebaseTokenRefreshService } from '../../core/services/firebase-token-refresh.service';
 import { environment } from '../../../environments/environment';
 import { isLocalAuthRegistrationHost } from '../../core/utils/auth-host-features';
+import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 import { signInWithPopup } from 'firebase/auth';
 import {
   firebaseAuth,
@@ -276,30 +277,43 @@ export class AuthFormComponent implements OnInit {
     });
   }
 
-  // Factorizado de cargar perfil y navegar tras login con email
+  private applyUserProfileToStores(data: any): void {
+    this.userStorage.setUser(data);
+    if (
+      data.twilio &&
+      Array.isArray(data.twilio) &&
+      data.twilio.length > 0
+    ) {
+      const firstAccount = data.twilio[0];
+      this.twilioStorage.setConfig({
+        twilioAccountId: firstAccount.twilioAccountId,
+        twilioSid: firstAccount.twilioSid,
+        twilioToken: firstAccount.twilioToken,
+      });
+    }
+  }
+
   private loadProfileAndNavigate() {
     this.userService.getUserProfile().subscribe({
       next: (data: any) => {
-        this.userStorage.setUser(data);
-        if (
-          data.twilio &&
-          Array.isArray(data.twilio) &&
-          data.twilio.length > 0
-        ) {
-          const firstAccount = data.twilio[0];
-          this.twilioStorage.setConfig({
-            twilioAccountId: firstAccount.twilioAccountId,
-            twilioSid: firstAccount.twilioSid,
-            twilioToken: firstAccount.twilioToken,
-          });
-        }
+        this.applyUserProfileToStores(data);
 
         this.notificationService.success(this.t.authSuccessLogin);
 
-        const redirectUrl =
-          data.rol === USER_ROLE.OWNER ? '/admin/agents/edit/1' : '/dashboard';
+        let redirectUrl: string;
+        if (data.rol === USER_ROLE.OWNER) {
+          redirectUrl = '/admin/agents/edit/1';
+        } else if (
+          data.hasCompletedSetup !== true &&
+          !requiresSubscriptionPaywall(data)
+        ) {
+          redirectUrl = '/company-setup';
+        } else {
+          redirectUrl = '/dashboard';
+        }
+
         setTimeout(() => {
-          this.router.navigate([redirectUrl]);
+          void this.router.navigate([redirectUrl]);
           this.setGlobalLoading(false);
         }, 2000);
       },
@@ -344,7 +358,6 @@ export class AuthFormComponent implements OnInit {
     this.userService.RegisterUser(user).subscribe({
       next: (res: {
         verificationEmailSent?: boolean;
-        emailVerificationRequired?: boolean;
         token?: string;
         refreshToken?: string;
       }) => {
@@ -355,17 +368,14 @@ export class AuthFormComponent implements OnInit {
           });
           this.firebaseTokenRefresh.start();
         }
-        setTimeout(() => {
-          if (!isPlatformBrowser(this.platformId)) {
-            return;
-          }
-          const ref = this.modalService.openRegistrationPlanGate();
-          ref.afterClosed().subscribe((result: string | undefined) => {
-            if (result === 'email_next') {
-              if (res?.emailVerificationRequired === false) {
-                this.loadProfileAndNavigate();
+        this.userService.getUserProfile().subscribe({
+          next: (data) => {
+            this.applyUserProfileToStores(data);
+            setTimeout(() => {
+              if (!isPlatformBrowser(this.platformId)) {
                 return;
               }
+              void this.router.navigate(['/company-setup']);
               if (res?.verificationEmailSent === false) {
                 this.notificationService.warning(
                   'No pudimos enviar el correo de verificación. Usa «Reenviar código» en la ventana que se abre o revisa la carpeta de spam. Si el problema continúa, contacta con soporte.',
@@ -376,9 +386,12 @@ export class AuthFormComponent implements OnInit {
                 );
               }
               this.modalService.openEmailVerification({ email: this.email });
-            }
-          });
-        }, 400);
+            }, 400);
+          },
+          error: () => {
+            this.notificationService.error(this.t.authErrorGetProfile);
+          },
+        });
       },
       error: (err) => {
         this.notificationService.error(this.t.authErrorRegister);
