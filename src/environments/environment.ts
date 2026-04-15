@@ -5,6 +5,8 @@
  */
 export const environment = {
   production: false,
+  /** Si es true, no se muestra el modal del código de 6 dígitos; alinear con la API. */
+  skipEmailVerification: true,
   /** Etiqueta en el topbar; `null` = ocultar (solo build producción/master). */
   deployEnvLabel: 'local' as string | null,
   /** Base URL del backend (sin barra final). `ng serve` usa este valor; para API de dev: `ng serve --configuration=new-dev`. Vercel usa fileReplacements. */

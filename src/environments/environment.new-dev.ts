@@ -4,6 +4,7 @@
  */
 export const environment = {
   production: true,
+  skipEmailVerification: true,
   deployEnvLabel: 'new-dev' as string | null,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-dev.onrender.com',

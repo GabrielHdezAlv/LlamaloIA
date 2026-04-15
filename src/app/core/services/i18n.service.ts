@@ -893,6 +893,8 @@ export interface Translations {
   authErrorEmailPassword: string;
   authErrorLogin: string;
   authSuccessLogin: string;
+  /** Registro sin PIN/código por correo (flujo simplificado). */
+  authSuccessRegisterNoPin: string;
   authErrorGetProfile: string;
   authErrorFillAll: string;
   authErrorMarketingConsent: string;
@@ -1815,6 +1817,8 @@ export class I18nService {
       authErrorEmailPassword: 'Por favor, ingrese email y contraseña',
       authErrorLogin: 'Error en inicio de sesión. Por favor, revisa tus credenciales.',
       authSuccessLogin: '¡Bienvenido de vuelta! Has iniciado sesión correctamente.',
+      authSuccessRegisterNoPin:
+        'Cuenta creada. Ya puedes continuar con la configuración.',
       authErrorGetProfile: 'Error al obtener perfil de usuario',
       authErrorFillAll: 'Por favor, completa todos los campos',
       authErrorMarketingConsent: 'Debes aceptar el consentimiento de marketing para continuar',
@@ -2723,6 +2727,8 @@ export class I18nService {
       authErrorEmailPassword: 'Please enter email and password',
       authErrorLogin: 'Login failed. Please check your credentials.',
       authSuccessLogin: 'Welcome back! You have logged in successfully.',
+      authSuccessRegisterNoPin:
+        'Account created. You can continue with setup.',
       authErrorGetProfile: 'Error getting user profile',
       authErrorFillAll: 'Please fill in all fields',
       authErrorMarketingConsent: 'You must accept marketing consent to continue',

@@ -251,6 +251,7 @@ export class AuthFormComponent implements OnInit {
         const msg = String(err?.error?.message ?? '');
         const lower = msg.toLowerCase();
         if (
+          environment.skipEmailVerification !== true &&
           err?.status === 401 &&
           (lower.includes('verificar') ||
             lower.includes('verify') ||
@@ -358,6 +359,7 @@ export class AuthFormComponent implements OnInit {
     this.userService.RegisterUser(user).subscribe({
       next: (res: {
         verificationEmailSent?: boolean;
+        emailVerificationRequired?: boolean;
         token?: string;
         refreshToken?: string;
       }) => {
@@ -376,6 +378,13 @@ export class AuthFormComponent implements OnInit {
                 return;
               }
               void this.router.navigate(['/company-setup']);
+              const verificationRequired =
+                res?.emailVerificationRequired ??
+                !environment.skipEmailVerification;
+              if (!verificationRequired) {
+                this.notificationService.success(this.t.authSuccessRegisterNoPin);
+                return;
+              }
               if (res?.verificationEmailSent === false) {
                 this.notificationService.warning(
                   'No pudimos enviar el correo de verificación. Usa «Reenviar código» en la ventana que se abre o revisa la carpeta de spam. Si el problema continúa, contacta con soporte.',
