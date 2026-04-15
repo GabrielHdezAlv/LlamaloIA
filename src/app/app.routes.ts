@@ -32,6 +32,7 @@ import { AdminSystemLogsComponent } from './pages/admin-system-logs/admin-system
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ShopifyComponent } from './pages/shopify/shopify.component';
 import { subscriptionPaywallGuard } from './core/guards/subscription-paywall.guard';
+import { onboardingCompleteGuard } from './core/guards/onboarding-complete.guard';
 
 export const routes: Routes = [
   {
@@ -101,7 +102,7 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
-    canActivateChild: [subscriptionPaywallGuard],
+    canActivateChild: [subscriptionPaywallGuard, onboardingCompleteGuard],
     children: [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
@@ -131,12 +132,12 @@ export const routes: Routes = [
   {
     path: 'shopify-onboarding',
     component: ShopifyOnboardingComponent,
-    canActivate: [AuthGuard, subscriptionPaywallGuard],
+    canActivate: [AuthGuard, subscriptionPaywallGuard, onboardingCompleteGuard],
   },
   {
     path: 'shopify-onboarding/success',
     component: ShopifySuccessComponent,
-    canActivate: [AuthGuard, subscriptionPaywallGuard],
+    canActivate: [AuthGuard, subscriptionPaywallGuard, onboardingCompleteGuard],
   },
   {
     path: 'company-setup',

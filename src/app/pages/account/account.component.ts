@@ -32,6 +32,7 @@ import {
   PLAN_TIER_STORAGE_KEY,
   type PaidUpgradePlanId,
 } from '../../shared/modals/upgrade-plan-modal/pricing-plan-features';
+import { ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY } from '../../shared/modals/upgrade-plan-modal/upgrade-plan-pricing-view.component';
 
 /** Alineado con backend: suscripción con cobro pendiente o incompleta. */
 const STRIPE_BILLING_BLOCKED_UI = new Set([
@@ -441,6 +442,13 @@ export class AccountComponent implements OnInit, OnDestroy {
       }
 
       if (params['stripe'] === 'success' || params['stripe'] === 'return') {
+        if (isPlatformBrowser(this.platformId)) {
+          try {
+            sessionStorage.removeItem(ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY);
+          } catch {
+            /* ignore */
+          }
+        }
         const stripeKind = params['stripe'];
         void this.userStore.loadUserProfile().then(() => {
           this.syncBillingFromUser();

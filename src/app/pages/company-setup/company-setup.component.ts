@@ -9,6 +9,7 @@ import {
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -16,7 +17,14 @@ import { NotificationService } from '../../core/services/notification.service';
 import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { AuthSessionService } from '../../core/services/auth-session.service';
-import { UpgradePlanPricingViewComponent } from '../../shared/modals/upgrade-plan-modal/upgrade-plan-pricing-view.component';
+import {
+  ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY,
+  UpgradePlanPricingViewComponent,
+} from '../../shared/modals/upgrade-plan-modal/upgrade-plan-pricing-view.component';
+
+function onboardingCheckpointStorageKey(userId: string): string {
+  return `llamalo_onboarding_ck_${userId}`;
+}
 
 @Component({
   selector: 'app-company-setup',
@@ -35,7 +43,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   private userStore = inject(UserStorage);
   private notificationService = inject(NotificationService);
   private modalService = inject(ModalService);
-  private route = inject(ActivatedRoute, { optional: true });
+  private route = inject(ActivatedRoute);
   private i18nService = inject(I18nService);
   private authSession = inject(AuthSessionService);
   private router = inject(Router);
@@ -150,8 +158,44 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       document.body.classList.add('creating-agent');
     }
 
+    const qp = this.route.snapshot.queryParamMap;
+    const stripeCancel = qp.get('stripe') === 'cancel';
+    let resumePricingStep = stripeCancel;
+    if (!resumePricingStep && standalone && this.isBrowser) {
+      try {
+        if (
+          sessionStorage.getItem(ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY) ===
+          '1'
+        ) {
+          resumePricingStep = true;
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+
+    if (standalone && resumePricingStep) {
+      try {
+        sessionStorage.removeItem(ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY);
+      } catch {
+        /* ignore */
+      }
+      this.skipWelcomeAndGoToPricingStep();
+      void this.router.navigate(['/company-setup'], { replaceUrl: true });
+      return;
+    }
+
     if (standalone && currentUser?.planSelectionCompleted) {
+      if (currentUser.userId) {
+        this.clearOnboardingCheckpoint(currentUser.userId);
+      }
       this.resumeAfterPlanSelection();
+    } else if (
+      standalone &&
+      !currentUser?.planSelectionCompleted &&
+      this.tryRestoreOnboardingCheckpoint()
+    ) {
+      return;
     }
 
     if (this.showWelcomeSequence) {
@@ -167,6 +211,107 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     if (this.isBrowser) {
       document.body.classList.remove('creating-agent');
     }
+  }
+
+  private clearOnboardingCheckpoint(userId: string): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    try {
+      localStorage.removeItem(onboardingCheckpointStorageKey(userId));
+    } catch {
+      /* ignore */
+    }
+  }
+
+  private persistOnboardingCheckpoint(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    const uid = this.userStore.user()?.userId;
+    if (!uid) {
+      return;
+    }
+    if (this.userStore.user()?.hasCompletedSetup === true) {
+      return;
+    }
+    try {
+      localStorage.setItem(
+        onboardingCheckpointStorageKey(uid),
+        JSON.stringify({
+          v: 1,
+          currentStep: this.currentStep,
+          displayedStep: this.displayedStep,
+          welcomeDone: !this.showWelcomeSequence,
+          selectedMainUsages: [...this.selectedMainUsages],
+          selectedDiscoveryChannels: [...this.selectedDiscoveryChannels],
+        }),
+      );
+    } catch {
+      /* ignore */
+    }
+  }
+
+  /**
+   * Retoma paso y respuestas tras login o refresco (misma cuenta, mismo navegador).
+   */
+  private tryRestoreOnboardingCheckpoint(): boolean {
+    if (!this.isBrowser) {
+      return false;
+    }
+    const uid = this.userStore.user()?.userId;
+    if (!uid) {
+      return false;
+    }
+    let raw: string | null = null;
+    try {
+      raw = localStorage.getItem(onboardingCheckpointStorageKey(uid));
+    } catch {
+      return false;
+    }
+    if (!raw) {
+      return false;
+    }
+    try {
+      const s = JSON.parse(raw) as {
+        v: number;
+        currentStep: number;
+        welcomeDone?: boolean;
+        selectedMainUsages?: string[];
+        selectedDiscoveryChannels?: string[];
+      };
+      if (s.v !== 1) {
+        return false;
+      }
+      if (s.currentStep < 1 || s.currentStep > this.maxStep) {
+        return false;
+      }
+      if (s.currentStep === 1 && s.welcomeDone !== true) {
+        return false;
+      }
+      this.showWelcomeSequence = false;
+      this.welcomeExitTriggered = true;
+      this.showPlanIntroAnimation = false;
+      this.planIntroExitTriggered = false;
+      this.selectedMainUsages = [...(s.selectedMainUsages || [])];
+      this.selectedDiscoveryChannels = [...(s.selectedDiscoveryChannels || [])];
+      this.goToStep(s.currentStep, { instant: true });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Vuelta desde Stripe sin completar pago: ir al paso de planes sin animación inicial
+   * ni reinicio desde el paso 1 (evita flash del dashboard si la cancel URL apunta aquí).
+   */
+  private skipWelcomeAndGoToPricingStep(): void {
+    this.showWelcomeSequence = false;
+    this.welcomeExitTriggered = true;
+    this.showPlanIntroAnimation = false;
+    this.planIntroExitTriggered = false;
+    this.goToStep(3, { instant: true });
   }
 
   /** Usuario ya completó pago/trial: ir directo a la pantalla final de bienvenida. */
@@ -209,6 +354,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       this.welcomeExitTriggered = true;
       setTimeout(() => {
         this.showWelcomeSequence = false;
+        this.persistOnboardingCheckpoint();
       }, 1000);
     }, 3000);
   }
@@ -217,6 +363,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     this.welcomeExitTriggered = true;
     setTimeout(() => {
       this.showWelcomeSequence = false;
+      this.persistOnboardingCheckpoint();
     }, 200);
   }
 
@@ -229,6 +376,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       this.planIntroExitTriggered = true;
       setTimeout(() => {
         this.showPlanIntroAnimation = false;
+        this.persistOnboardingCheckpoint();
       }, 1000);
     }, 3000);
   }
@@ -244,6 +392,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     } else {
       this.selectedMainUsages.push(usageId);
     }
+    this.persistOnboardingCheckpoint();
   }
 
   handleMainUsageClick(usageId: string) {
@@ -283,6 +432,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     } else {
       this.selectedDiscoveryChannels.push(channelId);
     }
+    this.persistOnboardingCheckpoint();
   }
 
   skipSetup() {
@@ -297,9 +447,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
   goBack() {
     if (this.currentStep === 1) {
-      void this.authSession.clearSession().then(() => {
-        void this.router.navigate(['/login'], { replaceUrl: true });
-      });
+      void this.abandonIncompleteRegistrationAndGoToLogin();
       return;
     }
 
@@ -342,6 +490,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
         clearTimeout(this.stepFadeTimeout);
         this.stepFadeTimeout = null;
       }
+      this.persistOnboardingCheckpoint();
       return;
     }
 
@@ -351,6 +500,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
         clearTimeout(this.stepFadeTimeout);
         this.stepFadeTimeout = null;
       }
+      this.persistOnboardingCheckpoint();
       return;
     }
 
@@ -362,6 +512,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       this.displayedStep = step;
       this.isStepFadingOut = false;
       this.stepFadeTimeout = null;
+      this.persistOnboardingCheckpoint();
     }, 250);
   }
 
@@ -383,6 +534,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       const reader = new FileReader();
       reader.onload = (e: ProgressEvent<FileReader>) => {
         this.logoPreview = e.target?.result as string;
+        this.persistOnboardingCheckpoint();
       };
       reader.readAsDataURL(file);
       this.notificationService.success('Imagen cargada');
@@ -394,8 +546,46 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     fileInput?.click();
   }
 
+  /**
+   * Abandono explícito del onboarding (paso 1 → login): elimina cuenta incompleta en API
+   * si aún no hay plan/setup completado, igual que «Cancelar registro» en planes.
+   */
+  private async abandonIncompleteRegistrationAndGoToLogin(): Promise<void> {
+    if (!this.isBrowser) {
+      return;
+    }
+    try {
+      sessionStorage.removeItem(ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY);
+    } catch {
+      /* ignore */
+    }
+
+    const user = this.userStore.user();
+    if (user?.userId) {
+      this.clearOnboardingCheckpoint(user.userId);
+    }
+    const canDeleteIncomplete =
+      user &&
+      user.hasCompletedSetup !== true &&
+      user.planSelectionCompleted !== true;
+
+    if (canDeleteIncomplete) {
+      try {
+        await firstValueFrom(this.userService.cancelIncompleteRegistration());
+      } catch {
+        /* Sin token, cuenta ya borrada o error de red: cerramos sesión local igualmente */
+      }
+    }
+
+    this.authSession.signOutAndReload();
+  }
+
   completeSetup() {
     this.isSetupActive = false;
+    const uid = this.userStore.user()?.userId;
+    if (uid) {
+      this.clearOnboardingCheckpoint(uid);
+    }
 
     this.userService.updateUserProfile({ hasCompletedSetup: true }).subscribe({
       next: () => {

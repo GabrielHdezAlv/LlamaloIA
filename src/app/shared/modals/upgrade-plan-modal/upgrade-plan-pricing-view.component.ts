@@ -29,6 +29,13 @@ import { AuthSessionService } from '../../../core/services/auth-session.service'
 /** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.45s). */
 const UPGRADE_MODAL_CLOSE_MS = 500;
 
+/**
+ * SessionStorage: el usuario abrió Stripe desde el paso de planes del onboarding embebido.
+ * Sirve de respaldo si la URL de cancelación no trae query; se limpia al volver al paso de planes o tras pago exitoso.
+ */
+export const ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY =
+  'llamalo_onboarding_checkout_pending';
+
 const PLAN_PRICE_KEYS = {
   starter: { monthly: '29', annualPerMonth: '24' },
   growth: { monthly: '79', annualPerMonth: '66' },
@@ -201,8 +208,19 @@ export class UpgradePlanPricingViewComponent implements OnInit {
 
     const origin = window.location.origin;
     const successUrl = `${origin}/dashboard/account?tab=billing&stripe=success`;
-    const cancelUrl = `${origin}/dashboard/home?stripe=cancel&pricing=1`;
+    const cancelUrl =
+      this.mode === 'paywall'
+        ? `${origin}/dashboard/home?stripe=cancel&pricing=1`
+        : `${origin}/company-setup?stripe=cancel`;
     const portalReturnUrl = `${origin}/dashboard/account?tab=billing&stripe=return`;
+
+    if (this.isEmbeddedOnboarding) {
+      try {
+        sessionStorage.setItem(ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY, '1');
+      } catch {
+        /* ignore */
+      }
+    }
 
     const user = this.userStore.user();
     this.stripeRedirecting = true;
