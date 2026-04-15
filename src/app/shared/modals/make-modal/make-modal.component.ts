@@ -101,9 +101,8 @@ export class MakeModalComponent implements OnInit, OnDestroy {
 
   isFormValid(): boolean {
     const n = this.actionData.name.trim();
-    const d = this.actionData.description.trim();
     const u = this.actionData.serverUrl.trim();
-    return n.length >= 2 && d.length >= 8 && u.length >= 12;
+    return n.length >= 2 && u.length >= 12;
   }
 
   onSaveAction(): void {

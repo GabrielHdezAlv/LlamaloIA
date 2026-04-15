@@ -60,6 +60,7 @@ import {
   of,
 } from 'rxjs';
 import { UserStorage } from '../../storages/user/user-storage';
+import { WebhookActionsService } from '../../core/services/webhook-actions.service';
 
 @Component({
   selector: 'app-edit-agent',
@@ -88,6 +89,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private notificationService = inject(NotificationService);
   private i18nService = inject(I18nService);
+  private webhookActionsService = inject(WebhookActionsService);
   readonly voiceTest = inject(VoiceTestService);
 
   editForm!: FormGroup;
@@ -156,6 +158,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   isLoadingShopifyStores = false;
   selectedShopifyDomain = '';
   isSavingShopifyDomain = false;
+
+  /** Número de acciones Make (webhooks) del agente; se actualiza al abrir Conexiones y al cerrar el modal. */
+  makeWebhookActionsCount: number | null = null;
+  makeWebhookCountLoading = false;
 
   // Audio
   audioLevel = 0;
@@ -433,10 +439,38 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   setActiveTab(tab: 'main' | 'connections' | 'knowledge'): void {
     this.activeTab = tab;
 
+    if (tab === 'connections') {
+      this.refreshMakeWebhookActionsCount();
+    }
+
     // Load available knowledge sources when switching to knowledge tab
     if (tab === 'knowledge') {
       this.loadAvailableKnowledgeSources();
     }
+  }
+
+  /** Cuenta acciones vía GET /agents/:id/webhook-actions (mismo listado que el modal). */
+  refreshMakeWebhookActionsCount(): void {
+    if (!this.agentId) {
+      this.makeWebhookActionsCount = null;
+      return;
+    }
+    this.makeWebhookCountLoading = true;
+    this.webhookActionsService
+      .list(this.agentId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.makeWebhookActionsCount = res.items.length;
+          this.makeWebhookCountLoading = false;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.makeWebhookActionsCount = null;
+          this.makeWebhookCountLoading = false;
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   get agentShopifyDomain(): string | null {
@@ -1684,7 +1718,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       );
       return;
     }
-    this.modalService.openMake({ agentId: this.agentId });
+    this.modalService
+      .openMake({ agentId: this.agentId })
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.refreshMakeWebhookActionsCount();
+      });
   }
 
   unlinkShopify(): void {
