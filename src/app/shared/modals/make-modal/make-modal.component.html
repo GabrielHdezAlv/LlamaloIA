@@ -8,73 +8,113 @@
     >
       <mat-icon class="text-gray-600 text-xl h-5 w-5">close</mat-icon>
     </button>
-    
+
     <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-center text-blue-950 dark:text-white mb-2 tracking-[-0.5px] sm:tracking-[-1px]">
-      Añadir Acciones especificas
+      Añadir acciones específicas
     </h2>
     <p class="text-center text-sm text-black dark:text-slate-200 mb-3 max-w-lg mx-auto tracking-[-0.3px] px-2">
-      Define la acción que la IA podrá ejecutar la accion durante la llamada si se pide informacion que la accion tenga, para eso, conecta el webhook de tu modulo de make
+      Define la acción que la IA podrá ejecutar durante la llamada si encaja con la conversación; conecta el webhook de tu escenario en Make.
     </p>
   </div>
 
   <!-- Content -->
   <div class="flex-1 px-8 py-4 overflow-y-auto">
-    <!-- Form Section -->
-    <div class="max-w-lg mx-auto">
-      <form class="space-y-5">
-        <!-- Nombre de la acción -->
-        <div>
-          <label for="actionName" class="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-1.5">
-            Nombre de la acción*
-          </label>
-          <input
-            type="text"
-            id="actionName"
-            [(ngModel)]="actionData.name"
-            name="actionName"
-            class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 dark:bg-[#262626] rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-gray-500"
-            placeholder="Ingresa el nombre de la acción"
-            required
-          />
-        </div>
+    @if (agentId == null) {
+    <p class="text-sm text-red-600 dark:text-red-400 text-center">
+      No se pudo cargar el agente. Cierra el modal e inténtalo de nuevo.
+    </p>
+    } @else {
+    <div class="max-w-lg mx-auto space-y-6">
+      <!-- Acciones ya guardadas -->
+      @if (isLoadingActions) {
+      <p class="text-sm text-gray-500 dark:text-slate-400 text-center">Cargando acciones…</p>
+      } @else if (savedActions.length > 0) {
+      <div>
+        <h3 class="text-sm font-medium text-gray-800 dark:text-slate-200 mb-2">
+          Acciones configuradas
+        </h3>
+        <ul class="divide-y divide-gray-200 dark:divide-slate-700 rounded-xl border border-gray-200 dark:border-slate-600 overflow-hidden">
+          @for (a of savedActions; track a.id) {
+          <li class="px-3 py-2.5 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 bg-gray-50/80 dark:bg-slate-800/50">
+            <div class="min-w-0 flex-1">
+              <p class="text-sm font-medium text-gray-900 dark:text-white">{{ a.name }}</p>
+              <p class="text-xs text-gray-600 dark:text-slate-400 mt-0.5 whitespace-pre-wrap">{{ a.description }}</p>
+              <p class="text-[11px] text-gray-500 truncate mt-1" [title]="a.webhookUrl">{{ a.webhookUrl }}</p>
+            </div>
+            <button
+              type="button"
+              (click)="removeAction(a.id, $event)"
+              class="text-xs text-red-600 dark:text-red-400 hover:underline shrink-0 self-start"
+            >
+              Eliminar
+            </button>
+          </li>
+          }
+        </ul>
+      </div>
+      }
 
-        <!-- Descripción de la acción -->
-        <div>
-          <label for="actionDescription" class="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-1.5">
-            Descripción de la acción
-          </label>
-          <textarea
-            id="actionDescription"
-            [(ngModel)]="actionData.description"
-            name="actionDescription"
-            rows="3"
-            class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 dark:bg-[#262626] rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-gray-500"
-            placeholder="Describe qué hace esta acción"
-          ></textarea>
-        </div>
-
-        <!-- URL del servidor -->
-        <div>
-          <label for="serverUrl" class="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-1.5">
-            URL del servidor*
-          </label>
-          <div class="relative">
+      <!-- Formulario nueva acción -->
+      <div>
+        <h3 class="text-sm font-medium text-gray-800 dark:text-slate-200 mb-3">
+          Nueva acción
+        </h3>
+        @if (saveError) {
+        <p class="text-sm text-red-600 dark:text-red-400 mb-3">{{ saveError }}</p>
+        }
+        <form class="space-y-5" (ngSubmit)="$event.preventDefault(); onSaveAction()">
+          <div>
+            <label for="actionName" class="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-1.5">
+              Nombre de la acción*
+            </label>
             <input
-              type="url"
-              id="serverUrl"
-              [(ngModel)]="actionData.serverUrl"
-              name="serverUrl"
-              class="w-full px-4 py-2.5 pr-11 border border-gray-300 dark:border-gray-600 dark:bg-[#262626] rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-gray-500"
-              placeholder="https://hook.eu1.make.com/..."
-              required
+              type="text"
+              id="actionName"
+              [(ngModel)]="actionData.name"
+              name="actionName"
+              class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 dark:bg-[#262626] rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-gray-500"
+              placeholder="Ingresa el nombre de la acción"
+              autocomplete="off"
             />
-            <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-              <img src="assets/make.webp" alt="Make" class="w-5 h-5 object-contain opacity-40" />
+          </div>
+
+          <div>
+            <label for="actionDescription" class="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-1.5">
+              Descripción de la acción* (mín. 8 caracteres)
+            </label>
+            <textarea
+              id="actionDescription"
+              [(ngModel)]="actionData.description"
+              name="actionDescription"
+              rows="3"
+              class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 dark:bg-[#262626] rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-none text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-gray-500"
+              placeholder="Cuándo debe usarla la IA (p. ej. cuando el usuario pida dejar un ticket)"
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="serverUrl" class="block text-sm font-medium text-gray-700 dark:text-slate-200 mb-1.5">
+              URL del webhook (HTTPS)*
+            </label>
+            <div class="relative">
+              <input
+                type="url"
+                id="serverUrl"
+                [(ngModel)]="actionData.serverUrl"
+                name="serverUrl"
+                class="w-full px-4 py-2.5 pr-11 border border-gray-300 dark:border-gray-600 dark:bg-[#262626] rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors text-gray-900 dark:text-slate-200 placeholder-gray-400 dark:placeholder-gray-500"
+                placeholder="https://hook.eu2.make.com/..."
+                autocomplete="off"
+              />
+              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                <img src="assets/make.webp" alt="" class="w-5 h-5 object-contain opacity-40" />
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
+    }
   </div>
 
   <!-- Footer -->
@@ -82,11 +122,15 @@
     <div class="flex justify-center">
       <button
         type="button"
-        (click)="onContinue()"
-        class="px-8 sm:px-14 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-lg hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2"
-        [disabled]="!isFormValid()"
+        (click)="onSaveAction()"
+        [disabled]="!isFormValid() || isSaving || agentId == null"
+        class="px-8 sm:px-14 py-2 bg-[#0a1740] text-sm text-white font-medium font-sans rounded-lg hover:bg-gray-950 focus:bg-gray-950 transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 shadow-md tracking-[-0.4px] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
       >
-        Continuar
+        @if (isSaving) {
+        <span>Guardando…</span>
+        } @else {
+        <span>Guardar acción</span>
+        }
       </button>
     </div>
   </div>
