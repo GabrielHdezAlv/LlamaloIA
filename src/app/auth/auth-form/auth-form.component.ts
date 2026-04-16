@@ -24,6 +24,7 @@ import { take } from 'rxjs/operators';
 import { FirebaseTokenRefreshService } from '../../core/services/firebase-token-refresh.service';
 import { environment } from '../../../environments/environment';
 import { isLocalAuthRegistrationHost } from '../../core/utils/auth-host-features';
+import { getOrCreateDeviceId } from '../../core/utils/device-id';
 import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 import { signInWithPopup } from 'firebase/auth';
 import {
@@ -234,7 +235,8 @@ export class AuthFormComponent implements OnInit {
       return;
     }
 
-    const user = new LoginUser(this.email, this.password);
+    const deviceId = getOrCreateDeviceId();
+    const user = new LoginUser(this.email, this.password, deviceId);
     this.setGlobalLoading(true);
 
     this.userService.LoginUser(user).subscribe({
@@ -248,7 +250,24 @@ export class AuthFormComponent implements OnInit {
       },
       error: (err: { status?: number; error?: { message?: string } }) => {
         console.error('❌ Error en inicio de sesión:', err);
-        const msg = String(err?.error?.message ?? '');
+        const errBody = err?.error as { code?: string; message?: string } | undefined;
+        if (errBody?.code === 'DEVICE_VERIFICATION_REQUIRED') {
+          this.notificationService.info(
+            'Introduce el código que te enviamos por correo para confirmar este dispositivo.',
+          );
+          setTimeout(() => {
+            if (isPlatformBrowser(this.platformId)) {
+              this.modalService.openEmailVerification({
+                email: this.email,
+                password: this.password,
+                mode: 'device',
+              });
+            }
+          }, 400);
+          this.setGlobalLoading(false);
+          return;
+        }
+        const msg = String(errBody?.message ?? '');
         const lower = msg.toLowerCase();
         if (
           environment.skipEmailVerification !== true &&
@@ -370,6 +389,28 @@ export class AuthFormComponent implements OnInit {
           });
           this.firebaseTokenRefresh.start();
         }
+
+        const verificationRequired =
+          res?.emailVerificationRequired === true &&
+          environment.skipEmailVerification !== true;
+
+        if (verificationRequired) {
+          if (!isPlatformBrowser(this.platformId)) {
+            return;
+          }
+          if (res?.verificationEmailSent === false) {
+            this.notificationService.warning(
+              'No pudimos enviar el correo de verificación. Usa «Reenviar código» en la ventana que se abre o revisa la carpeta de spam. Si el problema continúa, contacta con soporte.',
+            );
+          } else {
+            this.notificationService.info(
+              'Revisa tu correo para el código de verificación.',
+            );
+          }
+          this.modalService.openEmailVerification({ email: this.email });
+          return;
+        }
+
         this.userService.getUserProfile().subscribe({
           next: (data) => {
             this.applyUserProfileToStores(data);
@@ -378,23 +419,7 @@ export class AuthFormComponent implements OnInit {
                 return;
               }
               void this.router.navigate(['/company-setup']);
-              const verificationRequired =
-                res?.emailVerificationRequired ??
-                !environment.skipEmailVerification;
-              if (!verificationRequired) {
-                this.notificationService.success(this.t.authSuccessRegisterNoPin);
-                return;
-              }
-              if (res?.verificationEmailSent === false) {
-                this.notificationService.warning(
-                  'No pudimos enviar el correo de verificación. Usa «Reenviar código» en la ventana que se abre o revisa la carpeta de spam. Si el problema continúa, contacta con soporte.',
-                );
-              } else {
-                this.notificationService.info(
-                  'Revisa tu correo para el código de verificación.',
-                );
-              }
-              this.modalService.openEmailVerification({ email: this.email });
+              this.notificationService.success(this.t.authSuccessRegisterNoPin);
             }, 400);
           },
           error: () => {

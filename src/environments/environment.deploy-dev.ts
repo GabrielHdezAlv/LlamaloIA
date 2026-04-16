@@ -5,7 +5,7 @@
 export const environment = {
   production: true,
   /** Si es true, no se muestra el modal del código de 6 dígitos; alinear con la API. */
-  skipEmailVerification: true,
+  skipEmailVerification: false,
   deployEnvLabel: 'dev' as string | null,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-dev.onrender.com',

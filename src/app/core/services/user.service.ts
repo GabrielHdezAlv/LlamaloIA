@@ -105,7 +105,14 @@ export class UserService {
   }
 
   LoginUser(user: LoginUser): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/login`, user, {
+    const body: Record<string, string> = {
+      email: user.email,
+      password: user.password,
+    };
+    if (user.deviceId) {
+      body['deviceId'] = user.deviceId;
+    }
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, body, {
       headers: this.getAuthHeaders(),
     });
   }
@@ -293,6 +300,25 @@ export class UserService {
       { token },
       {
         headers: this.getAuthHeaders(),
+      },
+    );
+  }
+
+  /** Tras código por correo en un dispositivo nuevo (login). */
+  verifyDeviceLogin(
+    email: string,
+    password: string,
+    deviceId: string,
+    code: string,
+  ): Observable<{ token: string; userId: string; refreshToken?: string }> {
+    return this.http.post<{ token: string; userId: string; refreshToken?: string }>(
+      `${this.apiUrl}/auth/verify-device-login`,
+      { email: email.trim(), password, deviceId, code },
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+        }),
       },
     );
   }
