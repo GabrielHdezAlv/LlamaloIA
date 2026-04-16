@@ -367,6 +367,9 @@ export interface Translations {
   invoicesHistory: string;
   /** Un solo CTA al Customer Portal (cancelar / método / facturas) */
   manageBilling: string;
+  /** Descarga / abre la última factura (Stripe PDF o página alojada) */
+  downloadLatestInvoice: string;
+  downloadLatestInvoiceError: string;
   stripeBillingError: string;
   stripeNoCustomerYet: string;
   stripeBillingUpdated: string;
@@ -1296,6 +1299,9 @@ export class I18nService {
       cancelSubscription: 'Cancelar suscripción',
       invoicesHistory: 'Historial de facturas',
       manageBilling: 'Gestionar facturación',
+      downloadLatestInvoice: 'Descarga última factura',
+      downloadLatestInvoiceError:
+        'No se pudo obtener la factura. Inténtalo de nuevo o usa «Gestionar facturación».',
       stripeBillingError:
         'No se pudo abrir la facturación. Inténtalo de nuevo o contacta con soporte.',
       stripeNoCustomerYet:
@@ -2221,6 +2227,9 @@ export class I18nService {
       cancelSubscription: 'Cancel subscription',
       invoicesHistory: 'Invoices history',
       manageBilling: 'Manage billing',
+      downloadLatestInvoice: 'Download latest invoice',
+      downloadLatestInvoiceError:
+        'Could not fetch the invoice. Try again or use Manage billing.',
       stripeBillingError:
         'Could not open billing. Please try again or contact support.',
       stripeNoCustomerYet:

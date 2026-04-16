@@ -51,4 +51,19 @@ export class StripeService {
       { headers: this.getAuthHeaders() },
     );
   }
+
+  /** Enlaces a la factura pagada más reciente (PDF o página alojada en Stripe). */
+  getLatestInvoice(): Observable<{
+    pdfUrl: string | null;
+    hostedInvoiceUrl: string | null;
+    invoiceNumber: string | null;
+    invoiceId: string | null;
+  }> {
+    return this.http.get<{
+      pdfUrl: string | null;
+      hostedInvoiceUrl: string | null;
+      invoiceNumber: string | null;
+      invoiceId: string | null;
+    }>(`${this.stripeBase()}/latest-invoice`, { headers: this.getAuthHeaders() });
+  }
 }

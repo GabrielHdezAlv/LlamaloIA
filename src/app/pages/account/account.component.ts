@@ -155,6 +155,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   isSaving = false;
   currentPlanName: string = 'Gratis';
   stripeBillingRedirecting = false;
+  stripeLatestInvoiceLoading = false;
 
   // Integraciones (mismo patrón visual que edit-agent / connect-phone-step)
   twilioConnectionsExpanded = false;
@@ -1036,6 +1037,33 @@ export class AccountComponent implements OnInit, OnDestroy {
       error: () => {
         this.notificationService.error(this.t.stripeBillingError);
         this.stripeBillingRedirecting = false;
+      },
+    });
+  }
+
+  downloadLatestInvoice(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const u = this.user();
+    if (!u?.stripeCustomerId?.trim()) {
+      this.notificationService.error(this.t.stripeNoCustomerYet);
+      return;
+    }
+    this.stripeLatestInvoiceLoading = true;
+    this.stripeService.getLatestInvoice().subscribe({
+      next: (res) => {
+        this.stripeLatestInvoiceLoading = false;
+        const url = res.pdfUrl ?? res.hostedInvoiceUrl;
+        if (!url) {
+          this.notificationService.error(this.t.downloadLatestInvoiceError);
+          return;
+        }
+        window.open(url, '_blank', 'noopener,noreferrer');
+      },
+      error: (err: { error?: { message?: string } }) => {
+        this.stripeLatestInvoiceLoading = false;
+        this.notificationService.error(
+          err?.error?.message ?? this.t.downloadLatestInvoiceError,
+        );
       },
     });
   }

@@ -706,16 +706,30 @@
 
             <!-- Customer Portal Stripe (cancelar, método de pago, facturas) -->
             <div
-              class="flex flex-col sm:flex-row gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 mt-4"
+              class="flex flex-col sm:flex-row flex-wrap gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 mt-4"
             >
               <app-ripple-button
                 (buttonClick)="openBillingPortal()"
                 buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
                 rippleColor="rgba(255, 255, 255, 0.4)"
                 [rippleScale]="8"
-                [disabled]="stripeBillingRedirecting"
+                [disabled]="stripeBillingRedirecting || stripeLatestInvoiceLoading"
               >
                 {{ t.manageBilling }}
+              </app-ripple-button>
+              <app-ripple-button
+                (buttonClick)="downloadLatestInvoice()"
+                buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap flex items-center justify-center"
+                rippleColor="rgba(0, 0, 0, 0.08)"
+                [rippleScale]="8"
+                [disabled]="stripeLatestInvoiceLoading || stripeBillingRedirecting"
+              >
+                @if (stripeLatestInvoiceLoading) {
+                  <span
+                    class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-slate-500 dark:border-t-white mr-2"
+                  ></span>
+                }
+                {{ t.downloadLatestInvoice }}
               </app-ripple-button>
             </div>
 
