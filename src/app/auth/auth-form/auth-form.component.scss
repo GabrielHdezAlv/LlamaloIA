@@ -321,3 +321,11 @@ input.auth-input:-webkit-autofill:focus {
   object-fit: cover;
   border-radius: 0.5rem;
 }
+
+/* Pantallas muy grandes (Tailwind `4xl` = 2500px): etiquetas flotantes acordes al input */
+@media (min-width: 2500px) {
+  .form-container .input-label {
+    font-size: 0.625rem;
+    line-height: 1.1;
+  }
+}

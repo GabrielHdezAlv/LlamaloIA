@@ -227,6 +227,7 @@ export class ModalService {
     return this.dialog.open(UpgradePlanModalComponent, {
       width: '880px',
       maxWidth: '95vw',
+      data: { mode: 'upgrade' } satisfies UpgradePlanModalData,
       // El cierre animado lo gestiona el componente (backdrop / Escape / X).
       disableClose: true,
       panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],

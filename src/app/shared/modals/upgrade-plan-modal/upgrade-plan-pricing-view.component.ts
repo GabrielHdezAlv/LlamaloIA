@@ -25,6 +25,7 @@ import { UserStorage } from '../../../storages/user/user-storage';
 import { NotificationService } from '../../../core/services/notification.service';
 import { UserService } from '../../../core/services/user.service';
 import { AuthSessionService } from '../../../core/services/auth-session.service';
+import type { UpgradePlanPricingViewMode } from './upgrade-plan-pricing-view-mode';
 
 /** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.45s). */
 const UPGRADE_MODAL_CLOSE_MS = 500;
@@ -64,8 +65,8 @@ export class UpgradePlanPricingViewComponent implements OnInit {
   private readonly modalShell =
     viewChild<ElementRef<HTMLElement>>('modalShell');
 
-  /** `registration`: gate post-alta. `paywall`: trial agotado. `embedded`: onboarding (mismo UI que registration). */
-  @Input() mode: 'registration' | 'paywall' | 'embedded' = 'embedded';
+  /** `registration`: gate post-alta. `paywall`: trial agotado. `upgrade`: precios desde cuenta (cerrable). `embedded`: onboarding. */
+  @Input() mode: UpgradePlanPricingViewMode = 'embedded';
 
   @Output() registrationAborted = new EventEmitter<void>();
   @Output() requestDismiss = new EventEmitter<void>();
@@ -217,7 +218,9 @@ export class UpgradePlanPricingViewComponent implements OnInit {
     const cancelUrl =
       this.mode === 'paywall'
         ? `${origin}/dashboard/home?stripe=cancel&pricing=1`
-        : `${origin}/company-setup?stripe=cancel`;
+        : this.mode === 'upgrade'
+          ? `${origin}/dashboard/account?tab=billing&stripe=cancel`
+          : `${origin}/company-setup?stripe=cancel`;
     const portalReturnUrl = `${origin}/dashboard/account?tab=billing&stripe=return`;
 
     if (this.isEmbeddedOnboarding) {

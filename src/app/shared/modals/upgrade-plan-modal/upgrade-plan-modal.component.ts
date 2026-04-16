@@ -15,9 +15,11 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { Subject, takeUntil, filter } from 'rxjs';
 import { UpgradePlanPricingViewComponent } from './upgrade-plan-pricing-view.component';
+import type { UpgradePlanPricingViewMode } from './upgrade-plan-pricing-view-mode';
 
 export interface UpgradePlanModalData {
-  mode?: 'registration' | 'paywall';
+  /** `upgrade`: usuario abre precios desde cuenta/nav (cerrable). Sin `data` = mismo efecto. */
+  mode?: Exclude<UpgradePlanPricingViewMode, 'embedded'>;
 }
 
 @Component({
@@ -49,12 +51,13 @@ export class UpgradePlanModalComponent
   @ViewChild('pricingView')
   pricingView!: UpgradePlanPricingViewComponent;
 
-  get dialogMode(): 'registration' | 'paywall' | 'embedded' {
-    return this.dialogData?.mode === 'registration'
-      ? 'registration'
-      : this.dialogData?.mode === 'paywall'
-        ? 'paywall'
-        : 'paywall';
+  get dialogMode(): UpgradePlanPricingViewMode {
+    const m = this.dialogData?.mode;
+    if (m === 'registration') return 'registration';
+    if (m === 'paywall') return 'paywall';
+    if (m === 'upgrade') return 'upgrade';
+    /* Sin `data` (p. ej. openUpgradePlan desde Ajustes): modal cerrable, no paywall forzado */
+    return 'upgrade';
   }
 
   ngOnInit(): void {

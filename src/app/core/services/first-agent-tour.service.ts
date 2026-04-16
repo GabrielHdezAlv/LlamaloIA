@@ -1,6 +1,7 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { driver, type Driver, type PopoverDOM } from 'driver.js';
 import { UserStorage } from '../../storages/user/user-storage';
 import { I18nService } from './i18n.service';
@@ -27,6 +28,21 @@ export class FirstAgentTourService {
   private platformId = inject(PLATFORM_ID);
 
   private activeDriver: Driver | null = null;
+
+  constructor() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    /** Al ir a crear/editar agente el paso «Agregar agente» ya no aplica: cerrar overlay del tour */
+    this.router.events
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe((e) => {
+        const path = e.urlAfterRedirects.split('?')[0];
+        if (path.includes('/agents/create') || path.includes('/agents/edit')) {
+          this.destroy();
+        }
+      });
+  }
 
   /**
    * Llamar cuando el home haya completado la secuencia de fades (panel Bienvenido incluido).
