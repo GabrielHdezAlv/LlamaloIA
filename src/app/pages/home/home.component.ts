@@ -25,6 +25,11 @@ import { UserStorage } from '../../storages/user/user-storage';
 import { planDisplayLabelFromTranslations } from '../../shared/utils/plan-display.util';
 import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 import { ModalService } from '../../shared/modals/modal.service';
+import { POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY } from '../../core/constants/first-agent-tour.constants';
+import {
+  PLAN_TIER_STORAGE_KEY,
+  type PaidUpgradePlanId,
+} from '../../shared/modals/upgrade-plan-modal/pricing-plan-features';
 import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
@@ -800,6 +805,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Cargar métricas solo si estamos en el navegador (no en SSR)
     if (this.isBrowser) {
       this.handleStripeReturnQuery();
+      this.tryPostOnboardingDashboardCelebration();
       this.loadMetrics();
       this.loadUserAgents();
       // Actualizar opciones del gráfico según el tamaño de pantalla (altura, fuentes, etc)
@@ -820,6 +826,65 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // Ejecutar animaciones siempre
     this.startFadeInAnimations();
+  }
+
+  /**
+   * Tras completar company-setup: mismo modal de celebración que en cuenta (Stripe success).
+   */
+  private tryPostOnboardingDashboardCelebration(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    let shouldOpen = false;
+    try {
+      shouldOpen =
+        sessionStorage.getItem(POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY) === '1';
+      if (shouldOpen) {
+        sessionStorage.removeItem(POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY);
+      }
+    } catch {
+      return;
+    }
+    if (!shouldOpen) {
+      return;
+    }
+    const plan = this.resolvePaidPlanForCelebrationModal();
+    try {
+      localStorage.removeItem(PLAN_TIER_STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+    if (!plan) {
+      return;
+    }
+    setTimeout(() => {
+      this.modalService.openPlanUpgradeCelebration({ plan });
+    }, 200);
+  }
+
+  private resolvePaidPlanForCelebrationModal(): PaidUpgradePlanId | null {
+    if (this.isBrowser) {
+      try {
+        const stored = localStorage
+          .getItem(PLAN_TIER_STORAGE_KEY)
+          ?.trim()
+          .toLowerCase();
+        if (
+          stored === 'starter' ||
+          stored === 'growth' ||
+          stored === 'scale'
+        ) {
+          return stored;
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+    const raw = this.user()?.plan?.trim().toLowerCase() ?? '';
+    if (raw === 'starter' || raw === 'growth' || raw === 'scale') {
+      return raw;
+    }
+    return null;
   }
 
   /** Vuelta desde Stripe (cancel) o enlaces antiguos a /billing: aviso y/o modal de precios. */

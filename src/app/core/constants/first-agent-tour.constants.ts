@@ -10,6 +10,13 @@ export const PLAN_CELEBRATION_REQUIRED_KEY = 'llamalo_plan_celebration_required'
 /** Usuario pulsó «Volver al dashboard» en el modal de celebración del plan. */
 export const PLAN_CELEBRATION_ACCEPTED_KEY = 'llamalo_plan_celebration_accepted';
 
+/**
+ * Tras terminar el onboarding en company-setup: al entrar en /dashboard/home abrir el modal
+ * de celebración del plan (misma UX que Stripe success en cuenta).
+ */
+export const POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY =
+  'llamalo_post_onboarding_dashboard_celebration';
+
 export function firstAgentTourSkippedKey(userId: string): string {
   return `llamalo_first_agent_tour_skipped_${userId}`;
 }

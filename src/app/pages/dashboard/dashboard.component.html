@@ -6,6 +6,18 @@
     ></div>
   }
 
+  @if (showDashboardLoader) {
+    <div
+      class="fixed inset-0 z-[999] flex items-center justify-center bg-gray-100/90 backdrop-blur-sm dark:bg-[#111113]/92 pointer-events-auto"
+      role="status"
+      aria-live="polite"
+      aria-busy="true">
+      <div class="scale-125">
+        <ds-spinner variant="auto" [inputTextSpinner]="''"></ds-spinner>
+      </div>
+    </div>
+  }
+
   <!-- Sidebar Desktop (solo visible en xl) -->
   <div
     [class]="'hidden xl:block w-full xl:overflow-visible p-0 h-screen bg-white transition-all duration-500 ease-in-out flex-shrink-0 dark:bg-slate-900 ' + (isNavCollapsed ? 'xl:w-12 3xl:w-16' : 'xl:w-[12rem] 2xl:w-[12rem] 3xl:w-[14rem]')">

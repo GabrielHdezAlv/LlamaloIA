@@ -21,6 +21,7 @@ import {
   ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY,
   UpgradePlanPricingViewComponent,
 } from '../../shared/modals/upgrade-plan-modal/upgrade-plan-pricing-view.component';
+import { POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY } from '../../core/constants/first-agent-tour.constants';
 
 function onboardingCheckpointStorageKey(userId: string): string {
   return `llamalo_onboarding_ck_${userId}`;
@@ -112,7 +113,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   isSetupActive: boolean = false;
 
   currentStep: number = 1;
-  maxStep = 4;
+  maxStep = 3;
   displayedStep: number = 1;
   isStepFadingOut = false;
   private stepFadeTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -283,8 +284,13 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       if (s.v !== 1) {
         return false;
       }
-      if (s.currentStep < 1 || s.currentStep > this.maxStep) {
+      let restoredStep = s.currentStep;
+      if (restoredStep < 1) {
         return false;
+      }
+      // Checkpoints antiguos con paso 4 (pantalla de bienvenida eliminada) → paso de planes
+      if (restoredStep > this.maxStep) {
+        restoredStep = this.maxStep;
       }
       if (s.currentStep === 1 && s.welcomeDone !== true) {
         return false;
@@ -295,7 +301,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       this.planIntroExitTriggered = false;
       this.selectedMainUsages = [...(s.selectedMainUsages || [])];
       this.selectedDiscoveryChannels = [...(s.selectedDiscoveryChannels || [])];
-      this.goToStep(s.currentStep, { instant: true });
+      this.goToStep(restoredStep, { instant: true });
       return true;
     } catch {
       return false;
@@ -314,12 +320,24 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     this.goToStep(3, { instant: true });
   }
 
-  /** Usuario ya completó pago/trial: ir directo a la pantalla final de bienvenida. */
+  /** Usuario ya completó pago/trial: dashboard + celebración + tour (sin pantalla intermedia). */
   resumeAfterPlanSelection(): void {
     this.showWelcomeSequence = false;
     this.welcomeExitTriggered = true;
     this.showPlanIntroAnimation = false;
-    this.goToStep(4, { instant: true });
+    this.completeSetupWithDashboardCelebration();
+  }
+
+  /** Tras elegir plan en onboarding: mismo cierre que «Empezar» en la antigua pantalla final. */
+  completeSetupWithDashboardCelebration(): void {
+    if (this.isBrowser) {
+      try {
+        sessionStorage.setItem(POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY, '1');
+      } catch {
+        /* ignore */
+      }
+    }
+    this.completeSetup();
   }
 
   toggleSetup() {
@@ -440,8 +458,8 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       this.goToStep(2);
     } else if (this.currentStep === 2) {
       this.startPlanIntroAnimation();
-    } else if (this.currentStep === 4) {
-      this.completeSetup();
+    } else if (this.currentStep === 3 && this.canContinuePastPricing) {
+      this.completeSetupWithDashboardCelebration();
     }
   }
 
@@ -462,11 +480,6 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
     if (this.currentStep === 3) {
       this.goToStep(2);
-      return;
-    }
-
-    if (this.currentStep === 4) {
-      this.goToStep(3);
       return;
     }
 

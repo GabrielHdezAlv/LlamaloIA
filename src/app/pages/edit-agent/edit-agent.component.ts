@@ -112,6 +112,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   callSectionOpen = true;
   voiceSectionOpen = false;
 
+  /** Listas desplegables custom (Idioma / Voz) en Prueba de agente — evita el select nativo a ancho completo */
+  voiceTestLangOpen = false;
+  voiceTestVoiceOpen = false;
+
   agentKnowledgeSources: KnowledgeSource[] = [];
   isLoadingKnowledgeSources = false;
   availableKnowledgeSources: KnowledgeSource[] = [];
@@ -1109,6 +1113,47 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.showLanguageMenu = !this.showLanguageMenu;
   }
 
+  toggleVoiceTestLangMenu(event: Event): void {
+    event.stopPropagation();
+    this.voiceTestVoiceOpen = false;
+    this.voiceTestLangOpen = !this.voiceTestLangOpen;
+  }
+
+  toggleVoiceTestVoiceMenu(event: Event): void {
+    event.stopPropagation();
+    this.voiceTestLangOpen = false;
+    this.voiceTestVoiceOpen = !this.voiceTestVoiceOpen;
+  }
+
+  pickVoiceTestLanguage(code: string): void {
+    this.selectLanguage(code);
+    this.voiceTestLangOpen = false;
+  }
+
+  pickVoiceTestVoice(voiceId: string): void {
+    this.editForm.patchValue({ voiceId });
+    this.voiceTestVoiceOpen = false;
+  }
+
+  getVoiceTestLanguageLabel(): string {
+    const code = this.editForm.get('language')?.value;
+    return code ? this.getLanguageName(code) : '—';
+  }
+
+  getVoiceTestVoiceLabel(): string {
+    const id = this.editForm.get('voiceId')?.value;
+    const v = this.voices.find((x) => x.voiceId === id);
+    return v?.name ?? (id ? String(id) : '—');
+  }
+
+  isVoiceTestLanguageSelected(code: string): boolean {
+    return this.editForm.get('language')?.value === code;
+  }
+
+  isVoiceTestVoiceSelected(voiceId: string): boolean {
+    return this.editForm.get('voiceId')?.value === voiceId;
+  }
+
   selectLanguage(languageCode: string) {
     this.selectedLanguageCode = languageCode;
     this.selectedLanguageFlag = this.getLanguageFlag(languageCode);
@@ -1144,6 +1189,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (!dropdown && !menu && !menuItem && !languageDropdown) {
       this.showCountryMenu = false;
       this.showLanguageMenu = false;
+    }
+
+    if (!target.closest('[data-voice-test-lang-dropdown]')) {
+      this.voiceTestLangOpen = false;
+    }
+    if (!target.closest('[data-voice-test-voice-dropdown]')) {
+      this.voiceTestVoiceOpen = false;
     }
   }
 

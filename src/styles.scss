@@ -168,6 +168,13 @@ body::-webkit-scrollbar {
     max-width: theme('maxWidth.plan-celebration') !important;
   }
 
+  @media (min-width: 2500px) {
+    .cdk-overlay-pane.plan-celebration-dialog {
+      width: theme('width.plan-celebration-4xl') !important;
+      max-width: theme('maxWidth.plan-celebration-4xl') !important;
+    }
+  }
+
   .cdk-overlay-pane.plan-celebration-dialog .mat-mdc-dialog-container {
     @apply box-border;
     width: 100% !important;

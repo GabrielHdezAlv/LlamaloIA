@@ -3,6 +3,7 @@ import {
   ViewChild,
   AfterViewInit,
   OnInit,
+  OnDestroy,
   ChangeDetectorRef,
   Inject,
   PLATFORM_ID,
@@ -12,7 +13,16 @@ import {
   untracked,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { RouterOutlet, RouterModule, Router, NavigationEnd } from '@angular/router';
+import {
+  RouterOutlet,
+  RouterModule,
+  Router,
+  NavigationEnd,
+  NavigationStart,
+  NavigationCancel,
+  NavigationError,
+} from '@angular/router';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavComponent } from '../../layout/nav/nav.component';
@@ -29,6 +39,8 @@ import { AuthSessionService } from '../../core/services/auth-session.service';
 import { ModalService } from '../../shared/modals/modal.service';
 import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -38,11 +50,12 @@ import { FirstAgentTourService } from '../../core/services/first-agent-tour.serv
     CommonModule,
     TopbarComponent,
     NavComponent,
+    SpinnerComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(NavComponent) navComponent!: NavComponent;
   private _isNavCollapsed: boolean = true;
   showMobileSidebar = false;
@@ -104,6 +117,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   isDarkMode = false;
   isMobileSidebarClosing = false;
 
+  /** Carga inicial (recordatorios, etc.) o navegación entre rutas hijas del dashboard. */
+  dashboardBootstrapping = true;
+  dashboardRouteLoading = false;
+
+  private routerLoadingSub?: Subscription;
+
+  get showDashboardLoader(): boolean {
+    return this.dashboardBootstrapping || this.dashboardRouteLoading;
+  }
+
   constructor(
     private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -143,6 +166,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       user.hasCompletedSetup !== true &&
       !requiresSubscriptionPaywall(user)
     ) {
+      this.dashboardBootstrapping = false;
       void this.router.navigate(['/company-setup'], { replaceUrl: true });
       return;
     }
@@ -170,10 +194,29 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       window.addEventListener('openReminderModal', () => {
         this.openInactiveReminderModal();
       });
+
+      this.routerLoadingSub = this.router.events.subscribe((e) => {
+        if (e instanceof NavigationStart) {
+          const path = e.url.split('?')[0];
+          if (path.startsWith('/dashboard')) {
+            this.dashboardRouteLoading = true;
+            this.cdr.markForCheck();
+          }
+        } else if (
+          e instanceof NavigationEnd ||
+          e instanceof NavigationCancel ||
+          e instanceof NavigationError
+        ) {
+          this.dashboardRouteLoading = false;
+          this.cdr.markForCheck();
+        }
+      });
     }
 
     // Cargar datos del recordatorio
     await this.loadReminderData();
+    this.dashboardBootstrapping = false;
+    this.cdr.markForCheck();
 
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
@@ -181,6 +224,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.maybeStartFirstAgentTour();
       });
     queueMicrotask(() => this.maybeStartFirstAgentTour());
+  }
+
+  ngOnDestroy(): void {
+    this.routerLoadingSub?.unsubscribe();
   }
 
   /** Tour guiado (primer agente): spotlight hacia Agentes → Agregar agente. */
