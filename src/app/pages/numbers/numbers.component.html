@@ -20,8 +20,8 @@
             </div>
 
             @if (phoneNumbers.length > 0) {
-            <div class="flex-1 max-lg:w-full lg:flex-none lg:w-auto import-dropdown-wrap relative">
-                <app-ripple-button (buttonClick)="toggleImportDropdown()"
+            <div class="flex-1 max-lg:w-full lg:flex-none lg:w-auto">
+                <app-ripple-button (buttonClick)="openImportFromTwilio()"
                     buttonClass="import-number-btn-white-dark bg-[#0a1740] h-8 sm:h-9 md:h-10 lg:h-8 3xl:h-10 4xl:h-11 text-white dark:!bg-[#ffffff] dark:!text-gray-900 w-full lg:w-auto px-5 sm:px-6 md:px-7 rounded-lg 4xl:rounded-2xl text-xs sm:text-sm lg:text-[11px] xl:text-[11px] 2xl:text-[11px] 3xl:text-sm 4xl:text-base font-medium font-sans transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 shadow-md flex items-center justify-center whitespace-nowrap"
                     rippleColor="rgba(255, 255, 255, 0.4)">
                     <span class="flex items-center justify-center gap-1.5 sm:gap-2">
@@ -34,15 +34,6 @@
                         <span class="leading-none">{{ t.importNumber }}</span>
                     </span>
                 </app-ripple-button>
-                @if (showImportDropdown) {
-                <div
-                    class="actions-dropdown-panel absolute right-0 top-full mt-1.5 w-56 z-50 rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden py-1">
-                    <button (click)="openImportFromTwilio()" type="button"
-                        class="w-full text-left px-4 py-3 text-sm font-medium text-gray-900 dark:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
-                        {{ t.fromTwilio }}
-                    </button>
-                </div>
-                }
             </div>
             }
         </div>
@@ -219,33 +210,19 @@
                 class="text-xs sm:text-sm md:text-sm 3xl:text-sm 4xl:text-base text-gray-400 mb-4 sm:mb-5 md:mb-6 3xl:mb-5 dark:text-slate-400">
                 {{ t.importFirstNumberNow }}
             </p>
-            <div class="import-dropdown-wrap relative">
-                <app-ripple-button (buttonClick)="toggleImportDropdown()"
-                    buttonClass="import-number-btn-white-dark bg-[#0a1740] text-white dark:!bg-[#ffffff] dark:!text-gray-900 dark:border dark:border-gray-200 w-full sm:w-auto px-4 sm:px-5 lg:px-5 3xl:px-8 4xl:px-10 py-1.5 sm:py-1.5 3xl:py-2 4xl:py-2.5 rounded-lg 4xl:rounded-2xl text-[11px] sm:text-xs 3xl:text-sm 4xl:text-base font-medium font-sans transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-sm flex items-center justify-center"
-                    rippleColor="rgba(255, 255, 255, 0.4)">
-                    <span class="flex items-center justify-center gap-1.5 sm:gap-2">
-                        <svg
-                            class="w-[1em] h-[1em] min-w-[0.875rem] min-h-[0.875rem] max-w-[0.9375rem] max-h-[0.9375rem] sm:max-w-[1rem] sm:max-h-[1rem] shrink-0 self-center stroke-current translate-y-px"
-                            viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M4 12H20M12 4V20" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                        <span class="leading-none">{{ t.importNumber }}</span>
-                    </span>
-                </app-ripple-button>
-                @if (showImportDropdown) {
-                <div
-                    class="absolute left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 top-full mt-1.5 w-56 z-50">
-                    <div
-                        class="actions-dropdown-panel rounded-lg shadow-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden py-1">
-                        <button (click)="openImportFromTwilio()" type="button"
-                            class="w-full text-left px-4 py-3 text-sm font-medium text-gray-900 dark:text-slate-100 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
-                            {{ t.fromTwilio }}
-                        </button>
-                    </div>
-                </div>
-                }
-            </div>
+            <app-ripple-button (buttonClick)="openImportFromTwilio()"
+                buttonClass="import-number-btn-white-dark bg-[#0a1740] text-white dark:!bg-[#ffffff] dark:!text-gray-900 dark:border dark:border-gray-200 w-full sm:w-auto px-4 sm:px-5 lg:px-5 3xl:px-8 4xl:px-10 py-1.5 sm:py-1.5 3xl:py-2 4xl:py-2.5 rounded-lg 4xl:rounded-2xl text-[11px] sm:text-xs 3xl:text-sm 4xl:text-base font-medium font-sans transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 shadow-sm flex items-center justify-center"
+                rippleColor="rgba(255, 255, 255, 0.4)">
+                <span class="flex items-center justify-center gap-1.5 sm:gap-2">
+                    <svg
+                        class="w-[1em] h-[1em] min-w-[0.875rem] min-h-[0.875rem] max-w-[0.9375rem] max-h-[0.9375rem] sm:max-w-[1rem] sm:max-h-[1rem] shrink-0 self-center stroke-current translate-y-px"
+                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M4 12H20M12 4V20" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                    <span class="leading-none">{{ t.importNumber }}</span>
+                </span>
+            </app-ripple-button>
         </div>
         }
     </div>

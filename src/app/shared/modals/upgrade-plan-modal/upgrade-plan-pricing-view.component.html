@@ -120,22 +120,22 @@
     <div
       [class]="isEmbeddedOnboarding
         ? 'grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3 lg:gap-3.5 3xl:gap-8 items-stretch'
-        : 'grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 4xl:gap-12 items-stretch'">
+        : 'grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 3xl:gap-8 4xl:gap-12 items-stretch'">
     @for (plan of pricingPlans; track plan.id; let i = $index) {
       <div [style.animation-delay]="(i * 120) + 'ms'"
         [ngClass]="isEmbeddedOnboarding
-          ? 'plan-card-fade-in flex flex-col h-full rounded-3xl p-0.5 border shadow-lg transition-all duration-300 min-h-0 md:min-h-0 4xl:min-h-0 3xl:rounded-[2.25rem] 3xl:p-1.5 ' +
+          ? 'plan-card-fade-in flex flex-col h-full rounded-3xl p-0.5 border shadow-lg transition-all duration-300 min-h-0 md:min-h-0 4xl:min-h-0 3xl:rounded-[2.25rem] 4xl:rounded-[2.4rem] 3xl:p-1.5 ' +
             (plan.highlighted
               ? 'plan-card-pro plan-pro-glow bg-[#151515] dark:bg-white border-transparent dark:border-gray-200'
               : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')
-          : 'plan-card-fade-in flex flex-col h-full rounded-3xl p-0.5 border shadow-lg transition-all duration-300 min-h-[24rem] md:min-h-0 4xl:min-h-[33rem] ' +
+          : 'plan-card-fade-in flex flex-col h-full rounded-3xl 4xl:rounded-[2rem] p-0.5 border shadow-lg transition-all duration-300 min-h-[24rem] md:min-h-0 4xl:min-h-[33rem] ' +
             (plan.highlighted
               ? 'plan-card-pro plan-pro-glow bg-[#151515] dark:bg-white border-transparent dark:border-gray-200'
               : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')">
 
         <div [ngClass]="(isEmbeddedOnboarding
-          ? 'rounded-3xl flex flex-col h-fit p-4 sm:p-5 4xl:p-9 3xl:rounded-[2rem] 3xl:p-8 3xl:sm:p-9 '
-          : 'rounded-3xl flex flex-col h-fit p-4 sm:p-5 4xl:p-9 ') +
+          ? 'rounded-3xl flex flex-col h-fit p-4 sm:p-5 4xl:p-9 3xl:rounded-[2rem] 4xl:rounded-[2.125rem] 3xl:p-8 3xl:sm:p-9 '
+          : 'rounded-3xl 4xl:rounded-[1.875rem] flex flex-col h-fit p-4 sm:p-5 4xl:p-9 ') +
           (plan.highlighted ? 'bg-[#222222] dark:bg-[#dddddd]' : 'bg-gray-50 dark:bg-[#222222]')">
           <div [class]="'mb-3 4xl:mb-5 ' + (plan.highlighted ? 'min-h-[3.5rem] 4xl:min-h-[4.5rem]' : 'min-h-[4.75rem] 4xl:min-h-[5.75rem]')">
             <h3 [class]="'mb-1 ' + (plan.highlighted ? 'font-semibold text-lg md:text-xl 3xl:text-2xl 4xl:text-3xl text-white dark:text-[#000001]' : 'font-medium text-xl 3xl:text-2xl 4xl:text-3xl text-black dark:text-white')">

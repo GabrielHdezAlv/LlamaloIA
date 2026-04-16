@@ -55,11 +55,12 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return this.i18nService.getTranslations();
   }
 
-  /** Nombre del plan actual (perfil), no el texto fijo «Starter». */
+  /** Nombre del plan actual (perfil), sin prefijo «Plan» en esta tarjeta. */
   get subscriptionPlanDisplayName(): string {
     return planDisplayLabelFromTranslations(
       this.userStorage.user()?.plan,
       this.t,
+      { includePlanWord: false },
     );
   }
 

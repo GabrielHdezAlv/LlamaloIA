@@ -68,8 +68,7 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   // Búsqueda de números
   searchTerm: string = '';
 
-  // Importar número: dropdown + sidebar
-  showImportDropdown = false;
+  // Importar número: sidebar Twilio
   showImportSidebar = false;
   importSidebarClosing = false;
   importForm: FormGroup;
@@ -231,17 +230,12 @@ export class NumbersComponent implements OnInit, AfterViewInit {
     }, 180);
   }
 
-  toggleImportDropdown(): void {
-    this.showImportDropdown = !this.showImportDropdown;
-  }
-
   // Actualizar lista al escribir (sin necesidad de Enter)
   onSearchChange(): void {
     this.searchSubject.next(this.searchTerm ?? '');
   }
 
   openImportFromTwilio(): void {
-    this.showImportDropdown = false;
     this.importErrorMessage = null;
 
     // Intentar obtener credenciales de Twilio del perfil si existen
@@ -461,8 +455,6 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (!target.closest('.relative')) this.openMenuIndex = null;
-    if (!target.closest('.import-dropdown-wrap'))
-      this.showImportDropdown = false;
     if (this.showImportSidebar && !target.closest('.country-dropdown-wrap'))
       this.showCountryMenu = false;
   }

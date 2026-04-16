@@ -342,7 +342,7 @@
 
       <!-- Avatar escritorio (solo fuera de la sección admin) -->
       <img *ngIf="!isAdminSection" [src]="getUserProfileImage()"
-        class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 4xl:h-14 4xl:w-14 rounded-full border border-blue-900/20 dark:border-white/20 history-border cursor-pointer"
+        class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-14 3xl:w-14 4xl:h-16 4xl:w-16 rounded-full border border-blue-900/20 dark:border-white/20 history-border cursor-pointer"
         alt="Perfil" (click)="toggleDropdown()" />
 
       <!-- Dropdown escritorio -->
@@ -570,41 +570,41 @@
     </div>
   </div>
 
-  <!-- Banner borrador creación agente: cápsula compacta (misma altura sensación que antes) -->
+  <!-- Banner borrador creación agente: escala en 2xl+ (3xl del proyecto = 1900px; sin 2xl quedaba pequeño hasta entonces) -->
   <div
     *ngIf="draftBannerShown"
     @draftBanner
     (@draftBanner.done)="onDraftBannerAnimDone($event)"
-    class="fixed bottom-4 left-1/2 z-[100] flex w-[90%] max-w-[min(42rem,calc(100vw-2rem))] -translate-x-1/2 flex-col items-stretch gap-3 rounded-3xl border border-white/20 bg-black px-4 py-3 shadow-2xl sm:w-auto sm:min-w-[550px] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6 sm:py-2.5"
+    class="fixed bottom-4 2xl:bottom-5 3xl:bottom-6 4xl:bottom-8 left-1/2 z-[100] flex w-[90%] max-w-[min(42rem,calc(100vw-2rem))] 2xl:max-w-[min(46rem,calc(100vw-2rem))] 3xl:max-w-[min(52rem,calc(100vw-2.5rem))] 4xl:max-w-[min(58rem,calc(100vw-3rem))] -translate-x-1/2 flex-col items-stretch gap-3 sm:gap-6 2xl:gap-6 3xl:gap-7 4xl:gap-8 rounded-3xl 2xl:rounded-[1.25rem] 3xl:rounded-[1.5rem] border border-white/20 bg-black px-4 py-3 sm:px-6 sm:py-2.5 2xl:px-6 2xl:py-3 3xl:px-7 3xl:py-3.5 4xl:px-8 4xl:py-4 shadow-2xl sm:w-auto sm:min-w-[550px] 2xl:min-w-[580px] 3xl:min-w-[600px] 4xl:min-w-[660px] sm:flex-row sm:items-center sm:justify-between"
   >
-    <div class="flex min-w-0 flex-col items-center gap-0.5 text-center sm:items-start sm:text-left">
-      <p class="text-xs font-medium leading-snug text-white sm:text-[13px]">
+    <div class="flex min-w-0 flex-col items-center gap-0.5 2xl:gap-1 text-center sm:items-start sm:text-left">
+      <p class="text-xs font-medium leading-snug text-white sm:text-[13px] 2xl:text-[15px] 2xl:leading-snug 3xl:text-base 3xl:leading-snug 4xl:text-lg">
         {{ t.continueAgentCreationQuestion }}
       </p>
       <div
-        class="text-[10px] leading-snug text-gray-400 max-sm:flex max-sm:flex-row max-sm:flex-wrap max-sm:items-baseline max-sm:justify-center max-sm:gap-x-2 sm:text-[11px] sm:block">
+        class="text-[10px] leading-snug text-gray-400 max-sm:flex max-sm:flex-row max-sm:flex-wrap max-sm:items-baseline max-sm:justify-center max-sm:gap-x-2 sm:text-[11px] 2xl:text-xs 2xl:leading-normal 3xl:text-sm sm:block">
         <span>
           {{ t.agentLabelTopbar }}:
           <span class="font-medium text-gray-300">{{ savedDraft?.agentName || t.noName }}</span>
         </span>
-        <span *ngIf="getSavedStepText()" class="max-sm:inline sm:mt-0.5 sm:block">
+        <span *ngIf="getSavedStepText()" class="max-sm:inline sm:mt-0.5 sm:block 2xl:mt-0.5">
           {{ t.stepLabel }}:
           <span class="font-medium text-gray-300">{{ getSavedStepText() }}</span>
         </span>
       </div>
     </div>
-    <div class="flex shrink-0 items-center justify-center gap-2.5 sm:gap-3 sm:justify-end">
+    <div class="flex shrink-0 items-center justify-center gap-2.5 sm:gap-3 2xl:gap-3 sm:justify-end">
       <button
         type="button"
         (click)="discardDraft()"
-        class="inline-flex flex-1 items-center justify-center rounded-full border border-white/35 bg-transparent px-4 py-2 text-[11px] font-medium text-white transition-colors hover:bg-white/10 sm:flex-initial sm:px-4 sm:py-2 sm:text-xs"
+        class="inline-flex flex-1 items-center justify-center rounded-full border border-white/35 bg-transparent px-4 py-2 text-[11px] font-medium text-white transition-colors hover:bg-white/10 sm:flex-initial sm:px-4 sm:py-2 sm:text-xs 2xl:px-5 2xl:py-2 2xl:text-xs 3xl:px-6 3xl:py-2.5 3xl:text-sm 4xl:px-7 4xl:py-3 4xl:text-base"
       >
         {{ t.deleteLabel }}
       </button>
       <button
         type="button"
         (click)="goToRecoverDraft()"
-        class="inline-flex flex-1 items-center justify-center rounded-full bg-white px-4 py-2 text-[11px] font-semibold text-black transition-colors hover:bg-gray-100 active:scale-[0.98] sm:flex-initial sm:px-5 sm:py-2 sm:text-xs"
+        class="inline-flex flex-1 items-center justify-center rounded-full bg-white px-4 py-2 text-[11px] font-semibold text-black transition-colors hover:bg-gray-100 active:scale-[0.98] sm:flex-initial sm:px-5 sm:py-2 sm:text-xs 2xl:px-6 2xl:py-2 2xl:text-xs 3xl:px-7 3xl:py-2.5 3xl:text-sm 4xl:px-8 4xl:py-3 4xl:text-base"
       >
         {{ t.continue }}
       </button>

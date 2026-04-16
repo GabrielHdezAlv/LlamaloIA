@@ -1,10 +1,10 @@
 <div
-  class="p-4 max-w-[500px] w-full rounded-3xl bg-white dark:bg-[#131313] font-['Inter',sans-serif] transition-all duration-300 overflow-hidden">
+  class="p-4 3xl:p-6 max-w-[500px] 3xl:max-w-[640px] w-full mx-auto rounded-3xl bg-white dark:bg-[#131313] font-['Inter',sans-serif] transition-all duration-300 overflow-hidden">
   <!-- Header -->
-  <div class="flex justify-between items-center mb-4">
+  <div class="flex justify-between items-center mb-4 3xl:mb-5">
     <div class="flex items-center gap-2.5 min-w-0">
       @if (isEditMode) {
-        <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none"
+      <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none"
         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path
           d="M11.4001 18.1612L11.4001 18.1612L18.796 10.7653C17.7894 10.3464 16.5972 9.6582 15.4697 8.53068C14.342 7.40298 13.6537 6.21058 13.2348 5.2039L5.83882 12.5999L5.83879 12.5999C5.26166 13.1771 4.97307 13.4657 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L7.47918 20.5844C8.25351 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5343 19.0269 10.823 18.7383 11.4001 18.1612Z"
@@ -14,7 +14,7 @@
           fill="currentColor" />
       </svg>
       }
-      <h2 class="m-0 text-base font-bold tracking-tight text-gray-900 dark:text-white">{{ data.title || "Añadir texto
+      <h2 class="m-0 text-base 3xl:text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{ data.title || "Añadir texto
         manual" }}</h2>
     </div>
     <button (click)="onCancel()"
@@ -28,37 +28,37 @@
   </div>
 
   <!-- Content -->
-  <div class="flex flex-col gap-3">
+  <div class="flex flex-col gap-3 3xl:gap-4">
     <div class="flex flex-col gap-1.5">
-      <label for="name" class="text-xs font-semibold text-gray-600 dark:text-gray-300">Nombre de la fuente</label>
+      <label for="name" class="text-xs 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300">Nombre de la fuente</label>
       <div>
         <input id="name" type="text" [(ngModel)]="name" placeholder="Ej. Instrucciones del cliente"
-          class="w-full px-3.5 py-2.5 bg-transparent border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:bg-white dark:focus:bg-white/[0.05] focus:border-indigo-600 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-600/10 dark:focus:ring-indigo-400/15 transition-all duration-200" />
+          class="w-full px-3.5 3xl:px-4 py-2.5 3xl:py-3 bg-transparent border border-gray-200 dark:border-white/10 rounded-xl text-xs 3xl:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:bg-white dark:focus:bg-white/[0.05] focus:border-indigo-600 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-600/10 dark:focus:ring-indigo-400/15 transition-all duration-200" />
       </div>
     </div>
 
     <div class="flex flex-col gap-1.5">
       <div class="flex justify-between items-end">
-        <label for="content" class="text-xs font-semibold text-gray-600 dark:text-gray-300">Contenido del texto</label>
-        <span class="text-xs text-gray-400">{{ textContent.length }} caracteres</span>
+        <label for="content" class="text-xs 3xl:text-sm font-semibold text-gray-600 dark:text-gray-300">Contenido del texto</label>
+        <span class="text-xs 3xl:text-sm text-gray-400">{{ textContent.length }} caracteres</span>
       </div>
       <div>
         <textarea id="content" [(ngModel)]="textContent"
           placeholder="Escribe o pega aquí la información detallada que quieras añadir a la base de conocimiento..."
-          class="w-full px-3.5 py-2.5 bg-transparent border border-gray-200 dark:border-white/10 rounded-xl text-xs text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:bg-white dark:focus:bg-white/[0.05] focus:border-indigo-600 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-600/10 dark:focus:ring-indigo-400/15 transition-all duration-200 resize-none leading-5"
+          class="w-full px-3.5 3xl:px-4 py-2.5 3xl:py-3 min-h-[10.5rem] 3xl:min-h-[13rem] bg-transparent border border-gray-200 dark:border-white/10 rounded-xl text-xs 3xl:text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:bg-white dark:focus:bg-white/[0.05] focus:border-indigo-600 dark:focus:border-indigo-400 focus:ring-4 focus:ring-indigo-600/10 dark:focus:ring-indigo-400/15 transition-all duration-200 resize-none leading-5 3xl:leading-6"
           rows="6"></textarea>
       </div>
     </div>
   </div>
 
   <!-- Footer -->
-  <div class="mt-4 flex justify-end gap-3">
+  <div class="mt-4 3xl:mt-5 flex justify-end gap-3 3xl:gap-4">
     <button (click)="onCancel()"
-      class="px-5 py-2.5 rounded-xl text-sm font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-all duration-200 flex items-center">
+      class="px-5 3xl:px-6 py-2.5 3xl:py-3 rounded-xl text-sm 3xl:text-base font-semibold text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-all duration-200 flex items-center">
       Cancelar
     </button>
     <button (click)="onConfirm()" [disabled]="!textContent.trim()"
-      class="px-5 py-2.5 rounded-xl text-sm font-semibold bg-black dark:bg-[#FFFFFF] text-white dark:text-[#000001] shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:bg-gray-800  disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-md transition-all duration-200 flex items-center">
+      class="px-5 3xl:px-6 py-2.5 3xl:py-3 rounded-xl text-sm 3xl:text-base font-semibold bg-black dark:bg-[#FFFFFF] text-white dark:text-[#000001] shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:bg-gray-800  disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-md transition-all duration-200 flex items-center">
       <span>{{ isEditMode ? t.saveChanges : t.addTextDocument }}</span>
       @if (!isEditMode) {
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"

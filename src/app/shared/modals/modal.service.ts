@@ -213,7 +213,7 @@ export class ModalService {
 
   openText(data: TextModalData = {}) {
     return this.dialog.open(TextModalComponent, {
-      width: '600px',
+      width: '720px',
       maxWidth: '95vw',
       disableClose: false,
       panelClass: 'custom-dialog-container',

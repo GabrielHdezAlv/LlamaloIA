@@ -143,12 +143,37 @@
   }
 }
 
-/* Contenido (tarjetas) con tamaño fijo: solo el recuadro crece */
+/* Contenido (tarjetas): ancho máximo por defecto; en 3xl/4xl crece (ver media queries) */
 .upgrade-plan-modal__content {
   max-width: 760px;
   max-height: 82vh;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Pantallas 3xl (≥1900px): un poco más ancho que el default 760px, sin llegar al máximo de antes */
+@media (min-width: 1900px) {
+  ::ng-deep .cdk-overlay-pane.upgrade-plan-dialog {
+    width: min(94vw, 1080px) !important;
+    max-width: min(94vw, 1080px) !important;
+  }
+
+  .upgrade-plan-modal__content {
+    max-width: 1000px;
+  }
+
+  .upgrade-plan-modal--spaced {
+    padding: 3.15rem 2.35rem 2.9rem !important;
+  }
+
+  .billing-toggle {
+    width: 10.75rem;
+  }
+
+  .billing-toggle__btn {
+    padding: 0.48rem 0.48rem;
+    font-size: 0.72rem;
+  }
 }
 
 /* En móvil no limitamos altura del grid: 82vh recortaba la última carta contra el borde */
