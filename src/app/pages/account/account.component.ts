@@ -329,38 +329,6 @@ export class AccountComponent implements OnInit, OnDestroy {
     return ent?.url || '';
   });
 
-  /** Cupo mensual (UTC), alineado con el backend (`minute-quota` / Firestore). */
-  minuteQuotaView = computed(() => {
-    const u = this.user();
-    if (!u) return null;
-    const month = new Date().toISOString().slice(0, 7);
-    const usedRaw = u.minutesByMonth?.[month];
-    const used =
-      typeof usedRaw === 'number' && !Number.isNaN(usedRaw) ? usedRaw : 0;
-    const planLimit = u.minutesLimit ?? 100;
-    const extra = u.extraMinutes ?? 0;
-    const plan = (u.plan ?? '').toLowerCase();
-    if (plan === 'premium') {
-      return { mode: 'unlimited' as const, used };
-    }
-    const total = planLimit + extra;
-    const remaining = Math.max(0, total - used);
-    return {
-      mode: 'limited' as const,
-      used,
-      total,
-      remaining,
-      planLimit,
-      extra,
-    };
-  });
-
-  showOutOfMinutesBanner = computed(() => {
-    const q = this.minuteQuotaView();
-    if (!q || q.mode === 'unlimited') return false;
-    return q.remaining <= 0;
-  });
-
   /** Pago pendiente en Stripe: mostrar aviso en Facturación. */
   showStripePaymentPendingBanner = computed(() => {
     const s = this.user()?.stripeSubscriptionStatus?.trim();

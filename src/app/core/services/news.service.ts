@@ -5,6 +5,10 @@ import { Observable } from 'rxjs';
 import { NewsItem } from '../../shared/models/news.model';
 import { I18nService } from './i18n.service';
 import { environment } from '../../../environments/environment';
+import { UserStorage } from '../../storages/user/user-storage';
+
+/** Id fijo para el aviso de cupo mensual agotado (no coincide con noticias del API). */
+export const OUT_OF_MINUTES_NEWS_ID = '__llamalo_out_of_minutes__';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +16,7 @@ import { environment } from '../../../environments/environment';
 export class NewsService {
     private http = inject(HttpClient);
     private platformId = inject(PLATFORM_ID);
+    private userStorage = inject(UserStorage);
     private apiUrl = `${environment.apiUrl}/news`;
     private isBrowser: boolean;
 
@@ -104,12 +109,54 @@ export class NewsService {
 
     getTranslatedNewsSignal = computed(() => {
         const currentLang = this.i18nService.selectedLanguage().code;
-        return this.newsSignal().map(news => ({
+        const base = this.newsSignal().map(news => ({
             ...news,
             title: news.title[currentLang as keyof typeof news.title] || news.title.es,
             description: news.description[currentLang as keyof typeof news.description] || news.description.es
         }));
+        const outOfMinutes = this.buildOutOfMinutesTranslatedItem();
+        if (outOfMinutes) {
+            return [outOfMinutes, ...base];
+        }
+        return base;
     });
+
+    /**
+     * Plan no premium y 0 minutos restantes en el mes UTC (alineado con `minute-quota` / Firestore).
+     */
+    private buildOutOfMinutesTranslatedItem(): {
+        id: string;
+        title: string;
+        description: string;
+        imageUrl: string;
+        date: string;
+        link?: string;
+    } | null {
+        const u = this.userStorage.user();
+        if (!u) return null;
+        const plan = (u.plan ?? '').toLowerCase();
+        if (plan === 'premium') return null;
+
+        const month = new Date().toISOString().slice(0, 7);
+        const usedRaw = u.minutesByMonth?.[month];
+        const used =
+            typeof usedRaw === 'number' && !Number.isNaN(usedRaw) ? usedRaw : 0;
+        const planLimit = u.minutesLimit ?? 100;
+        const extra = u.extraMinutes ?? 0;
+        const total = planLimit + extra;
+        const remaining = Math.max(0, total - used);
+        if (remaining > 0) return null;
+
+        const t = this.i18nService.getTranslations();
+        return {
+            id: OUT_OF_MINUTES_NEWS_ID,
+            title: t.outOfMinutesBannerTitle,
+            description: t.outOfMinutesBannerDesc,
+            imageUrl:
+                'https://images.unsplash.com/photo-1551434678-e076c223a692?w=320&h=200&fit=crop',
+            date: new Date().toISOString(),
+    };
+    }
 
   /**
    * Noticias: minutos si es reciente, horas si es hoy pero hace más de 1 h (así se distinguen varias noticias del mismo día),
