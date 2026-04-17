@@ -30,6 +30,7 @@ import { AdminNewsComponent } from './pages/admin-news/admin-news.component';
 import { AdminDocsComponent } from './pages/admin-docs/admin-docs.component';
 import { AdminSystemLogsComponent } from './pages/admin-system-logs/admin-system-logs';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
 import { ShopifyComponent } from './pages/shopify/shopify.component';
 import { subscriptionPaywallGuard } from './core/guards/subscription-paywall.guard';
 import { onboardingCompleteGuard } from './core/guards/onboarding-complete.guard';
@@ -143,6 +144,11 @@ export const routes: Routes = [
     path: 'company-setup',
     component: CompanySetupComponent,
     canActivate: [AuthGuard, subscriptionPaywallGuard],
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenComponent,
+    data: { hideSupportWidget: true },
   },
   {
     path: 'admin',

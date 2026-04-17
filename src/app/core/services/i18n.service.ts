@@ -228,6 +228,11 @@ export interface Translations {
   // 404 / Not Found page
   notFoundTitle: string;
   notFoundBackToDashboard: string;
+  /** 403 / Sin permiso */
+  forbiddenTitle: string;
+  forbiddenDescription: string;
+  forbiddenCtaHome: string;
+  forbiddenCtaLogin: string;
   allRightsReserved: string;
 
   // Metrics page
@@ -1164,6 +1169,11 @@ export class I18nService {
       // 404 / Not Found page
       notFoundTitle: 'Página no encontrada',
       notFoundBackToDashboard: 'Volver al panel',
+      forbiddenTitle: 'Acceso no permitido',
+      forbiddenDescription:
+        'No tienes permiso para ver esta página. Si crees que es un error, inicia sesión con una cuenta autorizada o vuelve al panel.',
+      forbiddenCtaHome: 'Ir al panel',
+      forbiddenCtaLogin: 'Iniciar sesión',
       allRightsReserved: 'Todos los derechos reservados',
 
       // Metrics page
@@ -2092,6 +2102,11 @@ export class I18nService {
       // 404 / Not Found page
       notFoundTitle: 'Page not found',
       notFoundBackToDashboard: 'Back to dashboard',
+      forbiddenTitle: 'Access denied',
+      forbiddenDescription:
+        'You do not have permission to view this page. If you think this is a mistake, sign in with an authorized account or return to the dashboard.',
+      forbiddenCtaHome: 'Go to dashboard',
+      forbiddenCtaLogin: 'Sign in',
       allRightsReserved: 'All rights reserved',
 
       // Metrics page
