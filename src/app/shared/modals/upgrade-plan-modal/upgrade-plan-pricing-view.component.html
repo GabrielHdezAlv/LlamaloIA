@@ -132,7 +132,12 @@
             (plan.highlighted
               ? 'plan-card-pro plan-pro-glow bg-[#151515] dark:bg-white border-transparent dark:border-gray-200'
               : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')">
-
+        @if (plan.id === 'growth') {
+          <p
+            class="shrink-0 pt-2 pb-1 3xl:pt-2.5 3xl:pb-1.5 px-1 text-center text-[10px] sm:text-[11px] 3xl:text-xs font-bold uppercase tracking-[0.22em] text-white dark:text-[#000001]">
+            {{ t.upgradePlanPopularBadge }}
+          </p>
+        }
         <div [ngClass]="(isEmbeddedOnboarding
           ? 'rounded-3xl flex flex-col h-fit p-4 sm:p-5 4xl:p-9 3xl:rounded-[2rem] 4xl:rounded-[2.125rem] 3xl:p-8 3xl:sm:p-9 '
           : 'rounded-3xl 4xl:rounded-[1.875rem] flex flex-col h-fit p-4 sm:p-5 4xl:p-9 ') +
@@ -173,45 +178,43 @@
           </div>
 
           @if (plan.id === 'starter') {
-            <div class="relative w-full">
-              @if (isRegistrationMode) {
-                <button
-                  type="button"
-                  (click)="onChoosePlan(plan.id, $event, 'trial')"
-                  [disabled]="stripeRedirecting || cancelLoading"
-                  class="absolute right-0 bottom-full z-10 mb-1.5 max-w-[min(100%,12rem)] text-right text-[10px] sm:text-[11px] md:text-[10px] 4xl:text-xs font-medium leading-tight text-emerald-700 dark:text-emerald-400 hover:underline disabled:pointer-events-none disabled:opacity-40 disabled:no-underline sm:max-w-none">
-                  {{ t.upgradePlanStarterTrialTextLink }}
-                </button>
-              }
+            <div class="w-full flex flex-col items-stretch">
               <button
                 type="button"
-                (click)="onChoosePlan(plan.id, $event, 'pay')"
+                (click)="onChoosePlan(plan.id, $event, isRegistrationMode ? 'trial' : 'pay')"
                 [disabled]="stripeRedirecting || cancelLoading"
-                [class]="'relative w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base ' +
+                [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base ' +
                   (plan.highlighted
                     ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90'
                     : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
                 <span>{{ plan.buttonText }}</span>
-                <svg class="w-5 h-5 ml-2 md:w-4 md:h-4 md:ml-1.5 4xl:w-7 4xl:h-7 4xl:ml-2.5 transition-transform duration-300 group-hover:translate-x-1 3xl:w-6 3xl:h-6 3xl:ml-2"
-                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
               </button>
+              @if (isRegistrationMode) {
+                <p
+                  class="mt-2 text-center text-[10px] sm:text-[11px] md:text-[10px] 4xl:text-xs font-medium leading-tight text-gray-400 dark:text-gray-500 select-none pointer-events-none">
+                  {{ t.upgradePlanStarterTrialTextLink }}
+                </p>
+              }
             </div>
+          } @else if (plan.id === 'growth') {
+            <button
+              type="button"
+              (click)="onChoosePlan(plan.id, $event)"
+              [disabled]="stripeRedirecting || cancelLoading"
+              class="w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90">
+              <span>{{ plan.buttonText }}</span>
+              <svg class="w-5 h-5 ml-2 md:w-3.5 md:h-3.5 md:ml-1.5 4xl:w-7 4xl:h-7 4xl:ml-2.5 3xl:w-6 3xl:h-6 3xl:ml-2 transition-transform duration-300 group-hover:translate-x-1"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
           } @else {
             <button
               type="button"
               (click)="onChoosePlan(plan.id, $event)"
               [disabled]="stripeRedirecting || cancelLoading"
-              [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base ' +
-                (plan.highlighted
-                  ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90'
-                  : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
+              class="w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90">
               <span>{{ plan.buttonText }}</span>
-              <svg [class]="(plan.highlighted ? 'w-5 h-5 ml-2 md:w-3.5 md:h-3.5 md:ml-1.5 4xl:w-7 4xl:h-7 4xl:ml-2.5 3xl:w-6 3xl:h-6 3xl:ml-2' : 'w-5 h-5 ml-2 md:w-4 md:h-4 md:ml-1.5 4xl:w-7 4xl:h-7 4xl:ml-2.5 3xl:w-6 3xl:h-6 3xl:ml-2') + ' transition-transform duration-300 group-hover:translate-x-1'"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-              </svg>
             </button>
           }
         </div>

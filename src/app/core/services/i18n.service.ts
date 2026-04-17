@@ -802,8 +802,10 @@ export interface Translations {
   upgradePlanGrowthDesc: string;
   upgradePlanScaleDesc: string;
   upgradePlanStarterButton: string;
-  /** Encima del botón Starter (fuera de flujo): enlace a checkout con trial en Stripe. */
+  /** Texto informativo bajo el CTA Starter (registro/onboarding), sin enlace. */
   upgradePlanStarterTrialTextLink: string;
+  /** Etiqueta sobre la tarjeta Growth (plan destacado). */
+  upgradePlanPopularBadge: string;
   upgradePlanGrowthButton: string;
   upgradePlanScaleButton: string;
   pricingFeatureIncludedMinutes: string;
@@ -1739,10 +1741,11 @@ export class I18nService {
       upgradePlanStarterDesc: 'Para empezar con agentes de voz y base de conocimiento.',
       upgradePlanGrowthDesc: 'Más minutos y capacidad para equipos en crecimiento.',
       upgradePlanScaleDesc: 'Escala máxima para alto volumen.\nSoporte dedicado.',
-      upgradePlanStarterButton: 'Elegir Starter',
-      upgradePlanStarterTrialTextLink: 'Probar 7 días gratis',
-      upgradePlanGrowthButton: 'Elegir Growth',
-      upgradePlanScaleButton: 'Elegir Scale',
+      upgradePlanStarterButton: 'Empezar gratis',
+      upgradePlanStarterTrialTextLink: 'Prueba gratuita de 7 días',
+      upgradePlanPopularBadge: 'POPULAR',
+      upgradePlanGrowthButton: 'Empezar ahora',
+      upgradePlanScaleButton: 'Comenzar ahora',
       pricingFeatureIncludedMinutes: 'Minutos incluidos',
       pricingFeatureAgents: 'Agentes',
       pricingFeatureDocuments: 'Documentos',
@@ -2670,10 +2673,11 @@ export class I18nService {
       upgradePlanStarterDesc: 'Get started with voice agents and a knowledge base.',
       upgradePlanGrowthDesc: 'More minutes and room for growing teams.',
       upgradePlanScaleDesc: 'Maximum scale for high volume.\nDedicated support.',
-      upgradePlanStarterButton: 'Choose Starter',
-      upgradePlanStarterTrialTextLink: 'Try 7 days free',
-      upgradePlanGrowthButton: 'Choose Growth',
-      upgradePlanScaleButton: 'Choose Scale',
+      upgradePlanStarterButton: 'Start free',
+      upgradePlanStarterTrialTextLink: '7-day free trial',
+      upgradePlanPopularBadge: 'POPULAR',
+      upgradePlanGrowthButton: 'Start now',
+      upgradePlanScaleButton: 'Get started now',
       pricingFeatureIncludedMinutes: 'Included minutes',
       pricingFeatureAgents: 'Agents',
       pricingFeatureDocuments: 'Documents',
