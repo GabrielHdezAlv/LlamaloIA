@@ -64,7 +64,7 @@ export class WebhookActionsService {
     actionId: string,
     body: { name: string; description: string; webhookUrl: string },
   ): Observable<{ action: WebhookAction }> {
-    return this.http.patch<{ action: WebhookAction }>(
+    return this.http.put<{ action: WebhookAction }>(
       `${this.baseUrl}/agents/${agentId}/webhook-actions/${actionId}`,
       body,
       { headers: this.plan403Headers() },
