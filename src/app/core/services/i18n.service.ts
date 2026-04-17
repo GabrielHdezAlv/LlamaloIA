@@ -335,6 +335,17 @@ export interface Translations {
   emailNotEditable: string;
   country: string;
   selectCountry: string;
+  accountMetricsTimezone: string;
+  accountMetricsTimezoneHint: string;
+  accountTzEuropeMadrid: string;
+  accountTzAtlanticCanary: string;
+  accountTzEuropeLondon: string;
+  accountTzEuropeParis: string;
+  accountTzEuropeBerlin: string;
+  accountTzAmericaMexicoCity: string;
+  accountTzAmericaNewYork: string;
+  accountTzAmericaArgentina: string;
+  accountTzUTC: string;
   businessName: string;
   businessWebsite: string;
   forgotPassword: string;
@@ -1278,6 +1289,18 @@ export class I18nService {
       emailNotEditable: 'El email no se puede editar',
       country: 'País',
       selectCountry: 'Seleccionar país',
+      accountMetricsTimezone: 'Zona horaria (métricas del panel)',
+      accountMetricsTimezoneHint:
+        'Define cómo se calculan semana y mes en el panel (lunes y día 1 a las 00:01 en esa zona). Por defecto: España peninsular.',
+      accountTzEuropeMadrid: 'España (península)',
+      accountTzAtlanticCanary: 'Canarias',
+      accountTzEuropeLondon: 'Reino Unido (Londres)',
+      accountTzEuropeParis: 'Francia (París)',
+      accountTzEuropeBerlin: 'Alemania (Berlín)',
+      accountTzAmericaMexicoCity: 'México',
+      accountTzAmericaNewYork: 'EE. UU. (Este)',
+      accountTzAmericaArgentina: 'Argentina (Buenos Aires)',
+      accountTzUTC: 'UTC',
       businessName: 'Nombre del negocio',
       businessWebsite: 'Sitio web del negocio',
       forgotPassword: '¿Olvidaste tu contraseña?',
@@ -2212,6 +2235,18 @@ export class I18nService {
       emailNotEditable: 'Email cannot be edited',
       country: 'Country',
       selectCountry: 'Select country',
+      accountMetricsTimezone: 'Time zone (panel metrics)',
+      accountMetricsTimezoneHint:
+        'Defines how week and month boundaries are calculated in the panel (Monday and 1st at 00:01 in that zone). Default: mainland Spain.',
+      accountTzEuropeMadrid: 'Spain (mainland)',
+      accountTzAtlanticCanary: 'Canary Islands',
+      accountTzEuropeLondon: 'United Kingdom (London)',
+      accountTzEuropeParis: 'France (Paris)',
+      accountTzEuropeBerlin: 'Germany (Berlin)',
+      accountTzAmericaMexicoCity: 'Mexico',
+      accountTzAmericaNewYork: 'US (Eastern)',
+      accountTzAmericaArgentina: 'Argentina (Buenos Aires)',
+      accountTzUTC: 'UTC',
       businessName: 'Business name',
       businessWebsite: 'Business website',
       forgotPassword: 'Forgot password?',

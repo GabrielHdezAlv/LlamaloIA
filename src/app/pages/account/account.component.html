@@ -400,6 +400,43 @@
               </span>
             </div>
 
+            <!-- Zona horaria (métricas del panel) -->
+            <div class="relative">
+              <label
+                class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-black mb-1 3xl:mb-1.5 max-lg:mb-1"
+                >{{ t.accountMetricsTimezone }}</label
+              >
+              <select
+                [(ngModel)]="tempMetricsTimezone"
+                class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base appearance-none pr-10"
+              >
+                @for (tzOpt of metricsTimezoneOptions; track tzOpt.value) {
+                  <option [value]="tzOpt.value">{{ tzOpt.label }}</option>
+                }
+              </select>
+              <span
+                class="pointer-events-none absolute inset-y-0 right-2 sm:right-4 top-7 sm:top-8 flex items-center"
+              >
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.21984 0.21984C0.28949 0.150145 0.372191 0.0948576 0.463216 0.0571365C0.554242 0.0194154 0.651808 0 0.75034 0C0.848871 0 0.946438 0.0194154 1.03746 0.0571365C1.12849 0.0948576 1.21119 0.150145 1.28084 0.21984L3.86684 2.80584C3.98292 2.92195 4.12073 3.01405 4.27241 3.07689C4.42409 3.13973 4.58666 3.17207 4.75084 3.17207C4.91502 3.17207 5.07759 3.13973 5.22927 3.07689C5.38095 3.01405 5.51876 2.92195 5.63484 2.80584L8.21984 0.21984C8.28951 0.150174 8.37221 0.0949112 8.46323 0.0572081C8.55426 0.019505 8.65182 9.91821e-05 8.75034 9.91821e-05C8.84886 9.91821e-05 8.94642 0.019505 9.03745 0.0572081C9.12847 0.0949112 9.21117 0.150174 9.28084 0.21984C9.35051 0.289506 9.40577 0.372212 9.44347 0.463236C9.48118 0.554259 9.50058 0.651817 9.50058 0.75034C9.50058 0.848862 9.48118 0.946421 9.44347 1.03744C9.40577 1.12847 9.35051 1.21117 9.28084 1.28084L6.69484 3.86684C6.17912 4.38254 5.47966 4.67225 4.75034 4.67225C4.02102 4.67225 3.32156 4.38254 2.80584 3.86684L0.21984 1.27984C0.150145 1.21019 0.0948571 1.12749 0.0571361 1.03646C0.019415 0.945438 0 0.847872 0 0.74934C0 0.650808 0.019415 0.553242 0.0571361 0.462216C0.0948571 0.371191 0.150145 0.28849 0.21984 0.21884V0.21984Z"
+                    fill="#727272"
+                  />
+                </svg>
+              </span>
+              <p
+                class="text-[10px] sm:text-xs lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500 mt-0.5 3xl:mt-1 max-lg:mt-0.5"
+              >
+                {{ t.accountMetricsTimezoneHint }}
+              </p>
+            </div>
+
             <!-- Nombre del Negocio y Web del Negocio -->
             <div
               class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-3"

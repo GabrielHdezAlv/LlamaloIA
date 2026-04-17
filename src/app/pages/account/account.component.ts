@@ -127,6 +127,8 @@ export class AccountComponent implements OnInit, OnDestroy {
   tempLastname = '';
   tempFullName = '';
   tempCountry = '';
+  /** IANA: semanas/meses de negocio en métricas del panel */
+  tempMetricsTimezone = 'Europe/Madrid';
   tempMarketingConsent: boolean = false;
   tempEnterprise: { name: string; url: string } = { name: '', url: '' };
   tempProfileImage = '';
@@ -274,6 +276,22 @@ export class AccountComponent implements OnInit, OnDestroy {
     return this.t.connect;
   }
 
+  /** Zonas IANA habituales para métricas (valor por defecto Europe/Madrid). */
+  get metricsTimezoneOptions(): { value: string; label: string }[] {
+    const tr = this.t;
+    return [
+      { value: 'Europe/Madrid', label: tr.accountTzEuropeMadrid },
+      { value: 'Atlantic/Canary', label: tr.accountTzAtlanticCanary },
+      { value: 'Europe/London', label: tr.accountTzEuropeLondon },
+      { value: 'Europe/Paris', label: tr.accountTzEuropeParis },
+      { value: 'Europe/Berlin', label: tr.accountTzEuropeBerlin },
+      { value: 'America/Mexico_City', label: tr.accountTzAmericaMexicoCity },
+      { value: 'America/New_York', label: tr.accountTzAmericaNewYork },
+      { value: 'America/Argentina/Buenos_Aires', label: tr.accountTzAmericaArgentina },
+      { value: 'UTC', label: tr.accountTzUTC },
+    ];
+  }
+
   // Método para cambiar de pestaña (primero desaparece el contenido, luego aparece el nuevo)
   setActiveTab(
     tab:
@@ -362,6 +380,8 @@ export class AccountComponent implements OnInit, OnDestroy {
       // Inicializar nombre completo combinando name y lastname
       this.tempFullName = `${user.name || ''} ${user.lastname || ''}`.trim();
       this.tempCountry = user.country || '';
+      this.tempMetricsTimezone =
+        user.metricsCalendarTimezone?.trim() || 'Europe/Madrid';
       this.tempMarketingConsent = user.marketingConsent || false;
       // Inicializar enterprise como objeto
       this.tempEnterprise = user.enterprise || { name: '', url: '' };
@@ -932,6 +952,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       enterprise: enterprise,
       country: this.tempCountry,
       marketingConsent: this.tempMarketingConsent,
+      metricsCalendarTimezone: this.tempMetricsTimezone,
     };
 
     // Usar método unificado con posible archivo de imagen

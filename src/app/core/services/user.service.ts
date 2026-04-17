@@ -200,6 +200,13 @@ export class UserService {
         formData.append('enterprise[url]', userData.enterprise.url || '');
       }
 
+      if (userData.metricsCalendarTimezone !== undefined) {
+        formData.append(
+          'metricsCalendarTimezone',
+          userData.metricsCalendarTimezone || '',
+        );
+      }
+
       formData.append('image', imageFile);
 
       return this.http

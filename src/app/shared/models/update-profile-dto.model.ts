@@ -19,4 +19,6 @@ export interface UpdateProfileDto {
   onboardingGoals?: string[];
   /** IDs seleccionados en onboarding: «Cómo nos conociste» */
   onboardingDiscoveryChannels?: string[];
+  /** IANA: semanas/meses de negocio en métricas del panel (p. ej. Europe/Madrid) */
+  metricsCalendarTimezone?: string;
 }

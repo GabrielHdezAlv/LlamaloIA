@@ -26,6 +26,8 @@ export class User {
   stripeSubscriptionStatus?: string | null;
   /** false = debe elegir plan o prueba en el flujo de registro */
   planSelectionCompleted?: boolean;
+  /** Zona IANA para períodos de métricas en el panel (semana/mes) */
+  metricsCalendarTimezone?: string;
   /** Uso vs límites efectivos (API) */
   planUsage?: {
     trialEndsAt: string | null;

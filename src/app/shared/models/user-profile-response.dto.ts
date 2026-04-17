@@ -46,6 +46,8 @@ export interface UserProfileResponseDto {
   stripeSubscriptionId?: string | null;
   stripeSubscriptionStatus?: string | null;
   planSelectionCompleted?: boolean;
+  /** Zona IANA para métricas (semana/mes de negocio); por defecto Europe/Madrid */
+  metricsCalendarTimezone?: string;
   createdAt?: string | null; // Fecha formateada en español (ej: "12 de octubre de 2025, 10:30:45")
   twilio?: TwilioAccount[]; // ⚠️ ACTUALIZADO: ahora es un array
   agent?: {
