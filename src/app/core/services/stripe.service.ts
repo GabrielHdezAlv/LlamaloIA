@@ -34,6 +34,8 @@ export class StripeService {
     successUrl: string;
     cancelUrl: string;
     starterMode?: StarterCheckoutMode;
+    /** Anual: enviar `year` (API usa STRIPE_PRICE_*_ANNUAL). */
+    billingInterval?: 'month' | 'year';
   }): Observable<{ url: string | null; sessionId: string }> {
     return this.http.post<{ url: string | null; sessionId: string }>(
       `${this.stripeBase()}/checkout-session`,

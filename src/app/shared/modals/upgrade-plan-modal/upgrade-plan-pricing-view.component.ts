@@ -251,6 +251,7 @@ export class UpgradePlanPricingViewComponent implements OnInit {
             plan: planId,
             successUrl,
             cancelUrl,
+            ...(this.billingAnnual ? { billingInterval: 'year' as const } : {}),
             ...(planId === 'starter' && starterMode != null
               ? { starterMode }
               : {}),
