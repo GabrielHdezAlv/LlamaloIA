@@ -14,6 +14,7 @@ import {
   FIRST_AGENT_TOUR_HOME_READY_KEY,
   PLAN_CELEBRATION_REQUIRED_KEY,
   PLAN_CELEBRATION_ACCEPTED_KEY,
+  PLAN_CELEBRATION_SHOWN_SESSION_KEY,
   POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY,
 } from '../constants/first-agent-tour.constants';
 
@@ -43,6 +44,7 @@ export class AuthSessionService {
         sessionStorage.removeItem(FIRST_AGENT_TOUR_HOME_READY_KEY);
         sessionStorage.removeItem(PLAN_CELEBRATION_REQUIRED_KEY);
         sessionStorage.removeItem(PLAN_CELEBRATION_ACCEPTED_KEY);
+        sessionStorage.removeItem(PLAN_CELEBRATION_SHOWN_SESSION_KEY);
         sessionStorage.removeItem(POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY);
       } catch {
         /* ignore */

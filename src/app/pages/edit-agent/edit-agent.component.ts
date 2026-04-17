@@ -183,6 +183,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     serverUrl: '',
   };
 
+  /** Modal detalle / edición acción Make (vista 4xl compacta del listado) */
+  makeActionDetailForModal: WebhookAction | null = null;
+  makeActionDetailEditForm: { name: string; description: string; serverUrl: string } =
+    { name: '', description: '', serverUrl: '' };
+  makeActionDetailSaving = false;
+  makeActionDetailSaveError: string | null = null;
+
   // Audio
   audioLevel = 0;
   isPlaying = false;
@@ -1796,12 +1803,69 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (!this.showMakeEditSidebar) {
       return;
     }
+    this.makeActionDetailForModal = null;
     this.isMakeEditSidebarClosing = true;
     window.setTimeout(() => {
       this.showMakeEditSidebar = false;
       this.isMakeEditSidebarClosing = false;
       this.refreshMakeWebhookActionsCount();
     }, 280);
+  }
+
+  openMakeActionDetailModal(action: WebhookAction): void {
+    this.makeActionDetailForModal = action;
+    this.makeActionDetailEditForm = {
+      name: action.name,
+      description: action.description ?? '',
+      serverUrl: action.webhookUrl,
+    };
+    this.makeActionDetailSaveError = null;
+  }
+
+  closeMakeActionDetailModal(): void {
+    this.makeActionDetailForModal = null;
+    this.makeActionDetailEditForm = { name: '', description: '', serverUrl: '' };
+    this.makeActionDetailSaveError = null;
+    this.makeActionDetailSaving = false;
+  }
+
+  isMakeActionDetailFormValid(): boolean {
+    const n = this.makeActionDetailEditForm.name.trim();
+    const u = this.makeActionDetailEditForm.serverUrl.trim();
+    return n.length >= 2 && u.length >= 12;
+  }
+
+  saveMakeActionDetailModal(): void {
+    if (this.agentId == null || this.makeActionDetailForModal == null) {
+      return;
+    }
+    if (!this.isMakeActionDetailFormValid()) {
+      return;
+    }
+    this.makeActionDetailSaving = true;
+    this.makeActionDetailSaveError = null;
+    const actionId = this.makeActionDetailForModal.id;
+    this.webhookActionsService
+      .update(this.agentId, actionId, {
+        name: this.makeActionDetailEditForm.name.trim(),
+        description: this.makeActionDetailEditForm.description.trim(),
+        webhookUrl: this.makeActionDetailEditForm.serverUrl.trim(),
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.makeActionDetailSaving = false;
+          this.notificationService.success('Acción actualizada');
+          this.closeMakeActionDetailModal();
+          this.loadMakeSidebarActions();
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.makeActionDetailSaving = false;
+          this.makeActionDetailSaveError =
+            err?.error?.message ||
+            'No se pudo guardar. Revisa la URL (HTTPS) y los límites de tu plan.';
+        },
+      });
   }
 
   private loadMakeSidebarActions(): void {

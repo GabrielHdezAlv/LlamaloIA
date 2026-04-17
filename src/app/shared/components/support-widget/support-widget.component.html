@@ -1,7 +1,7 @@
 <div class="support-widget" [class.open]="isOpen" *ngIf="shouldShow">
     <!-- Widget Content Box -->
     <div
-        class="widget-container fixed inset-0 w-screen h-[100dvh] xl:static xl:w-[300px] xl:h-[480px]"
+        class="widget-container fixed inset-0 w-screen h-[100dvh] xl:static xl:w-[300px] xl:h-[480px] 4xl:w-[400px] 4xl:h-[640px]"
         [class.closing]="isClosing"
         *ngIf="isOpen || isClosing"
         (click)="onBackdropClick($event)">
@@ -64,8 +64,7 @@
                 </div>
             </div>
             <div class="sphere-wrapper w-full relative" style="flex: 1; overflow: hidden;">
-                <div
-                    style="position: absolute; top: 65%; left: 50%; transform: translate(-50%, -45%) scale(1); pointer-events: none;">
+                <div class="ai-sphere-anchor">
                     <app-ai-sphere [audioLevel]="audioLevel"></app-ai-sphere>
                 </div>
             </div>

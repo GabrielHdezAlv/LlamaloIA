@@ -117,14 +117,19 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   isDarkMode = false;
   isMobileSidebarClosing = false;
 
-  /** Carga inicial (recordatorios, etc.) o navegación entre rutas hijas del dashboard. */
-  dashboardBootstrapping = true;
+  /**
+   * Spinner solo al cambiar de ruta dentro del dashboard (no en la primera carga tras F5
+   * ni mientras se cargan recordatorios en segundo plano).
+   */
   dashboardRouteLoading = false;
+
+  /** Tras el primer NavigationEnd a /dashboard, las navegaciones siguientes muestran el loader. */
+  private initialDashboardNavCompleted = false;
 
   private routerLoadingSub?: Subscription;
 
   get showDashboardLoader(): boolean {
-    return this.dashboardBootstrapping || this.dashboardRouteLoading;
+    return this.dashboardRouteLoading;
   }
 
   constructor(
@@ -166,7 +171,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       user.hasCompletedSetup !== true &&
       !requiresSubscriptionPaywall(user)
     ) {
-      this.dashboardBootstrapping = false;
       void this.router.navigate(['/company-setup'], { replaceUrl: true });
       return;
     }
@@ -198,7 +202,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       this.routerLoadingSub = this.router.events.subscribe((e) => {
         if (e instanceof NavigationStart) {
           const path = e.url.split('?')[0];
-          if (path.startsWith('/dashboard')) {
+          if (path.startsWith('/dashboard') && this.initialDashboardNavCompleted) {
             this.dashboardRouteLoading = true;
             this.cdr.markForCheck();
           }
@@ -207,15 +211,20 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           e instanceof NavigationCancel ||
           e instanceof NavigationError
         ) {
+          if (e instanceof NavigationEnd) {
+            const path = e.urlAfterRedirects.split('?')[0];
+            if (path.startsWith('/dashboard')) {
+              this.initialDashboardNavCompleted = true;
+            }
+          }
           this.dashboardRouteLoading = false;
           this.cdr.markForCheck();
         }
       });
     }
 
-    // Cargar datos del recordatorio
+    // Cargar datos del recordatorio (sin bloquear la UI con el overlay del dashboard)
     await this.loadReminderData();
-    this.dashboardBootstrapping = false;
     this.cdr.markForCheck();
 
     this.router.events

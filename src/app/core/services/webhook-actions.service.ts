@@ -59,6 +59,18 @@ export class WebhookActionsService {
     );
   }
 
+  update(
+    agentId: number,
+    actionId: string,
+    body: { name: string; description: string; webhookUrl: string },
+  ): Observable<{ action: WebhookAction }> {
+    return this.http.patch<{ action: WebhookAction }>(
+      `${this.baseUrl}/agents/${agentId}/webhook-actions/${actionId}`,
+      body,
+      { headers: this.plan403Headers() },
+    );
+  }
+
   delete(agentId: number, actionId: string): Observable<{ ok: boolean }> {
     return this.http.delete<{ ok: boolean }>(
       `${this.baseUrl}/agents/${agentId}/webhook-actions/${actionId}`,

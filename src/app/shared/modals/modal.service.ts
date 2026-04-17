@@ -1,5 +1,6 @@
-import { Injectable, inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   ErrorModalComponent,
   ErrorModalData,
@@ -61,6 +62,7 @@ import {
   PlanUpgradeCelebrationModalData,
 } from './plan-upgrade-celebration-modal/plan-upgrade-celebration-modal.component';
 import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
+import { PLAN_CELEBRATION_SHOWN_SESSION_KEY } from '../../core/constants/first-agent-tour.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -68,6 +70,7 @@ import { FirstAgentTourService } from '../../core/services/first-agent-tour.serv
 export class ModalService {
   private dialog = inject(MatDialog);
   private firstAgentTour = inject(FirstAgentTourService);
+  private platformId = inject(PLATFORM_ID);
 
   /** Animaciones de entrada/salida del contenedor de Material Dialog. */
   private readonly dialogMotion = {
@@ -275,13 +278,50 @@ export class ModalService {
     });
   }
 
-  openPlanUpgradeCelebration(data: PlanUpgradeCelebrationModalData) {
+  /**
+   * Modal «Bienvenido a tu plan». Solo una vez por sesión: tras Stripe en cuenta y luego
+   * home con POST_ONBOARDING, la segunda llamada no abre otro modal.
+   */
+  openPlanUpgradeCelebration(
+    data: PlanUpgradeCelebrationModalData,
+  ):
+    | MatDialogRef<PlanUpgradeCelebrationModalComponent>
+    | undefined {
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        if (
+          sessionStorage.getItem(PLAN_CELEBRATION_SHOWN_SESSION_KEY) === '1'
+        ) {
+          return undefined;
+        }
+      } catch {
+        /* ignore */
+      }
+      const alreadyOpen = this.dialog.openDialogs.find(
+        (d) =>
+          d.componentInstance instanceof PlanUpgradeCelebrationModalComponent,
+      );
+      if (alreadyOpen) {
+        return alreadyOpen as MatDialogRef<PlanUpgradeCelebrationModalComponent>;
+      }
+    }
+
     this.firstAgentTour.markPlanCelebrationRequired();
-    return this.dialog.open(PlanUpgradeCelebrationModalComponent, {
+    const ref = this.dialog.open(PlanUpgradeCelebrationModalComponent, {
       disableClose: true,
       panelClass: ['custom-dialog-container', 'plan-celebration-dialog'],
       data,
       ...this.dialogMotion,
     });
+
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        sessionStorage.setItem(PLAN_CELEBRATION_SHOWN_SESSION_KEY, '1');
+      } catch {
+        /* ignore */
+      }
+    }
+
+    return ref;
   }
 }

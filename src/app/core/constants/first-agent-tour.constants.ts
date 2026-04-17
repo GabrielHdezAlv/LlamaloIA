@@ -11,6 +11,13 @@ export const PLAN_CELEBRATION_REQUIRED_KEY = 'llamalo_plan_celebration_required'
 export const PLAN_CELEBRATION_ACCEPTED_KEY = 'llamalo_plan_celebration_accepted';
 
 /**
+ * Ya se mostró el modal «Bienvenido a tu plan» en esta sesión (Stripe en cuenta u onboarding en home).
+ * Evita abrirlo dos veces cuando ambos flujos aplican seguidos.
+ */
+export const PLAN_CELEBRATION_SHOWN_SESSION_KEY =
+  'llamalo_plan_celebration_shown_session';
+
+/**
  * Tras terminar el onboarding en company-setup: al entrar en /dashboard/home abrir el modal
  * de celebración del plan (misma UX que Stripe success en cuenta).
  */

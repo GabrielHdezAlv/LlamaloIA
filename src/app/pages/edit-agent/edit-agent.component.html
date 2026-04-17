@@ -906,17 +906,17 @@
       </div>
     </div>
     } @else if (activeTab === "connections") {
-    <div class="w-full min-w-0 flex flex-col gap-3">
+    <div class="w-full min-w-0 flex flex-col gap-3 4xl:gap-5">
         <!-- Shopify -->
         <div
-          class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10 bg-gray-50 dark:bg-slate-900/30 px-2.5 py-2 sm:px-3 sm:py-2.5 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
-          <div class="flex items-center gap-2 sm:gap-2.5 flex-1 min-w-0">
+          class="rounded-xl 4xl:rounded-2xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10 bg-gray-50 dark:bg-slate-900/30 px-2.5 py-2 sm:px-3 sm:py-2.5 4xl:px-5 4xl:py-4 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3 4xl:gap-4">
+          <div class="flex items-center gap-2 sm:gap-2.5 4xl:gap-3 flex-1 min-w-0">
             <div
-              class="w-8 h-8 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm shrink-0">
+              class="w-8 h-8 4xl:w-10 4xl:h-10 rounded-lg 4xl:rounded-xl bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm shrink-0">
               <img src="assets/shopify.webp" alt="Shopify" class="w-[18px] h-[22px] object-contain" />
             </div>
             <div class="flex-1 min-w-0 flex flex-row flex-nowrap items-center gap-2">
-              <p class="text-xs font-semibold text-[#0F172A] dark:text-white leading-tight shrink-0">Shopify</p>
+              <p class="text-xs 4xl:text-sm font-semibold text-[#0F172A] dark:text-white leading-tight shrink-0">Shopify</p>
               @if (agentShopifyDomain) {
               <div
                 class="flex min-w-0 flex-1 items-center gap-1.5 bg-white/80 dark:bg-[#1A1A1A] border border-gray-200 dark:border-gray-700/50 rounded-md px-2 py-1 group/shopify">
@@ -939,7 +939,7 @@
               {{ agentShopifyDomain ? "Conectado" : "No conectado" }}
             </span>
             <button type="button" (click)="goToShopifyOnboarding()"
-              class="px-2.5 py-1 rounded-md text-[10px] sm:text-xs font-semibold transition-colors whitespace-nowrap bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-slate-100">
+              class="px-2.5 py-1 4xl:px-3.5 4xl:py-1.5 rounded-md 4xl:rounded-lg text-[10px] sm:text-xs 4xl:text-sm font-semibold transition-colors whitespace-nowrap bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-slate-100">
               {{ agentShopifyDomain ? "Añadir nueva" : "Conectar" }}
             </button>
           </div>
@@ -947,16 +947,16 @@
 
         <!-- Make (información / enlace externo) -->
         <div
-          class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10 bg-gray-50 dark:bg-slate-900/30 overflow-visible transition-colors px-2.5 py-2 sm:px-3 sm:py-2.5">
-          <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-            <div class="flex items-center gap-2 min-w-0 flex-1">
+          class="rounded-xl 4xl:rounded-2xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10 bg-gray-50 dark:bg-slate-900/30 overflow-visible transition-colors px-2.5 py-2 sm:px-3 sm:py-2.5 4xl:px-5 4xl:py-4">
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3 4xl:gap-4">
+            <div class="flex items-center gap-2 4xl:gap-3 min-w-0 flex-1">
               <img src="assets/make.webp" alt="Make"
-                class="w-6 h-6 shrink-0 object-contain" />
+                class="w-6 h-6 4xl:w-8 4xl:h-8 shrink-0 object-contain" />
               <div class="min-w-0">
-                <p class="text-xs font-semibold text-gray-900 dark:text-white leading-tight m-0">
+                <p class="text-xs 4xl:text-sm font-semibold text-gray-900 dark:text-white leading-tight m-0">
                   Make
                 </p>
-                <p class="text-[10px] text-gray-500 dark:text-gray-400 leading-tight mt-0.5">
+                <p class="text-[10px] 4xl:text-xs text-gray-500 dark:text-gray-400 leading-tight mt-0.5">
                   {{ t.makeExternalDescription }}
                 </p>
               </div>
@@ -974,7 +974,7 @@
                 }
               </span>
               <button type="button" (click)="openMakeEditSidebar()"
-                class="px-2.5 py-1.5 rounded-md text-[10px] font-semibold transition-colors bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-slate-100">
+                class="px-2.5 py-1.5 4xl:px-3.5 4xl:py-2 rounded-md 4xl:rounded-lg text-[10px] 4xl:text-sm font-semibold transition-colors bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-slate-100">
                 {{ t.connect }}
               </button>
             </div>
@@ -983,9 +983,9 @@
     </div>
     } @else if (activeTab === "knowledge") {
     <div class="w-full flex justify-center">
-      <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1300px] 3xl:max-w-[100rem] 4xl:max-w-[110rem] space-y-6">
-      <div class="rounded-xl">
-        <h2 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+      <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1300px] 3xl:max-w-[100rem] 4xl:max-w-[118rem] space-y-6 4xl:space-y-8">
+      <div class="rounded-xl 4xl:rounded-2xl">
+        <h2 class="text-sm 4xl:text-base font-semibold text-gray-900 dark:text-white mb-3 4xl:mb-4">
           Fuentes de Conocimiento
         </h2>
 
@@ -1017,7 +1017,7 @@
         } @else {
         <div class="flex flex-col">
           <div
-            class="max-h-60 min-h-0 overflow-y-auto overflow-x-auto rounded-xl border border-gray-200 dark:border-[#2C2C2C] bg-white dark:bg-[#111113]">
+            class="max-h-60 min-h-0 overflow-y-auto overflow-x-auto rounded-xl 4xl:rounded-2xl border border-gray-200 dark:border-[#2C2C2C] bg-white dark:bg-[#111113] 4xl:shadow-sm">
             <table class="w-full">
               <thead
                 class="sticky top-0 z-10 bg-gray-50 dark:bg-[#1a1a1c] border-b border-gray-200 dark:border-[#2C2C2C] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.06)]">
@@ -1140,11 +1140,11 @@
     </div>
 
     <!-- Add Knowledge Sources Section -->
-    <div class="w-full flex justify-center mt-5">
-      <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1200px] 3xl:max-w-[90rem] 4xl:max-w-[150rem]">
-      <div class="space-y-6">
-      <div class="rounded-xl">
-        <h2 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+    <div class="w-full flex justify-center mt-5 4xl:mt-7">
+      <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1200px] 3xl:max-w-[90rem] 4xl:max-w-[118rem]">
+      <div class="space-y-6 4xl:space-y-8">
+      <div class="rounded-xl 4xl:rounded-2xl">
+        <h2 class="text-sm 4xl:text-base font-semibold text-gray-900 dark:text-white mb-3 4xl:mb-4">
           Añadir Fuentes de Conocimiento
         </h2>
 
@@ -1166,9 +1166,9 @@
         }
 
         <!-- Add New Sources -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 4xl:gap-4 mb-6">
           <button type="button" (click)="selectKnowledgeSource('pdf')" [disabled]="isLoadingKnowledgeSources"
-            class="flex flex-col items-center justify-center gap-1.5 p-3 md:p-4 border border-gray-300 dark:border-gray-200/10 rounded-lg hover:border-[#1B2559] dark:hover:border-[#1B2559] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            class="flex flex-col items-center justify-center gap-1.5 p-3 md:p-4 4xl:p-5 border border-gray-300 dark:border-gray-200/10 rounded-lg 4xl:rounded-xl hover:border-[#1B2559] dark:hover:border-[#1B2559] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
             <svg class="w-7 h-7 md:w-8 md:h-8 text-gray-900 dark:text-white" viewBox="0 0 52 52" fill="currentColor"
               xmlns="http://www.w3.org/2000/svg">
               <path
@@ -1187,7 +1187,7 @@
           </button>
 
           <button type="button" (click)="selectKnowledgeSource('web')" [disabled]="isLoadingKnowledgeSources"
-            class="flex flex-col items-center justify-center gap-1.5 p-3 md:p-4 border border-gray-300 dark:border-gray-200/10 rounded-lg hover:border-[#1B2559] dark:hover:border-[#1B2559] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            class="flex flex-col items-center justify-center gap-1.5 p-3 md:p-4 4xl:p-5 border border-gray-300 dark:border-gray-200/10 rounded-lg 4xl:rounded-xl hover:border-[#1B2559] dark:hover:border-[#1B2559] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
             <svg class="w-7 h-7 md:w-8 md:h-8 text-gray-900 dark:text-white" viewBox="0 0 24 24" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -1236,7 +1236,7 @@
           </button>
 
           <button type="button" (click)="selectKnowledgeSource('text')" [disabled]="isLoadingKnowledgeSources"
-            class="flex flex-col items-center justify-center gap-1.5 p-3 md:p-4 border border-gray-300 dark:border-gray-200/10 rounded-lg hover:border-[#1B2559] dark:hover:border-[#1B2559] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            class="flex flex-col items-center justify-center gap-1.5 p-3 md:p-4 4xl:p-5 border border-gray-300 dark:border-gray-200/10 rounded-lg 4xl:rounded-xl hover:border-[#1B2559] dark:hover:border-[#1B2559] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
             <svg class="w-6 h-6 md:w-7 md:h-7 text-gray-900 dark:text-white" viewBox="-3 0 32 32" version="1.1"
               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -1264,9 +1264,9 @@
           <span class="ml-2 text-gray-600 dark:text-gray-300">Cargando fuentes disponibles...</span>
         </div>
         } @else if (availableKnowledgeSources.length > 0) {
-        <div class="mt-4">
-          <div class="mb-3">
-            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
+        <div class="mt-4 4xl:mt-5">
+          <div class="mb-3 4xl:mb-4">
+            <h3 class="text-sm 4xl:text-base font-semibold text-gray-900 dark:text-white">
               Fuentes Disponibles
             </h3>
             <p
@@ -1280,7 +1280,7 @@
             </p>
           </div>
           <div
-            class="max-h-60 min-h-0 overflow-y-auto overflow-x-auto rounded-xl border border-gray-200 dark:border-[#2C2C2C] bg-white dark:bg-[#111113]">
+            class="max-h-60 min-h-0 overflow-y-auto overflow-x-auto rounded-xl 4xl:rounded-2xl border border-gray-200 dark:border-[#2C2C2C] bg-white dark:bg-[#111113] 4xl:shadow-sm">
             <table class="w-full">
               <thead
                 class="sticky top-0 z-10 bg-gray-50 dark:bg-[#1a1a1c] border-b border-gray-200 dark:border-[#2C2C2C] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.06)]">
@@ -1394,53 +1394,68 @@
     tabindex="-1"
     [attr.aria-label]="t.close"></div>
   <aside
-    class="make-sidebar-aside absolute right-0 top-0 bottom-0 w-full max-w-[min(100vw-1rem,300px)] bg-white dark:bg-[#0f0f11] shadow-2xl flex flex-col rounded-l-3xl border-l border-gray-200/80 dark:border-slate-800"
+    class="make-sidebar-aside absolute right-0 top-0 bottom-0 w-full max-w-[min(100vw-1rem,340px)] 4xl:max-w-[min(100vw-1rem,400px)] bg-white dark:bg-[#0f0f11] shadow-2xl flex flex-col rounded-l-3xl border-l border-gray-200/80 dark:border-[#2C2C2C]"
     [class.animate-slide-in-right]="!isMakeEditSidebarClosing"
     [class.animate-slide-out-right]="isMakeEditSidebarClosing">
-    <header class="flex items-center justify-between px-4 py-3.5 flex-shrink-0">
-      <div class="flex items-center gap-2 min-w-0">
-        <img src="assets/make.webp" alt="" class="w-8 h-8 object-contain shrink-0" />
-        <h2 class="text-sm font-semibold text-gray-900 dark:text-white m-0 truncate">Make</h2>
+    <header class="flex items-center justify-between px-4 py-3.5 4xl:px-5 4xl:py-4 flex-shrink-0">
+      <div class="flex items-center gap-2 4xl:gap-2.5 min-w-0">
+        <img src="assets/make.webp" alt="" class="w-8 h-8 4xl:w-9 4xl:h-9 object-contain shrink-0" />
+        <h2 class="text-sm 4xl:text-base font-semibold text-gray-900 dark:text-white m-0 truncate">Make</h2>
       </div>
       <button
         type="button"
         (click)="closeMakeEditSidebar()"
         [attr.aria-label]="t.close"
-        class="p-2 rounded-lg text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors shrink-0">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        class="p-2 4xl:p-2.5 rounded-lg text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#252525] transition-colors shrink-0">
+        <svg class="w-5 h-5 4xl:w-6 4xl:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </header>
-    <div class="flex-1 overflow-y-auto px-4 py-3 flex flex-col gap-3 min-h-0">
+    <div class="flex-1 overflow-y-auto px-4 py-3 4xl:px-5 4xl:py-4 flex flex-col gap-3 4xl:gap-3.5 min-h-0">
       @if (makeSidebarLoading) {
-      <p class="text-xs text-gray-500 dark:text-slate-400">Cargando acciones…</p>
+      <p class="text-xs 4xl:text-sm text-gray-500 dark:text-gray-400">Cargando acciones…</p>
       } @else if (makeSidebarSavedActions.length > 0) {
       <div>
-        <p class="text-[10px] font-semibold text-gray-700 dark:text-slate-300 uppercase tracking-wide mb-2">Acciones configuradas</p>
-        <ul class="divide-y divide-gray-200 dark:divide-slate-700 rounded-xl border border-gray-200 dark:border-slate-600 overflow-hidden">
+        <p class="text-[10px] 4xl:text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-2 4xl:mb-2.5">Acciones configuradas</p>
+        <ul
+          class="divide-y divide-gray-200 dark:divide-[#2C2C2C] rounded-xl border border-gray-200 dark:border-[#2C2C2C] max-h-[9rem] 4xl:max-h-[9.5rem] min-h-0 overflow-y-auto overflow-x-hidden overscroll-y-contain bg-white dark:bg-[#111113] [scrollbar-width:thin]">
           @for (a of makeSidebarSavedActions; track a.id) {
           <li
-            class="relative px-3 py-2 flex flex-col gap-1 bg-gray-50/80 dark:bg-slate-800/50">
-            <button
-              type="button"
-              (click)="removeMakeSidebarAction(a.id, $event)"
-              class="absolute top-2 right-2 z-10 p-1.5 rounded-md text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-              [attr.aria-label]="t.delete"
-              [attr.title]="t.delete">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path
-                  d="M3 6.38597C3 5.90152 3.34538 5.50879 3.77143 5.50879L6.43567 5.50832C6.96502 5.49306 7.43202 5.11033 7.61214 4.54412C7.61688 4.52923 7.62232 4.51087 7.64185 4.44424L7.75665 4.05256C7.8269 3.81241 7.8881 3.60318 7.97375 3.41617C8.31209 2.67736 8.93808 2.16432 9.66147 2.03297C9.84457 1.99972 10.0385 1.99986 10.2611 2.00002H13.7391C13.9617 1.99986 14.1556 1.99972 14.3387 2.03297C15.0621 2.16432 15.6881 2.67736 16.0264 3.41617C16.1121 3.60318 16.1733 3.81241 16.2435 4.05256L16.3583 4.44424C16.3778 4.51087 16.3833 4.52923 16.388 4.54412C16.5682 5.11033 17.1278 5.49353 17.6571 5.50879H20.2286C20.6546 5.50879 21 5.90152 21 6.38597C21 6.87043 20.6546 7.26316 20.2286 7.26316H3.77143C3.34538 7.26316 3 6.87043 3 6.38597Z"
-                  fill="currentColor"></path>
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M11.5956 22.0001H12.4044C15.1871 22.0001 16.5785 22.0001 17.4831 21.1142C18.3878 20.2283 18.4803 18.7751 18.6654 15.8686L18.9321 11.6807C19.0326 10.1037 19.0828 9.31524 18.6289 8.81558C18.1751 8.31592 17.4087 8.31592 15.876 8.31592H8.12404C6.59127 8.31592 5.82488 8.31592 5.37105 8.81558C4.91722 9.31524 4.96744 10.1037 5.06788 11.6807L5.33459 15.8686C5.5197 18.7751 5.61225 20.2283 6.51689 21.1142C7.42153 22.0001 8.81289 22.0001 11.5956 22.0001ZM10.2463 12.1886C10.2051 11.7548 9.83753 11.4382 9.42537 11.4816C9.01321 11.525 8.71251 11.9119 8.75372 12.3457L9.25372 17.6089C9.29494 18.0427 9.66247 18.3593 10.0746 18.3159C10.4868 18.2725 10.7875 17.8856 10.7463 17.4518L10.2463 12.1886ZM14.5746 11.4816C14.9868 11.525 15.2875 11.9119 15.2463 12.3457L14.7463 17.6089C14.7051 18.0427 14.3375 18.3593 13.9254 18.3159C13.5132 18.2725 13.2125 17.8856 13.2537 17.4518L13.7537 12.1886C13.7949 11.7548 14.1625 11.4382 14.5746 11.4816Z"
-                  fill="currentColor"></path>
-              </svg>
-            </button>
-            <div class="min-w-0 pr-10">
-              <p class="text-sm font-medium text-gray-900 dark:text-white">{{ a.name }}</p>
-              <p class="text-xs text-gray-600 dark:text-slate-400 mt-0.5 whitespace-pre-wrap">{{ a.description }}</p>
-              <p class="text-[9px] leading-snug text-gray-500 dark:text-slate-500 mt-1 break-all" [title]="a.webhookUrl">{{ a.webhookUrl }}</p>
+            class="px-3 py-2 4xl:px-3.5 4xl:py-2.5 flex items-center justify-between gap-2 min-w-0 bg-gray-50/80 dark:bg-[#1a1a1c]">
+            <p class="text-sm 4xl:text-base font-medium text-gray-900 dark:text-white flex-1 min-w-0 truncate">{{ a.name }}</p>
+            <div class="flex items-center gap-0.5 shrink-0">
+              <button
+                type="button"
+                (click)="openMakeActionDetailModal(a); $event.stopPropagation()"
+                class="flex p-1.5 rounded-md text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#252525] transition-colors"
+                [title]="t.editKnowledgeSource"
+                [attr.aria-label]="t.editKnowledgeSource">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none"
+                  xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path
+                    d="M11.4001 18.1612L11.4001 18.1612L18.796 10.7653C17.7894 10.3464 16.5972 9.6582 15.4697 8.53068C14.342 7.40298 13.6537 6.21058 13.2348 5.2039L5.83882 12.5999L5.83879 12.5999C5.26166 13.1771 4.97307 13.4657 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L7.47918 20.5844C8.25351 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5343 19.0269 10.823 18.7383 11.4001 18.1612Z"
+                    fill="currentColor" />
+                  <path
+                    d="M20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178L14.3999 4.03882C14.4121 4.0755 14.4246 4.11268 14.4377 4.15035C14.7628 5.0875 15.3763 6.31601 16.5303 7.47002C17.6843 8.62403 18.9128 9.23749 19.85 9.56262C19.8875 9.57563 19.9245 9.58817 19.961 9.60026L20.8482 8.71306Z"
+                    fill="currentColor" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                (click)="removeMakeSidebarAction(a.id, $event)"
+                class="p-1.5 rounded-md text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                [attr.aria-label]="t.delete"
+                [attr.title]="t.delete">
+                <svg class="w-4 h-4 4xl:w-[18px] 4xl:h-[18px]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path
+                    d="M3 6.38597C3 5.90152 3.34538 5.50879 3.77143 5.50879L6.43567 5.50832C6.96502 5.49306 7.43202 5.11033 7.61214 4.54412C7.61688 4.52923 7.62232 4.51087 7.64185 4.44424L7.75665 4.05256C7.8269 3.81241 7.8881 3.60318 7.97375 3.41617C8.31209 2.67736 8.93808 2.16432 9.66147 2.03297C9.84457 1.99972 10.0385 1.99986 10.2611 2.00002H13.7391C13.9617 1.99986 14.1556 1.99972 14.3387 2.03297C15.0621 2.16432 15.6881 2.67736 16.0264 3.41617C16.1121 3.60318 16.1733 3.81241 16.2435 4.05256L16.3583 4.44424C16.3778 4.51087 16.3833 4.52923 16.388 4.54412C16.5682 5.11033 17.1278 5.49353 17.6571 5.50879H20.2286C20.6546 5.50879 21 5.90152 21 6.38597C21 6.87043 20.6546 7.26316 20.2286 7.26316H3.77143C3.34538 7.26316 3 6.87043 3 6.38597Z"
+                    fill="currentColor"></path>
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M11.5956 22.0001H12.4044C15.1871 22.0001 16.5785 22.0001 17.4831 21.1142C18.3878 20.2283 18.4803 18.7751 18.6654 15.8686L18.9321 11.6807C19.0326 10.1037 19.0828 9.31524 18.6289 8.81558C18.1751 8.31592 17.4087 8.31592 15.876 8.31592H8.12404C6.59127 8.31592 5.82488 8.31592 5.37105 8.81558C4.91722 9.31524 4.96744 10.1037 5.06788 11.6807L5.33459 15.8686C5.5197 18.7751 5.61225 20.2283 6.51689 21.1142C7.42153 22.0001 8.81289 22.0001 11.5956 22.0001ZM10.2463 12.1886C10.2051 11.7548 9.83753 11.4382 9.42537 11.4816C9.01321 11.525 8.71251 11.9119 8.75372 12.3457L9.25372 17.6089C9.29494 18.0427 9.66247 18.3593 10.0746 18.3159C10.4868 18.2725 10.7875 17.8856 10.7463 17.4518L10.2463 12.1886ZM14.5746 11.4816C14.9868 11.525 15.2875 11.9119 15.2463 12.3457L14.7463 17.6089C14.7051 18.0427 14.3375 18.3593 13.9254 18.3159C13.5132 18.2725 13.2125 17.8856 13.2537 17.4518L13.7537 12.1886C13.7949 11.7548 14.1625 11.4382 14.5746 11.4816Z"
+                    fill="currentColor"></path>
+                </svg>
+              </button>
             </div>
           </li>
           }
@@ -1449,51 +1464,51 @@
       }
 
       @if (makeSidebarSaveError) {
-      <p class="text-xs text-red-600 dark:text-red-400">{{ makeSidebarSaveError }}</p>
+      <p class="text-xs 4xl:text-sm text-red-600 dark:text-red-400">{{ makeSidebarSaveError }}</p>
       }
 
-      <div class="space-y-2">
-        <p class="text-[9px] font-semibold text-gray-700 dark:text-slate-300 uppercase tracking-wide">Nueva acción</p>
+      <div class="space-y-2 4xl:space-y-2.5">
+        <p class="text-[9px] 4xl:text-[11px] font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Nueva acción</p>
         <div>
-          <label for="edit-make-action-name" class="block text-[10px] font-medium text-gray-700 dark:text-slate-200 mb-0.5">Nombre de la acción *</label>
+          <label for="edit-make-action-name" class="block text-[10px] 4xl:text-xs font-medium text-gray-700 dark:text-gray-200 mb-0.5 4xl:mb-1">Nombre de la acción *</label>
           <input
             id="edit-make-action-name"
             type="text"
             [(ngModel)]="makeSidebarForm.name"
             [ngModelOptions]="{ standalone: true }"
             placeholder="Ej. Avisar equipo ventas"
-            class="w-full h-8 px-2.5 text-[11px] leading-tight border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] dark:placeholder:text-slate-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none"
+            class="w-full h-8 4xl:h-9 px-2.5 4xl:px-3 text-[11px] 4xl:text-sm leading-tight border border-gray-300 dark:border-gray-700/50 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] 4xl:placeholder:text-sm dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none"
             autocomplete="off" />
         </div>
         <div>
-          <label for="edit-make-action-desc" class="block text-[10px] font-medium text-gray-700 dark:text-slate-200 mb-0.5">Descripción (opcional)</label>
+          <label for="edit-make-action-desc" class="block text-[10px] 4xl:text-xs font-medium text-gray-700 dark:text-gray-200 mb-0.5 4xl:mb-1">Descripción (opcional)</label>
           <textarea
             id="edit-make-action-desc"
-            rows="2"
+            rows="5"
             [(ngModel)]="makeSidebarForm.description"
             [ngModelOptions]="{ standalone: true }"
             placeholder="Cuándo debe usarla la IA"
-            class="w-full min-h-[3.25rem] px-2.5 py-1.5 text-[11px] leading-snug border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] dark:placeholder:text-slate-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none resize-none"></textarea>
+            class="make-action-edit-textarea w-full min-h-[6.5rem] 4xl:min-h-[7rem] px-2.5 4xl:px-3 py-2 4xl:py-2.5 text-[11px] 4xl:text-sm leading-6 border border-gray-300 dark:border-gray-700/50 rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] 4xl:placeholder:text-sm dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none resize-y"></textarea>
         </div>
         <div>
-          <label for="edit-make-webhook" class="block text-[10px] font-medium text-gray-700 dark:text-slate-200 mb-0.5">URL del webhook (HTTPS) *</label>
+          <label for="edit-make-webhook" class="block text-[10px] 4xl:text-xs font-medium text-gray-700 dark:text-gray-200 mb-0.5 4xl:mb-1">URL del webhook (HTTPS) *</label>
           <input
             id="edit-make-webhook"
             type="url"
             [(ngModel)]="makeSidebarForm.serverUrl"
             [ngModelOptions]="{ standalone: true }"
             placeholder="https://hook.eu2.make.com/..."
-            class="w-full h-8 px-2.5 text-[11px] leading-tight border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] dark:placeholder:text-slate-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none"
+            class="w-full h-8 4xl:h-9 px-2.5 4xl:px-3 text-[11px] 4xl:text-sm leading-tight border border-gray-300 dark:border-gray-700/50 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] 4xl:placeholder:text-sm dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none"
             autocomplete="off" />
         </div>
       </div>
     </div>
-    <div class="flex-shrink-0 px-4 py-3 border-t border-gray-100 dark:border-slate-800 bg-white dark:bg-[#0f0f11]">
+    <div class="flex-shrink-0 px-4 py-3 4xl:px-5 4xl:py-4 border-t border-gray-100 dark:border-[#2C2C2C] bg-white dark:bg-[#0f0f11]">
       <button
         type="button"
         (click)="saveMakeSidebarAction()"
         [disabled]="!isMakeSidebarFormValid() || makeSidebarSaving || agentId == null"
-        class="w-full px-3 py-2 text-[11px] rounded-md bg-black text-white dark:bg-white dark:text-[#000000] font-semibold hover:bg-gray-800 dark:hover:bg-slate-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        class="w-full px-3 py-2 4xl:px-3.5 4xl:py-2.5 text-[11px] 4xl:text-sm rounded-md bg-black text-white dark:bg-white dark:text-[#000000] font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
         @if (makeSidebarSaving) {
         <span>Guardando…</span>
         } @else {
@@ -1502,6 +1517,88 @@
       </button>
     </div>
   </aside>
+</div>
+}
+
+@if (makeActionDetailForModal) {
+<div
+  class="fixed inset-0 z-[10050] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+  (click)="closeMakeActionDetailModal()"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="make-action-detail-title">
+  <div
+    class="w-full max-w-lg rounded-xl bg-white dark:bg-[#0f0f11] shadow-2xl border border-gray-200 dark:border-[#2C2C2C] overflow-hidden flex flex-col max-h-[min(90vh,640px)]"
+    (click)="$event.stopPropagation()">
+    <header class="flex items-center justify-between gap-3 px-4 py-3 flex-shrink-0">
+      <h3 id="make-action-detail-title" class="text-base font-semibold text-gray-900 dark:text-white m-0 truncate min-w-0">Editar acción</h3>
+      <button
+        type="button"
+        (click)="closeMakeActionDetailModal()"
+        [attr.aria-label]="t.close"
+        class="p-2 rounded-lg text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#252525] transition-colors shrink-0">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </header>
+    <div class="px-4 py-4 space-y-3 overflow-y-auto flex-1 min-h-0">
+      @if (makeActionDetailSaveError) {
+      <p class="text-xs text-red-600 dark:text-red-400">{{ makeActionDetailSaveError }}</p>
+      }
+      <div>
+        <label for="make-action-edit-name" class="block text-[10px] font-medium text-gray-700 dark:text-gray-200 mb-0.5">Nombre de la acción *</label>
+        <input
+          id="make-action-edit-name"
+          type="text"
+          [(ngModel)]="makeActionDetailEditForm.name"
+          [ngModelOptions]="{ standalone: true }"
+          placeholder="Ej. Avisar equipo ventas"
+          class="w-full h-8 px-2.5 text-[11px] leading-tight border border-gray-300 dark:border-gray-700/50 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none"
+          autocomplete="off" />
+      </div>
+      <div>
+        <label for="make-action-edit-desc" class="block text-[10px] font-medium text-gray-700 dark:text-gray-200 mb-0.5">Descripción (opcional)</label>
+        <textarea
+          id="make-action-edit-desc"
+          rows="6"
+          [(ngModel)]="makeActionDetailEditForm.description"
+          [ngModelOptions]="{ standalone: true }"
+          placeholder="Cuándo debe usarla la IA"
+          class="make-action-edit-textarea w-full min-h-[9.5rem] px-2.5 py-2.5 text-[11px] leading-6 border border-gray-300 dark:border-gray-700/50 rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none resize-y"></textarea>
+      </div>
+      <div>
+        <label for="make-action-edit-url" class="block text-[10px] font-medium text-gray-700 dark:text-gray-200 mb-0.5">URL del webhook (HTTPS) *</label>
+        <input
+          id="make-action-edit-url"
+          type="url"
+          [(ngModel)]="makeActionDetailEditForm.serverUrl"
+          [ngModelOptions]="{ standalone: true }"
+          placeholder="https://hook.eu2.make.com/..."
+          class="w-full h-8 px-2.5 text-[11px] leading-tight border border-gray-300 dark:border-gray-700/50 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none font-mono"
+          autocomplete="off" />
+      </div>
+    </div>
+    <div class="flex-shrink-0 px-4 py-3 flex flex-wrap items-center justify-end gap-2 bg-white dark:bg-[#0f0f11]">
+      <button
+        type="button"
+        (click)="closeMakeActionDetailModal()"
+        class="px-3 py-2 text-[11px] rounded-md border border-gray-300 dark:border-gray-700/50 text-gray-700 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-[#252525] transition-colors">
+        Cancelar
+      </button>
+      <button
+        type="button"
+        (click)="saveMakeActionDetailModal()"
+        [disabled]="!isMakeActionDetailFormValid() || makeActionDetailSaving || agentId == null"
+        class="px-3 py-2 text-[11px] rounded-md bg-black text-white dark:bg-white dark:text-[#000000] font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        @if (makeActionDetailSaving) {
+        <span>Guardando…</span>
+        } @else {
+        <span>Guardar cambios</span>
+        }
+      </button>
+    </div>
+  </div>
 </div>
 }
 

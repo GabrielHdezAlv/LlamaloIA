@@ -62,6 +62,13 @@ input, textarea {
   }
 }
 
+/* Modal / sidebar Make: textarea sin rayas; fondo transparente (hereda el del panel/modal) */
+.make-action-edit-textarea {
+  background-image: none !important;
+  background-repeat: no-repeat !important;
+  background-color: transparent !important;
+}
+
 // Ocultar los botones nativos de incremento/decremento en inputs tipo number
 input[type="number"] {
   -moz-appearance: textfield;
