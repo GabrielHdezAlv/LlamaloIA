@@ -387,6 +387,7 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
   /** Tras paso 2: animación y paso 3 (planes). */
   startPlanIntroAnimation() {
+    this.saveOnboardingRegistrationToServer();
     this.goToStep(3, { instant: true });
     this.showPlanIntroAnimation = true;
     this.planIntroExitTriggered = false;
@@ -451,6 +452,26 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
       this.selectedDiscoveryChannels.push(channelId);
     }
     this.persistOnboardingCheckpoint();
+  }
+
+  /**
+   * Persiste en Firestore (vía API) objetivos y canales de descubrimiento del onboarding.
+   */
+  private saveOnboardingRegistrationToServer(): void {
+    const uid = this.userStore.user()?.userId;
+    if (!uid) {
+      return;
+    }
+    this.userService
+      .updateUserProfile({
+        onboardingGoals: [...this.selectedMainUsages],
+        onboardingDiscoveryChannels: [...this.selectedDiscoveryChannels],
+      })
+      .subscribe({
+        error: () => {
+          /* no bloquear el flujo; datos siguen en checkpoint local */
+        },
+      });
   }
 
   skipSetup() {
