@@ -163,6 +163,11 @@ export class UpgradePlanPricingViewComponent implements OnInit {
     this.onboardingBack.emit();
   }
 
+  /** Pantalla `/subscribe-required` (churn): volver al login (cierra sesión; GuestGuard permite /login). */
+  goToLogin(): void {
+    this.authSession.signOutAndReload();
+  }
+
   close(): void {
     if (this.isRegistrationMode) {
       void this.cancelRegistration();

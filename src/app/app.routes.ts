@@ -150,6 +150,7 @@ export const routes: Routes = [
     path: 'subscribe-required',
     component: SubscribeRequiredComponent,
     canActivate: [AuthGuard, subscriptionPaywallGuard],
+    data: { hideSupportWidget: true },
   },
   {
     path: 'forbidden',

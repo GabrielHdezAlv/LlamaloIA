@@ -1354,9 +1354,9 @@ export class I18nService {
       stripePaymentPendingTitle: 'Pago pendiente de tu suscripción',
       stripePaymentPendingDesc:
         'Actualiza tu método de pago en el portal de facturación para seguir usando la plataforma.',
-      billingChurnPageTitle: 'No tienes un plan activo',
+      billingChurnPageTitle: 'Tu plan se ha acabado',
       billingChurnPageSubtitle:
-        'Para seguir usando nuestra plataforma, suscríbete a uno de nuestros planes. Si ya tuviste suscripción de pago, el periodo de prueba de 7 días no aplica.',
+        'Para continuar usando la plataforma, elige de nuevo uno de los planes.',
       subscribeRequiredPaymentFailedTitle:
         'El pago no se ha realizado correctamente',
       subscribeRequiredPaymentFailedSubtitle:
@@ -2308,9 +2308,9 @@ export class I18nService {
       stripePaymentPendingTitle: 'Subscription payment pending',
       stripePaymentPendingDesc:
         'Update your payment method in the billing portal to keep using the platform.',
-      billingChurnPageTitle: 'You have no active plan',
+      billingChurnPageTitle: 'Your plan has ended',
       billingChurnPageSubtitle:
-        'To keep using our platform, subscribe to one of our plans. If you already had a paid subscription, the 7-day trial does not apply.',
+        'To keep using the platform, choose a plan again below.',
       subscribeRequiredPaymentFailedTitle: 'Your payment could not be completed',
       subscribeRequiredPaymentFailedSubtitle:
         'Update your payment method in the billing portal (choose a plan below) or subscribe again to keep using the platform.',

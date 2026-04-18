@@ -18,6 +18,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
 import { NotificationService } from '../../core/services/notification.service';
@@ -48,6 +49,7 @@ const STRIPE_BILLING_BLOCKED_UI = new Set([
   imports: [
     FormsModule,
     MatSnackBarModule,
+    MatSelectModule,
     CommonModule,
     RippleButtonComponent,
     AnimatedCheckboxComponent,
