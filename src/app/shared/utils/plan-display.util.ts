@@ -40,6 +40,9 @@ export function planDisplayLabelFromTranslations(
     case 'free':
       name = tr.upgradePlanFree;
       break;
+    case 'sin_plan':
+      name = tr.planDisplaySinPlan;
+      break;
     default:
       name = tr.upgradePlanStarter;
   }

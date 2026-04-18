@@ -393,9 +393,11 @@ export interface Translations {
   /** Facturación pendiente (pago fallido / trial sin tarjeta) */
   stripePaymentPendingTitle: string;
   stripePaymentPendingDesc: string;
-  /** Pantalla dedicada tras cancelar suscripción (solo planes) */
+  /** Pantalla dedicada sin plan activo (solo planes) */
   billingChurnPageTitle: string;
   billingChurnPageSubtitle: string;
+  /** Etiqueta corta del plan «sin suscripción» (navbar, cuenta) */
+  planDisplaySinPlan: string;
   /** Paso de registro: elegir plan o prueba */
   registrationPlanStepTitle: string;
   registrationCancelCta: string;
@@ -1349,9 +1351,10 @@ export class I18nService {
       stripePaymentPendingTitle: 'Pago pendiente de tu suscripción',
       stripePaymentPendingDesc:
         'Actualiza tu método de pago en el portal de facturación para seguir usando la plataforma.',
-      billingChurnPageTitle: 'Tu suscripción ha finalizado',
+      billingChurnPageTitle: 'No tienes un plan activo',
       billingChurnPageSubtitle:
-        'Para seguir usando Llamalo.ai elige un plan. Si ya tuviste suscripción de pago, el periodo de prueba de 7 días no aplica.',
+        'Para seguir usando nuestra plataforma, suscríbete a uno de nuestros planes. Si ya tuviste suscripción de pago, el periodo de prueba de 7 días no aplica.',
+      planDisplaySinPlan: 'Sin plan',
       registrationPlanStepTitle: 'Elige cómo quieres empezar',
       registrationCancelCta: 'Cancelar registro y salir',
       onboardingPlanStepSubtitle:
@@ -2298,9 +2301,10 @@ export class I18nService {
       stripePaymentPendingTitle: 'Subscription payment pending',
       stripePaymentPendingDesc:
         'Update your payment method in the billing portal to keep using the platform.',
-      billingChurnPageTitle: 'Your subscription has ended',
+      billingChurnPageTitle: 'You have no active plan',
       billingChurnPageSubtitle:
-        'To keep using Llamalo.ai, choose a plan. If you already had a paid subscription, the 7-day trial does not apply.',
+        'To keep using our platform, subscribe to one of our plans. If you already had a paid subscription, the 7-day trial does not apply.',
+      planDisplaySinPlan: 'No plan',
       registrationPlanStepTitle: 'Choose how to get started',
       registrationCancelCta: 'Cancel sign-up and exit',
       onboardingPlanStepSubtitle:

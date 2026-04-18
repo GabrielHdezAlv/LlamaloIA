@@ -19,7 +19,8 @@ export function requiresSubscriptionPaywall(
 ): boolean {
   if (!user?.planUsage?.limits) return false;
   const pu = user.planUsage;
-  if (!pu.trialActive && pu.effectivePlanSlug === 'gratis') return true;
+  const slug = pu.effectivePlanSlug;
+  if (!pu.trialActive && (slug === 'gratis' || slug === 'sin_plan')) return true;
   const st = user.stripeSubscriptionStatus?.trim();
   if (st && STRIPE_SUBSCRIPTION_BLOCKED.has(st)) return true;
   return false;
@@ -32,6 +33,9 @@ export function requiresSubscriptionPaywall(
 export function requiresBillingChurnLockPage(
   user: User | null | undefined,
 ): boolean {
+  if (user?.planUsage?.effectivePlanSlug === 'sin_plan') {
+    return true;
+  }
   if (user?.billingChurnLocked !== true) return false;
   if (!user?.planUsage?.limits) return true;
   return requiresSubscriptionPaywall(user);
@@ -40,7 +44,8 @@ export function requiresBillingChurnLockPage(
 /** True si el usuario puede crear otro agente según planUsage del perfil. */
 export function canAddAnotherAgent(planUsage: PlanUsageLike | undefined): boolean {
   if (!planUsage?.limits) return true;
-  if (!planUsage.trialActive && planUsage.effectivePlanSlug === 'gratis') {
+  const slug = planUsage.effectivePlanSlug;
+  if (!planUsage.trialActive && (slug === 'gratis' || slug === 'sin_plan')) {
     return false;
   }
   return planUsage.agentsCount < planUsage.limits.agents;
@@ -48,7 +53,8 @@ export function canAddAnotherAgent(planUsage: PlanUsageLike | undefined): boolea
 
 export function canAddWebSource(planUsage: PlanUsageLike | undefined): boolean {
   if (!planUsage?.limits) return true;
-  if (!planUsage.trialActive && planUsage.effectivePlanSlug === 'gratis') {
+  const slug = planUsage.effectivePlanSlug;
+  if (!planUsage.trialActive && (slug === 'gratis' || slug === 'sin_plan')) {
     return false;
   }
   return planUsage.webSourcesCount < planUsage.limits.indexedUrls;
@@ -56,7 +62,8 @@ export function canAddWebSource(planUsage: PlanUsageLike | undefined): boolean {
 
 export function canAddDocumentSource(planUsage: PlanUsageLike | undefined): boolean {
   if (!planUsage?.limits) return true;
-  if (!planUsage.trialActive && planUsage.effectivePlanSlug === 'gratis') {
+  const slug = planUsage.effectivePlanSlug;
+  if (!planUsage.trialActive && (slug === 'gratis' || slug === 'sin_plan')) {
     return false;
   }
   return planUsage.docSourcesCount < planUsage.limits.documentsMax;
