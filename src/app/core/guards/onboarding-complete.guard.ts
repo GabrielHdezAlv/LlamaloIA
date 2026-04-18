@@ -8,6 +8,7 @@ import {
 import { UserStorage } from '../../storages/user/user-storage';
 import {
   requiresBillingChurnLockPage,
+  requiresPaymentFailureSubscribePage,
   requiresSubscriptionPaywall,
 } from '../../shared/utils/plan-usage.util';
 
@@ -36,6 +37,20 @@ export const onboardingCompleteGuard: CanActivateFn = (
       return true;
     }
     void router.navigate(['/subscribe-required'], { replaceUrl: true });
+    return false;
+  }
+
+  if (requiresPaymentFailureSubscribePage(user)) {
+    if (
+      rawPath === '/subscribe-required' ||
+      rawPath.startsWith('/subscribe-required/')
+    ) {
+      return true;
+    }
+    void router.navigate(['/subscribe-required'], {
+      queryParams: { stripe: 'payment_failed' },
+      replaceUrl: true,
+    });
     return false;
   }
 

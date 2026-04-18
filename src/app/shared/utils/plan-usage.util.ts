@@ -27,6 +27,17 @@ export function requiresSubscriptionPaywall(
 }
 
 /**
+ * Cobro fallido / incompleto en Stripe: puede permanecer en `/subscribe-required` (precios + portal)
+ * aunque no sea churn (`sin_plan`).
+ */
+export function requiresPaymentFailureSubscribePage(
+  user: User | null | undefined,
+): boolean {
+  const st = user?.stripeSubscriptionStatus?.trim();
+  return !!(st && STRIPE_SUBSCRIPTION_BLOCKED.has(st));
+}
+
+/**
  * Suscripción cancelada (churn): debe ir a `/subscribe-required` sin usar el resto del producto.
  * Si `billingChurnLocked` viene del perfil pero aún no hay `planUsage`, igual aplica el bloqueo.
  */

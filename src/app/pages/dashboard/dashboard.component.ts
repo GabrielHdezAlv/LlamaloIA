@@ -39,6 +39,7 @@ import { AuthSessionService } from '../../core/services/auth-session.service';
 import { ModalService } from '../../shared/modals/modal.service';
 import {
   requiresBillingChurnLockPage,
+  requiresPaymentFailureSubscribePage,
   requiresSubscriptionPaywall,
 } from '../../shared/utils/plan-usage.util';
 import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
@@ -148,6 +149,15 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
               replaceUrl: true,
             });
           });
+          return;
+        }
+        if (requiresPaymentFailureSubscribePage(u)) {
+          untracked(() => {
+            void this.router.navigate(['/subscribe-required'], {
+              replaceUrl: true,
+              queryParams: { stripe: 'payment_failed' },
+            });
+          });
         }
       });
       effect((onCleanup) => {
@@ -156,7 +166,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
           const u = this.userStorage.user();
           const needPay = this.subscriptionPaywallActive();
           const churn = requiresBillingChurnLockPage(u);
-          if (needPay && !churn) {
+          const paymentFailure = requiresPaymentFailureSubscribePage(u);
+          if (needPay && !churn && !paymentFailure) {
             document.body.style.overflow = 'hidden';
             if (
               !this.matDialog.openDialogs.some(

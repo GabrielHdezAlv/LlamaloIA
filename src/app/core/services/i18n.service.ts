@@ -396,6 +396,9 @@ export interface Translations {
   /** Pantalla dedicada sin plan activo (solo planes) */
   billingChurnPageTitle: string;
   billingChurnPageSubtitle: string;
+  /** Misma pantalla cuando el cobro en Stripe falló (past_due, etc.) */
+  subscribeRequiredPaymentFailedTitle: string;
+  subscribeRequiredPaymentFailedSubtitle: string;
   /** Etiqueta corta del plan «sin suscripción» (navbar, cuenta) */
   planDisplaySinPlan: string;
   /** Paso de registro: elegir plan o prueba */
@@ -1354,6 +1357,10 @@ export class I18nService {
       billingChurnPageTitle: 'No tienes un plan activo',
       billingChurnPageSubtitle:
         'Para seguir usando nuestra plataforma, suscríbete a uno de nuestros planes. Si ya tuviste suscripción de pago, el periodo de prueba de 7 días no aplica.',
+      subscribeRequiredPaymentFailedTitle:
+        'El pago no se ha realizado correctamente',
+      subscribeRequiredPaymentFailedSubtitle:
+        'Actualiza tu método de pago desde el portal de facturación (elige un plan abajo) o contrata de nuevo para seguir usando la plataforma.',
       planDisplaySinPlan: 'Sin plan',
       registrationPlanStepTitle: 'Elige cómo quieres empezar',
       registrationCancelCta: 'Cancelar registro y salir',
@@ -2304,6 +2311,9 @@ export class I18nService {
       billingChurnPageTitle: 'You have no active plan',
       billingChurnPageSubtitle:
         'To keep using our platform, subscribe to one of our plans. If you already had a paid subscription, the 7-day trial does not apply.',
+      subscribeRequiredPaymentFailedTitle: 'Your payment could not be completed',
+      subscribeRequiredPaymentFailedSubtitle:
+        'Update your payment method in the billing portal (choose a plan below) or subscribe again to keep using the platform.',
       planDisplaySinPlan: 'No plan',
       registrationPlanStepTitle: 'Choose how to get started',
       registrationCancelCta: 'Cancel sign-up and exit',
