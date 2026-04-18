@@ -1,7 +1,7 @@
 import { Component, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { I18nService } from '../../core/services/i18n.service';
+import { I18nService, type Translations } from '../../core/services/i18n.service';
 import { UserStorage } from '../../storages/user/user-storage';
 import {
   requiresBillingChurnLockPage,
@@ -23,7 +23,7 @@ export class SubscribeRequiredComponent {
   private userStorage = inject(UserStorage);
   i18n = inject(I18nService);
 
-  get t() {
+  get t(): Translations {
     return this.i18n.getTranslations();
   }
 
