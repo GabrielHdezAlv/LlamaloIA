@@ -6,7 +6,10 @@ import {
   type RouterStateSnapshot,
 } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
-import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
+import {
+  requiresBillingChurnLockPage,
+  requiresSubscriptionPaywall,
+} from '../../shared/utils/plan-usage.util';
 
 /**
  * Bloquea el uso de la app (rutas bajo dashboard u otras protegidas) hasta que
@@ -24,6 +27,18 @@ export const onboardingCompleteGuard: CanActivateFn = (
     return true;
   }
 
+  const rawPath = state.url.split('?')[0];
+  if (requiresBillingChurnLockPage(user)) {
+    if (
+      rawPath === '/subscribe-required' ||
+      rawPath.startsWith('/subscribe-required/')
+    ) {
+      return true;
+    }
+    void router.navigate(['/subscribe-required'], { replaceUrl: true });
+    return false;
+  }
+
   if (requiresSubscriptionPaywall(user)) {
     return true;
   }
@@ -32,7 +47,7 @@ export const onboardingCompleteGuard: CanActivateFn = (
     return true;
   }
 
-  const path = state.url.split('?')[0].replace(/\/$/, '') || '/';
+  const path = rawPath.replace(/\/$/, '') || '/';
 
   if (
     path === '/dashboard/account' ||

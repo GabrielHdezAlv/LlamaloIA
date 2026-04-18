@@ -3,4 +3,6 @@ export type UpgradePlanPricingViewMode =
   | 'registration'
   | 'paywall'
   | 'embedded'
-  | 'upgrade';
+  | 'upgrade'
+  /** Tras cancelar suscripción: solo planes, Checkout (no portal), sin trial Starter si no aplica. */
+  | 'churn';

@@ -34,6 +34,7 @@ import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
 import { ShopifyComponent } from './pages/shopify/shopify.component';
 import { subscriptionPaywallGuard } from './core/guards/subscription-paywall.guard';
 import { onboardingCompleteGuard } from './core/guards/onboarding-complete.guard';
+import { SubscribeRequiredComponent } from './pages/subscribe-required/subscribe-required.component';
 
 export const routes: Routes = [
   {
@@ -143,6 +144,11 @@ export const routes: Routes = [
   {
     path: 'company-setup',
     component: CompanySetupComponent,
+    canActivate: [AuthGuard, subscriptionPaywallGuard],
+  },
+  {
+    path: 'subscribe-required',
+    component: SubscribeRequiredComponent,
     canActivate: [AuthGuard, subscriptionPaywallGuard],
   },
   {

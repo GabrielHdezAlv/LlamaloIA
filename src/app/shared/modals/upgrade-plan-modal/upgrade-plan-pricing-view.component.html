@@ -181,7 +181,7 @@
             <div class="w-full flex flex-col items-stretch">
               <button
                 type="button"
-                (click)="onChoosePlan(plan.id, $event, isRegistrationMode ? 'trial' : 'pay')"
+                (click)="onChoosePlan(plan.id, $event, starterCheckoutMode)"
                 [disabled]="stripeRedirecting || cancelLoading"
                 [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base ' +
                   (plan.highlighted
@@ -189,7 +189,7 @@
                     : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
                 <span>{{ plan.buttonText }}</span>
               </button>
-              @if (isRegistrationMode) {
+              @if (isRegistrationMode && starterCheckoutMode === 'trial') {
                 <p
                   class="mt-2 text-center text-[10px] sm:text-[11px] md:text-[10px] 4xl:text-xs font-medium leading-tight text-gray-400 dark:text-gray-500 select-none pointer-events-none">
                   {{ t.upgradePlanStarterTrialTextLink }}

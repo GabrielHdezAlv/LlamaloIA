@@ -65,7 +65,7 @@ export class UpgradePlanPricingViewComponent implements OnInit {
   private readonly modalShell =
     viewChild<ElementRef<HTMLElement>>('modalShell');
 
-  /** `registration`: gate post-alta. `paywall`: trial agotado. `upgrade`: precios desde cuenta (cerrable). `embedded`: onboarding. */
+  /** `registration`: gate post-alta. `paywall`: trial agotado. `upgrade`: cuenta. `embedded`: onboarding. `churn`: re-suscripción tras baja. */
   @Input() mode: UpgradePlanPricingViewMode = 'embedded';
 
   @Output() registrationAborted = new EventEmitter<void>();
@@ -92,8 +92,21 @@ export class UpgradePlanPricingViewComponent implements OnInit {
     return this.mode === 'paywall';
   }
 
+  get isChurnMode(): boolean {
+    return this.mode === 'churn';
+  }
+
   get isPlanGateLocked(): boolean {
-    return this.isRegistrationMode || this.isPaywallMode;
+    return this.isRegistrationMode || this.isPaywallMode || this.isChurnMode;
+  }
+
+  /** Trial Starter solo si la API lo permite (cuentas nuevas; churn / ya pagaron → pay). */
+  get starterCheckoutMode(): StarterCheckoutMode {
+    const u = this.userStore.user();
+    if (u?.stripeStarterTrialEligible === false) {
+      return 'pay';
+    }
+    return this.isRegistrationMode ? 'trial' : 'pay';
   }
 
   ngOnInit(): void {
@@ -216,11 +229,13 @@ export class UpgradePlanPricingViewComponent implements OnInit {
     const origin = window.location.origin;
     const successUrl = `${origin}/dashboard/account?tab=billing&stripe=success`;
     const cancelUrl =
-      this.mode === 'paywall'
-        ? `${origin}/dashboard/home?stripe=cancel&pricing=1`
-        : this.mode === 'upgrade'
-          ? `${origin}/dashboard/account?tab=billing&stripe=cancel`
-          : `${origin}/company-setup?stripe=cancel`;
+      this.mode === 'churn'
+        ? `${origin}/subscribe-required?stripe=cancel`
+        : this.mode === 'paywall'
+          ? `${origin}/dashboard/home?stripe=cancel&pricing=1`
+          : this.mode === 'upgrade'
+            ? `${origin}/dashboard/account?tab=billing&stripe=cancel`
+            : `${origin}/company-setup?stripe=cancel`;
     const portalReturnUrl = `${origin}/dashboard/account?tab=billing&stripe=return`;
 
     if (this.isEmbeddedOnboarding) {
@@ -235,7 +250,7 @@ export class UpgradePlanPricingViewComponent implements OnInit {
     this.stripeRedirecting = true;
 
     try {
-      if (user?.stripeCustomerId?.trim()) {
+      if (user?.stripeCustomerId?.trim() && user.billingChurnLocked !== true) {
         const { url } = await firstValueFrom(
           this.stripeService.createBillingPortalSession({
             returnUrl: portalReturnUrl,

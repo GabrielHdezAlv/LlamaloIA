@@ -45,6 +45,8 @@ export interface UserProfileResponseDto {
   stripeCustomerId?: string | null;
   stripeSubscriptionId?: string | null;
   stripeSubscriptionStatus?: string | null;
+  billingChurnLocked?: boolean;
+  stripeStarterTrialEligible?: boolean;
   planSelectionCompleted?: boolean;
   /** Zona IANA para métricas (semana/mes de negocio); por defecto Europe/Madrid */
   metricsCalendarTimezone?: string;

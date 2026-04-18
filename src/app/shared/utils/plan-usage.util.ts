@@ -25,6 +25,18 @@ export function requiresSubscriptionPaywall(
   return false;
 }
 
+/**
+ * Suscripción cancelada (churn): debe ir a `/subscribe-required` sin usar el resto del producto.
+ * Si `billingChurnLocked` viene del perfil pero aún no hay `planUsage`, igual aplica el bloqueo.
+ */
+export function requiresBillingChurnLockPage(
+  user: User | null | undefined,
+): boolean {
+  if (user?.billingChurnLocked !== true) return false;
+  if (!user?.planUsage?.limits) return true;
+  return requiresSubscriptionPaywall(user);
+}
+
 /** True si el usuario puede crear otro agente según planUsage del perfil. */
 export function canAddAnotherAgent(planUsage: PlanUsageLike | undefined): boolean {
   if (!planUsage?.limits) return true;

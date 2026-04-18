@@ -26,6 +26,10 @@ export class User {
   stripeSubscriptionStatus?: string | null;
   /** false = debe elegir plan o prueba en el flujo de registro */
   planSelectionCompleted?: boolean;
+  /** Suscripción cancelada: flujo solo planes en `/subscribe-required` */
+  billingChurnLocked?: boolean;
+  /** false = no ofrecer trial Starter de 7 días (API fuerza pay) */
+  stripeStarterTrialEligible?: boolean;
   /** Zona IANA para períodos de métricas en el panel (semana/mes) */
   metricsCalendarTimezone?: string;
   /** Uso vs límites efectivos (API) */

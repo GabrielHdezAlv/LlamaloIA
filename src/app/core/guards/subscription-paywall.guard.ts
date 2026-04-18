@@ -6,11 +6,14 @@ import {
   type RouterStateSnapshot,
 } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
-import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
+import {
+  requiresBillingChurnLockPage,
+  requiresSubscriptionPaywall,
+} from '../../shared/utils/plan-usage.util';
 
 /**
- * Con trial expirado / pago pendiente, solo se permite permanecer en /dashboard o /dashboard/home;
- * cualquier otra ruta autenticada redirige a inicio para mostrar el modal de precios.
+ * Churn: solo `/subscribe-required`. Trial expirado / pago pendiente: solo `/dashboard` y `/dashboard/home`
+ * (modal de precios); el resto de rutas vuelve a inicio.
  */
 export const subscriptionPaywallGuard: CanActivateFn = (
   _route: ActivatedRouteSnapshot,
@@ -19,10 +22,22 @@ export const subscriptionPaywallGuard: CanActivateFn = (
   const userStorage = inject(UserStorage);
   const router = inject(Router);
   const user = userStorage.user();
+  const path = state.url.split('?')[0];
+
+  if (requiresBillingChurnLockPage(user)) {
+    if (
+      path === '/subscribe-required' ||
+      path.startsWith('/subscribe-required/')
+    ) {
+      return true;
+    }
+    void router.navigate(['/subscribe-required'], { replaceUrl: true });
+    return false;
+  }
+
   if (!requiresSubscriptionPaywall(user)) {
     return true;
   }
-  const path = state.url.split('?')[0];
   if (path === '/dashboard' || path === '/dashboard/home') {
     return true;
   }

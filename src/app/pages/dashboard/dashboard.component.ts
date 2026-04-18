@@ -37,7 +37,10 @@ import { NavigationService } from '../../core/services/navigation.service';
 import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
 import { AuthSessionService } from '../../core/services/auth-session.service';
 import { ModalService } from '../../shared/modals/modal.service';
-import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
+import {
+  requiresBillingChurnLockPage,
+  requiresSubscriptionPaywall,
+} from '../../shared/utils/plan-usage.util';
 import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
 
@@ -137,11 +140,23 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     if (isPlatformBrowser(this.platformId)) {
+      effect(() => {
+        const u = this.userStorage.user();
+        if (requiresBillingChurnLockPage(u)) {
+          untracked(() => {
+            void this.router.navigate(['/subscribe-required'], {
+              replaceUrl: true,
+            });
+          });
+        }
+      });
       effect((onCleanup) => {
         this.subscriptionPaywallActive();
         untracked(() => {
+          const u = this.userStorage.user();
           const needPay = this.subscriptionPaywallActive();
-          if (needPay) {
+          const churn = requiresBillingChurnLockPage(u);
+          if (needPay && !churn) {
             document.body.style.overflow = 'hidden';
             if (
               !this.matDialog.openDialogs.some(
