@@ -394,9 +394,6 @@ export interface Translations {
   /** Facturación pendiente (pago fallido / trial sin tarjeta) */
   stripePaymentPendingTitle: string;
   stripePaymentPendingDesc: string;
-  /** Suscripción Stripe en estado trialing (sí cuenta como suscripción en Stripe) */
-  stripeTrialingSubscriptionTitle: string;
-  stripeTrialingSubscriptionDesc: string;
   /** Pantalla dedicada sin plan activo (solo planes) */
   billingChurnPageTitle: string;
   billingChurnPageSubtitle: string;
@@ -410,12 +407,6 @@ export interface Translations {
   registrationCancelCta: string;
   /** Subtítulo bajo el título de planes en el onboarding (paso dedicado, no modal). */
   onboardingPlanStepSubtitle: string;
-  /** Bloque «7 días gratis sin tarjeta» en onboarding embebido */
-  onboardingFreeTrialNoCardTitle: string;
-  onboardingFreeTrialNoCardDesc: string;
-  onboardingFreeTrialNoCardButton: string;
-  /** Toast tras registrar Cliente Stripe en onboarding gratis */
-  onboardingFreeStripeOk: string;
 
   protectedByStripe: string;
 
@@ -1364,10 +1355,6 @@ export class I18nService {
       stripePaymentPendingTitle: 'Pago pendiente de tu suscripción',
       stripePaymentPendingDesc:
         'Actualiza tu método de pago en el portal de facturación para seguir usando la plataforma.',
-      stripeTrialingSubscriptionTitle:
-        'Suscripción en periodo de prueba (Stripe)',
-      stripeTrialingSubscriptionDesc:
-        'Ya tienes una suscripción creada en Stripe en modo «trialing»: es el periodo de prueba del plan Starter; no se cobra hasta esa fecha. En el Dashboard de Stripe, en Suscripciones, verás este estado (no es lo mismo que «activa», que empieza tras el primer cobro).',
       billingChurnPageTitle: 'Tu plan se ha acabado',
       billingChurnPageSubtitle:
         'Para continuar usando la plataforma, elige de nuevo uno de los planes.',
@@ -1379,13 +1366,7 @@ export class I18nService {
       registrationPlanStepTitle: 'Elige cómo quieres empezar',
       registrationCancelCta: 'Cancelar registro y salir',
       onboardingPlanStepSubtitle:
-        'Contrata Starter, Growth o Scale con tarjeta, o elige abajo 7 días gratis en la app sin tarjeta (te damos de alta en Stripe como cliente para poder facturar después).',
-      onboardingFreeTrialNoCardTitle: '7 días gratis sin tarjeta',
-      onboardingFreeTrialNoCardDesc:
-        'Accede al producto con las mismas capacidades de prueba. Te registramos en Stripe como cliente (sin pago ahora); al acabar los días, podrás contratar desde Facturación.',
-      onboardingFreeTrialNoCardButton: 'Continuar con 7 días gratis',
-      onboardingFreeStripeOk:
-        'Listo: tu cuenta quedó vinculada en Stripe. Pulsa Continuar para seguir el onboarding.',
+        'Starter: 7 días de prueba en Stripe al pulsar «Empezar gratis» (tarjeta obligatoria; sin cargo durante la prueba). Growth y Scale: suscripción con tarjeta. Tras la prueba, el plan y facturación siguen las reglas de tu cuenta.',
       protectedByStripe: 'Protegido por Stripe',
 
       // Delete account modal
@@ -1801,7 +1782,8 @@ export class I18nService {
       upgradePlanGrowthDesc: 'Más minutos y capacidad para equipos en crecimiento.',
       upgradePlanScaleDesc: 'Escala máxima para alto volumen.\nSoporte dedicado.',
       upgradePlanStarterButton: 'Empezar gratis',
-      upgradePlanStarterTrialTextLink: 'Prueba gratuita de 7 días',
+      upgradePlanStarterTrialTextLink:
+        'Prueba de 7 días en Stripe: se pedirá tarjeta sin cargo hasta que termine la prueba.',
       upgradePlanPopularBadge: 'POPULAR',
       upgradePlanGrowthButton: 'Empezar ahora',
       upgradePlanScaleButton: 'Comenzar ahora',
@@ -2328,9 +2310,6 @@ export class I18nService {
       stripePaymentPendingTitle: 'Subscription payment pending',
       stripePaymentPendingDesc:
         'Update your payment method in the billing portal to keep using the platform.',
-      stripeTrialingSubscriptionTitle: 'Subscription in trial period (Stripe)',
-      stripeTrialingSubscriptionDesc:
-        'You already have a Stripe subscription in «trialing» state: this is your Starter trial; you are not charged until it ends. In the Stripe Dashboard under Subscriptions you will see this status (it is different from «active», which starts after the first charge).',
       billingChurnPageTitle: 'Your plan has ended',
       billingChurnPageSubtitle:
         'To keep using the platform, choose a plan again below.',
@@ -2341,13 +2320,7 @@ export class I18nService {
       registrationPlanStepTitle: 'Choose how to get started',
       registrationCancelCta: 'Cancel sign-up and exit',
       onboardingPlanStepSubtitle:
-        'Subscribe to Starter, Growth, or Scale with a card, or choose the 7-day free option below with no card (we create your Stripe customer for billing later).',
-      onboardingFreeTrialNoCardTitle: '7-day free access (no card)',
-      onboardingFreeTrialNoCardDesc:
-        'Use the product on a trial basis. We create your Stripe customer now (no charge); when the trial ends, subscribe from Billing.',
-      onboardingFreeTrialNoCardButton: 'Continue with 7-day free access',
-      onboardingFreeStripeOk:
-        'Done: your account is linked in Stripe. Tap Continue to finish onboarding.',
+        'Starter: start a 7-day trial in Stripe with «Start free» (card required; no charge during the trial). Growth and Scale: subscribe with a card. After the trial, billing follows your account rules.',
       protectedByStripe: 'Protected by Stripe',
 
       // Delete account modal
@@ -2761,7 +2734,8 @@ export class I18nService {
       upgradePlanGrowthDesc: 'More minutes and room for growing teams.',
       upgradePlanScaleDesc: 'Maximum scale for high volume.\nDedicated support.',
       upgradePlanStarterButton: 'Start free',
-      upgradePlanStarterTrialTextLink: '7-day free trial',
+      upgradePlanStarterTrialTextLink:
+        '7-day Stripe trial: card required; no charge until the trial ends.',
       upgradePlanPopularBadge: 'POPULAR',
       upgradePlanGrowthButton: 'Start now',
       upgradePlanScaleButton: 'Get started now',
