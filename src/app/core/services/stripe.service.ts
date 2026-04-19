@@ -55,6 +55,17 @@ export class StripeService {
   }
 
   /** Enlaces a la factura pagada más reciente (PDF o página alojada en Stripe). */
+  /**
+   * Onboarding: 7 días gratis sin tarjeta — registra Customer en Stripe (y suscripción €0 si está configurada).
+   */
+  registerOnboardingFreeTrial(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.stripeBase()}/onboarding-free-trial`,
+      {},
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
   getLatestInvoice(): Observable<{
     pdfUrl: string | null;
     hostedInvoiceUrl: string | null;

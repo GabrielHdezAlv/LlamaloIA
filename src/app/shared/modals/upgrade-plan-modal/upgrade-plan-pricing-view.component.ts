@@ -100,14 +100,12 @@ export class UpgradePlanPricingViewComponent implements OnInit {
     return this.isRegistrationMode || this.isPaywallMode || this.isChurnMode;
   }
 
-  /** Trial Starter solo si la API lo permite (cuentas nuevas; churn / ya pagaron → pay). */
+  /** Starter: checkout de pago (tarjeta). La prueba 7d sin tarjeta es el bloque aparte en onboarding. */
   get starterCheckoutMode(): StarterCheckoutMode {
-    const u = this.userStore.user();
-    if (u?.stripeStarterTrialEligible === false) {
-      return 'pay';
-    }
-    return this.isRegistrationMode ? 'trial' : 'pay';
+    return 'pay';
   }
+
+  freeOnboardingLoading = false;
 
   ngOnInit(): void {
     if (!this.isPlanGateLocked) {
@@ -187,6 +185,35 @@ export class UpgradePlanPricingViewComponent implements OnInit {
       /* no cerrar */
     } else {
       this.closeWithAnimation();
+    }
+  }
+
+  /**
+   * Paso onboarding: 7 días gratis en la app, sin Checkout ni tarjeta; crea Customer (y suscripción €0 opcional) en Stripe.
+   */
+  async onChooseFreeOnboardingWithoutCard(event: Event): Promise<void> {
+    event.preventDefault();
+    event.stopPropagation();
+    if (
+      !this.isEmbeddedOnboarding ||
+      this.closing ||
+      this.stripeRedirecting ||
+      this.freeOnboardingLoading
+    ) {
+      return;
+    }
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    this.freeOnboardingLoading = true;
+    try {
+      await firstValueFrom(this.stripeService.registerOnboardingFreeTrial());
+      await this.userStore.loadUserProfile();
+      this.notificationService.success(this.t.onboardingFreeStripeOk);
+    } catch {
+      this.notificationService.error(this.t.stripeBillingError);
+    } finally {
+      this.freeOnboardingLoading = false;
     }
   }
 

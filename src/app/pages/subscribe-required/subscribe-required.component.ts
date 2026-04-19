@@ -11,7 +11,7 @@ import { UpgradePlanPricingViewComponent } from '../../shared/modals/upgrade-pla
 import type { UpgradePlanPricingViewMode } from '../../shared/modals/upgrade-plan-modal/upgrade-plan-pricing-view-mode';
 
 /**
- * Pantalla única tras cancelar suscripción: solo elección de plan (sin navegación del dashboard).
+ * Pantalla única tras cancelar suscripción o tras expirar el trial del plan gratis: solo elección de plan.
  */
 @Component({
   selector: 'app-subscribe-required',

@@ -11,7 +11,7 @@ import {
 import { isQaTeamBypassEmail } from '../../shared/utils/qa-access.util';
 
 /**
- * `/subscribe-required` solo si la cuenta debe estar ahí (churn / pago Stripe fallido)
+ * `/subscribe-required` solo si la cuenta debe estar ahí (churn, trial gratis agotado, pago Stripe fallido)
  * o si el usuario es el equipo QA interno.
  */
 export const subscribeRequiredAccessGuard: CanActivateFn = () => {

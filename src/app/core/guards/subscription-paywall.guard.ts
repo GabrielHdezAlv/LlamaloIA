@@ -13,8 +13,9 @@ import {
 } from '../../shared/utils/plan-usage.util';
 
 /**
- * Churn: solo `/subscribe-required`. Pago fallido en Stripe: solo `/subscribe-required?stripe=payment_failed`.
- * Trial expirado / otros: solo `/dashboard` y `/dashboard/home` (modal de precios); el resto vuelve a inicio.
+ * Churn o trial gratis agotado: solo `/subscribe-required`.
+ * Pago fallido en Stripe: solo `/subscribe-required?stripe=payment_failed`.
+ * Otros paywall (p. ej. Stripe bloqueado sin las rutas anteriores): solo `/dashboard` y `/dashboard/home`.
  */
 export const subscriptionPaywallGuard: CanActivateFn = (
   _route: ActivatedRouteSnapshot,

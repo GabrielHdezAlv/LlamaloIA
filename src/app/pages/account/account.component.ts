@@ -348,6 +348,18 @@ export class AccountComponent implements OnInit, OnDestroy {
     return STRIPE_BILLING_BLOCKED_UI.has(s);
   });
 
+  /**
+   * Suscripción creada en Stripe con trial (estado `trialing`): en Stripe sí hay suscripción;
+   * el Dashboard suele mostrarla aparte de las «active».
+   */
+  showStripeTrialingInfo = computed(() => {
+    const u = this.user();
+    if (!u?.stripeSubscriptionId?.trim() || !u.stripeCustomerId?.trim()) {
+      return false;
+    }
+    return u.stripeSubscriptionStatus?.trim() === 'trialing';
+  });
+
   /** Igual que el dropdown del avatar: prueba activa en plan efectivo gratis. */
   get showTrialRemainingInBilling(): boolean {
     const pu = this.user()?.planUsage;

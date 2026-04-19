@@ -394,6 +394,9 @@ export interface Translations {
   /** Facturación pendiente (pago fallido / trial sin tarjeta) */
   stripePaymentPendingTitle: string;
   stripePaymentPendingDesc: string;
+  /** Suscripción Stripe en estado trialing (sí cuenta como suscripción en Stripe) */
+  stripeTrialingSubscriptionTitle: string;
+  stripeTrialingSubscriptionDesc: string;
   /** Pantalla dedicada sin plan activo (solo planes) */
   billingChurnPageTitle: string;
   billingChurnPageSubtitle: string;
@@ -407,6 +410,12 @@ export interface Translations {
   registrationCancelCta: string;
   /** Subtítulo bajo el título de planes en el onboarding (paso dedicado, no modal). */
   onboardingPlanStepSubtitle: string;
+  /** Bloque «7 días gratis sin tarjeta» en onboarding embebido */
+  onboardingFreeTrialNoCardTitle: string;
+  onboardingFreeTrialNoCardDesc: string;
+  onboardingFreeTrialNoCardButton: string;
+  /** Toast tras registrar Cliente Stripe en onboarding gratis */
+  onboardingFreeStripeOk: string;
 
   protectedByStripe: string;
 
@@ -1355,6 +1364,10 @@ export class I18nService {
       stripePaymentPendingTitle: 'Pago pendiente de tu suscripción',
       stripePaymentPendingDesc:
         'Actualiza tu método de pago en el portal de facturación para seguir usando la plataforma.',
+      stripeTrialingSubscriptionTitle:
+        'Suscripción en periodo de prueba (Stripe)',
+      stripeTrialingSubscriptionDesc:
+        'Ya tienes una suscripción creada en Stripe en modo «trialing»: es el periodo de prueba del plan Starter; no se cobra hasta esa fecha. En el Dashboard de Stripe, en Suscripciones, verás este estado (no es lo mismo que «activa», que empieza tras el primer cobro).',
       billingChurnPageTitle: 'Tu plan se ha acabado',
       billingChurnPageSubtitle:
         'Para continuar usando la plataforma, elige de nuevo uno de los planes.',
@@ -1366,7 +1379,13 @@ export class I18nService {
       registrationPlanStepTitle: 'Elige cómo quieres empezar',
       registrationCancelCta: 'Cancelar registro y salir',
       onboardingPlanStepSubtitle:
-        'Compara facturación mensual o anual. En Starter puedes activar la prueba gratuita o contratar al momento.',
+        'Contrata Starter, Growth o Scale con tarjeta, o elige abajo 7 días gratis en la app sin tarjeta (te damos de alta en Stripe como cliente para poder facturar después).',
+      onboardingFreeTrialNoCardTitle: '7 días gratis sin tarjeta',
+      onboardingFreeTrialNoCardDesc:
+        'Accede al producto con las mismas capacidades de prueba. Te registramos en Stripe como cliente (sin pago ahora); al acabar los días, podrás contratar desde Facturación.',
+      onboardingFreeTrialNoCardButton: 'Continuar con 7 días gratis',
+      onboardingFreeStripeOk:
+        'Listo: tu cuenta quedó vinculada en Stripe. Pulsa Continuar para seguir el onboarding.',
       protectedByStripe: 'Protegido por Stripe',
 
       // Delete account modal
@@ -2309,6 +2328,9 @@ export class I18nService {
       stripePaymentPendingTitle: 'Subscription payment pending',
       stripePaymentPendingDesc:
         'Update your payment method in the billing portal to keep using the platform.',
+      stripeTrialingSubscriptionTitle: 'Subscription in trial period (Stripe)',
+      stripeTrialingSubscriptionDesc:
+        'You already have a Stripe subscription in «trialing» state: this is your Starter trial; you are not charged until it ends. In the Stripe Dashboard under Subscriptions you will see this status (it is different from «active», which starts after the first charge).',
       billingChurnPageTitle: 'Your plan has ended',
       billingChurnPageSubtitle:
         'To keep using the platform, choose a plan again below.',
@@ -2319,7 +2341,13 @@ export class I18nService {
       registrationPlanStepTitle: 'Choose how to get started',
       registrationCancelCta: 'Cancel sign-up and exit',
       onboardingPlanStepSubtitle:
-        'Compare monthly or annual billing. On Starter you can start a free trial or subscribe right away.',
+        'Subscribe to Starter, Growth, or Scale with a card, or choose the 7-day free option below with no card (we create your Stripe customer for billing later).',
+      onboardingFreeTrialNoCardTitle: '7-day free access (no card)',
+      onboardingFreeTrialNoCardDesc:
+        'Use the product on a trial basis. We create your Stripe customer now (no charge); when the trial ends, subscribe from Billing.',
+      onboardingFreeTrialNoCardButton: 'Continue with 7-day free access',
+      onboardingFreeStripeOk:
+        'Done: your account is linked in Stripe. Tap Continue to finish onboarding.',
       protectedByStripe: 'Protected by Stripe',
 
       // Delete account modal

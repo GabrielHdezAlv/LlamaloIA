@@ -38,13 +38,21 @@ export function requiresPaymentFailureSubscribePage(
 }
 
 /**
- * Suscripción cancelada (churn): debe ir a `/subscribe-required` sin usar el resto del producto.
- * Si `billingChurnLocked` viene del perfil pero aún no hay `planUsage`, igual aplica el bloqueo.
+ * Solo `/subscribe-required` hasta contratar de nuevo: churn (`sin_plan`), trial de 7 días
+ * del plan `gratis` agotado, o cuenta con `billingChurnLocked` y condiciones de paywall.
  */
 export function requiresBillingChurnLockPage(
   user: User | null | undefined,
 ): boolean {
   if (user?.planUsage?.effectivePlanSlug === 'sin_plan') {
+    return true;
+  }
+  const pu = user?.planUsage;
+  if (
+    pu?.limits &&
+    pu.effectivePlanSlug === 'gratis' &&
+    pu.trialActive === false
+  ) {
     return true;
   }
   if (user?.billingChurnLocked !== true) return false;
