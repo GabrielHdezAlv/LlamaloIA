@@ -23,7 +23,7 @@ import { I18nService, Language } from '../../core/services/i18n.service';
 import { take } from 'rxjs/operators';
 import { FirebaseTokenRefreshService } from '../../core/services/firebase-token-refresh.service';
 import { environment } from '../../../environments/environment';
-import { isLocalAuthRegistrationHost } from '../../core/utils/auth-host-features';
+import { allowsAuthRegistrationAndGoogle } from '../../core/utils/auth-host-features';
 import { getOrCreateDeviceId } from '../../core/utils/device-id';
 import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 import { signInWithPopup } from 'firebase/auth';
@@ -90,12 +90,12 @@ export class AuthFormComponent implements OnInit {
     return this.i18nService.getTranslations();
   }
 
-  /** Registro y Google solo en localhost (no en dev/preprod/app). */
+  /** Registro y Google en localhost, dev.llamalo.ai y preprod.llamalo.ai; no en app (prod). */
   get authLocalFeatures(): boolean {
     if (!isPlatformBrowser(this.platformId)) {
       return false;
     }
-    return isLocalAuthRegistrationHost();
+    return allowsAuthRegistrationAndGoogle();
   }
 
   get title(): string {

@@ -1,10 +1,10 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-import { isLocalAuthRegistrationHost } from '../utils/auth-host-features';
+import { allowsAuthRegistrationAndGoogle } from '../utils/auth-host-features';
 
 /**
- * La ruta `/register` solo existe en localhost; en el resto de hosts redirige a login.
+ * La ruta `/register` solo en localhost o builds dev/preprod; en producción redirige a login.
  */
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class RegisterLocalhostGuard implements CanActivate {
       // Sin host del navegador no se puede ofrecer registro; evita prerender de `/register` en despliegue.
       return false;
     }
-    if (!isLocalAuthRegistrationHost()) {
+    if (!allowsAuthRegistrationAndGoogle()) {
       void this.router.navigate(['/login']);
       return false;
     }
