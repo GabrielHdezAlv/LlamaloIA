@@ -32,6 +32,8 @@ export class User {
   stripeStarterTrialEligible?: boolean;
   /** Zona IANA para períodos de métricas en el panel (semana/mes) */
   metricsCalendarTimezone?: string;
+  /** Precio EUR/min de consumo extra según plan (API: `extraPerMinuteEur` o `planUsage.limits`) */
+  extraPerMinuteEur?: number;
   /** Uso vs límites efectivos (API) */
   planUsage?: {
     trialEndsAt: string | null;
@@ -44,6 +46,8 @@ export class User {
       storageTotalMb: number;
       maxDocSizeMb: number;
       betaAccess: boolean;
+      /** Precio por minuto extra (EUR), del catálogo de planes */
+      extraPerMinuteEur?: number;
     };
     agentsCount: number;
     webSourcesCount: number;

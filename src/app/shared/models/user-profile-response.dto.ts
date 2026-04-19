@@ -21,6 +21,8 @@ export interface UserProfileResponseDto {
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   plan?: string; // ⬅️ NUEVO: Plan de suscripción
   minutesLimit?: number; // ⬅️ NUEVO: Límite de minutos asignados al usuario
+  /** Precio EUR por minuto extra según plan efectivo */
+  extraPerMinuteEur?: number;
   extraMinutes?: number; // ⬅️ NUEVO: Minutos extra asignados al usuario
   minutesByMonth?: Record<string, number>; // ⬅️ NUEVO: Historial de minutos por mes (YYYY-MM)
   redeemedRewards?: string[]; // Recompensas canjeadas
@@ -36,6 +38,7 @@ export interface UserProfileResponseDto {
       storageTotalMb: number;
       maxDocSizeMb: number;
       betaAccess: boolean;
+      extraPerMinuteEur?: number;
     };
     agentsCount: number;
     webSourcesCount: number;

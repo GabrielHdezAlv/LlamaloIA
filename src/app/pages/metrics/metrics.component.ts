@@ -1,5 +1,6 @@
 import {
   Component,
+  effect,
   inject,
   OnInit,
   OnDestroy,
@@ -473,6 +474,25 @@ export class MetricsComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.i18nService.initializeLanguage();
+    effect(() => {
+      const u = this.userStorage.user();
+      let rate = 0;
+      if (u) {
+        if (
+          typeof u.extraPerMinuteEur === 'number' &&
+          !Number.isNaN(u.extraPerMinuteEur)
+        ) {
+          rate = u.extraPerMinuteEur;
+        } else {
+          const nested = u.planUsage?.limits?.extraPerMinuteEur;
+          if (typeof nested === 'number' && !Number.isNaN(nested)) {
+            rate = nested;
+          }
+        }
+      }
+      this.costPerMinute = rate;
+      this.cdr.markForCheck();
+    });
   }
 
   /**
