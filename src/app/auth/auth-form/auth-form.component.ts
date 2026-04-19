@@ -250,7 +250,9 @@ export class AuthFormComponent implements OnInit {
       },
       error: (err: { status?: number; error?: { message?: string } }) => {
         console.error('❌ Error en inicio de sesión:', err);
-        const errBody = err?.error as { code?: string; message?: string } | undefined;
+        const errBody = err?.error as
+          | { code?: string; message?: string }
+          | undefined;
         if (errBody?.code === 'DEVICE_VERIFICATION_REQUIRED') {
           this.notificationService.info(
             'Introduce el código que te enviamos por correo para confirmar este dispositivo.',
@@ -299,11 +301,7 @@ export class AuthFormComponent implements OnInit {
 
   private applyUserProfileToStores(data: any): void {
     this.userStorage.setUser(data);
-    if (
-      data.twilio &&
-      Array.isArray(data.twilio) &&
-      data.twilio.length > 0
-    ) {
+    if (data.twilio && Array.isArray(data.twilio) && data.twilio.length > 0) {
       const firstAccount = data.twilio[0];
       this.twilioStorage.setConfig({
         twilioAccountId: firstAccount.twilioAccountId,

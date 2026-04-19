@@ -180,7 +180,10 @@ export class EmailVerificationModalComponent
             'Correo verificado. Inicia sesión con tu contraseña.',
           );
           this.setGlobalLoading(false);
-          this.dialogRef.close({ sessionCompleted: true, needsManualLogin: true });
+          this.dialogRef.close({
+            sessionCompleted: true,
+            needsManualLogin: true,
+          });
           void this.router.navigate(['/login'], { queryParams: { email } });
         },
       });
@@ -304,10 +307,7 @@ export class EmailVerificationModalComponent
       this.userService
         .verifyDeviceLogin(email, password, deviceId, code)
         .subscribe({
-          next: (response: {
-            token: string;
-            refreshToken?: string;
-          }) => {
+          next: (response: { token: string; refreshToken?: string }) => {
             this.firebaseTokenRefresh.persistSessionTokensFromApi(response);
             this.firebaseTokenRefresh.start();
             this.completeSessionAfterVerification();

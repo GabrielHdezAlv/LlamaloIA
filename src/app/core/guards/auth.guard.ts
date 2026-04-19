@@ -7,10 +7,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 
 /**
- * Rutas solo para sesión iniciada.
- * En SSR no hay token en localStorage: si redirigimos a /login, un F5 en el dashboard
- * pinta primero login y luego hidrata al destino real; por eso aquí se permite la
- * ruta en servidor y la comprobación del token solo aplica en el navegador.
+ * Rutas solo para sesión iniciada. En SSR sin token no se entrega el shell del dashboard.
  */
 @Injectable({
   providedIn: 'root',
@@ -23,7 +20,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): boolean | UrlTree {
     if (!isPlatformBrowser(this.platformId)) {
-      return true;
+      return this.router.parseUrl('/login');
     }
 
     let token: string | null = null;
