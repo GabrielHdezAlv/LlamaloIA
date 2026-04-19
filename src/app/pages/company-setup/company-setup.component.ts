@@ -9,7 +9,6 @@ import {
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -581,10 +580,10 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Abandono explícito del onboarding (paso 1 → login): elimina cuenta incompleta en API
-   * si aún no hay plan/setup completado, igual que «Cancelar registro» en planes.
+   * Paso 1 → «volver»: cierra sesión y va al login. La cuenta no se elimina;
+   * el usuario puede iniciar sesión de nuevo y seguir el onboarding.
    */
-  private async abandonIncompleteRegistrationAndGoToLogin(): Promise<void> {
+  private abandonIncompleteRegistrationAndGoToLogin(): void {
     if (!this.isBrowser) {
       return;
     }
@@ -597,18 +596,6 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     const user = this.userStore.user();
     if (user?.userId) {
       this.clearOnboardingCheckpoint(user.userId);
-    }
-    const canDeleteIncomplete =
-      user &&
-      user.hasCompletedSetup !== true &&
-      user.planSelectionCompleted !== true;
-
-    if (canDeleteIncomplete) {
-      try {
-        await firstValueFrom(this.userService.cancelIncompleteRegistration());
-      } catch {
-        /* Sin token, cuenta ya borrada o error de red: cerramos sesión local igualmente */
-      }
     }
 
     this.authSession.signOutAndReload();
