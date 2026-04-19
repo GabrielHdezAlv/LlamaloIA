@@ -12,6 +12,8 @@ export class User {
   accountStatus?: number; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
   rol?: USER_ROLE; // ⬅️ NUEVO: Opcional (owner/client_user)
   hasCompletedSetup?: boolean;
+  /** Tour «primer agente» omitido (API / Firestore). */
+  firstAgentTourSkipped?: boolean;
   plan?: string; // ⬅️ NUEVO: Plan de suscripción
   minutesLimit?: number; // ⬅️ NUEVO: Límite de minutos asignados al usuario
   extraMinutes?: number; // ⬅️ NUEVO: Minutos extra asignados al usuario

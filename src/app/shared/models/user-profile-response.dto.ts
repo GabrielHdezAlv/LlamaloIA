@@ -18,6 +18,8 @@ export interface UserProfileResponseDto {
   accountStatus?: number; // ⬅️ NUEVO: Incluido en respuestas (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
   rol?: USER_ROLE; // ⬅️ NUEVO: Incluido en respuestas (owner/client_user)
   hasCompletedSetup?: boolean;
+  /** Tour «primer agente»: omitido (Saltar/cerrar), persistido en Firestore. */
+  firstAgentTourSkipped?: boolean;
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   plan?: string; // ⬅️ NUEVO: Plan de suscripción
   minutesLimit?: number; // ⬅️ NUEVO: Límite de minutos asignados al usuario

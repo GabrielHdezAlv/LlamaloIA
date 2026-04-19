@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { driver, type Driver, type PopoverDOM } from 'driver.js';
 import { UserStorage } from '../../storages/user/user-storage';
 import { I18nService } from './i18n.service';
+import { UserService } from './user.service';
 import { User } from '../../shared/models/new-user.model';
 import {
   FIRST_AGENT_TOUR_SESSION_KEY,
@@ -17,13 +18,15 @@ import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util'
 
 /**
  * Tour spotlight (driver.js) para guiar al usuario a Agentes → Agregar agente la primera vez.
- * - «Saltar» o cerrar (X): no vuelve a mostrarse (localStorage por usuario).
+ * - «Saltar» o cerrar (X): se guarda `firstAgentTourSkipped` en Firestore (vía PUT /users/profile).
+ * - Respaldo: si falla la API, se usa localStorage (`firstAgentTourSkippedKey`) hasta el próximo éxito.
  * - Cerrar el tour sin saltar (botón final «Entendido»): puede volver a mostrarse al iniciar sesión.
  */
 @Injectable({ providedIn: 'root' })
 export class FirstAgentTourService {
   private router = inject(Router);
   private userStorage = inject(UserStorage);
+  private userService = inject(UserService);
   private i18n = inject(I18nService);
   private platformId = inject(PLATFORM_ID);
 
@@ -138,6 +141,10 @@ export class FirstAgentTourService {
   }
 
   private isSkipped(userId: string): boolean {
+    const u = this.userStorage.user();
+    if (u?.userId === userId && u.firstAgentTourSkipped === true) {
+      return true;
+    }
     try {
       return localStorage.getItem(firstAgentTourSkippedKey(userId)) === '1';
     } catch {
@@ -150,11 +157,25 @@ export class FirstAgentTourService {
     if (!uid) {
       return;
     }
-    try {
-      localStorage.setItem(firstAgentTourSkippedKey(uid), '1');
-    } catch {
-      /* ignore */
-    }
+    this.userService
+      .updateUserProfile({ firstAgentTourSkipped: true })
+      .subscribe({
+        next: () => {
+          void this.userStorage.loadUserProfile();
+          try {
+            localStorage.removeItem(firstAgentTourSkippedKey(uid));
+          } catch {
+            /* ignore */
+          }
+        },
+        error: () => {
+          try {
+            localStorage.setItem(firstAgentTourSkippedKey(uid), '1');
+          } catch {
+            /* ignore */
+          }
+        },
+      });
   }
 
   private markSessionTourShown(): void {
