@@ -6,10 +6,11 @@ import {
   OnDestroy,
   OnInit,
   PLATFORM_ID,
+  afterNextRender,
+  isDevMode,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { I18nService } from '../../core/services/i18n.service';
-import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 
 const BODY_CLASS = 'page-shopify-success';
@@ -49,9 +50,29 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: object,
-  ) {}
+  ) {
+    afterNextRender(() => {
+      if (this.isError) {
+        return;
+      }
+      void this.userStorage
+        .loadUserProfile()
+        .then(() => {
+          if (isDevMode()) {
+            console.log(
+              '✅ Perfil de usuario recargado tras conexión Shopify exitosa.',
+            );
+          }
+        })
+        .catch((err: unknown) => {
+          console.error(
+            'Error al recargar el perfil de usuario tras conexión Shopify:',
+            err,
+          );
+        });
+    });
+  }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -67,15 +88,6 @@ export class ShopifySuccessComponent implements OnInit, OnDestroy {
     this.sourceAdmin = params['source'] === 'admin';
     this.sourceOnboarding = params['source'] === 'onboarding';
     this.sourceAccount = params['source'] === 'account';
-
-    if (!this.isError) {
-      // Recargar el perfil del usuario para asegurar que las tiendas Shopify estén actualizadas
-      this.userStorage.loadUserProfile().then(() => {
-        console.log('✅ Perfil de usuario recargado tras conexión Shopify exitosa.');
-      }).catch((err: any) => {
-        console.error('Error al recargar el perfil de usuario tras conexión Shopify:', err);
-      });
-    }
   }
 
   ngOnDestroy(): void {
