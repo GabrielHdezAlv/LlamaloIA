@@ -2091,64 +2091,60 @@ export class MetricsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // 1. Total de llamadas exitosas (100ms)
+    // Orden de aparición = rejilla visible en lg (y la mayor parte de breakpoints):
+    // fila a fila, izquierda → derecha (ver metrics.component.html).
+    const stepMs = 200;
+    const t = (i: number) => 100 + i * stepMs;
+
+    let i = 0;
     setTimeout(() => {
       this.showGraficoLlamadas = true;
-    }, 100);
+    }, t(i++));
 
-    // 2. Total de minutos (300ms)
     setTimeout(() => {
       this.showTotalMinutos = true;
-    }, 300);
+    }, t(i++));
 
-    // 3. Latencia (500ms): barra y bola se animan juntas en 1s
     setTimeout(() => {
       this.showLatencia = true;
       this.cdr.markForCheck();
       setTimeout(() => this.animateLatencyDisplay(), 0);
-    }, 500);
+    }, t(i++));
 
-    // 4. Duración media (700ms): barra y bola se animan juntas en 1s
     setTimeout(() => {
       this.showDuracionMedia = true;
       this.cdr.markForCheck();
       setTimeout(() => this.animateDurationDisplay(), 0);
-    }, 700);
+    }, t(i++));
 
-    // 5. Tipo de llamadas (900ms)
     setTimeout(() => {
       this.showTipoLlamadas = true;
-    }, 900);
+    }, t(i++));
 
-    // 6. Países (1100ms)
-    setTimeout(() => {
-      this.showPaises = true;
-    }, 1100);
-
-    // 7. Estado de ánimo (1300ms)
-    setTimeout(() => {
-      this.showEstadoAnimo = true;
-    }, 1300);
-
-    // 8. Evaluación de éxito (1500ms)
-    setTimeout(() => {
-      this.showEvaluacionExito = true;
-    }, 1500);
-
-    // 9. Razón de finalización de la llamada (1700ms)
-    setTimeout(() => {
-      this.showRazonFinalizacion = true;
-    }, 1700);
-
-    // 10. Horas pico (1900ms)
+    // Fila siguiente: horas pico (cols 1–2) antes que países (col 3)
     setTimeout(() => {
       this.showHorasPico = true;
-    }, 1900);
+    }, t(i++));
 
-    // Agentes Creados (opcional, si existe)
+    setTimeout(() => {
+      this.showPaises = true;
+    }, t(i++));
+
+    setTimeout(() => {
+      this.showEvaluacionExito = true;
+    }, t(i++));
+
+    setTimeout(() => {
+      this.showRazonFinalizacion = true;
+    }, t(i++));
+
+    setTimeout(() => {
+      this.showEstadoAnimo = true;
+    }, t(i++));
+
     setTimeout(() => {
       this.showAgentesCreados = true;
-    }, 2100);
+    }, t(i++));
   }
 
   private showAllSectionsImmediately(): void {

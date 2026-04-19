@@ -812,6 +812,55 @@ html.dark .account-settings nav button:hover span.bg-gray-100:not(.resumen-icon)
   background-color: #ffffff !important;
 }
 
+/*
+ * Cuenta — mat-select País / zona horaria: el panel se renderiza en cdk-overlay (body),
+ * fuera de app-account. Las reglas en account.component.scss no pueden depender del host
+ * para pintar ese panel; aquí se fuerza el mismo gris que los inputs (#111113).
+ */
+html.dark .cdk-overlay-container .account-profile-select-panel.mat-mdc-select-panel {
+  --mat-select-panel-background-color: #111113;
+  --mat-sys-surface: #111113;
+  --mat-sys-surface-container-high: #111113;
+  background-color: #111113 !important;
+  background: #111113 !important;
+  border: 1px solid #262626 !important;
+  border-radius: 0.75rem !important;
+  padding: 0.375rem 0 !important;
+  max-height: min(320px, 55vh) !important;
+  margin-top: 4px !important;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.45),
+    0 2px 10px rgba(0, 0, 0, 0.25) !important;
+  color: #e5e7eb !important;
+}
+
+html.dark .cdk-overlay-container .account-profile-select-panel .mat-mdc-option {
+  color: #e5e7eb !important;
+  background-color: transparent !important;
+}
+
+html.dark .cdk-overlay-container .account-profile-select-panel .mat-mdc-option .mdc-list-item__primary-text {
+  color: #e5e7eb !important;
+}
+
+html.dark .cdk-overlay-container .account-profile-select-panel .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+html.dark .cdk-overlay-container .account-profile-select-panel .mat-mdc-option.mat-mdc-option-active:not(.mdc-list-item--disabled) {
+  background-color: #27272a !important;
+}
+
+html.dark .cdk-overlay-container .account-profile-select-panel .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+  background-color: #3f3f46 !important;
+}
+
+html.dark .cdk-overlay-container .account-profile-select-panel .mat-pseudo-checkbox-minimal,
+html.dark .cdk-overlay-container .account-profile-select-panel .mat-pseudo-checkbox {
+  color: #e5e7eb !important;
+}
+
+html.dark .cdk-overlay-container .account-profile-select-panel .mat-mdc-option .mdc-list-item__overlay {
+  background-color: transparent !important;
+}
+
 /* --- Respetar blanco y negro cuando tú los pones (dark:bg-white, dark:text-white, dark:text-black, etc.) ---
    Los overrides anteriores convierten fondos y textos en gris en dark.
    Si usas las clases dark:... aquí forzamos el color que pides. */
