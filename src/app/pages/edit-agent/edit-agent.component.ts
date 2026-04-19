@@ -44,6 +44,7 @@ import {
   TranscriptMessage,
 } from '../../core/services/voice-test.service';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
 import type {
   TwilioAccount,
   TwilioConfig,
@@ -60,6 +61,14 @@ import {
   of,
 } from 'rxjs';
 import { UserStorage } from '../../storages/user/user-storage';
+import {
+  resolveEffectivePlanSlug,
+  isShopifyIntegrationLockedForPlan,
+} from '../../shared/utils/shopify-plan-lock.util';
+import {
+  WebhookActionsService,
+  type WebhookAction,
+} from '../../core/services/webhook-actions.service';
 
 @Component({
   selector: 'app-edit-agent',
@@ -88,6 +97,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private notificationService = inject(NotificationService);
   private i18nService = inject(I18nService);
+  private webhookActionsService = inject(WebhookActionsService);
   readonly voiceTest = inject(VoiceTestService);
 
   editForm!: FormGroup;
@@ -106,6 +116,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   twilioSectionOpen = false;
   callSectionOpen = true;
   voiceSectionOpen = false;
+
+  /** Listas desplegables custom (Idioma / Voz) en Prueba de agente — evita el select nativo a ancho completo */
+  voiceTestLangOpen = false;
+  voiceTestVoiceOpen = false;
 
   agentKnowledgeSources: KnowledgeSource[] = [];
   isLoadingKnowledgeSources = false;
@@ -141,10 +155,45 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   isSavingTwilioConfig = false;
   twilioAssignError: string | null = null;
 
+  /** Números importados en Twilio disponibles para asignar (mismo criterio que crear agente, excl. otros agentes). */
+  availablePhoneNumbers: Array<{
+    phoneId: number;
+    countryCode: string;
+    number: string;
+    state?: 'Activo' | 'Inactivo';
+    importedBy?: string;
+    twilioAccountId?: number;
+  }> = [];
+  loadingPhoneNumbers = false;
+
   shopifyStores: string[] = [];
   isLoadingShopifyStores = false;
   selectedShopifyDomain = '';
   isSavingShopifyDomain = false;
+
+  /** Número de acciones Make (webhooks) del agente; se actualiza al abrir Conexiones y al cerrar el panel. */
+  makeWebhookActionsCount: number | null = null;
+  makeWebhookCountLoading = false;
+
+  /** Sidebar Make (mismo patrón deslizante que el paso Instrucciones en creación de agente) */
+  showMakeEditSidebar = false;
+  isMakeEditSidebarClosing = false;
+  makeSidebarSavedActions: WebhookAction[] = [];
+  makeSidebarLoading = false;
+  makeSidebarSaving = false;
+  makeSidebarSaveError: string | null = null;
+  makeSidebarForm: { name: string; description: string; serverUrl: string } = {
+    name: '',
+    description: '',
+    serverUrl: '',
+  };
+
+  /** Modal detalle / edición acción Make (vista 4xl compacta del listado) */
+  makeActionDetailForModal: WebhookAction | null = null;
+  makeActionDetailEditForm: { name: string; description: string; serverUrl: string } =
+    { name: '', description: '', serverUrl: '' };
+  makeActionDetailSaving = false;
+  makeActionDetailSaveError: string | null = null;
 
   // Audio
   audioLevel = 0;
@@ -422,14 +471,52 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   setActiveTab(tab: 'main' | 'connections' | 'knowledge'): void {
     this.activeTab = tab;
 
+    if (tab === 'connections') {
+      this.refreshMakeWebhookActionsCount();
+    }
+
     // Load available knowledge sources when switching to knowledge tab
     if (tab === 'knowledge') {
       this.loadAvailableKnowledgeSources();
     }
   }
 
+  /** Cuenta acciones vía GET /agents/:id/webhook-actions (mismo listado que el modal). */
+  refreshMakeWebhookActionsCount(): void {
+    if (!this.agentId) {
+      this.makeWebhookActionsCount = null;
+      return;
+    }
+    this.makeWebhookCountLoading = true;
+    this.webhookActionsService
+      .list(this.agentId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.makeWebhookActionsCount = res.items.length;
+          this.makeWebhookCountLoading = false;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          this.makeWebhookActionsCount = null;
+          this.makeWebhookCountLoading = false;
+          this.cdr.markForCheck();
+        },
+      });
+  }
+
   get agentShopifyDomain(): string | null {
     return this.agent?.shopifyDomain ?? null;
+  }
+
+  /** Gratis / Starter: Shopify bloqueado en UI (Growth+ en API). */
+  get shopifyIntegrationLocked(): boolean {
+    const slug = resolveEffectivePlanSlug(this.userStore.user());
+    return isShopifyIntegrationLockedForPlan(slug);
+  }
+
+  openShopifyLockedUpgradePlan(): void {
+    this.modalService.openUpgradePlan();
   }
 
   get agentTwilioAccountId(): number | null {
@@ -516,6 +603,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.isTwilioValidated = false;
     this.twilioErrorMessage = '';
     this.twilioAssignError = null;
+    this.availablePhoneNumbers = [];
+    this.loadingPhoneNumbers = false;
   }
 
   backToTwilioAccountSelection(): void {
@@ -528,6 +617,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.isTwilioValidated = false;
     this.twilioErrorMessage = '';
     this.twilioAssignError = null;
+    this.availablePhoneNumbers = [];
+    this.loadingPhoneNumbers = false;
   }
 
   validateTwilioConfigInline(): void {
@@ -565,77 +656,165 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         this.twilioSidValidationStatus = 'success';
         this.twilioTokenValidationStatus = 'success';
         this.isTwilioValidated = true;
-        this.loadTwilioInfo();
-
-        if (this.twilioPanelSelectedAccount) {
-          this.assignTwilioAccountToAgent(
-            this.twilioPanelSelectedAccount.twilioAccountId,
-          );
-          return;
-        }
-
-        this.userService
-          .getUserProfile()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe({
-          next: (profile) => {
-            const list = profile.twilio || [];
-            const sid = this.twilioSid.trim();
-            const token = this.twilioToken.trim();
-            let match = list.find(
-              (a) => a.twilioSid === sid && a.twilioToken === token,
-            );
-            if (!match) {
-              match = list.find((a) => a.twilioSid === sid);
-            }
-            if (match) {
-              this.twilioPanelSelectedAccount = match;
-              this.assignTwilioAccountToAgent(match.twilioAccountId);
-            } else {
-              const fromLoaded = this.twilioAccounts.find((a) => a.twilioSid === sid);
-              if (fromLoaded) {
-                this.twilioPanelSelectedAccount = fromLoaded;
-                this.assignTwilioAccountToAgent(fromLoaded.twilioAccountId);
-              } else {
-                this.notificationService.error(
-                  'Cuenta validada pero no se encontró el ID. Recarga e inténtalo de nuevo.',
-                );
-              }
-            }
-          },
-          error: () => {
-            const sid = this.twilioSid.trim();
-            const fromLoaded = this.twilioAccounts.find((a) => a.twilioSid === sid);
-            if (fromLoaded) {
-              this.twilioPanelSelectedAccount = fromLoaded;
-              this.assignTwilioAccountToAgent(fromLoaded.twilioAccountId);
-            } else {
-              this.notificationService.error(
-                'No se pudo obtener el perfil para completar la asignación.',
-              );
-            }
-          },
-        });
+        this.loadTwilioInfo(() => this.resolveTwilioAccountAfterValidation());
       },
       error: (error: unknown) => {
         this.isValidatingTwilio = false;
         this.twilioSidValidationStatus = 'error';
         this.twilioTokenValidationStatus = 'error';
         this.isTwilioValidated = false;
-        let msg =
+        const defaultMsg =
           'Error al validar Twilio. Revisa Account SID y Auth Token.';
-        const err = error as { error?: { message?: string }; message?: string; status?: number };
-        if (err?.error?.message) {
-          msg = err.error.message;
-        } else if (err?.message) {
-          msg = err.message;
-        } else if (err?.status === 401) {
+        const err = error as { status?: number };
+        let msg = getApiErrorMessage(error, defaultMsg);
+        if (msg === defaultMsg && err?.status === 401) {
           msg =
             'Credenciales inválidas. Verifica Account SID y Auth Token.';
         }
         this.twilioErrorMessage = msg;
       },
     });
+  }
+
+  /**
+   * Tras validar credenciales Twilio: fija la cuenta en panel y carga números importados
+   * para elegir o escribir uno (no asigna al agente hasta "Asignar número al agente").
+   */
+  private resolveTwilioAccountAfterValidation(): void {
+    const applyAccount = (acc: TwilioAccount | null): void => {
+      if (!acc?.twilioAccountId) {
+        return;
+      }
+      this.twilioPanelSelectedAccount = acc;
+      this.loadAvailablePhoneNumbersForTwilioPanel();
+    };
+
+    if (this.twilioPanelSelectedAccount?.twilioAccountId != null) {
+      applyAccount(this.twilioPanelSelectedAccount);
+      return;
+    }
+
+    this.userService
+      .getUserProfile()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (profile) => {
+          const list = profile.twilio || [];
+          const sid = this.twilioSid.trim();
+          const token = this.twilioToken.trim();
+          let match = list.find(
+            (a) => a.twilioSid === sid && a.twilioToken === token,
+          );
+          if (!match) {
+            match = list.find((a) => a.twilioSid === sid);
+          }
+          if (match) {
+            applyAccount(match);
+            return;
+          }
+          const fromLoaded = this.twilioAccounts.find((a) => a.twilioSid === sid);
+          if (fromLoaded) {
+            applyAccount(fromLoaded);
+          } else {
+            this.notificationService.error(
+              'Cuenta validada pero no se encontró el ID. Recarga e inténtalo de nuevo.',
+            );
+          }
+        },
+        error: () => {
+          const sid = this.twilioSid.trim();
+          const fromLoaded = this.twilioAccounts.find((a) => a.twilioSid === sid);
+          if (fromLoaded) {
+            applyAccount(fromLoaded);
+          } else {
+            this.notificationService.error(
+              'No se pudo obtener el perfil para completar la selección de cuenta.',
+            );
+          }
+        },
+      });
+  }
+
+  private loadAvailablePhoneNumbersForTwilioPanel(): void {
+    if (!this.twilioPanelSelectedAccount) {
+      this.availablePhoneNumbers = [];
+      return;
+    }
+    this.loadingPhoneNumbers = true;
+    this.userService
+      .getUserProfile()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (profile) => {
+          this.loadingPhoneNumbers = false;
+          const allPhoneNumbers = profile.phoneNumbers || [];
+          const usedByOtherAgents = new Set<string>();
+          if (profile.agents && Array.isArray(profile.agents)) {
+            profile.agents.forEach((agentRow: any) => {
+              const aid = agentRow?.agentId as number | undefined;
+              if (aid != null && aid === this.agentId) {
+                return;
+              }
+              const pn = agentRow?.phoneNumbers as
+                | { countryCode: string; number: string | number }
+                | undefined;
+              if (
+                pn?.countryCode != null &&
+                pn.number != null &&
+                String(pn.number).length > 0
+              ) {
+                usedByOtherAgents.add(`${pn.countryCode}${pn.number}`);
+              }
+            });
+          }
+          const accId = this.twilioPanelSelectedAccount!.twilioAccountId;
+          this.availablePhoneNumbers = allPhoneNumbers.filter((phone) => {
+            if (phone.twilioAccountId !== accId) {
+              return false;
+            }
+            const key = `${phone.countryCode}${phone.number}`;
+            return !usedByOtherAgents.has(key);
+          });
+          setTimeout(() => this.validatePhoneNumber(), 0);
+        },
+        error: () => {
+          this.loadingPhoneNumbers = false;
+          this.availablePhoneNumbers = [];
+        },
+      });
+  }
+
+  onTwilioPanelSelectImportedPhone(phone: {
+    countryCode: string;
+    number: string | number;
+  }): void {
+    const cc = phone.countryCode.startsWith('+')
+      ? phone.countryCode
+      : `+${phone.countryCode}`;
+    const numStr = String(phone.number).replace(/\D/g, '');
+    this.selectedCountryCode = cc;
+    this.editForm.patchValue({
+      countryCode: cc,
+      phoneNumber: numStr,
+    });
+    this.validatePhoneNumber();
+  }
+
+  onTwilioPhoneCountryChange(): void {
+    const v = this.editForm.get('countryCode')?.value;
+    this.selectedCountryCode =
+      typeof v === 'string' && v.startsWith('+') ? v : '+34';
+    this.validatePhoneNumber();
+  }
+
+  /** Listo para confirmar cuenta + número en el agente (tras validar Twilio y el número). */
+  isPhoneReadyForTwilioAssign(): boolean {
+    const raw = this.editForm.get('phoneNumber')?.value;
+    const digits = raw ? String(raw).replace(/\D/g, '') : '';
+    if (!digits) {
+      return false;
+    }
+    return this.phoneIsValid === true;
   }
 
   private resetTwilioPanelAfterAssign(): void {
@@ -649,6 +828,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.twilioTokenValidationStatus = null;
     this.twilioErrorMessage = '';
     this.twilioAssignError = null;
+    this.availablePhoneNumbers = [];
+    this.loadingPhoneNumbers = false;
   }
 
   assignTwilioAccountToAgent(twilioAccountId: number | null): void {
@@ -877,7 +1058,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         firstInteraction: this.agent.firstInteraction || '',
         agentInstruction: this.agent.agentInstruction || '',
         countryCode: this.agent.phoneNumbers?.countryCode || '+34',
-        phoneNumber: this.agent.phoneNumbers?.number || '',
+        phoneNumber: this.agent.phoneNumbers?.number != null
+          ? String(this.agent.phoneNumbers.number)
+          : '',
         label: this.agent.label || '',
         state: this.agent.state || 'Activo',
         stability: this.agent.parameters?.stability ?? 0.5,
@@ -888,6 +1071,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       },
       { emitEvent: false },
     ); // No emitir eventos al poblar el formulario para evitar validaciones innecesarias
+
+    this.selectedCountryCode =
+      this.agent.phoneNumbers?.countryCode || '+34';
 
     // Establecer las variables de idioma seleccionado
     this.selectedLanguageCode = agentLanguage;
@@ -946,6 +1132,47 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.showLanguageMenu = !this.showLanguageMenu;
   }
 
+  toggleVoiceTestLangMenu(event: Event): void {
+    event.stopPropagation();
+    this.voiceTestVoiceOpen = false;
+    this.voiceTestLangOpen = !this.voiceTestLangOpen;
+  }
+
+  toggleVoiceTestVoiceMenu(event: Event): void {
+    event.stopPropagation();
+    this.voiceTestLangOpen = false;
+    this.voiceTestVoiceOpen = !this.voiceTestVoiceOpen;
+  }
+
+  pickVoiceTestLanguage(code: string): void {
+    this.selectLanguage(code);
+    this.voiceTestLangOpen = false;
+  }
+
+  pickVoiceTestVoice(voiceId: string): void {
+    this.editForm.patchValue({ voiceId });
+    this.voiceTestVoiceOpen = false;
+  }
+
+  getVoiceTestLanguageLabel(): string {
+    const code = this.editForm.get('language')?.value;
+    return code ? this.getLanguageName(code) : '—';
+  }
+
+  getVoiceTestVoiceLabel(): string {
+    const id = this.editForm.get('voiceId')?.value;
+    const v = this.voices.find((x) => x.voiceId === id);
+    return v?.name ?? (id ? String(id) : '—');
+  }
+
+  isVoiceTestLanguageSelected(code: string): boolean {
+    return this.editForm.get('language')?.value === code;
+  }
+
+  isVoiceTestVoiceSelected(voiceId: string): boolean {
+    return this.editForm.get('voiceId')?.value === voiceId;
+  }
+
   selectLanguage(languageCode: string) {
     this.selectedLanguageCode = languageCode;
     this.selectedLanguageFlag = this.getLanguageFlag(languageCode);
@@ -981,6 +1208,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (!dropdown && !menu && !menuItem && !languageDropdown) {
       this.showCountryMenu = false;
       this.showLanguageMenu = false;
+    }
+
+    if (!target.closest('[data-voice-test-lang-dropdown]')) {
+      this.voiceTestLangOpen = false;
+    }
+    if (!target.closest('[data-voice-test-voice-dropdown]')) {
+      this.voiceTestVoiceOpen = false;
     }
   }
 
@@ -1260,21 +1494,32 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   }
 
   getVoiceTestAgentStateText(): string {
+    const t = this.t;
     switch (this.voiceTest.agentState()) {
-      case 'thinking': return 'Pensando...';
-      case 'speaking': return 'Hablando...';
-      case 'done': return 'Listo';
-      default: return 'Esperando...';
+      case 'thinking':
+        return t.agentStateThinking;
+      case 'speaking':
+        return t.agentStateSpeaking;
+      case 'done':
+        return t.agentStateDone;
+      default:
+        return t.agentStateWaiting;
     }
   }
 
   getVoiceTestConnectionStateText(): string {
+    const t = this.t;
     switch (this.voiceTest.connectionState()) {
-      case 'connecting': return 'Conectando...';
-      case 'connected': return 'Conectado';
-      case 'error': return 'Error';
-      case 'ended': return 'Finalizado';
-      default: return '';
+      case 'connecting':
+        return t.connectionConnecting;
+      case 'connected':
+        return t.connected;
+      case 'error':
+        return t.statusError;
+      case 'ended':
+        return t.connectionEnded;
+      default:
+        return '';
     }
   }
 
@@ -1545,6 +1790,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   }
 
   goToShopifyOnboarding(): void {
+    if (this.shopifyIntegrationLocked) {
+      this.modalService.openUpgradePlan();
+      return;
+    }
     if (this.agentId) {
       this.router.navigate(['/shopify-onboarding'], { queryParams: { agentId: this.agentId } });
     } else {
@@ -1552,7 +1801,174 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** Abre el panel lateral de acciones Make (webhooks), mismo diseño que en paso Instrucciones. */
+  openMakeEditSidebar(): void {
+    if (!this.agentId) {
+      this.notificationService.error(
+        'No se pudo identificar el agente. Recarga la página e inténtalo de nuevo.',
+      );
+      return;
+    }
+    this.showMakeEditSidebar = true;
+    this.isMakeEditSidebarClosing = false;
+    this.makeSidebarSaveError = null;
+    this.loadMakeSidebarActions();
+  }
+
+  closeMakeEditSidebar(): void {
+    if (!this.showMakeEditSidebar) {
+      return;
+    }
+    this.makeActionDetailForModal = null;
+    this.isMakeEditSidebarClosing = true;
+    window.setTimeout(() => {
+      this.showMakeEditSidebar = false;
+      this.isMakeEditSidebarClosing = false;
+      this.refreshMakeWebhookActionsCount();
+    }, 280);
+  }
+
+  openMakeActionDetailModal(action: WebhookAction): void {
+    this.makeActionDetailForModal = action;
+    this.makeActionDetailEditForm = {
+      name: action.name,
+      description: action.description ?? '',
+      serverUrl: action.webhookUrl,
+    };
+    this.makeActionDetailSaveError = null;
+  }
+
+  closeMakeActionDetailModal(): void {
+    this.makeActionDetailForModal = null;
+    this.makeActionDetailEditForm = { name: '', description: '', serverUrl: '' };
+    this.makeActionDetailSaveError = null;
+    this.makeActionDetailSaving = false;
+  }
+
+  isMakeActionDetailFormValid(): boolean {
+    const n = this.makeActionDetailEditForm.name.trim();
+    const u = this.makeActionDetailEditForm.serverUrl.trim();
+    return n.length >= 2 && u.length >= 12;
+  }
+
+  saveMakeActionDetailModal(): void {
+    if (this.agentId == null || this.makeActionDetailForModal == null) {
+      return;
+    }
+    if (!this.isMakeActionDetailFormValid()) {
+      return;
+    }
+    this.makeActionDetailSaving = true;
+    this.makeActionDetailSaveError = null;
+    const actionId = this.makeActionDetailForModal.id;
+    this.webhookActionsService
+      .update(this.agentId, actionId, {
+        name: this.makeActionDetailEditForm.name.trim(),
+        description: this.makeActionDetailEditForm.description.trim(),
+        webhookUrl: this.makeActionDetailEditForm.serverUrl.trim(),
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.makeActionDetailSaving = false;
+          this.notificationService.success('Acción actualizada');
+          this.closeMakeActionDetailModal();
+          this.loadMakeSidebarActions();
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.makeActionDetailSaving = false;
+          this.makeActionDetailSaveError =
+            err?.error?.message ||
+            'No se pudo guardar. Revisa la URL (HTTPS) y los límites de tu plan.';
+        },
+      });
+  }
+
+  private loadMakeSidebarActions(): void {
+    if (this.agentId == null) {
+      return;
+    }
+    this.makeSidebarLoading = true;
+    this.makeSidebarSaveError = null;
+    this.webhookActionsService
+      .list(this.agentId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res) => {
+          this.makeSidebarSavedActions = res.items;
+          this.makeSidebarLoading = false;
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.makeSidebarLoading = false;
+          this.makeSidebarSaveError =
+            err?.error?.message ||
+            'No se pudieron cargar las acciones. Comprueba tu plan.';
+        },
+      });
+  }
+
+  isMakeSidebarFormValid(): boolean {
+    const n = this.makeSidebarForm.name.trim();
+    const u = this.makeSidebarForm.serverUrl.trim();
+    return n.length >= 2 && u.length >= 12;
+  }
+
+  saveMakeSidebarAction(): void {
+    if (this.agentId == null) {
+      this.notificationService.error('No se pudo identificar el agente.');
+      return;
+    }
+    if (!this.isMakeSidebarFormValid()) {
+      return;
+    }
+    this.makeSidebarSaving = true;
+    this.makeSidebarSaveError = null;
+    this.webhookActionsService
+      .create(this.agentId, {
+        name: this.makeSidebarForm.name.trim(),
+        description: this.makeSidebarForm.description.trim(),
+        webhookUrl: this.makeSidebarForm.serverUrl.trim(),
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.makeSidebarSaving = false;
+          this.notificationService.success('Acción guardada');
+          this.makeSidebarForm = { name: '', description: '', serverUrl: '' };
+          this.loadMakeSidebarActions();
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.makeSidebarSaving = false;
+          this.makeSidebarSaveError =
+            err?.error?.message ||
+            'No se pudo guardar. Revisa la URL (HTTPS) y los límites de tu plan.';
+        },
+      });
+  }
+
+  removeMakeSidebarAction(id: string, event: Event): void {
+    event.preventDefault();
+    if (this.agentId == null) {
+      return;
+    }
+    this.webhookActionsService
+      .delete(this.agentId, id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.notificationService.success('Acción eliminada');
+          this.loadMakeSidebarActions();
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.notificationService.error(
+            err?.error?.message || 'No se pudo eliminar la acción.',
+          );
+        },
+      });
+  }
+
   unlinkShopify(): void {
+    if (this.shopifyIntegrationLocked) return;
     if (!this.agentId || !this.agentShopifyDomain) return;
 
     this.modalService
@@ -1659,7 +2075,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           this.isValidatingPhone = true;
           this.phoneIsValid = null;
           this.phoneValidationMessage = '';
-          return this.twilioService.validatePhone(countryCode, number).pipe(
+          const twilioAid =
+            this.twilioPanelSelectedAccount?.twilioAccountId ??
+            this.agentTwilioAccountId ??
+            undefined;
+          return this.twilioService
+            .validatePhone(countryCode, number, twilioAid)
+            .pipe(
             catchError((error) => {
               // Manejar el error y devolver un observable que permita continuar
               console.error('❌ Error al validar teléfono:', error);

@@ -33,6 +33,7 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
+              "node_modules/driver.js/dist/driver.css",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
@@ -51,8 +52,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2.5MB",
-                  "maximumError": "3MB"
+                  "maximumWarning": "3.3mb",
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -72,8 +73,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2.5MB",
-                  "maximumError": "3MB"
+                  "maximumWarning": "3.3mb",
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -93,8 +94,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2.5MB",
-                  "maximumError": "3MB"
+                  "maximumWarning": "3.3mb",
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -114,8 +115,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2.5MB",
-                  "maximumError": "3MB"
+                  "maximumWarning": "3.3mb",
+                  "maximumError": "3.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -135,6 +136,17 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "new-dev": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development-new-dev.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -147,6 +159,9 @@
             },
             "development": {
               "buildTarget": "llamaloIO:build:development"
+            },
+            "new-dev": {
+              "buildTarget": "llamaloIO:build:new-dev"
             }
           },
           "defaultConfiguration": "development",
@@ -173,6 +188,7 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
+              "node_modules/driver.js/dist/driver.css",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {

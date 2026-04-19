@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Data, Router, RouterModule } from '@angular/router';
 import {
   FormsModule,
   FormBuilder,
@@ -23,6 +23,14 @@ import { I18nService, Language } from '../../core/services/i18n.service';
 import { take } from 'rxjs/operators';
 import { FirebaseTokenRefreshService } from '../../core/services/firebase-token-refresh.service';
 import { environment } from '../../../environments/environment';
+import { allowsAuthRegistrationAndGoogle } from '../../core/utils/auth-host-features';
+import { getOrCreateDeviceId } from '../../core/utils/device-id';
+import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
+import { signInWithPopup } from 'firebase/auth';
+import {
+  firebaseAuth,
+  googleProvider,
+} from '../../core/services/firebase.config';
 
 @Component({
   selector: 'app-auth-form',
@@ -82,29 +90,65 @@ export class AuthFormComponent implements OnInit {
     return this.i18nService.getTranslations();
   }
 
+  /** Registro y Google en localhost, dev.llamalo.ai y preprod.llamalo.ai; no en app (prod). */
+  get authLocalFeatures(): boolean {
+    if (!isPlatformBrowser(this.platformId)) {
+      return false;
+    }
+    return allowsAuthRegistrationAndGoogle();
+  }
+
   get title(): string {
     if (this.routeTitle !== undefined && this.routeTitle !== '') {
       return this.routeTitle;
     }
-    return this.t.authWelcomeBack;
+    switch (this.type) {
+      case 'register':
+        return this.t.authWelcomeRegister;
+      case 'recover':
+        return this.t.authWelcomeRecover;
+      default:
+        return this.t.authWelcomeBack;
+    }
   }
   get formTitle(): string {
     if (this.routeFormTitle !== undefined && this.routeFormTitle !== '') {
       return this.routeFormTitle;
     }
-    return this.t.authLoginTitle;
+    switch (this.type) {
+      case 'register':
+        return this.t.authRegisterTitle;
+      case 'recover':
+        return this.t.authRecoverTitle;
+      default:
+        return this.t.authLoginTitle;
+    }
   }
   get formSubtitle(): string {
     if (this.routeFormSubtitle !== undefined && this.routeFormSubtitle !== '') {
       return this.routeFormSubtitle;
     }
-    return this.t.authLoginSubtitle;
+    switch (this.type) {
+      case 'register':
+        return this.t.authRegisterSubtitle;
+      case 'recover':
+        return this.t.authRecoverSubtitle;
+      default:
+        return this.t.authLoginSubtitle;
+    }
   }
   get buttonText(): string {
     if (this.routeButtonText !== undefined && this.routeButtonText !== '') {
       return this.routeButtonText;
     }
-    return this.t.authLoginButton;
+    switch (this.type) {
+      case 'register':
+        return this.t.authRegisterButton;
+      case 'recover':
+        return this.t.authRecoverButton;
+      default:
+        return this.t.authLoginButton;
+    }
   }
 
   get countries() {
@@ -128,22 +172,25 @@ export class AuthFormComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private firebaseTokenRefresh = inject(FirebaseTokenRefreshService);
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
+
+  private applyRouteData(data: Data): void {
+    this.type = (data['type'] as 'login' | 'register' | 'recover') ?? 'login';
+    this.linkRoute = data['linkRoute'] ?? '';
+    this.bottomLinkRoute = data['bottomLinkRoute'] ?? '';
+    this.subtitle = data['subtitle'] ?? '';
+    this.linkText = data['linkText'] ?? '';
+    this.bottomText = data['bottomText'] ?? '';
+    this.bottomLinkText = data['bottomLinkText'] ?? '';
+    this.routeTitle = data['title'];
+    this.routeFormTitle = data['formTitle'];
+    this.routeFormSubtitle = data['formSubtitle'];
+    this.routeButtonText = data['buttonText'];
+  }
 
   ngOnInit(): void {
-    this.route.data.subscribe((data) => {
-      this.type = data['type'] ?? 'login';
-      this.linkRoute = data['linkRoute'] ?? '';
-      this.bottomLinkRoute = data['bottomLinkRoute'] ?? '';
-      this.subtitle = data['subtitle'] ?? '';
-      this.linkText = data['linkText'] ?? '';
-      this.bottomText = data['bottomText'] ?? '';
-      this.bottomLinkText = data['bottomLinkText'] ?? '';
-      this.routeTitle = data['title'];
-      this.routeFormTitle = data['formTitle'];
-      this.routeFormSubtitle = data['formSubtitle'];
-      this.routeButtonText = data['buttonText'];
-    });
+    this.applyRouteData(this.route.snapshot.data);
+    this.route.data.subscribe((data) => this.applyRouteData(data));
 
     this.route.queryParams.pipe(take(1)).subscribe((params) => {
       if (
@@ -188,7 +235,8 @@ export class AuthFormComponent implements OnInit {
       return;
     }
 
-    const user = new LoginUser(this.email, this.password);
+    const deviceId = getOrCreateDeviceId();
+    const user = new LoginUser(this.email, this.password, deviceId);
     this.setGlobalLoading(true);
 
     this.userService.LoginUser(user).subscribe({
@@ -202,9 +250,29 @@ export class AuthFormComponent implements OnInit {
       },
       error: (err: { status?: number; error?: { message?: string } }) => {
         console.error('❌ Error en inicio de sesión:', err);
-        const msg = String(err?.error?.message ?? '');
+        const errBody = err?.error as
+          | { code?: string; message?: string }
+          | undefined;
+        if (errBody?.code === 'DEVICE_VERIFICATION_REQUIRED') {
+          this.notificationService.info(
+            'Introduce el código que te enviamos por correo para confirmar este dispositivo.',
+          );
+          setTimeout(() => {
+            if (isPlatformBrowser(this.platformId)) {
+              this.modalService.openEmailVerification({
+                email: this.email,
+                password: this.password,
+                mode: 'device',
+              });
+            }
+          }, 400);
+          this.setGlobalLoading(false);
+          return;
+        }
+        const msg = String(errBody?.message ?? '');
         const lower = msg.toLowerCase();
         if (
+          environment.skipEmailVerification !== true &&
           err?.status === 401 &&
           (lower.includes('verificar') ||
             lower.includes('verify') ||
@@ -231,30 +299,39 @@ export class AuthFormComponent implements OnInit {
     });
   }
 
-  // Factorizado de cargar perfil y navegar tras login con email
+  private applyUserProfileToStores(data: any): void {
+    this.userStorage.setUser(data);
+    if (data.twilio && Array.isArray(data.twilio) && data.twilio.length > 0) {
+      const firstAccount = data.twilio[0];
+      this.twilioStorage.setConfig({
+        twilioAccountId: firstAccount.twilioAccountId,
+        twilioSid: firstAccount.twilioSid,
+        twilioToken: firstAccount.twilioToken,
+      });
+    }
+  }
+
   private loadProfileAndNavigate() {
     this.userService.getUserProfile().subscribe({
       next: (data: any) => {
-        this.userStorage.setUser(data);
-        if (
-          data.twilio &&
-          Array.isArray(data.twilio) &&
-          data.twilio.length > 0
-        ) {
-          const firstAccount = data.twilio[0];
-          this.twilioStorage.setConfig({
-            twilioAccountId: firstAccount.twilioAccountId,
-            twilioSid: firstAccount.twilioSid,
-            twilioToken: firstAccount.twilioToken,
-          });
-        }
+        this.applyUserProfileToStores(data);
 
         this.notificationService.success(this.t.authSuccessLogin);
 
-        const redirectUrl =
-          data.rol === USER_ROLE.OWNER ? '/admin/agents/edit/1' : '/dashboard';
+        let redirectUrl: string;
+        if (data.rol === USER_ROLE.OWNER) {
+          redirectUrl = '/admin/agents/edit/1';
+        } else if (
+          data.hasCompletedSetup !== true &&
+          !requiresSubscriptionPaywall(data)
+        ) {
+          redirectUrl = '/company-setup';
+        } else {
+          redirectUrl = '/dashboard';
+        }
+
         setTimeout(() => {
-          this.router.navigate([redirectUrl]);
+          void this.router.navigate([redirectUrl]);
           this.setGlobalLoading(false);
         }, 2000);
       },
@@ -265,7 +342,6 @@ export class AuthFormComponent implements OnInit {
       },
     });
   }
-
 
   register(event: Event) {
     event.preventDefault();
@@ -300,6 +376,7 @@ export class AuthFormComponent implements OnInit {
     this.userService.RegisterUser(user).subscribe({
       next: (res: {
         verificationEmailSent?: boolean;
+        emailVerificationRequired?: boolean;
         token?: string;
         refreshToken?: string;
       }) => {
@@ -310,20 +387,43 @@ export class AuthFormComponent implements OnInit {
           });
           this.firebaseTokenRefresh.start();
         }
-        if (res?.verificationEmailSent === false) {
-          this.notificationService.warning(
-            'No pudimos enviar el correo de verificación. Usa «Reenviar código» en la ventana que se abre o revisa la carpeta de spam. Si el problema continúa, contacta con soporte.',
-          );
-        } else {
-          this.notificationService.info(
-            'Revisa tu correo para el código de verificación.',
-          );
-        }
-        setTimeout(() => {
-          if (isPlatformBrowser(this.platformId)) {
-            this.modalService.openEmailVerification({ email: this.email });
+
+        const verificationRequired =
+          res?.emailVerificationRequired === true &&
+          environment.skipEmailVerification !== true;
+
+        if (verificationRequired) {
+          if (!isPlatformBrowser(this.platformId)) {
+            return;
           }
-        }, 600);
+          if (res?.verificationEmailSent === false) {
+            this.notificationService.warning(
+              'No pudimos enviar el correo de verificación. Usa «Reenviar código» en la ventana que se abre o revisa la carpeta de spam. Si el problema continúa, contacta con soporte.',
+            );
+          } else {
+            this.notificationService.info(
+              'Revisa tu correo para el código de verificación.',
+            );
+          }
+          this.modalService.openEmailVerification({ email: this.email });
+          return;
+        }
+
+        this.userService.getUserProfile().subscribe({
+          next: (data) => {
+            this.applyUserProfileToStores(data);
+            setTimeout(() => {
+              if (!isPlatformBrowser(this.platformId)) {
+                return;
+              }
+              void this.router.navigate(['/company-setup']);
+              this.notificationService.success(this.t.authSuccessRegisterNoPin);
+            }, 400);
+          },
+          error: () => {
+            this.notificationService.error(this.t.authErrorGetProfile);
+          },
+        });
       },
       error: (err) => {
         this.notificationService.error(this.t.authErrorRegister);
@@ -333,16 +433,65 @@ export class AuthFormComponent implements OnInit {
 
   recover(event: Event) {
     event.preventDefault();
-    if (!this.email) {
+    if (!this.email?.trim()) {
       this.notificationService.error(this.t.authErrorRecoverEmail);
       return;
     }
-    // Aquí se podría llamar a un endpoint real de recuperación
-    this.notificationService.success(this.t.authSuccessRecover);
+    this.setGlobalLoading(true);
+    this.userService.requestPasswordReset(this.email.trim()).subscribe({
+      next: () => {
+        this.notificationService.success(this.t.authSuccessRecover);
+        this.setGlobalLoading(false);
+      },
+      error: (err: { error?: { message?: string }; message?: string }) => {
+        console.error('❌ Error solicitud recuperación:', err);
+        const msg =
+          (typeof err?.error?.message === 'string' && err.error.message) ||
+          (typeof err?.message === 'string' && err.message) ||
+          this.t.authErrorRecoverRequest;
+        this.notificationService.error(msg);
+        this.setGlobalLoading(false);
+      },
+    });
   }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+  }
+
+  loginWithGoogle(): void {
+    if (!this.authLocalFeatures) {
+      return;
+    }
+    this.setGlobalLoading(true);
+    signInWithPopup(firebaseAuth, googleProvider)
+      .then((cred) => cred.user.getIdToken())
+      .then((idToken) => {
+        this.userService.LoginWithGoogle(idToken).subscribe({
+          next: (response: { token: string; refreshToken?: string }) => {
+            this.firebaseTokenRefresh.persistSessionTokensFromApi(response);
+            this.firebaseTokenRefresh.start();
+            this.loadProfileAndNavigate();
+          },
+          error: () => {
+            this.notificationService.error(this.t.authErrorGoogleLogin);
+            this.setGlobalLoading(false);
+          },
+        });
+      })
+      .catch((err: { code?: string }) => {
+        const code = err?.code ?? '';
+        if (
+          code === 'auth/popup-closed-by-user' ||
+          code === 'auth/cancelled-popup-request'
+        ) {
+          this.setGlobalLoading(false);
+          return;
+        }
+        console.error('Google sign-in:', err);
+        this.notificationService.error(this.t.authErrorGoogleLogin);
+        this.setGlobalLoading(false);
+      });
   }
 
   private setGlobalLoading(isLoading: boolean) {

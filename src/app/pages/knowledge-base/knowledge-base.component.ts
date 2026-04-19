@@ -64,6 +64,10 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
   private processingPollTimer: ReturnType<typeof setInterval> | null = null;
   private readonly processingPollIntervalMs = 4000;
 
+  /** Tras el primer GET exitoso no se notifican transiciones (evita spam al entrar en la página). */
+  private knowledgeStatusSnapshotInitialized = false;
+  private knowledgeStatusById = new Map<string, string>();
+
   clearError(): void {
     this.error = null;
   }
@@ -122,6 +126,10 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
     }
 
     this.knowledgeSources.push(validSource);
+    this.knowledgeStatusById.set(
+      validSource.id,
+      this.normalizeKnowledgeStatusValue(validSource.status),
+    );
     if (isPlatformBrowser(this.platformId)) {
       this.syncProcessingStatusPoll();
       this.scheduleListScrollFadeSync();
@@ -244,6 +252,9 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
           }));
 
         this.isLoading = false;
+        this.handleKnowledgeSourcesLoadedForStatusTransitions(
+          this.knowledgeSources,
+        );
         this.cdr.detectChanges();
         if (isPlatformBrowser(this.platformId)) {
           this.syncProcessingStatusPoll();
@@ -295,6 +306,65 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
     this.processingPollTimer = setInterval(() => {
       this.loadKnowledgeSources({ silent: true });
     }, this.processingPollIntervalMs);
+  }
+
+  private normalizeKnowledgeStatusValue(status: unknown): string {
+    return String(status ?? '').toLowerCase();
+  }
+
+  private knowledgeStatusMeansProcessing(status: string): boolean {
+    return status === 'processing' || status === 'pending';
+  }
+
+  private knowledgeStatusMeansReady(status: string): boolean {
+    return status === 'completed' || status === 'ready';
+  }
+
+  private rebuildKnowledgeStatusSnapshot(sources: KnowledgeSource[]): void {
+    this.knowledgeStatusById.clear();
+    for (const s of sources) {
+      this.knowledgeStatusById.set(
+        s.id,
+        this.normalizeKnowledgeStatusValue(s.status),
+      );
+    }
+  }
+
+  /**
+   * Notifica cuando un documento pasa de processing/pending a completed/ready
+   * (subida nueva, reindexado tras edición o polling).
+   */
+  private handleKnowledgeSourcesLoadedForStatusTransitions(
+    sources: KnowledgeSource[],
+  ): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      this.rebuildKnowledgeStatusSnapshot(sources);
+      this.knowledgeStatusSnapshotInitialized = true;
+      return;
+    }
+    if (!this.knowledgeStatusSnapshotInitialized) {
+      this.rebuildKnowledgeStatusSnapshot(sources);
+      this.knowledgeStatusSnapshotInitialized = true;
+      return;
+    }
+    const prev = this.knowledgeStatusById;
+    for (const s of sources) {
+      const before = prev.get(s.id);
+      const now = this.normalizeKnowledgeStatusValue(s.status);
+      if (
+        before !== undefined &&
+        this.knowledgeStatusMeansProcessing(before) &&
+        this.knowledgeStatusMeansReady(now)
+      ) {
+        const name = (s.name || this.t.noName).toString();
+        const msg = this.t.knowledgeDocumentProcessingComplete.replace(
+          /\{\{name\}\}/g,
+          name,
+        );
+        this.notificationService.success(msg);
+      }
+    }
+    this.rebuildKnowledgeStatusSnapshot(sources);
   }
 
   refreshKnowledgeSources(): void {
@@ -494,6 +564,27 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
     return false;
   }
 
+  /**
+   * Columnas 1–2 del grid de acciones: si no hay descarga, el lápiz va a la columna 2 (sin hueco en medio).
+   */
+  getKnowledgeActionSlots(source: KnowledgeSource): {
+    col1: 'edit' | null;
+    col2: 'edit' | 'download' | null;
+  } {
+    const hasEdit = this.showEditButtonForSource(source);
+    const hasDownload = this.showDownloadForSource(source);
+    if (hasEdit && hasDownload) {
+      return { col1: 'edit', col2: 'download' };
+    }
+    if (hasEdit && !hasDownload) {
+      return { col1: null, col2: 'edit' };
+    }
+    if (!hasEdit && hasDownload) {
+      return { col1: null, col2: 'download' };
+    }
+    return { col1: null, col2: null };
+  }
+
   private normalizeHasDownloadableContent(source: KnowledgeSource): boolean {
     if (typeof source.hasDownloadableContent === 'boolean') {
       return source.hasDownloadableContent;
@@ -610,6 +701,10 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
                       : !!s.hasDownloadableContent,
                 }
               : s,
+          );
+          this.knowledgeStatusById.set(
+            id,
+            this.normalizeKnowledgeStatusValue(updated.status),
           );
         } else {
           this.loadKnowledgeSources();
@@ -758,7 +853,7 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
       if (!confirmed) {
         return;
       }
-      this.performDeleteKnowledgeSource(source.id);
+      this.performDeleteKnowledgeSource(source);
     });
   }
 
@@ -774,18 +869,30 @@ export class KnowledgeBaseComponent implements AfterViewInit, OnInit, OnDestroy 
     );
   }
 
-  private performDeleteKnowledgeSource(id: string): void {
+  private performDeleteKnowledgeSource(source: KnowledgeSource): void {
+    const id = source.id;
+    const deletedName = (source.name ?? this.t.noName).toString();
     this.deletingKnowledgeSourceId = id;
     this.cdr.detectChanges();
 
     this.knowledgeBaseService.deleteKnowledgeSource(id).subscribe({
       next: () => {
+        this.knowledgeStatusById.delete(id);
         this.knowledgeSources = this.knowledgeSources.filter(
-          (source) => source.id !== id,
+          (s) => s.id !== id,
         );
         this.deletingKnowledgeSourceId = null;
         this.cdr.detectChanges();
         if (isPlatformBrowser(this.platformId)) {
+          this.modalService.openWarning({
+            title: '',
+            message: this.t.knowledgeBaseDeletedSuccess.replace(
+              /\{\{name\}\}/g,
+              deletedName,
+            ),
+            confirmText: this.t.close,
+            showCancelButton: false,
+          });
           this.syncProcessingStatusPoll();
           this.scheduleListScrollFadeSync();
         }

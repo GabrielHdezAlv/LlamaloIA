@@ -853,7 +853,29 @@
     } @else {
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div
-        class="bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col">
+        class="relative bg-white dark:bg-[#252525] rounded-xl p-6 border border-gray-200 dark:border-gray-800/50 shadow-sm dark:shadow-none flex flex-col overflow-hidden">
+        @if (shopifyIntegrationLocked) {
+          <div
+            class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 rounded-xl bg-white/88 dark:bg-zinc-900/92 backdrop-blur-[2px] px-4 py-5 text-center pointer-events-auto"
+            (click)="$event.stopPropagation()"
+          >
+            <p class="text-xs sm:text-sm font-semibold text-gray-900 dark:text-slate-100 max-w-[16rem] leading-snug">
+              {{ t.shopifyIntegrationLockedMessage }}
+            </p>
+            <button
+              type="button"
+              (click)="openShopifyLockedUpgradePlan()"
+              class="px-3.5 py-2 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-gray-900 text-xs font-semibold transition-colors"
+            >
+              {{ t.upgradePlan }}
+            </button>
+          </div>
+        }
+        <div
+          [class.opacity-45]="shopifyIntegrationLocked"
+          [class.pointer-events-none]="shopifyIntegrationLocked"
+          class="flex flex-col flex-1"
+        >
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
             Shopify
@@ -877,6 +899,7 @@
           class="mt-auto w-full px-4 pt-2.5 pb-2.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-semibold rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-sm">
           Añadir nueva
         </button>
+        </div>
       </div>
 
       <div

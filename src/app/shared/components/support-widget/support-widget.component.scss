@@ -10,7 +10,7 @@
 
     .widget-container {
         background: #f8fafc;
-        border-radius: 16px;
+        border-radius: 20px;
         box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);
         display: flex;
         flex-direction: column;
@@ -162,6 +162,14 @@
                 justify-content: center;
                 align-items: center;
                 width: 150%;
+
+                .ai-sphere-anchor {
+                    position: absolute;
+                    top: 65%;
+                    left: 50%;
+                    transform: translate(-50%, -45%) scale(1);
+                    pointer-events: none;
+                }
             }
 
             .controls-wrapper {
@@ -295,9 +303,11 @@
 
         .launcher-tooltip {
             position: absolute;
-            bottom: calc(100% + 10px);
-            left: 50%;
-            transform: translateX(-50%) translateY(10px) scale(0.92);
+            top: 50%;
+            right: calc(100% + 10px);
+            left: auto;
+            bottom: auto;
+            transform: translateY(-50%) translateX(10px) scale(0.92);
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(8px);
             color: #0f172a;
@@ -318,7 +328,7 @@
         &:hover .launcher-tooltip {
             opacity: 1;
             visibility: visible;
-            transform: translateX(-50%) translateY(0) scale(1);
+            transform: translateY(-50%) translateX(0) scale(1);
         }
 
         .launcher-sphere-wrapper {
@@ -683,6 +693,54 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Pantallas muy anchas (4xl = 2500px en tailwind.config): Xenon más grande */
+@media (min-width: 2500px) {
+    .support-widget {
+        bottom: 32px;
+        right: 32px;
+        gap: 20px;
+
+        .widget-container .widget-content {
+            padding: 28px 28px 18px;
+
+            .widget-header .header-text {
+                .widget-title {
+                    font-size: 18px;
+                }
+
+                .widget-subtitle {
+                    font-size: 12px;
+                }
+            }
+
+            .sphere-wrapper .ai-sphere-anchor {
+                transform: translate(-50%, -45%) scale(1.2);
+            }
+
+            .controls-wrapper {
+                .buttons-row {
+                    gap: 20px;
+                }
+
+                .mic-btn,
+                .action-btn {
+                    width: 60px;
+                    height: 60px;
+                }
+            }
+        }
+
+        .launcher {
+            width: 76px;
+            height: 76px;
+
+            .launcher-sphere-wrapper app-ai-sphere {
+                transform: scale(0.5);
+            }
+        }
     }
 }
 

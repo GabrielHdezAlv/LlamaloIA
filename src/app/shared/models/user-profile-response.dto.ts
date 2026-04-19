@@ -18,9 +18,13 @@ export interface UserProfileResponseDto {
   accountStatus?: number; // ⬅️ NUEVO: Incluido en respuestas (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
   rol?: USER_ROLE; // ⬅️ NUEVO: Incluido en respuestas (owner/client_user)
   hasCompletedSetup?: boolean;
+  /** Tour «primer agente»: omitido (Saltar/cerrar), persistido en Firestore. */
+  firstAgentTourSkipped?: boolean;
   scheduledDeletionDate?: string | null; // Fecha programada para eliminación (ISO string)
   plan?: string; // ⬅️ NUEVO: Plan de suscripción
   minutesLimit?: number; // ⬅️ NUEVO: Límite de minutos asignados al usuario
+  /** Precio EUR por minuto extra según plan efectivo */
+  extraPerMinuteEur?: number;
   extraMinutes?: number; // ⬅️ NUEVO: Minutos extra asignados al usuario
   minutesByMonth?: Record<string, number>; // ⬅️ NUEVO: Historial de minutos por mes (YYYY-MM)
   redeemedRewards?: string[]; // Recompensas canjeadas
@@ -36,6 +40,7 @@ export interface UserProfileResponseDto {
       storageTotalMb: number;
       maxDocSizeMb: number;
       betaAccess: boolean;
+      extraPerMinuteEur?: number;
     };
     agentsCount: number;
     webSourcesCount: number;
@@ -44,6 +49,12 @@ export interface UserProfileResponseDto {
   };
   stripeCustomerId?: string | null;
   stripeSubscriptionId?: string | null;
+  stripeSubscriptionStatus?: string | null;
+  billingChurnLocked?: boolean;
+  stripeStarterTrialEligible?: boolean;
+  planSelectionCompleted?: boolean;
+  /** Zona IANA para métricas (semana/mes de negocio); por defecto Europe/Madrid */
+  metricsCalendarTimezone?: string;
   createdAt?: string | null; // Fecha formateada en español (ej: "12 de octubre de 2025, 10:30:45")
   twilio?: TwilioAccount[]; // ⚠️ ACTUALIZADO: ahora es un array
   agent?: {

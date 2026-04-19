@@ -5,6 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 import { TwilioDetailedMetrics } from '../../shared/models/twilio-detailed-metrics.model';
 import { environment } from '../../../environments/environment';
+import { X_HANDLES_PLAN_403 } from '../http/plan-403.headers';
 
 @Injectable({
   providedIn: 'root',
@@ -87,8 +88,7 @@ export class MetricsService {
       url += `?twilioAccountId=${twilioAccountId}`;
     }
 
-    return this.http.get<TwilioDetailedMetrics>(url, {
-      headers: this.getAuthHeaders(),
-    });
+    const headers = this.getAuthHeaders().set(X_HANDLES_PLAN_403, '1');
+    return this.http.get<TwilioDetailedMetrics>(url, { headers });
   }
 }

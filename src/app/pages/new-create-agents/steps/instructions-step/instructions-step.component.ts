@@ -22,8 +22,8 @@ export class InstructionsStepComponent {
   @Input() makeActionActive = false;
   /** Webhook generado tras guardar (mock). */
   @Input() makeGeneratedWebhook = '';
-  /** Make desactivado en UI (próximamente). */
-  @Input() makeIntegrationComingSoon = true;
+  /** Si true, Make se muestra como no disponible (solo lectura). */
+  @Input() makeIntegrationComingSoon = false;
   @Input() showGeneratePromptModal = false;
   @Input() isGeneratePromptDropdownClosing = false;
   @Input() promptDescription = '';

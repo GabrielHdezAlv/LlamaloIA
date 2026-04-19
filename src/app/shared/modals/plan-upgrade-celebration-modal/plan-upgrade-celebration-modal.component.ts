@@ -15,6 +15,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import confetti from 'canvas-confetti';
 import { I18nService } from '../../../core/services/i18n.service';
+import { FirstAgentTourService } from '../../../core/services/first-agent-tour.service';
 import type { PaidUpgradePlanId } from '../upgrade-plan-modal/pricing-plan-features';
 
 export type PlanUpgradeCelebrationPlan = PaidUpgradePlanId;
@@ -54,6 +55,7 @@ const CONFETTI_SECOND_BURST_MS = 160;
 export class PlanUpgradeCelebrationModalComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly planData = inject<PlanUpgradeCelebrationModalData>(MAT_DIALOG_DATA);
   private readonly i18nService = inject(I18nService);
+  private readonly firstAgentTour = inject(FirstAgentTourService);
   private readonly router = inject(Router);
   private readonly platformId = inject(PLATFORM_ID);
   dialogRef = inject(MatDialogRef<PlanUpgradeCelebrationModalComponent>);
@@ -137,6 +139,7 @@ export class PlanUpgradeCelebrationModalComponent implements OnInit, AfterViewIn
     if (this.closing) {
       return;
     }
+    this.firstAgentTour.notifyPlanCelebrationAccepted();
     this.closing = true;
     const el = this.modalShell()?.nativeElement;
     el?.classList.add('plan-celebration-shell--leave');

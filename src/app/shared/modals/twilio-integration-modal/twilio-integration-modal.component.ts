@@ -24,6 +24,7 @@ import {
 } from '../../../shared/models/twilio-config.model';
 import { TwilioStorage } from '../../../storages/twilio/twilio-storage';
 import { TwilioService } from '../../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../../core/utils/api-error-message';
 import { I18nService } from '../../../core/services/i18n.service';
 import { NotificationService } from '../../../core/services/notification.service';
 
@@ -152,17 +153,14 @@ export class TwilioIntegrationModalComponent implements OnInit {
       next: () => {
         this.dialogRef.close(configForStorage);
       },
-      error: (error) => {
+      error: (error: unknown) => {
         console.error('Error al guardar la configuración:', error);
-        
-        let errorMessage = 'Error al guardar la configuración. Revisa tus credenciales.';
-        if (error.error && error.error.message) {
-          errorMessage = error.error.message;
-        } else if (typeof error.error === 'string') {
-          errorMessage = error.error;
-        }
-        
-        this.notificationService.error(errorMessage);
+        this.notificationService.error(
+          getApiErrorMessage(
+            error,
+            'Error al guardar la configuración. Revisa tus credenciales.',
+          ),
+        );
       },
     });
   }

@@ -1,36 +1,93 @@
-<div class="flex flex-col lg:flex-row h-screen bg-white lg:bg-gray-50 dark:bg-[#020617] lg:dark:bg-[#020617] relative">
+<div
+  class="flex flex-col lg:flex-row h-screen bg-white lg:bg-gray-50 dark:bg-[#020617] lg:dark:bg-[#020617] relative"
+>
   <!-- Desktop: Left Side - Welcome Section (hidden on mobile) -->
   <div
-    class="hidden lg:flex w-full lg:w-1/2 relative items-center justify-center bg-cover bg-center rounded-br-[80px] overflow-hidden bg-[url('/assets/fondo_sesion.webp')] dark:bg-[#020617] dark:bg-[url('/assets/fondo_modo_oscuro3.webp')]">
-    <div class="relative text-center z-10 p-6 lg:p-12">
+    class="hidden lg:flex w-full lg:w-1/2 relative items-center justify-center bg-cover bg-center rounded-br-[80px] 4xl:rounded-br-[96px] overflow-hidden bg-[url('/assets/fondo_sesion.webp')] dark:bg-[#020617] dark:bg-[url('/assets/fondo_modo_oscuro3.webp')]"
+  >
+    <div class="relative text-center z-10 p-6 lg:p-12 4xl:p-16">
       <h1
-        class="font-sans font-bold text-gray-800 dark:text-slate-50 text-3xl lg:text-5xl leading-tight lg:leading-10 welcome-title">
+        class="font-sans font-bold text-gray-800 dark:text-slate-50 text-3xl lg:text-5xl 4xl:text-6xl leading-tight lg:leading-10 4xl:leading-[3.5rem] welcome-title"
+      >
         {{ title }}
       </h1>
 
       @if (subtitle && linkText && linkRoute !== "") {
-      <p class="font-sans text-gray-600 dark:text-slate-300 text-base lg:text-lg leading-7 mt-4 text-center">
-        {{ subtitle }}
-        <a [routerLink]="linkRoute" class="font-bold text-gray-800 dark:text-slate-50 hover:underline">
-          {{ linkText }}
-        </a>
-      </p>
+        <p
+          class="font-sans text-gray-600 dark:text-slate-300 text-base lg:text-lg 4xl:text-xl 4xl:leading-8 leading-7 mt-4 text-center"
+        >
+          {{ subtitle }}
+          <a
+            [routerLink]="linkRoute"
+            class="font-bold text-gray-800 dark:text-slate-50 hover:underline"
+          >
+            {{ linkText }}
+          </a>
+        </p>
+      } @else if (type === "login") {
+        @if (authLocalFeatures) {
+          <p
+            class="font-sans text-gray-600 dark:text-slate-300 text-base lg:text-lg 4xl:text-xl 4xl:leading-8 leading-7 mt-4 text-center"
+          >
+            {{ t.authPromptNoAccount }}
+            <a
+              routerLink="/register"
+              class="font-bold text-gray-800 dark:text-slate-50 hover:underline"
+            >
+              {{ t.authLinkRegister }}
+            </a>
+          </p>
+        }
+      } @else if (type === "register") {
+        <p
+          class="font-sans text-gray-600 dark:text-slate-300 text-base lg:text-lg 4xl:text-xl 4xl:leading-8 leading-7 mt-4 text-center"
+        >
+          {{ t.authPromptAlreadyAccount }}
+          <a
+            routerLink="/login"
+            class="font-bold text-gray-800 dark:text-slate-50 hover:underline"
+          >
+            {{ t.authLinkLogin }}
+          </a>
+        </p>
+      } @else if (type === "recover") {
+        <p
+          class="font-sans text-gray-600 dark:text-slate-300 text-base lg:text-lg 4xl:text-xl 4xl:leading-8 leading-7 mt-4 text-center"
+        >
+          {{ t.authPromptRecoverRemember }}
+          <a
+            routerLink="/login"
+            class="font-bold text-gray-800 dark:text-slate-50 hover:underline"
+          >
+            {{ t.authLinkLogin }}
+          </a>
+        </p>
       }
 
       <!-- Idiomas ES / ENG -->
-      <div class="flex gap-1 justify-center mt-6 px-2 py-1">
-        <button type="button" (click)="selectLanguage(languages[0])" [class]="
-          selectedLanguage.code === 'es'
-            ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold'
-            : 'bg-transparent text-gray-700 dark:text-slate-200'
-        " class="px-4 py-2 rounded-lg text-sm transition-colors border border-gray-400 dark:border-slate-400">
+      <div class="flex gap-1 4xl:gap-2 justify-center mt-6 px-2 py-1">
+        <button
+          type="button"
+          (click)="selectLanguage(languages[0])"
+          [class]="
+            selectedLanguage.code === 'es'
+              ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold'
+              : 'bg-transparent text-gray-700 dark:text-slate-200'
+          "
+          class="px-4 py-2 4xl:px-5 4xl:py-2.5 rounded-lg 4xl:rounded-xl text-sm 4xl:text-base transition-colors border border-gray-400 dark:border-slate-400"
+        >
           ES
         </button>
-        <button type="button" (click)="selectLanguage(languages[1])" [class]="
-          selectedLanguage.code === 'en'
-            ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold'
-            : 'bg-transparent text-gray-700 dark:text-slate-200'
-        " class="px-4 py-2 rounded-lg text-sm transition-colors border border-gray-400 dark:border-slate-400">
+        <button
+          type="button"
+          (click)="selectLanguage(languages[1])"
+          [class]="
+            selectedLanguage.code === 'en'
+              ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold'
+              : 'bg-transparent text-gray-700 dark:text-slate-200'
+          "
+          class="px-4 py-2 4xl:px-5 4xl:py-2.5 rounded-lg 4xl:rounded-xl text-sm 4xl:text-base transition-colors border border-gray-400 dark:border-slate-400"
+        >
           ENG
         </button>
       </div>
@@ -39,148 +96,326 @@
 
   <!-- Form Section - Full width on mobile, half on desktop -->
   <div
-    class="w-full lg:w-1/2 flex flex-col items-center justify-center lg:justify-center px-6 md:px-12 py-6 lg:py-10 relative z-10 bg-white dark:bg-[#020617] lg:bg-transparent lg:dark:bg-[#020617] rounded-t-3xl rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none min-h-[80vh] lg:min-h-0 pb-12 lg:pb-10">
-    <div class="w-full max-w-md md:max-w-lg space-y-4 lg:space-y-8 mt-20 lg:mt-0 form-container">
+    class="w-full lg:w-1/2 flex flex-col items-center justify-center lg:justify-center px-6 md:px-12 py-6 lg:py-10 4xl:px-16 4xl:py-14 relative z-10 bg-white dark:bg-[#020617] lg:bg-transparent lg:dark:bg-[#020617] rounded-t-3xl rounded-b-[3rem] lg:rounded-none shadow-lg lg:shadow-none min-h-[80vh] lg:min-h-0 pb-12 lg:pb-10"
+  >
+    <div
+      class="w-full max-w-md md:max-w-lg 4xl:max-w-xl space-y-4 lg:space-y-8 4xl:space-y-10 mt-20 lg:mt-0 form-container"
+    >
       <!-- Logo - Centered above title on mobile, top right on desktop -->
       <div class="flex justify-center lg:hidden mb-4">
         <!-- Logo normal en claro / blanco en modo oscuro -->
-        <img src="../../../assets/logo_azul.webp" alt="Logo" class="h-12 w-auto dark:hidden" />
-        <img src="../../../assets/logo_blanco.webp" alt="Logo" class="h-12 w-auto hidden dark:block" />
+        <img
+          src="../../../assets/logo_azul.webp"
+          alt="Logo"
+          class="h-12 w-auto dark:hidden"
+        />
+        <img
+          src="../../../assets/logo_blanco.webp"
+          alt="Logo"
+          class="h-12 w-auto hidden dark:block"
+        />
       </div>
 
       <!-- Desktop Logo -->
       <div class="hidden lg:block absolute top-4 right-14 z-10">
         <!-- Logo normal en claro / blanco en modo oscuro -->
-        <img src="../../../assets/logo_azul.webp" alt="Logo" class="h-10 w-auto dark:hidden" />
-        <img src="../../../assets/logo_blanco.webp" alt="Logo" class="h-10 w-auto hidden dark:block" />
+        <img
+          src="../../../assets/logo_azul.webp"
+          alt="Logo"
+          class="h-10 w-auto dark:hidden"
+        />
+        <img
+          src="../../../assets/logo_blanco.webp"
+          alt="Logo"
+          class="h-10 w-auto hidden dark:block"
+        />
       </div>
 
       <div class="text-center lg:text-left">
         <h2
-          class="font-sans font-bold text-black dark:text-slate-50 text-2xl md:text-3xl lg:text-3xl xl:text-4xl leading-tight login-title whitespace-nowrap">
+          class="font-sans font-bold text-black dark:text-slate-50 text-2xl md:text-3xl lg:text-3xl xl:text-4xl 4xl:text-5xl leading-tight 4xl:leading-tight login-title whitespace-nowrap"
+        >
           {{ formTitle }}
         </h2>
         <p
-          class="font-sans font-normal text-black dark:text-slate-300 text-sm md:text-base lg:text-base xl:text-lg mt-2 login-subtitle whitespace-nowrap">
+          class="font-sans font-normal text-black dark:text-slate-300 text-sm md:text-base lg:text-base xl:text-lg 4xl:text-xl mt-2 4xl:mt-3 login-subtitle whitespace-nowrap"
+        >
           {{ formSubtitle }}
         </p>
       </div>
 
-      <form class="space-y-3 md:space-y-4 lg:space-y-6" (submit)="submit($event)">
+      <form
+        class="space-y-3 md:space-y-4 lg:space-y-6 4xl:space-y-7"
+        (submit)="submit($event)"
+      >
         <!-- Input Nombre completo solo para registro -->
         @if (type === "register") {
-        <div class="relative">
-          <label for="fullName" class="absolute left-4 top-1 text-xs text-gray-500 dark:text-slate-400 input-label">
-            {{ t.authFullName }}
-          </label>
-          <input type="text" id="fullName" [(ngModel)]="fullName" name="fullName" [placeholder]="t.authPlaceholderName"
-            class="auth-input block w-full px-4 pt-6 pb-2 md:py-4 lg:py-4 border border-gray-300 dark:border-slate-700 rounded-lg focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-slate-900 text-black dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 transition duration-200 text-sm md:text-base lg:text-base" />
-        </div>
+          <div class="relative">
+            <label
+              for="fullName"
+              class="absolute left-4 4xl:left-5 top-1 text-gray-500 dark:text-slate-400 input-label"
+            >
+              {{ t.authFullName }}
+            </label>
+            <input
+              type="text"
+              id="fullName"
+              [(ngModel)]="fullName"
+              name="fullName"
+              [placeholder]="t.authPlaceholderName"
+              class="auth-input block w-full px-4 pt-6 pb-2 md:py-4 lg:py-4 4xl:px-5 4xl:pt-6 4xl:pb-3 border border-gray-300 dark:border-slate-700 rounded-lg 4xl:rounded-2xl focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-slate-900 text-black dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 transition duration-200 text-sm md:text-base lg:text-base 4xl:text-lg 4xl:leading-normal"
+            />
+          </div>
         }
 
-        <!-- Email Input -->
+        <!-- Email Input: etiqueta siempre dentro del cuadro; en 4xl padding un poco más bajo que antes -->
         <div class="relative">
-          <label for="email" class="absolute left-4 top-1 text-xs text-gray-500 dark:text-slate-400 input-label">
+          <label
+            for="email"
+            class="absolute left-4 4xl:left-5 top-1 text-gray-500 dark:text-slate-400 input-label"
+          >
             {{ t.authEmail }}
           </label>
-          <input type="email" id="email" [(ngModel)]="email" name="email" [placeholder]="t.authPlaceholderEmail"
-            class="auth-input block w-full px-4 pt-6 pb-2 md:py-4 lg:py-4 border border-gray-300 dark:border-slate-700 rounded-lg focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-slate-900 text-black dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 transition duration-200 text-sm md:text-base lg:text-base" />
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="email"
+            name="email"
+            [placeholder]="t.authPlaceholderEmail"
+            class="auth-input auth-input-email block w-full px-4 pt-4 pb-2 md:py-4 lg:py-4 4xl:px-5 border border-gray-300 dark:border-slate-700 rounded-lg 4xl:rounded-xl focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-slate-900 text-black dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 transition duration-200 text-sm md:text-base lg:text-base 4xl:text-lg 4xl:leading-normal"
+          />
         </div>
 
         <!-- Password Input -->
         @if (type !== "recover") {
-        <div>
-          <div class="relative">
-            <input [type]="showPassword ? 'text' : 'password'" id="password" [(ngModel)]="password" name="password"
-              [placeholder]="t.authPassword"
-              class="auth-input block w-full px-4 py-3 md:py-4 lg:py-4 pr-12 border border-gray-300 dark:border-slate-700 rounded-lg focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-slate-900 text-black dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 transition duration-200 text-sm md:text-base lg:text-base" />
-            <button type="button" (click)="togglePasswordVisibility()"
-              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 transition-colors duration-200">
-              @if (showPassword) {
-              <!-- Icono de ojo tachado (ocultar) -->
-              <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M10.83 6L14 9.16V9C14 8.20435 13.6839 7.44129 13.1213 6.87868C12.5587 6.31607 11.7956 6 11 6H10.83ZM6.53 6.8L8.08 8.35C8.03 8.56 8 8.77 8 9C8 9.79565 8.31607 10.5587 8.87868 11.1213C9.44129 11.6839 10.2044 12 11 12C11.22 12 11.44 11.97 11.65 11.92L13.2 13.47C12.53 13.8 11.79 14 11 14C9.67392 14 8.40215 13.4732 7.46447 12.5355C6.52678 11.5979 6 10.3261 6 9C6 8.21 6.2 7.47 6.53 6.8ZM1 1.27L3.28 3.55L3.73 4C2.08 5.3 0.78 7 0 9C1.73 13.39 6 16.5 11 16.5C12.55 16.5 14.03 16.2 15.38 15.66L15.81 16.08L18.73 19L20 17.73L2.27 0M11 4C12.3261 4 13.5979 4.52678 14.5355 5.46447C15.4732 6.40215 16 7.67392 16 9C16 9.64 15.87 10.26 15.64 10.82L18.57 13.75C20.07 12.5 21.27 10.86 22 9C20.27 4.61 16 1.5 11 1.5C9.6 1.5 8.26 1.75 7 2.2L9.17 4.35C9.74 4.13 10.35 4 11 4Z"
-                  fill="currentColor" />
-              </svg>
-              } @else {
-              <!-- Icono de ojo abierto (mostrar) -->
-              <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M11 1.5C6 1.5 1.73 4.61 0 9C1.73 13.39 6 16.5 11 16.5C16 16.5 20.27 13.39 22 9C20.27 4.61 16 1.5 11 1.5ZM11 14C8.24 14 6 11.76 6 9C6 6.24 8.24 4 11 4C13.76 4 16 6.24 16 9C16 11.76 13.76 14 11 14ZM11 6C9.34 6 8 7.34 8 9C8 10.66 9.34 12 11 12C12.66 12 14 10.66 14 9C14 7.34 12.66 6 11 6Z"
-                  fill="currentColor" />
-              </svg>
-              }
-            </button>
+          <div>
+            <div class="relative">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                id="password"
+                [(ngModel)]="password"
+                name="password"
+                [placeholder]="t.authPassword"
+                class="auth-input auth-input-password block w-full px-4 py-3 md:py-4 lg:py-4 4xl:px-5 pr-12 4xl:pr-14 border border-gray-300 dark:border-slate-700 rounded-lg 4xl:rounded-xl focus:outline-none focus:border-black dark:focus:border-white bg-white dark:bg-slate-900 text-black dark:text-slate-50 placeholder-gray-400 dark:placeholder-slate-500 transition duration-200 text-sm md:text-base lg:text-base 4xl:text-lg 4xl:leading-normal"
+              />
+              <button
+                type="button"
+                (click)="togglePasswordVisibility()"
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-200 transition-colors duration-200"
+              >
+                @if (showPassword) {
+                  <!-- Icono de ojo tachado (ocultar) -->
+                  <svg
+                    width="22"
+                    height="19"
+                    viewBox="0 0 22 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10.83 6L14 9.16V9C14 8.20435 13.6839 7.44129 13.1213 6.87868C12.5587 6.31607 11.7956 6 11 6H10.83ZM6.53 6.8L8.08 8.35C8.03 8.56 8 8.77 8 9C8 9.79565 8.31607 10.5587 8.87868 11.1213C9.44129 11.6839 10.2044 12 11 12C11.22 12 11.44 11.97 11.65 11.92L13.2 13.47C12.53 13.8 11.79 14 11 14C9.67392 14 8.40215 13.4732 7.46447 12.5355C6.52678 11.5979 6 10.3261 6 9C6 8.21 6.2 7.47 6.53 6.8ZM1 1.27L3.28 3.55L3.73 4C2.08 5.3 0.78 7 0 9C1.73 13.39 6 16.5 11 16.5C12.55 16.5 14.03 16.2 15.38 15.66L15.81 16.08L18.73 19L20 17.73L2.27 0M11 4C12.3261 4 13.5979 4.52678 14.5355 5.46447C15.4732 6.40215 16 7.67392 16 9C16 9.64 15.87 10.26 15.64 10.82L18.57 13.75C20.07 12.5 21.27 10.86 22 9C20.27 4.61 16 1.5 11 1.5C9.6 1.5 8.26 1.75 7 2.2L9.17 4.35C9.74 4.13 10.35 4 11 4Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                } @else {
+                  <!-- Icono de ojo abierto (mostrar) -->
+                  <svg
+                    width="22"
+                    height="19"
+                    viewBox="0 0 22 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11 1.5C6 1.5 1.73 4.61 0 9C1.73 13.39 6 16.5 11 16.5C16 16.5 20.27 13.39 22 9C20.27 4.61 16 1.5 11 1.5ZM11 14C8.24 14 6 11.76 6 9C6 6.24 8.24 4 11 4C13.76 4 16 6.24 16 9C16 11.76 13.76 14 11 14ZM11 6C9.34 6 8 7.34 8 9C8 10.66 9.34 12 11 12C12.66 12 14 10.66 14 9C14 7.34 12.66 6 11 6Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                }
+              </button>
+            </div>
           </div>
-        </div>
         }
 
         <!-- Marketing Consent Checkbox solo para registro -->
         @if (type === "register") {
-        <div class="flex items-center">
-          <app-animated-checkbox [checked]="marketingConsent" (checkedChange)="marketingConsent = $event"
-            class=""></app-animated-checkbox>
-          <label class="ml-2 text-sm text-gray-600 dark:text-slate-300 cursor-pointer"
-            (click)="marketingConsent = !marketingConsent">
-            {{ t.authMarketingConsentLlamalo }}
-          </label>
-        </div>
+          <div class="flex items-center">
+            <app-animated-checkbox
+              [checked]="marketingConsent"
+              (checkedChange)="marketingConsent = $event"
+              class=""
+            ></app-animated-checkbox>
+            <label
+              class="ml-2 text-sm 4xl:text-base text-gray-600 dark:text-slate-300 cursor-pointer"
+              (click)="marketingConsent = !marketingConsent"
+            >
+              {{ t.authMarketingConsentLlamalo }}
+            </label>
+          </div>
         }
 
         <!-- Remember me & Forgot password -->
         @if (type === "login") {
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <app-animated-checkbox [checked]="rememberMe" (checkedChange)="rememberMe = $event"></app-animated-checkbox>
-            <label
-              class="ml-1 block text-xs font-normal text-black dark:text-slate-200 font-sans remember-label whitespace-nowrap tracking-[-0.5px]">
-              {{ t.authRememberMe }}
-            </label>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <app-animated-checkbox
+                [checked]="rememberMe"
+                (checkedChange)="rememberMe = $event"
+              ></app-animated-checkbox>
+              <label
+                class="ml-1 block text-xs 4xl:text-sm font-normal text-black dark:text-slate-200 font-sans remember-label whitespace-nowrap tracking-[-0.5px]"
+              >
+                {{ t.authRememberMe }}
+              </label>
+            </div>
+            <a
+              routerLink="/recover"
+              class="text-xs 4xl:text-sm text-black dark:text-slate-200 hover:underline font-medium forgot-password-link whitespace-nowrap tracking-[-0.5px]"
+            >
+              {{ t.forgotPassword }}
+            </a>
           </div>
-          <a
-            routerLink="/recover"
-            class="text-xs text-black dark:text-slate-200 hover:underline font-medium forgot-password-link whitespace-nowrap tracking-[-0.5px]"
-          >
-            {{ t.forgotPassword }}
-          </a>
-        </div>
         }
 
         <!-- Login Button -->
-        <button type="submit"
-          class="w-full bg-black text-white py-3 md:py-4 lg:py-4 px-6 rounded-lg font-semibold text-sm md:text-base lg:text-base hover:bg-gray-800 transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black login-button">
+        <button
+          type="submit"
+          class="w-full bg-black text-white py-3 md:py-4 lg:py-4 4xl:py-5 px-6 rounded-lg 4xl:rounded-2xl font-semibold text-sm md:text-base lg:text-base 4xl:text-lg hover:bg-gray-800 transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black login-button"
+        >
           {{ buttonText }}
         </button>
 
-        <!-- Mismo enlace que en el panel izquierdo: solo en móvil (el panel está oculto en < lg) -->
+        @if (type === "login" && authLocalFeatures) {
+          <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center" aria-hidden="true">
+              <div
+                class="w-full border-t border-gray-200 dark:border-slate-600"
+              ></div>
+            </div>
+            <div
+              class="relative flex justify-center text-xs md:text-sm 4xl:text-base"
+            >
+              <span
+                class="px-3 bg-white dark:bg-[#020617] text-gray-500 dark:text-slate-400 font-sans"
+              >
+                {{ t.authOrContinueWith }}
+              </span>
+            </div>
+          </div>
+          <button
+            type="button"
+            (click)="loginWithGoogle()"
+            [attr.aria-label]="t.authGoogleLogin"
+            class="w-full flex items-center justify-center gap-3 4xl:gap-4 bg-black border-0 py-3 md:py-4 lg:py-4 4xl:py-5 px-6 rounded-lg 4xl:rounded-2xl hover:bg-neutral-900 transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/30 dark:focus:ring-offset-[#020617]"
+          >
+            <svg
+              class="h-7 w-7 4xl:h-8 4xl:w-8 shrink-0"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+              />
+            </svg>
+          </button>
+        }
+
+        <!-- Enlaces secundarios en móvil (panel izquierdo oculto en &lt; lg) -->
         @if (bottomText && bottomLinkRoute && bottomLinkRoute !== "") {
-        <div
-          class="lg:hidden text-center text-sm md:text-base text-gray-600 dark:text-slate-300 register-text whitespace-nowrap">
-          {{ bottomText }}
-          <a [routerLink]="bottomLinkRoute"
-            class="font-semibold text-black dark:text-slate-50 hover:underline register-link">
-            {{ bottomLinkText }}
-          </a>
-        </div>
+          <div
+            class="lg:hidden text-center text-sm md:text-base text-gray-600 dark:text-slate-300 register-text whitespace-nowrap"
+          >
+            {{ bottomText }}
+            <a
+              [routerLink]="bottomLinkRoute"
+              class="font-semibold text-black dark:text-slate-50 hover:underline register-link"
+            >
+              {{ bottomLinkText }}
+            </a>
+          </div>
+        }
+        @if (type === "login" && authLocalFeatures) {
+          <div
+            class="lg:hidden text-center text-sm md:text-base text-gray-600 dark:text-slate-300 register-text whitespace-nowrap mt-4"
+          >
+            {{ t.authPromptNoAccount }}
+            <a
+              routerLink="/register"
+              class="font-semibold text-black dark:text-slate-50 hover:underline register-link"
+            >
+              {{ t.authLinkRegister }}
+            </a>
+          </div>
+        }
+        @if (type === "register") {
+          <div
+            class="lg:hidden text-center text-sm md:text-base text-gray-600 dark:text-slate-300 register-text whitespace-nowrap mt-4"
+          >
+            {{ t.authPromptAlreadyAccount }}
+            <a
+              routerLink="/login"
+              class="font-semibold text-black dark:text-slate-50 hover:underline register-link"
+            >
+              {{ t.authLinkLogin }}
+            </a>
+          </div>
+        }
+        @if (type === "recover") {
+          <div
+            class="lg:hidden text-center text-sm md:text-base text-gray-600 dark:text-slate-300 register-text whitespace-nowrap mt-4"
+          >
+            {{ t.authPromptRecoverRemember }}
+            <a
+              routerLink="/login"
+              class="font-semibold text-black dark:text-slate-50 hover:underline register-link"
+            >
+              {{ t.authLinkLogin }}
+            </a>
+          </div>
         }
 
         <!-- Terms and Conditions for Register -->
         @if (type === "register") {
-        <div class="text-center text-xs text-gray-500 dark:text-slate-400 mt-6 mb-4 px-2">
-          {{ t.authTermsPrefix }}
-          <a href="#" class="text-black dark:text-slate-50 hover:underline font-medium">{{ t.authTermsConditions }}</a>
-          {{ t.authTermsAnd }}
-          <a href="#" class="text-black dark:text-slate-50 hover:underline font-medium">{{ t.authTermsPrivacy }}</a>
-          {{ t.authTermsSuffix }}
-        </div>
+          <div
+            class="text-center text-xs 4xl:text-sm text-gray-500 dark:text-slate-400 mt-6 mb-4 px-2"
+          >
+            {{ t.authTermsPrefix }}
+            <a
+              href="#"
+              class="text-black dark:text-slate-50 hover:underline font-medium"
+              >{{ t.authTermsConditions }}</a
+            >
+            {{ t.authTermsAnd }}
+            <a
+              href="#"
+              class="text-black dark:text-slate-50 hover:underline font-medium"
+              >{{ t.authTermsPrivacy }}</a
+            >
+            {{ t.authTermsSuffix }}
+          </div>
         }
       </form>
     </div>
   </div>
 
   <!-- Background Image - Only visible on mobile/tablet -->
-  <div class="absolute bottom-0 left-0 right-0 h-64 md:h-80 lg:hidden bg-cover bg-center bg-no-repeat z-0" style="
+  <div
+    class="absolute bottom-0 left-0 right-0 h-64 md:h-80 lg:hidden bg-cover bg-center bg-no-repeat z-0"
+    style="
       background-image: url(&quot;../../../assets/fondo_responsive_sesion.webp&quot;);
-    "></div>
+    "
+  ></div>
 </div>

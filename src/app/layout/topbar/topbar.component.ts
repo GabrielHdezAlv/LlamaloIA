@@ -18,6 +18,8 @@ import { FormsModule } from '@angular/forms';
 import {
   animate,
   AnimationEvent,
+  group,
+  query,
   style,
   transition,
   trigger,
@@ -80,6 +82,55 @@ interface AgentDraft {
             transform: 'translate(-50%, 20px)',
           }),
         ),
+      ]),
+    ]),
+    trigger('newsModal', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        group([
+          animate(
+            '260ms cubic-bezier(0.32, 0.72, 0, 1)',
+            style({ opacity: 1 }),
+          ),
+          query(
+            '.news-modal-shell',
+            [
+              style({
+                opacity: 0,
+                transform: 'scale(0.94) translateY(18px)',
+              }),
+              animate(
+                '340ms cubic-bezier(0.22, 1, 0.36, 1)',
+                style({
+                  opacity: 1,
+                  transform: 'scale(1) translateY(0)',
+                }),
+              ),
+            ],
+            { optional: true },
+          ),
+        ]),
+      ]),
+      transition(':leave', [
+        group([
+          animate(
+            '220ms cubic-bezier(0.4, 0, 1, 1)',
+            style({ opacity: 0 }),
+          ),
+          query(
+            '.news-modal-shell',
+            [
+              animate(
+                '220ms cubic-bezier(0.4, 0, 1, 1)',
+                style({
+                  opacity: 0,
+                  transform: 'scale(0.96) translateY(12px)',
+                }),
+              ),
+            ],
+            { optional: true },
+          ),
+        ]),
       ]),
     ]),
   ],
@@ -387,6 +438,31 @@ export class TopbarComponent implements OnInit, OnDestroy {
     const user = this.userStorage.user();
     return user?.profileImage || 'assets/predeterminada.webp';
   };
+
+  /** Misma condición que el antiguo banner de prueba: mostrar en el menú del avatar. */
+  get showTrialRemainingInDropdown(): boolean {
+    if (this.isAdminSection) return false;
+    const pu = this.userStorage.user()?.planUsage;
+    if (!pu?.trialActive || !pu.trialEndsAt) return false;
+    return pu.effectivePlanSlug === 'gratis';
+  }
+
+  /** Tiempo hasta fin de prueba (p. ej. `6D 23H`). */
+  get trialRemainingDh(): string {
+    this.i18nService.selectedLanguage();
+    const u = this.userStorage.user();
+    if (!u) return '0D 0H';
+    const pu = u.planUsage;
+    const raw = pu?.trialEndsAt ?? u.trialEndsAt;
+    if (!raw) return '0D 0H';
+    const end = new Date(raw).getTime();
+    if (Number.isNaN(end)) return '0D 0H';
+    const ms = Math.max(0, end - Date.now());
+    const totalHours = Math.floor(ms / 3_600_000);
+    const days = Math.floor(totalHours / 24);
+    const hours = totalHours % 24;
+    return `${days}D ${hours}H`;
+  }
 
   formatNewsDate(date: string): string {
     return this.newsService.getRelativeDateLabel(date);

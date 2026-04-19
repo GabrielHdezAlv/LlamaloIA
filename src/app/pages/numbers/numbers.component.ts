@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   inject,
   OnInit,
   AfterViewInit,
@@ -25,6 +26,8 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
+import { getGroupedCountryDialOptions } from './phone-country-dial-codes';
 
 interface PhoneNumberDisplay {
   phoneId: number;
@@ -66,8 +69,7 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   // Búsqueda de números
   searchTerm: string = '';
 
-  // Importar número: dropdown + sidebar
-  showImportDropdown = false;
+  // Importar número: sidebar Twilio
   showImportSidebar = false;
   importSidebarClosing = false;
   importForm: FormGroup;
@@ -75,6 +77,11 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   showCountryMenu = false;
   selectedCountryCode = '+34';
   selectedCountry = 'es';
+  /** Prefijos: top 10 + resto A–Z, según idioma UI */
+  readonly countryDialGrouped = computed(() => {
+    const code = this.i18nService.selectedLanguage().code;
+    return getGroupedCountryDialOptions(code === 'en' ? 'en' : 'es');
+  });
   routingRegionEnabled = false;
 
   private isBrowser: boolean;
@@ -224,17 +231,12 @@ export class NumbersComponent implements OnInit, AfterViewInit {
     }, 180);
   }
 
-  toggleImportDropdown(): void {
-    this.showImportDropdown = !this.showImportDropdown;
-  }
-
   // Actualizar lista al escribir (sin necesidad de Enter)
   onSearchChange(): void {
     this.searchSubject.next(this.searchTerm ?? '');
   }
 
   openImportFromTwilio(): void {
-    this.showImportDropdown = false;
     this.importErrorMessage = null;
 
     // Intentar obtener credenciales de Twilio del perfil si existen
@@ -347,24 +349,22 @@ export class NumbersComponent implements OnInit, AfterViewInit {
             this.searchTerm?.trim() ? this.searchTerm.trim() : undefined,
           );
         },
-        error: (err) => {
+        error: (err: unknown) => {
           this.isImportLoading = false;
-          let msg =
+          const fallback =
             'Error al importar el número de teléfono. Por favor, intenta nuevamente.';
-          const backendMessage: string | undefined =
-            err?.error?.message || err?.message;
+          let msg = getApiErrorMessage(err, fallback);
+          const http = err as { status?: number };
 
-          if (
-            backendMessage &&
-            backendMessage !== 'Cannot POST /twilio/phone-number'
-          ) {
-            msg = backendMessage;
-          } else if (err?.status === 400) {
+          if (msg === 'Cannot POST /twilio/phone-number') {
+            msg = fallback;
+          }
+          if (msg === fallback && http?.status === 400) {
             msg =
               'Las credenciales de Twilio o el número de teléfono no son válidos. Revisa los datos e inténtalo de nuevo.';
-          } else if (err?.status === 404) {
+          } else if (http?.status === 404) {
             msg = 'Usuario no encontrado. Por favor, inicia sesión nuevamente.';
-          } else if (err?.status === 0) {
+          } else if (http?.status === 0) {
             msg =
               'No se ha podido contactar con el servidor. Comprueba tu conexión a internet o inténtalo de nuevo en unos minutos.';
           }
@@ -454,8 +454,6 @@ export class NumbersComponent implements OnInit, AfterViewInit {
   onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (!target.closest('.relative')) this.openMenuIndex = null;
-    if (!target.closest('.import-dropdown-wrap'))
-      this.showImportDropdown = false;
     if (this.showImportSidebar && !target.closest('.country-dropdown-wrap'))
       this.showCountryMenu = false;
   }

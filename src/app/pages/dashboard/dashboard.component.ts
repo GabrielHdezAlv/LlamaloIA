@@ -3,17 +3,30 @@ import {
   ViewChild,
   AfterViewInit,
   OnInit,
+  OnDestroy,
   ChangeDetectorRef,
   Inject,
   PLATFORM_ID,
   computed,
   inject,
+  effect,
+  untracked,
 } from '@angular/core';
-import { RouterOutlet, RouterModule, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  RouterOutlet,
+  RouterModule,
+  Router,
+  NavigationEnd,
+  NavigationStart,
+  NavigationCancel,
+  NavigationError,
+} from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavComponent } from '../../layout/nav/nav.component';
 import { TopbarComponent } from '../../layout/topbar/topbar.component';
-import { CompanySetupComponent } from '../company-setup/company-setup.component';
 import { UserStorage } from '../../storages/user/user-storage';
 import {
   ReminderService,
@@ -23,7 +36,14 @@ import { I18nService, Language } from '../../core/services/i18n.service';
 import { NavigationService } from '../../core/services/navigation.service';
 import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
 import { AuthSessionService } from '../../core/services/auth-session.service';
-import { TrialBannerComponent } from '../../shared/components/trial-banner/trial-banner.component';
+import { ModalService } from '../../shared/modals/modal.service';
+import {
+  requiresBillingChurnLockPage,
+  requiresPaymentFailureSubscribePage,
+  requiresSubscriptionPaywall,
+} from '../../shared/utils/plan-usage.util';
+import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,19 +54,14 @@ import { TrialBannerComponent } from '../../shared/components/trial-banner/trial
     CommonModule,
     TopbarComponent,
     NavComponent,
-    CompanySetupComponent,
-    TrialBannerComponent,
+    SpinnerComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
-  @ViewChild(CompanySetupComponent)
-  companySetupComponent!: CompanySetupComponent;
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(NavComponent) navComponent!: NavComponent;
   private _isNavCollapsed: boolean = true;
-
-  showCompanySetup = false;
   showMobileSidebar = false;
   showInactiveReminderModal = false;
   uploadedImage: string | null = null;
@@ -86,6 +101,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   private router = inject(Router);
   public i18nService = inject(I18nService);
   private navigationService = inject(NavigationService);
+  private modalService = inject(ModalService);
+  private matDialog = inject(MatDialog);
+  private firstAgentTour = inject(FirstAgentTourService);
+
+  /** Trial agotado o pago Stripe pendiente: bloquear UI y mostrar solo modal de precios. */
+  subscriptionPaywallActive = computed(() =>
+    requiresSubscriptionPaywall(this.userStorage.user()),
+  );
 
   // Dropdown del perfil
   showDropdown = false;
@@ -98,12 +121,86 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   isDarkMode = false;
   isMobileSidebarClosing = false;
 
+  /**
+   * Spinner solo al cambiar de ruta dentro del dashboard (no en la primera carga tras F5
+   * ni mientras se cargan recordatorios en segundo plano).
+   */
+  dashboardRouteLoading = false;
+
+  /** Tras el primer NavigationEnd a /dashboard, las navegaciones siguientes muestran el loader. */
+  private initialDashboardNavCompleted = false;
+
+  private routerLoadingSub?: Subscription;
+
+  get showDashboardLoader(): boolean {
+    return this.dashboardRouteLoading;
+  }
+
   constructor(
     private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      effect(() => {
+        const u = this.userStorage.user();
+        if (requiresBillingChurnLockPage(u)) {
+          untracked(() => {
+            void this.router.navigate(['/subscribe-required'], {
+              replaceUrl: true,
+            });
+          });
+          return;
+        }
+        if (requiresPaymentFailureSubscribePage(u)) {
+          untracked(() => {
+            void this.router.navigate(['/subscribe-required'], {
+              replaceUrl: true,
+              queryParams: { stripe: 'payment_failed' },
+            });
+          });
+        }
+      });
+      effect((onCleanup) => {
+        this.subscriptionPaywallActive();
+        untracked(() => {
+          const u = this.userStorage.user();
+          const needPay = this.subscriptionPaywallActive();
+          const churn = requiresBillingChurnLockPage(u);
+          const paymentFailure = requiresPaymentFailureSubscribePage(u);
+          if (needPay && !churn && !paymentFailure) {
+            document.body.style.overflow = 'hidden';
+            if (
+              !this.matDialog.openDialogs.some(
+                (r) => r.id === 'subscription-paywall',
+              )
+            ) {
+              this.modalService.openUpgradePlanPaywall();
+            }
+          } else {
+            document.body.style.removeProperty('overflow');
+            this.matDialog.openDialogs
+              .find((r) => r.id === 'subscription-paywall')
+              ?.close();
+          }
+        });
+        onCleanup(() => {
+          document.body.style.removeProperty('overflow');
+        });
+      });
+    }
+  }
 
   async ngOnInit() {
+    const user = this.userStorage.user();
+    if (
+      user &&
+      user.hasCompletedSetup !== true &&
+      !requiresSubscriptionPaywall(user)
+    ) {
+      void this.router.navigate(['/company-setup'], { replaceUrl: true });
+      return;
+    }
+
     // Lógica que depende de window / documento (solo en navegador)
     if (isPlatformBrowser(this.platformId)) {
       // Inicializar modo oscuro desde localStorage / preferencia del sistema
@@ -127,10 +224,63 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       window.addEventListener('openReminderModal', () => {
         this.openInactiveReminderModal();
       });
+
+      this.routerLoadingSub = this.router.events.subscribe((e) => {
+        if (e instanceof NavigationStart) {
+          const path = e.url.split('?')[0];
+          if (path.startsWith('/dashboard') && this.initialDashboardNavCompleted) {
+            this.dashboardRouteLoading = true;
+            this.cdr.markForCheck();
+          }
+        } else if (
+          e instanceof NavigationEnd ||
+          e instanceof NavigationCancel ||
+          e instanceof NavigationError
+        ) {
+          if (e instanceof NavigationEnd) {
+            const path = e.urlAfterRedirects.split('?')[0];
+            if (path.startsWith('/dashboard')) {
+              this.initialDashboardNavCompleted = true;
+            }
+          }
+          this.dashboardRouteLoading = false;
+          this.cdr.markForCheck();
+        }
+      });
     }
 
-    // Cargar datos del recordatorio
+    // Cargar datos del recordatorio (sin bloquear la UI con el overlay del dashboard)
     await this.loadReminderData();
+    this.cdr.markForCheck();
+
+    this.router.events
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.maybeStartFirstAgentTour();
+      });
+    queueMicrotask(() => this.maybeStartFirstAgentTour());
+  }
+
+  ngOnDestroy(): void {
+    this.routerLoadingSub?.unsubscribe();
+  }
+
+  /** Tour guiado (primer agente): spotlight hacia Agentes → Agregar agente. */
+  private maybeStartFirstAgentTour(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (this.subscriptionPaywallActive()) {
+      return;
+    }
+    const url = this.router.url.split('?')[0];
+    if (!url.startsWith('/dashboard')) {
+      return;
+    }
+    if (url.includes('/agents/create') || url.includes('/agents/edit')) {
+      return;
+    }
+    this.firstAgentTour.start();
   }
 
   async loadReminderData(): Promise<void> {
@@ -295,27 +445,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Inicializar el estado y forzar la detección de cambios del sidebar
     this._isNavCollapsed = this.navComponent?.isCollapsed ?? true;
-
-    // Verificar si el usuario ya completó el onboarding
-    const user = this.userStorage.user();
-    if (user && user.hasCompletedSetup === false) {
-      this.showCompanySetup = true;
-      if (this.companySetupComponent) {
-        this.companySetupComponent.isSetupActive = true;
-        this.companySetupComponent.startWelcomeSequence();
-      }
-    }
-
     this.cdr.detectChanges();
-  }
-
-  toggleCompanySetup() {
-    this.showCompanySetup = !this.showCompanySetup;
-    if (this.companySetupComponent) {
-      this.companySetupComponent.toggleSetup();
-    }
   }
 
   openInactiveReminderModal() {

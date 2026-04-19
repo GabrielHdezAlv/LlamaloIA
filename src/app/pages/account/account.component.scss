@@ -62,6 +62,21 @@
   .account-settings select[class*='border'] {
     border-width: 1px !important;
   }
+
+  /* Perfil — "Guardar cambios": fondo/texto aquí (evita depender solo de utilidades dark: y de reglas globales en styles.scss) */
+  ::ng-deep app-ripple-button button.account-profile-save-changes {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  ::ng-deep app-ripple-button button.account-profile-save-changes:hover {
+    background-color: #f3f4f6 !important;
+    color: #000000 !important;
+  }
+
+  ::ng-deep button.account-profile-save-changes .ripple {
+    background-color: rgba(0, 0, 0, 0.14) !important;
+  }
 }
 
 // Estilos para las notificaciones (snackbar)
@@ -188,4 +203,160 @@
 // Aplicar animación al contenido del modal de avatar
 .avatar-modal-content {
   animation: slideUpFade 0.3s ease-out;
+}
+
+/* Perfil — País / zona horaria: trigger mat-select (flecha Material oculta; chevron en HTML) */
+.account-profile-select-wrap {
+  width: 100%;
+
+  ::ng-deep .mat-mdc-select {
+    display: block;
+    width: 100%;
+  }
+
+  ::ng-deep .mat-mdc-select-trigger {
+    min-height: 2.125rem;
+    padding: 0.3125rem 2rem 0.3125rem 0.625rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.75rem;
+    background-color: #f9fafb;
+    align-items: center;
+    font-size: 0.6875rem;
+    line-height: 1.25;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+
+    @media (min-width: 640px) {
+      font-size: 0.75rem;
+    }
+  }
+
+  ::ng-deep .mat-mdc-select-value-text {
+    font-size: inherit;
+  }
+
+  &:hover ::ng-deep .mat-mdc-select-trigger {
+    border-color: #9ca3af;
+  }
+
+  ::ng-deep .mat-mdc-select.mat-mdc-select-focused .mat-mdc-select-trigger {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.22);
+  }
+
+  ::ng-deep .mat-mdc-select-arrow-wrapper {
+    display: none;
+  }
+}
+
+/* Panel desplegable (overlay global): solo modo claro — en oscuro ver styles.scss (overlay fuera del host) */
+html:not(.dark) ::ng-deep .cdk-overlay-container .account-profile-select-panel.mat-mdc-select-panel {
+  border-radius: 0.75rem !important;
+  box-shadow:
+    0 10px 40px rgba(15, 23, 42, 0.12),
+    0 2px 10px rgba(15, 23, 42, 0.06) !important;
+  border: 1px solid #e5e7eb !important;
+  padding: 0.375rem 0 !important;
+  max-height: min(320px, 55vh) !important;
+  margin-top: 4px !important;
+}
+
+::ng-deep .account-profile-select-panel .mat-mdc-option {
+  min-height: 2.125rem !important;
+  border-radius: 0.5rem !important;
+  margin: 0.125rem 0.375rem !important;
+  padding-left: 0.625rem !important;
+  padding-right: 0.625rem !important;
+  font-size: 0.6875rem !important;
+  line-height: 1.25 !important;
+
+  @media (min-width: 640px) {
+    font-size: 0.75rem !important;
+  }
+}
+
+::ng-deep .account-profile-select-panel .mat-mdc-option .mdc-list-item__primary-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: inherit !important;
+}
+
+html:not(.dark) ::ng-deep .account-profile-select-panel .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+html:not(.dark) ::ng-deep .account-profile-select-panel .mat-mdc-option.mat-mdc-option-active:not(.mdc-list-item--disabled) {
+  background-color: #f3f4f6 !important;
+}
+
+html:not(.dark) ::ng-deep .account-profile-select-panel .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+  background-color: rgba(219, 234, 254, 0.95) !important;
+}
+
+:host-context(html.dark) {
+  /* Mismo gris que `html.dark .bg-gray-50` en styles.scss (#111113) — evita tinte azul de slate-900 */
+  .account-profile-select-wrap ::ng-deep .mat-mdc-select {
+    color: #e5e7eb;
+  }
+
+  .account-profile-select-wrap ::ng-deep .mat-mdc-select-trigger {
+    border-color: #262626 !important; /* neutral-800, como .history-border en oscuro */
+    background-color: #111113 !important;
+    color: #e5e7eb !important;
+    box-shadow: none !important;
+  }
+
+  .account-profile-select-wrap ::ng-deep .mat-mdc-select-value,
+  .account-profile-select-wrap ::ng-deep .mat-mdc-select-value-text {
+    color: #e5e7eb !important;
+  }
+
+  .account-profile-select-wrap:hover ::ng-deep .mat-mdc-select-trigger {
+    border-color: #404040 !important;
+  }
+
+  .account-profile-select-wrap ::ng-deep .mat-mdc-select.mat-mdc-select-focused .mat-mdc-select-trigger {
+    border-color: #d4d4d4 !important;
+    box-shadow: none !important;
+  }
+
+  /* Sin capa primary azulada (Material) sobre el trigger */
+  .account-profile-select-wrap ::ng-deep .mat-mdc-select-trigger .mat-focus-indicator {
+    background: transparent !important;
+  }
+
+  .account-profile-select-wrap ::ng-deep .mat-mdc-select-trigger .mat-ripple-element {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* Panel del desplegable: ver styles.scss (overlay en body, fuera del host) */
+}
+
+/* 4xl: contenido de las 5 secciones (Perfil, Seguridad, Facturación, Regalos, Conexiones) un poco más grande */
+@media (min-width: 2500px) {
+  .account-settings .account-section {
+    input:not([type='checkbox']):not([type='radio']),
+    select,
+    textarea {
+      font-size: 1rem !important;
+    }
+
+    .account-profile-select-wrap ::ng-deep .mat-mdc-select-trigger {
+      font-size: 0.875rem !important;
+    }
+
+    ::ng-deep .account-profile-select-panel .mat-mdc-option {
+      font-size: 0.875rem !important;
+    }
+
+    label.block,
+    label.absolute {
+      font-size: 0.9375rem !important;
+    }
+
+    /* Párrafos de ayuda / descripciones (sin tocar botones app-ripple) */
+    > p,
+    > div > p {
+      font-size: 1.0625rem;
+    }
+  }
 }

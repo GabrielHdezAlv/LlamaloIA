@@ -1,0 +1,281 @@
+<div #modalShell
+  [class]="isEmbeddedOnboarding
+    ? 'onboarding-pricing-host onboarding-pricing-host--compact w-full flex flex-col min-h-0 flex-1'
+    : isChurnMode
+      ? 'upgrade-plan-pricing-churn-shell w-full flex flex-col min-h-0 flex-1 overflow-y-auto relative'
+      : 'upgrade-plan-modal upgrade-plan-modal--spaced min-h-0 max-h-[94vh] 4xl:max-h-[96vh] max-md:max-h-[min(calc(100dvh-28px),calc(100svh-28px))] max-md:min-h-[min(calc(96dvh-28px),calc(100svh-28px))] overflow-y-auto relative'">
+  @if (!isEmbeddedOnboarding && showCloseButton) {
+    <button type="button" (click)="close()"
+      class="absolute top-3 right-3 z-10 p-2 4xl:top-5 4xl:right-5 4xl:p-3 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white transition-colors">
+      <svg class="w-4 h-4 4xl:w-6 4xl:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  }
+
+  @if (isRegistrationMode && !isEmbeddedOnboarding) {
+    <button
+      type="button"
+      (click)="cancelRegistration()"
+      [disabled]="cancelLoading || stripeRedirecting"
+      class="absolute top-3 right-3 z-10 max-w-[min(100%-1.5rem,15rem)] rounded-lg border border-gray-300 bg-white/95 px-3 py-2 text-right text-[11px] font-medium leading-snug text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800/95 dark:text-gray-100 dark:hover:bg-gray-700 md:max-w-none md:text-sm 4xl:top-5 4xl:right-5">
+      @if (cancelLoading) {
+        <span>…</span>
+      } @else {
+        {{ t.registrationCancelCta }}
+      }
+    </button>
+  }
+
+  @if (isEmbeddedOnboarding) {
+    <header class="w-full shrink-0 mb-2 md:mb-2.5 3xl:mb-4">
+      <div class="flex items-start justify-between gap-2 sm:gap-3 3xl:gap-4">
+        <div class="min-w-0 flex-1 pr-1">
+          <h1
+            class="text-xs md:text-sm 3xl:text-lg font-bold text-[#0F172A] dark:text-white leading-tight">
+            {{ t.registrationPlanStepTitle }}
+          </h1>
+          <p
+            class="mt-0.5 3xl:mt-2 text-[10px] sm:text-[11px] 3xl:text-sm text-[#6d747c] font-semibold max-w-lg 3xl:max-w-2xl">
+            {{ t.onboardingPlanStepSubtitle }}
+          </p>
+        </div>
+        <button
+          type="button"
+          (click)="cancelRegistration()"
+          [disabled]="cancelLoading || stripeRedirecting"
+          [attr.aria-label]="t.registrationCancelCta"
+          [attr.title]="t.registrationCancelCta"
+          [attr.aria-busy]="cancelLoading"
+          class="shrink-0 inline-flex items-center justify-center rounded-md 3xl:rounded-lg p-2.5 3xl:p-3 text-gray-700 transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400/40 disabled:pointer-events-none disabled:opacity-45 dark:text-white dark:focus-visible:ring-white/35">
+          @if (cancelLoading) {
+            <span class="text-xs font-medium tabular-nums text-gray-700 dark:text-white" aria-hidden="true">…</span>
+          } @else {
+            <svg
+              class="w-6 h-6 3xl:w-8 3xl:h-8 shrink-0"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z" />
+              <path
+                d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z" />
+            </svg>
+          }
+        </button>
+      </div>
+    </header>
+  }
+
+  <div
+    [class]="(isEmbeddedOnboarding
+      ? 'onboarding-pricing-host__inner flex flex-col w-full max-w-full mx-auto '
+      : 'upgrade-plan-modal__content flex flex-col w-[92%] max-w-[92%] mx-auto md:w-full md:max-w-full ') +
+      ' max-md:pb-6' +
+      (isRegistrationMode && !isEmbeddedOnboarding ? ' pt-12' : '')">
+    @if (isRegistrationMode && !isEmbeddedOnboarding) {
+      <h2
+        class="text-center text-lg md:text-xl 4xl:text-2xl font-semibold text-gray-900 dark:text-white mb-3 md:mb-4 4xl:mb-6 px-2">
+        {{ t.registrationPlanStepTitle }}
+      </h2>
+    }
+    <div
+      class="flex w-full shrink-0 items-center gap-2 min-w-0"
+      [ngClass]="isEmbeddedOnboarding
+        ? 'mb-1.5 md:mb-2 3xl:mb-3 justify-between flex-nowrap'
+        : isChurnMode
+          ? 'mb-2 md:mb-3 4xl:mb-4 justify-between flex-nowrap'
+          : 'mb-2 md:mb-3 4xl:mb-4 justify-end'">
+      @if (isEmbeddedOnboarding) {
+        <button
+          type="button"
+          (click)="emitOnboardingBack()"
+          class="flex shrink-0 items-center gap-0.5 3xl:gap-1.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3.5 py-1 3xl:py-2 text-[0.625rem] sm:text-[0.6875rem] 3xl:text-[0.75rem] leading-[1.2] font-medium rounded-md 3xl:rounded-lg bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400/40 dark:focus-visible:ring-white/30">
+          <span class="leading-none" aria-hidden="true">‹</span>
+          <span>{{ t.back }}</span>
+        </button>
+      }
+      @if (isChurnMode) {
+        <button
+          type="button"
+          (click)="goToLogin()"
+          class="flex shrink-0 items-center gap-0.5 3xl:gap-1.5 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3.5 py-1 3xl:py-2 text-[0.625rem] sm:text-[0.6875rem] 3xl:text-[0.75rem] leading-[1.2] font-medium rounded-md 3xl:rounded-lg bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400/40 dark:focus-visible:ring-white/30">
+          <span class="leading-none" aria-hidden="true">‹</span>
+          <span>{{ t.back }}</span>
+        </button>
+      }
+      <div
+        class="billing-toggle billing-toggle--onboarding relative inline-flex shrink-0 rounded-full p-[3px] 3xl:p-1 bg-gray-100/95 shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)] dark:bg-slate-800/90"
+        role="group"
+        [attr.aria-label]="t.pricingToggleMonthly + ' / ' + t.pricingToggleAnnual">
+        <div
+          class="billing-toggle__thumb"
+          [class.billing-toggle__thumb--annual]="billingAnnual"
+          aria-hidden="true"></div>
+        <button
+          type="button"
+          (click)="billingAnnual = false"
+          [class]="'billing-toggle__btn ' + (!billingAnnual ? 'billing-toggle__btn--active' : '')">
+          {{ t.pricingToggleMonthly }}
+        </button>
+        <button
+          type="button"
+          (click)="billingAnnual = true"
+          [class]="'billing-toggle__btn ' + (billingAnnual ? 'billing-toggle__btn--active' : '')">
+          {{ t.pricingToggleAnnual }}
+        </button>
+      </div>
+    </div>
+
+    <div
+      [class]="isEmbeddedOnboarding
+        ? 'grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3 lg:gap-3.5 3xl:gap-8 items-stretch'
+        : 'grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 3xl:gap-8 4xl:gap-12 items-stretch'">
+    @for (plan of pricingPlans; track plan.id; let i = $index) {
+      <div [style.animation-delay]="(i * 120) + 'ms'"
+        [ngClass]="isEmbeddedOnboarding
+          ? 'plan-card-fade-in flex flex-col h-full rounded-3xl p-0.5 border shadow-lg transition-all duration-300 min-h-0 md:min-h-0 4xl:min-h-0 3xl:rounded-[2.25rem] 4xl:rounded-[2.4rem] 3xl:p-1.5 ' +
+            (plan.highlighted
+              ? 'plan-card-pro plan-pro-glow bg-[#151515] dark:bg-white border-transparent dark:border-gray-200'
+              : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')
+          : 'plan-card-fade-in flex flex-col h-full rounded-3xl 4xl:rounded-[2rem] p-0.5 border shadow-lg transition-all duration-300 min-h-[24rem] md:min-h-0 4xl:min-h-[33rem] ' +
+            (plan.highlighted
+              ? 'plan-card-pro plan-pro-glow bg-[#151515] dark:bg-white border-transparent dark:border-gray-200'
+              : 'bg-white dark:bg-[#151515] border-gray-100 dark:border-transparent')">
+        @if (plan.id === 'growth') {
+          <p
+            class="shrink-0 pt-2 pb-1 3xl:pt-2.5 3xl:pb-1.5 px-1 text-center text-[10px] sm:text-[11px] 3xl:text-xs font-bold uppercase tracking-[0.22em] text-white dark:text-[#000001]">
+            {{ t.upgradePlanPopularBadge }}
+          </p>
+        }
+        <div [ngClass]="(isEmbeddedOnboarding
+          ? 'rounded-3xl flex flex-col h-fit p-4 sm:p-5 4xl:p-9 3xl:rounded-[2rem] 4xl:rounded-[2.125rem] 3xl:p-8 3xl:sm:p-9 '
+          : 'rounded-3xl 4xl:rounded-[1.875rem] flex flex-col h-fit p-4 sm:p-5 4xl:p-9 ') +
+          (plan.highlighted ? 'bg-[#222222] dark:bg-[#dddddd]' : 'bg-gray-50 dark:bg-[#222222]')">
+          <div [class]="'mb-3 4xl:mb-5 ' + (plan.highlighted ? 'min-h-[3.5rem] 4xl:min-h-[4.5rem]' : 'min-h-[4.75rem] 4xl:min-h-[5.75rem]')">
+            <h3 [class]="'mb-1 ' + (plan.highlighted ? 'font-semibold text-lg md:text-xl 3xl:text-2xl 4xl:text-3xl text-white dark:text-[#000001]' : 'font-medium text-xl 3xl:text-2xl 4xl:text-3xl text-black dark:text-white')">
+              {{ plan.name }}
+            </h3>
+            <p
+              [class]="'leading-snug font-normal text-[11px] md:text-xs 3xl:text-sm 4xl:text-base ' + (plan.highlighted ? 'text-gray-400 dark:text-[#000001]/70' : 'text-gray-500 dark:text-gray-400') + (plan.id === 'scale' ? ' whitespace-pre-line' : '')">
+              {{ plan.description }}
+            </p>
+          </div>
+
+          <div
+            class="relative mb-5 min-h-[2.75rem] 4xl:mb-6 4xl:min-h-[3.5rem] plan-price-crossfade"
+            [class.plan-price-crossfade--annual]="billingAnnual">
+            <div class="plan-price-crossfade__layer plan-price-crossfade__layer--monthly">
+              <div class="flex items-baseline gap-1.5 flex-wrap">
+                <span [class]="'font-semibold tracking-tight ' + (plan.highlighted ? 'text-2xl md:text-3xl 3xl:text-4xl 4xl:text-5xl text-white dark:text-[#000001]' : 'text-2xl 3xl:text-3xl 4xl:text-4xl text-black dark:text-white')">
+                  {{ plan.priceMonthly }}&nbsp;€
+                </span>
+                <span [class]="'font-normal ml-1 ' + (plan.highlighted ? 'text-[11px] 3xl:text-sm 4xl:text-base text-white dark:text-[#000001]' : 'text-xs 3xl:text-sm 4xl:text-base text-gray-400 dark:text-gray-500')">
+                  {{ t.pricingPerMonthLabel }}
+                </span>
+              </div>
+            </div>
+            <div class="plan-price-crossfade__layer plan-price-crossfade__layer--annual">
+              <div class="flex items-baseline gap-1.5 flex-wrap">
+                <span [class]="'font-semibold tracking-tight ' + (plan.highlighted ? 'text-2xl md:text-3xl 3xl:text-4xl 4xl:text-5xl text-white dark:text-[#000001]' : 'text-2xl 3xl:text-3xl 4xl:text-4xl text-black dark:text-white')">
+                  {{ plan.priceAnnualPerMonth }}&nbsp;€
+                </span>
+                <span [class]="'font-normal ml-1 ' + (plan.highlighted ? 'text-[11px] 3xl:text-sm 4xl:text-base text-white dark:text-[#000001]' : 'text-xs 3xl:text-sm 4xl:text-base text-gray-400 dark:text-gray-500')">
+                  {{ t.pricingPerMonthLabel }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          @if (plan.id === 'starter') {
+            <div class="w-full flex flex-col items-stretch">
+              <button
+                type="button"
+                (click)="onChoosePlan(plan.id, $event, starterCheckoutMode)"
+                [disabled]="stripeRedirecting || cancelLoading"
+                [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base ' +
+                  (plan.highlighted
+                    ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90'
+                    : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
+                <span>{{ plan.buttonText }}</span>
+              </button>
+              @if (isEmbeddedOnboarding && starterCheckoutMode === 'trial') {
+                <p
+                  class="mt-2 text-center text-[10px] sm:text-[11px] md:text-[10px] 4xl:text-xs font-medium leading-tight text-gray-400 dark:text-gray-500 select-none pointer-events-none">
+                  {{ t.upgradePlanStarterTrialTextLink }}
+                </p>
+              }
+            </div>
+          } @else if (plan.id === 'growth') {
+            <button
+              type="button"
+              (click)="onChoosePlan(plan.id, $event)"
+              [disabled]="stripeRedirecting || cancelLoading"
+              class="w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90">
+              <span>{{ plan.buttonText }}</span>
+              <svg class="w-5 h-5 ml-2 md:w-3.5 md:h-3.5 md:ml-1.5 4xl:w-7 4xl:h-7 4xl:ml-2.5 3xl:w-6 3xl:h-6 3xl:ml-2 transition-transform duration-300 group-hover:translate-x-1"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          } @else {
+            <button
+              type="button"
+              (click)="onChoosePlan(plan.id, $event)"
+              [disabled]="stripeRedirecting || cancelLoading"
+              class="w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90">
+              <span>{{ plan.buttonText }}</span>
+            </button>
+          }
+        </div>
+
+        <div
+          [class]="'flex-1 flex flex-col min-h-0 mt-4 max-md:pb-6 4xl:mt-6 3xl:mt-6 ' + (plan.highlighted ? 'px-5 py-4 sm:px-6 sm:py-5 4xl:px-8 4xl:py-8 3xl:px-8 3xl:py-7' : 'px-4 py-4 sm:px-5 sm:py-5 4xl:px-7 4xl:py-7 3xl:px-7 3xl:py-6')">
+          <h4 [class]="'font-bold uppercase tracking-widest mb-2 md:mb-1.5 4xl:mb-3 text-xs md:text-[8px] 3xl:text-[10px] 4xl:text-sm ' + (plan.highlighted ? 'md:text-[8px] text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500 md:text-[9px]')">
+            {{ t.whatIncluded }}
+          </h4>
+
+          <ul class="space-y-2.5 md:space-y-2 4xl:space-y-4 3xl:space-y-3.5">
+            @for (feature of plan.features; track feature.text) {
+              <li class="flex items-center gap-2 md:gap-1.5 4xl:gap-3 3xl:gap-2.5">
+                <span [class]="'flex-shrink-0 flex items-center justify-center ' + (plan.highlighted ? 'text-white dark:text-[#000001]' : 'text-gray-400 dark:text-gray-500')">
+                  <svg
+                    [class]="(plan.highlighted ? 'w-5 h-5 md:w-4 md:h-4 4xl:w-7 4xl:h-7 3xl:w-6 3xl:h-6' : 'w-4 h-4 md:w-3.5 md:h-3.5 4xl:w-6 4xl:h-6 3xl:w-5 3xl:h-5') + ' shrink-0 ' + (plan.highlighted ? 'invert dark:invert-0' : 'dark:invert')"
+                    fill="none" xmlns="http://www.w3.org/2000/svg" [attr.viewBox]="feature.icon.viewBox"
+                    aria-hidden="true">
+                    @for (p of feature.icon.paths; track $index) {
+                    <path [attr.d]="p.d" [attr.fill]="p.fill"
+                      [attr.fill-rule]="p.fillRule ?? null" [attr.clip-rule]="p.clipRule ?? null"
+                      [attr.opacity]="p.opacity ?? null" />
+                    }
+                  </svg>
+                </span>
+                <span [class]="'font-medium leading-tight text-sm md:text-[12px] 4xl:text-lg 3xl:text-base ' + (plan.highlighted ? 'text-gray-300 dark:text-[#000001]/70' : 'text-gray-700 dark:text-gray-300')">
+                  {{ feature.text }}
+                </span>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    }
+    </div>
+
+  </div>
+
+  <p
+    [class]="isEmbeddedOnboarding
+      ? 'block text-center text-[10px] sm:text-xs 3xl:text-base text-slate-600 dark:text-slate-400 mt-7 sm:mt-8 3xl:mt-9 mb-2 max-md:mb-3'
+      : 'block text-center text-sm 4xl:text-lg text-black dark:text-white mt-8 mb-4 max-md:mb-5 4xl:mt-12'">
+    <span class="select-none">
+      {{ t.pricingCustomPlansFooter }}
+    </span>
+    <a href="mailto:team&#64;llamalo.ai"
+      class="cursor-pointer hover:underline focus:outline-none focus:underline select-text text-[#0F172A] dark:text-white">
+      team&#64;llamalo.ai
+    </a>
+  </p>
+</div>

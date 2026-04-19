@@ -44,6 +44,7 @@ import {
   TranscriptMessage,
 } from '../../core/services/voice-test.service';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
 import type {
   TwilioAccount,
   TwilioConfig,
@@ -66,6 +67,10 @@ import {
   filter,
 } from 'rxjs';
 import { UserStorage } from '../../storages/user/user-storage';
+import {
+  resolveEffectivePlanSlug,
+  isShopifyIntegrationLockedForPlan,
+} from '../../shared/utils/shopify-plan-lock.util';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -496,6 +501,15 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
     return this.agent?.shopifyDomain ?? null;
   }
 
+  get shopifyIntegrationLocked(): boolean {
+    const slug = resolveEffectivePlanSlug(this.userStore.user());
+    return isShopifyIntegrationLockedForPlan(slug);
+  }
+
+  openShopifyLockedUpgradePlan(): void {
+    this.modalService.openUpgradePlan();
+  }
+
   get agentTwilioAccountId(): number | null {
     if (!this.agent) return null;
     const anyAgent = this.agent as any;
@@ -627,11 +641,14 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
               this.assignTwilioAccountToAgent(this.selectedTwilioAccountId);
             });
         },
-        error: (error) => {
+        error: (error: unknown) => {
           console.error('❌ Error al guardar configuración Twilio:', error);
           this.isSavingTwilioConfig = false;
           this.notificationService.error(
-            'No se pudo guardar la configuración de Twilio.',
+            getApiErrorMessage(
+              error,
+              'No se pudo guardar la configuración de Twilio.',
+            ),
           );
         },
       });
@@ -1204,21 +1221,32 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   }
 
   getVoiceTestAgentStateText(): string {
+    const t = this.t;
     switch (this.voiceTest.agentState()) {
-      case 'thinking': return 'Pensando...';
-      case 'speaking': return 'Hablando...';
-      case 'done': return 'Listo';
-      default: return 'Esperando...';
+      case 'thinking':
+        return t.agentStateThinking;
+      case 'speaking':
+        return t.agentStateSpeaking;
+      case 'done':
+        return t.agentStateDone;
+      default:
+        return t.agentStateWaiting;
     }
   }
 
   getVoiceTestConnectionStateText(): string {
+    const t = this.t;
     switch (this.voiceTest.connectionState()) {
-      case 'connecting': return 'Conectando...';
-      case 'connected': return 'Conectado';
-      case 'error': return 'Error';
-      case 'ended': return 'Finalizado';
-      default: return '';
+      case 'connecting':
+        return t.connectionConnecting;
+      case 'connected':
+        return t.connected;
+      case 'error':
+        return t.statusError;
+      case 'ended':
+        return t.connectionEnded;
+      default:
+        return '';
     }
   }
 
@@ -1419,6 +1447,10 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   }
 
   goToShopifyOnboarding(): void {
+    if (this.shopifyIntegrationLocked) {
+      this.modalService.openUpgradePlan();
+      return;
+    }
     if (this.agentId) {
       this.router.navigate(['/shopify-onboarding'], { queryParams: { agentId: this.agentId, source: 'admin' } });
     } else {

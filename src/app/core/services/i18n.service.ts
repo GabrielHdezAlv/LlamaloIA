@@ -51,6 +51,8 @@ export interface Translations {
   phoneNumberImportLabel: string;
   twilioAccountSidLabel: string;
   twilioAccountTokenLabel: string;
+  countryDialPopularSection: string;
+  countryDialAllSection: string;
   phoneNumberPlaceholder: string;
   twilioSidPlaceholder: string;
   twilioTokenPlaceholder: string;
@@ -67,7 +69,8 @@ export interface Translations {
   millisecondsLabel: string;
   minutesLabel: string;
   secondsLabel: string;
-  costPerMinute: string;
+  /** Etiqueta: coste EUR por minuto extra del plan (Métricas / admin métricas). */
+  costPerExtraMinute: string;
   subscription: string;
   peakHours: string;
   systemStatus: string;
@@ -190,6 +193,13 @@ export interface Translations {
   noAgentsYet: string;
   createItNow: string;
   createAgentButton: string;
+  /** Panel lateral ajustes de voz (creación / ElevenLabs) */
+  voiceSettingsSidebarTitle: string;
+  voiceParamStability: string;
+  voiceParamSimilarity: string;
+  voiceParamStyle: string;
+  voiceParamSpeed: string;
+  voiceParamBoost: string;
 
   // Numbers page
   importNumber: string;
@@ -219,6 +229,11 @@ export interface Translations {
   // 404 / Not Found page
   notFoundTitle: string;
   notFoundBackToDashboard: string;
+  /** 403 / Sin permiso */
+  forbiddenTitle: string;
+  forbiddenDescription: string;
+  forbiddenCtaHome: string;
+  forbiddenCtaLogin: string;
   allRightsReserved: string;
 
   // Metrics page
@@ -321,6 +336,17 @@ export interface Translations {
   emailNotEditable: string;
   country: string;
   selectCountry: string;
+  accountMetricsTimezone: string;
+  accountMetricsTimezoneHint: string;
+  accountTzEuropeMadrid: string;
+  accountTzAtlanticCanary: string;
+  accountTzEuropeLondon: string;
+  accountTzEuropeParis: string;
+  accountTzEuropeBerlin: string;
+  accountTzAmericaMexicoCity: string;
+  accountTzAmericaNewYork: string;
+  accountTzAmericaArgentina: string;
+  accountTzUTC: string;
   businessName: string;
   businessWebsite: string;
   forgotPassword: string;
@@ -346,16 +372,41 @@ export interface Translations {
   planLimitModalTitle: string;
   planLimitModalCta: string;
   metricsPanelBasicHint: string;
+  /** Mensaje sobre métricas atenuadas por plan (Starter) */
+  metricsUpgradePlanMessage: string;
   metricsExportCsvButton: string;
   trialBannerUpgrade: string;
+  /** Franja bajo el título: fin de prueba (día y hora), sin recuadro */
+  trialTimeRemainingLabel: string;
+  /** Misma idea, texto breve para menús desplegables (avatar / nav) */
+  trialTimeRemainingLabelShort: string;
   cancelSubscription: string;
   invoicesHistory: string;
   /** Un solo CTA al Customer Portal (cancelar / método / facturas) */
   manageBilling: string;
+  /** Descarga / abre la última factura (Stripe PDF o página alojada) */
+  downloadLatestInvoice: string;
+  downloadLatestInvoiceError: string;
   stripeBillingError: string;
   stripeNoCustomerYet: string;
   stripeBillingUpdated: string;
   stripeCheckoutCancelled: string;
+  /** Facturación pendiente (pago fallido / trial sin tarjeta) */
+  stripePaymentPendingTitle: string;
+  stripePaymentPendingDesc: string;
+  /** Pantalla dedicada sin plan activo (solo planes) */
+  billingChurnPageTitle: string;
+  billingChurnPageSubtitle: string;
+  /** Misma pantalla cuando el cobro en Stripe falló (past_due, etc.) */
+  subscribeRequiredPaymentFailedTitle: string;
+  subscribeRequiredPaymentFailedSubtitle: string;
+  /** Etiqueta corta del plan «sin suscripción» (navbar, cuenta) */
+  planDisplaySinPlan: string;
+  /** Paso de registro: elegir plan o prueba */
+  registrationPlanStepTitle: string;
+  registrationCancelCta: string;
+  /** Subtítulo bajo el título de planes en el onboarding (paso dedicado, no modal). */
+  onboardingPlanStepSubtitle: string;
 
   protectedByStripe: string;
 
@@ -417,6 +468,8 @@ export interface Translations {
   // Twilio integration modal
   twilioIntegrationTitle: string;
   phoneNumberLabel: string;
+  /** Editar agente: tras validar Twilio, confirmar número en la cuenta */
+  twilioAssignNumberToAgentButton: string;
   invalidPhoneNumber: string;
   twilioAccountSid: string;
   twilioAuthToken: string;
@@ -545,6 +598,10 @@ export interface Translations {
   knowledgeBaseDeleteConfirmMessage: string;
   knowledgeBaseDeleteConfirmButton: string;
   knowledgeBaseDeletingSource: string;
+  /** Tras borrado OK; sustituir {{name}} */
+  knowledgeBaseDeletedSuccess: string;
+  /** Tras procesamiento; sustituir {{name}} */
+  knowledgeDocumentProcessingComplete: string;
   urlTooLong: string;
   textTooLong: string;
 
@@ -570,9 +627,35 @@ export interface Translations {
   externalActionsMake: string;
   makeExternalDescription: string;
   makeComingSoon: string;
+  /** Sidebar Make (creación / edición agente): descripción junto al logo */
+  makeModalSidebarDesc: string;
+  /** Enlace a Make.com desde el panel lateral */
+  makeModalOpenMakeSite: string;
   connectShopifyTitle: string;
   linkStoreDescription: string;
   shopifyConnectDesc: string;
+  /** Pantallas /shopify-onboarding y /shopify-onboarding/success */
+  shopifyOnboardingAuthLoading: string;
+  shopifyOnboardingTitle: string;
+  shopifyOnboardingLoadingStores: string;
+  shopifyOnboardingSubtitleHasStores: string;
+  shopifyOnboardingSubtitleNew: string;
+  shopifyOnboardingConnectedStoresHeading: string;
+  shopifyOnboardingStoreConnectedBadge: string;
+  shopifyOnboardingConnectNewStore: string;
+  shopifyOnboardingDomainLabel: string;
+  shopifyOnboardingDomainPlaceholder: string;
+  shopifyOnboardingDomainInvalidHint: string;
+  shopifyOnboardingErrorSelectOrDomain: string;
+  shopifyOnboardingErrorDomainSuffix: string;
+  shopifyOnboardingErrorNoAuthUrl: string;
+  shopifyOnboardingErrorServer: string;
+  shopifySuccessErrorTitle: string;
+  shopifySuccessErrorFallback: string;
+  shopifySuccessTitle: string;
+  shopifySuccessYourStore: string;
+  shopifySuccessLinkedRest: string;
+  shopifySuccessContinueCta: string;
   connected: string;
   connect: string;
   connectPhoneTitle: string;
@@ -591,6 +674,23 @@ export interface Translations {
   changeBtn: string;
   availableNumbers: string;
   connectNewAccount: string;
+  /** Shopify en Cuenta: mismo texto que conectar otra cuenta, sin prefijo «+» */
+  shopifyConnectAnotherAccount: string;
+  /** Cuenta → Conexiones: botón que abre el panel de tiendas Shopify */
+  shopifyManageConnectionBtn: string;
+  /** Resumen cuando hay varias tiendas en subtítulo */
+  shopifyConnectedSummaryManySuffix: string;
+  /** Lista desplegable: encabezado sobre las tiendas */
+  shopifyConnectedAccountsHeading: string;
+  shopifyDisconnectConfirmTitle: string;
+  /** Usa {{shop}} para el dominio */
+  shopifyDisconnectConfirmMessage: string;
+  /** Texto del botón principal en el modal de desvincular */
+  shopifyDisconnectConfirmAction: string;
+  shopifyDisconnectedSuccess: string;
+  shopifyDisconnectError: string;
+  /** Cuenta / editar agente: overlay cuando el plan no incluye Shopify (Gratis, Starter). */
+  shopifyIntegrationLockedMessage: string;
   testAgentTitle: string;
   talkToAgentDescription: string;
   remainingTime: string;
@@ -599,6 +699,17 @@ export interface Translations {
   languageAndVoice: string;
   chooseCountryAndVoice: string;
   countryLabel: string;
+  /** Nombres del selector de idioma/región en el paso de voces (locale UI) */
+  voiceLang_es: string;
+  voiceLang_en: string;
+  voiceLang_fr: string;
+  voiceLang_it: string;
+  voiceLang_de: string;
+  voiceLang_pt: string;
+  voiceLang_us: string;
+  voiceLang_tr: string;
+  voiceLang_se: string;
+  voiceLang_nl: string;
 
   // Test agent step states
   agentStateThinking: string;
@@ -614,6 +725,31 @@ export interface Translations {
   microphoneLabel: string;
   endCallLabel: string;
   tryAgainLabel: string;
+
+  /** Widget flotante Xenon / asistente de voz */
+  supportWidgetSubtitle: string;
+  supportWidgetSettingsAria: string;
+  supportWidgetPlayTitle: string;
+  supportWidgetStopTitle: string;
+  supportWidgetMicEnableTitle: string;
+  supportWidgetMicDisableTitle: string;
+  supportWidgetPoweredBy: string;
+  supportWidgetAdvancedContact: string;
+  supportWidgetAdvancedContactAria: string;
+  supportWidgetLauncherTooltip: string;
+  supportWidgetMicPermissionError: string;
+
+  /** Notificaciones y fin de sesión (VoiceTestService) */
+  voiceTestEndTimeout: string;
+  voiceTestEndUser: string;
+  voiceTestEndDisconnect: string;
+  voiceTestEndReplaced: string;
+  voiceTestEndError: string;
+  voiceTestEndDefault: string;
+  voiceTestMicPermissionDenied: string;
+  voiceTestStartErrorPrefix: string;
+  voiceTestUnknownError: string;
+  voiceTestWsConnectFailed: string;
 
   // Account page extra
   acceptMarketing: string;
@@ -688,6 +824,10 @@ export interface Translations {
   upgradePlanGrowthDesc: string;
   upgradePlanScaleDesc: string;
   upgradePlanStarterButton: string;
+  /** Texto informativo bajo el CTA Starter (registro/onboarding), sin enlace. */
+  upgradePlanStarterTrialTextLink: string;
+  /** Etiqueta sobre la tarjeta Growth (plan destacado). */
+  upgradePlanPopularBadge: string;
   upgradePlanGrowthButton: string;
   upgradePlanScaleButton: string;
   pricingFeatureIncludedMinutes: string;
@@ -707,6 +847,10 @@ export interface Translations {
   pricingPerYear: string;
   pricingEquivalentTo: string;
   pricingPerMonthSlash: string;
+  /** Texto junto al precio del modal de planes: «/mes» / «/month». */
+  pricingPerMonthLabel: string;
+  /** Pie del modal de pricing antes del enlace de email (planes enterprise). */
+  pricingCustomPlansFooter: string;
   planUpgradeCelebrationTitleStarter: string;
   planUpgradeCelebrationTitleGrowth: string;
   planUpgradeCelebrationTitleScale: string;
@@ -727,6 +871,7 @@ export interface Translations {
   // Company setup / onboarding
   skipLabel: string;
   createFirstAgent: string;
+  onboardingPlanIntroTitle: string;
   whatDoYouWantToAchieve: string;
   youCanSelectMultiple: string;
   customerServiceInbound: string;
@@ -762,6 +907,8 @@ export interface Translations {
   authMarketingConsentLlamalo: string;
   authRememberMe: string;
   authOrContinueWith: string;
+  authGoogleLogin: string;
+  authErrorGoogleLogin: string;
   authTermsPrefix: string;
   authTermsConditions: string;
   authTermsAnd: string;
@@ -782,6 +929,8 @@ export interface Translations {
   authErrorEmailPassword: string;
   authErrorLogin: string;
   authSuccessLogin: string;
+  /** Registro sin PIN/código por correo (flujo simplificado). */
+  authSuccessRegisterNoPin: string;
   authErrorGetProfile: string;
   authErrorFillAll: string;
   authErrorMarketingConsent: string;
@@ -789,6 +938,28 @@ export interface Translations {
   authErrorRegister: string;
   authErrorRecoverEmail: string;
   authSuccessRecover: string;
+  authWelcomeRegister: string;
+  authWelcomeRecover: string;
+  authRegisterTitle: string;
+  authRegisterSubtitle: string;
+  authRegisterButton: string;
+  authRecoverTitle: string;
+  authRecoverSubtitle: string;
+  authRecoverButton: string;
+  authPromptNoAccount: string;
+  authLinkRegister: string;
+  authPromptAlreadyAccount: string;
+  authLinkLogin: string;
+  authPromptRecoverRemember: string;
+  authErrorRecoverRequest: string;
+  /** Tour primer agente (dashboard) */
+  firstAgentTourStep1Title: string;
+  firstAgentTourStep1Desc: string;
+  firstAgentTourStep2Title: string;
+  firstAgentTourStep2Desc: string;
+  firstAgentTourNextToAgents: string;
+  firstAgentTourDone: string;
+  firstAgentTourSkip: string;
 }
 
 @Injectable({
@@ -847,6 +1018,8 @@ export class I18nService {
       phoneNumberImportLabel: 'Número de teléfono',
       twilioAccountSidLabel: 'SID de cuenta Twilio',
       twilioAccountTokenLabel: 'Token de cuenta Twilio',
+      countryDialPopularSection: 'Más usadas',
+      countryDialAllSection: 'Todos los países',
       phoneNumberPlaceholder: '630 00 00 00',
       twilioSidPlaceholder: 'SID de cuenta Twilio',
       twilioTokenPlaceholder: 'Token de cuenta Twilio',
@@ -863,7 +1036,7 @@ export class I18nService {
       millisecondsLabel: 'MS',
       minutesLabel: 'M',
       secondsLabel: 'S',
-      costPerMinute: 'Coste por minuto',
+      costPerExtraMinute: 'Coste por minuto extra',
       subscription: 'Suscripción',
       peakHours: 'Llamadas por hora',
       averageCallDuration: 'Duración media',
@@ -985,6 +1158,12 @@ export class I18nService {
       noAgentsYet: 'Aún no tienes agentes',
       createItNow: 'Créalo ahora',
       createAgentButton: 'Crear Agente',
+      voiceSettingsSidebarTitle: 'Ajustes de voz',
+      voiceParamStability: 'Estabilidad',
+      voiceParamSimilarity: 'Similitud',
+      voiceParamStyle: 'Estilo',
+      voiceParamSpeed: 'Velocidad',
+      voiceParamBoost: 'Boost',
 
       // Numbers page
       importNumber: 'Importar Numero',
@@ -1014,6 +1193,11 @@ export class I18nService {
       // 404 / Not Found page
       notFoundTitle: 'Página no encontrada',
       notFoundBackToDashboard: 'Volver al panel',
+      forbiddenTitle: 'Acceso no permitido',
+      forbiddenDescription:
+        'No tienes permiso para ver esta página. Si crees que es un error, inicia sesión con una cuenta autorizada o vuelve al panel.',
+      forbiddenCtaHome: 'Ir al panel',
+      forbiddenCtaLogin: 'Iniciar sesión',
       allRightsReserved: 'Todos los derechos reservados',
 
       // Metrics page
@@ -1116,6 +1300,18 @@ export class I18nService {
       emailNotEditable: 'El email no se puede editar',
       country: 'País',
       selectCountry: 'Seleccionar país',
+      accountMetricsTimezone: 'Zona horaria (métricas del panel)',
+      accountMetricsTimezoneHint:
+        'Define cómo se calculan semana y mes en el panel (lunes y día 1 a las 00:01 en esa zona). Por defecto: España peninsular.',
+      accountTzEuropeMadrid: 'España (península)',
+      accountTzAtlanticCanary: 'Canarias',
+      accountTzEuropeLondon: 'Reino Unido (Londres)',
+      accountTzEuropeParis: 'Francia (París)',
+      accountTzEuropeBerlin: 'Alemania (Berlín)',
+      accountTzAmericaMexicoCity: 'México',
+      accountTzAmericaNewYork: 'EE. UU. (Este)',
+      accountTzAmericaArgentina: 'Argentina (Buenos Aires)',
+      accountTzUTC: 'UTC',
       businessName: 'Nombre del negocio',
       businessWebsite: 'Sitio web del negocio',
       forgotPassword: '¿Olvidaste tu contraseña?',
@@ -1141,17 +1337,38 @@ export class I18nService {
       planLimitModalCta: 'Ver planes y suscripción',
       metricsPanelBasicHint:
         'Estás viendo el panel resumido de tu plan. Los análisis avanzados (latencia, países, horas pico, etc.) están disponibles desde Growth.',
+      metricsUpgradePlanMessage: 'Mejora el plan para ver estas métricas',
       metricsExportCsvButton: 'Exportar CSV',
       trialBannerUpgrade: 'Mejorar plan',
+      trialTimeRemainingLabel: 'Tiempo restante de la prueba gratuita',
+      trialTimeRemainingLabelShort: 'Tiempo restante',
       cancelSubscription: 'Cancelar suscripción',
       invoicesHistory: 'Historial de facturas',
       manageBilling: 'Gestionar facturación',
+      downloadLatestInvoice: 'Descarga última factura',
+      downloadLatestInvoiceError:
+        'No se pudo obtener la factura. Inténtalo de nuevo o usa «Gestionar facturación».',
       stripeBillingError:
         'No se pudo abrir la facturación. Inténtalo de nuevo o contacta con soporte.',
       stripeNoCustomerYet:
         'Aún no tienes suscripción de pago. Elige un plan en «Mejorar plan».',
       stripeBillingUpdated: 'Datos de suscripción actualizados.',
       stripeCheckoutCancelled: 'Pago cancelado. Puedes intentarlo cuando quieras.',
+      stripePaymentPendingTitle: 'Pago pendiente de tu suscripción',
+      stripePaymentPendingDesc:
+        'Actualiza tu método de pago en el portal de facturación para seguir usando la plataforma.',
+      billingChurnPageTitle: 'Tu plan se ha acabado',
+      billingChurnPageSubtitle:
+        'Para continuar usando la plataforma, elige de nuevo uno de los planes.',
+      subscribeRequiredPaymentFailedTitle:
+        'El pago no se ha realizado correctamente',
+      subscribeRequiredPaymentFailedSubtitle:
+        'Actualiza tu método de pago desde el portal de facturación (elige un plan abajo) o contrata de nuevo para seguir usando la plataforma.',
+      planDisplaySinPlan: 'Sin plan',
+      registrationPlanStepTitle: 'Elige cómo quieres empezar',
+      registrationCancelCta: 'Cancelar registro y salir',
+      onboardingPlanStepSubtitle:
+        'Starter: 7 días de prueba en Stripe al pulsar «Empezar gratis» (tarjeta obligatoria; sin cargo durante la prueba). Growth y Scale: suscripción con tarjeta. Tras la prueba, el plan y facturación siguen las reglas de tu cuenta.',
       protectedByStripe: 'Protegido por Stripe',
 
       // Delete account modal
@@ -1212,6 +1429,7 @@ export class I18nService {
       // Twilio integration modal
       twilioIntegrationTitle: 'Integración con Twilio',
       phoneNumberLabel: 'Número de teléfono *',
+      twilioAssignNumberToAgentButton: 'Asignar número al agente',
       invalidPhoneNumber: 'Número inválido (mín 6, máx 15 dígitos)',
       twilioAccountSid: 'Twilio Account SID',
       twilioAuthToken: 'Twilio Auth Token',
@@ -1339,6 +1557,10 @@ export class I18nService {
         '¿Seguro que quieres eliminar «{{name}}»? Esta acción no se puede deshacer.',
       knowledgeBaseDeleteConfirmButton: 'Eliminar',
       knowledgeBaseDeletingSource: 'Eliminando…',
+      knowledgeBaseDeletedSuccess:
+        '«{{name}}» se ha eliminado correctamente de la base de conocimientos.',
+      knowledgeDocumentProcessingComplete:
+        '«{{name}}» ha terminado de procesarse y ya está listo.',
       urlTooLong: 'La URL no puede exceder los 2048 caracteres',
       textTooLong: 'El texto no puede exceder los 50,000 caracteres',
 
@@ -1364,9 +1586,43 @@ export class I18nService {
       externalActionsMake: 'Acciones externas',
       makeExternalDescription: 'Automatiza tus flujos',
       makeComingSoon: 'Próximamente',
+      makeModalSidebarDesc:
+        'Configura webhooks en Make.com para que tu agente dispare automatizaciones cuando lo necesites.',
+      makeModalOpenMakeSite: 'Abrir Make.com',
       connectShopifyTitle: 'Conecta tu negocio de Shopify',
       linkStoreDescription: 'Vincula tu tienda para que tu agente pueda usar tus datos reales.',
       shopifyConnectDesc: 'Conecta tu tienda para sincronizar productos, pedidos y clientes.',
+      shopifyOnboardingAuthLoading:
+        'Completando el proceso de asignar tienda a tu cuenta de Llamalo AI…',
+      shopifyOnboardingTitle: 'Conecta tu cuenta de Shopify',
+      shopifyOnboardingLoadingStores: 'Cargando tus tiendas conectadas...',
+      shopifyOnboardingSubtitleHasStores:
+        'Selecciona una de tus tiendas conectadas o conecta una nueva.',
+      shopifyOnboardingSubtitleNew:
+        'Introduce los datos de tu tienda para vincularla con Llamalo y empezar a configurar tu agente.',
+      shopifyOnboardingConnectedStoresHeading: 'Tiendas conectadas',
+      shopifyOnboardingStoreConnectedBadge: 'Tienda conectada',
+      shopifyOnboardingConnectNewStore: '+ Conectar nueva tienda',
+      shopifyOnboardingDomainLabel: 'Dominio de Shopify',
+      shopifyOnboardingDomainPlaceholder: 'Ej. mi-tienda.myshopify.com',
+      shopifyOnboardingDomainInvalidHint:
+        'El dominio debe terminar en .myshopify.com (ej. mi-tienda.myshopify.com)',
+      shopifyOnboardingErrorSelectOrDomain:
+        'Por favor, selecciona una tienda o ingresa un dominio válido.',
+      shopifyOnboardingErrorDomainSuffix:
+        'El dominio debe terminar en .myshopify.com',
+      shopifyOnboardingErrorNoAuthUrl:
+        'No se recibió la URL de autorización.',
+      shopifyOnboardingErrorServer:
+        'No se pudo conectar con el servidor. Inténtalo de nuevo.',
+      shopifySuccessErrorTitle: 'Error al conectar con Shopify',
+      shopifySuccessErrorFallback:
+        'No se pudo completar la conexión. Comprueba el dominio e inténtalo de nuevo.',
+      shopifySuccessTitle: 'Cuenta de Shopify conectada',
+      shopifySuccessYourStore: 'Tu tienda',
+      shopifySuccessLinkedRest:
+        'se ha vinculado correctamente con Llamalo. Puedes continuar configurando tu agente.',
+      shopifySuccessContinueCta: 'Continuar configurando el agente',
       connected: 'Conectado',
       connect: 'Conectar',
       connectPhoneTitle: 'Conecta tu número de teléfono',
@@ -1383,6 +1639,18 @@ export class I18nService {
       changeBtn: 'Cambiar',
       availableNumbers: 'Números disponibles',
       connectNewAccount: '+ Conectar nueva cuenta',
+      shopifyConnectAnotherAccount: 'Conectar nueva cuenta',
+      shopifyManageConnectionBtn: 'Gestionar',
+      shopifyConnectedSummaryManySuffix: 'tiendas conectadas',
+      shopifyConnectedAccountsHeading: 'Tiendas conectadas',
+      shopifyDisconnectConfirmTitle: 'Desvincular tienda Shopify',
+      shopifyDisconnectConfirmMessage:
+        '¿Seguro que quieres desvincular la tienda {{shop}}? Los agentes que la usen dejarán de sincronizar con esa tienda hasta que vuelvas a conectarla.',
+      shopifyDisconnectConfirmAction: 'Desvincular',
+      shopifyDisconnectedSuccess: 'Tienda Shopify desvinculada.',
+      shopifyDisconnectError: 'No se pudo desvincular la tienda. Inténtalo de nuevo.',
+      shopifyIntegrationLockedMessage:
+        'La integración con Shopify está disponible desde el plan Growth.',
       testAgentTitle: 'Prueba de agente',
       talkToAgentDescription: 'Habla con tu agente para verificar su voz, idioma e instrucciones antes de crear.',
       remainingTime: 'restantes',
@@ -1391,6 +1659,16 @@ export class I18nService {
       languageAndVoice: 'Lenguaje y voz',
       chooseCountryAndVoice: 'Elige el país y la voz de tu agente',
       countryLabel: 'País',
+      voiceLang_es: 'Español',
+      voiceLang_en: 'Inglés',
+      voiceLang_fr: 'Francés',
+      voiceLang_it: 'Italiano',
+      voiceLang_de: 'Alemán',
+      voiceLang_pt: 'Portugués',
+      voiceLang_us: 'Inglés (EE. UU.)',
+      voiceLang_tr: 'Turco',
+      voiceLang_se: 'Sueco',
+      voiceLang_nl: 'Neerlandés',
 
       agentStateThinking: 'Pensando...',
       agentStateSpeaking: 'Hablando...',
@@ -1405,6 +1683,35 @@ export class I18nService {
       microphoneLabel: 'Micrófono',
       endCallLabel: 'Terminar',
       tryAgainLabel: 'Probar de nuevo',
+
+      supportWidgetSubtitle: 'chat de soporte',
+      supportWidgetSettingsAria: 'Ajustes',
+      supportWidgetPlayTitle: 'Reproducir',
+      supportWidgetStopTitle: 'Detener',
+      supportWidgetMicEnableTitle: 'Activar micrófono',
+      supportWidgetMicDisableTitle: 'Desactivar micrófono',
+      supportWidgetPoweredBy: 'Powered by Llamalo AI',
+      supportWidgetAdvancedContact:
+        'Para consultas avanzadas, contáctanos en',
+      supportWidgetAdvancedContactAria:
+        'Contacto para consultas avanzadas',
+      supportWidgetLauncherTooltip: 'Asistente de voz',
+      supportWidgetMicPermissionError:
+        'No se pudo acceder al micrófono. Por favor, verifica los permisos.',
+
+      voiceTestEndTimeout:
+        'La prueba ha finalizado porque se alcanzó el tiempo máximo de 2 minutos.',
+      voiceTestEndUser: 'Has finalizado la prueba.',
+      voiceTestEndDisconnect: 'La conexión se ha perdido.',
+      voiceTestEndReplaced: 'La sesión fue reemplazada por otra prueba.',
+      voiceTestEndError: 'La sesión finalizó debido a un error.',
+      voiceTestEndDefault: 'La prueba ha finalizado.',
+      voiceTestMicPermissionDenied:
+        'Permiso de micrófono denegado. Por favor, permite el acceso al micrófono en tu navegador.',
+      voiceTestStartErrorPrefix: 'Error al iniciar la prueba de voz: ',
+      voiceTestUnknownError: 'Error desconocido',
+      voiceTestWsConnectFailed:
+        'No se pudo conectar con el servidor. Verifica tu conexión a internet.',
 
       // Account page extra
       acceptMarketing: 'Acepto recibir comunicaciones de marketing y promociones',
@@ -1477,10 +1784,13 @@ export class I18nService {
       upgradePlanScale: 'Scale',
       upgradePlanStarterDesc: 'Para empezar con agentes de voz y base de conocimiento.',
       upgradePlanGrowthDesc: 'Más minutos y capacidad para equipos en crecimiento.',
-      upgradePlanScaleDesc: 'Escala máxima y capacidad\nSoporte dedicado.',
-      upgradePlanStarterButton: 'Elegir Starter',
-      upgradePlanGrowthButton: 'Elegir Growth',
-      upgradePlanScaleButton: 'Elegir Scale',
+      upgradePlanScaleDesc: 'Escala máxima para alto volumen.\nSoporte dedicado.',
+      upgradePlanStarterButton: 'Empezar gratis',
+      upgradePlanStarterTrialTextLink:
+        'Prueba de 7 días en Stripe: se pedirá tarjeta sin cargo hasta que termine la prueba.',
+      upgradePlanPopularBadge: 'POPULAR',
+      upgradePlanGrowthButton: 'Empezar ahora',
+      upgradePlanScaleButton: 'Comenzar ahora',
       pricingFeatureIncludedMinutes: 'Minutos incluidos',
       pricingFeatureAgents: 'Agentes',
       pricingFeatureDocuments: 'Documentos',
@@ -1498,6 +1808,9 @@ export class I18nService {
       pricingPerYear: 'año',
       pricingEquivalentTo: 'Equivale a',
       pricingPerMonthSlash: '/mes',
+      pricingPerMonthLabel: '/mes',
+      pricingCustomPlansFooter:
+        'Para planes personalizados dirigidos a grandes corporaciones, puedes contactarnos en',
       planUpgradeCelebrationTitleStarter: '¡Bienvenido a tu plan Starter!',
       planUpgradeCelebrationTitleGrowth: '¡Bienvenido a tu plan Growth!',
       planUpgradeCelebrationTitleScale: '¡Bienvenido a tu plan Scale!',
@@ -1524,6 +1837,7 @@ export class I18nService {
       // Company setup
       skipLabel: 'Saltar',
       createFirstAgent: 'Crea tu primer agente',
+      onboardingPlanIntroTitle: 'Elige tu plan',
       whatDoYouWantToAchieve: '¿Qué quieres conseguir con Llamalo?',
       youCanSelectMultiple: 'Puedes seleccionar varias opciones para esta pregunta.',
       customerServiceInbound: 'Atención al cliente (Inbound)',
@@ -1559,6 +1873,9 @@ export class I18nService {
       authMarketingConsentLlamalo: 'Acepto recibir comunicaciones de marketing y promociones de Llamalo AI',
       authRememberMe: 'Mantener sesión activa',
       authOrContinueWith: 'O continuar con',
+      authGoogleLogin: 'Continuar con Google',
+      authErrorGoogleLogin:
+        'No se pudo iniciar sesión con Google. Inténtalo de nuevo.',
       authTermsPrefix: 'Al registrarme para crear una cuenta acepto las',
       authTermsConditions: 'Condiciones de uso',
       authTermsAnd: 'y la',
@@ -1579,6 +1896,8 @@ export class I18nService {
       authErrorEmailPassword: 'Por favor, ingrese email y contraseña',
       authErrorLogin: 'Error en inicio de sesión. Por favor, revisa tus credenciales.',
       authSuccessLogin: '¡Bienvenido de vuelta! Has iniciado sesión correctamente.',
+      authSuccessRegisterNoPin:
+        'Cuenta creada. Ya puedes continuar con la configuración.',
       authErrorGetProfile: 'Error al obtener perfil de usuario',
       authErrorFillAll: 'Por favor, completa todos los campos',
       authErrorMarketingConsent: 'Debes aceptar el consentimiento de marketing para continuar',
@@ -1586,6 +1905,30 @@ export class I18nService {
       authErrorRegister: 'Error al registrar usuario. Por favor, inténtelo de nuevo.',
       authErrorRecoverEmail: 'Ingresa tu correo para recuperar la contraseña',
       authSuccessRecover: 'Si el correo existe, recibirás instrucciones de recuperación.',
+      authWelcomeRegister: 'Crea tu cuenta en Llamalo',
+      authWelcomeRecover: 'Recupera el acceso a tu cuenta',
+      authRegisterTitle: 'Crear cuenta',
+      authRegisterSubtitle: 'Completa tus datos para registrarte',
+      authRegisterButton: 'Registrarse',
+      authRecoverTitle: 'Recuperar contraseña',
+      authRecoverSubtitle: 'Te enviaremos un enlace a tu correo',
+      authRecoverButton: 'Enviar enlace',
+      authPromptNoAccount: '¿No tienes cuenta?',
+      authLinkRegister: 'Regístrate',
+      authPromptAlreadyAccount: '¿Ya tienes cuenta?',
+      authLinkLogin: 'Iniciar sesión',
+      authPromptRecoverRemember: '¿Recordaste tu contraseña?',
+      authErrorRecoverRequest:
+        'No se pudo enviar el correo de recuperación. Inténtalo de nuevo.',
+      firstAgentTourStep1Title: 'Tu primer agente de voz',
+      firstAgentTourStep1Desc:
+        'En el menú lateral, pulsa <strong>Agentes</strong> para abrir la lista. Después te indicaremos cómo crear uno.',
+      firstAgentTourStep2Title: 'Crear tu agente',
+      firstAgentTourStep2Desc:
+        'Pulsa <strong>Agregar agente</strong> para comenzar el asistente guiado de creación.',
+      firstAgentTourNextToAgents: 'Ir a Agentes',
+      firstAgentTourDone: 'Entendido',
+      firstAgentTourSkip: 'Saltar',
     },
     en: {
       // Home page translations
@@ -1632,6 +1975,8 @@ export class I18nService {
       phoneNumberImportLabel: 'Phone Number',
       twilioAccountSidLabel: 'Twilio Account SID',
       twilioAccountTokenLabel: 'Twilio Account Token',
+      countryDialPopularSection: 'Most used',
+      countryDialAllSection: 'All countries',
       phoneNumberPlaceholder: '630 00 00 00',
       twilioSidPlaceholder: 'Twilio Account SID',
       twilioTokenPlaceholder: 'Twilio Account Token',
@@ -1648,7 +1993,7 @@ export class I18nService {
       millisecondsLabel: 'MS',
       minutesLabel: 'M',
       secondsLabel: 'S',
-      costPerMinute: 'Cost per minute',
+      costPerExtraMinute: 'Cost per extra minute',
       subscription: 'Subscription',
       peakHours: 'Calls per hour',
       averageCallDuration: 'Average duration',
@@ -1770,6 +2115,12 @@ export class I18nService {
       noAgentsYet: 'You don\'t have any phone agents yet.',
       createItNow: 'Create it now!',
       createAgentButton: 'Create agent',
+      voiceSettingsSidebarTitle: 'Voice settings',
+      voiceParamStability: 'Stability',
+      voiceParamSimilarity: 'Similarity',
+      voiceParamStyle: 'Style',
+      voiceParamSpeed: 'Speed',
+      voiceParamBoost: 'Boost',
 
       // Numbers page
       importNumber: 'Import Number',
@@ -1799,6 +2150,11 @@ export class I18nService {
       // 404 / Not Found page
       notFoundTitle: 'Page not found',
       notFoundBackToDashboard: 'Back to dashboard',
+      forbiddenTitle: 'Access denied',
+      forbiddenDescription:
+        'You do not have permission to view this page. If you think this is a mistake, sign in with an authorized account or return to the dashboard.',
+      forbiddenCtaHome: 'Go to dashboard',
+      forbiddenCtaLogin: 'Sign in',
       allRightsReserved: 'All rights reserved',
 
       // Metrics page
@@ -1901,6 +2257,18 @@ export class I18nService {
       emailNotEditable: 'Email cannot be edited',
       country: 'Country',
       selectCountry: 'Select country',
+      accountMetricsTimezone: 'Time zone (panel metrics)',
+      accountMetricsTimezoneHint:
+        'Defines how week and month boundaries are calculated in the panel (Monday and 1st at 00:01 in that zone). Default: mainland Spain.',
+      accountTzEuropeMadrid: 'Spain (mainland)',
+      accountTzAtlanticCanary: 'Canary Islands',
+      accountTzEuropeLondon: 'United Kingdom (London)',
+      accountTzEuropeParis: 'France (Paris)',
+      accountTzEuropeBerlin: 'Germany (Berlin)',
+      accountTzAmericaMexicoCity: 'Mexico',
+      accountTzAmericaNewYork: 'US (Eastern)',
+      accountTzAmericaArgentina: 'Argentina (Buenos Aires)',
+      accountTzUTC: 'UTC',
       businessName: 'Business name',
       businessWebsite: 'Business website',
       forgotPassword: 'Forgot password?',
@@ -1926,17 +2294,37 @@ export class I18nService {
       planLimitModalCta: 'View plans and billing',
       metricsPanelBasicHint:
         'You are viewing the summary dashboard for your plan. Advanced analytics (latency, countries, peak hours, etc.) are available from Growth.',
+      metricsUpgradePlanMessage: 'Upgrade your plan to see these metrics',
       metricsExportCsvButton: 'Export CSV',
       trialBannerUpgrade: 'Upgrade plan',
+      trialTimeRemainingLabel: 'Time remaining on the free trial',
+      trialTimeRemainingLabelShort: 'Time remaining',
       cancelSubscription: 'Cancel subscription',
       invoicesHistory: 'Invoices history',
       manageBilling: 'Manage billing',
+      downloadLatestInvoice: 'Download latest invoice',
+      downloadLatestInvoiceError:
+        'Could not fetch the invoice. Try again or use Manage billing.',
       stripeBillingError:
         'Could not open billing. Please try again or contact support.',
       stripeNoCustomerYet:
         'You do not have an active paid subscription yet. Choose a plan under Upgrade.',
       stripeBillingUpdated: 'Subscription details updated.',
       stripeCheckoutCancelled: 'Payment cancelled. You can try again anytime.',
+      stripePaymentPendingTitle: 'Subscription payment pending',
+      stripePaymentPendingDesc:
+        'Update your payment method in the billing portal to keep using the platform.',
+      billingChurnPageTitle: 'Your plan has ended',
+      billingChurnPageSubtitle:
+        'To keep using the platform, choose a plan again below.',
+      subscribeRequiredPaymentFailedTitle: 'Your payment could not be completed',
+      subscribeRequiredPaymentFailedSubtitle:
+        'Update your payment method in the billing portal (choose a plan below) or subscribe again to keep using the platform.',
+      planDisplaySinPlan: 'No plan',
+      registrationPlanStepTitle: 'Choose how to get started',
+      registrationCancelCta: 'Cancel sign-up and exit',
+      onboardingPlanStepSubtitle:
+        'Starter: start a 7-day trial in Stripe with «Start free» (card required; no charge during the trial). Growth and Scale: subscribe with a card. After the trial, billing follows your account rules.',
       protectedByStripe: 'Protected by Stripe',
 
       // Delete account modal
@@ -1997,6 +2385,7 @@ export class I18nService {
       // Twilio integration modal
       twilioIntegrationTitle: 'Twilio Integration',
       phoneNumberLabel: 'Phone number *',
+      twilioAssignNumberToAgentButton: 'Assign number to agent',
       invalidPhoneNumber: 'Invalid number (min 6, max 15 digits)',
       twilioAccountSid: 'Twilio Account SID',
       twilioAuthToken: 'Twilio Auth Token',
@@ -2124,6 +2513,10 @@ export class I18nService {
         'Are you sure you want to delete "{{name}}"? This action cannot be undone.',
       knowledgeBaseDeleteConfirmButton: 'Delete',
       knowledgeBaseDeletingSource: 'Deleting…',
+      knowledgeBaseDeletedSuccess:
+        '"{{name}}" has been deleted from your knowledge base.',
+      knowledgeDocumentProcessingComplete:
+        '"{{name}}" has finished processing and is ready.',
       urlTooLong: 'URL cannot exceed 2,048 characters',
       textTooLong: 'Text cannot exceed 50,000 characters',
 
@@ -2149,9 +2542,42 @@ export class I18nService {
       externalActionsMake: 'External actions',
       makeExternalDescription: 'Automate your workflows',
       makeComingSoon: 'Coming soon',
+      makeModalSidebarDesc:
+        'Set up webhooks in Make.com so your agent can trigger automations when needed.',
+      makeModalOpenMakeSite: 'Open Make.com',
       connectShopifyTitle: 'Connect your Shopify business',
       linkStoreDescription: 'Link your store so your agent can use your real data.',
       shopifyConnectDesc: 'Connect your store to sync products, orders and customers.',
+      shopifyOnboardingAuthLoading:
+        'Completing the process of linking your store to your Llamalo AI account…',
+      shopifyOnboardingTitle: 'Connect your Shopify account',
+      shopifyOnboardingLoadingStores: 'Loading your connected stores...',
+      shopifyOnboardingSubtitleHasStores:
+        'Select one of your connected stores or connect a new one.',
+      shopifyOnboardingSubtitleNew:
+        'Enter your store details to link it with Llamalo and start configuring your agent.',
+      shopifyOnboardingConnectedStoresHeading: 'Connected stores',
+      shopifyOnboardingStoreConnectedBadge: 'Connected store',
+      shopifyOnboardingConnectNewStore: '+ Connect new store',
+      shopifyOnboardingDomainLabel: 'Shopify domain',
+      shopifyOnboardingDomainPlaceholder: 'E.g. my-store.myshopify.com',
+      shopifyOnboardingDomainInvalidHint:
+        'The domain must end in .myshopify.com (e.g. my-store.myshopify.com)',
+      shopifyOnboardingErrorSelectOrDomain:
+        'Please select a store or enter a valid domain.',
+      shopifyOnboardingErrorDomainSuffix:
+        'The domain must end in .myshopify.com',
+      shopifyOnboardingErrorNoAuthUrl: 'Authorization URL was not received.',
+      shopifyOnboardingErrorServer:
+        'Could not connect to the server. Please try again.',
+      shopifySuccessErrorTitle: 'Error connecting to Shopify',
+      shopifySuccessErrorFallback:
+        'The connection could not be completed. Check the domain and try again.',
+      shopifySuccessTitle: 'Shopify account connected',
+      shopifySuccessYourStore: 'Your store',
+      shopifySuccessLinkedRest:
+        'has been linked successfully with Llamalo. You can continue configuring your agent.',
+      shopifySuccessContinueCta: 'Continue configuring your agent',
       connected: 'Connected',
       connect: 'Connect',
       connectPhoneTitle: 'Connect your phone number',
@@ -2168,6 +2594,18 @@ export class I18nService {
       changeBtn: 'Change',
       availableNumbers: 'Available numbers',
       connectNewAccount: '+ Connect new account',
+      shopifyConnectAnotherAccount: 'Connect new account',
+      shopifyManageConnectionBtn: 'Manage',
+      shopifyConnectedSummaryManySuffix: 'connected stores',
+      shopifyConnectedAccountsHeading: 'Connected stores',
+      shopifyDisconnectConfirmTitle: 'Disconnect Shopify store',
+      shopifyDisconnectConfirmMessage:
+        'Are you sure you want to disconnect {{shop}}? Agents using it will stop syncing with that store until you connect it again.',
+      shopifyDisconnectConfirmAction: 'Disconnect',
+      shopifyDisconnectedSuccess: 'Shopify store disconnected.',
+      shopifyDisconnectError: 'Could not disconnect the store. Please try again.',
+      shopifyIntegrationLockedMessage:
+        'Shopify integration is available from the Growth plan.',
       testAgentTitle: 'Agent test',
       talkToAgentDescription: 'Talk to your agent to verify its voice, language and instructions before creating.',
       remainingTime: 'remaining',
@@ -2176,6 +2614,16 @@ export class I18nService {
       languageAndVoice: 'Language and voice',
       chooseCountryAndVoice: 'Choose your agent\'s country and voice',
       countryLabel: 'Country',
+      voiceLang_es: 'Spanish',
+      voiceLang_en: 'English',
+      voiceLang_fr: 'French',
+      voiceLang_it: 'Italian',
+      voiceLang_de: 'German',
+      voiceLang_pt: 'Portuguese',
+      voiceLang_us: 'English (US)',
+      voiceLang_tr: 'Turkish',
+      voiceLang_se: 'Swedish',
+      voiceLang_nl: 'Dutch',
 
       agentStateThinking: 'Thinking...',
       agentStateSpeaking: 'Speaking...',
@@ -2190,6 +2638,34 @@ export class I18nService {
       microphoneLabel: 'Microphone',
       endCallLabel: 'End',
       tryAgainLabel: 'Try again',
+
+      supportWidgetSubtitle: 'support chat',
+      supportWidgetSettingsAria: 'Settings',
+      supportWidgetPlayTitle: 'Play',
+      supportWidgetStopTitle: 'Stop',
+      supportWidgetMicEnableTitle: 'Turn on microphone',
+      supportWidgetMicDisableTitle: 'Turn off microphone',
+      supportWidgetPoweredBy: 'Powered by Llamalo AI',
+      supportWidgetAdvancedContact:
+        'For advanced inquiries, contact us at',
+      supportWidgetAdvancedContactAria: 'Contact for advanced inquiries',
+      supportWidgetLauncherTooltip: 'Voice assistant',
+      supportWidgetMicPermissionError:
+        'Could not access the microphone. Please check your permissions.',
+
+      voiceTestEndTimeout:
+        'The test ended because the maximum time of 2 minutes was reached.',
+      voiceTestEndUser: 'You ended the test.',
+      voiceTestEndDisconnect: 'The connection was lost.',
+      voiceTestEndReplaced: 'The session was replaced by another test.',
+      voiceTestEndError: 'The session ended due to an error.',
+      voiceTestEndDefault: 'The test has ended.',
+      voiceTestMicPermissionDenied:
+        'Microphone permission denied. Please allow microphone access in your browser.',
+      voiceTestStartErrorPrefix: 'Could not start the voice test: ',
+      voiceTestUnknownError: 'Unknown error',
+      voiceTestWsConnectFailed:
+        'Could not connect to the server. Check your internet connection.',
 
       // Account page extra
       acceptMarketing: 'I agree to receive marketing and promotional communications',
@@ -2262,10 +2738,13 @@ export class I18nService {
       upgradePlanScale: 'Scale',
       upgradePlanStarterDesc: 'Get started with voice agents and a knowledge base.',
       upgradePlanGrowthDesc: 'More minutes and room for growing teams.',
-      upgradePlanScaleDesc: 'Max scale & capacity\nDedicated support.',
-      upgradePlanStarterButton: 'Choose Starter',
-      upgradePlanGrowthButton: 'Choose Growth',
-      upgradePlanScaleButton: 'Choose Scale',
+      upgradePlanScaleDesc: 'Maximum scale for high volume.\nDedicated support.',
+      upgradePlanStarterButton: 'Start free',
+      upgradePlanStarterTrialTextLink:
+        '7-day Stripe trial: card required; no charge until the trial ends.',
+      upgradePlanPopularBadge: 'POPULAR',
+      upgradePlanGrowthButton: 'Start now',
+      upgradePlanScaleButton: 'Get started now',
       pricingFeatureIncludedMinutes: 'Included minutes',
       pricingFeatureAgents: 'Agents',
       pricingFeatureDocuments: 'Documents',
@@ -2283,6 +2762,9 @@ export class I18nService {
       pricingPerYear: 'year',
       pricingEquivalentTo: 'Equivalent to',
       pricingPerMonthSlash: '/month',
+      pricingPerMonthLabel: '/month',
+      pricingCustomPlansFooter:
+        'For custom plans for large enterprises, contact us at',
       planUpgradeCelebrationTitleStarter: 'Welcome to your Starter plan!',
       planUpgradeCelebrationTitleGrowth: 'Welcome to your Growth plan!',
       planUpgradeCelebrationTitleScale: 'Welcome to your Scale plan!',
@@ -2309,6 +2791,7 @@ export class I18nService {
       // Company setup
       skipLabel: 'Skip',
       createFirstAgent: 'Create your first agent',
+      onboardingPlanIntroTitle: 'Choose your plan',
       whatDoYouWantToAchieve: 'What do you want to achieve with Llamalo?',
       youCanSelectMultiple: 'You can select multiple options for this question.',
       customerServiceInbound: 'Customer service (Inbound)',
@@ -2344,6 +2827,8 @@ export class I18nService {
       authMarketingConsentLlamalo: 'I agree to receive marketing and promotional communications from Llamalo AI',
       authRememberMe: 'Keep me signed in',
       authOrContinueWith: 'Or continue with',
+      authGoogleLogin: 'Continue with Google',
+      authErrorGoogleLogin: 'Could not sign in with Google. Please try again.',
       authTermsPrefix: 'By signing up I accept the',
       authTermsConditions: 'Terms of use',
       authTermsAnd: 'and the',
@@ -2364,6 +2849,8 @@ export class I18nService {
       authErrorEmailPassword: 'Please enter email and password',
       authErrorLogin: 'Login failed. Please check your credentials.',
       authSuccessLogin: 'Welcome back! You have logged in successfully.',
+      authSuccessRegisterNoPin:
+        'Account created. You can continue with setup.',
       authErrorGetProfile: 'Error getting user profile',
       authErrorFillAll: 'Please fill in all fields',
       authErrorMarketingConsent: 'You must accept marketing consent to continue',
@@ -2371,6 +2858,30 @@ export class I18nService {
       authErrorRegister: 'Error registering user. Please try again.',
       authErrorRecoverEmail: 'Enter your email to recover your password',
       authSuccessRecover: 'If the email exists, you will receive recovery instructions.',
+      authWelcomeRegister: 'Create your Llamalo account',
+      authWelcomeRecover: 'Recover access to your account',
+      authRegisterTitle: 'Sign up',
+      authRegisterSubtitle: 'Fill in your details to create an account',
+      authRegisterButton: 'Sign up',
+      authRecoverTitle: 'Reset password',
+      authRecoverSubtitle: 'We will email you a reset link',
+      authRecoverButton: 'Send link',
+      authPromptNoAccount: "Don't have an account?",
+      authLinkRegister: 'Sign up',
+      authPromptAlreadyAccount: 'Already have an account?',
+      authLinkLogin: 'Log in',
+      authPromptRecoverRemember: 'Remember your password?',
+      authErrorRecoverRequest:
+        'Could not send the recovery email. Please try again.',
+      firstAgentTourStep1Title: 'Your first voice agent',
+      firstAgentTourStep1Desc:
+        'In the sidebar, tap <strong>Agents</strong> to open the list. We will then show you how to create one.',
+      firstAgentTourStep2Title: 'Create your agent',
+      firstAgentTourStep2Desc:
+        'Click <strong>Add agent</strong> to start the guided creation flow.',
+      firstAgentTourNextToAgents: 'Go to Agents',
+      firstAgentTourDone: 'Got it',
+      firstAgentTourSkip: 'Skip',
     }
   };
 

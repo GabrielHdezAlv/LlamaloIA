@@ -18,6 +18,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserStorage } from '../../storages/user/user-storage';
 import { UserService } from '../../core/services/user.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ModalService } from '../../shared/modals/modal.service';
 import { NotificationService } from '../../core/services/notification.service';
@@ -26,7 +27,26 @@ import { RippleButtonComponent } from '../../shared/components/ripple-button/rip
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
 import { ImageCropperComponent } from '../../shared/components/image-cropper/image-cropper.component';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
 import { StripeService } from '../../core/services/stripe.service';
+import { ShopifyIntegrationService } from '../../core/services/shopify-integration.service';
+import {
+  PLAN_TIER_STORAGE_KEY,
+  type PaidUpgradePlanId,
+} from '../../shared/modals/upgrade-plan-modal/pricing-plan-features';
+import { ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY } from '../../shared/modals/upgrade-plan-modal/upgrade-plan-pricing-view.component';
+import {
+  resolveEffectivePlanSlug,
+  isShopifyIntegrationLockedForPlan,
+} from '../../shared/utils/shopify-plan-lock.util';
+
+/** Alineado con backend: suscripción con cobro pendiente o incompleta. */
+const STRIPE_BILLING_BLOCKED_UI = new Set([
+  'past_due',
+  'unpaid',
+  'paused',
+  'incomplete',
+]);
 
 @Component({
   selector: 'app-account',
@@ -34,6 +54,7 @@ import { StripeService } from '../../core/services/stripe.service';
   imports: [
     FormsModule,
     MatSnackBarModule,
+    MatSelectModule,
     CommonModule,
     RippleButtonComponent,
     AnimatedCheckboxComponent,
@@ -67,6 +88,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private twilioService = inject(TwilioService);
   private stripeService = inject(StripeService);
+  private shopifyIntegrationService = inject(ShopifyIntegrationService);
 
   activeTab:
     | 'profile'
@@ -112,6 +134,8 @@ export class AccountComponent implements OnInit, OnDestroy {
   tempLastname = '';
   tempFullName = '';
   tempCountry = '';
+  /** IANA: semanas/meses de negocio en métricas del panel */
+  tempMetricsTimezone = 'Europe/Madrid';
   tempMarketingConsent: boolean = false;
   tempEnterprise: { name: string; url: string } = { name: '', url: '' };
   tempProfileImage = '';
@@ -140,6 +164,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   isSaving = false;
   currentPlanName: string = 'Gratis';
   stripeBillingRedirecting = false;
+  stripeLatestInvoiceLoading = false;
 
   // Integraciones (mismo patrón visual que edit-agent / connect-phone-step)
   twilioConnectionsExpanded = false;
@@ -197,6 +222,34 @@ export class AccountComponent implements OnInit, OnDestroy {
     return first?.shopDomain ?? '';
   });
 
+  /** Tiendas Shopify enlazadas al perfil (panel borrar / desvincular). */
+  connectedShopifyStores = computed(() => {
+    const shops = this.user()?.integrations?.shopify ?? [];
+    return shops.filter(
+      (s) => !!(s?.shopDomain?.trim()) && s.connected !== false,
+    );
+  });
+
+  /** Subtítulo bajo “Shopify”, al estilo Twilio. */
+  shopifyConnectionsSubtitleText = computed(() => {
+    const shops = this.connectedShopifyStores();
+    const n = shops.length;
+    if (n === 0) return '';
+    const tr = this.i18nService.getTranslations();
+    if (n === 1) return shops[0].shopDomain!.trim();
+    return `${n} ${tr.shopifyConnectedSummaryManySuffix}`;
+  });
+
+  /** Gratis / Starter: Shopify visible pero bloqueado (Growth+ en API). */
+  shopifyIntegrationLocked = computed(() => {
+    const slug = resolveEffectivePlanSlug(this.user());
+    return isShopifyIntegrationLockedForPlan(slug);
+  });
+
+  /** Panel desplegable para listar y borrar tiendas (como Twilio). */
+  shopifyConnectionsExpanded = false;
+  deletingShopifyDomain: string | null = null;
+
   // Información de eliminación programada
   scheduledDeletionDate = computed(
     () => this.user()?.scheduledDeletionDate ?? null,
@@ -236,6 +289,22 @@ export class AccountComponent implements OnInit, OnDestroy {
     return this.t.connect;
   }
 
+  /** Zonas IANA habituales para métricas (valor por defecto Europe/Madrid). */
+  get metricsTimezoneOptions(): { value: string; label: string }[] {
+    const tr = this.t;
+    return [
+      { value: 'Europe/Madrid', label: tr.accountTzEuropeMadrid },
+      { value: 'Atlantic/Canary', label: tr.accountTzAtlanticCanary },
+      { value: 'Europe/London', label: tr.accountTzEuropeLondon },
+      { value: 'Europe/Paris', label: tr.accountTzEuropeParis },
+      { value: 'Europe/Berlin', label: tr.accountTzEuropeBerlin },
+      { value: 'America/Mexico_City', label: tr.accountTzAmericaMexicoCity },
+      { value: 'America/New_York', label: tr.accountTzAmericaNewYork },
+      { value: 'America/Argentina/Buenos_Aires', label: tr.accountTzAmericaArgentina },
+      { value: 'UTC', label: tr.accountTzUTC },
+    ];
+  }
+
   // Método para cambiar de pestaña (primero desaparece el contenido, luego aparece el nuevo)
   setActiveTab(
     tab:
@@ -248,7 +317,10 @@ export class AccountComponent implements OnInit, OnDestroy {
     if (tab === this.displayedTab) return;
     if (this.sectionTransitionTimeout) clearTimeout(this.sectionTransitionTimeout);
     this.activeTab = tab;
-    if (tab === 'connections') this.loadTwilioAccounts();
+    if (tab === 'connections') {
+      this.loadTwilioAccounts();
+      void this.userStore.loadUserProfile();
+    }
     this.sectionLeaving = true;
     this.sectionTransitionTimeout = setTimeout(() => {
       this.displayedTab = tab;
@@ -280,57 +352,36 @@ export class AccountComponent implements OnInit, OnDestroy {
     return ent?.url || '';
   });
 
-  /** Cupo mensual (UTC), alineado con el backend (`minute-quota` / Firestore). */
-  minuteQuotaView = computed(() => {
-    const u = this.user();
-    if (!u) return null;
-    const month = new Date().toISOString().slice(0, 7);
-    const usedRaw = u.minutesByMonth?.[month];
-    const used =
-      typeof usedRaw === 'number' && !Number.isNaN(usedRaw) ? usedRaw : 0;
-    const planLimit = u.minutesLimit ?? 100;
-    const extra = u.extraMinutes ?? 0;
-    const plan = (u.plan ?? '').toLowerCase();
-    if (plan === 'premium') {
-      return { mode: 'unlimited' as const, used };
-    }
-    const total = planLimit + extra;
-    const remaining = Math.max(0, total - used);
-    return {
-      mode: 'limited' as const,
-      used,
-      total,
-      remaining,
-      planLimit,
-      extra,
-    };
+  /** Pago pendiente en Stripe: mostrar aviso en Facturación. */
+  showStripePaymentPendingBanner = computed(() => {
+    const s = this.user()?.stripeSubscriptionStatus?.trim();
+    if (!s) return false;
+    return STRIPE_BILLING_BLOCKED_UI.has(s);
   });
 
-  showOutOfMinutesBanner = computed(() => {
-    const q = this.minuteQuotaView();
-    if (!q || q.mode === 'unlimited') return false;
-    return q.remaining <= 0;
-  });
-
-  /** Días restantes de prueba (plan gratis con trial activo). */
-  trialDaysRemaining = computed(() => {
-    const u = this.user();
-    const pu = u?.planUsage;
-    if (!u || u.plan !== 'gratis' || !pu?.trialActive) return null;
-    const raw = pu.trialEndsAt ?? u.trialEndsAt;
-    if (!raw) return null;
-    const end = new Date(raw).getTime();
-    const days = Math.ceil((end - Date.now()) / 86400000);
-    return Math.max(0, days);
-  });
-
-  /** Resumen de uso vs límites (API planUsage). */
-  planUsageSummary = computed(() => {
+  /** Igual que el dropdown del avatar: prueba activa en plan efectivo gratis. */
+  get showTrialRemainingInBilling(): boolean {
     const pu = this.user()?.planUsage;
-    if (!pu) return null;
-    const mbUsed = (pu.storageUsedBytes / (1024 * 1024)).toFixed(1);
-    return `${pu.agentsCount}/${pu.limits.agents} ${this.t.agentsShort} · ${pu.webSourcesCount}/${pu.limits.indexedUrls} URLs · ${pu.docSourcesCount}/${pu.limits.documentsMax} ${this.t.docsShort} · ${mbUsed} / ${pu.limits.storageTotalMb} MB`;
-  });
+    if (!pu?.trialActive || !pu.trialEndsAt) return false;
+    return pu.effectivePlanSlug === 'gratis';
+  }
+
+  /** Tiempo hasta fin de prueba (p. ej. `6D 23H`). */
+  get trialRemainingDh(): string {
+    this.i18nService.selectedLanguage();
+    const u = this.user();
+    if (!u) return '0D 0H';
+    const pu = u.planUsage;
+    const raw = pu?.trialEndsAt ?? u.trialEndsAt;
+    if (!raw) return '0D 0H';
+    const end = new Date(raw).getTime();
+    if (Number.isNaN(end)) return '0D 0H';
+    const ms = Math.max(0, end - Date.now());
+    const totalHours = Math.floor(ms / 3_600_000);
+    const days = Math.floor(totalHours / 24);
+    const hours = totalHours % 24;
+    return `${days}D ${hours}H`;
+  }
 
   ngOnInit() {
     this.i18nService.initializeLanguage();
@@ -342,6 +393,8 @@ export class AccountComponent implements OnInit, OnDestroy {
       // Inicializar nombre completo combinando name y lastname
       this.tempFullName = `${user.name || ''} ${user.lastname || ''}`.trim();
       this.tempCountry = user.country || '';
+      this.tempMetricsTimezone =
+        user.metricsCalendarTimezone?.trim() || 'Europe/Madrid';
       this.tempMarketingConsent = user.marketingConsent || false;
       // Inicializar enterprise como objeto
       this.tempEnterprise = user.enterprise || { name: '', url: '' };
@@ -383,9 +436,20 @@ export class AccountComponent implements OnInit, OnDestroy {
       }
 
       if (params['stripe'] === 'success' || params['stripe'] === 'return') {
+        if (isPlatformBrowser(this.platformId)) {
+          try {
+            sessionStorage.removeItem(ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY);
+          } catch {
+            /* ignore */
+          }
+        }
+        const stripeKind = params['stripe'];
         void this.userStore.loadUserProfile().then(() => {
           this.syncBillingFromUser();
           this.notificationService.success(this.t.stripeBillingUpdated);
+          if (stripeKind === 'success') {
+            this.tryOpenPlanCelebrationAfterStripeSuccess();
+          }
         });
         setTimeout(() => {
           this.router.navigate([], {
@@ -425,6 +489,53 @@ export class AccountComponent implements OnInit, OnDestroy {
       }
 
     });
+  }
+
+  /**
+   * Tras Stripe Checkout (`stripe=success`): modal de celebración con el plan contratado.
+   * El tier suele venir de `PLAN_TIER_STORAGE_KEY` (guardado al elegir plan); si no, del perfil recargado.
+   */
+  private tryOpenPlanCelebrationAfterStripeSuccess(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    const plan = this.resolvePaidPlanForCelebration();
+    try {
+      localStorage.removeItem(PLAN_TIER_STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+    if (!plan) {
+      return;
+    }
+    setTimeout(() => {
+      this.modalService.openPlanUpgradeCelebration({ plan });
+    }, 200);
+  }
+
+  private resolvePaidPlanForCelebration(): PaidUpgradePlanId | null {
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        const stored = localStorage
+          .getItem(PLAN_TIER_STORAGE_KEY)
+          ?.trim()
+          .toLowerCase();
+        if (
+          stored === 'starter' ||
+          stored === 'growth' ||
+          stored === 'scale'
+        ) {
+          return stored;
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+    const raw = this.user()?.plan?.trim().toLowerCase() ?? '';
+    if (raw === 'starter' || raw === 'growth' || raw === 'scale') {
+      return raw;
+    }
+    return null;
   }
 
   // Método para actualizar contraseña
@@ -854,6 +965,7 @@ export class AccountComponent implements OnInit, OnDestroy {
       enterprise: enterprise,
       country: this.tempCountry,
       marketingConsent: this.tempMarketingConsent,
+      metricsCalendarTimezone: this.tempMetricsTimezone,
     };
 
     // Usar método unificado con posible archivo de imagen
@@ -923,6 +1035,33 @@ export class AccountComponent implements OnInit, OnDestroy {
     });
   }
 
+  downloadLatestInvoice(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const u = this.user();
+    if (!u?.stripeCustomerId?.trim()) {
+      this.notificationService.error(this.t.stripeNoCustomerYet);
+      return;
+    }
+    this.stripeLatestInvoiceLoading = true;
+    this.stripeService.getLatestInvoice().subscribe({
+      next: (res) => {
+        this.stripeLatestInvoiceLoading = false;
+        const url = res.pdfUrl ?? res.hostedInvoiceUrl;
+        if (!url) {
+          this.notificationService.error(this.t.downloadLatestInvoiceError);
+          return;
+        }
+        window.open(url, '_blank', 'noopener,noreferrer');
+      },
+      error: (err: { error?: { message?: string } }) => {
+        this.stripeLatestInvoiceLoading = false;
+        this.notificationService.error(
+          err?.error?.message ?? this.t.downloadLatestInvoiceError,
+        );
+      },
+    });
+  }
+
   toggleTwilioConnectionsPanel(): void {
     const next = !this.twilioConnectionsExpanded;
     this.twilioConnectionsExpanded = next;
@@ -964,8 +1103,71 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.toggleTwilioConnectionsPanel();
   }
 
+  /** Abre el modal de planes (p. ej. overlay Shopify bloqueado en Conexiones). */
+  openShopifyLockedUpgradePlan(): void {
+    this.modalService.openUpgradePlan();
+  }
+
   goToShopifyOnboardingFromAccount(): void {
-    this.router.navigate(['/shopify-onboarding']);
+    if (this.shopifyIntegrationLocked()) {
+      this.modalService.openUpgradePlan();
+      return;
+    }
+    this.router.navigate(['/shopify-onboarding'], {
+      queryParams: { source: 'account' },
+    });
+  }
+
+  get shopifyDeleteHeaderLabel(): string {
+    if (this.shopifyConnectionsExpanded) return this.t.closeBtn;
+    return this.t.shopifyManageConnectionBtn;
+  }
+
+  toggleShopifyConnectionsPanel(): void {
+    if (this.connectedShopifyStores().length === 0) return;
+    this.shopifyConnectionsExpanded = !this.shopifyConnectionsExpanded;
+  }
+
+  onShopifyDeleteHeaderButtonClick(event: Event): void {
+    event.stopPropagation();
+    this.toggleShopifyConnectionsPanel();
+  }
+
+  deleteShopifyStore(shopDomain: string): void {
+    const tr = this.t;
+    const dialogRef = this.modalService.openWarning({
+      title: tr.shopifyDisconnectConfirmTitle,
+      message: tr.shopifyDisconnectConfirmMessage.replace(
+        '{{shop}}',
+        shopDomain,
+      ),
+      confirmText: tr.shopifyDisconnectConfirmAction,
+      cancelText: tr.cancelBtn,
+      showCancelButton: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== true) return;
+      this.deletingShopifyDomain = shopDomain;
+      this.shopifyIntegrationService.disconnectStore(shopDomain).subscribe({
+        next: async (res: { message?: string }) => {
+          this.deletingShopifyDomain = null;
+          this.notificationService.success(
+            res.message ?? tr.shopifyDisconnectedSuccess,
+          );
+          await this.userStore.loadUserProfile();
+          if (this.connectedShopifyStores().length === 0) {
+            this.shopifyConnectionsExpanded = false;
+          }
+        },
+        error: (err: { error?: { message?: string } }) => {
+          this.deletingShopifyDomain = null;
+          this.notificationService.error(
+            err?.error?.message ?? tr.shopifyDisconnectError,
+          );
+        },
+      });
+    });
   }
 
   // Método para cargar las cuentas de Twilio del usuario
@@ -1202,14 +1404,14 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.twilioToken = '';
         this.showTwilioConfig = false;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         this.isLoadingTwilio = false;
-        // Mostrar mensaje de error del servidor o genérico
-        const errorMessage =
-          error?.error?.message ||
-          error?.message ||
-          'Error al guardar la configuración de Twilio';
-        this.notificationService.error(errorMessage);
+        this.notificationService.error(
+          getApiErrorMessage(
+            error,
+            'Error al guardar la configuración de Twilio',
+          ),
+        );
         console.error('Error al guardar configuración de Twilio:', error);
       },
     });

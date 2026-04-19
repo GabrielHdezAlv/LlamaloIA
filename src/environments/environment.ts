@@ -5,9 +5,11 @@
  */
 export const environment = {
   production: false,
+  /** Si es true, no se muestra el modal del código de 6 dígitos; alinear con la API. */
+  skipEmailVerification: false,
   /** Etiqueta en el topbar; `null` = ocultar (solo build producción/master). */
   deployEnvLabel: 'local' as string | null,
-  /** Base URL del backend (sin barra final). `ng serve` usa este valor; Vercel usa fileReplacements. */
+  /** Base URL del backend (sin barra final). `ng serve` usa este valor; para API de dev: `ng serve --configuration=new-dev`. Vercel usa fileReplacements. */
   apiUrl: 'https://llamaloiabackend-5294.onrender.com',
   /** API key para Google Cloud Translation API v2. Dejar vacío para usar diccionario estático en inglés. */
   translationApiKey: '',

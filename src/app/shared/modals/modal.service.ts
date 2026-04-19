@@ -1,5 +1,6 @@
-import { Injectable, inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import {
   ErrorModalComponent,
   ErrorModalData,
@@ -52,17 +53,24 @@ import {
   TextModalComponent,
   TextModalData,
 } from './text-modal/text-modal.component';
-import { UpgradePlanModalComponent } from './upgrade-plan-modal/upgrade-plan-modal.component';
+import {
+  UpgradePlanModalComponent,
+  type UpgradePlanModalData,
+} from './upgrade-plan-modal/upgrade-plan-modal.component';
 import {
   PlanUpgradeCelebrationModalComponent,
   PlanUpgradeCelebrationModalData,
 } from './plan-upgrade-celebration-modal/plan-upgrade-celebration-modal.component';
+import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
+import { PLAN_CELEBRATION_SHOWN_SESSION_KEY } from '../../core/constants/first-agent-tour.constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService {
   private dialog = inject(MatDialog);
+  private firstAgentTour = inject(FirstAgentTourService);
+  private platformId = inject(PLATFORM_ID);
 
   /** Animaciones de entrada/salida del contenedor de Material Dialog. */
   private readonly dialogMotion = {
@@ -112,7 +120,7 @@ export class ModalService {
 
   openWarning(data: WarningModalData) {
     return this.dialog.open(WarningModalComponent, {
-      width: 'auto',            // que se adapte al contenido
+      width: 'auto', // que se adapte al contenido
       maxWidth: 'min(100%, calc(100vw - 1.5rem))', // móvil: nunca más ancho que el viewport
       disableClose: false,
       panelClass: ['custom-dialog-container', 'warning-dialog-top'],
@@ -208,7 +216,7 @@ export class ModalService {
 
   openText(data: TextModalData = {}) {
     return this.dialog.open(TextModalComponent, {
-      width: '600px',
+      width: '720px',
       maxWidth: '95vw',
       disableClose: false,
       panelClass: 'custom-dialog-container',
@@ -222,6 +230,7 @@ export class ModalService {
     return this.dialog.open(UpgradePlanModalComponent, {
       width: '880px',
       maxWidth: '95vw',
+      data: { mode: 'upgrade' } satisfies UpgradePlanModalData,
       // El cierre animado lo gestiona el componente (backdrop / Escape / X).
       disableClose: true,
       panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
@@ -229,12 +238,90 @@ export class ModalService {
     });
   }
 
-  openPlanUpgradeCelebration(data: PlanUpgradeCelebrationModalData) {
-    return this.dialog.open(PlanUpgradeCelebrationModalComponent, {
+  /** Trial expirado o pago pendiente: mismo modal de precios, no cerrable, id único para no duplicar. */
+  openUpgradePlanPaywall() {
+    const existing = this.dialog.openDialogs.find(
+      (d) => d.id === 'subscription-paywall',
+    );
+    if (existing) {
+      return existing;
+    }
+    return this.dialog.open(UpgradePlanModalComponent, {
+      id: 'subscription-paywall',
+      width: '880px',
+      maxWidth: '95vw',
+      disableClose: true,
+      data: { mode: 'paywall' } satisfies UpgradePlanModalData,
+      panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
+      ...this.dialogMotion,
+    });
+  }
+
+  /** Tras registro: elegir plan de pago o prueba gratuita (no se puede omitir). */
+  openRegistrationPlanGate(
+    data: UpgradePlanModalData = { mode: 'registration' },
+  ) {
+    const existing = this.dialog.openDialogs.find(
+      (d) => d.id === 'registration-plan-gate',
+    );
+    if (existing) {
+      return existing;
+    }
+    return this.dialog.open(UpgradePlanModalComponent, {
+      id: 'registration-plan-gate',
+      width: '880px',
+      maxWidth: '95vw',
+      disableClose: true,
+      data,
+      panelClass: ['custom-dialog-container', 'upgrade-plan-dialog'],
+      ...this.dialogMotion,
+    });
+  }
+
+  /**
+   * Modal «Bienvenido a tu plan». Solo una vez por sesión: tras Stripe en cuenta y luego
+   * home con POST_ONBOARDING, la segunda llamada no abre otro modal.
+   */
+  openPlanUpgradeCelebration(
+    data: PlanUpgradeCelebrationModalData,
+  ):
+    | MatDialogRef<PlanUpgradeCelebrationModalComponent>
+    | undefined {
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        if (
+          sessionStorage.getItem(PLAN_CELEBRATION_SHOWN_SESSION_KEY) === '1'
+        ) {
+          return undefined;
+        }
+      } catch {
+        /* ignore */
+      }
+      const alreadyOpen = this.dialog.openDialogs.find(
+        (d) =>
+          d.componentInstance instanceof PlanUpgradeCelebrationModalComponent,
+      );
+      if (alreadyOpen) {
+        return alreadyOpen as MatDialogRef<PlanUpgradeCelebrationModalComponent>;
+      }
+    }
+
+    this.firstAgentTour.markPlanCelebrationRequired();
+    const ref = this.dialog.open(PlanUpgradeCelebrationModalComponent, {
       disableClose: true,
       panelClass: ['custom-dialog-container', 'plan-celebration-dialog'],
       data,
       ...this.dialogMotion,
     });
+
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        sessionStorage.setItem(PLAN_CELEBRATION_SHOWN_SESSION_KEY, '1');
+      } catch {
+        /* ignore */
+      }
+    }
+
+    return ref;
   }
 }

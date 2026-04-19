@@ -12,6 +12,8 @@ export class User {
   accountStatus?: number; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
   rol?: USER_ROLE; // ⬅️ NUEVO: Opcional (owner/client_user)
   hasCompletedSetup?: boolean;
+  /** Tour «primer agente» omitido (API / Firestore). */
+  firstAgentTourSkipped?: boolean;
   plan?: string; // ⬅️ NUEVO: Plan de suscripción
   minutesLimit?: number; // ⬅️ NUEVO: Límite de minutos asignados al usuario
   extraMinutes?: number; // ⬅️ NUEVO: Minutos extra asignados al usuario
@@ -22,6 +24,18 @@ export class User {
   /** Cliente Stripe (facturación); si existe, cambios de plan vía Customer Portal */
   stripeCustomerId?: string | null;
   stripeSubscriptionId?: string | null;
+  /** Estado Stripe: trialing, active, past_due, etc. */
+  stripeSubscriptionStatus?: string | null;
+  /** false = debe elegir plan o prueba en el flujo de registro */
+  planSelectionCompleted?: boolean;
+  /** Suscripción cancelada: flujo solo planes en `/subscribe-required` */
+  billingChurnLocked?: boolean;
+  /** false = no ofrecer trial Starter de 7 días (API fuerza pay) */
+  stripeStarterTrialEligible?: boolean;
+  /** Zona IANA para períodos de métricas en el panel (semana/mes) */
+  metricsCalendarTimezone?: string;
+  /** Precio EUR/min de consumo extra según plan (API: `extraPerMinuteEur` o `planUsage.limits`) */
+  extraPerMinuteEur?: number;
   /** Uso vs límites efectivos (API) */
   planUsage?: {
     trialEndsAt: string | null;
@@ -34,6 +48,8 @@ export class User {
       storageTotalMb: number;
       maxDocSizeMb: number;
       betaAccess: boolean;
+      /** Precio por minuto extra (EUR), del catálogo de planes */
+      extraPerMinuteEur?: number;
     };
     agentsCount: number;
     webSourcesCount: number;

@@ -16,6 +16,7 @@ import {
   TwilioConfigLocal,
 } from '../../shared/models/twilio-config.model';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { AgentsService } from '../../core/services/agents.service';
@@ -213,12 +214,15 @@ export class AgentsComponent implements OnInit {
           loaderRef.close();
           this.openSuccessDialog(result);
         },
-        error: (err) => {
+        error: (err: unknown) => {
           loaderRef.close();
           console.error('Error al guardar la configuración:', err);
           this.modalService.openError({
             title: 'Error de configuración',
-            message: 'No se pudo guardar la configuración de Twilio.',
+            message: getApiErrorMessage(
+              err,
+              'No se pudo guardar la configuración de Twilio.',
+            ),
             details: String(err),
           });
         },

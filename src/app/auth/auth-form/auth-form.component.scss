@@ -35,6 +35,13 @@ input.auth-input:-webkit-autofill:focus {
   border: 1px solid #1d1d1d !important;
 }
 
+/* Etiquetas flotantes (correo, nombre, etc.) — login / registro / recuperación */
+.form-container .input-label {
+  font-size: 0.5625rem;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
 /* --- Google button --- */
 .google-button img {
   height: 2rem;
@@ -65,8 +72,9 @@ input.auth-input:-webkit-autofill:focus {
     line-height: 1.35rem;
   }
 
-  .input-label {
-    font-size: 0.75rem;
+  .form-container .input-label {
+    font-size: 0.5625rem;
+    letter-spacing: -0.04em;
   }
 
   .remember-label,
@@ -132,8 +140,9 @@ input.auth-input:-webkit-autofill:focus {
     line-height: 1.5rem;
   }
 
-  .input-label {
-    font-size: 0.875rem;
+  .form-container .input-label {
+    font-size: 0.59375rem;
+    letter-spacing: -0.04em;
   }
 
   .remember-label {
@@ -214,8 +223,9 @@ input.auth-input:-webkit-autofill:focus {
     line-height: 1.25rem;
   }
 
-  .input-label {
-    font-size: 0.75rem;
+  .form-container .input-label {
+    font-size: 0.53125rem;
+    letter-spacing: -0.045em;
   }
 
   .remember-label {
@@ -310,4 +320,21 @@ input.auth-input:-webkit-autofill:focus {
   height: 200px;
   object-fit: cover;
   border-radius: 0.5rem;
+}
+
+/* Pantallas muy grandes (Tailwind `4xl` = 2500px): etiquetas flotantes acordes al input */
+@media (min-width: 2500px) {
+  .form-container .input-label {
+    font-size: 0.625rem;
+    line-height: 1.1;
+  }
+
+  /* Correo y contraseña: mismo redondeo (4xl:rounded-xl en HTML) y misma altura/padding en 4xl */
+  .form-container input.auth-input-email,
+  .form-container input.auth-input-password {
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+    line-height: 1.5rem;
+    box-sizing: border-box;
+  }
 }
