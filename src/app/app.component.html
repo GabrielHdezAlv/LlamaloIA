@@ -1,5 +1,7 @@
 <router-outlet></router-outlet>
-<app-support-widget></app-support-widget>
+@if (showSupportWidget) {
+  <app-support-widget></app-support-widget>
+}
 
 @if (isGlobalLoading) {
   <div class="fixed inset-0 z-[9999] pointer-events-none">

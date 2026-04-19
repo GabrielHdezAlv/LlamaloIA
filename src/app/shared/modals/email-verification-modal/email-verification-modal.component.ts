@@ -23,6 +23,8 @@ import { TwilioStorage } from '../../../storages/twilio/twilio-storage';
 import { USER_ROLE } from '../../../shared/models/user-role.enum';
 import { isPlatformBrowser } from '@angular/common';
 import { FirebaseTokenRefreshService } from '../../../core/services/firebase-token-refresh.service';
+import { getOrCreateDeviceId } from '../../../core/utils/device-id';
+import { requiresSubscriptionPaywall } from '../../../shared/utils/plan-usage.util';
 
 export interface EmailVerificationModalData {
   email?: string;
@@ -32,6 +34,8 @@ export interface EmailVerificationModalData {
   initialToken?: string;
   /** Tras verificar, si no hay JWT (p. ej. login bloqueado), iniciar sesión con estas credenciales */
   password?: string;
+  /** `device`: código por nuevo navegador/dispositivo (login) */
+  mode?: 'email' | 'device';
 }
 
 @Component({
@@ -67,6 +71,10 @@ export class EmailVerificationModalComponent
 
   get t() {
     return this.i18nService.getTranslations();
+  }
+
+  get deviceMode(): boolean {
+    return this.data.mode === 'device';
   }
 
   close(): void {
@@ -118,8 +126,17 @@ export class EmailVerificationModalComponent
 
           this.notificationService.success(this.t.authSuccessLogin);
 
-          const redirectUrl =
-            data.rol === USER_ROLE.OWNER ? '/admin/agents/edit/1' : '/dashboard';
+          let redirectUrl: string;
+          if (data.rol === USER_ROLE.OWNER) {
+            redirectUrl = '/admin/agents/edit/1';
+          } else if (
+            data.hasCompletedSetup !== true &&
+            !requiresSubscriptionPaywall(data)
+          ) {
+            redirectUrl = '/company-setup';
+          } else {
+            redirectUrl = '/dashboard';
+          }
 
           this.dialogRef.close({ sessionCompleted: true });
 
@@ -163,7 +180,10 @@ export class EmailVerificationModalComponent
             'Correo verificado. Inicia sesión con tu contraseña.',
           );
           this.setGlobalLoading(false);
-          this.dialogRef.close({ sessionCompleted: true, needsManualLogin: true });
+          this.dialogRef.close({
+            sessionCompleted: true,
+            needsManualLogin: true,
+          });
           void this.router.navigate(['/login'], { queryParams: { email } });
         },
       });
@@ -275,6 +295,38 @@ export class EmailVerificationModalComponent
     this.uiState = 'verifying';
     this.errorMessage = '';
 
+    if (this.data.mode === 'device') {
+      const email = this.data.email?.trim();
+      const password = this.data.password;
+      if (!email || !password) {
+        this.uiState = 'error';
+        this.errorMessage = 'Faltan datos de sesión. Vuelve a iniciar sesión.';
+        return;
+      }
+      const deviceId = getOrCreateDeviceId();
+      this.userService
+        .verifyDeviceLogin(email, password, deviceId, code)
+        .subscribe({
+          next: (response: { token: string; refreshToken?: string }) => {
+            this.firebaseTokenRefresh.persistSessionTokensFromApi(response);
+            this.firebaseTokenRefresh.start();
+            this.completeSessionAfterVerification();
+          },
+          error: () => {
+            this.uiState = 'error';
+            this.errorMessage =
+              'Código inválido o expirado. Revisa tu correo o solicita uno nuevo.';
+            this.codeDigits = Array(this.CODE_LENGTH).fill('');
+            setTimeout(() => {
+              const el = document.getElementById('ev-code-0');
+              el?.focus();
+              this.focusedIndex = 0;
+            }, 0);
+          },
+        });
+      return;
+    }
+
     this.userService.verifyEmail(code).subscribe({
       next: () => {
         this.completeSessionAfterVerification();
@@ -299,6 +351,24 @@ export class EmailVerificationModalComponent
       this.notificationService.warning(
         'No hay correo asociado. Regístrate de nuevo o contacta soporte.',
       );
+      return;
+    }
+
+    if (this.data.mode === 'device' && this.data.password) {
+      const deviceId = getOrCreateDeviceId();
+      this.userService
+        .LoginUser(new LoginUser(email, this.data.password, deviceId))
+        .subscribe({
+          error: (err: { error?: { code?: string } }) => {
+            if (err?.error?.code === 'DEVICE_VERIFICATION_REQUIRED') {
+              this.notificationService.success(
+                'Código reenviado. Revisa tu bandeja de entrada.',
+              );
+              return;
+            }
+            this.notificationService.error('Error al reenviar el código.');
+          },
+        });
       return;
     }
 

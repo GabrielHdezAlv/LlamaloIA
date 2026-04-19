@@ -5,17 +5,21 @@ import {
   OnDestroy,
   OnInit,
   PLATFORM_ID,
+  afterNextRender,
+  inject,
 } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
+import { I18nService } from '../../core/services/i18n.service';
 import { UserProfileResponseDto } from '../../shared/models/user-profile-response.dto';
+import { environment } from '../../../environments/environment';
 
 const BODY_CLASS = 'page-shopify-onboarding';
 const MYSHOPIFY_SUFFIX = '.myshopify.com';
-const API_URL = 'https://llamaloiabackend-5294.onrender.com';
+const API_URL = environment.apiUrl;
 
 /** Respuesta del endpoint GET /shopify/auth */
 interface ShopifyAuthResponse {
@@ -57,6 +61,14 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
 
   /** Si venimos del onboarding de empresa (company-setup) */
   sourceOnboarding: boolean = false;
+  /** Si venimos de Ajustes → Conexiones (cuenta) */
+  sourceAccount: boolean = false;
+
+  private i18n = inject(I18nService);
+
+  get t() {
+    return this.i18n.getTranslations();
+  }
 
   constructor(
     private router: Router,
@@ -64,7 +76,11 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: object,
-  ) {}
+  ) {
+    afterNextRender(() => {
+      this.loadConnectedStores();
+    });
+  }
 
   private getAuthHeaders(): HttpHeaders {
     let token = '';
@@ -92,8 +108,7 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     this.agentId = this.route.snapshot.queryParams['agentId'] || null;
     this.sourceAdmin = this.route.snapshot.queryParams['source'] === 'admin';
     this.sourceOnboarding = this.route.snapshot.queryParams['source'] === 'onboarding';
-    
-    this.loadConnectedStores();
+    this.sourceAccount = this.route.snapshot.queryParams['source'] === 'account';
   }
 
   /** Carga las tiendas de Shopify conectadas del usuario */
@@ -153,26 +168,22 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
         this.router.navigate(['/dashboard/agents/edit', this.agentId], { queryParams: { tab: 'connections' } });
       }
     } else if (this.sourceOnboarding) {
-      const queryParams: Record<string, string> = {
-        step: 'connectBusiness',
-      };
-      if (this.connectedStores.length > 0) {
-        queryParams['shopify'] = 'success';
-        queryParams['shop'] = this.connectedStores[0].shopDomain;
-      }
-      this.router.navigate(['/company-setup'], { queryParams });
+      // No añadir shopify=success aquí: listar tiendas en cuenta ≠ OAuth completado en esta sesión.
+      // El estado "Conectado" solo debe venir de /shopify-onboarding/success (continueConfiguringAgent).
+      this.router.navigate(['/company-setup'], {
+        queryParams: { step: 'connectBusiness' },
+      });
+    } else if (this.sourceAccount) {
+      this.router.navigate(['/dashboard/account'], {
+        queryParams: { tab: 'connections' },
+      });
     } else {
       if (this.sourceAdmin) {
         this.router.navigate(['/admin']);
       } else {
-        const queryParams: Record<string, string> = {
-          step: 'connectBusiness',
-        };
-        if (this.connectedStores.length > 0) {
-          queryParams['shopify'] = 'success';
-          queryParams['shop'] = this.connectedStores[0].shopDomain;
-        }
-        this.router.navigate(['/dashboard/agents/create'], { queryParams });
+        this.router.navigate(['/dashboard/agents/create'], {
+          queryParams: { step: 'connectBusiness' },
+        });
       }
     }
   }
@@ -205,13 +216,13 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     const shop = this.selectedStore || this.shopifyDomain.trim();
     
     if (!shop) {
-      this.errorMessage = 'Por favor, selecciona una tienda o ingresa un dominio válido.';
+      this.errorMessage = this.t.shopifyOnboardingErrorSelectOrDomain;
       return;
     }
 
     // Validar formato si no es una tienda seleccionada
     if (!this.selectedStore && !this.isDomainValid) {
-      this.errorMessage = 'El dominio debe terminar en .myshopify.com';
+      this.errorMessage = this.t.shopifyOnboardingErrorDomainSuffix;
       return;
     }
 
@@ -229,7 +240,10 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     if (this.sourceOnboarding) {
       params.append('source', 'onboarding');
     }
-    
+    if (this.sourceAccount) {
+      params.append('source', 'account');
+    }
+
     if (params.toString()) {
       successPath += `?${params.toString()}`;
     }
@@ -257,13 +271,12 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
         this.loading = false;
         if (!res?.authUrl) {
           this.errorMessage =
-            res?.message || 'No se recibió la URL de autorización.';
+            res?.message || this.t.shopifyOnboardingErrorNoAuthUrl;
         }
       })
       .catch(() => {
         this.loading = false;
-        this.errorMessage =
-          'No se pudo conectar con el servidor. Inténtalo de nuevo.';
+        this.errorMessage = this.t.shopifyOnboardingErrorServer;
       });
   }
 }

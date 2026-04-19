@@ -6,12 +6,13 @@ import { LoginUser } from '../../shared/models/login-user.model';
 import { CreateUserDto } from '../../shared/models/create-user-dto.model';
 import { UpdateProfileDto } from '../../shared/models/update-profile-dto.model';
 import { UserProfileResponseDto } from '../../shared/models/user-profile-response.dto';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'https://llamaloiabackend-5294.onrender.com';
+  private apiUrl = environment.apiUrl;
   private http = inject(HttpClient);
   private isBrowser: boolean;
 
@@ -104,7 +105,14 @@ export class UserService {
   }
 
   LoginUser(user: LoginUser): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/login`, user, {
+    const body: Record<string, string> = {
+      email: user.email,
+      password: user.password,
+    };
+    if (user.deviceId) {
+      body['deviceId'] = user.deviceId;
+    }
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, body, {
       headers: this.getAuthHeaders(),
     });
   }
@@ -134,6 +142,37 @@ export class UserService {
     });
   }
 
+  /** Tras registro: confirma elección de prueba gratuita (7 días) antes del onboarding. */
+  completePlanSelectionAfterRegister(): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(
+      `${this.apiUrl}/auth/register/complete-plan-selection`,
+      {},
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  /** Cancela cuenta creada si aún no eligió plan ni prueba (registro incompleto). */
+  cancelIncompleteRegistration(): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${this.apiUrl}/auth/register/cancel`,
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  /** Solicitud de enlace para restablecer contraseña (sin sesión). */
+  requestPasswordReset(email: string): Observable<{ message?: string }> {
+    return this.http.post<{ message?: string }>(
+      `${this.apiUrl}/auth/forgot-password`,
+      { email: email.trim() },
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+        }),
+      },
+    );
+  }
+
   updateUserProfile(
     userData: UpdateProfileDto,
     imageFile?: File,
@@ -159,6 +198,13 @@ export class UserService {
       if (userData.enterprise) {
         formData.append('enterprise[name]', userData.enterprise.name || '');
         formData.append('enterprise[url]', userData.enterprise.url || '');
+      }
+
+      if (userData.metricsCalendarTimezone !== undefined) {
+        formData.append(
+          'metricsCalendarTimezone',
+          userData.metricsCalendarTimezone || '',
+        );
       }
 
       formData.append('image', imageFile);
@@ -261,6 +307,25 @@ export class UserService {
       { token },
       {
         headers: this.getAuthHeaders(),
+      },
+    );
+  }
+
+  /** Tras código por correo en un dispositivo nuevo (login). */
+  verifyDeviceLogin(
+    email: string,
+    password: string,
+    deviceId: string,
+    code: string,
+  ): Observable<{ token: string; userId: string; refreshToken?: string }> {
+    return this.http.post<{ token: string; userId: string; refreshToken?: string }>(
+      `${this.apiUrl}/auth/verify-device-login`,
+      { email: email.trim(), password, deviceId, code },
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+        }),
       },
     );
   }

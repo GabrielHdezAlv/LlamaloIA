@@ -9,6 +9,14 @@ import {
   FIREBASE_REFRESH_TOKEN_STORAGE_KEY,
 } from './firebase-token-refresh.service';
 import { ProfileEventsClientService } from './profile-events-client.service';
+import {
+  FIRST_AGENT_TOUR_SESSION_KEY,
+  FIRST_AGENT_TOUR_HOME_READY_KEY,
+  PLAN_CELEBRATION_REQUIRED_KEY,
+  PLAN_CELEBRATION_ACCEPTED_KEY,
+  PLAN_CELEBRATION_SHOWN_SESSION_KEY,
+  POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY,
+} from '../constants/first-agent-tour.constants';
 
 /**
  * Limpieza unificada de sesión (JWT, Firebase, perfil en memoria, Twilio local).
@@ -30,6 +38,16 @@ export class AuthSessionService {
       if (typeof window !== 'undefined' && window.localStorage) {
         localStorage.removeItem('token');
         localStorage.removeItem(FIREBASE_REFRESH_TOKEN_STORAGE_KEY);
+      }
+      try {
+        sessionStorage.removeItem(FIRST_AGENT_TOUR_SESSION_KEY);
+        sessionStorage.removeItem(FIRST_AGENT_TOUR_HOME_READY_KEY);
+        sessionStorage.removeItem(PLAN_CELEBRATION_REQUIRED_KEY);
+        sessionStorage.removeItem(PLAN_CELEBRATION_ACCEPTED_KEY);
+        sessionStorage.removeItem(PLAN_CELEBRATION_SHOWN_SESSION_KEY);
+        sessionStorage.removeItem(POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY);
+      } catch {
+        /* ignore */
       }
       try {
         await signOut(firebaseAuth);

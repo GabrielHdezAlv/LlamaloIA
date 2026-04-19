@@ -1,4 +1,23 @@
-<div class="dashboard flex flex-col xl:flex-row xl:max-h-screen overflow-y-hidden">
+<div class="dashboard flex flex-col xl:flex-row xl:max-h-screen overflow-y-hidden relative">
+  @if (subscriptionPaywallActive()) {
+    <div
+      class="fixed inset-0 z-[998] bg-black/35 pointer-events-auto touch-none dark:bg-black/50"
+      aria-hidden="true"
+    ></div>
+  }
+
+  @if (showDashboardLoader) {
+    <div
+      class="fixed inset-0 z-[999] flex items-center justify-center bg-gray-100/90 backdrop-blur-sm dark:bg-[#111113]/92 pointer-events-auto"
+      role="status"
+      aria-live="polite"
+      aria-busy="true">
+      <div class="scale-125">
+        <ds-spinner variant="auto" [inputTextSpinner]="''"></ds-spinner>
+      </div>
+    </div>
+  }
+
   <!-- Sidebar Desktop (solo visible en xl) -->
   <div
     [class]="'hidden xl:block w-full xl:overflow-visible p-0 h-screen bg-white transition-all duration-500 ease-in-out flex-shrink-0 dark:bg-slate-900 ' + (isNavCollapsed ? 'xl:w-12 3xl:w-16' : 'xl:w-[12rem] 2xl:w-[12rem] 3xl:w-[14rem]')">
@@ -43,7 +62,7 @@
           {{ t.home }}
         </a>
 
-        <a [routerLink]="['/dashboard/agents']" (click)="closeMobileSidebar()"
+        <a id="tour-nav-agents-mobile" [routerLink]="['/dashboard/agents']" (click)="closeMobileSidebar()"
           [class]="'block text-lg font-semibold rounded-xl px-3 py-2 text-center transition ' + (isRouteActive('/dashboard/agents') ? 'bg-[#1B2559] text-white dark:bg-white dark:text-[#000000]' : 'text-gray-500 hover:bg-gray-100 hover:text-blue-900 dark:text-slate-300 dark:hover:bg-slate-800')">
           {{ t.agents }}
         </a>
@@ -143,11 +162,8 @@
   <div
     class="flex-1 px-2 py-4 overflow-x-auto bg-gray-100 transition-all duration-500 ease-in-out min-h-screen dark:bg-[#111113] ml-0">
     <topbar></topbar>
-    <app-trial-banner></app-trial-banner>
     <router-outlet></router-outlet>
   </div>
-<!-- Componente de configuración inicial de empresa -->
-<app-company-setup></app-company-setup>
 
 <!-- Modal de recordatorio para usuarios inactivos -->
 <div *ngIf="showInactiveReminderModal"

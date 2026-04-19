@@ -13,6 +13,7 @@ export class AdminDocsComponent {
 
   tabs = [
     { id: 'xenon', name: 'Flujo Xenon' },
+    { id: 'environments', name: 'Entornos & despliegue' },
     { id: 'calls', name: 'Llamadas & WebRTC' },
     { id: 'shopify', name: 'Integración Shopify' },
     { id: 'knowledge', name: 'Base de Conocimientos (RAG)' },

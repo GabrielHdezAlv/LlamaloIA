@@ -1,26 +1,26 @@
 <div
-  class="account-settings bg-white rounded-xl sm:rounded-2xl shadow-sm pb-0 sm:pb-0 lg:pb-0 h-auto mt-3 2xl:mt-2 3xl:mt-14 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[82rem] 4xl:max-w-[100rem] mx-auto max-lg:max-w-full max-lg:w-full border border-gray-200 history-border account-border-thin 3xl:scale-[1.1] 3xl:origin-center"
+  class="account-settings bg-white rounded-xl sm:rounded-2xl shadow-sm pb-0 sm:pb-0 lg:pb-0 h-auto mt-3 2xl:mt-2 3xl:mt-14 max-lg:mt-3 max-lg:mr-0 max-lg:ml-0 max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[82rem] 4xl:max-w-[111rem] mx-auto max-lg:max-w-full max-lg:w-full border border-gray-200 history-border account-border-thin 3xl:scale-[1.1] 3xl:origin-center 4xl:scale-[1.13] 4xl:origin-center"
 >
   <div class="max-w-6xl 2xl:max-w-none flex flex-col lg:flex-row min-h-0">
     <!-- Sidebar -->
     <div
-      class="w-full lg:w-[23%] 3xl:w-[450px] bg-gray-100 rounded-t-xl sm:rounded-t-2xl rounded-b-none lg:rounded-l-2xl lg:rounded-tr-none lg:rounded-br-none p-3 lg:p-3 xl:p-3 2xl:p-3 3xl:p-4 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-5 shadow-sm h-auto"
+      class="w-full lg:w-[23%] 3xl:w-[450px] 4xl:w-[490px] bg-gray-100 rounded-t-xl sm:rounded-t-2xl rounded-b-none lg:rounded-l-2xl lg:rounded-tr-none lg:rounded-br-none p-3 lg:p-3 xl:p-3 2xl:p-3 3xl:p-4 4xl:p-5 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-5 shadow-sm h-auto"
     >
       <!-- Header -->
       <div class="flex items-center gap-2 mb-3 mt-2 ml-2">
         <img
           [src]="getUserProfileImage()"
-          class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 rounded-full border border-blue-900/20 history-border cursor-pointer account-border-thin"
+          class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 4xl:h-14 4xl:w-14 rounded-full border border-blue-900/20 history-border cursor-pointer account-border-thin"
           [attr.alt]="t.profile"
         />
         <div>
           <h3
-            class="font-semibold text-gray-900 text-sm lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
+            class="font-semibold text-gray-900 text-sm lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-base 4xl:text-lg max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
           >
             {{ fullName() }}
           </h3>
           <p
-            class="text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500"
+            class="text-[9px] lg:text-[10px] xl:text-[10px] 2xl:text-[10px] 3xl:text-xs 4xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm text-gray-500"
           >
             {{ email() }}
           </p>
@@ -29,15 +29,15 @@
 
       <!-- Menu -->
       <nav
-        class="space-y-0 lg:space-y-2 3xl:space-y-3 mx-auto sm:ml-1 flex flex-row lg:flex-col overflow-x-visible gap-1.5 sm:gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 pb-2 lg:pb-0 max-w-fit sm:max-w-none"
+        class="space-y-0 lg:space-y-2 3xl:space-y-3 4xl:space-y-3.5 mx-auto sm:ml-1 flex flex-row lg:flex-col overflow-x-visible gap-1.5 sm:gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 4xl:gap-2.5 pb-2 lg:pb-0 max-w-fit sm:max-w-none"
       >
         <!-- Perfil -->
         <button
           (click)="setActiveTab('profile')"
           [class]="
             activeTab === 'profile'
-              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white transition-colors duration-200  group whitespace-nowrap'
-              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left transition-colors duration-200  group whitespace-nowrap'
+              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 4xl:w-64 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white transition-colors duration-200  group whitespace-nowrap'
+              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 4xl:w-64 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left transition-colors duration-200  group whitespace-nowrap'
           "
         >
           <span
@@ -80,8 +80,8 @@
           (click)="setActiveTab('security')"
           [class]="
             activeTab === 'security'
-              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white transition-colors duration-200  group whitespace-nowrap'
-              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left transition-colors duration-200  group whitespace-nowrap'
+              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 4xl:w-64 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white transition-colors duration-200  group whitespace-nowrap'
+              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 4xl:w-64 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left transition-colors duration-200  group whitespace-nowrap'
           "
         >
           <span
@@ -118,8 +118,8 @@
           (click)="setActiveTab('billing')"
           [class]="
             activeTab === 'billing'
-              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white transition-colors duration-200  group whitespace-nowrap'
-              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left transition-colors duration-200  group whitespace-nowrap'
+              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 4xl:w-64 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white transition-colors duration-200  group whitespace-nowrap'
+              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 4xl:w-64 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left transition-colors duration-200  group whitespace-nowrap'
           "
         >
           <span
@@ -170,8 +170,8 @@
           (click)="setActiveTab('gifts')"
           [class]="
             activeTab === 'gifts'
-              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white transition-colors duration-200  group whitespace-nowrap'
-              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left transition-colors duration-200  group whitespace-nowrap'
+              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 4xl:w-64 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white transition-colors duration-200  group whitespace-nowrap'
+              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 4xl:w-64 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left transition-colors duration-200  group whitespace-nowrap'
           "
         >
           <span
@@ -228,8 +228,8 @@
           (click)="setActiveTab('connections')"
           [class]="
             activeTab === 'connections'
-              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white transition-colors duration-200  group whitespace-nowrap'
-              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left transition-colors duration-200  group whitespace-nowrap'
+              ? 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 4xl:w-64 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left bg-white transition-colors duration-200  group whitespace-nowrap'
+              : 'flex-1 sm:min-w-[140px] lg:w-48 3xl:w-56 4xl:w-64 flex items-center justify-center sm:justify-start gap-1.5 3xl:gap-2 max-lg:gap-1.5 max-lg:sm:gap-2 max-lg:md:gap-2 px-2 lg:px-3 xl:px-3 2xl:px-3 3xl:px-4 max-lg:px-2.5 max-lg:sm:px-3 max-lg:md:px-3 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-2.5 rounded-xl text-left transition-colors duration-200  group whitespace-nowrap'
           "
         >
           <span
@@ -268,22 +268,17 @@
 
     <!-- Main Content -->
     <div
-      class="w-full lg:w-[80%] 3xl:flex-1 bg-white rounded-b-xl sm:rounded-b-2xl lg:rounded-l-3xl lg:rounded-tl-3xl lg:rounded-r-2xl lg:rounded-b-2xl shadow-sm p-3 lg:p-3 xl:p-3 2xl:p-3 3xl:p-5 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-5 lg:-ml-6 xl:-ml-6 2xl:-ml-6 3xl:-ml-36 min-h-[460px] max-lg:min-h-[calc(100vh-16rem)] flex flex-col"
+      class="w-full lg:w-[80%] 3xl:flex-1 bg-white rounded-b-xl sm:rounded-b-2xl lg:rounded-l-3xl lg:rounded-tl-3xl lg:rounded-r-2xl lg:rounded-b-2xl shadow-sm p-3 lg:p-3 xl:p-3 2xl:p-3 3xl:p-5 3xl:pr-7 4xl:pt-6 4xl:pb-6 4xl:pl-6 4xl:pr-12 max-lg:p-3.5 max-lg:sm:p-4 max-lg:md:p-5 lg:-ml-6 xl:-ml-6 2xl:-ml-6 3xl:-ml-36 min-h-[460px] 4xl:min-h-[500px] max-lg:min-h-[calc(100vh-16rem)] flex flex-col"
     >
       @if (displayedTab === "profile") {
         <!-- === SECCIÓN PERFIL === -->
         <div
           @sectionEnter
           [class.section-leaving]="sectionLeaving"
-          class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
-          style="
-            transform: scale(0.95);
-            transform-origin: top left;
-            width: calc(105.26% - 2rem);
-          "
+          class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] 4xl:h-[42rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 4xl:mr-8 overflow-y-auto origin-top-left scale-[0.95] 4xl:scale-100 w-[calc(105.26%-2rem)] 4xl:w-full"
         >
           <h2
-            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 mb-3 max-lg:mb-3"
+            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm 4xl:text-base max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 mb-3 max-lg:mb-3"
           >
             {{ t.profileInfo }}
           </h2>
@@ -370,39 +365,88 @@
               </p>
             </div>
 
-            <!-- País -->
-            <div class="relative">
-              <label
-                class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-black mb-1 3xl:mb-1.5 max-lg:mb-1"
-                >{{ t.country }}</label
-              >
-              <select
-                [(ngModel)]="tempCountry"
-                class="w-full px-3 lg:px-3.5 xl:px-3.5 2xl:px-3.5 3xl:px-4 max-lg:px-3.5 max-lg:sm:px-4 max-lg:md:px-4.5 py-1.5 lg:py-1.5 xl:py-2 2xl:py-2 3xl:py-2.5 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 border border-gray-300 history-border rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-sm max-lg:md:text-base appearance-none pr-10"
-              >
-                <option value="">{{ t.selectCountry }}</option>
-                @for (countryOption of countries; track countryOption.code) {
-                  <option [value]="countryOption.code">
-                    {{ countryOption.name }}
-                  </option>
-                }
-              </select>
-              <span
-                class="pointer-events-none absolute inset-y-0 right-2 sm:right-4 top-7 sm:top-8 flex items-center"
-              >
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            <!-- País y zona horaria (50/50 desde sm) -->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-3 items-start"
+            >
+              <!-- País -->
+              <div class="relative min-w-0">
+                <label
+                  class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-black mb-1 3xl:mb-1.5 max-lg:mb-1"
+                  >{{ t.country }}</label
                 >
-                  <path
-                    d="M0.21984 0.21984C0.28949 0.150145 0.372191 0.0948576 0.463216 0.0571365C0.554242 0.0194154 0.651808 0 0.75034 0C0.848871 0 0.946438 0.0194154 1.03746 0.0571365C1.12849 0.0948576 1.21119 0.150145 1.28084 0.21984L3.86684 2.80584C3.98292 2.92195 4.12073 3.01405 4.27241 3.07689C4.42409 3.13973 4.58666 3.17207 4.75084 3.17207C4.91502 3.17207 5.07759 3.13973 5.22927 3.07689C5.38095 3.01405 5.51876 2.92195 5.63484 2.80584L8.21984 0.21984C8.28951 0.150174 8.37221 0.0949112 8.46323 0.0572081C8.55426 0.019505 8.65182 9.91821e-05 8.75034 9.91821e-05C8.84886 9.91821e-05 8.94642 0.019505 9.03745 0.0572081C9.12847 0.0949112 9.21117 0.150174 9.28084 0.21984C9.35051 0.289506 9.40577 0.372212 9.44347 0.463236C9.48118 0.554259 9.50058 0.651817 9.50058 0.75034C9.50058 0.848862 9.48118 0.946421 9.44347 1.03744C9.40577 1.12847 9.35051 1.21117 9.28084 1.28084L6.69484 3.86684C6.17912 4.38254 5.47966 4.67225 4.75034 4.67225C4.02102 4.67225 3.32156 4.38254 2.80584 3.86684L0.21984 1.27984C0.150145 1.21019 0.0948571 1.12749 0.0571361 1.03646C0.019415 0.945438 0 0.847872 0 0.74934C0 0.650808 0.019415 0.553242 0.0571361 0.462216C0.0948571 0.371191 0.150145 0.28849 0.21984 0.21884V0.21984Z"
-                    fill="#727272"
-                  />
-                </svg>
-              </span>
+                <div class="relative account-profile-select-wrap">
+                  <mat-select
+                    [(ngModel)]="tempCountry"
+                    name="accountCountry"
+                    panelClass="account-profile-select-panel"
+                    class="account-profile-select-trigger w-full"
+                    disableOptionCentering
+                  >
+                    <mat-option value="">{{ t.selectCountry }}</mat-option>
+                    @for (countryOption of countries; track countryOption.code) {
+                      <mat-option [value]="countryOption.code">{{
+                        countryOption.name
+                      }}</mat-option>
+                    }
+                  </mat-select>
+                  <span
+                    class="pointer-events-none absolute right-2.5 top-[calc(50%+0.1875rem)] z-[1] flex -translate-y-1/2 items-center text-gray-500"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.21984 0.21984C0.28949 0.150145 0.372191 0.0948576 0.463216 0.0571365C0.554242 0.0194154 0.651808 0 0.75034 0C0.848871 0 0.946438 0.0194154 1.03746 0.0571365C1.12849 0.0948576 1.21119 0.150145 1.28084 0.21984L3.86684 2.80584C3.98292 2.92195 4.12073 3.01405 4.27241 3.07689C4.42409 3.13973 4.58666 3.17207 4.75084 3.17207C4.91502 3.17207 5.07759 3.13973 5.22927 3.07689C5.38095 3.01405 5.51876 2.92195 5.63484 2.80584L8.21984 0.21984C8.28951 0.150174 8.37221 0.0949112 8.46323 0.0572081C8.55426 0.019505 8.65182 9.91821e-05 8.75034 9.91821e-05C8.84886 9.91821e-05 8.94642 0.019505 9.03745 0.0572081C9.12847 0.0949112 9.21117 0.150174 9.28084 0.21984C9.35051 0.289506 9.40577 0.372212 9.44347 0.463236C9.48118 0.554259 9.50058 0.651817 9.50058 0.75034C9.50058 0.848862 9.48118 0.946421 9.44347 1.03744C9.40577 1.12847 9.35051 1.21117 9.28084 1.28084L6.69484 3.86684C6.17912 4.38254 5.47966 4.67225 4.75034 4.67225C4.02102 4.67225 3.32156 4.38254 2.80584 3.86684L0.21984 1.27984C0.150145 1.21019 0.0948571 1.12749 0.0571361 1.03646C0.019415 0.945438 0 0.847872 0 0.74934C0 0.650808 0.019415 0.553242 0.0571361 0.462216C0.0948571 0.371191 0.150145 0.28849 0.21984 0.21884V0.21984Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Zona horaria (métricas del panel) -->
+              <div class="relative min-w-0">
+                <label
+                  class="block text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-xs max-lg:sm:text-sm max-lg:md:text-sm font-semibold text-black mb-1 3xl:mb-1.5 max-lg:mb-1"
+                  >{{ t.accountMetricsTimezone }}</label
+                >
+                <div class="relative account-profile-select-wrap">
+                  <mat-select
+                    [(ngModel)]="tempMetricsTimezone"
+                    name="accountTimezone"
+                    panelClass="account-profile-select-panel"
+                    class="account-profile-select-trigger w-full"
+                    disableOptionCentering
+                  >
+                    @for (tzOpt of metricsTimezoneOptions; track tzOpt.value) {
+                      <mat-option [value]="tzOpt.value">{{ tzOpt.label }}</mat-option>
+                    }
+                  </mat-select>
+                  <span
+                    class="pointer-events-none absolute right-2.5 top-[calc(50%+0.1875rem)] z-[1] flex -translate-y-1/2 items-center text-gray-500"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.21984 0.21984C0.28949 0.150145 0.372191 0.0948576 0.463216 0.0571365C0.554242 0.0194154 0.651808 0 0.75034 0C0.848871 0 0.946438 0.0194154 1.03746 0.0571365C1.12849 0.0948576 1.21119 0.150145 1.28084 0.21984L3.86684 2.80584C3.98292 2.92195 4.12073 3.01405 4.27241 3.07689C4.42409 3.13973 4.58666 3.17207 4.75084 3.17207C4.91502 3.17207 5.07759 3.13973 5.22927 3.07689C5.38095 3.01405 5.51876 2.92195 5.63484 2.80584L8.21984 0.21984C8.28951 0.150174 8.37221 0.0949112 8.46323 0.0572081C8.55426 0.019505 8.65182 9.91821e-05 8.75034 9.91821e-05C8.84886 9.91821e-05 8.94642 0.019505 9.03745 0.0572081C9.12847 0.0949112 9.21117 0.150174 9.28084 0.21984C9.35051 0.289506 9.40577 0.372212 9.44347 0.463236C9.48118 0.554259 9.50058 0.651817 9.50058 0.75034C9.50058 0.848862 9.48118 0.946421 9.44347 1.03744C9.40577 1.12847 9.35051 1.21117 9.28084 1.28084L6.69484 3.86684C6.17912 4.38254 5.47966 4.67225 4.75034 4.67225C4.02102 4.67225 3.32156 4.38254 2.80584 3.86684L0.21984 1.27984C0.150145 1.21019 0.0948571 1.12749 0.0571361 1.03646C0.019415 0.945438 0 0.847872 0 0.74934C0 0.650808 0.019415 0.553242 0.0571361 0.462216C0.0948571 0.371191 0.150145 0.28849 0.21984 0.21884V0.21984Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
             </div>
 
             <!-- Nombre del Negocio y Web del Negocio -->
@@ -479,7 +523,7 @@
             <div class="flex justify-end mt-4">
               <app-ripple-button
                 (buttonClick)="saveUserInfo()"
-                buttonClass="w-full sm:w-auto px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 bg-[#0a1740] text-white font-medium font-sans rounded-xl transition-all duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-opacity-50 shadow-md  flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
+                buttonClass="account-profile-save-changes w-full sm:w-auto px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 max-lg:px-4 max-lg:sm:px-5 max-lg:md:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 max-lg:py-2 max-lg:sm:py-2.5 max-lg:md:py-3 bg-[#0a1740] text-white font-medium font-sans rounded-xl transition-all duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-opacity-50 shadow-md  flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base"
                 rippleColor="rgba(255, 255, 255, 0.4)"
               >
                 {{ t.saveChanges }}
@@ -493,17 +537,12 @@
         <div
           @sectionEnter
           [class.section-leaving]="sectionLeaving"
-          class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6"
-          style="
-            transform: scale(0.95);
-            transform-origin: top left;
-            width: calc(105.26% - 2rem);
-          "
+          class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] 4xl:h-[42rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 4xl:mr-8 origin-top-left scale-[0.95] 4xl:scale-100 w-[calc(105.26%-2rem)] 4xl:w-full"
         >
           <div class="flex flex-col flex-1 min-h-0 overflow-y-auto pb-4">
             <!-- Encabezado -->
             <h2
-              class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 mb-3 max-lg:mb-3"
+              class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm 4xl:text-base max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 mb-3 max-lg:mb-3"
             >
               {{ t.security }}
             </h2>
@@ -648,32 +687,29 @@
         <div
           @sectionEnter
           [class.section-leaving]="sectionLeaving"
-          class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
-          style="
-            transform: scale(0.95);
-            transform-origin: top left;
-            width: calc(105.26% - 2rem);
-          "
+          class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] 4xl:h-[42rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 4xl:mr-8 overflow-y-auto origin-top-left scale-[0.95] 4xl:scale-100 w-[calc(105.26%-2rem)] 4xl:w-full"
         >
           <h2
-            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-800 mb-3"
+            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm 4xl:text-base font-semibold text-gray-800 mb-3"
           >
             {{ t.billing }}
           </h2>
 
           <div class="space-y-3">
-            @if (showOutOfMinutesBanner()) {
+            @if (showStripePaymentPendingBanner()) {
               <div
-                class="rounded-xl border border-red-200 bg-red-50 px-3 py-2.5 dark:border-red-900/60 dark:bg-red-950/40"
+                class="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 dark:border-amber-900/60 dark:bg-amber-950/40"
                 role="alert"
               >
-                <p class="text-xs font-semibold text-red-900 dark:text-red-100">
-                  {{ t.outOfMinutesBannerTitle }}
+                <p
+                  class="text-xs font-semibold text-amber-900 dark:text-amber-100"
+                >
+                  {{ t.stripePaymentPendingTitle }}
                 </p>
                 <p
-                  class="mt-1 text-[11px] lg:text-xs text-red-800/95 dark:text-red-100/90 leading-snug"
+                  class="mt-1 text-[11px] lg:text-xs text-amber-900/90 dark:text-amber-100/90 leading-snug"
                 >
-                  {{ t.outOfMinutesBannerDesc }}
+                  {{ t.stripePaymentPendingDesc }}
                 </p>
               </div>
             }
@@ -691,55 +727,42 @@
                 {{ currentPlanMinutes ?? "---" }} {{ t.minutesWord }}
                 {{ t.withPlan }} <strong>{{ currentPlanName }}</strong>
               </p>
-              @if (trialDaysRemaining(); as td) {
+              @if (showTrialRemainingInBilling) {
                 <p
-                  class="mt-1.5 text-[11px] lg:text-xs text-amber-800 dark:text-amber-200/90"
+                  class="mt-1.5 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm text-gray-800 flex flex-row items-center gap-1.5 flex-wrap"
                 >
-                  {{ t.trialDaysLeft }}: <strong>{{ td }}</strong>
-                </p>
-              }
-              @if (planUsageSummary(); as pu) {
-                <p
-                  class="mt-1 text-[11px] lg:text-xs text-gray-600 dark:text-gray-400"
-                >
-                  <span class="font-medium text-gray-800 dark:text-gray-200"
-                    >{{ t.planUsageSummaryLabel }}:</span
-                  >
-                  {{ pu }}
-                </p>
-              }
-              @if (minuteQuotaView(); as q) {
-                <p
-                  class="mt-2 text-[11px] lg:text-xs text-gray-600 dark:text-gray-400 leading-snug"
-                >
-                  <span class="font-medium text-gray-800 dark:text-gray-200"
-                    >{{ t.minuteUsageHeading }}:</span
-                  >
-                  @if (q.mode === "unlimited") {
-                    {{ q.used | number: "1.0-1" }} {{ t.minutesWord }} ·
-                    {{ t.planUnlimitedShort }}
-                  } @else {
-                    {{ q.used | number: "1.0-1" }} /
-                    {{ q.total | number: "1.0-1" }} {{ t.minutesWord }} ({{
-                      t.remainingMinutes
-                    }}: {{ q.remaining | number: "1.0-1" }})
-                  }
+                  <span>{{ t.trialTimeRemainingLabel }}:</span>
+                  <span class="tabular-nums font-medium">{{ trialRemainingDh }}</span>
                 </p>
               }
             </div>
 
             <!-- Customer Portal Stripe (cancelar, método de pago, facturas) -->
             <div
-              class="flex flex-col sm:flex-row gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 mt-4"
+              class="flex flex-col sm:flex-row flex-wrap gap-2 lg:gap-2 xl:gap-2 2xl:gap-2 3xl:gap-2 mt-4"
             >
               <app-ripple-button
                 (buttonClick)="openBillingPortal()"
                 buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap  flex items-center justify-center"
                 rippleColor="rgba(255, 255, 255, 0.4)"
                 [rippleScale]="8"
-                [disabled]="stripeBillingRedirecting"
+                [disabled]="stripeBillingRedirecting || stripeLatestInvoiceLoading"
               >
                 {{ t.manageBilling }}
+              </app-ripple-button>
+              <app-ripple-button
+                (buttonClick)="downloadLatestInvoice()"
+                buttonClass="w-full sm:w-auto px-3 lg:px-4 xl:px-4 2xl:px-4 3xl:px-5 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-semibold rounded-xl transition-colors text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm whitespace-nowrap flex items-center justify-center"
+                rippleColor="rgba(255, 255, 255, 0.4)"
+                [rippleScale]="8"
+                [disabled]="stripeLatestInvoiceLoading || stripeBillingRedirecting"
+              >
+                @if (stripeLatestInvoiceLoading) {
+                  <span
+                    class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white mr-2"
+                  ></span>
+                }
+                {{ t.downloadLatestInvoice }}
               </app-ripple-button>
             </div>
 
@@ -770,15 +793,10 @@
         <div
           @sectionEnter
           [class.section-leaving]="sectionLeaving"
-          class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
-          style="
-            transform: scale(0.95);
-            transform-origin: top left;
-            width: calc(105.26% - 2rem);
-          "
+          class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] 4xl:h-[42rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 4xl:mr-8 overflow-y-auto origin-top-left scale-[0.95] 4xl:scale-100 w-[calc(105.26%-2rem)] 4xl:w-full"
         >
           <h2
-            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm font-semibold text-gray-900 mb-2"
+            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm 4xl:text-base font-semibold text-gray-900 mb-2"
           >
             {{ t.gifts }}
           </h2>
@@ -1052,51 +1070,46 @@
         <div
           @sectionEnter
           [class.section-leaving]="sectionLeaving"
-          class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 overflow-y-auto"
-          style="
-            transform: scale(0.95);
-            transform-origin: top left;
-            width: calc(105.26% - 2rem);
-          "
+          class="account-section flex flex-col h-[30.4rem] 3xl:h-[35.5rem] 4xl:h-[42rem] max-lg:h-[calc(100vh-20rem)] min-h-0 mx-4 mt-6 4xl:mr-8 overflow-y-auto origin-top-left scale-[0.95] 4xl:scale-100 w-[calc(105.26%-2rem)] 4xl:w-full"
         >
           <h2
-            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 dark:text-white mb-2 max-lg:mb-2"
+            class="text-sm lg:text-base xl:text-base 2xl:text-base 3xl:text-sm 4xl:text-lg max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base font-semibold text-gray-900 dark:text-white mb-2 max-lg:mb-2"
           >
             {{ t.connections }}
           </h2>
           <p
-            class="text-[11px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm text-gray-600 dark:text-slate-400 font-medium mb-3 3xl:mb-3 max-w-2xl leading-snug"
+            class="text-[11px] lg:text-xs xl:text-xs 2xl:text-xs 3xl:text-sm 4xl:text-base text-gray-600 dark:text-slate-400 font-medium mb-3 3xl:mb-3 max-w-2xl leading-snug"
           >
             {{ t.manageConnections }}
           </p>
 
           <!-- Twilio: mismo bloque visual que connect-phone-step -->
-          <div class="flex flex-col gap-2.5 w-full max-w-full">
+          <div class="flex flex-col gap-2.5 4xl:gap-4 w-full max-w-full">
             <div
-              class="border border-gray-200 dark:border-slate-600 rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-900/30 account-border-thin"
+              class="border border-gray-200 dark:border-slate-600 rounded-xl 4xl:rounded-2xl overflow-hidden bg-gray-50 dark:bg-slate-900/30 account-border-thin"
             >
               <div
-                class="flex items-center justify-between gap-2.5 sm:gap-3 px-3.5 py-3 cursor-pointer transition-colors"
+                class="flex items-center justify-between gap-2.5 sm:gap-3 4xl:gap-4 px-3.5 py-3 4xl:px-5 4xl:py-4 cursor-pointer transition-colors"
                 (click)="toggleTwilioConnectionsPanel()"
               >
-                <div class="flex items-center gap-3 sm:gap-3.5 min-w-0 flex-1">
+                <div class="flex items-center gap-3 sm:gap-3.5 4xl:gap-4 min-w-0 flex-1">
                   <div
-                    class="w-9 h-9 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm overflow-hidden shrink-0"
+                    class="w-9 h-9 4xl:w-11 4xl:h-11 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm overflow-hidden shrink-0"
                   >
                     <img
                       src="assets/twilio.jpg"
                       alt="Twilio"
-                      class="w-9 h-9 object-contain rounded"
+                      class="w-9 h-9 4xl:w-11 4xl:h-11 object-contain rounded"
                     />
                   </div>
                   <div class="min-w-0">
                     <p
-                      class="text-[13px] sm:text-sm font-semibold text-gray-900 dark:text-white leading-tight"
+                      class="text-[13px] sm:text-sm 4xl:text-base font-semibold text-gray-900 dark:text-white leading-tight"
                     >
                       Twilio
                     </p>
                     <p
-                      class="text-[11px] sm:text-xs text-gray-600 dark:text-slate-400 leading-snug"
+                      class="text-[11px] sm:text-xs 4xl:text-sm text-gray-600 dark:text-slate-400 leading-snug"
                     >
                       @if (twilioAccounts.length > 0) {
                         {{ twilioConnectionsSubtitle }}
@@ -1109,7 +1122,7 @@
                 <button
                   type="button"
                   (click)="onTwilioHeaderButtonClick($event)"
-                  class="shrink-0 px-2.5 py-1.5 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-white text-[11px] sm:text-xs font-semibold transition-colors"
+                  class="shrink-0 px-2.5 py-1.5 4xl:px-3.5 4xl:py-2 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-white text-[11px] sm:text-xs 4xl:text-sm font-semibold transition-colors"
                 >
                   {{ twilioHeaderActionLabel }}
                 </button>
@@ -1120,7 +1133,7 @@
                 [class.twilio-slide-down]="twilioConnectionsExpanded"
                 class="overflow-hidden"
               >
-                <div class="px-3 pb-3 pt-0 space-y-2">
+                <div class="px-3 pb-3 pt-0 4xl:px-4 4xl:pb-4 space-y-2 4xl:space-y-3">
                   @if (
                     showTwilioConfig ||
                     (twilioAccounts.length === 0 && twilioConnectionsExpanded)
@@ -1320,9 +1333,14 @@
                               viewBox="0 0 24 24"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
+                              aria-hidden="true"
                             >
                               <path
-                                d="M16.19 2H7.81C4.17 2 2 4.17 2 7.81V16.18C2 19.83 4.17 22 7.81 22H16.18C19.82 22 21.99 19.83 21.99 16.19V7.81C22 4.17 19.83 2 16.19 2ZM10.95 17.51C10.66 17.8 10.11 18.08 9.71 18.14L7.25 18.49C7.16 18.5 7.07 18.51 6.98 18.51C6.57 18.51 6.19 18.37 5.92 18.1C5.59 17.77 5.45 17.29 5.53 16.76L5.88 14.3C5.94 13.89 6.21 13.35 6.51 13.06L10.97 8.6C11.05 8.81 11.13 9.02 11.24 9.26C11.34 9.47 11.45 9.69 11.57 9.89C11.67 10.06 11.78 10.22 11.87 10.34C11.98 10.51 12.11 10.67 12.19 10.76C12.24 10.83 12.28 10.88 12.3 10.9C12.55 11.2 12.84 11.48 13.09 11.69C13.16 11.76 13.2 11.8 13.22 11.81C13.37 11.93 13.52 12.05 13.65 12.14C13.81 12.26 13.97 12.37 14.14 12.46C14.34 12.58 14.56 12.69 14.78 12.8C15.01 12.9 15.22 12.99 15.43 13.06L10.95 17.51ZM17.37 11.09L16.45 12.02C16.39 12.08 16.31 12.11 16.23 12.11C16.2 12.11 16.16 12.11 16.14 12.1C14.11 11.52 12.49 9.9 11.91 7.87C11.88 7.76 11.91 7.64 11.99 7.57L12.92 6.64C14.44 5.12 15.89 5.15 17.38 6.64C18.14 7.4 18.51 8.13 18.51 8.89C18.5 9.61 18.13 10.33 17.37 11.09Z"
+                                d="M11.4001 18.1612L11.4001 18.1612L18.796 10.7653C17.7894 10.3464 16.5972 9.6582 15.4697 8.53068C14.342 7.40298 13.6537 6.21058 13.2348 5.2039L5.83882 12.5999L5.83879 12.5999C5.26166 13.1771 4.97307 13.4657 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L7.47918 20.5844C8.25351 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5343 19.0269 10.823 18.7383 11.4001 18.1612Z"
+                                fill="currentColor"
+                              />
+                              <path
+                                d="M20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178L14.3999 4.03882C14.4121 4.0755 14.4246 4.11268 14.4377 4.15035C14.7628 5.0875 15.3763 6.31601 16.5303 7.47002C17.6843 8.62403 18.9128 9.23749 19.85 9.56262C19.8875 9.57563 19.9245 9.58817 19.961 9.60026L20.8482 8.71306Z"
                                 fill="currentColor"
                               />
                             </svg>
@@ -1369,82 +1387,146 @@
               </div>
             </div>
 
-            <!-- Shopify: misma tarjeta que Twilio -->
+            <!-- Shopify: misma tarjeta que Twilio (cabecera + panel con tiendas / borrar) -->
             <div
-              class="border border-gray-200 dark:border-slate-600 rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-900/30 account-border-thin"
+              class="relative border border-gray-200 dark:border-slate-600 rounded-xl 4xl:rounded-2xl overflow-hidden bg-gray-50 dark:bg-slate-900/30 account-border-thin"
             >
+              @if (shopifyIntegrationLocked()) {
+                <div
+                  class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 rounded-xl bg-white/85 dark:bg-zinc-900/90 backdrop-blur-[2px] px-4 py-5 text-center pointer-events-auto"
+                  (click)="$event.stopPropagation()"
+                >
+                  <p class="text-xs sm:text-sm font-semibold text-[#0F172A] dark:text-slate-100 max-w-[16rem] leading-snug">
+                    {{ t.shopifyIntegrationLockedMessage }}
+                  </p>
+                  <button
+                    type="button"
+                    (click)="openShopifyLockedUpgradePlan()"
+                    class="px-3.5 py-2 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-white text-[11px] sm:text-xs font-semibold transition-colors"
+                  >
+                    {{ t.upgradePlan }}
+                  </button>
+                </div>
+              }
               <div
-                class="flex items-center justify-between gap-2.5 sm:gap-3 px-3.5 py-3"
+                [class.opacity-45]="shopifyIntegrationLocked()"
+                [class.pointer-events-none]="shopifyIntegrationLocked()"
+                [class.select-none]="shopifyIntegrationLocked()"
               >
-                <div class="flex items-center gap-3 sm:gap-3.5 min-w-0 flex-1">
+              <div
+                class="flex items-center justify-between gap-2.5 sm:gap-3 4xl:gap-4 px-3.5 py-3 4xl:px-5 4xl:py-4 transition-colors"
+                [class.cursor-pointer]="connectedShopifyStores().length > 0"
+                (click)="toggleShopifyConnectionsPanel()"
+              >
+                <div class="flex items-center gap-3 sm:gap-3.5 4xl:gap-4 min-w-0 flex-1">
                   <img
                     src="assets/shopify.webp"
                     alt="Shopify"
                     width="36"
                     height="36"
-                    class="w-9 h-9 object-contain shrink-0"
+                    class="w-9 h-9 4xl:w-11 4xl:h-11 object-contain shrink-0"
                   />
                   <div class="min-w-0">
                     <p
-                      class="text-[13px] sm:text-sm font-semibold text-gray-900 dark:text-white leading-tight"
+                      class="text-[13px] sm:text-sm 4xl:text-base font-semibold text-gray-900 dark:text-white leading-tight"
                     >
                       Shopify
                     </p>
                     <p
-                      class="text-[11px] sm:text-xs text-gray-600 dark:text-slate-400 truncate leading-snug"
+                      class="text-[11px] sm:text-xs 4xl:text-sm text-gray-600 dark:text-slate-400 truncate leading-snug"
                     >
-                      @if (primaryShopifyDomain()) {
-                        {{ primaryShopifyDomain() }}
+                      @if (connectedShopifyStores().length > 0) {
+                        {{ shopifyConnectionsSubtitleText() }}
                       } @else {
                         {{ t.connectShopifyTitle }}
                       }
                     </p>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  (click)="goToShopifyOnboardingFromAccount()"
-                  class="shrink-0 px-2.5 py-1.5 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-white text-[11px] sm:text-xs font-semibold transition-colors"
-                >
-                  {{ primaryShopifyDomain() ? t.connectNewAccount : t.connect }}
-                </button>
-              </div>
-            </div>
-
-            <div
-              class="border border-gray-200 dark:border-slate-600 rounded-xl overflow-hidden bg-gray-50 dark:bg-slate-900/30 account-border-thin opacity-90"
-            >
-              <div
-                class="flex items-center justify-between gap-2.5 sm:gap-3 px-3.5 py-3"
-              >
-                <div class="flex items-center gap-3 sm:gap-3.5 min-w-0 flex-1">
-                  <img
-                    src="assets/make.webp"
-                    alt="Make"
-                    width="36"
-                    height="36"
-                    class="w-9 h-9 object-contain shrink-0 opacity-40"
-                  />
-                  <div class="min-w-0">
-                    <p
-                      class="text-[13px] sm:text-sm font-semibold text-gray-900 dark:text-white leading-tight"
+                <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                  @if (connectedShopifyStores().length > 0) {
+                    <button
+                      type="button"
+                      (click)="onShopifyDeleteHeaderButtonClick($event)"
+                      class="px-2.5 py-1.5 4xl:px-3.5 4xl:py-2 rounded-lg border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-slate-700 text-[11px] sm:text-xs 4xl:text-sm font-semibold transition-colors"
                     >
-                      Make
-                    </p>
-                    <p
-                      class="text-[11px] sm:text-xs text-gray-600 dark:text-slate-400 leading-snug"
-                    >
-                      {{ t.makeExternalDescription }}
-                    </p>
-                  </div>
+                      {{ shopifyDeleteHeaderLabel }}
+                    </button>
+                  }
+                  <button
+                    type="button"
+                    (click)="
+                      goToShopifyOnboardingFromAccount(); $event.stopPropagation()
+                    "
+                    class="px-2.5 py-1.5 4xl:px-3.5 4xl:py-2 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-white text-[11px] sm:text-xs 4xl:text-sm font-semibold transition-colors"
+                  >
+                    {{
+                      primaryShopifyDomain()
+                        ? t.shopifyConnectAnotherAccount
+                        : t.connect
+                    }}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  disabled
-                  class="shrink-0 px-2.5 py-1.5 rounded-lg text-[11px] sm:text-xs font-semibold cursor-not-allowed bg-gray-200 dark:bg-slate-700 text-gray-500 dark:text-slate-400 border border-gray-300 dark:border-slate-600"
-                >
-                  {{ t.makeComingSoon }}
-                </button>
+              </div>
+
+              <div
+                [class.twilio-closed]="!shopifyConnectionsExpanded"
+                [class.twilio-slide-down]="shopifyConnectionsExpanded"
+                class="overflow-hidden"
+              >
+                @if (connectedShopifyStores().length > 0) {
+                  <div class="px-3 pb-3 pt-0 4xl:px-4 4xl:pb-4 space-y-2 4xl:space-y-3">
+                    <p
+                      class="text-[9px] sm:text-[10px] font-semibold text-gray-700 dark:text-slate-300"
+                    >
+                      {{ t.shopifyConnectedAccountsHeading }}
+                    </p>
+                    @for (store of connectedShopifyStores(); track store.shopDomain) {
+                      <div class="flex items-stretch gap-2 w-full">
+                        <div
+                          class="flex flex-1 min-w-0 items-center justify-center px-2 py-1.5 rounded-lg border text-center text-[11px] sm:text-xs border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"
+                        >
+                          {{ store.shopDomain }}
+                        </div>
+                        <button
+                          type="button"
+                          (click)="
+                            $event.stopPropagation();
+                            deleteShopifyStore(store.shopDomain!)
+                          "
+                          [disabled]="deletingShopifyDomain === store.shopDomain"
+                          class="inline-flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 dark:border-slate-600 text-red-600 dark:text-red-400 shrink-0 self-center disabled:opacity-50"
+                          [title]="t.deleteAccount"
+                        >
+                          @if (deletingShopifyDomain === store.shopDomain) {
+                            <span
+                              class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-[#1B2559]"
+                            ></span>
+                          } @else {
+                            <svg
+                              class="w-[18px] h-[18px] shrink-0"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M3 6.38597C3 5.90152 3.34538 5.50879 3.77143 5.50879L6.43567 5.50832C6.96502 5.49306 7.43202 5.11033 7.61214 4.54412C7.61688 4.52923 7.62232 4.51087 7.64185 4.44424L7.75665 4.05256C7.8269 3.81241 7.8881 3.60318 7.97375 3.41617C8.31209 2.67736 8.93808 2.16432 9.66147 2.03297C9.84457 1.99972 10.0385 1.99986 10.2611 2.00002H13.7391C13.9617 1.99986 14.1556 1.99972 14.3387 2.03297C15.0621 2.16432 15.6881 2.67736 16.0264 3.41617C16.1121 3.60318 16.1733 3.81241 16.2435 4.05256L16.3583 4.44424C16.3778 4.51087 16.3833 4.52923 16.388 4.54412C16.5682 5.11033 17.1278 5.49353 17.6571 5.50879H20.2286C20.6546 5.50879 21 5.90152 21 6.38597C21 6.87043 20.6546 7.26316 20.2286 7.26316H3.77143C3.34538 7.26316 3 6.87043 3 6.38597Z"
+                                fill="currentColor"
+                              />
+                              <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M11.5956 22.0001H12.4044C15.1871 22.0001 16.5785 22.0001 17.4831 21.1142C18.3878 20.2283 18.4803 18.7751 18.6654 15.8686L18.9321 11.6807C19.0326 10.1037 19.0828 9.31524 18.6289 8.81558C18.1751 8.31592 17.4087 8.31592 15.876 8.31592H8.12404C6.59127 8.31592 5.82488 8.31592 5.37105 8.81558C4.91722 9.31524 4.96744 10.1037 5.06788 11.6807L5.33459 15.8686C5.5197 18.7751 5.61225 20.2283 6.51689 21.1142C7.42153 22.0001 8.81289 22.0001 11.5956 22.0001ZM10.2463 12.1886C10.2051 11.7548 9.83753 11.4382 9.42537 11.4816C9.01321 11.525 8.71251 11.9119 8.75372 12.3457L9.25372 17.6089C9.29494 18.0427 9.66247 18.3593 10.0746 18.3159C10.4868 18.2725 10.7875 17.8856 10.7463 17.4518L10.2463 12.1886ZM14.5746 11.4816C14.9868 11.525 15.2875 11.9119 15.2463 12.3457L14.7463 17.6089C14.7051 18.0427 14.3375 18.3593 13.9254 18.3159C13.5132 18.2725 13.2125 17.8856 13.2537 17.4518L13.7537 12.1886C13.7949 11.7548 14.1625 11.4382 14.5746 11.4816Z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                          }
+                        </button>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
               </div>
             </div>
           </div>

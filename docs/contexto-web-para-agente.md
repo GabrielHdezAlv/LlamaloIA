@@ -44,7 +44,7 @@ En la parte inferior del sidebar suele aparecer: tarjeta de **minutos/créditos*
 - **Cuatro paneles de resumen** (arriba): Total de llamadas (últimos 7 días, con % vs semana pasada), Llamadas exitosas, Minutos totales, Tiempo ahorrado (cada uno con variación %).
 - **Panel principal (izquierda)**: Gráfico de **“Total de llamadas”** (evolución en el tiempo).
 - **Panel derecho**: **“Tasa de éxito de las llamadas”** (porcentaje grande) y **tarjeta de minutos** (Plan Starter, minutos disponibles, barra de progreso).
-- **Banner “Maximiza tu Eficiencia”**: texto promocional y botón **“Mejorar Plan”** (lleva a upgrade-plan).
+- **Banner “Maximiza tu Eficiencia”** (o similar): texto promocional y botón **“Mejorar Plan”**; ese flujo abre los **planes/precios** en la práctica desde **Inicio** con query **`?pricing=1`** (las rutas `/dashboard/upgrade-plan` y `/dashboard/billing` **redirigen** a `/dashboard/home?pricing=1`).
 - **Sección “Mis agentes” / agentes recientes**: lista o acceso rápido a los agentes del usuario.
 
 ---
@@ -160,7 +160,7 @@ Página de **configuración** con **sidebar interno** (en desktop) y **pestañas
 **Facturación**
 - **Suscripción actual**: texto con minutos incluidos y plan (p. ej. “Plan Gratis”).
 - Botones: **Cancelar suscripción**, **Editar método de pago**, **Historial de facturas**.
-- Botón **“Mejorar plan”** (navega a `/dashboard/upgrade-plan`).
+- Botón **“Mejorar plan”** (abre precios desde Inicio; equivalente a `/dashboard/home?pricing=1`; `/dashboard/upgrade-plan` redirige allí).
 - Texto “Protegido por Stripe” (o similar).
 
 **Regalos**
@@ -171,13 +171,16 @@ Página de **configuración** con **sidebar interno** (en desktop) y **pestañas
 
 ---
 
-### 3.10 Mejorar plan / Comprar minutos — `/dashboard/upgrade-plan`
+### 3.10 Mejorar plan / Comprar minutos — flujo en Inicio (`?pricing=1`)
 
-**Contenido:**
-- Título tipo “Precios que crecen contigo” y breve descripción.
-- **Tarjetas de planes** (p. ej. Gratis, Pro, Enterprise): nombre, descripción, precio/mes, botón de acción (Contratar, Empezar, etc.), lista de **“Lo que incluye”** (features).
-- Plan destacado (p. ej. Pro) suele resaltarse visualmente.
-- Sección de **badges de confianza** (Stripe, valoraciones, etc.) al final.
+La ruta **`/dashboard/upgrade-plan`** y **`/dashboard/billing`** (en el árbol del dashboard) **redirigen** a **`/dashboard/home?pricing=1`**, donde se muestra el modal o sección de **precios y planes** (Starter, Growth, Scale, etc.).
+
+**Contenido típico al abrir precios:**
+- Título y descripción comercial.
+- **Tarjetas de planes** con nombre, precio/mes en €, minutos incluidos, minuto extra si aplica, y botón de acción (contratar, empezar).
+- Confianza (p. ej. Stripe) según la UI actual.
+
+Ruta global **`/billing`** (fuera de `/dashboard/...`) redirige también a **`/dashboard/home?pricing=1`**.
 
 ---
 
@@ -195,6 +198,15 @@ Página de **configuración** con **sidebar interno** (en desktop) y **pestañas
 
 - **`/shopify-onboarding`**: flujo para **conectar la tienda Shopify** (autorización OAuth, selección de tienda, etc.).
 - **`/shopify-onboarding/success`**: página de **éxito** tras conectar Shopify (mensaje de confirmación y posible enlace de vuelta al dashboard o al asistente de crear agente).
+
+### 4.3 Suscripción obligatoria o acceso limitado
+
+- **`/subscribe-required`**: pantalla cuando la cuenta debe **contratar un plan** (p. ej. sin suscripción activa tras cancelación o política de producto). Orienta a revisar planes desde Inicio con precios o facturación en Cuenta.
+
+### 4.4 Otros
+
+- **`/forbidden`**: página de error **403** (acceso denegado).
+- **`/shopify`** (raíz): vista pública/app embebida relacionada con Shopify (no confundir con el dashboard del usuario logado).
 
 ---
 
@@ -222,10 +234,12 @@ Página de **configuración** con **sidebar interno** (en desktop) y **pestañas
 | `/dashboard/metrics` | Métricas |
 | `/dashboard/knowledge-base` | Base de conocimientos (fuentes globales) |
 | `/dashboard/account` | Cuenta: Perfil, Seguridad, Facturación, Regalos |
-| `/dashboard/upgrade-plan` | Planes y compra de minutos |
+| `/dashboard/home?pricing=1` | Planes y precios (modal/sección; rutas `upgrade-plan` y `billing` redirigen aquí) |
 | `/company-setup` | Configuración inicial de empresa |
 | `/shopify-onboarding` | Conectar Shopify |
 | `/shopify-onboarding/success` | Éxito conexión Shopify |
+| `/subscribe-required` | Debe contratar plan |
+| `/forbidden` | Error 403 |
 
 ---
 
@@ -235,5 +249,5 @@ Si prefieres una versión más corta para el prompt, usa este bloque:
 
 **Contexto de la web (mapa para el agente):**  
 La web de Llamalo AI tiene zona de **acceso** (login, register, verify-email) y **panel de cliente** (dashboard). No des información sobre el área de administración.  
-**Dashboard:** sidebar con Inicio, Agentes, Números, Historial, Métricas, Base de conocimientos; abajo: minutos, Comprar minutos, perfil (Cuenta, Comunidad, idioma, Ayuda, Cerrar sesión).  
-**Páginas:** Inicio = resumen (llamadas, minutos, tasa éxito, gráfico, tarjeta minutos, Mejorar plan) y lista de agentes. Agentes = lista con búsqueda, Crear agente, editar por agente. Crear agente = asistente 9 pasos (nombre, tipo llamada, país/voz, Shopify, instrucciones, base conocimiento, prueba, Twilio, éxito). Editar agente = pestañas Principal (nombre, mensajes, número, idioma/voz, parámetros voz, prueba), Conexiones (Shopify, Twilio), Base de conocimiento. Números = búsqueda, importar desde Twilio, lista números. Historial = lista llamadas/contactos y detalle conversación. Métricas = período, agente, gráficos. Base de conocimientos = búsqueda, tipos PDF/Web/Texto, lista fuentes y estados. Cuenta = Perfil (avatar, nombre, email, país, negocio, marketing), Seguridad (cambiar contraseña, eliminar cuenta), Facturación (suscripción, método pago, facturas, Mejorar plan), Regalos (Trustpilot). Mejorar plan = planes y precios. Flujos: company-setup (onboarding empresa), shopify-onboarding y success (conectar Shopify). Topbar = título, modo oscuro, notificaciones, perfil. Widget soporte = ayuda en esquina. Al orientar, indica sección y ruta sin mencionar admin.
+**Dashboard:** sidebar con Inicio, Agentes, Números, Historial, Métricas, Base de conocimientos; abajo: minutos/plan, acceso a precios, perfil (Cuenta, idioma, Ayuda, Cerrar sesión).  
+**Páginas:** Inicio = resumen (llamadas, minutos, éxito, gráfico, Mejorar plan) y acceso a agentes. **Planes/precios** = sobre todo **`/dashboard/home?pricing=1`** (las rutas `upgrade-plan` y `billing` redirigen allí). Agentes = lista, Crear agente, editar. Crear agente = asistente por pasos. Editar agente = Principal, Conexiones, Base de conocimiento. Números, Historial, Métricas, Base de conocimientos global, Cuenta (Perfil, Seguridad, Facturación, Regalos). Flujos: **company-setup**, **shopify-onboarding** + success, **subscribe-required** si debe contratar. **forbidden** = 403. Topbar y widget de soporte. Sin **admin**.

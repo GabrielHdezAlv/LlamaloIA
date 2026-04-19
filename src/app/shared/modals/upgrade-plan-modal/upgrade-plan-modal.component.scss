@@ -115,6 +115,18 @@
   -webkit-backdrop-filter: blur(0) !important;
 }
 
+/* Subscribe-required / churn: sin recuadro ni cromo de modal (página ya tiene fondo) */
+.upgrade-plan-pricing-churn-shell {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  animation: none !important;
+}
+
 /* Recuadro del modal con blur */
 .upgrade-plan-modal {
   backdrop-filter: blur(12px);
@@ -143,12 +155,37 @@
   }
 }
 
-/* Contenido (tarjetas) con tamaño fijo: solo el recuadro crece */
+/* Contenido (tarjetas): ancho máximo por defecto; en 3xl/4xl crece (ver media queries) */
 .upgrade-plan-modal__content {
   max-width: 760px;
   max-height: 82vh;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Pantallas 3xl (≥1900px): un poco más ancho que el default 760px, sin llegar al máximo de antes */
+@media (min-width: 1900px) {
+  ::ng-deep .cdk-overlay-pane.upgrade-plan-dialog {
+    width: min(94vw, 1080px) !important;
+    max-width: min(94vw, 1080px) !important;
+  }
+
+  .upgrade-plan-modal__content {
+    max-width: 1000px;
+  }
+
+  .upgrade-plan-modal--spaced {
+    padding: 3.15rem 2.35rem 2.9rem !important;
+  }
+
+  .billing-toggle {
+    width: 10.75rem;
+  }
+
+  .billing-toggle__btn {
+    padding: 0.48rem 0.48rem;
+    font-size: 0.72rem;
+  }
 }
 
 /* En móvil no limitamos altura del grid: 82vh recortaba la última carta contra el borde */
@@ -170,5 +207,260 @@
     max-height: min(calc(100dvh - 28px), calc(100svh - 28px)) !important;
     margin-top: 14px !important;
     margin-bottom: 14px !important;
+  }
+}
+
+/* Toggle mensual / anual: mismo gris neutro que las tarjetas (#222222), no gray/slate de Tailwind */
+:host-context(.dark) .billing-toggle {
+  background-color: #222222;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.04);
+}
+
+/* Toggle mensual / anual: recuadro blanco que se desliza entre opciones */
+.billing-toggle {
+  width: 9.5rem;
+}
+
+@media (min-width: 640px) {
+  .billing-toggle {
+    width: 10.25rem;
+  }
+}
+
+.billing-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  bottom: 3px;
+  width: calc(50% - 3px);
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+  z-index: 0;
+  pointer-events: none;
+  transition: transform 0.58s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+:host-context(.dark) .billing-toggle__thumb {
+  background: #e5e7eb;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.billing-toggle__thumb--annual {
+  transform: translateX(100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .billing-toggle__thumb {
+    transition-duration: 0.08s;
+  }
+}
+
+.billing-toggle__btn {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 50%;
+  min-width: 0;
+  padding: 0.4rem 0.4rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  line-height: 1.2;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  color: rgb(107 114 128);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.28s ease;
+}
+
+@media (min-width: 640px) {
+  .billing-toggle__btn {
+    padding: 0.45rem 0.45rem;
+    font-size: 0.6875rem;
+  }
+}
+
+:host-context(.dark) .billing-toggle__btn {
+  color: rgb(156 163 175);
+}
+
+.billing-toggle__btn--active {
+  font-weight: 600;
+  color: rgb(0 0 0);
+}
+
+:host-context(.dark) .billing-toggle__btn--active {
+  color: rgb(17 24 39);
+}
+
+.billing-toggle__btn:hover:not(.billing-toggle__btn--active) {
+  color: rgb(75 85 99);
+}
+
+:host-context(.dark) .billing-toggle__btn:hover:not(.billing-toggle__btn--active) {
+  color: rgb(209 213 219);
+}
+
+/* Cruce mensual ↔ anual: lento, opacidad + escala + blur (sin rebote) */
+$plan-price-xfade-dur: 1.25s;
+$plan-price-xfade-ease: cubic-bezier(0.14, 0.85, 0.28, 1);
+
+.plan-price-crossfade__layer {
+  transform-origin: center top;
+  transition:
+    opacity $plan-price-xfade-dur $plan-price-xfade-ease,
+    transform $plan-price-xfade-dur $plan-price-xfade-ease,
+    filter $plan-price-xfade-dur $plan-price-xfade-ease;
+  will-change: opacity, transform, filter;
+}
+
+.plan-price-crossfade__layer--monthly {
+  position: relative;
+  z-index: 1;
+}
+
+.plan-price-crossfade__layer--annual {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+/* Vista mensual activa */
+.plan-price-crossfade:not(.plan-price-crossfade--annual) .plan-price-crossfade__layer--monthly {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  filter: blur(0);
+  pointer-events: auto;
+}
+
+.plan-price-crossfade:not(.plan-price-crossfade--annual) .plan-price-crossfade__layer--annual {
+  opacity: 0;
+  transform: scale(1.06) translateY(10px);
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+/* Vista anual activa */
+.plan-price-crossfade--annual .plan-price-crossfade__layer--monthly {
+  opacity: 0;
+  transform: scale(0.94) translateY(-8px);
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.plan-price-crossfade--annual .plan-price-crossfade__layer--annual {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  filter: blur(0);
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-price-crossfade__layer {
+    transition-duration: 0.15s !important;
+    transition-property: opacity !important;
+    filter: none !important;
+  }
+
+  .plan-price-crossfade:not(.plan-price-crossfade--annual) .plan-price-crossfade__layer--annual,
+  .plan-price-crossfade--annual .plan-price-crossfade__layer--monthly {
+    transform: none !important;
+  }
+
+  .plan-price-crossfade:not(.plan-price-crossfade--annual) .plan-price-crossfade__layer--annual {
+    opacity: 0;
+  }
+
+  .plan-price-crossfade--annual .plan-price-crossfade__layer--annual {
+    opacity: 1;
+  }
+}
+
+/* Pantallas 4xl (≥2500px): recuadro del diálogo más ancho + contenido y toggle a escala */
+@media (min-width: 2500px) {
+  /* MatDialog fija width: 880px en el panel; lo ampliamos solo en pantallas muy grandes */
+  ::ng-deep .cdk-overlay-pane.upgrade-plan-dialog {
+    width: min(94vw, 1340px) !important;
+    max-width: min(94vw, 1340px) !important;
+  }
+
+  .upgrade-plan-modal__content {
+    max-width: 1240px;
+    max-height: 90vh;
+  }
+
+  .upgrade-plan-modal--spaced {
+    padding: 5.25rem 2.85rem 4.5rem !important;
+  }
+
+  .billing-toggle {
+    width: 16rem;
+  }
+
+  .billing-toggle__btn {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Onboarding /company-setup paso planes: escala global + toggle proporcional */
+.onboarding-pricing-host--compact {
+  zoom: 0.86;
+}
+
+@media (min-width: 768px) {
+  .onboarding-pricing-host--compact {
+    zoom: 0.9;
+  }
+
+  @keyframes plan-card-pro-fade-in-compact {
+    from {
+      opacity: 0;
+      transform: scale(1.03) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.03) translateY(0);
+    }
+  }
+
+  .onboarding-pricing-host--compact .plan-card-pro.plan-card-fade-in {
+    animation: plan-card-pro-fade-in-compact 0.58s cubic-bezier(0.28, 1, 0.4, 1) forwards;
+  }
+
+  .onboarding-pricing-host--compact .plan-card-pro:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Pantallas 3xl (≥1900px): onboarding embebido más grande y toggle proporcional */
+@media (min-width: 1900px) {
+  .onboarding-pricing-host--compact {
+    zoom: 1;
+  }
+
+  .billing-toggle--onboarding {
+    width: 11.75rem;
+  }
+
+  .billing-toggle--onboarding .billing-toggle__thumb {
+    top: 4px;
+    left: 4px;
+    bottom: 4px;
+    width: calc(50% - 4px);
+  }
+
+  .billing-toggle--onboarding .billing-toggle__btn {
+    padding: 0.5rem 0.55rem;
+    font-size: 0.75rem;
   }
 }

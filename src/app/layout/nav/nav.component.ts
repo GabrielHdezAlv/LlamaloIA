@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 import { UserStorage } from '../../storages/user/user-storage';
 import { NavigationService } from '../../core/services/navigation.service';
 import { I18nService, Language } from '../../core/services/i18n.service';
+import { planDisplayLabelFromTranslations } from '../../shared/utils/plan-display.util';
 import { SHOW_HISTORIAL_NAV } from '../../core/constants/features';
 import { ModalService } from '../../shared/modals/modal.service';
 import { AuthSessionService } from '../../core/services/auth-session.service';
@@ -62,6 +63,29 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
     return 'Usuario';
   });
 
+  /** Nombre del plan sin el prefijo «Plan» (pastilla pequeña en mayúsculas). */
+  sidebarPlanTierBadge = computed(() => {
+    this.i18nService.selectedLanguage();
+    const user = this.userStorage.user();
+    return planDisplayLabelFromTranslations(
+      user?.plan,
+      this.i18nService.getTranslations(),
+      { includePlanWord: false },
+    );
+  });
+
+  /**
+   * Cupo mensual de minutos de voz mostrado en la tarjeta (base del plan + extras), alineado con métricas/cuenta.
+   */
+  sidebarVoiceMinutesTotal = computed(() => {
+    this.i18nService.selectedLanguage();
+    const u = this.userStorage.user();
+    if (!u) return 0;
+    const base = u.minutesLimit ?? 100;
+    const extra = u.extraMinutes ?? 0;
+    return Math.max(0, Math.round(base + extra));
+  });
+
   // Método para obtener la imagen del perfil del usuario
   getUserProfileImage = () => {
     const user = this.userStorage.user();
@@ -80,6 +104,29 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
   // Obtener traducciones
   get t() {
     return this.i18nService.getTranslations();
+  }
+
+  /** Igual que topbar: prueba activa en menú del perfil. */
+  get showTrialRemainingInDropdown(): boolean {
+    const pu = this.userStorage.user()?.planUsage;
+    if (!pu?.trialActive || !pu.trialEndsAt) return false;
+    return pu.effectivePlanSlug === 'gratis';
+  }
+
+  get trialRemainingDh(): string {
+    this.i18nService.selectedLanguage();
+    const u = this.userStorage.user();
+    if (!u) return '0D 0H';
+    const pu = u.planUsage;
+    const raw = pu?.trialEndsAt ?? u.trialEndsAt;
+    if (!raw) return '0D 0H';
+    const end = new Date(raw).getTime();
+    if (Number.isNaN(end)) return '0D 0H';
+    const ms = Math.max(0, end - Date.now());
+    const totalHours = Math.floor(ms / 3_600_000);
+    const days = Math.floor(totalHours / 24);
+    const hours = totalHours % 24;
+    return `${days}D ${hours}H`;
   }
 
   ngOnInit() {

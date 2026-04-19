@@ -11,6 +11,7 @@ import {
   ListAgentsResponse,
   DeleteAgentResponse,
 } from '../../shared/models/agent.model';
+import { environment } from '../../../environments/environment';
 
 export interface GenerateAgentInstructionsRequest {
   enterpriseName: string;
@@ -38,8 +39,8 @@ export interface GenerateAgentInstructionsResponse {
 })
 export class AgentsService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://llamaloiabackend-5294.onrender.com/agents';
-  private voicesApiUrl = 'https://llamaloiabackend-5294.onrender.com/voices';
+  private apiUrl = `${environment.apiUrl}/agents`;
+  private voicesApiUrl = `${environment.apiUrl}/voices`;
   private isBrowser: boolean;
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {

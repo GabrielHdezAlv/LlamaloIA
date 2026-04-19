@@ -15,4 +15,12 @@ export interface UpdateProfileDto {
   accountStatus?: number; // ⬅️ NUEVO: Opcional (0 = Inactivo, 1 = Activo, 2 = Eliminado, 3 = No validado)
   rol?: USER_ROLE; // ⬅️ NUEVO: Opcional (owner/client_user)
   hasCompletedSetup?: boolean;
+  /** Tour primer agente omitido; se persiste en Firestore. */
+  firstAgentTourSkipped?: boolean;
+  /** IDs seleccionados en onboarding: «Qué quieres conseguir con Llamalo» */
+  onboardingGoals?: string[];
+  /** IDs seleccionados en onboarding: «Cómo nos conociste» */
+  onboardingDiscoveryChannels?: string[];
+  /** IANA: semanas/meses de negocio en métricas del panel (p. ej. Europe/Madrid) */
+  metricsCalendarTimezone?: string;
 }

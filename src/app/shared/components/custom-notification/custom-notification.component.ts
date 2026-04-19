@@ -93,6 +93,29 @@ export interface NotificationData {
       line-height: 1.4;
       word-break: break-word;
     }
+
+    /* Pantallas 4xl (≥2500px): un poco más grande que el base, sin pasarse */
+    @media (min-width: 2500px) {
+      .notification-box {
+        gap: 11px;
+        padding: 13px 20px;
+        max-width: min(680px, calc(100vw - 3rem));
+        border-radius: 12px;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.07);
+      }
+      :host-context(html.dark) .notification-box {
+        box-shadow: 0 10px 32px rgba(0, 0, 0, 0.38);
+      }
+      .status-dot {
+        width: 8px;
+        height: 8px;
+      }
+      .message-text {
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 1.42;
+      }
+    }
   `],
 })
 export class CustomNotificationComponent implements OnInit, OnDestroy {

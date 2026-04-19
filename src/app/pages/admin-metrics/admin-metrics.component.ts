@@ -1,4 +1,12 @@
-import { Component, inject, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  effect,
+  inject,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -27,6 +35,7 @@ export class AdminMetricsComponent implements OnInit {
   private i18nService = inject(I18nService);
   private metricsService = inject(MetricsService);
   public userStorage = inject(UserStorage);
+  private cdr = inject(ChangeDetectorRef);
 
   // Obtener traducciones
   get t() {
@@ -58,6 +67,25 @@ export class AdminMetricsComponent implements OnInit {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.i18nService.initializeLanguage();
     this.isBrowser = isPlatformBrowser(this.platformId);
+    effect(() => {
+      const u = this.userStorage.user();
+      let rate = 0;
+      if (u) {
+        if (
+          typeof u.extraPerMinuteEur === 'number' &&
+          !Number.isNaN(u.extraPerMinuteEur)
+        ) {
+          rate = u.extraPerMinuteEur;
+        } else {
+          const nested = u.planUsage?.limits?.extraPerMinuteEur;
+          if (typeof nested === 'number' && !Number.isNaN(nested)) {
+            rate = nested;
+          }
+        }
+      }
+      this.costPerMinute = rate;
+      this.cdr.markForCheck();
+    });
   }
 
   // Serie mini área para "Total de llamadas exitosas"

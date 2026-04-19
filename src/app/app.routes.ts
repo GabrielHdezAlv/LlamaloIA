@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { GuestGuard } from './core/guards/guest.guard';
+import { RegisterLocalhostGuard } from './core/guards/register-localhost.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { AgentsComponent } from './pages/agents/agents.component';
@@ -29,7 +30,13 @@ import { AdminNewsComponent } from './pages/admin-news/admin-news.component';
 import { AdminDocsComponent } from './pages/admin-docs/admin-docs.component';
 import { AdminSystemLogsComponent } from './pages/admin-system-logs/admin-system-logs';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
 import { ShopifyComponent } from './pages/shopify/shopify.component';
+import { subscriptionPaywallGuard } from './core/guards/subscription-paywall.guard';
+import { onboardingCompleteGuard } from './core/guards/onboarding-complete.guard';
+import { subscribeRequiredAccessGuard } from './core/guards/subscribe-required-access.guard';
+import { companySetupAccessGuard } from './core/guards/company-setup-access.guard';
+import { SubscribeRequiredComponent } from './pages/subscribe-required/subscribe-required.component';
 
 export const routes: Routes = [
   {
@@ -43,35 +50,25 @@ export const routes: Routes = [
     canActivate: [GuestGuard],
     data: {
       type: 'login',
-      title: '¡Bienvenido de vuelta!',
-      subtitle: '¿No tienes una cuenta? ',
-      linkText: 'Regístrate',
-      linkRoute: '/register',
-      formTitle: 'Iniciar sesión',
-      formSubtitle: 'Introduzca sus datos de acceso',
-      buttonText: 'Acceder',
-      bottomText: '¿No tienes una cuenta?',
-      bottomLinkText: 'Regístrate',
-      bottomLinkRoute: '/register',
     },
   },
   {
     path: 'register',
     component: AuthFormComponent,
-    canActivate: [GuestGuard],
+    canActivate: [GuestGuard, RegisterLocalhostGuard],
     data: {
       type: 'register',
-      title: 'Bienvenido a Llamalo',
-      subtitle: '¿Tiene una cuenta? ',
-      linkText: 'Inicie sesión',
-      linkRoute: '/login',
-      formTitle: 'Regístrate',
-      formSubtitle: 'Crea tu cuenta en segundos',
-      buttonText: 'Regístrate con email',
-      bottomText: '¿Ya tiene una cuenta?',
-      bottomLinkText: 'Iniciar sesión',
-      bottomLinkRoute: '/login',
     },
+  },
+  {
+    path: 'signup',
+    redirectTo: 'register',
+    pathMatch: 'full',
+  },
+  {
+    path: 'registro',
+    redirectTo: 'register',
+    pathMatch: 'full',
   },
   {
     path: 'verify-email',
@@ -88,17 +85,17 @@ export const routes: Routes = [
     canActivate: [GuestGuard],
     data: {
       type: 'recover',
-      title: 'Recuperar contraseña',
-      subtitle: '¿No tiene una cuenta?',
-      linkText: 'Regístrese ahora',
-      linkRoute: '/register',
-      formTitle: 'Recuperar contraseña',
-      formSubtitle: 'Introduzca el email',
-      buttonText: 'Acceder',
-      bottomText: '¿Todavía no tienes una cuenta?',
-      bottomLinkText: 'Regístrate',
-      bottomLinkRoute: '/register',
     },
+  },
+  {
+    path: 'forgot-password',
+    redirectTo: 'recover',
+    pathMatch: 'full',
+  },
+  {
+    path: 'recuperar',
+    redirectTo: 'recover',
+    pathMatch: 'full',
   },
   {
     path: 'billing',
@@ -109,6 +106,7 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
+    canActivateChild: [subscriptionPaywallGuard, onboardingCompleteGuard],
     children: [
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
@@ -138,17 +136,36 @@ export const routes: Routes = [
   {
     path: 'shopify-onboarding',
     component: ShopifyOnboardingComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, subscriptionPaywallGuard, onboardingCompleteGuard],
   },
   {
     path: 'shopify-onboarding/success',
     component: ShopifySuccessComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, subscriptionPaywallGuard, onboardingCompleteGuard],
   },
   {
     path: 'company-setup',
     component: CompanySetupComponent,
-    canActivate: [AuthGuard],
+    canActivate: [
+      AuthGuard,
+      subscriptionPaywallGuard,
+      companySetupAccessGuard,
+    ],
+  },
+  {
+    path: 'subscribe-required',
+    component: SubscribeRequiredComponent,
+    canActivate: [
+      AuthGuard,
+      subscriptionPaywallGuard,
+      subscribeRequiredAccessGuard,
+    ],
+    data: { hideSupportWidget: true },
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenComponent,
+    data: { hideSupportWidget: true },
   },
   {
     path: 'admin',

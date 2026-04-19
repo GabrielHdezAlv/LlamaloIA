@@ -6,7 +6,7 @@
     <div class="flex items-center gap-2 min-w-0 flex-1">
       <div class="flex items-center gap-2 min-w-0 flex-1">
         <h1
-          class="text-base sm:text-lg md:text-xl font-bold text-black dark:text-slate-50 leading-tight min-w-0 max-w-full line-clamp-2 break-words"
+          class="text-sm sm:text-base md:text-lg font-bold text-black dark:text-slate-50 leading-tight min-w-0 max-w-full line-clamp-2 break-words"
           style="letter-spacing: -0.35px">
           @if (pageTitle === t.home) {
           {{ t.dashboard }}
@@ -23,8 +23,11 @@
       </div>
     </div>
 
-    <!-- Acciones derechas: modo oscuro + notificaciones + hamburguesa + avatar -->
+    <!-- Acciones derechas: entorno + modo oscuro + notificaciones + hamburguesa + avatar -->
     <div class="relative flex items-center gap-1 sm:gap-2 flex-shrink-0">
+      @if (deployEnvLabel) {
+      <span [class]="deployEnvBadgeClass()" aria-label="Entorno">{{ deployEnvLabel }}</span>
+      }
       <!-- Modo oscuro (también disponible en móvil) -->
       <button type="button" (click)="toggleDarkMode()"
         class="hidden xs:inline-flex items-center justify-center w-8 h-8 rounded-full focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 theme-toggle-btn">
@@ -119,66 +122,69 @@
 
         <!-- Dropdown móvil (clonado del navbar, adaptado) -->
         <div *ngIf="showDropdown || dropdownClosing"
-          class="mobile-topbar-dropdown xl:hidden absolute right-0 top-12 w-44 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700 transition-all duration-200 ease-out"
+          class="mobile-topbar-dropdown xl:hidden absolute right-0 w-44 4xl:w-52 bg-white rounded-2xl 4xl:rounded-3xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700 transition-all duration-200 ease-out"
+          [class.top-12]="!showTrialRemainingInDropdown"
+          [class.top-20]="showTrialRemainingInDropdown"
           [class.dropdown-entering]="dropdownOpening"
           [class.dropdown-leaving]="dropdownClosing">
           <!-- Ajustes -->
           <button (click)="navigateTo('/dashboard/account')"
-            class="w-full flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl dark:text-slate-100 dark:hover:bg-slate-800">
-            <svg class="w-4 h-4 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="none"
+            class="w-full flex items-center gap-2 px-3 py-2 4xl:gap-2.5 4xl:px-3.5 4xl:py-2.5 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl 4xl:rounded-t-3xl dark:text-slate-100 dark:hover:bg-slate-800">
+            <svg class="w-4 h-4 4xl:w-5 4xl:h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M14.2788 2.15224C13.9085 2 13.439 2 12.5 2C11.561 2 11.0915 2 10.7212 2.15224C10.2274 2.35523 9.83509 2.74458 9.63056 3.23463C9.53719 3.45834 9.50065 3.7185 9.48635 4.09799C9.46534 4.65568 9.17716 5.17189 8.69017 5.45093C8.20318 5.72996 7.60864 5.71954 7.11149 5.45876C6.77318 5.2813 6.52789 5.18262 6.28599 5.15102C5.75609 5.08178 5.22018 5.22429 4.79616 5.5472C4.47814 5.78938 4.24339 6.1929 3.7739 6.99993C3.30441 7.80697 3.06967 8.21048 3.01735 8.60491C2.94758 9.1308 3.09118 9.66266 3.41655 10.0835C3.56506 10.2756 3.77377 10.437 4.0977 10.639C4.57391 10.936 4.88032 11.4419 4.88029 12C4.88026 12.5581 4.57386 13.0639 4.0977 13.3608C3.77372 13.5629 3.56497 13.7244 3.41645 13.9165C3.09108 14.3373 2.94749 14.8691 3.01725 15.395C3.06957 15.7894 3.30432 16.193 3.7738 17C4.24329 17.807 4.47804 18.2106 4.79606 18.4527C5.22008 18.7756 5.75599 18.9181 6.28589 18.8489C6.52778 18.8173 6.77305 18.7186 7.11133 18.5412C7.60852 18.2804 8.2031 18.27 8.69012 18.549C9.17714 18.8281 9.46533 19.3443 9.48635 19.9021C9.50065 20.2815 9.53719 20.5417 9.63056 20.7654C9.83509 21.2554 10.2274 21.6448 10.7212 21.8478C11.0915 22 11.561 22 12.5 22C13.439 22 13.9085 22 14.2788 21.8478C14.7726 21.6448 15.1649 21.2554 15.3694 20.7654C15.4628 20.5417 15.4994 20.2815 15.5137 19.902C15.5347 19.3443 15.8228 18.8281 16.3098 18.549C16.7968 18.2699 17.3914 18.2804 17.8886 18.5412C18.2269 18.7186 18.4721 18.8172 18.714 18.8488C19.2439 18.9181 19.7798 18.7756 20.2038 18.4527C20.5219 18.2105 20.7566 17.807 21.2261 16.9999C21.6956 16.1929 21.9303 15.7894 21.9827 15.395C22.0524 14.8691 21.9088 14.3372 21.5835 13.9164C21.4349 13.7243 21.2262 13.5628 20.9022 13.3608C20.4261 13.0639 20.1197 12.558 20.1197 11.9999C20.1197 11.4418 20.4261 10.9361 20.9022 10.6392C21.2263 10.4371 21.435 10.2757 21.5836 10.0835C21.9089 9.66273 22.0525 9.13087 21.9828 8.60497C21.9304 8.21055 21.6957 7.80703 21.2262 7C20.7567 6.19297 20.522 5.78945 20.2039 5.54727C19.7799 5.22436 19.244 5.08185 18.7141 5.15109C18.4722 5.18269 18.2269 5.28136 17.8887 5.4588C17.3915 5.71959 16.7969 5.73002 16.3099 5.45096C15.8229 5.17191 15.5347 4.65566 15.5136 4.09794C15.4993 3.71848 15.4628 3.45833 15.3694 3.23463C15.1649 2.74458 14.7726 2.35523 14.2788 2.15224ZM12.5 15C14.1695 15 15.5228 13.6569 15.5228 12C15.5228 10.3431 14.1695 9 12.5 9C10.8305 9 9.47716 10.3431 9.47716 12C9.47716 13.6569 10.8305 15 12.5 15Z"
                 fill="currentColor" />
             </svg>
-            <span class="font-medium text-xs">{{ t.settings }}</span>
+            <span class="font-medium text-xs 4xl:text-sm">{{ t.settings }}</span>
           </button>
 
           <!-- Comunidad Privada -->
           <button (click)="navigateTo('/dashboard/community')"
-            class="w-full flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
-            <svg class="w-4 h-4 text-gray-700 dark:text-white" viewBox="0 0 24 24"
+            class="w-full flex items-center gap-2 px-3 py-2 4xl:gap-2.5 4xl:px-3.5 4xl:py-2.5 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
+            <svg class="w-4 h-4 4xl:w-5 4xl:h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg" fill="currentColor">
               <path
                 d="M19.91,16.51A8.45,8.45,0,0,0,22,11c0-5-4.49-9-10-9S2,6,2,11s4.49,9,10,9a10.9,10.9,0,0,0,3-.41l4.59,2.3A.91.91,0,0,0,20,22a1,1,0,0,0,.62-.22,1,1,0,0,0,.35-1ZM8,12a1,1,0,1,1,1-1A1,1,0,0,1,8,12Zm4,0a1,1,0,1,1,1-1A1,1,0,0,1,12,12Zm4,0a1,1,0,1,1,1-1A1,1,0,0,1,16,12Z" />
             </svg>
-            <span class="font-medium text-xs">{{ t.privateCommunity }}</span>
+            <span class="font-medium text-xs 4xl:text-sm">{{ t.privateCommunity }}</span>
           </button>
 
           <!-- Idiomas -->
-          <div class="flex gap-1 px-2 py-1">
+          <div class="flex gap-1 px-2 py-1 4xl:gap-1.5 4xl:px-2.5 4xl:py-1.5">
             <button (click)="selectLanguage(languages[0])" [class]="
               selectedLanguage.code === 'es'
                 ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold w-1/2'
                 : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
-            " class="px-2 py-1 rounded-lg text-xs transition-colors">
+            " class="px-2 py-1 4xl:px-2.5 4xl:py-1.5 rounded-lg 4xl:rounded-xl text-xs 4xl:text-sm transition-colors">
               ES
             </button>
             <button (click)="selectLanguage(languages[1])" [class]="
               selectedLanguage.code === 'en'
                 ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold w-1/2'
                 : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
-            " class="px-2 py-1 rounded-lg text-xs transition-colors">
+            " class="px-2 py-1 4xl:px-2.5 4xl:py-1.5 rounded-lg 4xl:rounded-xl text-xs 4xl:text-sm transition-colors">
               ENG
             </button>
           </div>
 
           <!-- Centro de ayuda -->
           <button (click)="navigateTo('/dashboard/help')"
-            class="w-full flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
-            <svg class="w-4 h-4 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="none"
+            class="w-full flex items-center gap-2 px-3 py-2 4xl:gap-2.5 4xl:px-3.5 4xl:py-2.5 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
+            <svg class="w-4 h-4 4xl:w-5 4xl:h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7.92 9.234v.102a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-1.29.998-1.979 2.34-1.979 1.308 0 2.168.689 2.168 1.67 0 .928-.482 1.359-1.686 1.91l-.344.154C11.379 11.54 11 12.21 11 13.381v.119a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-.516.138-.723.55-.912l.345-.155c1.445-.654 2.529-1.514 2.529-3.39v-.103c0-1.978-1.72-3.441-4.164-3.441-2.478 0-4.336 1.428-4.336 3.734zm2.58 7.757c0 .867.659 1.509 1.491 1.509.85 0 1.509-.642 1.509-1.509 0-.867-.659-1.491-1.509-1.491-.832 0-1.491.624-1.491 1.491z"
                 fill="currentColor" />
             </svg>
-            <span class="font-medium text-xs">{{ t.helpCenter }}</span>
+            <span class="font-medium text-xs 4xl:text-sm">{{ t.helpCenter }}</span>
           </button>
 
           <!-- Cerrar sesión -->
           <button (click)="logout()"
-            class="w-full flex items-center gap-2 px-3 py-2 text-gray-700 hover:bg-red-50 transition-colors rounded-b-2xl dark:text-slate-100 dark:hover:bg-red-900/30">
-            <svg class="w-4 h-4 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor"
+            class="w-full flex items-center gap-2 px-3 py-2 4xl:gap-2.5 4xl:px-3.5 4xl:py-2.5 text-gray-700 hover:bg-red-50 transition-colors dark:text-slate-100 dark:hover:bg-red-900/30"
+            [ngClass]="{'rounded-b-2xl 4xl:rounded-b-3xl': !showTrialRemainingInDropdown}">
+            <svg class="w-4 h-4 4xl:w-5 4xl:h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor"
               xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd"
                 d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z">
@@ -187,8 +193,12 @@
                 d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z">
               </path>
             </svg>
-            <span class="font-medium text-xs">{{ t.logout }}</span>
+            <span class="font-medium text-xs 4xl:text-sm">{{ t.logout }}</span>
           </button>
+          <div *ngIf="showTrialRemainingInDropdown" class="px-3 pt-2 pb-2.5 rounded-b-2xl 4xl:rounded-b-3xl border-t border-gray-200 dark:border-slate-700 flex flex-row flex-nowrap items-center gap-x-1.5">
+            <span class="font-medium text-xs text-gray-700 dark:text-slate-100 whitespace-nowrap">{{ t.trialTimeRemainingLabelShort }}:</span>
+            <span class="font-semibold text-xs tabular-nums text-gray-700 dark:text-slate-100 whitespace-nowrap">{{ trialRemainingDh }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -196,12 +206,12 @@
 
   <!-- TOPBAR ESCRITORIO -->
   <div
-    class="hidden xl:flex items-center justify-between w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] 4xl:max-w-[110rem] mx-auto min-h-[4rem] 3xl:min-h-[5rem] 4xl:min-h-[6rem]">
+    class="hidden xl:flex items-center justify-between w-full max-w-6xl lg:max-w-6xl xl:max-w-6xl 2xl:max-w-6xl 3xl:max-w-[90rem] 4xl:max-w-[125rem] mx-auto min-h-[4rem] 3xl:min-h-[5rem] 4xl:min-h-[6rem]">
     <div class="flex flex-col gap-0">
       <div class="flex items-center gap-2 md:gap-2.5">
         <h1
-          class="text-lg sm:text-lg md:text-2xl lg:text-2xl xl:text-2xl 2xl:text-2xl 3xl:text-4xl font-bold xl:ml-0 text-black dark:text-slate-50 leading-tight"
-          [ngClass]="isAdminSection ? '4xl:text-4xl' : '4xl:text-5xl'"
+          class="text-lg sm:text-lg md:text-xl lg:text-xl xl:text-xl 2xl:text-xl 3xl:text-3xl font-bold xl:ml-0 text-black dark:text-slate-50 leading-tight"
+          [ngClass]="isAdminSection ? '4xl:text-3xl' : '4xl:text-4xl'"
           style="letter-spacing: -2.1px">
           @if (pageTitle === t.home) {
           {{ t.dashboard }}
@@ -219,15 +229,18 @@
 
       <!-- Mensaje de bienvenida o subtítulo debajo del saludo (solo si existe texto) -->
       <p *ngIf="welcomeText || pageSubtitle"
-        class="text-sm sm:text-sm md:text-base lg:text-base xl:text-base 2xl:text-base 3xl:text-xl 4xl:text-2xl font-medium text-black xl:ml-0 dark:text-slate-200 flex items-center">
+        class="text-sm sm:text-sm md:text-base lg:text-base xl:text-base 2xl:text-base 3xl:text-lg 4xl:text-xl font-medium text-black xl:ml-0 dark:text-slate-200 flex items-center">
         {{ welcomeText || pageSubtitle }}
       </p>
     </div>
 
 
 
-    <!-- Controles de la derecha: modo oscuro + logout (admin) / noticias + avatar (dashboard) -->
+    <!-- Controles de la derecha: entorno + modo oscuro + logout (admin) / noticias + avatar (dashboard) -->
     <div class="relative flex items-center gap-3 sm:gap-3 md:gap-3 lg:gap-3 xl:gap-3 2xl:gap-3 3xl:gap-5 4xl:gap-6">
+      @if (deployEnvLabel) {
+      <span [class]="deployEnvBadgeClass()" aria-label="Entorno">{{ deployEnvLabel }}</span>
+      }
       <!-- Icono sol/luna para modo oscuro (solo en admin) -->
       <button *ngIf="isAdminSection" type="button" (click)="toggleDarkMode()"
         class="inline-flex items-center justify-center w-9 h-9 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-9 lg:h-9 xl:w-9 xl:h-9 2xl:w-9 2xl:h-9 3xl:w-10 3xl:h-10 4xl:w-11 4xl:h-11 rounded-full bg-white/80 dark:bg-slate-800/80 shadow-sm border border-gray-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300"
@@ -274,7 +287,7 @@
         <button type="button" (click)="toggleNewsDropdown()"
           class="news-bell-btn relative h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 4xl:h-14 4xl:w-14 flex items-center justify-center text-black dark:text-slate-200 rounded-full transition-all duration-300">
           <svg
-            class="w-5 h-5 sm:w-4 sm:h-4 md:w-5.5 md:h-5.5 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6"
+            class="w-5 h-5 sm:w-4 sm:h-4 md:w-5.5 md:h-5.5 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-6 3xl:h-6 4xl:w-7 4xl:h-7"
             viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M8.35179 20.2418C9.19288 21.311 10.5142 22 12 22C13.4858 22 14.8071 21.311 15.6482 20.2418C13.2264 20.57 10.7736 20.57 8.35179 20.2418Z"
@@ -283,43 +296,43 @@
               d="M18.7491 9V9.7041C18.7491 10.5491 18.9903 11.3752 19.4422 12.0782L20.5496 13.8012C21.5612 15.3749 20.789 17.5139 19.0296 18.0116C14.4273 19.3134 9.57274 19.3134 4.97036 18.0116C3.21105 17.5139 2.43882 15.3749 3.45036 13.8012L4.5578 12.0782C5.00972 11.3752 5.25087 10.5491 5.25087 9.7041V9C5.25087 5.13401 8.27256 2 12 2C15.7274 2 18.7491 5.13401 18.7491 9Z"
               fill="currentColor"></path>
           </svg>
-          <span *ngIf="hasNewNotifications" class="absolute top-2.5 right-2.5 sm:top-2 sm:right-2 flex h-2 w-2">
+          <span *ngIf="hasNewNotifications" class="absolute top-2.5 right-2.5 sm:top-2 sm:right-2 4xl:top-2.5 4xl:right-2.5 flex h-2 w-2 4xl:h-2.5 4xl:w-2.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 4xl:h-2.5 4xl:w-2.5 bg-red-500"></span>
           </span>
         </button>
 
         <!-- Dropdown de noticias escritorio -->
         <div *ngIf="showNewsDropdown || newsDropdownClosing"
-          class="news-dropdown absolute right-0 mt-3 w-[300px] 3xl:w-[450px] bg-white rounded-2xl shadow-xl z-[9999] border border-gray-100 dark:bg-slate-900 dark:border-slate-800 transform origin-top-right transition-all duration-300"
+          class="news-dropdown absolute right-0 mt-3 4xl:mt-3 w-[300px] 3xl:w-[450px] 4xl:w-[460px] bg-white rounded-2xl 4xl:rounded-2xl shadow-xl z-[9999] border border-gray-100 dark:border-slate-800 transform origin-top-right transition-all duration-300"
           [class.dropdown-entering]="newsDropdownOpening"
           [class.dropdown-leaving]="newsDropdownClosing">
-          <div class="flex flex-col max-h-[225px] 3xl:max-h-[400px] overflow-hidden">
+          <div class="flex flex-col max-h-[225px] 3xl:max-h-[400px] 4xl:max-h-[min(400px,48vh)] overflow-hidden">
             <!-- Content -->
-            <div class="p-1.5 3xl:p-3 overflow-y-auto custom-scrollbar space-y-1 3xl:space-y-2">
+            <div class="p-1.5 3xl:p-3 4xl:p-3 overflow-y-auto custom-scrollbar space-y-1 3xl:space-y-2 4xl:space-y-2">
               <div *ngFor="let news of newsList()"
-                class="p-2 3xl:p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group"
+                class="p-2 3xl:p-3 4xl:p-3 rounded-xl 4xl:rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors cursor-pointer group"
                 (mousedown)="openNewsModal(news)">
-                <div class="flex gap-2 3xl:gap-4 items-center text-left">
-                  <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem] 3xl:min-h-[5.5rem]">
+                <div class="flex gap-2 3xl:gap-4 4xl:gap-4 items-center text-left">
+                  <div class="flex-1 min-w-0 pr-1 flex flex-col justify-between min-h-[3.5rem] 3xl:min-h-[5.5rem] 4xl:min-h-[5.5rem]">
                     <div>
-                      <h3 class="text-[11px] 3xl:text-base font-semibold text-gray-900 dark:text-white leading-tight">
+                      <h3 class="text-[11px] 3xl:text-base 4xl:text-base font-semibold text-gray-900 dark:text-white leading-tight">
                         {{ news.title }}</h3>
                       <p
-                        class="text-[10px] 3xl:text-sm text-gray-500 dark:text-gray-400 mt-0.5 3xl:mt-1.5 leading-tight">
+                        class="text-[10px] 3xl:text-sm 4xl:text-sm text-gray-500 dark:text-gray-400 mt-0.5 3xl:mt-1.5 4xl:mt-1.5 leading-tight">
                         {{ news.description }}</p>
                     </div>
                     <span
-                      class="text-[8px] 3xl:text-xs text-blue-600 dark:text-blue-400 font-bold uppercase mt-1 3xl:mt-2">{{
+                      class="text-[8px] 3xl:text-xs 4xl:text-xs text-blue-600 dark:text-blue-400 font-bold uppercase mt-1 3xl:mt-2 4xl:mt-2">{{
                       formatNewsDate(news.date) }}</span>
                   </div>
                   <div
-                    class="w-24 h-14 3xl:w-36 3xl:h-24 rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
+                    class="w-24 h-14 3xl:w-36 3xl:h-24 4xl:w-36 4xl:h-24 rounded-lg 4xl:rounded-lg overflow-hidden flex-shrink-0 shadow-sm border border-gray-100 dark:border-slate-700">
                     <img [src]="news.imageUrl" class="w-full h-full object-cover" alt="Image">
                   </div>
                 </div>
               </div>
-              <div *ngIf="newsList().length === 0" class="py-10 text-center text-xs 3xl:text-base text-gray-400 italic">
+              <div *ngIf="newsList().length === 0" class="py-10 text-center text-xs 3xl:text-base 4xl:text-base text-gray-400 italic">
                 {{ t.noNews }}
               </div>
             </div>
@@ -329,49 +342,52 @@
 
       <!-- Avatar escritorio (solo fuera de la sección admin) -->
       <img *ngIf="!isAdminSection" [src]="getUserProfileImage()"
-        class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-12 3xl:w-12 4xl:h-14 4xl:w-14 rounded-full border border-blue-900/20 dark:border-white/20 history-border cursor-pointer"
+        class="topbar-avatar h-10 w-10 sm:h-8 sm:w-8 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-10 xl:w-10 2xl:h-10 2xl:w-10 3xl:h-14 3xl:w-14 4xl:h-16 4xl:w-16 rounded-full border border-blue-900/20 dark:border-white/20 history-border cursor-pointer"
         alt="Perfil" (click)="toggleDropdown()" />
 
       <!-- Dropdown escritorio -->
       <div *ngIf="(!isAdminSection) && (showDropdown || dropdownClosing)"
-        class="topbar-dropdown absolute right-0 mt-60 sm:mt-56 md:mt-56 lg:mt-60 xl:mt-60 2xl:mt-60 3xl:mt-72 w-48 sm:w-44 md:w-44 lg:w-48 xl:w-48 2xl:w-48 3xl:w-48 bg-white rounded-2xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700 transition-all duration-200 ease-out"
+        class="topbar-dropdown absolute right-0 w-48 sm:w-44 md:w-44 lg:w-48 xl:w-48 2xl:w-48 3xl:w-48 4xl:w-56 bg-white rounded-2xl 4xl:rounded-3xl shadow-xl z-50 border border-gray-200 dark:bg-slate-900 dark:border-slate-700 transition-all duration-200 ease-out"
+        [ngClass]="showTrialRemainingInDropdown
+          ? 'mt-72 sm:mt-64 md:mt-64 lg:mt-72 xl:mt-72 2xl:mt-72 3xl:mt-80 4xl:mt-84'
+          : 'mt-60 sm:mt-56 md:mt-56 lg:mt-60 xl:mt-60 2xl:mt-60 3xl:mt-72 4xl:mt-80'"
         [class.dropdown-entering]="dropdownOpening"
         [class.dropdown-leaving]="dropdownClosing">
         <!-- Ajustes -->
         <button (click)="navigateTo('/dashboard/account')"
-          class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl dark:text-slate-100 dark:hover:bg-slate-800">
+          class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 4xl:gap-3 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 4xl:px-3.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 4xl:py-2.5 text-gray-700 hover:bg-gray-100 transition-colors rounded-t-2xl 4xl:rounded-t-3xl dark:text-slate-100 dark:hover:bg-slate-800">
           <svg
-            class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
+            class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 4xl:w-6 4xl:h-6 text-gray-700 dark:text-white"
             viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
               d="M14.2788 2.15224C13.9085 2 13.439 2 12.5 2C11.561 2 11.0915 2 10.7212 2.15224C10.2274 2.35523 9.83509 2.74458 9.63056 3.23463C9.53719 3.45834 9.50065 3.7185 9.48635 4.09799C9.46534 4.65568 9.17716 5.17189 8.69017 5.45093C8.20318 5.72996 7.60864 5.71954 7.11149 5.45876C6.77318 5.2813 6.52789 5.18262 6.28599 5.15102C5.75609 5.08178 5.22018 5.22429 4.79616 5.5472C4.47814 5.78938 4.24339 6.1929 3.7739 6.99993C3.30441 7.80697 3.06967 8.21048 3.01735 8.60491C2.94758 9.1308 3.09118 9.66266 3.41655 10.0835C3.56506 10.2756 3.77377 10.437 4.0977 10.639C4.57391 10.936 4.88032 11.4419 4.88029 12C4.88026 12.5581 4.57386 13.0639 4.0977 13.3608C3.77372 13.5629 3.56497 13.7244 3.41645 13.9165C3.09108 14.3373 2.94749 14.8691 3.01725 15.395C3.06957 15.7894 3.30432 16.193 3.7738 17C4.24329 17.807 4.47804 18.2106 4.79606 18.4527C5.22008 18.7756 5.75599 18.9181 6.28589 18.8489C6.52778 18.8173 6.77305 18.7186 7.11133 18.5412C7.60852 18.2804 8.2031 18.27 8.69012 18.549C9.17714 18.8281 9.46533 19.3443 9.48635 19.9021C9.50065 20.2815 9.53719 20.5417 9.63056 20.7654C9.83509 21.2554 10.2274 21.6448 10.7212 21.8478C11.0915 22 11.561 22 12.5 22C13.439 22 13.9085 22 14.2788 21.8478C14.7726 21.6448 15.1649 21.2554 15.3694 20.7654C15.4628 20.5417 15.4994 20.2815 15.5137 19.902C15.5347 19.3443 15.8228 18.8281 16.3098 18.549C16.7968 18.2699 17.3914 18.2804 17.8886 18.5412C18.2269 18.7186 18.4721 18.8172 18.714 18.8488C19.2439 18.9181 19.7798 18.7756 20.2038 18.4527C20.5219 18.2105 20.7566 17.807 21.2261 16.9999C21.6956 16.1929 21.9303 15.7894 21.9827 15.395C22.0524 14.8691 21.9088 14.3372 21.5835 13.9164C21.4349 13.7243 21.2262 13.5628 20.9022 13.3608C20.4261 13.0639 20.1197 12.558 20.1197 11.9999C20.1197 11.4418 20.4261 10.9361 20.9022 10.6392C21.2263 10.4371 21.435 10.2757 21.5836 10.0835C21.9089 9.66273 22.0525 9.13087 21.9828 8.60497C21.9304 8.21055 21.6957 7.80703 21.2262 7C20.7567 6.19297 20.522 5.78945 20.2039 5.54727C19.7799 5.22436 19.244 5.08185 18.7141 5.15109C18.4722 5.18269 18.2269 5.28136 17.8887 5.4588C17.3915 5.71959 16.7969 5.73002 16.3099 5.45096C15.8229 5.17191 15.5347 4.65566 15.5136 4.09794C15.4993 3.71848 15.4628 3.45833 15.3694 3.23463C15.1649 2.74458 14.7726 2.35523 14.2788 2.15224ZM12.5 15C14.1695 15 15.5228 13.6569 15.5228 12C15.5228 10.3431 14.1695 9 12.5 9C10.8305 9 9.47716 10.3431 9.47716 12C9.47716 13.6569 10.8305 15 12.5 15Z"
               fill="currentColor" />
           </svg>
-          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm">{{
+          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm 4xl:text-base">{{
             t.settings }}</span>
         </button>
 
         <!-- Comunidad Privada -->
         <button (click)="navigateTo('/dashboard/community')"
-          class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
+          class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 4xl:gap-3 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 4xl:px-3.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 4xl:py-2.5 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
           <svg
-            class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
+            class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 4xl:w-6 4xl:h-6 text-gray-700 dark:text-white"
             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
             <path
               d="M19.91,16.51A8.45,8.45,0,0,0,22,11c0-5-4.49-9-10-9S2,6,2,11s4.49,9,10,9a10.9,10.9,0,0,0,3-.41l4.59,2.3A.91.91,0,0,0,20,22a1,1,0,0,0,.62-.22,1,1,0,0,0,.35-1ZM8,12a1,1,0,1,1,1-1A1,1,0,0,1,8,12Zm4,0a1,1,0,1,1,1-1A1,1,0,0,1,12,12Zm4,0a1,1,0,1,1,1-1A1,1,0,0,1,16,12Z" />
           </svg>
-          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm">{{
+          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm 4xl:text-base">{{
             t.privateCommunity }}</span>
         </button>
 
         <!-- Idiomas -->
-        <div class="flex gap-1 px-2 3xl:px-2.5 py-1 3xl:py-1.5">
+        <div class="flex gap-1 px-2 3xl:px-2.5 4xl:px-3 py-1 3xl:py-1.5 4xl:py-2">
           <button (click)="selectLanguage(languages[0])" [class]="
               selectedLanguage.code === 'es'
                 ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold w-1/2'
                 : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
             "
-            class="px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-1.5 sm:py-1 md:py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-1.5 rounded-lg text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm transition-colors">
+            class="px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 4xl:px-3 py-1.5 sm:py-1 md:py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-1.5 4xl:py-2 rounded-lg 4xl:rounded-xl text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm 4xl:text-base transition-colors">
             ES
           </button>
           <button (click)="selectLanguage(languages[1])" [class]="
@@ -379,30 +395,31 @@
                 ? 'bg-blue-900 dark:bg-white dark:text-[#000001] text-white font-semibold w-1/2'
                 : 'bg-transparent text-gray-500 hover:text-gray-800 w-1/2'
             "
-            class="px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-1.5 sm:py-1 md:py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-1.5 rounded-lg text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm transition-colors">
+            class="px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 4xl:px-3 py-1.5 sm:py-1 md:py-1 lg:py-1.5 xl:py-1.5 2xl:py-1.5 3xl:py-1.5 4xl:py-2 rounded-lg 4xl:rounded-xl text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm 4xl:text-base transition-colors">
             ENG
           </button>
         </div>
 
         <!-- Centro de ayuda -->
         <button (click)="navigateTo('/dashboard/help')"
-          class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
+          class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 4xl:gap-3 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 4xl:px-3.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 4xl:py-2.5 text-gray-700 hover:bg-gray-100 transition-colors dark:text-slate-100 dark:hover:bg-slate-800">
           <svg
-            class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
+            class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 4xl:w-6 4xl:h-6 text-gray-700 dark:text-white"
             viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM7.92 9.234v.102a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-1.29.998-1.979 2.34-1.979 1.308 0 2.168.689 2.168 1.67 0 .928-.482 1.359-1.686 1.91l-.344.154C11.379 11.54 11 12.21 11 13.381v.119a.5.5 0 0 0 .5.5h.997a.499.499 0 0 0 .499-.499c0-.516.138-.723.55-.912l.345-.155c1.445-.654 2.529-1.514 2.529-3.39v-.103c0-1.978-1.72-3.441-4.164-3.441-2.478 0-4.336 1.428-4.336 3.734zm2.58 7.757c0 .867.659 1.509 1.491 1.509.85 0 1.509-.642 1.509-1.509 0-.867-.659-1.491-1.509-1.491-.832 0-1.491.624-1.491 1.491z"
               fill="currentColor" />
           </svg>
-          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm">{{
+          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm 4xl:text-base">{{
             t.helpCenter }}</span>
         </button>
 
         <!-- Cerrar sesión -->
         <button (click)="logout()"
-          class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 text-gray-700 hover:bg-red-50 transition-colors rounded-b-2xl dark:text-slate-100 dark:hover:bg-red-900/30">
+          class="w-full flex items-center gap-2.5 sm:gap-2 md:gap-2 lg:gap-2.5 xl:gap-2.5 2xl:gap-2.5 3xl:gap-2.5 4xl:gap-3 px-2.5 sm:px-2 md:px-2 lg:px-2.5 xl:px-2.5 2xl:px-2.5 3xl:px-2.5 4xl:px-3.5 py-2 sm:py-1.5 md:py-1.5 lg:py-2 xl:py-2 2xl:py-2 3xl:py-2 4xl:py-2.5 text-gray-700 hover:bg-red-50 transition-colors dark:text-slate-100 dark:hover:bg-red-900/30"
+          [ngClass]="{'rounded-b-2xl 4xl:rounded-b-3xl': !showTrialRemainingInDropdown}">
           <svg
-            class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 text-gray-700 dark:text-white"
+            class="w-5 h-5 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-5 xl:h-5 2xl:w-5 2xl:h-5 3xl:w-5 3xl:h-5 4xl:w-6 4xl:h-6 text-gray-700 dark:text-white"
             viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd"
               d="M9.70725 2.4087C9 3.03569 9 4.18259 9 6.4764V17.5236C9 19.8174 9 20.9643 9.70725 21.5913C10.4145 22.2183 11.4955 22.0297 13.6576 21.6526L15.9864 21.2465C18.3809 20.8288 19.5781 20.62 20.2891 19.7417C21 18.8635 21 17.5933 21 15.0529V8.94711C21 6.40671 21 5.13652 20.2891 4.25826C19.5781 3.37999 18.3809 3.17118 15.9864 2.75354L13.6576 2.34736C11.4955 1.97026 10.4145 1.78171 9.70725 2.4087ZM12 10.1686C12.4142 10.1686 12.75 10.52 12.75 10.9535V13.0465C12.75 13.48 12.4142 13.8314 12 13.8314C11.5858 13.8314 11.25 13.48 11.25 13.0465V10.9535C11.25 10.52 11.5858 10.1686 12 10.1686Z">
@@ -411,9 +428,13 @@
               d="M7.54717 4.5C5.48889 4.503 4.41599 4.54826 3.73223 5.23202C3 5.96425 3 7.14276 3 9.49979V14.4998C3 16.8568 3 18.0353 3.73223 18.7676C4.41599 19.4513 5.48889 19.4966 7.54717 19.4996C7.49985 18.8763 7.49992 18.1557 7.50001 17.3768V6.6227C7.49992 5.84388 7.49985 5.1233 7.54717 4.5Z">
             </path>
           </svg>
-          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm">{{
+          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm 4xl:text-base">{{
             t.logout }}</span>
         </button>
+        <div *ngIf="showTrialRemainingInDropdown" class="px-2.5 3xl:px-2.5 4xl:px-3.5 pt-2 pb-2.5 rounded-b-2xl 4xl:rounded-b-3xl border-t border-gray-200 dark:border-slate-700 flex flex-row flex-nowrap items-center gap-x-1.5">
+          <span class="font-medium text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm 4xl:text-base text-gray-700 dark:text-slate-100 whitespace-nowrap">{{ t.trialTimeRemainingLabelShort }}:</span>
+          <span class="font-semibold text-sm sm:text-xs md:text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm 4xl:text-base tabular-nums text-gray-700 dark:text-slate-100 whitespace-nowrap">{{ trialRemainingDh }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -549,93 +570,92 @@
     </div>
   </div>
 
-  <!-- Banner borrador creación agente: cápsula compacta (misma altura sensación que antes) -->
+  <!-- Banner borrador creación agente: escala en 2xl+ (3xl del proyecto = 1900px; sin 2xl quedaba pequeño hasta entonces) -->
   <div
     *ngIf="draftBannerShown"
     @draftBanner
     (@draftBanner.done)="onDraftBannerAnimDone($event)"
-    class="fixed bottom-4 left-1/2 z-[100] flex w-[90%] max-w-[min(42rem,calc(100vw-2rem))] -translate-x-1/2 flex-col items-stretch gap-3 rounded-3xl border border-white/20 bg-black px-4 py-3 shadow-2xl sm:w-auto sm:min-w-[550px] sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6 sm:py-2.5"
+    class="fixed bottom-4 2xl:bottom-5 3xl:bottom-6 4xl:bottom-8 left-1/2 z-[100] flex w-[90%] max-w-[min(42rem,calc(100vw-2rem))] 2xl:max-w-[min(46rem,calc(100vw-2rem))] 3xl:max-w-[min(52rem,calc(100vw-2.5rem))] 4xl:max-w-[min(58rem,calc(100vw-3rem))] -translate-x-1/2 flex-col items-stretch gap-3 sm:gap-6 2xl:gap-6 3xl:gap-7 4xl:gap-8 rounded-3xl 2xl:rounded-[1.25rem] 3xl:rounded-[1.5rem] border border-white/20 bg-black px-4 py-3 sm:px-6 sm:py-2.5 2xl:px-6 2xl:py-3 3xl:px-7 3xl:py-3.5 4xl:px-8 4xl:py-4 shadow-2xl sm:w-auto sm:min-w-[550px] 2xl:min-w-[580px] 3xl:min-w-[600px] 4xl:min-w-[660px] sm:flex-row sm:items-center sm:justify-between"
   >
-    <div class="flex min-w-0 flex-col items-center gap-0.5 text-center sm:items-start sm:text-left">
-      <p class="text-xs font-medium leading-snug text-white sm:text-[13px]">
+    <div class="flex min-w-0 flex-col items-center gap-0.5 2xl:gap-1 text-center sm:items-start sm:text-left">
+      <p class="text-xs font-medium leading-snug text-white sm:text-[13px] 2xl:text-[15px] 2xl:leading-snug 3xl:text-base 3xl:leading-snug 4xl:text-lg">
         {{ t.continueAgentCreationQuestion }}
       </p>
       <div
-        class="text-[10px] leading-snug text-gray-400 max-sm:flex max-sm:flex-row max-sm:flex-wrap max-sm:items-baseline max-sm:justify-center max-sm:gap-x-2 sm:text-[11px] sm:block">
+        class="text-[10px] leading-snug text-gray-400 max-sm:flex max-sm:flex-row max-sm:flex-wrap max-sm:items-baseline max-sm:justify-center max-sm:gap-x-2 sm:text-[11px] 2xl:text-xs 2xl:leading-normal 3xl:text-sm sm:block">
         <span>
           {{ t.agentLabelTopbar }}:
           <span class="font-medium text-gray-300">{{ savedDraft?.agentName || t.noName }}</span>
         </span>
-        <span *ngIf="getSavedStepText()" class="max-sm:inline sm:mt-0.5 sm:block">
+        <span *ngIf="getSavedStepText()" class="max-sm:inline sm:mt-0.5 sm:block 2xl:mt-0.5">
           {{ t.stepLabel }}:
           <span class="font-medium text-gray-300">{{ getSavedStepText() }}</span>
         </span>
       </div>
     </div>
-    <div class="flex shrink-0 items-center justify-center gap-2.5 sm:gap-3 sm:justify-end">
+    <div class="flex shrink-0 items-center justify-center gap-2.5 sm:gap-3 2xl:gap-3 sm:justify-end">
       <button
         type="button"
         (click)="discardDraft()"
-        class="inline-flex flex-1 items-center justify-center rounded-full border border-white/35 bg-transparent px-4 py-2 text-[11px] font-medium text-white transition-colors hover:bg-white/10 sm:flex-initial sm:px-4 sm:py-2 sm:text-xs"
+        class="inline-flex flex-1 items-center justify-center rounded-full border border-white/35 bg-transparent px-4 py-2 text-[11px] font-medium text-white transition-colors hover:bg-white/10 sm:flex-initial sm:px-4 sm:py-2 sm:text-xs 2xl:px-5 2xl:py-2 2xl:text-xs 3xl:px-6 3xl:py-2.5 3xl:text-sm 4xl:px-7 4xl:py-3 4xl:text-base"
       >
         {{ t.deleteLabel }}
       </button>
       <button
         type="button"
         (click)="goToRecoverDraft()"
-        class="inline-flex flex-1 items-center justify-center rounded-full bg-white px-4 py-2 text-[11px] font-semibold text-black transition-colors hover:bg-gray-100 active:scale-[0.98] sm:flex-initial sm:px-5 sm:py-2 sm:text-xs"
+        class="inline-flex flex-1 items-center justify-center rounded-full bg-white px-4 py-2 text-[11px] font-semibold text-black transition-colors hover:bg-gray-100 active:scale-[0.98] sm:flex-initial sm:px-5 sm:py-2 sm:text-xs 2xl:px-6 2xl:py-2 2xl:text-xs 3xl:px-7 3xl:py-2.5 3xl:text-sm 4xl:px-8 4xl:py-3 4xl:text-base"
       >
         {{ t.continue }}
       </button>
     </div>
   </div>
 
-  <!-- News Modal -->
+  <!-- News Modal: imagen un poco más alta que antes (~44% / ~56%, flex 4:5) -->
   <div *ngIf="showNewsModal"
-    class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-4 sm:p-6"
+    @newsModal
+    class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center p-4 sm:p-6 4xl:p-6"
     style="z-index: 999999; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px);"
     (click)="closeNewsItemModal()">
-    <div class="relative w-full max-w-2xl max-h-[85vh] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+    <div
+      class="news-modal-shell relative w-full max-w-[min(400px,calc(100vw-2rem))] 4xl:max-w-[min(520px,calc(100vw-2rem))] h-[min(68vh,420px)] 4xl:h-[min(70vh,520px)] max-h-[72vh] 4xl:max-h-[72vh] bg-white dark:bg-slate-900 rounded-2xl 4xl:rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden flex flex-col"
       (click)="$event.stopPropagation()">
       <!-- Close button -->
       <button (click)="closeNewsItemModal()"
-        class="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors z-20 cursor-pointer">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        class="absolute top-2.5 right-2.5 4xl:top-3 4xl:right-3 p-2 4xl:p-2.5 bg-black/45 hover:bg-black/65 text-white rounded-full transition-colors z-20 cursor-pointer">
+        <svg class="w-4 h-4 4xl:w-5 4xl:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
-      <!-- Contenedor que hará scroll interno general (imagen + texto) si excede 85vh -->
-      <div class="news-modal-scroll-container w-full flex flex-col overflow-y-scroll custom-scrollbar pr-1"
-        (scroll)="checkNewsScroll($event)">
-        <!-- Image Header -->
-        <div class="w-full h-48 sm:h-64 md:h-80 flex-shrink-0 bg-gray-100 dark:bg-slate-800">
-          <img *ngIf="selectedNewsItem?.imageUrl" [src]="selectedNewsItem?.imageUrl" class="w-full h-full object-cover" [alt]="selectedNewsItem?.title">
-        </div>
-
-        <!-- Content -->
-        <div class="p-6 sm:p-8 flex flex-col flex-grow pb-12">
-          <div class="flex items-center justify-between mb-4 flex-shrink-0">
-            <span class="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider">
-              {{ selectedNewsItem ? formatNewsDate(selectedNewsItem.date) : '' }}
-            </span>
-          </div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 leading-tight flex-shrink-0">
-            {{ selectedNewsItem?.title }}
-          </h2>
-          <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
-            {{ selectedNewsItem?.description }}
-          </p>
-        </div>
+      <!-- Imagen (flex 4 de 4+5 ≈ un poco más de altura que 40/60) -->
+      <div class="flex-[4] min-h-0 relative overflow-hidden rounded-b-2xl bg-gray-100 dark:bg-slate-800">
+        <img *ngIf="selectedNewsItem?.imageUrl" [src]="selectedNewsItem?.imageUrl"
+          class="w-full h-full object-cover" [alt]="selectedNewsItem?.title">
       </div>
-      
-      <!-- Scroll Indicator (fade) -->
-      <div class="pointer-events-none absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-slate-900 dark:via-slate-900/80 transition-opacity duration-300 rounded-b-3xl flex items-end justify-center pb-4"
+
+      <!-- Texto (flex 5), scroll interno -->
+      <div
+        class="news-modal-scroll-container flex-[5] min-h-0 w-full overflow-y-auto custom-scrollbar px-4 pt-3.5 pb-8 4xl:px-6 4xl:pt-5 4xl:pb-8 relative"
+        (scroll)="checkNewsScroll($event)">
+        <span class="text-[10px] 4xl:text-xs text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wide block">
+          {{ selectedNewsItem ? formatNewsDate(selectedNewsItem.date) : '' }}
+        </span>
+        <h2 class="text-sm 4xl:text-lg font-semibold text-gray-900 dark:text-white leading-snug mt-1.5 4xl:mt-2">
+          {{ selectedNewsItem?.title }}
+        </h2>
+        <p class="text-xs 4xl:text-sm text-gray-500 dark:text-gray-400 leading-relaxed whitespace-pre-wrap mt-2 4xl:mt-2.5">
+          {{ selectedNewsItem?.description }}
+        </p>
+      </div>
+
+      <!-- Scroll Indicator (fade) sobre la zona de texto -->
+      <div
+        class="pointer-events-none absolute bottom-0 left-0 w-full h-14 4xl:h-16 bg-gradient-to-t from-white via-white/85 to-transparent dark:from-slate-900 dark:via-slate-900/85 transition-opacity duration-300 rounded-b-2xl 4xl:rounded-b-2xl flex items-end justify-center pb-2 4xl:pb-2"
         [class.opacity-100]="showNewsScrollIndicator"
         [class.opacity-0]="!showNewsScrollIndicator">
-        <!-- Optional animated arrow -->
         <div class="animate-bounce">
-          <svg class="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-4 h-4 4xl:w-5 4xl:h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </div>

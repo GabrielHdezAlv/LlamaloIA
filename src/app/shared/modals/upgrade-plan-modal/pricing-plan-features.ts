@@ -17,6 +17,9 @@ export type UpgradePlanFeatureRow = { text: string; icon: PricingFeatureIcon };
 
 export type PaidUpgradePlanId = 'starter' | 'growth' | 'scale';
 
+/** Plan elegido en el modal de precios antes de redirigir a Stripe Checkout (persistido en localStorage). */
+export const PLAN_TIER_STORAGE_KEY = 'llamalo_selected_plan_tier';
+
 const ICON_TIME: PricingFeatureIcon = {
   viewBox: '0 0 24 24',
   paths: [
@@ -106,7 +109,7 @@ function specsForPlan(plan: PaidUpgradePlanId, t: Translations) {
         agents: '1',
         documents: t.pricingDocsStarter,
         storage: '100 MB',
-        support: t.pricingSupportEmail,
+        support: t.pricingSupportPriority,
       };
     case 'growth':
       return {

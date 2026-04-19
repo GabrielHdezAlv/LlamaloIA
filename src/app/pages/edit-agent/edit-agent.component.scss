@@ -62,6 +62,13 @@ input, textarea {
   }
 }
 
+/* Modal / sidebar Make: textarea sin rayas; fondo transparente (hereda el del panel/modal) */
+.make-action-edit-textarea {
+  background-image: none !important;
+  background-repeat: no-repeat !important;
+  background-color: transparent !important;
+}
+
 // Ocultar los botones nativos de incremento/decremento en inputs tipo number
 input[type="number"] {
   -moz-appearance: textfield;
@@ -214,4 +221,59 @@ html.dark .play-button {
 
 .instructions-modal-exit {
   animation: instructionsModalFadeOut 0.15s ease-in forwards;
+}
+
+/* Panel lateral Make — mismas animaciones que el paso Instrucciones (crear agente) */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes makeBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Radios explícitos + recorte: con transform (slide) a veces no se pinta bien el border-radius inferior izquierdo */
+.make-sidebar-aside {
+  transform: translateX(100%);
+  overflow: hidden;
+  border-top-left-radius: 1.5rem;
+  border-bottom-left-radius: 1.5rem;
+}
+
+.make-sidebar-aside.animate-slide-in-right {
+  animation: slideInRight 0.28s ease-out forwards;
+}
+
+.make-sidebar-aside.animate-slide-out-right {
+  animation: slideOutRight 0.28s ease-in forwards;
+}
+
+.make-sidebar-backdrop-layer {
+  opacity: 0;
+  animation: makeBackdropFadeIn 0.28s ease-out forwards;
+  transition: opacity 0.28s ease-in;
+}
+
+.make-sidebar-overlay-closing .make-sidebar-backdrop-layer {
+  opacity: 0;
+  animation: none;
 }

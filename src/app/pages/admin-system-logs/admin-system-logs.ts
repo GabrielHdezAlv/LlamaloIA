@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 interface SystemLog {
   id: string;
@@ -21,7 +22,7 @@ interface SystemLog {
 })
 export class AdminSystemLogsComponent implements OnInit {
   private http = inject(HttpClient);
-  private apiUrl = 'https://llamaloiabackend-5294.onrender.com';
+  private apiUrl = environment.apiUrl;
   
   logs: SystemLog[] = [];
   loading = true;
@@ -52,6 +53,7 @@ export class AdminSystemLogsComponent implements OnInit {
       case 'CALL_FAILED':
         return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
       case 'MAILERSEND_ERROR':
+      case 'EMAIL_OUTBOUND_ERROR':
         return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300';

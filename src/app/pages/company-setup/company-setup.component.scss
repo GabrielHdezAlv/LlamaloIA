@@ -1,3 +1,59 @@
+/* Pasos 1–2: misma barra inferior fija en móvil/tablet que agent-name-step y pasos 3+ */
+@media (max-width: 1279px) {
+    .company-setup-nav-step {
+        padding-bottom: 6rem;
+    }
+}
+
+@media (max-width: 1279px) {
+    .nav-buttons-mobile {
+        position: fixed !important;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        background: white;
+        border-top: none;
+        padding: 1rem 1.25rem;
+        margin-top: 0 !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        box-shadow: none;
+
+        > button:first-child {
+            flex: 1;
+            justify-content: center;
+            padding: 0.85rem 1.25rem !important;
+            font-size: 0.9375rem !important;
+            border-radius: 0.75rem !important;
+
+            span {
+                font-size: 0.9375rem !important;
+            }
+        }
+
+        > button:last-child:not(:first-child) {
+            flex: 1;
+            padding: 0.85rem 1.25rem !important;
+            font-size: 0.9375rem !important;
+            border-radius: 0.75rem !important;
+            text-align: center;
+        }
+    }
+}
+
+:host-context(html.dark) {
+    @media (max-width: 1279px) {
+        .nav-buttons-mobile {
+            background: #111113;
+            border-top: none;
+            box-shadow: none;
+        }
+    }
+}
+
 .welcome-sequence {
     position: fixed;
     inset: 0;
@@ -295,31 +351,6 @@
     filter: brightness(0) invert(1);
 }
 
-/* Animación transición imagen paso 1 → paso 2 (panel derecho onboarding) */
-.onboarding-right-imgs {
-    pointer-events: none;
-}
-
-.onboarding-panel-img {
-    transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-        transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: center bottom;
-}
-
-.onboarding-panel-img.onboarding-img-out {
-    opacity: 0;
-    transform: scale(0.98) translateY(8px);
-}
-
-.onboarding-panel-img.opacity-0 {
-    transform: scale(0.98) translateY(8px);
-}
-
-.onboarding-panel-img.opacity-0.onboarding-img-in {
-    opacity: 1 !important;
-    transform: scale(1) translateY(0);
-}
-
 /* Transiciones entre pasos (misma lógica que new-create-agents) */
 @keyframes stepFadeIn {
     from {
@@ -348,7 +379,6 @@
 .step-fade-out {
     animation: stepFadeOut 0.25s ease-out forwards;
 }
-
 /* Paso 11: modo claro = base azulada poca “blancura” + nubes #1B2559 muy marcadas */
 .company-setup-welcome-final {
     background-color: #c9d4e8;

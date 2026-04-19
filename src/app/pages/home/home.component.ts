@@ -22,7 +22,15 @@ import { MetricsService } from '../../core/services/metrics.service';
 import { AgentsService } from '../../core/services/agents.service';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
+import { planDisplayLabelFromTranslations } from '../../shared/utils/plan-display.util';
+import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 import { ModalService } from '../../shared/modals/modal.service';
+import { POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY } from '../../core/constants/first-agent-tour.constants';
+import {
+  PLAN_TIER_STORAGE_KEY,
+  type PaidUpgradePlanId,
+} from '../../shared/modals/upgrade-plan-modal/pricing-plan-features';
+import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { DashboardMetrics } from '../../shared/models/dashboard-metrics.model';
 import { Agent } from '../../shared/models/agent.model';
@@ -52,6 +60,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private userService = inject(UserService);
   private userStorage = inject(UserStorage);
   private modalService = inject(ModalService);
+  private firstAgentTour = inject(FirstAgentTourService);
   private notificationService = inject(NotificationService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -76,6 +85,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   // Obtener traducciones
   get t() {
     return this.i18nService.getTranslations();
+  }
+
+  /** Nombre del plan bajo «Minutos» (Growth, Scale, etc.), no el texto fijo Plan Starter. */
+  get minutesPlanDisplayName(): string {
+    return planDisplayLabelFromTranslations(
+      this.userStorage.user()?.plan,
+      this.t,
+    );
   }
 
   // Obtener idioma actual
@@ -128,9 +145,7 @@ export class HomeComponent implements OnInit, OnDestroy {
    * Si superas el límite, 0 % de relleno.
    */
   get minutesRemainingBarPercent(): number {
-    const baseLimit = this.user()?.minutesLimit ?? 100;
-    const extraLimit = this.user()?.extraMinutes ?? 0;
-    const totalLimit = baseLimit + extraLimit;
+    const totalLimit = this.user()?.minutesLimit ?? 100;
     const used = this.displayMinutesMonth;
     
     if (totalLimit <= 0) {
@@ -790,6 +805,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Cargar métricas solo si estamos en el navegador (no en SSR)
     if (this.isBrowser) {
       this.handleStripeReturnQuery();
+      this.tryPostOnboardingDashboardCelebration();
       this.loadMetrics();
       this.loadUserAgents();
       // Actualizar opciones del gráfico según el tamaño de pantalla (altura, fuentes, etc)
@@ -812,6 +828,65 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.startFadeInAnimations();
   }
 
+  /**
+   * Tras completar company-setup: mismo modal de celebración que en cuenta (Stripe success).
+   */
+  private tryPostOnboardingDashboardCelebration(): void {
+    if (!this.isBrowser) {
+      return;
+    }
+    let shouldOpen = false;
+    try {
+      shouldOpen =
+        sessionStorage.getItem(POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY) === '1';
+      if (shouldOpen) {
+        sessionStorage.removeItem(POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY);
+      }
+    } catch {
+      return;
+    }
+    if (!shouldOpen) {
+      return;
+    }
+    const plan = this.resolvePaidPlanForCelebrationModal();
+    try {
+      localStorage.removeItem(PLAN_TIER_STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+    if (!plan) {
+      return;
+    }
+    setTimeout(() => {
+      this.modalService.openPlanUpgradeCelebration({ plan });
+    }, 200);
+  }
+
+  private resolvePaidPlanForCelebrationModal(): PaidUpgradePlanId | null {
+    if (this.isBrowser) {
+      try {
+        const stored = localStorage
+          .getItem(PLAN_TIER_STORAGE_KEY)
+          ?.trim()
+          .toLowerCase();
+        if (
+          stored === 'starter' ||
+          stored === 'growth' ||
+          stored === 'scale'
+        ) {
+          return stored;
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+    const raw = this.user()?.plan?.trim().toLowerCase() ?? '';
+    if (raw === 'starter' || raw === 'growth' || raw === 'scale') {
+      return raw;
+    }
+    return null;
+  }
+
   /** Vuelta desde Stripe (cancel) o enlaces antiguos a /billing: aviso y/o modal de precios. */
   private handleStripeReturnQuery(): void {
     void firstValueFrom(this.route.queryParams.pipe(take(1))).then(
@@ -829,7 +904,13 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.notificationService.info(this.t.stripeCheckoutCancelled);
         }
         if (hasPricing) {
-          setTimeout(() => this.modalService.openUpgradePlan(), 0);
+          setTimeout(() => {
+            if (requiresSubscriptionPaywall(this.userStorage.user())) {
+              this.modalService.openUpgradePlanPaywall();
+            } else {
+              this.modalService.openUpgradePlan();
+            }
+          }, 0);
         }
         void this.router.navigate([], {
           relativeTo: this.route,
@@ -1008,6 +1089,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.showCallsByDayPanel = true;
     }, 700);
+
+    // Tras el fade del panel Bienvenido (100 ms) y el resto de la secuencia (hasta 700 ms): margen antes del tour.
+    setTimeout(() => {
+      this.firstAgentTour.notifyHomeWelcomeSequenceComplete();
+    }, 900);
   }
 
   private showAllSectionsImmediately(): void {
