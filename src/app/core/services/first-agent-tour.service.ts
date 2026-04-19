@@ -241,8 +241,7 @@ export class FirstAgentTourService {
     const t = this.i18n.getTranslations();
     const skip = document.createElement('button');
     skip.type = 'button';
-    skip.className =
-      'first-agent-tour-skip driver-popover-btn driver-popover-skip-btn';
+    skip.className = 'first-agent-tour-skip';
     skip.textContent = t.firstAgentTourSkip;
     skip.addEventListener('click', (ev) => {
       ev.preventDefault();
