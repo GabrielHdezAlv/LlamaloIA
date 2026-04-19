@@ -69,7 +69,8 @@ export interface Translations {
   millisecondsLabel: string;
   minutesLabel: string;
   secondsLabel: string;
-  costPerMinute: string;
+  /** Etiqueta: coste EUR por minuto extra del plan (Métricas / admin métricas). */
+  costPerExtraMinute: string;
   subscription: string;
   peakHours: string;
   systemStatus: string;
@@ -1033,7 +1034,7 @@ export class I18nService {
       millisecondsLabel: 'MS',
       minutesLabel: 'M',
       secondsLabel: 'S',
-      costPerMinute: 'Coste por minuto extra',
+      costPerExtraMinute: 'Coste por minuto extra',
       subscription: 'Suscripción',
       peakHours: 'Llamadas por hora',
       averageCallDuration: 'Duración media',
@@ -1987,7 +1988,7 @@ export class I18nService {
       millisecondsLabel: 'MS',
       minutesLabel: 'M',
       secondsLabel: 'S',
-      costPerMinute: 'Cost per extra minute',
+      costPerExtraMinute: 'Cost per extra minute',
       subscription: 'Subscription',
       peakHours: 'Calls per hour',
       averageCallDuration: 'Average duration',
