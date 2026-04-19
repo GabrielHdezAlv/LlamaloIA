@@ -67,6 +67,10 @@ import {
   filter,
 } from 'rxjs';
 import { UserStorage } from '../../storages/user/user-storage';
+import {
+  resolveEffectivePlanSlug,
+  isShopifyIntegrationLockedForPlan,
+} from '../../shared/utils/shopify-plan-lock.util';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -495,6 +499,15 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
 
   get agentShopifyDomain(): string | null {
     return this.agent?.shopifyDomain ?? null;
+  }
+
+  get shopifyIntegrationLocked(): boolean {
+    const slug = resolveEffectivePlanSlug(this.userStore.user());
+    return isShopifyIntegrationLockedForPlan(slug);
+  }
+
+  openShopifyLockedUpgradePlan(): void {
+    this.modalService.openUpgradePlan();
   }
 
   get agentTwilioAccountId(): number | null {
@@ -1434,6 +1447,10 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   }
 
   goToShopifyOnboarding(): void {
+    if (this.shopifyIntegrationLocked) {
+      this.modalService.openUpgradePlan();
+      return;
+    }
     if (this.agentId) {
       this.router.navigate(['/shopify-onboarding'], { queryParams: { agentId: this.agentId, source: 'admin' } });
     } else {

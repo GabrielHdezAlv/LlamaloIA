@@ -62,6 +62,10 @@ import {
 } from 'rxjs';
 import { UserStorage } from '../../storages/user/user-storage';
 import {
+  resolveEffectivePlanSlug,
+  isShopifyIntegrationLockedForPlan,
+} from '../../shared/utils/shopify-plan-lock.util';
+import {
   WebhookActionsService,
   type WebhookAction,
 } from '../../core/services/webhook-actions.service';
@@ -503,6 +507,16 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
   get agentShopifyDomain(): string | null {
     return this.agent?.shopifyDomain ?? null;
+  }
+
+  /** Gratis / Starter: Shopify bloqueado en UI (Growth+ en API). */
+  get shopifyIntegrationLocked(): boolean {
+    const slug = resolveEffectivePlanSlug(this.userStore.user());
+    return isShopifyIntegrationLockedForPlan(slug);
+  }
+
+  openShopifyLockedUpgradePlan(): void {
+    this.modalService.openUpgradePlan();
   }
 
   get agentTwilioAccountId(): number | null {
@@ -1776,6 +1790,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   }
 
   goToShopifyOnboarding(): void {
+    if (this.shopifyIntegrationLocked) {
+      this.modalService.openUpgradePlan();
+      return;
+    }
     if (this.agentId) {
       this.router.navigate(['/shopify-onboarding'], { queryParams: { agentId: this.agentId } });
     } else {
@@ -1950,6 +1968,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   }
 
   unlinkShopify(): void {
+    if (this.shopifyIntegrationLocked) return;
     if (!this.agentId || !this.agentShopifyDomain) return;
 
     this.modalService

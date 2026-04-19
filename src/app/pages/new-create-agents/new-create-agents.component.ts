@@ -36,6 +36,10 @@ import lottie from 'lottie-web';
 import { getAgentDraftStepLabel } from '../../shared/utils/agent-draft-step-labels';
 import { openPlanLimitDialog } from '../../shared/utils/plan-limit-dialog.util';
 import { canAddAnotherAgent } from '../../shared/utils/plan-usage.util';
+import {
+  resolveEffectivePlanSlug,
+  isShopifyIntegrationLockedForPlan,
+} from '../../shared/utils/shopify-plan-lock.util';
 
 // Clave para localStorage
 const AGENT_DRAFT_KEY = 'llamalo_agent_draft';
@@ -100,7 +104,8 @@ import { SuccessStepComponent } from './steps/success-step/success-step.componen
   styleUrl: './new-create-agents.component.scss',
 })
 export class NewCreateAgentsComponent
-  implements OnDestroy, AfterViewChecked, OnInit {
+  implements OnDestroy, AfterViewChecked, OnInit
+{
   @ViewChild('lottieContainer', { static: false })
   lottieContainer!: ElementRef<HTMLDivElement>;
   @ViewChild('countryDropdown', { static: false })
@@ -240,6 +245,20 @@ export class NewCreateAgentsComponent
     return this.i18nService.getTranslations();
   }
 
+  /** Gratis / Starter: no se muestra el paso de conectar Shopify (API: desde Growth). */
+  get skipShopifyBusinessStep(): boolean {
+    const slug = resolveEffectivePlanSlug(this.userStore.user());
+    return isShopifyIntegrationLockedForPlan(slug);
+  }
+
+  private redirectConnectBusinessIfShopifyLocked(): void {
+    if (!this.skipShopifyBusinessStep) return;
+    if (this.step !== 'connectBusiness' && this.displayedStep !== 'connectBusiness') {
+      return;
+    }
+    this.setStep('instructions');
+  }
+
   ngOnInit() {
     const stepParam = this.route?.snapshot?.queryParams?.['step'];
     this.checkForSavedDraft();
@@ -262,6 +281,11 @@ export class NewCreateAgentsComponent
       this.handleShopifyReturnParams();
       document.body.classList.add('creating-agent');
     }
+
+    this.redirectConnectBusinessIfShopifyLocked();
+    void this.userStore.loadUserProfile().finally(() => {
+      this.redirectConnectBusinessIfShopifyLocked();
+    });
   }
 
   /**
@@ -278,9 +302,10 @@ export class NewCreateAgentsComponent
     const message = params['message'] ?? '';
 
     const cleanUrl = (): void => {
+      const step = this.skipShopifyBusinessStep ? 'instructions' : 'connectBusiness';
       this.router.navigate(['/dashboard/agents/create'], {
         replaceUrl: true,
-        queryParams: { step: 'connectBusiness' },
+        queryParams: { step },
         queryParamsHandling: '',
       });
     };
@@ -395,6 +420,10 @@ export class NewCreateAgentsComponent
 
       if (this.step === 'connectPhone') {
         this.showTwilioConfig = false;
+      }
+
+      if (this.skipShopifyBusinessStep && this.step === 'connectBusiness') {
+        this.step = 'instructions';
       }
     }
     this.showRecoveryPopup = false;
@@ -801,7 +830,7 @@ export class NewCreateAgentsComponent
     }
     this.pauseVoice();
     this.isSidebarOpen = false;
-    this.step = 'connectBusiness';
+    this.setStep(this.skipShopifyBusinessStep ? 'instructions' : 'connectBusiness');
     this.saveDraft();
   }
 
@@ -1030,7 +1059,7 @@ export class NewCreateAgentsComponent
     } else if (this.step === 'knowledgeBase') {
       this.setStep('instructions');
     } else if (this.step === 'instructions') {
-      this.setStep('connectBusiness');
+      this.setStep(this.skipShopifyBusinessStep ? 'voices' : 'connectBusiness');
     } else if (this.step === 'connectBusiness') {
       this.setStep('voices');
       this.loadVoices();
@@ -1052,7 +1081,7 @@ export class NewCreateAgentsComponent
       this.loadVoices();
     } else if (this.step === 'voices') {
       this.pauseVoice();
-      this.setStep('connectBusiness');
+      this.setStep(this.skipShopifyBusinessStep ? 'instructions' : 'connectBusiness');
     } else if (this.step === 'connectBusiness') {
       this.setStep('instructions');
     } else if (this.step === 'instructions') {
@@ -1223,6 +1252,10 @@ export class NewCreateAgentsComponent
 
   /** Navegar a la página de onboarding de Shopify (página externa, sin topbar ni navbar). */
   goToShopifyOnboarding(): void {
+    if (this.skipShopifyBusinessStep) {
+      this.modalService.openUpgradePlan();
+      return;
+    }
     this.router.navigate(['/shopify-onboarding']);
   }
 
@@ -1273,7 +1306,8 @@ export class NewCreateAgentsComponent
     const token =
       typeof crypto !== 'undefined' && 'randomUUID' in crypto
         ? crypto.randomUUID().replace(/-/g, '').slice(0, 32)
-        : Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+        : Math.random().toString(36).slice(2) +
+          Math.random().toString(36).slice(2);
     return `https://hooks.llamalo.ai/make/${token}`;
   }
 
@@ -1283,8 +1317,7 @@ export class NewCreateAgentsComponent
   }
 
   onDeleteMakeAction(): void {
-    const actionLabel =
-      this.makeActionData.name?.trim() || 'esta acción';
+    const actionLabel = this.makeActionData.name?.trim() || 'esta acción';
     const dialogRef = this.modalService.openWarning({
       title: '',
       message: `¿Seguro que quieres eliminar la acción de Make "${actionLabel}"?`,
@@ -1570,7 +1603,7 @@ export class NewCreateAgentsComponent
         title: 'Web',
       });
 
-      dialogRef.afterClosed().subscribe((result) => { });
+      dialogRef.afterClosed().subscribe((result) => {});
     } else if (source === 'pdf') {
       // Abrir selector de archivos para PDF
       this.openFileSelector();
@@ -1580,7 +1613,7 @@ export class NewCreateAgentsComponent
         title: 'Texto',
       });
 
-      dialogRef.afterClosed().subscribe((result) => { });
+      dialogRef.afterClosed().subscribe((result) => {});
     } else {
       // Para otros casos, avanzar automáticamente a resumen
       this.step = 'summary';
@@ -1842,9 +1875,9 @@ export class NewCreateAgentsComponent
       language: this.selectedCountry, // Código del país como idioma
       voice: currentVoice
         ? {
-          name: currentVoice.name,
-          voiceId: voiceId,
-        }
+            name: currentVoice.name,
+            voiceId: voiceId,
+          }
         : null,
       greeting: this.greeting,
       instructions: this.instructions,
@@ -1858,14 +1891,18 @@ export class NewCreateAgentsComponent
   onConnectPhone() {
     // Validar datos requeridos
     if (!this.phoneNumber || !this.phoneNumber.trim()) {
-      this.notificationService.error('Por favor, ingresa un número de teléfono válido.');
+      this.notificationService.error(
+        'Por favor, ingresa un número de teléfono válido.',
+      );
       return;
     }
 
     if (!this.selectedVoiceId) {
       const currentVoice = this.getCurrentVoice();
       if (!currentVoice) {
-        this.notificationService.error('Por favor, selecciona una voz para el agente.');
+        this.notificationService.error(
+          'Por favor, selecciona una voz para el agente.',
+        );
         return;
       }
     }
@@ -2236,7 +2273,9 @@ export class NewCreateAgentsComponent
 
   // Método para abrir el modal de información sobre el aviso de grabación
   openRecordingNoticeInfoModal() {
-    this.notificationService.info('El mensaje de aviso de grabación es una notificación que se reproduce al inicio de las llamadas para informar a los interlocutores que la conversación será grabada.');
+    this.notificationService.info(
+      'El mensaje de aviso de grabación es una notificación que se reproduce al inicio de las llamadas para informar a los interlocutores que la conversación será grabada.',
+    );
   }
 
   // Método para formatear el tiempo en formato legible
@@ -2279,12 +2318,16 @@ export class NewCreateAgentsComponent
   // Método para validar la configuración avanzada
   validateAdvancedSettings(): boolean {
     if (this.inactivityTimeout < 0 || this.inactivityTimeout > 300) {
-      this.notificationService.error('El tiempo de inactividad debe estar entre 0 y 300 segundos');
+      this.notificationService.error(
+        'El tiempo de inactividad debe estar entre 0 y 300 segundos',
+      );
       return false;
     }
 
     if (this.maxCallDuration < 60 || this.maxCallDuration > 3600) {
-      this.notificationService.error('La duración máxima debe estar entre 60 y 3600 segundos');
+      this.notificationService.error(
+        'La duración máxima debe estar entre 60 y 3600 segundos',
+      );
       return false;
     }
 
@@ -2360,7 +2403,9 @@ export class NewCreateAgentsComponent
       this.animateAudioLevel();
     } catch (error) {
       console.error('Error al acceder al micrófono:', error);
-      this.notificationService.error('No se pudo acceder al micrófono. Verifica los permisos.');
+      this.notificationService.error(
+        'No se pudo acceder al micrófono. Verifica los permisos.',
+      );
     }
   }
 
@@ -2614,7 +2659,7 @@ export class NewCreateAgentsComponent
     // Puedes agregar lógica si necesitas más adelante
   }
 
-  onMaxCallDurationChange() { }
+  onMaxCallDurationChange() {}
 
   // Métodos para efectos del video del mar
   getVideoFilter(): string {
@@ -2765,7 +2810,17 @@ export class NewCreateAgentsComponent
 
   // Método para obtener el número de paso actual
   getCurrentStepNumber(): number {
-    const stepOrder: Record<string, number> = {
+    const skip = this.skipShopifyBusinessStep;
+    const withSkip: Record<string, number> = {
+      agentName: 1,
+      language: 2,
+      voices: 3,
+      instructions: 4,
+      knowledgeBase: 5,
+      summary: 6,
+      connectPhone: 7,
+    };
+    const full: Record<string, number> = {
       agentName: 1,
       language: 2,
       voices: 3,
@@ -2775,12 +2830,13 @@ export class NewCreateAgentsComponent
       summary: 7,
       connectPhone: 8,
     };
-    return stepOrder[this.step] || 0;
+    const stepOrder = skip ? withSkip : full;
+    return stepOrder[this.step] ?? 0;
   }
 
   // Método para obtener el total de pasos
   getTotalSteps(): number {
-    return 8;
+    return this.skipShopifyBusinessStep ? 7 : 8;
   }
 
   private setStep(

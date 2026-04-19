@@ -35,6 +35,10 @@ import {
   type PaidUpgradePlanId,
 } from '../../shared/modals/upgrade-plan-modal/pricing-plan-features';
 import { ONBOARDING_STRIPE_CHECKOUT_PENDING_KEY } from '../../shared/modals/upgrade-plan-modal/upgrade-plan-pricing-view.component';
+import {
+  resolveEffectivePlanSlug,
+  isShopifyIntegrationLockedForPlan,
+} from '../../shared/utils/shopify-plan-lock.util';
 
 /** Alineado con backend: suscripción con cobro pendiente o incompleta. */
 const STRIPE_BILLING_BLOCKED_UI = new Set([
@@ -234,6 +238,12 @@ export class AccountComponent implements OnInit, OnDestroy {
     const tr = this.i18nService.getTranslations();
     if (n === 1) return shops[0].shopDomain!.trim();
     return `${n} ${tr.shopifyConnectedSummaryManySuffix}`;
+  });
+
+  /** Gratis / Starter: Shopify visible pero bloqueado (Growth+ en API). */
+  shopifyIntegrationLocked = computed(() => {
+    const slug = resolveEffectivePlanSlug(this.user());
+    return isShopifyIntegrationLockedForPlan(slug);
   });
 
   /** Panel desplegable para listar y borrar tiendas (como Twilio). */
@@ -1093,7 +1103,16 @@ export class AccountComponent implements OnInit, OnDestroy {
     this.toggleTwilioConnectionsPanel();
   }
 
+  /** Abre el modal de planes (p. ej. overlay Shopify bloqueado en Conexiones). */
+  openShopifyLockedUpgradePlan(): void {
+    this.modalService.openUpgradePlan();
+  }
+
   goToShopifyOnboardingFromAccount(): void {
+    if (this.shopifyIntegrationLocked()) {
+      this.modalService.openUpgradePlan();
+      return;
+    }
     this.router.navigate(['/shopify-onboarding'], {
       queryParams: { source: 'account' },
     });
