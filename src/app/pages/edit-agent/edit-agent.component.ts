@@ -44,6 +44,7 @@ import {
   TranscriptMessage,
 } from '../../core/services/voice-test.service';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
 import type {
   TwilioAccount,
   TwilioConfig,
@@ -648,14 +649,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         this.twilioSidValidationStatus = 'error';
         this.twilioTokenValidationStatus = 'error';
         this.isTwilioValidated = false;
-        let msg =
+        const defaultMsg =
           'Error al validar Twilio. Revisa Account SID y Auth Token.';
-        const err = error as { error?: { message?: string }; message?: string; status?: number };
-        if (err?.error?.message) {
-          msg = err.error.message;
-        } else if (err?.message) {
-          msg = err.message;
-        } else if (err?.status === 401) {
+        const err = error as { status?: number };
+        let msg = getApiErrorMessage(error, defaultMsg);
+        if (msg === defaultMsg && err?.status === 401) {
           msg =
             'Credenciales inválidas. Verifica Account SID y Auth Token.';
         }

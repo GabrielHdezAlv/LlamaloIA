@@ -27,3 +27,8 @@ export const POST_ONBOARDING_DASHBOARD_CELEBRATION_KEY =
 export function firstAgentTourSkippedKey(userId: string): string {
   return `llamalo_first_agent_tour_skipped_${userId}`;
 }
+
+/** Nunca más mostrar el tour: el usuario llegó a tener al menos un agente creado (aunque luego lo borre). */
+export function firstAgentTourMilestoneKey(userId: string): string {
+  return `llamalo_first_agent_tour_milestone_${userId}`;
+}

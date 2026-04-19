@@ -44,6 +44,7 @@ import {
   TranscriptMessage,
 } from '../../core/services/voice-test.service';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
 import type {
   TwilioAccount,
   TwilioConfig,
@@ -627,11 +628,14 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
               this.assignTwilioAccountToAgent(this.selectedTwilioAccountId);
             });
         },
-        error: (error) => {
+        error: (error: unknown) => {
           console.error('❌ Error al guardar configuración Twilio:', error);
           this.isSavingTwilioConfig = false;
           this.notificationService.error(
-            'No se pudo guardar la configuración de Twilio.',
+            getApiErrorMessage(
+              error,
+              'No se pudo guardar la configuración de Twilio.',
+            ),
           );
         },
       });

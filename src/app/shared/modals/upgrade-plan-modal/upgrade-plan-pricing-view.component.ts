@@ -26,6 +26,7 @@ import { NotificationService } from '../../../core/services/notification.service
 import { UserService } from '../../../core/services/user.service';
 import { AuthSessionService } from '../../../core/services/auth-session.service';
 import type { UpgradePlanPricingViewMode } from './upgrade-plan-pricing-view-mode';
+import { getApiErrorMessage } from '../../../core/utils/api-error-message';
 
 /** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.45s). */
 const UPGRADE_MODAL_CLOSE_MS = 500;
@@ -282,8 +283,10 @@ export class UpgradePlanPricingViewComponent implements OnInit {
         }
       }
       this.notificationService.error(this.t.stripeBillingError);
-    } catch {
-      this.notificationService.error(this.t.stripeBillingError);
+    } catch (err: unknown) {
+      this.notificationService.error(
+        getApiErrorMessage(err, this.t.stripeBillingError),
+      );
     } finally {
       this.stripeRedirecting = false;
     }

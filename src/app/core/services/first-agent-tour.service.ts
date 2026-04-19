@@ -1,4 +1,4 @@
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID, effect } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -12,13 +12,14 @@ import {
   PLAN_CELEBRATION_REQUIRED_KEY,
   PLAN_CELEBRATION_ACCEPTED_KEY,
   firstAgentTourSkippedKey,
+  firstAgentTourMilestoneKey,
 } from '../constants/first-agent-tour.constants';
 import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 
 /**
  * Tour spotlight (driver.js) para guiar al usuario a Agentes → Agregar agente la primera vez.
  * - «Saltar» o cerrar (X): no vuelve a mostrarse (localStorage por usuario).
- * - Cerrar el tour sin saltar (botón final «Entendido»): puede volver a mostrarse al iniciar sesión.
+ * - Crear el primer agente (aunque luego se borre): tampoco vuelve a mostrarse (marca persistente).
  */
 @Injectable({ providedIn: 'root' })
 export class FirstAgentTourService {
@@ -33,6 +34,15 @@ export class FirstAgentTourService {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
+    /** Si el perfil indica que ya hay agentes, persistir hito (cubre login con cuenta antigua o sync tardío). */
+    effect(() => {
+      const user = this.userStorage.user();
+      const uid = user?.userId;
+      if (!uid || !user) return;
+      if (this.userHasAgents(user) && !this.isMilestoneDone(uid)) {
+        this.markFirstAgentMilestone(uid);
+      }
+    });
     /** Al ir a crear/editar agente el paso «Agregar agente» ya no aplica: cerrar overlay del tour */
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
@@ -124,6 +134,9 @@ export class FirstAgentTourService {
     if (this.isSkipped(user.userId)) {
       return false;
     }
+    if (this.isMilestoneDone(user.userId)) {
+      return false;
+    }
     if (this.userHasAgents(user)) {
       return false;
     }
@@ -142,6 +155,31 @@ export class FirstAgentTourService {
       return localStorage.getItem(firstAgentTourSkippedKey(userId)) === '1';
     } catch {
       return false;
+    }
+  }
+
+  private isMilestoneDone(userId: string): boolean {
+    try {
+      return localStorage.getItem(firstAgentTourMilestoneKey(userId)) === '1';
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Llamar cuando se crea un agente con éxito; persiste antes de que el perfil refresque agentes.
+   */
+  notifyFirstAgentCreated(): void {
+    const uid = this.userStorage.user()?.userId;
+    if (!uid) return;
+    this.markFirstAgentMilestone(uid);
+  }
+
+  private markFirstAgentMilestone(userId: string): void {
+    try {
+      localStorage.setItem(firstAgentTourMilestoneKey(userId), '1');
+    } catch {
+      /* ignore */
     }
   }
 

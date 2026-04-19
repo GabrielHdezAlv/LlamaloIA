@@ -16,6 +16,7 @@ import {
   TwilioConfigLocal,
 } from '../../shared/models/twilio-config.model';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { AgentsService } from '../../core/services/agents.service';
@@ -27,6 +28,7 @@ import { ModalService } from '../../shared/modals/modal.service';
 import { I18nService } from '../../core/services/i18n.service';
 import { openPlanLimitDialog } from '../../shared/utils/plan-limit-dialog.util';
 import { canAddAnotherAgent } from '../../shared/utils/plan-usage.util';
+import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
 
 @Component({
   selector: 'app-agents',
@@ -59,6 +61,7 @@ export class AgentsComponent implements OnInit {
 
   public twilioStorage: any = inject(TwilioStorage);
   private userStorage: any = inject(UserStorage);
+  private firstAgentTour = inject(FirstAgentTourService);
 
   get canCreateAgent(): boolean {
     const u = this.userStorage.user();
@@ -213,12 +216,15 @@ export class AgentsComponent implements OnInit {
           loaderRef.close();
           this.openSuccessDialog(result);
         },
-        error: (err) => {
+        error: (err: unknown) => {
           loaderRef.close();
           console.error('Error al guardar la configuración:', err);
           this.modalService.openError({
             title: 'Error de configuración',
-            message: 'No se pudo guardar la configuración de Twilio.',
+            message: getApiErrorMessage(
+              err,
+              'No se pudo guardar la configuración de Twilio.',
+            ),
             details: String(err),
           });
         },
@@ -332,6 +338,7 @@ export class AgentsComponent implements OnInit {
     this.agentsService.createAgent(agentConfig).subscribe({
       next: (response) => {
         loaderRef.close();
+        this.firstAgentTour.notifyFirstAgentCreated();
         this.dialog.open(TwilioSuccessModalComponent, {
           width: '400px',
           disableClose: false,

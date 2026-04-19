@@ -24,6 +24,8 @@ import {
 } from '../../core/services/agents.service';
 import { KnowledgeBaseService } from '../../core/services/knowledge-base.service';
 import { TwilioService } from '../../core/services/twilio.service';
+import { FirstAgentTourService } from '../../core/services/first-agent-tour.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
 import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 import { Voice } from '../../shared/models/voice.model';
@@ -215,6 +217,7 @@ export class NewCreateAgentsComponent
   private twilioService = inject(TwilioService);
   private userService = inject(UserService);
   private userStore = inject(UserStorage);
+  private firstAgentTour = inject(FirstAgentTourService);
   private voicesLoaded = false;
   private route = inject(ActivatedRoute, { optional: true });
   private router = inject(Router);
@@ -1409,25 +1412,24 @@ export class NewCreateAgentsComponent
           this.validatePhoneNumber();
         }
       },
-      error: (error) => {
+      error: (error: unknown) => {
         this.isValidatingTwilio = false;
         this.twilioValidationStatus = 'error';
         this.twilioSidValidationStatus = 'error';
         this.twilioTokenValidationStatus = 'error';
         this.isTwilioValidated = false;
 
-        // Extraer mensaje de error
-        let errorMessage =
+        const defaultMsg =
           'Error al validar la configuración de Twilio. Por favor, verifica tus credenciales.';
-
-        if (error?.error?.message) {
-          errorMessage = error.error.message;
-        } else if (error?.message) {
-          errorMessage = error.message;
-        } else if (error.status === 401) {
+        const httpErr = error as {
+          status?: number;
+          error?: { message?: string };
+        };
+        let errorMessage = getApiErrorMessage(error, defaultMsg);
+        if (errorMessage === defaultMsg && httpErr?.status === 401) {
           errorMessage =
             'Credenciales inválidas. Por favor, verifica tu Account SID y Auth Token.';
-        } else if (error.status === 400) {
+        } else if (errorMessage === defaultMsg && httpErr?.status === 400) {
           errorMessage =
             'Datos inválidos. Por favor, verifica el formato de tus credenciales.';
         }
@@ -2000,6 +2002,7 @@ export class NewCreateAgentsComponent
         this.setStep('success');
         // Limpiar el borrador cuando el agente se crea con éxito
         this.clearSavedDraft();
+        this.firstAgentTour.notifyFirstAgentCreated();
       },
       error: (error: HttpErrorResponse) => {
         console.error('❌ Error al crear agente:', error);

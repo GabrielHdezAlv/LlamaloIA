@@ -26,6 +26,7 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
 import { getGroupedCountryDialOptions } from './phone-country-dial-codes';
 
 interface PhoneNumberDisplay {
@@ -348,24 +349,22 @@ export class NumbersComponent implements OnInit, AfterViewInit {
             this.searchTerm?.trim() ? this.searchTerm.trim() : undefined,
           );
         },
-        error: (err) => {
+        error: (err: unknown) => {
           this.isImportLoading = false;
-          let msg =
+          const fallback =
             'Error al importar el número de teléfono. Por favor, intenta nuevamente.';
-          const backendMessage: string | undefined =
-            err?.error?.message || err?.message;
+          let msg = getApiErrorMessage(err, fallback);
+          const http = err as { status?: number };
 
-          if (
-            backendMessage &&
-            backendMessage !== 'Cannot POST /twilio/phone-number'
-          ) {
-            msg = backendMessage;
-          } else if (err?.status === 400) {
+          if (msg === 'Cannot POST /twilio/phone-number') {
+            msg = fallback;
+          }
+          if (msg === fallback && http?.status === 400) {
             msg =
               'Las credenciales de Twilio o el número de teléfono no son válidos. Revisa los datos e inténtalo de nuevo.';
-          } else if (err?.status === 404) {
+          } else if (http?.status === 404) {
             msg = 'Usuario no encontrado. Por favor, inicia sesión nuevamente.';
-          } else if (err?.status === 0) {
+          } else if (http?.status === 0) {
             msg =
               'No se ha podido contactar con el servidor. Comprueba tu conexión a internet o inténtalo de nuevo en unos minutos.';
           }

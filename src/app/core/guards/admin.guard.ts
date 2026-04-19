@@ -12,6 +12,7 @@ import { UserService } from '../services/user.service';
 
 /**
  * Panel admin: solo `owner`, con rol refrescado desde la API (no solo memoria local).
+ * En SSR se permite la ruta para evitar flash de login al refrescar; la API y el rol se validan en cliente.
  */
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ export class AdminGuard implements CanActivate {
 
   async canActivate(): Promise<boolean | UrlTree> {
     if (!isPlatformBrowser(this.platformId)) {
-      return this.router.parseUrl('/login');
+      return true;
     }
 
     let token: string | null = null;

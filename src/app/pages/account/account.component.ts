@@ -27,6 +27,7 @@ import { RippleButtonComponent } from '../../shared/components/ripple-button/rip
 import { AnimatedCheckboxComponent } from '../../shared/components/animated-checkbox/animated-checkbox.component';
 import { ImageCropperComponent } from '../../shared/components/image-cropper/image-cropper.component';
 import { TwilioService } from '../../core/services/twilio.service';
+import { getApiErrorMessage } from '../../core/utils/api-error-message';
 import { StripeService } from '../../core/services/stripe.service';
 import { ShopifyIntegrationService } from '../../core/services/shopify-integration.service';
 import {
@@ -1384,14 +1385,14 @@ export class AccountComponent implements OnInit, OnDestroy {
         this.twilioToken = '';
         this.showTwilioConfig = false;
       },
-      error: (error) => {
+      error: (error: unknown) => {
         this.isLoadingTwilio = false;
-        // Mostrar mensaje de error del servidor o genérico
-        const errorMessage =
-          error?.error?.message ||
-          error?.message ||
-          'Error al guardar la configuración de Twilio';
-        this.notificationService.error(errorMessage);
+        this.notificationService.error(
+          getApiErrorMessage(
+            error,
+            'Error al guardar la configuración de Twilio',
+          ),
+        );
         console.error('Error al guardar configuración de Twilio:', error);
       },
     });
