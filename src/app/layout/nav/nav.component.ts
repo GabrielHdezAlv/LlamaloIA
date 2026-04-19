@@ -63,11 +63,27 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
     return 'Usuario';
   });
 
-  /** Etiqueta del plan en la tarjeta lateral (según `user.plan`, no texto fijo). */
-  planBadgeLabel = computed(() => {
+  /** Nombre del plan sin el prefijo «Plan» (pastilla pequeña en mayúsculas). */
+  sidebarPlanTierBadge = computed(() => {
     this.i18nService.selectedLanguage();
     const user = this.userStorage.user();
-    return planDisplayLabelFromTranslations(user?.plan, this.i18nService.getTranslations());
+    return planDisplayLabelFromTranslations(
+      user?.plan,
+      this.i18nService.getTranslations(),
+      { includePlanWord: false },
+    );
+  });
+
+  /**
+   * Cupo mensual de minutos de voz mostrado en la tarjeta (base del plan + extras), alineado con métricas/cuenta.
+   */
+  sidebarVoiceMinutesTotal = computed(() => {
+    this.i18nService.selectedLanguage();
+    const u = this.userStorage.user();
+    if (!u) return 0;
+    const base = u.minutesLimit ?? 100;
+    const extra = u.extraMinutes ?? 0;
+    return Math.max(0, Math.round(base + extra));
   });
 
   // Método para obtener la imagen del perfil del usuario
