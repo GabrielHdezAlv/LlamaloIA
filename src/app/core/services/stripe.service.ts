@@ -54,6 +54,18 @@ export class StripeService {
     );
   }
 
+  /** Cambio de plan o periodo (mensual/anual) sobre la suscripción Stripe existente. */
+  changeSubscriptionPlan(body: {
+    plan: StripePaidPlan;
+    billingInterval?: 'month' | 'year';
+  }): Observable<{ ok: true }> {
+    return this.http.post<{ ok: true }>(
+      `${this.stripeBase()}/subscription/change-plan`,
+      body,
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
   /** Enlaces a la factura pagada más reciente (PDF o página alojada en Stripe). */
   /**
    * Onboarding: 7 días gratis sin tarjeta — registra Customer en Stripe (y suscripción €0 si está configurada).

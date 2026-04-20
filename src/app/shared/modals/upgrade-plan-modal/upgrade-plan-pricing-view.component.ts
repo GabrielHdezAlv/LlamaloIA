@@ -109,6 +109,56 @@ export class UpgradePlanPricingViewComponent implements OnInit {
     return this.mode === 'embedded' ? 'trial' : 'pay';
   }
 
+  /** Trial cuenta o trial Stripe (Starter): todos los planes son elegibles; ninguno es «plan actual». */
+  get allPlansSelectableInTrial(): boolean {
+    const u = this.userStore.user();
+    if (!u) {
+      return true;
+    }
+    if (u.planUsage?.trialActive === true) {
+      return true;
+    }
+    if ((u.stripeSubscriptionStatus ?? '').trim() === 'trialing') {
+      return true;
+    }
+    return false;
+  }
+
+  /** Plan de pago efectivo (tarjeta «PLAN ACTUAL»); null en trial o modos registro/paywall/churn. */
+  get currentPaidPlanTier(): PaidUpgradePlanId | null {
+    if (this.allPlansSelectableInTrial || this.isPlanGateLocked) {
+      return null;
+    }
+    const slug = this.userStore.user()?.planUsage?.effectivePlanSlug;
+    if (slug === 'starter' || slug === 'growth' || slug === 'scale') {
+      return slug;
+    }
+    return null;
+  }
+
+  isCurrentPlanCard(planId: PaidUpgradePlanId): boolean {
+    return (
+      this.currentPaidPlanTier !== null && this.currentPaidPlanTier === planId
+    );
+  }
+
+  planButtonLabel(plan: {
+    id: PaidUpgradePlanId;
+    buttonText: string;
+  }): string {
+    if (this.isCurrentPlanCard(plan.id)) {
+      return this.t.upgradePlanCurrentBadge;
+    }
+    return plan.buttonText;
+  }
+
+  isPlanButtonDisabled(planId: PaidUpgradePlanId): boolean {
+    if (this.stripeRedirecting || this.cancelLoading) {
+      return true;
+    }
+    return this.isCurrentPlanCard(planId);
+  }
+
   ngOnInit(): void {
     if (!this.isPlanGateLocked) {
       setTimeout(() => {
@@ -241,7 +291,6 @@ export class UpgradePlanPricingViewComponent implements OnInit {
           : this.mode === 'upgrade'
             ? `${origin}/dashboard/account?tab=billing&stripe=cancel`
             : `${origin}/company-setup?stripe=cancel`;
-    const portalReturnUrl = `${origin}/dashboard/account?tab=billing&stripe=return`;
 
     if (this.isEmbeddedOnboarding) {
       try {
@@ -255,32 +304,39 @@ export class UpgradePlanPricingViewComponent implements OnInit {
     this.stripeRedirecting = true;
 
     try {
-      if (user?.stripeCustomerId?.trim() && user.billingChurnLocked !== true) {
-        const { url } = await firstValueFrom(
-          this.stripeService.createBillingPortalSession({
-            returnUrl: portalReturnUrl,
-          }),
-        );
-        if (url) {
-          window.location.href = url;
+      const accountUpgradeModal = this.mode === 'upgrade';
+      if (accountUpgradeModal) {
+        const hasSub = Boolean(user?.stripeSubscriptionId?.trim());
+        if (
+          hasSub &&
+          user?.billingChurnLocked !== true &&
+          user?.stripeCustomerId?.trim()
+        ) {
+          await firstValueFrom(
+            this.stripeService.changeSubscriptionPlan({
+              plan: planId,
+              billingInterval: this.billingAnnual ? 'year' : 'month',
+            }),
+          );
+          window.location.href = `${origin}/dashboard/account?tab=billing&stripe=plan-changed`;
           return;
         }
-      } else {
-        const { url } = await firstValueFrom(
-          this.stripeService.createCheckoutSession({
-            plan: planId,
-            successUrl,
-            cancelUrl,
-            ...(this.billingAnnual ? { billingInterval: 'year' as const } : {}),
-            ...(planId === 'starter' && starterMode != null
-              ? { starterMode }
-              : {}),
-          }),
-        );
-        if (url) {
-          window.location.href = url;
-          return;
-        }
+      }
+
+      const { url } = await firstValueFrom(
+        this.stripeService.createCheckoutSession({
+          plan: planId,
+          successUrl,
+          cancelUrl,
+          ...(this.billingAnnual ? { billingInterval: 'year' as const } : {}),
+          ...(planId === 'starter' && starterMode != null
+            ? { starterMode }
+            : {}),
+        }),
+      );
+      if (url) {
+        window.location.href = url;
+        return;
       }
       this.notificationService.error(this.t.stripeBillingError);
     } catch (err: unknown) {

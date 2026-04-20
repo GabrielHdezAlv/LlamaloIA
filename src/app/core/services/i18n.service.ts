@@ -898,6 +898,8 @@ export interface Translations {
   upgradePlanPopularBadge: string;
   upgradePlanGrowthButton: string;
   upgradePlanScaleButton: string;
+  /** Botón deshabilitado del tier que ya tiene el usuario (modal Mejorar plan). */
+  upgradePlanCurrentBadge: string;
   pricingFeatureIncludedMinutes: string;
   pricingFeatureAgents: string;
   pricingFeatureDocuments: string;
@@ -1930,6 +1932,7 @@ export class I18nService {
       upgradePlanPopularBadge: 'POPULAR',
       upgradePlanGrowthButton: 'Empezar ahora',
       upgradePlanScaleButton: 'Comenzar ahora',
+      upgradePlanCurrentBadge: 'PLAN ACTUAL',
       pricingFeatureIncludedMinutes: 'Minutos incluidos',
       pricingFeatureAgents: 'Agentes',
       pricingFeatureDocuments: 'Documentos',
@@ -2956,6 +2959,7 @@ export class I18nService {
       upgradePlanPopularBadge: 'POPULAR',
       upgradePlanGrowthButton: 'Start now',
       upgradePlanScaleButton: 'Get started now',
+      upgradePlanCurrentBadge: 'CURRENT PLAN',
       pricingFeatureIncludedMinutes: 'Included minutes',
       pricingFeatureAgents: 'Agents',
       pricingFeatureDocuments: 'Documents',

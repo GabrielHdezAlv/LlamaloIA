@@ -195,12 +195,12 @@
               <button
                 type="button"
                 (click)="onChoosePlan(plan.id, $event, starterCheckoutMode)"
-                [disabled]="stripeRedirecting || cancelLoading"
+                [disabled]="isPlanButtonDisabled(plan.id)"
                 [class]="'w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base ' +
                   (plan.highlighted
                     ? 'bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90'
                     : 'bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90')">
-                <span>{{ plan.buttonText }}</span>
+                <span>{{ planButtonLabel(plan) }}</span>
               </button>
               @if (isEmbeddedOnboarding && starterCheckoutMode === 'trial') {
                 <p
@@ -213,9 +213,9 @@
             <button
               type="button"
               (click)="onChoosePlan(plan.id, $event)"
-              [disabled]="stripeRedirecting || cancelLoading"
+              [disabled]="isPlanButtonDisabled(plan.id)"
               class="w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base bg-white text-black dark:bg-[#000001] dark:text-white hover:opacity-90">
-              <span>{{ plan.buttonText }}</span>
+              <span>{{ planButtonLabel(plan) }}</span>
               <svg class="w-5 h-5 ml-2 md:w-3.5 md:h-3.5 md:ml-1.5 4xl:w-7 4xl:h-7 4xl:ml-2.5 3xl:w-6 3xl:h-6 3xl:ml-2 transition-transform duration-300 group-hover:translate-x-1"
                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -225,9 +225,9 @@
             <button
               type="button"
               (click)="onChoosePlan(plan.id, $event)"
-              [disabled]="stripeRedirecting || cancelLoading"
+              [disabled]="isPlanButtonDisabled(plan.id)"
               class="w-full rounded-full font-semibold py-3 px-4 text-sm md:py-2 md:px-3 md:text-[10px] 4xl:py-4 4xl:px-8 4xl:text-lg transition-all duration-300 flex items-center justify-center group shadow disabled:opacity-60 disabled:pointer-events-none 3xl:py-3.5 3xl:px-6 3xl:text-base bg-black text-white dark:bg-white dark:text-[#000001] hover:opacity-90">
-              <span>{{ plan.buttonText }}</span>
+              <span>{{ planButtonLabel(plan) }}</span>
             </button>
           }
         </div>
