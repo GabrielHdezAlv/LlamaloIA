@@ -900,6 +900,15 @@ export interface Translations {
   upgradePlanScaleButton: string;
   /** Botón deshabilitado del tier que ya tiene el usuario (modal Mejorar plan). */
   upgradePlanCurrentBadge: string;
+  /** Tras cambiar de plan (API Stripe) desde el modal Mejorar plan. */
+  upgradePlanChangeSuccess: string;
+  /** Paso intermedio si Stripe no abre el portal de confirmación: resumen de importes. */
+  upgradePlanChangeReviewTitle: string;
+  upgradePlanChangeReviewHint: string;
+  upgradePlanChangeReviewBack: string;
+  upgradePlanChangeReviewConfirm: string;
+  /** Etiqueta del importe total en el resumen de cambio de plan. */
+  upgradePlanChangeReviewTotal: string;
   pricingFeatureIncludedMinutes: string;
   pricingFeatureAgents: string;
   pricingFeatureDocuments: string;
@@ -1933,6 +1942,14 @@ export class I18nService {
       upgradePlanGrowthButton: 'Empezar ahora',
       upgradePlanScaleButton: 'Comenzar ahora',
       upgradePlanCurrentBadge: 'PLAN ACTUAL',
+      upgradePlanChangeSuccess:
+        'Plan actualizado correctamente. Los cambios de facturación los verás en Stripe.',
+      upgradePlanChangeReviewTitle: 'Resumen del cambio de plan',
+      upgradePlanChangeReviewHint:
+        'Vista previa de la próxima factura (prorrateo). Si no se abrió la página de confirmación de Stripe, puedes confirmar aquí.',
+      upgradePlanChangeReviewBack: 'Volver a planes',
+      upgradePlanChangeReviewConfirm: 'Confirmar cambio',
+      upgradePlanChangeReviewTotal: 'Total estimado a pagar',
       pricingFeatureIncludedMinutes: 'Minutos incluidos',
       pricingFeatureAgents: 'Agentes',
       pricingFeatureDocuments: 'Documentos',
@@ -2960,6 +2977,14 @@ export class I18nService {
       upgradePlanGrowthButton: 'Start now',
       upgradePlanScaleButton: 'Get started now',
       upgradePlanCurrentBadge: 'CURRENT PLAN',
+      upgradePlanChangeSuccess:
+        'Your plan was updated. Billing details will appear in Stripe.',
+      upgradePlanChangeReviewTitle: 'Review plan change',
+      upgradePlanChangeReviewHint:
+        'Preview of your next invoice (proration). If Stripe’s confirmation page did not open, you can confirm here.',
+      upgradePlanChangeReviewBack: 'Back to plans',
+      upgradePlanChangeReviewConfirm: 'Confirm change',
+      upgradePlanChangeReviewTotal: 'Estimated total due',
       pricingFeatureIncludedMinutes: 'Included minutes',
       pricingFeatureAgents: 'Agents',
       pricingFeatureDocuments: 'Documents',

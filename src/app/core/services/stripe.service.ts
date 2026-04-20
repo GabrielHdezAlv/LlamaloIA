@@ -54,6 +54,44 @@ export class StripeService {
     );
   }
 
+  /** Cambio de plan con suscripción existente (base + metered); mantiene el periodo de facturación. */
+  changeSubscriptionPlan(body: { plan: StripePaidPlan }): Observable<{
+    ok: true;
+  }> {
+    return this.http.post<{ ok: true }>(
+      `${this.stripeBase()}/subscription/change-plan`,
+      body,
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  /** Flujo alojado en Stripe (confirmación con prorrateo). `url` null si Stripe no admite la sesión. */
+  createPlanChangePortalSession(body: {
+    plan: StripePaidPlan;
+    returnUrl: string;
+  }): Observable<{ url: string | null }> {
+    return this.http.post<{ url: string | null }>(
+      `${this.stripeBase()}/subscription/plan-change-portal`,
+      body,
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  /** Vista previa de importes (céntimos) sin aplicar el cambio. */
+  previewPlanChange(body: { plan: StripePaidPlan }): Observable<{
+    currency: string;
+    amountDue: number;
+    lines: Array<{ description: string; amount: number }>;
+  }> {
+    return this.http.post<{
+      currency: string;
+      amountDue: number;
+      lines: Array<{ description: string; amount: number }>;
+    }>(`${this.stripeBase()}/subscription/preview-plan-change`, body, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
   /** Enlaces a la factura pagada más reciente (PDF o página alojada en Stripe). */
   /**
    * Onboarding: 7 días gratis sin tarjeta — registra Customer en Stripe (y suscripción €0 si está configurada).

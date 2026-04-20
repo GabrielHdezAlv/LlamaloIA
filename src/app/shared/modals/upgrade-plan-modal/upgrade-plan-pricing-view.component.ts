@@ -7,6 +7,7 @@ import {
   Output,
   inject,
   PLATFORM_ID,
+  signal,
   viewChild,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -30,6 +31,13 @@ import { getApiErrorMessage } from '../../../core/utils/api-error-message';
 
 /** Duración de la animación de cierre + margen (debe alinearse con SCSS ~0.45s). */
 const UPGRADE_MODAL_CLOSE_MS = 500;
+
+type PlanChangeReviewState = {
+  targetPlan: PaidUpgradePlanId;
+  currency: string;
+  amountDue: number;
+  lines: Array<{ description: string; amount: number }>;
+};
 
 /**
  * SessionStorage: el usuario abrió Stripe desde el paso de planes del onboarding embebido.
@@ -79,6 +87,10 @@ export class UpgradePlanPricingViewComponent implements OnInit {
   stripeRedirecting = false;
   cancelLoading = false;
   billingAnnual = false;
+
+  /** Paso 2 si el portal de Stripe no devuelve URL: resumen con vista previa de factura (céntimos). */
+  readonly planChangeReview = signal<PlanChangeReviewState | null>(null);
+  planChangeConfirmLoading = false;
 
   get isRegistrationMode(): boolean {
     return this.mode === 'registration' || this.mode === 'embedded';
@@ -153,10 +165,57 @@ export class UpgradePlanPricingViewComponent implements OnInit {
   }
 
   isPlanButtonDisabled(planId: PaidUpgradePlanId): boolean {
-    if (this.stripeRedirecting || this.cancelLoading) {
+    if (this.stripeRedirecting || this.cancelLoading || this.planChangeConfirmLoading) {
+      return true;
+    }
+    if (this.planChangeReview()) {
       return true;
     }
     return this.isCurrentPlanCard(planId);
+  }
+
+  formatMoneyAmount(cents: number, currency: string): string {
+    const c = (currency || 'eur').toUpperCase();
+    try {
+      return new Intl.NumberFormat('es-ES', {
+        style: 'currency',
+        currency: c.length === 3 ? c : 'EUR',
+      }).format(cents / 100);
+    } catch {
+      return `${(cents / 100).toFixed(2)} ${c}`;
+    }
+  }
+
+  cancelPlanChangeReview(): void {
+    this.planChangeReview.set(null);
+  }
+
+  planDisplayName(planId: PaidUpgradePlanId): string {
+    const row = this.pricingPlans.find((p) => p.id === planId);
+    return row?.name ?? planId;
+  }
+
+  async confirmPlanChangeFromPreview(): Promise<void> {
+    const step = this.planChangeReview();
+    if (!step || this.planChangeConfirmLoading) {
+      return;
+    }
+    this.planChangeConfirmLoading = true;
+    try {
+      await firstValueFrom(
+        this.stripeService.changeSubscriptionPlan({ plan: step.targetPlan }),
+      );
+      await this.userStore.loadUserProfile();
+      this.planChangeReview.set(null);
+      this.notificationService.success(this.t.upgradePlanChangeSuccess);
+      this.closeWithAnimation();
+    } catch (err: unknown) {
+      this.notificationService.error(
+        getApiErrorMessage(err, this.t.stripeBillingError),
+      );
+    } finally {
+      this.planChangeConfirmLoading = false;
+    }
   }
 
   ngOnInit(): void {
@@ -226,6 +285,10 @@ export class UpgradePlanPricingViewComponent implements OnInit {
     if (this.isPaywallMode) {
       return;
     }
+    if (this.mode === 'upgrade' && this.planChangeReview()) {
+      this.cancelPlanChangeReview();
+      return;
+    }
     this.closeWithAnimation();
   }
 
@@ -235,6 +298,8 @@ export class UpgradePlanPricingViewComponent implements OnInit {
       void this.cancelRegistration();
     } else if (this.isPaywallMode) {
       /* no cerrar */
+    } else if (this.mode === 'upgrade' && this.planChangeReview()) {
+      this.cancelPlanChangeReview();
     } else {
       this.closeWithAnimation();
     }
@@ -309,19 +374,43 @@ export class UpgradePlanPricingViewComponent implements OnInit {
       const accountUpgradeModal = this.mode === 'upgrade';
       if (accountUpgradeModal) {
         const hasSub = Boolean(user?.stripeSubscriptionId?.trim());
-        if (
-          hasSub &&
-          user?.billingChurnLocked !== true &&
-          user?.stripeCustomerId?.trim()
-        ) {
-          const { url } = await firstValueFrom(
-            this.stripeService.createBillingPortalSession({
-              returnUrl: portalReturnUrl,
-            }),
-          );
-          if (url) {
-            window.location.href = url;
-            return;
+        const customerId = user?.stripeCustomerId?.trim();
+        if (hasSub && user?.billingChurnLocked !== true && customerId) {
+          if (!this.allPlansSelectableInTrial) {
+            const currentTier = this.currentPaidPlanTier;
+            if (currentTier && planId !== currentTier) {
+              const { url } = await firstValueFrom(
+                this.stripeService.createPlanChangePortalSession({
+                  plan: planId,
+                  returnUrl: portalReturnUrl,
+                }),
+              );
+              if (url) {
+                window.location.href = url;
+                return;
+              }
+              const preview = await firstValueFrom(
+                this.stripeService.previewPlanChange({ plan: planId }),
+              );
+              this.planChangeReview.set({
+                targetPlan: planId,
+                currency: preview.currency,
+                amountDue: preview.amountDue,
+                lines: preview.lines,
+              });
+              return;
+            }
+            if (!currentTier) {
+              const { url } = await firstValueFrom(
+                this.stripeService.createBillingPortalSession({
+                  returnUrl: portalReturnUrl,
+                }),
+              );
+              if (url) {
+                window.location.href = url;
+                return;
+              }
+            }
           }
         }
       }
