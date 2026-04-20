@@ -317,7 +317,6 @@ export class UpgradePlanPricingViewComponent implements OnInit {
           const { url } = await firstValueFrom(
             this.stripeService.createBillingPortalSession({
               returnUrl: portalReturnUrl,
-              subscriptionUpdateFlow: true,
             }),
           );
           if (url) {

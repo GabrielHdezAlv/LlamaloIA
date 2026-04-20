@@ -44,11 +44,9 @@ export class StripeService {
     );
   }
 
-  createBillingPortalSession(body: {
-    returnUrl: string;
-    /** Abre el Customer Portal en el flujo de cambio de suscripción (UI Stripe), si hay suscripción. */
-    subscriptionUpdateFlow?: boolean;
-  }): Observable<{ url: string | null }> {
+  createBillingPortalSession(body: { returnUrl: string }): Observable<{
+    url: string | null;
+  }> {
     return this.http.post<{ url: string | null }>(
       `${this.stripeBase()}/billing-portal`,
       body,
