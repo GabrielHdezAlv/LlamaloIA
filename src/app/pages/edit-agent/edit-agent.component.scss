@@ -277,3 +277,19 @@ html.dark .play-button {
   opacity: 0;
   animation: none;
 }
+
+/* Transicion entre tabs Principal / Conexiones / Base de conocimiento */
+.edit-agent-tab-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease;
+  will-change: opacity, transform;
+}
+
+.edit-agent-tab-content.edit-agent-tab-transitioning {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+}

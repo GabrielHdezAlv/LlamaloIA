@@ -108,6 +108,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   agentId: number | null = null;
 
   activeTab: 'main' | 'connections' | 'knowledge' = 'main';
+  isTabTransitioning = false;
+  private readonly TAB_SWITCH_DELAY_MS = 120;
+  private readonly TAB_ENTER_DELAY_MS = 35;
+  private tabSwitchTimeout: ReturnType<typeof setTimeout> | null = null;
+  private tabEnterTimeout: ReturnType<typeof setTimeout> | null = null;
 
   // Secciones desplegables del tab "Principal" (cada una independiente)
   nameSectionOpen = true;
@@ -469,13 +474,42 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   }
 
   setActiveTab(tab: 'main' | 'connections' | 'knowledge'): void {
-    this.activeTab = tab;
+    if (tab === this.activeTab && !this.isTabTransitioning) {
+      this.runTabSideEffects(tab);
+      return;
+    }
 
+    if (this.tabSwitchTimeout) {
+      clearTimeout(this.tabSwitchTimeout);
+      this.tabSwitchTimeout = null;
+    }
+    if (this.tabEnterTimeout) {
+      clearTimeout(this.tabEnterTimeout);
+      this.tabEnterTimeout = null;
+    }
+
+    this.isTabTransitioning = true;
+
+    this.tabSwitchTimeout = setTimeout(() => {
+      this.activeTab = tab;
+      this.runTabSideEffects(tab);
+      this.cdr.markForCheck();
+
+      this.tabEnterTimeout = setTimeout(() => {
+        this.isTabTransitioning = false;
+        this.cdr.markForCheck();
+        this.tabEnterTimeout = null;
+      }, this.TAB_ENTER_DELAY_MS);
+
+      this.tabSwitchTimeout = null;
+    }, this.TAB_SWITCH_DELAY_MS);
+  }
+
+  private runTabSideEffects(tab: 'main' | 'connections' | 'knowledge'): void {
     if (tab === 'connections') {
       this.refreshMakeWebhookActionsCount();
     }
 
-    // Load available knowledge sources when switching to knowledge tab
     if (tab === 'knowledge') {
       this.loadAvailableKnowledgeSources();
     }
@@ -918,6 +952,15 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.tabSwitchTimeout) {
+      clearTimeout(this.tabSwitchTimeout);
+      this.tabSwitchTimeout = null;
+    }
+    if (this.tabEnterTimeout) {
+      clearTimeout(this.tabEnterTimeout);
+      this.tabEnterTimeout = null;
+    }
+
     if (this.audioActual) {
       this.audioActual.pause();
       this.audioActual = null;
@@ -1973,10 +2016,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
     this.modalService
       .openWarning({
-        title: 'Desvincular Shopify',
-        message: `¿Estás seguro de que quieres desvincular la tienda "${this.agentShopifyDomain}" de este agente?`,
-        confirmText: 'Desvincular',
-        cancelText: 'Cancelar',
+        title: this.t.shopifyDisconnectConfirmTitle,
+        message: this.t.shopifyDisconnectConfirmMessage.replace(
+          '{{shop}}',
+          this.agentShopifyDomain,
+        ),
+        confirmText: this.t.shopifyDisconnectConfirmAction,
+        cancelText: this.t.cancel,
         showCancelButton: true,
       })
       .afterClosed()
@@ -2019,13 +2065,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   getErrorMessage(fieldName: string): string {
     const field = this.editForm.get(fieldName);
     if (field?.hasError('required')) {
-      return 'Este campo es obligatorio';
+      return this.t.editAgentFieldRequired;
     }
     if (field?.hasError('min')) {
-      return `El valor mínimo es ${field.errors?.['min'].min}`;
+      return `${this.t.editAgentFieldMin} ${field.errors?.['min'].min}`;
     }
     if (field?.hasError('max')) {
-      return `El valor máximo es ${field.errors?.['max'].max}`;
+      return `${this.t.editAgentFieldMax} ${field.errors?.['max'].max}`;
     }
     return '';
   }
@@ -2385,7 +2431,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     if (files.length > 0) {
       const file = files[0];
       if (file.size > 10 * 1024 * 1024) {
-        this.knowledgeSourceError = 'El PDF no puede exceder los 10MB';
+        this.knowledgeSourceError = this.t.pdfMaxError;
         return;
       }
       this.uploadPdfFiles(Array.from(files));
@@ -2412,7 +2458,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
                 this.addKnowledgeSourceToAgent(sourceToAdd);
               } else {
                 this.knowledgeSourceError =
-                  'Error: No se recibió información del archivo subido';
+                  this.t.errorNoFileInfo;
               }
 
               this.isLoadingKnowledgeSources = false;
@@ -2424,9 +2470,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
                 this.knowledgeSourceError = err.error.message;
               } else if (err.status === 413) {
                 this.knowledgeSourceError =
-                  'El archivo es demasiado grande (máximo 10MB)';
+                  this.t.pdfMaxError;
               } else {
-                this.knowledgeSourceError = `Error al subir el archivo ${file.name}`;
+                this.knowledgeSourceError = `${this.t.errorUploadingFile} ${file.name}`;
               }
               this.isLoadingKnowledgeSources = false;
               this.cdr.detectChanges();
@@ -2438,7 +2484,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
   openWebModal(): void {
     const dialogRef = this.modalService.openWeb({
-      title: 'Añadir fuente web',
+      title: this.t.addWebSourceTitle,
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -2450,19 +2496,19 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
   openTextModal(): void {
     const dialogRef = this.modalService.openText({
-      title: 'Añadir texto manual',
+      title: this.t.addTextTitle,
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result && result.content) {
-        this.createTextSource(result.content, result.name || 'Texto manual');
+        this.createTextSource(result.content, result.name || this.t.manualTextDefault);
       }
     });
   }
 
   createWebSource(url: string, name: string): void {
     if (url.length > 2048) {
-      this.knowledgeSourceError = 'La URL no puede exceder los 2048 caracteres';
+      this.knowledgeSourceError = this.t.urlMaxError;
       return;
     }
 
@@ -2474,7 +2520,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           if (response?.id) {
             this.addKnowledgeSourceToAgent(response);
           } else {
-            this.knowledgeSourceError = 'Error en la respuesta del servidor';
+            this.knowledgeSourceError = this.t.errorServerResponse;
           }
           this.isLoadingKnowledgeSources = false;
           this.cdr.detectChanges();
@@ -2485,11 +2531,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
             this.knowledgeSourceError = err.error.message;
           } else if (err.status === 413) {
             this.knowledgeSourceError =
-              'La URL es demasiado larga (máximo 2048 caracteres)';
+              this.t.urlMaxError;
           } else if (err.status === 400) {
-            this.knowledgeSourceError = 'URL inválida o no accesible';
+            this.knowledgeSourceError = this.t.knowledgeWebSourceInvalidUrl;
           } else {
-            this.knowledgeSourceError = 'Error al crear la fuente web';
+            this.knowledgeSourceError = this.t.errorCreatingWeb;
           }
           this.isLoadingKnowledgeSources = false;
           this.cdr.detectChanges();
@@ -2500,7 +2546,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   createTextSource(content: string, name: string): void {
     if (content.length > 50000) {
       this.knowledgeSourceError =
-        'El texto no puede exceder los 50,000 caracteres (~20 páginas)';
+        this.t.textMaxError;
       return;
     }
 
@@ -2520,7 +2566,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         if (sourceToAdd?.id) {
           this.addKnowledgeSourceToAgent(sourceToAdd);
         } else {
-          this.knowledgeSourceError = 'Error en la respuesta del servidor';
+          this.knowledgeSourceError = this.t.errorServerResponse;
         }
         this.isLoadingKnowledgeSources = false;
         this.cdr.detectChanges();
@@ -2531,9 +2577,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           this.knowledgeSourceError = err.error.message;
         } else if (err.status === 413) {
           this.knowledgeSourceError =
-            'El texto es demasiado largo (máximo 50,000 caracteres)';
+            this.t.textMaxError;
         } else {
-          this.knowledgeSourceError = 'Error al crear la fuente de texto';
+          this.knowledgeSourceError = this.t.knowledgeTextSourceError;
         }
         this.isLoadingKnowledgeSources = false;
         this.cdr.detectChanges();
@@ -2567,7 +2613,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.error('Error linking knowledge source to agent:', err);
           this.knowledgeSourceError =
-            'Error al vincular la fuente de conocimiento al agente';
+            this.t.knowledgeSourceLinkError;
         },
       });
   }
@@ -2581,7 +2627,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         next: (response) => {
           // Handle both cases: response with message or empty response
           const message =
-            response?.message || 'Fuente desvinculada exitosamente';
+            response?.message || this.t.knowledgeSourceUnlinkedSuccess;
           console.info('Fuente desvinculada:', message);
 
           // Remove from agent's knowledge sources
@@ -2605,13 +2651,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           // Handle specific error cases
           if (err.status === 404) {
             this.knowledgeSourceError =
-              'La fuente de conocimiento no estaba vinculada a este agente';
+              this.t.knowledgeSourceUnlinkNotLinkedError;
           } else if (err.status === 400) {
             this.knowledgeSourceError =
-              'Error al desvincular la fuente de conocimiento del agente';
+              this.t.knowledgeSourceUnlinkAgentError;
           } else {
             this.knowledgeSourceError =
-              'Error de conexión al desvincular la fuente de conocimiento';
+              this.t.knowledgeSourceUnlinkConnectionError;
           }
         },
       });

@@ -12,7 +12,7 @@
               ? 'text-gray-900 dark:text-white'
               : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
           ">
-          Principal
+          {{ t.editAgentMainTab }}
             <span
             class="block h-[2px] rounded-full mt-1"
             [ngClass]="
@@ -31,7 +31,7 @@
               ? 'text-gray-900 dark:text-white'
               : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
           ">
-          Conexiones
+          {{ t.connections }}
           <span
             class="block h-[2px] rounded-full mt-1"
             [ngClass]="
@@ -50,7 +50,7 @@
               ? 'text-gray-900 dark:text-white'
               : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
           ">
-          Base de Conocimiento
+          {{ t.knowledgeBase }}
           <span
             class="block h-[2px] rounded-full mt-1"
             [ngClass]="
@@ -63,11 +63,12 @@
 
       <button (click)="goBack()"
         class="px-3 py-1.5 3xl:px-5 3xl:py-2.5 4xl:px-6 4xl:py-3 bg-white dark:bg-slate-800 text-gray-900 dark:text-white text-xs 3xl:text-base 4xl:text-lg font-medium rounded-lg 3xl:rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors">
-        Volver
+        {{ t.back }}
       </button>
     </div>
 
     <!-- Contenido principal -->
+    <div class="edit-agent-tab-content" [class.edit-agent-tab-transitioning]="isTabTransitioning">
     @if (activeTab === "main") {
     <div class="w-full flex justify-center">
       <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1400px] 3xl:w-[84.75%] 3xl:scale-[1.18] 3xl:origin-top 3xl:mb-24 4xl:w-[80.65%] 4xl:scale-[1.43] 4xl:mb-32">
@@ -78,7 +79,7 @@
               type="button"
               class="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-left text-gray-900 dark:text-white"
               (click)="setActiveMainSection('name')">
-              <span>Nombre del Agente</span>
+              <span>{{ t.editAgentAgentNameSection }}</span>
               <svg
                 class="w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform duration-200 flex-shrink-0"
                 [ngClass]="{ 'rotate-180': nameSectionOpen }"
@@ -96,7 +97,7 @@
             <div class="px-3 pb-3 pt-1">
               <div class="relative">
                 <input type="text" formControlName="name" maxlength="50"
-                  placeholder="Introduce el nombre del agente..."
+                  [placeholder]="t.agentNamePlaceholder"
                   class="w-full px-3 py-2.5 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-xs" />
                 <span
                   class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 dark:text-[#6d747c]">
@@ -120,7 +121,7 @@
               type="button"
               class="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-left text-gray-900 dark:text-white"
               (click)="setActiveMainSection('greeting')">
-              <span>Primer mensaje</span>
+              <span>{{ t.editAgentFirstMessageSection }}</span>
               <svg
                 class="w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform duration-200 flex-shrink-0"
                 [ngClass]="{ 'rotate-180': greetingSectionOpen }"
@@ -136,7 +137,7 @@
 
             @if (greetingSectionOpen) {
             <div class="px-3 pb-3 pt-1">
-              <textarea formControlName="firstInteraction" rows="4" placeholder="¡Hola! ¿Cómo puedo ayudarte hoy?"
+              <textarea formControlName="firstInteraction" rows="4" [placeholder]="t.greetingPlaceholder"
                 class="w-full px-3 py-2.5 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none text-xs"></textarea>
               @if (
               editForm.get("firstInteraction")?.invalid &&
@@ -157,7 +158,7 @@
                 type="button"
                 class="min-w-0 flex-1 text-left text-xs font-semibold text-gray-900 dark:text-white"
                 (click)="setActiveMainSection('system')">
-                <span>Mensaje del sistema</span>
+                <span>{{ t.editAgentSystemMessageSection }}</span>
               </button>
               @if (systemSectionOpen) {
               <div class="relative shrink-0" data-ia-generate-root>
@@ -167,7 +168,7 @@
                   class="group relative flex shrink-0 items-center gap-1 px-2 py-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 ease-in-out border border-gray-300 dark:border-slate-600 rounded-lg hover:border-gray-400 dark:hover:border-slate-500 hover:scale-[1.02] hover:shadow-md hover:shadow-purple-500/20">
                   <span
                     class="text-[10px] 3xl:text-xs font-medium leading-tight bg-gradient-to-r from-violet-500 via-purple-500 to-blue-600 bg-clip-text text-transparent whitespace-nowrap"
-                    >Generar con IA</span
+                    >{{ t.generateWithAI }}</span
                   >
                 </button>
                 @if (showGeneratePromptModal || isGeneratePromptDropdownClosing) {
@@ -177,20 +178,20 @@
                   (click)="$event.stopPropagation()">
                   <div>
                     <p class="text-[10px] font-semibold text-gray-900 dark:text-white">
-                      Generar instrucciones con IA
+                      {{ t.generateInstructionsWithAI }}
                     </p>
                     <p class="mt-0.5 text-[9px] text-gray-500 dark:text-gray-400 leading-snug">
-                      Describe cómo debería ser tu agente y generaremos las instrucciones automáticamente.
+                      {{ t.describeAgentBehavior }}
                     </p>
                   </div>
                   <div>
                     <input type="text" [(ngModel)]="promptEnterpriseName"
                       [ngModelOptions]="{ standalone: true }"
-                      placeholder="Nombre de la empresa"
+                      [placeholder]="t.editAgentCompanyNamePlaceholder"
                       class="w-full px-2.5 py-1.5 text-[10px] border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none transition-all mb-2" />
                     <textarea [(ngModel)]="promptDescription"
                       [ngModelOptions]="{ standalone: true }"
-                      placeholder="Ej: Un agente amigable que atiende clientes, toma reservas..."
+                      [placeholder]="t.exampleInstructionsPlaceholder"
                       rows="3"
                       class="w-full px-2.5 py-1.5 text-[10px] border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent outline-none resize-none transition-all"></textarea>
                   </div>
@@ -202,7 +203,7 @@
                   <div class="flex justify-end gap-2">
                     <button type="button" (click)="closeGeneratePromptModal()" [disabled]="isGeneratingPrompt"
                       class="px-2.5 py-1 text-[9px] font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                      Cancelar
+                      {{ t.cancel }}
                     </button>
                     <button type="button" (click)="generatePrompt()" [disabled]="isGeneratingPrompt || !promptDescription.trim()"
                       class="px-2.5 py-1 text-[9px] font-medium text-white bg-[#1E3A8A] hover:bg-[#1E40AF] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1">
@@ -214,9 +215,9 @@
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                         </path>
                       </svg>
-                      Generando...
+                      {{ t.generating }}
                       } @else {
-                      Generar
+                      {{ t.generateBtn }}
                       }
                     </button>
                   </div>
@@ -229,7 +230,7 @@
                 class="flex shrink-0 items-center justify-center rounded p-0.5 text-gray-400 transition-colors hover:bg-gray-100 dark:text-gray-500 dark:hover:bg-white/10"
                 (click)="setActiveMainSection('system')"
                 [attr.aria-expanded]="systemSectionOpen"
-                aria-label="Expandir o contraer mensaje del sistema">
+                [attr.aria-label]="t.editAgentSystemMessageToggleAria">
                 <svg
                   class="h-4 w-4 transition-transform duration-200"
                   [ngClass]="{ 'rotate-180': systemSectionOpen }"
@@ -247,11 +248,11 @@
             @if (systemSectionOpen) {
             <div class="px-3 pb-3 pt-1">
               <div class="relative">
-                <textarea [formControl]="agentInstructionControl" rows="8" placeholder="Eres un asistente útil."
+                <textarea [formControl]="agentInstructionControl" rows="8" [placeholder]="t.editAgentSystemMessagePlaceholder"
                   class="w-full px-3 py-2.5 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none text-xs"></textarea>
                 <button type="button" (click)="openExpandSystemMessageModal()"
                   class="absolute bottom-2 right-2 p-1.5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                  title="Ver texto ampliado">
+                  [attr.title]="t.viewFullTextTitle">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
@@ -276,7 +277,7 @@
               type="button"
               class="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-left text-gray-900 dark:text-white"
               (click)="setActiveMainSection('twilio')">
-              <span>Conexión número de telefono</span>
+              <span>{{ t.connectPhoneTitle }}</span>
               <svg
                 class="w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform duration-200 flex-shrink-0"
                 [ngClass]="{ 'rotate-180': twilioSectionOpen }"
@@ -310,20 +311,20 @@
                       </p>
                       <p class="text-[10px] text-[#6d747c] dark:text-slate-400 leading-snug">
                         @if (isTwilioValidated && twilioPanelSelectedAccount) {
-                        Cuenta conectada
+                        {{ t.editAgentTwilioConnectedAccount }}
                         } @else if (isTwilioValidated) {
-                        Cuenta validada
+                        {{ t.editAgentTwilioValidatedAccount }}
                         } @else if (agentTwilioAccount) {
-                        Cuenta asignada al agente · ID {{ agentTwilioAccount.twilioAccountId }}
+                        {{ t.editAgentTwilioAssignedAccountPrefix }} {{ agentTwilioAccount.twilioAccountId }}
                         } @else {
-                        Conecta tu cuenta de Twilio
+                        {{ t.connectTwilioAccount }}
                         }
                       </p>
                     </div>
                   </div>
                   <button type="button" (click)="toggleTwilioInlineConfig($event)"
                     class="shrink-0 px-3 py-1.5 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-white text-[10px] font-semibold transition-colors">
-                    {{ showTwilioConfig ? "Cerrar" : "Conectar" }}
+                    {{ showTwilioConfig ? t.closeBtn : t.connect }}
                   </button>
                 </div>
 
@@ -335,7 +336,7 @@
                       <div
                         class="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-[#1B2559] dark:border-t-white">
                       </div>
-                      <p class="text-[10px] text-gray-600 dark:text-gray-400">Guardando en el agente…</p>
+                      <p class="text-[10px] text-gray-600 dark:text-gray-400">{{ t.editAgentSavingOnAgent }}</p>
                     </div>
                     } @else if (loadingTwilioAccountsPanel) {
                     <div class="flex justify-center py-3">
@@ -346,7 +347,7 @@
                     } @else if (twilioPanelSelectedAccount && isTwilioValidated) {
                     <div class="space-y-2">
                       <div class="flex items-center justify-between text-[10px]">
-                        <span class="text-gray-500 dark:text-slate-400">Cuenta ID:
+                        <span class="text-gray-500 dark:text-slate-400">{{ t.editAgentTwilioAccountIdLabel }}
                           {{ twilioPanelSelectedAccount.twilioAccountId }}</span>
                         <button type="button" (click)="backToTwilioAccountSelection()"
                           class="text-[#1B2559] dark:text-blue-400 font-medium">
@@ -417,7 +418,7 @@
                         (click)="assignTwilioAccountToAgent(twilioPanelSelectedAccount.twilioAccountId)"
                         [disabled]="isSavingTwilioConfig || !isPhoneReadyForTwilioAssign()"
                         class="w-full py-2 rounded-lg border border-gray-300 dark:border-slate-600 text-[10px] font-semibold text-gray-800 dark:text-slate-200 disabled:opacity-50">
-                        Reintentar asignar
+                        {{ t.retry }}
                       </button>
                       }
                       }
@@ -429,27 +430,26 @@
                     ) {
                     <div class="space-y-1.5">
                       <p class="text-[10px] font-semibold text-gray-700 dark:text-slate-300">
-                        Cuentas conectadas
+                        {{ t.connectedAccounts }}
                       </p>
                       @for (account of twilioAccounts; track account.twilioAccountId) {
                       <button type="button" (click)="useExistingTwilioAccountForPanel(account)"
                         [disabled]="isValidatingTwilio"
                         class="w-full px-2 py-1.5 rounded-lg border text-left text-[10px] border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-[#1B2559] dark:hover:border-blue-400 disabled:opacity-50">
-                        Cuenta ID: {{ account.twilioAccountId }} · SID:
+                        {{ t.editAgentTwilioAccountIdLabel }} {{ account.twilioAccountId }} · SID:
                         {{ account.twilioSid.length > 10 ? (account.twilioSid.slice(0, 10) + "…") : account.twilioSid }}
                       </button>
                       }
                       <button type="button" (click)="showNewTwilioAccountForPanel()"
                         class="w-full px-2 py-1.5 rounded-lg border border-dashed border-gray-300 dark:border-slate-500 text-[10px] text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800">
-                        Conectar nueva cuenta
+                        {{ t.connectNewAccount }}
                       </button>
                     </div>
                     } @else {
                     <div class="space-y-2">
                       <div>
                         <label
-                          class="block text-[10px] font-semibold text-gray-600 dark:text-slate-400 mb-0.5">Account
-                          SID</label>
+                          class="block text-[10px] font-semibold text-gray-600 dark:text-slate-400 mb-0.5">{{ t.twilioAccountSid }}</label>
                         <input type="text" [ngModel]="twilioSid"
                           (ngModelChange)="onTwilioSidInputEdit($event)"
                           [ngModelOptions]="{ standalone: true }" placeholder="ACxxxxxxxx..."
@@ -457,8 +457,7 @@
                       </div>
                       <div>
                         <label
-                          class="block text-[10px] font-semibold text-gray-600 dark:text-slate-400 mb-0.5">Auth
-                          Token</label>
+                          class="block text-[10px] font-semibold text-gray-600 dark:text-slate-400 mb-0.5">{{ t.twilioAuthToken }}</label>
                         <input type="password" [ngModel]="twilioToken"
                           (ngModelChange)="onTwilioTokenInputEdit($event)"
                           [ngModelOptions]="{ standalone: true }" placeholder="••••••••"
@@ -471,19 +470,19 @@
                         "
                         class="w-full py-2 rounded-md bg-[#1B2559] dark:bg-white hover:bg-[#131a3f] dark:hover:bg-slate-100 text-white dark:text-[#000000] text-[10px] font-semibold disabled:opacity-50 flex items-center justify-center gap-1">
                         @if (isValidatingTwilio) {
-                        Validando…
+                        {{ t.validating }}
                         } @else if (
                         twilioSidValidationStatus === "success" &&
                         twilioTokenValidationStatus === "success"
                         ) {
-                        Validado
+                        {{ t.editAgentValidated }}
                         } @else if (
                         twilioSidValidationStatus === "error" ||
                         twilioTokenValidationStatus === "error"
                         ) {
-                        Error
+                        {{ t.statusError }}
                         } @else {
-                        Validar
+                        {{ t.editAgentValidate }}
                         }
                       </button>
                       @if (
@@ -508,7 +507,7 @@
               type="button"
               class="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-left text-gray-900 dark:text-white"
               (click)="setActiveMainSection('call')">
-              <span>Prueba de agente</span>
+              <span>{{ t.testAgent }}</span>
               <svg
                 class="w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform duration-200 flex-shrink-0"
                 [ngClass]="{ 'rotate-180': callSectionOpen }"
@@ -559,7 +558,7 @@
                   } @else {
                   <div class="w-full flex justify-end">
                     <span class="text-[10px] font-medium text-gray-500 dark:text-gray-400">
-                      Prueba cómo suena este agente
+                      {{ t.editAgentTryAgentSound }}
                     </span>
                   </div>
                   }
@@ -569,7 +568,7 @@
                             'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400': voiceTest.remainingSeconds() <= 30,
                             'bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300': voiceTest.remainingSeconds() > 30
                           }">
-                    {{ formatVoiceTestTime(voiceTest.remainingSeconds()) }} restantes
+                    {{ formatVoiceTestTime(voiceTest.remainingSeconds()) }} {{ t.remainingTime }}
                   </span>
                   }
                 </div>
@@ -598,7 +597,7 @@
                       <path
                         d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
                     </svg>
-                    {{ isVoiceTestIdle ? 'Probar llamada' : 'Probar de nuevo' }}
+                    {{ isVoiceTestIdle ? t.testCall : t.tryAgainLabel }}
                   </button>
                   }
 
@@ -609,7 +608,7 @@
                       <path
                         d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.14 8.91 7.33 7 12 7s8.86 1.91 11.71 4.72c.38.37.38.98 0 1.36l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.11-.7-.28a11.27 11.27 0 00-2.67-1.85.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z" />
                     </svg>
-                    Terminar
+                    {{ t.endCallLabel }}
                   </button>
                   }
                 </div>
@@ -645,7 +644,7 @@
                         'text-gray-500 dark:text-gray-400': !voiceTest.isMuted(),
                         'text-red-500 dark:text-red-400': voiceTest.isMuted()
                       }">
-                  {{ voiceTest.isMuted() ? 'Silenciado' : 'Micrófono activo' }}
+                  {{ voiceTest.isMuted() ? t.mutedLabel : t.editAgentMicActive }}
                 </span>
               </button>
             </div>
@@ -655,7 +654,7 @@
             <div class="w-full z-10 mt-1">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="relative min-w-0" data-voice-test-lang-dropdown>
-                  <label class="block text-[11px] text-gray-600 dark:text-gray-400 mb-1.5">Idioma</label>
+                  <label class="block text-[11px] text-gray-600 dark:text-gray-400 mb-1.5">{{ t.language }}</label>
                   <div
                     class="relative rounded-lg border border-gray-300 dark:border-gray-700/50 bg-gray-50 dark:bg-[#1A1A1A] p-1">
                     <button type="button" (click)="toggleVoiceTestLangMenu($event)"
@@ -695,7 +694,7 @@
                 </div>
 
                 <div class="relative min-w-0" data-voice-test-voice-dropdown>
-                  <label class="block text-[11px] text-gray-600 dark:text-gray-400 mb-1.5">Voz</label>
+                  <label class="block text-[11px] text-gray-600 dark:text-gray-400 mb-1.5">{{ t.editAgentVoiceLabel }}</label>
                   <div
                     class="relative rounded-lg border border-gray-300 dark:border-gray-700/50 bg-gray-50 dark:bg-[#1A1A1A] p-1">
                     <button type="button" (click)="toggleVoiceTestVoiceMenu($event)"
@@ -747,7 +746,7 @@
           type="button"
           class="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-left text-gray-900 dark:text-white"
           (click)="setActiveMainSection('voice')">
-          <span>Parámetros de voz</span>
+          <span>{{ t.editAgentVoiceParamsSection }}</span>
           <svg
             class="w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform duration-200 flex-shrink-0"
             [ngClass]="{ 'rotate-180': voiceSectionOpen }"
@@ -766,7 +765,7 @@
 
           <div class="flex flex-col gap-3 mb-3">
             <div class="space-y-2">
-              <label class="block text-[11px] text-gray-600 dark:text-gray-400">Estabilidad</label>
+              <label class="block text-[11px] text-gray-600 dark:text-gray-400">{{ t.editAgentStability }}</label>
               <div class="relative">
                 <input type="number" formControlName="stability" step="0.01" min="0" max="1"
                   class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
@@ -792,7 +791,7 @@
             </div>
 
             <div class="space-y-2">
-              <label class="block text-[11px] text-gray-600 dark:text-gray-400">Similitud</label>
+              <label class="block text-[11px] text-gray-600 dark:text-gray-400">{{ t.editAgentSimilarity }}</label>
               <div class="relative">
                 <input type="number" formControlName="similarity" step="0.01" min="0" max="1"
                   class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
@@ -818,7 +817,7 @@
             </div>
 
             <div class="space-y-2">
-              <label class="block text-[11px] text-gray-600 dark:text-gray-400">Estilo</label>
+              <label class="block text-[11px] text-gray-600 dark:text-gray-400">{{ t.editAgentStyle }}</label>
               <div class="relative">
                 <input type="number" formControlName="style" step="0.01" min="0" max="1"
                   class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
@@ -844,7 +843,7 @@
             </div>
 
             <div class="space-y-2">
-              <label class="block text-[11px] text-gray-600 dark:text-gray-400">Velocidad</label>
+              <label class="block text-[11px] text-gray-600 dark:text-gray-400">{{ t.editAgentSpeed }}</label>
               <div class="relative">
                 <input type="number" formControlName="speed" step="0.01" min="0.25" max="4"
                   class="w-full px-3 py-2 pr-20 bg-gray-50 dark:bg-[#1A1A1A] border border-gray-300 dark:border-gray-700/50 rounded-lg text-gray-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50" />
@@ -884,7 +883,7 @@
         <div class="flex justify-end gap-2 mt-8 3xl:mt-10 3xl:pb-6 4xl:mt-12 4xl:pb-8">
           <button type="button" (click)="goBack()"
         class="px-4 py-1.5 bg-white dark:bg-[#252525] text-gray-900 dark:text-white font-medium rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-[#2A2A2A] transition-all duration-200 text-xs">
-        Cancelar
+        {{ t.cancel }}
       </button>
           <button type="button" (click)="onSubmit()" [disabled]="
             editForm.invalid ||
@@ -900,7 +899,7 @@
           </path>
         </svg>
         }
-          {{ isLoading ? "Guardando..." : "Guardar cambios" }}
+          {{ isLoading ? t.editAgentSaving : t.saveChanges }}
         </button>
       </div>
       </div>
@@ -912,16 +911,18 @@
           class="relative rounded-xl 4xl:rounded-2xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10 bg-gray-50 dark:bg-slate-900/30 overflow-hidden">
           @if (shopifyIntegrationLocked) {
             <div
-              class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 rounded-xl bg-white/88 dark:bg-zinc-900/92 backdrop-blur-[2px] px-4 py-5 text-center pointer-events-auto"
+              class="absolute inset-0 z-20 flex flex-row flex-nowrap items-center justify-center gap-1.5 rounded-xl bg-white/88 dark:bg-zinc-900/92 backdrop-blur-[2px] px-2 py-2 text-center pointer-events-auto"
               (click)="$event.stopPropagation()"
             >
-              <p class="text-[11px] sm:text-xs font-semibold text-[#0F172A] dark:text-slate-100 max-w-[16rem] leading-snug">
+              <p
+                class="font-semibold text-[#0F172A] dark:text-slate-100 text-[9px] sm:text-[10px] whitespace-nowrap leading-none"
+              >
                 {{ t.shopifyIntegrationLockedMessage }}
               </p>
               <button
                 type="button"
                 (click)="openShopifyLockedUpgradePlan()"
-                class="px-3 py-2 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] text-[10px] sm:text-xs font-semibold transition-colors"
+                class="px-2 py-1 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] font-semibold transition-colors whitespace-nowrap text-[9px] sm:text-[10px] leading-none"
               >
                 {{ t.upgradePlan }}
               </button>
@@ -946,7 +947,7 @@
                 <span class="text-[10px] text-gray-800 dark:text-gray-200 truncate flex-1 min-w-0">{{ agentShopifyDomain }}</span>
                 <button type="button" (click)="unlinkShopify()"
                   class="p-0.5 text-gray-400 hover:text-red-500 transition-colors shrink-0 opacity-70 group-hover/shopify:opacity-100"
-                  title="Desvincular tienda">
+                  [attr.title]="t.editAgentUnlinkStoreTitle">
                   <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                       d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -959,11 +960,11 @@
           <div
             class="flex flex-row items-center gap-2 shrink-0 w-full sm:w-auto justify-between sm:justify-end sm:pl-0 pt-2.5 mt-0.5 border-t border-gray-800/30 dark:border-gray-200/10 sm:pt-0 sm:mt-0 sm:border-t-0">
             <span class="text-[10px] font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap">
-              {{ agentShopifyDomain ? "Conectado" : "No conectado" }}
+              {{ agentShopifyDomain ? t.connected : t.editAgentNotConnected }}
             </span>
             <button type="button" (click)="goToShopifyOnboarding()"
               class="px-2.5 py-1 4xl:px-3.5 4xl:py-1.5 rounded-md 4xl:rounded-lg text-[10px] sm:text-xs 4xl:text-sm font-semibold transition-colors whitespace-nowrap bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] dark:hover:bg-slate-100">
-              {{ agentShopifyDomain ? "Añadir nueva" : "Conectar" }}
+              {{ agentShopifyDomain ? t.shopifyConnectAnotherAccount : t.connect }}
             </button>
           </div>
           </div>
@@ -992,7 +993,7 @@
                 <span class="text-gray-400 font-normal">…</span>
                 } @else if (makeWebhookActionsCount !== null) {
                 {{ makeWebhookActionsCount }}
-                {{ makeWebhookActionsCount === 1 ? "acción" : "acciones" }}
+                {{ makeWebhookActionsCount === 1 ? t.editAgentActionSingle : t.editAgentActionPlural }}
                 } @else {
                 —
                 }
@@ -1010,7 +1011,7 @@
       <div class="w-full max-w-full lg:max-w-[720px] xl:max-w-[1300px] 3xl:max-w-[100rem] 4xl:max-w-[118rem] space-y-6 4xl:space-y-8">
       <div class="rounded-xl 4xl:rounded-2xl">
         <h2 class="text-sm 4xl:text-base font-semibold text-gray-900 dark:text-white mb-3 4xl:mb-4">
-          Fuentes de Conocimiento
+          {{ t.editAgentKnowledgeSourcesTitle }}
         </h2>
 
         @if (isLoadingKnowledgeSources) {
@@ -1022,7 +1023,7 @@
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
             </path>
           </svg>
-          <span class="ml-2 text-gray-600 dark:text-gray-300">Cargando fuentes de conocimiento...</span>
+          <span class="ml-2 text-gray-600 dark:text-gray-300">{{ t.loadingKnowledgeSources }}</span>
         </div>
         } @else if (agentKnowledgeSources.length === 0) {
         <div class="text-center py-8">
@@ -1031,11 +1032,10 @@
               iconClass="w-12 h-12 mx-auto mb-2 block text-gray-500 dark:text-slate-300" />
           </div>
           <p class="text-gray-600 dark:text-gray-300">
-            Este agente no tiene fuentes de conocimiento configuradas.
+            {{ t.editAgentNoKnowledgeSourcesTitle }}
           </p>
           <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Las fuentes de conocimiento ayudan al agente a proporcionar
-            respuestas más precisas.
+            {{ t.editAgentNoKnowledgeSourcesDescription }}
           </p>
         </div>
         } @else {
@@ -1048,23 +1048,23 @@
                 <tr>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
-                    Nombre
+                    {{ t.name }}
                   </th>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
-                    Tipo
+                    {{ t.typeColumn }}
                   </th>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
-                    Estado
+                    {{ t.statusColumn }}
                   </th>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
-                    Fecha
+                    {{ t.dateColumn }}
                   </th>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-right text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
-                    Acciones
+                    {{ t.actionsColumn }}
                   </th>
                 </tr>
               </thead>
@@ -1074,7 +1074,7 @@
                   <td
                     class="px-3 py-2 3xl:px-4 3xl:py-2 whitespace-nowrap text-xs 3xl:text-sm font-medium text-gray-900 dark:text-white align-middle">
                     <div class="flex items-center h-full">
-                      <span class="truncate max-w-[150px] sm:max-w-xs">{{ source.name || 'Sin nombre' }}</span>
+                      <span class="truncate max-w-[150px] sm:max-w-xs">{{ source.name || t.editAgentUnnamed }}</span>
                     </div>
                   </td>
                   <td
@@ -1088,13 +1088,13 @@
                       class="flex items-center h-full text-[10px] 3xl:text-[11px] font-medium text-gray-700 dark:text-slate-300">
                       @switch (source.status) {
                       @case ("completed") {
-                      Completada
+                      {{ t.statusCompleted }}
                       }
                       @case ("processing") {
-                      Procesando
+                      {{ t.statusProcessing }}
                       }
                       @case ("failed") {
-                      Fallida
+                      {{ t.statusFailed }}
                       }
                       @default {
                       {{ source.status }}
@@ -1128,7 +1128,7 @@
                       }
                       <button type="button"
                         class="p-1.5 rounded-md text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                        title="Ver documento">
+                        [attr.title]="t.downloadKnowledgeFile">
                         <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none"
                           xmlns="http://www.w3.org/2000/svg">
                           <path fill-rule="evenodd" clip-rule="evenodd"
@@ -1139,7 +1139,7 @@
                       <button type="button" (click)="removeKnowledgeSourceFromAgent(source.id)"
                         [disabled]="isLoadingKnowledgeSources"
                         class="p-1.5 rounded-md text-gray-400 hover:text-red-600 dark:hover:text-red-400  transition-colors disabled:opacity-50"
-                        title="Eliminar fuente de conocimiento">
+                        [attr.title]="t.deleteDocument">
                         <svg class="w-4 h-4 3xl:w-5 3xl:h-5" viewBox="0 0 24 24" fill="none"
                           xmlns="http://www.w3.org/2000/svg">
                           <path
@@ -1169,7 +1169,7 @@
       <div class="space-y-6 4xl:space-y-8">
       <div class="rounded-xl 4xl:rounded-2xl">
         <h2 class="text-sm 4xl:text-base font-semibold text-gray-900 dark:text-white mb-3 4xl:mb-4">
-          Añadir Fuentes de Conocimiento
+          {{ t.editAgentAddKnowledgeSourcesTitle }}
         </h2>
 
         <!-- Error Display -->
@@ -1206,8 +1206,8 @@
               <path
                 d="m33.24 16h-7.84a4.67 4.67 0 0 1 -4.7-4.6v-7.8a1.42 1.42 0 0 0 -1.34-1.5h-12.56a4.67 4.67 0 0 0 -4.7 4.6v29.4a4.6 4.6 0 0 0 4.62 4.6h17.88v-.1a15.92 15.92 0 0 1 10.2-14.9v-8.1a1.58 1.58 0 0 0 -1.56-1.6zm-20.75 7.65a2.93 2.93 0 0 1 -1.89.56h-1.6v2.71h-1.51v-7.55h3.24a2.64 2.64 0 0 1 1.76.63 2.3 2.3 0 0 1 .66 1.8 2.35 2.35 0 0 1 -.66 1.85zm8.66 1.9a2.73 2.73 0 0 1 -2.53 1.45h-3.26v-7.63h3.26a3.85 3.85 0 0 1 1.17.17 2.49 2.49 0 0 1 1.28.95 3.43 3.43 0 0 1 .54 1.22 5.6 5.6 0 0 1 .14 1.29 5 5 0 0 1 -.6 2.55zm7.92-4.84h-3.81v1.74h3.34v1.31h-3.34v3.16h-1.57v-7.54h5.38z" />
             </svg>
-            <span class="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">Subir PDF</span>
-            <span class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400">Máx. 10MB</span>
+            <span class="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">{{ t.knowledgeBaseAddPdf }}</span>
+            <span class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400">{{ t.editAgentPdfMaxLabel }}</span>
           </button>
 
           <button type="button" (click)="selectKnowledgeSource('web')" [disabled]="isLoadingKnowledgeSources"
@@ -1255,8 +1255,8 @@
                 </g>
               </g>
             </svg>
-            <span class="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">Añadir URL</span>
-            <span class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400">Página web</span>
+            <span class="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">{{ t.knowledgeBaseAddWeb }}</span>
+            <span class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400">{{ t.editAgentWebPage }}</span>
           </button>
 
           <button type="button" (click)="selectKnowledgeSource('text')" [disabled]="isLoadingKnowledgeSources"
@@ -1270,8 +1270,8 @@
                 </g>
               </g>
             </svg>
-            <span class="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">Añadir Texto</span>
-            <span class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400">Manual</span>
+            <span class="text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">{{ t.knowledgeBaseAddText }}</span>
+            <span class="text-[11px] md:text-xs text-gray-500 dark:text-gray-400">{{ t.manualTextDefault }}</span>
           </button>
         </div>
 
@@ -1285,13 +1285,13 @@
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
             </path>
           </svg>
-          <span class="ml-2 text-gray-600 dark:text-gray-300">Cargando fuentes disponibles...</span>
+          <span class="ml-2 text-gray-600 dark:text-gray-300">{{ t.editAgentLoadingAvailableSources }}</span>
         </div>
         } @else if (availableKnowledgeSources.length > 0) {
         <div class="mt-4 4xl:mt-5">
           <div class="mb-3 4xl:mb-4">
             <h3 class="text-sm 4xl:text-base font-semibold text-gray-900 dark:text-white">
-              Fuentes Disponibles
+              {{ t.editAgentAvailableSources }}
             </h3>
             <p
               class="mt-1.5 flex items-center gap-1.5 text-[10px] leading-snug text-gray-500 dark:text-gray-400 lg:hidden"
@@ -1300,7 +1300,7 @@
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
-              <span>Desliza hacia la derecha para añadir la fuente</span>
+              <span>{{ t.editAgentSwipeToAddSource }}</span>
             </p>
           </div>
           <div
@@ -1311,23 +1311,23 @@
                 <tr>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
-                    Nombre
+                    {{ t.name }}
                   </th>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
-                    Tipo
+                    {{ t.typeColumn }}
                   </th>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
-                    Estado
+                    {{ t.statusColumn }}
                   </th>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-left text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
-                    Fecha
+                    {{ t.dateColumn }}
                   </th>
                   <th
                     class="px-3 py-2 3xl:px-4 3xl:py-2 text-right text-[10px] 3xl:text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide align-middle">
-                    Acciones
+                    {{ t.actionsColumn }}
                   </th>
                 </tr>
               </thead>
@@ -1351,13 +1351,13 @@
                       class="flex items-center h-full text-[10px] 3xl:text-[11px] font-medium text-gray-700 dark:text-slate-300">
                       @switch (source.status) {
                       @case ("completed") {
-                      Completada
+                      {{ t.statusCompleted }}
                       }
                       @case ("processing") {
-                      Procesando
+                      {{ t.statusProcessing }}
                       }
                       @case ("failed") {
-                      Fallida
+                      {{ t.statusFailed }}
                       }
                       @default {
                       {{ source.status }}
@@ -1376,7 +1376,7 @@
                     <button type="button" (click)="addKnowledgeSourceToAgent(source)"
                       [disabled]="isLoadingKnowledgeSources"
                       class="p-1.5 text-gray-500 hover:text-gray-700 dark:text-slate-300 dark:hover:text-slate-100 transition-colors disabled:opacity-50"
-                      title="Añadir fuente">
+                      [attr.title]="t.editAgentAddSourceTitle">
                       <svg class="w-5 h-5 3xl:w-6 3xl:h-6" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -1402,6 +1402,7 @@
       </div>
     </div>
     }
+    </div>
   </div>
 </div>
 
@@ -1438,10 +1439,10 @@
     </header>
     <div class="flex-1 overflow-y-auto px-4 py-3 4xl:px-5 4xl:py-4 flex flex-col gap-3 4xl:gap-3.5 min-h-0">
       @if (makeSidebarLoading) {
-      <p class="text-xs 4xl:text-sm text-gray-500 dark:text-gray-400">Cargando acciones…</p>
+      <p class="text-xs 4xl:text-sm text-gray-500 dark:text-gray-400">{{ t.editAgentLoadingActions }}</p>
       } @else if (makeSidebarSavedActions.length > 0) {
       <div>
-        <p class="text-[10px] 4xl:text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-2 4xl:mb-2.5">Acciones configuradas</p>
+        <p class="text-[10px] 4xl:text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-2 4xl:mb-2.5">{{ t.editAgentConfiguredActions }}</p>
         <ul
           class="divide-y divide-gray-200 dark:divide-[#2C2C2C] rounded-xl border border-gray-200 dark:border-[#2C2C2C] max-h-[9rem] 4xl:max-h-[9.5rem] min-h-0 overflow-y-auto overflow-x-hidden overscroll-y-contain bg-white dark:bg-[#111113] [scrollbar-width:thin]">
           @for (a of makeSidebarSavedActions; track a.id) {
@@ -1492,36 +1493,36 @@
       }
 
       <div class="space-y-2 4xl:space-y-2.5">
-        <p class="text-[9px] 4xl:text-[11px] font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Nueva acción</p>
+        <p class="text-[9px] 4xl:text-[11px] font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">{{ t.editAgentNewAction }}</p>
         <div>
-          <label for="edit-make-action-name" class="block text-[10px] 4xl:text-xs font-medium text-gray-700 dark:text-gray-200 mb-0.5 4xl:mb-1">Nombre de la acción *</label>
+          <label for="edit-make-action-name" class="block text-[10px] 4xl:text-xs font-medium text-gray-700 dark:text-gray-200 mb-0.5 4xl:mb-1">{{ t.editAgentActionNameLabel }}</label>
           <input
             id="edit-make-action-name"
             type="text"
             [(ngModel)]="makeSidebarForm.name"
             [ngModelOptions]="{ standalone: true }"
-            placeholder="Ej. Avisar equipo ventas"
+            [placeholder]="t.editAgentActionNamePlaceholder"
             class="w-full h-8 4xl:h-9 px-2.5 4xl:px-3 text-[11px] 4xl:text-sm leading-tight border border-gray-300 dark:border-gray-700/50 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] 4xl:placeholder:text-sm dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none"
             autocomplete="off" />
         </div>
         <div>
-          <label for="edit-make-action-desc" class="block text-[10px] 4xl:text-xs font-medium text-gray-700 dark:text-gray-200 mb-0.5 4xl:mb-1">Descripción (opcional)</label>
+          <label for="edit-make-action-desc" class="block text-[10px] 4xl:text-xs font-medium text-gray-700 dark:text-gray-200 mb-0.5 4xl:mb-1">{{ t.editAgentActionDescriptionLabel }}</label>
           <textarea
             id="edit-make-action-desc"
             rows="5"
             [(ngModel)]="makeSidebarForm.description"
             [ngModelOptions]="{ standalone: true }"
-            placeholder="Cuándo debe usarla la IA"
+            [placeholder]="t.editAgentActionDescriptionPlaceholder"
             class="make-action-edit-textarea w-full min-h-[6.5rem] 4xl:min-h-[7rem] px-2.5 4xl:px-3 py-2 4xl:py-2.5 text-[11px] 4xl:text-sm leading-6 border border-gray-300 dark:border-gray-700/50 rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] 4xl:placeholder:text-sm dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none resize-y"></textarea>
         </div>
         <div>
-          <label for="edit-make-webhook" class="block text-[10px] 4xl:text-xs font-medium text-gray-700 dark:text-gray-200 mb-0.5 4xl:mb-1">URL del webhook (HTTPS) *</label>
+          <label for="edit-make-webhook" class="block text-[10px] 4xl:text-xs font-medium text-gray-700 dark:text-gray-200 mb-0.5 4xl:mb-1">{{ t.editAgentWebhookUrlLabel }}</label>
           <input
             id="edit-make-webhook"
             type="url"
             [(ngModel)]="makeSidebarForm.serverUrl"
             [ngModelOptions]="{ standalone: true }"
-            placeholder="https://hook.eu2.make.com/..."
+            [placeholder]="t.editAgentWebhookPlaceholder"
             class="w-full h-8 4xl:h-9 px-2.5 4xl:px-3 text-[11px] 4xl:text-sm leading-tight border border-gray-300 dark:border-gray-700/50 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] 4xl:placeholder:text-sm dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none"
             autocomplete="off" />
         </div>
@@ -1534,9 +1535,9 @@
         [disabled]="!isMakeSidebarFormValid() || makeSidebarSaving || agentId == null"
         class="w-full px-3 py-2 4xl:px-3.5 4xl:py-2.5 text-[11px] 4xl:text-sm rounded-md bg-black text-white dark:bg-white dark:text-[#000000] font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
         @if (makeSidebarSaving) {
-        <span>Guardando…</span>
+        <span>{{ t.editAgentSaving }}</span>
         } @else {
-        <span>Guardar acción</span>
+        <span>{{ t.editAgentSaveAction }}</span>
         }
       </button>
     </div>
@@ -1555,7 +1556,7 @@
     class="w-full max-w-lg rounded-xl bg-white dark:bg-[#0f0f11] shadow-2xl border border-gray-200 dark:border-[#2C2C2C] overflow-hidden flex flex-col max-h-[min(90vh,640px)]"
     (click)="$event.stopPropagation()">
     <header class="flex items-center justify-between gap-3 px-4 py-3 flex-shrink-0">
-      <h3 id="make-action-detail-title" class="text-base font-semibold text-gray-900 dark:text-white m-0 truncate min-w-0">Editar acción</h3>
+      <h3 id="make-action-detail-title" class="text-base font-semibold text-gray-900 dark:text-white m-0 truncate min-w-0">{{ t.editAgentEditActionTitle }}</h3>
       <button
         type="button"
         (click)="closeMakeActionDetailModal()"
@@ -1571,34 +1572,34 @@
       <p class="text-xs text-red-600 dark:text-red-400">{{ makeActionDetailSaveError }}</p>
       }
       <div>
-        <label for="make-action-edit-name" class="block text-[10px] font-medium text-gray-700 dark:text-gray-200 mb-0.5">Nombre de la acción *</label>
+        <label for="make-action-edit-name" class="block text-[10px] font-medium text-gray-700 dark:text-gray-200 mb-0.5">{{ t.editAgentActionNameLabel }}</label>
         <input
           id="make-action-edit-name"
           type="text"
           [(ngModel)]="makeActionDetailEditForm.name"
           [ngModelOptions]="{ standalone: true }"
-          placeholder="Ej. Avisar equipo ventas"
+          [placeholder]="t.editAgentActionNamePlaceholder"
           class="w-full h-8 px-2.5 text-[11px] leading-tight border border-gray-300 dark:border-gray-700/50 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none"
           autocomplete="off" />
       </div>
       <div>
-        <label for="make-action-edit-desc" class="block text-[10px] font-medium text-gray-700 dark:text-gray-200 mb-0.5">Descripción (opcional)</label>
+        <label for="make-action-edit-desc" class="block text-[10px] font-medium text-gray-700 dark:text-gray-200 mb-0.5">{{ t.editAgentActionDescriptionLabel }}</label>
         <textarea
           id="make-action-edit-desc"
           rows="6"
           [(ngModel)]="makeActionDetailEditForm.description"
           [ngModelOptions]="{ standalone: true }"
-          placeholder="Cuándo debe usarla la IA"
+          [placeholder]="t.editAgentActionDescriptionPlaceholder"
           class="make-action-edit-textarea w-full min-h-[9.5rem] px-2.5 py-2.5 text-[11px] leading-6 border border-gray-300 dark:border-gray-700/50 rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none resize-y"></textarea>
       </div>
       <div>
-        <label for="make-action-edit-url" class="block text-[10px] font-medium text-gray-700 dark:text-gray-200 mb-0.5">URL del webhook (HTTPS) *</label>
+        <label for="make-action-edit-url" class="block text-[10px] font-medium text-gray-700 dark:text-gray-200 mb-0.5">{{ t.editAgentWebhookUrlLabel }}</label>
         <input
           id="make-action-edit-url"
           type="url"
           [(ngModel)]="makeActionDetailEditForm.serverUrl"
           [ngModelOptions]="{ standalone: true }"
-          placeholder="https://hook.eu2.make.com/..."
+          [placeholder]="t.editAgentWebhookPlaceholder"
           class="w-full h-8 px-2.5 text-[11px] leading-tight border border-gray-300 dark:border-gray-700/50 dark:bg-transparent rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-[11px] dark:placeholder:text-gray-500 focus:ring-1 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent outline-none font-mono"
           autocomplete="off" />
       </div>
@@ -1608,7 +1609,7 @@
         type="button"
         (click)="closeMakeActionDetailModal()"
         class="px-3 py-2 text-[11px] rounded-md border border-gray-300 dark:border-gray-700/50 text-gray-700 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-[#252525] transition-colors">
-        Cancelar
+        {{ t.cancel }}
       </button>
       <button
         type="button"
@@ -1616,9 +1617,9 @@
         [disabled]="!isMakeActionDetailFormValid() || makeActionDetailSaving || agentId == null"
         class="px-3 py-2 text-[11px] rounded-md bg-black text-white dark:bg-white dark:text-[#000000] font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
         @if (makeActionDetailSaving) {
-        <span>Guardando…</span>
+        <span>{{ t.editAgentSaving }}</span>
         } @else {
-        <span>Guardar cambios</span>
+        <span>{{ t.saveChanges }}</span>
         }
       </button>
     </div>
@@ -1639,7 +1640,7 @@
       [ngModel]="agentInstructionControl.value ?? ''"
       (ngModelChange)="onExpandedSystemMessageModelChange($event)"
       [ngModelOptions]="{ standalone: true }"
-      placeholder="Eres un asistente útil."
+      [placeholder]="t.editAgentSystemMessagePlaceholder"
       class="w-full px-3 3xl:px-6 py-4 3xl:py-6 text-xs 3xl:text-base border border-gray-300 dark:border-slate-600 bg-white dark:bg-[#111113] rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:outline-none focus:border-gray-300 dark:focus:border-slate-600 resize-none min-h-[400px] 3xl:min-h-[450px]"></textarea>
   </div>
 </div>

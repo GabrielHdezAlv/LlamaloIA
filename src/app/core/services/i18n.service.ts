@@ -579,6 +579,11 @@ export interface Translations {
   addTextTitle: string;
   addTextDocument: string;
   manualTextDefault: string;
+  textModalSourceNameLabel: string;
+  textModalSourceNamePlaceholder: string;
+  textModalContentLabel: string;
+  textModalCharactersSuffix: string;
+  textModalContentPlaceholder: string;
   noDocumentsTitle: string;
   noDocumentsDescription: string;
   knowledgeBaseLoadError: string;
@@ -752,6 +757,67 @@ export interface Translations {
   voiceTestStartErrorPrefix: string;
   voiceTestUnknownError: string;
   voiceTestWsConnectFailed: string;
+
+  // Edit agent page
+  editAgentMainTab: string;
+  editAgentAgentNameSection: string;
+  editAgentFirstMessageSection: string;
+  editAgentSystemMessageSection: string;
+  editAgentCompanyNamePlaceholder: string;
+  editAgentSystemMessageToggleAria: string;
+  editAgentSystemMessagePlaceholder: string;
+  editAgentTwilioConnectedAccount: string;
+  editAgentTwilioValidatedAccount: string;
+  editAgentTwilioAssignedAccountPrefix: string;
+  editAgentSavingOnAgent: string;
+  editAgentTwilioAccountIdLabel: string;
+  editAgentValidate: string;
+  editAgentValidated: string;
+  editAgentTryAgentSound: string;
+  editAgentMicActive: string;
+  editAgentVoiceLabel: string;
+  editAgentVoiceParamsSection: string;
+  editAgentStability: string;
+  editAgentSimilarity: string;
+  editAgentStyle: string;
+  editAgentSpeed: string;
+  editAgentUnlinkStoreTitle: string;
+  editAgentNotConnected: string;
+  editAgentActionSingle: string;
+  editAgentActionPlural: string;
+  editAgentKnowledgeSourcesTitle: string;
+  editAgentNoKnowledgeSourcesTitle: string;
+  editAgentNoKnowledgeSourcesDescription: string;
+  editAgentAddKnowledgeSourcesTitle: string;
+  editAgentUnnamed: string;
+  editAgentPdfMaxLabel: string;
+  editAgentWebPage: string;
+  editAgentLoadingAvailableSources: string;
+  editAgentAvailableSources: string;
+  editAgentSwipeToAddSource: string;
+  editAgentAddSourceTitle: string;
+  editAgentLoadingActions: string;
+  editAgentConfiguredActions: string;
+  editAgentNewAction: string;
+  editAgentActionNameLabel: string;
+  editAgentActionNamePlaceholder: string;
+  editAgentActionDescriptionLabel: string;
+  editAgentActionDescriptionPlaceholder: string;
+  editAgentWebhookUrlLabel: string;
+  editAgentWebhookPlaceholder: string;
+  editAgentSaveAction: string;
+  editAgentEditActionTitle: string;
+  editAgentSaving: string;
+  editAgentFieldRequired: string;
+  editAgentFieldMin: string;
+  editAgentFieldMax: string;
+  knowledgeWebSourceInvalidUrl: string;
+  knowledgeTextSourceError: string;
+  knowledgeSourceLinkError: string;
+  knowledgeSourceUnlinkedSuccess: string;
+  knowledgeSourceUnlinkNotLinkedError: string;
+  knowledgeSourceUnlinkAgentError: string;
+  knowledgeSourceUnlinkConnectionError: string;
 
   // Account page extra
   acceptMarketing: string;
@@ -1540,6 +1606,12 @@ export class I18nService {
       addTextTitle: 'Añadir texto manual',
       addTextDocument: 'Añadir documento',
       manualTextDefault: 'Texto manual',
+      textModalSourceNameLabel: 'Nombre de la fuente',
+      textModalSourceNamePlaceholder: 'Ej. Instrucciones del cliente',
+      textModalContentLabel: 'Contenido del texto',
+      textModalCharactersSuffix: 'caracteres',
+      textModalContentPlaceholder:
+        'Escribe o pega aquí la información detallada que quieras añadir a la base de conocimiento...',
       noDocumentsTitle: 'No hay documentos',
       noDocumentsDescription: 'Comienza agregando tu primer documento para crear la base de conocimientos de tu agente.',
       knowledgeBaseLoadError: 'No se pudieron cargar los documentos. Por favor, intenta de nuevo.',
@@ -1686,6 +1758,70 @@ export class I18nService {
       microphoneLabel: 'Micrófono',
       endCallLabel: 'Terminar',
       tryAgainLabel: 'Probar de nuevo',
+      editAgentMainTab: 'Principal',
+      editAgentAgentNameSection: 'Nombre del agente',
+      editAgentFirstMessageSection: 'Primer mensaje',
+      editAgentSystemMessageSection: 'Mensaje del sistema',
+      editAgentCompanyNamePlaceholder: 'Nombre de la empresa',
+      editAgentSystemMessageToggleAria: 'Expandir o contraer mensaje del sistema',
+      editAgentSystemMessagePlaceholder: 'Eres un asistente útil.',
+      editAgentTwilioConnectedAccount: 'Cuenta conectada',
+      editAgentTwilioValidatedAccount: 'Cuenta validada',
+      editAgentTwilioAssignedAccountPrefix: 'Cuenta asignada al agente · ID',
+      editAgentSavingOnAgent: 'Guardando en el agente...',
+      editAgentTwilioAccountIdLabel: 'Cuenta ID:',
+      editAgentValidate: 'Validar',
+      editAgentValidated: 'Validado',
+      editAgentTryAgentSound: 'Prueba cómo suena este agente',
+      editAgentMicActive: 'Micrófono activo',
+      editAgentVoiceLabel: 'Voz',
+      editAgentVoiceParamsSection: 'Parámetros de voz',
+      editAgentStability: 'Estabilidad',
+      editAgentSimilarity: 'Similitud',
+      editAgentStyle: 'Estilo',
+      editAgentSpeed: 'Velocidad',
+      editAgentUnlinkStoreTitle: 'Desvincular tienda',
+      editAgentNotConnected: 'No conectado',
+      editAgentActionSingle: 'acción',
+      editAgentActionPlural: 'acciones',
+      editAgentKnowledgeSourcesTitle: 'Fuentes de conocimiento',
+      editAgentNoKnowledgeSourcesTitle:
+        'Este agente no tiene fuentes de conocimiento configuradas.',
+      editAgentNoKnowledgeSourcesDescription:
+        'Las fuentes de conocimiento ayudan al agente a proporcionar respuestas más precisas.',
+      editAgentAddKnowledgeSourcesTitle: 'Añadir fuentes de conocimiento',
+      editAgentUnnamed: 'Sin nombre',
+      editAgentPdfMaxLabel: 'Máx. 10MB',
+      editAgentWebPage: 'Página web',
+      editAgentLoadingAvailableSources: 'Cargando fuentes disponibles...',
+      editAgentAvailableSources: 'Fuentes disponibles',
+      editAgentSwipeToAddSource: 'Desliza hacia la derecha para añadir la fuente',
+      editAgentAddSourceTitle: 'Añadir fuente',
+      editAgentLoadingActions: 'Cargando acciones...',
+      editAgentConfiguredActions: 'Acciones configuradas',
+      editAgentNewAction: 'Nueva acción',
+      editAgentActionNameLabel: 'Nombre de la acción *',
+      editAgentActionNamePlaceholder: 'Ej. Avisar equipo ventas',
+      editAgentActionDescriptionLabel: 'Descripción (opcional)',
+      editAgentActionDescriptionPlaceholder: 'Cuándo debe usarla la IA',
+      editAgentWebhookUrlLabel: 'URL del webhook (HTTPS) *',
+      editAgentWebhookPlaceholder: 'https://hook.eu2.make.com/...',
+      editAgentSaveAction: 'Guardar acción',
+      editAgentEditActionTitle: 'Editar acción',
+      editAgentSaving: 'Guardando...',
+      editAgentFieldRequired: 'Este campo es obligatorio',
+      editAgentFieldMin: 'El valor mínimo es',
+      editAgentFieldMax: 'El valor máximo es',
+      knowledgeWebSourceInvalidUrl: 'URL inválida o no accesible',
+      knowledgeTextSourceError: 'Error al crear la fuente de texto',
+      knowledgeSourceLinkError: 'Error al vincular la fuente de conocimiento al agente',
+      knowledgeSourceUnlinkedSuccess: 'Fuente desvinculada exitosamente',
+      knowledgeSourceUnlinkNotLinkedError:
+        'La fuente de conocimiento no estaba vinculada a este agente',
+      knowledgeSourceUnlinkAgentError:
+        'Error al desvincular la fuente de conocimiento del agente',
+      knowledgeSourceUnlinkConnectionError:
+        'Error de conexión al desvincular la fuente de conocimiento',
 
       supportWidgetSubtitle: 'chat de soporte',
       supportWidgetSettingsAria: 'Ajustes',
@@ -2497,6 +2633,12 @@ export class I18nService {
       addTextTitle: 'Add manual text',
       addTextDocument: 'Add document',
       manualTextDefault: 'Manual text',
+      textModalSourceNameLabel: 'Source name',
+      textModalSourceNamePlaceholder: 'e.g. Customer instructions',
+      textModalContentLabel: 'Text content',
+      textModalCharactersSuffix: 'characters',
+      textModalContentPlaceholder:
+        'Write or paste here the detailed information you want to add to the knowledge base...',
       noDocumentsTitle: 'No documents',
       noDocumentsDescription: 'Start by adding your first document to build your agent\'s knowledge base.',
       knowledgeBaseLoadError: 'Could not load documents. Please try again.',
@@ -2642,6 +2784,71 @@ export class I18nService {
       microphoneLabel: 'Microphone',
       endCallLabel: 'End',
       tryAgainLabel: 'Try again',
+      editAgentMainTab: 'Main',
+      editAgentAgentNameSection: 'Agent name',
+      editAgentFirstMessageSection: 'First message',
+      editAgentSystemMessageSection: 'System message',
+      editAgentCompanyNamePlaceholder: 'Company name',
+      editAgentSystemMessageToggleAria: 'Expand or collapse system message',
+      editAgentSystemMessagePlaceholder: 'You are a helpful assistant.',
+      editAgentTwilioConnectedAccount: 'Connected account',
+      editAgentTwilioValidatedAccount: 'Validated account',
+      editAgentTwilioAssignedAccountPrefix: 'Account assigned to the agent · ID',
+      editAgentSavingOnAgent: 'Saving to the agent...',
+      editAgentTwilioAccountIdLabel: 'Account ID:',
+      editAgentValidate: 'Validate',
+      editAgentValidated: 'Validated',
+      editAgentTryAgentSound: 'Try how this agent sounds',
+      editAgentMicActive: 'Microphone active',
+      editAgentVoiceLabel: 'Voice',
+      editAgentVoiceParamsSection: 'Voice parameters',
+      editAgentStability: 'Stability',
+      editAgentSimilarity: 'Similarity',
+      editAgentStyle: 'Style',
+      editAgentSpeed: 'Speed',
+      editAgentUnlinkStoreTitle: 'Unlink store',
+      editAgentNotConnected: 'Not connected',
+      editAgentActionSingle: 'action',
+      editAgentActionPlural: 'actions',
+      editAgentKnowledgeSourcesTitle: 'Knowledge sources',
+      editAgentNoKnowledgeSourcesTitle:
+        'This agent has no configured knowledge sources.',
+      editAgentNoKnowledgeSourcesDescription:
+        'Knowledge sources help the agent provide more accurate answers.',
+      editAgentAddKnowledgeSourcesTitle: 'Add knowledge sources',
+      editAgentUnnamed: 'Unnamed',
+      editAgentPdfMaxLabel: 'Max. 10MB',
+      editAgentWebPage: 'Web page',
+      editAgentLoadingAvailableSources: 'Loading available sources...',
+      editAgentAvailableSources: 'Available sources',
+      editAgentSwipeToAddSource: 'Swipe right to add the source',
+      editAgentAddSourceTitle: 'Add source',
+      editAgentLoadingActions: 'Loading actions...',
+      editAgentConfiguredActions: 'Configured actions',
+      editAgentNewAction: 'New action',
+      editAgentActionNameLabel: 'Action name *',
+      editAgentActionNamePlaceholder: 'e.g. Notify sales team',
+      editAgentActionDescriptionLabel: 'Description (optional)',
+      editAgentActionDescriptionPlaceholder: 'When the AI should use it',
+      editAgentWebhookUrlLabel: 'Webhook URL (HTTPS) *',
+      editAgentWebhookPlaceholder: 'https://hook.eu2.make.com/...',
+      editAgentSaveAction: 'Save action',
+      editAgentEditActionTitle: 'Edit action',
+      editAgentSaving: 'Saving...',
+      editAgentFieldRequired: 'This field is required',
+      editAgentFieldMin: 'Minimum value is',
+      editAgentFieldMax: 'Maximum value is',
+      knowledgeWebSourceInvalidUrl: 'Invalid or inaccessible URL',
+      knowledgeTextSourceError: 'Error creating text source',
+      knowledgeSourceLinkError:
+        'Error linking the knowledge source to the agent',
+      knowledgeSourceUnlinkedSuccess: 'Source unlinked successfully',
+      knowledgeSourceUnlinkNotLinkedError:
+        'The knowledge source was not linked to this agent',
+      knowledgeSourceUnlinkAgentError:
+        'Error unlinking the knowledge source from the agent',
+      knowledgeSourceUnlinkConnectionError:
+        'Connection error while unlinking the knowledge source',
 
       supportWidgetSubtitle: 'support chat',
       supportWidgetSettingsAria: 'Settings',
