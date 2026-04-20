@@ -159,6 +159,8 @@ export interface Translations {
 
   // Topbar / invites
   noNews: string;
+  /** Listado / previsualización noticias (texto truncado con line-clamp) */
+  newsReadMore: string;
   /** Fechas relativas en el listado de noticias (placeholders {{n}} = minutos u horas) */
   newsDateJustNow: string;
   newsDateOneMinuteAgo: string;
@@ -1125,6 +1127,7 @@ export class I18nService {
 
       // Topbar / invites
       noNews: 'No hay noticias',
+      newsReadMore: 'Ver más',
       newsDateJustNow: 'Justo ahora',
       newsDateOneMinuteAgo: 'hace 1 minuto',
       newsDateMinutesAgo: 'hace {{n}} minutos',
@@ -1201,7 +1204,7 @@ export class I18nService {
       allRightsReserved: 'Todos los derechos reservados',
 
       // Metrics page
-      last7Days: 'Últimos 7 días',
+      last7Days: 'Esta semana',
       last30Days: 'Últimos 30 días',
       thisMonth: 'Este mes',
       lastYear: 'Año pasado',
@@ -2082,6 +2085,7 @@ export class I18nService {
 
       // Topbar / invites
       noNews: 'No news',
+      newsReadMore: 'Read more',
       newsDateJustNow: 'Just now',
       newsDateOneMinuteAgo: '1 minute ago',
       newsDateMinutesAgo: '{{n}} minutes ago',
@@ -2158,7 +2162,7 @@ export class I18nService {
       allRightsReserved: 'All rights reserved',
 
       // Metrics page
-      last7Days: 'Last 7 days',
+      last7Days: 'This week',
       last30Days: 'Last 30 days',
       thisMonth: 'This month',
       lastYear: 'Last year',

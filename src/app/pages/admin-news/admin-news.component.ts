@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NewsService } from '../../core/services/news.service';
+import { I18nService } from '../../core/services/i18n.service';
 import { NewsItem } from '../../shared/models/news.model';
 
 @Component({
@@ -13,6 +14,11 @@ import { NewsItem } from '../../shared/models/news.model';
 })
 export class AdminNewsComponent implements OnInit {
   private newsService = inject(NewsService);
+  private i18nService = inject(I18nService);
+
+  get t() {
+    return this.i18nService.getTranslations();
+  }
 
   newsList = this.newsService.newsSignal;
 
@@ -123,5 +129,12 @@ export class AdminNewsComponent implements OnInit {
 
   formatNewsDate(date: string): string {
     return this.newsService.getRelativeDateLabel(date);
+  }
+
+  /** Misma heurística que el topbar para mostrar «Ver más» con line-clamp-2. */
+  newsPreviewNeedsReadMore(item: NewsItem): boolean {
+    const title = (item.title?.es || item.title?.en || '').trim();
+    const desc = (item.description?.es || item.description?.en || '').trim();
+    return title.length > 44 || desc.length > 92;
   }
 }

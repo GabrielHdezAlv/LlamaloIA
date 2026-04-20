@@ -25,6 +25,7 @@ import { KnowledgeBaseComponent } from './pages/knowledge-base/knowledge-base.co
 import { ShopifyOnboardingComponent } from './pages/shopify-onboarding/shopify-onboarding.component';
 import { ShopifySuccessComponent } from './pages/shopify-success/shopify-success.component';
 import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
+import { EmailPreviewComponent } from './pages/email-preview/email-preview.component';
 import { AdminEditAgentComponent } from './pages/admin-edit-agent/admin-edit-agent.component';
 import { AdminNewsComponent } from './pages/admin-news/admin-news.component';
 import { AdminDocsComponent } from './pages/admin-docs/admin-docs.component';
@@ -73,6 +74,10 @@ export const routes: Routes = [
   {
     path: 'verify-email',
     component: VerifyEmailComponent,
+  },
+  {
+    path: 'email',
+    component: EmailPreviewComponent,
   },
   {
     path: 'shopify',

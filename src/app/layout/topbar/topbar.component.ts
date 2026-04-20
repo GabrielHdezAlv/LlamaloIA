@@ -468,6 +468,16 @@ export class TopbarComponent implements OnInit, OnDestroy {
     return this.newsService.getRelativeDateLabel(date);
   }
 
+  /**
+   * Muestra «Ver más» cuando el texto probablemente no cabe en el line-clamp-2
+   * del listado (panel estrecho; heurística por longitud).
+   */
+  newsPreviewNeedsReadMore(news: TranslatedNewsItem): boolean {
+    const title = (news.title ?? '').trim();
+    const desc = (news.description ?? '').trim();
+    return title.length > 44 || desc.length > 92;
+  }
+
   /** Clases Tailwind para la pastilla de entorno (topbar derecha). */
   deployEnvBadgeClass(): string {
     const l = this.deployEnvLabel;
