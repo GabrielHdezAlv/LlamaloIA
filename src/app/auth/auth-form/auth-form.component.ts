@@ -25,6 +25,10 @@ import { FirebaseTokenRefreshService } from '../../core/services/firebase-token-
 import { environment } from '../../../environments/environment';
 import { allowsAuthRegistrationAndGoogle } from '../../core/utils/auth-host-features';
 import { getOrCreateDeviceId } from '../../core/utils/device-id';
+import {
+  getAuthHttpErrorBody,
+  isDeviceVerificationRequiredError,
+} from '../../core/utils/auth-http-error.util';
 import { requiresSubscriptionPaywall } from '../../shared/utils/plan-usage.util';
 import { signInWithPopup } from 'firebase/auth';
 import {
@@ -248,16 +252,15 @@ export class AuthFormComponent implements OnInit {
         this.firebaseTokenRefresh.start();
         this.loadProfileAndNavigate();
       },
-      error: (err: { status?: number; error?: { message?: string } }) => {
+      error: (err: unknown) => {
         console.error('❌ Error en inicio de sesión:', err);
-        const errBody = err?.error as
-          | { code?: string; message?: string }
-          | undefined;
-        if (errBody?.code === 'DEVICE_VERIFICATION_REQUIRED') {
+        const errBody = getAuthHttpErrorBody(err);
+        if (isDeviceVerificationRequiredError(err)) {
+          this.setGlobalLoading(false);
           this.notificationService.info(
             'Introduce el código que te enviamos por correo para confirmar este dispositivo.',
           );
-          setTimeout(() => {
+          void Promise.resolve().then(() => {
             if (isPlatformBrowser(this.platformId)) {
               this.modalService.openEmailVerification({
                 email: this.email,
@@ -265,15 +268,18 @@ export class AuthFormComponent implements OnInit {
                 mode: 'device',
               });
             }
-          }, 400);
-          this.setGlobalLoading(false);
+          });
           return;
         }
-        const msg = String(errBody?.message ?? '');
+        const msg = String(errBody?.['message'] ?? '');
         const lower = msg.toLowerCase();
+        const httpStatus =
+          err && typeof err === 'object' && 'status' in err
+            ? (err as { status?: number }).status
+            : undefined;
         if (
           environment.skipEmailVerification !== true &&
-          err?.status === 401 &&
+          httpStatus === 401 &&
           (lower.includes('verificar') ||
             lower.includes('verify') ||
             lower.includes('verification'))

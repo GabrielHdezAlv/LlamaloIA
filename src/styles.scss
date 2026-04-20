@@ -180,6 +180,11 @@ body::-webkit-scrollbar {
     width: 100% !important;
     max-width: 100% !important;
   }
+
+  /** Por encima del spinner global de login (app.component z-[9999]). */
+  .cdk-overlay-pane.email-verification-above-global-loading {
+    z-index: 10050 !important;
+  }
 }
 
 /* =========================

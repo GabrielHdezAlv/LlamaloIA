@@ -196,7 +196,10 @@ export class ModalService {
       width: '500px',
       maxWidth: '95vw',
       disableClose: false,
-      panelClass: 'custom-dialog-container',
+      panelClass: [
+        'custom-dialog-container',
+        'email-verification-above-global-loading',
+      ],
       backdropClass: 'email-verification-backdrop',
       data,
       ...this.dialogMotion,
