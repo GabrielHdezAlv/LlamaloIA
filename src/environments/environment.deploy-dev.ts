@@ -9,6 +9,8 @@ export const environment = {
   deployEnvLabel: 'dev' as string | null,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-dev.onrender.com',
+  sentryDsn: 'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
+  sentryEnvironment: 'dev',
   firebase: {
     apiKey: 'AIzaSyBeDYuVYfL9Multc9cOkXsk7lsL6t-YOUQ',
     authDomain: 'llamaloio.firebaseapp.com',

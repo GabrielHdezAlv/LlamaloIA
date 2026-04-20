@@ -8,6 +8,8 @@ export const environment = {
   deployEnvLabel: null as string | null,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-5294.onrender.com',
+  sentryDsn: 'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
+  sentryEnvironment: 'production',
   firebase: {
     apiKey: 'AIzaSyCq580utw2qQHvKzoYbT_FdG7CKEt0scvw',
     authDomain: 'llamalo-prod.firebaseapp.com',

@@ -9,6 +9,8 @@ export const environment = {
   deployEnvLabel: 'preprod' as string | null,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-preprod.onrender.com',
+  sentryDsn: 'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
+  sentryEnvironment: 'preprod',
   firebase: {
     apiKey: 'REEMPLAZAR',
     authDomain: 'llamalo-preprod.firebaseapp.com',

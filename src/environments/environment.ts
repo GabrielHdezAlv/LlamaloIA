@@ -13,6 +13,9 @@ export const environment = {
   apiUrl: 'https://llamaloiabackend-5294.onrender.com',
   /** API key para Google Cloud Translation API v2. Dejar vacío para usar diccionario estático en inglés. */
   translationApiKey: '',
+  /** Sentry: DSN del proyecto frontend y etiqueta de entorno para filtrar en el panel. */
+  sentryDsn: 'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
+  sentryEnvironment: 'development',
   firebase: {
     apiKey: 'AIzaSyBeDYuVYfL9Multc9cOkXsk7lsL6t-YOUQ', // Necesitas poner la API key de Firebase (Web API Key)
     authDomain: 'llamaloio.firebaseapp.com',
