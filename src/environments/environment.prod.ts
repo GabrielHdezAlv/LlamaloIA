@@ -6,6 +6,8 @@ export const environment = {
   production: true,
   skipEmailVerification: false,
   deployEnvLabel: null as string | null,
+  /** Abre la ruta /register y el botón de Google en app.llamalo.ai (por defecto oculto en prod). */
+  enableAuthRegistrationAndGoogle: true,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-5294.onrender.com',
   sentryDsn: 'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
