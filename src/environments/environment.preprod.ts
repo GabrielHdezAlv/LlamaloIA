@@ -7,6 +7,8 @@ export const environment = {
   production: true,
   skipEmailVerification: false,
   deployEnvLabel: 'preprod' as string | null,
+  /** Abre /register y el botón de Google en preprod.llamalo.ai. */
+  enableAuthRegistrationAndGoogle: true,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-preprod.onrender.com',
   sentryDsn: 'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',

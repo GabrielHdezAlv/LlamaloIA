@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   skipEmailVerification: false,
   deployEnvLabel: 'new-dev' as string | null,
+  /** Abre /register y el botón de Google en ng serve --configuration=new-dev. */
+  enableAuthRegistrationAndGoogle: true,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-dev.onrender.com',
   sentryDsn: 'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
