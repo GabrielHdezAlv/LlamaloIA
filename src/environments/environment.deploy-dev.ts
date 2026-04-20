@@ -7,6 +7,8 @@ export const environment = {
   /** Si es true, no se muestra el modal del código de 6 dígitos; alinear con la API. */
   skipEmailVerification: false,
   deployEnvLabel: 'dev' as string | null,
+  /** Abre /register y el botón de Google en dev.llamalo.ai. */
+  enableAuthRegistrationAndGoogle: true,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-dev.onrender.com',
   sentryDsn: 'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
