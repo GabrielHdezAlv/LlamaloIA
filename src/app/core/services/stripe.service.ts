@@ -46,21 +46,11 @@ export class StripeService {
 
   createBillingPortalSession(body: {
     returnUrl: string;
+    /** Abre el Customer Portal en el flujo de cambio de suscripción (UI Stripe), si hay suscripción. */
+    subscriptionUpdateFlow?: boolean;
   }): Observable<{ url: string | null }> {
     return this.http.post<{ url: string | null }>(
       `${this.stripeBase()}/billing-portal`,
-      body,
-      { headers: this.getAuthHeaders() },
-    );
-  }
-
-  /** Cambio de plan o periodo (mensual/anual) sobre la suscripción Stripe existente. */
-  changeSubscriptionPlan(body: {
-    plan: StripePaidPlan;
-    billingInterval?: 'month' | 'year';
-  }): Observable<{ ok: true }> {
-    return this.http.post<{ ok: true }>(
-      `${this.stripeBase()}/subscription/change-plan`,
       body,
       { headers: this.getAuthHeaders() },
     );

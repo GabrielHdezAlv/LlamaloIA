@@ -303,6 +303,8 @@ export class UpgradePlanPricingViewComponent implements OnInit {
     const user = this.userStore.user();
     this.stripeRedirecting = true;
 
+    const portalReturnUrl = `${origin}/dashboard/account?tab=billing&stripe=return`;
+
     try {
       const accountUpgradeModal = this.mode === 'upgrade';
       if (accountUpgradeModal) {
@@ -312,14 +314,16 @@ export class UpgradePlanPricingViewComponent implements OnInit {
           user?.billingChurnLocked !== true &&
           user?.stripeCustomerId?.trim()
         ) {
-          await firstValueFrom(
-            this.stripeService.changeSubscriptionPlan({
-              plan: planId,
-              billingInterval: this.billingAnnual ? 'year' : 'month',
+          const { url } = await firstValueFrom(
+            this.stripeService.createBillingPortalSession({
+              returnUrl: portalReturnUrl,
+              subscriptionUpdateFlow: true,
             }),
           );
-          window.location.href = `${origin}/dashboard/account?tab=billing&stripe=plan-changed`;
-          return;
+          if (url) {
+            window.location.href = url;
+            return;
+          }
         }
       }
 
