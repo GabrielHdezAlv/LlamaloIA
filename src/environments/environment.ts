@@ -9,6 +9,12 @@ export const environment = {
   skipEmailVerification: false,
   /** Etiqueta en el topbar; `null` = ocultar (solo build producción/master). */
   deployEnvLabel: 'local' as string | null,
+  /**
+   * Si es true, se muestra la ruta /register y el botón de Google en este build.
+   * localhost siempre los abre (ver isLocalAuthRegistrationHost); esta bandera
+   * decide en dominios desplegados sin depender de deployEnvLabel.
+   */
+  enableAuthRegistrationAndGoogle: false,
   /** Base URL del backend (sin barra final). `ng serve` usa este valor; para API de dev: `ng serve --configuration=new-dev`. Vercel usa fileReplacements. */
   apiUrl: 'https://llamaloiabackend-5294.onrender.com',
   /** API key para Google Cloud Translation API v2. Dejar vacío para usar diccionario estático en inglés. */
