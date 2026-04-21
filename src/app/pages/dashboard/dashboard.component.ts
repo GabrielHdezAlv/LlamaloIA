@@ -11,6 +11,7 @@ import {
   inject,
   effect,
   untracked,
+  signal,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -109,6 +110,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   subscriptionPaywallActive = computed(() =>
     requiresSubscriptionPaywall(this.userStorage.user()),
   );
+
+  /** Pantallas a ancho completo sin cabecera (notificaciones, título, perfil). */
+  readonly hideDashboardTopbar = signal(false);
 
   // Dropdown del perfil
   showDropdown = false;
@@ -253,9 +257,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     await this.loadReminderData();
     this.cdr.markForCheck();
 
+    this.syncDashboardTopbarVisibility(this.router.url);
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
-      .subscribe(() => {
+      .subscribe((e) => {
+        this.syncDashboardTopbarVisibility(e.urlAfterRedirects);
         this.maybeStartFirstAgentTour();
       });
     queueMicrotask(() => this.maybeStartFirstAgentTour());
@@ -263,6 +269,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routerLoadingSub?.unsubscribe();
+  }
+
+  private syncDashboardTopbarVisibility(url: string): void {
+    const path = url.split('?')[0];
+    this.hideDashboardTopbar.set(path.startsWith('/dashboard/plan-change'));
   }
 
   /** Tour guiado (primer agente): spotlight hacia Agentes → Agregar agente. */

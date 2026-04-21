@@ -65,18 +65,6 @@ export class StripeService {
     );
   }
 
-  /** Flujo alojado en Stripe (confirmación con prorrateo). `url` null si Stripe no admite la sesión. */
-  createPlanChangePortalSession(body: {
-    plan: StripePaidPlan;
-    returnUrl: string;
-  }): Observable<{ url: string | null }> {
-    return this.http.post<{ url: string | null }>(
-      `${this.stripeBase()}/subscription/plan-change-portal`,
-      body,
-      { headers: this.getAuthHeaders() },
-    );
-  }
-
   /** Vista previa de importes (céntimos) sin aplicar el cambio. */
   previewPlanChange(body: { plan: StripePaidPlan }): Observable<{
     currency: string;

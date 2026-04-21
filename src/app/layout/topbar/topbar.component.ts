@@ -790,6 +790,10 @@ export class TopbarComponent implements OnInit, OnDestroy {
       this.pageTitle = t.settings;
       this.welcomeText = '';
       this.pageSubtitle = '';
+    } else if (url.startsWith('/dashboard/plan-change')) {
+      this.pageTitle = t.planChangePageTitle;
+      this.welcomeText = '';
+      this.pageSubtitle = '';
     } else {
       // Home
       this.pageTitle = t.home;

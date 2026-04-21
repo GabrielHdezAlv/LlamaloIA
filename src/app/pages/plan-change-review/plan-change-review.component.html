@@ -1,0 +1,130 @@
+<div class="plan-change-page flex min-h-screen w-full flex-col" style="background: #f6f9fc">
+  <div class="w-full border-b border-gray-200/80 bg-white px-6 py-6 sm:px-8 lg:px-12">
+    <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl">
+      {{ t.planChangePageTitle }}
+    </h1>
+    <p class="mt-2 max-w-3xl text-sm text-gray-500 sm:text-base">
+      {{ t.planChangePageSubtitle }}
+    </p>
+  </div>
+
+  <div class="flex flex-1 flex-col px-6 py-8 sm:px-8 lg:px-12 lg:py-10">
+    @if (errorMessage()) {
+      <div
+        class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+        role="alert"
+      >
+        {{ errorMessage() }}
+      </div>
+    } @else if (loading()) {
+      <div
+        class="flex flex-1 flex-col items-center justify-center gap-4 rounded-lg border border-gray-100 bg-white px-8 py-24 shadow-sm"
+        style="box-shadow: 0 7px 14px 0 rgba(50, 50, 93, 0.06), 0 3px 6px 0 rgba(0, 0, 0, 0.04)"
+      >
+        <div
+          class="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-[#635bff]"
+          aria-hidden="true"
+        ></div>
+        <p class="text-sm text-gray-600">{{ t.planChangeLoading }}</p>
+      </div>
+    } @else {
+      @if (preview(); as p) {
+        <div
+          class="grid flex-1 gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-12"
+        >
+          <div class="flex flex-col lg:col-span-7 xl:col-span-8">
+            <div
+              class="rounded-lg border border-gray-100 bg-white shadow-sm"
+              style="box-shadow: 0 7px 14px 0 rgba(50, 50, 93, 0.06), 0 3px 6px 0 rgba(0, 0, 0, 0.04)"
+            >
+              <div class="border-b border-gray-100 px-6 py-5 sm:px-8">
+                <div class="grid gap-6 sm:grid-cols-2">
+                  <div class="min-w-0">
+                    <p class="text-xs text-gray-500">{{ t.planChangeCurrentPlanLabel }}</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">
+                      {{ currentPlanLabel() }}
+                    </p>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-xs text-gray-500">{{ t.planChangeTargetPlanLabel }}</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">
+                      {{ targetPlanLabel() }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              @if (p.lines.length) {
+                <div class="px-6 py-6 sm:px-8">
+                  <p class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                    {{ t.planChangeLinesHeading }}
+                  </p>
+                  <ul class="mt-4 divide-y divide-gray-100">
+                    @for (line of p.lines; track line.description) {
+                      <li
+                        class="flex flex-col gap-1 py-4 first:pt-0 sm:flex-row sm:items-center sm:justify-between sm:gap-6"
+                      >
+                        <span class="min-w-0 flex-1 text-sm text-gray-700">{{
+                          line.description
+                        }}</span>
+                        <span
+                          class="shrink-0 text-left text-sm font-medium tabular-nums text-gray-900 sm:text-right"
+                        >
+                          {{ formatMoneyAmount(line.amount, p.currency) }}
+                        </span>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+            </div>
+
+            <p class="mt-6 max-w-3xl text-xs leading-relaxed text-gray-500 sm:text-sm">
+              {{ t.planChangeStripeNote }}
+            </p>
+          </div>
+
+          <aside class="flex flex-col lg:col-span-5 xl:col-span-4">
+            <div
+              class="sticky top-6 rounded-lg border border-gray-100 bg-white shadow-sm lg:top-8"
+              style="box-shadow: 0 7px 14px 0 rgba(50, 50, 93, 0.06), 0 3px 6px 0 rgba(0, 0, 0, 0.04)"
+            >
+              <div class="border-b border-gray-100 px-6 py-5 sm:px-8">
+                <p class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                  {{ t.upgradePlanChangeReviewTotal }}
+                </p>
+                <p class="mt-2 text-2xl font-semibold tabular-nums text-gray-900 sm:text-3xl">
+                  {{ formatMoneyAmount(p.amountDue, p.currency) }}
+                </p>
+              </div>
+              <div class="space-y-3 bg-gray-50/80 px-6 py-5 sm:px-8">
+                <button
+                  type="button"
+                  class="inline-flex w-full items-center justify-center rounded-md px-4 py-3 text-sm font-medium text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-50"
+                  style="background: #635bff"
+                  [disabled]="confirmLoading"
+                  (click)="confirmChange()"
+                >
+                  @if (confirmLoading) {
+                    {{ t.planChangeConfirming }}
+                  } @else {
+                    {{ t.upgradePlanChangeReviewConfirm }}
+                  }
+                </button>
+                <a
+                  routerLink="/dashboard/pricing"
+                  class="inline-flex w-full items-center justify-center rounded-md border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  {{ t.planChangeBackPlans }}
+                </a>
+                <p class="pt-1 text-center text-xs text-gray-400">
+                  {{ t.planChangeStripeSecure }}
+                </p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      }
+    }
+  </div>
+</div>

@@ -909,6 +909,20 @@ export interface Translations {
   upgradePlanChangeReviewConfirm: string;
   /** Etiqueta del importe total en el resumen de cambio de plan. */
   upgradePlanChangeReviewTotal: string;
+  /** Pantalla dedicada `/dashboard/plan-change`. */
+  planChangePageTitle: string;
+  planChangePageSubtitle: string;
+  planChangeBackPlans: string;
+  planChangeBackAccount: string;
+  planChangeCurrentPlanLabel: string;
+  planChangeTargetPlanLabel: string;
+  planChangeStripeNote: string;
+  planChangeInvalidSession: string;
+  /** Pie estilo portal de pago (Stripe). */
+  planChangeStripeSecure: string;
+  planChangeLoading: string;
+  planChangeConfirming: string;
+  planChangeLinesHeading: string;
   pricingFeatureIncludedMinutes: string;
   pricingFeatureAgents: string;
   pricingFeatureDocuments: string;
@@ -1950,6 +1964,21 @@ export class I18nService {
       upgradePlanChangeReviewBack: 'Volver a planes',
       upgradePlanChangeReviewConfirm: 'Confirmar cambio',
       upgradePlanChangeReviewTotal: 'Total estimado a pagar',
+      planChangePageTitle: 'Confirmar cambio de plan',
+      planChangePageSubtitle:
+        'Revisa el resumen calculado por Stripe (prorrateo e importes). Al confirmar, actualizamos tu suscripción y el cobro lo gestiona Stripe.',
+      planChangeBackPlans: 'Volver a planes',
+      planChangeBackAccount: 'Ir a facturación',
+      planChangeCurrentPlanLabel: 'Plan actual',
+      planChangeTargetPlanLabel: 'Nuevo plan',
+      planChangeStripeNote:
+        'Los importes son una vista previa; el cargo final puede variar ligeramente según el momento exacto del cambio y tu método de pago.',
+      planChangeInvalidSession:
+        'No hay una suscripción activa para cambiar de plan. Contrata o revisa facturación.',
+      planChangeStripeSecure: 'Pago seguro con Stripe',
+      planChangeLoading: 'Calculando el resumen…',
+      planChangeConfirming: 'Confirmando…',
+      planChangeLinesHeading: 'Desglose',
       pricingFeatureIncludedMinutes: 'Minutos incluidos',
       pricingFeatureAgents: 'Agentes',
       pricingFeatureDocuments: 'Documentos',
@@ -2985,6 +3014,21 @@ export class I18nService {
       upgradePlanChangeReviewBack: 'Back to plans',
       upgradePlanChangeReviewConfirm: 'Confirm change',
       upgradePlanChangeReviewTotal: 'Estimated total due',
+      planChangePageTitle: 'Confirm plan change',
+      planChangePageSubtitle:
+        'Review the summary from Stripe (proration and line items). When you confirm, we update your subscription and Stripe handles billing.',
+      planChangeBackPlans: 'Back to plans',
+      planChangeBackAccount: 'Go to billing',
+      planChangeCurrentPlanLabel: 'Current plan',
+      planChangeTargetPlanLabel: 'New plan',
+      planChangeStripeNote:
+        'Amounts are a preview; the final charge may differ slightly based on timing and your payment method.',
+      planChangeInvalidSession:
+        'There is no active subscription to change. Subscribe or check billing.',
+      planChangeStripeSecure: 'Secure payment with Stripe',
+      planChangeLoading: 'Calculating summary…',
+      planChangeConfirming: 'Confirming…',
+      planChangeLinesHeading: 'Breakdown',
       pricingFeatureIncludedMinutes: 'Included minutes',
       pricingFeatureAgents: 'Agents',
       pricingFeatureDocuments: 'Documents',
