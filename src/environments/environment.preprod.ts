@@ -11,14 +11,15 @@ export const environment = {
   enableAuthRegistrationAndGoogle: true,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-preprod.onrender.com',
-  sentryDsn: 'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
+  sentryDsn:
+    'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
   sentryEnvironment: 'preprod',
   firebase: {
-    apiKey: 'REEMPLAZAR',
+    apiKey: 'AIzaSyAxGvIcnqXkKPhNfUQlWsz7vTCF8vv8rWo',
     authDomain: 'llamalo-preprod.firebaseapp.com',
     projectId: 'llamalo-preprod',
     storageBucket: 'llamalo-preprod.firebasestorage.app',
-    messagingSenderId: 'REEMPLAZAR',
-    appId: 'REEMPLAZAR',
+    messagingSenderId: '355232596678',
+    appId: '1:355232596678:web:e0c936292ecf72f3b28dc7',
   },
 };
