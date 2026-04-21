@@ -1462,7 +1462,7 @@ export class I18nService {
       registrationPlanStepTitle: 'Elige cómo quieres empezar',
       registrationCancelCta: 'Cancelar registro y salir',
       onboardingPlanStepSubtitle:
-        'Starter: 7 días de prueba en Stripe al pulsar «Empezar gratis» (tarjeta obligatoria; sin cargo durante la prueba). Growth y Scale: suscripción con tarjeta. Tras la prueba, el plan y facturación siguen las reglas de tu cuenta.',
+        'Starter: 7 días de prueba en Stripe al pulsar «Empezar ahora» (tarjeta obligatoria; sin cargo durante la prueba). Growth y Scale: suscripción con tarjeta. Tras la prueba, el plan y facturación siguen las reglas de tu cuenta.',
       protectedByStripe: 'Protegido por Stripe',
 
       // Delete account modal
@@ -1949,7 +1949,7 @@ export class I18nService {
       upgradePlanStarterDesc: 'Para empezar con agentes de voz y base de conocimiento.',
       upgradePlanGrowthDesc: 'Más minutos y capacidad para equipos en crecimiento.',
       upgradePlanScaleDesc: 'Escala máxima para alto volumen.\nSoporte dedicado.',
-      upgradePlanStarterButton: 'Empezar gratis',
+      upgradePlanStarterButton: 'Empezar ahora',
       upgradePlanStarterTrialTextLink:
         'Prueba de 7 días en Stripe: se pedirá tarjeta sin cargo hasta que termine la prueba.',
       upgradePlanPopularBadge: 'POPULAR',
@@ -2513,7 +2513,7 @@ export class I18nService {
       registrationPlanStepTitle: 'Choose how to get started',
       registrationCancelCta: 'Cancel sign-up and exit',
       onboardingPlanStepSubtitle:
-        'Starter: start a 7-day trial in Stripe with «Start free» (card required; no charge during the trial). Growth and Scale: subscribe with a card. After the trial, billing follows your account rules.',
+        'Starter: start a 7-day trial in Stripe with «Start now» (card required; no charge during the trial). Growth and Scale: subscribe with a card. After the trial, billing follows your account rules.',
       protectedByStripe: 'Protected by Stripe',
 
       // Delete account modal
@@ -2999,7 +2999,7 @@ export class I18nService {
       upgradePlanStarterDesc: 'Get started with voice agents and a knowledge base.',
       upgradePlanGrowthDesc: 'More minutes and room for growing teams.',
       upgradePlanScaleDesc: 'Maximum scale for high volume.\nDedicated support.',
-      upgradePlanStarterButton: 'Start free',
+      upgradePlanStarterButton: 'Start now',
       upgradePlanStarterTrialTextLink:
         '7-day Stripe trial: card required; no charge until the trial ends.',
       upgradePlanPopularBadge: 'POPULAR',

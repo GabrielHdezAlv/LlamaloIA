@@ -1,0 +1,72 @@
+.audio-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 30px 24px 24px;
+  box-sizing: border-box;
+  background: #d6d8dc;
+}
+
+.audio-shell {
+  width: min(88vw, 980px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  font-weight: 700;
+  color: #111827;
+}
+
+.wave-box {
+  width: 100%;
+  border-radius: 20px;
+  padding: 8px;
+  background: transparent;
+  height: 300px;
+}
+
+.wave-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.wave-line {
+  fill: none;
+  stroke: #111827;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+button {
+  min-width: 160px;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f9fafb;
+  background: #111827;
+  cursor: pointer;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+audio {
+  display: none;
+}

@@ -272,8 +272,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private syncDashboardTopbarVisibility(url: string): void {
-    const path = url.split('?')[0];
-    this.hideDashboardTopbar.set(path.startsWith('/dashboard/plan-change'));
+    this.hideDashboardTopbar.set(false);
   }
 
   /** Tour guiado (primer agente): spotlight hacia Agentes → Agregar agente. */
