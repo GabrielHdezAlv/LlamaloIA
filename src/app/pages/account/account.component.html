@@ -834,12 +834,17 @@
 
                 <!-- Botón Canjear - ancho completo del recuadro -->
                 <div class="w-full mt-1">
-                  @if (isRewardRedeemed("Trustpilot")) {
+                  @if (isRewardRedeemed("Trustpilot") || giftsActionsDisabled) {
                     <button
+                      type="button"
                       disabled
                       class="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gray-300 text-gray-600 font-medium font-sans rounded-xl flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm cursor-not-allowed"
                     >
-                      {{ t.redeemed }}
+                      {{
+                        isRewardRedeemed("Trustpilot")
+                          ? t.redeemed
+                          : t.redeem
+                      }}
                     </button>
                   } @else {
                     <app-ripple-button
@@ -875,8 +880,9 @@
                 <div
                   class="grid grid-cols-3 gap-1.5 w-full mt-1 min-w-0 items-stretch"
                 >
-                  @if (isRewardRedeemed("instagram")) {
+                  @if (isRewardRedeemed("instagram") || giftsActionsDisabled) {
                     <button
+                      type="button"
                       disabled
                       class="block h-full min-h-10 w-full px-1.5 bg-gray-300 text-gray-500 font-medium font-sans rounded-lg flex items-center justify-center cursor-not-allowed"
                     >
@@ -940,8 +946,9 @@
                       </svg>
                     </app-ripple-button>
                   }
-                  @if (isRewardRedeemed("linkedin")) {
+                  @if (isRewardRedeemed("linkedin") || giftsActionsDisabled) {
                     <button
+                      type="button"
                       disabled
                       class="block h-full min-h-10 w-full px-1.5 bg-gray-300 text-gray-500 font-medium font-sans rounded-lg flex items-center justify-center cursor-not-allowed"
                     >
@@ -979,8 +986,9 @@
                       </svg>
                     </app-ripple-button>
                   }
-                  @if (isRewardRedeemed("x")) {
+                  @if (isRewardRedeemed("x") || giftsActionsDisabled) {
                     <button
+                      type="button"
                       disabled
                       class="block h-full min-h-10 w-full px-1.5 bg-gray-300 text-gray-500 font-medium font-sans rounded-lg flex items-center justify-center cursor-not-allowed"
                     >
@@ -1040,12 +1048,15 @@
                   {{ t.gift3Description }}
                 </p>
                 <div class="w-full mt-1">
-                  @if (isRewardRedeemed("Gift3")) {
+                  @if (isRewardRedeemed("Gift3") || giftsActionsDisabled) {
                     <button
+                      type="button"
                       disabled
                       class="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gray-300 text-gray-600 font-medium font-sans rounded-xl flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm cursor-not-allowed"
                     >
-                      {{ t.redeemed }}
+                      {{
+                        isRewardRedeemed("Gift3") ? t.redeemed : t.redeem
+                      }}
                     </button>
                   } @else {
                     <app-ripple-button

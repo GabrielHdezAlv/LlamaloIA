@@ -167,6 +167,12 @@ export class AccountComponent implements OnInit, OnDestroy {
   stripeBillingRedirecting = false;
   stripeLatestInvoiceLoading = false;
 
+  /**
+   * Regalos: desactiva la UI y evita canjes / apertura de redes y llamadas a la API
+   * hasta reactivar la funcionalidad.
+   */
+  readonly giftsActionsDisabled = true;
+
   // Integraciones (mismo patrón visual que edit-agent / connect-phone-step)
   twilioConnectionsExpanded = false;
   showTwilioConfig = false;
@@ -898,6 +904,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   };
 
   openSocialGiftNetwork(network: 'instagram' | 'linkedin' | 'x') {
+    if (this.giftsActionsDisabled) return;
     const url = this.gift2SocialUrls[network];
     if (!url || !isPlatformBrowser(this.platformId)) return;
     
@@ -915,6 +922,7 @@ export class AccountComponent implements OnInit, OnDestroy {
 
   // Método para canjear recompensa
   redeemReward(rewardType: string) {
+    if (this.giftsActionsDisabled) return;
     this.userService.redeemReward(rewardType).subscribe({
       next: (res: any) => {
         // Actualizamos los datos del usuario en el store para reflejar los minutos extra ganados
