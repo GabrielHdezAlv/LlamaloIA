@@ -889,8 +889,8 @@
                     class="country-flag-avatar block h-5 w-5 shrink-0 max-lg:h-6 max-lg:w-6 max-lg:sm:h-7 max-lg:sm:w-7 max-lg:md:h-7 max-lg:md:w-7 lg:h-6 lg:w-6 4xl:h-7 4xl:w-7 rounded-full"
                     role="img"
                     [attr.aria-label]="c.name"
-                    [ngStyle]="countryFlagBackgroundStyle(c.img)"
-                  ></span>
+                    >{{ c.flagEmoji }}</span
+                  >
                   <span
                     class="min-w-0 -mt-2 max-lg:-mt-1.5 lg:-mt-2 self-center break-words font-semibold text-[11px] max-lg:text-sm max-lg:sm:text-base max-lg:md:text-base lg:text-[12px] 4xl:text-sm leading-tight dark:text-slate-50 tracking-[-0.7px]"
                     >{{ c.name }}</span

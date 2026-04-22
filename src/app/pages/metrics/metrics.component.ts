@@ -34,6 +34,28 @@ import {
   planDisplayLabelFromTranslations,
   userPlanGrantsFullMetrics,
 } from '../../shared/utils/plan-display.util';
+import { getSortedCountryDialOptions } from '../numbers/phone-country-dial-codes';
+
+const NANP_PREFIX_TO_ISO: Record<string, string> = {
+  '1-809': 'DO',
+  '1-829': 'DO',
+  '1-849': 'DO',
+  '1-787': 'PR',
+  '1-939': 'PR',
+  '1-876': 'JM',
+  '1-868': 'TT',
+};
+
+const CALLING_CODE_TO_ISO: Record<string, string> = (() => {
+  const mapping: Record<string, string> = {};
+  for (const option of getSortedCountryDialOptions('es')) {
+    const callingCode = option.dial.replace(/[^\d]/g, '');
+    if (!mapping[callingCode] && option.iso2) {
+      mapping[callingCode] = option.iso2.toUpperCase();
+    }
+  }
+  return mapping;
+})();
 
 @Component({
   selector: 'app-metrics',
@@ -494,31 +516,19 @@ export class MetricsComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * URL absoluta para banderas: en algunos móviles/WebViews las rutas tipo "assets/…"
-   * respecto a la ruta actual fallan; resolver contra baseURI evita iconos en blanco.
-   */
-  countryFlagUrl(assetPath: string): string {
-    if (!assetPath) {
-      return '';
+  countryFlagEmoji(isoCode: string): string {
+    if (!isoCode || isoCode.length !== 2) {
+      return '🌐';
     }
-    let path = assetPath.replace(/^\.\//, '');
-    if (!path.startsWith('/')) {
-      path = `/${path}`;
+    const normalized = isoCode.toUpperCase();
+    if (!/^[A-Z]{2}$/.test(normalized)) {
+      return '🌐';
     }
-    if (!this.isBrowser) {
-      return path;
-    }
-    try {
-      return new URL(path, this.document.baseURI).href;
-    } catch {
-      return path;
-    }
-  }
 
-  countryFlagBackgroundStyle(assetPath: string): { [key: string]: string } {
-    const url = this.countryFlagUrl(assetPath);
-    return url ? { 'background-image': `url("${url}")` } : {};
+    const codePoints = [...normalized].map(
+      (char) => 127397 + char.charCodeAt(0),
+    );
+    return String.fromCodePoint(...codePoints);
   }
 
   // Serie área para "Total de llamadas exitosas" (mismo diseño que en Home)
@@ -1204,6 +1214,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
       return {
         ...c,
         name,
+        flagEmoji: this.countryFlagEmoji(c.isoCode),
       };
     });
   }
@@ -1681,87 +1692,34 @@ export class MetricsComponent implements OnInit, OnDestroy {
       }, 0);
     }
 
-    // Calcular países (guardamos ISO y bandera; el nombre se resuelve según idioma)
+    // Calcular países (guardamos ISO y prefijo; el nombre se resuelve según idioma)
     this.cachedCountries = this.detailedMetrics.paisesOrigen
       .map((pais) => {
         let isoCode = '';
-        let countryFlag = '';
+        const rawPrefix = String(pais.pais || '').trim();
+        const digitsOnlyPrefix = rawPrefix.replace(/[^\d]/g, '');
 
-        // Mapeo de prefijos a ISO y banderas
-        const countryMapping: {
-          [key: string]: { isoCode: string; flag: string };
-        } = {
-          '1': { isoCode: 'US', flag: 'assets/eeuu.webp' },
-          '34': { isoCode: 'ES', flag: 'assets/spain.webp' },
-          '33': { isoCode: 'FR', flag: 'assets/france.webp' },
-          '44': { isoCode: 'GB', flag: 'assets/united-kingdom.webp' },
-          '55': { isoCode: 'BR', flag: 'assets/brasil.webp' },
-          '52': { isoCode: 'MX', flag: 'assets/mexico.webp' },
-          '39': { isoCode: 'IT', flag: 'assets/italy.webp' },
-          '49': { isoCode: 'DE', flag: 'assets/germany.webp' },
-          '351': { isoCode: 'PT', flag: 'assets/portugal.webp' },
-          '31': { isoCode: 'NL', flag: 'assets/netherlands.webp' },
-          '41': { isoCode: 'CH', flag: 'assets/switzerland.webp' },
-          '43': { isoCode: 'AT', flag: 'assets/austria.webp' },
-          '32': { isoCode: 'BE', flag: 'assets/belgium.webp' },
-          '46': { isoCode: 'SE', flag: 'assets/sweden.webp' },
-          '47': { isoCode: 'NO', flag: 'assets/norway.webp' },
-          '45': { isoCode: 'DK', flag: 'assets/denmark.webp' },
-          '358': { isoCode: 'FI', flag: 'assets/finland.webp' },
-          '48': { isoCode: 'PL', flag: 'assets/poland.webp' },
-          '420': { isoCode: 'CZ', flag: 'assets/czech.webp' },
-          '36': { isoCode: 'HU', flag: 'assets/hungary.webp' },
-          '40': { isoCode: 'RO', flag: 'assets/romania.webp' },
-          '30': { isoCode: 'GR', flag: 'assets/greece.webp' },
-          '90': { isoCode: 'TR', flag: 'assets/turkey.webp' },
-          '7': { isoCode: 'RU', flag: 'assets/russia.webp' },
-          '81': { isoCode: 'JP', flag: 'assets/japan.webp' },
-          '82': { isoCode: 'KR', flag: 'assets/korea.webp' },
-          '86': { isoCode: 'CN', flag: 'assets/china.webp' },
-          '91': { isoCode: 'IN', flag: 'assets/india.webp' },
-          '61': { isoCode: 'AU', flag: 'assets/australia.webp' },
-          '64': { isoCode: 'NZ', flag: 'assets/newzealand.webp' },
-          '27': { isoCode: 'ZA', flag: 'assets/southafrica.webp' },
-          '54': { isoCode: 'AR', flag: 'assets/argentina.webp' },
-          '56': { isoCode: 'CL', flag: 'assets/chile.webp' },
-          '57': { isoCode: 'CO', flag: 'assets/colombia.webp' },
-          '58': { isoCode: 'VE', flag: 'assets/venezuela.webp' },
-          '51': { isoCode: 'PE', flag: 'assets/peru.webp' },
-          '598': { isoCode: 'UY', flag: 'assets/uruguay.webp' },
-          '593': { isoCode: 'EC', flag: 'assets/ecuador.webp' },
-          '507': { isoCode: 'PA', flag: 'assets/panama.webp' },
-          '506': { isoCode: 'CR', flag: 'assets/costarica.webp' },
-          '503': { isoCode: 'SV', flag: 'assets/elsalvador.webp' },
-          '502': { isoCode: 'GT', flag: 'assets/guatemala.webp' },
-          '501': { isoCode: 'BZ', flag: 'assets/belize.webp' },
-          '53': { isoCode: 'CU', flag: 'assets/cuba.webp' },
-          '1-809': {
-            isoCode: 'DO',
-            flag: 'assets/dominican.webp',
-          },
-          '1-787': { isoCode: 'PR', flag: 'assets/puertorico.webp' },
-          '1-876': { isoCode: 'JM', flag: 'assets/jamaica.webp' },
-          '1-868': { isoCode: 'TT', flag: 'assets/trinidad.webp' },
-          'SIN IDENTIFICAR': {
-            isoCode: 'ZZ',
-            flag: 'assets/predeterminada.webp',
-          },
-        };
-
-        const mappedCountry = countryMapping[pais.pais];
-
-        if (mappedCountry) {
-          isoCode = mappedCountry.isoCode;
-          countryFlag = mappedCountry.flag;
+        if (
+          !rawPrefix ||
+          rawPrefix.toUpperCase() === 'SIN IDENTIFICAR' ||
+          rawPrefix.toUpperCase() === 'UNKNOWN'
+        ) {
+          isoCode = 'ZZ';
         } else {
-          // Prefijo no mapeado: guardamos el prefijo para mostrarlo luego
-          isoCode = `+${pais.pais}`;
-          countryFlag = 'assets/default.webp';
+          const nanpIso =
+            NANP_PREFIX_TO_ISO[rawPrefix] ??
+            NANP_PREFIX_TO_ISO[
+              rawPrefix.startsWith('1-') ? rawPrefix : `1-${digitsOnlyPrefix}`
+            ];
+          const globalIso = CALLING_CODE_TO_ISO[digitsOnlyPrefix];
+          const resolvedIso = nanpIso ?? globalIso;
+
+          // Prefijo no mapeado: conservamos el prefijo para mostrar "País +XX"
+          isoCode = resolvedIso ?? `+${digitsOnlyPrefix || rawPrefix}`;
         }
 
         return {
           isoCode,
-          img: countryFlag,
           percent: Math.round(pais.porcentaje * 10) / 10, // Redondear a 1 decimal
         };
       })
