@@ -832,30 +832,20 @@
                   {{ t.trustpilotDescription }}
                 </p>
 
-                <!-- Botón Canjear - ancho completo del recuadro -->
+                <!-- Canje Trustpilot: deshabilitado (sin handlers ni ripple; ver GIFTS_REDEEM_UI_DISABLED) -->
                 <div class="w-full mt-1">
-                  @if (isRewardRedeemed("Trustpilot") || giftsActionsDisabled) {
-                    <button
-                      type="button"
-                      disabled
-                      class="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gray-300 text-gray-600 font-medium font-sans rounded-xl flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm cursor-not-allowed"
-                    >
-                      {{
-                        isRewardRedeemed("Trustpilot")
-                          ? t.redeemed
-                          : t.redeem
-                      }}
-                    </button>
-                  } @else {
-                    <app-ripple-button
-                      (buttonClick)="redeemReward('Trustpilot')"
-                      buttonClass="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-medium font-sans rounded-xl transition-all duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-opacity-50 shadow-md  flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm"
-                      rippleColor="rgba(255, 255, 255, 0.4)"
-                      [rippleScale]="8"
-                    >
-                      {{ t.redeem }}
-                    </app-ripple-button>
-                  }
+                  <button
+                    type="button"
+                    disabled
+                    [attr.aria-disabled]="true"
+                    class="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gray-300 text-gray-600 font-medium font-sans rounded-xl flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm cursor-not-allowed select-none"
+                  >
+                    {{
+                      isRewardRedeemed("Trustpilot")
+                        ? t.redeemed
+                        : t.redeem
+                    }}
+                  </button>
                 </div>
               </div>
             </div>
@@ -877,155 +867,80 @@
                 >
                   {{ t.gift2Description }}
                 </p>
+                <!-- Redes: deshabilitadas (sin ripple ni apertura de enlaces) -->
                 <div
                   class="grid grid-cols-3 gap-1.5 w-full mt-1 min-w-0 items-stretch"
                 >
-                  @if (isRewardRedeemed("instagram") || giftsActionsDisabled) {
-                    <button
-                      type="button"
-                      disabled
-                      class="block h-full min-h-10 w-full px-1.5 bg-gray-300 text-gray-500 font-medium font-sans rounded-lg flex items-center justify-center cursor-not-allowed"
+                  <button
+                    type="button"
+                    disabled
+                    [attr.aria-label]="t.gift2SocialInstagram"
+                    [attr.aria-disabled]="true"
+                    class="h-full min-h-10 w-full px-1.5 bg-gray-300 text-gray-500 font-medium font-sans rounded-lg flex items-center justify-center cursor-not-allowed"
+                  >
+                    <svg
+                      class="w-5 h-5 shrink-0 text-gray-500"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
                     >
-                      <svg
-                        class="w-5 h-5 shrink-0 text-gray-500"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z"
-                          fill="currentColor"
-                        />
-                        <path
-                          d="M18 5C17.4477 5 17 5.44772 17 6C17 6.55228 17.4477 7 18 7C18.5523 7 19 6.55228 19 6C19 5.44772 18.5523 5 18 5Z"
-                          fill="currentColor"
-                        />
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M1.65396 4.27606C1 5.55953 1 7.23969 1 10.6V13.4C1 16.7603 1 18.4405 1.65396 19.7239C2.2292 20.8529 3.14708 21.7708 4.27606 22.346C5.55953 23 7.23969 23 10.6 23H13.4C16.7603 23 18.4405 23 19.7239 22.346C20.8529 21.7708 21.7708 20.8529 22.346 19.7239C23 18.4405 23 16.7603 23 13.4V10.6C23 7.23969 23 5.55953 22.346 4.27606C21.7708 3.14708 20.8529 2.2292 19.7239 1.65396C18.4405 1 16.7603 1 13.4 1H10.6C7.23969 1 5.55953 1 4.27606 1.65396C3.14708 2.2292 2.2292 3.14708 1.65396 4.27606ZM13.4 3H10.6C8.88684 3 7.72225 3.00156 6.82208 3.0751C5.94524 3.14674 5.49684 3.27659 5.18404 3.43597C4.43139 3.81947 3.81947 4.43139 3.43597 5.18404C3.27659 5.49684 3.14674 5.94524 3.0751 6.82208C3.00156 7.72225 3 8.88684 3 10.6V13.4C3 15.1132 3.00156 16.2777 3.0751 17.1779C3.14674 18.0548 3.27659 18.5032 3.43597 18.816C3.81947 19.5686 4.43139 20.1805 5.18404 20.564C5.49684 20.7234 5.94524 20.8533 6.82208 20.9249C7.72225 20.9984 8.88684 21 10.6 21H13.4C15.1132 21 16.2777 20.9984 17.1779 20.9249C18.0548 20.8533 18.5032 20.7234 18.816 20.564C19.5686 20.1805 20.1805 19.5686 20.564 18.816C20.7234 18.5032 20.8533 18.0548 20.9249 17.1779C20.9984 16.2777 21 15.1132 21 13.4V10.6C21 8.88684 20.9984 7.72225 20.9249 6.82208C20.8533 5.94524 20.7234 5.49684 20.564 5.18404C20.1805 4.43139 19.5686 3.81947 18.816 3.43597C18.5032 3.27659 18.0548 3.14674 17.1779 3.0751C16.2777 3.00156 15.1132 3 13.4 3Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </button>
-                  } @else {
-                    <app-ripple-button
-                      class="block h-full min-h-0 w-full min-w-0"
-                      [ariaLabel]="t.gift2SocialInstagram"
-                      (buttonClick)="openSocialGiftNetwork('instagram')"
-                      buttonClass="h-full min-h-10 w-full px-1.5 bg-black text-white font-medium font-sans rounded-lg transition-all duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-opacity-50 shadow-sm flex items-center justify-center"
-                      rippleColor="rgba(255, 255, 255, 0.4)"
-                      [rippleScale]="8"
-                    >
-                      <svg
-                        class="w-5 h-5 shrink-0 text-white"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z"
-                          fill="currentColor"
-                        />
-                        <path
-                          d="M18 5C17.4477 5 17 5.44772 17 6C17 6.55228 17.4477 7 18 7C18.5523 7 19 6.55228 19 6C19 5.44772 18.5523 5 18 5Z"
-                          fill="currentColor"
-                        />
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M1.65396 4.27606C1 5.55953 1 7.23969 1 10.6V13.4C1 16.7603 1 18.4405 1.65396 19.7239C2.2292 20.8529 3.14708 21.7708 4.27606 22.346C5.55953 23 7.23969 23 10.6 23H13.4C16.7603 23 18.4405 23 19.7239 22.346C20.8529 21.7708 21.7708 20.8529 22.346 19.7239C23 18.4405 23 16.7603 23 13.4V10.6C23 7.23969 23 5.55953 22.346 4.27606C21.7708 3.14708 20.8529 2.2292 19.7239 1.65396C18.4405 1 16.7603 1 13.4 1H10.6C7.23969 1 5.55953 1 4.27606 1.65396C3.14708 2.2292 2.2292 3.14708 1.65396 4.27606ZM13.4 3H10.6C8.88684 3 7.72225 3.00156 6.82208 3.0751C5.94524 3.14674 5.49684 3.27659 5.18404 3.43597C4.43139 3.81947 3.81947 4.43139 3.43597 5.18404C3.27659 5.49684 3.14674 5.94524 3.0751 6.82208C3.00156 7.72225 3 8.88684 3 10.6V13.4C3 15.1132 3.00156 16.2777 3.0751 17.1779C3.14674 18.0548 3.27659 18.5032 3.43597 18.816C3.81947 19.5686 4.43139 20.1805 5.18404 20.564C5.49684 20.7234 5.94524 20.8533 6.82208 20.9249C7.72225 20.9984 8.88684 21 10.6 21H13.4C15.1132 21 16.2777 20.9984 17.1779 20.9249C18.0548 20.8533 18.5032 20.7234 18.816 20.564C19.5686 20.1805 20.1805 19.5686 20.564 18.816C20.7234 18.5032 20.8533 18.0548 20.9249 17.1779C20.9984 16.2777 21 15.1132 21 13.4V10.6C21 8.88684 20.9984 7.72225 20.9249 6.82208C20.8533 5.94524 20.7234 5.49684 20.564 5.18404C20.1805 4.43139 19.5686 3.81947 18.816 3.43597C18.5032 3.27659 18.0548 3.14674 17.1779 3.0751C16.2777 3.00156 15.1132 3 13.4 3Z"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </app-ripple-button>
-                  }
-                  @if (isRewardRedeemed("linkedin") || giftsActionsDisabled) {
-                    <button
-                      type="button"
-                      disabled
-                      class="block h-full min-h-10 w-full px-1.5 bg-gray-300 text-gray-500 font-medium font-sans rounded-lg flex items-center justify-center cursor-not-allowed"
-                    >
-                      <svg
-                        class="w-5 h-5 shrink-0 text-gray-500"
-                        viewBox="0 0 24 24"
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z"
                         fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                        />
-                      </svg>
-                    </button>
-                  } @else {
-                    <app-ripple-button
-                      class="block h-full min-h-0 w-full min-w-0"
-                      [ariaLabel]="t.gift2SocialLinkedIn"
-                      (buttonClick)="openSocialGiftNetwork('linkedin')"
-                      buttonClass="h-full min-h-10 w-full px-1.5 bg-black text-white font-medium font-sans rounded-lg transition-all duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-opacity-50 shadow-sm flex items-center justify-center"
-                      rippleColor="rgba(255, 255, 255, 0.4)"
-                      [rippleScale]="8"
-                    >
-                      <svg
-                        class="w-5 h-5 shrink-0 text-white"
-                        viewBox="0 0 24 24"
+                      />
+                      <path
+                        d="M18 5C17.4477 5 17 5.44772 17 6C17 6.55228 17.4477 7 18 7C18.5523 7 19 6.55228 19 6C19 5.44772 18.5523 5 18 5Z"
                         fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                        />
-                      </svg>
-                    </app-ripple-button>
-                  }
-                  @if (isRewardRedeemed("x") || giftsActionsDisabled) {
-                    <button
-                      type="button"
-                      disabled
-                      class="block h-full min-h-10 w-full px-1.5 bg-gray-300 text-gray-500 font-medium font-sans rounded-lg flex items-center justify-center cursor-not-allowed"
-                    >
-                      <svg
-                        class="w-5 h-5 shrink-0 text-gray-500"
-                        viewBox="0 0 16 16"
+                      />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M1.65396 4.27606C1 5.55953 1 7.23969 1 10.6V13.4C1 16.7603 1 18.4405 1.65396 19.7239C2.2292 20.8529 3.14708 21.7708 4.27606 22.346C5.55953 23 7.23969 23 10.6 23H13.4C16.7603 23 18.4405 23 19.7239 22.346C20.8529 21.7708 21.7708 20.8529 22.346 19.7239C23 18.4405 23 16.7603 23 13.4V10.6C23 7.23969 23 5.55953 22.346 4.27606C21.7708 3.14708 20.8529 2.2292 19.7239 1.65396C18.4405 1 16.7603 1 13.4 1H10.6C7.23969 1 5.55953 1 4.27606 1.65396C3.14708 2.2292 2.2292 3.14708 1.65396 4.27606ZM13.4 3H10.6C8.88684 3 7.72225 3.00156 6.82208 3.0751C5.94524 3.14674 5.49684 3.27659 5.18404 3.43597C4.43139 3.81947 3.81947 4.43139 3.43597 5.18404C3.27659 5.49684 3.14674 5.94524 3.0751 6.82208C3.00156 7.72225 3 8.88684 3 10.6V13.4C3 15.1132 3.00156 16.2777 3.0751 17.1779C3.14674 18.0548 3.27659 18.5032 3.43597 18.816C3.81947 19.5686 4.43139 20.1805 5.18404 20.564C5.49684 20.7234 5.94524 20.8533 6.82208 20.9249C7.72225 20.9984 8.88684 21 10.6 21H13.4C15.1132 21 16.2777 20.9984 17.1779 20.9249C18.0548 20.8533 18.5032 20.7234 18.816 20.564C19.5686 20.1805 20.1805 19.5686 20.564 18.816C20.7234 18.5032 20.8533 18.0548 20.9249 17.1779C20.9984 16.2777 21 15.1132 21 13.4V10.6C21 8.88684 20.9984 7.72225 20.9249 6.82208C20.8533 5.94524 20.7234 5.49684 20.564 5.18404C20.1805 4.43139 19.5686 3.81947 18.816 3.43597C18.5032 3.27659 18.0548 3.14674 17.1779 3.0751C16.2777 3.00156 15.1132 3 13.4 3Z"
                         fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M12.6 0.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867 -5.07 -4.425 5.07H0.316l5.733 -6.57L0 0.75h5.063l3.495 4.633L12.601 0.75Zm-0.86 13.028h1.36L4.323 2.145H2.865z"
-                        />
-                      </svg>
-                    </button>
-                  } @else {
-                    <app-ripple-button
-                      class="block h-full min-h-0 w-full min-w-0"
-                      [ariaLabel]="t.gift2SocialX"
-                      (buttonClick)="openSocialGiftNetwork('x')"
-                      buttonClass="h-full min-h-10 w-full px-1.5 bg-black text-white font-medium font-sans rounded-lg transition-all duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-opacity-50 shadow-sm flex items-center justify-center"
-                      rippleColor="rgba(255, 255, 255, 0.4)"
-                      [rippleScale]="8"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    disabled
+                    [attr.aria-label]="t.gift2SocialLinkedIn"
+                    [attr.aria-disabled]="true"
+                    class="h-full min-h-10 w-full px-1.5 bg-gray-300 text-gray-500 font-medium font-sans rounded-lg flex items-center justify-center cursor-not-allowed"
+                  >
+                    <svg
+                      class="w-5 h-5 shrink-0 text-gray-500"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
                     >
-                      <svg
-                        class="w-5 h-5 shrink-0 text-white"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M12.6 0.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867 -5.07 -4.425 5.07H0.316l5.733 -6.57L0 0.75h5.063l3.495 4.633L12.601 0.75Zm-0.86 13.028h1.36L4.323 2.145H2.865z"
-                        />
-                      </svg>
-                    </app-ripple-button>
-                  }
+                      <path
+                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    disabled
+                    [attr.aria-label]="t.gift2SocialX"
+                    [attr.aria-disabled]="true"
+                    class="h-full min-h-10 w-full px-1.5 bg-gray-300 text-gray-500 font-medium font-sans rounded-lg flex items-center justify-center cursor-not-allowed"
+                  >
+                    <svg
+                      class="w-5 h-5 shrink-0 text-gray-500"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M12.6 0.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867 -5.07 -4.425 5.07H0.316l5.733 -6.57L0 0.75h5.063l3.495 4.633L12.601 0.75Zm-0.86 13.028h1.36L4.323 2.145H2.865z"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
@@ -1048,26 +963,16 @@
                   {{ t.gift3Description }}
                 </p>
                 <div class="w-full mt-1">
-                  @if (isRewardRedeemed("Gift3") || giftsActionsDisabled) {
-                    <button
-                      type="button"
-                      disabled
-                      class="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gray-300 text-gray-600 font-medium font-sans rounded-xl flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm cursor-not-allowed"
-                    >
-                      {{
-                        isRewardRedeemed("Gift3") ? t.redeemed : t.redeem
-                      }}
-                    </button>
-                  } @else {
-                    <app-ripple-button
-                      (buttonClick)="redeemReward('Gift3')"
-                      buttonClass="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-black text-white font-medium font-sans rounded-xl transition-all duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-opacity-50 shadow-md  flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm"
-                      rippleColor="rgba(255, 255, 255, 0.4)"
-                      [rippleScale]="8"
-                    >
-                      {{ t.redeem }}
-                    </app-ripple-button>
-                  }
+                  <button
+                    type="button"
+                    disabled
+                    [attr.aria-disabled]="true"
+                    class="w-full px-4 lg:px-6 xl:px-6 2xl:px-6 3xl:px-6 py-2 lg:py-2.5 xl:py-2.5 2xl:py-2.5 3xl:py-3 bg-gray-300 text-gray-600 font-medium font-sans rounded-xl flex items-center justify-center gap-2 text-xs lg:text-sm xl:text-sm 2xl:text-sm 3xl:text-sm cursor-not-allowed select-none"
+                  >
+                    {{
+                      isRewardRedeemed("Gift3") ? t.redeemed : t.redeem
+                    }}
+                  </button>
                 </div>
               </div>
             </div>

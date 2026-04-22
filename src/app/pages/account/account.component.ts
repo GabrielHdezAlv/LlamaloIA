@@ -40,6 +40,7 @@ import {
   isShopifyIntegrationLockedForPlan,
 } from '../../shared/utils/shopify-plan-lock.util';
 import { planDisplayLabelFromTranslations } from '../../shared/utils/plan-display.util';
+import { GIFTS_REDEEM_UI_DISABLED } from '../../core/constants/gifts-redeem-ui.constants';
 
 /** Alineado con backend: suscripción con cobro pendiente o incompleta. */
 const STRIPE_BILLING_BLOCKED_UI = new Set([
@@ -167,11 +168,8 @@ export class AccountComponent implements OnInit, OnDestroy {
   stripeBillingRedirecting = false;
   stripeLatestInvoiceLoading = false;
 
-  /**
-   * Regalos: desactiva la UI y evita canjes / apertura de redes y llamadas a la API
-   * hasta reactivar la funcionalidad.
-   */
-  readonly giftsActionsDisabled = true;
+  /** Misma bandera que `GIFTS_REDEEM_UI_DISABLED` (guards en handlers). */
+  readonly giftsActionsDisabled = GIFTS_REDEEM_UI_DISABLED;
 
   // Integraciones (mismo patrón visual que edit-agent / connect-phone-step)
   twilioConnectionsExpanded = false;

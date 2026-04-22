@@ -1,12 +1,13 @@
 import { inject, Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { EMPTY, Observable, map } from 'rxjs';
 import { LoginUser } from '../../shared/models/login-user.model';
 import { CreateUserDto } from '../../shared/models/create-user-dto.model';
 import { UpdateProfileDto } from '../../shared/models/update-profile-dto.model';
 import { UserProfileResponseDto } from '../../shared/models/user-profile-response.dto';
 import { environment } from '../../../environments/environment';
+import { GIFTS_REDEEM_UI_DISABLED } from '../constants/gifts-redeem-ui.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -291,6 +292,9 @@ export class UserService {
 
   // ✅ CANJEAR RECOMPENSA
   redeemReward(rewardType: string): Observable<any> {
+    if (GIFTS_REDEEM_UI_DISABLED) {
+      return EMPTY;
+    }
     return this.http.post<any>(
       `${this.apiUrl}/users/rewards/redeem`,
       { rewardType },
