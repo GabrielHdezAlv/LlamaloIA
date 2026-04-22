@@ -293,7 +293,7 @@ export class UpgradePlanPricingViewComponent implements OnInit {
         : this.mode === 'paywall'
           ? `${origin}/dashboard/home?stripe=cancel&pricing=1`
           : this.mode === 'upgrade'
-            ? `${origin}/dashboard/account?tab=billing&stripe=cancel`
+            ? `${origin}/dashboard`
             : `${origin}/company-setup?stripe=cancel`;
 
     if (this.isEmbeddedOnboarding) {
