@@ -92,6 +92,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     return planDisplayLabelFromTranslations(
       this.userStorage.user()?.plan,
       this.t,
+      {
+        trialActive: this.userStorage.user()?.planUsage?.trialActive === true,
+      },
     );
   }
 

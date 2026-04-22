@@ -61,7 +61,10 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return planDisplayLabelFromTranslations(
       this.userStorage.user()?.plan,
       this.t,
-      { includePlanWord: false },
+      {
+        includePlanWord: false,
+        trialActive: this.userStorage.user()?.planUsage?.trialActive === true,
+      },
     );
   }
 

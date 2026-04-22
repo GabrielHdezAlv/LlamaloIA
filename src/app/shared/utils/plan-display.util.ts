@@ -13,6 +13,8 @@ export function userPlanGrantsFullMetrics(
 export type PlanDisplayLabelOptions = {
   /** Por defecto se antepone la palabra localizada «Plan» (p. ej. «Plan Growth»). Pon `false` solo si quieres el nombre corto («Growth»). */
   includePlanWord?: boolean;
+  /** Si el perfil está en periodo de prueba (7 días) con plan `gratis`, se muestra «Prueba» en lugar de «Gratis». */
+  trialActive?: boolean;
 };
 
 /** Etiqueta localizada del plan para UI (navbar, métricas, etc.). */
@@ -33,12 +35,17 @@ export function planDisplayLabelFromTranslations(
     case 'starter':
       name = tr.upgradePlanStarter;
       break;
+    case 'pro':
+      name = tr.upgradePlanPro;
+      break;
     case 'premium':
       name = tr.upgradePlanPremium;
       break;
     case 'gratis':
     case 'free':
-      name = tr.upgradePlanFree;
+    case 'basic':
+      name =
+        options?.trialActive === true ? tr.planDisplayTrial : tr.upgradePlanFree;
       break;
     case 'sin_plan':
       name = tr.planDisplaySinPlan;

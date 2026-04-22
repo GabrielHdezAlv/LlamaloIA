@@ -70,7 +70,10 @@ export class NavComponent implements OnDestroy, OnInit, AfterViewInit {
     return planDisplayLabelFromTranslations(
       user?.plan,
       this.i18nService.getTranslations(),
-      { includePlanWord: false },
+      {
+        includePlanWord: false,
+        trialActive: user?.planUsage?.trialActive === true,
+      },
     );
   });
 

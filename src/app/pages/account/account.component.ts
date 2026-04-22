@@ -39,6 +39,7 @@ import {
   resolveEffectivePlanSlug,
   isShopifyIntegrationLockedForPlan,
 } from '../../shared/utils/shopify-plan-lock.util';
+import { planDisplayLabelFromTranslations } from '../../shared/utils/plan-display.util';
 
 /** Alineado con backend: suscripción con cobro pendiente o incompleta. */
 const STRIPE_BILLING_BLOCKED_UI = new Set([
@@ -162,7 +163,7 @@ export class AccountComponent implements OnInit, OnDestroy {
   // Facturación
   currentPlanMinutes: number | null = null;
   isSaving = false;
-  currentPlanName: string = 'Gratis';
+  currentPlanName: string = '';
   stripeBillingRedirecting = false;
   stripeLatestInvoiceLoading = false;
 
@@ -997,17 +998,12 @@ export class AccountComponent implements OnInit, OnDestroy {
     const u = this.user();
     if (!u) return;
     this.currentPlanMinutes = u.minutesLimit ?? 100;
-    const planMap: Record<string, string> = {
-      gratis: 'Gratis',
-      basic: 'Gratis',
-      free: 'Gratis',
-      starter: 'Starter',
-      growth: 'Growth',
-      scale: 'Scale',
-      pro: 'Pro',
-      premium: 'Premium',
-    };
-    this.currentPlanName = u.plan ? planMap[u.plan] || 'Gratis' : 'Gratis';
+    const tr = this.i18nService.getTranslations();
+    const slug = u.plan?.trim() || 'gratis';
+    this.currentPlanName = planDisplayLabelFromTranslations(slug, tr, {
+      includePlanWord: false,
+      trialActive: u.planUsage?.trialActive === true,
+    });
   }
 
   openBillingPortal(): void {

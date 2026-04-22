@@ -404,6 +404,8 @@ export interface Translations {
   subscribeRequiredPaymentFailedSubtitle: string;
   /** Etiqueta corta del plan «sin suscripción» (navbar, cuenta) */
   planDisplaySinPlan: string;
+  /** Plan gratis mostrado durante la prueba de 7 días (perfil `gratis` + trial activo) */
+  planDisplayTrial: string;
   /** Paso de registro: elegir plan o prueba */
   registrationPlanStepTitle: string;
   registrationCancelCta: string;
@@ -1459,6 +1461,7 @@ export class I18nService {
       subscribeRequiredPaymentFailedSubtitle:
         'Actualiza tu método de pago desde el portal de facturación (elige un plan abajo) o contrata de nuevo para seguir usando la plataforma.',
       planDisplaySinPlan: 'Sin plan',
+      planDisplayTrial: 'Prueba',
       registrationPlanStepTitle: 'Elige cómo quieres empezar',
       registrationCancelCta: 'Cancelar registro y salir',
       onboardingPlanStepSubtitle:
@@ -2510,6 +2513,7 @@ export class I18nService {
       subscribeRequiredPaymentFailedSubtitle:
         'Update your payment method in the billing portal (choose a plan below) or subscribe again to keep using the platform.',
       planDisplaySinPlan: 'No plan',
+      planDisplayTrial: 'Trial',
       registrationPlanStepTitle: 'Choose how to get started',
       registrationCancelCta: 'Cancel sign-up and exit',
       onboardingPlanStepSubtitle:
