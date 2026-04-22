@@ -5,7 +5,6 @@ import {
   OnDestroy,
   OnInit,
   PLATFORM_ID,
-  afterNextRender,
   inject,
 } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -45,7 +44,7 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
   /** Mientras se obtiene authUrl y se redirige al usuario */
   loading = false;
   /** Mientras se carga el perfil del usuario */
-  loadingStores = false;
+  loadingStores = true;
   /** Mensaje de error si falla la petición */
   errorMessage: string | null = null;
   /** Tiendas de Shopify conectadas del usuario */
@@ -76,11 +75,7 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private userService: UserService,
     @Inject(PLATFORM_ID) private platformId: object,
-  ) {
-    afterNextRender(() => {
-      this.loadConnectedStores();
-    });
-  }
+  ) {}
 
   private getAuthHeaders(): HttpHeaders {
     let token = '';
@@ -109,6 +104,8 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     this.sourceAdmin = this.route.snapshot.queryParams['source'] === 'admin';
     this.sourceOnboarding = this.route.snapshot.queryParams['source'] === 'onboarding';
     this.sourceAccount = this.route.snapshot.queryParams['source'] === 'account';
+
+    this.loadConnectedStores();
   }
 
   /** Carga las tiendas de Shopify conectadas del usuario */
