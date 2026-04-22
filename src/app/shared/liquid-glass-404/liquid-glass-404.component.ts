@@ -24,7 +24,7 @@ export class LiquidGlass404Component implements AfterViewInit, OnDestroy {
   private material?: THREE.ShaderMaterial;
   private animationFrameId?: number;
 
-  private readonly textureUrl = 'assets/fondo_404.jfif';
+  private readonly textureUrl = 'assets/fondo_404.webp';
 
   constructor(private ngZone: NgZone) {}
 

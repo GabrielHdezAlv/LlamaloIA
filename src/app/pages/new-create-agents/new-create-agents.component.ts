@@ -582,40 +582,40 @@ export class NewCreateAgentsComponent
   private readonly defaultVoicesData = [
     {
       name: 'Carla',
-      image: 'assets/carla_prueba1.png',
+      image: 'assets/carla_prueba1.webp',
       description:
         'Diseñadora de Producto enfocada en simplicidad y usabilidad.',
       badgeText: 'Top 1% Voz',
     },
     {
       name: 'Carlos',
-      image: 'assets/carlos_prueba1.png',
+      image: 'assets/carlos_prueba1.webp',
       description:
         'Especialista en Soporte Técnico con tono calmado y resolutivo.',
       badgeText: 'Top 5% Voz',
     },
     {
       name: 'David',
-      image: 'assets/david_prueba1.png',
+      image: 'assets/david_prueba1.webp',
       description: 'Ejecutivo de Ventas con energía y capacidad de persuasión.',
       badgeText: 'Top Ventas',
     },
     {
       name: 'Jesús',
-      image: 'assets/jesus_prueba1.png',
+      image: 'assets/jesus_prueba1.webp',
       description:
         'Asistente Virtual amigable ideal para recepción de llamadas.',
       badgeText: 'Popular',
     },
     {
       name: 'Claudia',
-      image: 'assets/claudia_prueba1.png',
+      image: 'assets/claudia_prueba1.webp',
       description: 'Narradora profesional perfecta para contenido educativo.',
       badgeText: 'Nueva',
     },
     {
       name: 'María',
-      image: 'assets/maria_prueba1.png',
+      image: 'assets/maria_prueba1.webp',
       description:
         'Agente de atención al cliente con gran empatía y paciencia.',
       badgeText: 'Destacada',
