@@ -297,14 +297,10 @@ export class MetricsComponent implements OnInit, OnDestroy {
       });
     }
 
-    // Estado de uso del plan (siempre visible, cambia según porcentaje)
-    // Si no hay límite configurado, usar un límite por defecto de 1000 minutos para mostrar el porcentaje
+    // Estado de uso del plan (siempre visible): % respecto al límite base del plan (sin sumar extras).
     const baseLimit = this.minutesLimit > 0 ? this.minutesLimit : 1000;
-    const planLimit = baseLimit + (this.extraMinutes || 0);
-
-    // El porcentaje no debe superar el 100% si se usan minutos extra
     const usagePercent = Math.min(
-      (this.totalMinutesUsed / planLimit) * 100,
+      (this.totalMinutesUsed / baseLimit) * 100,
       100,
     );
 
@@ -747,21 +743,16 @@ export class MetricsComponent implements OnInit, OnDestroy {
   costPerMinute = 0; // coste medio por minuto en euros
 
   // Getters para UI
-  get displayMinutesUsed(): number {
-    return Math.round(
-      Math.min(
-        this.totalMinutesUsed,
-        (this.minutesLimit ?? 100) + (this.extraMinutes ?? 0),
-      ),
-    );
+  /** Minutos contados contra el cupo del plan (tope = límite del plan en la fracción mostrada). */
+  get displayPlanMinutesConsumed(): number {
+    const cap = this.minutesLimit > 0 ? this.minutesLimit : 100;
+    return Math.round(Math.min(this.totalMinutesUsed, cap));
   }
 
-  get displayExtraMinutesUsed(): string {
-    const val = Math.max(
-      0,
-      this.totalMinutesUsed -
-        ((this.minutesLimit ?? 100) + (this.extraMinutes ?? 0)),
-    );
+  /** Minutos por encima del cupo incluido del plan (periodo actual de uso). */
+  get displayExtraMinutesBeyondPlan(): string {
+    const cap = this.minutesLimit > 0 ? this.minutesLimit : 100;
+    const val = Math.max(0, this.totalMinutesUsed - cap);
     return (Math.round(val * 100) / 100).toFixed(2).replace('.', ',');
   }
 

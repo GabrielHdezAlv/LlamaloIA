@@ -144,17 +144,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Barra «minutos restantes»: ancho = cupo restante (no consumido).
-   * Si superas el límite, 0 % de relleno.
+   * Minutos que consumen del cupo del plan (no más que el límite), para la fracción x/x y la barra.
+   */
+  get displayPlanMinutesUsedForBar(): number {
+    const cap = this.user()?.minutesLimit ?? 100;
+    return Math.min(this.displayMinutesMonth, cap);
+  }
+
+  /**
+   * Barra «minutos restantes»: ancho = cupo restante del plan (solo minutos incluidos).
+   * Si superas el límite incluido, 0 % de relleno.
    */
   get minutesRemainingBarPercent(): number {
     const totalLimit = this.user()?.minutesLimit ?? 100;
-    const used = this.displayMinutesMonth;
-    
+    const used = this.displayPlanMinutesUsedForBar;
+
     if (totalLimit <= 0) {
       return 0;
     }
-    
+
     const remaining = totalLimit - used;
     if (remaining <= 0) {
       return 0;

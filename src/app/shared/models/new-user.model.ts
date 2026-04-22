@@ -26,6 +26,9 @@ export class User {
   stripeSubscriptionId?: string | null;
   /** Estado Stripe: trialing, active, past_due, etc. */
   stripeSubscriptionStatus?: string | null;
+  /** Periodo de facturación actual (seg. UNIX) para alinear consumo con Stripe */
+  stripeCurrentPeriodStart?: number | null;
+  stripeCurrentPeriodEnd?: number | null;
   /** false = debe elegir plan o prueba en el flujo de registro */
   planSelectionCompleted?: boolean;
   /** Suscripción cancelada: flujo solo planes en `/subscribe-required` */

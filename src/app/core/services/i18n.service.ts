@@ -27,6 +27,8 @@ export interface Translations {
   totalCalls: string;
   successfulCalls: string;
   totalMinutes: string;
+  /** Subtítulo en métricas: consumo alineado al periodo de facturación (Stripe) o calendario */
+  metricsUsagePeriodHint: string;
   minutes: string;
   successRate: string;
   planStarter: string;
@@ -1089,6 +1091,7 @@ export class I18nService {
       totalCalls: 'Total de llamadas',
       successfulCalls: 'Llamadas exitosas',
       totalMinutes: 'Minutos Totales',
+      metricsUsagePeriodHint: 'Periodo de facturación',
       minutes: 'Minutos',
       successRate: 'Tasa de éxito de las llamadas',
       planStarter: 'Plan Starter',
@@ -2142,6 +2145,7 @@ export class I18nService {
       totalCalls: 'Total calls',
       successfulCalls: 'Successful calls',
       totalMinutes: 'Total Minutes',
+      metricsUsagePeriodHint: 'Billing period',
       minutes: 'Minutes',
       successRate: 'Call success rate',
       planStarter: 'Starter Plan',

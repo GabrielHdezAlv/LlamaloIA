@@ -50,6 +50,9 @@ export interface UserProfileResponseDto {
   stripeCustomerId?: string | null;
   stripeSubscriptionId?: string | null;
   stripeSubscriptionStatus?: string | null;
+  /** Periodo de facturación Stripe (seg. UNIX), si existe. */
+  stripeCurrentPeriodStart?: number | null;
+  stripeCurrentPeriodEnd?: number | null;
   billingChurnLocked?: boolean;
   stripeStarterTrialEligible?: boolean;
   planSelectionCompleted?: boolean;
