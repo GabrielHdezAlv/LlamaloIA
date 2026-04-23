@@ -94,7 +94,8 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    const isBrowser = isPlatformBrowser(this.platformId);
+    if (isBrowser) {
       document.body.classList.add(BODY_CLASS);
       document.documentElement.classList.add(BODY_CLASS);
     }
@@ -105,7 +106,15 @@ export class ShopifyOnboardingComponent implements OnInit, OnDestroy {
     this.sourceOnboarding = this.route.snapshot.queryParams['source'] === 'onboarding';
     this.sourceAccount = this.route.snapshot.queryParams['source'] === 'account';
 
-    this.loadConnectedStores();
+    // En SSR/prerender no hay sesión de usuario, por lo que getUserProfile()
+    // puede completar vacío y firstValueFrom lanzar EmptyError.
+    // Cargamos tiendas solo en navegador.
+    if (isBrowser) {
+      this.loadConnectedStores();
+    } else {
+      this.loadingStores = false;
+      this.showNewStoreForm = true;
+    }
   }
 
   /** Carga las tiendas de Shopify conectadas del usuario */
