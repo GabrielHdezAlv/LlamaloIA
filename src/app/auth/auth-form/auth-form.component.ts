@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Data, Router, RouterModule } from '@angular/router';
+import * as Sentry from '@sentry/angular';
 import {
   FormsModule,
   FormBuilder,
@@ -317,10 +318,26 @@ export class AuthFormComponent implements OnInit {
     }
   }
 
+  private setSentryUserFromProfile(data: any): void {
+    const id =
+      (typeof data?.uid === 'string' && data.uid) ||
+      (typeof data?.userId === 'string' && data.userId) ||
+      undefined;
+    const email =
+      (typeof data?.email === 'string' && data.email) || this.email || undefined;
+
+    if (!id && !email) {
+      return;
+    }
+
+    Sentry.setUser({ id, email });
+  }
+
   private loadProfileAndNavigate() {
     this.userService.getUserProfile().subscribe({
       next: (data: any) => {
         this.applyUserProfileToStores(data);
+        this.setSentryUserFromProfile(data);
 
         this.notificationService.success(this.t.authSuccessLogin);
 
@@ -418,6 +435,7 @@ export class AuthFormComponent implements OnInit {
         this.userService.getUserProfile().subscribe({
           next: (data) => {
             this.applyUserProfileToStores(data);
+            this.setSentryUserFromProfile(data);
             setTimeout(() => {
               if (!isPlatformBrowser(this.platformId)) {
                 return;

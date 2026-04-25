@@ -1,6 +1,7 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { signOut } from 'firebase/auth';
+import * as Sentry from '@sentry/angular';
 import { firebaseAuth } from './firebase.config';
 import { UserStorage } from '../../storages/user/user-storage';
 import { TwilioStorage } from '../../storages/twilio/twilio-storage';
@@ -34,6 +35,7 @@ export class AuthSessionService {
   async clearSession(): Promise<void> {
     this.profileEventsClient.disconnect();
     this.tokenRefresh.stop();
+    Sentry.setUser(null); // Borrar el usuario de Sentry al cerrar sesión
     if (isPlatformBrowser(this.platformId)) {
       if (typeof window !== 'undefined' && window.localStorage) {
         localStorage.removeItem('token');
