@@ -59,6 +59,33 @@ function runSentrySourcemaps() {
   }
 
   const release = process.env.VERCEL_GIT_COMMIT_SHA;
+  console.log(`[vercel-build] Preparando release de Sentry (release=${release})`);
+
+  // 1) Crear el release de forma explícita para que aparezca en la pestaña
+  // "Releases" de Sentry aunque todavía no haya eventos asociados.
+  execSync(`npx @sentry/cli releases new "${release}"`, {
+    stdio: 'inherit',
+    shell: true,
+    env: process.env,
+  });
+
+  // 2) Intentar asociar commits automáticamente. En algunos entornos CI
+  // (clone superficial o sin metadatos git completos) puede fallar; no
+  // debemos tumbar el build por eso.
+  try {
+    execSync(`npx @sentry/cli releases set-commits "${release}" --auto`, {
+      stdio: 'inherit',
+      shell: true,
+      env: process.env,
+    });
+  } catch (error) {
+    console.warn(
+      '[vercel-build] Aviso: no se pudieron asociar commits automáticamente al release de Sentry. Se continúa con sourcemaps.',
+    );
+    void error;
+  }
+
+  // 3) Inyectar y subir sourcemaps al release recién creado.
   console.log(`[vercel-build] Subiendo sourcemaps a Sentry (release=${release})`);
 
   execSync(`npx @sentry/cli sourcemaps inject "${browserDir}"`, {
@@ -75,6 +102,13 @@ function runSentrySourcemaps() {
       env: process.env,
     },
   );
+
+  // 4) Finalizar release para que quede visible como release completo en Sentry.
+  execSync(`npx @sentry/cli releases finalize "${release}"`, {
+    stdio: 'inherit',
+    shell: true,
+    env: process.env,
+  });
 }
 
 function deleteSourceMapFiles(dir) {
