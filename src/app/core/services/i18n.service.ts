@@ -643,6 +643,91 @@ export interface Translations {
   /** Enlace a Make.com desde el panel lateral */
   makeModalOpenMakeSite: string;
   connectShopifyTitle: string;
+  /** Subtítulo del paso instrucciones solo para agente saliente. */
+  outboundInstructionsLead: string;
+  /** Paso elegir tipo de campaña (solo saliente). */
+  outboundCampaignStepTitle: string;
+  outboundCampaignStepSubtitle: string;
+  /** Paso segmentación (solo saliente, tras campaña). */
+  outboundSegmentationStepTitle: string;
+  outboundSegmentationStepSubtitle: string;
+  /** Campos del paso segmentación (formulario estructurado) */
+  outboundSegAbandonTimeLabel: string;
+  outboundSegAvgTicketLabel: string;
+  outboundSegCountryLabel: string;
+  outboundSegStateLabel: string;
+  outboundSegAdvancedAccordionTitle: string;
+  outboundSegCartProductsLabel: string;
+  outboundSegCartValueLabel: string;
+  outboundSegCartItemsLabel: string;
+  outboundSegSurveyTimeSincePurchaseLabel: string;
+  outboundSegSurveyTicketLabel: string;
+  outboundSegPurchasedProductLabel: string;
+  outboundSegPurchaseFrequencyLabel: string;
+  outboundSegPaymentDueLabel: string;
+  outboundSegPaymentTicketLabel: string;
+  outboundSegPlaceholderEuroExample: string;
+  outboundSegPlaceholderUnitsExample: string;
+  outboundSegSelectProducts: string;
+  outboundSegAbandon24h: string;
+  outboundSegAbandon48h: string;
+  outboundSegAbandon7d: string;
+  outboundSegStateNew: string;
+  outboundSegStateRecurring: string;
+  outboundSegCountrySpain: string;
+  outboundSegCountryPortugal: string;
+  outboundSegCountryFrance: string;
+  outboundSegCountryMexico: string;
+  outboundSegTime1h: string;
+  outboundSegTime3h: string;
+  outboundSegTime24h: string;
+  outboundSegFreqFirstPurchase: string;
+  outboundSegFreqRepeat: string;
+  outboundSegDue1hBefore: string;
+  outboundSegDue24hBefore: string;
+  outboundSegDue48hBefore: string;
+  /** Programar campaña (solo saliente, tras segmentación). */
+  outboundScheduleCampaignTitle: string;
+  outboundScheduleCampaignSubtitle: string;
+  outboundScheduleHorarioTitle: string;
+  outboundScheduleBusinessHoursLabel: string;
+  outboundScheduleCustomLabel: string;
+  outboundScheduleFrequencyTitle: string;
+  outboundScheduleInitialDelayLabel: string;
+  outboundScheduleRetriesLabel: string;
+  outboundScheduleRetriesTimesEach: string;
+  outboundScheduleMaxCallsLabel: string;
+  outboundScheduleMaxCallsPerDay: string;
+  outboundScheduleDelay30mAbandon: string;
+  outboundScheduleDelay1hAbandon: string;
+  outboundScheduleDelay2hAbandon: string;
+  outboundScheduleDelay24hAbandon: string;
+  outboundScheduleCustomModalTitle: string;
+  outboundScheduleCustomDaysHint: string;
+  outboundScheduleCustomTimeFrom: string;
+  outboundScheduleCustomTimeTo: string;
+  outboundScheduleCustomSave: string;
+  outboundScheduleCustomCancel: string;
+  outboundScheduleCustomEditCta: string;
+  outboundScheduleWkMon: string;
+  outboundScheduleWkTue: string;
+  outboundScheduleWkWed: string;
+  outboundScheduleWkThu: string;
+  outboundScheduleWkFri: string;
+  outboundScheduleWkSat: string;
+  outboundScheduleWkSun: string;
+  /** Tras guardar instrucciones en flujo saliente (antes de salir al listado). */
+  outboundInstructionsPhaseSaved: string;
+  /** Plantillas de mensaje saliente (bloques bajo instrucciones). */
+  outboundTplAbandonedTitle: string;
+  outboundTplSatisfactionTitle: string;
+  outboundTplPostPurchaseTitle: string;
+  outboundTplPaymentTitle: string;
+  outboundTplBlockSubtitle: string;
+  outboundTplAbandonedPlaceholder: string;
+  outboundTplSatisfactionPlaceholder: string;
+  outboundTplPostPurchasePlaceholder: string;
+  outboundTplPaymentPlaceholder: string;
   linkStoreDescription: string;
   shopifyConnectDesc: string;
   /** Pantallas /shopify-onboarding y /shopify-onboarding/success */
@@ -1696,6 +1781,94 @@ export class I18nService {
         'Configura webhooks en Make.com para que tu agente dispare automatizaciones cuando lo necesites.',
       makeModalOpenMakeSite: 'Abrir Make.com',
       connectShopifyTitle: 'Conecta tu negocio de Shopify',
+      outboundInstructionsLead:
+        'Define el comportamiento del agente en llamadas salientes.',
+      outboundCampaignStepTitle: 'Elegir campaña',
+      outboundCampaignStepSubtitle:
+        'Selecciona el tipo de acción que realizará el agente con tus clientes.',
+      outboundSegmentationStepTitle: 'Segmentación',
+      outboundSegmentationStepSubtitle:
+        'Indica a quién debe contactar el agente en esta campaña (perfil, criterios y exclusiones).',
+      outboundSegAbandonTimeLabel: 'Tiempo desde abandono:',
+      outboundSegAvgTicketLabel: 'Ticket promedio:',
+      outboundSegCountryLabel: 'País/es:',
+      outboundSegStateLabel: 'Estado:',
+      outboundSegAdvancedAccordionTitle:
+        'Segmentación de clientes avanzada por campaña',
+      outboundSegCartProductsLabel: 'Producto/s en el carrito:',
+      outboundSegCartValueLabel: 'Valor del carrito:',
+      outboundSegCartItemsLabel: 'Número de ítems en el carrito:',
+      outboundSegSurveyTimeSincePurchaseLabel: 'Tiempo desde el envío (compra):',
+      outboundSegSurveyTicketLabel: 'Valor de ticket:',
+      outboundSegPurchasedProductLabel: 'Producto comprado:',
+      outboundSegPurchaseFrequencyLabel: 'Frecuencia de compra:',
+      outboundSegPaymentDueLabel: 'Vencimiento del pago:',
+      outboundSegPaymentTicketLabel: 'Valor de ticket:',
+      outboundSegPlaceholderEuroExample: 'ej: 30€',
+      outboundSegPlaceholderUnitsExample: 'ej: 30u',
+      outboundSegSelectProducts: 'Producto/s',
+      outboundSegAbandon24h: '24h',
+      outboundSegAbandon48h: '48h',
+      outboundSegAbandon7d: '7 días',
+      outboundSegStateNew: 'Nuevo',
+      outboundSegStateRecurring: 'Recurrente',
+      outboundSegCountrySpain: 'España',
+      outboundSegCountryPortugal: 'Portugal',
+      outboundSegCountryFrance: 'Francia',
+      outboundSegCountryMexico: 'México',
+      outboundSegTime1h: '1h',
+      outboundSegTime3h: '3h',
+      outboundSegTime24h: '24h',
+      outboundSegFreqFirstPurchase: 'Primera compra (nuevo cliente)',
+      outboundSegFreqRepeat: 'Cliente recurrente',
+      outboundSegDue1hBefore: '1h antes',
+      outboundSegDue24hBefore: '24h antes',
+      outboundSegDue48hBefore: '48h antes',
+      outboundScheduleCampaignTitle: 'Programar campaña',
+      outboundScheduleCampaignSubtitle:
+        'Configura horarios, frecuencia y límites de llamadas.',
+      outboundScheduleHorarioTitle: 'Horario de campaña',
+      outboundScheduleBusinessHoursLabel: 'Horario comercial (Lun–Vie, 9h–18h)',
+      outboundScheduleCustomLabel: 'Personalizado',
+      outboundScheduleFrequencyTitle: 'Frecuencia y reglas',
+      outboundScheduleInitialDelayLabel: 'Retraso inicial',
+      outboundScheduleRetriesLabel: 'Reintentos',
+      outboundScheduleRetriesTimesEach: 'veces cada',
+      outboundScheduleMaxCallsLabel: 'Máx. llamadas:',
+      outboundScheduleMaxCallsPerDay: 'por cliente/día',
+      outboundScheduleDelay30mAbandon: '30 min después del abandono',
+      outboundScheduleDelay1hAbandon: '1 h después del abandono',
+      outboundScheduleDelay2hAbandon: '2 h después del abandono',
+      outboundScheduleDelay24hAbandon: '24 h después del abandono',
+      outboundScheduleCustomModalTitle: 'Horario personalizado',
+      outboundScheduleCustomDaysHint: 'Días de llamada',
+      outboundScheduleCustomTimeFrom: 'Desde',
+      outboundScheduleCustomTimeTo: 'Hasta',
+      outboundScheduleCustomSave: 'Guardar',
+      outboundScheduleCustomCancel: 'Cancelar',
+      outboundScheduleCustomEditCta: 'Editar horario',
+      outboundScheduleWkMon: 'L',
+      outboundScheduleWkTue: 'M',
+      outboundScheduleWkWed: 'X',
+      outboundScheduleWkThu: 'J',
+      outboundScheduleWkFri: 'V',
+      outboundScheduleWkSat: 'S',
+      outboundScheduleWkSun: 'D',
+      outboundInstructionsPhaseSaved:
+        'Instrucciones guardadas. El alta saliente continuará en siguientes pasos; puedes seguir desde el panel.',
+      outboundTplAbandonedTitle: 'Recuperación de carritos abandonados',
+      outboundTplSatisfactionTitle: 'Encuestas de satisfacción',
+      outboundTplPostPurchaseTitle: 'Ofertas post-compra',
+      outboundTplPaymentTitle: 'Recordatorio de pago',
+      outboundTplBlockSubtitle: 'Definir un mensaje de saludo personalizado',
+      outboundTplAbandonedPlaceholder:
+        'Hola {{customer_name}}, notamos que olvidaste completar tu compra de {{product_name}}. El total de tu carrito es {{cart_total}}. ¿Quieres que te ayude a finalizar el pedido ahora mismo?',
+      outboundTplSatisfactionPlaceholder:
+        'Hola {{customer_name}}, gracias por comprar en {{store_name}}. Queremos mejorar cada día y tu opinión es muy importante. En una escala del 1 al 5, ¿cómo valorarías tu experiencia con {{product_name}}?',
+      outboundTplPostPurchasePlaceholder:
+        'Hola {{customer_name}}, gracias por tu compra en {{store_name}}. Como agradecimiento, te damos un {{discount_code}} para tu próxima compra. Además, clientes que compraron {{product_name}} también suelen llevarse {{recommended_product}}. ¿Quieres que te lo enseñe ahora mismo?',
+      outboundTplPaymentPlaceholder:
+        'Hola {{customer_name}}, notamos que tu pago de {{cart_total}} en {{store_name}} aún está pendiente. Tu pedido está en estado: {{order_status}}. ¿Quieres que te ayude a completarlo antes de que el plazo venza {{due_date}}?',
       linkStoreDescription: 'Vincula tu tienda para que tu agente pueda usar tus datos reales.',
       shopifyConnectDesc: 'Conecta tu tienda para sincronizar productos, pedidos y clientes.',
       shopifyOnboardingAuthLoading:
@@ -2749,6 +2922,93 @@ export class I18nService {
         'Set up webhooks in Make.com so your agent can trigger automations when needed.',
       makeModalOpenMakeSite: 'Open Make.com',
       connectShopifyTitle: 'Connect your Shopify business',
+      outboundInstructionsLead:
+        'Define how the agent should behave on outbound calls.',
+      outboundCampaignStepTitle: 'Choose campaign',
+      outboundCampaignStepSubtitle:
+        'Select the type of action the agent will perform with your customers.',
+      outboundSegmentationStepTitle: 'Segmentation',
+      outboundSegmentationStepSubtitle:
+        'Describe who the agent should reach in this campaign (profile, criteria, exclusions).',
+      outboundSegAbandonTimeLabel: 'Time since abandonment:',
+      outboundSegAvgTicketLabel: 'Average order value:',
+      outboundSegCountryLabel: 'Country / countries:',
+      outboundSegStateLabel: 'Status:',
+      outboundSegAdvancedAccordionTitle: 'Advanced customer segmentation by campaign',
+      outboundSegCartProductsLabel: 'Product(s) in cart:',
+      outboundSegCartValueLabel: 'Cart value:',
+      outboundSegCartItemsLabel: 'Number of items in cart:',
+      outboundSegSurveyTimeSincePurchaseLabel: 'Time since shipping (purchase):',
+      outboundSegSurveyTicketLabel: 'Order value:',
+      outboundSegPurchasedProductLabel: 'Purchased product:',
+      outboundSegPurchaseFrequencyLabel: 'Purchase frequency:',
+      outboundSegPaymentDueLabel: 'Payment due:',
+      outboundSegPaymentTicketLabel: 'Order value:',
+      outboundSegPlaceholderEuroExample: 'e.g. 30€',
+      outboundSegPlaceholderUnitsExample: 'e.g. 30 units',
+      outboundSegSelectProducts: 'Product(s)',
+      outboundSegAbandon24h: '24h',
+      outboundSegAbandon48h: '48h',
+      outboundSegAbandon7d: '7 days',
+      outboundSegStateNew: 'New',
+      outboundSegStateRecurring: 'Returning',
+      outboundSegCountrySpain: 'Spain',
+      outboundSegCountryPortugal: 'Portugal',
+      outboundSegCountryFrance: 'France',
+      outboundSegCountryMexico: 'Mexico',
+      outboundSegTime1h: '1h',
+      outboundSegTime3h: '3h',
+      outboundSegTime24h: '24h',
+      outboundSegFreqFirstPurchase: 'First purchase (new customer)',
+      outboundSegFreqRepeat: 'Returning customer',
+      outboundSegDue1hBefore: '1h before',
+      outboundSegDue24hBefore: '24h before',
+      outboundSegDue48hBefore: '48h before',
+      outboundScheduleCampaignTitle: 'Schedule campaign',
+      outboundScheduleCampaignSubtitle:
+        'Set schedules, frequency, and call limits.',
+      outboundScheduleHorarioTitle: 'Campaign schedule',
+      outboundScheduleBusinessHoursLabel: 'Business hours (Mon–Fri, 9am–6pm)',
+      outboundScheduleCustomLabel: 'Custom',
+      outboundScheduleFrequencyTitle: 'Frequency and rules',
+      outboundScheduleInitialDelayLabel: 'Initial delay',
+      outboundScheduleRetriesLabel: 'Retries',
+      outboundScheduleRetriesTimesEach: 'times every',
+      outboundScheduleMaxCallsLabel: 'Max. calls:',
+      outboundScheduleMaxCallsPerDay: 'per customer/day',
+      outboundScheduleDelay30mAbandon: '30 min after abandonment',
+      outboundScheduleDelay1hAbandon: '1 h after abandonment',
+      outboundScheduleDelay2hAbandon: '2 h after abandonment',
+      outboundScheduleDelay24hAbandon: '24 h after abandonment',
+      outboundScheduleCustomModalTitle: 'Custom schedule',
+      outboundScheduleCustomDaysHint: 'Call days',
+      outboundScheduleCustomTimeFrom: 'From',
+      outboundScheduleCustomTimeTo: 'To',
+      outboundScheduleCustomSave: 'Save',
+      outboundScheduleCustomCancel: 'Cancel',
+      outboundScheduleCustomEditCta: 'Edit schedule',
+      outboundScheduleWkMon: 'Mo',
+      outboundScheduleWkTue: 'Tu',
+      outboundScheduleWkWed: 'We',
+      outboundScheduleWkThu: 'Th',
+      outboundScheduleWkFri: 'Fr',
+      outboundScheduleWkSat: 'Sa',
+      outboundScheduleWkSun: 'Su',
+      outboundInstructionsPhaseSaved:
+        'Instructions saved. Outbound setup will continue in further steps; you can resume from the dashboard.',
+      outboundTplAbandonedTitle: 'Abandoned cart recovery',
+      outboundTplSatisfactionTitle: 'Satisfaction surveys',
+      outboundTplPostPurchaseTitle: 'Post-purchase offers',
+      outboundTplPaymentTitle: 'Payment reminder',
+      outboundTplBlockSubtitle: 'Define a personalized greeting message',
+      outboundTplAbandonedPlaceholder:
+        'Hi {{customer_name}}, we noticed you didn\'t complete your purchase of {{product_name}}. Your cart total is {{cart_total}}. Would you like me to help you finish the order now?',
+      outboundTplSatisfactionPlaceholder:
+        'Hi {{customer_name}}, thanks for shopping at {{store_name}}. We\'re always improving and your feedback matters. On a scale of 1 to 5, how would you rate your experience with {{product_name}}?',
+      outboundTplPostPurchasePlaceholder:
+        'Hi {{customer_name}}, thanks for your purchase at {{store_name}}. As a thank-you, here\'s {{discount_code}} for your next purchase. Customers who bought {{product_name}} often also get {{recommended_product}}. Would you like me to tell you more now?',
+      outboundTplPaymentPlaceholder:
+        'Hi {{customer_name}}, we noticed your payment of {{cart_total}} at {{store_name}} is still pending. Your order status is: {{order_status}}. Would you like help completing it before the deadline {{due_date}}?',
       linkStoreDescription: 'Link your store so your agent can use your real data.',
       shopifyConnectDesc: 'Connect your store to sync products, orders and customers.',
       shopifyOnboardingAuthLoading:

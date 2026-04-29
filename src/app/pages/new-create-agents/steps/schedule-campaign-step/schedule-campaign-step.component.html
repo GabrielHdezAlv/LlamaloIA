@@ -1,0 +1,140 @@
+<div [class]="rootClass">
+  <div [class]="innerClass">
+    <div class="shrink-0">
+      <div class="flex items-center justify-between w-full">
+        <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
+          {{ t.outboundScheduleCampaignTitle }}
+        </h1>
+        <span class="text-xs xl:text-[10px] 3xl:text-sm font-normal text-[#0F172A] dark:text-white leading-tight"
+          *ngIf="getCurrentStepNumber() > 0">
+          {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
+        </span>
+      </div>
+      <p class="mt-0.5 3xl:mt-0.5 text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] font-semibold">
+        {{ t.outboundScheduleCampaignSubtitle }}
+      </p>
+    </div>
+
+    <div class="mt-4 xl:mt-3 3xl:mt-4 flex flex-col overflow-visible">
+      <div class="outbound-instructions-scroll-wrap relative w-full">
+        <div
+          class="outbound-instructions-scroll min-h-0 w-full max-h-[min(43svh,20rem)] sm:max-h-[min(46svh,23.5rem)] md:max-h-[min(48svh,25.5rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)] overflow-y-auto overscroll-y-contain">
+          <div [class]="bodyClass">
+            <div>
+              <h2 class="sch-section-title">{{ t.outboundScheduleHorarioTitle }}</h2>
+              <div class="sch-toggle-row">
+                <span class="sch-label sch-label--grow">{{ t.outboundScheduleBusinessHoursLabel }}</span>
+                <button type="button" class="sch-switch" [class.sch-switch--on]="form.useBusinessHours"
+                  [attr.aria-checked]="form.useBusinessHours" role="switch"
+                  (click)="setBusinessHours(!form.useBusinessHours)">
+                  <span class="sch-switch__thumb"></span>
+                </button>
+              </div>
+              <div class="sch-toggle-row">
+                <span class="sch-label sch-label--grow">{{ t.outboundScheduleCustomLabel }}</span>
+                <button type="button" class="sch-switch" [class.sch-switch--on]="form.useCustomSchedule"
+                  [attr.aria-checked]="form.useCustomSchedule" role="switch"
+                  (click)="setCustomSchedule(!form.useCustomSchedule)">
+                  <span class="sch-switch__thumb"></span>
+                </button>
+              </div>
+              <button *ngIf="form.useCustomSchedule" type="button" class="sch-edit-custom"
+                (click)="openCustomScheduleEditor()">
+                {{ t.outboundScheduleCustomEditCta }}
+              </button>
+            </div>
+
+            <div>
+              <h2 class="sch-section-title">{{ t.outboundScheduleFrequencyTitle }}</h2>
+              <div class="sch-row">
+                <span class="sch-field-label">{{ t.outboundScheduleInitialDelayLabel }}</span>
+                <div class="sch-control">
+                  <select name="initialDelay" class="sch-select sch-select--full" [(ngModel)]="form.initialDelay"
+                    (ngModelChange)="persist()">
+                    <option value="30m_abandon">{{ t.outboundScheduleDelay30mAbandon }}</option>
+                    <option value="1h_abandon">{{ t.outboundScheduleDelay1hAbandon }}</option>
+                    <option value="2h_abandon">{{ t.outboundScheduleDelay2hAbandon }}</option>
+                    <option value="24h_abandon">{{ t.outboundScheduleDelay24hAbandon }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="sch-row">
+                <span class="sch-field-label">{{ t.outboundScheduleRetriesLabel }}</span>
+                <div class="sch-control sch-control--inline">
+                  <select name="retriesCount" class="sch-select sch-select--narrow" [(ngModel)]="form.retriesCount"
+                    (ngModelChange)="persist()">
+                    <option *ngFor="let n of retryCounts" [value]="n">{{ n }}</option>
+                  </select>
+                  <span class="sch-inline-hint">{{ t.outboundScheduleRetriesTimesEach }}</span>
+                  <select name="retriesInterval" class="sch-select sch-select--narrow" [(ngModel)]="form.retriesInterval"
+                    (ngModelChange)="persist()">
+                    <option *ngFor="let iv of retryIntervals" [value]="iv">{{ iv }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="sch-row">
+                <span class="sch-field-label">{{ t.outboundScheduleMaxCallsLabel }}</span>
+                <div class="sch-control sch-control--inline">
+                  <select name="maxCalls" class="sch-select sch-select--narrow" [(ngModel)]="form.maxCallsPerDay"
+                    (ngModelChange)="persist()">
+                    <option *ngFor="let n of maxCallsOptions" [value]="n">{{ n }}</option>
+                  </select>
+                  <span class="sch-inline-hint">{{ t.outboundScheduleMaxCallsPerDay }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="w-full flex items-center justify-between nav-buttons-mobile outbound-nav-buttons shrink-0 mt-4 xl:mt-3 3xl:mt-4">
+      <button type="button"
+        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
+        (click)="backClicked.emit()">
+        <span class="text-xs 3xl:text-lg leading-none">‹</span>
+        <span>{{ t.back }}</span>
+      </button>
+      <button type="button"
+        class="px-3 3xl:px-6 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
+        (click)="continueClicked.emit()">
+        {{ t.continue }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showCustomModal && modalForm" class="sch-modal-backdrop" (click)="cancelCustomModal()">
+  <div class="sch-modal-panel" (click)="$event.stopPropagation()" role="dialog" aria-modal="true"
+    [attr.aria-label]="t.outboundScheduleCustomModalTitle">
+    <h3 class="sch-modal-title">{{ t.outboundScheduleCustomModalTitle }}</h3>
+    <p class="sch-modal-hint">{{ t.outboundScheduleCustomDaysHint }}</p>
+    <div class="sch-modal-days">
+      <button *ngFor="let i of weekdayIndexes" type="button" class="sch-day-chip"
+        [class.sch-day-chip--on]="modalForm.customWeekdays[i]" (click)="toggleWeekday(i)">
+        {{ weekdayLetter(i) }}
+      </button>
+    </div>
+    <div class="sch-modal-times">
+      <label class="sch-modal-time-field">
+        <span class="sch-modal-time-label">{{ t.outboundScheduleCustomTimeFrom }}</span>
+        <input type="time" [ngModelOptions]="{ standalone: true }" [(ngModel)]="modalForm.customTimeFrom"
+          class="sch-time-input" />
+      </label>
+      <label class="sch-modal-time-field">
+        <span class="sch-modal-time-label">{{ t.outboundScheduleCustomTimeTo }}</span>
+        <input type="time" [ngModelOptions]="{ standalone: true }" [(ngModel)]="modalForm.customTimeTo"
+          class="sch-time-input" />
+      </label>
+    </div>
+    <div class="sch-modal-actions">
+      <button type="button" class="sch-modal-btn sch-modal-btn--secondary" (click)="cancelCustomModal()">
+        {{ t.outboundScheduleCustomCancel }}
+      </button>
+      <button type="button" class="sch-modal-btn sch-modal-btn--primary" (click)="confirmCustomModal()">
+        {{ t.outboundScheduleCustomSave }}
+      </button>
+    </div>
+  </div>
+</div>

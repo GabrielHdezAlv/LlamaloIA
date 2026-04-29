@@ -186,6 +186,25 @@
 
 /* Botones de navegación fijos en la parte inferior para móvil y tablet */
 @media (max-width: 1279px) {
+  .nav-buttons-mobile.outbound-nav-buttons {
+    position: static !important;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: auto;
+    background: transparent !important;
+    border-top: none;
+    padding: 0;
+    margin-top: 1rem !important;
+    box-shadow: none;
+    gap: 0.75rem;
+
+    >button:first-child,
+    >button:last-child:not(:first-child) {
+      flex: initial;
+    }
+  }
+
   .nav-buttons-mobile {
     position: fixed !important;
     bottom: 0;
@@ -246,4 +265,59 @@
       box-shadow: none;
     }
   }
+}
+
+/* Saliente: difuminado inferior del “recuadro” invisible (suaviza el corte con los botones). */
+.outbound-instructions-scroll-wrap::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3rem;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+  background: linear-gradient(
+    to top,
+    #f3f4f6 0%,
+    rgba(243, 244, 246, 0.55) 45%,
+    rgba(243, 244, 246, 0) 100%
+  );
+}
+
+:host-context(html.dark) .outbound-instructions-scroll-wrap::after {
+  background: linear-gradient(
+    to top,
+    #111113 0%,
+    rgba(17, 17, 19, 0.62) 42%,
+    rgba(17, 17, 19, 0) 100%
+  );
+}
+
+/* Saliente: zona de scroll sin “caja”; scrollbar casi imperceptible. */
+.outbound-instructions-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+}
+
+:host-context(html.dark) .outbound-instructions-scroll {
+  scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+}
+
+.outbound-instructions-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.outbound-instructions-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.outbound-instructions-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 116, 139, 0.35);
+  border-radius: 9999px;
+}
+
+:host-context(html.dark) .outbound-instructions-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.35);
 }

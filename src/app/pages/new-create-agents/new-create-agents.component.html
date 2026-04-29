@@ -1,6 +1,10 @@
 <!-- Contenedor principal del formulario de creación de agentes -->
 <div
-  class="w-full flex flex-col bg-gray-100 dark:bg-[#111113] text-black dark:text-slate-50 transition-colors duration-300 overflow-visible">
+  class="w-full flex flex-col bg-gray-100 dark:bg-[#111113] text-black dark:text-slate-50 transition-colors duration-300"
+  [class.overflow-visible]="!outboundInstructionsViewport"
+  [class.overflow-hidden]="outboundInstructionsViewport"
+  [class.min-h-0]="outboundInstructionsViewport"
+  [class.flex-1]="outboundInstructionsViewport">
   <ng-container [ngSwitch]="displayedStep">
     <!-- Paso 1: Nombre del agente -->
     <div
@@ -48,17 +52,23 @@
     <!-- Paso 5: Instrucciones -->
     <div
       *ngSwitchCase="'instructions'"
-      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
+      [ngClass]="[
+        isStepFadingOut ? 'step-fade-out' : 'step-fade-in',
+        isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
+      ]">
       <app-instructions-step [greeting]="greeting" [instructions]="instructions" [showMakeConfig]="showMakeConfig"
         [isMakeConfigClosing]="isMakeConfigClosing" [makeActionData]="makeActionData"
         [makeActionActive]="makeActionActive" [makeGeneratedWebhook]="makeGeneratedWebhook"
+        [outboundInstructionsOnly]="isOutboundAgentFlow"
+        [outboundCampaignScripts]="outboundCampaignScripts"
         [showGeneratePromptModal]="showGeneratePromptModal"
         [isGeneratePromptDropdownClosing]="isGeneratePromptDropdownClosing" [promptDescription]="promptDescription"
         [promptEnterpriseName]="promptEnterpriseName"
         [isGeneratingPrompt]="isGeneratingPrompt" [generatePromptError]="generatePromptError"
         [showExpandInstructionsModal]="showExpandInstructionsModal"
         [isInstructionsModalClosing]="isInstructionsModalClosing" [currentStepNumber]="getCurrentStepNumber()"
-        [totalSteps]="getTotalSteps()" (greetingChange)="greeting = $event" (instructionsChange)="instructions = $event"
+        [totalSteps]="getTotalSteps()"         (greetingChange)="greeting = $event" (instructionsChange)="instructions = $event"
+        (outboundCampaignScriptsChange)="onOutboundCampaignScriptsChange($event)"
         (promptDescriptionChange)="promptDescription = $event" (promptEnterpriseNameChange)="promptEnterpriseName = $event" (makeActionDataChange)="makeActionData = $event"
         (backClicked)="goBack()" (continueClicked)="onSubmit()" (toggleMakeConfigClicked)="toggleMakeConfig()"
         (saveMakeActionClicked)="onSaveMakeAction()" (editMakeActionClicked)="onEditMakeAction()"
@@ -67,6 +77,45 @@
         (openExpandInstructionsClicked)="openExpandInstructionsModal()"
         (closeExpandInstructionsClicked)="closeExpandInstructionsModal()">
       </app-instructions-step>
+    </div>
+
+    <!-- Campaña (solo flujo saliente, tras instrucciones) -->
+    <div
+      *ngSwitchCase="'campaign'"
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
+      <app-campaign-step [selectedCampaign]="selectedOutboundCampaign"
+        [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
+        (selectedCampaignChange)="selectedOutboundCampaign = $event" (backClicked)="goBack()"
+        (continueClicked)="onSkip()">
+      </app-campaign-step>
+    </div>
+
+    <!-- Segmentación (solo saliente, tras campaña; mismo layout que instrucciones) -->
+    <div
+      *ngSwitchCase="'segmentation'"
+      [ngClass]="[
+        isStepFadingOut ? 'step-fade-out' : 'step-fade-in',
+        isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
+      ]">
+      <app-segmentation-step [segmentationNotes]="outboundSegmentationNotes"
+        [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
+        (segmentationNotesChange)="onOutboundSegmentationNotesChange($event)" (backClicked)="goBack()"
+        (continueClicked)="onSkip()">
+      </app-segmentation-step>
+    </div>
+
+    <!-- Programar campaña (solo saliente, tras segmentación) -->
+    <div
+      *ngSwitchCase="'scheduleCampaign'"
+      [ngClass]="[
+        isStepFadingOut ? 'step-fade-out' : 'step-fade-in',
+        isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
+      ]">
+      <app-schedule-campaign-step [scheduleNotes]="outboundScheduleCampaignNotes"
+        [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
+        (scheduleNotesChange)="onOutboundScheduleCampaignNotesChange($event)" (backClicked)="goBack()"
+        (continueClicked)="onSkip()">
+      </app-schedule-campaign-step>
     </div>
 
     <!-- Paso 6: Base de conocimientos -->

@@ -1,5 +1,6 @@
 import {
   Component,
+  HostBinding,
   HostListener,
   OnDestroy,
   AfterViewChecked,
@@ -40,6 +41,8 @@ import {
   resolveEffectivePlanSlug,
   isShopifyIntegrationLockedForPlan,
 } from '../../shared/utils/shopify-plan-lock.util';
+import type { OutboundCampaignScripts } from './steps/instructions-step/instructions-step.component';
+import type { OutboundCampaignKind } from './steps/campaign-step/campaign-step.component';
 
 // Clave para localStorage
 const AGENT_DRAFT_KEY = 'llamalo_agent_draft';
@@ -71,8 +74,23 @@ interface AgentDraft {
     speed: number;
   };
   shopifyDomain?: string | null; // Tienda Shopify conectada (ej. "mi-tienda.myshopify.com")
+  /** Textos de plantillas saliente (carrito, encuesta, etc.). */
+  outboundCampaignScripts?: Partial<OutboundCampaignScripts>;
+  /** Tipo de campaña elegido en el paso «Campaña» (solo saliente). */
+  outboundCampaignKind?: OutboundCampaignKind | null;
+  /** Notas de segmentación (paso posterior a campaña, solo saliente). */
+  outboundSegmentationNotes?: string;
+  /** Programar campaña (JSON, tras segmentación). */
+  outboundScheduleCampaignNotes?: string;
   savedAt: number; // timestamp
 }
+
+const DEFAULT_OUTBOUND_CAMPAIGN_SCRIPTS: OutboundCampaignScripts = {
+  abandonedCart: '',
+  satisfactionSurvey: '',
+  postPurchase: '',
+  paymentReminder: '',
+};
 
 import { KnowledgeBaseStepComponent } from './steps/knowledge-base-step/knowledge-base-step.component';
 import { AgentNameStepComponent } from './steps/agent-name-step/agent-name-step.component';
@@ -83,6 +101,9 @@ import { InstructionsStepComponent } from './steps/instructions-step/instruction
 import { TestAgentStepComponent } from './steps/test-agent-step/test-agent-step.component';
 import { ConnectPhoneStepComponent } from './steps/connect-phone-step/connect-phone-step.component';
 import { SuccessStepComponent } from './steps/success-step/success-step.component';
+import { CampaignStepComponent } from './steps/campaign-step/campaign-step.component';
+import { SegmentationStepComponent } from './steps/segmentation-step/segmentation-step.component';
+import { ScheduleCampaignStepComponent } from './steps/schedule-campaign-step/schedule-campaign-step.component';
 
 @Component({
   selector: 'app-new-create-agents',
@@ -99,6 +120,9 @@ import { SuccessStepComponent } from './steps/success-step/success-step.componen
     TestAgentStepComponent,
     ConnectPhoneStepComponent,
     SuccessStepComponent,
+    CampaignStepComponent,
+    SegmentationStepComponent,
+    ScheduleCampaignStepComponent,
   ],
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss',
@@ -106,6 +130,16 @@ import { SuccessStepComponent } from './steps/success-step/success-step.componen
 export class NewCreateAgentsComponent
   implements OnDestroy, AfterViewChecked, OnInit
 {
+  @HostBinding('class.outbound-instructions-viewport')
+  get outboundInstructionsViewport(): boolean {
+    return (
+      this.isOutboundAgentFlow &&
+      (this.displayedStep === 'instructions' ||
+        this.displayedStep === 'segmentation' ||
+        this.displayedStep === 'scheduleCampaign')
+    );
+  }
+
   @ViewChild('lottieContainer', { static: false })
   lottieContainer!: ElementRef<HTMLDivElement>;
   @ViewChild('countryDropdown', { static: false })
@@ -115,6 +149,9 @@ export class NewCreateAgentsComponent
     | 'agentName'
     | 'language'
     | 'voices'
+    | 'campaign'
+    | 'segmentation'
+    | 'scheduleCampaign'
     | 'connectBusiness'
     | 'instructions'
     | 'knowledgeBase'
@@ -128,6 +165,9 @@ export class NewCreateAgentsComponent
     | 'agentName'
     | 'language'
     | 'voices'
+    | 'campaign'
+    | 'segmentation'
+    | 'scheduleCampaign'
     | 'connectBusiness'
     | 'instructions'
     | 'knowledgeBase'
@@ -142,6 +182,13 @@ export class NewCreateAgentsComponent
   // Popup de recuperación de borrador
   showRecoveryPopup = false;
   savedDraft: AgentDraft | null = null;
+
+  /** Campaña saliente elegida (tras instrucciones). */
+  selectedOutboundCampaign: OutboundCampaignKind | null = null;
+  /** Texto libre de segmentación (tras campaña). */
+  outboundSegmentationNotes = '';
+  /** Programar campaña (JSON). */
+  outboundScheduleCampaignNotes = '';
 
   // Add this line to declare phoneNumber
   phoneNumber = '';
@@ -251,9 +298,18 @@ export class NewCreateAgentsComponent
     return isShopifyIntegrationLockedForPlan(slug);
   }
 
+  /** Creación de agente saliente: mismo aspecto en pasos compartidos; pipeline y datos distintos al entrante. */
+  get isOutboundAgentFlow(): boolean {
+    return this.selectedCallType === 'outbound';
+  }
+
   private redirectConnectBusinessIfShopifyLocked(): void {
     if (!this.skipShopifyBusinessStep) return;
     if (this.step !== 'connectBusiness' && this.displayedStep !== 'connectBusiness') {
+      return;
+    }
+    if (this.isOutboundAgentFlow) {
+      this.setStep('voices');
       return;
     }
     this.setStep('instructions');
@@ -373,12 +429,32 @@ export class NewCreateAgentsComponent
   // Recuperar el borrador guardado (paso actual y todo lo escrito)
   recoverDraft() {
     if (this.savedDraft) {
-      this.step = this.savedDraft.step as any;
       this.agentName = this.savedDraft.agentName || '';
       this.greeting = this.getGreetingWithCompanyName();
       this.template = this.savedDraft.template || '';
       this.selectedCallType = (this.savedDraft as any).selectedCallType ?? null;
+      let recoveredStep = (this.savedDraft.step || 'agentName') as string;
+      if (recoveredStep === 'outboundPostShopify') {
+        recoveredStep = 'instructions';
+      }
+      this.step = recoveredStep as any;
       this.instructions = this.savedDraft.instructions || '';
+      this.outboundCampaignScripts = {
+        ...DEFAULT_OUTBOUND_CAMPAIGN_SCRIPTS,
+        ...(this.savedDraft.outboundCampaignScripts || {}),
+      };
+      const rawKind = this.savedDraft.outboundCampaignKind;
+      this.selectedOutboundCampaign =
+        rawKind === 'satisfactionSurvey' ||
+        rawKind === 'abandonedCart' ||
+        rawKind === 'paymentReminder' ||
+        rawKind === 'postPurchase'
+          ? rawKind
+          : null;
+      this.outboundSegmentationNotes =
+        this.savedDraft.outboundSegmentationNotes ?? '';
+      this.outboundScheduleCampaignNotes =
+        this.savedDraft.outboundScheduleCampaignNotes ?? '';
       this.currentVoiceIndex = this.savedDraft.currentVoiceIndex ?? 0;
       this.selectedVoiceId = this.savedDraft.selectedVoiceId || '';
       this.selectedCountry = this.savedDraft.selectedCountry || 'es';
@@ -423,7 +499,8 @@ export class NewCreateAgentsComponent
       }
 
       if (this.skipShopifyBusinessStep && this.step === 'connectBusiness') {
-        this.step = 'instructions';
+        this.step =
+          this.selectedCallType === 'outbound' ? 'voices' : 'instructions';
       }
     }
     this.showRecoveryPopup = false;
@@ -470,6 +547,10 @@ export class NewCreateAgentsComponent
           speed: this.voiceParameters.speed,
         },
         shopifyDomain: this.shopifyConnectedDomain ?? undefined,
+        outboundCampaignScripts: { ...this.outboundCampaignScripts },
+        outboundCampaignKind: this.selectedOutboundCampaign ?? undefined,
+        outboundSegmentationNotes: this.outboundSegmentationNotes,
+        outboundScheduleCampaignNotes: this.outboundScheduleCampaignNotes,
         savedAt: Date.now(),
       };
 
@@ -501,6 +582,10 @@ export class NewCreateAgentsComponent
   greeting = this.getGreetingWithCompanyName();
   template = '';
   instructions = '';
+  /** Plantillas de mensaje bajo instrucciones (solo flujo saliente). */
+  outboundCampaignScripts: OutboundCampaignScripts = {
+    ...DEFAULT_OUTBOUND_CAMPAIGN_SCRIPTS,
+  };
   showExpandInstructionsModal = false;
   isInstructionsModalClosing = false;
 
@@ -830,8 +915,32 @@ export class NewCreateAgentsComponent
     }
     this.pauseVoice();
     this.isSidebarOpen = false;
+    if (!this.tryAdvanceFromVoicesStepAfterLanguageAndVoice()) {
+      return;
+    }
+  }
+
+  /**
+   * Tras idioma y voz: entrante sigue el flujo habitual.
+   * Saliente: mismo paso Shopify que entrante si el plan lo permite (Growth+, no Starter/gratis);
+   * si Shopify está bloqueado por plan, aún no hay siguientes pasos en esta rama.
+   */
+  private tryAdvanceFromVoicesStepAfterLanguageAndVoice(): boolean {
+    if (this.selectedCallType === 'outbound') {
+      if (this.skipShopifyBusinessStep) {
+        this.saveDraft();
+        this.notificationService.info(
+          'Los siguientes pasos para agentes salientes estarán disponibles pronto.',
+        );
+        return false;
+      }
+      this.setStep('connectBusiness');
+      this.saveDraft();
+      return true;
+    }
     this.setStep(this.skipShopifyBusinessStep ? 'instructions' : 'connectBusiness');
     this.saveDraft();
+    return true;
   }
 
   closeSidebar() {
@@ -1063,6 +1172,12 @@ export class NewCreateAgentsComponent
     } else if (this.step === 'connectBusiness') {
       this.setStep('voices');
       this.loadVoices();
+    } else if (this.step === 'campaign') {
+      this.setStep('instructions');
+    } else if (this.step === 'segmentation') {
+      this.setStep('campaign');
+    } else if (this.step === 'scheduleCampaign') {
+      this.setStep('segmentation');
     } else if (this.step === 'voices') {
       this.pauseVoice();
       this.setStep('language');
@@ -1081,10 +1196,32 @@ export class NewCreateAgentsComponent
       this.loadVoices();
     } else if (this.step === 'voices') {
       this.pauseVoice();
-      this.setStep(this.skipShopifyBusinessStep ? 'instructions' : 'connectBusiness');
+      if (!this.tryAdvanceFromVoicesStepAfterLanguageAndVoice()) {
+        return;
+      }
+    } else if (this.step === 'campaign') {
+      if (!this.selectedOutboundCampaign) {
+        return;
+      }
+      this.setStep('segmentation');
+      this.saveDraft();
+    } else if (this.step === 'segmentation') {
+      this.setStep('scheduleCampaign');
+      this.saveDraft();
+    } else if (this.step === 'scheduleCampaign') {
+      this.completeOutboundInstructionsPhase();
     } else if (this.step === 'connectBusiness') {
+      if (this.isOutboundAgentFlow) {
+        this.continueOutboundAfterConnectBusiness();
+        return;
+      }
       this.setStep('instructions');
     } else if (this.step === 'instructions') {
+      if (this.isOutboundAgentFlow) {
+        this.setStep('campaign');
+        this.saveDraft();
+        return;
+      }
       this.setStep('knowledgeBase');
     } else if (this.step === 'knowledgeBase') {
       this.setStep('summary');
@@ -1246,8 +1383,39 @@ export class NewCreateAgentsComponent
   }
 
   onSubmit() {
+    if (this.isOutboundAgentFlow) {
+      this.setStep('campaign');
+      this.saveDraft();
+      return;
+    }
     this.setStep('knowledgeBase');
     this.saveDraft();
+  }
+
+  onOutboundCampaignScriptsChange(scripts: OutboundCampaignScripts): void {
+    this.outboundCampaignScripts = scripts;
+    this.saveDraft();
+  }
+
+  onOutboundSegmentationNotesChange(notes: string): void {
+    this.outboundSegmentationNotes = notes;
+    this.saveDraft();
+  }
+
+  onOutboundScheduleCampaignNotesChange(notes: string): void {
+    this.outboundScheduleCampaignNotes = notes;
+    this.saveDraft();
+  }
+
+  /**
+   * Fin de la fase de instrucciones en saliente: no entra en base de conocimientos / prueba entrante.
+   */
+  private completeOutboundInstructionsPhase(): void {
+    this.saveDraft();
+    this.notificationService.info(
+      this.i18nService.getTranslations().outboundInstructionsPhaseSaved,
+    );
+    void this.router.navigate(['/dashboard/agents']);
   }
 
   /** Navegar a la página de onboarding de Shopify (página externa, sin topbar ni navbar). */
@@ -1504,8 +1672,18 @@ export class NewCreateAgentsComponent
     this.saveDraft();
   }
 
-  // Continuar desde "Conecta tu negocio" a Instrucciones
+  // Continuar desde "Conecta tu negocio": entrante → instrucciones completas; saliente → instrucciones solo agente + IA.
   onContinueFromConnectBusiness() {
+    if (this.isOutboundAgentFlow) {
+      this.continueOutboundAfterConnectBusiness();
+      return;
+    }
+    this.setStep('instructions');
+    this.saveDraft();
+  }
+
+  /** Tras Shopify en saliente: instrucciones recortadas (sin saludo ni Make), distintas del entrante. */
+  private continueOutboundAfterConnectBusiness() {
     this.setStep('instructions');
     this.saveDraft();
   }
@@ -2810,6 +2988,28 @@ export class NewCreateAgentsComponent
 
   // Método para obtener el número de paso actual
   getCurrentStepNumber(): number {
+    if (this.isOutboundAgentFlow) {
+      if (this.skipShopifyBusinessStep) {
+        const locked: Record<string, number> = {
+          agentName: 1,
+          language: 2,
+          voices: 3,
+        };
+        return locked[this.step] ?? 0;
+      }
+      const outbound: Record<string, number> = {
+        agentName: 1,
+        language: 2,
+        voices: 3,
+        connectBusiness: 4,
+        instructions: 5,
+        campaign: 6,
+        segmentation: 7,
+        scheduleCampaign: 8,
+      };
+      return outbound[this.step] ?? 0;
+    }
+
     const skip = this.skipShopifyBusinessStep;
     const withSkip: Record<string, number> = {
       agentName: 1,
@@ -2836,6 +3036,9 @@ export class NewCreateAgentsComponent
 
   // Método para obtener el total de pasos
   getTotalSteps(): number {
+    if (this.isOutboundAgentFlow) {
+      return this.skipShopifyBusinessStep ? 3 : 8;
+    }
     return this.skipShopifyBusinessStep ? 7 : 8;
   }
 
@@ -2844,6 +3047,9 @@ export class NewCreateAgentsComponent
       | 'agentName'
       | 'language'
       | 'voices'
+      | 'campaign'
+      | 'segmentation'
+      | 'scheduleCampaign'
       | 'connectBusiness'
       | 'instructions'
       | 'knowledgeBase'
