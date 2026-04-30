@@ -11,7 +11,8 @@ export const environment = {
   enableAuthRegistrationAndGoogle: true,
   translationApiKey: '',
   apiUrl: 'https://llamaloiabackend-dev.onrender.com',
-  sentryDsn: 'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
+  sentryDsn:
+    'https://1b99f5102f747d6b641408dd6957c18d@o4511252310523904.ingest.de.sentry.io/4511252362625105',
   sentryEnvironment: 'dev',
   firebase: {
     apiKey: 'AIzaSyBeDYuVYfL9Multc9cOkXsk7lsL6t-YOUQ',
@@ -20,5 +21,6 @@ export const environment = {
     storageBucket: 'llamaloio.firebasestorage.app',
     messagingSenderId: '479966293935',
     appId: '1:479966293935:web:48abc8bf09690a0a56495a',
+    appCheckSiteKey: '6LdaU9AsAAAAAMmCxubktZtXs4dBeeEyP5oaVzT3',
   },
 };

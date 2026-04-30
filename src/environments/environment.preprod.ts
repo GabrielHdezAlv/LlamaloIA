@@ -21,5 +21,6 @@ export const environment = {
     storageBucket: 'llamalo-preprod.firebasestorage.app',
     messagingSenderId: '355232596678',
     appId: '1:355232596678:web:e0c936292ecf72f3b28dc7',
+    appCheckSiteKey: '6LdaU9AsAAAAAMmCxubktZtXs4dBeeEyP5oaVzT3'
   },
 };
