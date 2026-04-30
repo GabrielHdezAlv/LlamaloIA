@@ -40,6 +40,7 @@ import { canAddAnotherAgent } from '../../shared/utils/plan-usage.util';
 import {
   resolveEffectivePlanSlug,
   isShopifyIntegrationLockedForPlan,
+  isOutboundLockedForPlan,
 } from '../../shared/utils/shopify-plan-lock.util';
 import type { OutboundCampaignScripts } from './steps/instructions-step/instructions-step.component';
 import type { OutboundCampaignKind } from './steps/campaign-step/campaign-step.component';
@@ -298,6 +299,30 @@ export class NewCreateAgentsComponent
     return isShopifyIntegrationLockedForPlan(slug);
   }
 
+  /** Outbound solo Growth / Scale (mismo criterio que Shopify). */
+  get outboundLocked(): boolean {
+    const slug = resolveEffectivePlanSlug(this.userStore.user());
+    return isOutboundLockedForPlan(slug);
+  }
+
+  /** Si el plan no incluye outbound, limpia selección y pasos solo salientes. */
+  private enforceOutboundPlanGate(): void {
+    if (!this.outboundLocked) return;
+    if (this.selectedCallType === 'outbound') {
+      this.selectedCallType = null;
+    }
+    const outboundOnly: Array<typeof this.step> = [
+      'campaign',
+      'segmentation',
+      'scheduleCampaign',
+    ];
+    if (outboundOnly.includes(this.step)) {
+      this.step = 'language';
+      this.displayedStep = 'language';
+      this.isStepFadingOut = false;
+    }
+  }
+
   /** Creación de agente saliente: mismo aspecto en pasos compartidos; pipeline y datos distintos al entrante. */
   get isOutboundAgentFlow(): boolean {
     return this.selectedCallType === 'outbound';
@@ -341,6 +366,7 @@ export class NewCreateAgentsComponent
     this.redirectConnectBusinessIfShopifyLocked();
     void this.userStore.loadUserProfile().finally(() => {
       this.redirectConnectBusinessIfShopifyLocked();
+      this.enforceOutboundPlanGate();
     });
   }
 
@@ -501,6 +527,9 @@ export class NewCreateAgentsComponent
       if (this.skipShopifyBusinessStep && this.step === 'connectBusiness') {
         this.step =
           this.selectedCallType === 'outbound' ? 'voices' : 'instructions';
+      }
+      if (this.userStore.user()) {
+        this.enforceOutboundPlanGate();
       }
     }
     this.showRecoveryPopup = false;

@@ -20,9 +20,9 @@
     <div
       *ngSwitchCase="'language'"
       [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
-      <app-call-type-step [selectedCallType]="selectedCallType" [currentStepNumber]="getCurrentStepNumber()"
-        [totalSteps]="getTotalSteps()" (callTypeChange)="selectedCallType = $event" (backClicked)="goBack()"
-        (continueClicked)="onSkip()">
+      <app-call-type-step [selectedCallType]="selectedCallType" [outboundLocked]="outboundLocked"
+        [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
+        (callTypeChange)="selectedCallType = $event" (backClicked)="goBack()" (continueClicked)="onSkip()">
       </app-call-type-step>
     </div>
 

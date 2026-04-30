@@ -27,3 +27,8 @@ export function isShopifyIntegrationLockedForPlan(effectiveSlug: string): boolea
     effectiveSlug === 'sin_plan'
   );
 }
+
+/** Llamadas salientes (Outbound): solo Growth y Scale (mismo umbral que Shopify). */
+export function isOutboundLockedForPlan(effectiveSlug: string): boolean {
+  return isShopifyIntegrationLockedForPlan(effectiveSlug);
+}

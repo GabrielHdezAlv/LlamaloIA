@@ -885,7 +885,19 @@
                 <div
                   class="flex min-w-0 flex-1 items-center gap-1.5 max-lg:gap-2 font-semibold"
                 >
+                  <img
+                    *ngIf="c.flagImgUrl"
+                    [src]="c.flagImgUrl"
+                    width="28"
+                    height="28"
+                    loading="lazy"
+                    decoding="async"
+                    alt=""
+                    role="presentation"
+                    class="country-flag-avatar block h-5 w-5 shrink-0 max-lg:h-6 max-lg:w-6 max-lg:sm:h-7 max-lg:sm:w-7 max-lg:md:h-7 max-lg:md:w-7 lg:h-6 lg:w-6 4xl:h-7 4xl:w-7 rounded-full object-cover"
+                  />
                   <span
+                    *ngIf="!c.flagImgUrl"
                     class="country-flag-avatar block h-5 w-5 shrink-0 max-lg:h-6 max-lg:w-6 max-lg:sm:h-7 max-lg:sm:w-7 max-lg:md:h-7 max-lg:md:w-7 lg:h-6 lg:w-6 4xl:h-7 4xl:w-7 rounded-full"
                     role="img"
                     [attr.aria-label]="c.name"

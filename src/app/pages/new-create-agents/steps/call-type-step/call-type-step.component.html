@@ -39,28 +39,61 @@
         <span class="text-sm xl:text-xs 3xl:text-lg font-medium text-gray-900 dark:text-white">{{ t.inbound }}</span>
       </button>
 
-      <!-- Outbound -->
-      <button type="button" (click)="onSelectCallType('outbound')" [ngClass]="{
-          'ring-2 ring-blue-500 dark:ring-white border-blue-500 dark:border-white':
-            selectedCallType === 'outbound',
-        }"
-        class="w-full aspect-square max-h-[130px] xl:max-h-[100px] 3xl:max-h-[160px] rounded-xl xl:rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-white transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white">
-        <div class="text-gray-500 dark:text-gray-400 mb-1.5 3xl:mb-2.5">
-          <svg class="w-9 h-9 sm:w-10 sm:h-10 xl:w-8 xl:h-8 3xl:w-14 3xl:h-14" viewBox="0 0 100 100" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="M58.333 41.6667L85.4163 15.625" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-              stroke-linejoin="round" />
-            <path d="M58.333 14.5835H85.4163V41.6668" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-              stroke-linejoin="round" />
-            <path
-              d="M29.9476 20.4053C31.4614 20.4053 32.856 21.2263 33.5905 22.5496L38.6874 31.7304C39.3547 32.9325 39.386 34.3865 38.7712 35.6163L33.8612 45.4365C33.8612 45.4365 35.2841 52.7519 41.2391 58.7069C47.1941 64.6619 54.4851 66.0602 54.4851 66.0602L64.3037 61.151C65.5343 60.5356 66.9893 60.5675 68.1918 61.236L77.3987 66.3548C78.7208 67.09 79.5408 68.4837 79.5408 69.9965V80.5662C79.5408 85.949 74.541 89.8367 69.4408 88.1156C58.966 84.5812 42.7062 77.8517 32.4003 67.5456C22.0943 57.2398 15.3647 40.98 11.8303 30.5052C10.1094 25.405 13.9971 20.4053 19.3796 20.4053H29.9476Z"
-              stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
-          </svg>
+      <!-- Outbound: overlay con leyenda encima del botón Mejorar plan -->
+      <div
+        class="relative w-full aspect-square max-h-[130px] xl:max-h-[100px] 3xl:max-h-[160px] rounded-xl xl:rounded-lg 3xl:rounded-xl">
+        <div
+          *ngIf="outboundLocked"
+          class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 rounded-xl bg-white/72 dark:bg-[#111113]/62 px-2.5 py-2.5 text-center pointer-events-auto"
+          (click)="$event.stopPropagation()"
+        >
+          <p
+            class="font-semibold text-[#0F172A] dark:text-slate-50 text-[8px] sm:text-[9px] leading-snug max-w-[11.5rem] sm:max-w-none"
+          >
+            {{ t.outboundFeatureLockedMessage }}
+          </p>
+          <button
+            type="button"
+            (click)="openOutboundLockedUpgradePlan()"
+            class="px-2.5 py-1.5 rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white dark:bg-white dark:text-[#000000] font-semibold transition-colors whitespace-nowrap text-[9px] sm:text-[10px] leading-none"
+          >
+            {{ t.upgradePlan }}
+          </button>
         </div>
-        <span class="text-sm xl:text-xs 3xl:text-lg font-medium text-gray-900 dark:text-white"
-          [class.text-blue-600]="selectedCallType === 'outbound'"
-          [class.dark:text-blue-400]="selectedCallType === 'outbound'">{{ t.outbound }}</span>
-      </button>
+        <button
+          type="button"
+          (click)="onSelectCallType('outbound')"
+          [ngClass]="{
+            'ring-2 ring-blue-500 dark:ring-white border-blue-500 dark:border-white':
+              selectedCallType === 'outbound',
+          }"
+          class="w-full h-full aspect-square max-h-[130px] xl:max-h-[100px] 3xl:max-h-[160px] rounded-xl xl:rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-white bg-transparent flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-white transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white"
+          [class.pointer-events-none]="outboundLocked"
+          [class.select-none]="outboundLocked"
+        >
+          <div
+            class="flex flex-col items-center justify-center transition-[filter]"
+            [ngClass]="outboundLocked ? 'blur-[1px]' : ''"
+          >
+            <div class="text-gray-500 dark:text-gray-400 mb-1.5 3xl:mb-2.5">
+              <svg class="w-9 h-9 sm:w-10 sm:h-10 xl:w-8 xl:h-8 3xl:w-14 3xl:h-14" viewBox="0 0 100 100" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M58.333 41.6667L85.4163 15.625" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M58.333 14.5835H85.4163V41.6668" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M29.9476 20.4053C31.4614 20.4053 32.856 21.2263 33.5905 22.5496L38.6874 31.7304C39.3547 32.9325 39.386 34.3865 38.7712 35.6163L33.8612 45.4365C33.8612 45.4365 35.2841 52.7519 41.2391 58.7069C47.1941 64.6619 54.4851 66.0602 54.4851 66.0602L64.3037 61.151C65.5343 60.5356 66.9893 60.5675 68.1918 61.236L77.3987 66.3548C78.7208 67.09 79.5408 68.4837 79.5408 69.9965V80.5662C79.5408 85.949 74.541 89.8367 69.4408 88.1156C58.966 84.5812 42.7062 77.8517 32.4003 67.5456C22.0943 57.2398 15.3647 40.98 11.8303 30.5052C10.1094 25.405 13.9971 20.4053 19.3796 20.4053H29.9476Z"
+                  stroke="currentColor" stroke-width="5" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <span class="text-sm xl:text-xs 3xl:text-lg font-medium text-gray-900 dark:text-white leading-tight"
+              [class.text-blue-600]="selectedCallType === 'outbound'"
+              [class.dark:text-blue-400]="selectedCallType === 'outbound'"
+            >{{ t.outbound }}</span>
+          </div>
+        </button>
+      </div>
     </div>
 
     <div class="w-full flex items-center justify-between mt-5 3xl:mt-8 nav-buttons-mobile">

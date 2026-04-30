@@ -787,6 +787,8 @@ export interface Translations {
   shopifyDisconnectError: string;
   /** Cuenta / editar agente: overlay cuando el plan no incluye Shopify (Gratis, Starter). */
   shopifyIntegrationLockedMessage: string;
+  /** Una línea encima del botón «Mejorar plan» en tarjeta saliente bloqueada (incluye comillas). */
+  outboundFeatureLockedMessage: string;
   testAgentTitle: string;
   talkToAgentDescription: string;
   remainingTime: string;
@@ -1930,6 +1932,8 @@ export class I18nService {
       shopifyDisconnectError: 'No se pudo desvincular la tienda. Inténtalo de nuevo.',
       shopifyIntegrationLockedMessage:
         'La integración con Shopify está disponible desde el plan Growth.',
+      outboundFeatureLockedMessage:
+        '"Saliente" Disponible en planes superiores',
       testAgentTitle: 'Prueba de agente',
       talkToAgentDescription: 'Habla con tu agente para verificar su voz, idioma e instrucciones antes de crear.',
       remainingTime: 'restantes',
@@ -3069,6 +3073,8 @@ export class I18nService {
       shopifyDisconnectError: 'Could not disconnect the store. Please try again.',
       shopifyIntegrationLockedMessage:
         'Shopify integration is available from the Growth plan.',
+      outboundFeatureLockedMessage:
+        '"Outbound" Available on higher plans',
       testAgentTitle: 'Agent test',
       talkToAgentDescription: 'Talk to your agent to verify its voice, language and instructions before creating.',
       remainingTime: 'remaining',

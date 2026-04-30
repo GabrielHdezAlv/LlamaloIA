@@ -531,6 +531,27 @@ export class MetricsComponent implements OnInit, OnDestroy {
     return String.fromCodePoint(...codePoints);
   }
 
+  /** ISO 3166-1 alpha-2 → PNG redondo en UI (prefijo telefónico resuelto). */
+  countryFlagImgUrl(isoCode: string): string | null {
+    if (!isoCode || typeof isoCode !== 'string') return null;
+    const u = isoCode.trim().toUpperCase();
+    if (u === 'ZZ' || u.startsWith('+')) return null;
+    if (!/^[A-Z]{2}$/.test(u)) return null;
+    return `https://flagcdn.com/w40/${u.toLowerCase()}.png`;
+  }
+
+  /** Mayor prefijo E.164 coincidente con `CALLING_CODE_TO_ISO` (ej. 349 → ES con 34). */
+  private resolveIsoFromCallingDigits(digits: string): string | undefined {
+    const d = digits.replace(/\D/g, '');
+    if (!d) return undefined;
+    const maxLen = Math.min(d.length, 4);
+    for (let len = maxLen; len >= 1; len--) {
+      const iso = CALLING_CODE_TO_ISO[d.slice(0, len)];
+      if (iso) return iso;
+    }
+    return undefined;
+  }
+
   // Serie área para "Total de llamadas exitosas" (mismo diseño que en Home)
   callsAreaSeries: ApexAxisChartSeries = [{ name: 'Llamadas', data: [] }];
 
@@ -1199,7 +1220,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
         if (c.isoCode === 'ZZ') {
           name = langCode === 'en' ? 'Hidden number' : 'Número Oculto';
         } else if (c.isoCode.length === 2 && regionNames) {
-          name = regionNames.of(c.isoCode) || c.isoCode;
+          name = regionNames.of(c.isoCode.toUpperCase()) || c.isoCode;
         } else if (c.isoCode.startsWith('+')) {
           // Prefijo sin identificar
           name =
@@ -1215,6 +1236,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
         ...c,
         name,
         flagEmoji: this.countryFlagEmoji(c.isoCode),
+        flagImgUrl: this.countryFlagImgUrl(c.isoCode),
       };
     });
   }
@@ -1698,6 +1720,7 @@ export class MetricsComponent implements OnInit, OnDestroy {
         let isoCode = '';
         const rawPrefix = String(pais.pais || '').trim();
         const digitsOnlyPrefix = rawPrefix.replace(/[^\d]/g, '');
+        const lettersOnly = rawPrefix.replace(/[^A-Za-z]/g, '').toUpperCase();
 
         if (
           !rawPrefix ||
@@ -1705,13 +1728,16 @@ export class MetricsComponent implements OnInit, OnDestroy {
           rawPrefix.toUpperCase() === 'UNKNOWN'
         ) {
           isoCode = 'ZZ';
+        } else if (lettersOnly.length === 2 && /^[A-Z]{2}$/.test(lettersOnly)) {
+          // Backend puede mandar ISO alpha-2 ("ES") en lugar del prefijo ("34").
+          isoCode = lettersOnly;
         } else {
           const nanpIso =
             NANP_PREFIX_TO_ISO[rawPrefix] ??
             NANP_PREFIX_TO_ISO[
               rawPrefix.startsWith('1-') ? rawPrefix : `1-${digitsOnlyPrefix}`
             ];
-          const globalIso = CALLING_CODE_TO_ISO[digitsOnlyPrefix];
+          const globalIso = this.resolveIsoFromCallingDigits(digitsOnlyPrefix);
           const resolvedIso = nanpIso ?? globalIso;
 
           // Prefijo no mapeado: conservamos el prefijo para mostrar "País +XX"
