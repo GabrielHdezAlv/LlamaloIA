@@ -11,6 +11,10 @@ import {
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { I18nService } from '../../../../core/services/i18n.service';
+import {
+  SegmentationSelectComponent,
+  SegmentationSelectOption,
+} from './segmentation-select.component';
 
 export const OUTBOUND_SEGMENTATION_SCHEMA_VERSION = 1;
 
@@ -105,7 +109,7 @@ export function serializeOutboundSegmentationForm(
 @Component({
   selector: 'app-segmentation-step',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, SegmentationSelectComponent],
   templateUrl: './segmentation-step.component.html',
   styleUrls: ['./segmentation-step.component.scss'],
 })
@@ -179,6 +183,56 @@ export class SegmentationStepComponent implements OnChanges {
     const s = serializeOutboundSegmentationForm(this.form);
     this.lastEmitted = s;
     this.segmentationNotesChange.emit(s);
+  }
+
+  /** Actualiza un campo de texto/select del formulario y persiste. */
+  onSegField(field: keyof OutboundSegmentationFormState, value: string): void {
+    this.form = { ...this.form, [field]: value as never };
+    this.persist();
+  }
+
+  get compareSelectOptions(): SegmentationSelectOption[] {
+    return this.compareOps.map((op) => ({ value: op, label: op }));
+  }
+
+  get countrySelectOptions(): SegmentationSelectOption[] {
+    const tr = this.t;
+    return [
+      { value: 'es', label: tr.outboundSegCountrySpain },
+      { value: 'pt', label: tr.outboundSegCountryPortugal },
+      { value: 'fr', label: tr.outboundSegCountryFrance },
+      { value: 'mx', label: tr.outboundSegCountryMexico },
+    ];
+  }
+
+  get cartProductSelectOptions(): SegmentationSelectOption[] {
+    return [{ value: 'products', label: this.t.outboundSegSelectProducts }];
+  }
+
+  get surveyTimeSelectOptions(): SegmentationSelectOption[] {
+    const tr = this.t;
+    return [
+      { value: '1h', label: tr.outboundSegTime1h },
+      { value: '3h', label: tr.outboundSegTime3h },
+      { value: '24h', label: tr.outboundSegTime24h },
+    ];
+  }
+
+  get purchaseFrequencySelectOptions(): SegmentationSelectOption[] {
+    const tr = this.t;
+    return [
+      { value: 'first', label: tr.outboundSegFreqFirstPurchase },
+      { value: 'repeat', label: tr.outboundSegFreqRepeat },
+    ];
+  }
+
+  get paymentDueSelectOptions(): SegmentationSelectOption[] {
+    const tr = this.t;
+    return [
+      { value: '1h_before', label: tr.outboundSegDue1hBefore },
+      { value: '24h_before', label: tr.outboundSegDue24hBefore },
+      { value: '48h_before', label: tr.outboundSegDue48hBefore },
+    ];
   }
 
   getCurrentStepNumber(): number {

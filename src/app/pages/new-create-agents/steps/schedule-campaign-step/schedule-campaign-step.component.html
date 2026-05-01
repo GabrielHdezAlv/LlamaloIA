@@ -20,8 +20,8 @@
         <div
           class="outbound-instructions-scroll min-h-0 w-full max-h-[min(43svh,20rem)] sm:max-h-[min(46svh,23.5rem)] md:max-h-[min(48svh,25.5rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)] overflow-y-auto overscroll-y-contain">
           <div [class]="bodyClass">
-            <div>
-              <h2 class="sch-section-title">{{ t.outboundScheduleHorarioTitle }}</h2>
+            <section class="sch-panel" aria-labelledby="sch-heading-horario">
+              <h2 id="sch-heading-horario" class="sch-section-title">{{ t.outboundScheduleHorarioTitle }}</h2>
               <div class="sch-toggle-row">
                 <span class="sch-label sch-label--grow">{{ t.outboundScheduleBusinessHoursLabel }}</span>
                 <button type="button" class="sch-switch" [class.sch-switch--on]="form.useBusinessHours"
@@ -42,47 +42,36 @@
                 (click)="openCustomScheduleEditor()">
                 {{ t.outboundScheduleCustomEditCta }}
               </button>
-            </div>
+            </section>
 
-            <div>
-              <h2 class="sch-section-title">{{ t.outboundScheduleFrequencyTitle }}</h2>
+            <section class="sch-panel" aria-labelledby="sch-heading-frecuencia">
+              <h2 id="sch-heading-frecuencia" class="sch-section-title">{{ t.outboundScheduleFrequencyTitle }}</h2>
               <div class="sch-row">
                 <span class="sch-field-label">{{ t.outboundScheduleInitialDelayLabel }}</span>
                 <div class="sch-control">
-                  <select name="initialDelay" class="sch-select sch-select--full" [(ngModel)]="form.initialDelay"
-                    (ngModelChange)="persist()">
-                    <option value="30m_abandon">{{ t.outboundScheduleDelay30mAbandon }}</option>
-                    <option value="1h_abandon">{{ t.outboundScheduleDelay1hAbandon }}</option>
-                    <option value="2h_abandon">{{ t.outboundScheduleDelay2hAbandon }}</option>
-                    <option value="24h_abandon">{{ t.outboundScheduleDelay24hAbandon }}</option>
-                  </select>
+                  <app-segmentation-select variant="full" [options]="initialDelaySelectOptions"
+                    [value]="form.initialDelay" (valueChange)="onScheduleField('initialDelay', $event)" />
                 </div>
               </div>
               <div class="sch-row">
                 <span class="sch-field-label">{{ t.outboundScheduleRetriesLabel }}</span>
-                <div class="sch-control sch-control--inline">
-                  <select name="retriesCount" class="sch-select sch-select--narrow" [(ngModel)]="form.retriesCount"
-                    (ngModelChange)="persist()">
-                    <option *ngFor="let n of retryCounts" [value]="n">{{ n }}</option>
-                  </select>
+                <div class="sch-control sch-control--inline sch-control--gap-comfortable">
+                  <app-segmentation-select class="sch-dd-inline" variant="op" [options]="retryCountSelectOptions"
+                    [value]="form.retriesCount" (valueChange)="onScheduleField('retriesCount', $event)" />
                   <span class="sch-inline-hint">{{ t.outboundScheduleRetriesTimesEach }}</span>
-                  <select name="retriesInterval" class="sch-select sch-select--narrow" [(ngModel)]="form.retriesInterval"
-                    (ngModelChange)="persist()">
-                    <option *ngFor="let iv of retryIntervals" [value]="iv">{{ iv }}</option>
-                  </select>
+                  <app-segmentation-select class="sch-dd-inline" variant="op" [options]="retryIntervalSelectOptions"
+                    [value]="form.retriesInterval" (valueChange)="onScheduleField('retriesInterval', $event)" />
                 </div>
               </div>
-              <div class="sch-row">
+              <div class="sch-row sch-row--last">
                 <span class="sch-field-label">{{ t.outboundScheduleMaxCallsLabel }}</span>
-                <div class="sch-control sch-control--inline">
-                  <select name="maxCalls" class="sch-select sch-select--narrow" [(ngModel)]="form.maxCallsPerDay"
-                    (ngModelChange)="persist()">
-                    <option *ngFor="let n of maxCallsOptions" [value]="n">{{ n }}</option>
-                  </select>
+                <div class="sch-control sch-control--inline sch-control--gap-comfortable">
+                  <app-segmentation-select class="sch-dd-inline" variant="op" [options]="maxCallsSelectOptions"
+                    [value]="form.maxCallsPerDay" (valueChange)="onScheduleField('maxCallsPerDay', $event)" />
                   <span class="sch-inline-hint">{{ t.outboundScheduleMaxCallsPerDay }}</span>
                 </div>
               </div>
-            </div>
+            </section>
           </div>
         </div>
       </div>

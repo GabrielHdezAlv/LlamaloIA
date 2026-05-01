@@ -17,6 +17,12 @@ body {
     "Apple Color Emoji", "Segoe UI Emoji";
 }
 
+/* Listas personalizadas (segmentación): el panel debe quedar por encima del backdrop CDK si lo hay */
+/* Por encima del launcher del widget de soporte (10001) y overlays comunes (10000). */
+.cdk-overlay-container .cdk-overlay-pane.seg-dd-overlay-pane {
+  z-index: 10025 !important;
+  pointer-events: auto !important;
+}
 
 /* Fuente de marca reutilizable (Llamalo/beta) */
 .brand-font {
@@ -270,6 +276,7 @@ body::-webkit-scrollbar {
   html {
     @apply bg-slate-50 text-slate-900;
     transition: background-color 0.3s ease, color 0.3s ease;
+    color-scheme: light;
   }
 
   body {
@@ -280,6 +287,8 @@ body::-webkit-scrollbar {
   /* Fondo general gris oscuro en modo oscuro */
   html.dark {
     @apply bg-gray-800 text-slate-50;
+    /* Listas nativas de <select>, scrollbar del sistema, etc. */
+    color-scheme: dark;
   }
 
   html.dark body {

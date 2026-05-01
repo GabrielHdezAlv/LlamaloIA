@@ -11,6 +11,10 @@ import {
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { I18nService } from '../../../../core/services/i18n.service';
+import {
+  SegmentationSelectComponent,
+  SegmentationSelectOption,
+} from '../segmentation-step/segmentation-select.component';
 
 export const OUTBOUND_SCHEDULE_SCHEMA_VERSION = 2;
 
@@ -94,7 +98,7 @@ export function serializeOutboundScheduleForm(
 @Component({
   selector: 'app-schedule-campaign-step',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, SegmentationSelectComponent],
   templateUrl: './schedule-campaign-step.component.html',
   styleUrls: ['./schedule-campaign-step.component.scss'],
 })
@@ -133,6 +137,19 @@ export class ScheduleCampaignStepComponent implements OnChanges {
   readonly maxCallsOptions = ['1', '2', '3', '5'];
   readonly weekdayIndexes = [0, 1, 2, 3, 4, 5, 6];
 
+  readonly retryCountSelectOptions: SegmentationSelectOption[] = this.retryCounts.map((n) => ({
+    value: n,
+    label: n,
+  }));
+  readonly retryIntervalSelectOptions: SegmentationSelectOption[] = this.retryIntervals.map((iv) => ({
+    value: iv,
+    label: iv,
+  }));
+  readonly maxCallsSelectOptions: SegmentationSelectOption[] = this.maxCallsOptions.map((n) => ({
+    value: n,
+    label: n,
+  }));
+
   private lastEmitted = '';
 
   get t() {
@@ -161,6 +178,21 @@ export class ScheduleCampaignStepComponent implements OnChanges {
     const s = serializeOutboundScheduleForm(this.form);
     this.lastEmitted = s;
     this.scheduleNotesChange.emit(s);
+  }
+
+  get initialDelaySelectOptions(): SegmentationSelectOption[] {
+    const tr = this.t;
+    return [
+      { value: '30m_abandon', label: tr.outboundScheduleDelay30mAbandon },
+      { value: '1h_abandon', label: tr.outboundScheduleDelay1hAbandon },
+      { value: '2h_abandon', label: tr.outboundScheduleDelay2hAbandon },
+      { value: '24h_abandon', label: tr.outboundScheduleDelay24hAbandon },
+    ];
+  }
+
+  onScheduleField(field: keyof OutboundScheduleCampaignFormState, value: string): void {
+    this.form = { ...this.form, [field]: value as never };
+    this.persist();
   }
 
   setBusinessHours(on: boolean): void {

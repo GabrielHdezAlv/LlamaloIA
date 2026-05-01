@@ -40,21 +40,16 @@
               <div class="seg-control seg-control--numeric">
                 <input type="text" name="avgTicket" class="seg-input seg-input--grow" [placeholder]="t.outboundSegPlaceholderEuroExample"
                   [(ngModel)]="form.avgTicket" (ngModelChange)="persist()" autocomplete="off" />
-                <select name="avgTicketOp" class="seg-select seg-select--op" [(ngModel)]="form.avgTicketOp" (ngModelChange)="persist()">
-                  <option *ngFor="let op of compareOps" [value]="op">{{ op }}</option>
-                </select>
+                <app-segmentation-select variant="op" [options]="compareSelectOptions" [value]="form.avgTicketOp"
+                  (valueChange)="onSegField('avgTicketOp', $event)" />
               </div>
             </div>
 
             <div class="seg-row">
               <span class="seg-label">{{ t.outboundSegCountryLabel }}</span>
               <div class="seg-control">
-                <select name="country" class="seg-select seg-select--full" [(ngModel)]="form.country" (ngModelChange)="persist()">
-                  <option value="es">{{ t.outboundSegCountrySpain }}</option>
-                  <option value="pt">{{ t.outboundSegCountryPortugal }}</option>
-                  <option value="fr">{{ t.outboundSegCountryFrance }}</option>
-                  <option value="mx">{{ t.outboundSegCountryMexico }}</option>
-                </select>
+                <app-segmentation-select [options]="countrySelectOptions" [value]="form.country"
+                  (valueChange)="onSegField('country', $event)" />
               </div>
             </div>
 
@@ -99,10 +94,8 @@
                 <div class="seg-row">
                   <span class="seg-label">{{ t.outboundSegCartProductsLabel }}</span>
                   <div class="seg-control">
-                    <select name="cartProducts" class="seg-select seg-select--full" [(ngModel)]="form.cartProducts"
-                      (ngModelChange)="persist()">
-                      <option value="products">{{ t.outboundSegSelectProducts }}</option>
-                    </select>
+                    <app-segmentation-select [options]="cartProductSelectOptions" [value]="form.cartProducts"
+                      (valueChange)="onSegField('cartProducts', $event)" />
                   </div>
                 </div>
                 <div class="seg-row">
@@ -111,10 +104,8 @@
                     <input type="text" name="cartValue" class="seg-input seg-input--grow"
                       [placeholder]="t.outboundSegPlaceholderEuroExample" [(ngModel)]="form.cartValue" (ngModelChange)="persist()"
                       autocomplete="off" />
-                    <select name="cartValueOp" class="seg-select seg-select--op" [(ngModel)]="form.cartValueOp"
-                      (ngModelChange)="persist()">
-                      <option *ngFor="let op of compareOps" [value]="op">{{ op }}</option>
-                    </select>
+                    <app-segmentation-select variant="op" [options]="compareSelectOptions" [value]="form.cartValueOp"
+                      (valueChange)="onSegField('cartValueOp', $event)" />
                   </div>
                 </div>
                 <div class="seg-row">
@@ -123,10 +114,8 @@
                     <input type="text" name="cartItems" class="seg-input seg-input--grow"
                       [placeholder]="t.outboundSegPlaceholderUnitsExample" [(ngModel)]="form.cartItems" (ngModelChange)="persist()"
                       autocomplete="off" />
-                    <select name="cartItemsOp" class="seg-select seg-select--op" [(ngModel)]="form.cartItemsOp"
-                      (ngModelChange)="persist()">
-                      <option *ngFor="let op of compareOps" [value]="op">{{ op }}</option>
-                    </select>
+                    <app-segmentation-select variant="op" [options]="compareSelectOptions" [value]="form.cartItemsOp"
+                      (valueChange)="onSegField('cartItemsOp', $event)" />
                   </div>
                 </div>
               </section>
@@ -144,12 +133,8 @@
                 <div class="seg-row">
                   <span class="seg-label">{{ t.outboundSegSurveyTimeSincePurchaseLabel }}</span>
                   <div class="seg-control">
-                    <select name="surveyTime" class="seg-select seg-select--full" [(ngModel)]="form.surveyTimeSincePurchase"
-                      (ngModelChange)="persist()">
-                      <option value="1h">{{ t.outboundSegTime1h }}</option>
-                      <option value="3h">{{ t.outboundSegTime3h }}</option>
-                      <option value="24h">{{ t.outboundSegTime24h }}</option>
-                    </select>
+                    <app-segmentation-select [options]="surveyTimeSelectOptions" [value]="form.surveyTimeSincePurchase"
+                      (valueChange)="onSegField('surveyTimeSincePurchase', $event)" />
                   </div>
                 </div>
                 <div class="seg-row">
@@ -158,10 +143,8 @@
                     <input type="text" name="surveyTicket" class="seg-input seg-input--grow"
                       [placeholder]="t.outboundSegPlaceholderEuroExample" [(ngModel)]="form.surveyTicketValue"
                       (ngModelChange)="persist()" autocomplete="off" />
-                    <select name="surveyTicketOp" class="seg-select seg-select--op" [(ngModel)]="form.surveyTicketOp"
-                      (ngModelChange)="persist()">
-                      <option *ngFor="let op of compareOps" [value]="op">{{ op }}</option>
-                    </select>
+                    <app-segmentation-select variant="op" [options]="compareSelectOptions" [value]="form.surveyTicketOp"
+                      (valueChange)="onSegField('surveyTicketOp', $event)" />
                   </div>
                 </div>
               </section>
@@ -181,20 +164,15 @@
                 <div class="seg-row">
                   <span class="seg-label">{{ t.outboundSegPurchasedProductLabel }}</span>
                   <div class="seg-control">
-                    <select name="purchasedProduct" class="seg-select seg-select--full" [(ngModel)]="form.purchasedProduct"
-                      (ngModelChange)="persist()">
-                      <option value="products">{{ t.outboundSegSelectProducts }}</option>
-                    </select>
+                    <app-segmentation-select [options]="cartProductSelectOptions" [value]="form.purchasedProduct"
+                      (valueChange)="onSegField('purchasedProduct', $event)" />
                   </div>
                 </div>
                 <div class="seg-row">
                   <span class="seg-label">{{ t.outboundSegPurchaseFrequencyLabel }}</span>
                   <div class="seg-control">
-                    <select name="purchaseFrequency" class="seg-select seg-select--full" [(ngModel)]="form.purchaseFrequency"
-                      (ngModelChange)="persist()">
-                      <option value="first">{{ t.outboundSegFreqFirstPurchase }}</option>
-                      <option value="repeat">{{ t.outboundSegFreqRepeat }}</option>
-                    </select>
+                    <app-segmentation-select [options]="purchaseFrequencySelectOptions" [value]="form.purchaseFrequency"
+                      (valueChange)="onSegField('purchaseFrequency', $event)" />
                   </div>
                 </div>
               </section>
@@ -216,12 +194,8 @@
                 <div class="seg-row">
                   <span class="seg-label">{{ t.outboundSegPaymentDueLabel }}</span>
                   <div class="seg-control">
-                    <select name="paymentDue" class="seg-select seg-select--full" [(ngModel)]="form.paymentDue"
-                      (ngModelChange)="persist()">
-                      <option value="1h_before">{{ t.outboundSegDue1hBefore }}</option>
-                      <option value="24h_before">{{ t.outboundSegDue24hBefore }}</option>
-                      <option value="48h_before">{{ t.outboundSegDue48hBefore }}</option>
-                    </select>
+                    <app-segmentation-select [options]="paymentDueSelectOptions" [value]="form.paymentDue"
+                      (valueChange)="onSegField('paymentDue', $event)" />
                   </div>
                 </div>
                 <div class="seg-row">
@@ -230,10 +204,8 @@
                     <input type="text" name="paymentTicket" class="seg-input seg-input--grow"
                       [placeholder]="t.outboundSegPlaceholderEuroExample" [(ngModel)]="form.paymentTicketValue"
                       (ngModelChange)="persist()" autocomplete="off" />
-                    <select name="paymentTicketOp" class="seg-select seg-select--op" [(ngModel)]="form.paymentTicketOp"
-                      (ngModelChange)="persist()">
-                      <option *ngFor="let op of compareOps" [value]="op">{{ op }}</option>
-                    </select>
+                    <app-segmentation-select variant="op" [options]="compareSelectOptions" [value]="form.paymentTicketOp"
+                      (valueChange)="onSegField('paymentTicketOp', $event)" />
                   </div>
                 </div>
               </section>
