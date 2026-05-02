@@ -102,4 +102,6 @@ export interface UserProfileResponseDto {
     };
     label: string;
   }>;
+  /** Último paso del onboarding que el usuario ha visitado */
+  lastOnboardingStep?: number;
 }

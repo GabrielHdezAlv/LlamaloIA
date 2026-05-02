@@ -200,6 +200,11 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
 
     if (this.showWelcomeSequence) {
       this.startWelcomeSequence();
+      
+      // Registrar que hemos iniciado el paso 1 si acabamos de empezar el onboarding
+      if (standalone && !currentUser?.hasCompletedSetup) {
+        this.saveLastOnboardingStepToServer(1);
+      }
     }
   }
 
@@ -454,6 +459,31 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Persiste en Firestore (vía API) el último paso visitado del onboarding para análisis de abandono.
+   */
+  private saveLastOnboardingStepToServer(step: number): void {
+    const uid = this.userStore.user()?.userId;
+    if (!uid) {
+      return;
+    }
+    
+    // Evitamos enviar llamadas si el usuario ya completó el setup para no sobreescribir datos en vano
+    if (this.userStore.user()?.hasCompletedSetup === true) {
+      return;
+    }
+
+    this.userService
+      .updateUserProfile({
+        lastOnboardingStep: step,
+      })
+      .subscribe({
+        error: () => {
+          /* no bloquear el flujo */
+        },
+      });
+  }
+
+  /**
    * Persiste en Firestore (vía API) objetivos y canales de descubrimiento del onboarding.
    */
   private saveOnboardingRegistrationToServer(): void {
@@ -515,6 +545,9 @@ export class CompanySetupComponent implements OnInit, OnDestroy {
     }
 
     this.currentStep = step;
+    
+    // Guardar en el backend en qué paso estamos
+    this.saveLastOnboardingStepToServer(step);
 
     if (options?.instant) {
       this.displayedStep = step;
