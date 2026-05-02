@@ -42,7 +42,7 @@
     [cdkConnectedOverlayHasBackdrop]="false"
     [cdkConnectedOverlayFlexibleDimensions]="true"
     [cdkConnectedOverlayWidth]="overlayWidthBinding"
-    cdkConnectedOverlayPanelClass="seg-dd-overlay-pane"
+    [cdkConnectedOverlayPanelClass]="overlayPanelClassBinding"
     (overlayOutsideClick)="close()"
     (detach)="close()"
   >

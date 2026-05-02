@@ -15,10 +15,10 @@
       </p>
     </div>
 
-    <div class="mt-4 xl:mt-3 3xl:mt-4 flex flex-col overflow-visible">
-      <div class="outbound-instructions-scroll-wrap relative w-full">
+    <div class="mt-4 xl:mt-3 3xl:mt-4 flex min-h-0 flex-1 flex-col overflow-hidden">
+      <div class="outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col">
         <div
-          class="outbound-instructions-scroll min-h-0 w-full max-h-[min(43svh,20rem)] sm:max-h-[min(46svh,23.5rem)] md:max-h-[min(48svh,25.5rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)] overflow-y-auto overscroll-y-contain">
+          class="outbound-instructions-scroll min-h-0 w-full overflow-y-auto overscroll-y-contain touch-pan-y max-xl:max-h-[calc(100dvh-14rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)]">
           <div [class]="bodyClass">
             <!-- Filtros generales -->
             <div class="seg-row">
@@ -216,7 +216,7 @@
     </div>
 
     <div
-      class="w-full flex items-center justify-between nav-buttons-mobile outbound-nav-buttons shrink-0 mt-4 xl:mt-3 3xl:mt-4">
+      class="w-full flex items-center justify-between nav-buttons-mobile shrink-0 mt-4 xl:mt-3 3xl:mt-4">
       <button type="button"
         class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
         (click)="backClicked.emit()">

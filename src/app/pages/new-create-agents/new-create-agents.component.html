@@ -82,7 +82,10 @@
     <!-- Campaña (solo flujo saliente, tras instrucciones) -->
     <div
       *ngSwitchCase="'campaign'"
-      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
+      [ngClass]="[
+        isStepFadingOut ? 'step-fade-out' : 'step-fade-in',
+        isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
+      ]">
       <app-campaign-step [selectedCampaign]="selectedOutboundCampaign"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
         (selectedCampaignChange)="selectedOutboundCampaign = $event" (backClicked)="goBack()"

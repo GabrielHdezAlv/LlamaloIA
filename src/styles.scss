@@ -24,6 +24,12 @@ body {
   pointer-events: auto !important;
 }
 
+/* Desplegables dentro del modal de horario personalizado (backdrop 10040) */
+.cdk-overlay-container .cdk-overlay-pane.sch-modal-seg-dd-pane {
+  z-index: 10050 !important;
+  pointer-events: auto !important;
+}
+
 /* Fuente de marca reutilizable (Llamalo/beta) */
 .brand-font {
   font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,

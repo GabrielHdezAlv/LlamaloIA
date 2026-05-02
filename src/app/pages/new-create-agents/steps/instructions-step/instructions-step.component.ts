@@ -172,7 +172,7 @@ export class InstructionsStepComponent {
   get instructionsBodyWrapperClass(): string {
     const gaps = 'flex flex-col gap-4 xl:gap-3 3xl:gap-5';
     return this.outboundInstructionsOnly
-      ? `${gaps} pb-12 3xl:pb-14`
+      ? `${gaps} pb-12 max-lg:pb-28 3xl:pb-14`
       : `mt-4 xl:mt-3 3xl:mt-4 ${gaps}`;
   }
 

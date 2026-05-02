@@ -8,7 +8,6 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { I18nService } from '../../../../core/services/i18n.service';
 import {
@@ -98,7 +97,7 @@ export function serializeOutboundScheduleForm(
 @Component({
   selector: 'app-schedule-campaign-step',
   standalone: true,
-  imports: [FormsModule, CommonModule, SegmentationSelectComponent],
+  imports: [CommonModule, SegmentationSelectComponent],
   templateUrl: './schedule-campaign-step.component.html',
   styleUrls: ['./schedule-campaign-step.component.scss'],
 })
@@ -150,6 +149,15 @@ export class ScheduleCampaignStepComponent implements OnChanges {
     label: n,
   }));
 
+  readonly modalTimeHourOptions: SegmentationSelectOption[] = Array.from({ length: 24 }, (_, i) => {
+    const v = String(i).padStart(2, '0');
+    return { value: v, label: v };
+  });
+  readonly modalTimeMinuteOptions: SegmentationSelectOption[] = Array.from({ length: 60 }, (_, i) => {
+    const v = String(i).padStart(2, '0');
+    return { value: v, label: v };
+  });
+
   private lastEmitted = '';
 
   get t() {
@@ -163,7 +171,7 @@ export class ScheduleCampaignStepComponent implements OnChanges {
     'w-full max-w-[560px] sm:max-w-[640px] md:max-w-[780px] xl:max-w-[740px] 3xl:max-w-[880px] px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8 flex min-h-0 flex-col overflow-visible pb-6 max-lg:pb-8';
 
   readonly bodyClass =
-    'flex flex-col gap-4 xl:gap-3 3xl:gap-5 pb-12 3xl:pb-14';
+    'flex flex-col gap-4 xl:gap-3 3xl:gap-5 pb-12 max-lg:pb-28 3xl:pb-14';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['scheduleNotes']) {
@@ -253,6 +261,44 @@ export class ScheduleCampaignStepComponent implements OnChanges {
     const next = [...this.modalForm.customWeekdays];
     next[index] = !next[index];
     this.modalForm.customWeekdays = next;
+  }
+
+  modalTimeHour(raw: string): string {
+    return this.splitModalTimeString(raw)[0];
+  }
+
+  modalTimeMinute(raw: string): string {
+    return this.splitModalTimeString(raw)[1];
+  }
+
+  setModalTimeHour(which: 'from' | 'to', hour: string): void {
+    if (!this.modalForm) {
+      return;
+    }
+    const key = which === 'from' ? 'customTimeFrom' : 'customTimeTo';
+    const [, m] = this.splitModalTimeString(this.modalForm[key]);
+    const h = (hour ?? '00').padStart(2, '0').slice(-2);
+    this.modalForm = { ...this.modalForm, [key]: `${h}:${m}` };
+  }
+
+  setModalTimeMinute(which: 'from' | 'to', minute: string): void {
+    if (!this.modalForm) {
+      return;
+    }
+    const key = which === 'from' ? 'customTimeFrom' : 'customTimeTo';
+    const [h] = this.splitModalTimeString(this.modalForm[key]);
+    const m = (minute ?? '00').padStart(2, '0').slice(-2);
+    this.modalForm = { ...this.modalForm, [key]: `${h}:${m}` };
+  }
+
+  private splitModalTimeString(s: string): [string, string] {
+    const m = /^(\d{1,2}):(\d{2})$/.exec((s ?? '').trim());
+    if (!m) {
+      return ['09', '00'];
+    }
+    const h = Math.min(23, Math.max(0, parseInt(m[1], 10) || 0));
+    const min = Math.min(59, Math.max(0, parseInt(m[2], 10) || 0));
+    return [String(h).padStart(2, '0'), String(min).padStart(2, '0')];
   }
 
   confirmCustomModal(): void {

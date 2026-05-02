@@ -29,7 +29,15 @@ export class SegmentationSelectComponent {
   /** `full`: ancho del control; `op`: ancho fijo para operadores de comparación. */
   @Input() variant: 'full' | 'op' = 'full';
 
+  /** Clase extra en el panel CDK (p. ej. z-index alto dentro de un modal). */
+  @Input() overlayPanelExtraClass = '';
+
   @Output() valueChange = new EventEmitter<string>();
+
+  get overlayPanelClassBinding(): string | string[] {
+    const extra = this.overlayPanelExtraClass?.trim();
+    return extra ? ['seg-dd-overlay-pane', extra] : 'seg-dd-overlay-pane';
+  }
 
   protected readonly positions = STANDARD_DROPDOWN_BELOW_POSITIONS;
   protected readonly scrollStrategy = this.overlay.scrollStrategies.reposition();

@@ -1,38 +1,44 @@
-<div
-  class="w-full h-full bg-transparent flex items-center justify-center 4xl:items-start 4xl:justify-center overflow-hidden mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56">
-  <div
-    class="w-full max-w-[500px] sm:max-w-[600px] md:max-w-[720px] xl:max-w-[700px] 3xl:max-w-[800px] flex flex-col px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8">
-    <div class="flex items-center justify-between w-full">
-      <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
-        {{ t.outboundCampaignStepTitle }}
-      </h1>
-      <span class="text-xs xl:text-[10px] 3xl:text-sm font-normal text-[#0F172A] dark:text-white leading-tight"
-        *ngIf="getCurrentStepNumber() > 0">
-        {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
-      </span>
-    </div>
-    <p class="mt-0.5 3xl:mt-0.5 text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] font-semibold">
-      {{ t.outboundCampaignStepSubtitle }}
-    </p>
-
-    <div class="grid grid-cols-2 gap-4 xl:gap-3 3xl:gap-5 mt-4 xl:mt-3 3xl:mt-4">
-      @for (kind of campaignOrder; track kind) {
-      <button type="button" (click)="onSelect(kind)" [ngClass]="{
-          'ring-2 ring-blue-500 dark:ring-white border-blue-500 dark:border-white':
-            selectedCampaign === kind,
-        }"
-        class="w-full min-h-[4.5rem] sm:min-h-[5rem] xl:min-h-[4.25rem] 3xl:min-h-[5.25rem] rounded-xl xl:rounded-lg 3xl:rounded-xl border border-gray-300 dark:border-white bg-transparent flex items-center justify-center cursor-pointer hover:border-gray-400 dark:hover:border-white transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-white px-3 py-3 3xl:px-4 3xl:py-4">
-        <span
-          class="text-center text-sm xl:text-[11px] 3xl:text-base font-medium text-gray-900 dark:text-white leading-snug"
-          [class.text-blue-600]="selectedCampaign === kind"
-          [class.dark:text-blue-400]="selectedCampaign === kind">
-          {{ campaignLabel(kind) }}
+<div [class]="rootClass">
+  <div [class]="innerClass">
+    <div class="shrink-0">
+      <div class="flex items-center justify-between w-full">
+        <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
+          {{ t.outboundCampaignStepTitle }}
+        </h1>
+        <span class="text-xs xl:text-[10px] 3xl:text-sm font-normal text-[#0F172A] dark:text-white leading-tight"
+          *ngIf="getCurrentStepNumber() > 0">
+          {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
         </span>
-      </button>
-      }
+      </div>
+      <p class="mt-0.5 3xl:mt-0.5 text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] font-semibold">
+        {{ t.outboundCampaignStepSubtitle }}
+      </p>
     </div>
 
-    <div class="w-full flex items-center justify-between mt-5 3xl:mt-8 nav-buttons-mobile">
+    <div class="mt-4 xl:mt-3 3xl:mt-4 flex min-h-0 flex-1 flex-col overflow-hidden">
+      <div class="outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col">
+        <div
+          class="outbound-instructions-scroll min-h-0 w-full overflow-y-auto overscroll-y-contain touch-pan-y max-xl:max-h-[calc(100dvh-14rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)]">
+          <div [class]="bodyClass">
+            <div class="grid grid-cols-2 gap-4 xl:gap-3 3xl:gap-5">
+              @for (kind of campaignOrder; track kind) {
+              <button
+                type="button"
+                (click)="onSelect(kind)"
+                class="campaign-card w-full min-h-[4.5rem] sm:min-h-[5rem] xl:min-h-[4.25rem] 3xl:min-h-[5.25rem] rounded-xl xl:rounded-lg 3xl:rounded-xl flex items-center justify-center cursor-pointer px-3 py-3 3xl:px-4 3xl:py-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-100 dark:focus-visible:ring-white/50 dark:focus-visible:ring-offset-[#111113] transition-[border-color,box-shadow,background-color] duration-150 ease-out"
+                [class.campaign-card--selected]="selectedCampaign === kind">
+                <span class="campaign-card__label">
+                  {{ campaignLabel(kind) }}
+                </span>
+              </button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full flex items-center justify-between nav-buttons-mobile shrink-0 mt-4 xl:mt-3 3xl:mt-4">
       <button type="button"
         class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
         (click)="backClicked.emit()">

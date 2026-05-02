@@ -1,25 +1,6 @@
 /* Misma lógica que segmentation-step: nav móvil y scroll “invisible” */
 
 @media (max-width: 1279px) {
-  .nav-buttons-mobile.outbound-nav-buttons {
-    position: static !important;
-    left: auto;
-    right: auto;
-    bottom: auto;
-    z-index: auto;
-    background: transparent !important;
-    border-top: none;
-    padding: 0;
-    margin-top: 1rem !important;
-    box-shadow: none;
-    gap: 0.75rem;
-
-    >button:first-child,
-    >button:last-child:not(:first-child) {
-      flex: initial;
-    }
-  }
-
   .nav-buttons-mobile {
     position: fixed !important;
     bottom: 0;
@@ -96,6 +77,8 @@
 }
 
 .outbound-instructions-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
   scrollbar-width: thin;
   scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
 }
@@ -501,6 +484,29 @@
   min-width: 0;
 }
 
+.sch-modal-time-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.35rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.sch-modal-time-sep {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #64748b;
+  line-height: 1;
+  user-select: none;
+  flex-shrink: 0;
+
+  :host-context(html.dark) & {
+    color: #94a3b8;
+  }
+}
+
 .sch-modal-time-label {
   font-size: 0.75rem;
   font-weight: 700;
@@ -508,33 +514,6 @@
 
   :host-context(html.dark) & {
     color: #cbd5e1;
-  }
-}
-
-.sch-time-input {
-  width: 100%;
-  border-radius: 0.625rem;
-  border: 1px solid #d1d5db;
-  background: #e8eaed;
-  color: #0f172a;
-  padding: 0.5rem 0.65rem;
-  font-size: 0.875rem;
-  outline: none;
-
-  :host-context(html.dark) & {
-    background: transparent;
-    border-color: #4e4e4e;
-    color: #fff;
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
-    border-color: rgba(37, 99, 235, 0.45);
-
-    :host-context(html.dark) & {
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.55);
-    }
   }
 }
 

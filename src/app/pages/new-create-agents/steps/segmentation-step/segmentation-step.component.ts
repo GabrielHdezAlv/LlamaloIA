@@ -153,7 +153,7 @@ export class SegmentationStepComponent implements OnChanges {
     'w-full max-w-[560px] sm:max-w-[640px] md:max-w-[780px] xl:max-w-[740px] 3xl:max-w-[880px] px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8 flex min-h-0 flex-col overflow-visible pb-6 max-lg:pb-8';
 
   readonly bodyClass =
-    'flex flex-col gap-3 sm:gap-4 xl:gap-3 3xl:gap-4 pb-12 3xl:pb-14';
+    'flex flex-col gap-3 sm:gap-4 xl:gap-3 3xl:gap-4 pb-12 max-lg:pb-28 3xl:pb-14';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['segmentationNotes']) {
