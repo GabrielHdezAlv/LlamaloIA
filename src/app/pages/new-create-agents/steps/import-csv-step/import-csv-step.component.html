@@ -1,0 +1,106 @@
+<div [class]="rootClass">
+  <div [class]="innerClass">
+    <div class="shrink-0">
+      <div class="flex items-center justify-between w-full">
+        <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
+          {{ t.outboundImportCsvStepTitle }}
+        </h1>
+        <span class="text-xs xl:text-[10px] 3xl:text-sm font-normal text-[#0F172A] dark:text-white leading-tight"
+          *ngIf="getCurrentStepNumber() > 0">
+          {{ getCurrentStepNumber() }}/{{ getTotalSteps() }}
+        </span>
+      </div>
+      <p class="mt-0.5 3xl:mt-0.5 text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] font-semibold">
+        {{ t.outboundImportCsvStepSubtitle }}
+      </p>
+    </div>
+
+    <div class="mt-4 xl:mt-3 3xl:mt-4 flex min-h-0 flex-1 flex-col overflow-hidden">
+      <div class="outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col">
+        <div
+          class="outbound-instructions-scroll min-h-0 w-full overflow-y-auto overscroll-y-contain touch-pan-y max-xl:max-h-[calc(100dvh-14rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)]">
+          <div [class]="bodyClass">
+            <input #fileInput type="file" accept=".csv,text/csv,text/plain" class="sr-only"
+              (change)="onFileSelected($event)" />
+
+            <button
+              type="button"
+              class="csv-drop-zone w-full px-5 py-8 sm:py-10 text-center cursor-pointer dark:bg-transparent"
+              [class.csv-drop-zone--active]="isDragging"
+              (click)="onBrowseClick(fileInput)"
+              (keydown.enter)="onBrowseClick(fileInput)"
+              (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)"
+              (drop)="onDrop($event)">
+              <p class="text-sm xl:text-[11px] 3xl:text-base font-semibold text-[#0F172A] dark:text-white mb-1">
+                {{ t.outboundImportCsvDropZone }}
+              </p>
+              <p class="text-xs xl:text-[10px] 3xl:text-sm text-[#6d747c] dark:text-slate-400 font-medium">
+                {{ t.outboundImportCsvHint }}
+              </p>
+              <p class="mt-2 text-[10px] xl:text-[9px] 3xl:text-xs text-[#94a3b8] dark:text-slate-500">
+                {{ t.outboundImportCsvAcceptedFormats }}
+              </p>
+            </button>
+
+            @if (parseError) {
+            <p class="text-xs xl:text-[10px] 3xl:text-sm text-red-600 dark:text-red-400 font-medium" role="alert">
+              {{ parseError }}
+            </p>
+            }
+
+            @if (phones.length > 0) {
+            <div
+              class="rounded-lg xl:rounded-md 3xl:rounded-xl border border-gray-200 dark:border-slate-600 bg-white/60 dark:bg-slate-900/30 px-3 py-3 3xl:px-4 3xl:py-4">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <p class="text-xs xl:text-[10px] 3xl:text-sm font-semibold text-[#0F172A] dark:text-white m-0">
+                  {{ t.outboundImportCsvPhonesCount }} · {{ phones.length }}
+                </p>
+                <button type="button"
+                  class="text-[10px] xl:text-[9px] 3xl:text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white underline underline-offset-2"
+                  (click)="clearAll()">
+                  {{ t.outboundImportCsvClearAll }}
+                </button>
+              </div>
+              <ul class="m-0 p-0 list-none flex flex-col gap-1 3xl:gap-1.5 max-h-48 xl:max-h-40 3xl:max-h-52 overflow-y-auto">
+                @for (p of previewPhones; track $index; let i = $index) {
+                <li
+                  class="csv-phone-chip flex items-center justify-between gap-2 text-[11px] xl:text-[10px] 3xl:text-sm text-gray-900 dark:text-slate-100 font-medium py-1 px-2 rounded-md bg-slate-50/90 dark:bg-slate-800/60">
+                  <span class="min-w-0 truncate">{{ p }}</span>
+                  <button type="button"
+                    class="shrink-0 text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400 px-1"
+                    (click)="removeAt(i)"
+                    [attr.aria-label]="t.outboundImportCsvRemove">
+                    ×
+                  </button>
+                </li>
+                }
+              </ul>
+              @if (getHiddenCount() > 0) {
+              <p class="mt-2 mb-0 text-[10px] xl:text-[9px] 3xl:text-xs text-[#6d747c] dark:text-slate-400">
+                {{ previewMoreLabel }}
+              </p>
+              }
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="w-full flex items-center justify-between nav-buttons-mobile shrink-0 mt-4 xl:mt-3 3xl:mt-4">
+      <button type="button"
+        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
+        (click)="backClicked.emit()">
+        <span class="text-xs 3xl:text-lg leading-none">‹</span>
+        <span>{{ t.back }}</span>
+      </button>
+      <button type="button"
+        class="px-3 3xl:px-6 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
+        (click)="continueClicked.emit()">
+        {{ t.continue }}
+      </button>
+    </div>
+  </div>
+</div>

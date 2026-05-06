@@ -94,7 +94,21 @@
       </app-instructions-step>
     </div>
 
-    <!-- Segmentación (solo saliente, tras instrucciones) -->
+    <!-- Importar CSV de teléfonos (solo saliente, tras instrucciones) -->
+    <div
+      *ngSwitchCase="'importCsv'"
+      [ngClass]="[
+        isStepFadingOut ? 'step-fade-out' : 'step-fade-in',
+        isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
+      ]">
+      <app-import-csv-step [phones]="outboundImportCsvPhones"
+        [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
+        (phonesChange)="onOutboundImportCsvPhonesChange($event)" (backClicked)="goBack()"
+        (continueClicked)="onSkip()">
+      </app-import-csv-step>
+    </div>
+
+    <!-- Segmentación (solo saliente, tras importar CSV) -->
     <div
       *ngSwitchCase="'segmentation'"
       [ngClass]="[

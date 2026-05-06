@@ -79,8 +79,10 @@ interface AgentDraft {
   outboundCampaignScripts?: Partial<OutboundCampaignScripts>;
   /** Tipo de campaña elegido en el paso «Campaña» (solo saliente). */
   outboundCampaignKind?: OutboundCampaignKind | null;
-  /** Notas de segmentación (paso posterior a campaña, solo saliente). */
+  /** Notas de segmentación (paso posterior a importar CSV, solo saliente). */
   outboundSegmentationNotes?: string;
+  /** Números importados desde CSV (entre instrucciones y segmentación, solo saliente). */
+  outboundImportCsvPhones?: string[];
   /** Programar campaña (JSON, tras segmentación). */
   outboundScheduleCampaignNotes?: string;
   savedAt: number; // timestamp
@@ -105,6 +107,7 @@ import { SuccessStepComponent } from './steps/success-step/success-step.componen
 import { CampaignStepComponent } from './steps/campaign-step/campaign-step.component';
 import { SegmentationStepComponent } from './steps/segmentation-step/segmentation-step.component';
 import { ScheduleCampaignStepComponent } from './steps/schedule-campaign-step/schedule-campaign-step.component';
+import { ImportCsvStepComponent } from './steps/import-csv-step/import-csv-step.component';
 
 @Component({
   selector: 'app-new-create-agents',
@@ -124,6 +127,7 @@ import { ScheduleCampaignStepComponent } from './steps/schedule-campaign-step/sc
     CampaignStepComponent,
     SegmentationStepComponent,
     ScheduleCampaignStepComponent,
+    ImportCsvStepComponent,
   ],
   templateUrl: './new-create-agents.component.html',
   styleUrl: './new-create-agents.component.scss',
@@ -137,6 +141,7 @@ export class NewCreateAgentsComponent
       this.isOutboundAgentFlow &&
       (this.displayedStep === 'campaign' ||
         this.displayedStep === 'instructions' ||
+        this.displayedStep === 'importCsv' ||
         this.displayedStep === 'segmentation' ||
         this.displayedStep === 'scheduleCampaign')
     );
@@ -152,6 +157,7 @@ export class NewCreateAgentsComponent
     | 'language'
     | 'voices'
     | 'campaign'
+    | 'importCsv'
     | 'segmentation'
     | 'scheduleCampaign'
     | 'connectBusiness'
@@ -168,6 +174,7 @@ export class NewCreateAgentsComponent
     | 'language'
     | 'voices'
     | 'campaign'
+    | 'importCsv'
     | 'segmentation'
     | 'scheduleCampaign'
     | 'connectBusiness'
@@ -187,8 +194,10 @@ export class NewCreateAgentsComponent
 
   /** Campaña saliente elegida (tras instrucciones). */
   selectedOutboundCampaign: OutboundCampaignKind | null = null;
-  /** Texto libre de segmentación (tras campaña). */
+  /** Texto libre de segmentación (tras importar CSV). */
   outboundSegmentationNotes = '';
+  /** Teléfonos desde CSV (antes de segmentación). */
+  outboundImportCsvPhones: string[] = [];
   /** Programar campaña (JSON). */
   outboundScheduleCampaignNotes = '';
 
@@ -314,6 +323,7 @@ export class NewCreateAgentsComponent
     }
     const outboundOnly: Array<typeof this.step> = [
       'campaign',
+      'importCsv',
       'segmentation',
       'scheduleCampaign',
     ];
@@ -480,6 +490,10 @@ export class NewCreateAgentsComponent
           : null;
       this.outboundSegmentationNotes =
         this.savedDraft.outboundSegmentationNotes ?? '';
+      const rawPhones = this.savedDraft.outboundImportCsvPhones;
+      this.outboundImportCsvPhones = Array.isArray(rawPhones)
+        ? rawPhones.filter((x): x is string => typeof x === 'string')
+        : [];
       this.outboundScheduleCampaignNotes =
         this.savedDraft.outboundScheduleCampaignNotes ?? '';
       this.currentVoiceIndex = this.savedDraft.currentVoiceIndex ?? 0;
@@ -579,6 +593,7 @@ export class NewCreateAgentsComponent
         shopifyDomain: this.shopifyConnectedDomain ?? undefined,
         outboundCampaignScripts: { ...this.outboundCampaignScripts },
         outboundCampaignKind: this.selectedOutboundCampaign ?? undefined,
+        outboundImportCsvPhones: [...this.outboundImportCsvPhones],
         outboundSegmentationNotes: this.outboundSegmentationNotes,
         outboundScheduleCampaignNotes: this.outboundScheduleCampaignNotes,
         savedAt: Date.now(),
@@ -1229,8 +1244,10 @@ export class NewCreateAgentsComponent
       this.loadVoices();
     } else if (this.step === 'campaign') {
       this.setStep('connectBusiness');
-    } else if (this.step === 'segmentation') {
+    } else if (this.step === 'importCsv') {
       this.setStep('instructions');
+    } else if (this.step === 'segmentation') {
+      this.setStep('importCsv');
     } else if (this.step === 'scheduleCampaign') {
       this.setStep('segmentation');
     } else if (this.step === 'voices') {
@@ -1260,6 +1277,9 @@ export class NewCreateAgentsComponent
       }
       this.setStep('instructions');
       this.saveDraft();
+    } else if (this.step === 'importCsv') {
+      this.setStep('segmentation');
+      this.saveDraft();
     } else if (this.step === 'segmentation') {
       this.setStep('scheduleCampaign');
       this.saveDraft();
@@ -1273,7 +1293,7 @@ export class NewCreateAgentsComponent
       this.setStep('instructions');
     } else if (this.step === 'instructions') {
       if (this.isOutboundAgentFlow) {
-        this.setStep('segmentation');
+        this.setStep('importCsv');
         this.saveDraft();
         return;
       }
@@ -1439,7 +1459,7 @@ export class NewCreateAgentsComponent
 
   onSubmit() {
     if (this.isOutboundAgentFlow) {
-      this.setStep('segmentation');
+      this.setStep('importCsv');
       this.saveDraft();
       return;
     }
@@ -1459,6 +1479,11 @@ export class NewCreateAgentsComponent
 
   onOutboundScheduleCampaignNotesChange(notes: string): void {
     this.outboundScheduleCampaignNotes = notes;
+    this.saveDraft();
+  }
+
+  onOutboundImportCsvPhonesChange(phones: string[]): void {
+    this.outboundImportCsvPhones = phones;
     this.saveDraft();
   }
 
@@ -3059,8 +3084,9 @@ export class NewCreateAgentsComponent
         connectBusiness: 4,
         campaign: 5,
         instructions: 6,
-        segmentation: 7,
-        scheduleCampaign: 8,
+        importCsv: 7,
+        segmentation: 8,
+        scheduleCampaign: 9,
       };
       return outbound[this.step] ?? 0;
     }
@@ -3092,7 +3118,7 @@ export class NewCreateAgentsComponent
   // Método para obtener el total de pasos
   getTotalSteps(): number {
     if (this.isOutboundAgentFlow) {
-      return this.skipShopifyBusinessStep ? 3 : 8;
+      return this.skipShopifyBusinessStep ? 3 : 9;
     }
     return this.skipShopifyBusinessStep ? 7 : 8;
   }
@@ -3103,6 +3129,7 @@ export class NewCreateAgentsComponent
       | 'language'
       | 'voices'
       | 'campaign'
+      | 'importCsv'
       | 'segmentation'
       | 'scheduleCampaign'
       | 'connectBusiness'

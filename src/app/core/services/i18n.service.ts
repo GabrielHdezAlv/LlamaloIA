@@ -648,6 +648,20 @@ export interface Translations {
   /** Paso elegir tipo de campaña (solo saliente). */
   outboundCampaignStepTitle: string;
   outboundCampaignStepSubtitle: string;
+  /** Paso importar CSV de teléfonos (solo saliente, entre instrucciones y segmentación). */
+  outboundImportCsvStepTitle: string;
+  outboundImportCsvStepSubtitle: string;
+  outboundImportCsvDropZone: string;
+  outboundImportCsvHint: string;
+  outboundImportCsvAcceptedFormats: string;
+  outboundImportCsvPhonesCount: string;
+  outboundImportCsvClearAll: string;
+  outboundImportCsvRemove: string;
+  outboundImportCsvPreviewMore: string;
+  outboundImportCsvParseErrorInvalidType: string;
+  outboundImportCsvParseErrorRead: string;
+  outboundImportCsvParseErrorNoPhones: string;
+  outboundImportCsvParseErrorGeneric: string;
   /** Paso segmentación (solo saliente, tras campaña). */
   outboundSegmentationStepTitle: string;
   outboundSegmentationStepSubtitle: string;
@@ -1788,6 +1802,23 @@ export class I18nService {
       outboundCampaignStepTitle: 'Elegir campaña',
       outboundCampaignStepSubtitle:
         'Selecciona el tipo de acción que realizará el agente con tus clientes.',
+      outboundImportCsvStepTitle: 'Importar CSV',
+      outboundImportCsvStepSubtitle:
+        'Sube un archivo con los números de teléfono a los que llamará el agente en esta campaña.',
+      outboundImportCsvDropZone: 'Arrastra un CSV aquí o haz clic para elegir archivo',
+      outboundImportCsvHint:
+        'La primera columna de cada fila debe contener el teléfono (puedes incluir una fila de cabecera con «teléfono» o «phone»).',
+      outboundImportCsvAcceptedFormats: 'Solo archivos .csv',
+      outboundImportCsvPhonesCount: 'Números cargados',
+      outboundImportCsvClearAll: 'Vaciar lista',
+      outboundImportCsvRemove: 'Quitar número',
+      outboundImportCsvPreviewMore: 'Y {n} más…',
+      outboundImportCsvParseErrorInvalidType:
+        'Selecciona un archivo .csv válido.',
+      outboundImportCsvParseErrorRead: 'No se pudo leer el archivo. Inténtalo de nuevo.',
+      outboundImportCsvParseErrorNoPhones:
+        'No encontramos teléfonos válidos en el archivo. Revisa el formato y la primera columna.',
+      outboundImportCsvParseErrorGeneric: 'No se pudo procesar el archivo.',
       outboundSegmentationStepTitle: 'Segmentación',
       outboundSegmentationStepSubtitle:
         'Indica a quién debe contactar el agente en esta campaña (perfil, criterios y exclusiones).',
@@ -2931,6 +2962,22 @@ export class I18nService {
       outboundCampaignStepTitle: 'Choose campaign',
       outboundCampaignStepSubtitle:
         'Select the type of action the agent will perform with your customers.',
+      outboundImportCsvStepTitle: 'Import CSV',
+      outboundImportCsvStepSubtitle:
+        'Upload a file with the phone numbers your agent will call in this campaign.',
+      outboundImportCsvDropZone: 'Drag a CSV here or click to browse',
+      outboundImportCsvHint:
+        'The first column of each row must contain the phone number (you may use a header row like “phone” or “teléfono”).',
+      outboundImportCsvAcceptedFormats: '.csv files only',
+      outboundImportCsvPhonesCount: 'Loaded numbers',
+      outboundImportCsvClearAll: 'Clear list',
+      outboundImportCsvRemove: 'Remove number',
+      outboundImportCsvPreviewMore: 'And {n} more…',
+      outboundImportCsvParseErrorInvalidType: 'Please choose a valid .csv file.',
+      outboundImportCsvParseErrorRead: 'Could not read the file. Please try again.',
+      outboundImportCsvParseErrorNoPhones:
+        'No valid phone numbers were found. Check the format and the first column.',
+      outboundImportCsvParseErrorGeneric: 'Could not process the file.',
       outboundSegmentationStepTitle: 'Segmentation',
       outboundSegmentationStepSubtitle:
         'Describe who the agent should reach in this campaign (profile, criteria, exclusions).',
