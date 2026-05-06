@@ -2299,10 +2299,10 @@ export class NewCreateAgentsComponent
             });
         }
 
-        // Cambiar a pantalla de éxito
+        // Cambiar a pantalla de éxito y navegar a la lista de agentes
         this.setStep('success');
-        // Limpiar el borrador cuando el agente se crea con éxito
         this.clearSavedDraft();
+        this.router.navigate(['/dashboard/agents']);
       },
       error: (error: HttpErrorResponse) => {
         console.error('❌ Error al crear agente:', error);
