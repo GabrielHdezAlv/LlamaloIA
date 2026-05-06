@@ -79,7 +79,7 @@
 
             <ng-container *ngIf="form.advancedOpen">
               <!-- Recuperación carritos -->
-              <section class="seg-section">
+              <section class="seg-section" *ngIf="isSegmentationSectionVisible('abandonedCart')">
                 <h3 class="seg-section__title">
                   <span class="seg-section__icon" aria-hidden="true">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -121,7 +121,7 @@
               </section>
 
               <!-- Encuestas -->
-              <section class="seg-section">
+              <section class="seg-section" *ngIf="isSegmentationSectionVisible('satisfactionSurvey')">
                 <h3 class="seg-section__title">
                   <span class="seg-section__icon" aria-hidden="true">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -150,7 +150,7 @@
               </section>
 
               <!-- Post-compra -->
-              <section class="seg-section">
+              <section class="seg-section" *ngIf="isSegmentationSectionVisible('postPurchase')">
                 <h3 class="seg-section__title">
                   <span class="seg-section__icon" aria-hidden="true">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -178,7 +178,7 @@
               </section>
 
               <!-- Recordatorio pago -->
-              <section class="seg-section">
+              <section class="seg-section" *ngIf="isSegmentationSectionVisible('paymentReminder')">
                 <h3 class="seg-section__title">
                   <span class="seg-section__icon" aria-hidden="true">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none">

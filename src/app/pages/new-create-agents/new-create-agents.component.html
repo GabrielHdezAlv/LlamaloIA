@@ -49,6 +49,20 @@
       </app-connect-business-step>
     </div>
 
+    <!-- Campaña (solo flujo saliente, tras conectar negocio; antes de instrucciones) -->
+    <div
+      *ngSwitchCase="'campaign'"
+      [ngClass]="[
+        isStepFadingOut ? 'step-fade-out' : 'step-fade-in',
+        isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
+      ]">
+      <app-campaign-step [selectedCampaign]="selectedOutboundCampaign"
+        [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
+        (selectedCampaignChange)="selectedOutboundCampaign = $event" (backClicked)="goBack()"
+        (continueClicked)="onSkip()">
+      </app-campaign-step>
+    </div>
+
     <!-- Paso 5: Instrucciones -->
     <div
       *ngSwitchCase="'instructions'"
@@ -61,6 +75,7 @@
         [makeActionActive]="makeActionActive" [makeGeneratedWebhook]="makeGeneratedWebhook"
         [outboundInstructionsOnly]="isOutboundAgentFlow"
         [outboundCampaignScripts]="outboundCampaignScripts"
+        [selectedOutboundCampaign]="selectedOutboundCampaign"
         [showGeneratePromptModal]="showGeneratePromptModal"
         [isGeneratePromptDropdownClosing]="isGeneratePromptDropdownClosing" [promptDescription]="promptDescription"
         [promptEnterpriseName]="promptEnterpriseName"
@@ -79,21 +94,7 @@
       </app-instructions-step>
     </div>
 
-    <!-- Campaña (solo flujo saliente, tras instrucciones) -->
-    <div
-      *ngSwitchCase="'campaign'"
-      [ngClass]="[
-        isStepFadingOut ? 'step-fade-out' : 'step-fade-in',
-        isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
-      ]">
-      <app-campaign-step [selectedCampaign]="selectedOutboundCampaign"
-        [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
-        (selectedCampaignChange)="selectedOutboundCampaign = $event" (backClicked)="goBack()"
-        (continueClicked)="onSkip()">
-      </app-campaign-step>
-    </div>
-
-    <!-- Segmentación (solo saliente, tras campaña; mismo layout que instrucciones) -->
+    <!-- Segmentación (solo saliente, tras instrucciones) -->
     <div
       *ngSwitchCase="'segmentation'"
       [ngClass]="[
@@ -101,6 +102,7 @@
         isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
       ]">
       <app-segmentation-step [segmentationNotes]="outboundSegmentationNotes"
+        [selectedOutboundCampaign]="selectedOutboundCampaign"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
         (segmentationNotesChange)="onOutboundSegmentationNotesChange($event)" (backClicked)="goBack()"
         (continueClicked)="onSkip()">

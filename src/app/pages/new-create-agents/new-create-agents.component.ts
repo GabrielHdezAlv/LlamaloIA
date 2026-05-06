@@ -135,7 +135,8 @@ export class NewCreateAgentsComponent
   get outboundInstructionsViewport(): boolean {
     return (
       this.isOutboundAgentFlow &&
-      (this.displayedStep === 'instructions' ||
+      (this.displayedStep === 'campaign' ||
+        this.displayedStep === 'instructions' ||
         this.displayedStep === 'segmentation' ||
         this.displayedStep === 'scheduleCampaign')
     );
@@ -1197,14 +1198,18 @@ export class NewCreateAgentsComponent
     } else if (this.step === 'knowledgeBase') {
       this.setStep('instructions');
     } else if (this.step === 'instructions') {
+      if (this.isOutboundAgentFlow) {
+        this.setStep('campaign');
+        return;
+      }
       this.setStep(this.skipShopifyBusinessStep ? 'voices' : 'connectBusiness');
     } else if (this.step === 'connectBusiness') {
       this.setStep('voices');
       this.loadVoices();
     } else if (this.step === 'campaign') {
-      this.setStep('instructions');
+      this.setStep('connectBusiness');
     } else if (this.step === 'segmentation') {
-      this.setStep('campaign');
+      this.setStep('instructions');
     } else if (this.step === 'scheduleCampaign') {
       this.setStep('segmentation');
     } else if (this.step === 'voices') {
@@ -1232,7 +1237,7 @@ export class NewCreateAgentsComponent
       if (!this.selectedOutboundCampaign) {
         return;
       }
-      this.setStep('segmentation');
+      this.setStep('instructions');
       this.saveDraft();
     } else if (this.step === 'segmentation') {
       this.setStep('scheduleCampaign');
@@ -1247,7 +1252,7 @@ export class NewCreateAgentsComponent
       this.setStep('instructions');
     } else if (this.step === 'instructions') {
       if (this.isOutboundAgentFlow) {
-        this.setStep('campaign');
+        this.setStep('segmentation');
         this.saveDraft();
         return;
       }
@@ -1413,7 +1418,7 @@ export class NewCreateAgentsComponent
 
   onSubmit() {
     if (this.isOutboundAgentFlow) {
-      this.setStep('campaign');
+      this.setStep('segmentation');
       this.saveDraft();
       return;
     }
@@ -1701,7 +1706,7 @@ export class NewCreateAgentsComponent
     this.saveDraft();
   }
 
-  // Continuar desde "Conecta tu negocio": entrante → instrucciones completas; saliente → instrucciones solo agente + IA.
+  // Continuar desde "Conecta tu negocio": entrante → instrucciones completas; saliente → elegir campaña y luego instrucciones.
   onContinueFromConnectBusiness() {
     if (this.isOutboundAgentFlow) {
       this.continueOutboundAfterConnectBusiness();
@@ -1711,9 +1716,9 @@ export class NewCreateAgentsComponent
     this.saveDraft();
   }
 
-  /** Tras Shopify en saliente: instrucciones recortadas (sin saludo ni Make), distintas del entrante. */
+  /** Tras Shopify en saliente: primero elegir campaña; luego instrucciones recortadas. */
   private continueOutboundAfterConnectBusiness() {
-    this.setStep('instructions');
+    this.setStep('campaign');
     this.saveDraft();
   }
 
@@ -3031,8 +3036,8 @@ export class NewCreateAgentsComponent
         language: 2,
         voices: 3,
         connectBusiness: 4,
-        instructions: 5,
-        campaign: 6,
+        campaign: 5,
+        instructions: 6,
         segmentation: 7,
         scheduleCampaign: 8,
       };

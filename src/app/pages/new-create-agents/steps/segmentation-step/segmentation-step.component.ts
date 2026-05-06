@@ -11,6 +11,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { I18nService } from '../../../../core/services/i18n.service';
+import type { OutboundCampaignKind } from '../campaign-step/campaign-step.component';
 import {
   SegmentationSelectComponent,
   SegmentationSelectOption,
@@ -128,6 +129,8 @@ export class SegmentationStepComponent implements OnChanges {
   readonly hostOverflowHidden = true;
 
   @Input() segmentationNotes = '';
+  /** Coherente con la campaña elegida: solo se muestran reglas avanzadas de ese tipo. */
+  @Input() selectedOutboundCampaign: OutboundCampaignKind | null = null;
   @Input() currentStepNumber = 0;
   @Input() totalSteps = 0;
 
@@ -233,6 +236,14 @@ export class SegmentationStepComponent implements OnChanges {
       { value: '24h_before', label: tr.outboundSegDue24hBefore },
       { value: '48h_before', label: tr.outboundSegDue48hBefore },
     ];
+  }
+
+  /** Si hay campaña elegida, solo esa sección avanzada; si no (borrador antiguo), las cuatro. */
+  isSegmentationSectionVisible(kind: OutboundCampaignKind): boolean {
+    if (!this.selectedOutboundCampaign) {
+      return true;
+    }
+    return this.selectedOutboundCampaign === kind;
   }
 
   getCurrentStepNumber(): number {

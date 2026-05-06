@@ -1,9 +1,12 @@
 import { Component, Input, Output, EventEmitter, inject, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { I18nService } from '../../../../core/services/i18n.service';
-import type { OutboundCampaignScripts } from '../instructions-step/instructions-step.component';
+import type {
+  OutboundCampaignScripts,
+  OutboundCampaignKind,
+} from '../instructions-step/instructions-step.component';
 
-export type OutboundCampaignKind = keyof OutboundCampaignScripts;
+export type { OutboundCampaignKind };
 
 @Component({
   selector: 'app-campaign-step',

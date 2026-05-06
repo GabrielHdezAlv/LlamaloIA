@@ -275,7 +275,7 @@
 
       @if (outboundInstructionsOnly) {
       <div class="flex flex-col gap-6 xl:gap-5 3xl:gap-7 mt-2 xl:mt-1 3xl:mt-2">
-        @for (meta of outboundScriptMeta; track meta.field) {
+        @for (meta of filteredOutboundScriptMeta; track meta.field) {
         <div>
           <label
             class="block text-sm xl:text-[10px] 3xl:text-base font-semibold text-[#0F172A] dark:text-white mb-1 3xl:mb-1">{{
