@@ -42,8 +42,8 @@ export interface SetAgentConfigDto {
   type: 'outbound' | 'inbound';
   twilioAccountId: number;
   voiceId: string;
-  firstInteraction: string;
-  agentInstruction: string;
+  firstInteraction?: string;
+  agentInstruction?: string;
   phoneNumbers: {
     countryCode: string; // "+34"
     number: number; // integer
