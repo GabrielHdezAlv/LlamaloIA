@@ -2237,8 +2237,9 @@ export class NewCreateAgentsComponent
       type: this.selectedCallType || 'inbound',
       twilioAccountId: Number(this.selectedTwilioAccount?.twilioAccountId ?? 0),
       voiceId: voiceId,
-      firstInteraction: this.greeting || '',
-      agentInstruction: this.instructions || '',
+      // Fallback a un string vacío en caso de outbound donde greeting e instructions no se rellenan
+      firstInteraction: this.greeting || (this.selectedCallType === 'outbound' ? 'Llamada saliente' : ''),
+      agentInstruction: this.instructions || (this.selectedCallType === 'outbound' ? 'Instrucciones salientes gestionadas por campaña.' : ''),
       phoneNumbers: {
         countryCode: this.selectedCountryCode || '+34',
         number: Number(this.phoneNumber) || 0,
