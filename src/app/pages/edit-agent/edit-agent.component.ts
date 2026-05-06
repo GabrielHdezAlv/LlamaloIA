@@ -103,6 +103,25 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   editForm!: FormGroup;
   isLoading = false;
   voices: Voice[] = [];
+  
+  // Parámetros por defecto según la voz
+  private getVoiceDefaultParams(voiceName: string) {
+    if (voiceName.includes('Carlos')) {
+      return { stability: 0.85, similarity: 0.85, style: 0.85, speed: 1.05, boost: true };
+    } else if (voiceName.includes('María') || voiceName.includes('Maria')) {
+      return { stability: 0.45, similarity: 0.85, style: 0.40, speed: 1.05, boost: true };
+    } else if (voiceName.includes('Carla')) {
+      return { stability: 1.0, similarity: 0.70, style: 0.40, speed: 1.15, boost: false };
+    } else if (voiceName.includes('David')) {
+      return { stability: 0.70, similarity: 0.70, style: 0.70, speed: 1.15, boost: true };
+    } else if (voiceName.includes('Jesús') || voiceName.includes('Jesus')) {
+      return { stability: 1.0, similarity: 0.70, style: 0.30, speed: 1.15, boost: false };
+    } else if (voiceName.includes('Claudia')) {
+      return { stability: 1.0, similarity: 0.80, style: 0.20, speed: 1.15, boost: true };
+    } else {
+      return null;
+    }
+  }
   languages: any[] = [];
   agent: Agent | null = null;
   agentId: number | null = null;
@@ -1013,6 +1032,19 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         
         this.populateForm();
 
+        // Subscribirse a cambios en voiceId para actualizar parámetros si el usuario cambia la voz
+        this.editForm.get('voiceId')?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(newVoiceId => {
+          if (newVoiceId) {
+            const voice = this.voices.find(v => v.voiceId === newVoiceId);
+            if (voice) {
+              const defaultParams = this.getVoiceDefaultParams(voice.name);
+              if (defaultParams) {
+                this.editForm.patchValue(defaultParams);
+              }
+            }
+          }
+        });
+
         // Cargar fuentes de conocimiento del agente
         this.loadAgentKnowledgeSources();
       },
@@ -1106,14 +1138,32 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           : '',
         label: this.agent.label || '',
         state: this.agent.state || 'Activo',
-        stability: this.agent.parameters?.stability ?? 0.5,
-        similarity: this.agent.parameters?.similarity ?? 0.75,
-        style: this.agent.parameters?.style ?? 0.0,
-        boost: this.agent.parameters?.boost ?? false,
-        speed: this.agent.parameters?.speed ?? 1.0,
       },
       { emitEvent: false },
     ); // No emitir eventos al poblar el formulario para evitar validaciones innecesarias
+
+    // Extraemos los parámetros con default fallback
+    let params = this.agent.parameters || {};
+    
+    // Si el agente no tiene parámetros guardados (o le faltan) pero tiene un voiceId
+    if (this.agent.voiceId && (params.stability === undefined || params.similarity === undefined)) {
+      // Buscar el nombre de la voz correspondiente
+      const voice = this.voices.find(v => v.voiceId === this.agent?.voiceId);
+      if (voice) {
+        const defaultParams = this.getVoiceDefaultParams(voice.name);
+        if (defaultParams) {
+          params = { ...defaultParams, ...params }; // Mezclar respetando los guardados si existieran
+        }
+      }
+    }
+    
+    this.editForm.patchValue({
+      stability: params.stability ?? 0.5,
+      similarity: params.similarity ?? 0.75,
+      style: params.style ?? 0.0,
+      boost: params.boost ?? false,
+      speed: params.speed ?? 1.0,
+    });
 
     this.selectedCountryCode =
       this.agent.phoneNumbers?.countryCode || '+34';

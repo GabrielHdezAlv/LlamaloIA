@@ -108,6 +108,25 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
   editForm!: FormGroup;
   isLoading = false;
   voices: Voice[] = [];
+
+  // Parámetros por defecto según la voz
+  private getVoiceDefaultParams(voiceName: string) {
+    if (voiceName.includes('Carlos')) {
+      return { stability: 0.85, similarity: 0.85, style: 0.85, speed: 1.05, boost: true };
+    } else if (voiceName.includes('María') || voiceName.includes('Maria')) {
+      return { stability: 0.45, similarity: 0.85, style: 0.40, speed: 1.05, boost: true };
+    } else if (voiceName.includes('Carla')) {
+      return { stability: 1.0, similarity: 0.70, style: 0.40, speed: 1.15, boost: false };
+    } else if (voiceName.includes('David')) {
+      return { stability: 0.70, similarity: 0.70, style: 0.70, speed: 1.15, boost: true };
+    } else if (voiceName.includes('Jesús') || voiceName.includes('Jesus')) {
+      return { stability: 1.0, similarity: 0.70, style: 0.30, speed: 1.15, boost: false };
+    } else if (voiceName.includes('Claudia')) {
+      return { stability: 1.0, similarity: 0.80, style: 0.20, speed: 1.15, boost: true };
+    } else {
+      return null;
+    }
+  }
   languages: any[] = [];
   agent: Agent | null = null;
   agentId: number | null = null;
@@ -846,6 +865,21 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
     const phoneNumberValue =
       num === undefined || num === null || num === 0 ? '' : String(num);
 
+    // Extraemos los parámetros con default fallback
+    let params = config.parameters || {};
+    
+    // Si el agente no tiene parámetros guardados (o le faltan) pero tiene un voiceId
+    if (config.voiceId && (params.stability === undefined || params.similarity === undefined)) {
+      // Buscar el nombre de la voz correspondiente
+      const voice = this.voices.find(v => v.voiceId === config.voiceId);
+      if (voice) {
+        const defaultParams = this.getVoiceDefaultParams(voice.name);
+        if (defaultParams) {
+          params = { ...defaultParams, ...params }; // Mezclar respetando los guardados si existieran
+        }
+      }
+    }
+
     this.editForm.patchValue(
       {
         name: config.name ?? '',
@@ -854,11 +888,11 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
         label: config.label ?? '',
         language: config.language ?? 'es',
         voiceId: config.voiceId ?? '',
-        stability: config.parameters?.stability ?? 0.5,
-        similarity: config.parameters?.similarity ?? 0.75,
-        style: config.parameters?.style ?? 0,
-        speed: config.parameters?.speed ?? 1,
-        boost: config.parameters?.boost ?? false,
+        stability: params.stability ?? 0.5,
+        similarity: params.similarity ?? 0.75,
+        style: params.style ?? 0,
+        speed: params.speed ?? 1,
+        boost: params.boost ?? false,
         countryCode,
         phoneNumber: phoneNumberValue,
         type: config.type ?? 'inbound',
@@ -866,6 +900,19 @@ export class AdminEditAgentComponent implements OnInit, OnDestroy {
       },
       { emitEvent: false },
     );
+
+    // Subscribirse a cambios en voiceId para actualizar parámetros si el usuario cambia la voz
+    this.editForm.get('voiceId')?.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(newVoiceId => {
+      if (newVoiceId) {
+        const voice = this.voices.find(v => v.voiceId === newVoiceId);
+        if (voice) {
+          const defaultParams = this.getVoiceDefaultParams(voice.name);
+          if (defaultParams) {
+            this.editForm.patchValue(defaultParams);
+          }
+        }
+      }
+    });
 
     this.selectedCountryCode = countryCode;
     this.selectedCountry = this.getCountryFromCode(countryCode);

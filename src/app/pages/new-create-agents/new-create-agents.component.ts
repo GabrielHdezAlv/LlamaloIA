@@ -814,6 +814,27 @@ export class NewCreateAgentsComponent
     this.selectedVoiceId = voiceId;
     this.showVoiceDropdown = false;
     this.loadVoices();
+
+    // Set default parameters based on the selected voice
+    const voice = this.voices.find(v => v.voiceId === voiceId);
+    if (voice) {
+      if (voice.name.includes('Carlos')) {
+        this.voiceParameters = { stability: 0.85, similarity: 0.85, style: 0.85, speed: 1.05, boost: true };
+      } else if (voice.name.includes('María') || voice.name.includes('Maria')) {
+        this.voiceParameters = { stability: 0.45, similarity: 0.85, style: 0.40, speed: 1.05, boost: true };
+      } else if (voice.name.includes('Carla')) {
+        this.voiceParameters = { stability: 1.0, similarity: 0.70, style: 0.40, speed: 1.15, boost: false };
+      } else if (voice.name.includes('David')) {
+        this.voiceParameters = { stability: 0.70, similarity: 0.70, style: 0.70, speed: 1.15, boost: true };
+      } else if (voice.name.includes('Jesús') || voice.name.includes('Jesus')) {
+        this.voiceParameters = { stability: 1.0, similarity: 0.70, style: 0.30, speed: 1.15, boost: false };
+      } else if (voice.name.includes('Claudia')) {
+        this.voiceParameters = { stability: 1.0, similarity: 0.80, style: 0.20, speed: 1.15, boost: true };
+      } else {
+        // Fallback default
+        this.voiceParameters = { stability: 0.5, similarity: 0.8, style: 0.5, speed: 0.98, boost: true };
+      }
+    }
   }
 
   playVoicePreview(voice: { name: string; voiceId: string }, event: Event) {
