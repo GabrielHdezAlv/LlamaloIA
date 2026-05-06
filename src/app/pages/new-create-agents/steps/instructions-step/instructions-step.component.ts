@@ -17,6 +17,8 @@ export interface OutboundCampaignScripts {
   paymentReminder: string;
 }
 
+export type OutboundCampaignKind = keyof OutboundCampaignScripts;
+
 @Component({
   selector: 'app-instructions-step',
   standalone: true,
@@ -75,6 +77,8 @@ export class InstructionsStepComponent {
     postPurchase: '',
     paymentReminder: '',
   };
+  /** Saliente: plantillas de guión acotadas al tipo de campaña elegido. */
+  @Input() selectedOutboundCampaign: OutboundCampaignKind | null = null;
   @Input() currentStepNumber = 0;
   @Input() totalSteps = 0;
 
@@ -98,7 +102,7 @@ export class InstructionsStepComponent {
     new EventEmitter<OutboundCampaignScripts>();
 
   readonly outboundScriptMeta: {
-    field: keyof OutboundCampaignScripts;
+    field: OutboundCampaignKind;
     tags: readonly string[];
   }[] = [
     {
@@ -143,6 +147,19 @@ export class InstructionsStepComponent {
     },
   ];
 
+  /** En saliente, una sola plantilla según campaña; si falta selección (borrador antiguo), se muestran las cuatro. */
+  get filteredOutboundScriptMeta(): (typeof this.outboundScriptMeta)[number][] {
+    if (
+      !this.outboundInstructionsOnly ||
+      !this.selectedOutboundCampaign
+    ) {
+      return this.outboundScriptMeta;
+    }
+    return this.outboundScriptMeta.filter(
+      (m) => m.field === this.selectedOutboundCampaign,
+    );
+  }
+
   getCurrentStepNumber(): number {
     return this.currentStepNumber;
   }
@@ -176,7 +193,7 @@ export class InstructionsStepComponent {
       : `mt-4 xl:mt-3 3xl:mt-4 ${gaps}`;
   }
 
-  outboundScriptTitle(field: keyof OutboundCampaignScripts): string {
+  outboundScriptTitle(field: OutboundCampaignKind): string {
     const tr = this.t;
     switch (field) {
       case 'abandonedCart':
@@ -192,7 +209,7 @@ export class InstructionsStepComponent {
     }
   }
 
-  outboundScriptPlaceholder(field: keyof OutboundCampaignScripts): string {
+  outboundScriptPlaceholder(field: OutboundCampaignKind): string {
     const tr = this.t;
     switch (field) {
       case 'abandonedCart':
@@ -209,7 +226,7 @@ export class InstructionsStepComponent {
   }
 
   onOutboundScriptInput(
-    field: keyof OutboundCampaignScripts,
+    field: OutboundCampaignKind,
     value: string,
   ): void {
     this.outboundCampaignScriptsChange.emit({
@@ -219,7 +236,7 @@ export class InstructionsStepComponent {
   }
 
   insertOutboundTag(
-    field: keyof OutboundCampaignScripts,
+    field: OutboundCampaignKind,
     tag: string,
     ta: HTMLTextAreaElement,
   ): void {
