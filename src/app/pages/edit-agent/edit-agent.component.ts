@@ -925,6 +925,14 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         boost: formValue.boost,
         speed: formValue.speed,
       },
+      // Preservar los campos de outbound si existían
+      ...(formValue.type === 'outbound' && {
+        outboundCampaignKind: (this.agent as any)?.outboundCampaignKind,
+        outboundCampaignScripts: (this.agent as any)?.outboundCampaignScripts,
+        outboundImportCsvPhones: (this.agent as any)?.outboundImportCsvPhones,
+        outboundSegmentationNotes: (this.agent as any)?.outboundSegmentationNotes,
+        outboundScheduleCampaignNotes: (this.agent as any)?.outboundScheduleCampaignNotes,
+      }),
     };
 
     this.isSavingTwilioConfig = true;
@@ -1767,6 +1775,14 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           boost: formValue.boost,
           speed: formValue.speed,
         },
+        // Preservar los campos de outbound si existían
+        ...(formValue.type === 'outbound' && {
+          outboundCampaignKind: (this.agent as any)?.outboundCampaignKind,
+          outboundCampaignScripts: (this.agent as any)?.outboundCampaignScripts,
+          outboundImportCsvPhones: (this.agent as any)?.outboundImportCsvPhones,
+          outboundSegmentationNotes: (this.agent as any)?.outboundSegmentationNotes,
+          outboundScheduleCampaignNotes: (this.agent as any)?.outboundScheduleCampaignNotes,
+        }),
       };
 
       const shopifyDomain = this.selectedShopifyDomain?.trim();

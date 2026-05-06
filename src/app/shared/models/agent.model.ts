@@ -53,6 +53,18 @@ export interface SetAgentConfigDto {
   state: 'Activo' | 'Inactivo';
   shopifyDomain?: string | null; // Opcional - para vincular ("mi-tienda.myshopify.com"), desvincular ("", null) o mantener (no enviar en update)
   knowledgeSourceIds?: string[]; // Nuevo campo opcional - IDs de fuentes de conocimiento
+  
+  // Campos de outbound
+  outboundCampaignKind?: string;
+  outboundCampaignScripts?: {
+    abandonedCart?: string;
+    satisfactionSurvey?: string;
+    postPurchase?: string;
+    paymentReminder?: string;
+  };
+  outboundImportCsvPhones?: string[];
+  outboundSegmentationNotes?: string;
+  outboundScheduleCampaignNotes?: string;
 }
 
 /**

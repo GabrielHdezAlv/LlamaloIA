@@ -2261,6 +2261,14 @@ export class NewCreateAgentsComponent
       ...(this.shopifyConnectedDomain && {
         shopifyDomain: this.shopifyConnectedDomain,
       }),
+      // Añadir campos de outbound si es un agente saliente
+      ...(this.selectedCallType === 'outbound' && {
+        outboundCampaignKind: this.selectedOutboundCampaign ?? undefined,
+        outboundCampaignScripts: this.outboundCampaignScripts,
+        outboundImportCsvPhones: this.outboundImportCsvPhones,
+        outboundSegmentationNotes: this.outboundSegmentationNotes,
+        outboundScheduleCampaignNotes: this.outboundScheduleCampaignNotes,
+      }),
     };
 
     // Navegar a pantalla de carga
