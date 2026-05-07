@@ -1,5 +1,6 @@
-<div [class]="rootClass">
-  <div [class]="innerClass">
+<div [class]="compactEmbed ? compactRootClass : rootClass">
+  <div [class]="compactEmbed ? compactInnerClass : innerClass">
+    @if (!compactEmbed) {
     <div class="shrink-0">
       <div class="flex items-center justify-between w-full">
         <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
@@ -14,12 +15,13 @@
         {{ t.outboundCampaignStepSubtitle }}
       </p>
     </div>
+    }
 
-    <div class="mt-4 xl:mt-3 3xl:mt-4 flex min-h-0 flex-1 flex-col overflow-hidden">
-      <div class="outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col">
+    <div [class]="compactEmbed ? 'mt-2 flex w-full flex-col overflow-visible' : 'mt-4 xl:mt-3 3xl:mt-4 flex min-h-0 flex-1 flex-col overflow-hidden'">
+      <div [class]="compactEmbed ? 'relative flex w-full flex-col overflow-visible' : 'outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col'">
         <div
-          class="outbound-instructions-scroll min-h-0 w-full overflow-y-auto overscroll-y-contain touch-pan-y max-xl:max-h-[calc(100dvh-14rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)]">
-          <div [class]="bodyClass">
+          [class]="compactEmbed ? 'w-full overflow-visible' : 'outbound-instructions-scroll min-h-0 w-full overflow-y-auto overscroll-y-contain touch-pan-y max-xl:max-h-[calc(100dvh-14rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)]'">
+          <div [class]="compactEmbed ? compactBodyClass : bodyClass">
             <div class="grid grid-cols-2 gap-4 xl:gap-3 3xl:gap-5">
               @for (kind of campaignOrder; track kind) {
               <button
@@ -38,6 +40,7 @@
       </div>
     </div>
 
+    @if (!compactEmbed) {
     <div class="w-full flex items-center justify-between nav-buttons-mobile shrink-0 mt-4 xl:mt-3 3xl:mt-4">
       <button type="button"
         class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
@@ -52,5 +55,6 @@
         {{ t.continue }}
       </button>
     </div>
+    }
   </div>
 </div>

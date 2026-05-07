@@ -48,6 +48,8 @@ export class ConnectPhoneStepComponent {
   @Input() phoneValidationStatus: 'success' | 'error' | null = null;
   @Input() phoneErrorMessage = '';
   @Input() canContinueFromConnections = false;
+  /** Sin cabecera de página ni barra inferior (p. ej. incrustado en importar CSV + outbound). */
+  @Input() embedded = false;
 
   @Output() backClicked = new EventEmitter<void>();
   @Output() continueClicked = new EventEmitter<void>();

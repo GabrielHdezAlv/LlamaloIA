@@ -355,25 +355,11 @@
   }
 }
 
-.sch-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 10040;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(2px);
-}
-
-:host-context(html.dark) .sch-modal-backdrop {
-  background: rgba(0, 0, 0, 0.55);
-}
+/* El oscurecido va en CDK Overlay (`sch-schedule-modal-backdrop` en styles.scss global). */
 
 .sch-modal-panel {
   width: 100%;
-  max-width: 22rem;
+  max-width: min(28rem, calc(100vw - 2rem));
   border-radius: 1rem;
   padding: 1.25rem 1.35rem;
   background: #fff;
@@ -409,16 +395,15 @@
 }
 
 .sch-modal-days {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 0.4rem;
   margin-bottom: 1rem;
 }
 
 .sch-day-chip {
-  flex: 1;
-  min-width: 2.25rem;
+  min-width: 0;
+  width: 100%;
   padding: 0.5rem 0.3rem;
   border-radius: 0.625rem;
   border: 1px solid #d1d5db;
@@ -482,6 +467,10 @@
   flex-direction: column;
   gap: 0.35rem;
   min-width: 0;
+
+  @media (min-width: 400px) {
+    min-width: 9.5rem;
+  }
 }
 
 .sch-modal-time-row {
@@ -571,5 +560,37 @@
     &:hover {
       background: #e5e7eb;
     }
+  }
+}
+
+/* Modo embebido: separación entre tarjetas y filas (Horario / Frecuencia) */
+:host.sch-compact-embed {
+  .sch-panel {
+    padding: 1.15rem 1.2rem 1.15rem;
+  }
+
+  .sch-section-title {
+    margin: 0 0 1rem;
+    padding-bottom: 0.72rem;
+  }
+
+  .sch-toggle-row {
+    margin-bottom: 0.8rem;
+
+    &:last-of-type {
+      margin-bottom: 0.55rem;
+    }
+  }
+
+  .sch-row {
+    margin-bottom: 1.1rem;
+
+    &.sch-row--last {
+      margin-bottom: 0;
+    }
+  }
+
+  .sch-edit-custom {
+    margin: 0 0 0.65rem;
   }
 }

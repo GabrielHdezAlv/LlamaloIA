@@ -69,6 +69,22 @@ import {
   WebhookActionsService,
   type WebhookAction,
 } from '../../core/services/webhook-actions.service';
+import { CampaignStepComponent } from '../new-create-agents/steps/campaign-step/campaign-step.component';
+import {
+  InstructionsStepComponent,
+  type OutboundCampaignScripts,
+  type OutboundCampaignKind,
+} from '../new-create-agents/steps/instructions-step/instructions-step.component';
+import { ImportCsvStepComponent } from '../new-create-agents/steps/import-csv-step/import-csv-step.component';
+import { SegmentationStepComponent } from '../new-create-agents/steps/segmentation-step/segmentation-step.component';
+import { ScheduleCampaignStepComponent } from '../new-create-agents/steps/schedule-campaign-step/schedule-campaign-step.component';
+
+const DEFAULT_OUTBOUND_EDIT_SCRIPTS: OutboundCampaignScripts = {
+  abandonedCart: '',
+  satisfactionSurvey: '',
+  postPurchase: '',
+  paymentReminder: '',
+};
 
 @Component({
   selector: 'app-edit-agent',
@@ -79,6 +95,11 @@ import {
     FormsModule,
     AiSphereComponent,
     KnowledgeEmptyStateIconComponent,
+    CampaignStepComponent,
+    InstructionsStepComponent,
+    ImportCsvStepComponent,
+    SegmentationStepComponent,
+    ScheduleCampaignStepComponent,
   ],
   templateUrl: './edit-agent.component.html',
   styleUrls: ['./edit-agent.component.scss'],
@@ -126,6 +147,19 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   agent: Agent | null = null;
   agentId: number | null = null;
 
+  /** Estado editable de campaña saliente (solo UI; `agent.type === 'outbound'`). */
+  outboundEditCampaignKind: OutboundCampaignKind | null = null;
+  outboundEditScripts: OutboundCampaignScripts = {
+    ...DEFAULT_OUTBOUND_EDIT_SCRIPTS,
+  };
+  outboundEditPhones: string[] = [];
+  outboundEditSegmentationNotes = '';
+  outboundEditScheduleNotes = '';
+
+  get isOutboundAgent(): boolean {
+    return this.agent?.type === 'outbound';
+  }
+
   activeTab: 'main' | 'connections' | 'knowledge' = 'main';
   isTabTransitioning = false;
   private readonly TAB_SWITCH_DELAY_MS = 120;
@@ -140,6 +174,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   twilioSectionOpen = false;
   callSectionOpen = true;
   voiceSectionOpen = false;
+
+  outboundCsvSectionOpen = false;
+  outboundSegmentationSectionOpen = false;
+  outboundScheduleSectionOpen = false;
 
   /** Listas desplegables custom (Idioma / Voz) en Prueba de agente — evita el select nativo a ancho completo */
   voiceTestLangOpen = false;
@@ -302,7 +340,16 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   }
 
   setActiveMainSection(
-    section: 'name' | 'greeting' | 'system' | 'twilio' | 'call' | 'voice',
+    section:
+      | 'name'
+      | 'greeting'
+      | 'system'
+      | 'twilio'
+      | 'call'
+      | 'voice'
+      | 'outboundCsv'
+      | 'outboundSegmentation'
+      | 'outboundSchedule',
   ): void {
     switch (section) {
       case 'name':
@@ -325,6 +372,16 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         break;
       case 'voice':
         this.voiceSectionOpen = !this.voiceSectionOpen;
+        break;
+      case 'outboundCsv':
+        this.outboundCsvSectionOpen = !this.outboundCsvSectionOpen;
+        break;
+      case 'outboundSegmentation':
+        this.outboundSegmentationSectionOpen =
+          !this.outboundSegmentationSectionOpen;
+        break;
+      case 'outboundSchedule':
+        this.outboundScheduleSectionOpen = !this.outboundScheduleSectionOpen;
         break;
     }
   }
@@ -898,6 +955,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.isOutboundAgent && !this.outboundEditCampaignKind) {
+      this.notificationService.error(
+        'Selecciona el tipo de campaña antes de asignar Twilio.',
+      );
+      return;
+    }
+
     const formValue = this.editForm.value;
     const newCountryCode = this.selectedCountryCode;
     const newNumberDigits = formValue.phoneNumber
@@ -910,7 +974,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       type: formValue.type,
       twilioAccountId: Number(twilioAccountId ?? 0),
       voiceId: formValue.voiceId,
-      firstInteraction: String(formValue.firstInteraction || '').trim(),
+      firstInteraction: this.resolveFirstInteractionForPayload(formValue),
       agentInstruction: String(formValue.agentInstruction || '').trim(),
       phoneNumbers: {
         countryCode: newCountryCode,
@@ -925,14 +989,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         boost: formValue.boost,
         speed: formValue.speed,
       },
-      // Preservar los campos de outbound si existían
-      ...(formValue.type === 'outbound' && {
-        outboundCampaignKind: (this.agent as any)?.outboundCampaignKind,
-        outboundCampaignScripts: (this.agent as any)?.outboundCampaignScripts,
-        outboundImportCsvPhones: (this.agent as any)?.outboundImportCsvPhones,
-        outboundSegmentationNotes: (this.agent as any)?.outboundSegmentationNotes,
-        outboundScheduleCampaignNotes: (this.agent as any)?.outboundScheduleCampaignNotes,
-      }),
+      ...(this.isOutboundAgent ? this.outboundExtrasForPayload() : {}),
     };
 
     this.isSavingTwilioConfig = true;
@@ -1180,8 +1237,116 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     this.selectedLanguageCode = agentLanguage;
     this.selectedLanguageFlag = this.getLanguageFlag(agentLanguage);
 
+    if (this.agent.type === 'outbound') {
+      this.initOutboundEditFromAgent();
+      this.editForm.get('firstInteraction')?.clearValidators();
+    } else {
+      this.outboundEditCampaignKind = null;
+      this.outboundEditScripts = { ...DEFAULT_OUTBOUND_EDIT_SCRIPTS };
+      this.outboundEditPhones = [];
+      this.outboundEditSegmentationNotes = '';
+      this.outboundEditScheduleNotes = '';
+      this.editForm
+        .get('firstInteraction')
+        ?.setValidators([Validators.required]);
+    }
+    this.editForm
+      .get('firstInteraction')
+      ?.updateValueAndValidity({ emitEvent: false });
+
     // Precargar el audio después de poblar el formulario
     setTimeout(() => this.preloadAudio(), 200);
+  }
+
+  private readonly outboundKindOrder: OutboundCampaignKind[] = [
+    'satisfactionSurvey',
+    'abandonedCart',
+    'paymentReminder',
+    'postPurchase',
+  ];
+
+  private outboundExtrasForPayload(): Pick<
+    SetAgentConfigDto,
+    | 'outboundCampaignKind'
+    | 'outboundCampaignScripts'
+    | 'outboundImportCsvPhones'
+    | 'outboundSegmentationNotes'
+    | 'outboundScheduleCampaignNotes'
+  > {
+    return {
+      outboundCampaignKind: this.outboundEditCampaignKind ?? undefined,
+      outboundCampaignScripts: { ...this.outboundEditScripts },
+      outboundImportCsvPhones: [...this.outboundEditPhones],
+      outboundSegmentationNotes: this.outboundEditSegmentationNotes ?? '',
+      outboundScheduleCampaignNotes: this.outboundEditScheduleNotes ?? '',
+    };
+  }
+
+  private initOutboundEditFromAgent(): void {
+    if (!this.agent || this.agent.type !== 'outbound') {
+      return;
+    }
+    const rawKind = this.agent.outboundCampaignKind;
+    this.outboundEditCampaignKind =
+      rawKind &&
+      this.outboundKindOrder.includes(rawKind as OutboundCampaignKind)
+        ? (rawKind as OutboundCampaignKind)
+        : null;
+    this.outboundEditPhones = [...(this.agent.outboundImportCsvPhones ?? [])];
+    this.outboundEditSegmentationNotes =
+      this.agent.outboundSegmentationNotes ?? '';
+    this.outboundEditScheduleNotes =
+      this.agent.outboundScheduleCampaignNotes ?? '';
+    const scripts = this.agent.outboundCampaignScripts ?? {};
+    this.outboundEditScripts = {
+      ...DEFAULT_OUTBOUND_EDIT_SCRIPTS,
+      ...scripts,
+    };
+    this.syncOutboundFirstInteractionFromScripts();
+  }
+
+  private syncOutboundFirstInteractionFromScripts(): void {
+    if (!this.outboundEditCampaignKind) {
+      return;
+    }
+    const text =
+      this.outboundEditScripts[this.outboundEditCampaignKind] ?? '';
+    this.editForm.patchValue({ firstInteraction: text }, { emitEvent: false });
+  }
+
+  onOutboundEditCampaignChange(kind: OutboundCampaignKind | null): void {
+    this.outboundEditCampaignKind = kind;
+    this.syncOutboundFirstInteractionFromScripts();
+  }
+
+  onOutboundEditScriptsChange(scripts: OutboundCampaignScripts): void {
+    this.outboundEditScripts = { ...scripts };
+    this.syncOutboundFirstInteractionFromScripts();
+  }
+
+  onOutboundEditPhonesChange(phones: string[]): void {
+    this.outboundEditPhones = [...phones];
+  }
+
+  onOutboundEditSegmentationNotesChange(notes: string): void {
+    this.outboundEditSegmentationNotes = notes;
+  }
+
+  onOutboundEditScheduleNotesChange(notes: string): void {
+    this.outboundEditScheduleNotes = notes;
+  }
+
+  private resolveFirstInteractionForPayload(formValue: {
+    firstInteraction?: string;
+  }): string {
+    if (!this.isOutboundAgent) {
+      return String(formValue.firstInteraction || '').trim();
+    }
+    const kind = this.outboundEditCampaignKind;
+    if (!kind) {
+      return '';
+    }
+    return String(this.outboundEditScripts[kind] ?? '').trim();
   }
 
   getCountryFromCode(code: string): string {
@@ -1539,7 +1704,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     const formValue = this.editForm.value;
     const config: VoiceTestConfig = {
       agentInstruction: formValue.agentInstruction || '',
-      firstInteraction: formValue.firstInteraction || '',
+      firstInteraction: this.resolveFirstInteractionForPayload(formValue),
       language: formValue.language || 'es',
       name: formValue.name || 'Agente',
       voiceId: formValue.voiceId || '',
@@ -1691,6 +1856,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.editForm.valid && this.agentId) {
+      if (this.isOutboundAgent && !this.outboundEditCampaignKind) {
+        this.notificationService.error(
+          'Selecciona el tipo de campaña antes de guardar.',
+        );
+        return;
+      }
+
       // Verificar si el teléfono ha sido validado y es válido
       const newCountryCode = this.selectedCountryCode;
       const newNumberDigits = this.editForm.value.phoneNumber.replace(
@@ -1760,7 +1932,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         type: formValue.type,
         twilioAccountId: Number((this.agent as any)?.twilioAccountId ?? 0),
         voiceId: formValue.voiceId,
-        firstInteraction: formValue.firstInteraction.trim(),
+        firstInteraction: this.resolveFirstInteractionForPayload(formValue),
         agentInstruction: formValue.agentInstruction?.trim() || '',
         phoneNumbers: {
           countryCode: newCountryCode,
@@ -1775,14 +1947,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
           boost: formValue.boost,
           speed: formValue.speed,
         },
-        // Preservar los campos de outbound si existían
-        ...(formValue.type === 'outbound' && {
-          outboundCampaignKind: (this.agent as any)?.outboundCampaignKind,
-          outboundCampaignScripts: (this.agent as any)?.outboundCampaignScripts,
-          outboundImportCsvPhones: (this.agent as any)?.outboundImportCsvPhones,
-          outboundSegmentationNotes: (this.agent as any)?.outboundSegmentationNotes,
-          outboundScheduleCampaignNotes: (this.agent as any)?.outboundScheduleCampaignNotes,
-        }),
+        ...(this.isOutboundAgent ? this.outboundExtrasForPayload() : {}),
       };
 
       const shopifyDomain = this.selectedShopifyDomain?.trim();
@@ -1843,6 +2008,13 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.isOutboundAgent && !this.outboundEditCampaignKind) {
+      this.notificationService.error(
+        'Selecciona el tipo de campaña antes de guardar.',
+      );
+      return;
+    }
+
     const formValue = this.editForm.value;
     const newCountryCode = this.selectedCountryCode;
     const newNumberDigits = formValue.phoneNumber
@@ -1855,7 +2027,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       type: formValue.type,
       twilioAccountId: Number((this.agent as any)?.twilioAccountId ?? 0),
       voiceId: formValue.voiceId,
-      firstInteraction: String(formValue.firstInteraction || '').trim(),
+      firstInteraction: this.resolveFirstInteractionForPayload(formValue),
       agentInstruction: String(formValue.agentInstruction || '').trim(),
       phoneNumbers: {
         countryCode: newCountryCode,
@@ -1870,6 +2042,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         boost: formValue.boost,
         speed: formValue.speed,
       },
+      ...(this.isOutboundAgent ? this.outboundExtrasForPayload() : {}),
     };
 
     const shopifyDomain = this.selectedShopifyDomain?.trim();

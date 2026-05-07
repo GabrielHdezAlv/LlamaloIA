@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { I18nService } from '../../../../core/services/i18n.service';
+import { ConnectPhoneStepComponent } from '../connect-phone-step/connect-phone-step.component';
 
 /** Primera celda por fila (coma, punto y coma o tab); ignora líneas vacías. */
 function csvFirstCell(line: string): string {
@@ -70,7 +71,7 @@ export function extractPhonesFromDelimitedImport(text: string): string[] {
 @Component({
   selector: 'app-import-csv-step',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ConnectPhoneStepComponent],
   templateUrl: './import-csv-step.component.html',
   styleUrls: ['./import-csv-step.component.scss'],
 })
@@ -86,19 +87,88 @@ export class ImportCsvStepComponent {
   @HostBinding('class.flex-1')
   readonly hostFlex1 = true;
   @HostBinding('class.overflow-hidden')
-  readonly hostOverflowHidden = true;
+  get hostOverflowHidden(): boolean {
+    return !this.compactEmbed;
+  }
 
   @Input() phones: string[] = [];
+  /** Embutido en otras pantallas (p. ej. editar agente): sin cabecera ni pie del wizard. */
+  @Input() compactEmbed = false;
+  /** Oculta el bloque Twilio (ya configurado en otro sitio). */
+  @Input() omitTwilioSection = false;
   @Input() currentStepNumber = 0;
   @Input() totalSteps = 0;
+
+  /** Mismo estado Twilio que el paso «Conectar teléfono» (inbound). */
+  @Input() showTwilioConfig = false;
+  @Input() loadingTwilioAccounts = false;
+  @Input() isTwilioValidated = false;
+  @Input() isValidatingTwilio = false;
+  @Input() twilioSid = '';
+  @Input() twilioToken = '';
+  @Input() twilioSidValidationStatus: 'success' | 'error' | null = null;
+  @Input() twilioTokenValidationStatus: 'success' | 'error' | null = null;
+  @Input() twilioErrorMessage = '';
+  @Input() selectedTwilioAccount: {
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  } | null = null;
+  @Input() twilioAccounts: Array<{
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  }> = [];
+  @Input() showNewTwilioAccountForm = false;
+  @Input() availablePhoneNumbers: Array<{
+    phoneId: number;
+    countryCode: string;
+    number: string;
+    state?: 'Activo' | 'Inactivo';
+    importedBy?: string;
+    twilioAccountId?: number;
+  }> = [];
+  @Input() phoneNumber = '';
+  @Input() selectedCountryCode = '+34';
+  @Input() phoneValidationStatus: 'success' | 'error' | null = null;
+  @Input() phoneErrorMessage = '';
+  @Input() canContinueFromConnections = false;
 
   @Output() phonesChange = new EventEmitter<string[]>();
   @Output() backClicked = new EventEmitter<void>();
   @Output() continueClicked = new EventEmitter<void>();
 
+  @Output() toggleTwilioConfigClicked = new EventEmitter<void>();
+  @Output() twilioSidChange = new EventEmitter<string>();
+  @Output() twilioTokenChange = new EventEmitter<string>();
+  @Output() validateTwilioConfigClicked = new EventEmitter<void>();
+  @Output() useExistingTwilioAccountClicked = new EventEmitter<{
+    twilioAccountId: number;
+    twilioSid: string;
+    twilioToken: string;
+  }>();
+  @Output() showNewTwilioAccountClicked = new EventEmitter<void>();
+  @Output() backToAccountSelectionClicked = new EventEmitter<void>();
+  @Output() phoneNumberChange = new EventEmitter<string>();
+  @Output() selectedCountryCodeChange = new EventEmitter<string>();
+  @Output() phoneNumberSelected = new EventEmitter<{
+    countryCode: string;
+    number: string;
+  }>();
+  @Output() validatePhoneNumberClicked = new EventEmitter<void>();
+
   readonly previewLimit = 25;
   parseError = '';
   isDragging = false;
+
+  readonly compactRootClass =
+    'w-full flex flex-col min-h-0 flex-1 overflow-visible bg-transparent';
+
+  readonly compactInnerClass =
+    'w-full flex min-h-0 flex-col overflow-visible px-0 pb-0';
+
+  readonly compactBodyClass =
+    'flex flex-col gap-3 xl:gap-3 3xl:gap-4 pb-0 max-lg:pb-0 3xl:pb-0';
 
   readonly rootClass =
     'w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden bg-transparent box-border mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56 items-center justify-start 4xl:items-start 4xl:justify-start';

@@ -1,5 +1,6 @@
-<div [class]="rootClass">
-  <div [class]="innerClass">
+<div [class]="compactEmbed ? compactRootClass : rootClass">
+  <div [class]="compactEmbed ? compactInnerClass : innerClass">
+    @if (!compactEmbed) {
     <div class="shrink-0">
       <div class="flex items-center justify-between w-full">
         <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
@@ -14,12 +15,13 @@
         {{ t.outboundScheduleCampaignSubtitle }}
       </p>
     </div>
+    }
 
-    <div class="mt-4 xl:mt-3 3xl:mt-4 flex min-h-0 flex-1 flex-col overflow-hidden">
-      <div class="outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col">
+    <div [class]="compactEmbed ? 'mt-2 flex w-full flex-col overflow-visible' : 'mt-4 xl:mt-3 3xl:mt-4 flex min-h-0 flex-1 flex-col overflow-hidden'">
+      <div [class]="compactEmbed ? 'relative flex w-full flex-col overflow-visible' : 'outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col'">
         <div
-          class="outbound-instructions-scroll min-h-0 w-full overflow-y-auto overscroll-y-contain touch-pan-y max-xl:max-h-[calc(100dvh-14rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)]">
-          <div [class]="bodyClass">
+          [class]="compactEmbed ? 'w-full overflow-visible' : 'outbound-instructions-scroll min-h-0 w-full overflow-y-auto overscroll-y-contain touch-pan-y max-xl:max-h-[calc(100dvh-14rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)]'">
+          <div [class]="compactEmbed ? compactBodyClass : bodyClass">
             <section class="sch-panel" aria-labelledby="sch-heading-horario">
               <h2 id="sch-heading-horario" class="sch-section-title">{{ t.outboundScheduleHorarioTitle }}</h2>
               <div class="sch-toggle-row">
@@ -77,6 +79,7 @@
       </div>
     </div>
 
+    @if (!compactEmbed) {
     <div
       class="w-full flex items-center justify-between nav-buttons-mobile shrink-0 mt-4 xl:mt-3 3xl:mt-4">
       <button type="button"
@@ -91,17 +94,19 @@
         {{ t.continue }}
       </button>
     </div>
+    }
   </div>
 </div>
 
-<div *ngIf="showCustomModal && modalForm" class="sch-modal-backdrop" (click)="cancelCustomModal()">
-  <div class="sch-modal-panel" (click)="$event.stopPropagation()" role="dialog" aria-modal="true"
+<ng-template #customScheduleModalTpl>
+  @if (modalForm; as mf) {
+  <div class="sch-modal-panel" role="dialog" aria-modal="true"
     [attr.aria-label]="t.outboundScheduleCustomModalTitle">
     <h3 class="sch-modal-title">{{ t.outboundScheduleCustomModalTitle }}</h3>
     <p class="sch-modal-hint">{{ t.outboundScheduleCustomDaysHint }}</p>
     <div class="sch-modal-days">
       <button *ngFor="let i of weekdayIndexes" type="button" class="sch-day-chip"
-        [class.sch-day-chip--on]="modalForm.customWeekdays[i]" (click)="toggleWeekday(i)">
+        [class.sch-day-chip--on]="mf.customWeekdays[i]" (click)="toggleWeekday(i)">
         {{ weekdayLetter(i) }}
       </button>
     </div>
@@ -110,11 +115,11 @@
         <span class="sch-modal-time-label" id="sch-modal-time-from-label">{{ t.outboundScheduleCustomTimeFrom }}</span>
         <div class="sch-modal-time-row" role="group" [attr.aria-labelledby]="'sch-modal-time-from-label'">
           <app-segmentation-select variant="op" overlayPanelExtraClass="sch-modal-seg-dd-pane"
-            [options]="modalTimeHourOptions" [value]="modalTimeHour(modalForm.customTimeFrom)"
+            [options]="modalTimeHourOptions" [value]="modalTimeHour(mf.customTimeFrom)"
             (valueChange)="setModalTimeHour('from', $event)" />
           <span class="sch-modal-time-sep" aria-hidden="true">:</span>
           <app-segmentation-select variant="op" overlayPanelExtraClass="sch-modal-seg-dd-pane"
-            [options]="modalTimeMinuteOptions" [value]="modalTimeMinute(modalForm.customTimeFrom)"
+            [options]="modalTimeMinuteOptions" [value]="modalTimeMinute(mf.customTimeFrom)"
             (valueChange)="setModalTimeMinute('from', $event)" />
         </div>
       </div>
@@ -122,11 +127,11 @@
         <span class="sch-modal-time-label" id="sch-modal-time-to-label">{{ t.outboundScheduleCustomTimeTo }}</span>
         <div class="sch-modal-time-row" role="group" [attr.aria-labelledby]="'sch-modal-time-to-label'">
           <app-segmentation-select variant="op" overlayPanelExtraClass="sch-modal-seg-dd-pane"
-            [options]="modalTimeHourOptions" [value]="modalTimeHour(modalForm.customTimeTo)"
+            [options]="modalTimeHourOptions" [value]="modalTimeHour(mf.customTimeTo)"
             (valueChange)="setModalTimeHour('to', $event)" />
           <span class="sch-modal-time-sep" aria-hidden="true">:</span>
           <app-segmentation-select variant="op" overlayPanelExtraClass="sch-modal-seg-dd-pane"
-            [options]="modalTimeMinuteOptions" [value]="modalTimeMinute(modalForm.customTimeTo)"
+            [options]="modalTimeMinuteOptions" [value]="modalTimeMinute(mf.customTimeTo)"
             (valueChange)="setModalTimeMinute('to', $event)" />
         </div>
       </div>
@@ -140,4 +145,5 @@
       </button>
     </div>
   </div>
-</div>
+  }
+</ng-template>

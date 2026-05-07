@@ -1,5 +1,6 @@
 <div [ngClass]="instructionsRootClass">
   <div [ngClass]="instructionsInnerClass">
+    @if (!compactEmbed) {
     <div class="shrink-0">
       <div class="flex items-center justify-between w-full">
         <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
@@ -14,8 +15,14 @@
         {{ outboundInstructionsOnly ? t.outboundInstructionsLead : t.defineInstructionsForAgent }}
       </p>
     </div>
+    }
 
     @if (outboundInstructionsOnly) {
+      @if (compactEmbed) {
+      <div class="mt-2 w-full flex flex-col overflow-visible">
+        <ng-container *ngTemplateOutlet="instructionsBodyTpl"></ng-container>
+      </div>
+      } @else {
     <div class="mt-4 xl:mt-3 3xl:mt-4 flex min-h-0 flex-1 flex-col overflow-hidden">
       <div class="outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col">
         <div
@@ -24,6 +31,7 @@
         </div>
       </div>
     </div>
+      }
     } @else {
     <ng-container *ngTemplateOutlet="instructionsBodyTpl"></ng-container>
     }
@@ -164,6 +172,7 @@
     </div>
     }
 
+    @if (!compactEmbed) {
     <div class="w-full flex items-center justify-between nav-buttons-mobile shrink-0"
       [ngClass]="outboundInstructionsOnly ? 'mt-4 xl:mt-3 3xl:mt-4' : 'mt-5 3xl:mt-8'">
       <button type="button"
@@ -178,6 +187,7 @@
         {{ t.continue }}
       </button>
     </div>
+    }
   </div>
 </div>
 
@@ -192,6 +202,7 @@
           class="w-full px-4 xl:px-3 3xl:px-5 py-2.5 xl:py-1.5 3xl:py-2.5 text-sm xl:text-[11px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg 3xl:rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-2 focus:ring-blue-500 dark:focus:ring-white focus:border-transparent dark:focus:border-white outline-none transition-all" />
       </div>
       }
+      @if (!outboundInstructionsOnly || showSystemInstructionsInOutbound) {
       <div>
         <div class="flex items-center justify-between relative">
           <label
@@ -272,6 +283,7 @@
           </button>
         </div>
       </div>
+      }
 
       @if (outboundInstructionsOnly) {
       <div class="flex flex-col gap-6 xl:gap-5 3xl:gap-7 mt-2 xl:mt-1 3xl:mt-2">

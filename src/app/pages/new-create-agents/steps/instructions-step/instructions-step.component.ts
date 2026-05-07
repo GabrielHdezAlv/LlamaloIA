@@ -47,7 +47,7 @@ export class InstructionsStepComponent {
   }
   @HostBinding('class.overflow-hidden')
   get hostOverflowHidden(): boolean {
-    return this.outboundInstructionsOnly;
+    return this.outboundInstructionsOnly && !this.compactEmbed;
   }
 
   @Input() greeting = '';
@@ -71,6 +71,10 @@ export class InstructionsStepComponent {
   @Input() isInstructionsModalClosing = false;
   /** Saliente: solo instrucciones + generar con IA (sin saludo ni acciones externas). */
   @Input() outboundInstructionsOnly = false;
+  /** En modo saliente: ocultar el bloque de instrucciones del sistema (solo plantillas de campaña). */
+  @Input() showSystemInstructionsInOutbound = true;
+  /** Sin cabecera/pie del wizard (embebido en otras pantallas). */
+  @Input() compactEmbed = false;
   @Input() outboundCampaignScripts: OutboundCampaignScripts = {
     abandonedCart: '',
     satisfactionSurvey: '',
@@ -173,6 +177,9 @@ export class InstructionsStepComponent {
   }
 
   get instructionsRootClass(): string {
+    if (this.compactEmbed) {
+      return 'w-full flex flex-col min-h-0 overflow-visible bg-transparent';
+    }
     return this.outboundInstructionsOnly
       ? 'w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden bg-transparent box-border mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56 items-center justify-start 4xl:items-start 4xl:justify-start'
       : 'w-full h-full bg-transparent flex items-center justify-center 4xl:items-start 4xl:justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56';
@@ -181,6 +188,9 @@ export class InstructionsStepComponent {
   get instructionsInnerClass(): string {
     const base =
       'w-full max-w-[500px] sm:max-w-[600px] md:max-w-[720px] xl:max-w-[700px] 3xl:max-w-[800px] px-5 sm:px-6 md:px-7 xl:px-6 3xl:px-8';
+    if (this.compactEmbed) {
+      return 'w-full flex flex-col min-h-0 overflow-visible px-0 pb-0';
+    }
     return this.outboundInstructionsOnly
       ? `${base} flex min-h-0 flex-col overflow-visible pb-6 max-lg:pb-8`
       : `${base} flex flex-col overflow-visible`;
@@ -188,6 +198,9 @@ export class InstructionsStepComponent {
 
   get instructionsBodyWrapperClass(): string {
     const gaps = 'flex flex-col gap-4 xl:gap-3 3xl:gap-5';
+    if (this.compactEmbed && this.outboundInstructionsOnly) {
+      return `${gaps} pb-0 max-lg:pb-0 3xl:pb-0`;
+    }
     return this.outboundInstructionsOnly
       ? `${gaps} pb-12 max-lg:pb-28 3xl:pb-14`
       : `mt-4 xl:mt-3 3xl:mt-4 ${gaps}`;

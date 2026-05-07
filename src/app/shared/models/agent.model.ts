@@ -31,6 +31,18 @@ export interface Agent {
   parameters: VoiceParameters;
   totalMinutes: number; // Solo lectura - viene del backend
   shopifyDomain?: string | null; // Opcional - tienda Shopify asociada (ej: "mi-tienda.myshopify.com")
+
+  /** Solo agentes salientes (respuesta API / persistencia). */
+  outboundCampaignKind?: string;
+  outboundCampaignScripts?: {
+    abandonedCart?: string;
+    satisfactionSurvey?: string;
+    postPurchase?: string;
+    paymentReminder?: string;
+  };
+  outboundImportCsvPhones?: string[];
+  outboundSegmentationNotes?: string;
+  outboundScheduleCampaignNotes?: string;
 }
 
 /**

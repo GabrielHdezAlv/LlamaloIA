@@ -126,11 +126,20 @@ export class SegmentationStepComponent implements OnChanges {
   @HostBinding('class.flex-1')
   readonly hostFlex1 = true;
   @HostBinding('class.overflow-hidden')
-  readonly hostOverflowHidden = true;
+  get hostOverflowHidden(): boolean {
+    return !this.compactEmbed;
+  }
+
+  @HostBinding('class.seg-compact-embed')
+  get segCompactEmbed(): boolean {
+    return this.compactEmbed;
+  }
 
   @Input() segmentationNotes = '';
   /** Coherente con la campaña elegida: solo se muestran reglas avanzadas de ese tipo. */
   @Input() selectedOutboundCampaign: OutboundCampaignKind | null = null;
+  /** Sin cabecera/pie del wizard (embebido en editar agente). */
+  @Input() compactEmbed = false;
   @Input() currentStepNumber = 0;
   @Input() totalSteps = 0;
 
@@ -148,6 +157,15 @@ export class SegmentationStepComponent implements OnChanges {
   get t() {
     return this.i18nService.getTranslations();
   }
+
+  readonly compactRootClass =
+    'w-full flex flex-col min-h-0 flex-1 overflow-visible bg-transparent';
+
+  readonly compactInnerClass =
+    'w-full flex min-h-0 flex-col overflow-visible px-0 pb-0';
+
+  readonly compactBodyClass =
+    'flex flex-col gap-4 sm:gap-[1.1rem] xl:gap-4 3xl:gap-5 pb-0 max-lg:pb-0 3xl:pb-0';
 
   readonly rootClass =
     'w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden bg-transparent box-border mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56 items-center justify-start 4xl:items-start 4xl:justify-start';

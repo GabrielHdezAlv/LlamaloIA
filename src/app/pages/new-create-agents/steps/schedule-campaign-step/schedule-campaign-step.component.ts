@@ -6,9 +6,17 @@ import {
   inject,
   HostBinding,
   OnChanges,
+  OnDestroy,
   SimpleChanges,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
+  PLATFORM_ID,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Overlay, OverlayModule, OverlayRef } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { Subscription } from 'rxjs';
 import { I18nService } from '../../../../core/services/i18n.service';
 import {
   SegmentationSelectComponent,
@@ -97,12 +105,21 @@ export function serializeOutboundScheduleForm(
 @Component({
   selector: 'app-schedule-campaign-step',
   standalone: true,
-  imports: [CommonModule, SegmentationSelectComponent],
+  imports: [CommonModule, SegmentationSelectComponent, OverlayModule],
   templateUrl: './schedule-campaign-step.component.html',
   styleUrls: ['./schedule-campaign-step.component.scss'],
 })
-export class ScheduleCampaignStepComponent implements OnChanges {
+export class ScheduleCampaignStepComponent implements OnChanges, OnDestroy {
   private i18nService = inject(I18nService);
+  private readonly overlay = inject(Overlay);
+  private readonly viewContainerRef = inject(ViewContainerRef);
+  private readonly platformId = inject(PLATFORM_ID);
+
+  @ViewChild('customScheduleModalTpl')
+  customScheduleModalTpl!: TemplateRef<unknown>;
+
+  private overlayRef: OverlayRef | null = null;
+  private overlaySubs = new Subscription();
 
   @HostBinding('class.flex')
   readonly hostFlex = true;
@@ -113,9 +130,17 @@ export class ScheduleCampaignStepComponent implements OnChanges {
   @HostBinding('class.flex-1')
   readonly hostFlex1 = true;
   @HostBinding('class.overflow-hidden')
-  readonly hostOverflowHidden = true;
+  get hostOverflowHidden(): boolean {
+    return !this.compactEmbed;
+  }
+
+  @HostBinding('class.sch-compact-embed')
+  get schCompactEmbed(): boolean {
+    return this.compactEmbed;
+  }
 
   @Input() scheduleNotes = '';
+  @Input() compactEmbed = false;
   @Input() currentStepNumber = 0;
   @Input() totalSteps = 0;
 
@@ -125,7 +150,6 @@ export class ScheduleCampaignStepComponent implements OnChanges {
 
   form: OutboundScheduleCampaignFormState = defaultOutboundScheduleForm();
 
-  showCustomModal = false;
   /** Copia editable en el modal; null si el modal está cerrado. */
   modalForm: OutboundScheduleCampaignFormState | null = null;
   /** Estado del formulario antes de abrir el modal (cancel restaura esto). */
@@ -164,6 +188,15 @@ export class ScheduleCampaignStepComponent implements OnChanges {
     return this.i18nService.getTranslations();
   }
 
+  readonly compactRootClass =
+    'w-full flex flex-col min-h-0 flex-1 overflow-visible bg-transparent';
+
+  readonly compactInnerClass =
+    'w-full flex min-h-0 flex-col overflow-visible px-0 pb-0';
+
+  readonly compactBodyClass =
+    'flex flex-col gap-5 xl:gap-5 3xl:gap-6 pb-0 max-lg:pb-0 3xl:pb-0';
+
   readonly rootClass =
     'w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden bg-transparent box-border mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56 items-center justify-start 4xl:items-start 4xl:justify-start';
 
@@ -180,6 +213,10 @@ export class ScheduleCampaignStepComponent implements OnChanges {
         this.form = parseOutboundScheduleNotes(raw);
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.detachScheduleOverlay();
   }
 
   persist(): void {
@@ -205,7 +242,7 @@ export class ScheduleCampaignStepComponent implements OnChanges {
 
   setBusinessHours(on: boolean): void {
     if (on) {
-      this.showCustomModal = false;
+      this.detachScheduleOverlay();
       this.modalForm = null;
       this.modalCancelBaseline = null;
     }
@@ -233,7 +270,7 @@ export class ScheduleCampaignStepComponent implements OnChanges {
         customTimeTo: this.form.customTimeTo ?? def.customTimeTo,
       };
       this.modalForm = this.cloneForm(this.form);
-      this.showCustomModal = true;
+      this.attachScheduleOverlay();
     } else {
       this.closeCustomModalWithoutSave();
       this.form = {
@@ -251,7 +288,7 @@ export class ScheduleCampaignStepComponent implements OnChanges {
     }
     this.modalCancelBaseline = this.cloneForm(this.form);
     this.modalForm = this.cloneForm(this.form);
-    this.showCustomModal = true;
+    this.attachScheduleOverlay();
   }
 
   toggleWeekday(index: number): void {
@@ -312,26 +349,65 @@ export class ScheduleCampaignStepComponent implements OnChanges {
         useBusinessHours: false,
       };
     }
+    this.detachScheduleOverlay();
     this.modalForm = null;
     this.modalCancelBaseline = null;
-    this.showCustomModal = false;
     this.persist();
   }
 
   cancelCustomModal(): void {
+    this.detachScheduleOverlay();
     if (this.modalCancelBaseline) {
       this.form = this.cloneForm(this.modalCancelBaseline);
     }
     this.modalForm = null;
     this.modalCancelBaseline = null;
-    this.showCustomModal = false;
     this.persist();
   }
 
   private closeCustomModalWithoutSave(): void {
+    this.detachScheduleOverlay();
     this.modalForm = null;
     this.modalCancelBaseline = null;
-    this.showCustomModal = false;
+  }
+
+  private detachScheduleOverlay(): void {
+    this.overlaySubs.unsubscribe();
+    this.overlaySubs = new Subscription();
+    if (this.overlayRef) {
+      this.overlayRef.dispose();
+      this.overlayRef = null;
+    }
+  }
+
+  private attachScheduleOverlay(): void {
+    if (
+      !isPlatformBrowser(this.platformId) ||
+      !this.modalForm ||
+      !this.customScheduleModalTpl
+    ) {
+      return;
+    }
+    this.detachScheduleOverlay();
+    this.overlayRef = this.overlay.create({
+      hasBackdrop: true,
+      backdropClass: 'sch-schedule-modal-backdrop',
+      panelClass: 'sch-schedule-modal-pane',
+      scrollStrategy: this.overlay.scrollStrategies.block(),
+      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+    });
+    const portal = new TemplatePortal(this.customScheduleModalTpl, this.viewContainerRef);
+    this.overlayRef.attach(portal);
+    this.overlaySubs.add(
+      this.overlayRef.backdropClick().subscribe(() => this.cancelCustomModal()),
+    );
+    this.overlaySubs.add(
+      this.overlayRef.keydownEvents().subscribe((ev: Event) => {
+        if ((ev as KeyboardEvent).key === 'Escape') {
+          this.cancelCustomModal();
+        }
+      }),
+    );
   }
 
   weekdayLetter(index: number): string {

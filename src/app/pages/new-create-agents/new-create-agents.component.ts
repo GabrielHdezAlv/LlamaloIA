@@ -539,6 +539,11 @@ export class NewCreateAgentsComponent
         this.showTwilioConfig = false;
       }
 
+      if (this.step === 'importCsv') {
+        this.showTwilioConfig = false;
+        this.loadTwilioAccounts();
+      }
+
       if (this.skipShopifyBusinessStep && this.step === 'connectBusiness') {
         this.step =
           this.selectedCallType === 'outbound' ? 'voices' : 'instructions';
@@ -1284,7 +1289,7 @@ export class NewCreateAgentsComponent
       this.setStep('scheduleCampaign');
       this.saveDraft();
     } else if (this.step === 'scheduleCampaign') {
-      this.completeOutboundInstructionsPhase();
+      this.createAgentAfterValidation();
     } else if (this.step === 'connectBusiness') {
       if (this.isOutboundAgentFlow) {
         this.continueOutboundAfterConnectBusiness();
@@ -1485,17 +1490,6 @@ export class NewCreateAgentsComponent
   onOutboundImportCsvPhonesChange(phones: string[]): void {
     this.outboundImportCsvPhones = phones;
     this.saveDraft();
-  }
-
-  /**
-   * Fin de la fase de instrucciones en saliente: no entra en base de conocimientos / prueba entrante.
-   */
-  private completeOutboundInstructionsPhase(): void {
-    this.saveDraft();
-    this.notificationService.info(
-      this.i18nService.getTranslations().outboundInstructionsPhaseSaved,
-    );
-    void this.router.navigate(['/dashboard/agents']);
   }
 
   /** Navegar a la página de onboarding de Shopify (página externa, sin topbar ni navbar). */
@@ -2306,7 +2300,11 @@ export class NewCreateAgentsComponent
       },
       error: (error: HttpErrorResponse) => {
         console.error('❌ Error al crear agente:', error);
-        this.setStep('summary');
+        this.setStep(
+          this.selectedCallType === 'outbound'
+            ? 'scheduleCampaign'
+            : 'summary',
+        );
         if (error.status === 403) {
           openPlanLimitDialog(
             this.modalService,
@@ -3168,6 +3166,10 @@ export class NewCreateAgentsComponent
       this.displayedStep = nextStep;
       this.isStepFadingOut = false;
       this.stepFadeTimeout = null;
+      if (nextStep === 'importCsv') {
+        this.showTwilioConfig = false;
+        this.loadTwilioAccounts();
+      }
     }, 250);
   }
 }

@@ -103,8 +103,26 @@
       ]">
       <app-import-csv-step [phones]="outboundImportCsvPhones"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
+        [showTwilioConfig]="showTwilioConfig" [loadingTwilioAccounts]="loadingTwilioAccounts"
+        [isTwilioValidated]="isTwilioValidated" [isValidatingTwilio]="isValidatingTwilio" [twilioSid]="twilioSid"
+        [twilioToken]="twilioToken" [twilioSidValidationStatus]="twilioSidValidationStatus"
+        [twilioTokenValidationStatus]="twilioTokenValidationStatus" [twilioErrorMessage]="twilioErrorMessage"
+        [selectedTwilioAccount]="selectedTwilioAccount" [twilioAccounts]="twilioAccounts"
+        [showNewTwilioAccountForm]="showNewTwilioAccountForm" [availablePhoneNumbers]="availablePhoneNumbers"
+        [phoneNumber]="phoneNumber" [selectedCountryCode]="selectedCountryCode"
+        [phoneValidationStatus]="phoneValidationStatus" [phoneErrorMessage]="phoneErrorMessage"
+        [canContinueFromConnections]="canContinueFromConnections"
         (phonesChange)="onOutboundImportCsvPhonesChange($event)" (backClicked)="goBack()"
-        (continueClicked)="onSkip()">
+        (continueClicked)="onSkip()" (toggleTwilioConfigClicked)="toggleTwilioConfig()"
+        (twilioSidChange)="twilioSid = $event; onTwilioSidChange()"
+        (twilioTokenChange)="twilioToken = $event; onTwilioTokenChange()"
+        (validateTwilioConfigClicked)="validateTwilioConfig()"
+        (useExistingTwilioAccountClicked)="useExistingTwilioAccount($event)"
+        (showNewTwilioAccountClicked)="showNewTwilioAccount()"
+        (backToAccountSelectionClicked)="backToAccountSelection()"
+        (phoneNumberChange)="phoneNumber = $event; onPhoneNumberChange()"
+        (selectedCountryCodeChange)="selectedCountryCode = $event; onPhoneNumberChange()"
+        (phoneNumberSelected)="onPhoneNumberSelected($event)" (validatePhoneNumberClicked)="validatePhoneNumber()">
       </app-import-csv-step>
     </div>
 
@@ -184,6 +202,19 @@
         (selectedCountryCodeChange)="selectedCountryCode = $event; onPhoneNumberChange()"
         (phoneNumberSelected)="onPhoneNumberSelected($event)" (validatePhoneNumberClicked)="validatePhoneNumber()">
       </app-connect-phone-step>
+    </div>
+
+    <!-- Cargando (creación de agente en API) -->
+    <div
+      *ngSwitchCase="'final'"
+      class="flex flex-1 flex-col items-center justify-center min-h-[min(60dvh,28rem)] w-full px-6 py-12">
+      <div
+        id="lottieContainer"
+        #lottieContainer
+        class="w-40 h-40 sm:w-48 sm:h-48 mx-auto"></div>
+      <p class="mt-6 text-sm 3xl:text-base text-[#6d747c] font-semibold text-center m-0">
+        {{ t.creatingAgent }}
+      </p>
     </div>
 
     <!-- Paso 9: Agente creado correctamente -->

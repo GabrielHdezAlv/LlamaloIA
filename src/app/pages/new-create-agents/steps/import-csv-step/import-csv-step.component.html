@@ -1,5 +1,6 @@
-<div [class]="rootClass">
-  <div [class]="innerClass">
+<div [class]="compactEmbed ? compactRootClass : rootClass">
+  <div [class]="compactEmbed ? compactInnerClass : innerClass">
+    @if (!compactEmbed) {
     <div class="shrink-0">
       <div class="flex items-center justify-between w-full">
         <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
@@ -14,12 +15,50 @@
         {{ t.outboundImportCsvStepSubtitle }}
       </p>
     </div>
+    }
 
-    <div class="mt-4 xl:mt-3 3xl:mt-4 flex min-h-0 flex-1 flex-col overflow-hidden">
-      <div class="outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col">
+    <div [class]="compactEmbed ? 'mt-2 flex w-full flex-col overflow-visible' : 'mt-4 xl:mt-3 3xl:mt-4 flex min-h-0 flex-1 flex-col overflow-hidden'">
+      <div [class]="compactEmbed ? 'relative flex w-full flex-col overflow-visible' : 'outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col'">
         <div
-          class="outbound-instructions-scroll min-h-0 w-full overflow-y-auto overscroll-y-contain touch-pan-y max-xl:max-h-[calc(100dvh-14rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)]">
-          <div [class]="bodyClass">
+          [class]="compactEmbed ? 'w-full overflow-visible' : 'outbound-instructions-scroll min-h-0 w-full overflow-y-auto overscroll-y-contain touch-pan-y max-xl:max-h-[calc(100dvh-14rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)]'">
+          <div [class]="compactEmbed ? compactBodyClass : bodyClass">
+            @if (!omitTwilioSection) {
+            <section class="flex flex-col gap-2 xl:gap-1.5 3xl:gap-2">
+              <h2
+                class="text-sm xl:text-[10px] 3xl:text-base font-semibold text-[#0F172A] dark:text-white m-0">
+                {{ t.connectPhoneTitle }}
+              </h2>
+              <p
+                class="text-xs xl:text-[10px] 3xl:text-sm text-[#6d747c] dark:text-slate-400 font-medium m-0 mb-1 3xl:mb-1.5">
+                {{ t.configureTwilioDescription }}
+              </p>
+              <app-connect-phone-step [embedded]="true" [currentStepNumber]="0" [totalSteps]="totalSteps"
+                [showTwilioConfig]="showTwilioConfig" [loadingTwilioAccounts]="loadingTwilioAccounts"
+                [isTwilioValidated]="isTwilioValidated" [isValidatingTwilio]="isValidatingTwilio" [twilioSid]="twilioSid"
+                [twilioToken]="twilioToken" [twilioSidValidationStatus]="twilioSidValidationStatus"
+                [twilioTokenValidationStatus]="twilioTokenValidationStatus" [twilioErrorMessage]="twilioErrorMessage"
+                [selectedTwilioAccount]="selectedTwilioAccount" [twilioAccounts]="twilioAccounts"
+                [showNewTwilioAccountForm]="showNewTwilioAccountForm" [availablePhoneNumbers]="availablePhoneNumbers"
+                [phoneNumber]="phoneNumber" [selectedCountryCode]="selectedCountryCode"
+                [phoneValidationStatus]="phoneValidationStatus" [phoneErrorMessage]="phoneErrorMessage"
+                [canContinueFromConnections]="canContinueFromConnections"
+                (toggleTwilioConfigClicked)="toggleTwilioConfigClicked.emit()"
+                (twilioSidChange)="twilioSidChange.emit($event)"
+                (twilioTokenChange)="twilioTokenChange.emit($event)"
+                (validateTwilioConfigClicked)="validateTwilioConfigClicked.emit()"
+                (useExistingTwilioAccountClicked)="useExistingTwilioAccountClicked.emit($event)"
+                (showNewTwilioAccountClicked)="showNewTwilioAccountClicked.emit()"
+                (backToAccountSelectionClicked)="backToAccountSelectionClicked.emit()"
+                (phoneNumberChange)="phoneNumberChange.emit($event)"
+                (selectedCountryCodeChange)="selectedCountryCodeChange.emit($event)"
+                (phoneNumberSelected)="phoneNumberSelected.emit($event)"
+                (validatePhoneNumberClicked)="validatePhoneNumberClicked.emit()">
+              </app-connect-phone-step>
+            </section>
+            }
+
+            <div
+              [class]="omitTwilioSection ? 'mt-0 pt-0 border-t-0' : 'mt-2 xl:mt-1 3xl:mt-2 pt-4 xl:pt-3 3xl:pt-4 border-t border-gray-200 dark:border-slate-600'">
             <input #fileInput type="file" accept=".csv,text/csv,text/plain" class="sr-only"
               (change)="onFileSelected($event)" />
 
@@ -83,11 +122,13 @@
               }
             </div>
             }
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    @if (!compactEmbed) {
     <div
       class="w-full flex items-center justify-between nav-buttons-mobile shrink-0 mt-4 xl:mt-3 3xl:mt-4">
       <button type="button"
@@ -96,11 +137,14 @@
         <span class="text-xs 3xl:text-lg leading-none">‹</span>
         <span>{{ t.back }}</span>
       </button>
-      <button type="button"
-        class="px-3 3xl:px-6 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
+      <button type="button" [disabled]="!canContinueFromConnections"
+        [class.opacity-50]="!canContinueFromConnections"
+        [class.cursor-not-allowed]="!canContinueFromConnections"
+        class="px-3 3xl:px-6 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white disabled:hover:bg-[#1B2559]"
         (click)="continueClicked.emit()">
         {{ t.continue }}
       </button>
     </div>
+    }
   </div>
 </div>
