@@ -10,6 +10,17 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+/** Evita OOM en CI y fuerza salida legible si ng falla. */
+function envForChildProcess() {
+  const env = { ...process.env };
+  const heap = '--max-old-space-size=6144';
+  const cur = env.NODE_OPTIONS || '';
+  if (!/\bmax-old-space-size=/.test(cur)) {
+    env.NODE_OPTIONS = cur ? `${cur} ${heap}`.trim() : heap;
+  }
+  return env;
+}
+
 const branch = process.env.VERCEL_GIT_COMMIT_REF || '';
 // Ramas: master → prod (app.llamalo.ai), preprod → preprod, dev → dev (dev.llamalo.ai).
 // Cualquier otra rama (p. ej. PR) usa build tipo dev para no apuntar a la API de prod por error.
@@ -30,7 +41,7 @@ console.log(`[vercel-build] branch=${branch || '(none)'} -> ng build --configura
 execSync(`npx ng build --configuration=${config}`, {
   stdio: 'inherit',
   shell: true,
-  env: process.env,
+  env: envForChildProcess(),
 });
 
 const browserDir = path.join(__dirname, '..', 'dist', 'llamalo-io', 'browser');
@@ -66,7 +77,7 @@ function runSentrySourcemaps() {
   execSync(`npx @sentry/cli releases new "${release}"`, {
     stdio: 'inherit',
     shell: true,
-    env: process.env,
+    env: envForChildProcess(),
   });
 
   // 2) Intentar asociar commits automáticamente. En algunos entornos CI
@@ -76,7 +87,7 @@ function runSentrySourcemaps() {
     execSync(`npx @sentry/cli releases set-commits "${release}" --auto`, {
       stdio: 'inherit',
       shell: true,
-      env: process.env,
+      env: envForChildProcess(),
     });
   } catch (error) {
     console.warn(
@@ -91,7 +102,7 @@ function runSentrySourcemaps() {
   execSync(`npx @sentry/cli sourcemaps inject "${browserDir}"`, {
     stdio: 'inherit',
     shell: true,
-    env: process.env,
+    env: envForChildProcess(),
   });
 
   execSync(
@@ -99,7 +110,7 @@ function runSentrySourcemaps() {
     {
       stdio: 'inherit',
       shell: true,
-      env: process.env,
+      env: envForChildProcess(),
     },
   );
 
@@ -107,7 +118,7 @@ function runSentrySourcemaps() {
   execSync(`npx @sentry/cli releases finalize "${release}"`, {
     stdio: 'inherit',
     shell: true,
-    env: process.env,
+    env: envForChildProcess(),
   });
 }
 

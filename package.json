@@ -17,6 +17,9 @@
     "deploy:build": "npm run build && npm run deploy"
   },
   "private": true,
+  "engines": {
+    "node": ">=20.11 <23"
+  },
   "dependencies": {
     "@angular/animations": "^19.2.19",
     "@angular/cdk": "^19.2.19",
