@@ -113,4 +113,20 @@ export class OutboundCampaignComponent implements OnInit {
         return 'Outbound';
     }
   }
+
+  getShortCallSid(callSid?: string): string {
+    if (!callSid) return '-';
+    if (callSid.length <= 12) return callSid;
+    return `${callSid.slice(0, 8)}...`;
+  }
+
+  async copyCallSid(callSid?: string): Promise<void> {
+    if (!callSid || typeof navigator === 'undefined') return;
+    try {
+      await navigator.clipboard.writeText(callSid);
+      this.notificationService.success('CALL SID copiado');
+    } catch {
+      this.notificationService.error('No se pudo copiar el CALL SID');
+    }
+  }
 }
