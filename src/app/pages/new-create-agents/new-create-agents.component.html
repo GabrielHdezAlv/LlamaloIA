@@ -42,10 +42,19 @@
     <!-- Paso 4: Conecta tu negocio -->
     <div
       *ngSwitchCase="'connectBusiness'"
-      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
+      [ngClass]="[
+        isStepFadingOut ? 'step-fade-out' : 'step-fade-in',
+        isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
+      ]">
       <app-connect-business-step [shopifyConnectedDomain]="shopifyConnectedDomain"
+        [outboundWizardLayout]="isOutboundAgentFlow"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()" (backClicked)="goBack()"
-        (continueClicked)="onContinueFromConnectBusiness()" (connectShopifyClicked)="goToShopifyOnboarding()">
+        (continueClicked)="onContinueFromConnectBusiness()" (connectShopifyClicked)="goToShopifyOnboarding()"
+        [class.flex]="isOutboundAgentFlow"
+        [class.flex-1]="isOutboundAgentFlow"
+        [class.min-h-0]="isOutboundAgentFlow"
+        [class.flex-col]="isOutboundAgentFlow"
+        [class.w-full]="isOutboundAgentFlow">
       </app-connect-business-step>
     </div>
 

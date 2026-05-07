@@ -131,14 +131,79 @@
 }
 
 :host-context(html.dark) .csv-drop-zone {
-  border-color: #475569;
+  border-color: #525252;
+  background-color: rgba(24, 24, 27, 0.45);
 }
 
 :host-context(html.dark) .csv-drop-zone--active {
-  border-color: #fff;
-  background-color: rgba(30, 41, 59, 0.45);
+  border-color: rgba(250, 250, 250, 0.55);
+  background-color: rgba(255, 255, 255, 0.07);
 }
 
-.csv-phone-chip {
+.csv-phone-value {
   font-variant-numeric: tabular-nums;
+}
+
+.csv-loaded-row {
+  &:focus-within {
+    background-color: rgba(255, 255, 255, 0.92);
+  }
+
+  :host-context(html.dark) &:focus-within {
+    background-color: rgba(24, 24, 27, 0.65);
+  }
+}
+
+/* Embebido en editar agente: sin bumps Tailwind 3xl (1900px+); proporción respecto a títulos acordeón */
+@media (min-width: 1900px) {
+  :host.csv-compact-embed {
+    .csv-compact-body {
+      section.flex.flex-col > h2 {
+        font-size: 0.625rem !important;
+      }
+
+      section.flex.flex-col > p.text-xs {
+        font-size: 0.5625rem !important;
+      }
+    }
+
+    .csv-drop-zone {
+      > p:nth-of-type(1) {
+        font-size: 0.6875rem !important;
+      }
+
+      > p:nth-of-type(2),
+      > p:nth-of-type(3) {
+        font-size: 0.5625rem !important;
+      }
+    }
+
+    .csv-phones-toolbar {
+      p {
+        font-size: 0.5625rem !important;
+      }
+
+      span.tabular-nums {
+        font-size: 0.5625rem !important;
+      }
+
+      button {
+        font-size: 0.5625rem !important;
+      }
+    }
+
+    .csv-loaded-row {
+      > span:first-of-type {
+        font-size: 0.5625rem !important;
+      }
+
+      .csv-phone-value {
+        font-size: 0.625rem !important;
+      }
+    }
+
+    div.mt-3 > p.mt-2.mb-0 {
+      font-size: 0.5625rem !important;
+    }
+  }
 }

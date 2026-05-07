@@ -97,7 +97,7 @@
   }
 
   :host-context(html.dark) .outbound-instructions-scroll {
-    scrollbar-color: rgba(148, 163, 184, 0.35) transparent;
+    scrollbar-color: rgba(113, 113, 122, 0.4) transparent;
   }
 
   .outbound-instructions-scroll::-webkit-scrollbar {
@@ -115,7 +115,7 @@
   }
 
   :host-context(html.dark) .outbound-instructions-scroll::-webkit-scrollbar-thumb {
-    background-color: rgba(148, 163, 184, 0.35);
+    background-color: rgba(113, 113, 122, 0.4);
   }
 }
 
@@ -231,8 +231,8 @@
   gap: 0.15rem;
 
   :host-context(html.dark) & {
-    background: transparent;
-    border-color: #4e4e4e;
+    background: rgba(24, 24, 27, 0.45);
+    border-color: #525252;
   }
 }
 
@@ -267,14 +267,14 @@
     box-shadow: none;
 
     :host-context(html.dark) & {
-      background: rgba(148, 163, 184, 0.15);
-      color: #f8fafc;
+      background: rgba(255, 255, 255, 0.08);
+      color: #fafafa;
     }
   }
 }
 
 :host-context(html.dark) .seg-segment__btn {
-  color: #e2e8f0;
+  color: #e4e4e7;
 
   &:hover {
     color: #fff;
@@ -374,7 +374,7 @@
   }
 
   :host-context(html.dark) & {
-    color: #e2e8f0;
+    color: #e4e4e7;
   }
 }
 
@@ -385,7 +385,7 @@
   color: #475569;
 
   :host-context(html.dark) & {
-    color: #cbd5e1;
+    color: #d4d4d8;
   }
 }
 
@@ -404,5 +404,26 @@
 
   .seg-row .seg-segment__btn {
     padding: 0.5rem 0.72rem;
+  }
+
+  .seg-label {
+    font-size: 0.625rem;
+  }
+
+  .seg-section__title {
+    font-size: 0.75rem;
+  }
+
+  .seg-input {
+    font-size: 0.6875rem;
+    padding: 0.45rem 0.65rem;
+  }
+
+  .seg-segment__btn {
+    font-size: 0.625rem;
+  }
+
+  .seg-advanced-bar__text {
+    font-size: 0.6875rem;
   }
 }

@@ -49,6 +49,10 @@ export class InstructionsStepComponent {
   get hostOverflowHidden(): boolean {
     return this.outboundInstructionsOnly && !this.compactEmbed;
   }
+  @HostBinding('class.ins-compact-embed')
+  get hostInsCompactEmbed(): boolean {
+    return this.compactEmbed && this.outboundInstructionsOnly;
+  }
 
   @Input() greeting = '';
   @Input() instructions = '';
@@ -181,7 +185,7 @@ export class InstructionsStepComponent {
       return 'w-full flex flex-col min-h-0 overflow-visible bg-transparent';
     }
     return this.outboundInstructionsOnly
-      ? 'w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden bg-transparent box-border mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56 items-center justify-start 4xl:items-start 4xl:justify-start'
+      ? 'w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden bg-transparent box-border mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56 items-center justify-start'
       : 'w-full h-full bg-transparent flex items-center justify-center 4xl:items-start 4xl:justify-center overflow-visible mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56';
   }
 

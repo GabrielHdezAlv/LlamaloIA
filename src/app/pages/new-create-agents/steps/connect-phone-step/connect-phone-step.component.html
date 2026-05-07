@@ -29,13 +29,13 @@
       [ngClass]="
         !embedded ? 'mt-4 xl:mt-3 3xl:mt-4' : ''
       "
-      class="border border-gray-200 dark:border-slate-600 rounded-xl 3xl:rounded-2xl overflow-hidden bg-gray-50 dark:bg-slate-900/30">
+      class="border border-gray-200 dark:border-zinc-600 rounded-xl 3xl:rounded-2xl overflow-hidden bg-gray-50 dark:bg-zinc-900/35">
       <div
         class="flex items-center justify-between gap-4 xl:gap-3 3xl:gap-5 px-4 xl:px-3 3xl:px-5 py-4 xl:py-3 3xl:py-4 cursor-pointer transition-colors"
         (click)="toggleTwilioConfigClicked.emit()">
         <div class="flex items-center gap-4 xl:gap-3 3xl:gap-4">
           <div
-            class="w-9 h-9 xl:w-7 xl:h-7 3xl:w-12 3xl:h-12 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center shadow-sm overflow-hidden">
+            class="w-9 h-9 xl:w-7 xl:h-7 3xl:w-12 3xl:h-12 rounded-full bg-white dark:bg-zinc-800 flex items-center justify-center shadow-sm overflow-hidden">
             <img src="assets/twilio.webp" alt="Twilio"
               class="w-9 h-9 xl:w-7 xl:h-7 3xl:w-12 3xl:h-12 object-contain rounded" />
           </div>
@@ -85,13 +85,13 @@
               {{ t.availableNumbers }}
             </p>
             <div
-              class="max-h-20 3xl:max-h-28 overflow-y-auto border border-gray-200 dark:border-slate-600 rounded-lg 3xl:rounded-xl p-1.5 3xl:p-2.5 space-y-0.5 3xl:space-y-1">
+              class="max-h-20 3xl:max-h-28 overflow-y-auto border border-gray-200 dark:border-zinc-600 rounded-lg 3xl:rounded-xl p-1.5 3xl:p-2.5 space-y-0.5 3xl:space-y-1">
               @for (
               phone of availablePhoneNumbers;
               track phone.phoneId
               ) {
               <button type="button" (click)="onSelectPhoneNumber(phone)"
-                class="w-full text-left px-2 3xl:px-3 py-1 3xl:py-2 rounded 3xl:rounded-lg text-[10px] 3xl:text-base hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-900 dark:text-white">
+                class="w-full text-left px-2 3xl:px-3 py-1 3xl:py-2 rounded 3xl:rounded-lg text-[10px] 3xl:text-base hover:bg-gray-100 dark:hover:bg-zinc-700 text-gray-900 dark:text-white">
                 {{ phone.countryCode }} {{ phone.number }}
               </button>
               }
@@ -102,7 +102,7 @@
                 class="block text-[9px] 3xl:text-sm font-semibold text-gray-600 dark:text-slate-400 mb-0.5 3xl:mb-1">{{ t.phoneNumberLabel }}</label>
               <div class="flex gap-0.5 3xl:gap-1">
                 <select [ngModel]="selectedCountryCode" (ngModelChange)="onCountryCodeChange($event)"
-                  class="w-14 3xl:w-16 h-7 3xl:h-10 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-l-md 3xl:rounded-l-lg px-1 3xl:px-1.5 text-gray-900 dark:text-white">
+                  class="w-14 3xl:w-16 h-7 3xl:h-10 text-[10px] 3xl:text-base border border-gray-300 dark:border-zinc-600 dark:bg-zinc-800 rounded-l-md 3xl:rounded-l-lg px-1 3xl:px-1.5 text-gray-900 dark:text-white">
                   <option value="+34">+34</option>
                   <option value="+1">+1</option>
                   <option value="+39">+39</option>
@@ -114,7 +114,7 @@
                 </select>
                 <input type="text" [ngModel]="phoneNumber" (ngModelChange)="onPhoneNumberInput($event)"
                   placeholder="612345678"
-                  class="flex-1 h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-r-md 3xl:rounded-r-lg text-gray-900 dark:text-white placeholder-gray-400" />
+                  class="flex-1 h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-zinc-600 dark:bg-zinc-800 rounded-r-md 3xl:rounded-r-lg text-gray-900 dark:text-white placeholder-gray-400" />
               </div>
               @if (
               phoneValidationStatus === "error" && phoneErrorMessage
@@ -140,13 +140,13 @@
             ) {
             <button type="button" (click)="useExistingTwilioAccountClicked.emit(account)"
               [disabled]="isValidatingTwilio"
-              class="w-full px-2 3xl:px-3 py-1.5 3xl:py-2.5 rounded-lg 3xl:rounded-xl border text-left text-[10px] 3xl:text-base border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-800 hover:border-[#1B2559] dark:hover:border-blue-400 disabled:opacity-50">
+              class="w-full px-2 3xl:px-3 py-1.5 3xl:py-2.5 rounded-lg 3xl:rounded-xl border text-left text-[10px] 3xl:text-base border-gray-200 dark:border-zinc-600 bg-white dark:bg-zinc-800 hover:border-[#1B2559] dark:hover:border-zinc-400 disabled:opacity-50">
               Cuenta ID: {{ account.twilioAccountId }} · SID:
               {{ account.twilioSid.substring(0, 10) }}...
             </button>
             }
             <button type="button" (click)="showNewTwilioAccountClicked.emit()"
-              class="w-full px-2 3xl:px-3 py-1.5 3xl:py-2.5 rounded-lg 3xl:rounded-xl border border-dashed border-gray-300 dark:border-slate-500 text-[10px] 3xl:text-base text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-slate-800">
+              class="w-full px-2 3xl:px-3 py-1.5 3xl:py-2.5 rounded-lg 3xl:rounded-xl border border-dashed border-gray-300 dark:border-zinc-500 text-[10px] 3xl:text-base text-gray-600 dark:text-slate-400 hover:bg-gray-50 dark:hover:bg-zinc-800">
               {{ t.connectNewAccount }}
             </button>
           </div>
@@ -158,7 +158,7 @@
                 SID</label>
               <input type="text" [ngModel]="twilioSid" (ngModelChange)="onTwilioSidInput($event)"
                 placeholder="ACxxxxxxxx..."
-                class="w-full h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md 3xl:rounded-lg text-gray-900 dark:text-white" />
+                class="w-full h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-zinc-600 dark:bg-zinc-800 rounded-md 3xl:rounded-lg text-gray-900 dark:text-white" />
             </div>
             <div>
               <label
@@ -166,14 +166,14 @@
                 Token</label>
               <input type="password" [ngModel]="twilioToken" (ngModelChange)="onTwilioTokenInput($event)"
                 placeholder="••••••••"
-                class="w-full h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-slate-600 dark:bg-slate-800 rounded-md 3xl:rounded-lg text-gray-900 dark:text-white" />
+                class="w-full h-7 3xl:h-10 px-2 3xl:px-3 text-[10px] 3xl:text-base border border-gray-300 dark:border-zinc-600 dark:bg-zinc-800 rounded-md 3xl:rounded-lg text-gray-900 dark:text-white" />
             </div>
             <button type="button" (click)="validateTwilioConfigClicked.emit()" [disabled]="
                   isValidatingTwilio ||
                   !twilioSid.trim() ||
                   !twilioToken.trim()
                 "
-              class="w-full py-1.5 3xl:py-2.5 rounded-md 3xl:rounded-lg bg-[#1B2559] dark:bg-white hover:bg-[#131a3f] dark:hover:bg-slate-100 text-white dark:text-[#000000] text-[10px] 3xl:text-base font-semibold disabled:opacity-50 flex items-center justify-center gap-1 3xl:gap-1.5">
+              class="w-full py-1.5 3xl:py-2.5 rounded-md 3xl:rounded-lg bg-[#1B2559] dark:bg-white hover:bg-[#131a3f] dark:hover:bg-zinc-100 text-white dark:text-[#000000] text-[10px] 3xl:text-base font-semibold disabled:opacity-50 flex items-center justify-center gap-1 3xl:gap-1.5">
               @if (isValidatingTwilio) {
               Validando...
               } @else if (
@@ -208,7 +208,7 @@
     @if (!embedded) {
     <div class="w-full flex items-center justify-between mt-5 3xl:mt-8 nav-buttons-mobile">
       <button type="button"
-        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-base rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-slate-600"
+        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-1.5 3xl:px-3 py-0.5 3xl:py-1.5 text-[9px] sm:text-[10px] 3xl:text-base rounded-[5px] 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-zinc-600"
         (click)="backClicked.emit()">
         <span class="text-xs 3xl:text-lg leading-none">‹</span>
         <span>Atrás</span>

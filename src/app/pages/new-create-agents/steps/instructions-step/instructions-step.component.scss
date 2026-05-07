@@ -318,3 +318,26 @@
     background-color: rgba(148, 163, 184, 0.35);
   }
 }
+
+/* Embebido en editar agente: sin bumps 3xl (1900px+); texto menor que el título del acordeón (~text-xs) */
+@media (min-width: 1900px) {
+  :host.ins-compact-embed .ins-compact-outbound {
+    label.block {
+      font-size: 0.6875rem !important;
+    }
+
+    p.text-xs {
+      font-size: 0.625rem !important;
+    }
+
+    textarea {
+      font-size: 0.6875rem !important;
+      line-height: 1.45 !important;
+      padding: 0.65rem 0.75rem !important;
+    }
+
+    textarea ~ div.flex.flex-wrap button {
+      font-size: 0.5625rem !important;
+    }
+  }
+}

@@ -27,6 +27,10 @@ export class CampaignStepComponent {
   get hostOverflowHidden(): boolean {
     return !this.compactEmbed;
   }
+  @HostBinding('class.campaign-compact-embed')
+  get hostCampaignCompactEmbed(): boolean {
+    return this.compactEmbed;
+  }
 
   /** Orden en rejilla 2×2: fila1 encuesta | carrito, fila2 pago | post-compra. */
   readonly campaignOrder: OutboundCampaignKind[] = [
@@ -51,7 +55,7 @@ export class CampaignStepComponent {
   }
 
   readonly rootClass =
-    'w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden bg-transparent box-border mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56 items-center justify-start 4xl:items-start 4xl:justify-start';
+    'w-full h-full flex-1 min-h-0 flex flex-col overflow-hidden bg-transparent box-border mx-auto max-w-4xl 3xl:max-w-7xl pt-8 sm:pt-12 3xl:pt-14 4xl:pt-56 items-center justify-start';
 
   readonly compactRootClass =
     'w-full flex flex-col min-h-0 flex-1 overflow-visible bg-transparent';

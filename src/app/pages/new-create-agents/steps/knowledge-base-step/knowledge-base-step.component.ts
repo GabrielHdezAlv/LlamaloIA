@@ -464,7 +464,7 @@ export class KnowledgeBaseStepComponent implements OnInit, AfterViewInit {
       case 'processing':
         return 'bg-amber-500/20 text-amber-800 dark:bg-amber-500/25 dark:text-amber-200';
       case 'completed':
-        return 'bg-slate-200/80 text-slate-700 dark:bg-slate-600/40 dark:text-slate-200';
+        return 'bg-zinc-200/80 text-zinc-700 dark:bg-zinc-600/40 dark:text-zinc-200';
       case 'failed':
         return 'bg-red-500/20 text-red-800 dark:bg-red-500/25 dark:text-red-200';
       default:

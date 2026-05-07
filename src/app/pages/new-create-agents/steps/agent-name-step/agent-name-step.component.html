@@ -23,7 +23,7 @@
       <div class="relative">
         <input type="text" [ngModel]="agentName" (ngModelChange)="onAgentNameInput($event)" [maxlength]="50"
           [placeholder]="t.agentNamePlaceholder"
-          class="w-full px-4 xl:px-3.5 3xl:px-4 py-3 xl:py-2 3xl:py-2.5 text-sm xl:text-xs 3xl:text-sm border border-gray-300 dark:border-slate-600 dark:bg-transparent rounded-lg xl:rounded-md 3xl:rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-1 focus:ring-black focus:border-transparent dark:focus:ring-white dark:focus:border-transparent outline-none transition" />
+          class="w-full px-4 xl:px-3.5 3xl:px-4 py-3 xl:py-2 3xl:py-2.5 text-sm xl:text-xs 3xl:text-sm border border-gray-300 dark:border-zinc-600 dark:bg-transparent rounded-lg xl:rounded-md 3xl:rounded-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-[#6d747c] focus:ring-1 focus:ring-black focus:border-transparent dark:focus:ring-white dark:focus:border-transparent outline-none transition" />
         <span
           class="absolute right-3 xl:right-2 3xl:right-4 top-1/2 -translate-y-1/2 text-xs xl:text-[11px] 3xl:text-xs text-gray-400 dark:text-[#6d747c]">
           {{ agentName.length }}/50
@@ -33,7 +33,7 @@
 
     <div class="w-full flex items-center justify-between mt-4 3xl:mt-4 nav-buttons-mobile">
       <button type="button"
-        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-gray-300 dark:border-slate-600 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent dark:bg-transparent"
+        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 border border-gray-300 dark:border-zinc-600 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent dark:bg-transparent"
         (click)="backClicked.emit()">
         <span class="text-xs 3xl:text-lg leading-none">‹</span>
         <span>{{ t.back }}</span>

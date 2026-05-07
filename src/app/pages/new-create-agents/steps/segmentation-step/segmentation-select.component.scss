@@ -102,16 +102,16 @@
   transform: rotate(180deg);
 }
 
-/* Modo oscuro: trigger */
+/* Modo oscuro: trigger (gris neutro zinc, sin tinte azulado slate) */
 :host-context(html.dark) .seg-dd__trigger {
-  background: rgba(30, 41, 59, 0.35);
-  border-color: #4e4e4e;
-  color: #f8fafc;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #3f3f46;
+  color: #fafafa;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 
   &:hover {
-    background: rgba(51, 65, 85, 0.45);
-    border-color: #64748b;
+    background: rgba(255, 255, 255, 0.09);
+    border-color: #52525b;
   }
 
   &:focus-visible {
@@ -120,13 +120,13 @@
   }
 
   &--open {
-    border-color: rgba(255, 255, 255, 0.45);
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12);
+    border-color: rgba(250, 250, 250, 0.42);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
   }
 }
 
 :host-context(html.dark) .seg-dd__chev {
-  color: #94a3b8;
+  color: #a1a1aa;
 }
 
 /* Panel del listado (overlay CDK) */
@@ -158,16 +158,16 @@
 }
 
 html.dark .seg-dd__panel {
-  background: #1e293b;
-  border-color: #334155;
+  background: #18181b;
+  border-color: #3f3f46;
   box-shadow:
     0 12px 28px -6px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(148, 163, 184, 0.12);
-  scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+    0 0 0 1px rgba(255, 255, 255, 0.06);
+  scrollbar-color: rgba(161, 161, 170, 0.35) transparent;
 }
 
 html.dark .seg-dd__panel::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.35);
+  background: rgba(161, 161, 170, 0.35);
 }
 
 .seg-dd__option {
@@ -203,10 +203,10 @@ html.dark .seg-dd__panel::-webkit-scrollbar-thumb {
 }
 
 html.dark .seg-dd__option {
-  color: #e2e8f0;
+  color: #fafafa;
 
   &:hover {
-    background: rgba(51, 65, 85, 0.85);
+    background: rgba(255, 255, 255, 0.06);
   }
 }
 
@@ -217,8 +217,9 @@ html.dark .seg-dd__option {
 }
 
 html.dark .seg-dd__option--active {
-  background: rgba(59, 130, 246, 0.15);
-  color: #93c5fd;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  font-weight: 600;
 }
 
 .seg-dd__option-label {
@@ -234,5 +235,16 @@ html.dark .seg-dd__option--active {
 }
 
 html.dark .seg-dd__check {
-  color: #60a5fa;
+  color: #cbd5e1;
+}
+
+@media (min-width: 1920px) {
+  :host-context(.seg-compact-embed) .seg-dd__trigger {
+    font-size: 0.6875rem;
+    padding: 0.45rem 1.75rem 0.45rem 0.65rem;
+  }
+
+  :host-context(.seg-compact-embed) .seg-dd__option {
+    font-size: 0.6875rem;
+  }
 }
