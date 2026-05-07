@@ -95,6 +95,21 @@ const DEFAULT_OUTBOUND_CAMPAIGN_SCRIPTS: OutboundCampaignScripts = {
   paymentReminder: '',
 };
 
+/**
+ * Prompt base interno por tipo de campaña (no visible en UI).
+ * Se concatena con agentInstruction para guiar al agente sin verbalizarlo.
+ */
+const OUTBOUND_HIDDEN_BASE_PROMPTS: Record<OutboundCampaignKind, string> = {
+  satisfactionSurvey:
+    'Objetivo base: realizar una encuesta de satisfacción breve y cordial tras la experiencia de compra, validando la percepción general, detectando fricciones y registrando feedback accionable.',
+  paymentReminder:
+    'Objetivo base: recordar de forma profesional y empática un pago pendiente, confirmar el estado actual del cliente y guiar al siguiente paso de resolución sin fricción.',
+  abandonedCart:
+    'Objetivo base: recuperar carrito abandonado, recordar productos de interés y resolver dudas u objeciones para facilitar la finalización de compra.',
+  postPurchase:
+    'Objetivo base: contactar tras la compra para reforzar experiencia, verificar satisfacción y presentar oportunidades de oferta complementaria relevantes para el cliente.',
+};
+
 import { KnowledgeBaseStepComponent } from './steps/knowledge-base-step/knowledge-base-step.component';
 import { AgentNameStepComponent } from './steps/agent-name-step/agent-name-step.component';
 import { CallTypeStepComponent } from './steps/call-type-step/call-type-step.component';
@@ -1492,6 +1507,19 @@ export class NewCreateAgentsComponent
     this.saveDraft();
   }
 
+  private buildEffectiveOutboundAgentInstruction(): string {
+    const userInstructions = (this.instructions || '').trim();
+    const selectedKind = this.selectedOutboundCampaign;
+    const hiddenBasePrompt = selectedKind
+      ? (OUTBOUND_HIDDEN_BASE_PROMPTS[selectedKind] ?? '')
+      : '';
+
+    if (hiddenBasePrompt && userInstructions) {
+      return `${hiddenBasePrompt}\n\nInstrucciones adicionales del agente:\n${userInstructions}`;
+    }
+    return hiddenBasePrompt || userInstructions;
+  }
+
   /** Navegar a la página de onboarding de Shopify (página externa, sin topbar ni navbar). */
   goToShopifyOnboarding(): void {
     if (this.skipShopifyBusinessStep) {
@@ -2225,6 +2253,11 @@ export class NewCreateAgentsComponent
         return (currentVoice as any)?.voiceId || currentVoice?.id || '';
       })();
 
+    const effectiveOutboundAgentInstruction =
+      this.selectedCallType === 'outbound'
+        ? this.buildEffectiveOutboundAgentInstruction()
+        : this.instructions || '';
+
     const agentConfig: SetAgentConfigDto = {
       name: this.agentName || 'Agente',
       language: this.selectedCountry || 'es', // Usar código del país como idioma
@@ -2232,7 +2265,7 @@ export class NewCreateAgentsComponent
       twilioAccountId: Number(this.selectedTwilioAccount?.twilioAccountId ?? 0),
       voiceId: voiceId,
       firstInteraction: this.greeting || '',
-      agentInstruction: this.instructions || '',
+      agentInstruction: effectiveOutboundAgentInstruction,
       phoneNumbers: {
         countryCode: this.selectedCountryCode || '+34',
         number: Number(this.phoneNumber) || 0,

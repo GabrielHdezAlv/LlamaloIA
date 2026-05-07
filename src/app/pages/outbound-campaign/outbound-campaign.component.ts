@@ -21,6 +21,7 @@ export class OutboundCampaignComponent implements OnInit {
   private notificationService = inject(NotificationService);
 
   agentId = 0;
+  agentName = '';
   loading = true;
   relaunching = false;
   campaign: OutboundCampaignStatusResponse | null = null;
@@ -33,7 +34,22 @@ export class OutboundCampaignComponent implements OnInit {
       void this.router.navigate(['/dashboard/agents']);
       return;
     }
+    this.loadAgentName();
     this.loadCampaign();
+  }
+
+  private loadAgentName(): void {
+    this.agentsService.getAgentsList().subscribe({
+      next: (response) => {
+        const current = (response.agents || []).find(
+          (agent) => Number(agent.agentId || agent.phoneNumbers?.phoneId) === this.agentId,
+        );
+        this.agentName = current?.name || '';
+      },
+      error: () => {
+        this.agentName = '';
+      },
+    });
   }
 
   loadCampaign(): void {
@@ -67,5 +83,34 @@ export class OutboundCampaignComponent implements OnInit {
         );
       },
     });
+  }
+
+  formatUpdatedAt(value?: string): string {
+    if (!value) return '-';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+
+    return new Intl.DateTimeFormat('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
+  }
+
+  getCampaignLabel(kind?: string | null): string {
+    switch (kind) {
+      case 'satisfactionSurvey':
+        return 'Encuestas de satisfacción';
+      case 'paymentReminder':
+        return 'Recordatorio de pago';
+      case 'abandonedCart':
+        return 'Recuperación de carrito abandonado';
+      case 'postPurchase':
+        return 'Ofertas post compra';
+      default:
+        return 'Outbound';
+    }
   }
 }
