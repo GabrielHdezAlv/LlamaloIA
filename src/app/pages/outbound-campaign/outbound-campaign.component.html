@@ -12,6 +12,9 @@
             "{{ agentName || ('#' + agentId) }}"
           </span>
         </h1>
+        <p class="mt-1 text-xs text-gray-600 dark:text-zinc-400 max-w-[52rem] leading-snug">
+          Las llamadas respetan la programación y segmentación del agente (Europe/Madrid). Los pendientes no se marcan hasta la fecha «Programada desde» y solo dentro del horario configurado.
+        </p>
       </div>
 
       <div class="oc-actions flex shrink-0 items-center gap-1.5 w-full sm:w-auto">
@@ -39,6 +42,27 @@
     </div>
 
     <ng-container *ngIf="!loading && campaign">
+      <div class="oc-config-grid grid grid-cols-1 lg:grid-cols-2 gap-3 mb-4">
+        <div class="rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3">
+          <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400 mb-1">
+            Programación aplicada
+          </p>
+          <p class="text-sm text-gray-900 dark:text-zinc-100 font-medium leading-snug">{{ getScheduleHorarioSummary() }}</p>
+          <p class="text-xs text-gray-600 dark:text-zinc-400 mt-2 leading-snug">{{ getScheduleFrequencySummary() }}</p>
+        </div>
+        <div class="rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3">
+          <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-500 dark:text-zinc-400 mb-1">
+            Segmentación / reglas activas
+          </p>
+          <p class="text-sm text-gray-900 dark:text-zinc-100 leading-snug">{{ getSegmentationSummary() }}</p>
+          @if (campaign.campaignKind === 'satisfactionSurvey') {
+          <p class="text-[11px] text-gray-500 dark:text-zinc-500 mt-2 leading-snug">
+            En campañas de encuesta, la cadencia mínima desde compra se combina con la demora inicial del paso «Programar campaña» antes del primer intento (ver backend).
+          </p>
+          }
+        </div>
+      </div>
+
       <div class="oc-summary-grid grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
         <div class="oc-summary-cell rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3">
           <p class="text-[11px] 3xl:text-xs text-gray-500 dark:text-slate-400">Total</p>
@@ -63,9 +87,10 @@
       </div>
 
       <div class="oc-table-scroll w-full max-h-[520px] overflow-auto">
-        <table class="oc-queue-table w-full min-w-[760px]">
+        <table class="oc-queue-table w-full min-w-[920px]">
           <thead class="border-b border-gray-200 dark:border-zinc-700/80 bg-gray-50/80 dark:bg-transparent">
             <tr>
+              <th class="text-left px-2.5 py-2 text-[10px] font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide">Programada desde</th>
               <th class="text-left px-2.5 py-2 text-[10px] font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide">Teléfono</th>
               <th class="text-left px-2.5 py-2 text-[10px] font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide">Call SID</th>
               <th class="text-left px-2.5 py-2 text-[10px] font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide">Estado</th>
@@ -78,6 +103,7 @@
               *ngFor="let item of campaign.items"
               class="border-t border-gray-100 dark:border-zinc-800/90 hover:bg-gray-50/80 dark:hover:bg-white/[0.03] transition-colors"
             >
+              <td class="px-2.5 py-2 text-gray-700 dark:text-zinc-400 whitespace-nowrap text-[11px]">{{ formatUpdatedAt(item.notBefore) }}</td>
               <td class="px-2.5 py-2 text-gray-900 dark:text-zinc-100 font-medium tabular-nums">{{ item.phoneNumber }}</td>
               <td class="px-2.5 py-2">
                 @if (item.callSid) {
@@ -119,7 +145,7 @@
               <td class="px-2.5 py-2 text-gray-700 dark:text-zinc-400 whitespace-nowrap">{{ formatUpdatedAt(item.updatedAt) }}</td>
             </tr>
             <tr *ngIf="campaign.items.length === 0">
-              <td colspan="5" class="px-2.5 py-5 text-center text-[11px] text-gray-500 dark:text-zinc-500">
+              <td colspan="6" class="px-2.5 py-5 text-center text-[11px] text-gray-500 dark:text-zinc-500">
                 Esta campaña aún no tiene llamadas en cola.
               </td>
             </tr>

@@ -41,11 +41,14 @@ export interface OutboundCampaignQueueItem {
   callSid?: string;
   errorMessage?: string;
   updatedAt?: string;
+  notBefore?: string;
 }
 
 export interface OutboundCampaignStatusResponse {
   agentId: number;
   campaignKind: string | null;
+  outboundScheduleCampaignNotes?: string | null;
+  outboundSegmentationNotes?: string | null;
   summary: {
     total: number;
     pending: number;
