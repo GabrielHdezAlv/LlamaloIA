@@ -228,6 +228,24 @@ export class NewAgentsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/dashboard/agents/edit', agentId]);
   }
 
+  openOutboundCampaign(index: number): void {
+    this.openMenuIndex = null;
+
+    const agent = this.agents[index];
+    if (!agent) {
+      this.notificationService.error('No se pudo resolver el agente.');
+      return;
+    }
+
+    const agentId = agent.agentId || agent.phoneNumbers?.phoneId;
+    if (!agentId) {
+      this.notificationService.error('No se pudo identificar el agente. Por favor, recarga la página.');
+      return;
+    }
+
+    this.router.navigate(['/dashboard/agents', agentId, 'outbound-campaign']);
+  }
+
   // Método para dejar de publicar / publicar de nuevo
   stopPublishing(index: number): void {
     this.openMenuIndex = null;

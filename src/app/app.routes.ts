@@ -39,6 +39,7 @@ import { subscribeRequiredAccessGuard } from './core/guards/subscribe-required-a
 import { companySetupAccessGuard } from './core/guards/company-setup-access.guard';
 import { SubscribeRequiredComponent } from './pages/subscribe-required/subscribe-required.component';
 import { PlanChangeReviewComponent } from './pages/plan-change-review/plan-change-review.component';
+import { OutboundCampaignComponent } from './pages/outbound-campaign/outbound-campaign.component';
 
 export const routes: Routes = [
   {
@@ -120,6 +121,7 @@ export const routes: Routes = [
       { path: 'agents', component: NewAgentsComponent },
       { path: 'agents/create', component: NewCreateAgentsComponent },
       { path: 'agents/edit/:agentId', component: EditAgentComponent },
+      { path: 'agents/:agentId/outbound-campaign', component: OutboundCampaignComponent },
       { path: 'numbers', component: NumbersComponent },
       { path: 'history', component: HistorialComponent },
       { path: 'metrics', component: MetricsComponent },

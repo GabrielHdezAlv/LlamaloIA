@@ -34,6 +34,28 @@ export interface GenerateAgentInstructionsResponse {
   agentInstruction: string;
 }
 
+export interface OutboundCampaignQueueItem {
+  id: string;
+  phoneNumber: string;
+  status: 'pending' | 'calling' | 'completed' | 'failed' | string;
+  callSid?: string;
+  errorMessage?: string;
+  updatedAt?: string;
+}
+
+export interface OutboundCampaignStatusResponse {
+  agentId: number;
+  campaignKind: string | null;
+  summary: {
+    total: number;
+    pending: number;
+    calling: number;
+    completed: number;
+    failed: number;
+  };
+  items: OutboundCampaignQueueItem[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -130,6 +152,25 @@ export class AgentsService {
     return this.http.delete<DeleteAgentResponse>(`${this.apiUrl}/${agentId}`, {
       headers: this.getAuthHeaders(),
     });
+  }
+
+  getOutboundCampaignStatus(
+    agentId: number,
+  ): Observable<OutboundCampaignStatusResponse> {
+    return this.http.get<OutboundCampaignStatusResponse>(
+      `${this.apiUrl}/${agentId}/outbound-campaign`,
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  relaunchOutboundCampaign(
+    agentId: number,
+  ): Observable<{ message: string; requeued: number }> {
+    return this.http.post<{ message: string; requeued: number }>(
+      `${this.apiUrl}/${agentId}/outbound-campaign/relaunch`,
+      {},
+      { headers: this.getAuthHeaders() },
+    );
   }
 
   // Método de compatibilidad - obtener voces (mantener por compatibilidad con código existente)
