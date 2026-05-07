@@ -654,6 +654,7 @@ export interface Translations {
   outboundImportCsvDropZone: string;
   outboundImportCsvHint: string;
   outboundImportCsvAcceptedFormats: string;
+  outboundImportCsvDownloadTemplate: string;
   outboundImportCsvPhonesCount: string;
   outboundImportCsvClearAll: string;
   outboundImportCsvRemove: string;
@@ -1809,6 +1810,7 @@ export class I18nService {
       outboundImportCsvHint:
         'La primera columna de cada fila debe contener el teléfono (puedes incluir una fila de cabecera con «teléfono» o «phone»).',
       outboundImportCsvAcceptedFormats: 'Solo archivos .csv',
+      outboundImportCsvDownloadTemplate: 'Descargar plantilla',
       outboundImportCsvPhonesCount: 'Números cargados',
       outboundImportCsvClearAll: 'Vaciar lista',
       outboundImportCsvRemove: 'Quitar número',
@@ -2969,6 +2971,7 @@ export class I18nService {
       outboundImportCsvHint:
         'The first column of each row must contain the phone number (you may use a header row like “phone” or “teléfono”).',
       outboundImportCsvAcceptedFormats: '.csv files only',
+      outboundImportCsvDownloadTemplate: 'Download template',
       outboundImportCsvPhonesCount: 'Loaded numbers',
       outboundImportCsvClearAll: 'Clear list',
       outboundImportCsvRemove: 'Remove number',

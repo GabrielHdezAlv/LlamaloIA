@@ -33,7 +33,7 @@ function normalizeHeaderToken(s: string): string {
     .toLowerCase();
 }
 
-const HEADER_FIRST_COL = /^(tel|telefono|phone|movil|numero|msisdn)$/;
+const HEADER_FIRST_COL = /^(tel|telefono|phone|movil|numero|msisdn|number)$/;
 
 function digitCount(s: string): number {
   return s.replace(/\D/g, '').length;
