@@ -30,9 +30,12 @@ import { UserService } from '../../core/services/user.service';
 import { UserStorage } from '../../storages/user/user-storage';
 import { Voice } from '../../shared/models/voice.model';
 import {
+  Agent,
+  OutboundQueueLead,
   SetAgentConfigDto,
   VoiceParameters,
 } from '../../shared/models/agent.model';
+import { environment } from '../../../environments/environment';
 import lottie from 'lottie-web';
 import { getAgentDraftStepLabel } from '../../shared/utils/agent-draft-step-labels';
 import { openPlanLimitDialog } from '../../shared/utils/plan-limit-dialog.util';
@@ -83,6 +86,8 @@ interface AgentDraft {
   outboundSegmentationNotes?: string;
   /** Números importados desde CSV (entre instrucciones y segmentación, solo saliente). */
   outboundImportCsvPhones?: string[];
+  /** Filas enriquecidas del CSV (opcional). */
+  outboundQueueLeads?: OutboundQueueLead[];
   /** Programar campaña (JSON, tras segmentación). */
   outboundScheduleCampaignNotes?: string;
   savedAt: number; // timestamp
@@ -219,6 +224,8 @@ export class NewCreateAgentsComponent
   outboundSegmentationNotes = '';
   /** Teléfonos desde CSV (antes de segmentación). */
   outboundImportCsvPhones: string[] = [];
+  /** Metadatos por fila (CSV multipropiedad / mismo orden que números cuando aplica). */
+  outboundQueueLeads: OutboundQueueLead[] | undefined = undefined;
   /** Programar campaña (JSON). */
   outboundScheduleCampaignNotes = '';
 
@@ -558,6 +565,15 @@ export class NewCreateAgentsComponent
       this.outboundImportCsvPhones = Array.isArray(rawPhones)
         ? rawPhones.filter((x): x is string => typeof x === 'string')
         : [];
+      const rawLeads = this.savedDraft.outboundQueueLeads;
+      this.outboundQueueLeads = Array.isArray(rawLeads)
+        ? rawLeads.filter(
+            (x): x is OutboundQueueLead =>
+              !!x &&
+              typeof x === 'object' &&
+              typeof (x as OutboundQueueLead).phone === 'string',
+          )
+        : undefined;
       this.outboundScheduleCampaignNotes =
         this.savedDraft.outboundScheduleCampaignNotes ?? '';
       this.currentVoiceIndex = this.savedDraft.currentVoiceIndex ?? 0;
@@ -672,6 +688,9 @@ export class NewCreateAgentsComponent
         outboundCampaignScripts: { ...this.outboundCampaignScripts },
         outboundCampaignKind: this.selectedOutboundCampaign ?? undefined,
         outboundImportCsvPhones: [...this.outboundImportCsvPhones],
+        ...(this.outboundQueueLeads?.length
+          ? { outboundQueueLeads: [...this.outboundQueueLeads] }
+          : {}),
         outboundSegmentationNotes: this.outboundSegmentationNotes,
         outboundScheduleCampaignNotes: this.outboundScheduleCampaignNotes,
         savedAt: Date.now(),
@@ -1571,6 +1590,11 @@ export class NewCreateAgentsComponent
     this.saveDraft();
   }
 
+  onOutboundQueueLeadsChange(leads: OutboundQueueLead[] | undefined): void {
+    this.outboundQueueLeads = leads;
+    this.saveDraft();
+  }
+
   private buildEffectiveOutboundAgentInstruction(): string {
     const userInstructions = (this.instructions || '').trim();
     const selectedKind = this.selectedOutboundCampaign;
@@ -2347,6 +2371,9 @@ export class NewCreateAgentsComponent
         outboundCampaignKind: this.selectedOutboundCampaign ?? undefined,
         outboundCampaignScripts: this.outboundCampaignScripts,
         outboundImportCsvPhones: this.outboundImportCsvPhones,
+        ...(this.outboundQueueLeads?.length
+          ? { outboundQueueLeads: this.outboundQueueLeads }
+          : {}),
         outboundSegmentationNotes: this.outboundSegmentationNotes,
         outboundScheduleCampaignNotes: this.outboundScheduleCampaignNotes,
       }),
@@ -2358,6 +2385,21 @@ export class NewCreateAgentsComponent
     // Enviar petición al backend
     this.agentsService.createAgent(agentConfig).subscribe({
       next: (response) => {
+        const created = response?.agent as Agent | undefined;
+        const ingressSecret = created?.outboundIngressSecret?.trim();
+        if (
+          this.selectedOutboundCampaign === 'customMake' &&
+          ingressSecret
+        ) {
+          const tModal = this.i18nService.getTranslations();
+          const base = environment.apiUrl.replace(/\/+$/, '');
+          this.modalService.openSuccess({
+            title: tModal.makeIngressSuccessTitle,
+            message: tModal.makeIngressSuccessMessage,
+            details: `POST ${base}/webhooks/outbound/leads\n\nX-Outbound-Key:\n${ingressSecret}`,
+          });
+        }
+
         // Si hay fuentes de conocimiento seleccionadas, vincularlas al agente
         if (this.selectedKnowledgeSourceIds.length > 0 && response?.agentId) {
           this.knowledgeBaseService

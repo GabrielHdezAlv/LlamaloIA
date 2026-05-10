@@ -9,6 +9,18 @@ export interface VoiceParameters {
   speed: number; // 0.25-4.0
 }
 
+/** Fila enriquecida para segmentación por contacto (CSV / API). */
+export interface OutboundQueueLead {
+  phone: string;
+  eventAt?: string;
+  externalEventId?: string;
+  contactTicket?: number;
+  customerState?: string;
+  cartTotal?: number;
+  cartItemCount?: number;
+  productHandle?: string;
+}
+
 /**
  * Modelo de agente
  */
@@ -43,6 +55,9 @@ export interface Agent {
     customMake?: string;
   };
   outboundImportCsvPhones?: string[];
+  outboundQueueLeads?: OutboundQueueLead[];
+  /** Clave para encolar leads desde Make (cabecera X-Outbound-Key). */
+  outboundIngressSecret?: string;
   outboundSegmentationNotes?: string;
   outboundScheduleCampaignNotes?: string;
 }
@@ -79,6 +94,7 @@ export interface SetAgentConfigDto {
     customMake?: string;
   };
   outboundImportCsvPhones?: string[];
+  outboundQueueLeads?: OutboundQueueLead[];
   outboundSegmentationNotes?: string;
   outboundScheduleCampaignNotes?: string;
 }

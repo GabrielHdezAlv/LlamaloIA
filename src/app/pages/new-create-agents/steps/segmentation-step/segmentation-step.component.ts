@@ -16,6 +16,7 @@ import {
   SegmentationSelectComponent,
   SegmentationSelectOption,
 } from './segmentation-select.component';
+import { ShopifyIntegrationService } from '../../../../core/services/shopify-integration.service';
 
 export const OUTBOUND_SEGMENTATION_SCHEMA_VERSION = 1;
 
@@ -116,6 +117,7 @@ export function serializeOutboundSegmentationForm(
 })
 export class SegmentationStepComponent implements OnChanges {
   private i18nService = inject(I18nService);
+  private shopifyIntegration = inject(ShopifyIntegrationService);
 
   @HostBinding('class.flex')
   readonly hostFlex = true;
@@ -138,6 +140,8 @@ export class SegmentationStepComponent implements OnChanges {
   @Input() segmentationNotes = '';
   /** Coherente con la campaña elegida: solo se muestran reglas avanzadas de ese tipo. */
   @Input() selectedOutboundCampaign: OutboundCampaignKind | null = null;
+  /** Tienda conectada: carga handles de producto para los desplegables. */
+  @Input() shopifyDomain: string | null | undefined;
   /** Sin cabecera/pie del wizard (embebido en editar agente). */
   @Input() compactEmbed = false;
   @Input() currentStepNumber = 0;
@@ -153,6 +157,7 @@ export class SegmentationStepComponent implements OnChanges {
   readonly compareOps: SegNumericCompareOp[] = ['>', '>=', '<', '<='];
 
   private lastEmitted = '';
+  shopifyProductOptions: SegmentationSelectOption[] = [];
 
   get t() {
     return this.i18nService.getTranslations();
@@ -183,6 +188,29 @@ export class SegmentationStepComponent implements OnChanges {
         this.form = parseOutboundSegmentationNotes(raw);
       }
     }
+    if (changes['shopifyDomain']) {
+      this.reloadShopifyProductOptions();
+    }
+  }
+
+  private reloadShopifyProductOptions(): void {
+    const shop = (this.shopifyDomain ?? '').trim();
+    if (!shop) {
+      this.shopifyProductOptions = [];
+      return;
+    }
+    this.shopifyIntegration.getMasterData(shop).subscribe({
+      next: (res) => {
+        const list = res.products ?? [];
+        this.shopifyProductOptions = list.map((p) => ({
+          value: p.handle,
+          label: `${(p.title || p.handle || '').trim()} (${p.handle})`,
+        }));
+      },
+      error: () => {
+        this.shopifyProductOptions = [];
+      },
+    });
   }
 
   toggleAdvanced(): void {
@@ -227,7 +255,11 @@ export class SegmentationStepComponent implements OnChanges {
   }
 
   get cartProductSelectOptions(): SegmentationSelectOption[] {
-    return [{ value: 'products', label: this.t.outboundSegSelectProducts }];
+    return [
+      { value: '__any__', label: this.t.outboundSegProductAny },
+      { value: 'products', label: this.t.outboundSegSelectProducts },
+      ...this.shopifyProductOptions,
+    ];
   }
 
   get surveyTimeSelectOptions(): SegmentationSelectOption[] {

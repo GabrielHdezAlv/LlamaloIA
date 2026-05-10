@@ -637,6 +637,11 @@ export interface Translations {
   viewFullTextTitle: string;
   externalActionsMake: string;
   makeExternalDescription: string;
+  /** Bloque URL + cabecera para escenarios Make (HTTP → API). */
+  outboundMakeIngressHint: string;
+  /** Tras crear agente Make: título modal con credenciales. */
+  makeIngressSuccessTitle: string;
+  makeIngressSuccessMessage: string;
   makeComingSoon: string;
   /** Sidebar Make (creación / edición agente): descripción junto al logo */
   makeModalSidebarDesc: string;
@@ -700,6 +705,12 @@ export interface Translations {
   outboundSegPlaceholderEuroExample: string;
   outboundSegPlaceholderUnitsExample: string;
   outboundSegSelectProducts: string;
+  /** Opción «cualquier producto» en filtros Shopify. */
+  outboundSegProductAny: string;
+  /** Ayuda: columnas CSV opcionales para segmentación por fila. */
+  outboundSegmentationCsvColumnsHint: string;
+  /** Ayuda debajo del importador CSV multipropiedad. */
+  outboundImportCsvExtendedHint: string;
   outboundSegAbandon24h: string;
   outboundSegAbandon48h: string;
   outboundSegAbandon7d: string;
@@ -725,6 +736,10 @@ export interface Translations {
   outboundScheduleCustomLabel: string;
   outboundScheduleFrequencyTitle: string;
   outboundScheduleInitialDelayLabel: string;
+  /** Solo campaña carrito abandonado: el backend aplica este valor en esa campaña únicamente. */
+  outboundScheduleInitialDelayAbandonedCartHint: string;
+  /** Saliente: guion de campaña vs saludo / primera interacción. */
+  outboundScheduleSaludoVsScriptHint: string;
   outboundScheduleRetriesLabel: string;
   outboundScheduleRetriesTimesEach: string;
   outboundScheduleMaxCallsLabel: string;
@@ -1813,6 +1828,11 @@ export class I18nService {
       viewFullTextTitle: 'Ver texto completo ampliado',
       externalActionsMake: 'Acciones externas',
       makeExternalDescription: 'Automatiza tus flujos',
+      outboundMakeIngressHint:
+        'Encola contactos con un módulo HTTP en Make: usa la URL y la clave (cabecera X-Outbound-Key). El cuerpo debe incluir al menos el campo «phone».',
+      makeIngressSuccessTitle: 'Webhook Make listo',
+      makeIngressSuccessMessage:
+        'Copia la URL y la clave antes de salir. Las volverás a ver en la edición del agente.',
       makeComingSoon: 'Próximamente',
       makeModalSidebarDesc:
         'Configura webhooks en Make.com para que tu agente dispare automatizaciones cuando lo necesites.',
@@ -1874,7 +1894,13 @@ export class I18nService {
       outboundSegPaymentTicketLabel: 'Valor de ticket:',
       outboundSegPlaceholderEuroExample: 'ej: 30€',
       outboundSegPlaceholderUnitsExample: 'ej: 30u',
-      outboundSegSelectProducts: 'Producto/s',
+      outboundSegSelectProducts: 'Producto/s genéricos',
+      outboundSegProductAny: 'Cualquier producto',
+      outboundSegmentationCsvColumnsHint:
+        'Si el CSV incluye datos por contacto (ticket, estado, carrito, producto…), usa cabeceras reconocidas: phone, eventAt (ISO), externalEventId, contactTicket, customerState (new/recurring), cartTotal, cartItemCount, productHandle (handle Shopify). Las reglas avanzadas solo se aplican cuando esos valores existen por fila.',
+      outboundImportCsvExtendedHint:
+        'Puedes usar una primera fila de cabeceras con columnas opcionales (p. ej. phone; eventAt; contactTicket; productHandle). Si solo hay números en la primera columna, se comporta como antes.',
+
       outboundSegAbandon24h: '24h',
       outboundSegAbandon48h: '48h',
       outboundSegAbandon7d: '7 días',
@@ -1900,6 +1926,10 @@ export class I18nService {
       outboundScheduleCustomLabel: 'Personalizado',
       outboundScheduleFrequencyTitle: 'Frecuencia y reglas',
       outboundScheduleInitialDelayLabel: 'Retraso inicial',
+      outboundScheduleInitialDelayAbandonedCartHint:
+        'Solo aplica a la campaña «Carrito abandonado». Tras un abandono con fecha real (p. ej. Shopify), se suma al margen configurado en segmentación.',
+      outboundScheduleSaludoVsScriptHint:
+        'Si rellenas el guion de campaña, la llamada suele empezar con ese texto como primer turno; el «saludo» puede quedar en segundo plano según el flujo de la sesión.',
       outboundScheduleRetriesLabel: 'Reintentos',
       outboundScheduleRetriesTimesEach: 'veces cada',
       outboundScheduleMaxCallsLabel: 'Máx. llamadas:',
@@ -2993,6 +3023,11 @@ export class I18nService {
       viewFullTextTitle: 'View full expanded text',
       externalActionsMake: 'External actions',
       makeExternalDescription: 'Automate your workflows',
+      outboundMakeIngressHint:
+        'Queue contacts with an HTTP module in Make: use the URL and key (X-Outbound-Key header). The JSON body must include at least «phone».',
+      makeIngressSuccessTitle: 'Make webhook ready',
+      makeIngressSuccessMessage:
+        'Copy the URL and key before you leave. You can see them again when editing the agent.',
       makeComingSoon: 'Coming soon',
       makeModalSidebarDesc:
         'Set up webhooks in Make.com so your agent can trigger automations when needed.',
@@ -3052,7 +3087,13 @@ export class I18nService {
       outboundSegPaymentTicketLabel: 'Order value:',
       outboundSegPlaceholderEuroExample: 'e.g. 30€',
       outboundSegPlaceholderUnitsExample: 'e.g. 30 units',
-      outboundSegSelectProducts: 'Product(s)',
+      outboundSegSelectProducts: 'Generic products',
+      outboundSegProductAny: 'Any product',
+      outboundSegmentationCsvColumnsHint:
+        'If your CSV includes per-contact fields (ticket, state, cart, product…), use recognized headers: phone, eventAt (ISO), externalEventId, contactTicket, customerState (new/recurring), cartTotal, cartItemCount, productHandle (Shopify handle). Advanced rules apply only when those values exist per row.',
+      outboundImportCsvExtendedHint:
+        'You can add a header row with optional columns (e.g. phone; eventAt; contactTicket; productHandle). If the file only has numbers in the first column, behavior is unchanged.',
+
       outboundSegAbandon24h: '24h',
       outboundSegAbandon48h: '48h',
       outboundSegAbandon7d: '7 days',
@@ -3078,6 +3119,10 @@ export class I18nService {
       outboundScheduleCustomLabel: 'Custom',
       outboundScheduleFrequencyTitle: 'Frequency and rules',
       outboundScheduleInitialDelayLabel: 'Initial delay',
+      outboundScheduleInitialDelayAbandonedCartHint:
+        'Only applies to the «Abandoned cart» campaign. With a real abandonment timestamp (e.g. Shopify), this adds on top of the segmentation window.',
+      outboundScheduleSaludoVsScriptHint:
+        'If you set a campaign script, the call often opens with that as the first turn; the greeting may take a back seat depending on the session flow.',
       outboundScheduleRetriesLabel: 'Retries',
       outboundScheduleRetriesTimesEach: 'times every',
       outboundScheduleMaxCallsLabel: 'Max. calls:',

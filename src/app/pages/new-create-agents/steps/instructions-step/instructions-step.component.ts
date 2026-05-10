@@ -67,6 +67,10 @@ export class InstructionsStepComponent {
   @Input() makeActionActive = false;
   /** Webhook generado tras guardar (mock). */
   @Input() makeGeneratedWebhook = '';
+  /** Ingreso real de leads (API): URL del backend. */
+  @Input() makeInboundWebhookUrl = '';
+  /** Cabecera X-Outbound-Key tras crear/guardar agente. */
+  @Input() makeInboundWebhookSecret = '';
   /** Si true, Make se muestra como no disponible (solo lectura). */
   @Input() makeIntegrationComingSoon = false;
   @Input() showGeneratePromptModal = false;

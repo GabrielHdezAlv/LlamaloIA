@@ -215,13 +215,7 @@ export class ScheduleCampaignStepComponent implements OnChanges, OnDestroy {
         this.form = parseOutboundScheduleNotes(raw);
       }
     }
-    if (this.hideScheduleInitialDelay) {
-      const minDelay = '30m_abandon';
-      if (this.form.initialDelay !== minDelay) {
-        this.form = { ...this.form, initialDelay: minDelay };
-        this.persist();
-      }
-    }
+    /** CSV/Make ocultan el selector: el valor JSON no fuerza retardos — el servidor ignora initialDelay fuera de carrito abandonado. */
   }
 
   ngOnDestroy(): void {

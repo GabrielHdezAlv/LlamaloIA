@@ -8,7 +8,9 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { I18nService } from '../../../../core/services/i18n.service';
+import type { OutboundQueueLead } from '../../../../shared/models/agent.model';
 import { ConnectPhoneStepComponent } from '../connect-phone-step/connect-phone-step.component';
+import { parseOutboundDelimitedImport } from './outbound-csv-parse.util';
 
 /** Primera celda por fila (coma, punto y coma o tab); ignora líneas vacías. */
 function csvFirstCell(line: string): string {
@@ -96,6 +98,8 @@ export class ImportCsvStepComponent {
   }
 
   @Input() phones: string[] = [];
+  /** Filas enriquecidas (opcional); alineadas por índice con `phones` cuando vienen del mismo CSV. */
+  @Input() queueLeads?: OutboundQueueLead[] | null;
   /** Si false, solo se muestra la configuración Twilio (campañas Shopify con datos de tienda). */
   @Input() showCsvImport = true;
   /** Embutido en otras pantallas (p. ej. editar agente): sin cabecera ni pie del wizard. */
@@ -141,6 +145,9 @@ export class ImportCsvStepComponent {
   @Input() canContinueFromConnections = false;
 
   @Output() phonesChange = new EventEmitter<string[]>();
+  @Output() queueLeadsChange = new EventEmitter<
+    OutboundQueueLead[] | undefined
+  >();
   @Output() backClicked = new EventEmitter<void>();
   @Output() continueClicked = new EventEmitter<void>();
 
@@ -253,13 +260,40 @@ export class ImportCsvStepComponent {
 
   private applyParsed(text: string): void {
     try {
-      const found = extractPhonesFromDelimitedImport(text);
-      if (found.length === 0) {
+      const parsed = parseOutboundDelimitedImport(text);
+      if (parsed.phones.length === 0) {
         this.parseError = this.t.outboundImportCsvParseErrorNoPhones;
         return;
       }
-      const merged = [...new Set([...this.phones, ...found])];
-      this.phonesChange.emit(merged);
+
+      let mergedPhones: string[];
+      let mergedLeads: OutboundQueueLead[] | undefined;
+
+      if (parsed.leads?.length) {
+        const map = new Map<string, OutboundQueueLead>();
+        const key = (l: OutboundQueueLead) =>
+          `${l.phone}|${(l.externalEventId ?? '').trim()}`;
+        for (const l of this.queueLeads ?? []) map.set(key(l), { ...l });
+        for (const l of parsed.leads) map.set(key(l), { ...map.get(key(l)), ...l });
+        mergedLeads = [...map.values()];
+        mergedPhones = [...new Set(mergedLeads.map((l) => l.phone))];
+      } else {
+        const newPhonesOnly = parsed.phones.filter(
+          (p) => !this.phones.includes(p),
+        );
+        mergedPhones = [...new Set([...this.phones, ...parsed.phones])];
+        if (this.queueLeads?.length) {
+          mergedLeads = [
+            ...this.queueLeads,
+            ...newPhonesOnly.map((phone) => ({ phone })),
+          ];
+        } else {
+          mergedLeads = undefined;
+        }
+      }
+
+      this.phonesChange.emit(mergedPhones);
+      this.queueLeadsChange.emit(mergedLeads);
     } catch {
       this.parseError = this.t.outboundImportCsvParseErrorGeneric;
     }
@@ -286,12 +320,29 @@ export class ImportCsvStepComponent {
   }
 
   removeAt(index: number): void {
-    const next = this.phones.filter((_, i) => i !== index);
-    this.phonesChange.emit(next);
+    const removedPhone = this.phones[index];
+    const nextPhones = this.phones.filter((_, i) => i !== index);
+    let nextLeads = this.queueLeads;
+    if (this.queueLeads?.length) {
+      if (this.queueLeads.length === this.phones.length) {
+        nextLeads = this.queueLeads.filter((_, i) => i !== index);
+      } else {
+        const j = this.queueLeads.findIndex((l) => l.phone === removedPhone);
+        nextLeads =
+          j >= 0
+            ? this.queueLeads.filter((_, i) => i !== j)
+            : this.queueLeads;
+      }
+    }
+    this.phonesChange.emit(nextPhones);
+    this.queueLeadsChange.emit(
+      nextLeads?.length ? nextLeads : undefined,
+    );
   }
 
   clearAll(): void {
     this.parseError = '';
     this.phonesChange.emit([]);
+    this.queueLeadsChange.emit(undefined);
   }
 }

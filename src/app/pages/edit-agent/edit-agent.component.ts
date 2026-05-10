@@ -29,7 +29,12 @@ import {
 import { KnowledgeBaseService } from '../../core/services/knowledge-base.service';
 import { UserService } from '../../core/services/user.service';
 import { ModalService } from '../../shared/modals/modal.service';
-import { Agent, SetAgentConfigDto } from '../../shared/models/agent.model';
+import {
+  Agent,
+  OutboundQueueLead,
+  SetAgentConfigDto,
+} from '../../shared/models/agent.model';
+import { environment } from '../../../environments/environment';
 import { Voice } from '../../shared/models/voice.model';
 import {
   KnowledgeSource,
@@ -155,6 +160,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     ...DEFAULT_OUTBOUND_EDIT_SCRIPTS,
   };
   outboundEditPhones: string[] = [];
+  outboundEditQueueLeads: OutboundQueueLead[] | undefined = undefined;
   outboundEditSegmentationNotes = '';
   outboundEditScheduleNotes = '';
 
@@ -177,6 +183,18 @@ export class EditAgentComponent implements OnInit, OnDestroy {
   /** Importar CSV no aplica a campaña Make. */
   get outboundEditShowsCsvContacts(): boolean {
     return this.outboundEditCampaignKind !== 'customMake';
+  }
+
+  /** Entrada HTTP (Make) hacia el backend. */
+  get outboundMakeIngressUrl(): string {
+    if (!this.isOutboundAgent || this.outboundEditCampaignKind !== 'customMake') {
+      return '';
+    }
+    return `${environment.apiUrl.replace(/\/+$/, '')}/webhooks/outbound/leads`;
+  }
+
+  get outboundMakeIngressSecret(): string {
+    return (this.agent?.outboundIngressSecret ?? '').trim();
   }
 
   activeTab: 'main' | 'connections' | 'knowledge' = 'main';
@@ -1263,6 +1281,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       this.outboundEditCampaignKind = null;
       this.outboundEditScripts = { ...DEFAULT_OUTBOUND_EDIT_SCRIPTS };
       this.outboundEditPhones = [];
+      this.outboundEditQueueLeads = undefined;
       this.outboundEditSegmentationNotes = '';
       this.outboundEditScheduleNotes = '';
       this.editForm
@@ -1291,6 +1310,7 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     | 'outboundCampaignKind'
     | 'outboundCampaignScripts'
     | 'outboundImportCsvPhones'
+    | 'outboundQueueLeads'
     | 'outboundSegmentationNotes'
     | 'outboundScheduleCampaignNotes'
   > {
@@ -1298,6 +1318,9 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       outboundCampaignKind: this.outboundEditCampaignKind ?? undefined,
       outboundCampaignScripts: { ...this.outboundEditScripts },
       outboundImportCsvPhones: [...this.outboundEditPhones],
+      ...(this.outboundEditQueueLeads?.length
+        ? { outboundQueueLeads: [...this.outboundEditQueueLeads] }
+        : {}),
       outboundSegmentationNotes: this.outboundEditSegmentationNotes ?? '',
       outboundScheduleCampaignNotes: this.outboundEditScheduleNotes ?? '',
     };
@@ -1316,6 +1339,11 @@ export class EditAgentComponent implements OnInit, OnDestroy {
         ? (normalizedKind as OutboundCampaignKind)
         : null;
     this.outboundEditPhones = [...(this.agent.outboundImportCsvPhones ?? [])];
+    this.outboundEditQueueLeads =
+      this.agent.outboundQueueLeads &&
+      Array.isArray(this.agent.outboundQueueLeads)
+        ? [...this.agent.outboundQueueLeads]
+        : undefined;
     this.outboundEditSegmentationNotes =
       this.agent.outboundSegmentationNotes ?? '';
     this.outboundEditScheduleNotes =
@@ -1358,6 +1386,10 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
   onOutboundEditPhonesChange(phones: string[]): void {
     this.outboundEditPhones = [...phones];
+  }
+
+  onOutboundEditQueueLeadsChange(leads: OutboundQueueLead[] | undefined): void {
+    this.outboundEditQueueLeads = leads;
   }
 
   onOutboundEditSegmentationNotesChange(notes: string): void {

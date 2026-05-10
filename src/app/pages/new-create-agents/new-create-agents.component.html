@@ -106,6 +106,7 @@
         isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
       ]">
       <app-import-csv-step [phones]="outboundImportCsvPhones"
+        [queueLeads]="outboundQueueLeads"
         [showCsvImport]="selectedOutboundCampaign === 'customCsv'"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
         [showTwilioConfig]="showTwilioConfig" [loadingTwilioAccounts]="loadingTwilioAccounts"
@@ -117,7 +118,8 @@
         [phoneNumber]="phoneNumber" [selectedCountryCode]="selectedCountryCode"
         [phoneValidationStatus]="phoneValidationStatus" [phoneErrorMessage]="phoneErrorMessage"
         [canContinueFromConnections]="canContinueFromConnections"
-        (phonesChange)="onOutboundImportCsvPhonesChange($event)" (backClicked)="goBack()"
+        (phonesChange)="onOutboundImportCsvPhonesChange($event)"
+        (queueLeadsChange)="onOutboundQueueLeadsChange($event)" (backClicked)="goBack()"
         (continueClicked)="onSkip()" (toggleTwilioConfigClicked)="toggleTwilioConfig()"
         (twilioSidChange)="twilioSid = $event; onTwilioSidChange()"
         (twilioTokenChange)="twilioToken = $event; onTwilioTokenChange()"
@@ -140,6 +142,7 @@
       ]">
       <app-segmentation-step [segmentationNotes]="outboundSegmentationNotes"
         [selectedOutboundCampaign]="selectedOutboundCampaign"
+        [shopifyDomain]="shopifyConnectedDomain"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
         (segmentationNotesChange)="onOutboundSegmentationNotesChange($event)" (backClicked)="goBack()"
         (continueClicked)="onSkip()">
@@ -154,8 +157,7 @@
         isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
       ]">
       <app-schedule-campaign-step [scheduleNotes]="outboundScheduleCampaignNotes"
-        [hideScheduleInitialDelay]="
-          selectedOutboundCampaign === 'customCsv' || selectedOutboundCampaign === 'customMake'"
+        [hideScheduleInitialDelay]="selectedOutboundCampaign !== 'abandonedCart'"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
         (scheduleNotesChange)="onOutboundScheduleCampaignNotesChange($event)" (backClicked)="goBack()"
         (continueClicked)="onSkip()">

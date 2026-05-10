@@ -44,4 +44,17 @@ export class ShopifyIntegrationService {
       params: { shop },
     });
   }
+
+  /** Catálogo / pedidos / tienda (para selectores de segmentación). */
+  getMasterData(shop: string): Observable<{
+    products?: Array<{ handle: string; title: string }>;
+  }> {
+    const s = shop.trim();
+    return this.http.get<{
+      products?: Array<{ handle: string; title: string }>;
+    }>(`${this.baseUrl}/master-data`, {
+      headers: this.getAuthHeaders(),
+      params: { shop: s },
+    });
+  }
 }

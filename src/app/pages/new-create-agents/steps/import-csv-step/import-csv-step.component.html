@@ -67,6 +67,10 @@
             <p class="text-xs xl:text-[10px] 3xl:text-sm text-[#6d747c] dark:text-slate-400 font-medium m-0 mb-2 xl:mb-1.5 3xl:mb-2">
               {{ t.outboundImportCsvSectionSubtitle }}
             </p>
+            <p
+              class="text-[10px] xl:text-[9px] 3xl:text-xs text-[#6d747c] dark:text-zinc-400 font-medium m-0 mb-2 leading-snug max-w-xl">
+              {{ t.outboundImportCsvExtendedHint }}
+            </p>
             }
             <input #fileInput type="file" accept=".csv,text/csv,text/plain" class="sr-only"
               (change)="onFileSelected($event)" />
