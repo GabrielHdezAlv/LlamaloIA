@@ -42,6 +42,10 @@ export interface OutboundCampaignQueueItem {
   errorMessage?: string;
   updatedAt?: string;
   notBefore?: string;
+  /** Origen del lead: csv, make, shopify, manual, etc. */
+  source?: string;
+  eventAt?: string;
+  externalEventId?: string;
 }
 
 export interface OutboundCampaignStatusResponse {

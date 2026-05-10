@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   AgentsService,
+  OutboundCampaignQueueItem,
   OutboundCampaignStatusResponse,
 } from '../../core/services/agents.service';
 import { NotificationService } from '../../core/services/notification.service';
@@ -84,14 +86,69 @@ export class OutboundCampaignComponent implements OnInit {
       next: (response) => {
         this.campaign = response;
         this.loading = false;
+        this.logShopifyQueueInConsole(response);
       },
       error: (error) => {
         this.loading = false;
+        this.logOutboundFailure('Error al cargar la campaña outbound', error);
         this.notificationService.error(
           error?.error?.message ?? 'No se pudo cargar la campaña outbound.',
         );
       },
     });
+  }
+
+  /**
+   * Depuración: contactos cuya cola tiene origin Shopify (webhook carrito).
+   */
+  private logShopifyQueueInConsole(response: OutboundCampaignStatusResponse): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    const items = response.items ?? [];
+    const fromShopify = items.filter((i) => i.source === 'shopify');
+    if (fromShopify.length === 0) {
+      return;
+    }
+    const label = '[Llamalo · Outbound · Shopify]';
+    console.log(
+      `${label} ${fromShopify.length} contacto(s) con origen Shopify en cola (agente ${response.agentId}).`,
+    );
+    fromShopify.forEach((row) => this.logOneShopifyRow(label, row));
+  }
+
+  private logOneShopifyRow(label: string, row: OutboundCampaignQueueItem): void {
+    const payload = {
+      telefono: row.phoneNumber,
+      estado: row.status,
+      colaId: row.id,
+      ...(row.errorMessage
+        ? { errorSegmentacionOCola: row.errorMessage }
+        : {}),
+      ...(row.eventAt ? { eventAtCheckout: row.eventAt } : {}),
+      ...(row.externalEventId
+        ? { externalEventId: row.externalEventId }
+        : {}),
+      ...(row.notBefore ? { programadaDesde: row.notBefore } : {}),
+    };
+    console.log(`${label} contacto`, payload);
+  }
+
+  private logOutboundFailure(context: string, error: unknown): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    const tag = '[Llamalo · Outbound]';
+    if (error instanceof HttpErrorResponse) {
+      console.error(`${tag} ${context}`, {
+        status: error.status,
+        statusText: error.statusText,
+        url: error.url,
+        body: error.error,
+      });
+      return;
+    }
+    console.error(`${tag} ${context}`, error);
   }
 
   relaunchCampaign(): void {
@@ -104,6 +161,7 @@ export class OutboundCampaignComponent implements OnInit {
       },
       error: (error) => {
         this.relaunching = false;
+        this.logOutboundFailure('Error al relanzar la campaña outbound', error);
         this.notificationService.error(
           error?.error?.message ?? 'No se pudo relanzar la campaña.',
         );
