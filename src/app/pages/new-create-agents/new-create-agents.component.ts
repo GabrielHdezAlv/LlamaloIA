@@ -93,6 +93,8 @@ const DEFAULT_OUTBOUND_CAMPAIGN_SCRIPTS: OutboundCampaignScripts = {
   satisfactionSurvey: '',
   postPurchase: '',
   paymentReminder: '',
+  customCsv: '',
+  customMake: '',
 };
 
 /**
@@ -108,6 +110,10 @@ const OUTBOUND_HIDDEN_BASE_PROMPTS: Record<OutboundCampaignKind, string> = {
     'Objetivo base: recuperar carrito abandonado, recordar productos de interés y resolver dudas u objeciones para facilitar la finalización de compra.',
   postPurchase:
     'Objetivo base: contactar tras la compra para reforzar experiencia, verificar satisfacción y presentar oportunidades de oferta complementaria relevantes para el cliente.',
+  customCsv:
+    'Objetivo base: realizar una llamada saliente clara y respetuosa según el guion y la lista de contactos importada (CSV), sin asumir datos de tienda Shopify.',
+  customMake:
+    'Objetivo base: realizar una llamada saliente acorde al evento o contexto recibido vía automatización (Make), de forma breve y respetuosa.',
 };
 
 import { KnowledgeBaseStepComponent } from './steps/knowledge-base-step/knowledge-base-step.component';
@@ -318,6 +324,28 @@ export class NewCreateAgentsComponent
     return this.i18nService.getTranslations();
   }
 
+  /** Campañas CSV / Make omiten el paso de segmentación (solo Shopify). */
+  outboundSkipsSegmentation(): boolean {
+    const k = this.selectedOutboundCampaign;
+    return k === 'customCsv' || k === 'customMake';
+  }
+
+  /** Las cuatro campañas que requieren datos de tienda Shopify. */
+  private readonly shopifyStoreCampaignKinds: readonly OutboundCampaignKind[] = [
+    'satisfactionSurvey',
+    'abandonedCart',
+    'paymentReminder',
+    'postPurchase',
+  ];
+
+  /** Tras elegir campaña: solo estas abren el paso «Conectar Shopify». */
+  private isShopifyDataCampaign(kind: OutboundCampaignKind | null): boolean {
+    return (
+      !!kind &&
+      (this.shopifyStoreCampaignKinds as readonly string[]).includes(kind)
+    );
+  }
+
   /** Gratis / Starter: no se muestra el paso de conectar Shopify (API: desde Growth). */
   get skipShopifyBusinessStep(): boolean {
     const slug = resolveEffectivePlanSlug(this.userStore.user());
@@ -360,7 +388,7 @@ export class NewCreateAgentsComponent
       return;
     }
     if (this.isOutboundAgentFlow) {
-      this.setStep('voices');
+      this.setStep('campaign');
       return;
     }
     this.setStep('instructions');
@@ -374,8 +402,10 @@ export class NewCreateAgentsComponent
       if (this.savedDraft) {
         this.recoverDraft();
       }
-      this.step = 'connectBusiness';
-      this.displayedStep = 'connectBusiness';
+      const targetStep =
+        this.selectedCallType === 'outbound' ? 'instructions' : 'connectBusiness';
+      this.step = targetStep;
+      this.displayedStep = targetStep;
       this.isStepFadingOut = false;
       this.showRecoveryPopup = false;
       this.saveDraft();
@@ -410,7 +440,11 @@ export class NewCreateAgentsComponent
     const message = params['message'] ?? '';
 
     const cleanUrl = (): void => {
-      const step = this.skipShopifyBusinessStep ? 'instructions' : 'connectBusiness';
+      const step = this.skipShopifyBusinessStep
+        ? 'instructions'
+        : this.isOutboundAgentFlow
+          ? 'instructions'
+          : 'connectBusiness';
       this.router.navigate(['/dashboard/agents/create'], {
         replaceUrl: true,
         queryParams: { step },
@@ -495,13 +529,28 @@ export class NewCreateAgentsComponent
         ...DEFAULT_OUTBOUND_CAMPAIGN_SCRIPTS,
         ...(this.savedDraft.outboundCampaignScripts || {}),
       };
-      const rawKind = this.savedDraft.outboundCampaignKind;
+      const legacyScript = (this.savedDraft.outboundCampaignScripts as any)
+        ?.customCsvMake;
+      if (legacyScript && !this.outboundCampaignScripts.customCsv) {
+        this.outboundCampaignScripts = {
+          ...this.outboundCampaignScripts,
+          customCsv: legacyScript,
+        };
+      }
+      const rawKind = this.savedDraft.outboundCampaignKind as
+        | string
+        | null
+        | undefined;
+      const legacyKind =
+        rawKind === 'customCsvMake' ? 'customCsv' : rawKind;
       this.selectedOutboundCampaign =
-        rawKind === 'satisfactionSurvey' ||
-        rawKind === 'abandonedCart' ||
-        rawKind === 'paymentReminder' ||
-        rawKind === 'postPurchase'
-          ? rawKind
+        legacyKind === 'satisfactionSurvey' ||
+        legacyKind === 'abandonedCart' ||
+        legacyKind === 'paymentReminder' ||
+        legacyKind === 'postPurchase' ||
+        legacyKind === 'customCsv' ||
+        legacyKind === 'customMake'
+          ? legacyKind
           : null;
       this.outboundSegmentationNotes =
         this.savedDraft.outboundSegmentationNotes ?? '';
@@ -559,12 +608,21 @@ export class NewCreateAgentsComponent
         this.loadTwilioAccounts();
       }
 
-      if (this.skipShopifyBusinessStep && this.step === 'connectBusiness') {
-        this.step =
-          this.selectedCallType === 'outbound' ? 'voices' : 'instructions';
+      if (this.step === 'connectBusiness') {
+        if (
+          this.selectedCallType === 'outbound' ||
+          this.skipShopifyBusinessStep
+        ) {
+          this.step = 'instructions';
+        }
       }
+
       if (this.userStore.user()) {
         this.enforceOutboundPlanGate();
+      }
+
+      if (this.step === 'segmentation' && this.outboundSkipsSegmentation()) {
+        this.step = 'scheduleCampaign';
       }
     }
     this.showRecoveryPopup = false;
@@ -1007,9 +1065,8 @@ export class NewCreateAgentsComponent
   }
 
   /**
-   * Tras idioma y voz: entrante sigue el flujo habitual.
-   * Saliente: mismo paso Shopify que entrante si el plan lo permite (Growth+, no Starter/gratis);
-   * si Shopify está bloqueado por plan, aún no hay siguientes pasos en esta rama.
+   * Tras idioma y voz: entrante → conectar negocio (o instrucciones si el plan omite Shopify).
+   * Saliente → paso Campaña (luego Shopify solo si eliges una de las 4 campañas de tienda).
    */
   private tryAdvanceFromVoicesStepAfterLanguageAndVoice(): boolean {
     if (this.selectedCallType === 'outbound') {
@@ -1020,7 +1077,7 @@ export class NewCreateAgentsComponent
         );
         return false;
       }
-      this.setStep('connectBusiness');
+      this.setStep('campaign');
       this.saveDraft();
       return true;
     }
@@ -1263,13 +1320,15 @@ export class NewCreateAgentsComponent
       this.setStep('voices');
       this.loadVoices();
     } else if (this.step === 'campaign') {
-      this.setStep('connectBusiness');
+      this.pauseVoice();
+      this.setStep('voices');
+      this.loadVoices();
     } else if (this.step === 'importCsv') {
       this.setStep('instructions');
     } else if (this.step === 'segmentation') {
       this.setStep('importCsv');
     } else if (this.step === 'scheduleCampaign') {
-      this.setStep('segmentation');
+      this.setStep(this.outboundSkipsSegmentation() ? 'importCsv' : 'segmentation');
     } else if (this.step === 'voices') {
       this.pauseVoice();
       this.setStep('language');
@@ -1295,10 +1354,19 @@ export class NewCreateAgentsComponent
       if (!this.selectedOutboundCampaign) {
         return;
       }
+      if (
+        this.isShopifyDataCampaign(this.selectedOutboundCampaign) &&
+        this.skipShopifyBusinessStep
+      ) {
+        this.notificationService.info(
+          'La integración con Shopify está disponible desde el plan Growth.',
+        );
+        return;
+      }
       this.setStep('instructions');
       this.saveDraft();
     } else if (this.step === 'importCsv') {
-      this.setStep('segmentation');
+      this.setStep(this.outboundSkipsSegmentation() ? 'scheduleCampaign' : 'segmentation');
       this.saveDraft();
     } else if (this.step === 'segmentation') {
       this.setStep('scheduleCampaign');
@@ -1306,12 +1374,8 @@ export class NewCreateAgentsComponent
     } else if (this.step === 'scheduleCampaign') {
       this.createAgentAfterValidation();
     } else if (this.step === 'connectBusiness') {
-      if (this.isOutboundAgentFlow) {
-        this.continueOutboundAfterConnectBusiness();
-        return;
-      }
       this.setStep('instructions');
-    } else if (this.step === 'instructions') {
+      this.saveDraft();
       if (this.isOutboundAgentFlow) {
         this.setStep('importCsv');
         this.saveDraft();
@@ -1774,19 +1838,9 @@ export class NewCreateAgentsComponent
     this.saveDraft();
   }
 
-  // Continuar desde "Conecta tu negocio": entrante → instrucciones completas; saliente → elegir campaña y luego instrucciones.
+  // Continuar desde "Conecta tu negocio": siempre → instrucciones (saliente ya no usa este paso completo).
   onContinueFromConnectBusiness() {
-    if (this.isOutboundAgentFlow) {
-      this.continueOutboundAfterConnectBusiness();
-      return;
-    }
     this.setStep('instructions');
-    this.saveDraft();
-  }
-
-  /** Tras Shopify en saliente: primero elegir campaña; luego instrucciones recortadas. */
-  private continueOutboundAfterConnectBusiness() {
-    this.setStep('campaign');
     this.saveDraft();
   }
 
@@ -3116,17 +3170,27 @@ export class NewCreateAgentsComponent
         };
         return locked[this.step] ?? 0;
       }
-      const outbound: Record<string, number> = {
-        agentName: 1,
-        language: 2,
-        voices: 3,
-        connectBusiness: 4,
-        campaign: 5,
-        instructions: 6,
-        importCsv: 7,
-        segmentation: 8,
-        scheduleCampaign: 9,
-      };
+      const skipSeg = this.outboundSkipsSegmentation();
+      const outbound: Record<string, number> = skipSeg
+        ? {
+            agentName: 1,
+            language: 2,
+            voices: 3,
+            campaign: 4,
+            instructions: 5,
+            importCsv: 6,
+            scheduleCampaign: 7,
+          }
+        : {
+            agentName: 1,
+            language: 2,
+            voices: 3,
+            campaign: 4,
+            instructions: 5,
+            importCsv: 6,
+            segmentation: 7,
+            scheduleCampaign: 8,
+          };
       return outbound[this.step] ?? 0;
     }
 
@@ -3157,7 +3221,10 @@ export class NewCreateAgentsComponent
   // Método para obtener el total de pasos
   getTotalSteps(): number {
     if (this.isOutboundAgentFlow) {
-      return this.skipShopifyBusinessStep ? 3 : 9;
+      if (this.skipShopifyBusinessStep) {
+        return 3;
+      }
+      return this.outboundSkipsSegmentation() ? 7 : 8;
     }
     return this.skipShopifyBusinessStep ? 7 : 8;
   }

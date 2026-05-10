@@ -159,20 +159,23 @@
               </p>
               <app-instructions-step [compactEmbed]="true" [outboundInstructionsOnly]="true"
                 [showSystemInstructionsInOutbound]="false" [outboundCampaignScripts]="outboundEditScripts"
-                [selectedOutboundCampaign]="outboundEditCampaignKind" [currentStepNumber]="0" [totalSteps]="0"
-                (outboundCampaignScriptsChange)="onOutboundEditScriptsChange($event)" />
+                [selectedOutboundCampaign]="outboundEditCampaignKind" [shopifyConnectedDomain]="selectedShopifyDomain || null"
+                [currentStepNumber]="0" [totalSteps]="0"
+                (outboundCampaignScriptsChange)="onOutboundEditScriptsChange($event)"
+                (connectShopifyClicked)="goToShopifyOnboarding()" />
               }
             </div>
             }
           </div>
 
           @if (isOutboundAgent) {
-          <!-- Importar CSV (contactos) -->
+          @if (outboundEditShowsCsvContacts) {
+          <!-- Lista de contactos (CSV); no aplica a campaña Make -->
           <div class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10">
             <button type="button"
               class="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-left text-gray-900 dark:text-white"
               (click)="setActiveMainSection('outboundCsv')">
-              <span>{{ t.outboundImportCsvStepTitle }}</span>
+              <span>{{ t.outboundImportCsvSectionTitle }}</span>
               <svg class="w-4 h-4 text-gray-400 dark:text-gray-500 transition-transform duration-200 flex-shrink-0"
                 [ngClass]="{ 'rotate-180': outboundCsvSectionOpen }" viewBox="0 0 20 20" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
@@ -184,7 +187,7 @@
             @if (outboundCsvSectionOpen) {
             <div class="px-3 pb-3 pt-1">
               <p class="text-[10px] text-gray-500 dark:text-slate-400 mb-2 leading-snug">
-                {{ t.outboundImportCsvStepSubtitle }}
+                {{ t.outboundImportCsvSectionSubtitle }}
               </p>
               <app-import-csv-step [compactEmbed]="true" [omitTwilioSection]="true" [phones]="outboundEditPhones"
                 [currentStepNumber]="0" [totalSteps]="0"
@@ -192,8 +195,10 @@
             </div>
             }
           </div>
+          }
 
-          <!-- Segmentación -->
+          @if (outboundEditShowsSegmentation) {
+          <!-- Segmentación (solo campañas Shopify) -->
           <div class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10">
             <button type="button"
               class="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold text-left text-gray-900 dark:text-white"
@@ -218,6 +223,7 @@
             </div>
             }
           </div>
+          }
 
           <!-- Programar campaña -->
           <div class="rounded-xl shadow-sm dark:shadow-none border border-gray-800/30 dark:border-gray-200/10">

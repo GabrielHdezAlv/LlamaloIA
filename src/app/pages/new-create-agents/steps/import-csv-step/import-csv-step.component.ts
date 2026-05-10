@@ -96,6 +96,8 @@ export class ImportCsvStepComponent {
   }
 
   @Input() phones: string[] = [];
+  /** Si false, solo se muestra la configuración Twilio (campañas Shopify con datos de tienda). */
+  @Input() showCsvImport = true;
   /** Embutido en otras pantallas (p. ej. editar agente): sin cabecera ni pie del wizard. */
   @Input() compactEmbed = false;
   /** Oculta el bloque Twilio (ya configurado en otro sitio). */
@@ -185,6 +187,17 @@ export class ImportCsvStepComponent {
 
   get t() {
     return this.i18nService.getTranslations();
+  }
+
+  /** Separación entre bloque Twilio y bloque CSV. */
+  get csvBlockSeparationClass(): string {
+    if (this.omitTwilioSection) {
+      return 'mt-0 pt-0 border-t-0';
+    }
+    return [
+      'mt-2 xl:mt-1 3xl:mt-2 pt-2.5 xl:pt-2 3xl:pt-2.5',
+      'border-t border-gray-200 dark:border-zinc-600',
+    ].join(' ');
   }
 
   get previewPhones(): string[] {

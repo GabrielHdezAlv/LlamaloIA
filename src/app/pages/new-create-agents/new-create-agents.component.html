@@ -39,26 +39,19 @@
       </app-voices-step>
     </div>
 
-    <!-- Paso 4: Conecta tu negocio -->
+    <!-- Paso 4: Conecta tu negocio (solo entrante; saliente: Shopify embebido en instrucciones) -->
     <div
       *ngSwitchCase="'connectBusiness'"
-      [ngClass]="[
-        isStepFadingOut ? 'step-fade-out' : 'step-fade-in',
-        isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
-      ]">
+      [ngClass]="isStepFadingOut ? 'step-fade-out' : 'step-fade-in'">
+      @if (!isOutboundAgentFlow) {
       <app-connect-business-step [shopifyConnectedDomain]="shopifyConnectedDomain"
-        [outboundWizardLayout]="isOutboundAgentFlow"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()" (backClicked)="goBack()"
-        (continueClicked)="onContinueFromConnectBusiness()" (connectShopifyClicked)="goToShopifyOnboarding()"
-        [class.flex]="isOutboundAgentFlow"
-        [class.flex-1]="isOutboundAgentFlow"
-        [class.min-h-0]="isOutboundAgentFlow"
-        [class.flex-col]="isOutboundAgentFlow"
-        [class.w-full]="isOutboundAgentFlow">
+        (continueClicked)="onContinueFromConnectBusiness()" (connectShopifyClicked)="goToShopifyOnboarding()">
       </app-connect-business-step>
+      }
     </div>
 
-    <!-- Campaña (solo flujo saliente, tras conectar negocio; antes de instrucciones) -->
+    <!-- Campaña (solo saliente; tras voces; antes de Shopify solo si eliges una de las 4 de tienda) -->
     <div
       *ngSwitchCase="'campaign'"
       [ngClass]="[
@@ -85,6 +78,7 @@
         [outboundInstructionsOnly]="isOutboundAgentFlow"
         [outboundCampaignScripts]="outboundCampaignScripts"
         [selectedOutboundCampaign]="selectedOutboundCampaign"
+        [shopifyConnectedDomain]="shopifyConnectedDomain"
         [showGeneratePromptModal]="showGeneratePromptModal"
         [isGeneratePromptDropdownClosing]="isGeneratePromptDropdownClosing" [promptDescription]="promptDescription"
         [promptEnterpriseName]="promptEnterpriseName"
@@ -99,11 +93,12 @@
         (deleteMakeActionClicked)="onDeleteMakeAction()" (toggleGeneratePromptClicked)="toggleGeneratePromptDropdown()"
         (generatePromptClicked)="generatePrompt()" (closeGeneratePromptClicked)="closeGeneratePromptModal()"
         (openExpandInstructionsClicked)="openExpandInstructionsModal()"
-        (closeExpandInstructionsClicked)="closeExpandInstructionsModal()">
+        (closeExpandInstructionsClicked)="closeExpandInstructionsModal()"
+        (connectShopifyClicked)="goToShopifyOnboarding()">
       </app-instructions-step>
     </div>
 
-    <!-- Importar CSV de teléfonos (solo saliente, tras instrucciones) -->
+    <!-- Twilio + importación CSV solo si campaña «Lista CSV» -->
     <div
       *ngSwitchCase="'importCsv'"
       [ngClass]="[
@@ -111,6 +106,7 @@
         isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
       ]">
       <app-import-csv-step [phones]="outboundImportCsvPhones"
+        [showCsvImport]="selectedOutboundCampaign === 'customCsv'"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
         [showTwilioConfig]="showTwilioConfig" [loadingTwilioAccounts]="loadingTwilioAccounts"
         [isTwilioValidated]="isTwilioValidated" [isValidatingTwilio]="isValidatingTwilio" [twilioSid]="twilioSid"
@@ -158,6 +154,8 @@
         isOutboundAgentFlow ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : '',
       ]">
       <app-schedule-campaign-step [scheduleNotes]="outboundScheduleCampaignNotes"
+        [hideScheduleInitialDelay]="
+          selectedOutboundCampaign === 'customCsv' || selectedOutboundCampaign === 'customMake'"
         [currentStepNumber]="getCurrentStepNumber()" [totalSteps]="getTotalSteps()"
         (scheduleNotesChange)="onOutboundScheduleCampaignNotesChange($event)" (backClicked)="goBack()"
         (continueClicked)="onSkip()">

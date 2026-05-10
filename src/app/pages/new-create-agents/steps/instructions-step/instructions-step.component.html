@@ -20,6 +20,16 @@
     @if (outboundInstructionsOnly) {
       @if (compactEmbed) {
       <div class="mt-2 w-full flex flex-col overflow-visible">
+        @if (showOutboundShopifyConnect) {
+        <div class="mb-4 xl:mb-3 3xl:mb-4 relative z-10 overflow-visible shrink-0">
+          <ng-container *ngTemplateOutlet="shopifyConnectBlockInnerTpl"></ng-container>
+        </div>
+        }
+        @if (selectedOutboundCampaign === 'customMake') {
+        <div class="mb-4 xl:mb-3 3xl:mb-4 relative z-10 overflow-visible shrink-0">
+          <ng-container *ngTemplateOutlet="makeExternalBlockInnerTpl"></ng-container>
+        </div>
+        }
         <ng-container *ngTemplateOutlet="instructionsBodyTpl"></ng-container>
       </div>
       } @else {
@@ -27,6 +37,16 @@
       <div class="outbound-instructions-scroll-wrap relative flex min-h-0 w-full flex-1 flex-col">
         <div
           class="outbound-instructions-scroll min-h-0 w-full overflow-y-auto overscroll-y-contain touch-pan-y max-xl:max-h-[calc(100dvh-14rem)] xl:max-h-[min(50svh,27.5rem)] 3xl:max-h-[min(52svh,30rem)]">
+          @if (showOutboundShopifyConnect) {
+          <div class="mb-5 xl:mb-4 3xl:mb-5 relative z-10 overflow-visible shrink-0">
+            <ng-container *ngTemplateOutlet="shopifyConnectBlockInnerTpl"></ng-container>
+          </div>
+          }
+          @if (selectedOutboundCampaign === 'customMake') {
+          <div class="mb-5 xl:mb-4 3xl:mb-5 relative z-10 overflow-visible shrink-0">
+            <ng-container *ngTemplateOutlet="makeExternalBlockInnerTpl"></ng-container>
+          </div>
+          }
           <ng-container *ngTemplateOutlet="instructionsBodyTpl"></ng-container>
         </div>
       </div>
@@ -38,6 +58,65 @@
 
     @if (!outboundInstructionsOnly) {
     <div class="mt-5 xl:mt-4 3xl:mt-5 relative z-10 overflow-visible shrink-0">
+      <ng-container *ngTemplateOutlet="makeExternalBlockInnerTpl"></ng-container>
+    </div>
+    }
+
+    @if (!compactEmbed) {
+    <div class="w-full flex items-center justify-between nav-buttons-mobile shrink-0"
+      [ngClass]="outboundInstructionsOnly ? 'mt-4 xl:mt-3 3xl:mt-4' : 'mt-5 3xl:mt-8'">
+      <button type="button"
+        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-zinc-600"
+        (click)="backClicked.emit()">
+        <span class="text-xs 3xl:text-lg leading-none">‹</span>
+        <span>{{ t.back }}</span>
+      </button>
+      <button type="button"
+        class="px-3 3xl:px-6 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
+        (click)="continueClicked.emit()">
+        {{ t.continue }}
+      </button>
+    </div>
+    }
+  </div>
+</div>
+
+<ng-template #shopifyConnectBlockInnerTpl>
+  <label
+    class="block text-sm xl:text-[10px] 3xl:text-base font-semibold text-[#0F172A] dark:text-white mb-1.5 xl:mb-1 3xl:mb-1.5">{{ t.connectShopifyTitle }}</label>
+  <div
+    class="rounded-lg 3xl:rounded-xl bg-white dark:bg-zinc-900/35 overflow-visible border border-gray-300 dark:border-zinc-600 transition-colors"
+    [ngClass]="{
+      'shadow-sm shadow-slate-900/5 dark:shadow-black/20': shopifyConnectedDomain
+    }">
+    <div class="flex items-center gap-2 px-3 3xl:px-4 py-2.5 3xl:py-3 transition-colors">
+      <div
+        class="w-10 h-10 xl:w-8 xl:h-8 3xl:w-11 3xl:h-11 shrink-0 rounded-lg 3xl:rounded-xl bg-white flex items-center justify-center shadow-sm border border-gray-200/80 dark:border-zinc-600">
+        <img src="assets/shopify.webp" alt="Shopify" class="w-5 h-6 xl:w-4 xl:h-5 3xl:w-7 3xl:h-9 object-contain" />
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm xl:text-[10px] 3xl:text-base font-semibold text-gray-900 dark:text-white leading-tight m-0">
+          Shopify
+        </p>
+        <p class="text-xs xl:text-[9px] 3xl:text-xs text-gray-500 dark:text-gray-400 leading-tight mt-0.5 m-0">
+          {{ t.shopifyConnectDesc }}
+        </p>
+      </div>
+      <div class="ml-auto flex shrink-0">
+        <button type="button"
+          class="px-3 3xl:px-5 py-1.5 xl:py-1 3xl:py-1.5 text-[9px] xl:text-[10px] 3xl:text-base rounded-md xl:rounded-[5px] 3xl:rounded-lg font-semibold flex items-center justify-center transition-colors border"
+          [ngClass]="shopifyConnectedDomain
+            ? 'bg-green-600 hover:bg-green-700 text-white border-green-600'
+            : 'bg-black text-white dark:bg-white dark:!text-[#000000] hover:bg-[#1a1a1a] dark:hover:bg-white border-gray-300 dark:border-zinc-600'"
+          (click)="connectShopifyClicked.emit()">
+          {{ shopifyConnectedDomain ? t.connected : t.connect }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #makeExternalBlockInnerTpl>
       <label
         class="block text-sm xl:text-[10px] 3xl:text-base font-semibold text-[#0F172A] dark:text-white mb-1.5 xl:mb-1 3xl:mb-1.5">{{ t.externalActionsMake }}</label>
       <div
@@ -169,27 +248,7 @@
         </div>
         }
       </div>
-    </div>
-    }
-
-    @if (!compactEmbed) {
-    <div class="w-full flex items-center justify-between nav-buttons-mobile shrink-0"
-      [ngClass]="outboundInstructionsOnly ? 'mt-4 xl:mt-3 3xl:mt-4' : 'mt-5 3xl:mt-8'">
-      <button type="button"
-        class="flex items-center gap-0.5 3xl:gap-1 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 transition-colors px-2 3xl:px-3 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-transparent border border-gray-300 dark:border-zinc-600"
-        (click)="backClicked.emit()">
-        <span class="text-xs 3xl:text-lg leading-none">‹</span>
-        <span>{{ t.back }}</span>
-      </button>
-      <button type="button"
-        class="px-3 3xl:px-6 py-1 3xl:py-1.5 text-[10px] sm:text-xs 3xl:text-base rounded-md 3xl:rounded-lg bg-[#1B2559] hover:bg-[#131a3f] text-white font-medium transition-colors dark:bg-white dark:text-[#000000] dark:hover:bg-white"
-        (click)="continueClicked.emit()">
-        {{ t.continue }}
-      </button>
-    </div>
-    }
-  </div>
-</div>
+</ng-template>
 
 <ng-template #instructionsBodyTpl>
   <div [ngClass]="instructionsBodyWrapperClass">

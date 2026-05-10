@@ -15,6 +15,10 @@ export interface OutboundCampaignScripts {
   satisfactionSurvey: string;
   postPurchase: string;
   paymentReminder: string;
+  /** Lista de teléfonos propia (CSV). */
+  customCsv: string;
+  /** Automatización vía Make (sin CSV). */
+  customMake: string;
 }
 
 export type OutboundCampaignKind = keyof OutboundCampaignScripts;
@@ -84,9 +88,13 @@ export class InstructionsStepComponent {
     satisfactionSurvey: '',
     postPurchase: '',
     paymentReminder: '',
+    customCsv: '',
+    customMake: '',
   };
   /** Saliente: plantillas de guión acotadas al tipo de campaña elegido. */
   @Input() selectedOutboundCampaign: OutboundCampaignKind | null = null;
+  /** Tienda Shopify conectada (wizard saliente: bloque embebido como Make). */
+  @Input() shopifyConnectedDomain: string | null = null;
   @Input() currentStepNumber = 0;
   @Input() totalSteps = 0;
 
@@ -108,6 +116,24 @@ export class InstructionsStepComponent {
   @Output() closeExpandInstructionsClicked = new EventEmitter<void>();
   @Output() outboundCampaignScriptsChange =
     new EventEmitter<OutboundCampaignScripts>();
+  @Output() connectShopifyClicked = new EventEmitter<void>();
+
+  private readonly shopifyStoreCampaignFields: readonly OutboundCampaignKind[] = [
+    'satisfactionSurvey',
+    'abandonedCart',
+    'paymentReminder',
+    'postPurchase',
+  ];
+
+  /** Mostrar tarjeta «Conectar Shopify» encima de instrucciones (campañas de tienda). */
+  get showOutboundShopifyConnect(): boolean {
+    if (!this.outboundInstructionsOnly || !this.selectedOutboundCampaign) {
+      return false;
+    }
+    return (this.shopifyStoreCampaignFields as readonly string[]).includes(
+      this.selectedOutboundCampaign,
+    );
+  }
 
   readonly outboundScriptMeta: {
     field: OutboundCampaignKind;
@@ -151,6 +177,24 @@ export class InstructionsStepComponent {
         '{{store_name}}',
         '{{order_status}}',
         '{{due_date}}',
+      ],
+    },
+    {
+      field: 'customCsv',
+      tags: [
+        '{{customer_name}}',
+        '{{company_name}}',
+        '{{phone}}',
+        '{{reason_for_call}}',
+      ],
+    },
+    {
+      field: 'customMake',
+      tags: [
+        '{{customer_name}}',
+        '{{company_name}}',
+        '{{event_type}}',
+        '{{reason_for_call}}',
       ],
     },
   ];
@@ -221,6 +265,10 @@ export class InstructionsStepComponent {
         return tr.outboundTplPostPurchaseTitle;
       case 'paymentReminder':
         return tr.outboundTplPaymentTitle;
+      case 'customCsv':
+        return tr.outboundTplCustomCsvTitle;
+      case 'customMake':
+        return tr.outboundTplCustomMakeTitle;
       default:
         return '';
     }
@@ -237,6 +285,10 @@ export class InstructionsStepComponent {
         return tr.outboundTplPostPurchasePlaceholder;
       case 'paymentReminder':
         return tr.outboundTplPaymentPlaceholder;
+      case 'customCsv':
+        return tr.outboundTplCustomCsvPlaceholder;
+      case 'customMake':
+        return tr.outboundTplCustomMakePlaceholder;
       default:
         return tr.writeHere;
     }

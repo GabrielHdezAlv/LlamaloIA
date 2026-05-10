@@ -32,13 +32,16 @@ export class CampaignStepComponent {
     return this.compactEmbed;
   }
 
-  /** Orden en rejilla 2×2: fila1 encuesta | carrito, fila2 pago | post-compra. */
-  readonly campaignOrder: OutboundCampaignKind[] = [
+  /** Orden en rejilla 2×2: fila1 encuesta | carrito, fila2 pago | post-compra (campañas Shopify). */
+  readonly shopifyCampaignOrder: OutboundCampaignKind[] = [
     'satisfactionSurvey',
     'abandonedCart',
     'paymentReminder',
     'postPurchase',
   ];
+
+  readonly customCsvKind: OutboundCampaignKind = 'customCsv';
+  readonly customMakeKind: OutboundCampaignKind = 'customMake';
 
   @Input() selectedCampaign: OutboundCampaignKind | null = null;
   /** Sin cabecera/pie del wizard (p. ej. embutido en editar agente). */
@@ -81,6 +84,10 @@ export class CampaignStepComponent {
         return tr.outboundTplPaymentTitle;
       case 'postPurchase':
         return tr.outboundTplPostPurchaseTitle;
+      case 'customCsv':
+        return tr.outboundCampaignCsvCardTitle;
+      case 'customMake':
+        return tr.outboundCampaignMakeCardTitle;
       default:
         return '';
     }

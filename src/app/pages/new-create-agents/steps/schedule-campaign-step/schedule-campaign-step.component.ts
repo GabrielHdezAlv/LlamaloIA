@@ -140,6 +140,8 @@ export class ScheduleCampaignStepComponent implements OnChanges, OnDestroy {
   }
 
   @Input() scheduleNotes = '';
+  /** Lista CSV / Make: sin selector de retraso inicial (se usa el mínimo). */
+  @Input() hideScheduleInitialDelay = false;
   @Input() compactEmbed = false;
   @Input() currentStepNumber = 0;
   @Input() totalSteps = 0;
@@ -211,6 +213,13 @@ export class ScheduleCampaignStepComponent implements OnChanges, OnDestroy {
       const raw = this.scheduleNotes ?? '';
       if (raw !== this.lastEmitted) {
         this.form = parseOutboundScheduleNotes(raw);
+      }
+    }
+    if (this.hideScheduleInitialDelay) {
+      const minDelay = '30m_abandon';
+      if (this.form.initialDelay !== minDelay) {
+        this.form = { ...this.form, initialDelay: minDelay };
+        this.persist();
       }
     }
   }

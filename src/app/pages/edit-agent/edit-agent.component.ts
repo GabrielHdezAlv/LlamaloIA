@@ -84,6 +84,8 @@ const DEFAULT_OUTBOUND_EDIT_SCRIPTS: OutboundCampaignScripts = {
   satisfactionSurvey: '',
   postPurchase: '',
   paymentReminder: '',
+  customCsv: '',
+  customMake: '',
 };
 
 @Component({
@@ -158,6 +160,23 @@ export class EditAgentComponent implements OnInit, OnDestroy {
 
   get isOutboundAgent(): boolean {
     return this.agent?.type === 'outbound';
+  }
+
+  /** Solo campañas Shopify tienen paso de segmentación en edición. */
+  get outboundEditShowsSegmentation(): boolean {
+    const k = this.outboundEditCampaignKind;
+    if (!k) return true;
+    return (
+      k === 'satisfactionSurvey' ||
+      k === 'abandonedCart' ||
+      k === 'paymentReminder' ||
+      k === 'postPurchase'
+    );
+  }
+
+  /** Importar CSV no aplica a campaña Make. */
+  get outboundEditShowsCsvContacts(): boolean {
+    return this.outboundEditCampaignKind !== 'customMake';
   }
 
   activeTab: 'main' | 'connections' | 'knowledge' = 'main';
@@ -1263,6 +1282,8 @@ export class EditAgentComponent implements OnInit, OnDestroy {
     'abandonedCart',
     'paymentReminder',
     'postPurchase',
+    'customCsv',
+    'customMake',
   ];
 
   private outboundExtrasForPayload(): Pick<
@@ -1287,21 +1308,32 @@ export class EditAgentComponent implements OnInit, OnDestroy {
       return;
     }
     const rawKind = this.agent.outboundCampaignKind;
+    const normalizedKind =
+      rawKind === 'customCsvMake' ? 'customCsv' : rawKind;
     this.outboundEditCampaignKind =
-      rawKind &&
-      this.outboundKindOrder.includes(rawKind as OutboundCampaignKind)
-        ? (rawKind as OutboundCampaignKind)
+      normalizedKind &&
+      this.outboundKindOrder.includes(normalizedKind as OutboundCampaignKind)
+        ? (normalizedKind as OutboundCampaignKind)
         : null;
     this.outboundEditPhones = [...(this.agent.outboundImportCsvPhones ?? [])];
     this.outboundEditSegmentationNotes =
       this.agent.outboundSegmentationNotes ?? '';
     this.outboundEditScheduleNotes =
       this.agent.outboundScheduleCampaignNotes ?? '';
-    const scripts = this.agent.outboundCampaignScripts ?? {};
+    const scripts = (this.agent.outboundCampaignScripts ?? {}) as Record<
+      string,
+      string | undefined
+    >;
     this.outboundEditScripts = {
       ...DEFAULT_OUTBOUND_EDIT_SCRIPTS,
       ...scripts,
     };
+    if (scripts['customCsvMake'] && !this.outboundEditScripts.customCsv) {
+      this.outboundEditScripts = {
+        ...this.outboundEditScripts,
+        customCsv: scripts['customCsvMake'] ?? '',
+      };
+    }
     this.syncOutboundFirstInteractionFromScripts();
   }
 

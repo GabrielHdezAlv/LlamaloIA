@@ -48,7 +48,7 @@
 
             <section class="sch-panel" aria-labelledby="sch-heading-frecuencia">
               <h2 id="sch-heading-frecuencia" class="sch-section-title">{{ t.outboundScheduleFrequencyTitle }}</h2>
-              <div class="sch-row">
+              <div class="sch-row" *ngIf="!hideScheduleInitialDelay">
                 <span class="sch-field-label">{{ t.outboundScheduleInitialDelayLabel }}</span>
                 <div class="sch-control">
                   <app-segmentation-select variant="full" [options]="initialDelaySelectOptions"

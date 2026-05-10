@@ -4,7 +4,7 @@
     <div class="shrink-0">
       <div class="flex items-center justify-between w-full">
         <h1 class="text-lg xl:text-sm 3xl:text-2xl font-bold text-[#0F172A] dark:text-white leading-tight">
-          {{ t.outboundImportCsvStepTitle }}
+          {{ showCsvImport ? t.outboundImportCsvStepTitle : t.outboundConnectTwilioStepTitle }}
         </h1>
         <span class="text-xs xl:text-[10px] 3xl:text-sm font-normal text-[#0F172A] dark:text-white leading-tight"
           *ngIf="getCurrentStepNumber() > 0">
@@ -12,7 +12,7 @@
         </span>
       </div>
       <p class="mt-0.5 3xl:mt-0.5 text-sm xl:text-[10px] 3xl:text-base text-[#6d747c] font-semibold">
-        {{ t.outboundImportCsvStepSubtitle }}
+        {{ showCsvImport ? t.outboundImportCsvStepSubtitle : t.outboundConnectTwilioStepSubtitle }}
       </p>
     </div>
     }
@@ -57,8 +57,17 @@
             </section>
             }
 
+            @if (showCsvImport) {
             <div
-              [class]="omitTwilioSection ? 'mt-0 pt-0 border-t-0' : 'mt-2 xl:mt-1 3xl:mt-2 pt-2.5 xl:pt-2 3xl:pt-2.5 border-t border-gray-200 dark:border-zinc-600'">
+              [class]="csvBlockSeparationClass">
+            @if (!omitTwilioSection) {
+            <h2 class="text-sm xl:text-[10px] 3xl:text-base font-semibold text-[#0F172A] dark:text-white m-0 mb-1 3xl:mb-1.5">
+              {{ t.outboundImportCsvSectionTitle }}
+            </h2>
+            <p class="text-xs xl:text-[10px] 3xl:text-sm text-[#6d747c] dark:text-slate-400 font-medium m-0 mb-2 xl:mb-1.5 3xl:mb-2">
+              {{ t.outboundImportCsvSectionSubtitle }}
+            </p>
+            }
             <input #fileInput type="file" accept=".csv,text/csv,text/plain" class="sr-only"
               (change)="onFileSelected($event)" />
 
@@ -156,6 +165,7 @@
             </div>
             }
             </div>
+            }
           </div>
         </div>
       </div>

@@ -136,6 +136,10 @@ export class OutboundCampaignComponent implements OnInit {
         return 'Recuperación de carrito abandonado';
       case 'postPurchase':
         return 'Ofertas post compra';
+      case 'customCsv':
+        return 'Lista CSV';
+      case 'customMake':
+        return 'Make';
       default:
         return 'Outbound';
     }

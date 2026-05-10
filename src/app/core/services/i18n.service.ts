@@ -648,6 +648,22 @@ export interface Translations {
   /** Paso elegir tipo de campaña (solo saliente). */
   outboundCampaignStepTitle: string;
   outboundCampaignStepSubtitle: string;
+  /** Encabezado de grupo: campañas basadas en tienda Shopify. */
+  outboundCampaignShopifyHeading: string;
+  /** Línea secundaria en cada tarjeta de campaña Shopify. */
+  outboundCampaignShopifyCardHint: string;
+  /** Encabezado de grupo: contactos propios (CSV / Make). */
+  outboundCampaignCustomHeading: string;
+  outboundCampaignCsvCardTitle: string;
+  outboundCampaignCsvCardSubtitle: string;
+  outboundCampaignMakeCardTitle: string;
+  outboundCampaignMakeCardSubtitle: string;
+  /** Título del paso tras instrucciones: conexión Twilio (antes «Importar CSV»). */
+  outboundConnectTwilioStepTitle: string;
+  outboundConnectTwilioStepSubtitle: string;
+  /** Bloque secundario: importación CSV bajo Twilio. */
+  outboundImportCsvSectionTitle: string;
+  outboundImportCsvSectionSubtitle: string;
   /** Paso importar CSV de teléfonos (solo saliente, entre instrucciones y segmentación). */
   outboundImportCsvStepTitle: string;
   outboundImportCsvStepSubtitle: string;
@@ -743,6 +759,10 @@ export interface Translations {
   outboundTplSatisfactionPlaceholder: string;
   outboundTplPostPurchasePlaceholder: string;
   outboundTplPaymentPlaceholder: string;
+  outboundTplCustomCsvTitle: string;
+  outboundTplCustomCsvPlaceholder: string;
+  outboundTplCustomMakeTitle: string;
+  outboundTplCustomMakePlaceholder: string;
   linkStoreDescription: string;
   shopifyConnectDesc: string;
   /** Pantallas /shopify-onboarding y /shopify-onboarding/success */
@@ -1802,7 +1822,20 @@ export class I18nService {
         'Define el comportamiento del agente en llamadas salientes.',
       outboundCampaignStepTitle: 'Elegir campaña',
       outboundCampaignStepSubtitle:
-        'Selecciona el tipo de acción que realizará el agente con tus clientes.',
+        'Las cuatro primeras usan datos de Shopify. Abajo elige lista CSV propia o automatización con Make (sin segmentación).',
+      outboundCampaignShopifyHeading: 'Campañas Shopify',
+      outboundCampaignShopifyCardHint: 'Datos de tu tienda',
+      outboundCampaignCustomHeading: 'Personalizada',
+      outboundCampaignCsvCardTitle: 'Lista CSV',
+      outboundCampaignCsvCardSubtitle: 'Importa teléfonos desde archivo',
+      outboundCampaignMakeCardTitle: 'Make',
+      outboundCampaignMakeCardSubtitle: 'Disparos desde automatizaciones',
+      outboundConnectTwilioStepTitle: 'Conectar número de teléfono por Twilio',
+      outboundConnectTwilioStepSubtitle:
+        'Configura la cuenta y el número desde el que saldrán las llamadas de esta campaña.',
+      outboundImportCsvSectionTitle: 'Importar números desde CSV',
+      outboundImportCsvSectionSubtitle:
+        'Sube un archivo con los teléfonos cuando no usas solo datos de Shopify.',
       outboundImportCsvStepTitle: 'Importar CSV',
       outboundImportCsvStepSubtitle:
         'Sube un archivo con los números de teléfono a los que llamará el agente en esta campaña.',
@@ -1904,6 +1937,12 @@ export class I18nService {
         'Hola {{customer_name}}, gracias por tu compra en {{store_name}}. Como agradecimiento, te damos un {{discount_code}} para tu próxima compra. Además, clientes que compraron {{product_name}} también suelen llevarse {{recommended_product}}. ¿Quieres que te lo enseñe ahora mismo?',
       outboundTplPaymentPlaceholder:
         'Hola {{customer_name}}, notamos que tu pago de {{cart_total}} en {{store_name}} aún está pendiente. Tu pedido está en estado: {{order_status}}. ¿Quieres que te ayude a completarlo antes de que el plazo venza {{due_date}}?',
+      outboundTplCustomCsvTitle: 'Guion de la llamada',
+      outboundTplCustomCsvPlaceholder:
+        'Hola {{customer_name}}, te llamamos de {{company_name}} por {{reason_for_call}}...',
+      outboundTplCustomMakeTitle: 'Guion de la llamada',
+      outboundTplCustomMakePlaceholder:
+        'Hola {{customer_name}}, según el evento {{event_type}} en {{company_name}}, te llamamos por {{reason_for_call}}...',
       linkStoreDescription: 'Vincula tu tienda para que tu agente pueda usar tus datos reales.',
       shopifyConnectDesc: 'Conecta tu tienda para sincronizar productos, pedidos y clientes.',
       shopifyOnboardingAuthLoading:
@@ -2963,7 +3002,20 @@ export class I18nService {
         'Define how the agent should behave on outbound calls.',
       outboundCampaignStepTitle: 'Choose campaign',
       outboundCampaignStepSubtitle:
-        'Select the type of action the agent will perform with your customers.',
+        'The first four use Shopify data. Below choose your own CSV list or Make automation (no segmentation step).',
+      outboundCampaignShopifyHeading: 'Shopify campaigns',
+      outboundCampaignShopifyCardHint: 'Store data',
+      outboundCampaignCustomHeading: 'Custom',
+      outboundCampaignCsvCardTitle: 'CSV list',
+      outboundCampaignCsvCardSubtitle: 'Import numbers from a file',
+      outboundCampaignMakeCardTitle: 'Make',
+      outboundCampaignMakeCardSubtitle: 'Triggers from automations',
+      outboundConnectTwilioStepTitle: 'Connect phone number with Twilio',
+      outboundConnectTwilioStepSubtitle:
+        'Set up the account and number outbound calls will use for this campaign.',
+      outboundImportCsvSectionTitle: 'Import numbers from CSV',
+      outboundImportCsvSectionSubtitle:
+        'Upload a file with phone numbers when you are not using Shopify data alone.',
       outboundImportCsvStepTitle: 'Import CSV',
       outboundImportCsvStepSubtitle:
         'Upload a file with the phone numbers your agent will call in this campaign.',
@@ -3063,6 +3115,12 @@ export class I18nService {
         'Hi {{customer_name}}, thanks for your purchase at {{store_name}}. As a thank-you, here\'s {{discount_code}} for your next purchase. Customers who bought {{product_name}} often also get {{recommended_product}}. Would you like me to tell you more now?',
       outboundTplPaymentPlaceholder:
         'Hi {{customer_name}}, we noticed your payment of {{cart_total}} at {{store_name}} is still pending. Your order status is: {{order_status}}. Would you like help completing it before the deadline {{due_date}}?',
+      outboundTplCustomCsvTitle: 'Call script',
+      outboundTplCustomCsvPlaceholder:
+        'Hi {{customer_name}}, we\'re calling from {{company_name}} about {{reason_for_call}}...',
+      outboundTplCustomMakeTitle: 'Call script',
+      outboundTplCustomMakePlaceholder:
+        'Hi {{customer_name}}, following event {{event_type}} at {{company_name}}, we\'re calling about {{reason_for_call}}...',
       linkStoreDescription: 'Link your store so your agent can use your real data.',
       shopifyConnectDesc: 'Connect your store to sync products, orders and customers.',
       shopifyOnboardingAuthLoading:

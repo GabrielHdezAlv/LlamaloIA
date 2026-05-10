@@ -39,6 +39,8 @@ export interface Agent {
     satisfactionSurvey?: string;
     postPurchase?: string;
     paymentReminder?: string;
+    customCsv?: string;
+    customMake?: string;
   };
   outboundImportCsvPhones?: string[];
   outboundSegmentationNotes?: string;
@@ -73,6 +75,8 @@ export interface SetAgentConfigDto {
     satisfactionSurvey?: string;
     postPurchase?: string;
     paymentReminder?: string;
+    customCsv?: string;
+    customMake?: string;
   };
   outboundImportCsvPhones?: string[];
   outboundSegmentationNotes?: string;
